@@ -4,9 +4,8 @@
 
 import 'package:logging/logging.dart';
 
-import 'build_output.dart';
+import '../config.dart';
 import 'builder.dart';
-import 'link_config.dart';
 
 /// A linker to be run during a link hook.
 ///
@@ -14,15 +13,15 @@ import 'link_config.dart';
 /// information. [Linker]s have access to tree-shaking information in some build
 /// modes. However, due to the tree-shaking information being an input to link
 /// hooks, link hooks are re-run more often than [Builder]s. A link hook is
-/// rerun when its declared [BuildOutput.dependencies] or its [LinkConfig] tree
+/// rerun when its declared [BuildOutput.dependencies] or its [LinkInput] tree
 /// shaking information changes.
 ///
 /// A package to be used in link hooks should implement this interface. The
 /// typical pattern of link hooks should be a declarative specification of one
 /// or more linkers (constructor calls), followed by [run]ning these linkers.
 ///
-/// The linker is designed to immediately operate on [LinkConfig]. If a linker
-/// should deviate behavior from the build config, this should be configurable
+/// The linker is designed to immediately operate on [LinkInput]. If a linker
+/// should deviate behavior from the build input, this should be configurable
 /// through a constructor parameter.
 ///
 /// The linker is designed to immediately operate on [LinkOutput]. If a linker
@@ -33,11 +32,11 @@ import 'link_config.dart';
 abstract interface class Linker {
   /// Runs this linker.
   ///
-  /// Reads the config from [config], streams output to [output], and streams
+  /// Reads the input from [input], streams output to [output], and streams
   /// logs to [logger].
   Future<void> run({
-    required LinkConfig config,
-    required LinkOutput output,
+    required LinkInput input,
+    required LinkOutputBuilder output,
     required Logger? logger,
   });
 }

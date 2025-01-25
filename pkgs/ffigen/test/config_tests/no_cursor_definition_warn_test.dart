@@ -32,9 +32,7 @@ ${strings.structs}:
       logString = logArr.join('\n');
     });
     test('No warning for missing cursor definition.', () {
-      // No warning since C is not included directly.
-      expect(logString.contains('NoDefinitionStructInC'), false);
-      // Warning since D is included.
+      expect(logString.contains('NoDefinitionStructInC'), true);
       expect(logString.contains('NoDefinitionStructInD'), true);
     });
   });

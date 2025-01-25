@@ -26,8 +26,16 @@ void main() async {
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = await build(packageUri, logger, dartExecutable,
-            capturedLogs: logMessages);
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          buildAssetTypes: [CodeAsset.type],
+          inputValidator: validateCodeAssetBuildInput,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
         expect(
           logMessages.join('\n'),
           stringContainsInOrder(
@@ -39,16 +47,31 @@ void main() async {
             ],
           ),
         );
-        expect(result.assets.length, 2);
+        expect(result.encodedAssets.length, 2);
         expect(
           result.dependencies,
-          [
-            tempUri.resolve('native_add/').resolve('src/native_add.c'),
-            tempUri
-                .resolve('native_subtract/')
-                .resolve('src/native_subtract.c'),
-          ],
+          containsAll([
+            tempUri.resolve('native_add/src/native_add.c'),
+            tempUri.resolve('native_subtract/src/native_subtract.c'),
+            if (!Platform.isWindows) ...[
+              tempUri.resolve('native_add/hook/build.dart'),
+              tempUri.resolve('native_subtract/hook/build.dart'),
+            ],
+          ]),
         );
+        if (Platform.isWindows) {
+          expect(
+            // https://github.com/dart-lang/sdk/issues/59657
+            // Deps file on windows sometimes have lowercase drive letters.
+            // File.exists will work, but Uri equality doesn't.
+            result.dependencies
+                .map((e) => Uri.file(e.toFilePath().toLowerCase())),
+            containsAll([
+              tempUri.resolve('native_add/hook/build.dart'),
+              tempUri.resolve('native_subtract/hook/build.dart'),
+            ].map((e) => Uri.file(e.toFilePath().toLowerCase()))),
+          );
+        }
       }
     });
   });

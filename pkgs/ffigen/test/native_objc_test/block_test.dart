@@ -27,23 +27,29 @@ typedef ListenerBlock = ObjCBlock_ffiVoid_IntBlock;
 typedef FloatBlock = ObjCBlock_ffiFloat_ffiFloat;
 typedef DoubleBlock = ObjCBlock_ffiDouble_ffiDouble;
 typedef Vec4Block = ObjCBlock_Vec4_Vec4;
+typedef SelectorBlock = ObjCBlock_ffiVoid_objcObjCSelector;
 typedef ObjectBlock = ObjCBlock_DummyObject_DummyObject;
 typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject1;
+typedef NullableStringBlock = ObjCBlock_NSString_NSString;
 typedef ObjectListenerBlock = ObjCBlock_ffiVoid_DummyObject;
 typedef NullableListenerBlock = ObjCBlock_ffiVoid_DummyObject1;
 typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
 typedef NSStringListenerBlock = ObjCBlock_ffiVoid_NSString;
 typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
+typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
+typedef ResultBlock = ObjCBlock_ffiVoid_Int321;
 
 void main() {
+  late final BlockTestObjCLibrary lib;
+
   group('Blocks', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/block_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
       generateBindingsForCoverage('block');
     });
@@ -109,6 +115,70 @@ void main() {
       expect(value, 123);
     });
 
+    void waitSync(Duration d) {
+      final t = Stopwatch();
+      t.start();
+      while (t.elapsed < d) {
+        // Waiting...
+      }
+    }
+
+    test('Blocking block same thread', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        waitSync(Duration(milliseconds: 100));
+        value = 123;
+      });
+      BlockTester.callOnSameThread_(block);
+      expect(value, 123);
+    });
+
+    test('Blocking block new thread', () async {
+      final block = IntPtrBlock.blocking((Pointer<Int32> result) {
+        waitSync(Duration(milliseconds: 100));
+        result.value = 123456;
+      });
+      final resultCompleter = Completer<int>();
+      final resultBlock = ResultBlock.listener((int result) {
+        resultCompleter.complete(result);
+      });
+      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      expect(await resultCompleter.future, 123456);
+    });
+
+    test('Blocking block same thread throws', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        value = 123;
+        throw "Hello";
+      });
+      BlockTester.callOnSameThread_(block);
+      expect(value, 123);
+    });
+
+    test('Blocking block new thread throws', () async {
+      final block = IntPtrBlock.blocking((Pointer<Int32> result) {
+        result.value = 123456;
+        throw "Hello";
+      });
+      final resultCompleter = Completer<int>();
+      final resultBlock = ResultBlock.listener((int result) {
+        resultCompleter.complete(result);
+      });
+      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      expect(await resultCompleter.future, 123456);
+    });
+
+    test('Blocking block manual invocation', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        waitSync(Duration(milliseconds: 100));
+        value = 123;
+      });
+      block();
+      expect(value, 123);
+    });
+
     test('Float block', () {
       final block = FloatBlock.fromFunction((double x) {
         return x + 4.56;
@@ -151,14 +221,25 @@ void main() {
         expect(result1.z, 7.8);
         expect(result1.w, 1.2);
 
-        final result2Ptr = arena<Vec4>();
-        final result2 = result2Ptr.ref;
-        BlockTester.callVec4Block_(result2Ptr, block);
+        final result2 = BlockTester.callVec4Block_(block);
         expect(result2.x, 3.4);
         expect(result2.y, 5.6);
         expect(result2.z, 7.8);
         expect(result2.w, 1.2);
       });
+    });
+
+    test('Selector block', () {
+      late String sel;
+      final block = SelectorBlock.fromFunction((Pointer<ObjCSelector> x) {
+        sel = x.toDartString();
+      });
+
+      block('Hello'.toSelector());
+      expect(sel, 'Hello');
+
+      BlockTester.callSelectorBlock_(block);
+      expect(sel, 'Select');
     });
 
     test('Object block', () {
@@ -201,6 +282,21 @@ void main() {
       final result3 = BlockTester.callNullableObjectBlock_(block);
       expect(result3, isNull);
       expect(isCalled, isTrue);
+    });
+
+    test('Nullable string block', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1537.
+      final block = NullableStringBlock.fromFunction(
+          (NSString? x) => '${x?.toDartString()} Cat'.toNSString());
+
+      final result1 = block('Dog'.toNSString());
+      expect(result1?.toDartString(), 'Dog Cat');
+
+      final result2 = block(null);
+      expect(result2?.toDartString(), 'null Cat');
+
+      final result3 = BlockTester.callNullableStringBlock_(block);
+      expect(result3?.toDartString(), 'Lizard Cat');
     });
 
     test('Object listener block', () async {
@@ -249,7 +345,7 @@ void main() {
     test('NSString listener block', () async {
       final hasRun = Completer<void>();
       final block = NSStringListenerBlock.listener((NSString s) {
-        expect(s.toString(), "Foo 123");
+        expect(s.toDartString(), "Foo 123");
         hasRun.complete();
       });
 
@@ -321,7 +417,7 @@ void main() {
       final rawBlock = funcPointerBlockRefCountTest();
       doGC();
       expect(blockRetainCount(rawBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -338,7 +434,7 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> blockManualRetainRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -366,10 +462,11 @@ void main() {
       expect(blockRetainCount(rawBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockDartCallRefCountTest() {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
@@ -381,6 +478,7 @@ void main() {
       });
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 15);
+      lib.objc_autoreleasePoolPop(pool);
       doGC();
 
       // One reference held by inputBlock object, another bound to the
@@ -425,10 +523,11 @@ void main() {
       expect(blockRetainCount(outputBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         blockBlockObjCCallRefCountTest() {
+      final pool = lib.objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
       final blockBlock =
           BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
@@ -439,6 +538,7 @@ void main() {
       });
       final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
       expect(outputBlock(1), 6);
+      lib.objc_autoreleasePoolPop(pool);
       doGC();
 
       expect(blockRetainCount(inputBlock), 1);
@@ -474,16 +574,18 @@ void main() {
       expect(blockRetainCount(outputBlock), 0);
       expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
           false);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockDartCallRefCountTest() {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
       final blockBlock = BlockTester.newBlockBlock_(7);
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 35);
+      lib.objc_autoreleasePoolPop(pool);
       doGC();
 
       // One reference held by inputBlock object, another held internally by the
@@ -506,7 +608,7 @@ void main() {
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockObjCCallRefCountTest() {
@@ -525,9 +627,10 @@ void main() {
       doGC();
       expect(blockRetainCount(blockBlock), 0);
       expect(blockRetainCount(outputBlock), 0);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
       final outputCounter = alloc<Int32>();
       inputCounter.value = 0;
@@ -542,6 +645,7 @@ void main() {
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
+      lib.objc_autoreleasePoolPop(pool);
       return (inputCounter, outputCounter);
     }
 
@@ -552,10 +656,11 @@ void main() {
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
         Allocator alloc) {
+      final pool = lib.objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
       final outputCounter = alloc<Int32>();
       inputCounter.value = 0;
@@ -570,6 +675,7 @@ void main() {
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
+      lib.objc_autoreleasePoolPop(pool);
       return (inputCounter, outputCounter);
     }
 
@@ -586,7 +692,7 @@ void main() {
         expect(inputCounter.value, 0);
         expect(outputCounter.value, 0);
       });
-    });
+    }, skip: !canDoGC);
 
     Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
         listenerBlockArgumentRetentionTest() async {
@@ -594,7 +700,7 @@ void main() {
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
       final blockBlock =
           ListenerBlock.listener((ObjCBlock<Int32 Function(Int32)> intBlock) {
-        expect(blockRetainCount(intBlock.ref.pointer), 1);
+        expect(blockRetainCount(intBlock.ref.pointer), greaterThan(0));
         inputBlock = intBlock;
         hasRun.complete();
       });
@@ -622,7 +728,69 @@ void main() {
 
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
-    });
+    }, skip: !canDoGC);
+
+    test('Blocking block ref counting same thread', () async {
+      DummyObject? dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.blocking((DummyObject obj) {
+        // Object passed as argument.
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+
+        // Object bound in block's lambda.
+        expect(dummyObject, isNotNull);
+      });
+
+      final tester = BlockTester.newFromListener_(block);
+      final rawBlock = block!.ref.pointer;
+      expect(blockRetainCount(rawBlock), 2);
+
+      final rawDummyObject = dummyObject!.ref.pointer;
+      expect(objectRetainCount(rawDummyObject), 1);
+
+      dummyObject = null;
+      block = null;
+      tester.invokeAndReleaseListener_(null);
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+
+      expect(blockRetainCount(rawBlock), 0);
+      expect(objectRetainCount(rawDummyObject), 0);
+    }, skip: !canDoGC);
+
+    test('Blocking block ref counting new thread', () async {
+      final completer = Completer<void>();
+      DummyObject? dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.blocking((DummyObject obj) {
+        // Object passed as argument.
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+
+        // Object bound in block's lambda.
+        expect(dummyObject, isNotNull);
+
+        completer.complete();
+      });
+
+      final tester = BlockTester.newFromListener_(block);
+      final rawBlock = block!.ref.pointer;
+      expect(blockRetainCount(rawBlock), 2);
+
+      final rawDummyObject = dummyObject!.ref.pointer;
+      expect(objectRetainCount(rawDummyObject), 1);
+
+      tester.invokeAndReleaseListenerOnNewThread();
+      await completer.future;
+      dummyObject = null;
+      block = null;
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+
+      expect(blockRetainCount(rawBlock), 0);
+      expect(objectRetainCount(rawDummyObject), 0);
+    }, skip: !canDoGC);
 
     test('Block fields have sensible values', () {
       final block = IntBlock.fromFunction(makeAdder(4000));
@@ -638,6 +806,62 @@ void main() {
       expect(descPtr.ref.copy_helper, nullptr);
       expect(descPtr.ref.dispose_helper, isNot(nullptr));
       expect(descPtr.ref.signature, nullptr);
+    });
+
+    test('Block trampoline args converted to id', () {
+      final objCBindings =
+          File('test/native_objc_test/block_bindings.m').readAsStringSync();
+
+      // Objects are converted to id.
+      expect(objCBindings, isNot(contains('NSObject')));
+      expect(objCBindings, isNot(contains('NSString')));
+      expect(objCBindings, contains('id'));
+
+      // Blocks are also converted to id. Note: (^) is part of a block type.
+      expect(objCBindings, isNot(contains('(^)')));
+
+      // Other types, like structs, are still there.
+      expect(objCBindings, contains('Vec2'));
+      expect(objCBindings, contains('Vec4'));
+    });
+
+    (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObject>) regress1571Inner(
+        Completer<void> completer) {
+      final dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.listener((DummyObject obj) {
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+        completer.complete();
+        expect(dummyObject, isNotNull);
+      });
+      final tester = BlockTester.newFromListener_(block);
+      expect(blockRetainCount(block.ref.pointer), 2);
+      expect(objectRetainCount(dummyObject.ref.pointer), 1);
+      return (tester, block.ref.pointer, dummyObject.ref.pointer);
+    }
+
+    test('Regression test for https://github.com/dart-lang/native/issues/1571',
+        () async {
+      // Pass a listener block to an ObjC API that retains a reference to the
+      // block, and release the Dart-side reference. Then, on a different
+      // thread, invoke the block and immediately release the ObjC-side
+      // reference. Before the fix, the dtor message could arrive before the
+      // invoke message. This was a flaky error, so try a few times.
+      for (int i = 0; i < 10; ++i) {
+        final completer = Completer<void>();
+        final (tester, blockPtr, objectPtr) = regress1571Inner(completer);
+
+        await flutterDoGC();
+        expect(blockRetainCount(blockPtr), 1);
+        expect(objectRetainCount(objectPtr), 1);
+
+        tester.invokeAndReleaseListenerOnNewThread();
+        await completer.future;
+
+        await flutterDoGC();
+        expect(blockRetainCount(blockPtr), 0);
+        expect(objectRetainCount(objectPtr), 0);
+      }
     });
   });
 }

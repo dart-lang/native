@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 // Types to describe java API elements
 
@@ -20,9 +21,8 @@ abstract class Element<T extends Element<T>> {
   R accept<R>(Visitor<T, R> v);
 }
 
-@JsonEnum()
-
 /// A kind describes the type of a declaration.
+@JsonEnum()
 enum DeclKind {
   @JsonValue('CLASS')
   classKind,
@@ -57,9 +57,10 @@ class Classes implements Element<Classes> {
 // option in java.
 
 @JsonSerializable(createToJson: false)
-class ClassDecl extends ClassMember implements Element<ClassDecl> {
+class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ClassDecl({
-    this.annotations = const [],
+    this.isExcluded = false,
+    this.annotations,
     this.javadoc,
     required this.declKind,
     this.modifiers = const {},
@@ -68,6 +69,7 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
     this.methods = const [],
     this.fields = const [],
     this.superclass,
+    this.outerClassBinaryName,
     this.interfaces = const [],
     this.hasStaticInit = false,
     this.hasInstanceInit = false,
@@ -76,10 +78,14 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
     this.kotlinPackage,
   });
 
+  @JsonKey(includeFromJson: false)
+  bool isExcluded;
+
   @override
   final Set<String> modifiers;
 
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final KotlinClass? kotlinClass;
   final KotlinPackage? kotlinPackage;
   final JavaDocComment? javadoc;
@@ -95,6 +101,14 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   /// Will default to java.lang.Object if null by [Linker].
   TypeUsage? superclass;
 
+  final String? outerClassBinaryName;
+
+  /// Outer class's [ClassDecl] obtained from [outerClassBinaryName].
+  ///
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final ClassDecl? outerClass;
+
   /// Contains enum constant names if class is an enum,
   /// as obtained by `.values()` method in Java.
   final List<String>? values;
@@ -109,16 +123,11 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final int superCount;
 
-  /// Parent's [ClassDecl] obtained from [parentName].
-  ///
-  /// Populated by [Linker].
-  @JsonKey(includeFromJson: false)
-  late final ClassDecl? parent;
-
   /// Final name of this class.
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late final String finalName;
 
   /// Name of the type class.
@@ -127,11 +136,19 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final String typeClassName;
 
-  /// Type parameters including the ones from its ancestors
+  /// Name of the nullable type class.
+  ///
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  late final String nullableTypeClassName;
+
+  /// Type parameters including the ones from its outer classes.
+  ///
+  /// For `Foo<T>.Bar<U, V>.Baz<W>` it is [T, U, V, W].
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  List<TypeParam> allTypeParams = const [];
+  late final List<TypeParam> allTypeParams;
 
   /// The path which this class is generated in.
   ///
@@ -163,18 +180,22 @@ class ClassDecl extends ClassMember implements Element<ClassDecl> {
   @override
   ClassDecl get classDecl => this;
 
+  /// Simple name of this class without the outerclasses.
+  ///
+  /// This is not uniquely identifiable from the [binaryName]. For instance,
+  /// `com.xyz.Foo$Bar` could represent a class named `Bar` that is nested in a
+  /// class name `Foo` in which case its name is `Bar`. But it can also
+  /// represent a class named `Foo$Bar`.
   @override
-  String get name => finalName;
+  String get name => binaryName
+      .substring((outerClassBinaryName?.length ?? -1) + 1)
+      .split('.')
+      .last;
 
   bool get isObject => superCount == 0;
 
   @JsonKey(includeFromJson: false)
-  late final String? parentName = binaryName.contains(r'$')
-      ? binaryName.splitMapJoin(RegExp(r'\$[^$]+$'), onMatch: (_) => '')
-      : null;
-
-  @JsonKey(includeFromJson: false)
-  late final isNested = parentName != null;
+  bool get isNested => outerClassBinaryName != null;
 
   /// Whether the class is actually only a number of top-level Kotlin Functions.
   bool get isTopLevel => kotlinPackage != null;
@@ -202,7 +223,7 @@ class TypeUsage {
     required this.typeJson,
   });
 
-  static TypeUsage object = TypeUsage(
+  static final object = TypeUsage(
       kind: Kind.declared, shorthand: 'java.lang.Object', typeJson: {})
     ..type = DeclaredType(binaryName: 'java.lang.Object');
 
@@ -250,24 +271,49 @@ class TypeUsage {
   R accept<R>(TypeVisitor<R> v) {
     return type.accept(v);
   }
+
+  TypeUsage clone() {
+    final ReferredType clonedType;
+    final clonedTypeJson = {...typeJson};
+    switch (kind) {
+      case Kind.primitive:
+        clonedType = PrimitiveType.fromJson(clonedTypeJson);
+        break;
+      case Kind.typeVariable:
+        clonedType = TypeVar.fromJson(clonedTypeJson);
+        break;
+      case Kind.wildcard:
+        clonedType = Wildcard.fromJson(clonedTypeJson);
+        break;
+      case Kind.declared:
+        clonedType = DeclaredType.fromJson(clonedTypeJson);
+        break;
+      case Kind.array:
+        clonedType = ArrayType.fromJson(clonedTypeJson);
+        break;
+    }
+    clonedType.annotations = type.annotations;
+    return TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
+      ..type = clonedType;
+  }
 }
 
-abstract class ReferredType {
-  const ReferredType();
+abstract class ReferredType with Annotated {
+  ReferredType();
   String get name;
 
   R accept<R>(TypeVisitor<R> v);
 }
 
 class PrimitiveType extends ReferredType {
-  static const _primitives = {
+  static final _primitives = {
     'byte': PrimitiveType._(
       name: 'byte',
       signature: 'B',
       dartType: 'int',
       boxedName: 'Byte',
       cType: 'int8_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'short': PrimitiveType._(
       name: 'short',
@@ -275,7 +321,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Short',
       cType: 'int16_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'char': PrimitiveType._(
       name: 'char',
@@ -283,7 +329,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Character',
       cType: 'uint16_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'int': PrimitiveType._(
       name: 'int',
@@ -291,7 +337,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Integer',
       cType: 'int32_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'long': PrimitiveType._(
       name: 'long',
@@ -299,7 +345,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'int',
       boxedName: 'Long',
       cType: 'int64_t',
-      ffiVarArgType: 'ffi.Int64',
+      ffiVarArgType: 'Int64',
     ),
     'float': PrimitiveType._(
       name: 'float',
@@ -307,7 +353,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Float',
       cType: 'float',
-      ffiVarArgType: 'ffi.Double',
+      ffiVarArgType: 'Double',
     ),
     'double': PrimitiveType._(
       name: 'double',
@@ -315,7 +361,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'double',
       boxedName: 'Double',
       cType: 'double',
-      ffiVarArgType: 'ffi.Double',
+      ffiVarArgType: 'Double',
     ),
     'boolean': PrimitiveType._(
       name: 'boolean',
@@ -323,7 +369,7 @@ class PrimitiveType extends ReferredType {
       dartType: 'bool',
       boxedName: 'Boolean',
       cType: 'uint8_t',
-      ffiVarArgType: '\$Int32',
+      ffiVarArgType: 'Int32',
     ),
     'void': PrimitiveType._(
       name: 'void',
@@ -331,21 +377,23 @@ class PrimitiveType extends ReferredType {
       dartType: 'void',
       boxedName: 'Void', // Not used.
       cType: 'void',
-      ffiVarArgType: 'ffi.Void', // Not used.
+      ffiVarArgType: 'Void', // Not used.
     ),
   };
 
-  const PrimitiveType._({
+  PrimitiveType._({
     required this.name,
     required this.signature,
     required this.dartType,
     required this.boxedName,
     required this.cType,
     required this.ffiVarArgType,
-  });
+  }) : annotations = null;
 
   @override
   final String name;
+  @override
+  List<Annotation>? annotations;
 
   final String signature;
   final String dartType;
@@ -367,11 +415,14 @@ class PrimitiveType extends ReferredType {
 class DeclaredType extends ReferredType {
   DeclaredType({
     required this.binaryName,
+    this.annotations,
     this.params = const [],
   });
 
   final String binaryName;
   final List<TypeUsage> params;
+  @override
+  List<Annotation>? annotations;
 
   @JsonKey(includeFromJson: false)
   late ClassDecl classDecl;
@@ -386,14 +437,59 @@ class DeclaredType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitDeclaredType(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      params.any((param) => param.type.hasNullabilityAnnotations);
 }
 
 @JsonSerializable(createToJson: false)
 class TypeVar extends ReferredType {
-  TypeVar({required this.name});
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final TypeParam origin;
+
+  TypeVar({
+    required this.name,
+    this.annotations,
+  });
 
   @override
   String name;
+  @override
+  List<Annotation>? annotations;
+
+  @override
+  bool get isNullable {
+    // A type-var is nullable if its origin is nullable.
+    if (origin.isNullable) {
+      return true;
+    }
+    // If origin is non-null, it has to be explicitly set as nullable.
+    if (!origin.isNullable && !hasNullable) {
+      return false;
+    }
+    return super.isNullable;
+  }
+
+  /// Whether this type-variable has a question mark.
+  ///
+  /// This is different from [isNullable], a type-variable that extends
+  /// `JObject?` is nullable, so to get the reference from an object with this
+  /// type, a null check is needed. However type-variables can have an extra
+  /// question mark, meaning that even if the original type extends `JObject`,
+  /// this is nullable.
+  bool get hasQuestionMark {
+    // If the origin has any nullability set, this will only be nullable if it
+    // is explicitly set to be.
+    if (origin.hasNonNull || origin.hasNullable) {
+      return hasNullable;
+    }
+    // Otherwise it is always nullable unless explicitly set to be
+    // non-nullable.
+    return !hasNonNull;
+  }
 
   factory TypeVar.fromJson(Map<String, dynamic> json) =>
       _$TypeVarFromJson(json);
@@ -406,11 +502,23 @@ class TypeVar extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class Wildcard extends ReferredType {
-  Wildcard({this.extendsBound, this.superBound});
+  Wildcard({
+    this.extendsBound,
+    this.superBound,
+    this.annotations,
+  });
   TypeUsage? extendsBound, superBound;
 
   @override
+  bool get isNullable =>
+      super.isNullable &&
+      // If the extends bound is non-null, this is non-null.
+      !(extendsBound?.type.hasNonNull ?? false);
+
+  @override
   String get name => '?';
+  @override
+  List<Annotation>? annotations;
 
   factory Wildcard.fromJson(Map<String, dynamic> json) =>
       _$WildcardFromJson(json);
@@ -419,15 +527,26 @@ class Wildcard extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitWildcard(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      (superBound?.type.hasNullabilityAnnotations ?? false) ||
+      (extendsBound?.type.hasNullabilityAnnotations ?? false);
 }
 
 @JsonSerializable(createToJson: false)
 class ArrayType extends ReferredType {
-  ArrayType({required this.type});
-  TypeUsage type;
+  ArrayType({
+    required this.elementType,
+    this.annotations,
+  });
+  TypeUsage elementType;
 
   @override
-  String get name => '[${type.name}';
+  String get name => '[${elementType.name}';
+  @override
+  List<Annotation>? annotations;
 
   factory ArrayType.fromJson(Map<String, dynamic> json) =>
       _$ArrayTypeFromJson(json);
@@ -436,23 +555,86 @@ class ArrayType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitArrayType(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      elementType.type.hasNullabilityAnnotations;
 }
 
-abstract class ClassMember {
+mixin Annotated {
+  abstract List<Annotation>? annotations;
+
+  static final nullableAnnotations = [
+    // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+    'org.jetbrains.annotations.Nullable',
+    'org.jspecify.nullness.Nullable',
+    'com.android.annotations.Nullable',
+    'androidx.annotation.Nullable',
+    'android.support.annotations.Nullable',
+    'edu.umd.cs.findbugs.annotations.Nullable',
+    'org.eclipse.jdt.annotation.Nullable',
+    'lombok.Nullable',
+    'io.reactivex.rxjava3.annotations.Nullable',
+  ];
+  bool get hasNullable {
+    return annotations?.any((annotation) =>
+            nullableAnnotations.contains(annotation.binaryName) ||
+            annotation.binaryName == 'javax.annotation.Nullable' &&
+                annotation.properties['when'] == 'ALWAYS') ??
+        false;
+  }
+
+  static final nonNullAnnotations = [
+    // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
+    'org.jetbrains.annotations.NotNull',
+    'org.jspecify.nullness.NonNull',
+    'com.android.annotations.NonNull',
+    'androidx.annotation.NonNull',
+    'android.support.annotations.NonNull',
+    'edu.umd.cs.findbugs.annotations.NonNull',
+    'org.eclipse.jdt.annotation.NonNull',
+    'lombok.NonNull',
+    'io.reactivex.rxjava3.annotations.NonNull',
+  ];
+  bool get hasNonNull {
+    return annotations?.any((annotation) =>
+            nonNullAnnotations.contains(annotation.binaryName) ||
+            annotation.binaryName == 'javax.annotation.Nonnull' &&
+                annotation.properties['when'] == 'ALWAYS') ??
+        false;
+  }
+
+  bool get hasNullabilityAnnotations => hasNonNull || hasNullable;
+
+  bool get isNullable {
+    if (hasNullable) {
+      return true;
+    }
+    return !hasNonNull;
+  }
+}
+
+mixin ClassMember {
   String get name;
   ClassDecl get classDecl;
   Set<String> get modifiers;
+  String get finalName;
 
+  bool get isAbstract => modifiers.contains('abstract');
   bool get isStatic => modifiers.contains('static');
   bool get isFinal => modifiers.contains('final');
   bool get isPublic => modifiers.contains('public');
   bool get isProtected => modifiers.contains('protected');
+  bool get isSynthetic => modifiers.contains('synthetic');
+  bool get isBridge => modifiers.contains('bridge');
 }
 
 @JsonSerializable(createToJson: false)
-class Method extends ClassMember implements Element<Method> {
+class Method with ClassMember, Annotated implements Element<Method> {
   Method({
-    this.annotations = const [],
+    this.isExcluded = false,
+    this.annotations,
     this.javadoc,
     this.modifiers = const {},
     required this.name,
@@ -462,12 +644,15 @@ class Method extends ClassMember implements Element<Method> {
     required this.returnType,
   });
 
+  @JsonKey(includeFromJson: false)
+  bool isExcluded;
+
   @override
   final String name;
   @override
   final Set<String> modifiers;
-
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final JavaDocComment? javadoc;
   final List<TypeParam> typeParams;
   List<Param> params;
@@ -488,6 +673,7 @@ class Method extends ClassMember implements Element<Method> {
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late String finalName;
 
   @JsonKey(includeFromJson: false)
@@ -502,7 +688,7 @@ class Method extends ClassMember implements Element<Method> {
   @JsonKey(includeFromJson: false)
   late final String javaSig = '$name$descriptor';
 
-  bool get isCtor => name == '<init>';
+  bool get isConstructor => name == '<init>';
 
   factory Method.fromJson(Map<String, dynamic> json) => _$MethodFromJson(json);
 
@@ -513,22 +699,34 @@ class Method extends ClassMember implements Element<Method> {
 }
 
 @JsonSerializable(createToJson: false)
-class Param implements Element<Param> {
+class Param with Annotated implements Element<Param> {
   Param({
-    this.annotations = const [],
+    this.annotations,
     this.javadoc,
     required this.name,
     required this.type,
   });
 
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final JavaDocComment? javadoc;
+
+  @override
+  bool get isNullable => type.type.isNullable || super.hasNullable;
+
+  // Synthetic methods might not have parameter names.
+  @JsonKey(defaultValue: 'synthetic')
   final String name;
+
   final TypeUsage type;
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late String finalName;
+
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late final Method method;
 
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
 
@@ -539,9 +737,10 @@ class Param implements Element<Param> {
 }
 
 @JsonSerializable(createToJson: false)
-class Field extends ClassMember implements Element<Field> {
+class Field with ClassMember, Annotated implements Element<Field> {
   Field({
-    this.annotations = const [],
+    this.isExcluded = false,
+    this.annotations,
     this.javadoc,
     this.modifiers = const {},
     required this.name,
@@ -549,12 +748,16 @@ class Field extends ClassMember implements Element<Field> {
     this.defaultValue,
   });
 
+  @JsonKey(includeFromJson: false)
+  bool isExcluded;
+
   @override
   final String name;
   @override
   final Set<String> modifiers;
 
-  final List<Annotation> annotations;
+  @override
+  List<Annotation>? annotations;
   final JavaDocComment? javadoc;
   final TypeUsage type;
   final Object? defaultValue;
@@ -568,6 +771,7 @@ class Field extends ClassMember implements Element<Field> {
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
+  @override
   late final String finalName;
 
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
@@ -579,14 +783,29 @@ class Field extends ClassMember implements Element<Field> {
 }
 
 @JsonSerializable(createToJson: false)
-class TypeParam implements Element<TypeParam> {
-  TypeParam({required this.name, this.bounds = const []});
+class TypeParam with Annotated implements Element<TypeParam> {
+  TypeParam({
+    required this.name,
+    this.bounds = const [],
+    this.annotations,
+  });
 
   final String name;
   final List<TypeUsage> bounds;
 
+  @override
+  List<Annotation>? annotations;
+
+  @override
+  bool get hasNonNull =>
+      // A type param with any non-null bound is non-null.
+      super.hasNonNull || bounds.any((bound) => !bound.type.isNullable);
+
+  /// Can either be a [ClassDecl] or a [Method].
+  ///
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final String erasure;
+  late final ClassMember parent;
 
   factory TypeParam.fromJson(Map<String, dynamic> json) =>
       _$TypeParamFromJson(json);
@@ -615,15 +834,111 @@ class JavaDocComment implements Element<JavaDocComment> {
   }
 }
 
+@visibleForTesting
+List<TypePathStep> typePathFromString(String? string) {
+  if (string == null) return const [];
+  const innerClass = 46;
+  assert(innerClass == '.'.codeUnitAt(0));
+  const array = 91;
+  assert(array == '['.codeUnitAt(0));
+  const wildcard = 42;
+  assert(wildcard == '*'.codeUnitAt(0));
+  const digit0 = 48;
+  assert(digit0 == '0'.codeUnitAt(0));
+  const digit9 = 57;
+  assert(digit9 == '9'.codeUnitAt(0));
+  const semicolon = 59;
+  assert(semicolon == ';'.codeUnitAt(0));
+  final typePaths = <TypePathStep>[];
+  var number = 0;
+  for (final codeUnit in string.codeUnits) {
+    switch (codeUnit) {
+      case array:
+        typePaths.add(const ToArrayElement());
+      case wildcard:
+        typePaths.add(const ToWildcardBound());
+      case innerClass:
+        typePaths.add(const ToInnerClass());
+      case >= digit0 && <= digit9:
+        number = number * 10 + codeUnit - digit0;
+      case semicolon:
+        typePaths.add(ToTypeParam(number));
+        number = 0;
+      default:
+        throw const FormatException('Invalid type path');
+    }
+  }
+  return typePaths;
+}
+
+sealed class TypePathStep {
+  const TypePathStep();
+}
+
+final class ToArrayElement extends TypePathStep {
+  const ToArrayElement();
+  @override
+  String toString() {
+    return '[';
+  }
+}
+
+final class ToInnerClass extends TypePathStep {
+  const ToInnerClass();
+  @override
+  String toString() {
+    return '.';
+  }
+}
+
+final class ToWildcardBound extends TypePathStep {
+  const ToWildcardBound();
+  @override
+  String toString() {
+    return '*';
+  }
+}
+
+final class ToTypeParam extends TypePathStep {
+  final int index;
+  const ToTypeParam(this.index);
+  @override
+  String toString() {
+    return '$index;';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ToTypeParam && index == other.index;
+  }
+
+  @override
+  int get hashCode => (ToTypeParam).hashCode ^ index.hashCode;
+}
+
 @JsonSerializable(createToJson: false)
 class Annotation implements Element<Annotation> {
-  Annotation({
+  /// Specifies that this type can be null.
+  static const Annotation nullable =
+      // Any other valid `Nullable` annotation would work.
+      Annotation(binaryName: 'androidx.annotation.Nullable');
+
+  /// Specifies that this type cannot be null.
+  static const Annotation nonNull =
+      // Any other valid `NonNull` annotation would work.
+      Annotation(binaryName: 'androidx.annotation.NonNull');
+
+  const Annotation({
     required this.binaryName,
     this.properties = const {},
+    this.typePath = const [],
   });
 
   final String binaryName;
   final Map<String, Object> properties;
+
+  @JsonKey(fromJson: typePathFromString)
+  final List<TypePathStep> typePath;
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>
       _$AnnotationFromJson(json);
@@ -638,11 +953,39 @@ class Annotation implements Element<Annotation> {
 class KotlinClass implements Element<KotlinClass> {
   KotlinClass({
     required this.name,
+    required this.moduleName,
     this.functions = const [],
+    this.properties = const [],
+    this.constructors = const [],
+    this.typeParameters = const [],
+    this.contextReceiverTypes = const [],
+    this.superTypes = const [],
+    this.nestedClasses = const [],
+    this.enumEntries = const [],
+    this.sealedClasses = const [],
+    required this.companionObject,
+    required this.inlineClassUnderlyingPropertyName,
+    required this.inlineClassUnderlyingType,
+    required this.flags,
+    required this.jvmFlags,
   });
 
   final String name;
+  final String moduleName;
   final List<KotlinFunction> functions;
+  final List<KotlinProperty> properties;
+  final List<KotlinConstructor> constructors;
+  final List<KotlinTypeParameter> typeParameters;
+  final List<KotlinType> contextReceiverTypes;
+  final List<KotlinType> superTypes;
+  final List<String> nestedClasses;
+  final List<String> enumEntries;
+  final List<String> sealedClasses;
+  final String? companionObject;
+  final String? inlineClassUnderlyingPropertyName;
+  final KotlinType? inlineClassUnderlyingType;
+  final int flags;
+  final int jvmFlags;
 
   factory KotlinClass.fromJson(Map<String, dynamic> json) =>
       _$KotlinClassFromJson(json);
@@ -657,9 +1000,11 @@ class KotlinClass implements Element<KotlinClass> {
 class KotlinPackage implements Element<KotlinPackage> {
   KotlinPackage({
     this.functions = const [],
+    this.properties = const [],
   });
 
   final List<KotlinFunction> functions;
+  final List<KotlinProperty> properties;
 
   factory KotlinPackage.fromJson(Map<String, dynamic> json) =>
       _$KotlinPackageFromJson(json);
@@ -671,28 +1016,226 @@ class KotlinPackage implements Element<KotlinPackage> {
 }
 
 @JsonSerializable(createToJson: false)
-class KotlinFunction implements Element<KotlinFunction> {
+class KotlinFunction {
   KotlinFunction({
     required this.name,
     required this.descriptor,
     required this.kotlinName,
+    this.valueParameters = const [],
+    required this.returnType,
+    this.receiverParameterType,
+    this.contextReceiverTypes = const [],
+    this.typeParameters = const [],
+    required this.flags,
     required this.isSuspend,
   });
 
+  /// Name in the byte code.
   final String name;
-
-  /// Used to match with [Method]'s descriptor.
-  ///
-  /// Creates a unique signature in combination with [name].
   final String descriptor;
+
+  /// Name in the Kotlin's metadata.
   final String kotlinName;
+
+  final List<KotlinValueParameter> valueParameters;
+  final KotlinType returnType;
+  final KotlinType? receiverParameterType;
+  final List<KotlinType> contextReceiverTypes;
+  final List<KotlinTypeParameter> typeParameters;
+  final int flags;
   final bool isSuspend;
 
   factory KotlinFunction.fromJson(Map<String, dynamic> json) =>
       _$KotlinFunctionFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinConstructor implements Element<KotlinConstructor> {
+  KotlinConstructor({
+    required this.name,
+    required this.descriptor,
+    this.valueParameters = const [],
+    required this.flags,
+  });
+
+  final String name;
+  final String descriptor;
+  final List<KotlinValueParameter> valueParameters;
+  final int flags;
+
+  factory KotlinConstructor.fromJson(Map<String, dynamic> json) =>
+      _$KotlinConstructorFromJson(json);
 
   @override
-  R accept<R>(Visitor<KotlinFunction, R> v) {
+  R accept<R>(Visitor<KotlinConstructor, R> v) {
     return v.visit(this);
   }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinProperty implements Element<KotlinProperty> {
+  KotlinProperty({
+    this.fieldName,
+    this.fieldDescriptor,
+    this.getterName,
+    this.getterDescriptor,
+    this.setterName,
+    this.setterDescriptor,
+    required this.kotlinName,
+    required this.returnType,
+    required this.receiverParameterType,
+    this.contextReceiverTypes = const [],
+    required this.jvmFlags,
+    required this.flags,
+    required this.setterFlags,
+    required this.getterFlags,
+    this.typeParameters = const [],
+    required this.setterParameter,
+  });
+
+  final String? fieldName;
+  final String? fieldDescriptor;
+
+  /// Getter's name in the byte code.
+  final String? getterName;
+  final String? getterDescriptor;
+
+  /// Setter's name in the byte code.
+  final String? setterName;
+  final String? setterDescriptor;
+
+  /// Name in the Kotlin's metadata.
+  final String kotlinName;
+
+  final KotlinType returnType;
+  final KotlinType? receiverParameterType;
+  final List<KotlinType> contextReceiverTypes;
+  final int jvmFlags;
+  final int flags;
+  final int setterFlags;
+  final int getterFlags;
+  final List<KotlinTypeParameter> typeParameters;
+  final KotlinValueParameter? setterParameter;
+
+  factory KotlinProperty.fromJson(Map<String, dynamic> json) =>
+      _$KotlinPropertyFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinProperty, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinType implements Element<KotlinType> {
+  KotlinType({
+    required this.flags,
+    required this.kind,
+    required this.name,
+    required this.id,
+    required this.isNullable,
+    this.arguments = const [],
+  });
+
+  final int flags;
+  final String kind;
+  final String? name;
+  final int id;
+  final List<KotlinTypeArgument> arguments;
+  final bool isNullable;
+
+  factory KotlinType.fromJson(Map<String, dynamic> json) =>
+      _$KotlinTypeFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinType, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonEnum()
+enum KmVariance {
+  @JsonValue('INVARIANT')
+  invariant,
+  @JsonValue('IN')
+  contravariant,
+  @JsonValue('OUT')
+  covariant,
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinTypeParameter implements Element<KotlinTypeParameter> {
+  KotlinTypeParameter({
+    required this.name,
+    required this.id,
+    required this.flags,
+    this.upperBounds = const [],
+    required this.variance,
+  });
+
+  final String name;
+  final int id;
+  final int flags;
+  final List<KotlinType> upperBounds;
+  final KmVariance variance;
+
+  factory KotlinTypeParameter.fromJson(Map<String, dynamic> json) =>
+      _$KotlinTypeParameterFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinTypeParameter, R> v) {
+    return v.visit(this);
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class KotlinValueParameter implements Element<KotlinValueParameter> {
+  KotlinValueParameter({
+    required this.name,
+    required this.flags,
+    required this.type,
+    required this.varargElementType,
+  });
+
+  final String name;
+  final int flags;
+  final KotlinType type;
+  final KotlinType? varargElementType;
+
+  factory KotlinValueParameter.fromJson(Map<String, dynamic> json) =>
+      _$KotlinValueParameterFromJson(json);
+
+  @override
+  R accept<R>(Visitor<KotlinValueParameter, R> v) {
+    return v.visit(this);
+  }
+}
+
+sealed class KotlinTypeArgument implements Element<KotlinTypeArgument> {
+  KotlinTypeArgument();
+
+  factory KotlinTypeArgument.fromJson(Map<String, dynamic> json) =>
+      json['type'] == null
+          ? KotlinWildcard()
+          : KotlinTypeProjection(
+              type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
+              variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
+            );
+
+  @override
+  R accept<R>(Visitor<KotlinTypeArgument, R> v) {
+    return v.visit(this);
+  }
+}
+
+class KotlinWildcard extends KotlinTypeArgument {}
+
+class KotlinTypeProjection extends KotlinTypeArgument {
+  KotlinTypeProjection({
+    required this.type,
+    required this.variance,
+  });
+
+  final KotlinType type;
+  final KmVariance variance;
 }

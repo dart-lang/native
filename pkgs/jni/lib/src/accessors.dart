@@ -4,7 +4,13 @@
 
 import 'dart:ffi';
 
-import '../jni.dart';
+import 'package:meta/meta.dart' show internal;
+
+import 'jni.dart';
+import 'jobject.dart';
+import 'jreference.dart';
+import 'third_party/generated_bindings.dart';
+import 'types.dart';
 
 void _check(JThrowablePtr exception) {
   if (exception != nullptr) {
@@ -12,6 +18,7 @@ void _check(JThrowablePtr exception) {
   }
 }
 
+@internal
 extension JniResultMethods on JniResult {
   void check() => _check(exception);
 
@@ -56,10 +63,11 @@ extension JniResultMethods on JniResult {
   }
 
   JReference get reference {
-    return JGlobalReference(objectPointer);
+    final pointer = objectPointer;
+    return pointer == nullptr ? jNullReference : JGlobalReference(pointer);
   }
 
-  T object<T extends JObject>(JObjType<T> type) {
+  T object<T extends JObject?>(JObjType<T> type) {
     return type.fromReference(reference);
   }
 
@@ -69,6 +77,7 @@ extension JniResultMethods on JniResult {
   }
 }
 
+@internal
 extension JniIdLookupResultMethods on JniPointerResult {
   JMethodIDPtr get methodID {
     _check(exception);
@@ -90,6 +99,7 @@ extension JniIdLookupResultMethods on JniPointerResult {
   }
 }
 
+@internal
 extension JniClassLookupResultMethods on JniClassLookupResult {
   JClassPtr get checkedClassRef {
     _check(exception);
@@ -97,6 +107,7 @@ extension JniClassLookupResultMethods on JniClassLookupResult {
   }
 }
 
+@internal
 extension JThrowableCheckMethod on JThrowablePtr {
   void check() {
     _check(this);

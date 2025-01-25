@@ -3,12 +3,15 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../_core/interfaces/enum_declaration.dart';
+import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
+import '../../ast_node.dart';
 import '../compounds/protocol_declaration.dart';
 
 /// Describes the declaration of a Swift enum with raw values.
-class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
+class RawValueEnumDeclaration<T> extends AstNode
+    implements EnumDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -27,6 +30,12 @@ class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
   @override
   bool hasObjCAnnotation;
 
+  @override
+  NestableDeclaration? nestingParent;
+
+  @override
+  List<NestableDeclaration> nestedDeclarations;
+
   ReferredType rawValueType;
 
   RawValueEnumDeclaration({
@@ -37,11 +46,28 @@ class RawValueEnumDeclaration<T> implements EnumDeclaration, ObjCAnnotatable {
     required this.conformedProtocols,
     required this.hasObjCAnnotation,
     required this.rawValueType,
+    this.nestingParent,
+    this.nestedDeclarations = const [],
   });
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitRawValueEnumDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(cases);
+    visitor.visitAll(typeParams);
+    visitor.visitAll(conformedProtocols);
+    visitor.visit(nestingParent);
+    visitor.visitAll(nestedDeclarations);
+    visitor.visit(rawValueType);
+  }
 }
 
 /// Describes the declaration of a Swift enum case with a raw value of type `T`.
-class RawValueEnumCase<T> implements EnumCase {
+class RawValueEnumCase<T> extends AstNode implements EnumCase {
   @override
   String id;
 

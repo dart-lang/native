@@ -31,13 +31,13 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
       - id: install
         name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/shared_bindings"
+        run: flutter pub get && flutter pub get --directory="example/shared_bindings" && flutter pub get --directory="../objective_c"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
@@ -53,8 +53,8 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
       - name: Install dependencies
@@ -74,29 +74,47 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
       - name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get && flutter pub get --directory="../objective_c"
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests and collect coverage
         run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
       - name: Upload coverage
-        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
+        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8
         with:
           flag-name: ffigen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/ffigen/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@643bc377ffa44ace6394b2b5d0d3950076de9f63
+        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8
         with:
           carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c,swift2objc"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+
+  test-mac-flutter:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/ffigen/
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+        with:
+          channel: 'stable'
+      - name: Install dependencies
+        run: flutter pub get && flutter pub get --directory="../objective_c"
+      - name: Build test dylib and bindings
+        run: dart test/setup.dart --main-thread-dispatcher
+      - name: Run Flutter tests
+        run: flutter test
 
   test-windows:
     needs: analyze
@@ -105,8 +123,8 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: 'stable'
       - name: Install dependencies
@@ -133,8 +151,8 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      - uses: subosito/flutter-action@44ac965b96f18d999802d4b807e3256d5a3f9fa1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
         with:
           channel: "master"
       - name: Install dependencies

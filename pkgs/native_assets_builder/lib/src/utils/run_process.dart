@@ -4,8 +4,9 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Platform, Process, ProcessException, ProcessResult;
 
+import 'package:file/file.dart';
 import 'package:logging/logging.dart';
 
 /// Runs a [Process].
@@ -15,6 +16,7 @@ import 'package:logging/logging.dart';
 /// If [captureOutput], captures stdout and stderr.
 // TODO(dacoharkes): Share between package:native_toolchain_c and here.
 Future<RunProcessResult> runProcess({
+  required FileSystem filesystem,
   required Uri executable,
   List<String> arguments = const [],
   Uri? workingDirectory,
@@ -25,21 +27,8 @@ Future<RunProcessResult> runProcess({
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
 }) async {
-  if (Platform.isWindows && !includeParentEnvironment) {
-    const winEnvKeys = [
-      'SYSTEMROOT',
-      'TEMP',
-      'TMP',
-    ];
-    environment = {
-      for (final winEnvKey in winEnvKeys)
-        winEnvKey: Platform.environment[winEnvKey]!,
-      ...?environment,
-    };
-  }
-
-  final printWorkingDir =
-      workingDirectory != null && workingDirectory != Directory.current.uri;
+  final printWorkingDir = workingDirectory != null &&
+      workingDirectory != filesystem.currentDirectory.uri;
   final commandString = [
     if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
     ...?environment?.entries.map((entry) => '${entry.key}=${entry.value}'),

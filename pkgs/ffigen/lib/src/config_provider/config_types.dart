@@ -107,6 +107,7 @@ class YamlDeclarationFilters implements DeclarationFilters {
   final YamlRenamer _renamer;
   final YamlMemberRenamer _memberRenamer;
   final YamlIncluder _symbolAddressIncluder;
+  final YamlMemberIncluder _memberIncluder;
   final bool excludeAllByDefault;
 
   YamlDeclarationFilters({
@@ -114,12 +115,14 @@ class YamlDeclarationFilters implements DeclarationFilters {
     YamlRenamer? renamer,
     YamlMemberRenamer? memberRenamer,
     YamlIncluder? symbolAddressIncluder,
+    YamlMemberIncluder? memberIncluder,
     required this.excludeAllByDefault,
   })  : _includer = includer ?? YamlIncluder(),
         _renamer = renamer ?? YamlRenamer(),
         _memberRenamer = memberRenamer ?? YamlMemberRenamer(),
         _symbolAddressIncluder =
-            symbolAddressIncluder ?? YamlIncluder.excludeByDefault();
+            symbolAddressIncluder ?? YamlIncluder.excludeByDefault(),
+        _memberIncluder = memberIncluder ?? YamlMemberIncluder();
 
   /// Applies renaming and returns the result.
   @override
@@ -140,6 +143,11 @@ class YamlDeclarationFilters implements DeclarationFilters {
   @override
   bool shouldIncludeSymbolAddress(Declaration declaration) =>
       _symbolAddressIncluder.shouldInclude(declaration.originalName);
+
+  /// Checks if a member is allowed by a filter.
+  @override
+  bool shouldIncludeMember(Declaration declaration, String member) =>
+      _memberIncluder.shouldInclude(declaration.originalName, member);
 }
 
 /// Matches `$<single_digit_int>`, value can be accessed in group 1 of match.
@@ -188,61 +196,54 @@ class RegExpRenamer {
   }
 }
 
+/// Filter pack used for both the includer and excluder of [YamlIncluder].
+class YamlFilter {
+  final List<RegExp> _matchers;
+  final Set<String> _full;
+
+  YamlFilter({
+    List<RegExp>? matchers,
+    Set<String>? full,
+  })  : _full = full ?? {},
+        _matchers = matchers ?? [];
+
+  bool get isEmpty => _full.isEmpty && _matchers.isEmpty;
+
+  bool matches(String name) =>
+      _full.contains(name) ||
+      _matchers.any((re) => quiver.matchesFull(re, name));
+}
+
 /// Handles `include/exclude` logic for a declaration.
 class YamlIncluder {
-  final List<RegExp> _includeMatchers;
-  final Set<String> _includeFull;
-  final List<RegExp> _excludeMatchers;
-  final Set<String> _excludeFull;
+  final YamlFilter _include;
+  final YamlFilter _exclude;
 
   YamlIncluder({
     List<RegExp>? includeMatchers,
     Set<String>? includeFull,
     List<RegExp>? excludeMatchers,
     Set<String>? excludeFull,
-  })  : _includeMatchers = includeMatchers ?? [],
-        _includeFull = includeFull ?? {},
-        _excludeMatchers = excludeMatchers ?? [],
-        _excludeFull = excludeFull ?? {};
+  })  : _include = YamlFilter(matchers: includeMatchers, full: includeFull),
+        _exclude = YamlFilter(matchers: excludeMatchers, full: excludeFull);
 
   YamlIncluder.excludeByDefault()
-      : _includeMatchers = [],
-        _includeFull = {},
-        _excludeMatchers = [RegExp('.*', dotAll: true)],
-        _excludeFull = {};
+      : _include = YamlFilter(),
+        _exclude = YamlFilter(matchers: [RegExp('.*', dotAll: true)]);
 
   /// Returns true if [name] is allowed.
   ///
   /// Exclude overrides include.
   bool shouldInclude(String name, [bool excludeAllByDefault = false]) {
-    if (_excludeFull.contains(name)) {
-      return false;
-    }
-
-    for (final em in _excludeMatchers) {
-      if (quiver.matchesFull(em, name)) {
-        return false;
-      }
-    }
-
-    if (_includeFull.contains(name)) {
-      return true;
-    }
-
-    for (final im in _includeMatchers) {
-      if (quiver.matchesFull(im, name)) {
-        return true;
-      }
-    }
+    if (_exclude.matches(name)) return false;
+    if (_include.matches(name)) return true;
 
     // If user has provided 'include' field in the filter, then default
     // matching is false.
-    if (_includeMatchers.isNotEmpty || _includeFull.isNotEmpty) {
-      return false;
-    } else {
-      // Otherwise, fall back to the default behavior for empty filters.
-      return !excludeAllByDefault;
-    }
+    if (!_include.isEmpty) return false;
+
+    // Otherwise, fall back to the default behavior for empty filters.
+    return !excludeAllByDefault;
   }
 }
 
@@ -336,6 +337,33 @@ class YamlMemberRenamer {
   }
 }
 
+class YamlMemberIncluder {
+  final Map<String, YamlIncluder> _memberIncluderFull;
+  final List<(RegExp, YamlIncluder)> _memberIncluderMatchers;
+
+  YamlMemberIncluder({
+    Map<String, YamlIncluder>? memberIncluderFull,
+    List<(RegExp, YamlIncluder)>? memberIncluderMatchers,
+  })  : _memberIncluderFull = memberIncluderFull ?? {},
+        _memberIncluderMatchers = memberIncluderMatchers ?? [];
+
+  bool shouldInclude(String declaration, String member) {
+    // Full matches take priority.
+    final fullMatch = _memberIncluderFull[declaration];
+    if (fullMatch != null) return fullMatch.shouldInclude(member);
+
+    // Check regex matchers.
+    for (final (re, includer) in _memberIncluderMatchers) {
+      if (quiver.matchesFull(re, declaration)) {
+        return includer.shouldInclude(member);
+      }
+    }
+
+    // By default, include all members.
+    return true;
+  }
+}
+
 List<String> defaultCompilerOpts({bool macIncludeStdLib = true}) => [
       if (Platform.isMacOS && macIncludeStdLib)
         ...getCStandardLibraryHeadersForMac(),
@@ -426,8 +454,8 @@ class PackingValue {
 }
 
 class Declaration {
-  String usr;
-  String originalName;
+  final String usr;
+  final String originalName;
   Declaration({
     required this.usr,
     required this.originalName,

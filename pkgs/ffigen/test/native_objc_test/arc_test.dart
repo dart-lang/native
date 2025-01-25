@@ -20,11 +20,11 @@ import 'util.dart';
 void main() {
   late ArcTestObjCLibrary lib;
 
-  group('Reference counting', () {
+  group('ARC', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/arc_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       lib = ArcTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
@@ -72,7 +72,7 @@ void main() {
       expect(objectRetainCount(obj2raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
         allocMethodsInner(Pointer<Int32> counter) {
@@ -109,7 +109,7 @@ void main() {
       expect(objectRetainCount(obj3raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (
       Pointer<ObjCObject>,
@@ -212,7 +212,7 @@ void main() {
       expect(objectRetainCount(obj9raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.makeAndAutorelease_(counter);
@@ -254,7 +254,7 @@ void main() {
       expect(objectRetainCount(obj2raw), 0);
 
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> assignPropertiesInnerInner(
         Pointer<Int32> counter, ArcTestObject outerObj) {
@@ -298,7 +298,7 @@ void main() {
       expect(objectRetainCount(assignObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> retainPropertiesInnerInner(
         Pointer<Int32> counter, ArcTestObject outerObj) {
@@ -345,7 +345,7 @@ void main() {
       expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
         copyPropertiesInner(Pointer<Int32> counter) {
@@ -394,7 +394,7 @@ void main() {
       expect(objectRetainCount(copyObjRaw), 0);
       expect(objectRetainCount(anotherCopyRaw), 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     test('Manual release', () {
       final counter = calloc<Int32>();
@@ -459,7 +459,7 @@ void main() {
       expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     test('objectRetainCount large ref count', () {
       // Most ObjC API methods return us a reference without incrementing the
@@ -473,6 +473,24 @@ void main() {
       doGC();
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
+
+    test('Destroy on main thread', () async {
+      const numTestObjects = 1000;
+
+      final dtorCounter = calloc<Int32>();
+      final dtorOnMainThreadCounter = calloc<Int32>();
+      final objects = <ArcDtorTestObject>[];
+      for (var i = 0; i < numTestObjects; ++i) {
+        objects.add(ArcDtorTestObject.alloc().initWithCounters_onMainThread_(
+            dtorCounter, dtorOnMainThreadCounter));
+      }
+      objects.clear();
+
+      while (dtorCounter.value < numTestObjects) {
+        await flutterDoGC();
+      }
+      expect(dtorOnMainThreadCounter.value, numTestObjects);
+    }, skip: !isFlutterTester);
   });
 }

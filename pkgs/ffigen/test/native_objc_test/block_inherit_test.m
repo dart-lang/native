@@ -1,54 +1,32 @@
-// Copyright (c) 2022, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 #import <Foundation/NSObject.h>
 
-@interface Mammal : NSObject {}
-- (BOOL)laysEggs;
-@end
+#include "block_inherit_test.h"
+
 @implementation Mammal
 - (BOOL)laysEggs { return NO; }
 @end
 
-@interface Platypus : Mammal {}
-@end
 @implementation Platypus
 - (BOOL)laysEggs { return YES; }
 @end
 
-typedef Mammal* (^ReturnMammal)() NS_RETURNS_RETAINED;
-typedef Platypus* (^ReturnPlatypus)() NS_RETURNS_RETAINED;
-typedef BOOL (^AcceptMammal)(Mammal*);
-typedef BOOL (^AcceptPlatypus)(Platypus*);
-
-// Note: Returns are covariant, args are contravariant.
-// Platypus <: Mammal
-// ReturnPlatypus <: ReturnMammal  (covariant)
-// AcceptMammal <: AcceptPlatypus  (contravariant)
-
-@interface BlockInheritTestBase : NSObject {}
-// Returns are covariant, args are contravariant.
-- (Mammal*) getAnimal NS_RETURNS_RETAINED;
-- (BOOL) acceptAnimal: (Platypus*)platypus;
-- (ReturnMammal) getReturner NS_RETURNS_RETAINED;
-- (AcceptPlatypus) getAccepter NS_RETURNS_RETAINED;
-- (Mammal*) invokeReturner: (ReturnPlatypus)returner NS_RETURNS_RETAINED;
-- (BOOL) invokeAccepter: (AcceptMammal)accepter;
-@end
 @implementation BlockInheritTestBase
-- (Mammal*) getAnimal NS_RETURNS_RETAINED { return [Mammal new]; }
+- (Mammal*) getAnimal { return [Mammal new]; }
 - (BOOL) acceptAnimal: (Platypus*)platypus { return [platypus laysEggs]; }
 
-- (ReturnMammal) getReturner NS_RETURNS_RETAINED {
-  return [^Mammal*() NS_RETURNS_RETAINED { return [Mammal new]; } copy];
+- (ReturnMammal) getReturner {
+  return [^Mammal*() { return [Mammal new]; } copy];
 }
 
-- (AcceptPlatypus) getAccepter NS_RETURNS_RETAINED {
+- (AcceptPlatypus) getAccepter {
   return [^BOOL (Platypus* platypus) { return [platypus laysEggs]; } copy];
 }
 
-- (Mammal*) invokeReturner: (ReturnPlatypus)returner NS_RETURNS_RETAINED {
+- (Mammal*) invokeReturner: (ReturnPlatypus)returner {
   return returner();
 }
 
@@ -58,28 +36,19 @@ typedef BOOL (^AcceptPlatypus)(Platypus*);
 }
 @end
 
-@interface BlockInheritTestChild : BlockInheritTestBase {}
-// Returns are covariant, args are contravariant.
-- (Platypus*) getAnimal NS_RETURNS_RETAINED;
-- (BOOL) acceptAnimal: (Mammal*)mammal;
-- (ReturnPlatypus) getReturner NS_RETURNS_RETAINED;
-- (AcceptMammal) getAccepter NS_RETURNS_RETAINED;
-- (Mammal*) invokeReturner: (ReturnMammal)returner NS_RETURNS_RETAINED;
-- (BOOL) invokeAccepter: (AcceptPlatypus)accepter;
-@end
 @implementation BlockInheritTestChild
-- (Platypus*) getAnimal NS_RETURNS_RETAINED { return [Platypus new]; }
+- (Platypus*) getAnimal { return [Platypus new]; }
 - (BOOL) acceptAnimal: (Mammal*)mammal { return [mammal laysEggs]; }
 
-- (ReturnPlatypus) getReturner NS_RETURNS_RETAINED {
-  return [^Platypus*() NS_RETURNS_RETAINED { return [Platypus new]; } copy];
+- (ReturnPlatypus) getReturner {
+  return [^Platypus*() { return [Platypus new]; } copy];
 }
 
-- (AcceptMammal) getAccepter NS_RETURNS_RETAINED {
+- (AcceptMammal) getAccepter {
   return [^BOOL (Mammal* mammal) { return [mammal laysEggs]; } copy];
 }
 
-- (Mammal*) invokeReturner: (ReturnMammal)returner NS_RETURNS_RETAINED {
+- (Mammal*) invokeReturner: (ReturnMammal)returner {
   return returner();
 }
 

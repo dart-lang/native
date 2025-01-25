@@ -6,6 +6,9 @@
 #import <Foundation/NSString.h>
 #import <Foundation/NSThread.h>
 
+void objc_autoreleasePoolPop(void *pool);
+void *objc_autoreleasePoolPush();
+
 struct Vec2 {
   double x;
   double y;
@@ -32,24 +35,29 @@ typedef float (^FloatBlock)(float);
 typedef double (^DoubleBlock)(double);
 typedef Vec4 (^Vec4Block)(Vec4);
 typedef void (^VoidBlock)();
-typedef DummyObject* (^ObjectBlock)(DummyObject*) NS_RETURNS_RETAINED;
-typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable)
-    NS_RETURNS_RETAINED;
-typedef IntBlock (^BlockBlock)(IntBlock) NS_RETURNS_RETAINED;
+typedef void (^SelectorBlock)(SEL);
+typedef DummyObject* (^ObjectBlock)(DummyObject*);
+typedef DummyObject* _Nullable (^NullableObjectBlock)(DummyObject* _Nullable);
+typedef NSString* _Nullable (^NullableStringBlock)(NSString* _Nullable);
+typedef IntBlock (^BlockBlock)(IntBlock);
 typedef void (^ListenerBlock)(IntBlock);
 typedef void (^ObjectListenerBlock)(DummyObject*);
 typedef void (^NullableListenerBlock)(DummyObject* _Nullable);
 typedef void (^StructListenerBlock)(struct Vec2, Vec4, NSObject*);
 typedef void (^NSStringListenerBlock)(NSString*);
 typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
+typedef void (^IntPtrBlock)(int32_t*);
+typedef void (^ResultBlock)(int32_t);
 
 // Wrapper around a block, so that our Dart code can test creating and invoking
 // blocks in Objective C code.
 @interface BlockTester : NSObject {
   __strong IntBlock myBlock;
+  __strong ObjectListenerBlock myListener;
 }
 + (BlockTester*)newFromBlock:(IntBlock)block;
 + (BlockTester*)newFromMultiplier:(int32_t)mult;
++ (BlockTester*)newFromListener:(ObjectListenerBlock)block;
 - (int32_t)call:(int32_t)x;
 - (IntBlock)getBlock NS_RETURNS_RETAINED;
 - (void)pokeBlock;
@@ -59,8 +67,11 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (float)callFloatBlock:(FloatBlock)block;
 + (double)callDoubleBlock:(DoubleBlock)block;
 + (Vec4)callVec4Block:(Vec4Block)block;
++ (void)callSelectorBlock:(SelectorBlock)block;
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED;
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block
+    NS_RETURNS_RETAINED;
++ (nullable NSString*)callNullableStringBlock:(NullableStringBlock)block
     NS_RETURNS_RETAINED;
 + (void)callListener:(ListenerBlock)block;
 + (void)callObjectListener:(ObjectListenerBlock)block;
@@ -70,4 +81,8 @@ typedef void (^NoTrampolineListenerBlock)(int32_t, Vec4, const char*);
 + (void)callNoTrampolineListener:(NoTrampolineListenerBlock)block;
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult NS_RETURNS_RETAINED;
 + (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED;
+- (void)invokeAndReleaseListenerOnNewThread;
+- (void)invokeAndReleaseListener:(_Nullable id)_;
++ (void)blockingBlockTest:(IntPtrBlock)blockingBlock
+              resultBlock:(ResultBlock)resultBlock;
 @end

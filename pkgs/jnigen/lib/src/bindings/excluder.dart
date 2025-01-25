@@ -7,8 +7,24 @@ import '../elements/elements.dart';
 import '../logging/logging.dart';
 import 'visitor.dart';
 
-bool _isPrivate(ClassMember classMember) =>
-    !classMember.isPublic && !classMember.isProtected;
+extension on ClassMember {
+  bool get isPrivate => !isPublic;
+}
+
+// TODO(https://github.com/dart-lang/native/issues/1164): Kotlin compiler
+// appends the method name with a dash and a hash code when arguments contain
+// inline classes. This is because inline classes do not have any runtime type
+// and the typical operator overloading supported by JVM cannot work for them.
+//
+// Once we support inline classes, we can relax the following constraints.
+final _validDartIdentifier = RegExp(r'^[a-zA-Z_$][a-zA-Z0-9_$]*$');
+
+extension on String {
+  bool get isInvalidDartIdentifier =>
+      !_validDartIdentifier.hasMatch(this) &&
+      this != '<init>' &&
+      this != '<clinit>';
+}
 
 class Excluder extends Visitor<Classes, void> {
   final Config config;
@@ -18,10 +34,16 @@ class Excluder extends Visitor<Classes, void> {
   @override
   void visit(Classes node) {
     node.decls.removeWhere((_, classDecl) {
-      final excluded = _isPrivate(classDecl) ||
+      final excluded = classDecl.isPrivate ||
+          classDecl.isExcluded ||
           !(config.exclude?.classes?.included(classDecl) ?? true);
       if (excluded) {
         log.fine('Excluded class ${classDecl.binaryName}');
+      }
+      if (classDecl.name.isInvalidDartIdentifier) {
+        log.warning('Excluded class ${classDecl.binaryName}: the name is not a'
+            ' valid Dart identifer');
+        return true;
       }
       return excluded;
     });
@@ -40,23 +62,42 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
   @override
   void visit(ClassDecl node) {
     node.methods = node.methods.where((method) {
-      final included = !_isPrivate(method) &&
-          !method.name.startsWith('_') &&
-          method.name != '<clinit>' &&
-          (config.exclude?.methods?.included(node, method) ?? true);
-      if (!included) {
+      final isExcluded = method.isExcluded;
+      final isPrivate = method.isPrivate;
+      final isAbstractCtor = method.isConstructor && node.isAbstract;
+      final isBridgeMethod = method.isSynthetic && method.isBridge;
+      final isExcludedInConfig =
+          config.exclude?.methods?.included(node, method) ?? false;
+      final excluded = isPrivate ||
+          isAbstractCtor ||
+          isBridgeMethod ||
+          isExcludedInConfig ||
+          isExcluded;
+      if (excluded) {
         log.fine('Excluded method ${node.binaryName}#${method.name}');
       }
-      return included;
+      if (method.name.isInvalidDartIdentifier) {
+        log.warning(
+            'Excluded method ${node.binaryName}#${method.name}: the name is not'
+            ' a valid Dart identifer');
+        return false;
+      }
+      return !excluded;
     }).toList();
     node.fields = node.fields.where((field) {
-      final included = !_isPrivate(field) &&
-          !field.name.startsWith('_') &&
-          (config.exclude?.fields?.included(node, field) ?? true);
-      if (!included) {
+      final excluded = field.isExcluded ||
+          (field.isPrivate &&
+              (config.exclude?.fields?.included(node, field) ?? true));
+      if (excluded) {
         log.fine('Excluded field ${node.binaryName}#${field.name}');
       }
-      return included;
+      if (field.name.isInvalidDartIdentifier) {
+        log.warning(
+            'Excluded field ${node.binaryName}#${field.name}: the name is not'
+            ' a valid Dart identifer');
+        return false;
+      }
+      return !excluded;
     }).toList();
   }
 }

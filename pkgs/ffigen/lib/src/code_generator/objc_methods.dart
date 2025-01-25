@@ -2,45 +2,48 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:collection';
+
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
+
 import 'utils.dart';
 import 'writer.dart';
 
 final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
-  final _methods = <String, ObjCMethod>{};
+  Map<String, ObjCMethod> _methods = <String, ObjCMethod>{};
+  List<String> _order = <String>[];
 
-  Iterable<ObjCMethod> get methods => _methods.values;
-  ObjCMethod? getMethod(String name) => _methods[name];
+  Iterable<ObjCMethod> get methods =>
+      _order.map((key) => _methods[key]).nonNulls;
+  ObjCMethod? getSimilarMethod(ObjCMethod method) => _methods[method.key];
 
   String get originalName;
   String get name;
   ObjCBuiltInFunctions get builtInFunctions;
 
-  void addMethod(ObjCMethod method) {
+  void addMethod(ObjCMethod? method) {
+    if (method == null) return;
     if (_shouldIncludeMethod(method)) {
-      _methods[method.originalName] =
-          _maybeReplaceMethod(getMethod(method.originalName), method);
+      final oldMethod = getSimilarMethod(method);
+      if (oldMethod != null) {
+        _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
+      } else {
+        _methods[method.key] = method;
+        _order.add(method.key);
+      }
     }
   }
 
-  void addMethodDependencies(
-    Set<Binding> dependencies, {
-    bool needMsgSend = false,
-    bool needProtocolBlock = false,
-  }) {
-    for (final m in methods) {
-      m.addDependencies(dependencies, builtInFunctions,
-          needMsgSend: needMsgSend, needProtocolBlock: needProtocolBlock);
-    }
+  void visitMethods(Visitor visitor) {
+    visitor.visitAll(_methods.values);
   }
 
-  ObjCMethod _maybeReplaceMethod(ObjCMethod? oldMethod, ObjCMethod newMethod) {
-    if (oldMethod == null) return newMethod;
-
+  ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
     // Typically we ignore duplicate methods. However, property setters and
     // getters are duplicated in the AST. One copy is marked with
     // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
@@ -52,6 +55,14 @@ mixin ObjCMethods {
     } else if (!newMethod.isProperty && oldMethod.isProperty) {
       // Don't override, but also skip the same method check below.
       return oldMethod;
+    }
+
+    // If one of the methods is optional, and the other is required, keep the
+    // required one.
+    if (newMethod.isOptional && !oldMethod.isOptional) {
+      return oldMethod;
+    } else if (!newMethod.isOptional && oldMethod.isOptional) {
+      return newMethod;
     }
 
     // Check the duplicate is the same method.
@@ -80,12 +91,6 @@ mixin ObjCMethods {
       method.childTypes.every((Type t) {
         t = t.typealiasType.baseType;
 
-        // Ignore methods with variadic args.
-        // TODO(https://github.com/dart-lang/native/issues/1192): Remove this.
-        if (t is Struct && t.originalName == '__va_list_tag') {
-          return false;
-        }
-
         // Ignore methods with block args or rets when we're generating in
         // package:objective_c.
         // TODO(https://github.com/dart-lang/native/issues/1180): Remove this.
@@ -99,6 +104,29 @@ mixin ObjCMethods {
   UniqueNamer createMethodRenamer(Writer w) => UniqueNamer(
       {name, 'pointer', 'toString', 'hashCode', 'runtimeType', 'noSuchMethod'},
       parent: w.topLevelUniqueNamer);
+
+  void sortMethods() => _order.sort();
+
+  void filterMethods(bool Function(ObjCMethod method) predicate) {
+    final newOrder = <String>[];
+    final newMethods = <String, ObjCMethod>{};
+    for (final key in _order) {
+      final method = _methods[key];
+      if (method != null && predicate(method)) {
+        newMethods[key] = method;
+        newOrder.add(key);
+      }
+    }
+    _order = newOrder;
+    _methods = newMethods;
+  }
+
+  String generateMethodBindings(Writer w, ObjCInterface target) {
+    final methodNamer = createMethodRenamer(w);
+    return [
+      for (final m in methods) m.generateBindings(w, target, methodNamer),
+    ].join('\n');
+  }
 }
 
 enum ObjCMethodKind {
@@ -152,31 +180,47 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCProperty {
+class ObjCProperty extends AstNode {
   final String originalName;
+  final String name;
   String? dartName;
 
-  ObjCProperty(this.originalName);
+  ObjCProperty({required this.originalName, required this.name});
 }
 
-class ObjCMethod {
+class ObjCMethod extends AstNode {
+  final ObjCBuiltInFunctions builtInFunctions;
   final String? dartDoc;
   final String originalName;
+  final String name;
   final ObjCProperty? property;
   Type returnType;
-  final List<ObjCMethodParam> params;
-  final ObjCMethodKind kind;
+  final List<Parameter> params;
+  ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
   ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
   bool consumesSelfAttribute = false;
-  ObjCInternalGlobal? selObject;
+  ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
-  late ObjCBlock protocolBlock;
+  ObjCBlock? protocolBlock;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(property);
+    visitor.visit(returnType);
+    visitor.visitAll(params);
+    visitor.visit(selObject);
+    visitor.visit(msgSend);
+    visitor.visit(protocolBlock);
+  }
 
   ObjCMethod({
+    required this.builtInFunctions,
     required this.originalName,
+    required this.name,
     this.property,
     this.dartDoc,
     required this.kind,
@@ -184,8 +228,9 @@ class ObjCMethod {
     required this.isOptional,
     required this.returnType,
     required this.family,
-    List<ObjCMethodParam>? params_,
-  }) : params = params_ ?? [];
+    List<Parameter>? params_,
+  })  : params = params_ ?? [],
+        selObject = builtInFunctions.getSelObject(originalName);
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
@@ -193,42 +238,35 @@ class ObjCMethod {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
 
-  void addDependencies(
-    Set<Binding> dependencies,
-    ObjCBuiltInFunctions builtInFunctions, {
-    bool needMsgSend = false,
-    bool needProtocolBlock = false,
-  }) {
-    returnType.addDependencies(dependencies);
-    for (final p in params) {
-      p.type.addDependencies(dependencies);
-    }
-    selObject = builtInFunctions.getSelObject(originalName)
-      ..addDependencies(dependencies);
-    if (needMsgSend) {
-      msgSend = builtInFunctions.getMsgSendFunc(returnType, params)
-        ..addDependencies(dependencies);
-    }
-    if (needProtocolBlock) {
-      final argTypes = [
-        // First arg of the protocol block is a void pointer that we ignore.
-        PointerType(voidType),
-        ...params.map((p) => p.type),
-      ];
-      protocolBlock = ObjCBlock(
-        returnType: returnType,
-        argTypes: argTypes,
-      )..addDependencies(dependencies);
-    }
+  void fillMsgSend() {
+    msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params);
   }
 
-  String getDartMethodName(UniqueNamer uniqueNamer) {
-    if (property != null) {
+  void fillProtocolBlock() {
+    protocolBlock ??= ObjCBlock(
+      returnType: returnType,
+      params: [
+        // First arg of the protocol block is a void pointer that we ignore.
+        Parameter(
+          name: '_',
+          type: PointerType(voidType),
+          objCConsumed: false,
+        ),
+        ...params,
+      ],
+      returnsRetained: returnsRetained,
+      builtInFunctions: builtInFunctions,
+    );
+  }
+
+  String getDartMethodName(UniqueNamer uniqueNamer,
+      {bool usePropertyNaming = true}) {
+    if (property != null && usePropertyNaming) {
       // A getter and a setter are allowed to have the same name, so we can't
       // just run the name through uniqueNamer. Instead they need to share
       // the dartName, which is run through uniqueNamer.
       if (property!.dartName == null) {
-        property!.dartName = uniqueNamer.makeUnique(property!.originalName);
+        property!.dartName = uniqueNamer.makeUnique(property!.name);
       }
       return property!.dartName!;
     }
@@ -237,7 +275,7 @@ class ObjCMethod {
     // foo:
     // foo:someArgName:
     // So replace all ':' with '_'.
-    return uniqueNamer.makeUnique(originalName.replaceAll(':', '_'));
+    return uniqueNamer.makeUnique(name.replaceAll(':', '_'));
   }
 
   bool sameAs(ObjCMethod other) {
@@ -266,21 +304,137 @@ class ObjCMethod {
     }
   }
 
+  // Key used to dedupe methods in [ObjCMethods]. ObjC is similar to Dart in
+  // that it doesn't have method overloading, so the [originalName] is mostly
+  // sufficient as the key. But unlike Dart, ObjC can have static methods and
+  // instance methods with the same name, so we have to include staticness in
+  // the key.
+  String get key => '${isClassMethod ? '+' : '-'}$originalName';
+
   @override
   String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
-}
 
-class ObjCMethodParam {
-  Type type;
-  final String name;
-  final bool consumed;
-  ObjCMethodParam(
-    this.type,
-    this.name, {
-    required this.consumed,
-  });
+  bool get returnsInstanceType {
+    if (returnType is ObjCInstanceType) return true;
+    final baseType = returnType.typealiasType;
+    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
+      return true;
+    }
+    return false;
+  }
 
-  @override
-  String toString() => '$type $name';
+  String _getConvertedReturnType(Writer w, String instanceType) {
+    if (returnType is ObjCInstanceType) return instanceType;
+    final baseType = returnType.typealiasType;
+    if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
+      return '$instanceType?';
+    }
+    return returnType.getDartType(w);
+  }
+
+  String generateBindings(
+      Writer w, ObjCInterface target, UniqueNamer methodNamer) {
+    final methodName = getDartMethodName(methodNamer);
+    final upperName = methodName[0].toUpperCase() + methodName.substring(1);
+    final s = StringBuffer();
+
+    final targetType = target.getDartType(w);
+    final returnTypeStr = _getConvertedReturnType(w, targetType);
+    final paramStr = <String>[
+      for (final p in params)
+        '${p.isCovariant ? 'covariant ' : ''}'
+            '${p.type.getDartType(w)} ${p.name}',
+    ].join(', ');
+
+    // The method declaration.
+    s.write('\n  ${makeDartDoc(dartDoc ?? originalName)}  ');
+    late String targetStr;
+    if (isClassMethod) {
+      targetStr = target.classObject.name;
+      switch (kind) {
+        case ObjCMethodKind.method:
+          s.write('static $returnTypeStr $methodName($paramStr)');
+          break;
+        case ObjCMethodKind.propertyGetter:
+          s.write('static $returnTypeStr get$upperName($paramStr)');
+          break;
+        case ObjCMethodKind.propertySetter:
+          s.write('static $returnTypeStr set$upperName($paramStr)');
+          break;
+      }
+    } else {
+      targetStr = target.convertDartTypeToFfiDartType(
+        w,
+        'this',
+        objCRetain: consumesSelf,
+        objCAutorelease: false,
+      );
+      switch (kind) {
+        case ObjCMethodKind.method:
+          s.write('$returnTypeStr $methodName($paramStr)');
+          break;
+        case ObjCMethodKind.propertyGetter:
+          s.write('$returnTypeStr get $methodName');
+          break;
+        case ObjCMethodKind.propertySetter:
+          s.write('set $methodName($paramStr)');
+          break;
+      }
+    }
+    s.write(' {\n');
+
+    // Implementation.
+    final sel = selObject.name;
+    if (isOptional) {
+      s.write('''
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($targetStr, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+          '${target.originalName}', '$originalName');
+    }
+''');
+    }
+    final convertReturn = kind != ObjCMethodKind.propertySetter &&
+        !returnType.sameDartAndFfiDartType;
+
+    final msgSendParams = params.map((p) => p.type.convertDartTypeToFfiDartType(
+          w,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+        ));
+    if (msgSend!.isStret) {
+      assert(!convertReturn);
+      final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
+      final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
+      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+      final invoke = msgSend!
+          .invoke(w, targetStr, sel, msgSendParams, structRetPtr: '_ptr');
+      s.write('''
+    final _ptr = $calloc<$returnTypeStr>();
+    $invoke;
+    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+        $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
+    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
+''');
+    } else {
+      if (returnType != voidType) {
+        s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
+      }
+      s.write(msgSend!.invoke(w, targetStr, sel, msgSendParams));
+      s.write(';\n');
+      if (convertReturn) {
+        final result = returnType.convertFfiDartTypeToDartType(
+          w,
+          '_ret',
+          objCRetain: !returnsRetained,
+          objCEnclosingClass: targetType,
+        );
+        s.write('    return $result;');
+      }
+    }
+
+    s.write('\n  }\n');
+    return s.toString();
+  }
 }

@@ -30,15 +30,15 @@ String _replaceSeparators(String path) {
   }
 }
 
-/// Replaces the path separators according to current platform. If a relative
-/// path is passed in, it is resolved relative to the config path, and the
-/// absolute path is returned.
-String _normalizePath(String path, String? configFilename) {
-  final skipNormalization =
+/// Replaces the path separators according to current platform, and normalizes .
+/// and .. in the path. If a relative path is passed in, it is resolved relative
+/// to the config path, and the absolute path is returned.
+String normalizePath(String path, String? configFilename) {
+  final resolveInConfigDir =
       (configFilename == null) || p.isAbsolute(path) || path.startsWith('**');
-  return _replaceSeparators(skipNormalization
+  return _replaceSeparators(p.normalize(resolveInConfigDir
       ? path
-      : p.absolute(p.join(p.dirname(configFilename), path)));
+      : p.absolute(p.join(p.dirname(configFilename), path))));
 }
 
 Map<String, LibraryImport> libraryImportsExtractor(
@@ -58,8 +58,10 @@ void loadImportedTypes(YamlMap fileConfig,
   for (final key in symbols.keys) {
     final usr = key as String;
     final value = symbols[usr]! as YamlMap;
-    final name = value['name'] as String;
-    usrTypeMappings[usr] = ImportedType(libraryImport, name, name, name);
+    final name = value[strings.name] as String;
+    final dartName = (value[strings.dartName] as String?) ?? name;
+    usrTypeMappings[usr] = ImportedType(libraryImport, name, dartName, name,
+        importedDartType: true);
   }
 }
 
@@ -67,7 +69,7 @@ YamlMap loadSymbolFile(String symbolFilePath, String? configFileName,
     PackageConfig? packageConfig) {
   final path = symbolFilePath.startsWith('package:')
       ? packageConfig!.resolve(Uri.parse(symbolFilePath))!.toFilePath()
-      : _normalizePath(symbolFilePath, configFileName);
+      : normalizePath(symbolFilePath, configFileName);
 
   return loadYaml(File(path).readAsStringSync()) as YamlMap;
 }
@@ -274,7 +276,7 @@ YamlHeaders headersExtractor(
   for (final key in yamlConfig.keys) {
     if (key == strings.entryPoints) {
       for (final h in yamlConfig[key]!) {
-        final headerGlob = _normalizePath(h, configFilename);
+        final headerGlob = normalizePath(h, configFilename);
         // Add file directly to header if it's not a Glob but a File.
         if (File(headerGlob).existsSync()) {
           final osSpecificPath = headerGlob;
@@ -294,7 +296,7 @@ YamlHeaders headersExtractor(
     if (key == strings.includeDirectives) {
       for (final h in yamlConfig[key]!) {
         final headerGlob = h;
-        final fixedGlob = _normalizePath(headerGlob, configFilename);
+        final fixedGlob = normalizePath(headerGlob, configFilename);
         includeGlobs.add(quiver.Glob(fixedGlob));
       }
     }
@@ -433,13 +435,13 @@ String llvmPathExtractor(List<String> value) {
 OutputConfig outputExtractor(
     dynamic value, String? configFilename, PackageConfig? packageConfig) {
   if (value is String) {
-    return OutputConfig(_normalizePath(value, configFilename), null, null);
+    return OutputConfig(normalizePath(value, configFilename), null, null);
   }
   value = value as Map;
   return OutputConfig(
-    _normalizePath(value[strings.bindings] as String, configFilename),
+    normalizePath(value[strings.bindings] as String, configFilename),
     value.containsKey(strings.objCBindings)
-        ? _normalizePath(value[strings.objCBindings] as String, configFilename)
+        ? normalizePath(value[strings.objCBindings] as String, configFilename)
         : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
@@ -455,7 +457,7 @@ SymbolFile symbolFileOutputExtractor(
   if (output.scheme != 'package') {
     _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
         '${strings.output}: $output so that external packages can use it.');
-    output = Uri.file(_normalizePath(output.toFilePath(), configFilename));
+    output = Uri.file(normalizePath(output.toFilePath(), configFilename));
   } else {
     output = packageConfig!.resolve(output)!;
   }
@@ -562,7 +564,6 @@ YamlDeclarationFilters declarationConfigExtractor(
 
   final memberRename =
       yamlMap[strings.memberRename] as Map<dynamic, Map<dynamic, String>>?;
-
   if (memberRename != null) {
     for (final key in memberRename.keys) {
       final decl = key.toString();
@@ -598,6 +599,21 @@ YamlDeclarationFilters declarationConfigExtractor(
     }
   }
 
+  final memberIncluderMatchers = <(RegExp, YamlIncluder)>[];
+  final memberIncluderFull = <String, YamlIncluder>{};
+  final memberFilter =
+      yamlMap[strings.memberFilter] as Map<dynamic, YamlIncluder>?;
+  if (memberFilter != null) {
+    for (final entry in memberFilter.entries) {
+      final decl = entry.key.toString();
+      if (isFullDeclarationName(decl)) {
+        memberIncluderFull[decl] = entry.value;
+      } else {
+        memberIncluderMatchers.add((RegExp(decl, dotAll: true), entry.value));
+      }
+    }
+  }
+
   return YamlDeclarationFilters(
     includer: includer,
     renamer: YamlRenamer(
@@ -607,6 +623,10 @@ YamlDeclarationFilters declarationConfigExtractor(
     memberRenamer: YamlMemberRenamer(
       memberRenameFull: memberRenamerFull,
       memberRenamePattern: memberRenamePatterns,
+    ),
+    memberIncluder: YamlMemberIncluder(
+      memberIncluderFull: memberIncluderFull,
+      memberIncluderMatchers: memberIncluderMatchers,
     ),
     symbolAddressIncluder: symbolIncluder,
     excludeAllByDefault: excludeAllByDefault,

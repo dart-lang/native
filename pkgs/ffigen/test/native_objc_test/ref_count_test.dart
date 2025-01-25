@@ -24,7 +24,7 @@ void main() {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/ref_count_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       lib = RefCountTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
@@ -72,7 +72,7 @@ void main() {
       expect(objectRetainCount(obj2raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
         allocMethodsInner(Pointer<Int32> counter) {
@@ -110,7 +110,7 @@ void main() {
       expect(objectRetainCount(obj3raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (
       Pointer<ObjCObject>,
@@ -213,7 +213,7 @@ void main() {
       expect(objectRetainCount(obj9raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject.makeAndAutorelease_(counter);
@@ -255,7 +255,7 @@ void main() {
       expect(objectRetainCount(obj2raw), 0);
 
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> assignPropertiesInnerInner(
         Pointer<Int32> counter, RefCountTestObject outerObj) {
@@ -299,7 +299,7 @@ void main() {
       expect(objectRetainCount(assignObjRaw), 0);
       expect(objectRetainCount(outerObjRaw), 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     Pointer<ObjCObject> retainPropertiesInnerInner(
         Pointer<Int32> counter, RefCountTestObject outerObj) {
@@ -346,7 +346,7 @@ void main() {
       expect(objectRetainCount(outerObjRaw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
         copyPropertiesInner(Pointer<Int32> counter) {
@@ -395,7 +395,7 @@ void main() {
       expect(objectRetainCount(copyObjRaw), 0);
       expect(objectRetainCount(anotherCopyRaw), 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     castFromPointerInnerReleaseAndRetain(int address) {
       final fromCast = RefCounted.castFromPointer(
@@ -412,7 +412,7 @@ void main() {
       castFromPointerInnerReleaseAndRetain(obj1.meAsInt());
       doGC();
       expect(obj1.refCount, 1);
-    });
+    }, skip: !canDoGC);
 
     castFromPointerInnerNoReleaseAndRetain(int address) {
       final fromCast = RefCounted.castFromPointer(
@@ -429,7 +429,7 @@ void main() {
       castFromPointerInnerNoReleaseAndRetain(obj1.meAsInt());
       doGC();
       expect(obj1.refCount, 1);
-    });
+    }, skip: !canDoGC);
 
     test('Manual release', () {
       final counter = calloc<Int32>();
@@ -491,7 +491,7 @@ void main() {
       expect(objectRetainCount(objRaw), 0);
 
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     RefCountTestObject unownedReferenceInner2(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject.new1();
@@ -535,7 +535,7 @@ void main() {
       expect(counter.value, 0);
       expect(objectRetainCount(obj1bRaw), 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     void largeRefCountInner(Pointer<Int32> counter) {
       final obj = RefCountTestObject.newWithCounter_(counter);
@@ -568,7 +568,7 @@ void main() {
       expect(objectRetainCount(obj1raw), 0);
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
 
     test('objectRetainCount large ref count', () {
       // Most ObjC API methods return us a reference without incrementing the
@@ -582,6 +582,6 @@ void main() {
       doGC();
       expect(counter.value, 0);
       calloc.free(counter);
-    });
+    }, skip: !canDoGC);
   });
 }

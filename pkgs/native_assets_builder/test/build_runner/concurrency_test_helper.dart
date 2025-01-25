@@ -2,15 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:file/local.dart';
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../helpers.dart';
+import 'helpers.dart';
 
 // Is invoked concurrently multiple times in separate processes.
 void main(List<String> args) async {
   final packageUri = Uri.directory(args[0]);
+  final packageName = packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   Duration? timeout;
   if (args.length >= 2) {
     timeout = Duration(milliseconds: int.parse(args[1]));
@@ -20,19 +22,42 @@ void main(List<String> args) async {
     ..level = Level.ALL
     ..onRecord.listen((event) => print(event.message));
 
+  final targetOS = OS.current;
+  final packageLayout = await PackageLayout.fromWorkingDirectory(
+    const LocalFileSystem(),
+    packageUri,
+    packageName,
+  );
   final result = await NativeAssetsBuildRunner(
     logger: logger,
     dartExecutable: dartExecutable,
     singleHookTimeout: timeout,
+    fileSystem: const LocalFileSystem(),
+    packageLayout: packageLayout,
   ).build(
-    buildMode: BuildModeImpl.release,
-    linkModePreference: LinkModePreferenceImpl.dynamic,
-    target: Target.current,
-    workingDirectory: packageUri,
-    includeParentEnvironment: true,
+    inputCreator: () => BuildInputBuilder()
+      ..config.setupCode(
+        targetArchitecture: Architecture.current,
+        targetOS: targetOS,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: dartCICompilerConfig,
+        macOS: targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+            : null,
+      ),
     linkingEnabled: false,
+    buildAssetTypes: [CodeAsset.type, DataAsset.type],
+    inputValidator: (input) async => [
+      ...await validateDataAssetBuildInput(input),
+      ...await validateCodeAssetBuildInput(input),
+    ],
+    buildValidator: (input, output) async => [
+      ...await validateCodeAssetBuildOutput(input, output),
+      ...await validateDataAssetBuildOutput(input, output),
+    ],
+    applicationAssetValidator: validateCodeAssetInApplication,
   );
-  if (!result.success) {
+  if (result == null) {
     throw Error();
   }
   print('done');

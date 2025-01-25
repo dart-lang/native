@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../config_provider/config_types.dart';
+import '../visitor/ast.dart';
+
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
@@ -56,8 +58,12 @@ class Global extends LookUpBinding {
       if (!constant) {
         final releaseOldValue = type
             .convertFfiDartTypeToDartType(w, pointerValue, objCRetain: false);
-        final newValue =
-            type.convertDartTypeToFfiDartType(w, 'value', objCRetain: true);
+        final newValue = type.convertDartTypeToFfiDartType(
+          w,
+          'value',
+          objCRetain: true,
+          objCAutorelease: false,
+        );
         s.write('''set $globalVarName($dartType value) {
   $releaseOldValue.ref.release();
   $pointerValue = $newValue;
@@ -135,10 +141,11 @@ class Global extends LookUpBinding {
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-
-    dependencies.add(this);
-    type.addDependencies(dependencies);
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitGlobal(this);
 }

@@ -2,24 +2,26 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:file/file.dart';
 import 'package:package_config/package_config.dart';
+
+import '../../native_assets_builder.dart';
 
 /// Directory layout for dealing with native assets.
 ///
-/// Build hooks for native assets will be run from the context of another root
-/// package.
+/// For the [NativeAssetsBuildRunner] to correctly run hooks, multiple pieces of
+/// information are required:
+/// * [packageConfig] to know the list of all packages that may contain hooks.
+/// * [packageConfigUri] to be able to get a dependency graph with `pub` and to
+///   know where to cache/share asset builds.
+/// * [runPackageName] to know which package build hooks to invoke and ignore.
+///   Only dependencies of the "run package" are built.
 ///
-/// The directory layout follows pub's convention for caching:
+/// The [NativeAssetsBuildRunner] builds assets in
+/// `.dart_tool/native_assets_builder`. The directory layout follows pub's
+/// convention for caching:
 /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
 class PackageLayout {
-  /// The root folder of the current dart invocation root package.
-  ///
-  /// `$rootPackageRoot`.
-  final Uri rootPackageRoot;
-
   /// Package config containing the information of where to foot the root [Uri]s
   /// of other packages.
   ///
@@ -29,36 +31,75 @@ class PackageLayout {
 
   final Uri packageConfigUri;
 
+  /// Only assets of transitive dependencies of [runPackageName] are built.
+  final String runPackageName;
+
   PackageLayout._(
-      this.rootPackageRoot, this.packageConfig, this.packageConfigUri);
+    this.packageConfig,
+    this.packageConfigUri,
+    this.runPackageName,
+  );
 
   factory PackageLayout.fromPackageConfig(
+    FileSystem fileSystem,
     PackageConfig packageConfig,
     Uri packageConfigUri,
+    String runPackageName,
   ) {
-    assert(File.fromUri(packageConfigUri).existsSync());
+    assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
-    final rootPackageRoot = packageConfigUri.resolve('../');
-    return PackageLayout._(rootPackageRoot, packageConfig, packageConfigUri);
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      runPackageName,
+    );
   }
 
-  static Future<PackageLayout> fromRootPackageRoot(Uri rootPackageRoot) async {
-    rootPackageRoot = rootPackageRoot.normalizePath();
+  static Future<PackageLayout> fromWorkingDirectory(
+    FileSystem fileSystem,
+    Uri workingDirectory,
+    String runPackgeName,
+  ) async {
+    workingDirectory = workingDirectory.normalizePath();
+    final packageConfigUri =
+        await findPackageConfig(fileSystem, workingDirectory);
+    assert(await fileSystem.file(packageConfigUri).exists());
+    final packageConfig = await loadPackageConfigUri(packageConfigUri!);
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      runPackgeName,
+    );
+  }
+
+  static Future<Uri?> findPackageConfig(
+    FileSystem fileSystem,
+    Uri rootPackageRoot,
+  ) async {
     final packageConfigUri =
         rootPackageRoot.resolve('.dart_tool/package_config.json');
-    assert(await File.fromUri(packageConfigUri).exists());
-    final packageConfig = await loadPackageConfigUri(packageConfigUri);
-    return PackageLayout._(rootPackageRoot, packageConfig, packageConfigUri);
+    final file = fileSystem.file(packageConfigUri);
+    if (await file.exists()) {
+      return file.uri;
+    }
+    final parentUri = rootPackageRoot.resolve('../');
+    if (parentUri == rootPackageRoot) {
+      return null;
+    }
+    return findPackageConfig(fileSystem, parentUri);
   }
 
   /// The .dart_tool directory is used to store built artifacts and caches.
   ///
-  /// `$rootPackageRoot/.dart_tool/`.
+  /// This is the `.dart_tool/` directory where the package config is.
+  ///
+  /// When pub workspaces are used, the hook results are shared across all
+  /// packages in the workspace.
   ///
   /// Each package should only modify the subfolder of `.dart_tool/` with its
   /// own name.
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
-  late final Uri dartTool = rootPackageRoot.resolve('.dart_tool/');
+  late final Uri dartTool = packageConfigUri.resolve('./');
 
   /// The directory where `package:native_assets_builder` stores all persistent
   /// information.
@@ -82,41 +123,5 @@ class PackageLayout {
       throw StateError('Package $packageName not found in packageConfig.');
     }
     return package.root;
-  }
-
-  /// All packages in [packageConfig] with native assets.
-  ///
-  /// Whether a package has native assets is defined by whether it contains
-  /// a `hook/build.dart` or `hook/link.dart`.
-  ///
-  /// For backwards compatibility, a toplevel `build.dart` is also supported.
-  // TODO(https://github.com/dart-lang/native/issues/823): Remove fallback when
-  // everyone has migrated. (Probably once we stop backwards compatibility of
-  // the protocol version pre 1.2.0 on some future version.)
-  Future<List<Package>> packagesWithAssets(Hook hook) async => switch (hook) {
-        Hook.build => _packagesWithBuildAssets ??=
-            await _packagesWithHook(hook),
-        Hook.link => _packagesWithLinkAssets ??= await _packagesWithHook(hook),
-      };
-
-  List<Package>? _packagesWithBuildAssets;
-  List<Package>? _packagesWithLinkAssets;
-
-  Future<List<Package>> _packagesWithHook(Hook hook) async {
-    final result = <Package>[];
-    for (final package in packageConfig.packages) {
-      final packageRoot = package.root;
-      if (packageRoot.scheme == 'file') {
-        if (await File.fromUri(
-              packageRoot.resolve('hook/').resolve(hook.scriptName),
-            ).exists() ||
-            await File.fromUri(
-              packageRoot.resolve(hook.scriptName),
-            ).exists()) {
-          result.add(package);
-        }
-      }
-    }
-    return result;
   }
 }

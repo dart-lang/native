@@ -2,23 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../../_core/interfaces/declaration.dart';
-import '../../../_core/interfaces/executable.dart';
+import '../../../_core/interfaces/function_declaration.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
-import '../../../_core/interfaces/parameterizable.dart';
-import '../../../_core/interfaces/type_parameterizable.dart';
+import '../../../_core/interfaces/overridable.dart';
 import '../../../_core/shared/parameter.dart';
 import '../../../_core/shared/referred_type.dart';
+import '../../../ast_node.dart';
 
 /// Describes a method declaration for a Swift compound entity
 /// (e.g, class, structs)
-class MethodDeclaration
-    implements
-        Declaration,
-        TypeParameterizable,
-        Executable,
-        Parameterizable,
-        ObjCAnnotatable {
+class MethodDeclaration extends AstNode
+    implements FunctionDeclaration, ObjCAnnotatable, Overridable {
   @override
   String id;
 
@@ -35,9 +29,26 @@ class MethodDeclaration
   bool hasObjCAnnotation;
 
   @override
+  bool isOverriding;
+
+  @override
+  bool throws;
+
+  @override
+  bool async;
+
+  @override
   List<String> statements;
 
-  ReferredType? returnType;
+  @override
+  ReferredType returnType;
+
+  bool isStatic;
+
+  String get fullName => [
+        name,
+        for (final p in params) p.name,
+      ].join(':');
 
   MethodDeclaration({
     required this.id,
@@ -47,5 +58,20 @@ class MethodDeclaration
     this.typeParams = const [],
     this.hasObjCAnnotation = false,
     this.statements = const [],
-  });
+    this.isStatic = false,
+    this.isOverriding = false,
+    this.throws = false,
+    this.async = false,
+  }) : assert(!isStatic || !isOverriding);
+
+  @override
+  void visit(Visitation visitation) => visitation.visitMethodDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(params);
+    visitor.visitAll(typeParams);
+    visitor.visit(returnType);
+  }
 }

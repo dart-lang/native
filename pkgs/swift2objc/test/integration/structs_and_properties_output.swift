@@ -4,36 +4,37 @@ import Foundation
 
 @objc public class MyOtherStructWrapper: NSObject {
   var wrappedInstance: MyOtherStruct
-  
+
   init(_ wrappedInstance: MyOtherStruct) {
     self.wrappedInstance = wrappedInstance
   }
+
 }
 
 @objc public class MyStructWrapper: NSObject {
   var wrappedInstance: MyStruct
-  
-  @objc public var customGetterVariable: MyOtherStructWrapper {
+
+  @objc public var customGetterProperty: MyOtherStructWrapper {
     get {
-      MyOtherStructWrapper(wrappedInstance.customGetterVariable)
+      MyOtherStructWrapper(wrappedInstance.customGetterProperty)
     }
   }
-  
-  @objc public var customSetterVariable: MyOtherStructWrapper {
+
+  @objc public var customSetterProperty: MyOtherStructWrapper {
     get {
-      MyOtherStructWrapper(wrappedInstance.customSetterVariable)
+      MyOtherStructWrapper(wrappedInstance.customSetterProperty)
     }
     set {
-      wrappedInstance.customSetterVariable = newValue.wrappedInstance
+      wrappedInstance.customSetterProperty = newValue.wrappedInstance
     }
   }
-  
+
   @objc public var customConstantProperty: MyOtherStructWrapper {
     get {
       MyOtherStructWrapper(wrappedInstance.customConstantProperty)
     }
   }
-  
+
   @objc public var customVariableProperty: MyOtherStructWrapper {
     get {
       MyOtherStructWrapper(wrappedInstance.customVariableProperty)
@@ -42,28 +43,34 @@ import Foundation
       wrappedInstance.customVariableProperty = newValue.wrappedInstance
     }
   }
-  
-  @objc public var representableGetterVariable: Int {
+
+  @objc public var implicitGetterProperty: Int {
     get {
-      wrappedInstance.representableGetterVariable
+      wrappedInstance.implicitGetterProperty
     }
   }
-  
-  @objc public var representableSetterVariable: Int {
+
+  @objc public var representableGetterProperty: Int {
     get {
-      wrappedInstance.representableSetterVariable
+      wrappedInstance.representableGetterProperty
+    }
+  }
+
+  @objc public var representableSetterProperty: Int {
+    get {
+      wrappedInstance.representableSetterProperty
     }
     set {
-      wrappedInstance.representableSetterVariable = newValue
+      wrappedInstance.representableSetterProperty = newValue
     }
   }
-  
+
   @objc public var representableConstantProperty: Int {
     get {
       wrappedInstance.representableConstantProperty
     }
   }
-  
+
   @objc public var representableVariableProperty: Int {
     get {
       wrappedInstance.representableVariableProperty
@@ -72,8 +79,10 @@ import Foundation
       wrappedInstance.representableVariableProperty = newValue
     }
   }
-  
+
   init(_ wrappedInstance: MyStruct) {
     self.wrappedInstance = wrappedInstance
   }
+
 }
+

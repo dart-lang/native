@@ -7,7 +7,6 @@
 #import <Foundation/NSThread.h>
 
 #include "block_test.h"
-#include "util.h"
 
 @implementation DummyObject
 
@@ -45,6 +44,12 @@
   bt->myBlock = [^int32_t(int32_t x) {
     return x * mult;
   } copy];
+  return bt;
+}
+
++ newFromListener:(ObjectListenerBlock)block {
+  BlockTester* bt = [BlockTester new];
+  bt->myListener = block;
   return bt;
 }
 
@@ -148,6 +153,10 @@ void objc_release(id value);
   return block(vec4);
 }
 
++ (void)callSelectorBlock:(SelectorBlock)block {
+  block(sel_registerName("Select"));
+}
+
 + (DummyObject*)callObjectBlock:(ObjectBlock)block NS_RETURNS_RETAINED {
   return block([DummyObject new]);
 }
@@ -155,6 +164,11 @@ void objc_release(id value);
 + (nullable DummyObject*)callNullableObjectBlock:(NullableObjectBlock)block
     NS_RETURNS_RETAINED {
   return block(nil);
+}
+
++ (nullable NSString*)callNullableStringBlock:(NullableStringBlock)block
+    NS_RETURNS_RETAINED {
+  return block(@"Lizard");
 }
 
 + (IntBlock)newBlock:(BlockBlock)block withMult:(int)mult NS_RETURNS_RETAINED {
@@ -165,11 +179,31 @@ void objc_release(id value);
 }
 
 + (BlockBlock)newBlockBlock:(int)mult NS_RETURNS_RETAINED {
-  return ^IntBlock(IntBlock block) NS_RETURNS_RETAINED {
+  return ^IntBlock(IntBlock block) {
     return ^int(int x) {
       return mult * block(x);
     };
   };
+}
+
+- (void)invokeAndReleaseListenerOnNewThread {
+  [[[NSThread alloc] initWithTarget:self
+                           selector:@selector(invokeAndReleaseListener:)
+                             object:nil] start];
+}
+
+- (void)invokeAndReleaseListener:(id)_ {
+  myListener([DummyObject new]);
+  myListener = nil;
+}
+
++ (void)blockingBlockTest:(IntPtrBlock)blockingBlock
+              resultBlock:(ResultBlock)resultBlock {
+  [[[NSThread alloc] initWithBlock:^void() {
+    int32_t result;
+    blockingBlock(&result);
+    resultBlock(result);
+  }] start];
 }
 
 @end

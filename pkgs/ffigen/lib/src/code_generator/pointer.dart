@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -15,13 +16,10 @@ class PointerType extends Type {
   factory PointerType(Type child) {
     if (child == objCObjectType) {
       return ObjCObjectPointer();
+    } else if (child == objCBlockType) {
+      return ObjCBlockPointer();
     }
     return PointerType._(child);
-  }
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    child.addDependencies(dependencies);
   }
 
   @override
@@ -44,6 +42,24 @@ class PointerType extends Type {
 
   @override
   String cacheKey() => '${child.cacheKey()}*';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(child);
+  }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitPointerType(this);
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is PointerType) {
+      return child.isSupertypeOf(other.child);
+    }
+    return false;
+  }
 }
 
 /// Represents a constant array, which has a fixed size.
@@ -89,7 +105,7 @@ class IncompleteArray extends PointerType {
 
   @override
   String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()} $varName[]';
+      '${child.getNativeType()}* $varName';
 
   @override
   String toString() => '$child[]';
@@ -103,6 +119,7 @@ class ObjCObjectPointer extends PointerType {
   factory ObjCObjectPointer() => _inst;
 
   static final _inst = ObjCObjectPointer._();
+  ObjCObjectPointer.__(super.child) : super._();
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override
@@ -122,8 +139,9 @@ class ObjCObjectPointer extends PointerType {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
-      ObjCInterface.generateGetId(value, objCRetain);
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
@@ -135,5 +153,35 @@ class ObjCObjectPointer extends PointerType {
       '${getDartType(w)}($value, retain: $objCRetain, release: true)';
 
   @override
-  String? generateRetain(String value) => 'objc_retain($value)';
+  String? generateRetain(String value) =>
+      '(__bridge id)(__bridge_retained void*)($value)';
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    // id/Object* is a supertype of all ObjC objects and blocks.
+    return other is ObjCObjectPointer ||
+        other is ObjCInterface ||
+        other is ObjCBlock;
+  }
+}
+
+/// A pointer to an Objective C block.
+class ObjCBlockPointer extends ObjCObjectPointer {
+  factory ObjCBlockPointer() => _inst;
+
+  static final _inst = ObjCBlockPointer._();
+  ObjCBlockPointer._() : super.__(objCBlockType);
+
+  @override
+  String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCBlockBase';
+
+  @override
+  String? generateRetain(String value) => 'objc_retainBlock($value)';
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    return other is ObjCBlockPointer || other is ObjCBlock;
+  }
 }

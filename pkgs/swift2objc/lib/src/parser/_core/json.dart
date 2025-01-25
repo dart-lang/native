@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:collection';
+import 'dart:convert';
 
 /// This is a helper class that helps with parsing Json values. It supports
 /// accessing the json content using the subscript syntax similar to `List`
@@ -17,13 +17,13 @@ import 'dart:collection';
 /// The class is also an `Iterable` so if the json is an array, you can directly
 /// iterate over it with a `for` loop. If the json isn't an array, attempting to
 /// iterate over it will throw an error.
-class Json extends IterableBase<Json> {
-  final List<String> _pathSegments;
+class Json extends Iterable<Json> {
+  final List<String> pathSegments;
   final dynamic _json;
 
-  String get path => _pathSegments.join('/');
+  String get path => pathSegments.join('/');
 
-  Json(this._json, [this._pathSegments = const []]);
+  Json(this._json, [this.pathSegments = const []]);
 
   /// The subscript syntax is intended to access a value at a field of a map or
   /// at an index if an array, and thus, the `index` parameter here can either
@@ -36,7 +36,7 @@ class Json extends IterableBase<Json> {
           'Expected a map at "$path", found a ${_json.runtimeType}',
         );
       }
-      return Json(_json[index], [..._pathSegments, index]);
+      return Json(_json[index], [...pathSegments, index]);
     }
 
     if (index is int) {
@@ -56,7 +56,7 @@ class Json extends IterableBase<Json> {
           'Invalid negative index at "$path" (supplied index: $index)',
         );
       }
-      return Json(_json[index], [..._pathSegments, '$index']);
+      return Json(_json[index], [...pathSegments, '$index']);
     }
 
     throw Exception(
@@ -101,6 +101,9 @@ class Json extends IterableBase<Json> {
       ),
     );
   }
+
+  @override
+  String toString() => jsonEncode(_json);
 }
 
 class _JsonIterator implements Iterator<Json> {
@@ -111,7 +114,7 @@ class _JsonIterator implements Iterator<Json> {
   _JsonIterator(this._json) : _list = _json.get();
 
   @override
-  Json get current => Json(_list[_index], [..._json._pathSegments, '$_index']);
+  Json get current => Json(_list[_index], [..._json.pathSegments, '$_index']);
 
   @override
   bool moveNext() {

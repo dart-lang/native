@@ -2,14 +2,19 @@
 # Regenerate bindings with `dart run tool/generate_code.dart`.
 name: ObjectiveCBindings
 language: objc
-output: 'lib/src/objective_c_bindings_generated.dart'
+output:
+  bindings: 'lib/src/objective_c_bindings_generated.dart'
+  objc-bindings: 'src/objective_c_bindings_generated.m'
 headers:
   entry-points:
     - 'src/foundation.h'
+    - 'src/input_stream_adapter.h'
     - 'src/proxy.h'
 ffi-native:
 exclude-all-by-default: true
+include-transitive-objc-categories: false
 generate-for-package-objective-c: true
+sort: true
 external-versions:
   # See https://docs.flutter.dev/reference/supported-platforms.
   ios:
@@ -19,8 +24,9 @@ external-versions:
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
-    - DartProxy
-    - DartProxyBuilder
+    - DOBJCDartInputStreamAdapter
+    - DOBJCDartProxy
+    - DOBJCDartProxyBuilder
     - NSArray
     - NSCharacterSet
     - NSCoder
@@ -30,6 +36,7 @@ objc-interfaces:
     - NSEnumerator
     - NSError
     - NSIndexSet
+    - NSInputStream
     - NSInvocation
     - NSItemProvider
     - NSLocale
@@ -44,20 +51,50 @@ objc-interfaces:
     - NSNotification
     - NSNumber
     - NSObject
+    - NSOutputStream
+    - NSOrderedCollectionDifference
     - NSOrderedSet
     - NSProxy
+    - NSRunLoop
     - NSSet
+    - NSStream
     - NSString
     - NSURL
     - NSURLHandle
     - NSValue
     - Protocol
+  rename:
+    'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
+    'DOBJCDartProxy': 'DartProxy'
+    'DOBJCDartProxyBuilder': 'DartProxyBuilder'
+objc-protocols:
+  include:
+    - NSStreamDelegate
+objc-categories:
+  include:
+    - NSDataCreation
+    - NSExtendedArray
+    - NSExtendedData
+    - NSExtendedDate
+    - NSExtendedDictionary
+    - NSExtendedEnumerator
+    - NSExtendedMutableArray
+    - NSExtendedMutableData
+    - NSExtendedMutableDictionary
+    - NSExtendedMutableOrderedSet
+    - NSExtendedMutableSet
+    - NSExtendedOrderedSet
+    - NSExtendedSet
+    - NSNumberCreation
+    - NSStringExtensionMethods
 structs:
   include:
     - _NSRange
+    - _NSZone
     - NSFastEnumerationState
   rename:
     _NSRange: NSRange
+    _NSZone: NSZone
 enums:
   include:
     - NSBinarySearchingOptions
@@ -76,12 +113,17 @@ enums:
     - NSKeyValueSetMutationKind
     - NSOrderedCollectionDifferenceCalculationOptions
     - NSSortOptions
+    - NSStreamEvent
+    - NSStreamStatus
     - NSStringCompareOptions
     - NSStringEncodingConversionOptions
     - NSStringEnumerationOptions
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
+globals:
+  include:
+    - NSLocalizedDescriptionKey
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
@@ -93,6 +135,7 @@ preamble: |
   // ignore_for_file: always_specify_types
   // ignore_for_file: camel_case_types
   // ignore_for_file: non_constant_identifier_names
+  // ignore_for_file: unnecessary_non_null_assertion
+  // ignore_for_file: unused_element
+  // ignore_for_file: unused_field
   // coverage:ignore-file
-
-  import 'package:ffi/ffi.dart' as pkg_ffi;

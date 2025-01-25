@@ -162,6 +162,10 @@ Library expectedLibrary() {
   final struct1 = Struct(name: '${structPrefix}Struct1');
   final struct2 = Struct(name: 'Struct2');
   final struct3 = Struct(name: 'Struct3');
+  final struct5Alias = Typealias(
+    name: 'Struct5_Alias_Renamed',
+    type: Struct(name: '${structPrefix}Struct5'),
+  );
   return Library(
     name: 'Bindings',
     bindings: [
@@ -240,9 +244,7 @@ Library expectedLibrary() {
         parameters: [
           Parameter(
             name: 's',
-            type: Typealias(
-                name: 'Struct5_Alias_Renamed',
-                type: Struct(name: '${structPrefix}Struct5')),
+            type: struct5Alias,
             objCConsumed: false,
           ),
         ],
@@ -253,11 +255,11 @@ Library expectedLibrary() {
       Struct(
         name: '${structPrefix}MemberRenameStruct4',
         members: [
-          Member(
+          CompoundMember(
             name: 'underscore',
             type: intType,
           ),
-          Member(
+          CompoundMember(
             name: 'fullMatchSuccess',
             type: floatType,
           ),
@@ -266,7 +268,7 @@ Library expectedLibrary() {
       Struct(
         name: '${structPrefix}AnyMatchStruct5',
         members: [
-          Member(
+          CompoundMember(
             name: 'underscore',
             type: intType,
           ),
@@ -328,6 +330,7 @@ Library expectedLibrary() {
         rawType: 'int',
         rawValue: '1',
       ),
+      struct5Alias,
     ],
   );
 }

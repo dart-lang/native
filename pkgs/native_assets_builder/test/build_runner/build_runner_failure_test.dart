@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -25,16 +24,24 @@ void main() async {
       );
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
-        expect(result.assets.length, 1);
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [CodeAsset.type],
+          inputValidator: validateCodeAssetBuildInput,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
+        expect(result.encodedAssets.length, 1);
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
+            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
 
@@ -49,13 +56,17 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
+          buildAssetTypes: [CodeAsset.type],
+          inputValidator: validateCodeAssetBuildInput,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
         );
         final fullLog = logMessages.join('\n');
-        expect(result.success, false);
+        expect(result, isNull);
         expect(fullLog, contains('To reproduce run:'));
         final reproCommand = fullLog
             .split('\n')
-            .skipWhile((l) => l != 'To reproduce run:')
+            .skipWhile((l) => !l.contains('To reproduce run:'))
             .skip(1)
             .first;
         final reproResult =
@@ -69,18 +80,66 @@ void main() async {
       );
 
       {
-        final result = await build(packageUri, logger, dartExecutable);
-        expect(result.assets.length, 1);
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [CodeAsset.type],
+          inputValidator: validateCodeAssetBuildInput,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
+        expect(result.encodedAssets.length, 1);
         await expectSymbols(
-            asset: result.assets.single as NativeCodeAssetImpl,
+            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
             symbols: ['add']);
         expect(
           result.dependencies,
-          [
+          contains(
             packageUri.resolve('src/native_add.c'),
-          ],
+          ),
         );
       }
+    });
+  });
+
+  test('do not build dependees after build failure', timeout: longTimeout,
+      () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('depend_on_fail_build_app/');
+
+      await runPubGet(
+        workingDirectory: packageUri,
+        logger: logger,
+      );
+
+      final logMessages = <String>[];
+      await build(
+        packageUri,
+        logger,
+        capturedLogs: logMessages,
+        dartExecutable,
+        buildAssetTypes: [CodeAsset.type],
+        inputValidator: validateCodeAssetBuildInput,
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetInApplication,
+      );
+      Matcher stringContainsBuildHookCompilation(String packageName) =>
+          stringContainsInOrder([
+            'Running',
+            'hook.dill',
+            '$packageName${Platform.pathSeparator}'
+                'hook${Platform.pathSeparator}build.dart',
+          ]);
+      expect(
+        logMessages.join('\n'),
+        stringContainsBuildHookCompilation('fail_build'),
+      );
+      expect(
+        logMessages.join('\n'),
+        isNot(stringContainsBuildHookCompilation('depends_on_fail_build')),
+      );
     });
   });
 }

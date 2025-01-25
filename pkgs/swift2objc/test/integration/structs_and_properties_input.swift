@@ -1,12 +1,12 @@
 import Foundation
 
 public struct MyStruct {
-    public var customSetterVariable: MyOtherStruct {
+    public var customSetterProperty: MyOtherStruct {
         get { MyOtherStruct() }
         set { }
     }
 
-    public var customGetterVariable: MyOtherStruct {
+    public var customGetterProperty: MyOtherStruct {
         get { MyOtherStruct() }
     }
 
@@ -14,14 +14,16 @@ public struct MyStruct {
 
     public let customConstantProperty: MyOtherStruct
 
-    public var representableSetterVariable: Int {
+    public var representableSetterProperty: Int {
         get { 1 }
         set { }
     }
 
-    public var representableGetterVariable: Int {
+    public var representableGetterProperty: Int {
         get { 1 }
     }
+
+    public var implicitGetterProperty: Int { 1 }
 
     public var representableVariableProperty: Int
 

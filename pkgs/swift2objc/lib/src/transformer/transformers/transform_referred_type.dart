@@ -7,24 +7,28 @@ import '../../ast/_core/shared/referred_type.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 
-DeclaredType transformReferredType(
-  ReferredType referredType,
+// TODO(https://github.com/dart-lang/native/issues/1358): Refactor this as a
+// transformer or visitor.
+
+ReferredType transformReferredType(
+  ReferredType type,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  if (referredType is GenericType) {
+  if (type.isObjCRepresentable) return type;
+
+  if (type is GenericType) {
     throw UnimplementedError('Generic types are not supported yet');
+  } else if (type is DeclaredType) {
+    return transformDeclaration(
+      type.declaration,
+      globalNamer,
+      transformationMap,
+    ).asDeclaredType;
+  } else if (type is OptionalType) {
+    return OptionalType(
+        transformReferredType(type.child, globalNamer, transformationMap));
+  } else {
+    throw UnimplementedError('Unknown type: $type');
   }
-
-  referredType as DeclaredType;
-
-  if (referredType.isObjCRepresentable) return referredType;
-
-  final transformedDeclaration = transformDeclaration(
-    referredType.declaration,
-    globalNamer,
-    transformationMap,
-  );
-
-  return transformedDeclaration.asDeclaredType;
 }

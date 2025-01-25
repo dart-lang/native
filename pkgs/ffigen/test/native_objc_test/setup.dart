@@ -5,6 +5,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:args/args.dart';
+
 // All ObjC source files are compiled with ARC enabled except these.
 const arcDisabledFiles = <String>{
   'ref_count_test.m',
@@ -31,13 +33,17 @@ Future<String> _buildObject(String input) async {
     '-Wno-nullability-completeness',
     '-c',
     input,
-    '-fpic'
+    '-fpic',
   ], output);
   return output;
 }
 
-Future<void> _linkLib(List<String> inputs, String output) =>
-    _runClang(['-shared', '-framework', 'Foundation', ...inputs], output);
+Future<void> _linkLib(List<String> inputs, String output) => _runClang([
+      '-shared',
+      '-framework',
+      'Foundation',
+      ...inputs,
+    ], output);
 
 Future<void> _buildLib(List<String> inputs, String output) async {
   final objFiles = <String>[];
@@ -119,17 +125,17 @@ Future<void> build(List<String> testNames) async {
     await _generateBindings('${name}_config.yaml');
   }
 
-  // Finally we build the dylib.
+  // Finally we build the dylib containing all the ObjC test code.
   print('Building Dynamic Library for Objective C Native Tests...');
-  for (final name in testNames) {
+  final mFiles = <String>[];
+  for (final name in _getTestNames()) {
     final mFile = '${name}_test.m';
-    if (File(mFile).existsSync()) {
-      final bindingMFile = '${name}_bindings.m';
-      await _buildLib([
-        mFile,
-        if (File(bindingMFile).existsSync()) bindingMFile,
-      ], '${name}_test.dylib');
-    }
+    if (File(mFile).existsSync()) mFiles.add(mFile);
+    final bindingMFile = '${name}_bindings.m';
+    if (File(bindingMFile).existsSync()) mFiles.add(bindingMFile);
+  }
+  if (mFiles.isNotEmpty) {
+    await _buildLib(mFiles, 'objc_test.dylib');
   }
 }
 
@@ -142,8 +148,8 @@ Future<void> clean(List<String> testNames) async {
       '${name}_bindings.o',
       '${name}_test_bindings.dart',
       '${name}_test.o',
-      '${name}_test.dylib'
     ],
+    'objc_test.dylib',
   ];
   for (final filename in filenames) {
     final file = File(filename);
@@ -152,16 +158,24 @@ Future<void> clean(List<String> testNames) async {
 }
 
 Future<void> main(List<String> arguments) async {
+  final parser = ArgParser();
+  parser.addFlag('clean');
+  parser.addFlag('main-thread-dispatcher');
+  final args = parser.parse(arguments);
+
   // Allow running this script directly from any path (or an IDE).
   Directory.current = Platform.script.resolve('.').toFilePath();
   if (!Platform.isMacOS) {
-    throw OSError('Objective C tests are only supported on MacOS');
+    throw const OSError('Objective C tests are only supported on MacOS');
   }
 
-  if (arguments.isNotEmpty && arguments[0] == 'clean') {
+  if (args.flag('clean')) {
     return await clean(_getTestNames());
   }
 
-  await _runDart(['../objective_c/test/setup.dart']);
-  return await build(arguments.isNotEmpty ? arguments : _getTestNames());
+  await _runDart([
+    '../objective_c/test/setup.dart',
+    if (args.flag('main-thread-dispatcher')) '--main-thread-dispatcher',
+  ]);
+  return await build(args.rest.isNotEmpty ? args.rest : _getTestNames());
 }

@@ -5,13 +5,23 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
+import '../code_generator/utils.dart';
 import '../config_provider.dart';
-import '../config_provider/config_types.dart';
 import '../strings.dart' as strings;
+import '../visitor/apply_config_filters.dart';
+import '../visitor/ast.dart';
+import '../visitor/copy_methods_from_super_type.dart';
+import '../visitor/fill_method_dependencies.dart';
+import '../visitor/find_transitive_deps.dart';
+import '../visitor/fix_overridden_methods.dart';
+import '../visitor/list_bindings.dart';
+import '../visitor/opaque_compounds.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'data.dart';
 import 'sub_parsers/macro_parser.dart';
@@ -19,25 +29,13 @@ import 'translation_unit_parser.dart';
 import 'utils.dart';
 
 /// Main entrypoint for header_parser.
-Library parse(Config c) {
-  initParser(c);
+Library parse(Config config) {
+  initParser(config);
 
-  final bindings = parseToBindings(c);
-
-  final library = Library(
-    bindings: bindings,
-    name: c.wrapperName,
-    description: c.wrapperDocComment,
-    header: c.preamble,
-    sort: c.sort,
-    generateForPackageObjectiveC: c.generateForPackageObjectiveC,
-    packingOverride: c.structPackingOverride,
-    libraryImports: c.libraryImports.values.toList(),
-    silenceEnumWarning: c.silenceEnumWarning,
-    nativeEntryPoints: c.entryPoints.map((uri) => uri.toFilePath()).toList(),
+  return Library.fromConfig(
+    config: config,
+    bindings: transformBindings(config, parseToBindings(config)),
   );
-
-  return library;
 }
 
 // =============================================================================
@@ -171,4 +169,89 @@ List<String> _findObjectiveCSysroot() {
     }
   }
   return [];
+}
+
+@visibleForTesting
+List<Binding> transformBindings(Config config, List<Binding> bindings) {
+  visit(CopyMethodsFromSuperTypesVisitation(), bindings);
+  visit(FixOverriddenMethodsVisitation(), bindings);
+  visit(FillMethodDependenciesVisitation(), bindings);
+
+  final filterResults = visit(ApplyConfigFiltersVisitation(config), bindings);
+  final directlyIncluded = filterResults.directlyIncluded;
+  final included = directlyIncluded.union(filterResults.indirectlyIncluded);
+
+  final byValueCompounds = visit(FindByValueCompoundsVisitation(),
+          FindByValueCompoundsVisitation.rootNodes(included))
+      .byValueCompounds;
+  visit(
+      ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
+      bindings);
+
+  final transitives =
+      visit(FindTransitiveDepsVisitation(), included).transitives;
+  final directTransitives = visit(
+          FindDirectTransitiveDepsVisitation(
+              config, included, directlyIncluded),
+          included)
+      .directTransitives;
+
+  final finalBindings = visit(
+          ListBindingsVisitation(
+              config, included, transitives, directTransitives),
+          bindings)
+      .bindings;
+  visit(MarkBindingsVisitation(finalBindings), bindings);
+
+  final finalBindingsList = finalBindings.toList();
+
+  /// Sort bindings.
+  if (config.sort) {
+    finalBindingsList.sortBy((b) => b.name);
+    for (final b in finalBindingsList) {
+      b.sort();
+    }
+  }
+
+  /// Handle any declaration-declaration name conflicts and emit warnings.
+  final declConflictHandler = UniqueNamer({});
+  for (final b in finalBindingsList) {
+    _warnIfPrivateDeclaration(b);
+    _resolveIfNameConflicts(declConflictHandler, b);
+  }
+
+  // Override pack values according to config. We do this after declaration
+  // conflicts have been handled so that users can target the generated names.
+  for (final b in finalBindingsList) {
+    if (b is Struct) {
+      final pack = config.structPackingOverride(b);
+      if (pack != null) {
+        b.pack = pack.value;
+      }
+    }
+  }
+
+  return finalBindingsList;
+}
+
+/// Logs a warning if generated declaration will be private.
+void _warnIfPrivateDeclaration(Binding b) {
+  if (b.name.startsWith('_') && !b.isInternal) {
+    _logger.warning("Generated declaration '${b.name}' starts with '_' "
+        'and therefore will be private.');
+  }
+}
+
+/// Resolves name conflict(if any) and logs a warning.
+void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
+  // Print warning if name was conflicting and has been changed.
+  if (namer.isUsed(b.name)) {
+    final oldName = b.name;
+    b.name = namer.makeUnique(b.name);
+
+    _logger.warning("Resolved name conflict: Declaration '$oldName' "
+        "and has been renamed to '${b.name}'.");
+  } else {
+    namer.markUsed(b.name);
+  }
 }

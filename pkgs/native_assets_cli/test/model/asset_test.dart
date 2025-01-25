@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/data_assets.dart';
 import 'package:test/test.dart';
-import 'package:yaml/yaml.dart';
 
 void main() {
   final fooUri = Uri.file('path/to/libfoo.so');
@@ -15,97 +15,68 @@ void main() {
   final dataUri = Uri.file('path/to/data.txt');
   final data2Uri = Uri.file('path/to/data.json');
   final nativeCodeAssets = [
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo',
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo',
       file: fooUri,
-      linkMode: DynamicLoadingBundledImpl(),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+      linkMode: DynamicLoadingBundled(),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo3',
-      linkMode: DynamicLoadingSystemImpl(foo3Uri),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo3',
+      linkMode: DynamicLoadingSystem(foo3Uri),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo4',
-      linkMode: LookupInExecutableImpl(),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo4',
+      linkMode: LookupInExecutable(),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/foo5',
-      linkMode: LookupInProcessImpl(),
-      os: OSImpl.android,
-      architecture: ArchitectureImpl.x64,
+    CodeAsset(
+      package: 'my_package',
+      name: 'foo5',
+      linkMode: LookupInProcess(),
+      os: OS.android,
+      architecture: Architecture.x64,
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/bar',
+    CodeAsset(
+      package: 'my_package',
+      name: 'bar',
       file: barUri,
-      os: OSImpl.linux,
-      architecture: ArchitectureImpl.arm64,
-      linkMode: StaticLinkingImpl(),
+      os: OS.linux,
+      architecture: Architecture.arm64,
+      linkMode: StaticLinking(),
     ),
-    NativeCodeAssetImpl(
-      id: 'package:my_package/bla',
+    CodeAsset(
+      package: 'my_package',
+      name: 'bla',
       file: blaUri,
-      linkMode: DynamicLoadingBundledImpl(),
-      os: OSImpl.windows,
-      architecture: ArchitectureImpl.x64,
+      linkMode: DynamicLoadingBundled(),
+      os: OS.windows,
+      architecture: Architecture.x64,
     ),
   ];
   final dataAssets = [
-    DataAssetImpl(
+    DataAsset(
       name: 'my_data_asset',
       package: 'my_package',
       file: dataUri,
     ),
-    DataAssetImpl(
+    DataAsset(
       name: 'my_data_asset2',
       package: 'my_package',
       file: data2Uri,
     ),
   ];
   final assets = [
-    ...nativeCodeAssets,
-    ...dataAssets,
+    for (final asset in nativeCodeAssets) asset.encode(),
+    for (final asset in dataAssets) asset.encode(),
   ];
-
-  final assetsYamlEncodingV1_0_0 = '''- id: package:my_package/foo
-  link_mode: dynamic
-  path:
-    path_type: absolute
-    uri: ${fooUri.toFilePath()}
-  target: android_x64
-- id: package:my_package/foo3
-  link_mode: dynamic
-  path:
-    path_type: system
-    uri: ${foo3Uri.toFilePath()}
-  target: android_x64
-- id: package:my_package/foo4
-  link_mode: dynamic
-  path:
-    path_type: executable
-  target: android_x64
-- id: package:my_package/foo5
-  link_mode: dynamic
-  path:
-    path_type: process
-  target: android_x64
-- id: package:my_package/bar
-  link_mode: static
-  path:
-    path_type: absolute
-    uri: ${barUri.toFilePath()}
-  target: linux_arm64
-- id: package:my_package/bla
-  link_mode: dynamic
-  path:
-    path_type: absolute
-    uri: ${blaUri.toFilePath()}
-  target: windows_x64''';
 
   final assetsJsonEncoding = [
     {
@@ -170,26 +141,20 @@ void main() {
     }
   ];
 
-  test('asset yaml', () {
-    final json = [
-      for (final item in assets) item.toJson(HookOutputImpl.latestVersion)
-    ];
+  test('asset json', () {
+    final json = [for (final item in assets) item.toJson()];
     expect(json, assetsJsonEncoding);
-    final assets2 = AssetImpl.listFromJson(json);
+    final assets2 = [for (final e in json) EncodedAsset.fromJson(e)];
     expect(assets, assets2);
-  });
-
-  test('build_output protocol v1.0.0 keeps working', () {
-    final assets2 = AssetImpl.listFromJson(
-        loadYaml(assetsYamlEncodingV1_0_0) as List<Object?>);
-    expect(nativeCodeAssets, assets2);
   });
 
   test('AssetPath factory', () async {
     expect(
-      () => LinkModeImpl('wrong', null),
+      () => LinkMode.fromJson({'type': 'wrong'}),
       throwsA(predicate(
-        (e) => e is FormatException && e.message.contains('Unknown type'),
+        (e) =>
+            e is FormatException &&
+            e.message.contains('The link mode "wrong" is not known'),
       )),
     );
   });
@@ -207,7 +172,7 @@ void main() {
 
   test('List<Asset> hashCode', () async {
     final assets2 = nativeCodeAssets.take(3).toList();
-    const equality = ListEquality<NativeCodeAssetImpl>();
+    const equality = ListEquality<CodeAsset>();
     expect(equality.hash(nativeCodeAssets) != equality.hash(assets2), true);
   });
 

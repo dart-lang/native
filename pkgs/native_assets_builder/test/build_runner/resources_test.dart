@@ -29,12 +29,10 @@ void main() async {
           logger: logger,
         );
 
-        final buildResult = await build(
+        final buildResult = (await buildDataAssets(
           packageUri,
-          logger,
-          dartExecutable,
           linkingEnabled: true,
-        );
+        ))!;
 
         Iterable<String> buildFiles() => Directory.fromUri(
                 packageUri.resolve('.dart_tool/native_assets_builder/'))
@@ -49,6 +47,10 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           resourceIdentifiers: resourcesUri,
+          buildAssetTypes: [DataAsset.type],
+          inputValidator: validateDataAssetLinkInput,
+          linkValidator: validateDataAssetLinkOutput,
+          applicationAssetValidator: (_) async => [],
         );
         expect(buildFiles(), anyElement(endsWith('resources.json')));
       });

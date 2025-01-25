@@ -11,13 +11,20 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
+// ignore_for_file: inference_failure_on_untyped_parameter
+// ignore_for_file: invalid_internal_annotation
+// ignore_for_file: invalid_use_of_internal_member
+// ignore_for_file: library_prefixes
 // ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: no_leading_underscores_for_library_prefixes
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
 // ignore_for_file: prefer_double_quotes
+// ignore_for_file: unintended_html_in_doc_comment
 // ignore_for_file: unnecessary_cast
+// ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
@@ -26,47 +33,51 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:ffi' as ffi;
-import 'dart:isolate' show ReceivePort;
+import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' as core$_;
 
-import 'package:jni/internal_helpers_for_jnigen.dart';
-import 'package:jni/jni.dart' as jni;
+import 'package:jni/_internal.dart' as jni$_;
+import 'package:jni/jni.dart' as jni$_;
 
 /// from: `com.example.notification_plugin.Notifications`
-class Notifications extends jni.JObject {
-  @override
-  late final jni.JObjType<Notifications> $type = type;
+class Notifications extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Notifications> $type;
 
+  @jni$_.internal
   Notifications.fromReference(
-    jni.JReference reference,
-  ) : super.fromReference(reference);
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
 
   static final _class =
-      jni.JClass.forName(r'com/example/notification_plugin/Notifications');
+      jni$_.JClass.forName(r'com/example/notification_plugin/Notifications');
 
   /// The type which includes information such as the signature of this class.
-  static const type = $NotificationsType();
-  static final _id_new0 = _class.constructorId(
+  static const nullableType = $Notifications$NullableType();
+  static const type = $Notifications$Type();
+  static final _id_new$ = _class.constructorId(
     r'()V',
   );
 
-  static final _new0 = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JniResult Function(
-                ffi.Pointer<ffi.Void>,
-                jni.JMethodIDPtr,
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
               )>>('globalEnv_NewObject')
       .asFunction<
-          jni.JniResult Function(
-            ffi.Pointer<ffi.Void>,
-            jni.JMethodIDPtr,
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
           )>();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
     return Notifications.fromReference(
-        _new0(_class.reference.pointer, _id_new0 as jni.JMethodIDPtr)
+        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
             .reference);
   }
 
@@ -75,67 +86,118 @@ class Notifications extends jni.JObject {
     r'(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)V',
   );
 
-  static final _showNotification = ProtectedJniExtensions.lookup<
-          ffi.NativeFunction<
-              jni.JThrowablePtr Function(
-                  ffi.Pointer<ffi.Void>,
-                  jni.JMethodIDPtr,
-                  ffi.VarArgs<
+  static final _showNotification = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
                       (
-                        ffi.Pointer<ffi.Void>,
-                        $Int32,
-                        ffi.Pointer<ffi.Void>,
-                        ffi.Pointer<ffi.Void>
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
                       )>)>>('globalEnv_CallStaticVoidMethod')
       .asFunction<
-          jni.JThrowablePtr Function(
-              ffi.Pointer<ffi.Void>,
-              jni.JMethodIDPtr,
-              ffi.Pointer<ffi.Void>,
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
               int,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
-    jni.JObject context,
+    jni$_.JObject? context,
     int notificationID,
-    jni.JString title,
-    jni.JString text,
+    jni$_.JString? title,
+    jni$_.JString? text,
   ) {
+    final _$context = context?.reference ?? jni$_.jNullReference;
+    final _$title = title?.reference ?? jni$_.jNullReference;
+    final _$text = text?.reference ?? jni$_.jNullReference;
     _showNotification(
             _class.reference.pointer,
-            _id_showNotification as jni.JMethodIDPtr,
-            context.reference.pointer,
+            _id_showNotification as jni$_.JMethodIDPtr,
+            _$context.pointer,
             notificationID,
-            title.reference.pointer,
-            text.reference.pointer)
+            _$title.pointer,
+            _$text.pointer)
         .check();
   }
 }
 
-final class $NotificationsType extends jni.JObjType<Notifications> {
-  const $NotificationsType();
+final class $Notifications$NullableType extends jni$_.JObjType<Notifications?> {
+  @jni$_.internal
+  const $Notifications$NullableType();
 
-  @override
+  @jni$_.internal
+  @core$_.override
   String get signature => r'Lcom/example/notification_plugin/Notifications;';
 
-  @override
-  Notifications fromReference(jni.JReference reference) =>
-      Notifications.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  Notifications? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : Notifications.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
 
-  @override
-  jni.JObjType get superType => const jni.JObjectType();
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Notifications?> get nullableType => this;
 
-  @override
+  @jni$_.internal
+  @core$_.override
   final superCount = 1;
 
-  @override
-  int get hashCode => ($NotificationsType).hashCode;
+  @core$_.override
+  int get hashCode => ($Notifications$NullableType).hashCode;
 
-  @override
+  @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($NotificationsType) &&
-        other is $NotificationsType;
+    return other.runtimeType == ($Notifications$NullableType) &&
+        other is $Notifications$NullableType;
+  }
+}
+
+final class $Notifications$Type extends jni$_.JObjType<Notifications> {
+  @jni$_.internal
+  const $Notifications$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/notification_plugin/Notifications;';
+
+  @jni$_.internal
+  @core$_.override
+  Notifications fromReference(jni$_.JReference reference) =>
+      Notifications.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Notifications?> get nullableType =>
+      const $Notifications$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Notifications$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Notifications$Type) &&
+        other is $Notifications$Type;
   }
 }

@@ -49,19 +49,15 @@ class NativeLibrary {
       _func2Ptr.asFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>();
 }
 
-typedef BAlias = B;
+final class A extends ffi.Opaque {}
 
 final class B extends ffi.Opaque {}
 
-final class A extends ffi.Opaque {}
-
-final class E extends ffi.Struct {
-  external ffi.Pointer<C> c;
-
-  external D d;
-}
+typedef BAlias = B;
 
 final class C extends ffi.Opaque {}
+
+final class NoDefinitionStructInD extends ffi.Opaque {}
 
 final class D extends ffi.Struct {
   @ffi.Int()
@@ -70,21 +66,25 @@ final class D extends ffi.Struct {
   external ffi.Pointer<NoDefinitionStructInD> nds;
 }
 
-final class NoDefinitionStructInD extends ffi.Opaque {}
+final class E extends ffi.Struct {
+  external ffi.Pointer<C> c;
 
-final class UB extends ffi.Opaque {}
+  external D d;
+}
 
 final class UA extends ffi.Opaque {}
 
-final class UE extends ffi.Union {
-  external ffi.Pointer<UC> c;
-
-  external UD d;
-}
+final class UB extends ffi.Opaque {}
 
 final class UC extends ffi.Opaque {}
 
 final class UD extends ffi.Union {
   @ffi.Int()
   external int a;
+}
+
+final class UE extends ffi.Union {
+  external ffi.Pointer<UC> c;
+
+  external UD d;
 }

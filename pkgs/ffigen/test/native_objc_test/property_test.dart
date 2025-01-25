@@ -21,7 +21,7 @@ void main() {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/property_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = PropertyInterface.new1();
@@ -59,17 +59,14 @@ void main() {
         input.z = 5.6;
         input.w = 7.8;
 
-        final resultPtr = calloc<Vec4>();
-        final result = resultPtr.ref;
         testInstance.structProperty = input;
-        testInstance.getStructProperty(resultPtr);
+        final result = testInstance.structProperty;
         expect(result.x, 1.2);
         expect(result.y, 3.4);
         expect(result.z, 5.6);
         expect(result.w, 7.8);
 
         calloc.free(inputPtr);
-        calloc.free(resultPtr);
       });
 
       test('Floats', () {
@@ -81,6 +78,12 @@ void main() {
         testInstance.doubleProperty = 1.23;
         expect(testInstance.doubleProperty, 1.23);
       });
+    });
+
+    test('Instance and static properties with same name', () {
+      // Test for https://github.com/dart-lang/native/issues/1136
+      expect(testInstance.instStaticSameName, 123);
+      expect(PropertyInterface.getInstStaticSameName1(), 456);
     });
   });
 }

@@ -1,18 +1,28 @@
-import '../../ast/_core/shared/referred_type.dart';
-import '../../ast/declarations/compounds/class_declaration.dart';
-import '../_core/utils.dart';
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-String generateClass(ClassDeclaration declaration) {
+import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
+import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../_core/utils.dart';
+import '../generator.dart';
+
+List<String> generateClass(ClassDeclaration declaration) {
   return [
     '${_generateClassHeader(declaration)} {',
-    [
+    ...[
       _generateClassWrappedInstance(declaration),
       ..._generateClassProperties(declaration),
-      _generateClassInitializer(declaration),
+      ..._generateInitializers(declaration),
       ..._generateClassMethods(declaration),
-    ].nonNulls.join('\n\n').indent(),
-    '}',
-  ].join('\n');
+      ..._generateNestedDeclarations(declaration),
+    ].nonNulls.indent(),
+    '}\n',
+  ];
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {
@@ -47,74 +57,117 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
     "Wrapped instance can't have a generic type",
   );
 
-  return 'var ${property.name}: ${property.type.name}';
+  return 'var ${property.name}: ${property.type.swiftType}\n';
 }
 
-String? _generateClassInitializer(ClassDeclaration declaration) {
-  final initializer = declaration.initializer;
-  if (initializer == null) return null;
+List<String> _generateInitializers(ClassDeclaration declaration) {
+  final initializers = [
+    declaration.wrapperInitializer,
+    ...declaration.initializers,
+  ].nonNulls;
+  return [for (final init in initializers) ..._generateInitializer(init)];
+}
+
+List<String> _generateInitializer(InitializerDeclaration initializer) {
+  final header = StringBuffer();
+
+  if (initializer.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
+
+  if (initializer.isOverriding) {
+    header.write('override ');
+  }
+
+  header.write('init');
+
+  if (initializer.isFailable) {
+    header.write('?');
+  }
+
+  header.write('(${generateParameters(initializer.params)})');
 
   return [
-    'init(${generateParameters(initializer.params)}) {',
-    initializer.statements.join('\n').indent(),
+    '$header ${generateAnnotations(initializer)}{',
+    ...initializer.statements.indent(),
+    '}\n',
+  ];
+}
+
+List<String> _generateClassMethods(ClassDeclaration declaration) =>
+    [for (final method in declaration.methods) ..._generateClassMethod(method)];
+
+List<String> _generateClassMethod(MethodDeclaration method) {
+  final header = StringBuffer();
+
+  if (method.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
+
+  if (method.isStatic) {
+    header.write('static ');
+  }
+
+  if (method.isOverriding) {
+    header.write('override ');
+  }
+
+  header.write(
+    'public func ${method.name}(${generateParameters(method.params)}) ',
+  );
+
+  header.write(generateAnnotations(method));
+
+  if (!method.returnType.sameAs(voidType)) {
+    header.write('-> ${method.returnType.swiftType} ');
+  }
+
+  return [
+    '$header{',
+    ...method.statements.indent(),
+    '}\n',
+  ];
+}
+
+List<String> _generateClassProperties(ClassDeclaration declaration) => [
+      for (final property in declaration.properties)
+        ..._generateClassProperty(property),
+    ];
+
+List<String> _generateClassProperty(PropertyDeclaration property) {
+  final header = StringBuffer();
+
+  if (property.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
+
+  if (property.isStatic) {
+    header.write('static ');
+  }
+
+  header.write('public var ${property.name}: ${property.type.swiftType} {');
+
+  final getterLines = [
+    'get ${generateAnnotations(property)}{',
+    ...(property.getter?.statements.indent() ?? <String>[]),
     '}'
-  ].join('\n');
+  ];
+
+  final setterLines = [
+    'set {',
+    ...(property.setter?.statements.indent() ?? <String>[]),
+    '}'
+  ];
+
+  return [
+    header.toString(),
+    ...getterLines.indent(),
+    if (property.hasSetter) ...setterLines.indent(),
+    '}\n',
+  ];
 }
 
-List<String> _generateClassMethods(ClassDeclaration declaration) {
-  return declaration.methods.map((method) {
-    final header = StringBuffer();
-
-    if (method.hasObjCAnnotation) {
-      header.write('@objc ');
-    }
-
-    header.write(
-      'public func ${method.name}(${generateParameters(method.params)})',
-    );
-
-    if (method.returnType != null) {
-      header.write(' -> ${method.returnType!.name}');
-    }
-
-    // header.write(' {');
-
-    return [
-      '$header {',
-      method.statements.join('\n').indent(),
-      '}',
-    ].join('\n');
-  }).toList();
-}
-
-List<String> _generateClassProperties(ClassDeclaration declaration) {
-  return declaration.properties.map(
-    (property) {
-      final header = StringBuffer();
-      if (property.hasObjCAnnotation) {
-        header.write('@objc ');
-      }
-
-      header.write('public var ${property.name}: ${property.type.name} {');
-
-      final getterLines = [
-        'get {',
-        property.getter?.statements.join('\n').indent(),
-        '}'
-      ];
-
-      final setterLines = [
-        'set {',
-        property.setter?.statements.join('\n').indent(),
-        '}'
-      ];
-
-      return [
-        header,
-        getterLines.join('\n').indent(),
-        if (property.hasSetter) setterLines.join('\n').indent(),
-        '}',
-      ].join('\n');
-    },
-  ).toList();
-}
+List<String> _generateNestedDeclarations(ClassDeclaration declaration) => [
+      for (final nested in declaration.nestedDeclarations)
+        ...generateDeclaration(nested),
+    ];

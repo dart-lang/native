@@ -4,8 +4,7 @@
 
 import 'package:logging/logging.dart';
 
-import 'build_config.dart';
-import 'build_output.dart';
+import '../config.dart';
 import 'linker.dart';
 
 /// A builder to be run during a build hook.
@@ -29,8 +28,8 @@ import 'linker.dart';
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 ///
 /// void main(List<String> args) async {
-///   await build(args, (config, output) async {
-///     final packageName = config.packageName;
+///   await build(args, (input, output) async {
+///     final packageName = input.packageName;
 ///     final cbuilder = CBuilder.library(
 ///       name: packageName,
 ///       assetName: '$packageName.dart',
@@ -39,7 +38,7 @@ import 'linker.dart';
 ///       ],
 ///     );
 ///     await cbuilder.run(
-///       buildConfig: config,
+///       buildInput: input,
 ///       buildOutput: output,
 ///       logger: Logger('')
 ///         ..level = Level.ALL
@@ -48,30 +47,14 @@ import 'linker.dart';
 ///   });
 /// }
 /// ```
-///
-/// The builder is designed to immediately operate on [BuildConfig]. If a
-/// builder should deviate behavior from the build config, this should be
-/// configurable through a constructor parameter. For example, if a native
-/// compiler should output a static library to be sent to a linker, but the
-/// [BuildConfig.linkModePreference] is set to dynamic linking, the builder
-/// should have its own `linkModePreference` parameter in the constructor.
-///
-/// The builder is designed to immediately operate on [BuildOutput]. If a
-/// builder should output something else than standard, it should be
-/// configurable through a constructor parameter. For example to send an asset
-/// for linking to the output ([BuildOutput.addAsset] with `linkInPackage` set),
-/// the builder should have a constructor parameter. (Instead of capturing the
-/// BuildOutput as a return value and manually manipulating it in the build
-/// hook.) This ensures that builder is in control of what combination of build
-/// outputs are valid.
 abstract interface class Builder {
   /// Runs this build.
   ///
-  /// Reads the config from [config], streams output to [output], and streams
+  /// Reads the input from [input], streams output to [output], and streams
   /// logs to [logger].
   Future<void> run({
-    required BuildConfig config,
-    required BuildOutput output,
+    required BuildInput input,
+    required BuildOutputBuilder output,
     required Logger? logger,
   });
 }

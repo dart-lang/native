@@ -22,7 +22,10 @@ class Resolver {
   final List<String> _importStrings = [];
 
   final Set<String> _relativeImportedClasses = {};
-  final Map<String, String> _importedNameToClass = {};
+  final Map<String, String> _importedNameToClass = {
+    r'_$core': '',
+    r'_$jni': '',
+  };
   final Map<String, String> _classToImportedName = {};
 
   Resolver({
@@ -51,8 +54,7 @@ class Resolver {
   /// Get the prefix for the class
   String resolvePrefix(ClassDecl classDecl) {
     if (classDecl.path == 'package:jni/jni.dart') {
-      // For package:jni we don't use a leading underscore.
-      return 'jni.';
+      return r'jni$_.';
     }
     final binaryName = classDecl.binaryName;
     final target = getFileClassName(binaryName);
@@ -84,18 +86,14 @@ class Resolver {
     }
 
     final pkgName = cutFromLast(target, '.')[1].toLowerCase();
-    if (pkgName.isEmpty) {
-      throw UnsupportedError('No package could be deduced from '
-          'qualified binaryName');
-    }
 
     // We always name imports with an underscore suffix, so that they can be
     // never shadowed by a parameter or local variable.
-    var importedName = '${pkgName}_';
+    var importedName = '$pkgName\$_';
     var suffix = 0;
     while (_importedNameToClass.containsKey(importedName)) {
-      suffix++;
-      importedName = '$pkgName${suffix}_';
+      ++suffix;
+      importedName = '$pkgName\$_$suffix';
     }
 
     _importedNameToClass[importedName] = target;

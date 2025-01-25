@@ -13,12 +13,11 @@ import java.util.*;
 import org.objectweb.asm.*;
 import org.objectweb.asm.signature.SignatureReader;
 
-public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElementVisitor {
-  private static Param param(
-      Type type, String name, @SuppressWarnings("SameParameterValue") String signature) {
+public class AsmClassVisitor extends ClassVisitor {
+  private static Param param(Type type, String name) {
     var param = new Param();
     param.name = name;
-    param.type = TypeUtils.typeUsage(type, signature);
+    param.type = TypeUtils.typeUsage(type);
     return param;
   }
 
@@ -31,6 +30,7 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
 
   /// Actual access for the inner classes as originally defined.
   Map<String, Integer> actualAccess = new HashMap<>();
+  Map<String, String> outerClass = new HashMap<>();
 
   public AsmClassVisitor() {
     super(AsmConstants.API);
@@ -48,10 +48,11 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     visiting.push(current);
     current.binaryName = name.replace('/', '.');
     current.modifiers = TypeUtils.access(actualAccess.getOrDefault(current.binaryName, access));
+    current.outerClassBinaryName = outerClass.getOrDefault(current.binaryName, null);
     current.declKind = TypeUtils.declKind(access);
-    current.superclass = TypeUtils.typeUsage(Type.getObjectType(superName), null);
+    current.superclass = TypeUtils.typeUsage(Type.getObjectType(superName));
     current.interfaces =
-        StreamUtil.map(interfaces, i -> TypeUtils.typeUsage(Type.getObjectType(i), null));
+        StreamUtil.map(interfaces, i -> TypeUtils.typeUsage(Type.getObjectType(i)));
     if (signature != null) {
       var reader = new SignatureReader(signature);
       reader.accept(new AsmClassSignatureVisitor(current));
@@ -63,12 +64,17 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
   public void visitInnerClass(String name, String outerName, String innerName, int access) {
     var binaryName = name.replace('/', '.');
     actualAccess.put(binaryName, access);
-
+    if (outerName != null) {
+      var outerClassBinaryName = outerName.replace('/', '.');
+      outerClass.put(binaryName, outerClassBinaryName);
+    }
     if (visited.containsKey(binaryName)) {
       // If the order of visit is outerClass-first, innerClass-second then only
       // correct the modifiers.
       visited.get(binaryName).modifiers = TypeUtils.access(access);
+      visited.get(binaryName).outerClassBinaryName = outerClass.get(binaryName);
     }
+    super.visitInnerClass(name, outerName, innerName, access);
   }
 
   @Override
@@ -80,10 +86,11 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
 
     var field = new Field();
     field.name = name;
-    field.type = TypeUtils.typeUsage(Type.getType(descriptor), signature);
+    field.type = TypeUtils.typeUsage(Type.getType(descriptor));
     field.defaultValue = value;
     field.modifiers = TypeUtils.access(access);
     if ((access & ACC_ENUM) != 0) {
+      field.type.type.annotations.add(JavaAnnotation.nonNull);
       peekVisiting().values.add(name);
     }
     if (signature != null) {
@@ -116,9 +123,9 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
       } else {
         paramNames.put(paramName, 1);
       }
-      params.add(param(pt, paramName, null));
+      params.add(param(pt, paramName));
     }
-    method.returnType = TypeUtils.typeUsage(type.getReturnType(), signature);
+    method.returnType = TypeUtils.typeUsage(type.getReturnType());
     method.modifiers = TypeUtils.access(access);
     method.params = params;
     if (signature != null) {
@@ -134,22 +141,45 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
     if (descriptor.equals("Lkotlin/Metadata;")) {
       return new KotlinMetadataAnnotationVisitor(peekVisiting());
     }
-    return super.visitAnnotation(descriptor, visible);
-  }
-
-  @Override
-  public void addAnnotation(JavaAnnotation annotation) {
+    var annotation = TypeUtils.annotationFromDescriptor(descriptor);
     peekVisiting().annotations.add(annotation);
-  }
-
-  @Override
-  public AnnotationVisitor visitAnnotationDefault(String descriptor, boolean visible) {
-    return super.visitAnnotation(descriptor, visible);
+    return new AsmAnnotationVisitor(annotation);
   }
 
   @Override
   public AnnotationVisitor visitTypeAnnotation(
       int typeRef, TypePath typePath, String descriptor, boolean visible) {
+    var typeReference = new TypeReference(typeRef);
+    var annotation = TypeUtils.annotationFromDescriptor(descriptor);
+    TypeUsage.ReferredType startingType = null;
+    switch (typeReference.getSort()) {
+      case TypeReference.CLASS_TYPE_PARAMETER:
+        {
+          var index = typeReference.getTypeParameterIndex();
+          peekVisiting().typeParams.get(index).annotations.add(annotation);
+          break;
+        }
+      case TypeReference.CLASS_TYPE_PARAMETER_BOUND:
+        {
+          var typeParamIndex = typeReference.getTypeParameterIndex();
+          var index = typeReference.getTypeParameterBoundIndex();
+          startingType = peekVisiting().typeParams.get(typeParamIndex).bounds.get(index).type;
+          break;
+        }
+      case TypeReference.CLASS_EXTENDS:
+        {
+          var index = typeReference.getSuperTypeIndex();
+          if (index == -1) {
+            startingType = peekVisiting().superclass.type;
+          } else {
+            startingType = peekVisiting().interfaces.get(index).type;
+          }
+          break;
+        }
+    }
+    if (startingType != null) {
+      TypeUtils.moveToTypePath(startingType, typePath).annotations.add(annotation);
+    }
     return super.visitTypeAnnotation(typeRef, typePath, descriptor, visible);
   }
 
@@ -157,6 +187,7 @@ public class AsmClassVisitor extends ClassVisitor implements AsmAnnotatedElement
   public void visitEnd() {
     var classToAdd = popVisiting();
     visited.put(classToAdd.binaryName, classToAdd);
+    super.visitEnd();
   }
 
   private ClassDecl peekVisiting() {

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -10,11 +11,8 @@ import 'writer.dart';
 ///
 /// Implementers should extend either Type, or BindingType if the type is also a
 /// binding, and override at least getCType and toString.
-abstract class Type {
+abstract class Type extends AstNode {
   const Type();
-
-  /// Get all dependencies of this type and save them in [dependencies].
-  void addDependencies(Set<Binding> dependencies) {}
 
   /// Get base type for any type.
   ///
@@ -34,6 +32,18 @@ abstract class Type {
 
   /// Returns true if the type is a [Compound] and is incomplete.
   bool get isIncompleteCompound => false;
+
+  /// Returns true if this is a subtype of [other]. That is this <: other.
+  ///
+  /// The behavior of this function should mirror Dart's subtyping logic, not
+  /// Objective-C's. It's used to detect and fix cases where the generated
+  /// bindings would fail `dart analyze` due to Dart's subtyping rules.
+  ///
+  /// Note: Implementers should implement [isSupertypeOf].
+  bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
+
+  /// Returns true if this is a supertype of [other]. That is this :> other.
+  bool isSupertypeOf(Type other) => typealiasType == other.typealiasType;
 
   /// Returns the C type of the Type. This is the FFI compatible type that is
   /// passed to native code.
@@ -82,6 +92,7 @@ abstract class Type {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
       value;
 
@@ -122,6 +133,31 @@ abstract class Type {
   /// example, for int types this returns the string '0'. A null return means
   /// that default values aren't supported for this type, eg void.
   String? getDefaultValue(Writer w) => null;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitType(this);
+
+  // Helper for [isSupertypeOf] that applies variance rules.
+  static bool isSupertypeOfVariance({
+    List<Type> covariantLeft = const [],
+    List<Type> covariantRight = const [],
+    List<Type> contravariantLeft = const [],
+    List<Type> contravariantRight = const [],
+  }) =>
+      isSupertypeOfCovariance(left: covariantLeft, right: covariantRight) &&
+      isSupertypeOfCovariance(
+          left: contravariantRight, right: contravariantLeft);
+
+  static bool isSupertypeOfCovariance({
+    required List<Type> left,
+    required List<Type> right,
+  }) {
+    if (left.length != right.length) return false;
+    for (var i = 0; i < left.length; ++i) {
+      if (!left[i].isSupertypeOf(right[i])) return false;
+    }
+    return true;
+  }
 }
 
 /// Base class for all Type bindings.
@@ -151,6 +187,12 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   bool get isIncompleteCompound => false;
 
   @override
+  bool isSubtypeOf(Type other) => other.isSupertypeOf(this);
+
+  @override
+  bool isSupertypeOf(Type other) => typealiasType == other.typealiasType;
+
+  @override
   String getFfiDartType(Writer w) => getCType(w);
 
   @override
@@ -174,6 +216,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
       value;
 
@@ -197,6 +240,12 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String? getDefaultValue(Writer w) => null;
+
+  @override
+  bool get isObjCImport => false;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitBindingType(this);
 }
 
 /// Represents an unimplemented type. Used as a marker, so that declarations

@@ -4,13 +4,14 @@
 
 import 'dart:ffi';
 
-import '../internal_helpers_for_jnigen.dart';
-
+import '../_internal.dart';
 import 'jobject.dart';
 import 'third_party/generated_bindings.dart';
 
 void _fillJValue(Pointer<JValue> pos, dynamic arg) {
   switch (arg) {
+    case null:
+      pos.ref.l = nullptr;
     case JObject():
       pos.ref.l = arg.reference.pointer;
     case JReference():

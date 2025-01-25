@@ -33,9 +33,13 @@ void main() async {
             packageUri,
             createCapturingLogger(logMessages, level: Level.SEVERE),
             dartExecutable,
+            buildAssetTypes: [],
+            inputValidator: (input) async => [],
+            buildValidator: (input, output) async => [],
+            applicationAssetValidator: validateCodeAssetInApplication,
           );
           final fullLog = logMessages.join('\n');
-          expect(result.success, false);
+          expect(result, isNull);
           if (package == 'wrong_build_output_3') {
             // Should re-execute the process on second run.
             expect(
@@ -45,7 +49,7 @@ void main() async {
           } else {
             expect(
               fullLog,
-              contains('build_output.json contained a format error.'),
+              contains('output.json contained a format error.'),
             );
           }
         }

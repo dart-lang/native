@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:jnigen/jnigen.dart';
-import 'package:jnigen/src/config/experiments.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' hide equals;
 
@@ -71,7 +70,6 @@ Config getConfig({
         'com.fasterxml.jackson.core.JsonFactoryBuilder',
       ),
     ),
-    experiments: {Experiment.interfaceImplementation},
   );
   return config;
 }

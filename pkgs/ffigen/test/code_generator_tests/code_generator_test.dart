@@ -135,19 +135,19 @@ void main() {
           Struct(
             name: 'WithPrimitiveMember',
             members: [
-              Member(
+              CompoundMember(
                 name: 'a',
                 type: NativeType(
                   SupportedNativeType.int32,
                 ),
               ),
-              Member(
+              CompoundMember(
                 name: 'b',
                 type: NativeType(
                   SupportedNativeType.double,
                 ),
               ),
-              Member(
+              CompoundMember(
                 name: 'c',
                 type: NativeType(
                   SupportedNativeType.char,
@@ -158,7 +158,7 @@ void main() {
           Struct(
             name: 'WithPointerMember',
             members: [
-              Member(
+              CompoundMember(
                 name: 'a',
                 type: PointerType(
                   NativeType(
@@ -166,7 +166,7 @@ void main() {
                   ),
                 ),
               ),
-              Member(
+              CompoundMember(
                 name: 'b',
                 type: PointerType(
                   PointerType(
@@ -176,7 +176,7 @@ void main() {
                   ),
                 ),
               ),
-              Member(
+              CompoundMember(
                 name: 'c',
                 type: NativeType(
                   SupportedNativeType.char,
@@ -187,7 +187,7 @@ void main() {
           Struct(
             name: 'WithIntPtrUintPtr',
             members: [
-              Member(
+              CompoundMember(
                 name: 'a',
                 type: PointerType(
                   NativeType(
@@ -195,7 +195,7 @@ void main() {
                   ),
                 ),
               ),
-              Member(
+              CompoundMember(
                 name: 'b',
                 type: PointerType(
                   PointerType(
@@ -217,19 +217,19 @@ void main() {
       final structSome = Struct(
         name: 'SomeStruct',
         members: [
-          Member(
+          CompoundMember(
             name: 'a',
             type: NativeType(
               SupportedNativeType.int32,
             ),
           ),
-          Member(
+          CompoundMember(
             name: 'b',
             type: NativeType(
               SupportedNativeType.double,
             ),
           ),
-          Member(
+          CompoundMember(
             name: 'c',
             type: NativeType(
               SupportedNativeType.char,
@@ -525,8 +525,8 @@ void main() {
       final struct1 = Struct(
         name: 'StructWithEnums',
         members: [
-          Member(name: 'enum1', type: enum1),
-          Member(name: 'enum2', type: enum2),
+          CompoundMember(name: 'enum1', type: enum1),
+          CompoundMember(name: 'enum2', type: enum2),
         ],
       );
       final func4 = Func(
@@ -574,7 +574,7 @@ void main() {
           Struct(
             name: '_Test',
             members: [
-              Member(
+              CompoundMember(
                 name: 'array',
                 type: ConstantArray(
                   2,
@@ -648,26 +648,12 @@ void main() {
         Struct(
           name: 'Test2',
           members: [
-            Member(name: 'a', type: BooleanType()),
+            CompoundMember(name: 'a', type: BooleanType()),
           ],
         ),
       ],
     );
     _matchLib(library, 'boolean_dartbool');
-  });
-  test('sort bindings', () {
-    final library = Library(
-      name: 'Bindings',
-      header: licenseHeader,
-      sort: true,
-      bindings: [
-        Func(name: 'b', returnType: NativeType(SupportedNativeType.voidType)),
-        Func(name: 'a', returnType: NativeType(SupportedNativeType.voidType)),
-        Struct(name: 'D'),
-        Struct(name: 'C'),
-      ],
-    );
-    _matchLib(library, 'sort_bindings');
   });
   test('Pack Structs', () {
     final library = Library(
@@ -675,32 +661,32 @@ void main() {
       header: licenseHeader,
       bindings: [
         Struct(name: 'NoPacking', pack: null, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
+          CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack1', pack: 1, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
+          CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack2', pack: 2, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
+          CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
-        Struct(name: 'Pack2', pack: 4, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
+        Struct(name: 'Pack4', pack: 4, members: [
+          CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
-        Struct(name: 'Pack2', pack: 8, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
+        Struct(name: 'Pack8', pack: 8, members: [
+          CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
         Struct(name: 'Pack16', pack: 16, members: [
-          Member(name: 'a', type: NativeType(SupportedNativeType.char)),
+          CompoundMember(name: 'a', type: NativeType(SupportedNativeType.char)),
         ]),
       ],
     );
     _matchLib(library, 'packed_structs');
   });
   test('Union Bindings', () {
-    final struct1 =
-        Struct(name: 'Struct1', members: [Member(name: 'a', type: charType)]);
-    final union1 =
-        Union(name: 'Union1', members: [Member(name: 'a', type: charType)]);
+    final struct1 = Struct(
+        name: 'Struct1', members: [CompoundMember(name: 'a', type: charType)]);
+    final union1 = Union(
+        name: 'Union1', members: [CompoundMember(name: 'a', type: charType)]);
     final library = Library(
       name: 'Bindings',
       header: licenseHeader,
@@ -709,32 +695,32 @@ void main() {
         union1,
         Union(name: 'EmptyUnion'),
         Union(name: 'Primitives', members: [
-          Member(name: 'a', type: charType),
-          Member(name: 'b', type: intType),
-          Member(name: 'c', type: floatType),
-          Member(name: 'd', type: doubleType),
+          CompoundMember(name: 'a', type: charType),
+          CompoundMember(name: 'b', type: intType),
+          CompoundMember(name: 'c', type: floatType),
+          CompoundMember(name: 'd', type: doubleType),
         ]),
         Union(name: 'PrimitivesWithPointers', members: [
-          Member(name: 'a', type: charType),
-          Member(name: 'b', type: floatType),
-          Member(name: 'c', type: PointerType(doubleType)),
-          Member(name: 'd', type: PointerType(union1)),
-          Member(name: 'd', type: PointerType(struct1)),
+          CompoundMember(name: 'a', type: charType),
+          CompoundMember(name: 'b', type: floatType),
+          CompoundMember(name: 'c', type: PointerType(doubleType)),
+          CompoundMember(name: 'd', type: PointerType(union1)),
+          CompoundMember(name: 'd', type: PointerType(struct1)),
         ]),
         Union(name: 'WithArray', members: [
-          Member(
+          CompoundMember(
             name: 'a',
             type: ConstantArray(10, charType, useArrayType: true),
           ),
-          Member(
+          CompoundMember(
             name: 'b',
             type: ConstantArray(10, union1, useArrayType: true),
           ),
-          Member(
+          CompoundMember(
             name: 'b',
             type: ConstantArray(10, struct1, useArrayType: true),
           ),
-          Member(
+          CompoundMember(
             name: 'c',
             type: ConstantArray(10, PointerType(union1), useArrayType: true),
           ),
@@ -744,21 +730,21 @@ void main() {
     _matchLib(library, 'unions');
   });
   test('Typealias Bindings', () {
+    final struct2 = Struct(
+        name: 'Struct2',
+        members: [CompoundMember(name: 'a', type: doubleType)]);
+    final struct2Typealias = Typealias(name: 'Struct2Typealias', type: struct2);
+    final struct3 = Struct(name: 'Struct3');
+    final struct3Typealias = Typealias(name: 'Struct3Typealias', type: struct3);
     final library = Library(
       name: 'Bindings',
       header:
           '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
       bindings: [
         Typealias(name: 'RawUnused', type: Struct(name: 'Struct1')),
-        Struct(name: 'WithTypealiasStruct', members: [
-          Member(
-              name: 't',
-              type: Typealias(
-                  name: 'Struct2Typealias',
-                  type: Struct(
-                      name: 'Struct2',
-                      members: [Member(name: 'a', type: doubleType)])))
-        ]),
+        Struct(
+            name: 'WithTypealiasStruct',
+            members: [CompoundMember(name: 't', type: struct2Typealias)]),
         Func(
             name: 'WithTypealiasStruct',
             returnType: PointerType(NativeFunc(FunctionType(
@@ -767,11 +753,14 @@ void main() {
             parameters: [
               Parameter(
                 name: 't',
-                type: Typealias(
-                    name: 'Struct3Typealias', type: Struct(name: 'Struct3')),
+                type: struct3Typealias,
                 objCConsumed: false,
               )
             ]),
+        struct2,
+        struct2Typealias,
+        struct3,
+        struct3Typealias,
       ],
     );
     _matchLib(library, 'typealias');

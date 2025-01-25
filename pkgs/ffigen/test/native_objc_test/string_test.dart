@@ -20,7 +20,7 @@ void main() {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/string_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('string');
@@ -30,13 +30,13 @@ void main() {
       test('NSString to/from Dart string [$s]', () {
         final ns1 = NSString(s);
         expect(ns1.length, s.length);
-        expect(ns1.toString().length, s.length);
-        expect(ns1.toString(), s);
+        expect(ns1.toDartString().length, s.length);
+        expect(ns1.toDartString(), s);
 
         final ns2 = s.toNSString();
         expect(ns2.length, s.length);
-        expect(ns2.toString().length, s.length);
-        expect(ns2.toString(), s);
+        expect(ns2.toDartString().length, s.length);
+        expect(ns2.toDartString(), s);
       });
     }
 
@@ -46,7 +46,7 @@ void main() {
 
       final str3 = StringUtil.strConcat_with_(str1, str2);
       expect(str3.length, 11);
-      expect(str3.toString(), "HelloWorld!");
+      expect(str3.toDartString(), "HelloWorld!");
     });
   });
 }

@@ -9,7 +9,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -54,30 +53,47 @@ Future<void> runTests(List<Architecture> architectures) async {
       test('link test with CLinker ${clinker.name} and target $architecture',
           () async {
         final tempUri = await tempDirForTest();
-        final testArchive = await buildTestArchive(tempUri, os, architecture);
-
-        final linkOutput = LinkOutput();
-
-        final config = LinkConfig.build(
-          outputDirectory: tempUri,
-          packageName: 'testpackage',
-          packageRoot: tempUri,
-          targetArchitecture: architecture,
-          targetOS: os,
-          buildMode: BuildMode.release,
-          linkModePreference: LinkModePreference.dynamic,
-          assets: [],
-          cCompiler: cCompiler,
+        final tempUri2 = await tempDirForTest();
+        final testArchive = await buildTestArchive(
+          tempUri,
+          tempUri2,
+          os,
+          architecture,
         );
-        printOnFailure(config.cCompiler.toString());
+
+        final linkInputBuilder = LinkInputBuilder()
+          ..setupShared(
+            packageName: 'testpackage',
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..setupLink(
+            assets: [],
+            recordedUsesFile: null,
+          )
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: os,
+            targetArchitecture: architecture,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
+
+        final linkInput = LinkInput(linkInputBuilder.json);
+        final linkOutputBuilder = LinkOutputBuilder();
+
+        printOnFailure(linkInput.config.code.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
-          config: config,
-          output: linkOutput,
+          input: linkInput,
+          output: linkOutputBuilder,
           logger: logger,
         );
 
-        final asset = linkOutput.assets.first as NativeCodeAsset;
+        final linkOutput = LinkOutput(linkOutputBuilder.json);
+        final asset = linkOutput.assets.code.first;
         final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);

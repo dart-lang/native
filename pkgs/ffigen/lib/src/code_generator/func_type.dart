@@ -3,8 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import 'utils.dart';
+import '../visitor/ast.dart';
 
+import 'utils.dart';
 import 'writer.dart';
 
 /// Represents a function type.
@@ -95,14 +96,6 @@ class FunctionType extends Type {
   @override
   String cacheKey() => _getTypeImpl(false, (Type t) => t.cacheKey());
 
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    returnType.addDependencies(dependencies);
-    for (final p in parameters) {
-      p.type.addDependencies(dependencies);
-    }
-  }
-
   void addParameterNames(List<String> names) {
     if (names.length != parameters.length) {
       return;
@@ -117,6 +110,29 @@ class FunctionType extends Type {
         objCConsumed: false,
       );
     }
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(returnType);
+    visitor.visitAll(parameters);
+    visitor.visitAll(varArgParameters);
+  }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is FunctionType) {
+      return Type.isSupertypeOfVariance(
+        covariantLeft: [returnType],
+        covariantRight: [other.returnType],
+        contravariantLeft: dartTypeParameters.map((p) => p.type).toList(),
+        contravariantRight:
+            other.dartTypeParameters.map((p) => p.type).toList(),
+      );
+    }
+    return false;
   }
 }
 
@@ -135,16 +151,16 @@ class NativeFunc extends Type {
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    _type.addDependencies(dependencies);
+  String getCType(Writer w, {bool writeArgumentNames = true}) {
+    final funcType = _type is FunctionType
+        ? _type.getCType(w, writeArgumentNames: writeArgumentNames)
+        : _type.getCType(w);
+    return '${w.ffiLibraryPrefix}.NativeFunction<$funcType>';
   }
 
   @override
-  String getCType(Writer w) =>
-      '${w.ffiLibraryPrefix}.NativeFunction<${_type.getCType(w)}>';
-
-  @override
-  String getFfiDartType(Writer w) => getCType(w);
+  String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
+      getCType(w, writeArgumentNames: writeArgumentNames);
 
   @override
   String getNativeType({String varName = ''}) =>
@@ -158,4 +174,17 @@ class NativeFunc extends Type {
 
   @override
   String cacheKey() => 'NatFn(${_type.cacheKey()})';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_type);
+  }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is NativeFunc) return type.isSupertypeOf(other.type);
+    return false;
+  }
 }

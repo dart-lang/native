@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
 
@@ -211,10 +212,10 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('casting', () {
     using((arena) {
       final str = 'hello'.toJString()..releasedBy(arena);
-      final obj = str.castTo(JObject.type)..releasedBy(arena);
-      final backToStr = obj.castTo(JString.type);
+      final obj = str.as(JObject.type)..releasedBy(arena);
+      final backToStr = obj.as(JString.type);
       expect(backToStr.toDartString(), str.toDartString());
-      final _ = backToStr.castTo(JObject.type, releaseOriginal: true)
+      final _ = backToStr.as(JObject.type, releaseOriginal: true)
         ..releasedBy(arena);
       expect(backToStr.toDartString, throwsA(isA<UseAfterReleaseError>()));
       expect(backToStr.release, throwsA(isA<DoubleReleaseError>()));
@@ -224,12 +225,6 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Isolate', () async {
     final receivePort = ReceivePort();
     await Isolate.spawn((sendPort) {
-      // On standalone target, make sure to call [setDylibDir] before accessing
-      // any JNI function in a new isolate.
-      //
-      // otherwise subsequent JNI calls will throw a "library not found"
-      // exception.
-      Jni.setDylibDir(dylibDir: 'build/jni_libs');
       final randomClass = JClass.forName('java/util/Random');
       final random =
           randomClass.constructorId('()V').call(randomClass, JObject.type, []);
@@ -284,15 +279,22 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('Casting correctly succeeds', () {
     final long = JLong(1);
-    final long2 = long.castTo(JLong.type, releaseOriginal: true);
+    final long2 = long.as(JLong.type, releaseOriginal: true);
     expect(long2.longValue(releaseOriginal: true), 1);
   });
 
   testRunner('Casting incorrectly fails', () {
     final long = JLong(1);
     expect(
-      () => long.castTo(JInteger.type, releaseOriginal: true),
+      () => long.as(JInteger.type, releaseOriginal: true),
       throwsA(isA<AssertionError>()),
+    );
+  });
+
+  testRunner('Disallow construction of null JObject', () {
+    expect(
+      () => JObject.fromReference(jNullReference),
+      throwsA(isA<JNullError>()),
     );
   });
 }

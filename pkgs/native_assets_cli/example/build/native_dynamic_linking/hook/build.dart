@@ -7,7 +7,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> args) async {
-  await build(args, (config, output) async {
+  await build(args, (input, output) async {
     final logger = Logger('')
       ..level = Level.ALL
       ..onRecord.listen((record) => print(record.message));
@@ -26,9 +26,7 @@ void main(List<String> args) async {
         sources: [
           'src/math.c',
         ],
-        // TODO(https://github.com/dart-lang/native/issues/190): Use specific
-        // API for linking once available.
-        flags: config.dynamicLinkingFlags('debug'),
+        libraries: ['debug'],
       ),
       CBuilder.library(
         name: 'add',
@@ -36,37 +34,18 @@ void main(List<String> args) async {
         sources: [
           'src/add.c',
         ],
-        // TODO(https://github.com/dart-lang/native/issues/190): Use specific
-        // API for linking once available.
-        flags: config.dynamicLinkingFlags('math'),
+        libraries: ['math'],
       )
     ];
 
-    // Note: This builders need to be run sequentially because they depend on
+    // Note: These builders need to be run sequentially because they depend on
     // each others output.
     for (final builder in builders) {
       await builder.run(
-        config: config,
+        input: input,
         output: output,
         logger: logger,
       );
     }
   });
-}
-
-extension on BuildConfig {
-  List<String> dynamicLinkingFlags(String libraryName) => switch (targetOS) {
-        OS.macOS => [
-            '-L${outputDirectory.toFilePath()}',
-            '-l$libraryName',
-          ],
-        OS.linux => [
-            '-Wl,-rpath=\$ORIGIN/.',
-            '-L${outputDirectory.toFilePath()}',
-            '-l$libraryName',
-          ],
-        // TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-        // for Windows once linker flags are supported by CBuilder.
-        _ => throw UnimplementedError('Unsupported OS: $targetOS'),
-      };
 }

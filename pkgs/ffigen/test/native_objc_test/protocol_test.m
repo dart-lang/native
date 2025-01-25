@@ -3,54 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 #import <dispatch/dispatch.h>
-#import <Foundation/NSObject.h>
-#import <Foundation/NSString.h>
 
-#include "util.h"
+#define DISABLE_METHOD 1
 
-typedef struct {
-  int32_t x;
-  int32_t y;
-} SomeStruct;
-
-@protocol SuperProtocol<NSObject>
-
-@required
-- (NSString*)instanceMethod:(NSString*)s withDouble:(double)x;
-
-@end
-
-@protocol MyProtocol<SuperProtocol>
-
-@optional
-- (int32_t)optionalMethod:(SomeStruct)s;
-
-@optional
-- (void)voidMethod:(int32_t)x;
-
-@end
-
-
-@protocol SecondaryProtocol<NSObject>
-
-@required
-- (int32_t)otherMethod:(int32_t)a b:(int32_t)b c:(int32_t)c d:(int32_t)d;
-
-@optional
-- (nullable instancetype)returnsInstanceType;
-
-@end
-
-@protocol EmptyProtocol
-@end
-
-
-@interface ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol;
-- (int32_t)callOptionalMethod:(id<MyProtocol>)protocol;
-- (int32_t)callOtherMethod:(id<SecondaryProtocol>)protocol;
-- (void)callMethodOnRandomThread:(id<SecondaryProtocol>)protocol;
-@end
+#include "protocol_test.h"
 
 @implementation ProtocolConsumer : NSObject
 - (NSString*)callInstanceMethod:(id<MyProtocol>)protocol {
@@ -75,11 +31,16 @@ typedef struct {
     [protocol voidMethod:123];
   });
 }
+
+- (void)callBlockingMethodOnRandomThread:(id<MyProtocol>)protocol {
+  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+    int32_t x;
+    [protocol intPtrMethod:&x];
+    [protocol voidMethod:x];
+  });
+}
 @end
 
-
-@interface ObjCProtocolImpl : NSObject<MyProtocol, SecondaryProtocol>
-@end
 
 @implementation ObjCProtocolImpl
 - (NSString *)instanceMethod:(NSString *)s withDouble:(double)x {
@@ -94,11 +55,20 @@ typedef struct {
   return a + b + c + d;
 }
 
+- (int32_t)fooMethod {
+  return 2468;
+}
+
++ (int32_t)requiredClassMethod {
+  return 9876;
+}
+
++ (int32_t)optionalClassMethod {
+  return 5432;
+}
+
 @end
 
-
-@interface ObjCProtocolImplMissingMethod : NSObject<MyProtocol>
-@end
 
 @implementation ObjCProtocolImplMissingMethod
 - (NSString *)instanceMethod:(NSString *)s withDouble:(double)x {

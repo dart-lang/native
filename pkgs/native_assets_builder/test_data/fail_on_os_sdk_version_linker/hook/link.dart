@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 // Simulate needing some version of the API.
 //
@@ -13,28 +13,28 @@ const minIosVersionForThisPackage = 16;
 const minMacOSVersionForThisPackage = 13;
 
 void main(List<String> arguments) async {
-  await link(arguments, (config, output) async {
-    if (config.targetOS == OS.android) {
-      if (config.targetAndroidNdkApi! < minNdkApiVersionForThisPackage) {
+  await link(arguments, (input, output) async {
+    if (input.config.code.targetOS == OS.android) {
+      if (input.config.code.android.targetNdkApi <
+          minNdkApiVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least Android NDK API level $minNdkApiVersionForThisPackage.',
         );
       }
-    } else if (config.targetOS == OS.iOS) {
-      final iosVersion = config.targetIOSVersion;
+    } else if (input.config.code.targetOS == OS.iOS) {
+      final iosVersion = input.config.code.iOS.targetVersion;
       // iosVersion is nullable to deal with version skew.
-      if (iosVersion != null && iosVersion < minIosVersionForThisPackage) {
+      if (iosVersion < minIosVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least iOS version $minIosVersionForThisPackage.',
         );
       }
-    } else if (config.targetOS == OS.macOS) {
-      final macosVersion = config.targetMacOSVersion;
+    } else if (input.config.code.targetOS == OS.macOS) {
+      final macosVersion = input.config.code.macOS.targetVersion;
       // macosVersion is nullable to deal with version skew.
-      if (macosVersion != null &&
-          macosVersion < minMacOSVersionForThisPackage) {
+      if (macosVersion < minMacOSVersionForThisPackage) {
         throw UnsupportedError(
           'The native assets for this package require at '
           'least MacOS version $minMacOSVersionForThisPackage.',

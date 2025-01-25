@@ -8,7 +8,6 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 
 final _logger = Logger('ffigen.header_parser.var_parser');
@@ -21,9 +20,6 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
     return bindingsIndex.getSeenGlobalVar(usr);
   }
   final decl = Declaration(usr: usr, originalName: name);
-  if (!shouldIncludeGlobalVar(decl)) {
-    return null;
-  }
 
   _logger.fine('++++ Adding Global: ${cursor.completeStringRepr()}');
 

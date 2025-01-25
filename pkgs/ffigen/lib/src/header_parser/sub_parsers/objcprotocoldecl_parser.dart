@@ -8,30 +8,25 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
-import '../includer.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
 
 final _logger = Logger('ffigen.header_parser.objcprotocoldecl_parser');
 
-ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
-    {bool ignoreFilter = false}) {
+ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
   if (cursor.kind != clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl) {
     return null;
   }
 
   final usr = cursor.usr();
-  final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
-  if (cachedProtocol != null) {
-    return cachedProtocol;
-  }
-
   final name = cursor.spelling();
 
   final decl = Declaration(usr: usr, originalName: name);
-  if (!ignoreFilter && !shouldIncludeObjCProtocol(decl)) {
-    return null;
+
+  final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
+  if (cachedProtocol != null) {
+    return cachedProtocol;
   }
 
   if (!isApiAvailable(cursor)) {
@@ -61,18 +56,20 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor,
         final declCursor = clang.clang_getCursorDefinition(child);
         _logger.fine(
             '       > Super protocol: ${declCursor.completeStringRepr()}');
-        final superProtocol =
-            parseObjCProtocolDeclaration(declCursor, ignoreFilter: true);
+        final superProtocol = parseObjCProtocolDeclaration(declCursor);
         if (superProtocol != null) {
           protocol.superProtocols.add(superProtocol);
         }
         break;
+      case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
+        final (getter, setter) =
+            parseObjCProperty(child, decl, config.objcProtocols);
+        protocol.addMethod(getter);
+        protocol.addMethod(setter);
+        break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        final method = parseObjCMethod(child, name);
-        if (method != null) {
-          protocol.addMethod(method);
-        }
+        protocol.addMethod(parseObjCMethod(child, decl, config.objcProtocols));
         break;
     }
   });

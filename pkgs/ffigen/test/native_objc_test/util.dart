@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
+import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 import 'package:logging/logging.dart' show Level;
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
@@ -25,25 +26,42 @@ void generateBindingsForCoverage(String testName) {
   FfiGen(logLevel: Level.SEVERE).run(config);
 }
 
-@Native<Void Function(Pointer<Char>, Pointer<Void>)>(
-    symbol: 'Dart_ExecuteInternalCommand')
-external void _executeInternalCommand(Pointer<Char> cmd, Pointer<Void> arg);
+final _executeInternalCommand = () {
+  try {
+    return DynamicLibrary.process()
+        .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
+            'Dart_ExecuteInternalCommand')
+        .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
+  } on ArgumentError {
+    return null;
+  }
+}();
+
+bool canDoGC = _executeInternalCommand != null;
 
 void doGC() {
-  final gcNow = "gc-now".toNativeUtf8();
-  _executeInternalCommand(gcNow.cast(), nullptr);
+  final gcNow = 'gc-now'.toNativeUtf8();
+  _executeInternalCommand!(gcNow.cast(), nullptr);
   calloc.free(gcNow);
 }
 
-@Native<Bool Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
-external bool _isReadableMemory(Pointer<Void> ptr);
+// Dart_ExecuteInternalCommand("gc-now") doesn't work on flutter, so we use
+// leak_tracker's forceGC function instead. It's less reliable, and to combat
+// that we need to wait for quite a long time, which breaks autorelease pools.
+Future<void> flutterDoGC() async {
+  await leak_tracker.forceGC();
+  await Future<void>.delayed(Duration(milliseconds: 500));
+}
+
+@Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
+external int _isReadableMemory(Pointer<Void> ptr);
 
 @Native<Uint64 Function(Pointer<Void>)>(
     isLeaf: true, symbol: 'getBlockRetainCount')
 external int _getBlockRetainCount(Pointer<Void> block);
 
 int blockRetainCount(Pointer<ObjCBlockImpl> block) {
-  if (!_isReadableMemory(block.cast())) return 0;
+  if (_isReadableMemory(block.cast()) == 0) return 0;
   if (!internal_for_testing.isValidBlock(block)) return 0;
   return _getBlockRetainCount(block.cast());
 }
@@ -53,7 +71,7 @@ int blockRetainCount(Pointer<ObjCBlockImpl> block) {
 external int _getObjectRetainCount(Pointer<Void> object);
 
 int objectRetainCount(Pointer<ObjCObject> object) {
-  if (!_isReadableMemory(object.cast())) return 0;
+  if (_isReadableMemory(object.cast()) == 0) return 0;
   final header = object.cast<Uint64>().value;
 
   // package:objective_c's isValidObject function internally calls

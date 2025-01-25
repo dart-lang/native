@@ -9,7 +9,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -27,22 +26,35 @@ Future<void> main() async {
   const name = 'mylibname';
 
   test('link two objects', () async {
-    final linkOutput = LinkOutput();
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
 
-    final uri = await buildTestArchive(tempUri, os, architecture);
-    final linkConfig = LinkConfig.build(
-      outputDirectory: tempUri,
-      packageName: 'testpackage',
-      packageRoot: tempUri,
-      targetArchitecture: architecture,
-      targetOS: os,
-      buildMode: BuildMode.debug,
-      linkModePreference: LinkModePreference.dynamic,
-      assets: [],
-      cCompiler: cCompiler,
-    );
-    printOnFailure(linkConfig.cCompiler.toString());
+    final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
+
+    final linkInputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: 'testpackage',
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
+      )
+      ..setupLink(
+        assets: [],
+        recordedUsesFile: null,
+      )
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
+        targetOS: os,
+        targetArchitecture: architecture,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: cCompiler,
+      );
+
+    final linkInput = LinkInput(linkInputBuilder.json);
+    final linkOutput = LinkOutputBuilder();
+
+    printOnFailure(linkInput.config.code.cCompiler.toString());
     printOnFailure(Platform.environment.keys.toList().toString());
     await CLinker.library(
       name: name,
@@ -50,16 +62,17 @@ Future<void> main() async {
       linkerOptions: LinkerOptions.manual(gcSections: false),
       sources: [uri.toFilePath()],
     ).run(
-      config: linkConfig,
+      input: linkInput,
       output: linkOutput,
       logger: logger,
     );
 
-    expect(linkOutput.assets, hasLength(1));
-    final asset = linkOutput.assets.first;
-    expect(asset, isA<NativeCodeAsset>());
+    final codeAssets = LinkOutput(linkOutput.json).assets.code;
+    expect(codeAssets, hasLength(1));
+    final asset = codeAssets.first;
+    expect(asset, isA<CodeAsset>());
     await expectSymbols(
-      asset: asset as NativeCodeAsset,
+      asset: asset,
       symbols: [
         'my_func',
         'my_other_func',

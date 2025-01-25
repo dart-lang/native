@@ -10,7 +10,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -34,11 +33,21 @@ void main() {
     Architecture.x64: '64-bit x86-64',
   };
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final target in targets) {
-        test('CBuilder $linkMode $language library $target', () async {
+        // Cycle through all optimization levels.
+        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+        selectOptimizationLevel =
+            (selectOptimizationLevel + 1) % optimizationLevels.length;
+
+        test('CBuilder $linkMode $language library $target $optimizationLevel',
+            () async {
           final tempUri = await tempDirForTest();
+          final tempUri2 = await tempDirForTest();
           final sourceUri = switch (language) {
             Language.c =>
               packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
@@ -48,28 +57,41 @@ void main() {
           };
           const name = 'add';
 
-          final buildConfig = BuildConfig.build(
-            outputDirectory: tempUri,
-            packageName: name,
-            packageRoot: tempUri,
-            targetArchitecture: target,
-            targetOS: OS.macOS,
-            buildMode: BuildMode.release,
-            linkModePreference: linkMode == DynamicLoadingBundled()
-                ? LinkModePreference.dynamic
-                : LinkModePreference.static,
-            linkingEnabled: false,
-          );
-          final buildOutput = BuildOutput();
+          final buildInputBuilder = BuildInputBuilder()
+            ..setupShared(
+              packageName: name,
+              packageRoot: tempUri,
+              outputFile: tempUri.resolve('output.json'),
+              outputDirectory: tempUri,
+              outputDirectoryShared: tempUri2,
+            )
+            ..config.setupBuild(
+              linkingEnabled: false,
+              dryRun: false,
+            )
+            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+            ..config.setupCode(
+              targetOS: OS.macOS,
+              targetArchitecture: target,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+              cCompiler: cCompiler,
+              macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+            );
+          final buildInput = BuildInput(buildInputBuilder.json);
+          final buildOutput = BuildOutputBuilder();
 
           final cbuilder = CBuilder.library(
             name: name,
             assetName: name,
             sources: [sourceUri.toFilePath()],
             language: language,
+            optimizationLevel: optimizationLevel,
+            buildMode: BuildMode.release,
           );
           await cbuilder.run(
-            config: buildConfig,
+            input: buildInput,
             output: buildOutput,
             logger: logger,
           );
@@ -104,7 +126,15 @@ void main() {
         final tempUri = await tempDirForTest();
         final out1Uri = tempUri.resolve('out1/');
         await Directory.fromUri(out1Uri).create();
-        final lib1Uri = await buildLib(out1Uri, target, macosVersion, linkMode);
+        final out2Uri = tempUri.resolve('out2/');
+        await Directory.fromUri(out1Uri).create();
+        final lib1Uri = await buildLib(
+          out1Uri,
+          out2Uri,
+          target,
+          macosVersion,
+          linkMode,
+        );
 
         final otoolResult = await runProcess(
           executable: Uri.file('otool'),
@@ -120,6 +150,7 @@ void main() {
 
 Future<Uri> buildLib(
   Uri tempUri,
+  Uri tempUri2,
   Architecture targetArchitecture,
   int targetMacOSVersion,
   LinkMode linkMode,
@@ -127,28 +158,40 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildConfig = BuildConfig.build(
-    outputDirectory: tempUri,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: targetArchitecture,
-    targetOS: OS.macOS,
-    targetMacOSVersion: targetMacOSVersion,
-    buildMode: BuildMode.release,
-    linkModePreference: linkMode == DynamicLoadingBundled()
-        ? LinkModePreference.dynamic
-        : LinkModePreference.static,
-    linkingEnabled: false,
-  );
-  final buildOutput = BuildOutput();
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
+      targetOS: OS.macOS,
+      targetArchitecture: targetArchitecture,
+      linkModePreference: linkMode == DynamicLoadingBundled()
+          ? LinkModePreference.dynamic
+          : LinkModePreference.static,
+      macOS: MacOSCodeConfig(targetVersion: targetMacOSVersion),
+      cCompiler: cCompiler,
+    );
+
+  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutput,
     logger: logger,
   );

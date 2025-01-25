@@ -7,7 +7,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -27,35 +26,56 @@ void main() {
     Architecture.riscv64,
   ];
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
-      test('CBuilder $linkMode library $target', () async {
+      // Cycle through all optimization levels.
+      final optimizationLevel = optimizationLevels[selectOptimizationLevel];
+      selectOptimizationLevel =
+          (selectOptimizationLevel + 1) % optimizationLevels.length;
+      test('CBuilder $linkMode library $target $optimizationLevel', () async {
         final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
         final addCUri =
             packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
         const name = 'add';
 
-        final buildConfig = BuildConfig.build(
-          outputDirectory: tempUri,
-          packageName: name,
-          packageRoot: tempUri,
-          targetArchitecture: target,
-          targetOS: OS.linux,
-          buildMode: BuildMode.release,
-          linkModePreference: linkMode == DynamicLoadingBundled()
-              ? LinkModePreference.dynamic
-              : LinkModePreference.static,
-          linkingEnabled: false,
-        );
-        final buildOutput = BuildOutput();
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(
+            linkingEnabled: false,
+            dryRun: false,
+          )
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: OS.linux,
+            targetArchitecture: target,
+            linkModePreference: linkMode == DynamicLoadingBundled()
+                ? LinkModePreference.dynamic
+                : LinkModePreference.static,
+            cCompiler: cCompiler,
+          );
+
+        final buildInput = BuildInput(buildInputBuilder.json);
+        final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.library(
           name: name,
           assetName: name,
           sources: [addCUri.toFilePath()],
+          optimizationLevel: optimizationLevel,
+          buildMode: BuildMode.release,
         );
         await cbuilder.run(
-          config: buildConfig,
+          input: buildInput,
           output: buildOutput,
           logger: logger,
         );

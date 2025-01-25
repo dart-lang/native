@@ -10720,16 +10720,41 @@ class SQLite {
 
 final class sqlite3 extends ffi.Opaque {}
 
+typedef sqlite_int64 = ffi.LongLong;
+typedef Dartsqlite_int64 = int;
+typedef sqlite_uint64 = ffi.UnsignedLongLong;
+typedef Dartsqlite_uint64 = int;
+typedef sqlite3_int64 = sqlite_int64;
+typedef sqlite3_uint64 = sqlite_uint64;
+typedef sqlite3_callbackFunction = ffi.Int Function(
+    ffi.Pointer<ffi.Void>,
+    ffi.Int,
+    ffi.Pointer<ffi.Pointer<ffi.Char>>,
+    ffi.Pointer<ffi.Pointer<ffi.Char>>);
+typedef Dartsqlite3_callbackFunction = int Function(ffi.Pointer<ffi.Void>, int,
+    ffi.Pointer<ffi.Pointer<ffi.Char>>, ffi.Pointer<ffi.Pointer<ffi.Char>>);
+
+/// The type for a callback function.
+/// This is legacy and deprecated.  It is included for historical
+/// compatibility and is not documented.
+typedef sqlite3_callback
+    = ffi.Pointer<ffi.NativeFunction<sqlite3_callbackFunction>>;
+
+final class sqlite3_io_methods extends ffi.Opaque {}
+
 final class sqlite3_file extends ffi.Struct {
   /// Methods for an open file
   external ffi.Pointer<sqlite3_io_methods> pMethods;
 }
 
-final class sqlite3_io_methods extends ffi.Opaque {}
-
 final class sqlite3_mutex extends ffi.Opaque {}
 
 final class sqlite3_api_routines extends ffi.Opaque {}
+
+typedef sqlite3_syscall_ptrFunction = ffi.Void Function();
+typedef Dartsqlite3_syscall_ptrFunction = void Function();
+typedef sqlite3_syscall_ptr
+    = ffi.Pointer<ffi.NativeFunction<sqlite3_syscall_ptrFunction>>;
 
 final class sqlite3_vfs extends ffi.Struct {
   /// Structure version number (currently 3)
@@ -10846,14 +10871,6 @@ final class sqlite3_vfs extends ffi.Struct {
       xNextSystemCall;
 }
 
-typedef sqlite3_int64 = sqlite_int64;
-typedef sqlite_int64 = ffi.LongLong;
-typedef Dartsqlite_int64 = int;
-typedef sqlite3_syscall_ptr
-    = ffi.Pointer<ffi.NativeFunction<sqlite3_syscall_ptrFunction>>;
-typedef sqlite3_syscall_ptrFunction = ffi.Void Function();
-typedef Dartsqlite3_syscall_ptrFunction = void Function();
-
 final class sqlite3_mem_methods extends ffi.Struct {
   /// Memory allocation function
   external ffi
@@ -10893,42 +10910,238 @@ final class sqlite3_mem_methods extends ffi.Struct {
   external ffi.Pointer<ffi.Void> pAppData;
 }
 
-typedef sqlite3_uint64 = sqlite_uint64;
-typedef sqlite_uint64 = ffi.UnsignedLongLong;
-typedef Dartsqlite_uint64 = int;
-
 final class sqlite3_stmt extends ffi.Opaque {}
 
 final class sqlite3_value extends ffi.Opaque {}
 
 final class sqlite3_context extends ffi.Opaque {}
 
-/// CAPI3REF: Virtual Table Instance Object
-/// KEYWORDS: sqlite3_vtab
-///
-/// Every [virtual table module] implementation uses a subclass
-/// of this object to describe a particular instance
-/// of the [virtual table].  Each subclass will
-/// be tailored to the specific needs of the module implementation.
-/// The purpose of this superclass is to define certain fields that are
-/// common to all module implementations.
-///
-/// ^Virtual tables methods can set an error message by assigning a
-/// string obtained from [sqlite3_mprintf()] to zErrMsg.  The method should
-/// take care that any prior string is freed by a call to [sqlite3_free()]
-/// prior to assigning a new string to zErrMsg.  ^After the error message
-/// is delivered up to the client application, the string will be automatically
-/// freed by sqlite3_free() and the zErrMsg field will be zeroed.
-final class sqlite3_vtab extends ffi.Struct {
-  /// The module for this virtual table
-  external ffi.Pointer<sqlite3_module> pModule;
+typedef sqlite3_destructor_typeFunction = ffi.Void Function(
+    ffi.Pointer<ffi.Void>);
+typedef Dartsqlite3_destructor_typeFunction = void Function(
+    ffi.Pointer<ffi.Void>);
 
-  /// Number of open cursors
+/// CAPI3REF: Constants Defining Special Destructor Behavior
+///
+/// These are special values for the destructor that is passed in as the
+/// final argument to routines like [sqlite3_result_blob()].  ^If the destructor
+/// argument is SQLITE_STATIC, it means that the content pointer is constant
+/// and will never change.  It does not need to be destroyed.  ^The
+/// SQLITE_TRANSIENT value means that the content will likely change in
+/// the near future and that SQLite should make its own private copy of
+/// the content before returning.
+///
+/// The typedef is necessary to work around problems in certain
+/// C++ compilers.
+typedef sqlite3_destructor_type
+    = ffi.Pointer<ffi.NativeFunction<sqlite3_destructor_typeFunction>>;
+
+final class sqlite3_index_constraint extends ffi.Struct {
+  /// Column constrained.  -1 for ROWID
   @ffi.Int()
-  external int nRef;
+  external int iColumn;
 
-  /// Error message from sqlite3_mprintf()
-  external ffi.Pointer<ffi.Char> zErrMsg;
+  /// Constraint operator
+  @ffi.UnsignedChar()
+  external int op;
+
+  /// True if this constraint is usable
+  @ffi.UnsignedChar()
+  external int usable;
+
+  /// Used internally - xBestIndex should ignore
+  @ffi.Int()
+  external int iTermOffset;
+}
+
+final class sqlite3_index_orderby extends ffi.Struct {
+  /// Column number
+  @ffi.Int()
+  external int iColumn;
+
+  /// True for DESC.  False for ASC.
+  @ffi.UnsignedChar()
+  external int desc;
+}
+
+/// Outputs
+final class sqlite3_index_constraint_usage extends ffi.Struct {
+  /// if >0, constraint is part of argv to xFilter
+  @ffi.Int()
+  external int argvIndex;
+
+  /// Do not code a test for this constraint
+  @ffi.UnsignedChar()
+  external int omit;
+}
+
+/// CAPI3REF: Virtual Table Indexing Information
+/// KEYWORDS: sqlite3_index_info
+///
+/// The sqlite3_index_info structure and its substructures is used as part
+/// of the [virtual table] interface to
+/// pass information into and receive the reply from the [xBestIndex]
+/// method of a [virtual table module].  The fields under **Inputs** are the
+/// inputs to xBestIndex and are read-only.  xBestIndex inserts its
+/// results into the **Outputs** fields.
+///
+/// ^(The aConstraint[] array records WHERE clause constraints of the form:
+///
+/// <blockquote>column OP expr</blockquote>
+///
+/// where OP is =, &lt;, &lt;=, &gt;, or &gt;=.)^  ^(The particular operator is
+/// stored in aConstraint[].op using one of the
+/// [SQLITE_INDEX_CONSTRAINT_EQ | SQLITE_INDEX_CONSTRAINT_ values].)^
+/// ^(The index of the column is stored in
+/// aConstraint[].iColumn.)^  ^(aConstraint[].usable is TRUE if the
+/// expr on the right-hand side can be evaluated (and thus the constraint
+/// is usable) and false if it cannot.)^
+///
+/// ^The optimizer automatically inverts terms of the form "expr OP column"
+/// and makes other simplifications to the WHERE clause in an attempt to
+/// get as many WHERE clause terms into the form shown above as possible.
+/// ^The aConstraint[] array only reports WHERE clause terms that are
+/// relevant to the particular virtual table being queried.
+///
+/// ^Information about the ORDER BY clause is stored in aOrderBy[].
+/// ^Each term of aOrderBy records a column of the ORDER BY clause.
+///
+/// The colUsed field indicates which columns of the virtual table may be
+/// required by the current scan. Virtual table columns are numbered from
+/// zero in the order in which they appear within the CREATE TABLE statement
+/// passed to sqlite3_declare_vtab(). For the first 63 columns (columns 0-62),
+/// the corresponding bit is set within the colUsed mask if the column may be
+/// required by SQLite. If the table has at least 64 columns and any column
+/// to the right of the first 63 is required, then bit 63 of colUsed is also
+/// set. In other words, column iCol may be required if the expression
+/// (colUsed & ((sqlite3_uint64)1 << (iCol>=63 ? 63 : iCol))) evaluates to
+/// non-zero.
+///
+/// The [xBestIndex] method must fill aConstraintUsage[] with information
+/// about what parameters to pass to xFilter.  ^If argvIndex>0 then
+/// the right-hand side of the corresponding aConstraint[] is evaluated
+/// and becomes the argvIndex-th entry in argv.  ^(If aConstraintUsage[].omit
+/// is true, then the constraint is assumed to be fully handled by the
+/// virtual table and might not be checked again by the byte code.)^ ^(The
+/// aConstraintUsage[].omit flag is an optimization hint. When the omit flag
+/// is left in its default setting of false, the constraint will always be
+/// checked separately in byte code.  If the omit flag is change to true, then
+/// the constraint may or may not be checked in byte code.  In other words,
+/// when the omit flag is true there is no guarantee that the constraint will
+/// not be checked again using byte code.)^
+///
+/// ^The idxNum and idxPtr values are recorded and passed into the
+/// [xFilter] method.
+/// ^[sqlite3_free()] is used to free idxPtr if and only if
+/// needToFreeIdxPtr is true.
+///
+/// ^The orderByConsumed means that output from [xFilter]/[xNext] will occur in
+/// the correct order to satisfy the ORDER BY clause so that no separate
+/// sorting step is required.
+///
+/// ^The estimatedCost value is an estimate of the cost of a particular
+/// strategy. A cost of N indicates that the cost of the strategy is similar
+/// to a linear scan of an SQLite table with N rows. A cost of log(N)
+/// indicates that the expense of the operation is similar to that of a
+/// binary search on a unique indexed field of an SQLite table with N rows.
+///
+/// ^The estimatedRows value is an estimate of the number of rows that
+/// will be returned by the strategy.
+///
+/// The xBestIndex method may optionally populate the idxFlags field with a
+/// mask of SQLITE_INDEX_SCAN_* flags. Currently there is only one such flag -
+/// SQLITE_INDEX_SCAN_UNIQUE. If the xBestIndex method sets this flag, SQLite
+/// assumes that the strategy may visit at most one row.
+///
+/// Additionally, if xBestIndex sets the SQLITE_INDEX_SCAN_UNIQUE flag, then
+/// SQLite also assumes that if a call to the xUpdate() method is made as
+/// part of the same statement to delete or update a virtual table row and the
+/// implementation returns SQLITE_CONSTRAINT, then there is no need to rollback
+/// any database changes. In other words, if the xUpdate() returns
+/// SQLITE_CONSTRAINT, the database contents must be exactly as they were
+/// before xUpdate was called. By contrast, if SQLITE_INDEX_SCAN_UNIQUE is not
+/// set and xUpdate returns SQLITE_CONSTRAINT, any database changes made by
+/// the xUpdate method are automatically rolled back by SQLite.
+///
+/// IMPORTANT: The estimatedRows field was added to the sqlite3_index_info
+/// structure for SQLite [version 3.8.2] ([dateof:3.8.2]).
+/// If a virtual table extension is
+/// used with an SQLite version earlier than 3.8.2, the results of attempting
+/// to read or write the estimatedRows field are undefined (but are likely
+/// to include crashing the application). The estimatedRows field should
+/// therefore only be used if [sqlite3_libversion_number()] returns a
+/// value greater than or equal to 3008002. Similarly, the idxFlags field
+/// was added for [version 3.9.0] ([dateof:3.9.0]).
+/// It may therefore only be used if
+/// sqlite3_libversion_number() returns a value greater than or equal to
+/// 3009000.
+final class sqlite3_index_info extends ffi.Struct {
+  /// Number of entries in aConstraint
+  @ffi.Int()
+  external int nConstraint;
+
+  /// Table of WHERE clause constraints
+  external ffi.Pointer<sqlite3_index_constraint> aConstraint;
+
+  /// Number of terms in the ORDER BY clause
+  @ffi.Int()
+  external int nOrderBy;
+
+  /// The ORDER BY clause
+  external ffi.Pointer<sqlite3_index_orderby> aOrderBy;
+
+  external ffi.Pointer<sqlite3_index_constraint_usage> aConstraintUsage;
+
+  /// Number used to identify the index
+  @ffi.Int()
+  external int idxNum;
+
+  /// String, possibly obtained from sqlite3_malloc
+  external ffi.Pointer<ffi.Char> idxStr;
+
+  /// Free idxStr using sqlite3_free() if true
+  @ffi.Int()
+  external int needToFreeIdxStr;
+
+  /// True if output is already ordered
+  @ffi.Int()
+  external int orderByConsumed;
+
+  /// Estimated cost of using this index
+  @ffi.Double()
+  external double estimatedCost;
+
+  /// Estimated number of rows returned
+  @sqlite3_int64()
+  external int estimatedRows;
+
+  /// Mask of SQLITE_INDEX_SCAN_* flags
+  @ffi.Int()
+  external int idxFlags;
+
+  /// Input: Mask of columns used by statement
+  @sqlite3_uint64()
+  external int colUsed;
+}
+
+/// CAPI3REF: Virtual Table Cursor Object
+/// KEYWORDS: sqlite3_vtab_cursor {virtual table cursor}
+///
+/// Every [virtual table module] implementation uses a subclass of the
+/// following structure to describe cursors that point into the
+/// [virtual table] and are used
+/// to loop through the virtual table.  Cursors are created using the
+/// [sqlite3_module.xOpen | xOpen] method of the module and are destroyed
+/// by the [sqlite3_module.xClose | xClose] method.  Cursors are used
+/// by the [xFilter], [xNext], [xEof], [xColumn], and [xRowid] methods
+/// of the module.  Each module implementation will define
+/// the content of a cursor structure to suit its own needs.
+///
+/// This superclass exists in order to define fields of the cursor that
+/// are common to all implementations.
+final class sqlite3_vtab_cursor extends ffi.Struct {
+  /// Virtual table of this cursor
+  external ffi.Pointer<sqlite3_vtab> pVtab;
 }
 
 /// CAPI3REF: Virtual Table Object
@@ -11091,212 +11304,32 @@ final class sqlite3_module extends ffi.Struct {
       xShadowName;
 }
 
-/// CAPI3REF: Virtual Table Indexing Information
-/// KEYWORDS: sqlite3_index_info
+/// CAPI3REF: Virtual Table Instance Object
+/// KEYWORDS: sqlite3_vtab
 ///
-/// The sqlite3_index_info structure and its substructures is used as part
-/// of the [virtual table] interface to
-/// pass information into and receive the reply from the [xBestIndex]
-/// method of a [virtual table module].  The fields under **Inputs** are the
-/// inputs to xBestIndex and are read-only.  xBestIndex inserts its
-/// results into the **Outputs** fields.
+/// Every [virtual table module] implementation uses a subclass
+/// of this object to describe a particular instance
+/// of the [virtual table].  Each subclass will
+/// be tailored to the specific needs of the module implementation.
+/// The purpose of this superclass is to define certain fields that are
+/// common to all module implementations.
 ///
-/// ^(The aConstraint[] array records WHERE clause constraints of the form:
-///
-/// <blockquote>column OP expr</blockquote>
-///
-/// where OP is =, &lt;, &lt;=, &gt;, or &gt;=.)^  ^(The particular operator is
-/// stored in aConstraint[].op using one of the
-/// [SQLITE_INDEX_CONSTRAINT_EQ | SQLITE_INDEX_CONSTRAINT_ values].)^
-/// ^(The index of the column is stored in
-/// aConstraint[].iColumn.)^  ^(aConstraint[].usable is TRUE if the
-/// expr on the right-hand side can be evaluated (and thus the constraint
-/// is usable) and false if it cannot.)^
-///
-/// ^The optimizer automatically inverts terms of the form "expr OP column"
-/// and makes other simplifications to the WHERE clause in an attempt to
-/// get as many WHERE clause terms into the form shown above as possible.
-/// ^The aConstraint[] array only reports WHERE clause terms that are
-/// relevant to the particular virtual table being queried.
-///
-/// ^Information about the ORDER BY clause is stored in aOrderBy[].
-/// ^Each term of aOrderBy records a column of the ORDER BY clause.
-///
-/// The colUsed field indicates which columns of the virtual table may be
-/// required by the current scan. Virtual table columns are numbered from
-/// zero in the order in which they appear within the CREATE TABLE statement
-/// passed to sqlite3_declare_vtab(). For the first 63 columns (columns 0-62),
-/// the corresponding bit is set within the colUsed mask if the column may be
-/// required by SQLite. If the table has at least 64 columns and any column
-/// to the right of the first 63 is required, then bit 63 of colUsed is also
-/// set. In other words, column iCol may be required if the expression
-/// (colUsed & ((sqlite3_uint64)1 << (iCol>=63 ? 63 : iCol))) evaluates to
-/// non-zero.
-///
-/// The [xBestIndex] method must fill aConstraintUsage[] with information
-/// about what parameters to pass to xFilter.  ^If argvIndex>0 then
-/// the right-hand side of the corresponding aConstraint[] is evaluated
-/// and becomes the argvIndex-th entry in argv.  ^(If aConstraintUsage[].omit
-/// is true, then the constraint is assumed to be fully handled by the
-/// virtual table and might not be checked again by the byte code.)^ ^(The
-/// aConstraintUsage[].omit flag is an optimization hint. When the omit flag
-/// is left in its default setting of false, the constraint will always be
-/// checked separately in byte code.  If the omit flag is change to true, then
-/// the constraint may or may not be checked in byte code.  In other words,
-/// when the omit flag is true there is no guarantee that the constraint will
-/// not be checked again using byte code.)^
-///
-/// ^The idxNum and idxPtr values are recorded and passed into the
-/// [xFilter] method.
-/// ^[sqlite3_free()] is used to free idxPtr if and only if
-/// needToFreeIdxPtr is true.
-///
-/// ^The orderByConsumed means that output from [xFilter]/[xNext] will occur in
-/// the correct order to satisfy the ORDER BY clause so that no separate
-/// sorting step is required.
-///
-/// ^The estimatedCost value is an estimate of the cost of a particular
-/// strategy. A cost of N indicates that the cost of the strategy is similar
-/// to a linear scan of an SQLite table with N rows. A cost of log(N)
-/// indicates that the expense of the operation is similar to that of a
-/// binary search on a unique indexed field of an SQLite table with N rows.
-///
-/// ^The estimatedRows value is an estimate of the number of rows that
-/// will be returned by the strategy.
-///
-/// The xBestIndex method may optionally populate the idxFlags field with a
-/// mask of SQLITE_INDEX_SCAN_* flags. Currently there is only one such flag -
-/// SQLITE_INDEX_SCAN_UNIQUE. If the xBestIndex method sets this flag, SQLite
-/// assumes that the strategy may visit at most one row.
-///
-/// Additionally, if xBestIndex sets the SQLITE_INDEX_SCAN_UNIQUE flag, then
-/// SQLite also assumes that if a call to the xUpdate() method is made as
-/// part of the same statement to delete or update a virtual table row and the
-/// implementation returns SQLITE_CONSTRAINT, then there is no need to rollback
-/// any database changes. In other words, if the xUpdate() returns
-/// SQLITE_CONSTRAINT, the database contents must be exactly as they were
-/// before xUpdate was called. By contrast, if SQLITE_INDEX_SCAN_UNIQUE is not
-/// set and xUpdate returns SQLITE_CONSTRAINT, any database changes made by
-/// the xUpdate method are automatically rolled back by SQLite.
-///
-/// IMPORTANT: The estimatedRows field was added to the sqlite3_index_info
-/// structure for SQLite [version 3.8.2] ([dateof:3.8.2]).
-/// If a virtual table extension is
-/// used with an SQLite version earlier than 3.8.2, the results of attempting
-/// to read or write the estimatedRows field are undefined (but are likely
-/// to include crashing the application). The estimatedRows field should
-/// therefore only be used if [sqlite3_libversion_number()] returns a
-/// value greater than or equal to 3008002. Similarly, the idxFlags field
-/// was added for [version 3.9.0] ([dateof:3.9.0]).
-/// It may therefore only be used if
-/// sqlite3_libversion_number() returns a value greater than or equal to
-/// 3009000.
-final class sqlite3_index_info extends ffi.Struct {
-  /// Number of entries in aConstraint
+/// ^Virtual tables methods can set an error message by assigning a
+/// string obtained from [sqlite3_mprintf()] to zErrMsg.  The method should
+/// take care that any prior string is freed by a call to [sqlite3_free()]
+/// prior to assigning a new string to zErrMsg.  ^After the error message
+/// is delivered up to the client application, the string will be automatically
+/// freed by sqlite3_free() and the zErrMsg field will be zeroed.
+final class sqlite3_vtab extends ffi.Struct {
+  /// The module for this virtual table
+  external ffi.Pointer<sqlite3_module> pModule;
+
+  /// Number of open cursors
   @ffi.Int()
-  external int nConstraint;
+  external int nRef;
 
-  /// Table of WHERE clause constraints
-  external ffi.Pointer<sqlite3_index_constraint> aConstraint;
-
-  /// Number of terms in the ORDER BY clause
-  @ffi.Int()
-  external int nOrderBy;
-
-  /// The ORDER BY clause
-  external ffi.Pointer<sqlite3_index_orderby> aOrderBy;
-
-  external ffi.Pointer<sqlite3_index_constraint_usage> aConstraintUsage;
-
-  /// Number used to identify the index
-  @ffi.Int()
-  external int idxNum;
-
-  /// String, possibly obtained from sqlite3_malloc
-  external ffi.Pointer<ffi.Char> idxStr;
-
-  /// Free idxStr using sqlite3_free() if true
-  @ffi.Int()
-  external int needToFreeIdxStr;
-
-  /// True if output is already ordered
-  @ffi.Int()
-  external int orderByConsumed;
-
-  /// Estimated cost of using this index
-  @ffi.Double()
-  external double estimatedCost;
-
-  /// Estimated number of rows returned
-  @sqlite3_int64()
-  external int estimatedRows;
-
-  /// Mask of SQLITE_INDEX_SCAN_* flags
-  @ffi.Int()
-  external int idxFlags;
-
-  /// Input: Mask of columns used by statement
-  @sqlite3_uint64()
-  external int colUsed;
-}
-
-final class sqlite3_index_constraint extends ffi.Struct {
-  /// Column constrained.  -1 for ROWID
-  @ffi.Int()
-  external int iColumn;
-
-  /// Constraint operator
-  @ffi.UnsignedChar()
-  external int op;
-
-  /// True if this constraint is usable
-  @ffi.UnsignedChar()
-  external int usable;
-
-  /// Used internally - xBestIndex should ignore
-  @ffi.Int()
-  external int iTermOffset;
-}
-
-final class sqlite3_index_orderby extends ffi.Struct {
-  /// Column number
-  @ffi.Int()
-  external int iColumn;
-
-  /// True for DESC.  False for ASC.
-  @ffi.UnsignedChar()
-  external int desc;
-}
-
-/// Outputs
-final class sqlite3_index_constraint_usage extends ffi.Struct {
-  /// if >0, constraint is part of argv to xFilter
-  @ffi.Int()
-  external int argvIndex;
-
-  /// Do not code a test for this constraint
-  @ffi.UnsignedChar()
-  external int omit;
-}
-
-/// CAPI3REF: Virtual Table Cursor Object
-/// KEYWORDS: sqlite3_vtab_cursor {virtual table cursor}
-///
-/// Every [virtual table module] implementation uses a subclass of the
-/// following structure to describe cursors that point into the
-/// [virtual table] and are used
-/// to loop through the virtual table.  Cursors are created using the
-/// [sqlite3_module.xOpen | xOpen] method of the module and are destroyed
-/// by the [sqlite3_module.xClose | xClose] method.  Cursors are used
-/// by the [xFilter], [xNext], [xEof], [xColumn], and [xRowid] methods
-/// of the module.  Each module implementation will define
-/// the content of a cursor structure to suit its own needs.
-///
-/// This superclass exists in order to define fields of the cursor that
-/// are common to all implementations.
-final class sqlite3_vtab_cursor extends ffi.Struct {
-  /// Virtual table of this cursor
-  external ffi.Pointer<sqlite3_vtab> pVtab;
+  /// Error message from sqlite3_mprintf()
+  external ffi.Pointer<ffi.Char> zErrMsg;
 }
 
 final class sqlite3_blob extends ffi.Opaque {}
@@ -11481,6 +11514,9 @@ final class sqlite3_snapshot extends ffi.Struct {
   external ffi.Array<ffi.UnsignedChar> hidden;
 }
 
+typedef sqlite3_rtree_dbl = ffi.Double;
+typedef Dartsqlite3_rtree_dbl = double;
+
 /// A pointer to a structure of the following type is passed as the first
 /// argument to callbacks registered using rtree_geometry_callback().
 final class sqlite3_rtree_geometry extends ffi.Struct {
@@ -11502,9 +11538,6 @@ final class sqlite3_rtree_geometry extends ffi.Struct {
       .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
       xDelUser;
 }
-
-typedef sqlite3_rtree_dbl = ffi.Double;
-typedef Dartsqlite3_rtree_dbl = double;
 
 /// A pointer to a structure of the following type is passed as the
 /// argument to scored geometry callback registered using
@@ -11572,6 +11605,14 @@ final class sqlite3_rtree_query_info extends ffi.Struct {
 
   /// Original SQL values of parameters
   external ffi.Pointer<ffi.Pointer<sqlite3_value>> apSqlParam;
+}
+
+final class Fts5Context extends ffi.Opaque {}
+
+final class Fts5PhraseIter extends ffi.Struct {
+  external ffi.Pointer<ffi.UnsignedChar> a;
+
+  external ffi.Pointer<ffi.UnsignedChar> b;
 }
 
 /// EXTENSION API FUNCTIONS
@@ -11924,13 +11965,20 @@ final class Fts5ExtensionApi extends ffi.Struct {
               ffi.Pointer<ffi.Int>)>> xPhraseNextColumn;
 }
 
-final class Fts5Context extends ffi.Opaque {}
-
-final class Fts5PhraseIter extends ffi.Struct {
-  external ffi.Pointer<ffi.UnsignedChar> a;
-
-  external ffi.Pointer<ffi.UnsignedChar> b;
-}
+typedef fts5_extension_functionFunction = ffi.Void Function(
+    ffi.Pointer<Fts5ExtensionApi> pApi,
+    ffi.Pointer<Fts5Context> pFts,
+    ffi.Pointer<sqlite3_context> pCtx,
+    ffi.Int nVal,
+    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
+typedef Dartfts5_extension_functionFunction = void Function(
+    ffi.Pointer<Fts5ExtensionApi> pApi,
+    ffi.Pointer<Fts5Context> pFts,
+    ffi.Pointer<sqlite3_context> pCtx,
+    int nVal,
+    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
+typedef fts5_extension_function
+    = ffi.Pointer<ffi.NativeFunction<fts5_extension_functionFunction>>;
 
 final class Fts5Tokenizer extends ffi.Opaque {}
 
@@ -12006,21 +12054,6 @@ final class fts5_api extends ffi.Struct {
                       .NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
                   xDestroy)>> xCreateFunction;
 }
-
-typedef fts5_extension_function
-    = ffi.Pointer<ffi.NativeFunction<fts5_extension_functionFunction>>;
-typedef fts5_extension_functionFunction = ffi.Void Function(
-    ffi.Pointer<Fts5ExtensionApi> pApi,
-    ffi.Pointer<Fts5Context> pFts,
-    ffi.Pointer<sqlite3_context> pCtx,
-    ffi.Int nVal,
-    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
-typedef Dartfts5_extension_functionFunction = void Function(
-    ffi.Pointer<Fts5ExtensionApi> pApi,
-    ffi.Pointer<Fts5Context> pFts,
-    ffi.Pointer<sqlite3_context> pCtx,
-    int nVal,
-    ffi.Pointer<ffi.Pointer<sqlite3_value>> apVal);
 
 const String SQLITE_VERSION = '3.32.3';
 

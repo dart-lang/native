@@ -3,9 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart' show OS;
-import 'package:native_assets_cli/native_assets_cli_internal.dart'
-    show IOSSdkImpl, Target;
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -18,7 +15,7 @@ const minNdkApiVersionForThisPackage = 28;
 const minIosVersionForThisPackage = 16;
 const minMacOSVersionForThisPackage = 13;
 
-final List<(Target, List<(int sdkVersion, bool success)>)> osConfig = [
+final List<(Target, List<(int sdkVersion, bool success)>)> osInput = [
   (
     Target.androidArm64,
     [
@@ -50,7 +47,7 @@ final List<(String hook, String testPath)> hooks = [
 ];
 
 void main() async {
-  for (final (target, versions) in osConfig) {
+  for (final (target, versions) in osInput) {
     for (final (version, success) in versions) {
       final statusString = success ? 'succeed' : 'fail';
       for (final (hook, packagePath) in hooks) {
@@ -69,22 +66,39 @@ void main() async {
               final logMessages = <String>[];
               final (buildResult, linkResult) = await buildAndLink(
                 target: target,
-                targetIOSSdk:
-                    (target.os == OS.iOS) ? IOSSdkImpl.iPhoneOS : null,
+                targetIOSSdk: (target.os == OS.iOS) ? IOSSdk.iPhoneOS : null,
                 targetIOSVersion: (target.os == OS.iOS) ? version : null,
                 targetMacOSVersion: (target.os == OS.macOS) ? version : null,
                 targetAndroidNdkApi: (target.os == OS.android) ? version : null,
                 packageUri,
                 createCapturingLogger(logMessages, level: Level.SEVERE),
                 dartExecutable,
+                buildAssetTypes: [CodeAsset.type, DataAsset.type],
+                buildInputValidator: (input) async => [
+                  ...await validateDataAssetBuildInput(input),
+                  ...await validateCodeAssetBuildInput(input),
+                ],
+                buildValidator: (input, output) async => [
+                  ...await validateCodeAssetBuildOutput(input, output),
+                  ...await validateDataAssetBuildOutput(input, output),
+                ],
+                linkInputValidator: (input) async => [
+                  ...await validateDataAssetLinkInput(input),
+                  ...await validateCodeAssetLinkInput(input),
+                ],
+                linkValidator: (input, output) async => [
+                  ...await validateCodeAssetLinkOutput(input, output),
+                  ...await validateDataAssetLinkOutput(input, output),
+                ],
+                applicationAssetValidator: validateCodeAssetInApplication,
               );
               final fullLog = logMessages.join('\n');
               if (hook == 'build') {
-                expect(buildResult.success, success);
+                expect(buildResult, success ? isNotNull : isNull);
               } else {
                 assert(hook == 'link');
-                expect(buildResult.success, true);
-                expect(linkResult.success, success);
+                expect(buildResult, isNotNull);
+                expect(linkResult, success ? isNotNull : isNull);
               }
               if (!success) {
                 expect(

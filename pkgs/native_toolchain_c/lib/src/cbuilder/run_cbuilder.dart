@@ -5,30 +5,30 @@
 import 'dart:math';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
-import '../native_toolchain/apple_clang.dart';
-import '../native_toolchain/clang.dart';
-import '../native_toolchain/gcc.dart';
 import '../native_toolchain/msvc.dart';
+import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/xcode.dart';
-import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
-import '../utils/env_from_bat.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 import 'language.dart';
 import 'linker_options.dart';
+import 'optimization_level.dart';
 
 class RunCBuilder {
   /// The options are for linking only, so this will be non-null iff a linker
   /// should be run.
   final LinkerOptions? linkerOptions;
-  final HookConfig config;
+  final HookInput input;
+  final CodeConfig codeConfig;
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
   final List<String> frameworks;
+  final List<String> libraries;
+  final List<Uri> libraryDirectories;
   final Uri? executable;
   final Uri? dynamicLibrary;
   final Uri? staticLibrary;
@@ -47,14 +47,18 @@ class RunCBuilder {
   final String? std;
   final Language language;
   final String? cppLinkStdLib;
+  final OptimizationLevel optimizationLevel;
 
   RunCBuilder({
-    required this.config,
+    required this.input,
+    required this.codeConfig,
     this.linkerOptions,
     this.logger,
     this.sources = const [],
     this.includes = const [],
     required this.frameworks,
+    this.libraries = const [],
+    this.libraryDirectories = const [],
     this.executable,
     this.dynamicLibrary,
     this.staticLibrary,
@@ -65,12 +69,13 @@ class RunCBuilder {
     this.std,
     this.language = Language.c,
     this.cppLinkStdLib,
-  })  : outDir = config.outputDirectory,
+    required this.optimizationLevel,
+  })  : outDir = input.outputDirectory,
         assert([executable, dynamicLibrary, staticLibrary]
                 .whereType<Uri>()
                 .length ==
             1) {
-    if (config.targetOS == OS.windows && cppLinkStdLib != null) {
+    if (codeConfig.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -79,7 +84,8 @@ class RunCBuilder {
     }
   }
 
-  late final _resolver = CompilerResolver(hookConfig: config, logger: logger);
+  late final _resolver =
+      CompilerResolver(codeConfig: codeConfig, logger: logger);
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
@@ -114,7 +120,7 @@ class RunCBuilder {
     final toolInstance_ =
         linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
-    if (isClangLikeCompiler(tool) || LinkerOptions.isClangLikeLinker(tool)) {
+    if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
@@ -124,10 +130,10 @@ class RunCBuilder {
     }
   }
 
-  static bool isClangLikeCompiler(Tool tool) =>
-      tool == appleClang || tool == clang || tool == gcc;
-
   Future<void> runClangLike({required ToolInstance tool}) async {
+    // Clang for Windows requires the MSVC Developer Environment.
+    final environment = await _resolver.resolveEnvironment(tool);
+
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
     if (isStaticLib) {
@@ -135,8 +141,8 @@ class RunCBuilder {
     }
 
     final IOSSdk? targetIosSdk;
-    if (config.targetOS == OS.iOS) {
-      targetIosSdk = config.targetIOSSdk;
+    if (codeConfig.targetOS == OS.iOS) {
+      targetIosSdk = codeConfig.iOS.targetSdk;
     } else {
       targetIosSdk = null;
     }
@@ -145,20 +151,20 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
-    if (config.targetOS == OS.android) {
+    if (codeConfig.targetOS == OS.android) {
       final minimumApi =
-          config.targetArchitecture == Architecture.riscv64 ? 35 : 21;
-      targetAndroidNdkApi = max(config.targetAndroidNdkApi!, minimumApi);
+          codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      targetAndroidNdkApi = max(codeConfig.android.targetNdkApi, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
     final targetIOSVersion =
-        config.targetOS == OS.iOS ? config.targetIOSVersion : null;
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetVersion : null;
     final targetMacOSVersion =
-        config.targetOS == OS.macOS ? config.targetMacOSVersion : null;
+        codeConfig.targetOS == OS.macOS ? codeConfig.macOS.targetVersion : null;
 
-    final architecture = config.targetArchitecture;
+    final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
     final objectFiles = <Uri>[];
     if (staticLibrary != null) {
@@ -173,6 +179,7 @@ class RunCBuilder {
           targetMacOSVersion,
           [sourceFiles[i]],
           objectFile,
+          environment,
         );
         objectFiles.add(objectFile);
       }
@@ -186,6 +193,7 @@ class RunCBuilder {
         logger: logger,
         captureOutput: false,
         throwOnUnexpectedExitCode: true,
+        environment: environment,
       );
     } else {
       await _compile(
@@ -197,6 +205,7 @@ class RunCBuilder {
         targetMacOSVersion,
         sourceFiles,
         dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
+        environment,
       );
     }
   }
@@ -211,28 +220,32 @@ class RunCBuilder {
     int? targetMacOSVersion,
     Iterable<String> sourceFiles,
     Uri? outFile,
+    Map<String, String> environment,
   ) async {
     await runProcess(
       executable: toolInstance.uri,
+      environment: environment,
       arguments: [
-        if (config.targetOS == OS.android) ...[
+        if (codeConfig.targetOS == OS.android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(toolInstance).toFilePath()}',
         ],
-        if (config.targetOS == OS.macOS)
+        if (codeConfig.targetOS == OS.windows)
+          '--target=${clangWindowsTargetFlags[architecture]!}',
+        if (codeConfig.targetOS == OS.macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
-        if (config.targetOS == OS.iOS)
+        if (codeConfig.targetOS == OS.iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
-        if (config.targetOS == OS.iOS) ...[
+        if (codeConfig.targetOS == OS.iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
         ],
-        if (config.targetOS == OS.macOS) ...[
+        if (codeConfig.targetOS == OS.macOS) ...[
           '-isysroot',
           (await macosSdk(logger: logger)).toFilePath(),
         ],
@@ -241,7 +254,8 @@ class RunCBuilder {
           installName!.toFilePath(),
         ],
         if (pic != null)
-          if (isClangLikeCompiler(toolInstance.tool)) ...[
+          if (toolInstance.tool.isClangLike &&
+              codeConfig.targetOS != OS.windows) ...[
             if (pic!) ...[
               if (dynamicLibrary != null) '-fPIC',
               // Using PIC for static libraries allows them to be linked into
@@ -264,7 +278,7 @@ class RunCBuilder {
               // Tell the linker to generate a position-dependent executable.
               if (executable != null) '-no-pie',
             ],
-          ] else if (LinkerOptions.isClangLikeLinker(toolInstance.tool)) ...[
+          ] else if (toolInstance.tool.isLdLike) ...[
             if (pic!) ...[
               if (executable != null) '--pie',
             ] else ...[
@@ -276,9 +290,14 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[config.targetOS]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!
         ],
+        if (optimizationLevel != OptimizationLevel.unspecified)
+          optimizationLevel.clangFlag(),
         ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
+        // Support Android 15 page size by default, can be overridden by
+        // passing [flags].
+        if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
@@ -293,8 +312,7 @@ class RunCBuilder {
         if (executable != null) ...[
           '-o',
           outDir.resolveUri(executable!).toFilePath(),
-        ],
-        if (dynamicLibrary != null) ...[
+        ] else if (dynamicLibrary != null) ...[
           '--shared',
           '-o',
           outFile!.toFilePath(),
@@ -305,6 +323,19 @@ class RunCBuilder {
         ],
         ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
             [],
+        if (executable != null || dynamicLibrary != null) ...[
+          if (codeConfig.targetOS case OS.android || OS.linux)
+            // During bundling code assets are all placed in the same directory.
+            // Setting this rpath allows the binary to find other code assets
+            // it is linked against.
+            if (linkerOptions != null)
+              '-rpath=\$ORIGIN'
+            else
+              '-Wl,-rpath=\$ORIGIN',
+          for (final directory in libraryDirectories)
+            '-L${directory.toFilePath()}',
+          for (final library in libraries) '-l$library',
+        ],
       ],
       logger: logger,
       captureOutput: false,
@@ -313,10 +344,7 @@ class RunCBuilder {
   }
 
   Future<void> runCl({required ToolInstance tool}) async {
-    final vcvars = (await _resolver.toolchainEnvironmentScript(tool))!;
-    final vcvarsArgs = _resolver.toolchainEnvironmentScriptArguments();
-    final environment =
-        await environmentFromBatchFile(vcvars, arguments: vcvarsArgs ?? []);
+    final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
@@ -327,6 +355,8 @@ class RunCBuilder {
     final result = await runProcess(
       executable: tool.uri,
       arguments: [
+        if (optimizationLevel != OptimizationLevel.unspecified)
+          optimizationLevel.msvcFlag(),
         if (std != null) '/std:$std',
         if (language == Language.cpp) '/TP',
         ...flags,
@@ -337,16 +367,19 @@ class RunCBuilder {
           ...sources.map((e) => e.toFilePath()),
           '/link',
           '/out:${outDir.resolveUri(executable!).toFilePath()}',
-        ],
-        if (dynamicLibrary != null) ...[
+        ] else if (dynamicLibrary != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',
           '/DLL',
           '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
-        ],
-        if (staticLibrary != null) ...[
+        ] else if (staticLibrary != null) ...[
           '/c',
           ...sources.map((e) => e.toFilePath()),
+        ],
+        if (executable != null || dynamicLibrary != null) ...[
+          for (final directory in libraryDirectories)
+            '/LIBPATH:${directory.toFilePath()}',
+          for (final library in libraries) '$library.lib',
         ],
       ],
       workingDirectory: outDir,
@@ -395,6 +428,12 @@ class RunCBuilder {
     Architecture.x64: {
       IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
     },
+  };
+
+  static const clangWindowsTargetFlags = {
+    Architecture.arm64: 'arm64-pc-windows-msvc',
+    Architecture.ia32: 'i386-pc-windows-msvc',
+    Architecture.x64: 'x86_64-pc-windows-msvc',
   };
 
   static const defaultCppLinkStdLib = {

@@ -28,3 +28,11 @@ class ObjCBlock<T extends Function> extends ObjCBlockBase {
   /// This constructor is only for use by ffigen bindings.
   ObjCBlock(super.ptr, {required super.retain, required super.release});
 }
+
+/// A sentinel class representing the `ns_returns_retained` attribute for
+/// [ObjCBlock] function signatures.
+abstract final class Retained<T> {}
+
+/// A sentinel class representing the `ns_consumed` attribute for [ObjCBlock]
+/// function signatures.
+abstract final class Consumed<T> {}

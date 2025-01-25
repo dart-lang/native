@@ -75,8 +75,29 @@ abstract interface class Config {
   /// Declaration filters for Objective C protocols.
   DeclarationFilters get objcProtocols;
 
+  /// Declaration filters for Objective C categories.
+  DeclarationFilters get objcCategories;
+
   /// If enabled, unused typedefs will also be generated.
   bool get includeUnusedTypedefs;
+
+  /// If enabled, Objective C interfaces that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included interfaces will be generated as stubs instead.
+  bool get includeTransitiveObjCInterfaces;
+
+  /// If enabled, Objective C protocols that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included protocols will not be generated at all.
+  bool get includeTransitiveObjCProtocols;
+
+  /// If enabled, Objective C categories that are not explicitly included by
+  /// the [DeclarationFilters], but extend interfaces that are included,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included categories will not be generated at all.
+  bool get includeTransitiveObjCCategories;
 
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
@@ -194,7 +215,11 @@ abstract interface class Config {
     DeclarationFilters? typedefs,
     DeclarationFilters? objcInterfaces,
     DeclarationFilters? objcProtocols,
+    DeclarationFilters? objcCategories,
     bool includeUnusedTypedefs = false,
+    bool includeTransitiveObjCInterfaces = false,
+    bool includeTransitiveObjCProtocols = false,
+    bool includeTransitiveObjCCategories = true,
     bool generateForPackageObjectiveC = false,
     bool sort = false,
     bool useSupportedTypedefs = true,
@@ -249,7 +274,11 @@ abstract interface class Config {
         typedefs: typedefs ?? DeclarationFilters.excludeAll,
         objcInterfaces: objcInterfaces ?? DeclarationFilters.excludeAll,
         objcProtocols: objcProtocols ?? DeclarationFilters.excludeAll,
+        objcCategories: objcCategories ?? DeclarationFilters.excludeAll,
         includeUnusedTypedefs: includeUnusedTypedefs,
+        includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
+        includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
+        includeTransitiveObjCCategories: includeTransitiveObjCCategories,
         generateForPackageObjectiveC: generateForPackageObjectiveC,
         sort: sort,
         useSupportedTypedefs: useSupportedTypedefs,
@@ -305,14 +334,21 @@ abstract interface class DeclarationFilters {
   /// Applies renaming and returns the result.
   String rename(Declaration declaration);
 
-  /// Applies member renaming and returns the result.
+  /// Applies member renaming and returns the result. Used for struct/union
+  /// fields, enum elements, function params, and ObjC
+  /// interface/protocol/category methods/properties.
   String renameMember(Declaration declaration, String member);
+
+  /// Whether a member of a declaration should be included. Used for ObjC
+  /// interface/protocol/category methods/properties.
+  bool shouldIncludeMember(Declaration declaration, String member);
 
   factory DeclarationFilters({
     bool Function(Declaration declaration)? shouldInclude,
     bool Function(Declaration declaration)? shouldIncludeSymbolAddress,
     String Function(Declaration declaration)? rename,
     String Function(Declaration declaration, String member)? renameMember,
+    bool Function(Declaration declaration, String member)? shouldIncludeMember,
   }) =>
       DeclarationFiltersImpl(
         shouldIncludeFunc: shouldInclude ?? (_) => false,
@@ -320,6 +356,7 @@ abstract interface class DeclarationFilters {
             shouldIncludeSymbolAddress ?? (_) => false,
         renameFunc: rename ?? (declaration) => declaration.originalName,
         renameMemberFunc: renameMember ?? (_, member) => member,
+        shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
       );
 
   static final excludeAll = DeclarationFilters();

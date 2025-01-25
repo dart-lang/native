@@ -5,20 +5,16 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart' show internal;
 
 import 'errors.dart';
 import 'jni.dart';
 import 'third_party/generated_bindings.dart';
 
+@internal
 extension ProtectedJReference on JReference {
   void setAsReleased() {
     _setAsReleased();
-  }
-
-  void ensureNotNull() {
-    if (isNull) {
-      throw JNullError();
-    }
   }
 
   /// Similar to [pointer].

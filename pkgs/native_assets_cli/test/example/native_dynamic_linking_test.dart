@@ -6,25 +6,21 @@
   'mac-os': Timeout.factor(2),
   'windows': Timeout.factor(10),
 })
-// TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-// for Windows once linker flags are supported by CBuilder.
+// TODO(https://github.com/dart-lang/native/issues/190): Enable on windows once
+// https://github.com/dart-lang/sdk/commit/903eea6bfb8ee405587f0866a1d1e92eea45d29e
+// has landed in dev channel.
 @TestOn('!windows')
 library;
 
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
 void main() async {
-  if (Platform.isWindows) {
-    // TODO(https://github.com/dart-lang/native/issues/1415): Enable support
-    // for Windows once linker flags are supported by CBuilder.
-    return;
-  }
-
   late Uri tempUri;
   const name = 'native_dynamic_linking';
 
@@ -39,33 +35,46 @@ void main() async {
   for (final dryRun in [true, false]) {
     final testSuffix = dryRun ? ' dry_run' : '';
     test('native_dynamic_linking build$testSuffix', () async {
+      final buildOutputUri = tempUri.resolve('build_output.json');
       final testTempUri = tempUri.resolve('test1/');
       await Directory.fromUri(testTempUri).create();
+      final outputDirectory = tempUri.resolve('out/');
+      await Directory.fromUri(outputDirectory).create();
+      final outputDirectoryShared = tempUri.resolve('out_shared/');
+      await Directory.fromUri(outputDirectoryShared).create();
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
+
+      final targetOS = OS.current;
+      final inputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageRoot: testPackageUri,
+          packageName: name,
+          outputFile: buildOutputUri,
+          outputDirectory: outputDirectory,
+          outputDirectoryShared: outputDirectoryShared,
+        )
+        ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: dryRun ? null : Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: dryRun ? null : cCompiler,
+        );
+
+      final buildInputUri = testTempUri.resolve('build_input.json');
+      await File.fromUri(buildInputUri)
+          .writeAsString(jsonEncode(inputBuilder.json));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '-Dout_dir=${tempUri.toFilePath()}',
-          '-Dpackage_name=$name',
-          '-Dpackage_root=${testPackageUri.toFilePath()}',
-          '-Dtarget_os=${OSImpl.current}',
-          '-Dversion=${HookConfigImpl.latestVersion}',
-          '-Dlink_mode_preference=dynamic',
-          '-Ddry_run=$dryRun',
-          if (!dryRun) ...[
-            '-Dtarget_architecture=${ArchitectureImpl.current}',
-            '-Dbuild_mode=debug',
-            if (cc != null) '-Dcc=${cc!.toFilePath()}',
-            if (envScript != null)
-              '-D${CCompilerConfigImpl.envScriptConfigKeyFull}='
-                  '${envScript!.toFilePath()}',
-            if (envScriptArgs != null)
-              '-D${CCompilerConfigImpl.envScriptArgsConfigKeyFull}='
-                  '${envScriptArgs!.join(' ')}',
-          ],
+          '--config=${buildInputUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );
@@ -76,10 +85,10 @@ void main() async {
       }
       expect(processResult.exitCode, 0);
 
-      final buildOutputUri = tempUri.resolve('build_output.json');
-      final buildOutput = HookOutputImpl.fromJsonString(
-          await File.fromUri(buildOutputUri).readAsString());
-      final assets = buildOutput.assets;
+      final buildOutput = BuildOutput(
+          json.decode(await File.fromUri(buildOutputUri).readAsString())
+              as Map<String, Object?>);
+      final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
         expect(assets.length, greaterThanOrEqualTo(3));

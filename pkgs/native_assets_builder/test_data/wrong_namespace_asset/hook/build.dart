@@ -2,17 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'dart:io';
+
+import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> arguments) async {
-  await build(arguments, (config, output) async {
-    output.addAsset(
-      NativeCodeAsset(
+  await build(arguments, (input, output) async {
+    final assetUri = input.outputDirectory.resolve(
+      OS.current.dylibFileName('foo'),
+    );
+
+    await File.fromUri(assetUri).writeAsBytes([1, 2, 3]);
+
+    output.assets.code.add(
+      CodeAsset(
         package: 'other_package',
         name: 'foo',
-        file: config.outputDirectory.resolve(
-          OS.current.dylibFileName('foo'),
-        ),
+        file: assetUri,
         linkMode: DynamicLoadingBundled(),
         os: OS.current,
         architecture: Architecture.current,

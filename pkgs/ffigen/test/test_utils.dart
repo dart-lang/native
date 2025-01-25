@@ -16,14 +16,8 @@ import 'package:yaml/yaml.dart' as yaml;
 
 extension LibraryTestExt on Library {
   /// Get a [Binding]'s generated string with a given name.
-  String getBindingAsString(String name) {
-    try {
-      final b = bindings.firstWhere((element) => element.name == name);
-      return b.toBindingString(writer).string;
-    } catch (e) {
-      throw NotFoundException("Binding '$name' not found.");
-    }
-  }
+  String getBindingAsString(String name) =>
+      getBinding(name).toBindingString(writer).string;
 
   /// Get a [Binding] with a given name.
   Binding getBinding(String name) {
@@ -84,6 +78,8 @@ void matchLibrarySymbolFileWithExpected(Library library, String pathForActual,
       });
 }
 
+const bool updateExpectations = false;
+
 /// Generates actual file using library and tests using [expect] with expected.
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
@@ -95,6 +91,7 @@ void _matchFileWithExpected({
       fileWriter,
   String Function(String)? codeNormalizer,
 }) {
+  final expectedPath = path.joinAll(pathToExpected);
   final file = File(
     path.join(strings.tmpDir, pathForActual),
   );
@@ -103,13 +100,17 @@ void _matchFileWithExpected({
     final actual =
         _normalizeGeneratedCode(file.readAsStringSync(), codeNormalizer);
     final expected = _normalizeGeneratedCode(
-        File(path.joinAll(pathToExpected)).readAsStringSync(), codeNormalizer);
+        File(expectedPath).readAsStringSync(), codeNormalizer);
     expect(actual.split('\n'), expected.split('\n'));
     if (file.existsSync()) {
       file.delete();
     }
   } catch (e) {
     print('Failed test: Debug generated file: ${file.absolute.path}');
+    if (updateExpectations) {
+      print('Updating expectations. Check the diffs!');
+      file.copySync(expectedPath);
+    }
     rethrow;
   }
 }
@@ -171,3 +172,5 @@ T withChDir<T>(String path, T Function() inner) {
 
   return result;
 }
+
+bool isFlutterTester = Platform.resolvedExecutable.contains('flutter_tester');

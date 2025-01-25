@@ -5,20 +5,19 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('OS naming conventions', () async {
-    expect(OSImpl.android.dylibFileName('foo'), 'libfoo.so');
-    expect(OSImpl.android.staticlibFileName('foo'), 'libfoo.a');
-    expect(OSImpl.windows.dylibFileName('foo'), 'foo.dll');
-    expect(OSImpl.windows.libraryFileName('foo', DynamicLoadingBundledImpl()),
-        'foo.dll');
-    expect(OSImpl.windows.staticlibFileName('foo'), 'foo.lib');
+    expect(OS.android.dylibFileName('foo'), 'libfoo.so');
+    expect(OS.android.staticlibFileName('foo'), 'libfoo.a');
+    expect(OS.windows.dylibFileName('foo'), 'foo.dll');
     expect(
-        OSImpl.windows.libraryFileName('foo', StaticLinkingImpl()), 'foo.lib');
-    expect(OSImpl.windows.executableFileName('foo'), 'foo.exe');
+        OS.windows.libraryFileName('foo', DynamicLoadingBundled()), 'foo.dll');
+    expect(OS.windows.staticlibFileName('foo'), 'foo.lib');
+    expect(OS.windows.libraryFileName('foo', StaticLinking()), 'foo.lib');
+    expect(OS.windows.executableFileName('foo'), 'foo.exe');
   });
 
   test('Target current', () async {
@@ -61,11 +60,11 @@ void main() {
 
   test('Target fromArchitectureAndOS', () async {
     final current =
-        Target.fromArchitectureAndOS(ArchitectureImpl.current, OSImpl.current);
+        Target.fromArchitectureAndOS(Architecture.current, OS.current);
     expect(current.toString(), Abi.current().toString());
 
     expect(
-      () => Target.fromArchitectureAndOS(ArchitectureImpl.arm, OSImpl.windows),
+      () => Target.fromArchitectureAndOS(Architecture.arm, OS.windows),
       throwsA(predicate(
         (e) =>
             e is ArgumentError &&
@@ -73,15 +72,5 @@ void main() {
             (e.message as String).contains('windows'),
       )),
     );
-  });
-
-  test('OS.architectures', () {
-    expect(OSImpl.android.architectures, [
-      ArchitectureImpl.arm,
-      ArchitectureImpl.arm64,
-      ArchitectureImpl.ia32,
-      ArchitectureImpl.x64,
-      ArchitectureImpl.riscv64,
-    ]);
   });
 }

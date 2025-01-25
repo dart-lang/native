@@ -10,7 +10,6 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -19,6 +18,7 @@ import '../helpers.dart';
 void main() {
   test('build failure', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final addCOriginalUri =
         packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
     final addCUri = tempUri.resolve('add.c');
@@ -29,27 +29,42 @@ void main() {
     await File.fromUri(addCUri).writeAsString(addCBrokenContents);
     const name = 'add';
 
-    final buildConfig = BuildConfig.build(
-      outputDirectory: tempUri,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      linkModePreference: LinkModePreference.dynamic,
-      buildMode: BuildMode.release,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
-    );
-    final buildOutput = BuildOutput();
+    final targetOS = OS.current;
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
+        targetOS: targetOS,
+        macOS: targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+            : null,
+        targetArchitecture: Architecture.current,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: cCompiler,
+      );
+
+    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
       assetName: name,
+      buildMode: BuildMode.release,
     );
     expect(
       () => cbuilder.run(
-        config: buildConfig,
+        input: buildInput,
         output: buildOutput,
         logger: logger,
       ),

@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'utils.dart';
@@ -132,8 +133,12 @@ class Func extends LookUpBinding {
           .join('');
 
       final argString = functionType.dartTypeParameters.map((p) {
-        final type = p.type.convertDartTypeToFfiDartType(w, p.name,
-            objCRetain: p.objCConsumed);
+        final type = p.type.convertDartTypeToFfiDartType(
+          w,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+        );
         return '$type,\n';
       }).join('');
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
@@ -212,23 +217,24 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this)) return;
-
-    dependencies.add(this);
-    functionType.addDependencies(dependencies);
-    if (exposeFunctionTypedefs) {
-      _exposedFunctionTypealias!.addDependencies(dependencies);
-    }
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(functionType);
+    visitor.visit(_exposedFunctionTypealias);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitFunc(this);
 }
 
-/// Represents a Parameter, used in [Func] and [Typealias].
-class Parameter {
+/// Represents a Parameter, used in [Func], [Typealias], [ObjCMethod], and
+/// [ObjCBlock].
+class Parameter extends AstNode {
   final String? originalName;
   String name;
-  final Type type;
+  Type type;
   final bool objCConsumed;
+  bool isCovariant = false;
 
   Parameter({
     String? originalName,
@@ -239,4 +245,17 @@ class Parameter {
         // A [NativeFunc] is wrapped with a pointer because this is a shorthand
         // used in C for Pointer to function.
         type = type.typealiasType is NativeFunc ? PointerType(type) : type;
+
+  String getNativeType({String varName = ''}) =>
+      '${type.getNativeType(varName: varName)}'
+      '${objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
+
+  @override
+  String toString() => '$type $name';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
+  }
 }

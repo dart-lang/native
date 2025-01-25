@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -22,50 +21,67 @@ void main() async {
         logger: logger,
       );
 
-      final resultDynamic = await build(
+      final resultDynamic = (await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.dynamic,
-      );
+        linkModePreference: LinkModePreference.dynamic,
+        buildAssetTypes: [CodeAsset.type],
+        inputValidator: validateCodeAssetBuildInput,
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
-      final resultPreferDynamic = await build(
+      final resultPreferDynamic = (await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.preferDynamic,
-      );
+        linkModePreference: LinkModePreference.preferDynamic,
+        buildAssetTypes: [CodeAsset.type],
+        inputValidator: validateCodeAssetBuildInput,
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
-      final resultStatic = await build(
+      final resultStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.static,
-      );
+        linkModePreference: LinkModePreference.static,
+        buildAssetTypes: [CodeAsset.type],
+        inputValidator: validateCodeAssetBuildInput,
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
-      final resultPreferStatic = await build(
+      final resultPreferStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreferenceImpl.preferStatic,
-      );
+        linkModePreference: LinkModePreference.preferStatic,
+        buildAssetTypes: [CodeAsset.type],
+        inputValidator: validateCodeAssetBuildInput,
+        buildValidator: validateCodeAssetBuildOutput,
+        applicationAssetValidator: validateCodeAssetInApplication,
+      ))!;
 
       // This package honors preferences.
       expect(
-        (resultDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        DynamicLoadingBundledImpl(),
+        CodeAsset.fromEncoded(resultDynamic.encodedAssets.single).linkMode,
+        DynamicLoadingBundled(),
       );
       expect(
-        (resultPreferDynamic.assets.single as NativeCodeAssetImpl).linkMode,
-        DynamicLoadingBundledImpl(),
+        CodeAsset.fromEncoded(resultPreferDynamic.encodedAssets.single)
+            .linkMode,
+        DynamicLoadingBundled(),
       );
       expect(
-        (resultStatic.assets.single as NativeCodeAssetImpl).linkMode,
-        StaticLinkingImpl(),
+        CodeAsset.fromEncoded(resultStatic.encodedAssets.single).linkMode,
+        StaticLinking(),
       );
       expect(
-        (resultPreferStatic.assets.single as NativeCodeAssetImpl).linkMode,
-        StaticLinkingImpl(),
+        CodeAsset.fromEncoded(resultPreferStatic.encodedAssets.single).linkMode,
+        StaticLinking(),
       );
     });
   });

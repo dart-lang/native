@@ -18,12 +18,8 @@ const jnigenPackage = 'com.github.dart_lang.jnigen';
 const simplePackage = '$jnigenPackage.simple_package';
 
 extension on Classes {
-  String _getSimpleName(ClassDecl c) {
-    return c.binaryName.split('.').last;
-  }
-
   ClassDecl getClassBySimpleName(String simpleName) {
-    return decls.values.firstWhere((c) => _getSimpleName(c) == simpleName);
+    return decls.values.firstWhere((c) => c.binaryName.endsWith(simpleName));
   }
 
   ClassDecl getClass(String dirName, String className) {
@@ -68,6 +64,7 @@ void registerCommonTests(Classes classes) {
     expect(example.getMethod('getNumber').modifiers, isPublic);
     expect(example.getMethod('privateMethod').modifiers, isPrivate);
     expect(example.getMethod('protectedMethod').modifiers, isProtected);
+    print(example.fields.map((f) => f.name).toList());
     expect(example.getField('OFF').modifiers, isPublic);
     expect(example.getField('number').modifiers, isPrivate);
     expect(example.getField('protectedField').modifiers, isProtected);
@@ -131,7 +128,7 @@ void registerCommonTests(Classes classes) {
 
     final arrayParam = method.params[2];
     expect(arrayParam.type.kind, equals(Kind.array));
-    expect((arrayParam.type.type as ArrayType).type.name, equals('int'));
+    expect((arrayParam.type.type as ArrayType).elementType.name, equals('int'));
 
     final typeVarParam = method.params[3];
     expect(typeVarParam.type.kind, equals(Kind.typeVariable));
@@ -230,22 +227,15 @@ void registerCommonTests(Classes classes) {
     expect(example.declKind, DeclKind.classKind);
     final myInterface = classes.getClass('interfaces', 'MyInterface');
     expect(myInterface.declKind, DeclKind.interfaceKind);
-    final color = classes.getClass('simple_package', 'Color');
+    final color = classes.getClass('enums', 'Colors');
     expect(color.declKind, DeclKind.enumKind);
   });
 
   test('Enum values', () {
     final example = classes.getExampleClass();
     expect(example.values, anyOf(isNull, isEmpty));
-    final color = classes.getClass('simple_package', 'Color');
-    const expectedEnumValues = {
-      'RED',
-      'BLUE',
-      'BLACK',
-      'GREEN',
-      'YELLOW',
-      'LIME'
-    };
+    final color = classes.getClass('enums', 'Colors');
+    const expectedEnumValues = {'red', 'green', 'blue'};
     expect(color.values?.toSet(), expectedEnumValues);
   });
 

@@ -1,4 +1,80 @@
-## 14.0.0-wip
+## 17.0.0-wip
+
+- Use package:objective_c 5.0.0
+- Support transitive categories of built-in types:
+  https://github.com/dart-lang/native/issues/1820
+
+## 16.1.0
+
+- Ensure that required symbols are available to FFI even when the final binary
+  is linked with `-dead_strip`.
+- Handle dart typedefs in import/export of symbol files.
+- Add support for blocking ObjC blocks that can be invoked from any thread.
+- Add support for blocking ObjC protocol methods.
+- Remove explicit `objc_retain` calls from the generated bindings.
+
+## 16.0.0
+
+- Ensure all protocols referenced in bindings are available at runtime.
+- Use `package:dart_style` directly to format generated Dart code, rather than
+  subprocessing to `dart format`.
+- Use package:objective_c 4.0.0
+- Fix various small bugs todo with config filters:
+  - https://github.com/dart-lang/native/issues/1582
+  - https://github.com/dart-lang/native/issues/1594
+  - https://github.com/dart-lang/native/issues/1595
+- Fix [a bug](https://github.com/dart-lang/native/issues/1701) where nullable
+  typealiases were treated as non-null.
+- Allow static and instance methods to have the same name:
+  https://github.com/dart-lang/native/issues/1136
+- __Breaking change__: Change the way ObjC categories are generated. Instead of
+  inserting their methods into the interface, generate Dart extension methods.
+  For instance methods this makes no difference to user code (as long as the
+  extension methods are imported correctly). But for static methods it means
+  `MyInterface.staticMethod` must change to `MyCategory.staticMethod`.
+  Categories are included/excluded by the `objc-categories` config entry.
+- Add `include-transitive-objc-interfaces`, `include-transitive-objc-protocols`,
+  and `include-transitive-objc-categories` config flags, which control whether
+  transitively included ObjC interfaces, protocols, and categories are
+  generated.
+- __Breaking change__: `include-transitive-objc-interfaces` defaults to false,
+  which changes the default behavior from pulling in all transitive deps, to
+  generating them as stubs. `include-transitive-objc-protocols` defaults to
+  false, and `include-transitive-objc-categories` defaults to true, but these
+  both replicate the existing behavior.
+- Fix [bugs](https://github.com/dart-lang/native/issues/1220) caused by
+  mismatches between ObjC and Dart's inheritance rules.
+
+## 15.0.0
+
+- Bump minimum Dart version to 3.4.
+- Dedupe `ObjCBlock` trampolines to reduce generated ObjC code.
+- Update to latest `package:objective_c`.
+- ObjC objects now include the methods from the protocols they implement. Both
+  required and optional methods are included. Optional methods will throw an
+  exception if the method isn't implemented.
+- __Breaking change__: Only generate ObjC protocol implementation bindings for
+  protocols that are included by the config filters. This is breaking because
+  previously super protocols would automatically get implementation bindings,
+  rather than just being incorporated into the child protocol. If you want those
+  implementation bindings, you may need to add the super protocol to your
+  `objc-protocols` filters.
+- Fix a bug where ObjC listener blocks could be deleted after being invoked by
+  ObjC but before the invocation was received by Dart:
+  https://github.com/dart-lang/native/issues/1571
+- `sort:` config option now affects ObjC interface/protocol methods.
+- Fix a bug where `NSRange` was not being imported from package:objective_c:
+  https://github.com/dart-lang/native/issues/1180
+- __Breaking change__: Return structs from ObjC methods by value instead of
+  taking a struct return pointer.
+
+## 14.0.1
+
+- Fix bug with nullable types in `ObjCBlock`'s type arguments:
+  https://github.com/dart-lang/native/issues/1537
+- Fix a path normalization bug: https://github.com/dart-lang/native/issues/1543
+
+## 14.0.0
 
 - Create a public facing API for ffigen that can be invoked as a library:
   `void generate(Config config)`. Make `Config` an implementatble interface,
@@ -28,6 +104,10 @@
   classes as opposed to `abstract` classes.
 - Fix some bugs in the way ObjC method families and ownership annotations were
   being handled: https://github.com/dart-lang/native/issues/1446
+- Apply the existing `member-rename` option to ObjC interface and protocol
+  methods and properties.
+- Add a `member-filter` option that filters ObjC interface and protocol methods
+  and properties.
 
 ## 13.0.0
 

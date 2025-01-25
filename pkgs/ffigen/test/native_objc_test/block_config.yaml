@@ -8,12 +8,15 @@ exclude-all-by-default: true
 objc-interfaces:
   include:
     - BlockTester
+    - DummyObject
+    - NSThread
 typedefs:
   include:
     - IntBlock
     - FloatBlock
     - DoubleBlock
     - Vec4Block
+    - SelectorBlock
     - VoidBlock
     - ObjectBlock
     - NullableObjectBlock
@@ -24,6 +27,10 @@ typedefs:
     - StructListenerBlock
     - NSStringListenerBlock
     - NoTrampolineListenerBlock
+functions:
+  include:
+    - objc_autoreleasePoolPop
+    - objc_autoreleasePoolPush
 headers:
   entry-points:
     - 'block_test.h'

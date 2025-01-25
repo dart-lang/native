@@ -10,12 +10,14 @@ library;
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+
+const flutteriOSHighestBestEffort = 16;
+const flutteriOSHighestSupported = 17;
 
 void main() {
   if (!Platform.isMacOS) {
@@ -36,6 +38,9 @@ void main() {
 
   const name = 'add';
 
+  const optimizationLevels = OptimizationLevel.values;
+  var selectOptimizationLevel = 0;
+
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final targetIOSSdk in IOSSdk.values) {
@@ -43,18 +48,23 @@ void main() {
           if (target == Architecture.x64 && targetIOSSdk == IOSSdk.iPhoneOS) {
             continue;
           }
-
           final libName = OS.iOS.libraryFileName(name, linkMode);
           for (final installName in [
             null,
             if (linkMode == DynamicLoadingBundled())
               Uri.file('@executable_path/Frameworks/$libName'),
           ]) {
+            // Cycle through all optimization levels.
+            final optimizationLevel =
+                optimizationLevels[selectOptimizationLevel];
+            selectOptimizationLevel =
+                (selectOptimizationLevel + 1) % optimizationLevels.length;
             test(
                 'CBuilder $linkMode $language library $targetIOSSdk $target'
-                        ' ${installName ?? ''}'
+                        ' ${installName ?? ''} $optimizationLevel'
                     .trim(), () async {
               final tempUri = await tempDirForTest();
+              final tempUri2 = await tempDirForTest();
               final sourceUri = switch (language) {
                 Language.c =>
                   packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
@@ -62,20 +72,35 @@ void main() {
                     'test/cbuilder/testfiles/add_objective_c/src/add.m'),
                 Language() => throw UnimplementedError(),
               };
-              final buildConfig = BuildConfig.build(
-                outputDirectory: tempUri,
-                packageName: name,
-                packageRoot: tempUri,
-                targetArchitecture: target,
-                targetOS: OS.iOS,
-                buildMode: BuildMode.release,
-                linkModePreference: linkMode == DynamicLoadingBundled()
-                    ? LinkModePreference.dynamic
-                    : LinkModePreference.static,
-                targetIOSSdk: targetIOSSdk,
-                linkingEnabled: false,
-              );
-              final buildOutput = BuildOutput();
+
+              final buildInputBuilder = BuildInputBuilder()
+                ..setupShared(
+                  packageName: name,
+                  packageRoot: tempUri,
+                  outputFile: tempUri.resolve('output.json'),
+                  outputDirectory: tempUri,
+                  outputDirectoryShared: tempUri2,
+                )
+                ..config.setupBuild(
+                  linkingEnabled: false,
+                  dryRun: false,
+                )
+                ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+                ..config.setupCode(
+                  targetOS: OS.iOS,
+                  targetArchitecture: target,
+                  linkModePreference: linkMode == DynamicLoadingBundled()
+                      ? LinkModePreference.dynamic
+                      : LinkModePreference.static,
+                  iOS: IOSCodeConfig(
+                    targetSdk: targetIOSSdk,
+                    targetVersion: flutteriOSHighestBestEffort,
+                  ),
+                  cCompiler: cCompiler,
+                );
+
+              final buildInput = BuildInput(buildInputBuilder.json);
+              final buildOutput = BuildOutputBuilder();
 
               final cbuilder = CBuilder.library(
                 name: name,
@@ -83,9 +108,11 @@ void main() {
                 sources: [sourceUri.toFilePath()],
                 installName: installName,
                 language: language,
+                optimizationLevel: optimizationLevel,
+                buildMode: BuildMode.release,
               );
               await cbuilder.run(
-                config: buildConfig,
+                input: buildInput,
                 output: buildOutput,
                 logger: logger,
               );
@@ -108,19 +135,18 @@ void main() {
                 logger: logger,
               );
               expect(otoolResult.exitCode, 0);
-              if (targetIOSSdk == IOSSdk.iPhoneOS ||
-                  target == Architecture.x64) {
-                // The x64 simulator behaves as device, presumably because the
-                // devices are never x64.
-                expect(otoolResult.stdout, contains('LC_VERSION_MIN_IPHONEOS'));
-                expect(otoolResult.stdout, isNot(contains('LC_BUILD_VERSION')));
+              // As of native_assets_cli 0.10.0, the min target OS version is
+              // always being passed in.
+              expect(otoolResult.stdout,
+                  isNot(contains('LC_VERSION_MIN_IPHONEOS')));
+              expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
+              final platform = otoolResult.stdout
+                  .split('\n')
+                  .firstWhere((e) => e.contains('platform'));
+              if (targetIOSSdk == IOSSdk.iPhoneOS) {
+                const platformIosDevice = 2;
+                expect(platform, contains(platformIosDevice.toString()));
               } else {
-                expect(otoolResult.stdout,
-                    isNot(contains('LC_VERSION_MIN_IPHONEOS')));
-                expect(otoolResult.stdout, contains('LC_BUILD_VERSION'));
-                final platform = otoolResult.stdout
-                    .split('\n')
-                    .firstWhere((e) => e.contains('platform'));
                 const platformIosSimulator = 7;
                 expect(platform, contains(platformIosSimulator.toString()));
               }
@@ -161,9 +187,6 @@ void main() {
     }
   }
 
-  const flutteriOSHighestBestEffort = 16;
-  const flutteriOSHighestSupported = 17;
-
   for (final iosVersion in [
     flutteriOSHighestBestEffort,
     flutteriOSHighestSupported
@@ -174,7 +197,15 @@ void main() {
         final tempUri = await tempDirForTest();
         final out1Uri = tempUri.resolve('out1/');
         await Directory.fromUri(out1Uri).create();
-        final lib1Uri = await buildLib(out1Uri, target, iosVersion, linkMode);
+        final out2Uri = tempUri.resolve('out1/');
+        await Directory.fromUri(out2Uri).create();
+        final lib1Uri = await buildLib(
+          out1Uri,
+          out2Uri,
+          target,
+          iosVersion,
+          linkMode,
+        );
 
         final otoolResult = await runProcess(
           executable: Uri.file('otool'),
@@ -190,6 +221,7 @@ void main() {
 
 Future<Uri> buildLib(
   Uri tempUri,
+  Uri tempUri2,
   Architecture targetArchitecture,
   int targetIOSVersion,
   LinkMode linkMode,
@@ -197,29 +229,43 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildConfig = BuildConfig.build(
-    outputDirectory: tempUri,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: targetArchitecture,
-    targetOS: OS.iOS,
-    targetIOSSdk: IOSSdk.iPhoneOS,
-    targetIOSVersion: targetIOSVersion,
-    buildMode: BuildMode.release,
-    linkModePreference: linkMode == DynamicLoadingBundled()
-        ? LinkModePreference.dynamic
-        : LinkModePreference.static,
-    linkingEnabled: false,
-  );
-  final buildOutput = BuildOutput();
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
+      targetOS: OS.iOS,
+      targetArchitecture: targetArchitecture,
+      linkModePreference: linkMode == DynamicLoadingBundled()
+          ? LinkModePreference.dynamic
+          : LinkModePreference.static,
+      iOS: IOSCodeConfig(
+        targetSdk: IOSSdk.iPhoneOS,
+        targetVersion: targetIOSVersion,
+      ),
+      cCompiler: cCompiler,
+    );
+
+  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutput,
     logger: logger,
   );

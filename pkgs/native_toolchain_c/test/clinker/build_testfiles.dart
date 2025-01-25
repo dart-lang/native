@@ -4,13 +4,13 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
 
 Future<Uri> buildTestArchive(
   Uri tempUri,
+  Uri tempUri2,
   OS os,
   Architecture architecture,
 ) async {
@@ -25,29 +25,43 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
-  final buildConfig = BuildConfig.build(
-    outputDirectory: tempUri,
-    packageName: name,
-    packageRoot: tempUri,
-    targetArchitecture: architecture,
-    targetOS: os,
-    buildMode: BuildMode.release,
-    linkModePreference: LinkModePreference.dynamic,
-    cCompiler: cCompiler,
-    linkingEnabled: false,
-  );
-  final buildOutput = BuildOutput();
+  assert(os == OS.linux); // Setup code input for other OSes.
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectory: tempUri,
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(
+      linkingEnabled: false,
+      dryRun: false,
+    )
+    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+    ..config.setupCode(
+      targetOS: os,
+      targetArchitecture: architecture,
+      linkModePreference: LinkModePreference.dynamic,
+      cCompiler: cCompiler,
+    );
+
+  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildOutputBuilder = BuildOutputBuilder();
+
   final cbuilder = CBuilder.library(
     name: name,
     assetName: '',
     sources: [test1Uri.toFilePath(), test2Uri.toFilePath()],
     linkModePreference: LinkModePreference.static,
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
-    output: buildOutput,
+    input: buildInput,
+    output: buildOutputBuilder,
     logger: logger,
   );
 
-  return buildOutput.assets.first.file!;
+  final buildOutput = BuildOutput(buildOutputBuilder.json);
+  return buildOutput.assets.code.first.file!;
 }

@@ -11,35 +11,44 @@ ffi-native:
   assetId: 'objective_c.framework/objective_c'
 exclude-all-by-default: true
 generate-for-package-objective-c: true
+sort: true
 functions:
   include:
     - 'objc_.*'
     - 'object_getClass'
     - 'sel_registerName'
+    - 'sel_getName'
     - 'protocol_getMethodDescription'
-    - 'disposeObjCBlockWithClosure'
-    - 'isValidBlock'
-    - 'isValidObject'
+    - 'protocol_getName'
     - 'Dart_InitializeApiDL'
     - 'newFinalizableHandle'
-    - 'newBlockFinalizableHandle'
-    - 'deleteFinalizableHandle'
-    - 'newFinalizableBool'
+    - 'DOBJC_.*'
   leaf:
     include:
       - '.*'
     exclude:
       - 'objc_msgSend.*'
-      - 'disposeObjCBlockWithClosure'
-      - 'newFinalizableHandle'
-      - 'deleteFinalizableHandle'
-      - 'newFinalizableBool'
+      - 'DOBJC_deleteFinalizableHandle'
+      - 'DOBJC_disposeObjCBlockWithClosure'
+      - 'DOBJC_newFinalizableBool'
+      - 'DOBJC_newFinalizableHandle'
+      - 'DOBJC_awaitWaiter'
   rename:
+    'DOBJC_disposeObjCBlockWithClosure': 'disposeObjCBlockWithClosure'
+    'DOBJC_isValidBlock': 'isValidBlock'
+    'DOBJC_newFinalizableHandle': 'newFinalizableHandle'
+    'DOBJC_deleteFinalizableHandle': 'deleteFinalizableHandle'
+    'DOBJC_newFinalizableBool': 'newFinalizableBool'
+    'DOBJC_newWaiter': 'newWaiter'
+    'DOBJC_signalWaiter': 'signalWaiter'
+    'DOBJC_awaitWaiter': 'awaitWaiter'
     'sel_registerName': 'registerName'
+    'sel_getName': 'getName'
     'objc_getClass': 'getClass'
     'objc_retain': 'objectRetain'
-    'objc_release': 'objectRelease'
     'objc_retainBlock': 'blockRetain'
+    'objc_release': 'objectRelease'
+    'objc_autorelease': 'objectAutorelease'
     'objc_msgSend': 'msgSend'
     'objc_msgSend_fpret': 'msgSendFpret'
     'objc_msgSend_stret': 'msgSendStret'
@@ -47,6 +56,7 @@ functions:
     'objc_copyClassList': 'copyClassList'
     'objc_getProtocol': 'getProtocol'
     'protocol_getMethodDescription': 'getMethodDescription'
+    'protocol_getName': 'getProtocolName'
 globals:
   include:
     - '_NSConcrete.*Block'
@@ -54,8 +64,11 @@ globals:
     '_(.*)': '$1'
 typedefs:
   include:
-    - 'ObjC.*'
     - 'Dart_FinalizableHandle'
+structs:
+  rename:
+    '_ObjC(.*)': 'ObjC$1'
+    '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

@@ -9,6 +9,7 @@ import static org.objectweb.asm.Type.ARRAY;
 import static org.objectweb.asm.Type.OBJECT;
 
 import com.github.dart_lang.jnigen.apisummarizer.elements.DeclKind;
+import com.github.dart_lang.jnigen.apisummarizer.elements.JavaAnnotation;
 import com.github.dart_lang.jnigen.apisummarizer.elements.TypeUsage;
 import com.github.dart_lang.jnigen.apisummarizer.util.SkipException;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.TypePath;
 
 class TypeUtils {
 
@@ -31,7 +33,7 @@ class TypeUtils {
     return components[components.length - 1];
   }
 
-  public static TypeUsage typeUsage(Type type, @SuppressWarnings("unused") String signature) {
+  public static TypeUsage typeUsage(Type type) {
     var usage = new TypeUsage();
     usage.shorthand = type.getClassName();
     switch (type.getSort()) {
@@ -43,13 +45,12 @@ class TypeUtils {
         break;
       case ARRAY:
         usage.kind = TypeUsage.Kind.ARRAY;
-        usage.type = new TypeUsage.Array(TypeUtils.typeUsage(type.getElementType(), null));
+        usage.type = new TypeUsage.Array(TypeUtils.typeUsage(type.getElementType()));
         break;
       default:
         usage.kind = TypeUsage.Kind.PRIMITIVE;
         usage.type = new TypeUsage.PrimitiveType(type.getClassName());
     }
-    // TODO(#23): generics
     return usage;
   }
 
@@ -66,6 +67,8 @@ class TypeUtils {
   private static final Map<String, Integer> acc = new HashMap<>();
 
   static {
+    // TODO(https://github.com/dart-lang/native/issues/1079): Once we're no longer using doclet,
+    // send the bitmask instead.
     acc.put("static", ACC_STATIC);
     acc.put("private", ACC_PRIVATE);
     acc.put("protected", ACC_PROTECTED);
@@ -73,6 +76,15 @@ class TypeUtils {
     acc.put("abstract", ACC_ABSTRACT);
     acc.put("final", ACC_FINAL);
     acc.put("native", ACC_NATIVE);
+    acc.put("bridge", ACC_BRIDGE);
+    acc.put("synthetic", ACC_SYNTHETIC);
+  }
+
+  static JavaAnnotation annotationFromDescriptor(String descriptor) {
+    var annotation = new JavaAnnotation();
+    var aType = Type.getType(descriptor);
+    annotation.binaryName = aType.getClassName();
+    return annotation;
   }
 
   static DeclKind declKind(int access) {
@@ -94,6 +106,50 @@ class TypeUtils {
         var typeCh = type.getInternalName().charAt(0);
         return String.valueOf(Character.toLowerCase(typeCh));
     }
+  }
+
+  static TypeUsage.ReferredType moveToTypePath(
+      TypeUsage.ReferredType startingType, TypePath typePath) {
+    if (typePath == null) {
+      return startingType;
+    }
+    var currentType = startingType;
+    int nestingLevel = 0;
+    for (int i = 0; i < typePath.getLength(); ++i) {
+      var step = typePath.getStep(i);
+      switch (step) {
+        case TypePath.ARRAY_ELEMENT:
+          {
+            currentType = ((TypeUsage.Array) currentType).elementType.type;
+            nestingLevel = 0;
+            break;
+          }
+        case TypePath.INNER_TYPE:
+          {
+            ++nestingLevel;
+            break;
+          }
+        case TypePath.WILDCARD_BOUND:
+          {
+            var wildcard = ((TypeUsage.Wildcard) currentType);
+            var extendsBound = wildcard.extendsBound;
+            var superBound = wildcard.superBound;
+            currentType = (extendsBound == null ? superBound : extendsBound).type;
+            nestingLevel = 0;
+            break;
+          }
+        case TypePath.TYPE_ARGUMENT:
+          {
+            var declared = ((TypeUsage.DeclaredType) currentType);
+            var startingIndex =
+                nestingLevel == 0 ? 0 : declared.typeParamIndices.get(nestingLevel - 1);
+            currentType = declared.params.get(startingIndex + typePath.getStepArgument(i)).type;
+            nestingLevel = 0;
+            break;
+          }
+      }
+    }
+    return currentType;
   }
 
   private static String unCapitalize(String s) {

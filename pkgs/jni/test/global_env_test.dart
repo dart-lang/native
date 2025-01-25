@@ -2,10 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:jni/jni.dart';
+import 'package:jni/src/jni.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
@@ -122,7 +124,7 @@ void run({required TestRunnerCallback testRunner}) {
             final jstr = env.NewStringUTF(str.toNativeChars(arena));
             final jchars = env.GetStringUTFChars(jstr, nullptr);
             final jlen = env.GetStringUTFLength(jstr);
-            final dstr = jchars.toDartString(length: jlen);
+            final dstr = jchars.cast<Utf8>().toDartString(length: jlen);
             env.ReleaseStringUTFChars(jstr, jchars);
             expect(str, equals(dstr));
             env.DeleteGlobalRef(jstr);

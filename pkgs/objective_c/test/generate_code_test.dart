@@ -17,7 +17,8 @@ void main() {
     test('Runs without exception', () async {
       // As well as testing that this returns normally, this also generates
       // coverage info for the parts of ffigen that are gated by
-      // generate-for-package-objective-c.
+      // generate-for-package-objective-c. The github workflow that runs this
+      // test also uses it to verify that there are no git-diffs in the output.
       await expectLater(generate_code.run(), completes);
 
       // Sanity check the generated code.
@@ -26,7 +27,7 @@ void main() {
       expect(cBindings, contains('sel_registerName'));
       expect(cBindings, contains('objc_msgSend'));
       expect(cBindings, contains('_NSConcreteGlobalBlock'));
-      expect(cBindings, contains('_ObjCBlock'));
+      expect(cBindings, contains('ObjCBlock'));
 
       final objcBindings = File('lib/src/objective_c_bindings_generated.dart')
           .readAsStringSync();

@@ -8,9 +8,10 @@
 })
 library;
 
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -30,33 +31,46 @@ void main() async {
   for (final dryRun in [true, false]) {
     final testSuffix = dryRun ? ' dry_run' : '';
     test('local_asset build$testSuffix', () async {
+      final buildOutputUri = tempUri.resolve('build_output.json');
       final testTempUri = tempUri.resolve('test1/');
       await Directory.fromUri(testTempUri).create();
+      final outputDirectory = tempUri.resolve('out/');
+      await Directory.fromUri(outputDirectory).create();
+      final outputDirectoryShared = tempUri.resolve('out_shared/');
+      await Directory.fromUri(outputDirectoryShared).create();
       final testPackageUri = packageUri.resolve('example/build/$name/');
       final dartUri = Uri.file(Platform.resolvedExecutable);
+
+      final targetOS = OS.current;
+      final inputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageRoot: testPackageUri,
+          packageName: name,
+          outputFile: buildOutputUri,
+          outputDirectory: outputDirectory,
+          outputDirectoryShared: outputDirectoryShared,
+        )
+        ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: dryRun ? null : Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: dryRun ? null : cCompiler,
+        );
+
+      final buildInputUri = testTempUri.resolve('build_input.json');
+      await File.fromUri(buildInputUri)
+          .writeAsString(jsonEncode(inputBuilder.json));
 
       final processResult = await Process.run(
         dartUri.toFilePath(),
         [
           'hook/build.dart',
-          '-Dout_dir=${tempUri.toFilePath()}',
-          '-Dpackage_name=$name',
-          '-Dpackage_root=${testPackageUri.toFilePath()}',
-          '-Dtarget_os=${OSImpl.current}',
-          '-Dversion=${HookConfigImpl.latestVersion}',
-          '-Dlink_mode_preference=dynamic',
-          '-Ddry_run=$dryRun',
-          if (!dryRun) ...[
-            '-Dtarget_architecture=${ArchitectureImpl.current}',
-            '-Dbuild_mode=debug',
-            if (cc != null) '-Dcc=${cc!.toFilePath()}',
-            if (envScript != null)
-              '-D${CCompilerConfigImpl.envScriptConfigKeyFull}='
-                  '${envScript!.toFilePath()}',
-            if (envScriptArgs != null)
-              '-D${CCompilerConfigImpl.envScriptArgsConfigKeyFull}='
-                  '${envScriptArgs!.join(' ')}',
-          ],
+          '--config=${buildInputUri.toFilePath()}',
         ],
         workingDirectory: testPackageUri.toFilePath(),
       );
@@ -67,14 +81,15 @@ void main() async {
       }
       expect(processResult.exitCode, 0);
 
-      final buildOutputUri = tempUri.resolve('build_output.json');
-      final buildOutput = HookOutputImpl.fromJsonString(
-          await File.fromUri(buildOutputUri).readAsString());
-      final assets = buildOutput.assets;
+      final buildOutput = BuildOutput(
+          json.decode(await File.fromUri(buildOutputUri).readAsString())
+              as Map<String, Object?>);
+      final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
+        final codeAsset = buildOutput.assets.code.first;
         expect(assets.length, greaterThanOrEqualTo(1));
-        expect(await File.fromUri(assets.first.file!).exists(), false);
+        expect(await File.fromUri(codeAsset.file!).exists(), false);
         expect(dependencies, <Uri>[]);
       } else {
         expect(assets.length, 1);
@@ -82,7 +97,7 @@ void main() async {
         expect(
           dependencies,
           [
-            testPackageUri.resolve('data/asset.txt'),
+            testPackageUri.resolve('assets/asset.txt'),
           ],
         );
       }

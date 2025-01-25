@@ -3,14 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> args) async {
   await build(
     args,
-    (config, output) async {
+    (input, output) async {
       final assetDirectory =
-          Directory.fromUri(config.packageRoot.resolve('assets/'));
+          Directory.fromUri(input.packageRoot.resolve('assets/'));
       // If assets are added, rerun hook.
       output.addDependency(assetDirectory.uri);
 
@@ -22,11 +22,11 @@ void main(List<String> args) async {
         // The file path relative to the package root, with forward slashes.
         final name = dataAsset.uri
             .toFilePath(windows: false)
-            .substring(config.packageRoot.toFilePath(windows: false).length);
+            .substring(input.packageRoot.toFilePath(windows: false).length);
 
-        output.addAsset(
+        output.assets.data.add(
           DataAsset(
-            package: config.packageName,
+            package: input.packageName,
             name: name,
             file: dataAsset.uri,
           ),

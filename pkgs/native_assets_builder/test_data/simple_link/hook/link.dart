@@ -2,13 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> args) async {
-  await link(
-    args,
-    (config, output) async => output.addAssets(shake(config.assets)),
-  );
+  await link(args, (input, output) async {
+    shake(output, input.assets.data);
+  });
 }
 
-Iterable<Asset> shake(Iterable<Asset> assets) => assets.skip(2);
+void shake(LinkOutputBuilder output, Iterable<DataAsset> assets) {
+  for (final asset in assets.skip(2)) {
+    output.assets.data.add(asset);
+
+    // If the file changes we'd like to re-run the linker.
+    output.addDependency(asset.file);
+  }
+}

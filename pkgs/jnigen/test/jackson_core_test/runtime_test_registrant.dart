@@ -17,11 +17,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
       final json = JString.fromString('[1, true, false, 2, 4]');
       JsonFactory factory;
       factory = JsonFactory();
-      final parser = factory.createParser6(json);
+      final parser = factory.createParser$6(json)!;
       final values = <bool>[];
       while (!parser.isClosed()) {
         final next = parser.nextToken();
-        if (next.isNull) continue;
+        if (next == null) continue;
         values.add(next.isNumeric());
         next.release();
       }
@@ -34,7 +34,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       using((arena) {
         final factory = JsonFactory()..releasedBy(arena);
         final erroneous = factory
-            .createParser6('<html>'.toJString()..releasedBy(arena))
+            .createParser$6('<html>'.toJString()..releasedBy(arena))!
           ..releasedBy(arena);
         expect(erroneous.nextToken, throwsA(isA<JniException>()));
       });

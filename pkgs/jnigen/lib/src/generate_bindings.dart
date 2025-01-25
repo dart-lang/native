@@ -11,9 +11,9 @@ import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
 import 'bindings/renamer.dart';
-import 'bindings/unnester.dart';
 import 'config/config.dart';
 import 'elements/elements.dart';
+import 'elements/j_elements.dart' as j_ast;
 import 'logging/logging.dart';
 import 'summary/summary.dart';
 import 'tools/tools.dart';
@@ -21,6 +21,9 @@ import 'tools/tools.dart';
 void collectOutputStream(Stream<List<int>> stream, StringBuffer buffer) =>
     stream.transform(const Utf8Decoder()).forEach(buffer.write);
 Future<void> generateJniBindings(Config config) async {
+  Annotated.nonNullAnnotations.addAll(config.nonNullAnnotations ?? []);
+  Annotated.nullableAnnotations.addAll(config.nullableAnnotations ?? []);
+
   setLoggingLevel(config.logLevel);
 
   await buildSummarizerIfNotExists();
@@ -36,12 +39,15 @@ Future<void> generateJniBindings(Config config) async {
     log.fatal(e.message);
   }
 
+  final userClasses = j_ast.Classes(classes);
+  config.visitors?.forEach(userClasses.accept);
+
   classes.accept(Excluder(config));
   classes.accept(KotlinProcessor());
   await classes.accept(Linker(config));
-  classes.accept(const Unnester());
   classes.accept(const Descriptor());
   classes.accept(Renamer(config));
+  // classes.accept(const Printer());
 
   try {
     await classes.accept(DartGenerator(config));

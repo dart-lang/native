@@ -11,7 +11,6 @@ library;
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -25,6 +24,7 @@ void main() {
 
   test('CBuilder compile objective c', () async {
     final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
     final addMUri =
         packageUri.resolve('test/cbuilder/testfiles/add_objective_c/src/add.m');
     if (!await File.fromUri(addMUri).exists()) {
@@ -35,27 +35,42 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfig = BuildConfig.build(
-      buildMode: BuildMode.release,
-      outputDirectory: tempUri,
-      packageName: name,
-      packageRoot: tempUri,
-      targetArchitecture: Architecture.current,
-      targetOS: OS.current,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-      linkingEnabled: false,
-    );
-    final buildOutput = BuildOutput();
+    final targetOS = OS.current;
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(
+        linkingEnabled: false,
+        dryRun: false,
+      )
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
+        targetOS: targetOS,
+        macOS: targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+            : null,
+        targetArchitecture: Architecture.current,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: cCompiler,
+      );
+
+    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
       name: name,
       assetName: name,
       sources: [addMUri.toFilePath()],
       language: Language.objectiveC,
+      buildMode: BuildMode.release,
     );
     await cbuilder.run(
-      config: buildConfig,
+      input: buildInput,
       output: buildOutput,
       logger: logger,
     );

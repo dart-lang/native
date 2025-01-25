@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -275,6 +275,7 @@ class VisualStudioResolver implements ToolResolver {
     for (final vswhereInstance in vswhereInstances.take(1)) {
       final vswhereResult = await runProcess(
         executable: vswhereInstance.uri,
+        arguments: ['-latest', '-products', '*'],
         logger: logger,
       );
       final toolInfos = vswhereResult.stdout.split(_newLine * 2).skip(1);

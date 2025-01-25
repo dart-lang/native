@@ -18,7 +18,7 @@ Three configuration details are needed to generate the bindings. Everything else
 
 * _Classes_: Specify which classes or packages you need bindings for. Specifying a package includes all classes inside it recursively.
 
-Check out the [examples](jnigen/example/) to see some sample configurations.
+Check out the [examples](example/) to see some sample configurations.
 
 ## Example
 It's possible to generate bindings for JAR libraries, or Java source files.
@@ -113,7 +113,7 @@ classes:
   - 'com.example.in_app_java.AndroidUtils'
 ```
 
-The complete example can be found in [jnigen/example/in_app_java](jnigen/example/in_app_java), which adds few more classes to demonstrate using classes from gradle JAR and source dependencies.
+The complete example can be found in [jnigen/example/in_app_java](example/in_app_java), which adds few more classes to demonstrate using classes from gradle JAR and source dependencies.
 
 ## Supported platforms
 | Platform | Dart Standalone | Flutter       |
@@ -135,7 +135,9 @@ More advanced features such as callbacks are not supported yet. Support for thes
 
 On Flutter targets, native libraries are built automatically and bundled. On standalone platforms, no such infrastructure exists yet. As a stopgap solution, running `dart run jni:setup` in a target directory builds all JNI native dependencies of the package into `build/jni_libs`. 
 
-The build directory has to be passed to `Jni.spawn` call. It's assumed that all dependencies are built into the same target directory, so that once JNI is initialized, generated bindings can load their respective C libraries automatically.
+To start a JVM, call `Jni.spawn`. It's assumed that all dependencies are built into the same target directory, so that once JNI is initialized, generated bindings can load their respective C libraries automatically.
+
+If a custom build path has been set for the dynamic libraries built by `dart run jni:setup --build-path path/to/dylib`, the same path must be passed to `Jni.spawn`. Also anytime a new Dart isolate is spawned, the directory must be set again using `Jni.setDylibDir`.
 
 ## Requirements
 ### SDK
@@ -154,8 +156,10 @@ __On windows, append the path of `jvm.dll` in your JDK installation to PATH.__
 For example, on Powershell:
 
 ```powershell
-$env:Path += ";${env:JAVA_HOME}\bin\server".
+$env:Path += ";${env:JAVA_HOME}\bin\server"
 ```
+
+Note: The above will only add `jvm.dll` to `PATH` for the current Powershell session, use the Control Panel to add it to path permanently.
 
 If JAVA_HOME not set, find the `java.exe` executable and set the environment variable in Control Panel. If java is installed through a package manager, there may be a more automatic way to do this. (Eg: `scoop reset`).
 
@@ -167,7 +171,7 @@ CMake and a standard C toolchain are required to build `package:jni`.
 #### I am getting ClassNotFoundError at runtime.
 `jnigen` does not handle getting the classes into application. It has to be done by target-specific mechanism. Such as adding a gradle dependency on Android, or manually providing classpath to `Jni.spawn` on desktop / standalone targets.
 
-On Android, `proguard` prunes classes which it deems inaccessible. Since JNI class lookup happens in runtime, this leads to ClassNotFound errors in release mode even if the dependency is included in gradle. [in_app_java example](jnigen/example/in_app_java/) discusses two mechanisms to prevent this: using `Keep` annotation (`androidx.annotation.Keep`) for the code written in the application itself, and [proguard-rules file](jnigen/example/in_app_java/android/app/proguard-rules.pro) for external libraries.
+On Android, `proguard` prunes classes which it deems inaccessible. Since JNI class lookup happens in runtime, this leads to ClassNotFound errors in release mode even if the dependency is included in gradle. [in_app_java example](example/in_app_java/) discusses two mechanisms to prevent this: using `Keep` annotation (`androidx.annotation.Keep`) for the code written in the application itself, and [proguard-rules file](example/in_app_java/android/app/proguard-rules.pro) for external libraries.
 
 Lastly, some libraries such as `java.awt` do not exist in android. Attempting to use libraries which depend on them can also lead to ClassNotFound errors.
 
@@ -178,6 +182,22 @@ If the classes are in JAR file, make sure to provide path to JAR file itself, an
 
 #### `jnigen` is unable to parse sources.
 If the errors are similar to `symbol not found`, ensure all dependencies of the source are available. If such dependency is compiled, it can be included in `class_path`.
+
+#### Generate bindings for built-in types
+To generate bindings for built-in Java types (like those in `java.*` packages), you need to provide the OpenJDK source code to the generator. Here's how:
+
+1. Locate the `src.zip` file in your Java installation directory
+2. Extract the `java.base` folder from this zip file
+3. Add the path to the extracted `java.base` folder in your `source_path` list in the YAML configuration
+
+For example, to generate bindings for `java.lang.Math`, your configuration might look like:
+
+```yaml
+source_path:
+  - '/path/to/extracted/java.base'
+classes:
+  - 'java.lang.Math'
+```
 
 #### How are classes mapped into bindings?
 Each Java class generates a subclass of `JObject` class, which wraps a `jobject` reference in JNI. Nested classes use `_` as separator, `Example.NestedClass` will be mapped to `Example_NestedClass`.
@@ -214,6 +234,8 @@ A `*` denotes required configuration.
 | `output:` >> `dart:` | (Subsection) | This subsection specifies Dart output configuration. |
 | `output:` >> `dart:` >> `structure` | `package_structure` / `single_file` | Whether to map resulting dart bindings to file-per-class source layout, or write all bindings to single file.
 | `output:` >> `dart:` >> `path` * | Directory path or File path | Path to write Dart bindings. Should end in `.dart` for `single_file` configurations, and end in `/` for `package_structure` (default) configuration. |
+| `non_null_annotations:`     | List of annotation fully qualified names | List of custom annotations that specify if the annotation type is non-nullable. |
+| `nullable_annotations:`     | List of annotation fully qualified names | List of custom annotations that specify if the annotation type is nullable. |
 | `maven_downloads:`     | (Subsection) | This subsection will contain configuration for automatically downloading Java dependencies (source and JAR) through maven. |
 | `maven_downloads:` >> `source_deps` | List of maven package coordinates | Source packages to download and unpack using maven. The names should be valid maven artifact coordinates. (Eg: `org.apache.pdfbox:pdfbox:2.0.26`). The downloads do not include transitive dependencies. |
 | `maven_downloads:` >> `source_dir` | Path | Directory in which maven sources are extracted. Defaults to `mvn_java`. It's not required to list this explicitly in source_path. |
@@ -222,7 +244,7 @@ A `*` denotes required configuration.
 | `log_level`            | Logging level | Configure logging level. Defaults to `info`.                            |
 | `android_sdk_config:`  | (Subsection)  | Configuration for autodetection of Android dependencies and SDK. Note that this is more experimental than others, and very likely subject to change. |
 | `android_sdk_config:` >> `add_gradle_deps` | Boolean | If true, run a gradle stub during `jnigen` invocation, and add Android compile classpath to the classpath of jnigen. This requires a release build to have happened before, so that all dependencies are cached appropriately. |
-| `android_sdk_config:` >> `android_example` | Directory path | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](jnigen/example/notification_plugin/jnigen.yaml) for an example. |
+| `android_sdk_config:` >> `android_example` | Directory path | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](example/notification_plugin/jnigen.yaml) for an example. |
 | `summarizer:`          | (Subsection)  | Configuration specific to summarizer component, which builds API descriptions from Java sources or JAR files. |
 | `summarizer:` >> `backend` | `auto`, `doclet` or `asm` | Specifies the backend to use in API summary generation. `doclet` uses OpenJDK Doclet API to build summary from sources. `asm` uses ASM library to build summary from classes in `class_path` JARs. `auto` attempts to find the class in sources, and falls back to using ASM. |
 | `summarizer:` >> `extra_args` (DEV) | List of CLI arguments | Extra arguments to pass to summarizer JAR. |
@@ -246,7 +268,7 @@ Currently we don't have an automatic mechanism for using these. You can unpack t
 However there are 2 caveats to this caveat.
 
 * SDK stubs after version 28 are incomplete. OpenJDK Doclet API we use to generate API summaries will error on incomplete sources.
-* The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be used instead.
+* The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be used instead. See [Generate bindings for built-in types](#generate-bindings-for-built-in-types) above for instructions on how to use OpenJDK sources.
 
 The JAR files (`$SDK_ROOT/platforms/android-$VERSION/android.jar`) can be used instead. But compiled JARs do not include JavaDoc and method parameter names. This JAR is automatically included by Gradle when `android_sdk_config` >> `add_gradle_deps` is specified.
 

@@ -4,37 +4,42 @@
 
 import 'dart:ffi';
 
+import 'package:meta/meta.dart' show internal;
+
+import 'jarray.dart';
 import 'jobject.dart';
 import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'third_party/generated_bindings.dart';
-import 'types.dart';
 
-class $MethodInvocation {
+@internal
+class MethodInvocation {
   final Pointer<CallbackResult> result;
   final JString methodDescriptor;
-  final JArray<JObject> args;
+  final JArray<JObject?>? args;
 
-  $MethodInvocation._(this.result, this.methodDescriptor, this.args);
+  MethodInvocation._(this.result, this.methodDescriptor, this.args);
 
-  factory $MethodInvocation.fromAddresses(
+  factory MethodInvocation.fromAddresses(
     int resultAddress,
     int descriptorAddress,
     int argsAddress,
   ) {
-    return $MethodInvocation._(
+    return MethodInvocation._(
       Pointer<CallbackResult>.fromAddress(resultAddress),
       JString.fromReference(
           JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress))),
-      JArray.fromReference(
-        const JObjectType(),
-        JGlobalReference(Pointer<Void>.fromAddress(argsAddress)),
-      ),
+      argsAddress == 0
+          ? null
+          : JArray.fromReference(
+              const JObjectNullableType(),
+              JGlobalReference(Pointer<Void>.fromAddress(argsAddress)),
+            ),
     );
   }
 
-  factory $MethodInvocation.fromMessage(List<dynamic> message) {
-    return $MethodInvocation.fromAddresses(
+  factory MethodInvocation.fromMessage(List<dynamic> message) {
+    return MethodInvocation.fromAddresses(
       message[0] as int,
       message[1] as int,
       message[2] as int,

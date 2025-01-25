@@ -7,10 +7,12 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
+
+export 'package:native_assets_cli/code_assets_builder.dart';
 
 /// Returns a suffix for a test that is parameterized.
 ///
@@ -118,46 +120,56 @@ extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
 }
 
-String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
-
 /// Archiver provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ar = Platform.environment[unparseKey('c_compiler.ar')]?.asFileUri();
+final Uri? _ar =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _cc = Platform.environment[unparseKey('c_compiler.cc')]?.asFileUri();
+final Uri? _cc =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ld = Platform.environment[unparseKey('c_compiler.ld')]?.asFileUri();
+final Uri? _ld =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']?.asFileUri();
 
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript =
-    Platform.environment[unparseKey('c_compiler.env_script')]?.asFileUri();
+final Uri? _envScript = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+    ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
 /// Provided on Dart CI.
 final List<String>? _envScriptArgs = Platform
-    .environment[unparseKey('c_compiler.env_script_arguments')]
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
     ?.split(' ');
 
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = CCompilerConfig(
-  compiler: _cc,
-  archiver: _ar,
-  linker: _ld,
-  envScript: _envScript,
-  envScriptArgs: _envScriptArgs,
-);
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        windows: WindowsCCompilerConfig(
+          developerCommandPrompt: _envScript == null
+              ? null
+              : DeveloperCommandPrompt(
+                  script: _envScript!,
+                  arguments: _envScriptArgs ?? [],
+                ),
+        ),
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -221,7 +233,7 @@ Future<String> readelf(String filePath, String flags) async {
   return result.stdout;
 }
 
-Future<String> nmReadSymbols(NativeCodeAsset asset) async {
+Future<String> nmReadSymbols(CodeAsset asset) async {
   final assetUri = asset.file!;
   final result = await runProcess(
     executable: Uri(path: 'nm'),
@@ -237,7 +249,7 @@ Future<String> nmReadSymbols(NativeCodeAsset asset) async {
 }
 
 Future<void> expectSymbols({
-  required NativeCodeAsset asset,
+  required CodeAsset asset,
   required List<String> symbols,
 }) async {
   if (Platform.isLinux) {
@@ -251,3 +263,50 @@ Future<void> expectSymbols({
     throw UnimplementedError();
   }
 }
+
+Future<int> textSectionAddress(Uri dylib) async {
+  if (Platform.isMacOS) {
+    // Find the line in the objdump output that looks like:
+    //  11 .text               00000046 00000000000045a0 TEXT
+    final result = await runProcess(
+      executable: Uri.file('objdump'),
+      arguments: ['--headers', dylib.toFilePath()],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final textSection =
+        result.stdout.split('\n').firstWhere((e) => e.contains('.text'));
+    final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
+    expect(parsed[1], '.text');
+    expect(parsed[4], 'TEXT');
+    final vma = int.parse(parsed[3], radix: 16);
+    return vma;
+  }
+  if (Platform.isLinux) {
+    // Find the line in the readelf output that looks like:
+    // [11] .text             PROGBITS   00004328 000328 000064 00  AX  0   0  4
+    final result = await readelf(dylib.toFilePath(), 'S');
+    final textSection =
+        result.split('\n').firstWhere((e) => e.contains('.text'));
+    final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
+    expect(parsed[1], '.text');
+    expect(parsed[2], 'PROGBITS');
+    final addr = int.parse(parsed[3], radix: 16);
+    return addr;
+  }
+  throw UnimplementedError();
+}
+
+Future<void> expectPageSize(
+  Uri dylib,
+  int pageSize,
+) async {
+  if (Platform.isMacOS || Platform.isLinux) {
+    // If page size is 16kb, the `.text` section address should be
+    // above 0x4000. With smaller page sizes it's above 0x1000.
+    final vma = await textSectionAddress(dylib);
+    expect(vma, greaterThanOrEqualTo(pageSize));
+  }
+}
+
+int defaultMacOSVersion = 13;

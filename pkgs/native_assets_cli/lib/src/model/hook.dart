@@ -12,7 +12,10 @@ enum Hook {
 
   final String _scriptName;
 
+  const Hook(this._scriptName);
+
   String get scriptName => '$_scriptName.dart';
 
-  const Hook(this._scriptName);
+  @Deprecated('Use HookInput.outputFile instead.')
+  String get outputNameDeprecated => '${_scriptName}_output.json';
 }

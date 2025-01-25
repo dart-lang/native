@@ -5,11 +5,9 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart' as internal;
+import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/data_assets_builder.dart';
 import 'package:test/test.dart';
-import 'package:yaml/yaml.dart';
-import 'package:yaml_edit/yaml_edit.dart';
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -82,62 +80,79 @@ extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
 }
 
-String unparseKey(String key) => key.replaceAll('.', '__').toUpperCase();
-
 /// Archiver provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? ar = Platform
-    .environment[unparseKey(internal.CCompilerConfigImpl.arConfigKeyFull)]
-    ?.asFileUri();
+final Uri? _ar =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? cc = Platform
-    .environment[unparseKey(internal.CCompilerConfigImpl.ccConfigKeyFull)]
-    ?.asFileUri();
+final Uri? _cc =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? ld = Platform
-    .environment[unparseKey(internal.CCompilerConfigImpl.ldConfigKeyFull)]
-    ?.asFileUri();
+final Uri? _ld =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']?.asFileUri();
 
-/// Path to script that sets environment variables for [cc], [ld], and [ar].
+/// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? envScript = Platform.environment[
-        unparseKey(internal.CCompilerConfigImpl.envScriptConfigKeyFull)]
+final Uri? _envScript = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
     ?.asFileUri();
 
-/// Arguments for [envScript] provided by environment.
+/// Arguments for [_envScript] provided by environment.
 ///
 /// Provided on Dart CI.
-final List<String>? envScriptArgs = Platform.environment[
-        unparseKey(internal.CCompilerConfigImpl.envScriptArgsConfigKeyFull)]
+final List<String>? _envScriptArgs = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
     ?.split(' ');
+
+/// Configuration for the native toolchain.
+///
+/// Provided on Dart CI.
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        windows: WindowsCCompilerConfig(
+          developerCommandPrompt: _envScript == null
+              ? null
+              : DeveloperCommandPrompt(
+                  script: _envScript!,
+                  arguments: _envScriptArgs ?? [],
+                ),
+        ),
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
 }
 
-extension AssetIterable on Iterable<Asset> {
+extension AssetIterable on Iterable<EncodedAsset> {
   Future<bool> allExist() async {
-    final allResults = await Future.wait(map((e) => e.exists()));
-    final missing = allResults.contains(false);
-    return !missing;
-  }
-}
-
-extension on Asset {
-  Future<bool> exists() async {
-    final path_ = file;
-    return switch (path_) {
-      null => true,
-      _ => await path_.fileSystemEntity.exists(),
-    };
+    for (final encodedAsset in this) {
+      if (encodedAsset.type == DataAsset.type) {
+        final dataAsset = DataAsset.fromEncoded(encodedAsset);
+        if (!await dataAsset.file.fileSystemEntity.exists()) {
+          return false;
+        }
+      } else if (encodedAsset.type == CodeAsset.type) {
+        final codeAsset = CodeAsset.fromEncoded(encodedAsset);
+        if (!await (codeAsset.file?.fileSystemEntity.exists() ?? true)) {
+          return false;
+        }
+      } else {
+        throw UnimplementedError('Unknown asset type ${encodedAsset.type}');
+      }
+    }
+    return true;
   }
 }
 
@@ -151,37 +166,6 @@ extension UriExtension on Uri {
       return Directory.fromUri(this);
     }
     return File.fromUri(this);
-  }
-}
-
-String yamlEncode(Object yamlEncoding) {
-  final editor = YamlEditor('');
-  editor.update(
-    [],
-    wrapAsYamlNode(
-      yamlEncoding,
-      collectionStyle: CollectionStyle.BLOCK,
-    ),
-  );
-  return editor.toString();
-}
-
-dynamic yamlDecode(String yaml) {
-  final value = loadYaml(yaml);
-  return yamlToDart(value);
-}
-
-dynamic yamlToDart(dynamic value) {
-  if (value is YamlMap) {
-    final entries = <MapEntry<String, dynamic>>[];
-    for (final key in value.keys) {
-      entries.add(MapEntry(key as String, yamlToDart(value[key])));
-    }
-    return Map.fromEntries(entries);
-  } else if (value is YamlList) {
-    return List<dynamic>.from(value.map(yamlToDart));
-  } else {
-    return value;
   }
 }
 
@@ -209,3 +193,5 @@ Logger _createTestLogger({
       });
 
 final dartExecutable = File(Platform.resolvedExecutable).uri;
+
+int defaultMacOSVersion = 13;

@@ -2,22 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-import 'dart:typed_data';
-
-import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 
-import '../internal_helpers_for_jnigen.dart';
+import '../_internal.dart';
 import 'jni.dart';
 import 'jobject.dart';
 import 'jvalues.dart';
 import 'third_party/generated_bindings.dart';
 
-part 'jarray.dart';
 part 'jclass.dart';
 part 'jprimitives.dart';
 
+@internal
 sealed class JType<JavaT> {
   const JType();
 
@@ -25,6 +21,7 @@ sealed class JType<JavaT> {
 }
 
 /// Able to be a return type of a method that can be called.
+@internal
 mixin JCallable<JavaT, DartT> on JType<JavaT> {
   DartT _staticCall(
       JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
@@ -33,12 +30,14 @@ mixin JCallable<JavaT, DartT> on JType<JavaT> {
 }
 
 /// Able to be constructed.
+@internal
 mixin JConstructable<JavaT, DartT> on JType<JavaT> {
   DartT _newObject(
       JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
 }
 
 /// Able to be the type of a field that can be get and set.
+@internal
 mixin JAccessible<JavaT, DartT> on JType<JavaT> {
   DartT _staticGet(JClassPtr clazz, JFieldIDPtr fieldID);
   DartT _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID);
@@ -46,16 +45,12 @@ mixin JAccessible<JavaT, DartT> on JType<JavaT> {
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
 }
 
-/// Able to be the type of array elements.
-mixin JArrayElementType<JavaT> on JType<JavaT> {
-  JArray<JavaT> _newArray(int length);
-}
-
 /// Only used for jnigen.
 ///
 /// Makes constructing objects easier inside the generated bindings by allowing
 /// a [JReference] to be created. This allows [JObject]s to use constructors
 /// that call `super.fromReference` instead of factories.
+@internal
 const referenceType = _ReferenceType();
 
 final class _ReferenceType extends JType<JReference>
@@ -68,20 +63,22 @@ final class _ReferenceType extends JType<JReference>
     return JGlobalReference(Jni.env.NewObjectA(clazz, methodID, args));
   }
 
+  @internal
   @override
   String get signature => 'Ljava/lang/Object;';
 }
 
-abstract class JObjType<T extends JObject> extends JType<T>
-    with
-        JCallable<T, T>,
-        JConstructable<T, T>,
-        JAccessible<T, T>,
-        JArrayElementType<T> {
+@internal
+abstract class JObjType<T extends JObject?> extends JType<T>
+    with JCallable<T, T>, JConstructable<T, T>, JAccessible<T, T> {
   /// Number of super types. Distance to the root type.
   int get superCount;
 
   JObjType get superType;
+
+  JObjType<T?> get nullableType;
+
+  bool get isNullable => this == nullableType;
 
   const JObjType();
 
@@ -97,8 +94,8 @@ abstract class JObjType<T extends JObject> extends JType<T>
 
   @override
   T _staticCall(JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
-    return fromReference(JGlobalReference(
-        Jni.env.CallStaticObjectMethodA(clazz, methodID, args)));
+    final result = Jni.env.CallStaticObjectMethodA(clazz, methodID, args);
+    return fromReference(JGlobalReference(result));
   }
 
   @override
@@ -120,8 +117,9 @@ abstract class JObjType<T extends JObject> extends JType<T>
   }
 
   @override
-  void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, T val) {
-    Jni.env.SetObjectField(obj, fieldID, val.reference.pointer);
+  void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, T? val) {
+    final valRef = val?.reference ?? jNullReference;
+    Jni.env.SetObjectField(obj, fieldID, valRef.pointer);
   }
 
   @override
@@ -131,28 +129,21 @@ abstract class JObjType<T extends JObject> extends JType<T>
   }
 
   @override
-  void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, T val) {
-    Jni.env.SetStaticObjectField(clazz, fieldID, val.reference.pointer);
-  }
-
-  @override
-  JArray<T> _newArray(int length, [T? fill]) {
-    final clazz = jClass;
-    final array = JArray<T>.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewObjectArray(
-        length,
-        clazz.reference.pointer,
-        fill == null ? nullptr : fill.reference.pointer,
-      )),
-    );
-    clazz.release();
-    return array;
+  void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, T? val) {
+    final valRef = val?.reference ?? jNullReference;
+    Jni.env.SetStaticObjectField(clazz, fieldID, valRef.pointer);
   }
 }
 
 /// Lowest common ancestor of two types in the inheritance tree.
-JObjType _lowestCommonAncestor(JObjType a, JObjType b) {
+JObjType<dynamic> _lowestCommonAncestor(
+    JObjType<dynamic> a, JObjType<dynamic> b) {
+  if (a is! JObjType<JObject> || b is! JObjType<JObject>) {
+    // If one of the types are nullable, the common super type should also be
+    // nullable.
+    a = a.nullableType;
+    b = b.nullableType;
+  }
   while (a.superCount > b.superCount) {
     a = a.superType;
   }
@@ -166,6 +157,7 @@ JObjType _lowestCommonAncestor(JObjType a, JObjType b) {
   return a;
 }
 
-JObjType lowestCommonSuperType(List<JObjType> types) {
+@internal
+JObjType<dynamic> lowestCommonSuperType(List<JObjType<dynamic>> types) {
   return types.reduce(_lowestCommonAncestor);
 }

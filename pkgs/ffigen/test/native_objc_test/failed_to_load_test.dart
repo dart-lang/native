@@ -17,9 +17,9 @@ void main() {
     });
 
     test('Failed to load Objective-C class', () {
-      // We haven't DynamicLibrary.open'd the dylib containing this class. The
-      // core functions like objc_getClass are defined in the Dart executable,
-      // so we can use objc_getClass, but it can't locate this class.
+      // This class has a declaration but no implementation, so it fails to
+      // load. The native objc_getClass returns null, which the wrapper in
+      // package:objective_c turns into an exception.
       expect(
           () => ClassThatWillFailToLoad.new1(),
           throwsA(predicate(

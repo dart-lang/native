@@ -7,11 +7,15 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart' show internal;
 import 'package:path/path.dart';
 
-import '../jni.dart';
 import 'accessors.dart';
+import 'errors.dart';
+import 'jobject.dart';
+import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
+import 'types.dart';
 
 String _getLibraryFileName(String base) {
   if (Platform.isLinux || Platform.isAndroid) {
@@ -32,11 +36,15 @@ String _getLibraryFileName(String base) {
 DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
   final fileName = _getLibraryFileName(baseName);
   final libPath = (dir != null) ? join(dir, fileName) : fileName;
+  final file = File(libPath);
+  if (!file.existsSync()) {
+    throw HelperNotFoundError(libPath);
+  }
   try {
     final dylib = DynamicLibrary.open(libPath);
     return dylib;
   } catch (_) {
-    throw HelperNotFoundError(libPath);
+    throw DynamicLibraryLoadError(libPath);
   }
 }
 
@@ -44,11 +52,9 @@ DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
 abstract final class Jni {
   static final DynamicLibrary _dylib = _loadDartJniLibrary(dir: _dylibDir);
   static final JniBindings _bindings = JniBindings(_dylib);
-  static final _getJniEnvFn = _dylib.lookup<Void>('GetJniEnv');
-  static final _getJniContextFn = _dylib.lookup<Void>('GetJniContextPtr');
 
   /// Store dylibDir if any was used.
-  static String? _dylibDir;
+  static String _dylibDir = join('build', 'jni_libs');
 
   /// Sets the directory where dynamic libraries are looked for.
   /// On dart standalone, call this in new isolate before doing
@@ -60,19 +66,6 @@ abstract final class Jni {
   static void setDylibDir({required String dylibDir}) {
     if (!Platform.isAndroid) {
       _dylibDir = dylibDir;
-    }
-  }
-
-  static bool _initialized = false;
-
-  /// Initializes DartApiDL used for Continuations and interface implementation.
-  static void _ensureInitialized() {
-    if (!_initialized) {
-      assert(NativeApi.majorVersion == 2);
-      assert(NativeApi.minorVersion >= 3);
-      final result = _bindings.InitDartApiDL(NativeApi.initializeApiDLData);
-      _initialized = result == 0;
-      assert(_initialized);
     }
   }
 
@@ -119,7 +112,7 @@ abstract final class Jni {
     int jniVersion = JniVersions.JNI_VERSION_1_6,
   }) =>
       using((arena) {
-        _dylibDir = dylibDir;
+        _dylibDir = dylibDir ?? _dylibDir;
         final jvmArgs = _createVMArgs(
           options: jvmOptions,
           classPath: classPath,
@@ -235,35 +228,37 @@ abstract final class Jni {
       JGlobalReference(_bindings.GetClassLoader());
 }
 
-typedef _SetJniGettersNativeType = Void Function(Pointer<Void>, Pointer<Void>);
-typedef _SetJniGettersDartType = void Function(Pointer<Void>, Pointer<Void>);
-
 /// Extensions for use by `jnigen` generated code.
+@internal
 extension ProtectedJniExtensions on Jni {
-  static final _jThrowableClass = JClass.forName('java/lang/Throwable');
+  static bool _initialized = false;
 
-  static Pointer<T> Function<T extends NativeType>(String) initGeneratedLibrary(
-      String name) {
-    var path = _getLibraryFileName(name);
-    if (Jni._dylibDir != null) {
-      path = join(Jni._dylibDir!, path);
+  /// Initializes DartApiDL used for Continuations and interface implementation.
+  static void ensureInitialized() {
+    if (!_initialized) {
+      assert(NativeApi.majorVersion == 2);
+      assert(NativeApi.minorVersion >= 3);
+      final result = Jni._bindings.InitDartApiDL(NativeApi.initializeApiDLData);
+      _initialized = result == 0;
+      assert(_initialized);
     }
-    final dl = DynamicLibrary.open(path);
-    final setJniGetters =
-        dl.lookupFunction<_SetJniGettersNativeType, _SetJniGettersDartType>(
-            'setJniGetters');
-    setJniGetters(Jni._getJniContextFn, Jni._getJniEnvFn);
-    final lookup = dl.lookup;
-    return lookup;
   }
+
+  static int getCurrentIsolateId() {
+    return Jni._bindings.GetCurrentIsolateId();
+  }
+
+  static final _jThrowableClass = JClass.forName('java/lang/Throwable');
 
   /// Returns a new DartException.
   static Pointer<Void> newDartException(Object exception) {
     JObjectPtr? cause;
-    if (exception is JObject &&
-        Jni.env.IsInstanceOf(
-            exception.reference.pointer, _jThrowableClass.reference.pointer)) {
-      cause = exception.reference.pointer;
+    if (exception is JObject) {
+      final exceptionRef = exception.reference;
+      if (Jni.env.IsInstanceOf(
+          exceptionRef.pointer, _jThrowableClass.reference.pointer)) {
+        cause = exceptionRef.pointer;
+      }
     }
     return Jni._bindings
         .DartException__ctor(
@@ -273,7 +268,7 @@ extension ProtectedJniExtensions on Jni {
 
   /// Returns a new PortContinuation.
   static JReference newPortContinuation(ReceivePort port) {
-    Jni._ensureInitialized();
+    ensureInitialized();
     return JGlobalReference(
       Jni._bindings
           .PortContinuation__ctor(port.sendPort.nativePort)
@@ -281,28 +276,13 @@ extension ProtectedJniExtensions on Jni {
     );
   }
 
-  /// Returns a new PortProxy for a class with the given [binaryName].
-  static JReference newPortProxy(
-      String binaryName,
-      ReceivePort port,
-      Pointer<
-              NativeFunction<
-                  Pointer<Void> Function(Uint64, Pointer<Void>, Pointer<Void>)>>
-          functionPtr) {
-    Jni._ensureInitialized();
-    return JGlobalReference(Jni._bindings
-        .PortProxy__newInstance(
-          Jni.env.toJStringPtr(binaryName),
-          port.sendPort.nativePort,
-          functionPtr.address,
-        )
-        .objectPointer);
-  }
-
   /// Returns the result of a callback.
   static void returnResult(
       Pointer<CallbackResult> result, JObjectPtr object) async {
-    Jni._bindings.resultFor(result, object);
+    // The result is `nullptr` when the callback is a listener.
+    if (result != nullptr) {
+      Jni._bindings.resultFor(result, object);
+    }
   }
 
   static Dart_FinalizableHandle newJObjectFinalizableHandle(
@@ -310,7 +290,7 @@ extension ProtectedJniExtensions on Jni {
     Pointer<Void> reference,
     int refType,
   ) {
-    Jni._ensureInitialized();
+    ensureInitialized();
     return Jni._bindings
         .newJObjectFinalizableHandle(object, reference, refType);
   }
@@ -319,13 +299,13 @@ extension ProtectedJniExtensions on Jni {
     Object object,
     Pointer<Bool> reference,
   ) {
-    Jni._ensureInitialized();
+    ensureInitialized();
     return Jni._bindings.newBooleanFinalizableHandle(object, reference);
   }
 
   static void deleteFinalizableHandle(
       Dart_FinalizableHandle finalizableHandle, Object object) {
-    Jni._ensureInitialized();
+    ensureInitialized();
     Jni._bindings.deleteFinalizableHandle(finalizableHandle, object);
   }
 
@@ -366,16 +346,10 @@ extension AdditionalEnvMethods on GlobalJniEnv {
       });
 }
 
+@internal
 extension StringMethodsForJni on String {
-  /// Returns a Utf-8 encoded Pointer<Char> with contents same as this string.
-  Pointer<Char> toNativeChars([Allocator allocator = malloc]) {
+  /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
+  Pointer<Char> toNativeChars(Allocator allocator) {
     return toNativeUtf8(allocator: allocator).cast<Char>();
-  }
-}
-
-extension CharPtrMethodsForJni on Pointer<Char> {
-  /// Same as calling `cast<Utf8>` followed by `toDartString`.
-  String toDartString({int? length}) {
-    return cast<Utf8>().toDartString(length: length);
   }
 }

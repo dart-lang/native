@@ -26,6 +26,11 @@ typedef struct {
 -(double)addDoubles:(double)x Y:(double) y;
 -(Vec4)Vec4;
 
+// An instance method and a static method with the same name.
+// https://github.com/dart-lang/native/issues/1136
+- (int32_t)instStaticSameName;
++ (int32_t)instStaticSameName;
+
 @end
 
 @implementation MethodInterface
@@ -86,6 +91,14 @@ typedef struct {
     u.z = 3;
     u.w = 4;
     return u;
+}
+
+- (int32_t)instStaticSameName {
+  return 123;
+}
+
++ (int32_t)instStaticSameName {
+  return 456;
 }
 
 @end

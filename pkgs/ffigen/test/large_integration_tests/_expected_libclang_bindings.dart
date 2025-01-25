@@ -6077,9 +6077,23 @@ final class CXModuleMapDescriptorImpl extends ffi.Opaque {}
 /// Object encapsulating information about a module.map file.
 typedef CXModuleMapDescriptor = ffi.Pointer<CXModuleMapDescriptorImpl>;
 
+/// An "index" that consists of a set of translation units that would typically
+/// be linked together into an executable or library.
+typedef CXIndex = ffi.Pointer<ffi.Void>;
+
 final class CXTargetInfoImpl extends ffi.Opaque {}
 
+/// An opaque type representing target information for a given translation unit.
+typedef CXTargetInfo = ffi.Pointer<CXTargetInfoImpl>;
+
 final class CXTranslationUnitImpl extends ffi.Opaque {}
+
+/// A single translation unit, which resides in an index.
+typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
+
+/// Opaque pointer representing client data that will be passed through to
+/// various callbacks and visitors.
+typedef CXClientData = ffi.Pointer<ffi.Void>;
 
 /// Provides the contents of a file that has not yet been saved to disk.
 final class CXUnsavedFile extends ffi.Struct {
@@ -6196,10 +6210,6 @@ enum CXCursor_ExceptionSpecificationKind {
       };
 }
 
-/// An "index" that consists of a set of translation units that would typically
-/// be linked together into an executable or library.
-typedef CXIndex = ffi.Pointer<ffi.Void>;
-
 enum CXGlobalOptFlags {
   /// Used to indicate that no special CXIndex options are needed.
   CXGlobalOpt_None(0),
@@ -6237,9 +6247,6 @@ final class CXFileUniqueID extends ffi.Struct {
   @ffi.Array.multi([3])
   external ffi.Array<ffi.UnsignedLongLong> data;
 }
-
-/// A single translation unit, which resides in an index.
-typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
 
 /// Identifies a specific source location within a translation unit.
 final class CXSourceLocation extends ffi.Struct {
@@ -6305,12 +6312,12 @@ enum CXDiagnosticSeverity {
       };
 }
 
-/// A group of CXDiagnostics.
-typedef CXDiagnosticSet = ffi.Pointer<ffi.Void>;
-
 /// A single diagnostic, containing the diagnostic's severity, location, text,
 /// source ranges, and fix-it hints.
 typedef CXDiagnostic = ffi.Pointer<ffi.Void>;
+
+/// A group of CXDiagnostics.
+typedef CXDiagnosticSet = ffi.Pointer<ffi.Void>;
 
 /// Describes the kind of error that occurred (if any) in a call to
 /// clang_loadDiagnostics.
@@ -6601,9 +6608,6 @@ final class CXTUResourceUsage extends ffi.Struct {
 
   external ffi.Pointer<CXTUResourceUsageEntry> entries;
 }
-
-/// An opaque type representing target information for a given translation unit.
-typedef CXTargetInfo = ffi.Pointer<CXTargetInfoImpl>;
 
 /// Describes the kind of entity that a cursor refers to.
 enum CXCursorKind {
@@ -8211,17 +8215,18 @@ enum CXChildVisitResult {
       };
 }
 
-/// Visitor invoked for each cursor found by a traversal.
-typedef CXCursorVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
 typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
     CXCursor cursor, CXCursor parent, CXClientData client_data);
 
-/// Opaque pointer representing client data that will be passed through to
-/// various callbacks and visitors.
-typedef CXClientData = ffi.Pointer<ffi.Void>;
+/// Visitor invoked for each cursor found by a traversal.
+typedef CXCursorVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
+
+/// Opaque pointer representing a policy that controls pretty printing for
+/// clang_getCursorPrettyPrinted.
+typedef CXPrintingPolicy = ffi.Pointer<ffi.Void>;
 
 /// Properties for the printing policy.
 enum CXPrintingPolicyProperty {
@@ -8296,10 +8301,6 @@ enum CXPrintingPolicyProperty {
     return super.toString();
   }
 }
-
-/// Opaque pointer representing a policy that controls pretty printing for
-/// clang_getCursorPrettyPrinted.
-typedef CXPrintingPolicy = ffi.Pointer<ffi.Void>;
 
 /// Property attributes for a CXCursor_ObjCPropertyDecl.
 enum CXObjCPropertyAttrKind {
@@ -8431,6 +8432,9 @@ final class CXToken extends ffi.Struct {
   external ffi.Pointer<ffi.Void> ptr_data;
 }
 
+/// A semantic string that describes a code-completion result.
+typedef CXCompletionString = ffi.Pointer<ffi.Void>;
+
 /// A single result of code completion.
 final class CXCompletionResult extends ffi.Struct {
   /// The kind of entity that this completion refers to.
@@ -8443,9 +8447,6 @@ final class CXCompletionResult extends ffi.Struct {
   /// code-completion result into the editing buffer.
   external CXCompletionString CompletionString;
 }
-
-/// A semantic string that describes a code-completion result.
-typedef CXCompletionString = ffi.Pointer<ffi.Void>;
 
 /// Describes a single piece of text within a code-completion string.
 enum CXCompletionChunkKind {
@@ -8722,10 +8723,6 @@ enum CXCompletionContext {
       };
 }
 
-/// Visitor invoked for each file in a translation unit (used with
-/// clang_getInclusions()).
-typedef CXInclusionVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
 typedef CXInclusionVisitorFunction = ffi.Void Function(
     CXFile included_file,
     ffi.Pointer<CXSourceLocation> inclusion_stack,
@@ -8736,6 +8733,11 @@ typedef DartCXInclusionVisitorFunction = void Function(
     ffi.Pointer<CXSourceLocation> inclusion_stack,
     int include_len,
     CXClientData client_data);
+
+/// Visitor invoked for each file in a translation unit (used with
+/// clang_getInclusions()).
+typedef CXInclusionVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
 
 enum CXEvalResultKind {
   CXEval_Int(1),
@@ -8811,6 +8813,20 @@ enum CXResult {
         _ => throw ArgumentError("Unknown value for CXResult: $value"),
       };
 }
+
+/// The client's data object that is associated with a CXFile.
+typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with a semantic entity.
+typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with a semantic container of
+/// entities.
+typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
+
+/// The client's data object that is associated with an AST file (PCH or
+/// module).
+typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
 
 /// Source location passed to index callbacks.
 final class CXIdxLoc extends ffi.Struct {
@@ -9313,20 +9329,6 @@ final class IndexerCallbacks extends ffi.Struct {
       indexEntityReference;
 }
 
-/// The client's data object that is associated with a CXFile.
-typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with an AST file (PCH or
-/// module).
-typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with a semantic container of
-/// entities.
-typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with a semantic entity.
-typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
-
 /// An indexing action/session, to be applied to one or multiple translation
 /// units.
 typedef CXIndexAction = ffi.Pointer<ffi.Void>;
@@ -9370,13 +9372,14 @@ enum CXIndexOptFlags {
       };
 }
 
-/// Visitor invoked for each field found by a traversal.
-typedef CXFieldVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
 typedef CXFieldVisitorFunction = ffi.UnsignedInt Function(
     CXCursor C, CXClientData client_data);
 typedef DartCXFieldVisitorFunction = CXVisitorResult Function(
     CXCursor C, CXClientData client_data);
+
+/// Visitor invoked for each field found by a traversal.
+typedef CXFieldVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
 
 const int CINDEX_VERSION_MAJOR = 0;
 

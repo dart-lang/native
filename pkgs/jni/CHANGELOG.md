@@ -1,3 +1,46 @@
+## 0.14.0-wip
+
+- Added `DynamicLibraryLoadError` which is thrown when the dynamic library fails
+  to load. `HelperNotFoundError` will only be thrown when the helper library
+  cannot be found.
+- Update the README.md to include info about generating bindings for built-in
+  java types.
+- Do not require a `dylibDir` when running `Jni.spawn` from Dart standalone,
+  instead use the default value of `build/jni_libs`.
+- Added `JArray.of`, which allows a `JArray` to be constructed from an
+  `Iterable`.
+
+## 0.13.0
+
+- **Breaking Change**: Separated primitive arrays from object arrays.
+  Previously, a primitive array like an array of bytes was typed
+  `JArray<jbyte>`. Now `JArray<T>` only accepts `JObject`s as types and
+  primitive arrays like arrays of bytes have their own types such as
+  `JByteArray`.
+
+  This enables all arrays to implement `Iterable` which makes it possible to use
+  them in a for-loop or use methods such as `map` on them.
+
+- Added nullable type classes for all Java objects.
+- Fixed a problem where interfaces implemented in Dart would crash when calling
+  the default object methods: `equals`, `hashCode`, and `toString`.
+
+## 0.12.2
+
+- Added `JniUtils.fromReferenceAddress` which helps with sending `JObject`s
+  through method channels. You can send the address of the pointer as `long` and
+  reconstruct the class using the helper method.
+- Fixed a bug where it would be possible for a type class inference to fail.
+- Return 'null' when calling `toString` on a null object.
+
+## 0.12.0
+
+- **Breaking Change**: Renamed `castTo` to `as`.
+- Renamed library `internal_helpers_for_jnigen` to `_internal`.
+- Using 16KB page size to support Android 15.
+- Added `JImplementer` which enables building an object that implements multiple
+  Java interfaces.
+
 ## 0.11.0
 
 - **Breaking Change** Removed `Jni.accessors`.

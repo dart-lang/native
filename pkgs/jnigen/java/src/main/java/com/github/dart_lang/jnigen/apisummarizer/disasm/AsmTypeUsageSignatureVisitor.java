@@ -54,6 +54,7 @@ public class AsmTypeUsageSignatureVisitor extends SignatureVisitor {
     }
     typeUsage.shorthand = name;
     typeUsage.type = new TypeUsage.PrimitiveType(name);
+    super.visitBaseType(descriptor);
   }
 
   @Override
@@ -70,6 +71,7 @@ public class AsmTypeUsageSignatureVisitor extends SignatureVisitor {
     typeUsage.kind = TypeUsage.Kind.TYPE_VARIABLE;
     typeUsage.shorthand = name;
     typeUsage.type = new TypeUsage.TypeVar(name);
+    super.visitTypeVariable(name);
   }
 
   @Override
@@ -79,22 +81,54 @@ public class AsmTypeUsageSignatureVisitor extends SignatureVisitor {
     var components = name.split("[/$]");
     var simpleName = components[components.length - 1];
     typeUsage.type = new TypeUsage.DeclaredType(typeUsage.shorthand, simpleName, new ArrayList<>());
+    super.visitClassType(name);
+  }
+
+  @Override
+  public void visitTypeArgument() {
+    assert (typeUsage.type instanceof TypeUsage.DeclaredType);
+    var typeArg = new TypeUsage("?", TypeUsage.Kind.WILDCARD, new TypeUsage.Wildcard(null, null));
+    ((TypeUsage.DeclaredType) typeUsage.type).params.add(typeArg);
+    super.visitTypeArgument();
   }
 
   @Override
   public SignatureVisitor visitTypeArgument(char wildcard) {
-    // TODO(#141) support wildcards
-    // TODO(#144) support extend/super clauses
     assert (typeUsage.type instanceof TypeUsage.DeclaredType);
     var typeArg = new TypeUsage();
+    typeArg.kind = TypeUsage.Kind.DECLARED;
     ((TypeUsage.DeclaredType) typeUsage.type).params.add(typeArg);
+    if (wildcard != '=') {
+      typeArg.kind = TypeUsage.Kind.WILDCARD;
+      typeArg.type = new TypeUsage.Wildcard(null, null);
+      typeArg.shorthand = "?";
+      switch (wildcard) {
+        case '+':
+          {
+            var extendsBound = new TypeUsage();
+            ((TypeUsage.Wildcard) typeArg.type).extendsBound = extendsBound;
+            typeArg = extendsBound;
+            break;
+          }
+        case '-':
+          {
+            var superBound = new TypeUsage();
+            ((TypeUsage.Wildcard) typeArg.type).superBound = superBound;
+            typeArg = superBound;
+            break;
+          }
+      }
+    }
     return new AsmTypeUsageSignatureVisitor(typeArg);
   }
 
   @Override
   public void visitInnerClassType(String name) {
     typeUsage.shorthand += "." + name;
-    ((TypeUsage.DeclaredType) typeUsage.type).binaryName += "$" + name;
-    ((TypeUsage.DeclaredType) typeUsage.type).simpleName = name;
+    var declaredType = ((TypeUsage.DeclaredType) typeUsage.type);
+    declaredType.binaryName += "$" + name;
+    declaredType.simpleName = name;
+    declaredType.typeParamIndices.add(declaredType.params.size());
+    super.visitInnerClassType(name);
   }
 }

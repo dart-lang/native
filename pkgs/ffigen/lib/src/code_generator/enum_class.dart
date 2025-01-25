@@ -4,7 +4,8 @@
 
 import 'package:collection/collection.dart';
 
-import 'binding.dart';
+import '../visitor/ast.dart';
+
 import 'binding_string.dart';
 import 'imports.dart';
 import 'objc_built_in_functions.dart';
@@ -230,15 +231,13 @@ class EnumClass extends BindingType {
     s.write('$depth};\n');
   }
 
-  bool get _isBuiltIn =>
+  @override
+  bool get isObjCImport =>
       objCBuiltInFunctions?.isBuiltInEnum(originalName) ?? false;
 
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
-    if (_isBuiltIn) {
-      return const BindingString(type: BindingStringType.enum_, string: '');
-    }
     scanForDuplicates();
 
     writeDartDoc(s);
@@ -269,14 +268,8 @@ class EnumClass extends BindingType {
   }
 
   @override
-  void addDependencies(Set<Binding> dependencies) {
-    if (dependencies.contains(this) || _isBuiltIn) return;
-    dependencies.add(this);
-  }
-
-  @override
   String getCType(Writer w) {
-    w.usedEnumCType = true;
+    w.usedEnumCTypes.add(this);
     return nativeType.getCType(w);
   }
 
@@ -285,7 +278,7 @@ class EnumClass extends BindingType {
 
   @override
   String getDartType(Writer w) {
-    if (_isBuiltIn) {
+    if (isObjCImport) {
       return '${w.objcPkgPrefix}.$name';
     } else if (generateAsInt) {
       return nativeType.getDartType(w);
@@ -311,6 +304,7 @@ class EnumClass extends BindingType {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) =>
       sameDartAndFfiDartType ? value : '$value.value';
 
@@ -322,6 +316,15 @@ class EnumClass extends BindingType {
     String? objCEnclosingClass,
   }) =>
       sameDartAndFfiDartType ? value : '${getDartType(w)}.fromValue($value)';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(nativeType);
+  }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitEnumClass(this);
 }
 
 /// Represents a single value in an enum.

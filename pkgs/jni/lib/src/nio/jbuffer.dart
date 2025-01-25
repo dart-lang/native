@@ -2,25 +2,71 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show internal;
+
 import '../jobject.dart';
 import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jbyte_buffer.dart';
 
-final class JBufferType extends JObjType<JBuffer> {
-  const JBufferType();
+final class JBufferNullableType extends JObjType<JBuffer?> {
+  @internal
+  const JBufferNullableType();
 
+  @internal
   @override
   String get signature => r'Ljava/nio/Buffer;';
 
+  @internal
+  @override
+  JBuffer? fromReference(JReference reference) =>
+      reference.isNull ? null : JBuffer.fromReference(reference);
+
+  @internal
+  @override
+  JObjType get superType => const JObjectNullableType();
+
+  @internal
+  @override
+  JObjType<JBuffer?> get nullableType => this;
+
+  @internal
+  @override
+  final superCount = 1;
+
+  @override
+  int get hashCode => (JBufferNullableType).hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return other.runtimeType == JBufferNullableType &&
+        other is JBufferNullableType;
+  }
+}
+
+final class JBufferType extends JObjType<JBuffer> {
+  @internal
+  const JBufferType();
+
+  @internal
+  @override
+  String get signature => r'Ljava/nio/Buffer;';
+
+  @internal
   @override
   JBuffer fromReference(JReference reference) =>
       JBuffer.fromReference(reference);
 
+  @internal
   @override
   JObjType get superType => const JObjectType();
 
+  @internal
+  @override
+  JObjType<JBuffer?> get nullableType => const JBufferNullableType();
+
+  @internal
   @override
   final superCount = 1;
 
@@ -45,9 +91,10 @@ final class JBufferType extends JObjType<JBuffer> {
 /// We currently only have the bindings for `java.nio.ByteBuffer` in this
 /// package as [JByteBuffer].
 class JBuffer extends JObject {
+  @internal
   @override
   // ignore: overridden_fields
-  late final JObjType<JBuffer> $type = type;
+  final JObjType<JBuffer> $type = type;
 
   JBuffer.fromReference(
     super.reference,
@@ -57,6 +104,9 @@ class JBuffer extends JObject {
 
   /// The type which includes information such as the signature of this class.
   static const type = JBufferType();
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = JBufferNullableType();
 
   static final _capacityId = _class.instanceMethodId(r'capacity', r'()I');
 
@@ -196,8 +246,14 @@ class JBuffer extends JObject {
 
   /// The array that backs this buffer.
   ///
+  /// Note that the first element of the buffer starts at element [arrayOffset]
+  /// of the backing array.
+  ///
   /// Concrete subclasses like [JByteBuffer] provide more strongly-typed return
   /// values for this method.
+  ///
+  /// Invoke the [hasArray] method before invoking this method in order to
+  /// ensure that this buffer has an accessible backing array.
   ///
   /// Throws:
   /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is
@@ -205,13 +261,16 @@ class JBuffer extends JObject {
   /// * `UnsupportedOperationException` - If this buffer is not backed by an
   ///   accessible array
   JObject get array {
-    return _arrayId(this, const JObjectType(), []);
+    return _arrayId(this, const JObjectType(), [])!;
   }
 
   static final _arrayOffsetId = _class.instanceMethodId(r'arrayOffset', r'()I');
 
   /// The offset within this buffer's backing array of the first element
   /// of the buffer.
+  ///
+  /// Invoke the [hasArray] method before invoking this method in order to
+  /// ensure that this buffer has an accessible backing array.
   ///
   /// Throws:
   /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -11,18 +12,16 @@ import 'writer.dart';
 class ObjCNullable extends Type {
   Type child;
 
-  ObjCNullable(this.child) : assert(isSupported(child));
+  ObjCNullable(this.child)
+      : assert(isSupported(child),
+            'Nullable ${child.typealiasType.runtimeType} is not supported');
 
-  static bool isSupported(Type type) =>
+  static bool isSupported(Type type) => _isSupported(type.typealiasType);
+  static bool _isSupported(Type type) =>
       type is ObjCInterface ||
       type is ObjCBlock ||
       type is ObjCObjectPointer ||
       type is ObjCInstanceType;
-
-  @override
-  void addDependencies(Set<Binding> dependencies) {
-    child.addDependencies(dependencies);
-  }
 
   @override
   Type get baseType => child.baseType;
@@ -41,6 +40,10 @@ class ObjCNullable extends Type {
       child.getNativeType(varName: varName);
 
   @override
+  String getObjCBlockSignatureType(Writer w) =>
+      '${child.getObjCBlockSignatureType(w)}?';
+
+  @override
   bool get sameFfiDartAndCType => child.sameFfiDartAndCType;
 
   @override
@@ -54,12 +57,14 @@ class ObjCNullable extends Type {
     Writer w,
     String value, {
     required bool objCRetain,
+    required bool objCAutorelease,
   }) {
-    // This is a bit of a hack, but works for all the types that are allowed to
-    // be a child type. If we add more allowed child types, we may have to start
-    // special casing each type. Turns value._id into value?._id ?? nullptr.
+    // Just appending `?` to `value` like this is a bit of a hack, but works for
+    // all the types that are allowed to be a child type. If we add more allowed
+    // child types, we may have to start special casing each type. For example,
+    // `value.pointer` becomes `value?.pointer ?? nullptr`.
     final convertedValue = child.convertDartTypeToFfiDartType(w, '$value?',
-        objCRetain: objCRetain);
+        objCRetain: objCRetain, objCAutorelease: objCAutorelease);
     return '$convertedValue ?? ${w.ffiLibraryPrefix}.nullptr';
   }
 
@@ -88,4 +93,23 @@ class ObjCNullable extends Type {
 
   @override
   String cacheKey() => '${child.cacheKey()}?';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(child);
+  }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+
+    if (other is ObjCNullable) {
+      // T? :> S? if T :> S
+      return child.isSupertypeOf(other.child);
+    } else {
+      // T? :> S if T :> S
+      return child.isSupertypeOf(other);
+    }
+  }
 }

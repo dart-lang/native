@@ -22,7 +22,7 @@ void main() {
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Dart_Handle Test'
 ${strings.output}: 'unused'
-${strings.compilerOpts}: '-I${path.join(getSdkPath(), "include")}'
+${strings.compilerOpts}: '-I${path.join(sdkPath, "include")}'
 
 ${strings.headers}:
   ${strings.entryPoints}:
@@ -41,5 +41,5 @@ ${strings.headers}:
         '_expected_dart_handle_bindings.dart'
       ]);
     });
-  });
+  }, skip: isFlutterTester);
 }

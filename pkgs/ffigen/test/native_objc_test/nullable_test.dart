@@ -22,7 +22,7 @@ void main() {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/nullable_test.dylib');
+      final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       nullableInterface = NullableInterface.new1();
@@ -70,6 +70,13 @@ void main() {
             NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg_(obj),
             false);
       });
+    });
+
+    test('Nullable typealias', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1701
+      expect(NullableInterface.returnNullableAlias_(true), isNull);
+      expect(
+          NullableInterface.returnNullableAlias_(false)?.toDartString(), "Hi");
     });
   });
 }

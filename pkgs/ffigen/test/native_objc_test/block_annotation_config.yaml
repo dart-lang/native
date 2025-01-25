@@ -1,0 +1,27 @@
+name: BlockAnnotationTestLibrary
+description: 'Tests block annotations'
+language: objc
+output:
+  bindings: 'block_annotation_bindings.dart'
+  objc-bindings: 'block_annotation_bindings.m'
+exclude-all-by-default: true
+functions:
+  include:
+    - objc_autoreleasePoolPop
+    - objc_autoreleasePoolPush
+objc-interfaces:
+  include:
+    - EmptyObject
+    - BlockAnnotationTest
+    - NSThread
+objc-protocols:
+  include:
+    - BlockAnnotationTestProtocol
+typedefs:
+  include:
+    - EmptyBlock
+headers:
+  entry-points:
+    - 'block_annotation_test.h'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

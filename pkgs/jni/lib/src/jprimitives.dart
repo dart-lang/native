@@ -15,12 +15,11 @@ abstract final class jbyte extends JPrimitive {
 }
 
 final class jbyteType extends JType<jbyte>
-    with
-        JCallable<jbyte, int>,
-        JAccessible<jbyte, int>,
-        JArrayElementType<jbyte> {
+    with JCallable<jbyte, int>, JAccessible<jbyte, int> {
+  @internal
   const jbyteType();
 
+  @internal
   @override
   final signature = 'B';
 
@@ -55,14 +54,6 @@ final class jbyteType extends JType<jbyte>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticByteField(clazz, fieldID, val);
   }
-
-  @override
-  JArray<jbyte> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewByteArray(length)),
-    );
-  }
 }
 
 abstract final class jboolean extends JPrimitive {
@@ -70,12 +61,11 @@ abstract final class jboolean extends JPrimitive {
 }
 
 final class jbooleanType extends JType<jboolean>
-    with
-        JCallable<jboolean, bool>,
-        JAccessible<jboolean, bool>,
-        JArrayElementType<jboolean> {
+    with JCallable<jboolean, bool>, JAccessible<jboolean, bool> {
+  @internal
   const jbooleanType();
 
+  @internal
   @override
   final signature = 'Z';
 
@@ -110,14 +100,6 @@ final class jbooleanType extends JType<jboolean>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, bool val) {
     return Jni.env.SetStaticBooleanField(clazz, fieldID, val ? 1 : 0);
   }
-
-  @override
-  JArray<jboolean> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewBooleanArray(length)),
-    );
-  }
 }
 
 abstract final class jchar extends JPrimitive {
@@ -125,12 +107,11 @@ abstract final class jchar extends JPrimitive {
 }
 
 final class jcharType extends JType<jchar>
-    with
-        JCallable<jchar, int>,
-        JAccessible<jchar, int>,
-        JArrayElementType<jchar> {
+    with JCallable<jchar, int>, JAccessible<jchar, int> {
+  @internal
   const jcharType();
 
+  @internal
   @override
   final signature = 'C';
 
@@ -165,14 +146,6 @@ final class jcharType extends JType<jchar>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticCharField(clazz, fieldID, val);
   }
-
-  @override
-  JArray<jchar> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewCharArray(length)),
-    );
-  }
 }
 
 abstract final class jshort extends JPrimitive {
@@ -180,12 +153,11 @@ abstract final class jshort extends JPrimitive {
 }
 
 final class jshortType extends JType<jshort>
-    with
-        JCallable<jshort, int>,
-        JAccessible<jshort, int>,
-        JArrayElementType<jshort> {
+    with JCallable<jshort, int>, JAccessible<jshort, int> {
+  @internal
   const jshortType();
 
+  @internal
   @override
   final signature = 'S';
 
@@ -220,14 +192,6 @@ final class jshortType extends JType<jshort>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticShortField(clazz, fieldID, val);
   }
-
-  @override
-  JArray<jshort> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewShortArray(length)),
-    );
-  }
 }
 
 abstract final class jint extends JPrimitive {
@@ -235,7 +199,8 @@ abstract final class jint extends JPrimitive {
 }
 
 final class jintType extends JType<jint>
-    with JCallable<jint, int>, JAccessible<jint, int>, JArrayElementType<jint> {
+    with JCallable<jint, int>, JAccessible<jint, int> {
+  @internal
   const jintType();
 
   @override
@@ -272,14 +237,6 @@ final class jintType extends JType<jint>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticIntField(clazz, fieldID, val);
   }
-
-  @override
-  JArray<jint> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewIntArray(length)),
-    );
-  }
 }
 
 abstract final class jlong extends JPrimitive {
@@ -287,10 +244,8 @@ abstract final class jlong extends JPrimitive {
 }
 
 final class jlongType extends JType<jlong>
-    with
-        JCallable<jlong, int>,
-        JAccessible<jlong, int>,
-        JArrayElementType<jlong> {
+    with JCallable<jlong, int>, JAccessible<jlong, int> {
+  @internal
   const jlongType();
 
   @override
@@ -327,14 +282,6 @@ final class jlongType extends JType<jlong>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticLongField(clazz, fieldID, val);
   }
-
-  @override
-  JArray<jlong> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewLongArray(length)),
-    );
-  }
 }
 
 abstract final class jfloat extends JPrimitive {
@@ -342,12 +289,11 @@ abstract final class jfloat extends JPrimitive {
 }
 
 final class jfloatType extends JType<jfloat>
-    with
-        JCallable<jfloat, double>,
-        JAccessible<jfloat, double>,
-        JArrayElementType<jfloat> {
+    with JCallable<jfloat, double>, JAccessible<jfloat, double> {
+  @internal
   const jfloatType();
 
+  @internal
   @override
   final signature = 'F';
 
@@ -382,14 +328,6 @@ final class jfloatType extends JType<jfloat>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, double val) {
     return Jni.env.SetStaticFloatField(clazz, fieldID, val);
   }
-
-  @override
-  JArray<jfloat> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewFloatArray(length)),
-    );
-  }
 }
 
 abstract final class jdouble extends JPrimitive {
@@ -397,12 +335,11 @@ abstract final class jdouble extends JPrimitive {
 }
 
 final class jdoubleType extends JType<jdouble>
-    with
-        JCallable<jdouble, double>,
-        JAccessible<jdouble, double>,
-        JArrayElementType<jdouble> {
+    with JCallable<jdouble, double>, JAccessible<jdouble, double> {
+  @internal
   const jdoubleType();
 
+  @internal
   @override
   final signature = 'D';
 
@@ -437,14 +374,6 @@ final class jdoubleType extends JType<jdouble>
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, double val) {
     return Jni.env.SetStaticDoubleField(clazz, fieldID, val);
   }
-
-  @override
-  JArray<jdouble> _newArray(int length) {
-    return JArray.fromReference(
-      this,
-      JGlobalReference(Jni.env.NewDoubleArray(length)),
-    );
-  }
 }
 
 abstract final class jvoid extends JPrimitive {
@@ -452,8 +381,10 @@ abstract final class jvoid extends JPrimitive {
 }
 
 final class jvoidType extends JType<jvoid> with JCallable<jvoid, void> {
+  @internal
   const jvoidType();
 
+  @internal
   @override
   final signature = 'V';
 

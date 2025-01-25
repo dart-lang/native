@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:flutter/material.dart';
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 import 'package:path/path.dart';
-
 import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 
 Stream<String> files(String dir) => Directory(dir).list().map((e) => e.path);
@@ -155,15 +154,6 @@ class PDFFileInfo {
   late String author, subject, title;
   late int numPages;
 
-  /// Converts JString to dart string and deletes the original.
-  /// Also handles the case where the underlying string is Null.
-  String _fromJavaStr(JString jstr) {
-    if (jstr.reference.pointer == nullptr) {
-      return '(null)';
-    }
-    return jstr.toDartString(releaseOriginal: true);
-  }
-
   PDFFileInfo.usingPDFBox(this.filename) {
     // Since java.io is not directly available, use package:jni API to
     // create a java.io.File object.
@@ -172,17 +162,17 @@ class PDFFileInfo {
         .constructorId("(Ljava/lang/String;)V")
         .call(fileClass, JObject.type, [filename]);
     // Static method call PDDocument.load -> PDDocument
-    final pdf = PDDocument.load(inputFile);
+    final pdf = PDDocument.load(inputFile)!;
     // Instance method call getNumberOfPages() -> int
     numPages = pdf.getNumberOfPages();
     // Instance method that returns an object
-    final info = pdf.getDocumentInformation();
+    final info = pdf.getDocumentInformation()!;
 
     /// java.lang.String is a special case and is mapped to JlString which is
     /// a subclass of JlObject.
-    author = _fromJavaStr(info.getAuthor());
-    title = _fromJavaStr(info.getTitle());
-    subject = _fromJavaStr(info.getSubject());
+    author = info.getAuthor()?.toDartString(releaseOriginal: true) ?? 'null';
+    title = info.getTitle()?.toDartString(releaseOriginal: true) ?? 'null';
+    subject = info.getSubject()?.toDartString(releaseOriginal: true) ?? 'null';
 
     pdf.close();
   }
