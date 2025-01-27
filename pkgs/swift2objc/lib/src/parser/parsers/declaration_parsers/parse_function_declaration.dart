@@ -44,6 +44,7 @@ MethodDeclaration parseMethodDeclaration(
     isStatic: isStatic,
     throws: info.throws,
     async: info.async,
+    mutating: _parseFunctionIsMutating(methodSymbolJson)
   );
 }
 
@@ -140,6 +141,13 @@ ParsedFunctionInfo parseFunctionInfo(
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
   );
+}
+
+bool _parseFunctionIsMutating(Json methodSymbolJson) {
+  return methodSymbolJson['declarationFragments']
+  .where((j) => j['kind'].get<String?>() == 'keyword' 
+    && j['spelling'].get<String?>() == 'mutating')
+  .isNotEmpty;
 }
 
 ReferredType _parseFunctionReturnType(

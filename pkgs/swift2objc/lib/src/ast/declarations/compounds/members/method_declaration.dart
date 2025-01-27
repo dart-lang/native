@@ -44,6 +44,8 @@ class MethodDeclaration
 
   bool isStatic;
 
+  bool mutating;
+
   String get fullName => [
         name,
         for (final p in params) p.name,
@@ -61,5 +63,6 @@ class MethodDeclaration
     this.isOverriding = false,
     this.throws = false,
     this.async = false,
+    this.mutating = false
   }) : assert(!isStatic || !isOverriding);
 }
