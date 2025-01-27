@@ -5,6 +5,7 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
+import 'package:native_assets_cli/src/config.dart';
 import 'package:native_assets_cli/src/utils/datetime.dart';
 import 'package:test/test.dart';
 
@@ -32,24 +33,23 @@ void main() {
     builder.addMetadatum(metadata0.keys.single, metadata0.values.single);
     builder.addMetadata(metadata1);
 
-    builder.addEncodedAsset(assets.take(1).single);
-    builder.addEncodedAsset(assets.skip(1).first,
+    builder.assets.addEncodedAsset(assets.take(1).single);
+    builder.assets.addEncodedAsset(assets.skip(1).first,
         linkInPackage: 'package:linker1');
-    builder.addEncodedAssets(assets.skip(2).take(2).toList());
-    builder.addEncodedAssets(assets.skip(4).toList(),
+    builder.assets.addEncodedAssets(assets.skip(2).take(2).toList());
+    builder.assets.addEncodedAssets(assets.skip(4).toList(),
         linkInPackage: 'package:linker2');
 
-    final config = BuildOutput(builder.json);
-    expect(config.timestamp.compareTo(before), greaterThanOrEqualTo(0));
-    expect(config.timestamp.compareTo(after), lessThanOrEqualTo(0));
+    final input = BuildOutput(builder.json);
+    expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
+    expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        config.timestamp
-            .isAtSameMomentAs(config.timestamp.roundDownToSeconds()),
+        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
         true);
 
     // The JSON format of the build output.
     <String, Object?>{
-      'version': '1.6.0',
+      'version': '1.9.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'metadata': {
         'meta-a': 'meta-b',
@@ -67,7 +67,7 @@ void main() {
         'package:linker2': <Object?>[],
       }
     }.forEach((k, v) {
-      expect(config.json[k], equals(v));
+      expect(input.json[k], equals(v));
     });
   });
 
@@ -79,7 +79,7 @@ void main() {
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(HookOutput.latestVersion.toString()),
+              e.message.contains(latestVersion.toString()),
         )),
       );
     });

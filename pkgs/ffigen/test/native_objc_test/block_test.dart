@@ -37,6 +37,8 @@ typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
 typedef NSStringListenerBlock = ObjCBlock_ffiVoid_NSString;
 typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
+typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
+typedef ResultBlock = ObjCBlock_ffiVoid_Int321;
 
 void main() {
   late final BlockTestObjCLibrary lib;
@@ -110,6 +112,70 @@ void main() {
       thread.start();
 
       await hasRun.future;
+      expect(value, 123);
+    });
+
+    void waitSync(Duration d) {
+      final t = Stopwatch();
+      t.start();
+      while (t.elapsed < d) {
+        // Waiting...
+      }
+    }
+
+    test('Blocking block same thread', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        waitSync(Duration(milliseconds: 100));
+        value = 123;
+      });
+      BlockTester.callOnSameThread_(block);
+      expect(value, 123);
+    });
+
+    test('Blocking block new thread', () async {
+      final block = IntPtrBlock.blocking((Pointer<Int32> result) {
+        waitSync(Duration(milliseconds: 100));
+        result.value = 123456;
+      });
+      final resultCompleter = Completer<int>();
+      final resultBlock = ResultBlock.listener((int result) {
+        resultCompleter.complete(result);
+      });
+      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      expect(await resultCompleter.future, 123456);
+    });
+
+    test('Blocking block same thread throws', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        value = 123;
+        throw "Hello";
+      });
+      BlockTester.callOnSameThread_(block);
+      expect(value, 123);
+    });
+
+    test('Blocking block new thread throws', () async {
+      final block = IntPtrBlock.blocking((Pointer<Int32> result) {
+        result.value = 123456;
+        throw "Hello";
+      });
+      final resultCompleter = Completer<int>();
+      final resultBlock = ResultBlock.listener((int result) {
+        resultCompleter.complete(result);
+      });
+      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      expect(await resultCompleter.future, 123456);
+    });
+
+    test('Blocking block manual invocation', () {
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        waitSync(Duration(milliseconds: 100));
+        value = 123;
+      });
+      block();
       expect(value, 123);
     });
 
@@ -221,16 +287,16 @@ void main() {
     test('Nullable string block', () {
       // Regression test for https://github.com/dart-lang/native/issues/1537.
       final block = NullableStringBlock.fromFunction(
-          (NSString? x) => '$x Cat'.toNSString());
+          (NSString? x) => '${x?.toDartString()} Cat'.toNSString());
 
       final result1 = block('Dog'.toNSString());
-      expect(result1.toString(), 'Dog Cat');
+      expect(result1?.toDartString(), 'Dog Cat');
 
       final result2 = block(null);
-      expect(result2.toString(), 'null Cat');
+      expect(result2?.toDartString(), 'null Cat');
 
       final result3 = BlockTester.callNullableStringBlock_(block);
-      expect(result3.toString(), 'Lizard Cat');
+      expect(result3?.toDartString(), 'Lizard Cat');
     });
 
     test('Object listener block', () async {
@@ -279,7 +345,7 @@ void main() {
     test('NSString listener block', () async {
       final hasRun = Completer<void>();
       final block = NSStringListenerBlock.listener((NSString s) {
-        expect(s.toString(), "Foo 123");
+        expect(s.toDartString(), "Foo 123");
         hasRun.complete();
       });
 
@@ -662,6 +728,68 @@ void main() {
 
       expect(blockRetainCount(inputBlock), 0);
       expect(blockRetainCount(blockBlock), 0);
+    }, skip: !canDoGC);
+
+    test('Blocking block ref counting same thread', () async {
+      DummyObject? dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.blocking((DummyObject obj) {
+        // Object passed as argument.
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+
+        // Object bound in block's lambda.
+        expect(dummyObject, isNotNull);
+      });
+
+      final tester = BlockTester.newFromListener_(block);
+      final rawBlock = block!.ref.pointer;
+      expect(blockRetainCount(rawBlock), 2);
+
+      final rawDummyObject = dummyObject!.ref.pointer;
+      expect(objectRetainCount(rawDummyObject), 1);
+
+      dummyObject = null;
+      block = null;
+      tester.invokeAndReleaseListener_(null);
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+
+      expect(blockRetainCount(rawBlock), 0);
+      expect(objectRetainCount(rawDummyObject), 0);
+    }, skip: !canDoGC);
+
+    test('Blocking block ref counting new thread', () async {
+      final completer = Completer<void>();
+      DummyObject? dummyObject = DummyObject.new1();
+      DartObjectListenerBlock? block =
+          ObjectListenerBlock.blocking((DummyObject obj) {
+        // Object passed as argument.
+        expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
+
+        // Object bound in block's lambda.
+        expect(dummyObject, isNotNull);
+
+        completer.complete();
+      });
+
+      final tester = BlockTester.newFromListener_(block);
+      final rawBlock = block!.ref.pointer;
+      expect(blockRetainCount(rawBlock), 2);
+
+      final rawDummyObject = dummyObject!.ref.pointer;
+      expect(objectRetainCount(rawDummyObject), 1);
+
+      tester.invokeAndReleaseListenerOnNewThread();
+      await completer.future;
+      dummyObject = null;
+      block = null;
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+
+      expect(blockRetainCount(rawBlock), 0);
+      expect(objectRetainCount(rawDummyObject), 0);
     }, skip: !canDoGC);
 
     test('Block fields have sensible values', () {

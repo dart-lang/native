@@ -32,7 +32,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;

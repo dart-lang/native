@@ -1,3 +1,12 @@
+## 0.13.1
+
+- Fixed a bug where Kotlin wildcards would crash the code generation.
+- Support nullability annotations that are on Java elements like methods and
+  fields instead of directly on the return type or field type.
+- Fixed a bug where enum values were generated as nullable.
+- Fixed a bug where type arguments could be nullable when the top type of their
+  paramater was non-nullable.
+
 ## 0.13.0
 
 - **Breaking Change**([#1516](https://github.com/dart-lang/native/issues/1516)):
@@ -7,6 +16,7 @@
 - Fixed a potential name collision when generating in multi-file mode.
 - Added the ability to add user-defined visitors to config. Currently only
   capable of excluding classes, methods, and fields.
+- Add dependency override for `package:jni` instead of the path dependency.
 
 ## 0.12.2
 

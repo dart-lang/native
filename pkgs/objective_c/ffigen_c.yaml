@@ -32,12 +32,16 @@ functions:
       - 'DOBJC_disposeObjCBlockWithClosure'
       - 'DOBJC_newFinalizableBool'
       - 'DOBJC_newFinalizableHandle'
+      - 'DOBJC_awaitWaiter'
   rename:
     'DOBJC_disposeObjCBlockWithClosure': 'disposeObjCBlockWithClosure'
     'DOBJC_isValidBlock': 'isValidBlock'
     'DOBJC_newFinalizableHandle': 'newFinalizableHandle'
     'DOBJC_deleteFinalizableHandle': 'deleteFinalizableHandle'
     'DOBJC_newFinalizableBool': 'newFinalizableBool'
+    'DOBJC_newWaiter': 'newWaiter'
+    'DOBJC_signalWaiter': 'signalWaiter'
+    'DOBJC_awaitWaiter': 'awaitWaiter'
     'sel_registerName': 'registerName'
     'sel_getName': 'getName'
     'objc_getClass': 'getClass'
@@ -60,8 +64,11 @@ globals:
     '_(.*)': '$1'
 typedefs:
   include:
-    - 'ObjC.*'
     - 'Dart_FinalizableHandle'
+structs:
+  rename:
+    '_ObjC(.*)': 'ObjC$1'
+    '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

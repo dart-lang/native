@@ -7,7 +7,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> args) async {
-  await build(args, (config, output) async {
+  await build(args, (input, output) async {
     final logger = Logger('')
       ..level = Level.ALL
       ..onRecord.listen((record) => print(record.message));
@@ -42,7 +42,7 @@ void main(List<String> args) async {
     // each others output.
     for (final builder in builders) {
       await builder.run(
-        config: config,
+        input: input,
         output: output,
         logger: logger,
       );

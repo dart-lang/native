@@ -30,31 +30,30 @@ void main() {
     const name = 'add';
 
     final targetOS = OS.current;
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        buildAssetTypes: [CodeAsset.type],
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: tempUri,
+        outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupCodeConfig(
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: targetOS,
-        macOSConfig: targetOS == OS.macOS
-            ? MacOSConfig(targetVersion: defaultMacOSVersion)
+        macOS: targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
             : null,
         targetArchitecture: Architecture.current,
         linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+        cCompiler: cCompiler,
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-    );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
@@ -65,7 +64,7 @@ void main() {
     );
     expect(
       () => cbuilder.run(
-        config: buildConfig,
+        input: buildInput,
         output: buildOutput,
         logger: logger,
       ),

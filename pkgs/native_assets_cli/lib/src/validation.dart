@@ -8,49 +8,66 @@ import '../native_assets_cli_builder.dart';
 
 typedef ValidationErrors = List<String>;
 
-Future<ValidationErrors> validateBuildConfig(BuildConfig config) async =>
-    _validateHookConfig(config);
+Future<ValidationErrors> validateBuildInput(BuildInput input) async =>
+    _validateHookInput('BuildInput', input);
 
-Future<ValidationErrors> validateLinkConfig(LinkConfig config) async {
-  final errors = <String>[
-    ..._validateHookConfig(config),
+Future<ValidationErrors> validateLinkInput(LinkInput input) async {
+  final recordUses = input.recordedUsagesFile;
+  return <String>[
+    ..._validateHookInput('LinkInput', input),
+    if (recordUses != null)
+      ..._validateDirectory(
+        '$LinkInput.recordUses',
+        input.outputDirectoryShared,
+      ),
   ];
-  final recordUses = config.recordedUsagesFile;
-  if (recordUses != null && !File.fromUri(recordUses).existsSync()) {
-    errors.add('Config.recordUses ($recordUses) does not exist.');
-  }
+}
+
+ValidationErrors _validateHookInput(String inputName, HookInput input) {
+  final errors = <String>[
+    ..._validateDirectory('$inputName.packageRoot', input.packageRoot),
+    ..._validateDirectory('$inputName.outputDirectory', input.outputDirectory),
+    ..._validateDirectory(
+      '$inputName.outputDirectoryShared',
+      input.outputDirectoryShared,
+    ),
+    ..._validateDirectory(
+      '$inputName.outputFile',
+      input.outputFile,
+      mustExist: false,
+    ),
+  ];
   return errors;
 }
 
-ValidationErrors _validateHookConfig(HookConfig config) {
+ValidationErrors _validateDirectory(
+  String name,
+  Uri uri, {
+  bool mustExist = true,
+  bool mustBeAbsolute = true,
+}) {
   final errors = <String>[];
-  if (!Directory.fromUri(config.packageRoot).existsSync()) {
-    errors.add('Config.packageRoot (${config.packageRoot}) '
-        'has to be an existing directory.');
+  if (mustBeAbsolute && !uri.isAbsolute) {
+    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
   }
-  if (!Directory.fromUri(config.outputDirectory).existsSync()) {
-    errors.add('Config.outputDirectory (${config.outputDirectory}) '
-        'has to be an existing directory.');
-  }
-  if (!Directory.fromUri(config.outputDirectoryShared).existsSync()) {
-    errors.add('Config.outputDirectoryShared (${config.outputDirectoryShared}) '
-        'has to be an existing directory');
+  if (mustExist && !Directory.fromUri(uri).existsSync()) {
+    errors.add('$name (${uri.toFilePath()}) does not exist as a directory.');
   }
   return errors;
 }
 
 /// Invoked by package:native_assets_builder
 Future<ValidationErrors> validateBuildOutput(
-  BuildConfig config,
+  BuildInput input,
   BuildOutput output,
 ) async {
   final errors = [
-    ..._validateAssetsForLinking(config, output),
-    ..._validateOutputAssetTypes(config, output.encodedAssets),
+    ..._validateAssetsForLinking(input, output),
+    ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
   ];
-  if (config.linkingEnabled) {
-    for (final assets in output.encodedAssetsForLinking.values) {
-      errors.addAll(_validateOutputAssetTypes(config, assets));
+  if (input.config.linkingEnabled) {
+    for (final assets in output.assets.encodedAssetsForLinking.values) {
+      errors.addAll(_validateOutputAssetTypes(input, assets));
     }
   }
   return errors;
@@ -58,22 +75,27 @@ Future<ValidationErrors> validateBuildOutput(
 
 /// Invoked by package:native_assets_builder
 Future<ValidationErrors> validateLinkOutput(
-  LinkConfig config,
+  LinkInput input,
   LinkOutput output,
 ) async {
   final errors = [
-    ..._validateOutputAssetTypes(config, output.encodedAssets),
+    ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
   ];
   return errors;
 }
 
 /// Only output asset types that are supported by the embedder.
 List<String> _validateOutputAssetTypes(
-  HookConfig config,
+  HookInput input,
   Iterable<EncodedAsset> assets,
 ) {
   final errors = <String>[];
-  final buildAssetTypes = config.buildAssetTypes;
+  final List<String> buildAssetTypes;
+  if (input is BuildInput) {
+    buildAssetTypes = input.config.buildAssetTypes;
+  } else {
+    buildAssetTypes = (input as LinkInput).config.buildAssetTypes;
+  }
   for (final asset in assets) {
     if (!buildAssetTypes.contains(asset.type)) {
       final error =
@@ -87,14 +109,14 @@ List<String> _validateOutputAssetTypes(
 
 /// EncodedAssetsForLinking should be empty if linking is not supported.
 List<String> _validateAssetsForLinking(
-  BuildConfig config,
+  BuildInput input,
   BuildOutput output,
 ) {
   final errors = <String>[];
-  if (!config.linkingEnabled) {
-    if (output.encodedAssetsForLinking.isNotEmpty) {
+  if (!input.config.linkingEnabled) {
+    if (output.assets.encodedAssetsForLinking.isNotEmpty) {
       const error = 'BuildOutput.assetsForLinking is not empty while '
-          'BuildConfig.linkingEnabled is false';
+          'BuildInput.config.linkingEnabled is false';
       errors.add(error);
     }
   }

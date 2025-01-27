@@ -61,39 +61,39 @@ Future<void> runTests(List<Architecture> architectures) async {
           architecture,
         );
 
-        final linkConfigBuilder = LinkConfigBuilder()
-          ..setupHookConfig(
-            buildAssetTypes: [CodeAsset.type],
+        final linkInputBuilder = LinkInputBuilder()
+          ..setupShared(
             packageName: 'testpackage',
             packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
           )
-          ..setupLinkConfig(
+          ..setupLink(
             assets: [],
+            recordedUsesFile: null,
           )
-          ..setupCodeConfig(
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
             targetOS: os,
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: cCompiler,
+            cCompiler: cCompiler,
           );
-        linkConfigBuilder.setupLinkRunConfig(
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-          recordedUsesFile: null,
-        );
-        final linkConfig = LinkConfig(linkConfigBuilder.json);
+
+        final linkInput = LinkInput(linkInputBuilder.json);
         final linkOutputBuilder = LinkOutputBuilder();
 
-        printOnFailure(linkConfig.codeConfig.cCompiler.toString());
+        printOnFailure(linkInput.config.code.cCompiler.toString());
         printOnFailure(Platform.environment.keys.toList().toString());
         await clinker.linker([testArchive.toFilePath()]).run(
-          config: linkConfig,
+          input: linkInput,
           output: linkOutputBuilder,
           logger: logger,
         );
 
         final linkOutput = LinkOutput(linkOutputBuilder.json);
-        final asset = linkOutput.codeAssets.first;
+        final asset = linkOutput.assets.code.first;
         final filePath = asset.file!.toFilePath();
 
         final machine = await readelfMachine(filePath);

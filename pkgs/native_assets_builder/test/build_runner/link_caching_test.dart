@@ -29,16 +29,10 @@ void main() async {
       late LinkResult linkResult;
       Future<void> runBuild() async {
         logMessages.clear();
-        buildResult = (await build(
+        buildResult = (await buildDataAssets(
           packageUri,
-          logger,
-          dartExecutable,
           linkingEnabled: true,
-          buildAssetTypes: [DataAsset.type],
           capturedLogs: logMessages,
-          configValidator: validateDataAssetBuildConfig,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
         ))!;
       }
 
@@ -51,7 +45,7 @@ void main() async {
           buildResult: buildResult,
           buildAssetTypes: [DataAsset.type],
           capturedLogs: logMessages,
-          configValidator: validateDataAssetLinkConfig,
+          inputValidator: validateDataAssetLinkInput,
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         ))!;

@@ -8,20 +8,21 @@ import 'dart:io';
 import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart' show build;
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart' show Hook;
 import 'package:test/test.dart';
 
 void main() async {
   late Uri tempUri;
+  late Uri outFile;
   late Uri outDirUri;
   late Uri outputDirectoryShared;
   late String packageName;
   late Uri packageRootUri;
-  late Uri buildConfigUri;
-  late BuildConfig config;
+  late Uri buildInputUri;
+  late BuildInput input;
 
   setUp(() async {
     tempUri = (await Directory.systemTemp.createTemp()).uri;
+    outFile = tempUri.resolve('output.json');
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();
     outputDirectoryShared = tempUri.resolve('out_shared1/');
@@ -29,35 +30,33 @@ void main() async {
     packageRootUri = tempUri.resolve('$packageName/');
     await Directory.fromUri(packageRootUri).create();
 
-    final configBuilder = BuildConfigBuilder();
-    configBuilder
-      ..setupHookConfig(
+    final inputBuilder = BuildInputBuilder();
+    inputBuilder
+      ..setupShared(
         packageRoot: tempUri,
         packageName: packageName,
-        buildAssetTypes: ['foo'],
-      )
-      ..setupBuildConfig(
-        dryRun: false,
-        linkingEnabled: false,
-      )
-      ..setupBuildRunConfig(
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupShared(buildAssetTypes: ['foo'])
+      ..config.setupBuild(
+        dryRun: false,
+        linkingEnabled: false,
       );
-    config = BuildConfig(configBuilder.json);
+    input = BuildInput(inputBuilder.json);
 
-    final configJson = json.encode(config.json);
-    buildConfigUri = tempUri.resolve('build_config.json');
-    await File.fromUri(buildConfigUri).writeAsString(configJson);
+    final inputJson = json.encode(input.json);
+    buildInputUri = tempUri.resolve('input.json');
+    await File.fromUri(buildInputUri).writeAsString(inputJson);
   });
 
   test('build method', () async {
-    await build(['--config', buildConfigUri.toFilePath()],
-        (config, output) async {
+    await build(['--config', buildInputUri.toFilePath()],
+        (input, output) async {
       output.addDependency(packageRootUri.resolve('foo'));
     });
-    final buildOutputUri =
-        config.outputDirectory.resolve(Hook.build.outputName);
+    final buildOutputUri = input.outputFile;
     expect(File.fromUri(buildOutputUri), exists);
   });
 }

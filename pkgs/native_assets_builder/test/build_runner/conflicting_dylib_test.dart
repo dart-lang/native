@@ -28,7 +28,7 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         );
@@ -59,7 +59,7 @@ void main() async {
         linkingEnabled: true,
         dartExecutable,
         buildAssetTypes: [CodeAsset.type],
-        configValidator: validateCodeAssetBuildConfig,
+        inputValidator: validateCodeAssetBuildInput,
         buildValidator: validateCodeAssetBuildOutput,
         applicationAssetValidator: validateCodeAssetInApplication,
       ))!;
@@ -70,7 +70,7 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         buildAssetTypes: [CodeAsset.type],
-        configValidator: validateCodeAssetLinkConfig,
+        inputValidator: validateCodeAssetLinkInput,
         linkValidator: validateCodeAssetLinkOutput,
         applicationAssetValidator: validateCodeAssetInApplication,
       );

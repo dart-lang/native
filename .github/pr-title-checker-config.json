@@ -1,0 +1,25 @@
+{
+    "CHECKS": {
+        "prefixes": [
+            "[ffi] ",
+            "[ffigen] ",
+            "[infra] ",
+            "[jni] ",
+            "[jnigen] ",
+            "[native_assets_builder] ",
+            "[native_assets_cli] ",
+            "[native_toolchain_c] ",
+            "[objective_c] ",
+            "[swift2objc] ",
+            "[swiftgen] "
+        ],
+        "ignoreLabels": [
+            "skip-pr-title-check"
+        ]
+    },
+    "MESSAGES": {
+        "success": "All OK",
+        "failure": "The PR title has to contain a package name like \"[ffigen]\", or \"[infra]\".",
+        "notice": ""
+    }
+}

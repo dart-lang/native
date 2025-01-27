@@ -17,16 +17,16 @@ import '../validation.dart';
 /// files. Each individual asset is assigned a unique asset ID.
 ///
 /// The linking script may receive assets from build scripts, which are accessed
-/// through [LinkConfig.encodedAssets]. They will only be bundled with the final
-/// application if included in the [LinkOutput].
+/// through [LinkInputAssets.encodedAssets]. They will only be bundled with the
+/// final application if included in the [LinkOutput].
 ///
 ///
 /// ```dart
 /// import 'package:native_assets_cli/native_assets_cli.dart';
 ///
 /// void main(List<String> args) async {
-///   await link(args, (config, output) async {
-///     final dataEncodedAssets = config.assets
+///   await link(args, (input, output) async {
+///     final dataEncodedAssets = input.assets
 ///         .whereType<DataAsset>();
 ///     output.addEncodedAssets(dataEncodedAssets);
 ///   });
@@ -38,22 +38,20 @@ import '../validation.dart';
 /// exit code.
 Future<void> link(
   List<String> arguments,
-  Future<void> Function(LinkConfig config, LinkOutputBuilder output) linker,
+  Future<void> Function(LinkInput input, LinkOutputBuilder output) linker,
 ) async {
-  final configPath = getConfigArgument(arguments);
-  final bytes = File(configPath).readAsBytesSync();
-  final jsonConfig = const Utf8Decoder()
-      .fuse(const JsonDecoder())
-      .convert(bytes) as Map<String, Object?>;
-  final config = LinkConfig(jsonConfig);
+  final inputPath = getInputArgument(arguments);
+  final bytes = File(inputPath).readAsBytesSync();
+  final jsonInput = const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
+      as Map<String, Object?>;
+  final input = LinkInput(jsonInput);
   final output = LinkOutputBuilder();
-  await linker(config, output);
-  final errors = await validateLinkOutput(config, LinkOutput(output.json));
+  await linker(input, output);
+  final errors = await validateLinkOutput(input, LinkOutput(output.json));
   if (errors.isEmpty) {
     final jsonOutput =
         const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
-    await File.fromUri(config.outputDirectory.resolve('link_output.json'))
-        .writeAsBytes(jsonOutput);
+    await File.fromUri(input.outputFile).writeAsBytes(jsonOutput);
   } else {
     final message = [
       'The output contained unsupported output:',

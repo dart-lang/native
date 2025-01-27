@@ -5,7 +5,11 @@
 
 package com.github.dart_lang.jnigen
 
-public class Nullability<T, U: Any>(val t: T, val u: U, var nullableU: U?) {
+public class Nullability<T, U : Any>(val t: T, val u: U, var nullableU: U?) {
+    public fun self(): Nullability<*, *> {
+        return this
+    }
+
     public fun hello(): String {
         return "hello"
     }
@@ -14,7 +18,11 @@ public class Nullability<T, U: Any>(val t: T, val u: U, var nullableU: U?) {
         return if (returnNull) null else "hello"
     }
 
-    public fun <V: Any> methodGenericEcho(v: V): V {
+    public fun list(): List<*> {
+        return listOf("hello", 42)
+    }
+
+    public fun <V : Any> methodGenericEcho(v: V): V {
         return v
     }
 
@@ -46,7 +54,7 @@ public class Nullability<T, U: Any>(val t: T, val u: U, var nullableU: U?) {
         return list.first();
     }
 
-    public fun <V: Any> methodGenericFirstOf(list: List<V>): V {
+    public fun <V : Any> methodGenericFirstOf(list: List<V>): V {
         return list.first();
     }
 
@@ -70,7 +78,7 @@ public class Nullability<T, U: Any>(val t: T, val u: U, var nullableU: U?) {
         return listOf(element)
     }
 
-    public fun <V: Any> methodGenericListOf(element: V): List<V> {
+    public fun <V : Any> methodGenericListOf(element: V): List<V> {
         return listOf(element)
     }
 

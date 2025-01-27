@@ -7,11 +7,10 @@
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
-  await build(args, (buildConfig, _) async {
-    final someValue =
-        buildConfig.metadatum('package_with_metadata', 'some_key');
+  await build(args, (input, _) async {
+    final someValue = input.metadatum('package_with_metadata', 'some_key');
     assert(someValue != null);
-    final someInt = buildConfig.metadatum('package_with_metadata', 'some_int');
+    final someInt = input.metadatum('package_with_metadata', 'some_int');
     assert(someInt != null);
     print({
       'some_int': someInt,

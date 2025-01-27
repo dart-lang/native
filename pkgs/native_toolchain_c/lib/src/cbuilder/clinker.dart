@@ -47,21 +47,21 @@ class CLinker extends CTool implements Linker {
   /// Completes with an error if the linking fails.
   @override
   Future<void> run({
-    required LinkConfig config,
+    required LinkInput input,
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux || config.codeConfig.targetOS != OS.linux) {
+    if (OS.current != OS.linux || input.config.code.targetOS != OS.linux) {
       throw UnsupportedError('Currently, only linux is supported for this '
           'feature. See also https://github.com/dart-lang/native/issues/1376');
     }
-    final outDir = config.outputDirectory;
-    final packageRoot = config.packageRoot;
+    final outDir = input.outputDirectory;
+    final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode =
-        getLinkMode(linkModePreference ?? config.codeConfig.linkModePreference);
+        getLinkMode(linkModePreference ?? input.config.code.linkModePreference);
     final libUri = outDir
-        .resolve(config.codeConfig.targetOS.libraryFileName(name, linkMode));
+        .resolve(input.config.code.targetOS.libraryFileName(name, linkMode));
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -75,8 +75,8 @@ class CLinker extends CTool implements Linker {
         outDir.resolveUri(Uri.file(directory)),
     ];
     final task = RunCBuilder(
-      config: config,
-      codeConfig: config.codeConfig,
+      input: input,
+      codeConfig: input.config.code,
       linkerOptions: linkerOptions,
       logger: logger,
       sources: sources,
@@ -99,13 +99,13 @@ class CLinker extends CTool implements Linker {
     await task.run();
 
     if (assetName != null) {
-      output.codeAssets.add(CodeAsset(
-        package: config.packageName,
+      output.assets.code.add(CodeAsset(
+        package: input.packageName,
         name: assetName!,
         file: libUri,
         linkMode: linkMode,
-        os: config.codeConfig.targetOS,
-        architecture: config.codeConfig.targetArchitecture,
+        os: input.config.code.targetOS,
+        architecture: input.config.code.targetArchitecture,
       ));
     }
     final includeFiles = await Stream.fromIterable(includes)
