@@ -43,9 +43,6 @@ class MethodDeclaration extends AstNode
   @override
   ReferredType returnType;
 
-  @override
-  bool isCallingProperty;
-
   bool isStatic;
 
   String get fullName => [
@@ -65,7 +62,6 @@ class MethodDeclaration extends AstNode
     this.isOverriding = false,
     this.throws = false,
     this.async = false,
-    this.isCallingProperty = false,
   }) : assert(!isStatic || !isOverriding);
 
   @override

@@ -72,11 +72,7 @@ bool _parseVariableIsConstant(Json variableSymbolJson) {
 bool _parseVariableThrows(Json json) {
   final throws = json['declarationFragments']
       .any((frag) => matchFragment(frag, 'keyword', 'throws'));
-  if (throws) {
-    // getters.
-    return true;
-  }
-  return false;
+  return throws;
 }
 
 bool _parseVariableAsync(Json json) {

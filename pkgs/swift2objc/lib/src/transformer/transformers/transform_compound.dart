@@ -52,8 +52,7 @@ ClassDeclaration transformCompound(
   transformedCompound.nestedDeclarations
       .fillNestingParents(transformedCompound);
 
-  transformedCompound.properties = originalCompound.properties
-      .where((property) => !property.throws)
+  final transformedProperties = originalCompound.properties
       .map((property) => transformProperty(
             property,
             wrappedCompoundInstance,
@@ -61,8 +60,7 @@ ClassDeclaration transformCompound(
             transformationMap,
           ))
       .nonNulls
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+      .toList();
 
   transformedCompound.initializers = originalCompound.initializers
       .map((initializer) => transformInitializer(
@@ -74,8 +72,7 @@ ClassDeclaration transformCompound(
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  transformedCompound.methods = (originalCompound.methods +
-          _convertPropertiesToMethods(originalCompound.properties))
+  final transformedMethods = originalCompound.methods
       .map((method) => transformMethod(
             method,
             wrappedCompoundInstance,
@@ -83,7 +80,15 @@ ClassDeclaration transformCompound(
             transformationMap,
           ))
       .nonNulls
+      .toList();
+
+  transformedCompound.properties = transformedProperties
+      .whereType<PropertyDeclaration>()
       .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
+  transformedCompound.methods = (transformedMethods +
+      transformedProperties.whereType<MethodDeclaration>().toList())
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedCompound;
@@ -108,24 +113,4 @@ InitializerDeclaration _buildWrapperInitializer(
     statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
     hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );
-}
-
-List<MethodDeclaration> _convertPropertiesToMethods(
-  List<PropertyDeclaration> properties,
-) {
-  return properties
-      .where((property) => property.throws)
-      .map((property) => MethodDeclaration(
-            id: property.id,
-            name: property.name,
-            returnType: property.type,
-            params: [],
-            hasObjCAnnotation: true,
-            statements: property.getter?.statements ?? [],
-            isStatic: property.isStatic,
-            throws: property.throws,
-            async: property.async,
-            isCallingProperty: true,
-          ))
-      .toList();
 }

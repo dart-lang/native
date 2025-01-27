@@ -46,9 +46,6 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
   @override
   List<String> statements;
 
-  @override
-  bool isCallingProperty;
-
   GlobalFunctionDeclaration({
     required this.id,
     required this.name,
@@ -58,7 +55,6 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
     this.statements = const [],
     this.throws = false,
     this.async = false,
-    this.isCallingProperty = false,
   });
 
   @override

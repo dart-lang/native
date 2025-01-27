@@ -39,8 +39,7 @@ MethodDeclaration? transformMethod(
       final methodSource = originalMethod.isStatic
           ? wrappedClassInstance.type.swiftType
           : wrappedClassInstance.name;
-      return '$methodSource.${originalMethod.name}'
-          '${originalMethod.isCallingProperty ? '' : '($arguments)'}';
+      return '$methodSource.${originalMethod.name}($arguments)';
     },
   );
 }
@@ -57,8 +56,8 @@ MethodDeclaration transformGlobalFunction(
     wrapperMethodName: globalNamer.makeUnique(
       '${globalFunction.name}Wrapper',
     ),
-    originalCallStatementGenerator: (arguments) => '${globalFunction.name}'
-        '${globalFunction.isCallingProperty ? '' : '($arguments)'}',
+    originalCallStatementGenerator: (arguments) =>
+        '${globalFunction.name}($arguments)',
   );
 }
 
