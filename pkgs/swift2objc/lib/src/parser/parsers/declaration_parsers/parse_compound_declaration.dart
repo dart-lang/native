@@ -40,7 +40,7 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
     methods: [],
     properties: [],
     initializers: [],
-    typeParams: []
+    typeParams: [],
     nestedDeclarations: [],
   );
 

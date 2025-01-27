@@ -26,10 +26,10 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
     id: parseSymbolId(globalFunctionSymbolJson),
     name: parseSymbolName(globalFunctionSymbolJson),
     returnType: _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
-//     params: info.params,
-//     throws: info.throws,
-//     async: info.async,
-    params: _parseFunctionParams(globalFunctionSymbolJson symbolgraph)
+    // params: info.params,
+    // throws: info.throws,
+    // async: info.async,
+    params: _parseFunctionParams(globalFunctionSymbolJson, symbolgraph),
     typeParams:
           parseTypeParams(globalFunctionSymbolJson, symbolgraph)
   );
