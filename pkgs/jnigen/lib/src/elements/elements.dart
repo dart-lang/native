@@ -81,6 +81,8 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   bool isExcluded;
 
+  String? userDefinedName;
+
   @override
   final Set<String> modifiers;
 
@@ -647,6 +649,8 @@ class Method with ClassMember, Annotated implements Element<Method> {
   @JsonKey(includeFromJson: false)
   bool isExcluded;
 
+  String? userDefinedName;
+
   @override
   final String name;
   @override
@@ -707,6 +711,8 @@ class Param with Annotated implements Element<Param> {
     required this.type,
   });
 
+  String? userDefinedName;
+
   @override
   List<Annotation>? annotations;
   final JavaDocComment? javadoc;
@@ -750,6 +756,8 @@ class Field with ClassMember, Annotated implements Element<Field> {
 
   @JsonKey(includeFromJson: false)
   bool isExcluded;
+
+  String? userDefinedName;
 
   @override
   final String name;

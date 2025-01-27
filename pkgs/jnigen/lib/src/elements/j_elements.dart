@@ -12,6 +12,7 @@ abstract class Visitor {
   void visitClass(ClassDecl c) {}
   void visitMethod(Method method) {}
   void visitField(Field field) {}
+  void visitParam(Param parameter) {}
 }
 
 class Classes implements Element {
@@ -39,6 +40,8 @@ class ClassDecl implements Element {
   bool get isExcluded => _classDecl.isExcluded;
   set isExcluded(bool value) => _classDecl.isExcluded = value;
 
+  set newName(String newName) => _classDecl.userDefinedName = newName;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitClass(this);
@@ -62,9 +65,30 @@ class Method implements Element {
   bool get isExcluded => _method.isExcluded;
   set isExcluded(bool value) => _method.isExcluded = value;
 
+  set newName(String newName) => _method.userDefinedName = newName;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitMethod(this);
+    if (_method.isExcluded) return;
+    for (final param in _method.params) {
+      Param(param).accept(visitor);
+    }
+  }
+}
+
+class Param implements Element {
+  Param(this._param);
+
+  final ast.Param _param;
+
+  String get name => _param.name;
+
+  set newName(String newName) => _param.userDefinedName = newName;
+
+  @override
+  void accept(Visitor visitor) {
+    visitor.visitParam(this);
   }
 }
 
@@ -77,6 +101,8 @@ class Field implements Element {
 
   bool get isExcluded => _field.isExcluded;
   set isExcluded(bool value) => _field.isExcluded = value;
+
+  set newName(String newName) => _field.userDefinedName = newName;
 
   @override
   void accept(Visitor visitor) {

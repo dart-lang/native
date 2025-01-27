@@ -185,7 +185,8 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
 
     final outerClassName =
         node.outerClass == null ? '' : '${node.outerClass!.finalName}\$';
-    final className = '$outerClassName${_preprocess(node.name)}';
+    final className =
+        '$outerClassName${_preprocess(node.userDefinedName ?? node.name)}';
 
     // When generating all the classes in a single file
     // the names need to be unique.
@@ -227,7 +228,8 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final name = _preprocess(node.isConstructor ? 'new' : node.name);
+    final name = _preprocess(
+        node.isConstructor ? 'new' : node.userDefinedName ?? node.name);
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
     final superClass =
@@ -263,7 +265,7 @@ class _FieldRenamer implements Visitor<Field, void> {
 
   @override
   void visit(Field node) {
-    final fieldName = _preprocess(node.name);
+    final fieldName = _preprocess(node.userDefinedName ?? node.name);
     node.finalName = _renameConflict(nameCounts, fieldName, _ElementKind.field);
     log.fine('Field ${node.classDecl.binaryName}#${node.name}'
         ' is named ${node.finalName}');
@@ -277,6 +279,7 @@ class _ParamRenamer implements Visitor<Param, void> {
 
   @override
   void visit(Param node) {
-    node.finalName = _keywordRename(node.name, _ElementKind.field);
+    node.finalName =
+        _keywordRename(node.userDefinedName ?? node.name, _ElementKind.field);
   }
 }
