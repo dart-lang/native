@@ -72,11 +72,6 @@ bool _parseVariableIsConstant(Json variableSymbolJson) {
 bool _parseVariableThrows(Json json) {
   final throws = json['declarationFragments']
       .any((frag) => matchFragment(frag, 'keyword', 'throws'));
-  if (throws) {
-    // TODO(https://github.com/dart-lang/native/issues/1765): Support throwing
-    // getters.
-    throw Exception("Throwing getters aren't supported yet, at ${json.path}");
-  }
   return throws;
 }
 
