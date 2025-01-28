@@ -1,6 +1,8 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
@@ -21,22 +23,29 @@ ClassDeclaration transformGlobals(
     isWrapper: true,
   );
 
-  transformedGlobals.properties = globals.variables
+  final transformedProperties = globals.variables
       .map((variable) => transformGlobalVariable(
             variable,
             globalNamer,
             transformationMap,
           ))
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+      .toList();
 
-  transformedGlobals.methods = globals.functions
+  final transformedMethods = globals.functions
       .map((function) => transformGlobalFunction(
             function,
             globalNamer,
             transformationMap,
           ))
+      .toList();
+
+  transformedGlobals.properties = transformedProperties
+      .whereType<PropertyDeclaration>()
       .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
+  transformedGlobals.methods = (transformedMethods +
+      transformedProperties.whereType<MethodDeclaration>().toList())
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedGlobals;

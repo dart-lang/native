@@ -11,6 +11,7 @@
   `Iterable`.
 - Added `JObject.isA`, which checks whether a `JObject` is a instance of a
   java class.
+- Do not require JWT when building for desktop.
 
 ## 0.13.0
 
