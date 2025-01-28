@@ -9,6 +9,8 @@
   instead use the default value of `build/jni_libs`.
 - Added `JArray.of`, which allows a `JArray` to be constructed from an
   `Iterable`.
+- Added `JObject.isA`, which checks whether a `JObject` is a instance of a
+  java class.
 
 ## 0.13.0
 
