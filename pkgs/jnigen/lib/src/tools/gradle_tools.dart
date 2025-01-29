@@ -6,7 +6,7 @@ import '../../tools.dart';
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 
-class GradleTools extends MavenTools {
+class GradleTools {
   static final currentDir = Directory('.');
 
   /// Helper method since we can't pass inheritStdio option to [Process.run].
@@ -135,5 +135,24 @@ class GradleTools extends MavenTools {
     dependencies {
         ${depDecls.join("\n")}
     }''';
+  }
+}
+
+/// Maven dependency with group ID, artifact ID, and version.
+class MavenDependency {
+  MavenDependency(this.groupID, this.artifactID, this.version,
+      {this.otherTags = const {}});
+  factory MavenDependency.fromString(String fullName) {
+    final components = fullName.split(':');
+    if (components.length != 3) {
+      throw ArgumentError('invalid name for maven dependency: $fullName');
+    }
+    return MavenDependency(components[0], components[1], components[2]);
+  }
+  String groupID, artifactID, version;
+  Map<String, String> otherTags;
+
+  String toGradleDependency(String configuration) {
+    return "$configuration(\"$groupID:$artifactID:$version\")";
   }
 }

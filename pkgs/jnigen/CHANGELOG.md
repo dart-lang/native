@@ -1,3 +1,8 @@
+## 0.13.2
+
+- Removed the need to install Maven for the `ApiSummarizer` tool 
+- Removed the need to install Maven for arbitrary dependency downloads
+
 ## 0.13.1
 
 - Fixed a bug where Kotlin wildcards would crash the code generation.
