@@ -6,7 +6,8 @@ on:
   pull_request:
     branches: [ main ]
   push:
-    tags: [ '[A-z]+-v[0-9]+.[0-9]+.[0-9]+' ]
+    # TODO: Enable autopublishing for these when Flutter SDK is supported.
+    tags: [ '(?!ffigen-v|jni-v|jnigen-v|objective_c-v)[A-z]+-v[0-9]+.[0-9]+.[0-9]+' ]
 
 jobs:
   publish:
