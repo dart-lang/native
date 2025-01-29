@@ -14,6 +14,9 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   final String lookupName;
   final ObjCInternalGlobal _protocolPointer;
 
+  // Filled by ListBindingsVisitation.
+  bool generateAsStub = false;
+
   @override
   final ObjCBuiltInFunctions builtInFunctions;
 
@@ -47,66 +50,80 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
     final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
 
-    final buildArgs = <String>[];
-    final buildImplementations = StringBuffer();
-    final buildListenerImplementations = StringBuffer();
-    final buildBlockingImplementations = StringBuffer();
-    final methodFields = StringBuffer();
+    final s = StringBuffer();
+    s.write('\n');
+    if (generateAsStub) {
+      s.write('''
+/// WARNING: $name is a stub. To generate bindings for this class, include
+/// $name in your config's objc-protocols list.
+///
+''');
+    }
+    s.write(makeDartDoc(dartDoc ?? originalName));
+    s.write('abstract interface class $name implements $protocolBase {');
 
-    final methodNamer = createMethodRenamer(w);
+    if (!generateAsStub) {
+      final buildArgs = <String>[];
+      final buildImplementations = StringBuffer();
+      final buildListenerImplementations = StringBuffer();
+      final buildBlockingImplementations = StringBuffer();
+      final methodFields = StringBuffer();
 
-    var anyListeners = false;
-    for (final method in methods) {
-      final methodName =
-          method.getDartMethodName(methodNamer, usePropertyNaming: false);
-      final fieldName = methodName;
-      final argName = methodName;
-      final block = method.protocolBlock!;
-      final blockUtils = block.name;
-      final methodClass =
-          block.hasListener ? protocolListenableMethod : protocolMethod;
+      final methodNamer = createMethodRenamer(w);
 
-      // The function type omits the first arg of the block, which is unused.
-      final func = FunctionType(returnType: block.returnType, parameters: [
-        ...block.params.skip(1),
-      ]);
-      final funcType = func.getDartType(w, writeArgumentNames: false);
+      var anyListeners = false;
+      for (final method in methods) {
+        final methodName =
+            method.getDartMethodName(methodNamer, usePropertyNaming: false);
+        final fieldName = methodName;
+        final argName = methodName;
+        final block = method.protocolBlock!;
+        final blockUtils = block.name;
+        final methodClass =
+            block.hasListener ? protocolListenableMethod : protocolMethod;
 
-      if (method.isOptional) {
-        buildArgs.add('$funcType? $argName');
-      } else {
-        buildArgs.add('required $funcType $argName');
-      }
+        // The function type omits the first arg of the block, which is unused.
+        final func = FunctionType(returnType: block.returnType, parameters: [
+          ...block.params.skip(1),
+        ]);
+        final funcType = func.getDartType(w, writeArgumentNames: false);
 
-      final blockFirstArg = block.params[0].type.getDartType(w);
-      final argsReceived = func.parameters
-          .map((p) => '${p.type.getDartType(w)} ${p.name}')
-          .join(', ');
-      final argsPassed = func.parameters.map((p) => p.name).join(', ');
-      final wrapper = '($blockFirstArg _, $argsReceived) => func($argsPassed)';
+        if (method.isOptional) {
+          buildArgs.add('$funcType? $argName');
+        } else {
+          buildArgs.add('required $funcType $argName');
+        }
 
-      var listenerBuilders = '';
-      var maybeImplementAsListener = 'implement';
-      var maybeImplementAsBlocking = 'implement';
-      if (block.hasListener) {
-        listenerBuilders = '''
+        final blockFirstArg = block.params[0].type.getDartType(w);
+        final argsReceived = func.parameters
+            .map((p) => '${p.type.getDartType(w)} ${p.name}')
+            .join(', ');
+        final argsPassed = func.parameters.map((p) => p.name).join(', ');
+        final wrapper =
+            '($blockFirstArg _, $argsReceived) => func($argsPassed)';
+
+        var listenerBuilders = '';
+        var maybeImplementAsListener = 'implement';
+        var maybeImplementAsBlocking = 'implement';
+        if (block.hasListener) {
+          listenerBuilders = '''
     ($funcType func) => $blockUtils.listener($wrapper),
     ($funcType func) => $blockUtils.blocking($wrapper),
 ''';
-        maybeImplementAsListener = 'implementAsListener';
-        maybeImplementAsBlocking = 'implementAsBlocking';
-        anyListeners = true;
-      }
+          maybeImplementAsListener = 'implementAsListener';
+          maybeImplementAsBlocking = 'implementAsBlocking';
+          anyListeners = true;
+        }
 
-      buildImplementations.write('''
+        buildImplementations.write('''
     $name.$fieldName.implement(builder, $argName);''');
-      buildListenerImplementations.write('''
+        buildListenerImplementations.write('''
     $name.$fieldName.$maybeImplementAsListener(builder, $argName);''');
-      buildBlockingImplementations.write('''
+        buildBlockingImplementations.write('''
     $name.$fieldName.$maybeImplementAsBlocking(builder, $argName);''');
 
-      methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
-      methodFields.write('''static final $fieldName = $methodClass<$funcType>(
+        methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
+        methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${_protocolPointer.name},
       ${method.selObject.name},
       $getSignature(
@@ -119,10 +136,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
       $listenerBuilders
     );
 ''');
-    }
+      }
 
-    final args = buildArgs.isEmpty ? '' : '{${buildArgs.join(', ')}}';
-    final builders = '''
+      final args = buildArgs.isEmpty ? '' : '{${buildArgs.join(', ')}}';
+      final builders = '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
   static $objectBase implement($args) {
@@ -138,9 +155,9 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
   }
 ''';
 
-    var listenerBuilders = '';
-    if (anyListeners) {
-      listenerBuilders = '''
+      var listenerBuilders = '';
+      if (anyListeners) {
+        listenerBuilders = '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
@@ -173,19 +190,20 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     $buildBlockingImplementations
   }
 ''';
-    }
+      }
 
-    final mainString = '''
-${makeDartDoc(dartDoc ?? originalName)}abstract interface class $name
-    extends $protocolBase {
+      s.write('''
   $builders
   $listenerBuilders
   $methodFields
+''');
+    }
+    s.write('''
 }
-''';
+''');
 
     return BindingString(
-        type: BindingStringType.objcProtocol, string: mainString);
+        type: BindingStringType.objcProtocol, string: s.toString());
   }
 
   @override

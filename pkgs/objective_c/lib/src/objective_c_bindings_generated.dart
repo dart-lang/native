@@ -891,6 +891,12 @@ class NSCoder extends objc.ObjCObjectBase {
   }
 }
 
+/// WARNING: NSCoding is a stub. To generate bindings for this class, include
+/// NSCoding in your config's objc-protocols list.
+///
+/// NSCoding
+abstract interface class NSCoding implements objc.ObjCProtocolBase {}
+
 enum NSComparisonResult {
   NSOrderedAscending(-1),
   NSOrderedSame(0),
@@ -907,6 +913,12 @@ enum NSComparisonResult {
           throw ArgumentError("Unknown value for NSComparisonResult: $value"),
       };
 }
+
+/// WARNING: NSCopying is a stub. To generate bindings for this class, include
+/// NSCopying in your config's objc-protocols list.
+///
+/// NSCopying
+abstract interface class NSCopying implements objc.ObjCProtocolBase {}
 
 /// NSData
 class NSData extends NSObject
@@ -3042,6 +3054,12 @@ extension NSExtendedSet on NSSet {
   }
 }
 
+/// WARNING: NSFastEnumeration is a stub. To generate bindings for this class, include
+/// NSFastEnumeration in your config's objc-protocols list.
+///
+/// NSFastEnumeration
+abstract interface class NSFastEnumeration implements objc.ObjCProtocolBase {}
+
 final class NSFastEnumerationState extends ffi.Struct {
   @ffi.UnsignedLong()
   external int state;
@@ -3899,6 +3917,12 @@ class NSMutableArray extends NSArray {
         _sel_replaceObjectAtIndex_withObject_, index, anObject.ref.pointer);
   }
 }
+
+/// WARNING: NSMutableCopying is a stub. To generate bindings for this class, include
+/// NSMutableCopying in your config's objc-protocols list.
+///
+/// NSMutableCopying
+abstract interface class NSMutableCopying implements objc.ObjCProtocolBase {}
 
 /// NSMutableData
 class NSMutableData extends NSData {
@@ -6026,7 +6050,7 @@ extension NSNumberCreation on NSNumber {
 }
 
 /// NSObject
-class NSObject extends objc.ObjCObjectBase implements NSObject {
+class NSObject extends objc.ObjCObjectBase implements NSObject1 {
   NSObject._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super(pointer, retain: retain, release: release);
@@ -6354,6 +6378,12 @@ class NSObject extends objc.ObjCObjectBase implements NSObject {
     return _objc_msgSend_sz90oi(this.ref.pointer, _sel_zone);
   }
 }
+
+/// WARNING: NSObject1 is a stub. To generate bindings for this class, include
+/// NSObject1 in your config's objc-protocols list.
+///
+/// NSObject
+abstract interface class NSObject1 implements objc.ObjCProtocolBase {}
 
 /// NSOrderedCollectionDifference
 class NSOrderedCollectionDifference extends NSObject
@@ -6886,7 +6916,7 @@ class NSOutputStream extends NSStream {
 }
 
 /// NSProxy
-class NSProxy extends objc.ObjCObjectBase implements NSObject {
+class NSProxy extends objc.ObjCObjectBase implements NSObject1 {
   NSProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super(pointer, retain: retain, release: release);
@@ -7085,6 +7115,12 @@ class NSRunLoop extends objc.ObjCObjectBase {
         obj.ref.pointer, _sel_isKindOfClass_, _class_NSRunLoop);
   }
 }
+
+/// WARNING: NSSecureCoding is a stub. To generate bindings for this class, include
+/// NSSecureCoding in your config's objc-protocols list.
+///
+/// NSSecureCoding
+abstract interface class NSSecureCoding implements objc.ObjCProtocolBase {}
 
 /// NSSet
 class NSSet extends NSObject
@@ -7407,7 +7443,7 @@ class NSStream extends NSObject {
 }
 
 /// NSStreamDelegate
-abstract interface class NSStreamDelegate extends objc.ObjCProtocolBase {
+abstract interface class NSStreamDelegate implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   static objc.ObjCObjectBase implement(
@@ -7543,6 +7579,13 @@ enum NSStreamStatus {
 /// NSString
 class NSString extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding {
+  factory NSString(String str) {
+    final cstr = str.toNativeUtf16();
+    final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);
+    pkg_ffi.calloc.free(cstr);
+    return nsstr;
+  }
+
   NSString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);

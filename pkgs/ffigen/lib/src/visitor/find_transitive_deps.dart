@@ -44,6 +44,9 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
     // than being omitted like the rest of the stub's children.
     visitor.visit(node.superType);
 
+    // Similarly, always visit the protocols.
+    visitor.visitAll(node.protocols);
+
     // Visit the categories of built-in interfaces that have been explicitly
     // included. https://github.com/dart-lang/native/issues/1820
     if (node.isObjCImport && directIncludes.contains(node)) {
