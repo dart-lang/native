@@ -3,6 +3,8 @@
 - Use package:objective_c 5.0.0
 - Support transitive categories of built-in types:
   https://github.com/dart-lang/native/issues/1820
+- __Breaking change__: Represent protocol conformance of objects in the
+  generated bindings. That is, `id<Foo>` is now distinct from `id<Bar>`.
 
 ## 16.1.0
 

@@ -162,7 +162,7 @@ external ffi.Pointer<objc.ObjCBlockImpl>
 );
 
 /// Helper class to adapt a Dart stream into a `NSInputStream`.
-class DartInputStreamAdapter extends NSInputStream {
+class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   DartInputStreamAdapter._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -439,7 +439,8 @@ class DartProxyBuilder extends NSObject {
 }
 
 /// NSArray
-class NSArray extends NSObject {
+class NSArray extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -609,7 +610,8 @@ enum NSBinarySearchingOptions {
 }
 
 /// NSCharacterSet
-class NSCharacterSet extends NSObject {
+class NSCharacterSet extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSCharacterSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -907,7 +909,8 @@ enum NSComparisonResult {
 }
 
 /// NSData
-class NSData extends NSObject {
+class NSData extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSData._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -1334,7 +1337,7 @@ enum NSDataWritingOptions {
 }
 
 /// NSDate
-class NSDate extends NSObject {
+class NSDate extends NSObject implements NSCopying, NSSecureCoding {
   NSDate._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -1499,7 +1502,8 @@ class NSDate extends NSObject {
 }
 
 /// NSDictionary
-class NSDictionary extends NSObject {
+class NSDictionary extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -1700,7 +1704,7 @@ enum NSEnumerationOptions {
 }
 
 /// NSEnumerator
-class NSEnumerator extends NSObject {
+class NSEnumerator extends NSObject implements NSFastEnumeration {
   NSEnumerator._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -1765,7 +1769,7 @@ class NSEnumerator extends NSObject {
 }
 
 /// NSError
-class NSError extends NSObject {
+class NSError extends NSObject implements NSCopying, NSSecureCoding {
   NSError._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -3051,7 +3055,8 @@ final class NSFastEnumerationState extends ffi.Struct {
 }
 
 /// NSIndexSet
-class NSIndexSet extends NSObject {
+class NSIndexSet extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -3357,7 +3362,7 @@ class NSInvocation extends objc.ObjCObjectBase {
 }
 
 /// NSItemProvider
-class NSItemProvider extends NSObject {
+class NSItemProvider extends NSObject implements NSCopying {
   NSItemProvider._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -5495,7 +5500,7 @@ class NSMutableString extends NSString {
 }
 
 /// NSNotification
-class NSNotification extends NSObject {
+class NSNotification extends NSObject implements NSCopying, NSCoding {
   NSNotification._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -6021,7 +6026,7 @@ extension NSNumberCreation on NSNumber {
 }
 
 /// NSObject
-class NSObject extends objc.ObjCObjectBase {
+class NSObject extends objc.ObjCObjectBase implements NSObject {
   NSObject._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super(pointer, retain: retain, release: release);
@@ -6351,7 +6356,8 @@ class NSObject extends objc.ObjCObjectBase {
 }
 
 /// NSOrderedCollectionDifference
-class NSOrderedCollectionDifference extends NSObject {
+class NSOrderedCollectionDifference extends NSObject
+    implements NSFastEnumeration {
   NSOrderedCollectionDifference._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -6506,7 +6512,8 @@ enum NSOrderedCollectionDifferenceCalculationOptions {
 }
 
 /// NSOrderedSet
-class NSOrderedSet extends NSObject {
+class NSOrderedSet extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSOrderedSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -6879,7 +6886,7 @@ class NSOutputStream extends NSStream {
 }
 
 /// NSProxy
-class NSProxy extends objc.ObjCObjectBase {
+class NSProxy extends objc.ObjCObjectBase implements NSObject {
   NSProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super(pointer, retain: retain, release: release);
@@ -7080,7 +7087,8 @@ class NSRunLoop extends objc.ObjCObjectBase {
 }
 
 /// NSSet
-class NSSet extends NSObject {
+class NSSet extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -7399,7 +7407,7 @@ class NSStream extends NSObject {
 }
 
 /// NSStreamDelegate
-abstract final class NSStreamDelegate {
+abstract interface class NSStreamDelegate extends objc.ObjCProtocolBase {
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   static objc.ObjCObjectBase implement(
@@ -7533,14 +7541,8 @@ enum NSStreamStatus {
 }
 
 /// NSString
-class NSString extends NSObject {
-  factory NSString(String str) {
-    final cstr = str.toNativeUtf16();
-    final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);
-    pkg_ffi.calloc.free(cstr);
-    return nsstr;
-  }
-
+class NSString extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -8830,7 +8832,7 @@ extension NSStringExtensionMethods on NSString {
 }
 
 /// NSURL
-class NSURL extends NSObject {
+class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   NSURL._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -9613,7 +9615,7 @@ enum NSURLHandleStatus {
 }
 
 /// NSValue
-class NSValue extends NSObject {
+class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   NSValue._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);

@@ -74,9 +74,12 @@ class ObjCInterface extends BindingType with ObjCMethods {
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
     final superTypeIsInPkgObjc = superType == null;
+    final protoImpl = protocols.isEmpty
+        ? ''
+        : 'implements ${protocols.map((p) => p.name).join(', ')}';
 
     s.write('''
-class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
+class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl {
   $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
           ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}

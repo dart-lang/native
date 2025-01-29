@@ -2,6 +2,7 @@
 
 - __Breaking change__: Rename the `NSString` to `String` conversion method from
   `toString()` to `toDartString()`.
+- Add `ObjCProtocolBase`, which all code genned protocols implement.
 - Add various ObjC categories (extension methods) to the built in classes.
 - Make all visible API types public.
 

@@ -36,6 +36,7 @@ class ObjCBuiltInFunctions {
   static const signalWaiter = ObjCImport('signalWaiter');
   static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
   static const objectBase = ObjCImport('ObjCObjectBase');
+  static const protocolBase = ObjCImport('ObjCProtocolBase');
   static const blockType = ObjCImport('ObjCBlock');
   static const consumedType = ObjCImport('Consumed');
   static const retainedType = ObjCImport('Retained');

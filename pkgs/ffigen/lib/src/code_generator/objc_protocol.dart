@@ -39,6 +39,7 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
+    final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(w);
     final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
     final protocolListenableMethod =
         ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
@@ -175,7 +176,8 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
     }
 
     final mainString = '''
-${makeDartDoc(dartDoc ?? originalName)}abstract final class $name {
+${makeDartDoc(dartDoc ?? originalName)}abstract interface class $name
+    extends $protocolBase {
   $builders
   $listenerBuilders
   $methodFields
