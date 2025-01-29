@@ -62,10 +62,7 @@ Future<void> buildApiSummarizer() async {
       printError('gradle exited with $exitCode');
     }
   } finally {
-    // Remove build directory
-    //if (Directory(gradleBuildDir).existsSync()) {
-    //  await Directory(gradleBuildDir).delete(recursive: true);
-    //}
+
   }
 }
 
