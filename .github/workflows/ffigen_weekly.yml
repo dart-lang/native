@@ -38,5 +38,5 @@ jobs:
       - name: Run VM tests
         run: flutter test
       - name: Generate package:jni bindings
-        run: dart run tool/generate_ffi_bindings.dart
+        run: flutter pub get && dart run tool/generate_ffi_bindings.dart
         working-directory: ../jni
