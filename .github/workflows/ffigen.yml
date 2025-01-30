@@ -65,6 +65,9 @@ jobs:
         run: dart test/setup.dart
       - name: Run VM tests
         run: dart test
+      - name: Generate package:jni bindings
+        run: flutter pub get && dart run tool/generate_ffi_bindings.dart
+        working-directory: ../jni
 
   # Keep in sync with ffigen_weekly.yaml:test-mac-arm64
   test-mac:
@@ -84,6 +87,9 @@ jobs:
         run: dart test/setup.dart
       - name: Run VM tests and collect coverage
         run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+      - name: Generate package:jni bindings
+        run: flutter pub get && dart run tool/generate_ffi_bindings.dart
+        working-directory: ../jni
       - name: Upload coverage
         uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8
         with:
@@ -133,6 +139,9 @@ jobs:
         run: dart test/setup.dart
       - name: Run VM tests
         run: dart test
+      - name: Generate package:jni bindings
+        run: flutter pub get && dart run tool/generate_ffi_bindings.dart
+        working-directory: ../jni
 
   # Sanity check the latest `flutter create --template plugin_ffi`.
   # This will break if we change the Flutter template or the generated code.

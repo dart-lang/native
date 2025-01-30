@@ -46,3 +46,7 @@ flutter:
         ffiPlugin: true
         package: com.github.dart_lang.jni
         pluginClass: JniPlugin
+
+dependency_overrides:
+  ffigen:
+    path: ../ffigen
