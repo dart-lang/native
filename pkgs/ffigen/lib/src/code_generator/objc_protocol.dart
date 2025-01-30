@@ -9,7 +9,7 @@ import 'binding_string.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
+class ObjCProtocol extends BindingType with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   final ObjCInternalGlobal _protocolPointer;
@@ -64,7 +64,10 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
 ''');
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
-    s.write('abstract interface class $name implements $protocolBase {');
+
+    final protoImpl = superProtocols.isEmpty ? protocolBase :
+        superProtocols.map((p) => p.getDartType(w)).join(', ');
+    s.write('abstract interface class $name implements $protoImpl {');
 
     if (!generateAsStub) {
       final buildArgs = <String>[];
@@ -220,6 +223,72 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
 
     return BindingString(
         type: BindingStringType.objcProtocol, string: mainString);
+  }
+
+  @override
+  String getCType(Writer w) => PointerType(objCObjectType).getCType(w);
+
+  @override
+  String getDartType(Writer w) =>
+      isObjCImport ? '${w.objcPkgPrefix}.$name' : name;
+
+  @override
+  String getNativeType({String varName = ''}) => 'id $varName';
+
+  @override
+  String getObjCBlockSignatureType(Writer w) => getDartType(w);
+
+  @override
+  bool get sameFfiDartAndCType => true;
+
+  @override
+  bool get sameDartAndCType => false;
+
+  @override
+  bool get sameDartAndFfiDartType => false;
+
+  @override
+  String convertDartTypeToFfiDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+    required bool objCAutorelease,
+  }) =>
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) =>
+      ObjCInterface.generateConstructor(
+          '${w.objcPkgPrefix}.ObjCObjectBase', value, objCRetain);
+
+  @override
+  String? generateRetain(String value) =>
+      '(__bridge id)(__bridge_retained void*)($value)';
+
+  bool _isSuperProtocolOf(ObjCProtocol protocol) {
+    if (protocol == this) return true;
+    for (final superProtocol in protocol.superProtocols) {
+      if (_isSuperProtocolOf(superProtocol)) return true;
+    }
+    return false;
+  }
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is ObjCProtocol) {
+      _isSuperProtocolOf(other);
+    } else if (other is ObjCInterface) {
+      for (final protocol in other.protocols) {
+        if (_isSuperProtocolOf(protocol)) return true;
+      }
+    }
+    return false;
   }
 
   @override

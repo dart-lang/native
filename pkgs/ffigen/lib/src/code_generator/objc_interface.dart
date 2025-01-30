@@ -76,10 +76,10 @@ class ObjCInterface extends BindingType with ObjCMethods {
     final superTypeIsInPkgObjc = superType == null;
     final protoImpl = protocols.isEmpty
         ? ''
-        : 'implements ${protocols.map((p) => p.name).join(', ')}';
+        : 'implements ${protocols.map((p) => p.getDartType(w)).join(', ')} ';
 
     s.write('''
-class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl {
+class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
   $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
           ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}

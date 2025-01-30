@@ -29,7 +29,7 @@ String generate({
     language: Language.objc,
     output: Uri.file('test/native_objc_test/transitive_bindings.dart'),
     entryPoints: [Uri.file('test/native_objc_test/transitive_test.h')],
-    formatOutput: true,
+    formatOutput: false,
     objcInterfaces: DeclarationFilters.include({
       'DirectlyIncluded',
       'DirectlyIncludedWithProtocol',
@@ -67,10 +67,14 @@ void main() {
 
     Inclusion incProto(String name) {
       bool classDef = bindings.contains('class $name ');
+      bool stubWarn = bindings.contains('WARNING: $name is a stub.');
+      bool hasImpl = bindings
+          .contains('/// Adds the implementation of the $name protocol');
       bool any = bindings.contains(RegExp('\\W$name\\W'));
-      if (classDef && any) return Inclusion.included;
-      if (!classDef && !any) return Inclusion.omitted;
-      throw Exception('Bad protocol: $name ($classDef, $any)');
+      if (classDef && stubWarn && !hasImpl && any) return Inclusion.stubbed;
+      if (classDef && !stubWarn && hasImpl && any) return Inclusion.included;
+      if (!classDef && !stubWarn && !hasImpl && !any) return Inclusion.omitted;
+      throw Exception('Bad protocol: $name ($classDef, $stubWarn, $hasImpl, $any)');
     }
 
     Inclusion incCat(String name) {
@@ -185,16 +189,16 @@ void main() {
         expect(incProto('DoublyTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('TransitiveSuperProtocol'), Inclusion.omitted);
         expect(incProto('TransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperSuperProtocol'), Inclusion.omitted);
+        expect(incProto('SuperSuperProtocol'), Inclusion.stubbed);
         expect(incProto('DoublySuperTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('SuperTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperProtocol'), Inclusion.omitted);
-        expect(incProto('AnotherSuperProtocol'), Inclusion.omitted);
+        expect(incProto('SuperProtocol'), Inclusion.stubbed);
+        expect(incProto('AnotherSuperProtocol'), Inclusion.stubbed);
         expect(incProto('DirectlyIncludedProtocol'), Inclusion.included);
         expect(incProto('NotIncludedSuperProtocol'), Inclusion.omitted);
         expect(incProto('NotIncludedTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('NotIncludedProtocol'), Inclusion.omitted);
-        expect(incProto('SuperFromInterfaceProtocol'), Inclusion.omitted);
+        expect(incProto('SuperFromInterfaceProtocol'), Inclusion.stubbed);
         expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.omitted);
         expect(incItf('DirectlyIncludedWithProtocol'), Inclusion.included);
 
@@ -223,7 +227,7 @@ void main() {
 
         expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
         expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);
-        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.omitted);
+        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.stubbed);
         expect(incCat('DirectlyIncludedCategory'), Inclusion.included);
         expect(incItf('DoubleTransitiveIntOfTransitiveCat'), Inclusion.omitted);
         expect(incCat('TransitiveCatOfTransitiveInt'), Inclusion.omitted);
@@ -252,7 +256,7 @@ void main() {
 
         expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
         expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);
-        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.omitted);
+        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.stubbed);
         expect(incCat('DirectlyIncludedCategory'), Inclusion.included);
         expect(incItf('DoubleTransitiveIntOfTransitiveCat'), Inclusion.omitted);
         expect(incCat('TransitiveCatOfTransitiveInt'), Inclusion.omitted);

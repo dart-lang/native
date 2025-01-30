@@ -63,8 +63,12 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
   }
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) =>
-      _visitImpl(node, config.includeTransitiveObjCInterfaces);
+  void visitObjCProtocol(ObjCProtocol node) {
+    _visitImpl(node, config.includeTransitiveObjCInterfaces);
+
+    // Same as visitObjCInterface's visit of superType.
+    visitor.visitAll(node.superProtocols);
+  }
 
   @override
   void visitBinding(Binding node) => _visitImpl(node, true);
