@@ -327,6 +327,9 @@ bool _isValidClass(ObjectPtr clazz) {
   return _allClasses.contains(clazz);
 }
 
+/// Only for use by ffigen bindings.
+abstract interface class ObjCProtocolBase implements ObjCObjectBase {}
+
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})

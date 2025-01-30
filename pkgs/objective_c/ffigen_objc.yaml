@@ -69,7 +69,15 @@ objc-interfaces:
     'DOBJCDartProxyBuilder': 'DartProxyBuilder'
 objc-protocols:
   include:
+    - NSCoding
+    - NSCopying
+    - NSFastEnumeration
+    - NSMutableCopying
+    - NSObject
+    - NSSecureCoding
     - NSStreamDelegate
+  rename:
+    'NSObject': 'NSObjectProtocol'
 objc-categories:
   include:
     - NSDataCreation

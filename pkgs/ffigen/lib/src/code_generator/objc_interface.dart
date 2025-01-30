@@ -65,7 +65,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     if (generateAsStub) {
       s.write('''
 /// WARNING: $name is a stub. To generate bindings for this class, include
-/// $name in your config's objc-interfaces list.
+/// $originalName in your config's objc-interfaces list.
 ///
 ''');
     }
@@ -74,9 +74,12 @@ class ObjCInterface extends BindingType with ObjCMethods {
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
     final superTypeIsInPkgObjc = superType == null;
+    final protoImpl = protocols.isEmpty
+        ? ''
+        : 'implements ${protocols.map((p) => p.getDartType(w)).join(', ')} ';
 
     s.write('''
-class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
+class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
   $name._($rawObjType pointer,
       {bool retain = false, bool release = false}) :
           ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}

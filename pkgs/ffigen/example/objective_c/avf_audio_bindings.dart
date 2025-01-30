@@ -195,7 +195,7 @@ enum AVAudioCommonFormat {
 /// AVAudioFormat in your config's objc-interfaces list.
 ///
 /// AVAudioFormat
-class AVAudioFormat extends objc.NSObject {
+class AVAudioFormat extends objc.NSObject implements NSSecureCoding {
   AVAudioFormat._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -886,7 +886,7 @@ class AVAudioPlayer extends objc.NSObject {
   }
 
   /// self
-  AVAudioPlayer self() {
+  AVAudioPlayer self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return AVAudioPlayer.castFromPointer(_ret, retain: true, release: true);
   }

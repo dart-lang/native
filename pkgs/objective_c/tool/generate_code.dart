@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// Runs the ffigen configs, then merges tool/data/extra_methods.dart into the
+// Runs the ffigen configs, then merges tool/data/extra_methods.dart.in into the
 // Objective C bindings.
 
 // ignore_for_file: avoid_print
@@ -15,7 +15,7 @@ const cConfig = 'ffigen_c.yaml';
 const objcConfig = 'ffigen_objc.yaml';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
-const extraMethodsFile = 'tool/data/extra_methods.dart';
+const extraMethodsFile = 'tool/data/extra_methods.dart.in';
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;

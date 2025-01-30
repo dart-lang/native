@@ -450,8 +450,9 @@ void main() {
 
     test('Filters', () {
       // SuperProtocol and FilteredProtocol's methods are included in the
-      // bindings, but there shouldn't actually be bindings for the protocols
+      // bindings, but there should only be stub bindings for the protocols
       // themselves, because they're not included by the config.
+      // FilteredUnusedProtocol shouldn't appear at all.
       final bindings = File('test/native_objc_test/protocol_bindings.dart')
           .readAsStringSync();
 
@@ -459,11 +460,20 @@ void main() {
       expect(bindings, contains('fooMethod'));
 
       expect(bindings, contains('EmptyProtocol'));
-      expect(bindings, contains('MyProtocol'));
-      expect(bindings, contains('SecondaryProtocol'));
+      expect(bindings, isNot(contains('EmptyProtocol is a stub')));
 
-      expect(bindings, isNot(contains('SuperProtocol')));
-      expect(bindings, isNot(contains('FilteredProtocol')));
+      expect(bindings, contains('MyProtocol'));
+      expect(bindings, isNot(contains('MyProtocol is a stub')));
+
+      expect(bindings, contains('SecondaryProtocol'));
+      expect(bindings, isNot(contains('SecondaryProtocol is a stub')));
+
+      expect(bindings, contains('SuperProtocol is a stub'));
+
+      expect(bindings, contains('FilteredProtocol is a stub'));
+
+      expect(bindings, isNot(contains('FilteredUnusedProtocol')));
+      expect(bindings, isNot(contains('filteredUnusedProtocolMethod')));
     });
 
     test('Unused protocol', () {
