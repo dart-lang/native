@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/logging/logging.dart';
+import 'package:jnigen/src/tools/gradle_tools.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart';
 
@@ -14,7 +15,7 @@ const jarFile = '$testName.jar';
 
 final testRoot = join('test', testName);
 final kotlinPath = join(testRoot, 'kotlin');
-final jarPath = join(kotlinPath, 'target', jarFile);
+final jarPath = join(testRoot, 'build', 'libs', jarFile);
 
 const preamble = '''
 // Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
@@ -24,14 +25,15 @@ const preamble = '''
 ''';
 
 void compileKotlinSources(String workingDir) async {
+  final gradlew = await GradleTools.getGradleWExecutable();
   final procRes = Process.runSync(
-    'mvn',
-    ['package'],
-    workingDirectory: workingDir,
+    gradlew!.path.toString(),
+    ['jar'],
+    workingDirectory: testRoot,
     runInShell: true,
   );
   if (procRes.exitCode != 0) {
-    log.fatal('mvn exited with ${procRes.exitCode}\n'
+    log.fatal('gradlew exited with ${procRes.exitCode}\n'
         '${procRes.stderr}\n'
         '${procRes.stdout}');
   }
@@ -42,6 +44,7 @@ Config getConfig() {
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
   );
+  print(Uri.file(jarPath));
   final config = Config(
     classPath: [Uri.file(jarPath)],
     classes: [
