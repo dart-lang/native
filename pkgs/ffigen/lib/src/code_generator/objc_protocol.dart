@@ -65,8 +65,9 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final protoImpl = superProtocols.isEmpty ? protocolBase :
-        superProtocols.map((p) => p.getDartType(w)).join(', ');
+    final protoImpl = superProtocols.isEmpty
+        ? protocolBase
+        : superProtocols.map((p) => p.getDartType(w)).join(', ');
     s.write('abstract interface class $name implements $protoImpl {');
 
     if (!generateAsStub) {
@@ -282,10 +283,12 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     if (other is ObjCProtocol) {
-      _isSuperProtocolOf(other);
+      return _isSuperProtocolOf(other);
     } else if (other is ObjCInterface) {
-      for (final protocol in other.protocols) {
-        if (_isSuperProtocolOf(protocol)) return true;
+      for (ObjCInterface? t = other; t != null; t = t.superType) {
+        for (final protocol in t.protocols) {
+          if (_isSuperProtocolOf(protocol)) return true;
+        }
       }
     }
     return false;

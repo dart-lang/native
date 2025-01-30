@@ -74,7 +74,8 @@ void main() {
       if (classDef && stubWarn && !hasImpl && any) return Inclusion.stubbed;
       if (classDef && !stubWarn && hasImpl && any) return Inclusion.included;
       if (!classDef && !stubWarn && !hasImpl && !any) return Inclusion.omitted;
-      throw Exception('Bad protocol: $name ($classDef, $stubWarn, $hasImpl, $any)');
+      throw Exception(
+          'Bad protocol: $name ($classDef, $stubWarn, $hasImpl, $any)');
     }
 
     Inclusion incCat(String name) {
