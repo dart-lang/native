@@ -57,29 +57,29 @@ class UserExcluder extends Visitor {
 class UserRenamer extends Visitor {
   @override
   void visitClass(ClassDecl c) {
-    if (c.binaryName.contains('Foo')) {
-      c.newName = c.binaryName.replaceAll('Foo', 'Bar');
+    if (c.originalName.contains('Foo')) {
+      c.name = c.originalName.replaceAll('Foo', 'Bar');
     }
   }
 
   @override
   void visitMethod(Method method) {
-    if (method.name.contains('Foo')) {
-      method.newName = method.name.replaceAll('Foo', 'Bar');
+    if (method.originalName.contains('Foo')) {
+      method.name = method.originalName.replaceAll('Foo', 'Bar');
     }
   }
 
   @override
   void visitField(Field field) {
-    if (field.name.contains('Foo')) {
-      field.newName = field.name.replaceAll('Foo', 'Bar');
+    if (field.originalName.contains('Foo')) {
+      field.name = field.originalName.replaceAll('Foo', 'Bar');
     }
   }
 
   @override
   void visitParam(Param parameter) {
-    if (parameter.name.contains('Foo')) {
-      parameter.newName = parameter.name.replaceAll('Foo', 'Bar');
+    if (parameter.originalName.contains('Foo')) {
+      parameter.name = parameter.originalName.replaceAll('Foo', 'Bar');
     }
   }
 }
@@ -181,8 +181,8 @@ void main() {
 
     await rename(classes);
 
-    expect(classes.decls['y.Foo']?.finalName, 'y.Bar');
     expect(classes.decls['Foo']?.finalName, 'Bar');
+    expect(classes.decls['y.Foo']?.finalName, r'Bar$1');
 
     expect(classes.decls['Foo']?.fields.finalNames,
         ['Bar', r'Bar$1', 'Bar1', r'Bar1$1']);

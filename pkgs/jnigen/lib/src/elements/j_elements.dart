@@ -31,16 +31,18 @@ class Classes implements Element {
 }
 
 class ClassDecl implements Element {
-  ClassDecl(this._classDecl) : binaryName = _classDecl.binaryName;
+  ClassDecl(this._classDecl);
   final ast.ClassDecl _classDecl;
 
-  // Ex: com.x.Foo.
-  final String binaryName;
+  String get binaryName => _classDecl.binaryName;
 
   bool get isExcluded => _classDecl.isExcluded;
   set isExcluded(bool value) => _classDecl.isExcluded = value;
 
-  set newName(String newName) => _classDecl.userDefinedName = newName;
+  String get name => _classDecl.userDefinedName ?? _classDecl.name;
+  set name(String newName) => _classDecl.userDefinedName = newName;
+
+  String get originalName => _classDecl.name;
 
   @override
   void accept(Visitor visitor) {
@@ -60,12 +62,13 @@ class Method implements Element {
 
   final ast.Method _method;
 
-  String get name => _method.name;
-
   bool get isExcluded => _method.isExcluded;
   set isExcluded(bool value) => _method.isExcluded = value;
 
-  set newName(String newName) => _method.userDefinedName = newName;
+  String get name => _method.userDefinedName ?? _method.name;
+  set name(String newName) => _method.userDefinedName = newName;
+
+  String get originalName => _method.name;
 
   @override
   void accept(Visitor visitor) {
@@ -82,9 +85,10 @@ class Param implements Element {
 
   final ast.Param _param;
 
-  String get name => _param.name;
+  String get name => _param.userDefinedName ?? _param.name;
+  set name(String newName) => _param.userDefinedName = newName;
 
-  set newName(String newName) => _param.userDefinedName = newName;
+  String get originalName => _param.name;
 
   @override
   void accept(Visitor visitor) {
@@ -97,12 +101,13 @@ class Field implements Element {
 
   final ast.Field _field;
 
-  String get name => _field.name;
-
   bool get isExcluded => _field.isExcluded;
   set isExcluded(bool value) => _field.isExcluded = value;
 
-  set newName(String newName) => _field.userDefinedName = newName;
+  String get name => _field.userDefinedName ?? _field.name;
+  set name(String newName) => _field.userDefinedName = newName;
+
+  String get originalName => _field.name;
 
   @override
   void accept(Visitor visitor) {

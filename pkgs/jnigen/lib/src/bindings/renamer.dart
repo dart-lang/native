@@ -197,10 +197,14 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
         : className;
     node.typeClassName = '\$${node.finalName}\$Type';
     node.nullableTypeClassName = '\$${node.finalName}\$NullableType';
-    node.userDefinedName == null
-        ? log.fine('Class ${node.binaryName} is named ${node.finalName}')
-        : log.warning(
-            'Class ${node.userDefinedName} is named ${node.finalName}');
+
+    if (node.userDefinedName == null ||
+        node.userDefinedName == node.finalName) {
+      log.fine('Class ${node.binaryName} is named ${node.finalName}');
+    } else {
+      log.warning('Renaming Class ${node.binaryName} to ${node.userDefinedName}'
+          ' cause a name collision. Renamed to ${node.finalName} instead.');
+    }
 
     // Rename fields before renaming methods. In case a method and a field have
     // identical names, the field will keep its original name and the
@@ -250,11 +254,16 @@ class _MethodRenamer implements Visitor<Method, void> {
       node.finalName = _renameConflict(nameCounts, name, _ElementKind.method);
       node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
     }
-    node.userDefinedName == null
-        ? log.fine('Method ${node.classDecl.binaryName}#${node.name}'
-            ' is named ${node.finalName}')
-        : log.warning('Method ${node.userDefinedName}'
-            ' is named ${node.finalName}');
+
+    if (node.userDefinedName == null ||
+        node.userDefinedName == node.finalName) {
+      log.fine('Method ${node.classDecl.binaryName}#${node.name}'
+          ' is named ${node.finalName}');
+    } else {
+      log.warning('Renaming Method ${node.classDecl.binaryName}#'
+          '${node.name} to ${node.userDefinedName} cause a name collision. '
+          'Renamed to ${node.finalName} instead.');
+    }
 
     final paramRenamer = _ParamRenamer(config);
     for (final param in node.params) {
@@ -273,11 +282,16 @@ class _FieldRenamer implements Visitor<Field, void> {
   void visit(Field node) {
     final fieldName = _preprocess(node.userDefinedName ?? node.name);
     node.finalName = _renameConflict(nameCounts, fieldName, _ElementKind.field);
-    node.userDefinedName == null
-        ? log.fine('Field ${node.classDecl.binaryName}#${node.name}'
-            ' is named ${node.finalName}')
-        : log.warning('Field ${node.userDefinedName}'
-            ' is named ${node.finalName}');
+
+    if (node.userDefinedName == null ||
+        node.userDefinedName == node.finalName) {
+      log.fine('Field ${node.classDecl.binaryName}#${node.name}'
+          ' is named ${node.finalName}');
+    } else {
+      log.warning('Renaming Field ${node.classDecl.binaryName}#${node.name}'
+          ' to ${node.userDefinedName} cause a name collision. '
+          'Renamed to ${node.finalName} instead.');
+    }
   }
 }
 
