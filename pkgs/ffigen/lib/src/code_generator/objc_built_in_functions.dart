@@ -127,13 +127,13 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInProtocols = {
-    'NSCoding',
-    'NSCopying',
-    'NSFastEnumeration',
-    'NSMutableCopying',
-    'NSObjectProtocol',
-    'NSSecureCoding',
-    'NSStreamDelegate',
+    'NSCoding': 'NSCoding',
+    'NSCopying': 'NSCopying',
+    'NSFastEnumeration': 'NSFastEnumeration',
+    'NSMutableCopying': 'NSMutableCopying',
+    'NSObject': 'NSObjectProtocol',
+    'NSSecureCoding': 'NSSecureCoding',
+    'NSStreamDelegate': 'NSStreamDelegate',
   };
   @visibleForTesting
   static const builtInCategories = {
@@ -162,8 +162,8 @@ class ObjCBuiltInFunctions {
       generateForPackageObjectiveC ? null : builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
       !generateForPackageObjectiveC && builtInEnums.contains(name);
-  bool isBuiltInProtocol(String name) =>
-      !generateForPackageObjectiveC && builtInProtocols.contains(name);
+  String? getBuiltInProtocolName(String name) =>
+      generateForPackageObjectiveC ? null : builtInProtocols[name];
   bool isBuiltInCategory(String name) =>
       !generateForPackageObjectiveC && builtInCategories.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';

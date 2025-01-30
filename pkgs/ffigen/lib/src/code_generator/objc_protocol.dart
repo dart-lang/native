@@ -32,10 +32,14 @@ class ObjCProtocol extends NoLookUpBinding with ObjCMethods {
             '_protocol_$originalName',
             (Writer w) =>
                 '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")'),
-        super(name: name ?? originalName);
+        super(
+            name: name ??
+                builtInFunctions.getBuiltInProtocolName(originalName) ??
+                originalName);
 
   @override
-  bool get isObjCImport => builtInFunctions.isBuiltInProtocol(originalName);
+  bool get isObjCImport =>
+      builtInFunctions.getBuiltInProtocolName(originalName) != null;
 
   @override
   void sort() => sortMethods();

@@ -76,7 +76,7 @@ void main() {
     });
 
     test('ObjCBuiltInFunctions.builtInProtocols', () {
-      expect(ObjCBuiltInFunctions.builtInProtocols, yamlProtocols);
+      expect(ObjCBuiltInFunctions.builtInProtocols.values, yamlProtocols);
     });
 
     test('ObjCBuiltInFunctions.builtInCategories', () {
@@ -163,8 +163,8 @@ void main() {
     });
 
     test('All code genned protocols are included in the list', () {
-      final protocolNameRegExp =
-          RegExp(r'^abstract interface class (\w+) implements objc\.ObjCProtocolBase {');
+      final protocolNameRegExp = RegExp(r'^abstract interface class (\w+) '
+          r'implements objc\.ObjCProtocolBase {');
       final allProtocolNames = <String>[];
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {
@@ -190,7 +190,8 @@ void main() {
     });
 
     test('No stubs', () {
-      final bindings = File('lib/src/objective_c_bindings_generated.dart').readAsStringSync();
+      final bindings = File('lib/src/objective_c_bindings_generated.dart')
+          .readAsStringSync();
       expect(bindings, isNot(contains(RegExp(r'\Wstub\W'))));
     });
   });
