@@ -25,26 +25,26 @@ String _getLibraryFileName(String base) {
   } else if (Platform.isMacOS) {
     return 'lib$base.dylib';
   } else {
-    throw UnsupportedError('cannot derive library name: unsupported platform');
+    throw UnsupportedError('Cannot derive library name: unsupported platform');
   }
 }
 
-/// Load Dart-JNI Helper library.
-///
-/// If path is provided, it's used to load the library.
-/// Else just the platform-specific filename is passed to DynamicLibrary.open
+/// Loads dartjni helper library.
 DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
-  final fileName = _getLibraryFileName(baseName);
-  final libPath = (dir != null) ? join(dir, fileName) : fileName;
-  final file = File(libPath);
-  if (!file.existsSync()) {
-    throw HelperNotFoundError(libPath);
+  var fileName = _getLibraryFileName(baseName);
+  if (!Platform.isAndroid) {
+    if (dir != null) {
+      fileName = join(dir, fileName);
+    }
+    final file = File(fileName);
+    if (!file.existsSync()) {
+      throw HelperNotFoundError(fileName);
+    }
   }
   try {
-    final dylib = DynamicLibrary.open(libPath);
-    return dylib;
+    return DynamicLibrary.open(fileName);
   } catch (_) {
-    throw DynamicLibraryLoadError(libPath);
+    throw DynamicLibraryLoadError(fileName);
   }
 }
 
