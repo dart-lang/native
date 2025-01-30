@@ -8009,7 +8009,7 @@ class NSRunLoop extends objc.ObjCObjectBase {
 }
 
 /// NSSecureCoding
-abstract interface class NSSecureCoding implements objc.ObjCProtocolBase {
+abstract interface class NSSecureCoding implements NSCoding {
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   static objc.ObjCObjectBase implement(
@@ -8436,7 +8436,7 @@ class NSStream extends NSObject {
 }
 
 /// NSStreamDelegate
-abstract interface class NSStreamDelegate implements objc.ObjCProtocolBase {
+abstract interface class NSStreamDelegate implements NSObjectProtocol {
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   static objc.ObjCObjectBase implement(

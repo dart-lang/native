@@ -4,6 +4,7 @@
   `toString()` to `toDartString()`.
 - Add `ObjCProtocolBase`, which all code genned protocols implement.
 - Add various ObjC categories (extension methods) to the built in classes.
+- Add various ObjC protocols to the bindings.
 - Make all visible API types public.
 
 ## 4.1.0

@@ -196,44 +196,12 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
           included)
       .directTransitives;
 
-  // print("\n=== directlyIncluded:");
-  // print(directlyIncluded
-  //     .where((t) => t.name == 'NSCopying')
-  //     .map((b) => b.name)
-  //     .join('\n'));
-  // print("\n=== indirectlyIncluded:");
-  // print(filterResults.indirectlyIncluded
-  //     .where((t) => t.name == 'NSCopying')
-  //     .map((b) => b.name)
-  //     .join('\n'));
-  // print("\n=== included:");
-  // print(included
-  //     .where((t) => t.name == 'NSCopying')
-  //     .map((b) => b.name)
-  //     .join('\n'));
-  // print("\n=== transitives:");
-  // print(transitives
-  //     .where((t) => t.name == 'NSCopying')
-  //     .map((b) => b.name)
-  //     .join('\n'));
-  // print("\n=== directTransitives:");
-  // print(directTransitives
-  //     .where((t) => t.name == 'NSCopying')
-  //     .map((b) => b.name)
-  //     .join('\n'));
-
   final finalBindings = visit(
           ListBindingsVisitation(
               config, included, transitives, directTransitives),
           bindings)
       .bindings;
   visit(MarkBindingsVisitation(finalBindings), bindings);
-
-  // print("\n=== Final bindings:");
-  // print(finalBindings
-  //     .where((t) => t.name == 'NSCopying')
-  //     .map((b) => b.name)
-  //     .join('\n'));
 
   final finalBindingsList = finalBindings.toList();
 
