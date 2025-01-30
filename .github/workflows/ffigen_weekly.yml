@@ -32,11 +32,10 @@ jobs:
         with:
           channel: 'stable'
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c"
+        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
       - name: Build test dylib and bindings
         run: dart test/setup.dart --main-thread-dispatcher
       - name: Run VM tests
         run: flutter test
       - name: Generate package:jni bindings
-        run: flutter pub get && dart run tool/generate_ffi_bindings.dart
-        working-directory: ../jni
+        run: dart run ../jni/tool/generate_ffi_bindings.dart
