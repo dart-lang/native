@@ -33,6 +33,10 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+      - name: Install clang-format
+        uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
+        with:
+          brew: clang-format
       - name: Build test dylib and bindings
         run: dart test/setup.dart --main-thread-dispatcher
       - name: Run VM tests
