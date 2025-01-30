@@ -127,6 +127,12 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInProtocols = {
+    'NSCoding',
+    'NSCopying',
+    'NSFastEnumeration',
+    'NSMutableCopying',
+    'NSObjectProtocol',
+    'NSSecureCoding',
     'NSStreamDelegate',
   };
   @visibleForTesting

@@ -65,7 +65,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     if (generateAsStub) {
       s.write('''
 /// WARNING: $name is a stub. To generate bindings for this class, include
-/// $name in your config's objc-interfaces list.
+/// $originalName in your config's objc-interfaces list.
 ///
 ''');
     }
