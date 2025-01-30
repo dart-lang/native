@@ -30,7 +30,7 @@ dependencies:
 dev_dependencies:
   dart_flutter_team_lints: ^3.2.0
   ## Pin ffigen version because we are depending on internal APIs.
-  ffigen: 8.0.2
+  ffigen: 16.1.0
   logging: ^1.2.0
   test: ^1.25.8
 
@@ -46,3 +46,7 @@ flutter:
         ffiPlugin: true
         package: com.github.dart_lang.jni
         pluginClass: JniPlugin
+
+dependency_overrides:
+  ffigen:
+    path: ../ffigen
