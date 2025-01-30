@@ -163,8 +163,7 @@ void main() {
     });
 
     test('All code genned protocols are included in the list', () {
-      final protocolNameRegExp = RegExp(r'^abstract interface class (\w+) '
-          r'implements objc\.ObjCProtocolBase {');
+      final protocolNameRegExp = RegExp(r'^abstract interface class (\w+) ');
       final allProtocolNames = <String>[];
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {
