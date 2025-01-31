@@ -8460,7 +8460,7 @@ class NSStream extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_delegate);
     return _ret.address == 0
         ? null
-        : NSStreamDelegate(_ret, retain: true, release: true);
+        : NSStreamDelegate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// init
@@ -8536,8 +8536,7 @@ class NSStream extends NSObject {
 }
 
 /// NSStreamDelegate
-interface class NSStreamDelegate extends objc.ObjCProtocolBase
-    implements NSStreamDelegate {
+interface class NSStreamDelegate extends objc.ObjCProtocolBase {
   NSStreamDelegate._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super(pointer, retain: retain, release: release);
@@ -12377,13 +12376,12 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
           objc.newClosureBlock(
               _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable,
-              (ffi.Pointer<objc.ObjCObject> arg0,
-                      ffi.Pointer<objc.ObjCObject> arg1) =>
-                  fn(
-                      arg0.address == 0
-                          ? null
-                          : NSSecureCoding(arg0, retain: true, release: true),
-                      NSError.castFromPointer(arg1, retain: true, release: true))),
+              (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                  arg0.address == 0
+                      ? null
+                      : NSSecureCoding.castFromPointer(arg0,
+                          retain: true, release: true),
+                  NSError.castFromPointer(arg1, retain: true, release: true))),
           retain: false,
           release: true);
 
@@ -12408,7 +12406,8 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
             fn(
                 arg0.address == 0
                     ? null
-                    : NSSecureCoding(arg0, retain: false, release: true),
+                    : NSSecureCoding.castFromPointer(arg0,
+                        retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
@@ -12438,7 +12437,8 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
             fn(
                 arg0.address == 0
                     ? null
-                    : NSSecureCoding(arg0, retain: false, release: true),
+                    : NSSecureCoding.castFromPointer(arg0,
+                        retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)));
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable
@@ -12449,7 +12449,8 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
             fn(
                 arg0.address == 0
                     ? null
-                    : NSSecureCoding(arg0, retain: false, release: true),
+                    : NSSecureCoding.castFromPointer(arg0,
+                        retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_pfv6jd, raw, rawListener);
