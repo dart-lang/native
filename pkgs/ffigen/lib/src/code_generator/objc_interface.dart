@@ -73,7 +73,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
-    final superTypeIsInPkgObjc = superType == null;
     final protoImpl = protocols.isEmpty
         ? ''
         : 'implements ${protocols.map((p) => p.getDartType(w)).join(', ')} ';

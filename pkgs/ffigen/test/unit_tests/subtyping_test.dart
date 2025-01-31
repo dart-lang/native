@@ -130,8 +130,8 @@ void main() {
 
       test('loop', () {
         final loop = ObjCProtocol(
-          usr: "Loop",
-          originalName: "Loop",
+          usr: 'Loop',
+          originalName: 'Loop',
           builtInFunctions: builtInFunctions,
         );
         loop.superProtocols.add(loop);
