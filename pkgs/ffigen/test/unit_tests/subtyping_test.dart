@@ -128,6 +128,19 @@ void main() {
         expect(proto3.isSupertypeOf(proto1), isFalse);
       });
 
+      test('loop', () {
+        final loop = ObjCProtocol(
+          usr: "Loop",
+          originalName: "Loop",
+          builtInFunctions: builtInFunctions,
+        );
+        loop.superProtocols.add(loop);
+
+        expect(loop.isSupertypeOf(loop), isTrue);
+        expect(loop.isSupertypeOf(proto1), isFalse);
+        expect(proto1.isSupertypeOf(loop), isFalse);
+      });
+
       test('vs ObjCInterface', () {
         expect(grandparent.isSubtypeOf(protoSub12), isTrue);
         expect(grandparent.isSubtypeOf(protoSub1), isTrue);
