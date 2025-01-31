@@ -78,11 +78,6 @@ bool _parseVariableThrows(Json json) {
 bool _parseVariableAsync(Json json) {
   final async = json['declarationFragments']
       .any((frag) => matchFragment(frag, 'keyword', 'async'));
-  if (async) {
-    // TODO(https://github.com/dart-lang/native/issues/1778): Support async
-    // getters.
-    throw Exception("Async getters aren't supported yet, at ${json.path}");
-  }
   return async;
 }
 

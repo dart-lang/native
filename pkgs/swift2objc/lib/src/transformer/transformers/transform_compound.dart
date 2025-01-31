@@ -62,15 +62,14 @@ ClassDeclaration transformCompound(
       .nonNulls
       .toList();
 
-  transformedCompound.initializers = originalCompound.initializers
+  final transformedInitializers = originalCompound.initializers
       .map((initializer) => transformInitializer(
             initializer,
             wrappedCompoundInstance,
             parentNamer,
             transformationMap,
           ))
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+      .toList();
 
   final transformedMethods = originalCompound.methods
       .map((method) => transformMethod(
@@ -87,8 +86,14 @@ ClassDeclaration transformCompound(
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
+  transformedCompound.initializers = transformedInitializers
+      .whereType<InitializerDeclaration>()
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
   transformedCompound.methods = (transformedMethods +
-      transformedProperties.whereType<MethodDeclaration>().toList())
+      transformedProperties.whereType<MethodDeclaration>().toList() +
+      transformedInitializers.whereType<MethodDeclaration>().toList())
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedCompound;
