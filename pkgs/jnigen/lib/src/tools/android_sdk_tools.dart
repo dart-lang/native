@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
+import '../../tools.dart';
 import '../logging/logging.dart';
 
 class _AndroidToolsException implements Exception {
@@ -167,6 +168,40 @@ task $_gradleGetSourcesTaskName(type: Copy) {
     return script.contains(stub) ? script : script + stub;
   }
 
+  // Attempts to locate a gradlew executable
+  // First looking in immediate working director
+  // Then android project subdirectory
+  // And finally in local jnigen directory (for now)
+  // When merged, gradlew will be in pub-cache 
+  // and use that as fallback lookup
+  static File? locateGradleW() {
+    final gradleCommandToLocate = Platform.isWindows ? 'gradlew.bat' : 'gradlew';
+    if (File(gradleCommandToLocate).existsSync()) {
+      return File(gradleCommandToLocate);
+    }
+    // Look in android directory
+    final androidDirGradleWrapper = File(
+        join(Directory.current.path, 'android', gradleCommandToLocate));
+    if (androidDirGradleWrapper.existsSync()) {
+      return androidDirGradleWrapper;
+    }
+    // TODO replace with pub-cache lookup after merge
+    if (Directory.current.path.contains('jnigen')) {
+      final parts = Directory.current.path.split(Platform.pathSeparator);
+      int jnigenLocation = parts.indexOf('jnigen');
+      final buffer = StringBuffer();
+      for (int i = 0; i<=jnigenLocation; i++) {
+        buffer.write(parts[i] + Platform.pathSeparator);
+      }
+      log.info(buffer);
+      final jniGradle = File(join(buffer.toString(), gradleCommandToLocate));
+      if (jniGradle.existsSync()) {
+        return jniGradle;
+      }
+    }
+    return null;
+  }
+
   static List<String> _runGradleStub({
     required String stubName,
     required String stubCode,
@@ -187,10 +222,19 @@ task $_gradleGetSourcesTaskName(type: Copy) {
     log.finer('Writing temporary gradle script with stub "$stubName"...');
     origBuild.writeAsStringSync(_appendStub(script, stubCode));
     log.finer('Running gradle wrapper...');
-    final gradleCommand = Platform.isWindows ? '.\\gradlew.bat' : './gradlew';
+    log.info('Current dir: ${Directory.current.path}');
+    final gradleCommand = locateGradleW();
+    log.info(gradleCommand);
     ProcessResult procRes;
     try {
-      procRes = Process.runSync(gradleCommand, ['-q', stubName],
+      if(gradleCommand == null){
+        throw GradleException('''\n\nGradle execution failed.
+        
+Could not locate gradlew(.bat)
+''');
+      }
+
+      procRes = Process.runSync(gradleCommand.path, ['-q', stubName],
           workingDirectory: android, runInShell: true);
     } finally {
       log.info('Restoring build scripts');

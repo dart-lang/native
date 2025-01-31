@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:jnigen/jnigen.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' hide equals;
@@ -38,7 +40,7 @@ Config getConfig({
     mavenDownloads: MavenDownloads(
       sourceDeps: deps,
       sourceDir: join(thirdPartyDir, 'java'),
-      jarDir: join(thirdPartyDir, 'jar'),
+      jarDir: File(join(thirdPartyDir, 'jar')).absolute.path,
     ),
     summarizerOptions: SummarizerOptions(
       backend: useAsm ? SummarizerBackend.asm : null,

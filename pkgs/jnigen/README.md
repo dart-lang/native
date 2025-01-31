@@ -149,8 +149,6 @@ Dart standalone target is supported, but due to some problems with pubspec forma
 
 **Use JDK versions 11 to 17. The newer versions will not work because of their lack of [compatibility](https://docs.gradle.org/current/userguide/compatibility.html) with Gradle.**
 
-Along with JDK, maven (`mvn` command) is required. On windows, it can be installed using a package manager such as [chocolatey](https://community.chocolatey.org/packages/maven) or [scoop](https://scoop.sh/#/apps?q=maven).
-
 __On windows, append the path of `jvm.dll` in your JDK installation to PATH.__
 
 For example, on Powershell:

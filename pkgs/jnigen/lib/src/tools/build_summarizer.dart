@@ -18,37 +18,51 @@ import '../util/find_package.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');
-final jarFile = join(toolPath, 'ApiSummarizer.jar');
-final targetJarFile = join(mvnTargetDir, 'ApiSummarizer.jar');
+final gradleBuildDir = join('.','java', 'build');
+final gradleTargetDir = join(gradleBuildDir, 'libs');
+final jarFile = join(gradleTargetDir, 'ApiSummarizer.jar');
+final targetJarFile = join(toolPath, 'ApiSummarizer.jar');
+
+Future<Uri?> getGradleWExecutable() async{
+  final pkg = await findPackageRoot('jnigen');
+  if (Platform.isLinux || Platform.isMacOS) {
+    return pkg!.resolve('gradlew');
+  } else if (Platform.isWindows) {
+    return pkg!.resolve('gradlew.bat');
+  }
+  return null;
+}
 
 Future<void> buildApiSummarizer() async {
   final pkg = await findPackageRoot('jnigen');
   if (pkg == null) {
     log.fatal('package jnigen not found!');
   }
-  final pom = pkg.resolve('java/pom.xml');
+  final gradleFile = pkg.resolve('java/build.gradle.kts');
+  final gradleWrapper = await getGradleWExecutable();
   await Directory(toolPath).create(recursive: true);
-  final mvnArgs = [
-    'compile',
-    '--batch-mode',
-    '--update-snapshots',
-    '-f',
-    pom.toFilePath(),
+  final gradleArgs = [
+    '-b',
+    gradleFile.toFilePath(),
+    'buildFatJar',       // from ktor plugin
+    '-x', 'test'   // ignore failing tests
   ];
-  log.info('execute mvn ${mvnArgs.join(" ")}');
+
   try {
-    final mvnProc = await Process.run('mvn', mvnArgs,
+    final gradleProc = await Process.run(gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath, runInShell: true);
-    final exitCode = mvnProc.exitCode;
+    final exitCode = gradleProc.exitCode;
+    final sourceJar = File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
+
     if (exitCode == 0) {
-      await File(targetJarFile).rename(jarFile);
+      sourceJar.copySync(targetJarFile);
     } else {
-      printError(mvnProc.stdout);
-      printError(mvnProc.stderr);
-      printError('maven exited with $exitCode');
+      printError(gradleProc.stdout);
+      printError(gradleProc.stderr);
+      printError('gradle exited with $exitCode');
     }
   } finally {
-    await Directory(mvnTargetDir).delete(recursive: true);
+
   }
 }
 
@@ -57,10 +71,10 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   // will start building summarizer at once. Introduce a locking mechnanism so
   // that when one process is building summarizer JAR, other process waits using
   // exponential backoff.
-  final jarExists = await File(jarFile).exists();
+  final jarExists = await File(targetJarFile).exists();
   final isJarStale = jarExists &&
       await isPackageModifiedAfter(
-          'jnigen', await File(jarFile).lastModified(), 'java/');
+          'jnigen', await File(targetJarFile).lastModified(), 'java/');
   if (isJarStale) {
     log.info('Rebuilding ApiSummarizer component since sources '
         'have changed. This might take some time.');

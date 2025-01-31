@@ -3,3 +3,5 @@ test_src/
 mvn_java/
 mvn_jar/
 target/
+jnigen_summary*/
+jnigen_test*/
