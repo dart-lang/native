@@ -106,6 +106,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java byte array', () {
     using((arena) {
+      expect(JByteArray.from([]), isEmpty);
+      expect(JByteArray.from([1]), containsAllInOrder([1]));
+      expect(JByteArray.from([1, 2]), containsAllInOrder([1, 2]));
+      expect(JByteArray.from([-1, -2]), containsAllInOrder([-1, -2]));
+      expect(JByteArray.from([127, 128, 129]),
+          containsAllInOrder([127, -128, -127]));
+
       final array = JByteArray(3)..releasedBy(arena);
       var counter = 0;
       for (final element in array) {
