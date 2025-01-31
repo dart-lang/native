@@ -329,8 +329,7 @@ bool _isValidClass(ObjectPtr clazz) {
 
 /// Only for use by ffigen bindings.
 class ObjCProtocolBase extends ObjCObjectBase {
-  ObjCProtocolBase(ObjectPtr ptr, {required bool retain, required bool release})
-      : super(ptr, retain: retain, release: release);
+  ObjCProtocolBase(super.ptr, {required super.retain, required super.release});
 }
 
 @pragma('vm:deeply-immutable')
