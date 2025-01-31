@@ -218,6 +218,16 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
   String cacheKey() => 'id<${protocols.map((p) => p.cacheKey()).join(', ')}>';
 
   @override
+  String convertFfiDartTypeToDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) =>
+      protocols.first.convertFfiDartTypeToDartType(w, value,
+          objCRetain: objCRetain, objCEnclosingClass: objCEnclosingClass);
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(protocols);

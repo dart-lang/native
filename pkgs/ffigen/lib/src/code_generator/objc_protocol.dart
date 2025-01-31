@@ -77,8 +77,10 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final protoImpls = superProtocols.map((p) => p.getDartType(w)).join(', ');
-    final protoImpl = superProtocols.isEmpty ? '' : 'implements $protoImpls';
+    final sp = superProtocols.where((p) => p != this);
+    final protoImpl = sp.isEmpty
+        ? ''
+        : 'implements ${sp.map((p) => p.getDartType(w)).join(', ')}';
     s.write('''
 interface class $name extends $protocolBase $protoImpl{
   $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
@@ -298,8 +300,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      ObjCInterface.generateConstructor(
-          '${w.objcPkgPrefix}.ObjCObjectBase', value, objCRetain);
+      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 
   @override
   String? generateRetain(String value) =>
