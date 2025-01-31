@@ -1,3 +1,8 @@
+## 0.14.0-wip
+
+- Fixed a bug where the source parser would not have all of the type paremeters
+  of the types.
+
 ## 0.13.1
 
 - Fixed a bug where Kotlin wildcards would crash the code generation.

@@ -7,6 +7,7 @@ package com.github.dart_lang.jnigen.apisummarizer.doclet;
 import com.github.dart_lang.jnigen.apisummarizer.elements.*;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
 import com.sun.source.doctree.DocCommentTree;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -144,10 +145,22 @@ public class ElementBuilders {
                   ? env.elements.getBinaryName((TypeElement) element).toString()
                   : element.getSimpleName().toString();
           assert (type instanceof DeclaredType);
-          List<TypeUsage> params =
+          List<TypeUsage> params = new ArrayList<>();
+          List<Integer> typeParamIndices = new ArrayList<>();
+          var enclosingType = ((DeclaredType) type).getEnclosingType();
+          if (enclosingType instanceof DeclaredType) {
+            var enclosingTypeUsage = (TypeUsage.DeclaredType) typeUsage(enclosingType).type;
+            params.addAll(enclosingTypeUsage.params);
+            typeParamIndices.addAll(enclosingTypeUsage.typeParamIndices);
+          }
+          if (!params.isEmpty()) {
+            typeParamIndices.add(params.size());
+          }
+          params.addAll(
               ((DeclaredType) type)
-                  .getTypeArguments().stream().map(this::typeUsage).collect(Collectors.toList());
+                  .getTypeArguments().stream().map(this::typeUsage).collect(Collectors.toList()));
           u.type = new TypeUsage.DeclaredType(name, element.getSimpleName().toString(), params);
+          ((TypeUsage.DeclaredType) u.type).typeParamIndices = typeParamIndices;
           break;
         }
       case TYPEVAR:

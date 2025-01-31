@@ -11,7 +11,7 @@
   `Iterable`.
 - Added `JObject.isA`, which checks whether a `JObject` is a instance of a
   java class.
-- Do not require JWT when building for desktop.
+- Do not require JAWT when building for desktop.
 - Added `JByteArray.from`, which allows a `JByteArray` to be constructed
   from an `Iterable<int>`.
 
