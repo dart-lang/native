@@ -36,20 +36,27 @@ void main() {
     group('ObjC implementation', () {
       test('Method implementation', () {
         final protocolImpl = ObjCProtocolImpl.new1();
+        final MyProtocol asMyProtocol = protocolImpl;
+        final SecondaryProtocol asSecondaryProtocol = protocolImpl;
+
         final consumer = ProtocolConsumer.new1();
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(protocolImpl);
+        final result = consumer.callInstanceMethod_(asMyProtocol);
         expect(
             result.toDartString(), 'ObjCProtocolImpl: Hello from ObjC: 3.14');
 
         // Optional instance method.
-        final intResult = consumer.callOptionalMethod_(protocolImpl);
+        final intResult = consumer.callOptionalMethod_(asMyProtocol);
         expect(intResult, 579);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(protocolImpl);
+        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
         expect(otherIntResult, 10);
+
+        // Method using two protocols.
+        final twoMethodResult = consumer.callTwoMethods_(asMyProtocol);
+        expect(twoMethodResult, 579);
       });
 
       test('Method implementation, invoke from Dart', () {
@@ -109,7 +116,7 @@ void main() {
       test('Method implementation', () {
         final consumer = ProtocolConsumer.new1();
 
-        final myProtocol = MyProtocol.implement(
+        final MyProtocol myProtocol = MyProtocol.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
             return 'MyProtocol: ${s.toDartString()}: $x'.toNSString();
           },
@@ -131,23 +138,35 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.addToBuilder(protocolBuilder,
-            instanceMethod_withDouble_: (NSString s, double x) {
-          return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
-        });
+        MyProtocol.addToBuilder(
+          protocolBuilder,
+          instanceMethod_withDouble_: (NSString s, double x) {
+            return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
+          },
+          optionalMethod_: (SomeStruct s) {
+            return s.y - s.x;
+          },
+        );
         SecondaryProtocol.addToBuilder(protocolBuilder,
             otherMethod_b_c_d_: (int a, int b, int c, int d) {
           return a * b * c * d;
         });
         final protocolImpl = protocolBuilder.build();
+        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol =
+            SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(protocolImpl);
+        final result = consumer.callInstanceMethod_(asMyProtocol);
         expect(result.toDartString(), 'ProtocolBuilder: Hello from ObjC: 3.14');
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(protocolImpl);
+        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
         expect(otherIntResult, 24);
+
+        // Method using two protocols.
+        final twoMethodResult = consumer.callTwoMethods_(asMyProtocol);
+        expect(twoMethodResult, 222000);
       });
 
       test('Multiple protocol implementation using method fields', () {
@@ -163,20 +182,23 @@ void main() {
           return a * b * c * d;
         });
         final protocolImpl = protocolBuilder.build();
+        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol =
+            SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(protocolImpl);
+        final result = consumer.callInstanceMethod_(asMyProtocol);
         expect(result.toDartString(), 'ProtocolBuilder: Hello from ObjC: 3.14');
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(protocolImpl);
+        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
         expect(otherIntResult, 24);
       });
 
       test('Unimplemented method', () {
         final consumer = ProtocolConsumer.new1();
 
-        final myProtocol = MyProtocol.implement(
+        final MyProtocol myProtocol = MyProtocol.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
             throw UnimplementedError();
           },
@@ -191,7 +213,7 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final listenerCompleter = Completer<int>();
-        final myProtocol = MyProtocol.implementAsListener(
+        final MyProtocol myProtocol = MyProtocol.implementAsListener(
           instanceMethod_withDouble_: (NSString s, double x) {
             return 'MyProtocol: ${s.toDartString()}: $x'.toNSString();
           },
@@ -235,17 +257,20 @@ void main() {
           return a * b * c * d;
         });
         final protocolImpl = protocolBuilder.build();
+        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol =
+            SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(protocolImpl);
+        final result = consumer.callInstanceMethod_(asMyProtocol);
         expect(result.toDartString(), 'ProtocolBuilder: Hello from ObjC: 3.14');
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(protocolImpl);
+        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
         expect(otherIntResult, 24);
 
         // Listener method.
-        consumer.callMethodOnRandomThread_(protocolImpl);
+        consumer.callMethodOnRandomThread_(asMyProtocol);
         expect(await listenerCompleter.future, 123);
       });
 
@@ -261,7 +286,7 @@ void main() {
         final consumer = ProtocolConsumer.new1();
 
         final listenerCompleter = Completer<int>();
-        final myProtocol = MyProtocol.implementAsBlocking(
+        final MyProtocol myProtocol = MyProtocol.implementAsBlocking(
           instanceMethod_withDouble_: (NSString s, double x) {
             throw UnimplementedError();
           },
@@ -302,13 +327,16 @@ void main() {
           return a * b * c * d;
         });
         final protocolImpl = protocolBuilder.build();
+        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol =
+            SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(protocolImpl);
+        final otherIntResult = consumer.callOtherMethod_(asMyProtocol);
         expect(otherIntResult, 24);
 
         // Blocking method.
-        consumer.callBlockingMethodOnRandomThread_(protocolImpl);
+        consumer.callBlockingMethodOnRandomThread_(asSecondaryProtocol);
         expect(await listenerCompleter.future, 98765);
       });
     });
@@ -352,27 +380,35 @@ void main() {
             otherSel, otherSignature, otherBlock.ref.pointer.cast());
 
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+        final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
+        final SecondaryProtocol asSecondaryProtocol =
+            SecondaryProtocol.castFrom(proxy);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(proxy);
+        final result = consumer.callInstanceMethod_(asMyProtocol);
         expect(result.toDartString(), "DartProxy: Hello from ObjC: 3.14");
 
         // Optional instance method.
-        final intResult = consumer.callOptionalMethod_(proxy);
+        final intResult = consumer.callOptionalMethod_(asMyProtocol);
         expect(intResult, 333);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(proxy);
+        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
         expect(otherIntResult, 24);
+
+        // Method using two protocols.
+        final twoMethodResult = consumer.callTwoMethods_(asMyProtocol);
+        expect(twoMethodResult, 222000);
       });
 
       test('Unimplemented method', () {
         final proxyBuilder = DartProxyBuilder.new1();
         final consumer = ProtocolConsumer.new1();
         final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+        final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
 
         // Optional instance method, not implemented.
-        final intResult = consumer.callOptionalMethod_(proxy);
+        final intResult = consumer.callOptionalMethod_(asMyProtocol);
         expect(intResult, -999);
       });
 
@@ -389,9 +425,10 @@ void main() {
         });
 
         final proxy = protocolBuilder.build();
+        final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
 
         for (int i = 0; i < 1000; ++i) {
-          consumer.callMethodOnRandomThread_(proxy);
+          consumer.callMethodOnRandomThread_(asMyProtocol);
         }
         await completer.future;
         expect(count, 1000);
@@ -492,6 +529,15 @@ void main() {
           () => MyProtocol.disabledMethod
               .implement(ObjCProtocolBuilder(), () => 123),
           throwsA(isA<FailedToLoadProtocolMethodException>()));
+    });
+
+    test('conformsTo', () {
+      final inst = ObjCProtocolImpl.new1();
+      expect(NSObjectProtocol.conformsTo(inst), isTrue);
+      expect(MyProtocol.conformsTo(inst), isTrue);
+      expect(SecondaryProtocol.conformsTo(inst), isTrue);
+      expect(EmptyProtocol.conformsTo(inst), isFalse);
+      expect(UnusedProtocol.conformsTo(inst), isFalse);
     });
   });
 }

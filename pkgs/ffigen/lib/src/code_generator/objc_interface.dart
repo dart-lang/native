@@ -78,21 +78,15 @@ class ObjCInterface extends BindingType with ObjCMethods {
         ? ''
         : 'implements ${protocols.map((p) => p.getDartType(w)).join(', ')} ';
 
+    final superCtor = superType == null
+        ? 'super'
+        : superType!.isObjCImport
+            ? 'super.castFromPointer'
+            : 'super._';
     s.write('''
 class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
-  $name._($rawObjType pointer,
-      {bool retain = false, bool release = false}) :
-          ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}
-              (pointer, retain: retain, release: release);
-
-  /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($wrapObjType other) :
-      this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [$name] that wraps the given raw object pointer.
-  $name.castFromPointer($rawObjType other,
-      {bool retain = false, bool release = false}) :
-      this._(other, retain: retain, release: release);
+  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
+          $superCtor(pointer, retain: retain, release: release);
 
 ${generateAsStub ? '' : _generateMethods(w)}
 }
@@ -104,10 +98,20 @@ ${generateAsStub ? '' : _generateMethods(w)}
   }
 
   String _generateMethods(Writer w) {
+    final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
     final s = StringBuffer();
 
     s.write('''
+  /// Constructs a [$name] that points to the same underlying object as [other].
+  $name.castFrom($wrapObjType other) :
+      this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [$name] that wraps the given raw object pointer.
+  $name.castFromPointer($rawObjType other,
+      {bool retain = false, bool release = false}) :
+      this._(other, retain: retain, release: release);
+
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
     return ${_isKindOfClassMsgSend.invoke(

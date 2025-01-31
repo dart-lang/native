@@ -165,7 +165,7 @@ external ffi.Pointer<objc.ObjCBlockImpl>
 class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   DartInputStreamAdapter._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [DartInputStreamAdapter] that points to the same underlying object as [other].
   DartInputStreamAdapter.castFrom(objc.ObjCObjectBase other)
@@ -282,7 +282,7 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
 class DartProxy extends NSProxy {
   DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [DartProxy] that points to the same underlying object as [other].
   DartProxy.castFrom(objc.ObjCObjectBase other)
@@ -362,7 +362,7 @@ class DartProxy extends NSProxy {
 class DartProxyBuilder extends NSObject {
   DartProxyBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [DartProxyBuilder] that points to the same underlying object as [other].
   DartProxyBuilder.castFrom(objc.ObjCObjectBase other)
@@ -443,7 +443,7 @@ class NSArray extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSArray] that points to the same underlying object as [other].
   NSArray.castFrom(objc.ObjCObjectBase other)
@@ -614,7 +614,7 @@ class NSCharacterSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSCharacterSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSCharacterSet] that points to the same underlying object as [other].
   NSCharacterSet.castFrom(objc.ObjCObjectBase other)
@@ -892,16 +892,35 @@ class NSCoder extends objc.ObjCObjectBase {
 }
 
 /// NSCoding
-abstract interface class NSCoding implements objc.ObjCProtocolBase {
+interface class NSCoding extends objc.ObjCProtocolBase {
+  NSCoding._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSCoding] that points to the same underlying object as [other].
+  NSCoding.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSCoding] that wraps the given raw object pointer.
+  NSCoding.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSCoding].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSCoding);
+  }
+
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCoding protocol to an existing
@@ -916,13 +935,13 @@ abstract interface class NSCoding implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implementAsListener(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCoding protocol to an existing
@@ -938,13 +957,13 @@ abstract interface class NSCoding implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implementAsBlocking(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCoding protocol to an existing
@@ -1012,15 +1031,34 @@ enum NSComparisonResult {
 }
 
 /// NSCopying
-abstract interface class NSCopying implements objc.ObjCProtocolBase {
+interface class NSCopying extends objc.ObjCProtocolBase {
+  NSCopying._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSCopying] that points to the same underlying object as [other].
+  NSCopying.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSCopying] that wraps the given raw object pointer.
+  NSCopying.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSCopying].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSCopying);
+  }
+
   /// Builds an object that implements the NSCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           copyWithZone_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCopying.copyWithZone_.implement(builder, copyWithZone_);
-    return builder.build();
+    return NSCopying.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCopying protocol to an existing
@@ -1053,7 +1091,7 @@ class NSData extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSData._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSData] that points to the same underlying object as [other].
   NSData.castFrom(objc.ObjCObjectBase other)
@@ -1480,7 +1518,7 @@ enum NSDataWritingOptions {
 class NSDate extends NSObject implements NSCopying, NSSecureCoding {
   NSDate._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSDate] that points to the same underlying object as [other].
   NSDate.castFrom(objc.ObjCObjectBase other)
@@ -1646,7 +1684,7 @@ class NSDictionary extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSDictionary] that points to the same underlying object as [other].
   NSDictionary.castFrom(objc.ObjCObjectBase other)
@@ -1847,7 +1885,7 @@ enum NSEnumerationOptions {
 class NSEnumerator extends NSObject implements NSFastEnumeration {
   NSEnumerator._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSEnumerator] that points to the same underlying object as [other].
   NSEnumerator.castFrom(objc.ObjCObjectBase other)
@@ -1912,7 +1950,7 @@ class NSEnumerator extends NSObject implements NSFastEnumeration {
 class NSError extends NSObject implements NSCopying, NSSecureCoding {
   NSError._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSError] that points to the same underlying object as [other].
   NSError.castFrom(objc.ObjCObjectBase other)
@@ -3183,17 +3221,36 @@ extension NSExtendedSet on NSSet {
 }
 
 /// NSFastEnumeration
-abstract interface class NSFastEnumeration implements objc.ObjCProtocolBase {
+interface class NSFastEnumeration extends objc.ObjCProtocolBase {
+  NSFastEnumeration._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSFastEnumeration] that points to the same underlying object as [other].
+  NSFastEnumeration.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSFastEnumeration] that wraps the given raw object pointer.
+  NSFastEnumeration.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSFastEnumeration].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSFastEnumeration);
+  }
+
   /// Builds an object that implements the NSFastEnumeration protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSFastEnumeration implement(
       {required int Function(ffi.Pointer<NSFastEnumerationState>,
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)
           countByEnumeratingWithState_objects_count_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSFastEnumeration.countByEnumeratingWithState_objects_count_
         .implement(builder, countByEnumeratingWithState_objects_count_);
-    return builder.build();
+    return NSFastEnumeration.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSFastEnumeration protocol to an existing
@@ -3248,7 +3305,7 @@ class NSIndexSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSIndexSet] that points to the same underlying object as [other].
   NSIndexSet.castFrom(objc.ObjCObjectBase other)
@@ -3440,7 +3497,7 @@ class NSIndexSet extends NSObject
 class NSInputStream extends NSStream {
   NSInputStream._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSInputStream] that points to the same underlying object as [other].
   NSInputStream.castFrom(objc.ObjCObjectBase other)
@@ -3554,7 +3611,7 @@ class NSInvocation extends objc.ObjCObjectBase {
 class NSItemProvider extends NSObject implements NSCopying {
   NSItemProvider._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSItemProvider] that points to the same underlying object as [other].
   NSItemProvider.castFrom(objc.ObjCObjectBase other)
@@ -3830,7 +3887,7 @@ class NSLocale extends objc.ObjCObjectBase {
 class NSMethodSignature extends NSObject {
   NSMethodSignature._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMethodSignature] that points to the same underlying object as [other].
   NSMethodSignature.castFrom(objc.ObjCObjectBase other)
@@ -3923,7 +3980,7 @@ class NSMethodSignature extends NSObject {
 class NSMutableArray extends NSArray {
   NSMutableArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableArray] that points to the same underlying object as [other].
   NSMutableArray.castFrom(objc.ObjCObjectBase other)
@@ -4090,16 +4147,35 @@ class NSMutableArray extends NSArray {
 }
 
 /// NSMutableCopying
-abstract interface class NSMutableCopying implements objc.ObjCProtocolBase {
+interface class NSMutableCopying extends objc.ObjCProtocolBase {
+  NSMutableCopying._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSMutableCopying] that points to the same underlying object as [other].
+  NSMutableCopying.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSMutableCopying] that wraps the given raw object pointer.
+  NSMutableCopying.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSMutableCopying].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSMutableCopying);
+  }
+
   /// Builds an object that implements the NSMutableCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSMutableCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           mutableCopyWithZone_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSMutableCopying.mutableCopyWithZone_
         .implement(builder, mutableCopyWithZone_);
-    return builder.build();
+    return NSMutableCopying.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSMutableCopying protocol to an existing
@@ -4132,7 +4208,7 @@ abstract interface class NSMutableCopying implements objc.ObjCProtocolBase {
 class NSMutableData extends NSData {
   NSMutableData._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableData] that points to the same underlying object as [other].
   NSMutableData.castFrom(objc.ObjCObjectBase other)
@@ -4461,7 +4537,7 @@ class NSMutableData extends NSData {
 class NSMutableDictionary extends NSDictionary {
   NSMutableDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableDictionary] that points to the same underlying object as [other].
   NSMutableDictionary.castFrom(objc.ObjCObjectBase other)
@@ -4659,7 +4735,7 @@ class NSMutableDictionary extends NSDictionary {
 class NSMutableIndexSet extends NSIndexSet {
   NSMutableIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableIndexSet] that points to the same underlying object as [other].
   NSMutableIndexSet.castFrom(objc.ObjCObjectBase other)
@@ -4813,7 +4889,7 @@ class NSMutableIndexSet extends NSIndexSet {
 class NSMutableOrderedSet extends NSOrderedSet {
   NSMutableOrderedSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableOrderedSet] that points to the same underlying object as [other].
   NSMutableOrderedSet.castFrom(objc.ObjCObjectBase other)
@@ -5121,7 +5197,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
 class NSMutableSet extends NSSet {
   NSMutableSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableSet] that points to the same underlying object as [other].
   NSMutableSet.castFrom(objc.ObjCObjectBase other)
@@ -5286,7 +5362,7 @@ class NSMutableSet extends NSSet {
 class NSMutableString extends NSString {
   NSMutableString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableString] that points to the same underlying object as [other].
   NSMutableString.castFrom(objc.ObjCObjectBase other)
@@ -5731,7 +5807,7 @@ class NSMutableString extends NSString {
 class NSNotification extends NSObject implements NSCopying, NSCoding {
   NSNotification._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSNotification] that points to the same underlying object as [other].
   NSNotification.castFrom(objc.ObjCObjectBase other)
@@ -5869,7 +5945,7 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
 class NSNumber extends NSValue {
   NSNumber._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSNumber] that points to the same underlying object as [other].
   NSNumber.castFrom(objc.ObjCObjectBase other)
@@ -6584,10 +6660,29 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
 }
 
 /// NSObject
-abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
+interface class NSObjectProtocol extends objc.ObjCProtocolBase {
+  NSObjectProtocol._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSObjectProtocol] that points to the same underlying object as [other].
+  NSObjectProtocol.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSObjectProtocol] that wraps the given raw object pointer.
+  NSObjectProtocol.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSObjectProtocol].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSObject);
+  }
+
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSObjectProtocol implement(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
       required bool Function(Protocol) conformsToProtocol_,
@@ -6639,7 +6734,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
     NSObjectProtocol.self1.implement(builder, self1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
-    return builder.build();
+    return NSObjectProtocol.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSObject protocol to an existing
@@ -6700,7 +6795,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSObjectProtocol implementAsListener(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
       required bool Function(Protocol) conformsToProtocol_,
@@ -6752,7 +6847,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
     NSObjectProtocol.self1.implement(builder, self1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
-    return builder.build();
+    return NSObjectProtocol.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSObject protocol to an existing
@@ -6814,7 +6909,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSObjectProtocol implementAsBlocking(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
       required bool Function(Protocol) conformsToProtocol_,
@@ -6866,7 +6961,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
     NSObjectProtocol.self1.implement(builder, self1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
-    return builder.build();
+    return NSObjectProtocol.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSObject protocol to an existing
@@ -7282,7 +7377,7 @@ class NSOrderedCollectionDifference extends NSObject
     implements NSFastEnumeration {
   NSOrderedCollectionDifference._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSOrderedCollectionDifference] that points to the same underlying object as [other].
   NSOrderedCollectionDifference.castFrom(objc.ObjCObjectBase other)
@@ -7438,7 +7533,7 @@ class NSOrderedSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSOrderedSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSOrderedSet] that points to the same underlying object as [other].
   NSOrderedSet.castFrom(objc.ObjCObjectBase other)
@@ -7712,7 +7807,7 @@ class NSOrderedSet extends NSObject
 class NSOutputStream extends NSStream {
   NSOutputStream._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSOutputStream] that points to the same underlying object as [other].
   NSOutputStream.castFrom(objc.ObjCObjectBase other)
@@ -8009,16 +8104,36 @@ class NSRunLoop extends objc.ObjCObjectBase {
 }
 
 /// NSSecureCoding
-abstract interface class NSSecureCoding implements NSCoding {
+interface class NSSecureCoding extends objc.ObjCProtocolBase
+    implements NSCoding {
+  NSSecureCoding._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSSecureCoding] that points to the same underlying object as [other].
+  NSSecureCoding.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSSecureCoding] that wraps the given raw object pointer.
+  NSSecureCoding.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSSecureCoding].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSSecureCoding);
+  }
+
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSSecureCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSSecureCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSSecureCoding protocol to an existing
@@ -8033,14 +8148,14 @@ abstract interface class NSSecureCoding implements NSCoding {
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSSecureCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_
         .implementAsListener(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSSecureCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSSecureCoding protocol to an existing
@@ -8057,14 +8172,14 @@ abstract interface class NSSecureCoding implements NSCoding {
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSSecureCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_
         .implementAsBlocking(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSSecureCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSSecureCoding protocol to an existing
@@ -8120,7 +8235,7 @@ class NSSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSSet] that points to the same underlying object as [other].
   NSSet.castFrom(objc.ObjCObjectBase other)
@@ -8308,7 +8423,7 @@ enum NSSortOptions {
 class NSStream extends NSObject {
   NSStream._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSStream] that points to the same underlying object as [other].
   NSStream.castFrom(objc.ObjCObjectBase other)
@@ -8436,15 +8551,35 @@ class NSStream extends NSObject {
 }
 
 /// NSStreamDelegate
-abstract interface class NSStreamDelegate implements NSObjectProtocol {
+interface class NSStreamDelegate extends objc.ObjCProtocolBase
+    implements NSObjectProtocol {
+  NSStreamDelegate._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSStreamDelegate] that points to the same underlying object as [other].
+  NSStreamDelegate.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSStreamDelegate] that wraps the given raw object pointer.
+  NSStreamDelegate.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSStreamDelegate].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSStreamDelegate);
+  }
+
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSStreamDelegate implement(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implement(builder, stream_handleEvent_);
-    return builder.build();
+    return NSStreamDelegate.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
@@ -8458,12 +8593,12 @@ abstract interface class NSStreamDelegate implements NSObjectProtocol {
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSStreamDelegate implementAsListener(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implementAsListener(builder, stream_handleEvent_);
-    return builder.build();
+    return NSStreamDelegate.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
@@ -8478,12 +8613,12 @@ abstract interface class NSStreamDelegate implements NSObjectProtocol {
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSStreamDelegate implementAsBlocking(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implementAsBlocking(builder, stream_handleEvent_);
-    return builder.build();
+    return NSStreamDelegate.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
@@ -8581,7 +8716,7 @@ class NSString extends NSObject
 
   NSString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSString] that points to the same underlying object as [other].
   NSString.castFrom(objc.ObjCObjectBase other)
@@ -9871,7 +10006,7 @@ extension NSStringExtensionMethods on NSString {
 class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   NSURL._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSURL] that points to the same underlying object as [other].
   NSURL.castFrom(objc.ObjCObjectBase other)
@@ -10570,7 +10705,7 @@ enum NSURLBookmarkResolutionOptions {
 class NSURLHandle extends NSObject {
   NSURLHandle._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSURLHandle] that points to the same underlying object as [other].
   NSURLHandle.castFrom(objc.ObjCObjectBase other)
@@ -10654,7 +10789,7 @@ enum NSURLHandleStatus {
 class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   NSValue._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super._(pointer, retain: retain, release: release);
 
   /// Constructs a [NSValue] that points to the same underlying object as [other].
   NSValue.castFrom(objc.ObjCObjectBase other)
@@ -15110,6 +15245,16 @@ final _objc_msgSend_dv3z6r = objc.msgSendPointer
             bool,
             int,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
+final _objc_msgSend_e3qsqz = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCProtocol>)>>()
+    .asFunction<
+        bool Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCProtocol>)>();
 final _objc_msgSend_e9mncn = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
