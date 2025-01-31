@@ -332,11 +332,11 @@ void main() {
             SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(asMyProtocol);
+        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
         expect(otherIntResult, 24);
 
         // Blocking method.
-        consumer.callBlockingMethodOnRandomThread_(asSecondaryProtocol);
+        consumer.callBlockingMethodOnRandomThread_(asMyProtocol);
         expect(await listenerCompleter.future, 98765);
       });
     });
