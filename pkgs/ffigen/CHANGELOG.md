@@ -3,6 +3,16 @@
 - Use package:objective_c 5.0.0
 - Support transitive categories of built-in types:
   https://github.com/dart-lang/native/issues/1820
+- __Breaking change__: Maintain protocol conformance when translating from ObjC
+  to Dart. For example, ObjC's `id<FooProtocol>` is now translated to Dart's
+  `FooProtocol`. Generally this shouldn't be a breaking change for code that is
+  using protocols correctly, with a few caveats:
+    - For more advanced use cases that use `ObjCProtocolBuilder` directly, after
+      calling `build()` you will need to cast the generated object to the target
+      protocol: `FooProtocol.castFrom(protocolBuilder.build())`.
+    - Due to limitations in the Dart type system, only the first protocol of an
+      `id` is used: `id<FooProtocol, BarProtocol>` becomes `FooProtocol`. The
+      `FooProtocol.castFrom` method can help work around issues this may cause.
 
 ## 16.1.0
 

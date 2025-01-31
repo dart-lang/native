@@ -190,7 +190,9 @@ class ObjCBlockPointer extends ObjCObjectPointer {
 class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
   List<ObjCProtocol> protocols;
 
-  ObjCObjectPointerWithProtocols(this.protocols) : assert(protocols.isNotEmpty), super._();
+  ObjCObjectPointerWithProtocols(this.protocols)
+      : assert(protocols.isNotEmpty),
+        super._();
 
   @override
   String getDartType(Writer w) => protocols.first.getDartType(w);
