@@ -1,4 +1,4 @@
-## 0.14.0-wip
+## 0.14.0
 
 - Fixed a bug where the source parser would not have all of the type paremeters
   of the types.
