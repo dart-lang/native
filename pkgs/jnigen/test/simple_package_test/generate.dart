@@ -63,7 +63,7 @@ void compileJavaSources(String workingDir, List<String> files) async {
   }
 }
 
-Config getConfig([SummarizerBackend backend = SummarizerBackend.asm]) {
+Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
   compileJavaSources(javaPath, javaFiles);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),

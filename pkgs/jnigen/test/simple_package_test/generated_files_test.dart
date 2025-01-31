@@ -18,6 +18,7 @@ void main() async {
 
   test('Generate and analyze bindings for simple_package java files - doclet',
       () async {
-    await generateAndAnalyzeBindings(getConfig(SummarizerBackend.doclet));
+    await generateAndAnalyzeBindings(
+        getConfig(backend: SummarizerBackend.doclet));
   });
 }
