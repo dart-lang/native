@@ -203,7 +203,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
       log.fine('Class ${node.binaryName} is named ${node.finalName}');
     } else {
       log.warning('Renaming Class ${node.binaryName} to ${node.userDefinedName}'
-          ' cause a name collision. Renamed to ${node.finalName} instead.');
+          ' causes a name collision. Renamed to ${node.finalName} instead.');
     }
 
     // Rename fields before renaming methods. In case a method and a field have
