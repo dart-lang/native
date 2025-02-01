@@ -33,10 +33,9 @@ class Bindings {
 
   ffi.Pointer<ffi.Float> get test2 => _test2.value;
 
-  late final ffi.Pointer<ffi.Pointer<ffi.Float>> _test3 =
-      _lookup<ffi.Pointer<ffi.Float>>('test3');
+  late final ffi.Pointer<ffi.Float> _test3 = _lookup<ffi.Float>('test3');
 
-  ffi.Pointer<ffi.Float> get test3 => _test3.value;
+  ffi.Pointer<ffi.Float> get test3 => _test3;
 
   late final ffi.Pointer<ffi.Pointer<Some>> _test5 =
       _lookup<ffi.Pointer<Some>>('test5');
