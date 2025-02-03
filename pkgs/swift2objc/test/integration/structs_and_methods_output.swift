@@ -31,5 +31,9 @@ import Foundation
     return wrappedInstance.myMethod3()
   }
 
+  @objc public func myMethod4() {
+    return wrappedInstance.myMethod4()
+  }
+
 }
 

@@ -36,21 +36,22 @@ MethodDeclaration parseMethodDeclaration(
   final info =
       parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph);
   return MethodDeclaration(
-    id: parseSymbolId(methodSymbolJson),
-    name: parseSymbolName(methodSymbolJson),
-    returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
-    params: info.params,
-    hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
-    isStatic: isStatic,
-    throws: info.throws,
-    async: info.async,
-  );
+      id: parseSymbolId(methodSymbolJson),
+      name: parseSymbolName(methodSymbolJson),
+      returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
+      params: info.params,
+      hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
+      isStatic: isStatic,
+      throws: info.throws,
+      async: info.async,
+      mutating: info.mutating);
 }
 
 typedef ParsedFunctionInfo = ({
   List<Parameter> params,
   bool throws,
   bool async,
+  bool mutating,
 });
 
 ParsedFunctionInfo parseFunctionInfo(
@@ -58,9 +59,9 @@ ParsedFunctionInfo parseFunctionInfo(
   ParsedSymbolgraph symbolgraph,
 ) {
   // `declarationFragments` describes each part of the function declaration,
-  // things like the `func` keyword, brackets, spaces, etc. We only care about
-  // the parameter fragments and annotations here, and they always appear in
-  // this order:
+  // things like the `func` keyword, brackets, spaces, etc.
+  // For the most part, We only care about the parameter fragments and
+  // annotations here, and they always appear in this order:
   // [
   //   ..., '(',
   //   externalParam, ' ', internalParam, ': ', type..., ', '
@@ -80,6 +81,7 @@ ParsedFunctionInfo parseFunctionInfo(
   );
 
   var tokens = TokenList(declarationFragments);
+
   String? maybeConsume(String kind) {
     if (tokens.isEmpty) return null;
     final spelling = getSpellingForKind(tokens[0], kind);
@@ -139,6 +141,11 @@ ParsedFunctionInfo parseFunctionInfo(
     params: parameters,
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
+    mutating: declarationFragments
+        .where((j) =>
+            j['kind'].get<String?>() == 'keyword' &&
+            j['spelling'].get<String?>() == 'mutating')
+        .isNotEmpty
   );
 }
 

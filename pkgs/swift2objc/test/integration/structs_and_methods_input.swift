@@ -12,6 +12,10 @@ public struct MyStruct {
     public func myMethod3() {
         1 + 1
     }
+
+    public mutating func myMethod4() {
+        2 + 2
+    }
 }
 
 public struct MyOtherStruct {}
