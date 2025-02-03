@@ -77,12 +77,10 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final sp = superProtocols.where((p) => p != this);
-    final protoImpl = sp.isEmpty
-        ? ''
-        : 'implements ${sp.map((p) => p.getDartType(w)).join(', ')}';
+    final sp = superProtocols.map((p) => p.getDartType(w));
+    final impls = superProtocols.isEmpty ? '' : 'implements ${sp.join(', ')}';
     s.write('''
-interface class $name extends $protocolBase $protoImpl{
+interface class $name extends $protocolBase $impls{
   $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
           super(pointer, retain: retain, release: release);
 ''');
@@ -306,12 +304,10 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
   String? generateRetain(String value) =>
       '(__bridge id)(__bridge_retained void*)($value)';
 
-  bool _isSuperProtocolOf(ObjCProtocol protocol, Set<ObjCProtocol> visited) {
+  bool _isSuperProtocolOf(ObjCProtocol protocol) {
     if (protocol == this) return true;
-    if (visited.contains(protocol)) return false;
-    visited.add(protocol);
     for (final superProtocol in protocol.superProtocols) {
-      if (_isSuperProtocolOf(superProtocol, visited)) return true;
+      if (_isSuperProtocolOf(superProtocol)) return true;
     }
     return false;
   }
@@ -320,11 +316,11 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     if (other is ObjCProtocol) {
-      return _isSuperProtocolOf(other, {});
+      return _isSuperProtocolOf(other);
     } else if (other is ObjCInterface) {
       for (ObjCInterface? t = other; t != null; t = t.superType) {
         for (final protocol in t.protocols) {
-          if (_isSuperProtocolOf(protocol, {})) return true;
+          if (_isSuperProtocolOf(protocol)) return true;
         }
       }
     }
