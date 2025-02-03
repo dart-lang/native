@@ -69,19 +69,40 @@ objc-interfaces:
     'DOBJCDartProxyBuilder': 'DartProxyBuilder'
 objc-protocols:
   include:
+    - NSCoding
+    - NSCopying
+    - NSFastEnumeration
+    - NSMutableCopying
+    - NSObject
+    - NSSecureCoding
     - NSStreamDelegate
+  rename:
+    'NSObject': 'NSObjectProtocol'
 objc-categories:
   include:
     - NSDataCreation
+    - NSExtendedArray
+    - NSExtendedData
+    - NSExtendedDate
+    - NSExtendedDictionary
+    - NSExtendedEnumerator
+    - NSExtendedMutableArray
     - NSExtendedMutableData
+    - NSExtendedMutableDictionary
+    - NSExtendedMutableOrderedSet
+    - NSExtendedMutableSet
+    - NSExtendedOrderedSet
+    - NSExtendedSet
     - NSNumberCreation
     - NSStringExtensionMethods
 structs:
   include:
     - _NSRange
+    - _NSZone
     - NSFastEnumerationState
   rename:
     _NSRange: NSRange
+    _NSZone: NSZone
 enums:
   include:
     - NSBinarySearchingOptions

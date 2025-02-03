@@ -9,6 +9,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'bad_override_bindings.dart';
@@ -53,10 +54,10 @@ void main() {
       // contravariant.
       // https://github.com/dart-lang/native/issues/1220
       Polygon parentResult = BadOverrideParent.new1().contravariantReturn();
-      expect(parentResult.name().toString(), 'Rectangle');
+      expect(parentResult.name().toDartString(), 'Rectangle');
 
       Polygon childResult = BadOverrideChild.new1().contravariantReturn();
-      expect(childResult.name().toString(), 'Triangle');
+      expect(childResult.name().toDartString(), 'Triangle');
     });
 
     test('Covariant args', () {
@@ -67,11 +68,12 @@ void main() {
       final triangle = Triangle.new1();
 
       var parent = BadOverrideParent.new1();
-      expect(parent.covariantArg_(square).toString(), 'Polygon: Square');
-      expect(parent.covariantArg_(triangle).toString(), 'Polygon: Triangle');
+      expect(parent.covariantArg_(square).toDartString(), 'Polygon: Square');
+      expect(
+          parent.covariantArg_(triangle).toDartString(), 'Polygon: Triangle');
 
       parent = BadOverrideChild.new1();
-      expect(parent.covariantArg_(square).toString(), 'Rectangle: Square');
+      expect(parent.covariantArg_(square).toDartString(), 'Rectangle: Square');
       expect(() => parent.covariantArg_(triangle), throwsA(isA<TypeError>()));
     });
   });

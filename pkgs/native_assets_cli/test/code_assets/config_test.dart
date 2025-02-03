@@ -11,6 +11,7 @@ import 'package:test/test.dart';
 void main() async {
   late Uri outDirUri;
   late Uri outputDirectoryShared;
+  late Uri outFile;
   late String packageName;
   late Uri packageRootUri;
   late Uri fakeClang;
@@ -22,6 +23,7 @@ void main() async {
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
     outDirUri = tempUri.resolve('out1/');
+    outFile = tempUri.resolve('output.json');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';
     packageRootUri = tempUri.resolve('$packageName/');
@@ -53,133 +55,247 @@ void main() async {
     });
 
     expect(() => codeConfig.targetArchitecture, throwsStateError);
-    expect(() => codeConfig.androidConfig.targetNdkApi, throwsStateError);
+    expect(() => codeConfig.android.targetNdkApi, throwsStateError);
     expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
     expect(codeConfig.cCompiler, null);
   }
 
-  void expectCorrectCodeConfig(
-      Map<String, Object?> json, CodeConfig codeConfig) {
-    <String, Object?>{
-      'build_asset_types': [CodeAsset.type],
-      'link_mode_preference': 'prefer-static',
-      'target_android_ndk_api': 30,
-      'target_architecture': 'arm64',
-      'c_compiler': {
-        'ar': fakeAr.toFilePath(),
-        'ld': fakeLd.toFilePath(),
-        'cc': fakeClang.toFilePath(),
-        'env_script': fakeVcVars.toFilePath(),
-        'env_script_arguments': ['arg0', 'arg1'],
-      },
-    }.forEach((k, v) {
-      expect(json[k], v);
-    });
+  // Full JSON to see where the config sits in the full JSON.
+  // When removing the non-hierarchical JSON, we can change this test to only
+  // check the nested key.
+  Map<String, Object> inputJson({
+    String hookType = 'build',
+    bool includeDeprecated = true,
+    OS targetOS = OS.android,
+  }) =>
+      {
+        if (hookType == 'link')
+          'assets': [
+            {
+              'architecture': 'riscv64',
+              'file': 'not there',
+              'id': 'package:my_package/name',
+              'link_mode': {'type': 'dynamic_loading_bundle'},
+              'os': 'android',
+              'type': 'native_code'
+            }
+          ],
+        if (includeDeprecated) 'build_asset_types': [CodeAsset.type],
+        if (includeDeprecated) 'build_mode': 'release',
+        'config': {
+          'build_asset_types': ['native_code'],
+          if (hookType == 'build') 'linking_enabled': false,
+          'code': {
+            'target_architecture': 'arm64',
+            'target_os': targetOS.name,
+            'link_mode_preference': 'prefer-static',
+            'c_compiler': {
+              'ar': fakeAr.toFilePath(),
+              'ld': fakeLd.toFilePath(),
+              'cc': fakeClang.toFilePath(),
+              if (includeDeprecated) 'env_script': fakeVcVars.toFilePath(),
+              if (includeDeprecated) 'env_script_arguments': ['arg0', 'arg1'],
+              'windows': {
+                'developer_command_prompt': {
+                  'arguments': ['arg0', 'arg1'],
+                  'script': fakeVcVars.toFilePath(),
+                },
+              },
+            },
+            if (targetOS == OS.android) 'android': {'target_ndk_api': 30},
+            if (targetOS == OS.macOS) 'macos': {'target_version': 13},
+            if (targetOS == OS.iOS)
+              'ios': {
+                'target_sdk': 'iphoneos',
+                'target_version': 13,
+              },
+          },
+        },
+        if (includeDeprecated)
+          'c_compiler': {
+            'ar': fakeAr.toFilePath(),
+            'ld': fakeLd.toFilePath(),
+            'cc': fakeClang.toFilePath(),
+            'env_script': fakeVcVars.toFilePath(),
+            'env_script_arguments': ['arg0', 'arg1'],
+          },
+        if (hookType == 'build' && includeDeprecated) 'dry_run': false,
+        if (hookType == 'build' && includeDeprecated) 'linking_enabled': false,
+        if (includeDeprecated) 'link_mode_preference': 'prefer-static',
+        'out_dir_shared': outputDirectoryShared.toFilePath(),
+        'out_dir': outDirUri.toFilePath(),
+        'out_file': outFile.toFilePath(),
+        'package_name': packageName,
+        'package_root': packageRootUri.toFilePath(),
+        if (includeDeprecated) 'supported_asset_types': [CodeAsset.type],
+        if (includeDeprecated && targetOS == OS.android)
+          'target_android_ndk_api': 30,
+        if (includeDeprecated) 'target_architecture': 'arm64',
+        if (includeDeprecated) 'target_os': targetOS.name,
+        'version': '1.9.0',
+      };
 
-    expect(codeConfig.targetArchitecture, Architecture.arm64);
-    expect(codeConfig.androidConfig.targetNdkApi, 30);
-    expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler?.compiler, fakeClang);
-    expect(codeConfig.cCompiler?.linker, fakeLd);
-    expect(codeConfig.cCompiler?.archiver, fakeAr);
+  void expectCorrectCodeConfig(
+    CodeConfig codeCondig, {
+    OS targetOS = OS.android,
+  }) {
+    expect(codeCondig.targetArchitecture, Architecture.arm64);
+    if (targetOS == OS.android) {
+      expect(codeCondig.android.targetNdkApi, 30);
+    }
+    if (targetOS == OS.macOS) {
+      expect(codeCondig.macOS.targetVersion, 13);
+    }
+    if (targetOS == OS.iOS) {
+      expect(codeCondig.iOS.targetVersion, 13);
+      expect(codeCondig.iOS.targetSdk, IOSSdk.iPhoneOS);
+    }
+    expect(codeCondig.linkModePreference, LinkModePreference.preferStatic);
+    expect(codeCondig.cCompiler?.compiler, fakeClang);
+    expect(codeCondig.cCompiler?.linker, fakeLd);
+    expect(codeCondig.cCompiler?.archiver, fakeAr);
   }
 
-  test('BuildConfig.codeConfig (dry-run)', () {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
+  test('BuildInput.config.code (dry-run)', () {
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: [CodeAsset.type],
+        outputFile: outFile,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: true,
         dryRun: true,
       )
-      ..setupBuildRunConfig(
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
+        targetOS: OS.android,
+        android: null, // not available in dry run
+        targetArchitecture: null, // not available in dry run
+        cCompiler: null, // not available in dry run
+        linkModePreference: LinkModePreference.preferStatic,
+      );
+    final input = BuildInput(inputBuilder.json);
+    expectCorrectCodeConfigDryRun(input.json, input.config.code);
+  });
+
+  test('BuildInput.config.code', () {
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupCodeConfig(
-        targetOS: OS.android,
-        androidConfig: null, // not available in dry run
-        targetArchitecture: null, // not available in dry run
-        cCompilerConfig: null, // not available in dry run
-        linkModePreference: LinkModePreference.preferStatic,
-      );
-    final config = BuildConfig(configBuilder.json);
-    expectCorrectCodeConfigDryRun(config.json, config.codeConfig);
-  });
-
-  test('BuildConfig.codeConfig', () {
-    final configBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        packageName: packageName,
-        packageRoot: packageRootUri,
-        buildAssetTypes: [CodeAsset.type],
-      )
-      ..setupBuildConfig(
+      ..config.setupBuild(
         linkingEnabled: false,
         dryRun: false,
       )
-      ..setupBuildRunConfig(
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      )
-      ..setupCodeConfig(
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        androidConfig: AndroidConfig(targetNdkApi: 30),
+        android: AndroidCodeConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
-          envScript: fakeVcVars,
-          envScriptArgs: ['arg0', 'arg1'],
+          windows: WindowsCCompilerConfig(
+            developerCommandPrompt: DeveloperCommandPrompt(
+              script: fakeVcVars,
+              arguments: ['arg0', 'arg1'],
+            ),
+          ),
         ),
       );
-    final config = BuildConfig(configBuilder.json);
-    expectCorrectCodeConfig(config.json, config.codeConfig);
+    final input = BuildInput(inputBuilder.json);
+    expect(input.json, inputJson());
+    expectCorrectCodeConfig(input.config.code);
   });
 
-  test('LinkConfig.{codeConfig,codeAssets}', () {
-    final configBuilder = LinkConfigBuilder()
-      ..setupHookConfig(
+  test('BuildInput from json without deprecated keys', () {
+    for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
+      final input = BuildInput(inputJson(
+        includeDeprecated: false,
+        targetOS: targetOS,
+      ));
+      expect(input.packageName, packageName);
+      expect(input.packageRoot, packageRootUri);
+      expect(input.outputDirectory, outDirUri);
+      expect(input.outputDirectoryShared, outputDirectoryShared);
+      expect(input.config.linkingEnabled, false);
+      // ignore: deprecated_member_use_from_same_package
+      expect(input.config.dryRun, false);
+      expect(input.config.buildAssetTypes, [CodeAsset.type]);
+      expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
+    }
+  });
+
+  test('LinkInput.{code,codeAssets}', () {
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
         packageName: packageName,
         packageRoot: packageRootUri,
-        buildAssetTypes: [CodeAsset.type],
-      )
-      ..setupLinkConfig(assets: assets)
-      ..setupLinkRunConfig(
+        outputFile: outFile,
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLink(
+        assets: assets,
         recordedUsesFile: null,
       )
-      ..setupCodeConfig(
+      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+      ..config.setupCode(
         targetOS: OS.android,
         targetArchitecture: Architecture.arm64,
-        androidConfig: AndroidConfig(targetNdkApi: 30),
+        android: AndroidCodeConfig(targetNdkApi: 30),
         linkModePreference: LinkModePreference.preferStatic,
-        cCompilerConfig: CCompilerConfig(
+        cCompiler: CCompilerConfig(
           compiler: fakeClang,
           linker: fakeLd,
           archiver: fakeAr,
-          envScript: fakeVcVars,
-          envScriptArgs: ['arg0', 'arg1'],
+          windows: WindowsCCompilerConfig(
+            developerCommandPrompt: DeveloperCommandPrompt(
+              script: fakeVcVars,
+              arguments: ['arg0', 'arg1'],
+            ),
+          ),
         ),
       );
-    final config = LinkConfig(configBuilder.json);
-    expectCorrectCodeConfig(config.json, config.codeConfig);
-    expect(config.encodedAssets, assets);
+    final input = LinkInput(inputBuilder.json);
+    expect(input.json, inputJson(hookType: 'link'));
+    expectCorrectCodeConfig(input.config.code);
+    expect(input.assets.encodedAssets, assets);
   });
 
-  test('BuildConfig.codeConfig: invalid architecture', () {
-    final config = {
+  test('LinkInput from json without deprecated keys', () {
+    for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
+      final input = LinkInput(inputJson(
+        includeDeprecated: false,
+        targetOS: targetOS,
+        hookType: 'link',
+      ));
+      expect(input.packageName, packageName);
+      expect(input.packageRoot, packageRootUri);
+      expect(input.outputDirectory, outDirUri);
+      expect(input.outputDirectoryShared, outputDirectoryShared);
+      expect(input.config.buildAssetTypes, [CodeAsset.type]);
+      expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
+    }
+  });
+
+  test('BuildInput.config.code: invalid architecture', () {
+    final input = {
       'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -189,18 +305,19 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => BuildConfig(config).codeConfig,
+      () => BuildInput(input).config.code,
       throwsFormatException,
     );
   });
 
-  test('LinkConfig.codeConfig: invalid architecture', () {
-    final config = {
+  test('LinkInput.config.code: invalid architecture', () {
+    final input = {
       'build_asset_types': [CodeAsset.type],
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
       'target_android_ndk_api': 30,
@@ -209,7 +326,7 @@ void main() async {
       'version': latestVersion.toString(),
     };
     expect(
-      () => LinkConfig(config).codeConfig,
+      () => LinkInput(input).config.code,
       throwsFormatException,
     );
   });

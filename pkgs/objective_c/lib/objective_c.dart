@@ -5,19 +5,19 @@
 export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
+        Dart_FinalizableHandle_,
+        ObjCBlockDesc,
         ObjCBlockImpl,
+        ObjCMethodDesc,
         ObjCObject,
+        ObjCProtocol,
         ObjCSelector,
         blockRetain,
         objectRelease,
-        objectRetain;
+        objectRetain,
+        signalWaiter;
 export 'src/internal.dart'
-    hide
-        ObjCBlockBase,
-        blockHasRegisteredClosure,
-        isValidBlock,
-        isValidClass,
-        isValidObject;
+    hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
 export 'src/ns_data.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
@@ -31,7 +31,9 @@ export 'src/objective_c_bindings_generated.dart'
         NSBinarySearchingOptions,
         NSCharacterSet,
         NSCoder,
+        NSCoding,
         NSComparisonResult,
+        NSCopying,
         NSData,
         NSDataBase64DecodingOptions,
         NSDataBase64EncodingOptions,
@@ -45,7 +47,19 @@ export 'src/objective_c_bindings_generated.dart'
         NSEnumerationOptions,
         NSEnumerator,
         NSError,
+        NSExtendedArray,
+        NSExtendedData,
+        NSExtendedDate,
+        NSExtendedDictionary,
+        NSExtendedEnumerator,
+        NSExtendedMutableArray,
         NSExtendedMutableData,
+        NSExtendedMutableDictionary,
+        NSExtendedMutableOrderedSet,
+        NSExtendedMutableSet,
+        NSExtendedOrderedSet,
+        NSExtendedSet,
+        NSFastEnumeration,
         NSFastEnumerationState,
         NSIndexSet,
         NSInputStream,
@@ -59,6 +73,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSLocale,
         NSMethodSignature,
         NSMutableArray,
+        NSMutableCopying,
         NSMutableData,
         NSMutableDictionary,
         NSMutableIndexSet,
@@ -69,6 +84,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSNumber,
         NSNumberCreation,
         NSObject,
+        NSObjectProtocol,
         NSOrderedCollectionDifference,
         NSOrderedCollectionDifferenceCalculationOptions,
         NSOrderedSet,
@@ -76,6 +92,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSProxy,
         NSRange,
         NSRunLoop,
+        NSSecureCoding,
         NSSet,
         NSSortOptions,
         NSStream,
@@ -93,6 +110,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSURLHandle,
         NSURLHandleStatus,
         NSValue,
+        NSZone,
         Protocol;
 export 'src/protocol_builder.dart';
 export 'src/selector.dart';

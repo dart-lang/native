@@ -9,6 +9,7 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
@@ -34,7 +35,7 @@ ClassDeclaration transformCompound(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
     hasObjCAnnotation: true,
-    superClass: BuiltInDeclaration.swiftNSObject.asDeclaredType,
+    superClass: objectType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
     wrapperInitializer: _buildWrapperInitializer(wrappedCompoundInstance),
@@ -51,7 +52,7 @@ ClassDeclaration transformCompound(
   transformedCompound.nestedDeclarations
       .fillNestingParents(transformedCompound);
 
-  transformedCompound.properties = originalCompound.properties
+  final transformedProperties = originalCompound.properties
       .map((property) => transformProperty(
             property,
             wrappedCompoundInstance,
@@ -59,8 +60,7 @@ ClassDeclaration transformCompound(
             transformationMap,
           ))
       .nonNulls
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+      .toList();
 
   transformedCompound.initializers = originalCompound.initializers
       .map((initializer) => transformInitializer(
@@ -72,7 +72,7 @@ ClassDeclaration transformCompound(
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  transformedCompound.methods = originalCompound.methods
+  final transformedMethods = originalCompound.methods
       .map((method) => transformMethod(
             method,
             wrappedCompoundInstance,
@@ -80,7 +80,15 @@ ClassDeclaration transformCompound(
             transformationMap,
           ))
       .nonNulls
+      .toList();
+
+  transformedCompound.properties = transformedProperties
+      .whereType<PropertyDeclaration>()
       .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
+  transformedCompound.methods = (transformedMethods +
+      transformedProperties.whereType<MethodDeclaration>().toList())
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedCompound;

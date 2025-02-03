@@ -2,12 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
+import 'package:file/file.dart';
 
 extension FileSystemEntityExtension on FileSystemEntity {
-  Future<DateTime> lastModified() async {
+  Future<DateTime> lastModified(FileSystem fileSystem) async {
     final this_ = this;
-    if (this_ is Link || await FileSystemEntity.isLink(this_.path)) {
+
+    if (this_ is Link || await fileSystem.isLink(this_.path)) {
       // Don't follow links.
       return DateTime.fromMicrosecondsSinceEpoch(0);
     }
@@ -18,17 +19,15 @@ extension FileSystemEntityExtension on FileSystemEntity {
       }
       return await this_.lastModified();
     }
-    assert(this_ is Directory);
-    this_ as Directory;
-    return await this_.lastModified();
+    return await (this_ as Directory).lastModified(fileSystem);
   }
 }
 
 extension FileSystemEntityIterable on Iterable<FileSystemEntity> {
-  Future<DateTime> lastModified() async {
+  Future<DateTime> lastModified(FileSystem fileSystem) async {
     var last = DateTime.fromMillisecondsSinceEpoch(0);
     for (final entity in this) {
-      final entityTimestamp = await entity.lastModified();
+      final entityTimestamp = await entity.lastModified(fileSystem);
       if (entityTimestamp.isAfter(last)) {
         last = entityTimestamp;
       }
@@ -38,10 +37,10 @@ extension FileSystemEntityIterable on Iterable<FileSystemEntity> {
 }
 
 extension DirectoryExtension on Directory {
-  Future<DateTime> lastModified() async {
+  Future<DateTime> lastModified(FileSystem fileSystem) async {
     var last = DateTime.fromMillisecondsSinceEpoch(0);
     await for (final entity in list()) {
-      final entityTimestamp = await entity.lastModified();
+      final entityTimestamp = await entity.lastModified(fileSystem);
       if (entityTimestamp.isAfter(last)) {
         last = entityTimestamp;
       }

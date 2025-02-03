@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 
 void main() {
   final parsedSymbols = {
-    for (final decl in BuiltInDeclaration.values)
+    for (final decl in builtInDeclarations)
       decl.id: ParsedSymbol(json: Json(null), declaration: decl)
   };
   final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});

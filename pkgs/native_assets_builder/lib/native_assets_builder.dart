@@ -2,8 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'package:native_assets_builder/src/build_runner/build_runner.dart';
-export 'package:native_assets_builder/src/model/build_result.dart';
+export 'package:native_assets_builder/src/build_runner/build_runner.dart'
+    show
+        ApplicationAssetValidator,
+        BuildInputCreator,
+        BuildInputValidator,
+        BuildValidator,
+        LinkInputCreator,
+        LinkInputValidator,
+        LinkValidator,
+        NativeAssetsBuildRunner;
+export 'package:native_assets_builder/src/model/build_result.dart'
+    show BuildResult;
 export 'package:native_assets_builder/src/model/kernel_assets.dart';
-export 'package:native_assets_builder/src/model/link_result.dart';
-export 'package:native_assets_builder/src/package_layout/package_layout.dart';
+export 'package:native_assets_builder/src/model/link_result.dart'
+    show LinkResult;
+export 'package:native_assets_builder/src/package_layout/package_layout.dart'
+    show PackageLayout;

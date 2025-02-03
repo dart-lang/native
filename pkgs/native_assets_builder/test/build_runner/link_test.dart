@@ -26,15 +26,9 @@ void main() async {
           logger: logger,
         );
 
-        final buildResult = (await build(
+        final buildResult = (await buildDataAssets(
           packageUri,
-          logger,
-          dartExecutable,
           linkingEnabled: true,
-          buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetBuildConfig,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
         ))!;
         expect(buildResult.encodedAssets.length, 0);
 
@@ -44,21 +38,15 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetLinkConfig,
+          inputValidator: validateDataAssetLinkInput,
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         ))!;
         expect(linkResult.encodedAssets.length, 2);
 
-        final buildNoLinkResult = (await build(
+        final buildNoLinkResult = (await buildDataAssets(
           packageUri,
-          logger,
-          dartExecutable,
           linkingEnabled: false,
-          buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetBuildConfig,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
         ))!;
         expect(buildNoLinkResult.encodedAssets.length, 4);
       });
@@ -96,15 +84,9 @@ void main() async {
         // First, run `pub get`, we need pub to resolve our dependencies.
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult = await build(
+        final buildResult = await buildDataAssets(
           packageUri,
-          logger,
-          dartExecutable,
           linkingEnabled: true,
-          buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetBuildConfig,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
         );
         expect(buildResult, isNotNull);
         expect(_getNames(buildResult!.encodedAssets),
@@ -120,7 +102,7 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           buildAssetTypes: [DataAsset.type],
-          configValidator: validateDataAssetLinkConfig,
+          inputValidator: validateDataAssetLinkInput,
           linkValidator: validateDataAssetLinkOutput,
           applicationAssetValidator: (_) async => [],
         );
@@ -143,15 +125,9 @@ void main() async {
         logger: logger,
       );
 
-      final buildResult = (await build(
+      final buildResult = (await buildDataAssets(
         packageUri,
-        logger,
-        dartExecutable,
         linkingEnabled: true,
-        buildAssetTypes: [DataAsset.type],
-        configValidator: validateDataAssetBuildConfig,
-        buildValidator: validateDataAssetBuildOutput,
-        applicationAssetValidator: (_) async => [],
       ))!;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 0);
@@ -164,7 +140,7 @@ void main() async {
         buildResult: buildResult,
         capturedLogs: logMessages,
         buildAssetTypes: [DataAsset.type],
-        configValidator: validateDataAssetLinkConfig,
+        inputValidator: validateDataAssetLinkInput,
         linkValidator: validateDataAssetLinkOutput,
         applicationAssetValidator: (_) async => [],
       ))!;
@@ -204,7 +180,7 @@ void main() async {
           dartExecutable,
           linkingEnabled: true,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetBuildConfig,
+          inputValidator: validateCodeAssetBuildInput,
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
@@ -219,7 +195,7 @@ void main() async {
           buildResult: buildResult,
           capturedLogs: logMessages,
           buildAssetTypes: [CodeAsset.type],
-          configValidator: validateCodeAssetLinkConfig,
+          inputValidator: validateCodeAssetLinkInput,
           linkValidator: validateCodeAssetLinkOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;

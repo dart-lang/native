@@ -1,8 +1,19 @@
-## 4.0.1-wip
+## 5.0.0-wip
 
+- __Breaking change__: Rename the `NSString` to `String` conversion method from
+  `toString()` to `toDartString()`.
+- Add `ObjCProtocolBase`, which all code genned protocols implement.
+- Add various ObjC categories (extension methods) to the built in classes.
+- Add various ObjC protocols to the bindings.
+- Make all visible API types public.
+
+## 4.1.0
+
+- Use ffigen 16.1.0
 - Reduces the chances of duplicate symbols by adding a `DOBJC_` prefix.
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
+- Add support for blocking ObjC protocol methods.
 
 ## 4.0.0
 

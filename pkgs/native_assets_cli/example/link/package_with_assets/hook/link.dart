@@ -14,18 +14,18 @@ const multiplyIdentifier = Identifier(
 );
 
 void main(List<String> args) async {
-  await link(args, (config, output) async {
-    final usages = config.usages;
+  await link(args, (input, output) async {
+    final usages = input.usages;
 
     final usedAssets = (usages.instancesOf(multiplyIdentifier) ?? []).map((e) =>
         (e.instanceConstant.fields.values.first as StringConstant).value);
 
-    output.dataAssets.addAll(config.dataAssets
+    output.assets.data.addAll(input.assets.data
         .where((dataAsset) => usedAssets.contains(dataAsset.name)));
   });
 }
 
-extension on LinkConfig {
+extension on LinkInput {
   RecordedUsages get usages {
     final usagesFile = recordedUsagesFile;
     final usagesContent = File.fromUri(usagesFile!).readAsStringSync();

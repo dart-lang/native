@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:file/local.dart';
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
+import 'package:native_assets_builder/src/package_layout/package_layout.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -14,7 +16,8 @@ void main() async {
   test('multiple  build invocations', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('package_reading_metadata/');
+      const packageName = 'package_reading_metadata';
+      final packageUri = tempUri.resolve('$packageName/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(
@@ -22,39 +25,44 @@ void main() async {
         logger: logger,
       );
 
+      final packageLayout = await PackageLayout.fromWorkingDirectory(
+        const LocalFileSystem(),
+        packageUri,
+        packageName,
+      );
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
+        fileSystem: const LocalFileSystem(),
+        packageLayout: packageLayout,
       );
 
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
-      BuildConfigBuilder configCreator() => BuildConfigBuilder()
-        ..setupCodeConfig(
+      BuildInputBuilder inputCreator() => BuildInputBuilder()
+        ..config.setupCode(
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
-          macOSConfig: targetOS == OS.macOS
-              ? MacOSConfig(targetVersion: defaultMacOSVersion)
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
               : null,
           linkModePreference: LinkModePreference.dynamic,
         );
 
       await buildRunner.build(
-        configCreator: configCreator,
-        workingDirectory: packageUri,
+        inputCreator: inputCreator,
         linkingEnabled: false,
         buildAssetTypes: [],
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
       await buildRunner.build(
-        configCreator: configCreator,
-        workingDirectory: packageUri,
+        inputCreator: inputCreator,
         linkingEnabled: false,
         buildAssetTypes: [],
-        configValidator: (config) async => [],
-        buildValidator: (config, output) async => [],
+        inputValidator: (input) async => [],
+        buildValidator: (input, output) async => [],
         applicationAssetValidator: (_) async => [],
       );
     });

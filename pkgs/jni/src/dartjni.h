@@ -5,6 +5,7 @@
 #pragma once
 
 #include "include/dart_api_dl.h"
+#include "jni_constants.h"
 
 // Note: include appropriate system jni.h as found by CMake, not third_party/jni.h.
 #include <jni.h>
@@ -139,9 +140,6 @@ typedef struct JniLocks {
   MutexLock classLoadingLock;
 } JniLocks;
 
-/// Represents the error when dart-jni layer has already spawned singleton VM.
-#define DART_JNI_SINGLETON_EXISTS (-99);
-
 /// Stores the global state of the JNI.
 typedef struct JniContext {
   JavaVM* jvm;
@@ -237,7 +235,7 @@ FFI_PLUGIN_EXPORT JNIEnv* GetJniEnv(void);
 /// Returns JNI_OK on success, and one of the documented JNI error codes on
 /// failure. It returns DART_JNI_SINGLETON_EXISTS if an attempt to spawn multiple
 /// JVMs is made, even if the underlying API potentially supports multiple VMs.
-FFI_PLUGIN_EXPORT int SpawnJvm(JavaVMInitArgs* args);
+FFI_PLUGIN_EXPORT JniErrorCode SpawnJvm(JavaVMInitArgs* args);
 
 /// Returns Application classLoader (on Android),
 /// which can be used to load application and platform classes.

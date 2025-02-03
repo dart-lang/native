@@ -78,7 +78,11 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
     this.kotlinPackage,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
+
+  @JsonKey(includeFromJson: false)
+  String? userDefinedName;
 
   @override
   final Set<String> modifiers;
@@ -222,7 +226,7 @@ class TypeUsage {
     required this.typeJson,
   });
 
-  static TypeUsage object = TypeUsage(
+  static final object = TypeUsage(
       kind: Kind.declared, shorthand: 'java.lang.Object', typeJson: {})
     ..type = DeclaredType(binaryName: 'java.lang.Object');
 
@@ -436,6 +440,11 @@ class DeclaredType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitDeclaredType(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      params.any((param) => param.type.hasNullabilityAnnotations);
 }
 
 @JsonSerializable(createToJson: false)
@@ -521,6 +530,12 @@ class Wildcard extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitWildcard(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      (superBound?.type.hasNullabilityAnnotations ?? false) ||
+      (extendsBound?.type.hasNullabilityAnnotations ?? false);
 }
 
 @JsonSerializable(createToJson: false)
@@ -543,6 +558,11 @@ class ArrayType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitArrayType(this);
   }
+
+  @override
+  bool get hasNullabilityAnnotations =>
+      super.hasNullabilityAnnotations ||
+      elementType.type.hasNullabilityAnnotations;
 }
 
 mixin Annotated {
@@ -560,13 +580,13 @@ mixin Annotated {
     'lombok.Nullable',
     'io.reactivex.rxjava3.annotations.Nullable',
   ];
-  late final bool hasNullable = () {
+  bool get hasNullable {
     return annotations?.any((annotation) =>
             nullableAnnotations.contains(annotation.binaryName) ||
-            annotation.binaryName == 'javax.annotation.Nonnull' &&
+            annotation.binaryName == 'javax.annotation.Nullable' &&
                 annotation.properties['when'] == 'ALWAYS') ??
         false;
-  }();
+  }
 
   static final nonNullAnnotations = [
     // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
@@ -580,20 +600,22 @@ mixin Annotated {
     'lombok.NonNull',
     'io.reactivex.rxjava3.annotations.NonNull',
   ];
-  late final hasNonNull = () {
+  bool get hasNonNull {
     return annotations?.any((annotation) =>
             nonNullAnnotations.contains(annotation.binaryName) ||
             annotation.binaryName == 'javax.annotation.Nonnull' &&
                 annotation.properties['when'] == 'ALWAYS') ??
-        false; //FIXME
-  }();
+        false;
+  }
 
-  late final bool isNullable = () {
+  bool get hasNullabilityAnnotations => hasNonNull || hasNullable;
+
+  bool get isNullable {
     if (hasNullable) {
       return true;
     }
     return !hasNonNull;
-  }();
+  }
 }
 
 mixin ClassMember {
@@ -625,7 +647,11 @@ class Method with ClassMember, Annotated implements Element<Method> {
     required this.returnType,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
+
+  @JsonKey(includeFromJson: false)
+  String? userDefinedName;
 
   @override
   final String name;
@@ -687,6 +713,9 @@ class Param with Annotated implements Element<Param> {
     required this.type,
   });
 
+  @JsonKey(includeFromJson: false)
+  String? userDefinedName;
+
   @override
   List<Annotation>? annotations;
   final JavaDocComment? javadoc;
@@ -728,7 +757,11 @@ class Field with ClassMember, Annotated implements Element<Field> {
     this.defaultValue,
   });
 
+  @JsonKey(includeFromJson: false)
   bool isExcluded;
+
+  @JsonKey(includeFromJson: false)
+  String? userDefinedName;
 
   @override
   final String name;
@@ -1120,7 +1153,7 @@ class KotlinType implements Element<KotlinType> {
   final String kind;
   final String? name;
   final int id;
-  final List<KotlinTypeProjection> arguments;
+  final List<KotlinTypeArgument> arguments;
   final bool isNullable;
 
   factory KotlinType.fromJson(Map<String, dynamic> json) =>
@@ -1190,8 +1223,26 @@ class KotlinValueParameter implements Element<KotlinValueParameter> {
   }
 }
 
-@JsonSerializable(createToJson: false)
-class KotlinTypeProjection implements Element<KotlinTypeProjection> {
+sealed class KotlinTypeArgument implements Element<KotlinTypeArgument> {
+  KotlinTypeArgument();
+
+  factory KotlinTypeArgument.fromJson(Map<String, dynamic> json) =>
+      json['type'] == null
+          ? KotlinWildcard()
+          : KotlinTypeProjection(
+              type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
+              variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
+            );
+
+  @override
+  R accept<R>(Visitor<KotlinTypeArgument, R> v) {
+    return v.visit(this);
+  }
+}
+
+class KotlinWildcard extends KotlinTypeArgument {}
+
+class KotlinTypeProjection extends KotlinTypeArgument {
   KotlinTypeProjection({
     required this.type,
     required this.variance,
@@ -1199,12 +1250,4 @@ class KotlinTypeProjection implements Element<KotlinTypeProjection> {
 
   final KotlinType type;
   final KmVariance variance;
-
-  factory KotlinTypeProjection.fromJson(Map<String, dynamic> json) =>
-      _$KotlinTypeProjectionFromJson(json);
-
-  @override
-  R accept<R>(Visitor<KotlinTypeProjection, R> v) {
-    return v.visit(this);
-  }
 }

@@ -3,25 +3,32 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Platform;
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:file/file.dart';
 
 import '../utils/file.dart';
 import '../utils/uri.dart';
 
 class DependenciesHashFile {
-  DependenciesHashFile({
-    required this.file,
+  DependenciesHashFile(
+    this._fileSystem, {
+    required this.fileUri,
   });
 
-  final File file;
+  final FileSystem _fileSystem;
+  final Uri fileUri;
   FileSystemHashes _hashes = FileSystemHashes();
 
   List<Uri> get fileSystemEntities => _hashes.files.map((e) => e.path).toList();
 
+  Future<bool> exists() async => await _fileSystem.file(fileUri).exists();
+  Future<void> delete() async => await _fileSystem.file(fileUri).delete();
+
   Future<void> _readFile() async {
+    final file = _fileSystem.file(fileUri);
     if (!await file.exists()) {
       _hashes = FileSystemHashes();
       return;
@@ -51,7 +58,7 @@ class DependenciesHashFile {
     Uri? modifiedAfterTimeStamp;
     for (final uri in fileSystemEntities) {
       int hash;
-      if ((await uri.fileSystemEntity.lastModified())
+      if ((await _fileSystem.fileSystemEntity(uri).lastModified(_fileSystem))
           .isAfter(fileSystemValidBeforeLastModified)) {
         hash = _hashLastModifiedAfterCutoff;
         modifiedAfterTimeStamp = uri;
@@ -72,7 +79,8 @@ class DependenciesHashFile {
     return modifiedAfterTimeStamp;
   }
 
-  Future<void> _persist() => file.writeAsString(json.encode(_hashes.toJson()));
+  Future<void> _persist() =>
+      _fileSystem.file(fileUri).writeAsString(json.encode(_hashes.toJson()));
 
   /// Reads the file with hashes and reports if there is an outdated file,
   /// directory or environment variable.
@@ -124,7 +132,7 @@ class DependenciesHashFile {
   }
 
   Future<int> _hashFile(Uri uri) async {
-    final file = File.fromUri(uri);
+    final file = _fileSystem.file(uri);
     if (!await file.exists()) {
       return _hashNotExists;
     }
@@ -132,7 +140,7 @@ class DependenciesHashFile {
   }
 
   Future<int> _hashDirectory(Uri uri) async {
-    final directory = Directory.fromUri(uri);
+    final directory = _fileSystem.directory(uri);
     if (!await directory.exists()) {
       return _hashNotExists;
     }

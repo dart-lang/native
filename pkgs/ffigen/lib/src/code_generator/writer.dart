@@ -128,7 +128,7 @@ class Writer {
     required this.noLookUpBindings,
     required String className,
     required this.nativeAssetId,
-    List<LibraryImport>? additionalImports,
+    List<LibraryImport> additionalImports = const <LibraryImport>[],
     this.classDocComment,
     this.header,
     required this.generateForPackageObjectiveC,
@@ -153,17 +153,15 @@ class Writer {
     );
 
     /// Library imports prefix should be unique unique among all names.
-    if (additionalImports != null) {
-      for (final lib in additionalImports) {
-        lib.prefix = _resolveNameConflict(
-          name: lib.prefix,
-          makeUnique: allLevelsUniqueNamer,
-          markUsed: [
-            _initialWrapperLevelUniqueNamer,
-            _initialTopLevelUniqueNamer
-          ],
-        );
-      }
+    for (final lib in [...additionalImports, ...allLibraries]) {
+      lib.prefix = _resolveNameConflict(
+        name: lib.prefix,
+        makeUnique: allLevelsUniqueNamer,
+        markUsed: [
+          _initialWrapperLevelUniqueNamer,
+          _initialTopLevelUniqueNamer
+        ],
+      );
     }
 
     /// [_lookupFuncIdentifier] should be unique in top level.
@@ -432,6 +430,7 @@ class Writer {
     final s = StringBuffer();
     s.write('''
 #include <stdint.h>
+#import <Foundation/Foundation.h>
 ''');
 
     for (final entryPoint in nativeEntryPoints) {
@@ -443,7 +442,6 @@ class Writer {
 #error "This file must be compiled with ARC enabled"
 #endif
 
-id objc_retain(id);
 id objc_retainBlock(id);
 ''');
 

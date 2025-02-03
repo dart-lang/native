@@ -5,6 +5,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:file/local.dart' show LocalFileSystem;
 import 'package:logging/logging.dart';
 import 'package:native_assets_builder/src/utils/run_process.dart'
     as run_process;
@@ -59,6 +60,27 @@ Future<void> inTempDir(
   }
 }
 
+Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
+  final tempDir = await Directory.systemTemp.createTemp(prefix);
+  // Deal with Windows temp folder aliases.
+  final tempUri =
+      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+  if ((!Platform.environment.containsKey(keepTempKey) ||
+          Platform.environment[keepTempKey]!.isEmpty) &&
+      !keepTemp) {
+    addTearDown(() async {
+      try {
+        await tempDir.delete(recursive: true);
+      } on FileSystemException {
+        // On Windows, the temp dir might still be locked even though all
+        // process invocations have finished.
+        if (!Platform.isWindows) rethrow;
+      }
+    });
+  }
+  return tempUri;
+}
+
 /// Runs a [Process].
 ///
 /// If [logger] is provided, stream stdout and stderr to it.
@@ -75,6 +97,7 @@ Future<run_process.RunProcessResult> runProcess({
   bool throwOnUnexpectedExitCode = false,
 }) =>
     run_process.runProcess(
+      filesystem: const LocalFileSystem(),
       executable: executable,
       arguments: arguments,
       workingDirectory: workingDirectory,
@@ -167,8 +190,14 @@ final cCompiler = (_cc == null || _ar == null || _ld == null)
         compiler: _cc!,
         archiver: _ar!,
         linker: _ld!,
-        envScript: _envScript,
-        envScriptArgs: _envScriptArgs,
+        windows: _envScript == null
+            ? null
+            : WindowsCCompilerConfig(
+                developerCommandPrompt: DeveloperCommandPrompt(
+                  script: _envScript!,
+                  arguments: _envScriptArgs ?? [],
+                ),
+              ),
       );
 
 extension on String {

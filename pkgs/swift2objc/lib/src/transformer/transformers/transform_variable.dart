@@ -1,4 +1,6 @@
+import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/variable_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
 import '../_core/unique_namer.dart';
@@ -13,7 +15,7 @@ import 'transform_referred_type.dart';
 // through the wrapped class instance in the wrapper class. In global variable
 // case, it can be  referenced directly since it's not a member of any entity.
 
-PropertyDeclaration? transformProperty(
+Declaration? transformProperty(
   PropertyDeclaration originalProperty,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
@@ -36,7 +38,7 @@ PropertyDeclaration? transformProperty(
   );
 }
 
-PropertyDeclaration transformGlobalVariable(
+Declaration transformGlobalVariable(
   GlobalVariableDeclaration globalVariable,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
@@ -54,7 +56,7 @@ PropertyDeclaration transformGlobalVariable(
 
 // -------------------------- Core Implementation --------------------------
 
-PropertyDeclaration _transformVariable(
+Declaration _transformVariable(
   VariableDeclaration originalVariable,
   UniqueNamer globalNamer,
   TransformationMap transformationMap, {
@@ -70,6 +72,25 @@ PropertyDeclaration _transformVariable(
   final shouldGenerateSetter = originalVariable is PropertyDeclaration
       ? originalVariable.hasSetter
       : !originalVariable.isConstant;
+
+  if (originalVariable.throws) {
+    return MethodDeclaration(
+      id: originalVariable.id,
+      name: wrapperPropertyName,
+      returnType: transformedType,
+      params: [],
+      hasObjCAnnotation: true,
+      isStatic: originalVariable is PropertyDeclaration
+          ? originalVariable.isStatic
+          : true,
+      statements: [
+        'let result = try $variableReferenceExpression',
+        'return $transformedType(result)',
+      ],
+      throws: true,
+      async: originalVariable.async,
+    );
+  }
 
   final transformedProperty = PropertyDeclaration(
     id: originalVariable.id,

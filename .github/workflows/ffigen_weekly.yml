@@ -28,12 +28,19 @@ jobs:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@74af56c5ed2697ba4621264652728e8d217e53d3
+      - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
         with:
           channel: 'stable'
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c"
+        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+      - name: Install clang-format
+        uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
+        with:
+          brew: clang-format
       - name: Build test dylib and bindings
         run: dart test/setup.dart --main-thread-dispatcher
       - name: Run VM tests
         run: flutter test
+      - name: Generate package:jni bindings
+        run: dart run tool/generate_ffi_bindings.dart
+        working-directory: pkgs/jni/

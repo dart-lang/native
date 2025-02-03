@@ -32,8 +32,8 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: ['foo'],
-          configValidator: (config) async => [],
-          buildValidator: (config, output) async => [],
+          inputValidator: (input) async => [],
+          buildValidator: (input, output) async => [],
           applicationAssetValidator: (_) async => [],
         );
         expect(

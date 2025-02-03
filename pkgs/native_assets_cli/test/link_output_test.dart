@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
+import 'package:native_assets_cli/src/config.dart';
 import 'package:native_assets_cli/src/utils/datetime.dart';
 import 'package:test/test.dart';
 
@@ -22,20 +23,19 @@ void main() {
     builder.addDependency(uris.take(1).single);
     builder.addDependencies(uris.skip(1).toList());
 
-    builder.addEncodedAsset(assets.take(1).single);
-    builder.addEncodedAssets(assets.skip(1).take(2).toList());
+    builder.assets.addEncodedAsset(assets.take(1).single);
+    builder.assets.addEncodedAssets(assets.skip(1).take(2).toList());
 
-    final config = BuildOutput(builder.json);
-    expect(config.timestamp.compareTo(before), greaterThanOrEqualTo(0));
-    expect(config.timestamp.compareTo(after), lessThanOrEqualTo(0));
+    final input = BuildOutput(builder.json);
+    expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
+    expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        config.timestamp
-            .isAtSameMomentAs(config.timestamp.roundDownToSeconds()),
+        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
         true);
 
     // The JSON format of the link output.
     <String, Object?>{
-      'version': '1.6.0',
+      'version': '1.9.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'assets': [
         {'a-0': 'v-0', 'type': 'my-asset-type'},
@@ -43,7 +43,7 @@ void main() {
         {'a-2': 'v-2', 'type': 'my-asset-type'}
       ]
     }.forEach((k, v) {
-      expect(config.json[k], equals(v));
+      expect(input.json[k], equals(v));
     });
   });
 
@@ -55,7 +55,7 @@ void main() {
           (e) =>
               e is FormatException &&
               e.message.contains(version) &&
-              e.message.contains(HookOutput.latestVersion.toString()),
+              e.message.contains(latestVersion.toString()),
         )),
       );
     });

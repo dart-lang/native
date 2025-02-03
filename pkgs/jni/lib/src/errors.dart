@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'third_party/generated_bindings.dart';
 
 // TODO(#567): Add the fact that [JException] is now a [JObject] to the
@@ -20,25 +22,24 @@ final class DoubleReleaseError extends StateError {
   DoubleReleaseError() : super('Double release error');
 }
 
-/// Represents JNI errors that might be returned by methods like
-/// `JNI_CreateJavaVM`.
+/// Represents JNI errors that might be returned by methods like `CreateJavaVM`.
 sealed class JniError extends Error {
   static const _errors = {
-    JniErrorCode.JNI_ERR: JniGenericError.new,
-    JniErrorCode.JNI_EDETACHED: JniThreadDetachedError.new,
-    JniErrorCode.JNI_EVERSION: JniVersionError.new,
-    JniErrorCode.JNI_ENOMEM: JniOutOfMemoryError.new,
-    JniErrorCode.JNI_EEXIST: JniVmExistsError.new,
-    JniErrorCode.JNI_EINVAL: JniArgumentError.new,
+    JniErrorCode.ERR: JniGenericError.new,
+    JniErrorCode.EDETACHED: JniThreadDetachedError.new,
+    JniErrorCode.EVERSION: JniVersionError.new,
+    JniErrorCode.ENOMEM: JniOutOfMemoryError.new,
+    JniErrorCode.EEXIST: JniVmExistsError.new,
+    JniErrorCode.EINVAL: JniArgumentError.new,
   };
 
   final String message;
 
   JniError(this.message);
 
-  factory JniError.of(int status) {
+  factory JniError.of(JniErrorCode status) {
     if (!_errors.containsKey(status)) {
-      status = JniErrorCode.JNI_ERR;
+      status = JniErrorCode.ERR;
     }
     return _errors[status]!();
   }
@@ -100,9 +101,30 @@ final class HelperNotFoundError extends Error {
 
   @override
   String toString() => '''
-Lookup for helper library $path failed.
-Please ensure that `dartjni` shared library is built.
-Provided jni:setup script can be used to build the shared library.
-If the library is already built, ensure that the JVM libraries can be 
-loaded from Dart.''';
+Unable to locate the helper library.
+
+Ensure that the helper library is available at the path: $path
+Run `dart jni:setup` to generate the shared library if it does not exist.
+
+Note: If the --build-path option is passed to jni:setup, Jni.spawn must be
+called with same dylibDir. Also when creating new Dart isolates, Jni.setDylibDir
+must be called.
+''';
+}
+
+final class DynamicLibraryLoadError extends Error {
+  final String libraryPath;
+
+  DynamicLibraryLoadError(this.libraryPath);
+
+  @override
+  String toString() {
+    return '''
+Failed to load dynamic library at path: $libraryPath
+The library was found at the specified path, but it could not be loaded. 
+This might be due to missing dependencies or incorrect file permissions. 
+Please ensure ${Platform.isWindows ? r'that `\bin\server\jvm.dll` is in the PATH, and ' : ''}that the file has the correct permissions.
+
+''';
+  }
 }

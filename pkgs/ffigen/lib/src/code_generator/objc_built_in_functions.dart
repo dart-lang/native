@@ -33,7 +33,10 @@ class ObjCBuiltInFunctions {
       ObjCImport('getProtocolMethodSignature');
   static const getProtocol = ObjCImport('getProtocol');
   static const objectRelease = ObjCImport('objectRelease');
+  static const signalWaiter = ObjCImport('signalWaiter');
+  static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
   static const objectBase = ObjCImport('ObjCObjectBase');
+  static const protocolBase = ObjCImport('ObjCProtocolBase');
   static const blockType = ObjCImport('ObjCBlock');
   static const consumedType = ObjCImport('Consumed');
   static const retainedType = ObjCImport('Retained');
@@ -93,6 +96,7 @@ class ObjCBuiltInFunctions {
   static const builtInCompounds = {
     'NSFastEnumerationState': 'NSFastEnumerationState',
     '_NSRange': 'NSRange',
+    '_NSZone': 'NSZone',
   };
   @visibleForTesting
   static const builtInEnums = {
@@ -123,7 +127,31 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInProtocols = {
-    'NSStreamDelegate',
+    'NSCoding': 'NSCoding',
+    'NSCopying': 'NSCopying',
+    'NSFastEnumeration': 'NSFastEnumeration',
+    'NSMutableCopying': 'NSMutableCopying',
+    'NSObject': 'NSObjectProtocol',
+    'NSSecureCoding': 'NSSecureCoding',
+    'NSStreamDelegate': 'NSStreamDelegate',
+  };
+  @visibleForTesting
+  static const builtInCategories = {
+    'NSDataCreation',
+    'NSExtendedArray',
+    'NSExtendedData',
+    'NSExtendedDate',
+    'NSExtendedDictionary',
+    'NSExtendedEnumerator',
+    'NSExtendedMutableArray',
+    'NSExtendedMutableData',
+    'NSExtendedMutableDictionary',
+    'NSExtendedMutableOrderedSet',
+    'NSExtendedMutableSet',
+    'NSExtendedOrderedSet',
+    'NSExtendedSet',
+    'NSNumberCreation',
+    'NSStringExtensionMethods',
   };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
@@ -134,8 +162,10 @@ class ObjCBuiltInFunctions {
       generateForPackageObjectiveC ? null : builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
       !generateForPackageObjectiveC && builtInEnums.contains(name);
-  bool isBuiltInProtocol(String name) =>
-      !generateForPackageObjectiveC && builtInProtocols.contains(name);
+  String? getBuiltInProtocolName(String name) =>
+      generateForPackageObjectiveC ? null : builtInProtocols[name];
+  bool isBuiltInCategory(String name) =>
+      !generateForPackageObjectiveC && builtInCategories.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
@@ -207,27 +237,50 @@ class ObjCBuiltInFunctions {
           Parameter(type: _methodSigType(p.type), objCConsumed: p.objCConsumed))
       .toList();
 
-  final _blockTrampolines = <String, ObjCListenerBlockTrampoline>{};
-  ObjCListenerBlockTrampoline? getListenerBlockTrampoline(ObjCBlock block) {
+  final _blockTrampolines = <String, ObjCBlockWrapperFuncs>{};
+  ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
     final id = _methodSigId(block.returnType, block.params);
     final idHash = fnvHash32(id).toRadixString(36);
-
-    return _blockTrampolines[id] ??= ObjCListenerBlockTrampoline(Func(
-      name: '_${wrapperName}_wrapListenerBlock_$idHash',
-      returnType: PointerType(objCBlockType),
-      parameters: [
-        Parameter(
-            name: 'block',
-            type: PointerType(objCBlockType),
-            objCConsumed: false)
-      ],
-      objCReturnsRetained: true,
-      isLeaf: true,
-      isInternal: true,
-      useNameForLookup: true,
-      ffiNativeConfig: const FfiNativeConfig(enabled: true),
-    ));
+    return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
+      _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash'),
+      _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
+          blocking: true),
+    );
   }
+
+  Func _blockTrampolineFunc(String name, {bool blocking = false}) => Func(
+        name: name,
+        returnType: PointerType(objCBlockType),
+        parameters: [
+          Parameter(
+              name: 'block',
+              type: PointerType(objCBlockType),
+              objCConsumed: false),
+          if (blocking) ...[
+            Parameter(
+                name: 'listnerBlock',
+                type: PointerType(objCBlockType),
+                objCConsumed: false),
+            Parameter(
+                name: 'newWaiter',
+                type: PointerType(NativeFunc(FunctionType(
+                    returnType: PointerType(voidType), parameters: []))),
+                objCConsumed: false),
+            Parameter(
+                name: 'awaitWaiter',
+                type: PointerType(
+                    NativeFunc(FunctionType(returnType: voidType, parameters: [
+                  Parameter(type: PointerType(voidType), objCConsumed: false),
+                ]))),
+                objCConsumed: false),
+          ],
+        ],
+        objCReturnsRetained: true,
+        isLeaf: true,
+        isInternal: true,
+        useNameForLookup: true,
+        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+      );
 
   static bool isInstanceType(Type type) {
     if (type is ObjCInstanceType) return true;
@@ -237,15 +290,18 @@ class ObjCBuiltInFunctions {
 }
 
 /// A native trampoline function for a listener block.
-class ObjCListenerBlockTrampoline extends AstNode {
-  final Func func;
+class ObjCBlockWrapperFuncs extends AstNode {
+  final Func listenerWrapper;
+  final Func blockingWrapper;
   bool objCBindingsGenerated = false;
-  ObjCListenerBlockTrampoline(this.func);
+
+  ObjCBlockWrapperFuncs(this.listenerWrapper, this.blockingWrapper);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(func);
+    visitor.visit(listenerWrapper);
+    visitor.visit(blockingWrapper);
   }
 }
 

@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/code_assets.dart';
 
+import '../../native_toolchain_c.dart';
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/clang.dart';
@@ -35,7 +36,7 @@ class CompilerResolver {
 
   Future<ToolInstance> resolveCompiler() async {
     // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadCompilerFromConfig();
+    var result = await _tryLoadCompilerFromInput();
 
     // Then, try to detect on the host machine.
     final tool = _selectCompiler();
@@ -98,16 +99,16 @@ class CompilerResolver {
     return null;
   }
 
-  Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
-    final configCcUri = codeConfig.cCompiler?.compiler;
-    if (configCcUri != null) {
-      assert(await File.fromUri(configCcUri).exists());
-      logger?.finer('Using compiler ${configCcUri.toFilePath()} '
-          'from BuildConfig.cCompiler.cc.');
-      return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
+  Future<ToolInstance?> _tryLoadCompilerFromInput() async {
+    final inputCcUri = codeConfig.cCompiler?.compiler;
+    if (inputCcUri != null) {
+      assert(await File.fromUri(inputCcUri).exists());
+      logger?.finer('Using compiler ${inputCcUri.toFilePath()} '
+          'from BuildInput.cCompiler.cc.');
+      return (await CompilerRecognizer(inputCcUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer('No compiler set in BuildConfig.cCompiler.cc.');
+    logger?.finer('No compiler set in BuildInput.cCompiler.cc.');
     return null;
   }
 
@@ -121,7 +122,7 @@ class CompilerResolver {
 
   Future<ToolInstance> resolveArchiver() async {
     // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadArchiverFromConfig();
+    var result = await _tryLoadArchiverFromInput();
 
     // Then, try to detect on the host machine.
     final tool = _selectArchiver();
@@ -183,49 +184,62 @@ class CompilerResolver {
     return null;
   }
 
-  Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
-    final configArUri = codeConfig.cCompiler?.archiver;
-    if (configArUri != null) {
-      assert(await File.fromUri(configArUri).exists());
-      logger?.finer('Using archiver ${configArUri.toFilePath()} '
-          'from BuildConfig.cCompiler.ar.');
-      return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
+  Future<ToolInstance?> _tryLoadArchiverFromInput() async {
+    final inputArUri = codeConfig.cCompiler?.archiver;
+    if (inputArUri != null) {
+      assert(await File.fromUri(inputArUri).exists());
+      logger?.finer('Using archiver ${inputArUri.toFilePath()} '
+          'from BuildInput.cCompiler.ar.');
+      return (await ArchiverRecognizer(inputArUri).resolve(logger: logger))
           .first;
     }
-    logger?.finer('No archiver set in BuildConfig.cCompiler.ar.');
+    logger?.finer('No archiver set in BuildInput.cCompiler.ar.');
     return null;
   }
 
-  Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = codeConfig.cCompiler?.envScript;
-    if (fromConfig != null) {
-      logger?.fine('Using envScript from config: $fromConfig');
-      return fromConfig;
+  Future<Map<String, String>> resolveEnvironment(ToolInstance compiler) async {
+    if (codeConfig.targetOS != OS.windows) {
+      return {};
+    }
+
+    final cCompilerConfig = codeConfig.cCompiler;
+    if (cCompilerConfig != null &&
+        cCompilerConfig.windows.developerCommandPrompt != null) {
+      final envScriptFromConfig =
+          cCompilerConfig.windows.developerCommandPrompt!.script;
+      final vcvarsArgs =
+          cCompilerConfig.windows.developerCommandPrompt!.arguments;
+      logger?.fine('Using envScript from input: $envScriptFromConfig');
+      if (vcvarsArgs.isNotEmpty) {
+        logger?.fine('Using envScriptArgs from input: $vcvarsArgs');
+      }
+      return await environmentFromBatchFile(
+        envScriptFromConfig,
+        arguments: vcvarsArgs,
+      );
     }
 
     final compilerTool = compiler.tool;
-    assert(compilerTool == cl);
+    if (compilerTool != cl) {
+      // If Clang is used on Windows, and we could discover the MSVC
+      // installation, then Clang should be able to discover it as well.
+      return {};
+    }
     final vcvarsScript =
         (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
-    return vcvarsScript.uri;
-  }
-
-  List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = codeConfig.cCompiler?.envScriptArgs;
-    if (fromConfig != null) {
-      logger?.fine('Using envScriptArgs from config: $fromConfig');
-      return fromConfig;
-    }
-
-    // vcvars above already has x64 or x86 in the script name.
-    return null;
+    return await environmentFromBatchFile(
+      vcvarsScript.uri,
+      arguments: [
+        /* vcvarsScript already has x64 or x86 in the script name. */
+      ],
+    );
   }
 
   Future<ToolInstance> resolveLinker() async {
     final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadLinkerFromConfig();
+    var result = await _tryLoadLinkerFromInput();
 
     // Then, try to detect on the host machine.
     final tool = _selectLinker();
@@ -244,13 +258,13 @@ class CompilerResolver {
     throw ToolError(errorMessage);
   }
 
-  Future<ToolInstance?> _tryLoadLinkerFromConfig() async {
-    final configLdUri = codeConfig.cCompiler?.linker;
-    if (configLdUri != null) {
-      assert(await File.fromUri(configLdUri).exists());
-      logger?.finer('Using linker ${configLdUri.toFilePath()} '
+  Future<ToolInstance?> _tryLoadLinkerFromInput() async {
+    final inputLdUri = codeConfig.cCompiler?.linker;
+    if (inputLdUri != null) {
+      assert(await File.fromUri(inputLdUri).exists());
+      logger?.finer('Using linker ${inputLdUri.toFilePath()} '
           'from cCompiler.ld.');
-      final tools = await LinkerRecognizer(configLdUri).resolve(logger: logger);
+      final tools = await LinkerRecognizer(inputLdUri).resolve(logger: logger);
       return tools.first;
     }
     logger?.finer('No linker set in cCompiler.ld.');

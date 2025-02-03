@@ -5,12 +5,13 @@
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
+import '../../ast_node.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
 
 /// Describes the declaration of a Swift protocol.
-class ProtocolDeclaration implements CompoundDeclaration {
+class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
   @override
   String id;
 
@@ -49,4 +50,20 @@ class ProtocolDeclaration implements CompoundDeclaration {
     this.nestingParent,
     this.nestedDeclarations = const [],
   });
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitProtocolDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(properties);
+    visitor.visitAll(methods);
+    visitor.visitAll(conformedProtocols);
+    visitor.visitAll(typeParams);
+    visitor.visitAll(initializers);
+    visitor.visit(nestingParent);
+    visitor.visitAll(nestedDeclarations);
+  }
 }
