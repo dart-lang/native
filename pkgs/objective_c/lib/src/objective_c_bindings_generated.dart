@@ -165,7 +165,7 @@ external ffi.Pointer<objc.ObjCBlockImpl>
 class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   DartInputStreamAdapter._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [DartInputStreamAdapter] that points to the same underlying object as [other].
   DartInputStreamAdapter.castFrom(objc.ObjCObjectBase other)
@@ -282,7 +282,7 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
 class DartProxy extends NSProxy {
   DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [DartProxy] that points to the same underlying object as [other].
   DartProxy.castFrom(objc.ObjCObjectBase other)
@@ -362,7 +362,7 @@ class DartProxy extends NSProxy {
 class DartProxyBuilder extends NSObject {
   DartProxyBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [DartProxyBuilder] that points to the same underlying object as [other].
   DartProxyBuilder.castFrom(objc.ObjCObjectBase other)
@@ -443,7 +443,7 @@ class NSArray extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSArray] that points to the same underlying object as [other].
   NSArray.castFrom(objc.ObjCObjectBase other)
@@ -614,7 +614,7 @@ class NSCharacterSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSCharacterSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSCharacterSet] that points to the same underlying object as [other].
   NSCharacterSet.castFrom(objc.ObjCObjectBase other)
@@ -1091,7 +1091,7 @@ class NSData extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSData._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSData] that points to the same underlying object as [other].
   NSData.castFrom(objc.ObjCObjectBase other)
@@ -1518,7 +1518,7 @@ enum NSDataWritingOptions {
 class NSDate extends NSObject implements NSCopying, NSSecureCoding {
   NSDate._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSDate] that points to the same underlying object as [other].
   NSDate.castFrom(objc.ObjCObjectBase other)
@@ -1684,7 +1684,7 @@ class NSDictionary extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSDictionary] that points to the same underlying object as [other].
   NSDictionary.castFrom(objc.ObjCObjectBase other)
@@ -1885,7 +1885,7 @@ enum NSEnumerationOptions {
 class NSEnumerator extends NSObject implements NSFastEnumeration {
   NSEnumerator._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSEnumerator] that points to the same underlying object as [other].
   NSEnumerator.castFrom(objc.ObjCObjectBase other)
@@ -1950,7 +1950,7 @@ class NSEnumerator extends NSObject implements NSFastEnumeration {
 class NSError extends NSObject implements NSCopying, NSSecureCoding {
   NSError._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSError] that points to the same underlying object as [other].
   NSError.castFrom(objc.ObjCObjectBase other)
@@ -3304,7 +3304,7 @@ class NSIndexSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding {
   NSIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSIndexSet] that points to the same underlying object as [other].
   NSIndexSet.castFrom(objc.ObjCObjectBase other)
@@ -3496,7 +3496,7 @@ class NSIndexSet extends NSObject
 class NSInputStream extends NSStream {
   NSInputStream._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSInputStream] that points to the same underlying object as [other].
   NSInputStream.castFrom(objc.ObjCObjectBase other)
@@ -3610,7 +3610,7 @@ class NSInvocation extends objc.ObjCObjectBase {
 class NSItemProvider extends NSObject implements NSCopying {
   NSItemProvider._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSItemProvider] that points to the same underlying object as [other].
   NSItemProvider.castFrom(objc.ObjCObjectBase other)
@@ -4011,7 +4011,7 @@ class NSLocale extends objc.ObjCObjectBase {
 class NSMethodSignature extends NSObject {
   NSMethodSignature._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMethodSignature] that points to the same underlying object as [other].
   NSMethodSignature.castFrom(objc.ObjCObjectBase other)
@@ -4104,7 +4104,7 @@ class NSMethodSignature extends NSObject {
 class NSMutableArray extends NSArray {
   NSMutableArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableArray] that points to the same underlying object as [other].
   NSMutableArray.castFrom(objc.ObjCObjectBase other)
@@ -4332,7 +4332,7 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
 class NSMutableData extends NSData {
   NSMutableData._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableData] that points to the same underlying object as [other].
   NSMutableData.castFrom(objc.ObjCObjectBase other)
@@ -4661,7 +4661,7 @@ class NSMutableData extends NSData {
 class NSMutableDictionary extends NSDictionary {
   NSMutableDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableDictionary] that points to the same underlying object as [other].
   NSMutableDictionary.castFrom(objc.ObjCObjectBase other)
@@ -4858,7 +4858,7 @@ class NSMutableDictionary extends NSDictionary {
 class NSMutableIndexSet extends NSIndexSet {
   NSMutableIndexSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableIndexSet] that points to the same underlying object as [other].
   NSMutableIndexSet.castFrom(objc.ObjCObjectBase other)
@@ -5012,7 +5012,7 @@ class NSMutableIndexSet extends NSIndexSet {
 class NSMutableOrderedSet extends NSOrderedSet {
   NSMutableOrderedSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableOrderedSet] that points to the same underlying object as [other].
   NSMutableOrderedSet.castFrom(objc.ObjCObjectBase other)
@@ -5320,7 +5320,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
 class NSMutableSet extends NSSet {
   NSMutableSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableSet] that points to the same underlying object as [other].
   NSMutableSet.castFrom(objc.ObjCObjectBase other)
@@ -5485,7 +5485,7 @@ class NSMutableSet extends NSSet {
 class NSMutableString extends NSString {
   NSMutableString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSMutableString] that points to the same underlying object as [other].
   NSMutableString.castFrom(objc.ObjCObjectBase other)
@@ -5930,7 +5930,7 @@ class NSMutableString extends NSString {
 class NSNotification extends NSObject implements NSCopying, NSCoding {
   NSNotification._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSNotification] that points to the same underlying object as [other].
   NSNotification.castFrom(objc.ObjCObjectBase other)
@@ -6068,7 +6068,7 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
 class NSNumber extends NSValue {
   NSNumber._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSNumber] that points to the same underlying object as [other].
   NSNumber.castFrom(objc.ObjCObjectBase other)
@@ -7500,7 +7500,7 @@ class NSOrderedCollectionDifference extends NSObject
     implements NSFastEnumeration {
   NSOrderedCollectionDifference._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSOrderedCollectionDifference] that points to the same underlying object as [other].
   NSOrderedCollectionDifference.castFrom(objc.ObjCObjectBase other)
@@ -7656,7 +7656,7 @@ class NSOrderedSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSOrderedSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSOrderedSet] that points to the same underlying object as [other].
   NSOrderedSet.castFrom(objc.ObjCObjectBase other)
@@ -7930,7 +7930,7 @@ class NSOrderedSet extends NSObject
 class NSOutputStream extends NSStream {
   NSOutputStream._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSOutputStream] that points to the same underlying object as [other].
   NSOutputStream.castFrom(objc.ObjCObjectBase other)
@@ -8358,7 +8358,7 @@ class NSSet extends NSObject
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   NSSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSSet] that points to the same underlying object as [other].
   NSSet.castFrom(objc.ObjCObjectBase other)
@@ -8546,7 +8546,7 @@ enum NSSortOptions {
 class NSStream extends NSObject {
   NSStream._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSStream] that points to the same underlying object as [other].
   NSStream.castFrom(objc.ObjCObjectBase other)
@@ -8839,7 +8839,7 @@ class NSString extends NSObject
 
   NSString._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSString] that points to the same underlying object as [other].
   NSString.castFrom(objc.ObjCObjectBase other)
@@ -10129,7 +10129,7 @@ extension NSStringExtensionMethods on NSString {
 class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   NSURL._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSURL] that points to the same underlying object as [other].
   NSURL.castFrom(objc.ObjCObjectBase other)
@@ -10828,7 +10828,7 @@ enum NSURLBookmarkResolutionOptions {
 class NSURLHandle extends NSObject {
   NSURLHandle._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSURLHandle] that points to the same underlying object as [other].
   NSURLHandle.castFrom(objc.ObjCObjectBase other)
@@ -10912,7 +10912,7 @@ enum NSURLHandleStatus {
 class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   NSValue._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super._(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release);
 
   /// Constructs a [NSValue] that points to the same underlying object as [other].
   NSValue.castFrom(objc.ObjCObjectBase other)
