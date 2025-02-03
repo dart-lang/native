@@ -44,7 +44,7 @@ MethodDeclaration parseMethodDeclaration(
     isStatic: isStatic,
     throws: info.throws,
     async: info.async,
-    mutating: _parseFunctionIsMutating(methodSymbolJson)
+    mutating: info.mutating
   );
 }
 
@@ -52,6 +52,7 @@ typedef ParsedFunctionInfo = ({
   List<Parameter> params,
   bool throws,
   bool async,
+  bool mutating,
 });
 
 ParsedFunctionInfo parseFunctionInfo(
@@ -59,9 +60,9 @@ ParsedFunctionInfo parseFunctionInfo(
   ParsedSymbolgraph symbolgraph,
 ) {
   // `declarationFragments` describes each part of the function declaration,
-  // things like the `func` keyword, brackets, spaces, etc. We only care about
-  // the parameter fragments and annotations here, and they always appear in
-  // this order:
+  // things like the `func` keyword, brackets, spaces, etc. 
+  // For the most part, We only care about the parameter fragments and 
+  // annotations here, and they always appear in this order:
   // [
   //   ..., '(',
   //   externalParam, ' ', internalParam, ': ', type..., ', '
@@ -81,6 +82,7 @@ ParsedFunctionInfo parseFunctionInfo(
   );
 
   var tokens = TokenList(declarationFragments);
+
   String? maybeConsume(String kind) {
     if (tokens.isEmpty) return null;
     final spelling = getSpellingForKind(tokens[0], kind);
@@ -136,18 +138,16 @@ ParsedFunctionInfo parseFunctionInfo(
     }
   }
 
+
   return (
     params: parameters,
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
-  );
-}
-
-bool _parseFunctionIsMutating(Json methodSymbolJson) {
-  return methodSymbolJson['declarationFragments']
+    mutating: declarationFragments
   .where((j) => j['kind'].get<String?>() == 'keyword' 
     && j['spelling'].get<String?>() == 'mutating')
-  .isNotEmpty;
+  .isNotEmpty
+  );
 }
 
 ReferredType _parseFunctionReturnType(
