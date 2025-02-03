@@ -63,7 +63,7 @@ void compileJavaSources(String workingDir, List<String> files) async {
   }
 }
 
-Config getConfig() {
+Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
   compileJavaSources(javaPath, javaFiles);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
@@ -71,7 +71,7 @@ Config getConfig() {
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
-    summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
+    summarizerOptions: SummarizerOptions(backend: backend),
     classes: [
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',

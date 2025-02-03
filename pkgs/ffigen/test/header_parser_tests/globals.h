@@ -14,6 +14,8 @@ const int32_t *const aGlobalPointer3 = nullptr;
 long double longDouble;
 long double *pointerToLongDouble;
 
+int globalArray0[3];
+
 // This should be ignored
 int GlobalIgnore;
 
