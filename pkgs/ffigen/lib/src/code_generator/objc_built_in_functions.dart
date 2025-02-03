@@ -36,6 +36,7 @@ class ObjCBuiltInFunctions {
   static const signalWaiter = ObjCImport('signalWaiter');
   static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
   static const objectBase = ObjCImport('ObjCObjectBase');
+  static const protocolBase = ObjCImport('ObjCProtocolBase');
   static const blockType = ObjCImport('ObjCBlock');
   static const consumedType = ObjCImport('Consumed');
   static const retainedType = ObjCImport('Retained');
@@ -126,7 +127,13 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInProtocols = {
-    'NSStreamDelegate',
+    'NSCoding': 'NSCoding',
+    'NSCopying': 'NSCopying',
+    'NSFastEnumeration': 'NSFastEnumeration',
+    'NSMutableCopying': 'NSMutableCopying',
+    'NSObject': 'NSObjectProtocol',
+    'NSSecureCoding': 'NSSecureCoding',
+    'NSStreamDelegate': 'NSStreamDelegate',
   };
   @visibleForTesting
   static const builtInCategories = {
@@ -155,8 +162,8 @@ class ObjCBuiltInFunctions {
       generateForPackageObjectiveC ? null : builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
       !generateForPackageObjectiveC && builtInEnums.contains(name);
-  bool isBuiltInProtocol(String name) =>
-      !generateForPackageObjectiveC && builtInProtocols.contains(name);
+  String? getBuiltInProtocolName(String name) =>
+      generateForPackageObjectiveC ? null : builtInProtocols[name];
   bool isBuiltInCategory(String name) =>
       !generateForPackageObjectiveC && builtInCategories.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Extra methods inserted into NSString by tool/generate_code.dart.
-class NSString extends NSObject {
+class NSString extends NSObject implements NSCopying, NSMutableCopying, NSSecureCoding {
   factory NSString(String str) {
     final cstr = str.toNativeUtf16();
     final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);

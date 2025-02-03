@@ -1,7 +1,12 @@
-## 0.13.2
+## 0.14.1-wip
 
 - Removed the need to install Maven for the `ApiSummarizer` tool 
 - Removed the need to install Maven for arbitrary dependency downloads
+
+## 0.14.0
+
+- Fixed a bug where the source parser would not have all of the type paremeters
+  of the types.
 
 ## 0.13.1
 

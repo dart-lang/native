@@ -21,13 +21,6 @@ InitializerDeclaration parseInitializerDeclaration(
 
   final info = parseFunctionInfo(declarationFragments, symbolgraph);
 
-  if (info.async) {
-    // TODO(https://github.com/dart-lang/native/issues/1778): Support async
-    // initializerse.
-    throw Exception("Async initializers aren't supported yet, at "
-        '${initializerSymbolJson.path}');
-  }
-
   return InitializerDeclaration(
     id: id,
     params: info.params,

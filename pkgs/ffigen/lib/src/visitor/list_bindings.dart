@@ -79,11 +79,17 @@ class ListBindingsVisitation extends Visitation {
           : _IncludeBehavior.configOnly);
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) => _visitImpl(
-      node,
-      config.includeTransitiveObjCProtocols
-          ? _IncludeBehavior.configOrTransitive
-          : _IncludeBehavior.configOnly);
+  void visitObjCProtocol(ObjCProtocol node) {
+    if (!_visitImpl(
+            node,
+            config.includeTransitiveObjCProtocols
+                ? _IncludeBehavior.configOrTransitive
+                : _IncludeBehavior.configOnly) &&
+        directTransitives.contains(node)) {
+      node.generateAsStub = true;
+      bindings.add(node);
+    }
+  }
 
   @override
   void visitTypealias(Typealias node) {

@@ -25,6 +25,7 @@ void main() {
     setUpAll(() {
       final yaml =
           loadYaml(File('ffigen_objc.yaml').readAsStringSync()) as YamlMap;
+
       final interfaceRenames =
           (yaml['objc-interfaces'] as YamlMap)['rename'] as YamlMap;
       yamlInterfaces = ((yaml['objc-interfaces'] as YamlMap)['include']
@@ -33,21 +34,28 @@ void main() {
               (dynamic name) => (interfaceRenames[name] ?? name) as String)
           .toList()
         ..sort();
+
       final structRenames = (yaml['structs'] as YamlMap)['rename'] as YamlMap;
       yamlStructs = ((yaml['structs'] as YamlMap)['include'] as YamlList)
           .map<String>(
               (dynamic name) => (structRenames[name] ?? name) as String)
           .toList()
         ..sort();
+
       yamlEnums = ((yaml['enums'] as YamlMap)['include'] as YamlList)
           .map<String>((dynamic i) => i as String)
           .toList()
         ..sort();
+
+      final protocolRenames =
+          (yaml['objc-protocols'] as YamlMap)['rename'] as YamlMap;
       yamlProtocols = ((yaml['objc-protocols'] as YamlMap)['include']
               as YamlList)
-          .map<String>((dynamic i) => i as String)
+          .map<String>(
+              (dynamic name) => (protocolRenames[name] ?? name) as String)
           .toList()
         ..sort();
+
       yamlCategories = ((yaml['objc-categories'] as YamlMap)['include']
               as YamlList)
           .map<String>((dynamic i) => i as String)
@@ -68,7 +76,7 @@ void main() {
     });
 
     test('ObjCBuiltInFunctions.builtInProtocols', () {
-      expect(ObjCBuiltInFunctions.builtInProtocols, yamlProtocols);
+      expect(ObjCBuiltInFunctions.builtInProtocols.values, yamlProtocols);
     });
 
     test('ObjCBuiltInFunctions.builtInCategories', () {
@@ -155,8 +163,7 @@ void main() {
     });
 
     test('All code genned protocols are included in the list', () {
-      final protocolNameRegExp =
-          RegExp(r'^abstract final class (?!ObjCBlock_)(\w+) {');
+      final protocolNameRegExp = RegExp(r'^abstract interface class (\w+) ');
       final allProtocolNames = <String>[];
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {
@@ -179,6 +186,12 @@ void main() {
         }
       }
       expect(allCategoryNames, unorderedEquals(yamlCategories));
+    });
+
+    test('No stubs', () {
+      final bindings = File('lib/src/objective_c_bindings_generated.dart')
+          .readAsStringSync();
+      expect(bindings, isNot(contains(RegExp(r'\Wstub\W'))));
     });
   });
 }

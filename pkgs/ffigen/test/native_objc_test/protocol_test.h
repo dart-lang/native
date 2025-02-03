@@ -68,6 +68,10 @@ typedef struct {
 - (int32_t)fooMethod;
 @end
 
+@protocol FilteredUnusedProtocol
+- (int32_t)filteredUnusedProtocolMethod;
+@end
+
 
 @interface ProtocolConsumer : NSObject
 - (NSString*)callInstanceMethod:(id<MyProtocol>)protocol;
