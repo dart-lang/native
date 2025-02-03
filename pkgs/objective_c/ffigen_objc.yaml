@@ -72,6 +72,8 @@ objc-protocols:
     - NSCoding
     - NSCopying
     - NSFastEnumeration
+    - NSItemProviderReading
+    - NSItemProviderWriting
     - NSMutableCopying
     - NSObject
     - NSSecureCoding

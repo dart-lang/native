@@ -74,11 +74,12 @@ typedef struct {
 
 
 @interface ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol;
+- (NSString*)callInstanceMethod:(id<SuperProtocol>)protocol;
 - (int32_t)callOptionalMethod:(id<MyProtocol>)protocol;
 - (int32_t)callOtherMethod:(id<SecondaryProtocol>)protocol;
 - (void)callMethodOnRandomThread:(id<MyProtocol>)protocol;
 - (void)callBlockingMethodOnRandomThread:(id<MyProtocol>)protocol;
+- (int32_t)callTwoMethods:(id<MyProtocol, SecondaryProtocol>)protocol;
 @end
 
 

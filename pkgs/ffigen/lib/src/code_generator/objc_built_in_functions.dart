@@ -130,6 +130,8 @@ class ObjCBuiltInFunctions {
     'NSCoding': 'NSCoding',
     'NSCopying': 'NSCopying',
     'NSFastEnumeration': 'NSFastEnumeration',
+    'NSItemProviderReading': 'NSItemProviderReading',
+    'NSItemProviderWriting': 'NSItemProviderWriting',
     'NSMutableCopying': 'NSMutableCopying',
     'NSObject': 'NSObjectProtocol',
     'NSSecureCoding': 'NSSecureCoding',

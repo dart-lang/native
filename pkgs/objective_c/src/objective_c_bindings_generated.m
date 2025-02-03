@@ -16,6 +16,10 @@ Protocol* _ObjectiveCBindings_NSCopying(void) { return @protocol(NSCopying); }
 
 Protocol* _ObjectiveCBindings_NSFastEnumeration(void) { return @protocol(NSFastEnumeration); }
 
+Protocol* _ObjectiveCBindings_NSItemProviderReading(void) { return @protocol(NSItemProviderReading); }
+
+Protocol* _ObjectiveCBindings_NSItemProviderWriting(void) { return @protocol(NSItemProviderWriting); }
+
 Protocol* _ObjectiveCBindings_NSMutableCopying(void) { return @protocol(NSMutableCopying); }
 
 Protocol* _ObjectiveCBindings_NSObject(void) { return @protocol(NSObject); }

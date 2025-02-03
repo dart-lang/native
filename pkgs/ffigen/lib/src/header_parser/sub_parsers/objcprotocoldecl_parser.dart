@@ -29,6 +29,22 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     return cachedProtocol;
   }
 
+  // There's a strange shape in the AST for protocols seen in certain contexts,
+  // where instead of the AST looking like (decl -> methods/etc), it looks like
+  // (stubDecl --superProto-> decl -> methods/etc). If we try and parse the stub
+  // in this case, we'll be left with an empty protocol with itself as its super
+  // protocol. The USR is the same for both the stub and the real decl, so at
+  // least this case is easy to detect and fix.
+  final selfSuperCursor = cursor.findChildWhere((child) {
+    if (child.kind == clang_types.CXCursorKind.CXCursor_ObjCProtocolRef) {
+      return clang.clang_getCursorDefinition(child).usr() == usr;
+    }
+    return false;
+  });
+  if (selfSuperCursor != null) {
+    cursor = clang.clang_getCursorDefinition(selfSuperCursor);
+  }
+
   if (!isApiAvailable(cursor)) {
     _logger.info('Omitting deprecated protocol $name');
     return null;

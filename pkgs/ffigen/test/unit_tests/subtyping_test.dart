@@ -41,8 +41,8 @@ void main() {
     final proto2 = makeProtocol('Proto2', []);
     final proto3 = makeProtocol('Proto3', []);
     final proto4 = makeProtocol('Proto4', []);
-    final protoSub1 = makeProtocol('ProtoS1', [proto1]);
-    final protoSub12 = makeProtocol('ProtoS12', [protoSub1, proto2]);
+    final protoSub1 = makeProtocol('ProtoSub1', [proto1]);
+    final protoSub12 = makeProtocol('ProtoSub12', [protoSub1, proto2]);
 
     final grandparent = makeInterface('Grandparent', null, [protoSub12]);
     final parent = makeInterface('Parent', grandparent, [protoSub1, proto3]);
@@ -352,6 +352,36 @@ void main() {
       final block = makeBlock(voidType, []);
       expect(block.isSubtypeOf(ObjCBlockPointer()), isTrue);
       expect(ObjCBlockPointer().isSubtypeOf(block), isFalse);
+    });
+
+    test('ObjCObjectPointerWithProtocols', () {
+      final idP1 = ObjCObjectPointerWithProtocols([proto1]);
+      final idP2 = ObjCObjectPointerWithProtocols([proto2]);
+      final idP1P2 = ObjCObjectPointerWithProtocols([proto1, proto2]);
+      final idP2P1 = ObjCObjectPointerWithProtocols([proto2, proto1]);
+      final idPSub1 = ObjCObjectPointerWithProtocols([protoSub1]);
+      final idPSub12 = ObjCObjectPointerWithProtocols([protoSub12]);
+
+      expect(idP1.isSubtypeOf(idP1), isTrue);
+      expect(idP1.isSubtypeOf(idP2), isFalse);
+      expect(idP2.isSubtypeOf(idP1), isFalse);
+
+      expect(idP1P2.isSubtypeOf(idP1), isTrue);
+      expect(idP1.isSubtypeOf(idP1P2), isTrue);
+      expect(idP1P2.isSubtypeOf(idP2), isFalse);
+      expect(idP1P2.isSubtypeOf(idP2P1), isFalse);
+      expect(idP2P1.isSubtypeOf(idP2), isTrue);
+      expect(idP2.isSubtypeOf(idP2P1), isTrue);
+
+      expect(idPSub1.isSubtypeOf(idP1), isTrue);
+      expect(idP1.isSubtypeOf(idPSub1), isFalse);
+      expect(idPSub12.isSubtypeOf(idP1), isTrue);
+      expect(idPSub12.isSubtypeOf(idP2), isTrue);
+      expect(idP1.isSubtypeOf(idPSub12), isFalse);
+      expect(idP2.isSubtypeOf(idPSub12), isFalse);
+
+      expect(ObjCObjectPointer().isSubtypeOf(idP1), isFalse);
+      expect(idP1.isSubtypeOf(ObjCObjectPointer()), isTrue);
     });
   });
 }

@@ -17,6 +17,7 @@ import '../sub_parsers/enumdecl_parser.dart';
 import '../sub_parsers/function_type_param_parser.dart';
 import '../sub_parsers/objc_block_parser.dart';
 import '../sub_parsers/objcinterfacedecl_parser.dart';
+import '../sub_parsers/objcprotocoldecl_parser.dart';
 import '../sub_parsers/typedefdecl_parser.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
@@ -54,6 +55,18 @@ Type getCodeGenType(
         final s = getCodeGenType(pt, pointerReference: true);
         if (s is ObjCInterface) {
           return s;
+        }
+        final numProtocols = clang.clang_Type_getNumObjCProtocolRefs(pt);
+        if (numProtocols > 0) {
+          final protocols = <ObjCProtocol>[];
+          for (var i = 0; i < numProtocols; ++i) {
+            final pdecl = clang.clang_Type_getObjCProtocolDecl(pt, i);
+            final p = parseObjCProtocolDeclaration(pdecl);
+            if (p != null) protocols.add(p);
+          }
+          if (protocols.isNotEmpty) {
+            return ObjCObjectPointerWithProtocols(protocols);
+          }
         }
         return PointerType(objCObjectType);
       case clang_types.CXTypeKind.CXType_ObjCId:
