@@ -3,11 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/_core/interfaces/compound_declaration.dart';
+import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
+import '../../../ast/declarations/compounds/members/associated_type_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../../ast/declarations/compounds/protocol_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
@@ -106,4 +109,129 @@ StructDeclaration parseStructDeclaration(
     StructDeclaration.new,
     symbolgraph,
   );
+}
+
+// TODO(https://github.com/dart-lang/native/issues/1815): Implement extensions before adding support for default implementations
+ProtocolDeclaration parseProtocolDeclaration(
+    ParsedSymbol protocolSymbol, ParsedSymbolgraph symbolgraph) {
+  final compoundId = parseSymbolId(protocolSymbol.json);
+  final compoundRelations = symbolgraph.relations[compoundId] ?? [];
+
+  // construct protocol
+  final protocol = ProtocolDeclaration(
+      id: compoundId,
+      name: parseSymbolName(protocolSymbol.json),
+      properties: [],
+      methods: [],
+      initializers: [],
+      conformedProtocols: [],
+      typeParams: []);
+
+  // get optional member declarations if any
+  final optionalMemberDeclarations = compoundRelations
+      .where((relation) {
+        final isOptionalRequirementRelation =
+            relation.kind == ParsedRelationKind.optionalRequirementOf;
+        final isMemberOfProtocol = relation.targetId == compoundId;
+        return isMemberOfProtocol && isOptionalRequirementRelation;
+      })
+      .map((relation) {
+        final memberSymbol = symbolgraph.symbols[relation.sourceId];
+        if (memberSymbol == null) {
+          return null;
+        }
+        return tryParseDeclaration(memberSymbol, symbolgraph);
+      })
+      .nonNulls
+      .dedupeBy((decl) => decl.id)
+      .toList();
+
+  // get normal member declarations
+  final memberDeclarations = compoundRelations
+      .where((relation) {
+        final isOptionalRequirementRelation =
+            relation.kind == ParsedRelationKind.requirementOf &&
+                relation.kind != ParsedRelationKind.optionalRequirementOf;
+        final isMemberOfProtocol = relation.targetId == compoundId;
+        return isMemberOfProtocol && isOptionalRequirementRelation;
+      })
+      .map((relation) {
+        final memberSymbol = symbolgraph.symbols[relation.sourceId];
+
+        if (memberSymbol == null) {
+          return null;
+        }
+
+        return tryParseDeclaration(memberSymbol, symbolgraph);
+      })
+      .nonNulls
+      .dedupeBy((decl) => decl.id)
+      .toList();
+
+  // get conformed protocols
+  final conformedProtocolDeclarations = compoundRelations
+      .where((relation) {
+        final isOptionalRequirementRelation =
+            relation.kind == ParsedRelationKind.conformsTo;
+        final isMemberOfProtocol = relation.sourceId == compoundId;
+        return isMemberOfProtocol && isOptionalRequirementRelation;
+      })
+      .map((relation) {
+        final memberSymbol = symbolgraph.symbols[relation.targetId];
+        if (memberSymbol == null) {
+          return null;
+        }
+        var conformedDecl = tryParseDeclaration(memberSymbol, symbolgraph)
+            as ProtocolDeclaration;
+        return conformedDecl.asDeclaredType;
+      })
+      .nonNulls
+      .dedupeBy((decl) => decl.id)
+      .toList();
+
+  // If the protocol has optional members, it must be annotated with `@objc`
+  if (optionalMemberDeclarations.isNotEmpty) {
+    protocol.hasObjCAnnotation = true;
+  }
+
+  protocol.associatedTypes.addAll(memberDeclarations
+      .whereType<AssociatedTypeDeclaration>()
+      .map((decl) => decl.asType())
+      .dedupeBy((m) => m.name));
+
+  protocol.methods.addAll(
+    memberDeclarations
+        .whereType<MethodDeclaration>()
+        .dedupeBy((m) => m.fullName),
+  );
+
+  protocol.properties.addAll(
+    memberDeclarations.whereType<PropertyDeclaration>(),
+  );
+
+  protocol.optionalMethods.addAll(
+    optionalMemberDeclarations
+        .whereType<MethodDeclaration>()
+        .dedupeBy((m) => m.fullName),
+  );
+
+  protocol.optionalProperties.addAll(
+    optionalMemberDeclarations.whereType<PropertyDeclaration>(),
+  );
+
+  protocol.conformedProtocols.addAll(conformedProtocolDeclarations);
+
+  protocol.initializers.addAll(
+    memberDeclarations
+        .whereType<InitializerDeclaration>()
+        .dedupeBy((m) => m.fullName),
+  );
+
+  protocol.nestedDeclarations.addAll(
+    memberDeclarations.whereType<NestableDeclaration>(),
+  );
+
+  protocol.nestedDeclarations.fillNestingParents(protocol);
+
+  return protocol;
 }
