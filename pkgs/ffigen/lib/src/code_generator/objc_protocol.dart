@@ -83,6 +83,16 @@ class ObjCProtocol extends BindingType with ObjCMethods {
 interface class $name extends $protocolBase $impls{
   $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
           super(pointer, retain: retain, release: release);
+
+  /// Constructs a [$name] that points to the same underlying object as [other].
+  $name.castFrom($objectBase other) :
+      this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [$name] that wraps the given raw object pointer.
+  $name.castFromPointer($rawObjType other,
+      {bool retain = false, bool release = false}) :
+      this._(other, retain: retain, release: release);
+
 ''');
 
     if (!generateAsStub) {
@@ -216,15 +226,6 @@ interface class $name extends $protocolBase $impls{
       }
 
       s.write('''
-  /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($objectBase other) :
-      this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [$name] that wraps the given raw object pointer.
-  $name.castFromPointer($rawObjType other,
-      {bool retain = false, bool release = false}) :
-      this._(other, retain: retain, release: release);
-
   /// Returns whether [obj] is an instance of [$name].
   static bool conformsTo($objectBase obj) {
     return ${_conformsToMsgSend.invoke(
