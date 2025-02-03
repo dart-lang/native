@@ -73,7 +73,12 @@ Declaration _transformVariable(
       ? originalVariable.hasSetter
       : !originalVariable.isConstant;
 
-  if (originalVariable.throws) {
+  if (originalVariable.throws || originalVariable.async) {
+    final prefix = [
+      if (originalVariable.throws) 'try',
+      if (originalVariable.async) 'await'
+    ].join(' ');
+
     return MethodDeclaration(
       id: originalVariable.id,
       name: wrapperPropertyName,
@@ -84,10 +89,10 @@ Declaration _transformVariable(
           ? originalVariable.isStatic
           : true,
       statements: [
-        'let result = try $variableReferenceExpression',
+        'let result = $prefix $variableReferenceExpression',
         'return $transformedType(result)',
       ],
-      throws: true,
+      throws: originalVariable.throws,
       async: originalVariable.async,
     );
   }
