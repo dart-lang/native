@@ -3784,15 +3784,41 @@ enum NSItemProviderFileOptions {
       };
 }
 
-/// WARNING: NSItemProviderReading is a stub. To generate bindings for this class, include
-/// NSItemProviderReading in your config's objc-protocols list.
-///
 /// NSItemProviderReading
 interface class NSItemProviderReading extends objc.ObjCProtocolBase
     implements NSObjectProtocol {
   NSItemProviderReading._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSItemProviderReading] that points to the same underlying object as [other].
+  NSItemProviderReading.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSItemProviderReading] that wraps the given raw object pointer.
+  NSItemProviderReading.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSItemProviderReading].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(obj.ref.pointer, _sel_conformsToProtocol_,
+        _protocol_NSItemProviderReading);
+  }
+
+  /// Builds an object that implements the NSItemProviderReading protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  static NSItemProviderReading implement() {
+    final builder = objc.ObjCProtocolBuilder();
+
+    return NSItemProviderReading.castFrom(builder.build());
+  }
+
+  /// Adds the implementation of the NSItemProviderReading protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  static void addToBuilder(
+    objc.ObjCProtocolBuilder builder,
+  ) {}
 }
 
 enum NSItemProviderRepresentationVisibility {
@@ -3815,15 +3841,92 @@ enum NSItemProviderRepresentationVisibility {
       };
 }
 
-/// WARNING: NSItemProviderWriting is a stub. To generate bindings for this class, include
-/// NSItemProviderWriting in your config's objc-protocols list.
-///
 /// NSItemProviderWriting
 interface class NSItemProviderWriting extends objc.ObjCProtocolBase
     implements NSObjectProtocol {
   NSItemProviderWriting._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSItemProviderWriting] that points to the same underlying object as [other].
+  NSItemProviderWriting.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSItemProviderWriting] that wraps the given raw object pointer.
+  NSItemProviderWriting.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSItemProviderWriting].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(obj.ref.pointer, _sel_conformsToProtocol_,
+        _protocol_NSItemProviderWriting);
+  }
+
+  /// Builds an object that implements the NSItemProviderWriting protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  static NSItemProviderWriting implement(
+      {NSItemProviderRepresentationVisibility Function(NSString)?
+          itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+      NSArray Function()? writableTypeIdentifiersForItemProvider}) {
+    final builder = objc.ObjCProtocolBuilder();
+    NSItemProviderWriting
+        .itemProviderVisibilityForRepresentationWithTypeIdentifier_
+        .implement(builder,
+            itemProviderVisibilityForRepresentationWithTypeIdentifier_);
+    NSItemProviderWriting.writableTypeIdentifiersForItemProvider
+        .implement(builder, writableTypeIdentifiersForItemProvider);
+    return NSItemProviderWriting.castFrom(builder.build());
+  }
+
+  /// Adds the implementation of the NSItemProviderWriting protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  static void addToBuilder(objc.ObjCProtocolBuilder builder,
+      {NSItemProviderRepresentationVisibility Function(NSString)?
+          itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+      NSArray Function()? writableTypeIdentifiersForItemProvider}) {
+    NSItemProviderWriting
+        .itemProviderVisibilityForRepresentationWithTypeIdentifier_
+        .implement(builder,
+            itemProviderVisibilityForRepresentationWithTypeIdentifier_);
+    NSItemProviderWriting.writableTypeIdentifiersForItemProvider
+        .implement(builder, writableTypeIdentifiersForItemProvider);
+  }
+
+  /// itemProviderVisibilityForRepresentationWithTypeIdentifier:
+  static final itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
+      objc.ObjCProtocolMethod<
+          NSItemProviderRepresentationVisibility Function(NSString)>(
+    _protocol_NSItemProviderWriting,
+    _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+    objc.getProtocolMethodSignature(
+      _protocol_NSItemProviderWriting,
+      _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+      isRequired: false,
+      isInstanceMethod: true,
+    ),
+    (NSItemProviderRepresentationVisibility Function(NSString) func) =>
+        ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString
+            .fromFunction(
+                (ffi.Pointer<ffi.Void> _, NSString arg1) => func(arg1)),
+  );
+
+  /// writableTypeIdentifiersForItemProvider
+  static final writableTypeIdentifiersForItemProvider =
+      objc.ObjCProtocolMethod<NSArray Function()>(
+    _protocol_NSItemProviderWriting,
+    _sel_writableTypeIdentifiersForItemProvider,
+    objc.getProtocolMethodSignature(
+      _protocol_NSItemProviderWriting,
+      _sel_writableTypeIdentifiersForItemProvider,
+      isRequired: false,
+      isInstanceMethod: true,
+    ),
+    (NSArray Function() func) => ObjCBlock_NSArray_ffiVoid.fromFunction((
+      ffi.Pointer<ffi.Void> _,
+    ) =>
+        func()),
+  );
 }
 
 enum NSKeyValueChange {
@@ -10893,6 +10996,193 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
 
 final class NSZone extends ffi.Opaque {}
 
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<ffi.Void> arg0)>>()
+        .asFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+                ffi.Pointer<ffi.Void>)>()(arg0);
+ffi.Pointer<ffi.Void> _ObjCBlock_NSArray_ffiVoid_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
+            _ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline)
+        .cast();
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSArray_ffiVoid_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+    (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<ffi.Void>))(arg0);
+ffi.Pointer<ffi.Void> _ObjCBlock_NSArray_ffiVoid_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
+            _ObjCBlock_NSArray_ffiVoid_closureTrampoline)
+        .cast();
+
+/// Construction methods for `objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>`.
+abstract final class ObjCBlock_NSArray_ffiVoid {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(pointer,
+              retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> fromFunctionPointer(
+          ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObject> Function(
+                          ffi.Pointer<ffi.Void> arg0)>>
+              ptr) =>
+      objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
+          objc.newPointerBlock(
+              _ObjCBlock_NSArray_ffiVoid_fnPtrCallable, ptr.cast()),
+          retain: false,
+          release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> fromFunction(
+          NSArray Function(ffi.Pointer<ffi.Void>) fn) =>
+      objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
+          objc.newClosureBlock(
+              _ObjCBlock_NSArray_ffiVoid_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0) =>
+                  fn(arg0).ref.retainAndAutorelease()),
+          retain: false,
+          release: true);
+}
+
+/// Call operator for `objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>`.
+extension ObjCBlock_NSArray_ffiVoid_CallExtension
+    on objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> {
+  NSArray call(ffi.Pointer<ffi.Void> arg0) => NSArray.castFromPointer(
+      ref.pointer.ref.invoke
+          .cast<
+              ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObject> Function(
+                      ffi.Pointer<objc.ObjCBlockImpl> block,
+                      ffi.Pointer<ffi.Void> arg0)>>()
+          .asFunction<
+              ffi.Pointer<objc.ObjCObject> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0),
+      retain: true,
+      release: true);
+}
+
+int _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<ffi.Void> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Long Function(ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1)>>()
+        .asFunction<
+            int Function(ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Long Function(ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline,
+            0)
+        .cast();
+int _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<ffi.Void> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    (objc.getBlockClosure(block) as int Function(
+        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Long Function(ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline,
+            0)
+        .cast();
+
+/// Construction methods for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>`.
+abstract final class ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
+              pointer,
+              retain: retain,
+              release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>
+      fromFunctionPointer(
+              ffi.Pointer<
+                      ffi.NativeFunction<
+                          ffi.Long Function(ffi.Pointer<ffi.Void> arg0,
+                              ffi.Pointer<objc.ObjCObject> arg1)>>
+                  ptr) =>
+          objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
+              objc.newPointerBlock(_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable, ptr.cast()),
+              retain: false,
+              release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)> fromFunction(
+          NSItemProviderRepresentationVisibility Function(
+                  ffi.Pointer<ffi.Void>, NSString)
+              fn) =>
+      objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
+          objc.newClosureBlock(
+              _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
+                  fn(arg0, NSString.castFromPointer(arg1, retain: true, release: true))
+                      .value),
+          retain: false,
+          release: true);
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>`.
+extension ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_CallExtension
+    on objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)> {
+  NSItemProviderRepresentationVisibility call(
+          ffi.Pointer<ffi.Void> arg0, NSString arg1) =>
+      NSItemProviderRepresentationVisibility.fromValue(ref.pointer.ref.invoke
+              .cast<
+                  ffi.NativeFunction<
+                      ffi.Long Function(
+                          ffi.Pointer<objc.ObjCBlockImpl> block,
+                          ffi.Pointer<ffi.Void> arg0,
+                          ffi.Pointer<objc.ObjCObject> arg1)>>()
+              .asFunction<
+                  int Function(ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>()(
+          ref.pointer, arg0, arg1.ref.pointer));
+}
+
 ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSString_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
@@ -13975,6 +14265,16 @@ final _objc_msgSend_16f0drb = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+final _objc_msgSend_16fy0up = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Long Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        int Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_17amj0z = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -15800,6 +16100,10 @@ final _objc_msgSend_zug4wi = objc.msgSendPointer
 late final _protocol_NSCoding = objc.getProtocol("NSCoding");
 late final _protocol_NSCopying = objc.getProtocol("NSCopying");
 late final _protocol_NSFastEnumeration = objc.getProtocol("NSFastEnumeration");
+late final _protocol_NSItemProviderReading =
+    objc.getProtocol("NSItemProviderReading");
+late final _protocol_NSItemProviderWriting =
+    objc.getProtocol("NSItemProviderWriting");
 late final _protocol_NSMutableCopying = objc.getProtocol("NSMutableCopying");
 late final _protocol_NSObject = objc.getProtocol("NSObject");
 late final _protocol_NSSecureCoding = objc.getProtocol("NSSecureCoding");
@@ -16302,6 +16606,9 @@ late final _sel_isSubsetOfOrderedSet_ =
     objc.registerName("isSubsetOfOrderedSet:");
 late final _sel_isSubsetOfSet_ = objc.registerName("isSubsetOfSet:");
 late final _sel_isSupersetOfSet_ = objc.registerName("isSupersetOfSet:");
+late final _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
+    objc.registerName(
+        "itemProviderVisibilityForRepresentationWithTypeIdentifier:");
 late final _sel_keyEnumerator = objc.registerName("keyEnumerator");
 late final _sel_keysSortedByValueUsingSelector_ =
     objc.registerName("keysSortedByValueUsingSelector:");
@@ -16706,6 +17013,8 @@ late final _sel_whitespaceAndNewlineCharacterSet =
     objc.registerName("whitespaceAndNewlineCharacterSet");
 late final _sel_whitespaceCharacterSet =
     objc.registerName("whitespaceCharacterSet");
+late final _sel_writableTypeIdentifiersForItemProvider =
+    objc.registerName("writableTypeIdentifiersForItemProvider");
 late final _sel_writeBookmarkData_toURL_options_error_ =
     objc.registerName("writeBookmarkData:toURL:options:error:");
 late final _sel_writeToFile_atomically_ =
