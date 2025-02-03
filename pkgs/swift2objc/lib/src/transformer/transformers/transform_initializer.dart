@@ -39,7 +39,7 @@ Declaration transformInitializer(
 
     return MethodDeclaration(
       id: originalInitializer.id,
-      name:'${originalInitializer.name}Wrapper',
+      name: '${originalInitializer.name}Wrapper',
       returnType: originalInitializer.isFailable
           ? OptionalType(methodReturnType)
           : methodReturnType,
@@ -83,17 +83,8 @@ List<String> _generateInitializerStatements(
   PropertyDeclaration wrappedClassInstance,
   InitializerDeclaration transformedInitializer,
 ) {
-  final localNamer = UniqueNamer();
-  final arguments = generateInvocationParams(
-      localNamer, originalInitializer.params, transformedInitializer.params);
-  var instanceConstruction =
-      '${wrappedClassInstance.type.swiftType}($arguments)';
-  if (transformedInitializer.async) {
-    instanceConstruction = 'await $instanceConstruction';
-  }
-  if (transformedInitializer.throws) {
-    instanceConstruction = 'try $instanceConstruction';
-  }
+  final (instanceConstruction, localNamer) = _generateInstanceConstruction(
+      originalInitializer, wrappedClassInstance, transformedInitializer.params);
   if (originalInitializer.isFailable) {
     final instance = localNamer.makeUnique('instance');
     return [
@@ -114,17 +105,8 @@ List<String> _generateMethodStatements(
   ReferredType wrapperClass,
   List<Parameter> transformedParams,
 ) {
-  final localNamer = UniqueNamer();
-  final arguments = generateInvocationParams(
-      localNamer, originalInitializer.params, transformedParams);
-  var instanceConstruction =
-      '${wrappedClassInstance.type.swiftType}($arguments)';
-  if (originalInitializer.async) {
-    instanceConstruction = 'await $instanceConstruction';
-  }
-  if (originalInitializer.throws) {
-    instanceConstruction = 'try $instanceConstruction';
-  }
+  final (instanceConstruction, localNamer) = _generateInstanceConstruction(
+      originalInitializer, wrappedClassInstance, transformedParams);
   final instance = localNamer.makeUnique('instance');
   if (originalInitializer.isFailable) {
     return [
@@ -140,4 +122,23 @@ List<String> _generateMethodStatements(
       'return ${wrapperClass.swiftType}($instance)',
     ];
   }
+}
+
+(String, UniqueNamer) _generateInstanceConstruction(
+  InitializerDeclaration originalInitializer,
+  PropertyDeclaration wrappedClassInstance,
+  List<Parameter> transformedParams,
+) {
+  final localNamer = UniqueNamer();
+  final arguments = generateInvocationParams(
+      localNamer, originalInitializer.params, transformedParams);
+  var instanceConstruction =
+      '${wrappedClassInstance.type.swiftType}($arguments)';
+  if (originalInitializer.async) {
+    instanceConstruction = 'await $instanceConstruction';
+  }
+  if (originalInitializer.throws) {
+    instanceConstruction = 'try $instanceConstruction';
+  }
+  return (instanceConstruction, localNamer);
 }
