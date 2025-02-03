@@ -197,12 +197,13 @@ extension CXCursorExt on clang_types.CXCursor {
     return result == 0;
   }
 
-  /// Returns the first child with the given CXCursorKind, or null if there
+  /// Returns the first child where `predicate(child)` is true, or null if there
   /// isn't one.
-  clang_types.CXCursor? findChildWithKind(int kind) {
+  clang_types.CXCursor? findChildWhere(
+      bool Function(clang_types.CXCursor) predicate) {
     clang_types.CXCursor? result;
     visitChildrenMayBreak((child) {
-      if (child.kind == kind) {
+      if (predicate(child)) {
         result = child;
         return false;
       }
@@ -210,6 +211,11 @@ extension CXCursorExt on clang_types.CXCursor {
     });
     return result;
   }
+
+  /// Returns the first child with the given CXCursorKind, or null if there
+  /// isn't one.
+  clang_types.CXCursor? findChildWithKind(int kind) =>
+      findChildWhere((child) => child.kind == kind);
 
   /// Returns whether there is a child with the given CXCursorKind.
   bool hasChildWithKind(int kind) => findChildWithKind(kind) != null;

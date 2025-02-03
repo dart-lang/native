@@ -13,6 +13,8 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   final ObjCInternalGlobal _protocolPointer;
+  late final ObjCInternalGlobal _conformsTo;
+  late final ObjCMsgSendFunc _conformsToMsgSend;
 
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
@@ -33,9 +35,18 @@ class ObjCProtocol extends BindingType with ObjCMethods {
             (Writer w) =>
                 '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")'),
         super(
-            name: name ??
-                builtInFunctions.getBuiltInProtocolName(originalName) ??
-                originalName);
+            name: builtInFunctions.getBuiltInProtocolName(originalName) ??
+                name ??
+                originalName) {
+    _conformsTo = builtInFunctions.getSelObject('conformsToProtocol:');
+    _conformsToMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
+      Parameter(
+        name: 'protocol',
+        type: PointerType(objCProtocolType),
+        objCConsumed: false,
+      )
+    ]);
+  }
 
   @override
   bool get isObjCImport =>
@@ -52,6 +63,7 @@ class ObjCProtocol extends BindingType with ObjCMethods {
         ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
     final protocolBuilder = ObjCBuiltInFunctions.protocolBuilder.gen(w);
     final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
+    final rawObjType = PointerType(objCObjectType).getCType(w);
     final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
 
     final s = StringBuffer();
@@ -65,10 +77,23 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final protoImpl = superProtocols.isEmpty
-        ? protocolBase
-        : superProtocols.map((p) => p.getDartType(w)).join(', ');
-    s.write('abstract interface class $name implements $protoImpl {');
+    final sp = superProtocols.map((p) => p.getDartType(w));
+    final impls = superProtocols.isEmpty ? '' : 'implements ${sp.join(', ')}';
+    s.write('''
+interface class $name extends $protocolBase $impls{
+  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
+          super(pointer, retain: retain, release: release);
+
+  /// Constructs a [$name] that points to the same underlying object as [other].
+  $name.castFrom($objectBase other) :
+      this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [$name] that wraps the given raw object pointer.
+  $name.castFromPointer($rawObjType other,
+      {bool retain = false, bool release = false}) :
+      this._(other, retain: retain, release: release);
+
+''');
 
     if (!generateAsStub) {
       final buildArgs = <String>[];
@@ -150,10 +175,10 @@ class ObjCProtocol extends BindingType with ObjCMethods {
       final builders = '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
-  static $objectBase implement($args) {
+  static $name implement($args) {
     final builder = $protocolBuilder();
     $buildImplementations
-    return builder.build();
+    return $name.castFrom(builder.build());
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -169,10 +194,10 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static $objectBase implementAsListener($args) {
+  static $name implementAsListener($args) {
     final builder = $protocolBuilder();
     $buildListenerImplementations
-    return builder.build();
+    return $name.castFrom(builder.build());
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -185,10 +210,10 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static $objectBase implementAsBlocking($args) {
+  static $name implementAsBlocking($args) {
     final builder = $protocolBuilder();
     $buildBlockingImplementations
-    return builder.build();
+    return $name.castFrom(builder.build());
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -201,6 +226,16 @@ class ObjCProtocol extends BindingType with ObjCMethods {
       }
 
       s.write('''
+  /// Returns whether [obj] is an instance of [$name].
+  static bool conformsTo($objectBase obj) {
+    return ${_conformsToMsgSend.invoke(
+        w,
+        'obj.ref.pointer',
+        _conformsTo.name,
+        [_protocolPointer.name],
+      )};
+  }
+
   $builders
   $listenerBuilders
   $methodFields
@@ -264,8 +299,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
     required bool objCRetain,
     String? objCEnclosingClass,
   }) =>
-      ObjCInterface.generateConstructor(
-          '${w.objcPkgPrefix}.ObjCObjectBase', value, objCRetain);
+      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 
   @override
   String? generateRetain(String value) =>
@@ -305,6 +339,8 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
     super.visitChildren(visitor);
     visitor.visit(_protocolPointer);
     visitor.visitAll(superProtocols);
+    visitor.visit(_conformsTo);
+    visitor.visit(_conformsToMsgSend);
     visitMethods(visitor);
   }
 }
