@@ -51,18 +51,18 @@ class MethodDeclaration
         for (final p in params) p.name,
       ].join(':');
 
-  MethodDeclaration({
-    required this.id,
-    required this.name,
-    required this.returnType,
-    required this.params,
-    this.typeParams = const [],
-    this.hasObjCAnnotation = false,
-    this.statements = const [],
-    this.isStatic = false,
-    this.isOverriding = false,
-    this.throws = false,
-    this.async = false,
-    this.mutating = false
-  }) : assert(!isStatic || !isOverriding);
+  MethodDeclaration(
+      {required this.id,
+      required this.name,
+      required this.returnType,
+      required this.params,
+      this.typeParams = const [],
+      this.hasObjCAnnotation = false,
+      this.statements = const [],
+      this.isStatic = false,
+      this.isOverriding = false,
+      this.throws = false,
+      this.async = false,
+      this.mutating = false})
+      : assert(!isStatic || !isOverriding);
 }

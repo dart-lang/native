@@ -457,10 +457,8 @@ void main() {
       expect(info.async, isTrue);
     });
 
-
     test('Mutating Function that throws', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(jsonDecode('''
         [
                 {
                     "kind": "keyword",
@@ -541,8 +539,7 @@ void main() {
                     "spelling": "throws"
                 }
             ]
-        '''
-      ));
+        '''));
 
       final info = parseFunctionInfo(json, emptySymbolgraph);
 

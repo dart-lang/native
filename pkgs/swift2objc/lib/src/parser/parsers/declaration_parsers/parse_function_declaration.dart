@@ -36,16 +36,15 @@ MethodDeclaration parseMethodDeclaration(
   final info =
       parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph);
   return MethodDeclaration(
-    id: parseSymbolId(methodSymbolJson),
-    name: parseSymbolName(methodSymbolJson),
-    returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
-    params: info.params,
-    hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
-    isStatic: isStatic,
-    throws: info.throws,
-    async: info.async,
-    mutating: info.mutating
-  );
+      id: parseSymbolId(methodSymbolJson),
+      name: parseSymbolName(methodSymbolJson),
+      returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
+      params: info.params,
+      hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
+      isStatic: isStatic,
+      throws: info.throws,
+      async: info.async,
+      mutating: info.mutating);
 }
 
 typedef ParsedFunctionInfo = ({
@@ -60,8 +59,8 @@ ParsedFunctionInfo parseFunctionInfo(
   ParsedSymbolgraph symbolgraph,
 ) {
   // `declarationFragments` describes each part of the function declaration,
-  // things like the `func` keyword, brackets, spaces, etc. 
-  // For the most part, We only care about the parameter fragments and 
+  // things like the `func` keyword, brackets, spaces, etc.
+  // For the most part, We only care about the parameter fragments and
   // annotations here, and they always appear in this order:
   // [
   //   ..., '(',
@@ -138,15 +137,15 @@ ParsedFunctionInfo parseFunctionInfo(
     }
   }
 
-
   return (
     params: parameters,
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
     mutating: declarationFragments
-  .where((j) => j['kind'].get<String?>() == 'keyword' 
-    && j['spelling'].get<String?>() == 'mutating')
-  .isNotEmpty
+        .where((j) =>
+            j['kind'].get<String?>() == 'keyword' &&
+            j['spelling'].get<String?>() == 'mutating')
+        .isNotEmpty
   );
 }
 
