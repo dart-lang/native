@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-import '../../tools.dart';
 import '../logging/logging.dart';
 
 class _AndroidToolsException implements Exception {
@@ -189,9 +188,9 @@ task $_gradleGetSourcesTaskName(type: Copy) {
     // TODO replace with pub-cache lookup after merge
     if (Directory.current.path.contains('jnigen')) {
       final parts = Directory.current.path.split(Platform.pathSeparator);
-      int jnigenLocation = parts.indexOf('jnigen');
+      final jnigenLocation = parts.indexOf('jnigen');
       final buffer = StringBuffer();
-      for (int i = 0; i <= jnigenLocation; i++) {
+      for (var i = 0; i <= jnigenLocation; i++) {
         buffer.write(parts[i] + Platform.pathSeparator);
       }
       log.info(buffer);

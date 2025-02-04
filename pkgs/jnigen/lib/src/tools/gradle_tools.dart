@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-import '../../tools.dart';
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 
@@ -60,7 +59,7 @@ class GradleTools {
       List<MavenDependency> deps, String targetDir) async {
     final tempDir = await currentDir.createTemp('maven_temp_');
     await _runGradleCommand(deps, targetDir, downloadSources: true);
-    log.info("targetDir: $targetDir");
+    log.info('targetDir: $targetDir');
     await tempDir.delete(recursive: true);
   }
 
@@ -73,7 +72,7 @@ class GradleTools {
     // to generate a build
     await File(join(rootTempDir.path, 'settings.gradle')).writeAsString('');
 
-    final javaSourceStub = join(rootTempDir.path, "Main.java");
+    final javaSourceStub = join(rootTempDir.path, 'Main.java');
     const javaStubCode = '''
       public class Main {
         public static void main(String[] args) {
@@ -111,21 +110,21 @@ class GradleTools {
     }
     
     java {
-        sourceCompatibility = JavaVersion.VERSION_${javaVersion}
-        targetCompatibility = JavaVersion.VERSION_${javaVersion}
+        sourceCompatibility = JavaVersion.VERSION_$javaVersion
+        targetCompatibility = JavaVersion.VERSION_$javaVersion
     }
     
     idea {
       module {
           setDownloadJavadoc(false)
-          setDownloadSources(${downloadSources})
+          setDownloadSources($downloadSources)
       }
     }
     
     tasks.register<Copy>("copyTask") {
     from(configurations.runtimeClasspath)
-    into(\"${targetDir}\")
-    //into(\"\$buildDir\/output\/lib\")
+    into("$targetDir")
+    //into("\$buildDir/output/lib")
     }
     
     dependencies {
@@ -149,6 +148,6 @@ class MavenDependency {
   Map<String, String> otherTags;
 
   String toGradleDependency(String configuration) {
-    return "$configuration(\"$groupID:$artifactID:$version\")";
+    return '$configuration("$groupID:$artifactID:$version")';
   }
 }

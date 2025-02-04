@@ -6,14 +6,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:path/path.dart';
 
 import '../../tools.dart';
 import '../config/config.dart';
 import '../elements/elements.dart';
 import '../generate_bindings.dart';
 import '../logging/logging.dart';
-import '../tools/gradle_tools.dart';
 
 class SummaryParseException implements Exception {
   final String? stderr;
