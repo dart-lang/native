@@ -206,7 +206,7 @@ void main(List<String> arguments) async {
   } else {
     verboseLog('Running gradle task for building jni sources to $buildPath.');
     await runCommand(
-        gradleWExecutable.path, ['jar'], await findSources('jni', 'java'));
+        gradleWExecutable.toFilePath(windows: Platform.isWindows), ['jar'], await findSources('jni', 'java'));
   }
 
   for (var srcPath in sources) {
