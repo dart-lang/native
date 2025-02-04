@@ -16,7 +16,8 @@ void main(List<String> args) async {
   final mavenDownloads = config.mavenDownloads;
   if (mavenDownloads != null) {
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
+        GradleTools.deps(
+            mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
         mavenDownloads.jarDir);
     await Directory(mavenDownloads.jarDir)
         .list()

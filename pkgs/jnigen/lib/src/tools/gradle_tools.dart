@@ -20,7 +20,7 @@ class GradleTools {
     return proc.exitCode;
   }
 
-  static Future<Uri?> getGradleWExecutable() async{
+  static Future<Uri?> getGradleWExecutable() async {
     final pkg = await findPackageRoot('jnigen');
     if (Platform.isLinux || Platform.isMacOS) {
       return pkg!.resolve('gradlew');
@@ -31,10 +31,8 @@ class GradleTools {
   }
 
   static Future<void> _runGradleCommand(
-      List<MavenDependency> deps,
-      String targetDir,
-      {bool downloadSources = false}
-      ) async {
+      List<MavenDependency> deps, String targetDir,
+      {bool downloadSources = false}) async {
     final gradleWrapper = await getGradleWExecutable();
     final gradle = _getStubGradle(deps, File(targetDir).absolute.path,
         downloadSources: downloadSources);
@@ -44,7 +42,7 @@ class GradleTools {
     log.finer('using Gradle stub:\n$gradle');
     await File(tempGradle).writeAsString(gradle);
     final gradleArgs = [
-      '-b',         // specify gradle file to run
+      '-b', // specify gradle file to run
       tempGradle,
       'copyTask'
     ];
@@ -67,15 +65,14 @@ class GradleTools {
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
-    final sourceDir = await Directory(
-        join(rootTempDir.path, 'src/main/java/')).create(recursive: true);
+    final sourceDir = await Directory(join(rootTempDir.path, 'src/main/java/'))
+        .create(recursive: true);
     log.info(sourceDir);
 
     // A settings.gradle file and a valid Java source file is required
     // to generate a build
-    await File(
-        join(rootTempDir.path, 'settings.gradle')).writeAsString('');
-    
+    await File(join(rootTempDir.path, 'settings.gradle')).writeAsString('');
+
     final javaSourceStub = join(rootTempDir.path, "Main.java");
     const javaStubCode = '''
       public class Main {
@@ -95,8 +92,7 @@ class GradleTools {
     await tempDir.delete(recursive: true);
   }
 
-  static String _getStubGradle(List<MavenDependency> deps,
-      String targetDir,
+  static String _getStubGradle(List<MavenDependency> deps, String targetDir,
       {String javaVersion = '11', bool downloadSources = false}) {
     final depDecls = <String>[];
     // Use implementation configuration

@@ -172,16 +172,17 @@ task $_gradleGetSourcesTaskName(type: Copy) {
   // First looking in immediate working director
   // Then android project subdirectory
   // And finally in local jnigen directory (for now)
-  // When merged, gradlew will be in pub-cache 
+  // When merged, gradlew will be in pub-cache
   // and use that as fallback lookup
   static File? locateGradleW() {
-    final gradleCommandToLocate = Platform.isWindows ? 'gradlew.bat' : 'gradlew';
+    final gradleCommandToLocate =
+        Platform.isWindows ? 'gradlew.bat' : 'gradlew';
     if (File(gradleCommandToLocate).existsSync()) {
       return File(gradleCommandToLocate);
     }
     // Look in android directory
-    final androidDirGradleWrapper = File(
-        join(Directory.current.path, 'android', gradleCommandToLocate));
+    final androidDirGradleWrapper =
+        File(join(Directory.current.path, 'android', gradleCommandToLocate));
     if (androidDirGradleWrapper.existsSync()) {
       return androidDirGradleWrapper;
     }
@@ -190,7 +191,7 @@ task $_gradleGetSourcesTaskName(type: Copy) {
       final parts = Directory.current.path.split(Platform.pathSeparator);
       int jnigenLocation = parts.indexOf('jnigen');
       final buffer = StringBuffer();
-      for (int i = 0; i<=jnigenLocation; i++) {
+      for (int i = 0; i <= jnigenLocation; i++) {
         buffer.write(parts[i] + Platform.pathSeparator);
       }
       log.info(buffer);
@@ -227,7 +228,7 @@ task $_gradleGetSourcesTaskName(type: Copy) {
     log.info(gradleCommand);
     ProcessResult procRes;
     try {
-      if(gradleCommand == null){
+      if (gradleCommand == null) {
         throw GradleException('''\n\nGradle execution failed.
         
 Could not locate gradlew(.bat)

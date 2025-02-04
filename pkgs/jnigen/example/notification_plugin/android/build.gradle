@@ -1,5 +1,13 @@
 // The Android Gradle Plugin builds the native code with the Android NDK.
-
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.library:com.android.library.gradle.plugin:8.8.0'
+    }
+}
 group 'com.example.notification_plugin'
 version '1.0'
 

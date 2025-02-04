@@ -121,12 +121,11 @@ Future<Classes> getSummary(Config config) async {
   if (mavenDl != null) {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
-     //await MavenTools.downloadMavenSources(
-     //    MavenTools.deps(mavenDl.sourceDeps), sourcePath);
     extraSources.add(Uri.directory(sourcePath));
     final jarPath = mavenDl.jarDir;
     await Directory(jarPath).create(recursive: true);
-    await GradleTools.downloadMavenJars(GradleTools.deps(mavenDl.sourceDeps), mavenDl.jarDir);
+    await GradleTools.downloadMavenJars(
+        GradleTools.deps(mavenDl.sourceDeps), mavenDl.jarDir);
     extraJars.addAll(await Directory(jarPath)
         .list()
         .where((entry) => entry.path.endsWith('.jar'))

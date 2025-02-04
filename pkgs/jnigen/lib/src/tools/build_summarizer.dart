@@ -18,12 +18,12 @@ import '../util/find_package.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');
-final gradleBuildDir = join('.','java', 'build');
+final gradleBuildDir = join('.', 'java', 'build');
 final gradleTargetDir = join(gradleBuildDir, 'libs');
 final jarFile = join(gradleTargetDir, 'ApiSummarizer.jar');
 final targetJarFile = join(toolPath, 'ApiSummarizer.jar');
 
-Future<Uri?> getGradleWExecutable() async{
+Future<Uri?> getGradleWExecutable() async {
   final pkg = await findPackageRoot('jnigen');
   if (Platform.isLinux || Platform.isMacOS) {
     return pkg!.resolve('gradlew');
@@ -44,15 +44,17 @@ Future<void> buildApiSummarizer() async {
   final gradleArgs = [
     '-b',
     gradleFile.toFilePath(),
-    'buildFatJar',       // from ktor plugin
-    '-x', 'test'   // ignore failing tests
+    'buildFatJar', // from ktor plugin
+    '-x', 'test' // ignore failing tests
   ];
 
   try {
-    final gradleProc = await Process.run(gradleWrapper!.toFilePath(), gradleArgs,
+    final gradleProc = await Process.run(
+        gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath, runInShell: true);
     final exitCode = gradleProc.exitCode;
-    final sourceJar = File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
+    final sourceJar =
+        File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
 
     if (exitCode == 0) {
       sourceJar.copySync(targetJarFile);
@@ -61,9 +63,7 @@ Future<void> buildApiSummarizer() async {
       printError(gradleProc.stderr);
       printError('gradle exited with $exitCode');
     }
-  } finally {
-
-  }
+  } finally {}
 }
 
 Future<void> buildSummarizerIfNotExists({bool force = false}) async {

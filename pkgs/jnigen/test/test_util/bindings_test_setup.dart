@@ -46,7 +46,11 @@ Future<void> bindingsTestSetup() async {
   final gradlew = await GradleTools.getGradleWExecutable();
   await runCommand(
     gradlew!.path,
-    ['buildFatJar', '-b', join(Directory.current.path, kotlinTest, 'build.gradle.kts')],
+    [
+      'buildFatJar',
+      '-b',
+      join(Directory.current.path, kotlinTest, 'build.gradle.kts')
+    ],
     workingDirectory: kotlinTest,
     runInShell: true,
   );
