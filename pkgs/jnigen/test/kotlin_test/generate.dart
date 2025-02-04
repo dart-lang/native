@@ -44,7 +44,6 @@ Config getConfig() {
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
   );
-  print(Uri.file(jarPath));
   final config = Config(
     classPath: [Uri.file(jarPath)],
     classes: [

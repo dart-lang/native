@@ -12,6 +12,7 @@
 import 'dart:io';
 
 import 'package:jni/jni.dart';
+import 'package:jnigen/src/tools/gradle_tools.dart';
 import 'package:path/path.dart' hide equals;
 
 import 'test_util.dart';
@@ -22,7 +23,6 @@ final kotlinTest = join('test', 'kotlin_test');
 final jniJar = join('build', 'jni_libs', 'jni.jar');
 
 final simplePackageTestJava = join(simplePackageTest, 'java');
-final kotlinTestKotlin = join(kotlinTest, 'kotlin');
 
 late Directory tempClassDir;
 
@@ -43,15 +43,16 @@ Future<void> bindingsTestSetup() async {
 
   final jacksonJars = await getJarPaths(join(jacksonCoreTest, 'third_party'));
 
+  final gradlew = await GradleTools.getGradleWExecutable();
   await runCommand(
-    'mvn',
-    ['package'],
-    workingDirectory: kotlinTestKotlin,
+    gradlew!.path,
+    ['buildFatJar', '-b', join(Directory.current.path, kotlinTest, 'build.gradle.kts')],
+    workingDirectory: kotlinTest,
     runInShell: true,
   );
   // Jar including Kotlin runtime and dependencies.
   final kotlinTestJar =
-      join(kotlinTestKotlin, 'target', 'kotlin_test-jar-with-dependencies.jar');
+      join(kotlinTest, 'build', 'libs', 'kotlin_test-all.jar');
 
   if (!Platform.isAndroid) {
     Jni.spawn(dylibDir: join('build', 'jni_libs'), classPath: [
