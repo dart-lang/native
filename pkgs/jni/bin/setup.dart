@@ -195,9 +195,9 @@ void main(List<String> arguments) async {
   final javaSrc = await findSources('jni', 'java');
   final targetJar = File.fromUri(buildDir.uri.resolve('jni.jar'));
 
-  final gradleWExecutable = (Platform.isLinux || Platform.isMacOS) ?
-    Uri.directory(javaSrc).resolve('gradlew') :
-  Uri.directory(javaSrc).resolve('gradlew.bar');
+  final gradleWExecutable = (Platform.isLinux || Platform.isMacOS)
+      ? Uri.directory(javaSrc).resolve('gradlew')
+      : Uri.directory(javaSrc).resolve('gradlew.bat');
 
   if (!needsBuild(targetJar, Directory.fromUri(Uri.directory(javaSrc)))) {
     verboseLog('Last modified of ${targetJar.path}: '
@@ -205,8 +205,8 @@ void main(List<String> arguments) async {
     stderr.writeln('Target newer than source, skipping build.');
   } else {
     verboseLog('Running gradle task for building jni sources to $buildPath.');
-    await runCommand(gradleWExecutable.path,
-    ['jar'], await findSources('jni', 'java'));
+    await runCommand(
+        gradleWExecutable.path, ['jar'], await findSources('jni', 'java'));
   }
 
   for (var srcPath in sources) {

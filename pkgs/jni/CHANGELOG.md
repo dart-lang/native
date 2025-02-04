@@ -1,3 +1,9 @@
+## 0.14.1
+- Moved build system for Java code from Maven to Gradle.
+- Updated `bin\setup.dart` to do lookup for a Gradle wrapper executable.
+- Change eliminates the need to install Maven, all that is 
+  needed is a Java install.
+
 ## 0.14.0
 
 - Added `DynamicLibraryLoadError` which is thrown when the dynamic library fails
