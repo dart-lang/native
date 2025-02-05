@@ -37,9 +37,13 @@ Future<bool> isPackageModifiedAfter(String packageName, DateTime time,
   // In case of git / pub package we might be able to check pubspec, but no
   // such technique applies for path packages.
   await for (final entry in dir.list(recursive: true)) {
-    // Ignore .gradle files that might be touched to finalize a build
+    // Ignore unrelated files that might be touched to finalize a build
     // and therefore report a later time in error
-    if (!entry.path.contains('.gradle')) {
+    // Same condition for the build library to be milliseconds older
+    // than the copied library in its final location
+    if (!entry.path.contains('.gradle') &&
+        !entry.path.contains('.idea') &&
+        !entry.path.contains('build')) {
       final stat = await entry.stat();
       if (stat.modified.isAfter(time)) {
         return true;
