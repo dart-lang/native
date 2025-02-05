@@ -70,6 +70,8 @@ class Method implements Element {
 
   String get originalName => _method.name;
 
+  bool get isConstructor => _method.isConstructor;
+
   @override
   void accept(Visitor visitor) {
     visitor.visitMethod(this);

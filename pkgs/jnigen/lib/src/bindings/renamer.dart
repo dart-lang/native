@@ -236,7 +236,7 @@ class _MethodRenamer implements Visitor<Method, void> {
   @override
   void visit(Method node) {
     final name = _preprocess(
-        node.isConstructor ? 'new' : node.userDefinedName ?? node.name);
+        node.userDefinedName ?? (node.isConstructor ? 'new' : node.name));
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
     final superClass =
