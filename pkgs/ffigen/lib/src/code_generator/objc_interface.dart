@@ -73,17 +73,15 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
-    final superTypeIsInPkgObjc = superType == null;
     final protoImpl = protocols.isEmpty
         ? ''
         : 'implements ${protocols.map((p) => p.getDartType(w)).join(', ')} ';
 
+    final superCtor = superType == null ? 'super' : 'super.castFromPointer';
     s.write('''
 class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
-  $name._($rawObjType pointer,
-      {bool retain = false, bool release = false}) :
-          ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}
-              (pointer, retain: retain, release: release);
+  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
+      $superCtor(pointer, retain: retain, release: release);
 
   /// Constructs a [$name] that points to the same underlying object as [other].
   $name.castFrom($wrapObjType other) :

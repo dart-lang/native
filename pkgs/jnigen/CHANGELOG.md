@@ -2,6 +2,7 @@
 
 - Removed the need to install Maven for the `ApiSummarizer` tool 
 - Removed the need to install Maven for arbitrary dependency downloads
+- Added support for generating matching Kotlin operators as Dart operators.
 
 ## 0.14.0
 

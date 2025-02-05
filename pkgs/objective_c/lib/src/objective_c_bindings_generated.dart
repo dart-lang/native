@@ -892,16 +892,35 @@ class NSCoder extends objc.ObjCObjectBase {
 }
 
 /// NSCoding
-abstract interface class NSCoding implements objc.ObjCProtocolBase {
+interface class NSCoding extends objc.ObjCProtocolBase {
+  NSCoding._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSCoding] that points to the same underlying object as [other].
+  NSCoding.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSCoding] that wraps the given raw object pointer.
+  NSCoding.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSCoding].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSCoding);
+  }
+
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCoding protocol to an existing
@@ -916,13 +935,13 @@ abstract interface class NSCoding implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implementAsListener(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCoding protocol to an existing
@@ -938,13 +957,13 @@ abstract interface class NSCoding implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implementAsBlocking(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCoding protocol to an existing
@@ -1012,15 +1031,34 @@ enum NSComparisonResult {
 }
 
 /// NSCopying
-abstract interface class NSCopying implements objc.ObjCProtocolBase {
+interface class NSCopying extends objc.ObjCProtocolBase {
+  NSCopying._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSCopying] that points to the same underlying object as [other].
+  NSCopying.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSCopying] that wraps the given raw object pointer.
+  NSCopying.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSCopying].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSCopying);
+  }
+
   /// Builds an object that implements the NSCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           copyWithZone_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCopying.copyWithZone_.implement(builder, copyWithZone_);
-    return builder.build();
+    return NSCopying.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSCopying protocol to an existing
@@ -1691,7 +1729,7 @@ class NSDictionary extends NSObject
 
   /// dictionaryWithObject:forKey:
   static NSDictionary dictionaryWithObject_forKey_(
-      objc.ObjCObjectBase object, objc.ObjCObjectBase key) {
+      objc.ObjCObjectBase object, NSCopying key) {
     final _ret = _objc_msgSend_15qeuct(_class_NSDictionary,
         _sel_dictionaryWithObject_forKey_, object.ref.pointer, key.ref.pointer);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
@@ -2785,8 +2823,7 @@ extension NSExtendedMutableDictionary on NSMutableDictionary {
   }
 
   /// setObject:forKeyedSubscript:
-  void setObject_forKeyedSubscript_(
-      objc.ObjCObjectBase? obj, objc.ObjCObjectBase key) {
+  void setObject_forKeyedSubscript_(objc.ObjCObjectBase? obj, NSCopying key) {
     _objc_msgSend_pfv6jd(this.ref.pointer, _sel_setObject_forKeyedSubscript_,
         obj?.ref.pointer ?? ffi.nullptr, key.ref.pointer);
   }
@@ -3183,17 +3220,36 @@ extension NSExtendedSet on NSSet {
 }
 
 /// NSFastEnumeration
-abstract interface class NSFastEnumeration implements objc.ObjCProtocolBase {
+interface class NSFastEnumeration extends objc.ObjCProtocolBase {
+  NSFastEnumeration._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSFastEnumeration] that points to the same underlying object as [other].
+  NSFastEnumeration.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSFastEnumeration] that wraps the given raw object pointer.
+  NSFastEnumeration.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSFastEnumeration].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSFastEnumeration);
+  }
+
   /// Builds an object that implements the NSFastEnumeration protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSFastEnumeration implement(
       {required int Function(ffi.Pointer<NSFastEnumerationState>,
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)
           countByEnumeratingWithState_objects_count_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSFastEnumeration.countByEnumeratingWithState_objects_count_
         .implement(builder, countByEnumeratingWithState_objects_count_);
-    return builder.build();
+    return NSFastEnumeration.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSFastEnumeration protocol to an existing
@@ -3597,7 +3653,7 @@ class NSItemProvider extends NSObject implements NSCopying {
   }
 
   /// canLoadObjectOfClass:
-  bool canLoadObjectOfClass_(objc.ObjCObjectBase aClass) {
+  bool canLoadObjectOfClass_(NSItemProviderReading aClass) {
     return _objc_msgSend_19nvye5(
         this.ref.pointer, _sel_canLoadObjectOfClass_, aClass.ref.pointer);
   }
@@ -3636,7 +3692,7 @@ class NSItemProvider extends NSObject implements NSCopying {
 
   /// initWithItem:typeIdentifier:
   NSItemProvider initWithItem_typeIdentifier_(
-      objc.ObjCObjectBase? item, NSString? typeIdentifier) {
+      NSSecureCoding? item, NSString? typeIdentifier) {
     final _ret = _objc_msgSend_15qeuct(
         this.ref.retainAndReturnPointer(),
         _sel_initWithItem_typeIdentifier_,
@@ -3646,7 +3702,7 @@ class NSItemProvider extends NSObject implements NSCopying {
   }
 
   /// initWithObject:
-  NSItemProvider initWithObject_(objc.ObjCObjectBase object) {
+  NSItemProvider initWithObject_(NSItemProviderWriting object) {
     final _ret = _objc_msgSend_1sotr3r(this.ref.retainAndReturnPointer(),
         _sel_initWithObject_, object.ref.pointer);
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
@@ -3667,7 +3723,7 @@ class NSItemProvider extends NSObject implements NSCopying {
   }
 
   /// registerObject:visibility:
-  void registerObject_visibility_(objc.ObjCObjectBase object,
+  void registerObject_visibility_(NSItemProviderWriting object,
       NSItemProviderRepresentationVisibility visibility) {
     _objc_msgSend_1k745tv(this.ref.pointer, _sel_registerObject_visibility_,
         object.ref.pointer, visibility.value);
@@ -3728,6 +3784,43 @@ enum NSItemProviderFileOptions {
       };
 }
 
+/// NSItemProviderReading
+interface class NSItemProviderReading extends objc.ObjCProtocolBase
+    implements NSObjectProtocol {
+  NSItemProviderReading._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSItemProviderReading] that points to the same underlying object as [other].
+  NSItemProviderReading.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSItemProviderReading] that wraps the given raw object pointer.
+  NSItemProviderReading.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSItemProviderReading].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(obj.ref.pointer, _sel_conformsToProtocol_,
+        _protocol_NSItemProviderReading);
+  }
+
+  /// Builds an object that implements the NSItemProviderReading protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  static NSItemProviderReading implement() {
+    final builder = objc.ObjCProtocolBuilder();
+
+    return NSItemProviderReading.castFrom(builder.build());
+  }
+
+  /// Adds the implementation of the NSItemProviderReading protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  static void addToBuilder(
+    objc.ObjCProtocolBuilder builder,
+  ) {}
+}
+
 enum NSItemProviderRepresentationVisibility {
   NSItemProviderRepresentationVisibilityAll(0),
   NSItemProviderRepresentationVisibilityTeam(1),
@@ -3746,6 +3839,94 @@ enum NSItemProviderRepresentationVisibility {
         _ => throw ArgumentError(
             "Unknown value for NSItemProviderRepresentationVisibility: $value"),
       };
+}
+
+/// NSItemProviderWriting
+interface class NSItemProviderWriting extends objc.ObjCProtocolBase
+    implements NSObjectProtocol {
+  NSItemProviderWriting._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSItemProviderWriting] that points to the same underlying object as [other].
+  NSItemProviderWriting.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSItemProviderWriting] that wraps the given raw object pointer.
+  NSItemProviderWriting.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSItemProviderWriting].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(obj.ref.pointer, _sel_conformsToProtocol_,
+        _protocol_NSItemProviderWriting);
+  }
+
+  /// Builds an object that implements the NSItemProviderWriting protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  static NSItemProviderWriting implement(
+      {NSItemProviderRepresentationVisibility Function(NSString)?
+          itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+      NSArray Function()? writableTypeIdentifiersForItemProvider}) {
+    final builder = objc.ObjCProtocolBuilder();
+    NSItemProviderWriting
+        .itemProviderVisibilityForRepresentationWithTypeIdentifier_
+        .implement(builder,
+            itemProviderVisibilityForRepresentationWithTypeIdentifier_);
+    NSItemProviderWriting.writableTypeIdentifiersForItemProvider
+        .implement(builder, writableTypeIdentifiersForItemProvider);
+    return NSItemProviderWriting.castFrom(builder.build());
+  }
+
+  /// Adds the implementation of the NSItemProviderWriting protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  static void addToBuilder(objc.ObjCProtocolBuilder builder,
+      {NSItemProviderRepresentationVisibility Function(NSString)?
+          itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+      NSArray Function()? writableTypeIdentifiersForItemProvider}) {
+    NSItemProviderWriting
+        .itemProviderVisibilityForRepresentationWithTypeIdentifier_
+        .implement(builder,
+            itemProviderVisibilityForRepresentationWithTypeIdentifier_);
+    NSItemProviderWriting.writableTypeIdentifiersForItemProvider
+        .implement(builder, writableTypeIdentifiersForItemProvider);
+  }
+
+  /// itemProviderVisibilityForRepresentationWithTypeIdentifier:
+  static final itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
+      objc.ObjCProtocolMethod<
+          NSItemProviderRepresentationVisibility Function(NSString)>(
+    _protocol_NSItemProviderWriting,
+    _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+    objc.getProtocolMethodSignature(
+      _protocol_NSItemProviderWriting,
+      _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+      isRequired: false,
+      isInstanceMethod: true,
+    ),
+    (NSItemProviderRepresentationVisibility Function(NSString) func) =>
+        ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString
+            .fromFunction(
+                (ffi.Pointer<ffi.Void> _, NSString arg1) => func(arg1)),
+  );
+
+  /// writableTypeIdentifiersForItemProvider
+  static final writableTypeIdentifiersForItemProvider =
+      objc.ObjCProtocolMethod<NSArray Function()>(
+    _protocol_NSItemProviderWriting,
+    _sel_writableTypeIdentifiersForItemProvider,
+    objc.getProtocolMethodSignature(
+      _protocol_NSItemProviderWriting,
+      _sel_writableTypeIdentifiersForItemProvider,
+      isRequired: false,
+      isInstanceMethod: true,
+    ),
+    (NSArray Function() func) => ObjCBlock_NSArray_ffiVoid.fromFunction((
+      ffi.Pointer<ffi.Void> _,
+    ) =>
+        func()),
+  );
 }
 
 enum NSKeyValueChange {
@@ -4090,16 +4271,35 @@ class NSMutableArray extends NSArray {
 }
 
 /// NSMutableCopying
-abstract interface class NSMutableCopying implements objc.ObjCProtocolBase {
+interface class NSMutableCopying extends objc.ObjCProtocolBase {
+  NSMutableCopying._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSMutableCopying] that points to the same underlying object as [other].
+  NSMutableCopying.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSMutableCopying] that wraps the given raw object pointer.
+  NSMutableCopying.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSMutableCopying].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSMutableCopying);
+  }
+
   /// Builds an object that implements the NSMutableCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSMutableCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           mutableCopyWithZone_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSMutableCopying.mutableCopyWithZone_
         .implement(builder, mutableCopyWithZone_);
-    return builder.build();
+    return NSMutableCopying.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSMutableCopying protocol to an existing
@@ -4519,7 +4719,7 @@ class NSMutableDictionary extends NSDictionary {
 
   /// dictionaryWithObject:forKey:
   static NSMutableDictionary dictionaryWithObject_forKey_(
-      objc.ObjCObjectBase object, objc.ObjCObjectBase key) {
+      objc.ObjCObjectBase object, NSCopying key) {
     final _ret = _objc_msgSend_15qeuct(_class_NSMutableDictionary,
         _sel_dictionaryWithObject_forKey_, object.ref.pointer, key.ref.pointer);
     return NSMutableDictionary.castFromPointer(_ret,
@@ -4648,8 +4848,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// setObject:forKey:
-  void setObject_forKey_(
-      objc.ObjCObjectBase anObject, objc.ObjCObjectBase aKey) {
+  void setObject_forKey_(objc.ObjCObjectBase anObject, NSCopying aKey) {
     _objc_msgSend_pfv6jd(this.ref.pointer, _sel_setObject_forKey_,
         anObject.ref.pointer, aKey.ref.pointer);
   }
@@ -6584,10 +6783,29 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
 }
 
 /// NSObject
-abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
+interface class NSObjectProtocol extends objc.ObjCProtocolBase {
+  NSObjectProtocol._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSObjectProtocol] that points to the same underlying object as [other].
+  NSObjectProtocol.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSObjectProtocol] that wraps the given raw object pointer.
+  NSObjectProtocol.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSObjectProtocol].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSObject);
+  }
+
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSObjectProtocol implement(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
       required bool Function(Protocol) conformsToProtocol_,
@@ -6639,7 +6857,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
     NSObjectProtocol.self1.implement(builder, self1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
-    return builder.build();
+    return NSObjectProtocol.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSObject protocol to an existing
@@ -6700,7 +6918,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSObjectProtocol implementAsListener(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
       required bool Function(Protocol) conformsToProtocol_,
@@ -6752,7 +6970,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
     NSObjectProtocol.self1.implement(builder, self1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
-    return builder.build();
+    return NSObjectProtocol.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSObject protocol to an existing
@@ -6814,7 +7032,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSObjectProtocol implementAsBlocking(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
       required bool Function(Protocol) conformsToProtocol_,
@@ -6866,7 +7084,7 @@ abstract interface class NSObjectProtocol implements objc.ObjCProtocolBase {
     NSObjectProtocol.self1.implement(builder, self1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
-    return builder.build();
+    return NSObjectProtocol.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSObject protocol to an existing
@@ -8009,16 +8227,36 @@ class NSRunLoop extends objc.ObjCObjectBase {
 }
 
 /// NSSecureCoding
-abstract interface class NSSecureCoding implements NSCoding {
+interface class NSSecureCoding extends objc.ObjCProtocolBase
+    implements NSCoding {
+  NSSecureCoding._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSSecureCoding] that points to the same underlying object as [other].
+  NSSecureCoding.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSSecureCoding] that wraps the given raw object pointer.
+  NSSecureCoding.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSSecureCoding].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSSecureCoding);
+  }
+
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSSecureCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSSecureCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSSecureCoding protocol to an existing
@@ -8033,14 +8271,14 @@ abstract interface class NSSecureCoding implements NSCoding {
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSSecureCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_
         .implementAsListener(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSSecureCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSSecureCoding protocol to an existing
@@ -8057,14 +8295,14 @@ abstract interface class NSSecureCoding implements NSCoding {
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSSecureCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_
         .implementAsBlocking(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
-    return builder.build();
+    return NSSecureCoding.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSSecureCoding protocol to an existing
@@ -8356,11 +8594,11 @@ class NSStream extends NSObject {
   }
 
   /// delegate
-  objc.ObjCObjectBase? get delegate {
+  NSStreamDelegate? get delegate {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_delegate);
     return _ret.address == 0
         ? null
-        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+        : NSStreamDelegate.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// init
@@ -8409,7 +8647,7 @@ class NSStream extends NSObject {
   }
 
   /// setDelegate:
-  set delegate(objc.ObjCObjectBase? value) {
+  set delegate(NSStreamDelegate? value) {
     _objc_msgSend_xtuoz7(
         this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
   }
@@ -8436,15 +8674,35 @@ class NSStream extends NSObject {
 }
 
 /// NSStreamDelegate
-abstract interface class NSStreamDelegate implements NSObjectProtocol {
+interface class NSStreamDelegate extends objc.ObjCProtocolBase
+    implements NSObjectProtocol {
+  NSStreamDelegate._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSStreamDelegate] that points to the same underlying object as [other].
+  NSStreamDelegate.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSStreamDelegate] that wraps the given raw object pointer.
+  NSStreamDelegate.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSStreamDelegate].
+  static bool conformsTo(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_e3qsqz(
+        obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSStreamDelegate);
+  }
+
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  static objc.ObjCObjectBase implement(
+  static NSStreamDelegate implement(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implement(builder, stream_handleEvent_);
-    return builder.build();
+    return NSStreamDelegate.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
@@ -8458,12 +8716,12 @@ abstract interface class NSStreamDelegate implements NSObjectProtocol {
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
-  static objc.ObjCObjectBase implementAsListener(
+  static NSStreamDelegate implementAsListener(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implementAsListener(builder, stream_handleEvent_);
-    return builder.build();
+    return NSStreamDelegate.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
@@ -8478,12 +8736,12 @@ abstract interface class NSStreamDelegate implements NSObjectProtocol {
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
-  static objc.ObjCObjectBase implementAsBlocking(
+  static NSStreamDelegate implementAsBlocking(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implementAsBlocking(builder, stream_handleEvent_);
-    return builder.build();
+    return NSStreamDelegate.castFrom(builder.build());
   }
 
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
@@ -10738,6 +10996,193 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
 
 final class NSZone extends ffi.Opaque {}
 
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<ffi.Void> arg0)>>()
+        .asFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+                ffi.Pointer<ffi.Void>)>()(arg0);
+ffi.Pointer<ffi.Void> _ObjCBlock_NSArray_ffiVoid_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
+            _ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline)
+        .cast();
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSArray_ffiVoid_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+    (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<ffi.Void>))(arg0);
+ffi.Pointer<ffi.Void> _ObjCBlock_NSArray_ffiVoid_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
+            _ObjCBlock_NSArray_ffiVoid_closureTrampoline)
+        .cast();
+
+/// Construction methods for `objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>`.
+abstract final class ObjCBlock_NSArray_ffiVoid {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(pointer,
+              retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> fromFunctionPointer(
+          ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Pointer<objc.ObjCObject> Function(
+                          ffi.Pointer<ffi.Void> arg0)>>
+              ptr) =>
+      objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
+          objc.newPointerBlock(
+              _ObjCBlock_NSArray_ffiVoid_fnPtrCallable, ptr.cast()),
+          retain: false,
+          release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> fromFunction(
+          NSArray Function(ffi.Pointer<ffi.Void>) fn) =>
+      objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
+          objc.newClosureBlock(
+              _ObjCBlock_NSArray_ffiVoid_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0) =>
+                  fn(arg0).ref.retainAndAutorelease()),
+          retain: false,
+          release: true);
+}
+
+/// Call operator for `objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>`.
+extension ObjCBlock_NSArray_ffiVoid_CallExtension
+    on objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> {
+  NSArray call(ffi.Pointer<ffi.Void> arg0) => NSArray.castFromPointer(
+      ref.pointer.ref.invoke
+          .cast<
+              ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObject> Function(
+                      ffi.Pointer<objc.ObjCBlockImpl> block,
+                      ffi.Pointer<ffi.Void> arg0)>>()
+          .asFunction<
+              ffi.Pointer<objc.ObjCObject> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0),
+      retain: true,
+      release: true);
+}
+
+int _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<ffi.Void> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Long Function(ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1)>>()
+        .asFunction<
+            int Function(ffi.Pointer<ffi.Void>,
+                ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Long Function(ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline,
+            0)
+        .cast();
+int _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline(
+        ffi.Pointer<objc.ObjCBlockImpl> block,
+        ffi.Pointer<ffi.Void> arg0,
+        ffi.Pointer<objc.ObjCObject> arg1) =>
+    (objc.getBlockClosure(block) as int Function(
+        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable =
+    ffi.Pointer.fromFunction<
+                ffi.Long Function(ffi.Pointer<objc.ObjCBlockImpl>,
+                    ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
+            _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline,
+            0)
+        .cast();
+
+/// Construction methods for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>`.
+abstract final class ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
+              pointer,
+              retain: retain,
+              release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>
+      fromFunctionPointer(
+              ffi.Pointer<
+                      ffi.NativeFunction<
+                          ffi.Long Function(ffi.Pointer<ffi.Void> arg0,
+                              ffi.Pointer<objc.ObjCObject> arg1)>>
+                  ptr) =>
+          objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
+              objc.newPointerBlock(_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable, ptr.cast()),
+              retain: false,
+              release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)> fromFunction(
+          NSItemProviderRepresentationVisibility Function(
+                  ffi.Pointer<ffi.Void>, NSString)
+              fn) =>
+      objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
+          objc.newClosureBlock(
+              _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
+                  fn(arg0, NSString.castFromPointer(arg1, retain: true, release: true))
+                      .value),
+          retain: false,
+          release: true);
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>`.
+extension ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_CallExtension
+    on objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)> {
+  NSItemProviderRepresentationVisibility call(
+          ffi.Pointer<ffi.Void> arg0, NSString arg1) =>
+      NSItemProviderRepresentationVisibility.fromValue(ref.pointer.ref.invoke
+              .cast<
+                  ffi.NativeFunction<
+                      ffi.Long Function(
+                          ffi.Pointer<objc.ObjCBlockImpl> block,
+                          ffi.Pointer<ffi.Void> arg0,
+                          ffi.Pointer<objc.ObjCObject> arg1)>>()
+              .asFunction<
+                  int Function(ffi.Pointer<objc.ObjCBlockImpl>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>()(
+          ref.pointer, arg0, arg1.ref.pointer));
+}
+
 ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSString_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
@@ -11674,7 +12119,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                           ffi.Pointer<objc.ObjCObject> arg1,
                           ffi.Pointer<objc.ObjCObject> arg2) =>
                       fn(
-                          ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0, retain: true, release: true),
+                          ObjCBlock_ffiVoid_idNSSecureCoding_NSError.castFromPointer(arg0, retain: true, release: true),
                           objc.ObjCObjectBase(arg1, retain: true, release: true),
                           NSDictionary.castFromPointer(arg2, retain: true, release: true))),
               retain: false,
@@ -11709,7 +12154,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                 ffi.Pointer<objc.ObjCObject> arg1,
                 ffi.Pointer<objc.ObjCObject> arg2) =>
             fn(
-                ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0,
+                ObjCBlock_ffiVoid_idNSSecureCoding_NSError.castFromPointer(arg0,
                     retain: false, release: true),
                 objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
@@ -11753,7 +12198,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                 ffi.Pointer<objc.ObjCObject> arg1,
                 ffi.Pointer<objc.ObjCObject> arg2) =>
             fn(
-                ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0,
+                ObjCBlock_ffiVoid_idNSSecureCoding_NSError.castFromPointer(arg0,
                     retain: false, release: true),
                 objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
@@ -11766,7 +12211,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                 ffi.Pointer<objc.ObjCObject> arg1,
                 ffi.Pointer<objc.ObjCObject> arg2) =>
             fn(
-                ObjCBlock_ffiVoid_objcObjCObject_NSError.castFromPointer(arg0,
+                ObjCBlock_ffiVoid_idNSSecureCoding_NSError.castFromPointer(arg0,
                     retain: false, release: true),
                 objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
@@ -12446,7 +12891,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_CallExtension
                   int)>()(ref.pointer, arg0, arg1.ref.pointer, arg2.value);
 }
 
-void _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
@@ -12458,30 +12903,31 @@ void _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrCallable =
+ffi.Pointer<ffi.Void>
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            _ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrTrampoline)
+            _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrTrampoline)
         .cast();
-void _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
     (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 ffi.Pointer<ffi.Void>
-    _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureCallable =
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureTrampoline)
+            _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureTrampoline)
         .cast();
-void _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<objc.ObjCObject> arg0,
     ffi.Pointer<objc.ObjCObject> arg1) {
@@ -12493,15 +12939,15 @@ void _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerTrampoline(
 ffi.NativeCallable<
         ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
-    _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerCallable = ffi
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.listener(
-        _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerTrampoline)
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerTrampoline)
       ..keepIsolateAlive = false;
-void _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<objc.ObjCObject> arg0,
@@ -12522,14 +12968,14 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>
-    _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingCallable = ffi
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.isolateLocal(
-        _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingTrampoline)
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline)
       ..keepIsolateAlive = false;
 ffi.NativeCallable<
         ffi.Void Function(
@@ -12537,18 +12983,18 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>
-    _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingListenerCallable = ffi
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.listener(
-        _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingTrampoline)
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>`.
-abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
+abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   /// Returns a block that wraps the given raw block pointer.
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
@@ -12570,7 +13016,7 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
                           ffi.Pointer<objc.ObjCObject> arg1)>>
               ptr) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
-          objc.newPointerBlock(_ObjCBlock_ffiVoid_objcObjCObject_NSError_fnPtrCallable, ptr.cast()),
+          objc.newPointerBlock(_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrCallable, ptr.cast()),
           retain: false,
           release: true);
 
@@ -12580,17 +13026,16 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)> fromFunction(
-          void Function(objc.ObjCObjectBase?, NSError) fn) =>
+          void Function(NSSecureCoding?, NSError) fn) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
           objc.newClosureBlock(
-              _ObjCBlock_ffiVoid_objcObjCObject_NSError_closureCallable,
-              (ffi.Pointer<objc.ObjCObject> arg0,
-                      ffi.Pointer<objc.ObjCObject> arg1) =>
-                  fn(
-                      arg0.address == 0
-                          ? null
-                          : objc.ObjCObjectBase(arg0, retain: true, release: true),
-                      NSError.castFromPointer(arg1, retain: true, release: true))),
+              _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable,
+              (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
+                  arg0.address == 0
+                      ? null
+                      : NSSecureCoding.castFromPointer(arg0,
+                          retain: true, release: true),
+                  NSError.castFromPointer(arg1, retain: true, release: true))),
           retain: false,
           release: true);
 
@@ -12605,9 +13050,9 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
   /// blocks do not keep the isolate alive.
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
-      listener(void Function(objc.ObjCObjectBase?, NSError) fn) {
+      listener(void Function(NSSecureCoding?, NSError) fn) {
     final raw = objc.newClosureBlock(
-        _ObjCBlock_ffiVoid_objcObjCObject_NSError_listenerCallable
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCObject> arg0,
@@ -12615,7 +13060,8 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
             fn(
                 arg0.address == 0
                     ? null
-                    : objc.ObjCObjectBase(arg0, retain: false, release: true),
+                    : NSSecureCoding.castFromPointer(arg0,
+                        retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
@@ -12635,9 +13081,9 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
   /// indefinitely, or have other undefined behavior.
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
-      blocking(void Function(objc.ObjCObjectBase?, NSError) fn) {
+      blocking(void Function(NSSecureCoding?, NSError) fn) {
     final raw = objc.newClosureBlock(
-        _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingCallable
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCObject> arg0,
@@ -12645,10 +13091,11 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
             fn(
                 arg0.address == 0
                     ? null
-                    : objc.ObjCObjectBase(arg0, retain: false, release: true),
+                    : NSSecureCoding.castFromPointer(arg0,
+                        retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)));
     final rawListener = objc.newClosureBlock(
-        _ObjCBlock_ffiVoid_objcObjCObject_NSError_blockingListenerCallable
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCObject> arg0,
@@ -12656,7 +13103,8 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
             fn(
                 arg0.address == 0
                     ? null
-                    : objc.ObjCObjectBase(arg0, retain: false, release: true),
+                    : NSSecureCoding.castFromPointer(arg0,
+                        retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)));
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_pfv6jd, raw, rawListener);
@@ -12669,9 +13117,9 @@ abstract final class ObjCBlock_ffiVoid_objcObjCObject_NSError {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>`.
-extension ObjCBlock_ffiVoid_objcObjCObject_NSError_CallExtension on objc
+extension ObjCBlock_ffiVoid_idNSSecureCoding_NSError_CallExtension on objc
     .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)> {
-  void call(objc.ObjCObjectBase? arg0, NSError arg1) => ref.pointer.ref.invoke
+  void call(NSSecureCoding? arg0, NSError arg1) => ref.pointer.ref.invoke
           .cast<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -13817,6 +14265,16 @@ final _objc_msgSend_16f0drb = objc.msgSendPointer
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+final _objc_msgSend_16fy0up = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Long Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
+    .asFunction<
+        int Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_17amj0z = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -15110,6 +15568,16 @@ final _objc_msgSend_dv3z6r = objc.msgSendPointer
             bool,
             int,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
+final _objc_msgSend_e3qsqz = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCProtocol>)>>()
+    .asFunction<
+        bool Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCProtocol>)>();
 final _objc_msgSend_e9mncn = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -15632,6 +16100,10 @@ final _objc_msgSend_zug4wi = objc.msgSendPointer
 late final _protocol_NSCoding = objc.getProtocol("NSCoding");
 late final _protocol_NSCopying = objc.getProtocol("NSCopying");
 late final _protocol_NSFastEnumeration = objc.getProtocol("NSFastEnumeration");
+late final _protocol_NSItemProviderReading =
+    objc.getProtocol("NSItemProviderReading");
+late final _protocol_NSItemProviderWriting =
+    objc.getProtocol("NSItemProviderWriting");
 late final _protocol_NSMutableCopying = objc.getProtocol("NSMutableCopying");
 late final _protocol_NSObject = objc.getProtocol("NSObject");
 late final _protocol_NSSecureCoding = objc.getProtocol("NSSecureCoding");
@@ -16134,6 +16606,9 @@ late final _sel_isSubsetOfOrderedSet_ =
     objc.registerName("isSubsetOfOrderedSet:");
 late final _sel_isSubsetOfSet_ = objc.registerName("isSubsetOfSet:");
 late final _sel_isSupersetOfSet_ = objc.registerName("isSupersetOfSet:");
+late final _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
+    objc.registerName(
+        "itemProviderVisibilityForRepresentationWithTypeIdentifier:");
 late final _sel_keyEnumerator = objc.registerName("keyEnumerator");
 late final _sel_keysSortedByValueUsingSelector_ =
     objc.registerName("keysSortedByValueUsingSelector:");
@@ -16538,6 +17013,8 @@ late final _sel_whitespaceAndNewlineCharacterSet =
     objc.registerName("whitespaceAndNewlineCharacterSet");
 late final _sel_whitespaceCharacterSet =
     objc.registerName("whitespaceCharacterSet");
+late final _sel_writableTypeIdentifiersForItemProvider =
+    objc.registerName("writableTypeIdentifiersForItemProvider");
 late final _sel_writeBookmarkData_toURL_options_error_ =
     objc.registerName("writeBookmarkData:toURL:options:error:");
 late final _sel_writeToFile_atomically_ =

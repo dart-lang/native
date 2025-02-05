@@ -148,14 +148,12 @@ void main() {
       test('included', () {
         bindings = generate(includeTransitiveObjCProtocols: true);
 
-        // TODO(https://github.com/dart-lang/native/issues/1462): Transitive
-        // protocols should be included.
-        expect(incProto('DoublyTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveSuperProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveProtocol'), Inclusion.omitted);
+        expect(incProto('DoublyTransitiveProtocol'), Inclusion.included);
+        expect(incProto('TransitiveSuperProtocol'), Inclusion.included);
+        expect(incProto('TransitiveProtocol'), Inclusion.included);
         expect(incProto('SuperSuperProtocol'), Inclusion.included);
-        expect(incProto('DoublySuperTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperTransitiveProtocol'), Inclusion.omitted);
+        expect(incProto('DoublySuperTransitiveProtocol'), Inclusion.included);
+        expect(incProto('SuperTransitiveProtocol'), Inclusion.included);
         expect(incProto('SuperProtocol'), Inclusion.included);
         expect(incProto('AnotherSuperProtocol'), Inclusion.included);
         expect(incProto('DirectlyIncludedProtocol'), Inclusion.included);
@@ -163,15 +161,15 @@ void main() {
         expect(incProto('NotIncludedTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('NotIncludedProtocol'), Inclusion.omitted);
         expect(incProto('SuperFromInterfaceProtocol'), Inclusion.included);
-        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.omitted);
+        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.included);
         expect(incItf('DirectlyIncludedWithProtocol'), Inclusion.included);
 
-        expect(bindings.contains('doubleProtoMethod'), isFalse);
-        expect(bindings.contains('transitiveSuperProtoMethod'), isFalse);
-        expect(bindings.contains('transitiveProtoMethod'), isFalse);
+        expect(bindings.contains('doubleProtoMethod'), isTrue);
+        expect(bindings.contains('transitiveSuperProtoMethod'), isTrue);
+        expect(bindings.contains('transitiveProtoMethod'), isTrue);
         expect(bindings.contains('superSuperProtoMethod'), isTrue);
-        expect(bindings.contains('doublySuperProtoMethod'), isFalse);
-        expect(bindings.contains('superTransitiveProtoMethod'), isFalse);
+        expect(bindings.contains('doublySuperProtoMethod'), isTrue);
+        expect(bindings.contains('superTransitiveProtoMethod'), isTrue);
         expect(bindings.contains('superProtoMethod'), isTrue);
         expect(bindings.contains('anotherSuperProtoMethod'), isTrue);
         expect(bindings.contains('directProtoMethod'), isTrue);
@@ -179,8 +177,7 @@ void main() {
         expect(bindings.contains('notIncludedTransitiveProtoMethod'), isFalse);
         expect(bindings.contains('notIncludedProtoMethod'), isFalse);
         expect(bindings.contains('superFromInterfaceProtoMethod'), isTrue);
-        expect(
-            bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
+        expect(bindings.contains('transitiveFromInterfaceProtoMethod'), isTrue);
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
       });
 
@@ -188,11 +185,11 @@ void main() {
         bindings = generate(includeTransitiveObjCProtocols: false);
 
         expect(incProto('DoublyTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveSuperProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveProtocol'), Inclusion.omitted);
+        expect(incProto('TransitiveSuperProtocol'), Inclusion.stubbed);
+        expect(incProto('TransitiveProtocol'), Inclusion.stubbed);
         expect(incProto('SuperSuperProtocol'), Inclusion.stubbed);
         expect(incProto('DoublySuperTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperTransitiveProtocol'), Inclusion.omitted);
+        expect(incProto('SuperTransitiveProtocol'), Inclusion.stubbed);
         expect(incProto('SuperProtocol'), Inclusion.stubbed);
         expect(incProto('AnotherSuperProtocol'), Inclusion.stubbed);
         expect(incProto('DirectlyIncludedProtocol'), Inclusion.included);
@@ -200,7 +197,7 @@ void main() {
         expect(incProto('NotIncludedTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('NotIncludedProtocol'), Inclusion.omitted);
         expect(incProto('SuperFromInterfaceProtocol'), Inclusion.stubbed);
-        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.omitted);
+        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.stubbed);
         expect(incItf('DirectlyIncludedWithProtocol'), Inclusion.included);
 
         expect(bindings.contains('doubleProtoMethod'), isFalse);

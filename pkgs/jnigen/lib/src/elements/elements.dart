@@ -165,6 +165,21 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final Map<String, int> methodNumsAfterRenaming;
 
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  final Map<Operator, Method> operators = {};
+
+  /// The `compareTo` method of this class.
+  ///
+  /// This method must take a single parameter of the same type of the enclosing
+  /// class, and return integer.
+  ///
+  /// Used for overloading comparison operators.
+  ///
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  Method? compareTo;
+
   @override
   String toString() {
     return 'Java class declaration for $binaryName';
@@ -682,8 +697,9 @@ class Method with ClassMember, Annotated implements Element<Method> {
   @override
   late String finalName;
 
+  /// Populated by [KotlinProcessor].
   @JsonKey(includeFromJson: false)
-  late bool isOverridden;
+  KotlinFunction? kotlinFunction;
 
   /// The actual return type when the method is a Kotlin's suspend fun.
   ///
@@ -1040,6 +1056,7 @@ class KotlinFunction {
     this.typeParameters = const [],
     required this.flags,
     required this.isSuspend,
+    required this.isOperator,
   });
 
   /// Name in the byte code.
@@ -1056,6 +1073,7 @@ class KotlinFunction {
   final List<KotlinTypeParameter> typeParameters;
   final int flags;
   final bool isSuspend;
+  final bool isOperator;
 
   factory KotlinFunction.fromJson(Map<String, dynamic> json) =>
       _$KotlinFunctionFromJson(json);
@@ -1250,4 +1268,32 @@ class KotlinTypeProjection extends KotlinTypeArgument {
 
   final KotlinType type;
   final KmVariance variance;
+}
+
+enum Operator {
+  plus('+', parameterCount: 1),
+  minus('-', parameterCount: 1),
+  times('*', parameterCount: 1),
+  div('/', parameterCount: 1),
+  rem('%', parameterCount: 1),
+  get('[]', parameterCount: 1),
+  set('[]=', parameterCount: 2, returnsVoid: true);
+
+  final String dartSymbol;
+
+  /// The number of parameters this operator must have in Dart.
+  final int parameterCount;
+
+  /// Whether the return type that this operator must have in Dart is void.
+  final bool returnsVoid;
+
+  const Operator(
+    this.dartSymbol, {
+    required this.parameterCount,
+    this.returnsVoid = false,
+  });
+
+  bool isCompatibleWith(Method method) {
+    return parameterCount == method.params.length;
+  }
 }
