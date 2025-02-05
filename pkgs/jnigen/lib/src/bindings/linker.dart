@@ -221,6 +221,24 @@ class _MethodLinker extends Visitor<Method, void> {
       param.method = node;
     }
     node.asyncReturnType?.accept(typeLinker);
+    // Fill out operator overloadings.
+    if (node.kotlinFunction?.isOperator ?? false) {
+      if (Operator.values.asNameMap()[node.kotlinFunction!.name]
+          case final operatorKind? when operatorKind.isCompatibleWith(node)) {
+        node.classDecl.operators[operatorKind] ??= node;
+      }
+    }
+    // Fill out compareTo method of the class used for comparison operators.
+    if (node.name == 'compareTo' && node.params.length == 1) {
+      final returnType = node.returnType.type;
+      final parameterType = node.params.single.type.type;
+      if (parameterType is DeclaredType &&
+          parameterType.binaryName == node.classDecl.binaryName &&
+          returnType is PrimitiveType &&
+          returnType.dartType == 'int') {
+        node.classDecl.compareTo = node;
+      }
+    }
   }
 }
 

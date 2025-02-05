@@ -432,6 +432,13 @@ class $name$typeParamsDef extends $superName {
     // Fields and Methods
     generateFieldsAndMethods(node, classRef);
 
+    // Operators
+    for (final MapEntry(key: operator, value: method)
+        in node.operators.entries) {
+      method.accept(_OperatorGenerator(resolver, s, operator: operator));
+    }
+    node.compareTo?.accept(_ComparatorGenerator(resolver, s));
+
     if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
   /// Maps a specific port to the implemented interface.
@@ -1968,5 +1975,58 @@ class _CallMethodName extends Visitor<Method, String> {
       type = 'Object';
     }
     return 'globalEnv_Call${node.isStatic ? 'Static' : ''}${type}Method';
+  }
+}
+
+class _OperatorGenerator extends Visitor<Method, void> {
+  final Resolver resolver;
+  final StringSink s;
+  final Operator operator;
+
+  _OperatorGenerator(this.resolver, this.s, {required this.operator});
+
+  @override
+  void visit(Method node) {
+    final returnType = operator.returnsVoid
+        ? 'void'
+        : node.returnType.accept(_TypeGenerator(resolver));
+    final paramsDef = node.params.accept(_ParamDef(resolver)).join(', ');
+    final paramsCall = node.params.map((param) => param.finalName).join(', ');
+    s.write('''
+  $returnType operator ${operator.dartSymbol}($paramsDef) {
+    ${operator.returnsVoid ? '' : 'return '}${node.finalName}($paramsCall);
+  }
+''');
+  }
+}
+
+class _ComparatorGenerator extends Visitor<Method, void> {
+  final Resolver resolver;
+  final StringSink s;
+
+  _ComparatorGenerator(this.resolver, this.s);
+
+  @override
+  void visit(Method node) {
+    final paramsDef = node.params.accept(_ParamDef(resolver)).join(', ');
+    final paramsCall = node.params.map((param) => param.finalName).join(', ');
+    final name = node.finalName;
+    s.write('''
+  bool operator <($paramsDef) {
+    return $name($paramsCall) < 0;
+  }
+
+  bool operator <=($paramsDef) {
+    return $name($paramsCall) <= 0;
+  }
+
+  bool operator >($paramsDef) {
+    return $name($paramsCall) > 0;
+  }
+
+  bool operator >=($paramsDef) {
+    return $name($paramsCall) >= 0;
+  }
+''');
   }
 }

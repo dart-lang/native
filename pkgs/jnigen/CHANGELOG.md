@@ -1,3 +1,6 @@
+## 0.14.1-wip
+- Added support for generating matching Kotlin operators as Dart operators.
+
 ## 0.14.0
 
 - Fixed a bug where the source parser would not have all of the type paremeters
