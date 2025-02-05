@@ -205,8 +205,8 @@ void main(List<String> arguments) async {
     stderr.writeln('Target newer than source, skipping build.');
   } else {
     verboseLog('Running gradle task for building jni sources to $buildPath.');
-    await runCommand(
-        gradleWExecutable.toFilePath(windows: Platform.isWindows), ['jar'], await findSources('jni', 'java'));
+    await runCommand(gradleWExecutable.toFilePath(windows: Platform.isWindows),
+        ['jar'], await findSources('jni', 'java'));
   }
 
   for (var srcPath in sources) {
