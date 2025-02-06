@@ -15,7 +15,7 @@ const jarFile = '$testName.jar';
 
 final testRoot = join('test', testName);
 final kotlinPath = join(testRoot, 'kotlin');
-final jarPath = join(testRoot, 'build', 'libs', jarFile);
+final jarPath = join(kotlinPath, 'build', 'libs', jarFile);
 
 const preamble = '''
 // Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
@@ -29,7 +29,7 @@ void compileKotlinSources(String workingDir) async {
   final procRes = Process.runSync(
     gradlew!.path.toString(),
     ['jar'],
-    workingDirectory: testRoot,
+    workingDirectory: kotlinPath,
     runInShell: true,
   );
   if (procRes.exitCode != 0) {

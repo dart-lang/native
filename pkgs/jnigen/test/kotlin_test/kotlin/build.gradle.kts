@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     // include jni.jar from root .dart_tool as a dependency
-    implementation(files("../../.dart_tool/jni/jni.jar"))
+    implementation(files("../../../.dart_tool/jni/jni.jar"))
     implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
     implementation(libs.org.jetbrains.kotlin.kotlin.stdlib.jdk8)
     testImplementation(libs.org.jetbrains.kotlin.kotlin.test.junit5)

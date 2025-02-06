@@ -41,7 +41,9 @@ Future<bool> isPackageModifiedAfter(String packageName, DateTime time,
     // and therefore report a later time in error
     // Same condition for the build library to be milliseconds older
     // than the copied library in its final location
-    if (!entry.path.contains('.gradle') &&
+    if (!entry.path.contains('pom.xml') &&
+        !entry.path.endsWith('.md') &&
+        !entry.path.contains('.gradle') &&
         !entry.path.contains('.idea') &&
         !entry.path.contains('build')) {
       final stat = await entry.stat();
