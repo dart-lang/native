@@ -67,6 +67,9 @@ class UserRenamer extends Visitor {
     if (method.originalName.contains('Foo')) {
       method.name = method.originalName.replaceAll('Foo', 'Bar');
     }
+    if (method.isConstructor) {
+      method.name = 'constructor';
+    }
   }
 
   @override
@@ -172,6 +175,7 @@ void main() {
             ast.Param(name: 'Foo', type: ast.TypeUsage.object),
             ast.Param(name: 'Foo1', type: ast.TypeUsage.object),
           ]),
+          ast.Method(name: '<init>', returnType: ast.TypeUsage.object)
         ],
       ),
     });
@@ -189,6 +193,8 @@ void main() {
 
     expect(classes.decls['Foo']?.methods.finalNames,
         [r'Bar$2', r'Bar$3', r'Bar1$2', r'Bar1$3']);
+
+    expect(classes.decls['y.Foo']?.methods.finalNames, [r'Bar', 'constructor']);
 
     expect(classes.decls['y.Foo']?.methods.first.params.finalNames,
         ['Bar', 'Bar1']);
