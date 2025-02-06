@@ -4,17 +4,18 @@
 name: ffigen_weekly
 
 on:
-  # Run once a week.
   push:
     branches: [main, stable]
     paths:
-      - '.github/workflows/ffigen_weekly.yml'
+      - '.github/workflows/ffigen.yml'
+      - 'pkgs/ffigen/**'
+      - 'pkgs/objective_c/**'
   pull_request:
     branches: [main, stable]
     paths:
-      - '.github/workflows/ffigen_weekly.yml'
-  schedule:
-    - cron: "0 0 * * 0"
+      - '.github/workflows/ffigen.yml'
+      - 'pkgs/ffigen/**'
+      - 'pkgs/objective_c/**'
 
 env:
   PUB_ENVIRONMENT: bot.github
