@@ -13,7 +13,7 @@ const arcDisabledFiles = <String>{
 };
 
 Future<void> _runClang(List<String> flags, String output) async {
-  final args = [...flags, '-o', output];
+  final args = [...flags, '-Ofast', '-o', output];
   final process = await Process.start('clang', args);
   unawaited(stdout.addStream(process.stdout));
   unawaited(stderr.addStream(process.stderr));
