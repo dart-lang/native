@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -7,6 +8,9 @@ import '../util/find_package.dart';
 
 class GradleTools {
   static final currentDir = Directory('.');
+
+  // Maven Central root location
+  static String repoLocation = 'https://repo1.maven.org/maven2';
 
   /// Helper method since we can't pass inheritStdio option to [Process.run].
   static Future<int> _runCmd(String exec, List<String> args,
@@ -31,10 +35,12 @@ class GradleTools {
 
   static Future<void> _runGradleCommand(
       List<MavenDependency> deps, String targetDir,
-      {bool downloadSources = false}) async {
+      {bool extractSources = false}) async {
     final gradleWrapper = await getGradleWExecutable();
-    final gradle = _getStubGradle(deps, File(targetDir).absolute.path,
-        downloadSources: downloadSources);
+    final gradle = _getStubGradle(
+      deps,
+      File(targetDir).absolute.path,
+    );
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
     final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');
@@ -43,7 +49,7 @@ class GradleTools {
     final gradleArgs = [
       '-b', // specify gradle file to run
       tempGradle,
-      'copyTask'
+      extractSources ? 'extractSourceJars' : 'copyJars'
     ];
     await _runCmd(gradleWrapper!.toFilePath(), gradleArgs);
     await Directory(tempDir.path).delete(recursive: true);
@@ -57,9 +63,16 @@ class GradleTools {
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, String targetDir) async {
+    for (var i = 0; i < deps.length; i++) {
+      final sourceJarLocation = deps[i].toURLString(repoLocation);
+      await File(join(targetDir, deps[i].filename()))
+          .writeAsBytes(await http.readBytes(Uri.parse(sourceJarLocation)));
+    }
+    // Use gradle to extract the source jars.
+    // This flow is needed because Gradle
+    // defaults to compiled jars where available.
     final tempDir = await currentDir.createTemp('maven_temp_');
-    await _runGradleCommand(deps, targetDir, downloadSources: true);
-    log.info('targetDir: $targetDir');
+    await _runGradleCommand(deps, extractSources: true, targetDir);
     await tempDir.delete(recursive: true);
   }
 
@@ -87,12 +100,12 @@ class GradleTools {
   static Future<void> downloadMavenJars(
       List<MavenDependency> deps, String targetDir) async {
     final tempDir = await currentDir.createTemp('maven_temp_');
-    await _runGradleCommand(deps, targetDir, downloadSources: false);
+    await _runGradleCommand(deps, targetDir);
     await tempDir.delete(recursive: true);
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,
-      {String javaVersion = '11', bool downloadSources = false}) {
+      {String javaVersion = '11', String sourcesDir = '.'}) {
     final depDecls = <String>[];
     // Use implementation configuration
     for (var dep in deps) {
@@ -101,7 +114,6 @@ class GradleTools {
     return '''
     plugins {
         java
-        idea
     }
     
     repositories {
@@ -114,17 +126,20 @@ class GradleTools {
         targetCompatibility = JavaVersion.VERSION_$javaVersion
     }
     
-    idea {
-      module {
-          setDownloadJavadoc(false)
-          setDownloadSources($downloadSources)
-      }
-    }
-    
-    tasks.register<Copy>("copyTask") {
+    tasks.register<Copy>("copyJars") {
     from(configurations.runtimeClasspath)
     into("$targetDir")
-    //into("\$buildDir/output/lib")
+    }
+    
+    tasks.register<Copy>("extractSourceJars") {
+      duplicatesStrategy = DuplicatesStrategy.INCLUDE
+      val sourcesDir = fileTree("$targetDir")
+      sourcesDir.forEach {
+        if (it.name.endsWith(".jar")) {
+        from(zipTree(it))
+        into("$targetDir")
+        }
+      }      
     }
     
     dependencies {
@@ -137,6 +152,7 @@ class GradleTools {
 class MavenDependency {
   MavenDependency(this.groupID, this.artifactID, this.version,
       {this.otherTags = const {}});
+
   factory MavenDependency.fromString(String fullName) {
     final components = fullName.split(':');
     if (components.length != 3) {
@@ -144,10 +160,25 @@ class MavenDependency {
     }
     return MavenDependency(components[0], components[1], components[2]);
   }
+
   String groupID, artifactID, version;
   Map<String, String> otherTags;
 
   String toGradleDependency(String configuration) {
     return '$configuration("$groupID:$artifactID:$version")';
+  }
+
+  String filename({bool isSource = true}) {
+    final extension = isSource ? '-sources.jar' : '.jar';
+    return '$artifactID-$version$extension';
+  }
+
+  String toURLString(String repoLocation) {
+    var parts = <String>[repoLocation];
+    parts.addAll(groupID.split('.'));
+    parts.addAll(artifactID.split('.'));
+    parts.add(version);
+    parts.add(filename());
+    return parts.join('/');
   }
 }

@@ -15,7 +15,9 @@ import '../logging/logging.dart';
 class SummaryParseException implements Exception {
   final String? stderr;
   final String message;
+
   SummaryParseException(this.message) : stderr = null;
+
   SummaryParseException.withStderr(this.stderr, this.message);
 
   @override
@@ -121,8 +123,10 @@ Future<Classes> getSummary(Config config) async {
     extraSources.add(Uri.directory(sourcePath));
     final jarPath = mavenDl.jarDir;
     await Directory(jarPath).create(recursive: true);
+    await GradleTools.downloadMavenSources(
+        GradleTools.deps(mavenDl.sourceDeps), mavenDl.sourceDir);
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(mavenDl.sourceDeps), mavenDl.jarDir);
+        GradleTools.deps(mavenDl.jarOnlyDeps), mavenDl.jarDir);
     extraJars.addAll(await Directory(jarPath)
         .list()
         .where((entry) => entry.path.endsWith('.jar'))

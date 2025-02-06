@@ -15,10 +15,10 @@ void main(List<String> args) async {
   final config = Config.parseArgs(args);
   final mavenDownloads = config.mavenDownloads;
   if (mavenDownloads != null) {
+    await GradleTools.downloadMavenSources(
+        GradleTools.deps(mavenDownloads.sourceDeps), mavenDownloads.sourceDir);
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(
-            mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
-        mavenDownloads.jarDir);
+        GradleTools.deps(mavenDownloads.jarOnlyDeps), mavenDownloads.jarDir);
     await Directory(mavenDownloads.jarDir)
         .list()
         .map((entry) => entry.path)
