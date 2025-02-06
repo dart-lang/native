@@ -9,7 +9,7 @@
 #include "protocol_test.h"
 
 @implementation ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<SuperProtocol>)protocol {
+- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol {
   return [protocol instanceMethod:@"Hello from ObjC" withDouble:3.14];
 }
 
@@ -38,12 +38,6 @@
     [protocol intPtrMethod:&x];
     [protocol voidMethod:x];
   });
-}
-
-- (int32_t)callTwoMethods:(id<MyProtocol, SecondaryProtocol>)protocol {
-  SomeStruct s = {123, 345};
-  int32_t x = [protocol optionalMethod:s];
-  return [protocol otherMethod:x b:1 c:10 d:100];
 }
 @end
 

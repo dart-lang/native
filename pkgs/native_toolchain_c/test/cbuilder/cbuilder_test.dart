@@ -25,7 +25,7 @@ void main() {
 
   final targetOS = OS.current;
   final macOSConfig = targetOS == OS.macOS
-      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+      ? MacOSConfig(targetVersion: defaultMacOSVersion)
       : null;
   for (final pic in [null, true, false]) {
     final picTag =
@@ -712,7 +712,7 @@ Future<void> testDefines({
     ..config.setupCode(
       targetOS: targetOS,
       macOS: targetOS == OS.macOS
-          ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+          ? MacOSConfig(targetVersion: defaultMacOSVersion)
           : null,
       targetArchitecture: Architecture.current,
       // Ignored by executables.

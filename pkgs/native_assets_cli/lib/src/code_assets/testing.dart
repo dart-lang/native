@@ -44,16 +44,16 @@ Future<void> testCodeBuildHook({
         targetArchitecture: targetArchitecture ?? Architecture.current,
         targetOS: targetOS ?? OS.current,
         iOS: targetOS == OS.iOS
-            ? IOSCodeConfig(
+            ? IOSConfig(
                 targetSdk: targetIOSSdk!,
                 targetVersion: targetIOSVersion!,
               )
             : null,
         macOS: targetOS == OS.macOS
-            ? MacOSCodeConfig(targetVersion: targetMacOSVersion!)
+            ? MacOSConfig(targetVersion: targetMacOSVersion!)
             : null,
         android: targetOS == OS.android
-            ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+            ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
             : null,
       );
     },

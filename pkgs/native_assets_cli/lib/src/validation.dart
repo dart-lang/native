@@ -12,46 +12,30 @@ Future<ValidationErrors> validateBuildInput(BuildInput input) async =>
     _validateHookInput('BuildInput', input);
 
 Future<ValidationErrors> validateLinkInput(LinkInput input) async {
-  final recordUses = input.recordedUsagesFile;
-  return <String>[
-    ..._validateHookInput('LinkInput', input),
-    if (recordUses != null)
-      ..._validateDirectory(
-        '$LinkInput.recordUses',
-        input.outputDirectoryShared,
-      ),
-  ];
-}
-
-ValidationErrors _validateHookInput(String inputName, HookInput input) {
   final errors = <String>[
-    ..._validateDirectory('$inputName.packageRoot', input.packageRoot),
-    ..._validateDirectory('$inputName.outputDirectory', input.outputDirectory),
-    ..._validateDirectory(
-      '$inputName.outputDirectoryShared',
-      input.outputDirectoryShared,
-    ),
-    ..._validateDirectory(
-      '$inputName.outputFile',
-      input.outputFile,
-      mustExist: false,
-    ),
+    ..._validateHookInput('LinkInput', input),
   ];
+  final recordUses = input.recordedUsagesFile;
+  if (recordUses != null && !File.fromUri(recordUses).existsSync()) {
+    errors.add('LinkInput.recordUses ($recordUses) does not exist.');
+  }
   return errors;
 }
 
-ValidationErrors _validateDirectory(
-  String name,
-  Uri uri, {
-  bool mustExist = true,
-  bool mustBeAbsolute = true,
-}) {
+ValidationErrors _validateHookInput(String inputName, HookInput input) {
   final errors = <String>[];
-  if (mustBeAbsolute && !uri.isAbsolute) {
-    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
+  if (!Directory.fromUri(input.packageRoot).existsSync()) {
+    errors.add('$inputName.packageRoot (${input.packageRoot}) '
+        'has to be an existing directory.');
   }
-  if (mustExist && !Directory.fromUri(uri).existsSync()) {
-    errors.add('$name (${uri.toFilePath()}) does not exist as a directory.');
+  if (!Directory.fromUri(input.outputDirectory).existsSync()) {
+    errors.add('$inputName.outputDirectory (${input.outputDirectory}) '
+        'has to be an existing directory.');
+  }
+  if (!Directory.fromUri(input.outputDirectoryShared).existsSync()) {
+    errors.add(
+        '$inputName.outputDirectoryShared (${input.outputDirectoryShared}) '
+        'has to be an existing directory');
   }
   return errors;
 }

@@ -2421,7 +2421,11 @@ JniResult globalEnv_GetDirectBufferCapacity(jobject buf) {
 
 JniResult globalEnv_GetObjectRefType(jobject obj) {
   attach_thread();
-  jobjectRefType _result = (*jniEnv)->GetObjectRefType(jniEnv, obj);
+  int32_t _result = (*jniEnv)->GetObjectRefType(jniEnv, obj);
+  jthrowable _exception = check_exception();
+  if (_exception != NULL) {
+    return (JniResult){.value = {.j = 0}, .exception = _exception};
+  }
   return (JniResult){.value = {.i = _result}, .exception = NULL};
 }
 

@@ -8,7 +8,6 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'rename_bindings.dart';
@@ -37,7 +36,7 @@ void main() {
 
       renamed.property = 123;
       expect(renamed.toString(), "Instance of 'Renamed'");
-      expect(renamed.toString1().toDartString(), "123");
+      expect(renamed.toString1().toString(), "123");
     });
 
     test('Method with the same name as a type', () {

@@ -7,7 +7,6 @@ objc-interfaces:
   include:
     - Thing
     - ChildOfThing
-    - NSURL
 objc-categories:
   include:
     - Sub

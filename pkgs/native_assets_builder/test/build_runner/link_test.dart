@@ -26,9 +26,15 @@ void main() async {
           logger: logger,
         );
 
-        final buildResult = (await buildDataAssets(
+        final buildResult = (await build(
           packageUri,
+          logger,
+          dartExecutable,
           linkingEnabled: true,
+          buildAssetTypes: [DataAsset.type],
+          inputValidator: validateDataAssetBuildInput,
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         ))!;
         expect(buildResult.encodedAssets.length, 0);
 
@@ -44,9 +50,15 @@ void main() async {
         ))!;
         expect(linkResult.encodedAssets.length, 2);
 
-        final buildNoLinkResult = (await buildDataAssets(
+        final buildNoLinkResult = (await build(
           packageUri,
+          logger,
+          dartExecutable,
           linkingEnabled: false,
+          buildAssetTypes: [DataAsset.type],
+          inputValidator: validateDataAssetBuildInput,
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         ))!;
         expect(buildNoLinkResult.encodedAssets.length, 4);
       });
@@ -84,9 +96,15 @@ void main() async {
         // First, run `pub get`, we need pub to resolve our dependencies.
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult = await buildDataAssets(
+        final buildResult = await build(
           packageUri,
+          logger,
+          dartExecutable,
           linkingEnabled: true,
+          buildAssetTypes: [DataAsset.type],
+          inputValidator: validateDataAssetBuildInput,
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         );
         expect(buildResult, isNotNull);
         expect(_getNames(buildResult!.encodedAssets),
@@ -125,9 +143,15 @@ void main() async {
         logger: logger,
       );
 
-      final buildResult = (await buildDataAssets(
+      final buildResult = (await build(
         packageUri,
+        logger,
+        dartExecutable,
         linkingEnabled: true,
+        buildAssetTypes: [DataAsset.type],
+        inputValidator: validateDataAssetBuildInput,
+        buildValidator: validateDataAssetBuildOutput,
+        applicationAssetValidator: (_) async => [],
       ))!;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 0);

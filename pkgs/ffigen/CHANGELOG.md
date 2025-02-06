@@ -1,28 +1,10 @@
-## 17.0.0-wip
-
-- Use package:objective_c 5.0.0
-- Support transitive categories of built-in types:
-  https://github.com/dart-lang/native/issues/1820
-- __Breaking change__: Maintain protocol conformance when translating from ObjC
-  to Dart. For example, ObjC's `id<FooProtocol>` is now translated to Dart's
-  `FooProtocol`. Generally this shouldn't be a breaking change for code that is
-  using protocols correctly, with a few caveats:
-    - For more advanced use cases that use `ObjCProtocolBuilder` directly, after
-      calling `build()` you will need to cast the generated object to the target
-      protocol: `FooProtocol.castFrom(protocolBuilder.build())`.
-    - Due to limitations in the Dart type system, only the first protocol of an
-      `id` is used: `id<FooProtocol, BarProtocol>` becomes `FooProtocol`. The
-      `FooProtocol.castFrom` method can help work around issues this may cause.
-- Fix the handling of global arrays to remove the extra pointer reference.
-
-## 16.1.0
+## 16.1.0-wip
 
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
 - Handle dart typedefs in import/export of symbol files.
 - Add support for blocking ObjC blocks that can be invoked from any thread.
 - Add support for blocking ObjC protocol methods.
-- Remove explicit `objc_retain` calls from the generated bindings.
 
 ## 16.0.0
 

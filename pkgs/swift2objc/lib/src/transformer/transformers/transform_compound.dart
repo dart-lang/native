@@ -9,7 +9,6 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
-import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
@@ -52,7 +51,7 @@ ClassDeclaration transformCompound(
   transformedCompound.nestedDeclarations
       .fillNestingParents(transformedCompound);
 
-  final transformedProperties = originalCompound.properties
+  transformedCompound.properties = originalCompound.properties
       .map((property) => transformProperty(
             property,
             wrappedCompoundInstance,
@@ -60,18 +59,20 @@ ClassDeclaration transformCompound(
             transformationMap,
           ))
       .nonNulls
-      .toList();
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  final transformedInitializers = originalCompound.initializers
+  transformedCompound.initializers = originalCompound.initializers
       .map((initializer) => transformInitializer(
             initializer,
             wrappedCompoundInstance,
             parentNamer,
             transformationMap,
           ))
-      .toList();
+      .toList()
+    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  final transformedMethods = originalCompound.methods
+  transformedCompound.methods = originalCompound.methods
       .map((method) => transformMethod(
             method,
             wrappedCompoundInstance,
@@ -79,21 +80,7 @@ ClassDeclaration transformCompound(
             transformationMap,
           ))
       .nonNulls
-      .toList();
-
-  transformedCompound.properties = transformedProperties
-      .whereType<PropertyDeclaration>()
       .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
-
-  transformedCompound.initializers = transformedInitializers
-      .whereType<InitializerDeclaration>()
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
-
-  transformedCompound.methods = (transformedMethods +
-      transformedProperties.whereType<MethodDeclaration>().toList() +
-      transformedInitializers.whereType<MethodDeclaration>().toList())
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedCompound;

@@ -23,7 +23,6 @@ public class AsmClassSignatureVisitor extends SignatureVisitor {
     var typeParam = new TypeParam();
     typeParam.name = name;
     decl.typeParams.add(typeParam);
-    super.visitFormalTypeParameter(name);
   }
 
   @Override

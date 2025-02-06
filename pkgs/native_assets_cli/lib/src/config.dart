@@ -594,7 +594,7 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
 ///
 /// We'll never bump the major version. Removing old keys from the input and
 /// output is done via modifying [latestParsableVersion].
-final latestVersion = Version(1, 9, 0);
+final latestVersion = Version(1, 8, 0);
 
 /// The parser can deal with inputs and outputs down to this version.
 ///
@@ -611,25 +611,10 @@ final latestVersion = Version(1, 9, 0);
 /// catches issues with 2.)
 final latestParsableVersion = Version(1, 5, 0);
 
-/// The configuration for a build or link hook invocation.
 final class HookConfig {
   final Map<String, Object?> json;
 
-  /// The asset types that should be built by an invocation of a hook.
-  ///
-  /// The invoker of a hook may, and in most cases will, invoke the hook
-  /// separately for different asset types.
-  ///
-  /// This means that hooks should be written in a way that they are a no-op if
-  /// they are invoked for an asset type that is not emitted by the hook. Most
-  /// asset extensions provide a to check [buildAssetTypes] for their own asset
-  /// type. For example, `CodeAsset`s can be used as follows:
-  ///
-  /// ```dart
-  /// if (input.config.buildCodeAssets) {
-  ///   // Emit code asset.
-  /// }
-  /// ```
+  /// The asset types that the invoker of this hook supports.
   final List<String> buildAssetTypes;
 
   HookConfig(this.json)

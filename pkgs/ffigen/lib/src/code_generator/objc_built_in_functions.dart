@@ -36,7 +36,6 @@ class ObjCBuiltInFunctions {
   static const signalWaiter = ObjCImport('signalWaiter');
   static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
   static const objectBase = ObjCImport('ObjCObjectBase');
-  static const protocolBase = ObjCImport('ObjCProtocolBase');
   static const blockType = ObjCImport('ObjCBlock');
   static const consumedType = ObjCImport('Consumed');
   static const retainedType = ObjCImport('Retained');
@@ -96,7 +95,6 @@ class ObjCBuiltInFunctions {
   static const builtInCompounds = {
     'NSFastEnumerationState': 'NSFastEnumerationState',
     '_NSRange': 'NSRange',
-    '_NSZone': 'NSZone',
   };
   @visibleForTesting
   static const builtInEnums = {
@@ -127,33 +125,7 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInProtocols = {
-    'NSCoding': 'NSCoding',
-    'NSCopying': 'NSCopying',
-    'NSFastEnumeration': 'NSFastEnumeration',
-    'NSItemProviderReading': 'NSItemProviderReading',
-    'NSItemProviderWriting': 'NSItemProviderWriting',
-    'NSMutableCopying': 'NSMutableCopying',
-    'NSObject': 'NSObjectProtocol',
-    'NSSecureCoding': 'NSSecureCoding',
-    'NSStreamDelegate': 'NSStreamDelegate',
-  };
-  @visibleForTesting
-  static const builtInCategories = {
-    'NSDataCreation',
-    'NSExtendedArray',
-    'NSExtendedData',
-    'NSExtendedDate',
-    'NSExtendedDictionary',
-    'NSExtendedEnumerator',
-    'NSExtendedMutableArray',
-    'NSExtendedMutableData',
-    'NSExtendedMutableDictionary',
-    'NSExtendedMutableOrderedSet',
-    'NSExtendedMutableSet',
-    'NSExtendedOrderedSet',
-    'NSExtendedSet',
-    'NSNumberCreation',
-    'NSStringExtensionMethods',
+    'NSStreamDelegate',
   };
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
@@ -164,10 +136,8 @@ class ObjCBuiltInFunctions {
       generateForPackageObjectiveC ? null : builtInCompounds[name];
   bool isBuiltInEnum(String name) =>
       !generateForPackageObjectiveC && builtInEnums.contains(name);
-  String? getBuiltInProtocolName(String name) =>
-      generateForPackageObjectiveC ? null : builtInProtocols[name];
-  bool isBuiltInCategory(String name) =>
-      !generateForPackageObjectiveC && builtInCategories.contains(name);
+  bool isBuiltInProtocol(String name) =>
+      !generateForPackageObjectiveC && builtInProtocols.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If

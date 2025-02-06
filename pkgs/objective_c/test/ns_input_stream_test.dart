@@ -232,9 +232,9 @@ void main() {
       expect(
           error2,
           isA<NSError>()
-              .having((e) => e.localizedDescription.toDartString(),
+              .having((e) => e.localizedDescription.toString(),
                   'localizedDescription', contains('some exception message'))
-              .having((e) => e.domain.toDartString(), 'domain', 'DartError'));
+              .having((e) => e.domain.toString(), 'domain', 'DartError'));
     });
 
     group('delegate', () {
@@ -253,10 +253,12 @@ void main() {
       });
 
       test('non-self delegate', () async {
+        final protoBuilder = ObjCProtocolBuilder();
         final events = <NSStreamEvent>[];
 
-        inputStream.delegate = NSStreamDelegate.implement(
+        NSStreamDelegate.addToBuilder(protoBuilder,
             stream_handleEvent_: (stream, event) => events.add(event));
+        inputStream.delegate = protoBuilder.build();
         inputStream.stream_handleEvent_(
             inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
         expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
@@ -296,7 +298,7 @@ void main() {
           [1, 2, 3],
         ]).toNSInputStream() as DartInputStreamAdapter;
 
-        inputStream.delegate = NSStreamDelegate.castFrom(NSObject.new1());
+        inputStream.delegate = NSObject.new1();
         expect(inputStream.delegate, isNot(inputStream));
 
         final ptr = inputStream.ref.pointer;

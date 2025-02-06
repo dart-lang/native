@@ -8,7 +8,6 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
-import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
@@ -34,7 +33,7 @@ Library parse(Config config) {
 
   return Library.fromConfig(
     config: config,
-    bindings: transformBindings(config, parseToBindings(config)),
+    bindings: _transformBindings(config, parseToBindings(config)),
   );
 }
 
@@ -171,15 +170,13 @@ List<String> _findObjectiveCSysroot() {
   return [];
 }
 
-@visibleForTesting
-List<Binding> transformBindings(Config config, List<Binding> bindings) {
+List<Binding> _transformBindings(Config config, List<Binding> bindings) {
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
   visit(FillMethodDependenciesVisitation(), bindings);
 
-  final filterResults = visit(ApplyConfigFiltersVisitation(config), bindings);
-  final directlyIncluded = filterResults.directlyIncluded;
-  final included = directlyIncluded.union(filterResults.indirectlyIncluded);
+  final included =
+      visit(ApplyConfigFiltersVisitation(config), bindings).included;
 
   final byValueCompounds = visit(FindByValueCompoundsVisitation(),
           FindByValueCompoundsVisitation.rootNodes(included))
@@ -190,11 +187,9 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
 
   final transitives =
       visit(FindTransitiveDepsVisitation(), included).transitives;
-  final directTransitives = visit(
-          FindDirectTransitiveDepsVisitation(
-              config, included, directlyIncluded),
-          included)
-      .directTransitives;
+  final directTransitives =
+      visit(FindDirectTransitiveDepsVisitation(config, included), included)
+          .directTransitives;
 
   final finalBindings = visit(
           ListBindingsVisitation(

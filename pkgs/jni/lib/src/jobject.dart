@@ -9,18 +9,6 @@ import '../jni.dart';
 import 'jreference.dart';
 import 'types.dart';
 
-// Error thrown when casting between incompatible `JObject` subclasses.
-final class CastError extends Error {
-  final String _message;
-
-  CastError(this._message);
-
-  @override
-  String toString() {
-    return _message;
-  }
-}
-
 final class JObjectNullableType extends JObjType<JObject?> {
   @internal
   const JObjectNullableType();
@@ -137,36 +125,22 @@ class JObject {
     reference.release();
   }
 
-  /// Whether this object is of the given [type].
-  ///
-  /// For example:
-  ///
-  /// ```dart
-  /// if (object.isA(JLong.type)) {
-  ///   final i = object.as(JLong.type).longValue;
-  ///   ...
-  /// }
-  /// ```
-  bool isA<T extends JObject?>(JObjType<T> type) {
-    final targetJClass = type.jClass.reference.toPointer();
-    final canBeCasted = Jni.env.IsInstanceOf(reference.pointer, targetJClass);
-    Jni.env.DeleteGlobalRef(targetJClass);
-    return canBeCasted;
-  }
-
   /// Casts this object to another [type].
   ///
   /// If [releaseOriginal] is `true`, the casted object will be released.
-  ///
-  /// Throws [CastError] if this object is not an instance of [type].
   T as<T extends JObject?>(
     JObjType<T> type, {
     bool releaseOriginal = false,
   }) {
-    if (!isA(type)) {
-      throw CastError('not a subtype of "${type.signature}"');
-    }
-
+    assert(
+      () {
+        final jClass = type.jClass.reference.toPointer();
+        final canBeCasted = Jni.env.IsInstanceOf(reference.pointer, jClass);
+        Jni.env.DeleteGlobalRef(jClass);
+        return canBeCasted;
+      }(),
+      'The object must be of type "${type.signature}".',
+    );
     if (releaseOriginal) {
       final ret = type.fromReference(JGlobalReference(reference.pointer));
       reference.setAsReleased();

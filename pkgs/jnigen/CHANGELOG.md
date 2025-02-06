@@ -1,19 +1,6 @@
-## 0.14.1-wip
-- Added support for generating matching Kotlin operators as Dart operators.
-
-## 0.14.0
-
-- Fixed a bug where the source parser would not have all of the type paremeters
-  of the types.
-
-## 0.13.1
+## 0.13.1-wip
 
 - Fixed a bug where Kotlin wildcards would crash the code generation.
-- Support nullability annotations that are on Java elements like methods and
-  fields instead of directly on the return type or field type.
-- Fixed a bug where enum values were generated as nullable.
-- Fixed a bug where type arguments could be nullable when the top type of their
-  paramater was non-nullable.
 
 ## 0.13.0
 

@@ -2,8 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Support for hook invokers (e.g. building / bundling tools).
-library;
+package com.github.dart_lang.jnigen.simple_package;
 
-export 'native_assets_cli_builder.dart';
-export 'src/model/hook.dart';
+public enum Color {
+  RED,
+  BLUE,
+  BLACK,
+  GREEN,
+  YELLOW,
+  LIME
+}

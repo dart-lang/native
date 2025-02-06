@@ -24,6 +24,7 @@ void run({required TestRunnerCallback testRunner}) {
     final foo = 'foo'.toJString();
     final port = ReceivePort();
     await Isolate.spawn((sendPort) {
+      Jni.setDylibDir(dylibDir: 'build/jni_libs');
       sendPort.send(foo.toDartString());
       Isolate.current.kill();
     }, port.sendPort);
@@ -36,6 +37,7 @@ void run({required TestRunnerCallback testRunner}) {
     // isolates.
     'foo'.toJString();
     await Isolate.spawn((_) {
+      Jni.setDylibDir(dylibDir: 'build/jni_libs');
       'bar'.toJString();
       Isolate.current.kill();
     }, null);

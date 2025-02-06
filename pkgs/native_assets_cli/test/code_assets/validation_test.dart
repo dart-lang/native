@@ -266,35 +266,27 @@ void main() {
       final builder = makeBuildInputBuilder()
         ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
-            targetOS: OS.windows,
-            targetArchitecture: Architecture.x64,
+            targetOS: OS.linux,
+            targetArchitecture: Architecture.arm64,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: CCompilerConfig(
               compiler: nonExistent,
               linker: nonExistent,
               archiver: nonExistent,
-              windows: WindowsCCompilerConfig(
-                developerCommandPrompt: DeveloperCommandPrompt(
-                  script: nonExistent,
-                  arguments: [],
-                ),
-              ),
+              envScript: nonExistent,
             ));
       final errors =
           await validateCodeAssetBuildInput(BuildInput(builder.json));
 
-      bool matches(String error, String field) => RegExp(
-              'BuildInput.config.code.cCompiler.$field (.*foo baz).* does not'
-              ' exist.')
-          .hasMatch(error);
+      bool matches(String error, String field) =>
+          RegExp('BuildInput.config.code.$field (.*foo baz).* does not'
+                  ' exist.')
+              .hasMatch(error);
 
       expect(errors.any((e) => matches(e, 'compiler')), true);
       expect(errors.any((e) => matches(e, 'linker')), true);
       expect(errors.any((e) => matches(e, 'archiver')), true);
-      expect(
-        errors.any((e) => matches(e, 'windows.developerCommandPrompt.script')),
-        true,
-      );
+      expect(errors.any((e) => matches(e, 'envScript')), true);
     });
   });
 }

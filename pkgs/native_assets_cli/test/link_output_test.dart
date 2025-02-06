@@ -35,7 +35,7 @@ void main() {
 
     // The JSON format of the link output.
     <String, Object?>{
-      'version': '1.9.0',
+      'version': '1.8.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'assets': [
         {'a-0': 'v-0', 'type': 'my-asset-type'},

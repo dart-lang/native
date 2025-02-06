@@ -287,16 +287,16 @@ void main() {
     test('Nullable string block', () {
       // Regression test for https://github.com/dart-lang/native/issues/1537.
       final block = NullableStringBlock.fromFunction(
-          (NSString? x) => '${x?.toDartString()} Cat'.toNSString());
+          (NSString? x) => '$x Cat'.toNSString());
 
       final result1 = block('Dog'.toNSString());
-      expect(result1?.toDartString(), 'Dog Cat');
+      expect(result1.toString(), 'Dog Cat');
 
       final result2 = block(null);
-      expect(result2?.toDartString(), 'null Cat');
+      expect(result2.toString(), 'null Cat');
 
       final result3 = BlockTester.callNullableStringBlock_(block);
-      expect(result3?.toDartString(), 'Lizard Cat');
+      expect(result3.toString(), 'Lizard Cat');
     });
 
     test('Object listener block', () async {
@@ -345,7 +345,7 @@ void main() {
     test('NSString listener block', () async {
       final hasRun = Completer<void>();
       final block = NSStringListenerBlock.listener((NSString s) {
-        expect(s.toDartString(), "Foo 123");
+        expect(s.toString(), "Foo 123");
         hasRun.complete();
       });
 

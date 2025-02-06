@@ -59,7 +59,7 @@ void main() {
         input, BuildOutput(outputBuilder.json));
     expect(
       errors,
-      contains(contains('does not exist')),
+      contains(contains('which does not exist')),
     );
   });
 

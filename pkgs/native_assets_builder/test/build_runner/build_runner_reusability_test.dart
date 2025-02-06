@@ -4,7 +4,6 @@
 
 import 'package:file/local.dart';
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
-import 'package:native_assets_builder/src/package_layout/package_layout.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -16,8 +15,7 @@ void main() async {
   test('multiple  build invocations', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      const packageName = 'package_reading_metadata';
-      final packageUri = tempUri.resolve('$packageName/');
+      final packageUri = tempUri.resolve('package_reading_metadata/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(
@@ -25,16 +23,10 @@ void main() async {
         logger: logger,
       );
 
-      final packageLayout = await PackageLayout.fromWorkingDirectory(
-        const LocalFileSystem(),
-        packageUri,
-        packageName,
-      );
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
         dartExecutable: dartExecutable,
         fileSystem: const LocalFileSystem(),
-        packageLayout: packageLayout,
       );
 
       final targetOS = OS.current;
@@ -44,13 +36,14 @@ void main() async {
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
           macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              ? MacOSConfig(targetVersion: defaultMacOSVersion)
               : null,
           linkModePreference: LinkModePreference.dynamic,
         );
 
       await buildRunner.build(
         inputCreator: inputCreator,
+        workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],
         inputValidator: (input) async => [],
@@ -59,6 +52,7 @@ void main() async {
       );
       await buildRunner.build(
         inputCreator: inputCreator,
+        workingDirectory: packageUri,
         linkingEnabled: false,
         buildAssetTypes: [],
         inputValidator: (input) async => [],

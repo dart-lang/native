@@ -38,17 +38,10 @@ Example can be found in [example/build/](example/build/).
 
 ## Usage
 
-To use native asset in Dart, pass `--enable-experiment=native-assets`. Native
-assets work on Dart stable, but prefer using the dev releases as we regularly
-break things.
+Using the native assets feature requires passing
+`--enable-experiment=native-assets` in Dart on a dev build.
 
-To use native assets in Flutter, use
-`flutter config --enable-experiment=native-assets` and then
-`flutter create --template=package_ffi <package_name>`. In Flutter, the
-experiment is only available on the master channel.
-
-We do breaking changes regularly! So frequently bump `package:native_assets_cli`
-and use dev/master SDK for CI.
+The native assets feature is not yet available in Flutter.
 
 ## Development
 

@@ -44,7 +44,7 @@ class Library {
     required List<Binding> bindings,
     String? header,
     bool generateForPackageObjectiveC = false,
-    List<LibraryImport> libraryImports = const <LibraryImport>[],
+    List<LibraryImport>? libraryImports,
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
   }) {
@@ -94,9 +94,8 @@ class Library {
     if (!file.existsSync()) file.createSync(recursive: true);
     var bindings = generate();
     if (format) {
-      final formatter = DartFormatter(
-        languageVersion: DartFormatter.latestShortStyleLanguageVersion,
-      );
+      final formatter =
+          DartFormatter(languageVersion: DartFormatter.latestLanguageVersion);
       bindings = formatter.format(bindings);
     }
     file.writeAsStringSync(bindings);

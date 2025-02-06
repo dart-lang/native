@@ -81,9 +81,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   bool isExcluded;
 
-  @JsonKey(includeFromJson: false)
-  String? userDefinedName;
-
   @override
   final Set<String> modifiers;
 
@@ -165,21 +162,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   @JsonKey(includeFromJson: false)
   late final Map<String, int> methodNumsAfterRenaming;
 
-  /// Populated by [Linker].
-  @JsonKey(includeFromJson: false)
-  final Map<Operator, Method> operators = {};
-
-  /// The `compareTo` method of this class.
-  ///
-  /// This method must take a single parameter of the same type of the enclosing
-  /// class, and return integer.
-  ///
-  /// Used for overloading comparison operators.
-  ///
-  /// Populated by [Linker].
-  @JsonKey(includeFromJson: false)
-  Method? compareTo;
-
   @override
   String toString() {
     return 'Java class declaration for $binaryName';
@@ -241,7 +223,7 @@ class TypeUsage {
     required this.typeJson,
   });
 
-  static final object = TypeUsage(
+  static TypeUsage object = TypeUsage(
       kind: Kind.declared, shorthand: 'java.lang.Object', typeJson: {})
     ..type = DeclaredType(binaryName: 'java.lang.Object');
 
@@ -455,11 +437,6 @@ class DeclaredType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitDeclaredType(this);
   }
-
-  @override
-  bool get hasNullabilityAnnotations =>
-      super.hasNullabilityAnnotations ||
-      params.any((param) => param.type.hasNullabilityAnnotations);
 }
 
 @JsonSerializable(createToJson: false)
@@ -545,12 +522,6 @@ class Wildcard extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitWildcard(this);
   }
-
-  @override
-  bool get hasNullabilityAnnotations =>
-      super.hasNullabilityAnnotations ||
-      (superBound?.type.hasNullabilityAnnotations ?? false) ||
-      (extendsBound?.type.hasNullabilityAnnotations ?? false);
 }
 
 @JsonSerializable(createToJson: false)
@@ -573,11 +544,6 @@ class ArrayType extends ReferredType {
   R accept<R>(TypeVisitor<R> v) {
     return v.visitArrayType(this);
   }
-
-  @override
-  bool get hasNullabilityAnnotations =>
-      super.hasNullabilityAnnotations ||
-      elementType.type.hasNullabilityAnnotations;
 }
 
 mixin Annotated {
@@ -595,13 +561,13 @@ mixin Annotated {
     'lombok.Nullable',
     'io.reactivex.rxjava3.annotations.Nullable',
   ];
-  bool get hasNullable {
+  late final bool hasNullable = () {
     return annotations?.any((annotation) =>
             nullableAnnotations.contains(annotation.binaryName) ||
-            annotation.binaryName == 'javax.annotation.Nullable' &&
+            annotation.binaryName == 'javax.annotation.Nonnull' &&
                 annotation.properties['when'] == 'ALWAYS') ??
         false;
-  }
+  }();
 
   static final nonNullAnnotations = [
     // Taken from https://kotlinlang.org/docs/java-interop.html#nullability-annotations
@@ -615,22 +581,20 @@ mixin Annotated {
     'lombok.NonNull',
     'io.reactivex.rxjava3.annotations.NonNull',
   ];
-  bool get hasNonNull {
+  late final hasNonNull = () {
     return annotations?.any((annotation) =>
             nonNullAnnotations.contains(annotation.binaryName) ||
             annotation.binaryName == 'javax.annotation.Nonnull' &&
                 annotation.properties['when'] == 'ALWAYS') ??
-        false;
-  }
+        false; //FIXME
+  }();
 
-  bool get hasNullabilityAnnotations => hasNonNull || hasNullable;
-
-  bool get isNullable {
+  late final bool isNullable = () {
     if (hasNullable) {
       return true;
     }
     return !hasNonNull;
-  }
+  }();
 }
 
 mixin ClassMember {
@@ -665,9 +629,6 @@ class Method with ClassMember, Annotated implements Element<Method> {
   @JsonKey(includeFromJson: false)
   bool isExcluded;
 
-  @JsonKey(includeFromJson: false)
-  String? userDefinedName;
-
   @override
   final String name;
   @override
@@ -697,9 +658,8 @@ class Method with ClassMember, Annotated implements Element<Method> {
   @override
   late String finalName;
 
-  /// Populated by [KotlinProcessor].
   @JsonKey(includeFromJson: false)
-  KotlinFunction? kotlinFunction;
+  late bool isOverridden;
 
   /// The actual return type when the method is a Kotlin's suspend fun.
   ///
@@ -728,9 +688,6 @@ class Param with Annotated implements Element<Param> {
     required this.name,
     required this.type,
   });
-
-  @JsonKey(includeFromJson: false)
-  String? userDefinedName;
 
   @override
   List<Annotation>? annotations;
@@ -775,9 +732,6 @@ class Field with ClassMember, Annotated implements Element<Field> {
 
   @JsonKey(includeFromJson: false)
   bool isExcluded;
-
-  @JsonKey(includeFromJson: false)
-  String? userDefinedName;
 
   @override
   final String name;
@@ -1056,7 +1010,6 @@ class KotlinFunction {
     this.typeParameters = const [],
     required this.flags,
     required this.isSuspend,
-    required this.isOperator,
   });
 
   /// Name in the byte code.
@@ -1073,7 +1026,6 @@ class KotlinFunction {
   final List<KotlinTypeParameter> typeParameters;
   final int flags;
   final bool isSuspend;
-  final bool isOperator;
 
   factory KotlinFunction.fromJson(Map<String, dynamic> json) =>
       _$KotlinFunctionFromJson(json);
@@ -1268,32 +1220,4 @@ class KotlinTypeProjection extends KotlinTypeArgument {
 
   final KotlinType type;
   final KmVariance variance;
-}
-
-enum Operator {
-  plus('+', parameterCount: 1),
-  minus('-', parameterCount: 1),
-  times('*', parameterCount: 1),
-  div('/', parameterCount: 1),
-  rem('%', parameterCount: 1),
-  get('[]', parameterCount: 1),
-  set('[]=', parameterCount: 2, returnsVoid: true);
-
-  final String dartSymbol;
-
-  /// The number of parameters this operator must have in Dart.
-  final int parameterCount;
-
-  /// Whether the return type that this operator must have in Dart is void.
-  final bool returnsVoid;
-
-  const Operator(
-    this.dartSymbol, {
-    required this.parameterCount,
-    this.returnsVoid = false,
-  });
-
-  bool isCompatibleWith(Method method) {
-    return parameterCount == method.params.length;
-  }
 }

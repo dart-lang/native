@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:file/local.dart';
+import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -60,25 +62,33 @@ void main() async {
       }
 
       // Trigger a build, should not invoke anything.
-      final logMessages = <String>[];
-      final result = (await build(
-        packageUri,
-        logger,
-        dartExecutable,
-        capturedLogs: logMessages,
-        buildAssetTypes: [CodeAsset.type],
-        inputValidator: validateCodeAssetBuildInput,
-        buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      ))!;
-      expect(
-        false,
-        logMessages.join('\n').contains(
-              'native_add${Platform.pathSeparator}hook'
-              '${Platform.pathSeparator}build.dart',
-            ),
-      );
-      expect(result.encodedAssets.length, 1);
+      for (final passPackageLayout in [true, false]) {
+        PackageLayout? packageLayout;
+        if (passPackageLayout) {
+          packageLayout = await PackageLayout.fromRootPackageRoot(
+              const LocalFileSystem(), packageUri);
+        }
+        final logMessages = <String>[];
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          packageLayout: packageLayout,
+          buildAssetTypes: [CodeAsset.type],
+          inputValidator: validateCodeAssetBuildInput,
+          buildValidator: validateCodeAssetBuildOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        ))!;
+        expect(
+          false,
+          logMessages.join('\n').contains(
+                'native_add${Platform.pathSeparator}hook'
+                '${Platform.pathSeparator}build.dart',
+              ),
+        );
+        expect(result.encodedAssets.length, 1);
+      }
     });
   });
 }

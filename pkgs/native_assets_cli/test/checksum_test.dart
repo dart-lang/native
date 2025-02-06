@@ -55,13 +55,13 @@ void main() {
                       targetArchitecture: architecture,
                       targetOS: os,
                       android: os == OS.android
-                          ? AndroidCodeConfig(targetNdkApi: targetVersion)
+                          ? AndroidConfig(targetNdkApi: targetVersion)
                           : null,
                       macOS: os == OS.macOS
-                          ? MacOSCodeConfig(targetVersion: targetVersion)
+                          ? MacOSConfig(targetVersion: targetVersion)
                           : null,
                       iOS: os == OS.iOS
-                          ? IOSCodeConfig(
+                          ? IOSConfig(
                               targetVersion: targetVersion,
                               targetSdk: iOSSdk,
                             )

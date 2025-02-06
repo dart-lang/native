@@ -49,12 +49,7 @@ class Global extends LookUpBinding {
     }
     final dartType = type.getDartType(w);
     final ffiDartType = type.getFfiDartType(w);
-
-    // Removing pointer reference for ConstantArray cType since we always wrap
-    // globals with pointer below.
-    final cType = (type is ConstantArray && !nativeConfig.enabled)
-        ? (type as ConstantArray).child.getCType(w)
-        : type.getCType(w);
+    final cType = type.getCType(w);
 
     void generateConvertingGetterAndSetter(String pointerValue) {
       final getValue =
@@ -122,8 +117,6 @@ class Global extends LookUpBinding {
         } else {
           s.write('$ffiDartType get $globalVarName => $pointerName.ref;\n\n');
         }
-      } else if (baseTypealiasType is ConstantArray) {
-        s.write('$ffiDartType get $globalVarName => $pointerName;\n\n');
       } else if (type.sameDartAndFfiDartType) {
         s.write('$dartType get $globalVarName => $pointerName.value;\n\n');
         if (!constant) {

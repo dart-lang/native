@@ -954,44 +954,6 @@ class Clang {
       _clang_Type_getObjCObjectBaseTypePtr
           .asFunction<CXType Function(CXType)>();
 
-  /// Retrieve the number of protocol references associated with an ObjC object/id.
-  ///
-  /// If the type is not an ObjC object, 0 is returned.
-  int clang_Type_getNumObjCProtocolRefs(
-    CXType T,
-  ) {
-    return _clang_Type_getNumObjCProtocolRefs(
-      T,
-    );
-  }
-
-  late final _clang_Type_getNumObjCProtocolRefsPtr =
-      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-          'clang_Type_getNumObjCProtocolRefs');
-  late final _clang_Type_getNumObjCProtocolRefs =
-      _clang_Type_getNumObjCProtocolRefsPtr.asFunction<int Function(CXType)>();
-
-  /// Retrieve the decl for a protocol reference for an ObjC object/id.
-  ///
-  /// If the type is not an ObjC object or there are not enough protocol
-  /// references, an invalid cursor is returned.
-  CXCursor clang_Type_getObjCProtocolDecl(
-    CXType T,
-    int i,
-  ) {
-    return _clang_Type_getObjCProtocolDecl(
-      T,
-      i,
-    );
-  }
-
-  late final _clang_Type_getObjCProtocolDeclPtr =
-      _lookup<ffi.NativeFunction<CXCursor Function(CXType, ffi.UnsignedInt)>>(
-          'clang_Type_getObjCProtocolDecl');
-  late final _clang_Type_getObjCProtocolDecl =
-      _clang_Type_getObjCProtocolDeclPtr
-          .asFunction<CXCursor Function(CXType, int)>();
-
   /// Return 1 if the CXType is a variadic function type, and 0 otherwise.
   int clang_isFunctionTypeVariadic(
     CXType T,
@@ -1584,24 +1546,7 @@ final class CXString extends ffi.Struct {
   external int private_flags;
 }
 
-/// An "index" that consists of a set of translation units that would
-/// typically be linked together into an executable or library.
-typedef CXIndex = ffi.Pointer<ffi.Void>;
-
-final class CXTargetInfoImpl extends ffi.Opaque {}
-
-/// An opaque type representing target information for a given translation
-/// unit.
-typedef CXTargetInfo = ffi.Pointer<CXTargetInfoImpl>;
-
 final class CXTranslationUnitImpl extends ffi.Opaque {}
-
-/// A single translation unit, which resides in an index.
-typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
-
-/// Opaque pointer representing client data that will be passed through
-/// to various callbacks and visitors.
-typedef CXClientData = ffi.Pointer<ffi.Void>;
 
 /// Provides the contents of a file that has not yet been saved to disk.
 ///
@@ -1622,44 +1567,9 @@ final class CXUnsavedFile extends ffi.Struct {
   external int Length;
 }
 
-/// Describes the availability of a particular entity, which indicates
-/// whether the use of this entity will result in a warning or error due to
-/// it being deprecated or unavailable.
-sealed class CXAvailabilityKind {
-  /// The entity is available.
-  static const CXAvailability_Available = 0;
-
-  /// The entity is available, but has been deprecated (and its use is
-  /// not recommended).
-  static const CXAvailability_Deprecated = 1;
-
-  /// The entity is not available; any use of it will be an error.
-  static const CXAvailability_NotAvailable = 2;
-
-  /// The entity is available, but not accessible; any use of it will be
-  /// an error.
-  static const CXAvailability_NotAccessible = 3;
-}
-
-/// Describes a version number of the form major.minor.subminor.
-final class CXVersion extends ffi.Struct {
-  /// The major version number, e.g., the '10' in '10.7.3'. A negative
-  /// value indicates that there is no version number at all.
-  @ffi.Int()
-  external int Major;
-
-  /// The minor version number, e.g., the '7' in '10.7.3'. This value
-  /// will be negative if no minor version number was provided, e.g., for
-  /// version '10'.
-  @ffi.Int()
-  external int Minor;
-
-  /// The subminor version number, e.g., the '3' in '10.7.3'. This value
-  /// will be negative if no minor or subminor version number was provided,
-  /// e.g., in version '10' or '10.7'.
-  @ffi.Int()
-  external int Subminor;
-}
+/// An "index" that consists of a set of translation units that would
+/// typically be linked together into an executable or library.
+typedef CXIndex = ffi.Pointer<ffi.Void>;
 
 /// A particular source file that is part of a translation unit.
 typedef CXFile = ffi.Pointer<ffi.Void>;
@@ -1692,35 +1602,12 @@ final class CXSourceRange extends ffi.Struct {
   external int end_int_data;
 }
 
-/// Describes the severity of a particular diagnostic.
-sealed class CXDiagnosticSeverity {
-  /// A diagnostic that has been suppressed, e.g., by a command-line
-  /// option.
-  static const CXDiagnostic_Ignored = 0;
-
-  /// This diagnostic is a note that should be attached to the
-  /// previous (non-note) diagnostic.
-  static const CXDiagnostic_Note = 1;
-
-  /// This diagnostic indicates suspicious code that may not be
-  /// wrong.
-  static const CXDiagnostic_Warning = 2;
-
-  /// This diagnostic indicates that the code is ill-formed.
-  static const CXDiagnostic_Error = 3;
-
-  /// This diagnostic indicates that the code is ill-formed such
-  /// that future parser recovery is unlikely to produce useful
-  /// results.
-  static const CXDiagnostic_Fatal = 4;
-}
+/// A single translation unit, which resides in an index.
+typedef CXTranslationUnit = ffi.Pointer<CXTranslationUnitImpl>;
 
 /// A single diagnostic, containing the diagnostic's severity,
 /// location, text, source ranges, and fix-it hints.
 typedef CXDiagnostic = ffi.Pointer<ffi.Void>;
-
-/// A group of CXDiagnostics.
-typedef CXDiagnosticSet = ffi.Pointer<ffi.Void>;
 
 /// Options to control the display of diagnostics.
 ///
@@ -1774,6 +1661,29 @@ sealed class CXDiagnosticDisplayOptions {
   /// This option corresponds to the clang flag
   /// \c -fdiagnostics-show-category=name.
   static const CXDiagnostic_DisplayCategoryName = 32;
+}
+
+/// Describes the severity of a particular diagnostic.
+sealed class CXDiagnosticSeverity {
+  /// A diagnostic that has been suppressed, e.g., by a command-line
+  /// option.
+  static const CXDiagnostic_Ignored = 0;
+
+  /// This diagnostic is a note that should be attached to the
+  /// previous (non-note) diagnostic.
+  static const CXDiagnostic_Note = 1;
+
+  /// This diagnostic indicates suspicious code that may not be
+  /// wrong.
+  static const CXDiagnostic_Warning = 2;
+
+  /// This diagnostic indicates that the code is ill-formed.
+  static const CXDiagnostic_Error = 3;
+
+  /// This diagnostic indicates that the code is ill-formed such
+  /// that future parser recovery is unlikely to produce useful
+  /// results.
+  static const CXDiagnostic_Fatal = 4;
 }
 
 /// Flags that control the creation of translation units.
@@ -2708,6 +2618,25 @@ final class CXCursor extends ffi.Struct {
   external ffi.Array<ffi.Pointer<ffi.Void>> data;
 }
 
+/// Describes the availability of a particular entity, which indicates
+/// whether the use of this entity will result in a warning or error due to
+/// it being deprecated or unavailable.
+sealed class CXAvailabilityKind {
+  /// The entity is available.
+  static const CXAvailability_Available = 0;
+
+  /// The entity is available, but has been deprecated (and its use is
+  /// not recommended).
+  static const CXAvailability_Deprecated = 1;
+
+  /// The entity is not available; any use of it will be an error.
+  static const CXAvailability_NotAvailable = 2;
+
+  /// The entity is available, but not accessible; any use of it will be
+  /// an error.
+  static const CXAvailability_NotAccessible = 3;
+}
+
 /// Describes the availability of a given entity on a particular platform, e.g.,
 /// a particular class might only be available on Mac OS 10.7 or newer.
 final class CXPlatformAvailability extends ffi.Struct {
@@ -2737,10 +2666,25 @@ final class CXPlatformAvailability extends ffi.Struct {
   external CXString Message;
 }
 
-final class CXCursorSetImpl extends ffi.Opaque {}
+/// Describes a version number of the form major.minor.subminor.
+final class CXVersion extends ffi.Struct {
+  /// The major version number, e.g., the '10' in '10.7.3'. A negative
+  /// value indicates that there is no version number at all.
+  @ffi.Int()
+  external int Major;
 
-/// A fast container representing a set of CXCursors.
-typedef CXCursorSet = ffi.Pointer<CXCursorSetImpl>;
+  /// The minor version number, e.g., the '7' in '10.7.3'. This value
+  /// will be negative if no minor version number was provided, e.g., for
+  /// version '10'.
+  @ffi.Int()
+  external int Minor;
+
+  /// The subminor version number, e.g., the '3' in '10.7.3'. This value
+  /// will be negative if no minor or subminor version number was provided,
+  /// e.g., in version '10' or '10.7'.
+  @ffi.Int()
+  external int Subminor;
+}
 
 /// Describes the kind of type
 sealed class CXTypeKind {
@@ -2955,11 +2899,6 @@ sealed class CXChildVisitResult {
   static const CXChildVisit_Recurse = 2;
 }
 
-typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
-    CXCursor cursor, CXCursor parent, CXClientData client_data);
-typedef DartCXCursorVisitorFunction = int Function(
-    CXCursor cursor, CXCursor parent, CXClientData client_data);
-
 /// Visitor invoked for each cursor found by a traversal.
 ///
 /// This visitor function will be invoked for each cursor found by
@@ -2972,10 +2911,14 @@ typedef DartCXCursorVisitorFunction = int Function(
 /// to direct clang_visitCursorChildren().
 typedef CXCursorVisitor
     = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
+typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
+    CXCursor cursor, CXCursor parent, CXClientData client_data);
+typedef DartCXCursorVisitorFunction = int Function(
+    CXCursor cursor, CXCursor parent, CXClientData client_data);
 
-/// Opaque pointer representing a policy that controls pretty printing
-/// for \c clang_getCursorPrettyPrinted.
-typedef CXPrintingPolicy = ffi.Pointer<ffi.Void>;
+/// Opaque pointer representing client data that will be passed through
+/// to various callbacks and visitors.
+typedef CXClientData = ffi.Pointer<ffi.Void>;
 
 /// Property attributes for a \c CXCursor_ObjCPropertyDecl.
 sealed class CXObjCPropertyAttrKind {
@@ -2995,48 +2938,6 @@ sealed class CXObjCPropertyAttrKind {
   static const CXObjCPropertyAttr_class = 4096;
 }
 
-/// \defgroup CINDEX_MODULE Module introspection
-///
-/// The functions in this group provide access to information about modules.
-///
-/// @{
-typedef CXModule = ffi.Pointer<ffi.Void>;
-
-/// A semantic string that describes a code-completion result.
-///
-/// A semantic string that describes the formatting of a code-completion
-/// result as a single "template" of text that should be inserted into the
-/// source buffer when a particular code-completion result is selected.
-/// Each semantic string is made up of some number of "chunks", each of which
-/// contains some text along with a description of what that text means, e.g.,
-/// the name of the entity being referenced, whether the text chunk is part of
-/// the template, or whether it is a "placeholder" that the user should replace
-/// with actual code,of a specific kind. See \c CXCompletionChunkKind for a
-/// description of the different kinds of chunks.
-typedef CXCompletionString = ffi.Pointer<ffi.Void>;
-typedef CXInclusionVisitorFunction = ffi.Void Function(
-    CXFile included_file,
-    ffi.Pointer<CXSourceLocation> inclusion_stack,
-    ffi.UnsignedInt include_len,
-    CXClientData client_data);
-typedef DartCXInclusionVisitorFunction = void Function(
-    CXFile included_file,
-    ffi.Pointer<CXSourceLocation> inclusion_stack,
-    int include_len,
-    CXClientData client_data);
-
-/// Visitor invoked for each file in a translation unit
-/// (used with clang_getInclusions()).
-///
-/// This visitor function will be invoked by clang_getInclusions() for each
-/// file included (either at the top-level or by \#include directives) within
-/// a translation unit.  The first argument is the file being included, and
-/// the second and third arguments provide the inclusion stack.  The
-/// array is sorted in order of immediate inclusion.  For example,
-/// the first element refers to the location that included 'included_file'.
-typedef CXInclusionVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
-
 sealed class CXEvalResultKind {
   static const CXEval_Int = 1;
   static const CXEval_Float = 2;
@@ -3049,51 +2950,6 @@ sealed class CXEvalResultKind {
 
 /// Evaluation result of a cursor
 typedef CXEvalResult = ffi.Pointer<ffi.Void>;
-
-/// A remapping of original source files and their translated files.
-typedef CXRemapping = ffi.Pointer<ffi.Void>;
-
-/// \defgroup CINDEX_HIGH Higher level API functions
-///
-/// @{
-sealed class CXVisitorResult {
-  static const CXVisit_Break = 0;
-  static const CXVisit_Continue = 1;
-}
-
-/// The client's data object that is associated with a CXFile.
-typedef CXIdxClientFile = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with a semantic entity.
-typedef CXIdxClientEntity = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with a semantic container
-/// of entities.
-typedef CXIdxClientContainer = ffi.Pointer<ffi.Void>;
-
-/// The client's data object that is associated with an AST file (PCH
-/// or module).
-typedef CXIdxClientASTFile = ffi.Pointer<ffi.Void>;
-
-/// An indexing action/session, to be applied to one or multiple
-/// translation units.
-typedef CXIndexAction = ffi.Pointer<ffi.Void>;
-typedef CXFieldVisitorFunction = ffi.UnsignedInt Function(
-    CXCursor C, CXClientData client_data);
-typedef DartCXFieldVisitorFunction = int Function(
-    CXCursor C, CXClientData client_data);
-
-/// Visitor invoked for each field found by a traversal.
-///
-/// This visitor function will be invoked for each field found by
-/// \c clang_Type_visitFields. Its first argument is the cursor being
-/// visited, its second argument is the client data provided to
-/// \c clang_Type_visitFields.
-///
-/// The visitor should return one of the \c CXVisitorResult values
-/// to direct \c clang_Type_visitFields.
-typedef CXFieldVisitor
-    = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
 
 const int CINDEX_VERSION_MAJOR = 0;
 

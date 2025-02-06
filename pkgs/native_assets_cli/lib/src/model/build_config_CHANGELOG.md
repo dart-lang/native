@@ -1,10 +1,3 @@
-## 1.9.0
-
-- `CCompilerConfig` now nests the Windows config under
-  `.windows.developerCommandPrompt`.
-  Compatibility with older hooks: Previous JSON structure is still emitted.
-  Compatibility with older SDKs: Still parse the old JSON.
-
 ## 1.8.0
 
 - Add `BuildInput.outputFile` to specify the outfile. This means the out file 

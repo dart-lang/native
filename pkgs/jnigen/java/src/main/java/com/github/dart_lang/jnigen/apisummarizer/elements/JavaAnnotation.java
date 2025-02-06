@@ -11,14 +11,6 @@ public class JavaAnnotation {
   public String binaryName;
   public Map<String, Object> properties = new HashMap<>();
 
-  public JavaAnnotation() {}
-
-  public JavaAnnotation(String binaryName) {
-    this.binaryName = binaryName;
-  }
-
-  public static final JavaAnnotation nonNull = new JavaAnnotation("androidx.annotation.NonNull");
-
   public static class EnumVal {
     public String enumClass;
     public String value;

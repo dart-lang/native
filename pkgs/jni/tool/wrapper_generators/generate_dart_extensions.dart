@@ -44,31 +44,29 @@ String getCheckedGetter(Type returnType) {
     final child = returnType.child.getCType(dummyWriter);
     return 'getPointer<$child>()';
   }
-  final cType = returnType.toString();
-  if (cType.startsWith('j') && cType.endsWith('Array')) {
+  final cType = returnType.getCType(dummyWriter);
+  if (cType.endsWith('ArrayPtr')) {
     return objectPointerGetter;
   }
   const mappings = {
-    'jboolean': 'boolean',
-    'jbyte': 'byte',
-    'jshort': 'short',
-    'jchar': 'char',
-    'jint': 'integer',
-    'jsize': 'integer', // jsize is aliased to jint
-    'jlong': 'long',
-    'jfloat': 'float',
-    'jdouble': 'doubleFloat',
-    'jobject': objectPointerGetter,
-    'jobjectRefType': 'referenceType',
-    'jthrowable': objectPointerGetter,
-    'jstring': objectPointerGetter,
-    'jclass': 'value',
-    'jfieldID': 'fieldID',
-    'jmethodID': 'methodID',
+    'JBooleanMarker': 'boolean',
+    'JByteMarker': 'byte',
+    'JShortMarker': 'short',
+    'JCharMarker': 'char',
+    'JIntMarker': 'integer',
+    'JSizeMarker': 'integer', // jsize is aliased to jint
+    'JLongMarker': 'long',
+    'JFloatMarker': 'float',
+    'JDoubleMarker': 'doubleFloat',
+    'JObjectPtr': objectPointerGetter,
+    'JThrowablePtr': objectPointerGetter,
+    'JStringPtr': objectPointerGetter,
+    'JClassPtr': 'value',
+    'JFieldIDPtr': 'fieldID',
+    'JMethodIDPtr': 'methodID',
     'ffi.Int32': 'integer',
-    'ffi.UnsignedInt': 'integer',
     'ffi.Void': 'check()',
-    'jweak': objectPointerGetter,
+    'JWeakPtr': objectPointerGetter,
   };
   if (mappings.containsKey(cType)) {
     return mappings[cType]!;
@@ -78,7 +76,7 @@ String getCheckedGetter(Type returnType) {
 }
 
 String? getGlobalEnvExtensionFunction(
-  CompoundMember field,
+  Member field,
   Type? checkedReturnType, {
   required bool isLeaf,
 }) {
@@ -278,7 +276,7 @@ class GlobalJniEnv {
 }
 
 String? getFunctionPointerExtensionFunction(
-  CompoundMember field, {
+  Member field, {
   bool indirect = false,
   bool implicitThis = false,
   required bool isLeaf,

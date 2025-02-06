@@ -6,10 +6,6 @@
 
 #ifdef DEBUG
 #include <stdio.h>
-
-#if _WIN32
-#include <wchar.h>
-#endif
 #endif
 
 #if _WIN32
@@ -21,9 +17,6 @@
 FFI_EXPORT int32_t add(int32_t a, int32_t b) {
 #ifdef DEBUG
   printf("Adding %i and %i.\n", a, b);
-#if _WIN32
-  wprintf("Adding %i and %i.\n", a, b);
-#endif
 #endif
   return a + b;
 }

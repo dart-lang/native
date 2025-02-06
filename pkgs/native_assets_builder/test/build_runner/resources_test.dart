@@ -29,9 +29,15 @@ void main() async {
           logger: logger,
         );
 
-        final buildResult = (await buildDataAssets(
+        final buildResult = (await build(
           packageUri,
+          logger,
+          dartExecutable,
           linkingEnabled: true,
+          buildAssetTypes: [DataAsset.type],
+          inputValidator: validateDataAssetBuildInput,
+          buildValidator: validateDataAssetBuildOutput,
+          applicationAssetValidator: (_) async => [],
         ))!;
 
         Iterable<String> buildFiles() => Directory.fromUri(

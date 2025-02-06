@@ -25,7 +25,6 @@ public class AsmMethodSignatureVisitor extends SignatureVisitor {
     var typeParam = new TypeParam();
     typeParam.name = name;
     method.typeParams.add(typeParam);
-    super.visitFormalTypeParameter(name);
   }
 
   @Override

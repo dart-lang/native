@@ -9,15 +9,17 @@ import 'ast.dart';
 
 class ApplyConfigFiltersVisitation extends Visitation {
   final Config config;
-  final directlyIncluded = <Binding>{};
-  final indirectlyIncluded = <Binding>{};
+  final _directlyIncluded = <Binding>{};
+  final _superTypes = <Binding>{};
   ApplyConfigFiltersVisitation(this.config);
+
+  Set<Binding> get included => _directlyIncluded.union(_superTypes);
 
   void _visitImpl(Binding node, DeclarationFilters filters) {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (config.usrTypeMappings.containsKey(node.usr)) return;
-    if (filters.shouldInclude(node)) directlyIncluded.add(node);
+    if (filters.shouldInclude(node)) _directlyIncluded.add(node);
   }
 
   @override
@@ -43,9 +45,9 @@ class ApplyConfigFiltersVisitation extends Visitation {
     _visitImpl(node, config.objcInterfaces);
 
     // If this node is included, include all its super types.
-    if (directlyIncluded.contains(node)) {
+    if (_directlyIncluded.contains(node)) {
       for (ObjCInterface? t = node; t != null; t = t.superType) {
-        if (!indirectlyIncluded.add(t)) break;
+        if (!_superTypes.add(t)) break;
       }
     }
   }

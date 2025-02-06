@@ -22,13 +22,13 @@ void main() {
       test('NSString to/from Dart string [$s]', () {
         final ns1 = NSString(s);
         expect(ns1.length, s.length);
-        expect(ns1.toDartString().length, s.length);
-        expect(ns1.toDartString(), s);
+        expect(ns1.toString().length, s.length);
+        expect(ns1.toString(), s);
 
         final ns2 = s.toNSString();
         expect(ns2.length, s.length);
-        expect(ns2.toDartString().length, s.length);
-        expect(ns2.toDartString(), s);
+        expect(ns2.toString().length, s.length);
+        expect(ns2.toString(), s);
       });
     }
   });

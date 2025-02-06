@@ -12,7 +12,6 @@ abstract class Visitor {
   void visitClass(ClassDecl c) {}
   void visitMethod(Method method) {}
   void visitField(Field field) {}
-  void visitParam(Param parameter) {}
 }
 
 class Classes implements Element {
@@ -31,18 +30,14 @@ class Classes implements Element {
 }
 
 class ClassDecl implements Element {
-  ClassDecl(this._classDecl);
+  ClassDecl(this._classDecl) : binaryName = _classDecl.binaryName;
   final ast.ClassDecl _classDecl;
 
-  String get binaryName => _classDecl.binaryName;
+  // Ex: com.x.Foo.
+  final String binaryName;
 
   bool get isExcluded => _classDecl.isExcluded;
   set isExcluded(bool value) => _classDecl.isExcluded = value;
-
-  String get name => _classDecl.userDefinedName ?? _classDecl.name;
-  set name(String newName) => _classDecl.userDefinedName = newName;
-
-  String get originalName => _classDecl.name;
 
   @override
   void accept(Visitor visitor) {
@@ -62,39 +57,14 @@ class Method implements Element {
 
   final ast.Method _method;
 
+  String get name => _method.name;
+
   bool get isExcluded => _method.isExcluded;
   set isExcluded(bool value) => _method.isExcluded = value;
-
-  String get name => _method.userDefinedName ?? _method.name;
-  set name(String newName) => _method.userDefinedName = newName;
-
-  String get originalName => _method.name;
-
-  bool get isConstructor => _method.isConstructor;
 
   @override
   void accept(Visitor visitor) {
     visitor.visitMethod(this);
-    if (_method.isExcluded) return;
-    for (final param in _method.params) {
-      Param(param).accept(visitor);
-    }
-  }
-}
-
-class Param implements Element {
-  Param(this._param);
-
-  final ast.Param _param;
-
-  String get name => _param.userDefinedName ?? _param.name;
-  set name(String newName) => _param.userDefinedName = newName;
-
-  String get originalName => _param.name;
-
-  @override
-  void accept(Visitor visitor) {
-    visitor.visitParam(this);
   }
 }
 
@@ -103,13 +73,10 @@ class Field implements Element {
 
   final ast.Field _field;
 
+  String get name => _field.name;
+
   bool get isExcluded => _field.isExcluded;
   set isExcluded(bool value) => _field.isExcluded = value;
-
-  String get name => _field.userDefinedName ?? _field.name;
-  set name(String newName) => _field.userDefinedName = newName;
-
-  String get originalName => _field.name;
 
   @override
   void accept(Visitor visitor) {

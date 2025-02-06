@@ -75,8 +75,7 @@ void main() {
     test('Nullable typealias', () {
       // Regression test for https://github.com/dart-lang/native/issues/1701
       expect(NullableInterface.returnNullableAlias_(true), isNull);
-      expect(
-          NullableInterface.returnNullableAlias_(false)?.toDartString(), "Hi");
+      expect(NullableInterface.returnNullableAlias_(false)?.toString(), "Hi");
     });
   });
 }

@@ -64,11 +64,8 @@ globals:
     '_(.*)': '$1'
 typedefs:
   include:
+    - 'ObjC.*'
     - 'Dart_FinalizableHandle'
-structs:
-  rename:
-    '_ObjC(.*)': 'ObjC$1'
-    '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

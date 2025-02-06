@@ -134,5 +134,3 @@ functions:
     - clang_Type_getModifiedType
     - clang_Location_isInSystemHeader
     - clang_getClangVersion
-    - clang_Type_getNumObjCProtocolRefs
-    - clang_Type_getObjCProtocolDecl

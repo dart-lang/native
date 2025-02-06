@@ -28,12 +28,12 @@ final javaFiles = [
   join(javaPrefix, 'annotations', 'MyDataClass.java'),
   join(javaPrefix, 'annotations', 'NotNull.java'),
   join(javaPrefix, 'annotations', 'Nullable.java'),
+  join(javaPrefix, 'simple_package', 'Color.java'),
   join(javaPrefix, 'simple_package', 'Example.java'),
   join(javaPrefix, 'simple_package', 'Exceptions.java'),
   join(javaPrefix, 'simple_package', 'Fields.java'),
   join(javaPrefix, 'pkg2', 'C2.java'),
   join(javaPrefix, 'pkg2', 'Example.java'),
-  join(javaPrefix, 'enums', 'Colors.java'),
   join(javaPrefix, 'generics', 'MyStack.java'),
   join(javaPrefix, 'generics', 'MyMap.java'),
   join(javaPrefix, 'generics', 'GenericTypeParams.java'),
@@ -63,7 +63,7 @@ void compileJavaSources(String workingDir, List<String> files) async {
   }
 }
 
-Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
+Config getConfig() {
   compileJavaSources(javaPath, javaFiles);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
@@ -71,11 +71,10 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
-    summarizerOptions: SummarizerOptions(backend: backend),
+    summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
     classes: [
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',
-      'com.github.dart_lang.jnigen.enums',
       'com.github.dart_lang.jnigen.generics',
       'com.github.dart_lang.jnigen.interfaces',
       'com.github.dart_lang.jnigen.inheritance',

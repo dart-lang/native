@@ -11,6 +11,8 @@
 import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 
+final class _NSZone extends ffi.Opaque {}
+
 final class AudioStreamBasicDescription extends ffi.Struct {
   @ffi.Double()
   external double mSampleRate;
@@ -195,7 +197,7 @@ enum AVAudioCommonFormat {
 /// AVAudioFormat in your config's objc-interfaces list.
 ///
 /// AVAudioFormat
-class AVAudioFormat extends objc.NSObject implements NSSecureCoding {
+class AVAudioFormat extends objc.NSObject {
   AVAudioFormat._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -212,7 +214,7 @@ class AVAudioFormat extends objc.NSObject implements NSSecureCoding {
 
 late final _class_AVAudioPlayer = objc.getClass("AVAudioPlayer");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-final _objc_msgSend_19nvye5 = objc.msgSendPointer
+final _objc_msgSend_69e0x1 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Bool Function(
@@ -226,7 +228,7 @@ typedef instancetype = ffi.Pointer<objc.ObjCObject>;
 typedef Dartinstancetype = objc.ObjCObjectBase;
 late final _sel_initWithContentsOfURL_error_ =
     objc.registerName("initWithContentsOfURL:error:");
-final _objc_msgSend_1lhpu4m = objc.msgSendPointer
+final _objc_msgSend_1705co6 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
@@ -243,7 +245,7 @@ final _objc_msgSend_1lhpu4m = objc.msgSendPointer
 late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
 late final _sel_initWithContentsOfURL_fileTypeHint_error_ =
     objc.registerName("initWithContentsOfURL:fileTypeHint:error:");
-final _objc_msgSend_1pnyuds = objc.msgSendPointer
+final _objc_msgSend_bo6ep4 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(
@@ -318,7 +320,7 @@ final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
         double Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_currentDevice = objc.registerName("currentDevice");
-final _objc_msgSend_151sglz = objc.msgSendPointer
+final _objc_msgSend_1x359cv = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
@@ -327,7 +329,7 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_setCurrentDevice_ = objc.registerName("setCurrentDevice:");
-final _objc_msgSend_xtuoz7 = objc.msgSendPointer
+final _objc_msgSend_1jdvcbf = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Void Function(
@@ -451,14 +453,14 @@ late final _sel_setChannelAssignments_ =
 late final _sel_init = objc.registerName("init");
 late final _sel_new = objc.registerName("new");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
-final _objc_msgSend_1cwp428 = objc.msgSendPointer
+final _objc_msgSend_hzlb60 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
             ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.NSZone>)>>()
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>>()
     .asFunction<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.NSZone>)>();
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<_NSZone>)>();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_self = objc.registerName("self");
 ffi.Pointer<objc.ObjCObject> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline(
@@ -576,14 +578,14 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// Returns whether [obj] is an instance of [AVAudioPlayer].
   static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
+    return _objc_msgSend_69e0x1(
         obj.ref.pointer, _sel_isKindOfClass_, _class_AVAudioPlayer);
   }
 
   /// initWithContentsOfURL:error:
   AVAudioPlayer? initWithContentsOfURL_error_(
       objc.NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
-    final _ret = _objc_msgSend_1lhpu4m(this.ref.retainAndReturnPointer(),
+    final _ret = _objc_msgSend_1705co6(this.ref.retainAndReturnPointer(),
         _sel_initWithContentsOfURL_error_, url.ref.pointer, outError);
     return _ret.address == 0
         ? null
@@ -593,7 +595,7 @@ class AVAudioPlayer extends objc.NSObject {
   /// initWithData:error:
   AVAudioPlayer? initWithData_error_(
       objc.NSData data, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
-    final _ret = _objc_msgSend_1lhpu4m(this.ref.retainAndReturnPointer(),
+    final _ret = _objc_msgSend_1705co6(this.ref.retainAndReturnPointer(),
         _sel_initWithData_error_, data.ref.pointer, outError);
     return _ret.address == 0
         ? null
@@ -605,7 +607,7 @@ class AVAudioPlayer extends objc.NSObject {
       objc.NSURL url,
       objc.NSString? utiString,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
-    final _ret = _objc_msgSend_1pnyuds(
+    final _ret = _objc_msgSend_bo6ep4(
         this.ref.retainAndReturnPointer(),
         _sel_initWithContentsOfURL_fileTypeHint_error_,
         url.ref.pointer,
@@ -621,7 +623,7 @@ class AVAudioPlayer extends objc.NSObject {
       objc.NSData data,
       objc.NSString? utiString,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
-    final _ret = _objc_msgSend_1pnyuds(
+    final _ret = _objc_msgSend_bo6ep4(
         this.ref.retainAndReturnPointer(),
         _sel_initWithData_fileTypeHint_error_,
         data.ref.pointer,
@@ -676,7 +678,7 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// currentDevice
   objc.NSString? get currentDevice {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_currentDevice);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_currentDevice);
     return _ret.address == 0
         ? null
         : objc.NSString.castFromPointer(_ret, retain: true, release: true);
@@ -684,13 +686,13 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setCurrentDevice:
   set currentDevice(objc.NSString? value) {
-    _objc_msgSend_xtuoz7(this.ref.pointer, _sel_setCurrentDevice_,
+    return _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setCurrentDevice_,
         value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// delegate
   objc.ObjCObjectBase? get delegate {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_delegate);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_delegate);
     return _ret.address == 0
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
@@ -698,13 +700,13 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setDelegate:
   set delegate(objc.ObjCObjectBase? value) {
-    _objc_msgSend_xtuoz7(
+    return _objc_msgSend_1jdvcbf(
         this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// url
   objc.NSURL? get url {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_url);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_url);
     return _ret.address == 0
         ? null
         : objc.NSURL.castFromPointer(_ret, retain: true, release: true);
@@ -712,7 +714,7 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// data
   objc.NSData? get data {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_data);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_data);
     return _ret.address == 0
         ? null
         : objc.NSData.castFromPointer(_ret, retain: true, release: true);
@@ -727,7 +729,7 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setPan:
   set pan(double value) {
-    _objc_msgSend_v5hmet(this.ref.pointer, _sel_setPan_, value);
+    return _objc_msgSend_v5hmet(this.ref.pointer, _sel_setPan_, value);
   }
 
   /// volume
@@ -739,7 +741,7 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setVolume:
   set volume(double value) {
-    _objc_msgSend_v5hmet(this.ref.pointer, _sel_setVolume_, value);
+    return _objc_msgSend_v5hmet(this.ref.pointer, _sel_setVolume_, value);
   }
 
   /// setVolume:fadeDuration:
@@ -755,7 +757,7 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setEnableRate:
   set enableRate(bool value) {
-    _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setEnableRate_, value);
+    return _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setEnableRate_, value);
   }
 
   /// rate
@@ -767,7 +769,7 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setRate:
   set rate(double value) {
-    _objc_msgSend_v5hmet(this.ref.pointer, _sel_setRate_, value);
+    return _objc_msgSend_v5hmet(this.ref.pointer, _sel_setRate_, value);
   }
 
   /// currentTime
@@ -779,7 +781,7 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setCurrentTime:
   set currentTime(double value) {
-    _objc_msgSend_hwm8nu(this.ref.pointer, _sel_setCurrentTime_, value);
+    return _objc_msgSend_hwm8nu(this.ref.pointer, _sel_setCurrentTime_, value);
   }
 
   /// deviceCurrentTime
@@ -796,18 +798,19 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setNumberOfLoops:
   set numberOfLoops(int value) {
-    _objc_msgSend_4sp4xj(this.ref.pointer, _sel_setNumberOfLoops_, value);
+    return _objc_msgSend_4sp4xj(
+        this.ref.pointer, _sel_setNumberOfLoops_, value);
   }
 
   /// settings
   objc.NSDictionary get settings {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_settings);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_settings);
     return objc.NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// format
   AVAudioFormat get format {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_format);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_format);
     return AVAudioFormat.castFromPointer(_ret, retain: true, release: true);
   }
 
@@ -818,7 +821,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setMeteringEnabled:
   set meteringEnabled(bool value) {
-    _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setMeteringEnabled_, value);
+    return _objc_msgSend_1s56lr9(
+        this.ref.pointer, _sel_setMeteringEnabled_, value);
   }
 
   /// updateMeters
@@ -847,7 +851,7 @@ class AVAudioPlayer extends objc.NSObject {
   /// channelAssignments
   objc.NSArray? get channelAssignments {
     final _ret =
-        _objc_msgSend_151sglz(this.ref.pointer, _sel_channelAssignments);
+        _objc_msgSend_1x359cv(this.ref.pointer, _sel_channelAssignments);
     return _ret.address == 0
         ? null
         : objc.NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -855,51 +859,51 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setChannelAssignments:
   set channelAssignments(objc.NSArray? value) {
-    _objc_msgSend_xtuoz7(this.ref.pointer, _sel_setChannelAssignments_,
+    return _objc_msgSend_1jdvcbf(this.ref.pointer, _sel_setChannelAssignments_,
         value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// init
   AVAudioPlayer init() {
     final _ret =
-        _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
+        _objc_msgSend_1x359cv(this.ref.retainAndReturnPointer(), _sel_init);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// new
   static AVAudioPlayer new1() {
-    final _ret = _objc_msgSend_151sglz(_class_AVAudioPlayer, _sel_new);
+    final _ret = _objc_msgSend_1x359cv(_class_AVAudioPlayer, _sel_new);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// allocWithZone:
-  static AVAudioPlayer allocWithZone_(ffi.Pointer<objc.NSZone> zone) {
+  static AVAudioPlayer allocWithZone_(ffi.Pointer<_NSZone> zone) {
     final _ret =
-        _objc_msgSend_1cwp428(_class_AVAudioPlayer, _sel_allocWithZone_, zone);
+        _objc_msgSend_hzlb60(_class_AVAudioPlayer, _sel_allocWithZone_, zone);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// alloc
   static AVAudioPlayer alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_AVAudioPlayer, _sel_alloc);
+    final _ret = _objc_msgSend_1x359cv(_class_AVAudioPlayer, _sel_alloc);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// self
-  AVAudioPlayer self1() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+  AVAudioPlayer self() {
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_self);
     return AVAudioPlayer.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// retain
   AVAudioPlayer retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_retain);
     return AVAudioPlayer.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// autorelease
   AVAudioPlayer autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    final _ret = _objc_msgSend_1x359cv(this.ref.pointer, _sel_autorelease);
     return AVAudioPlayer.castFromPointer(_ret, retain: true, release: true);
   }
 }

@@ -2,24 +2,24 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-#include <stdbool.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 bool coolGlobal;
 int32_t myInt;
 int32_t *aGlobalPointer0;
-int32_t *const aGlobalPointer1 = nullptr;
+int32_t *const aGlobalPointer1;
 const int32_t *aGlobalPointer2;
-const int32_t *const aGlobalPointer3 = nullptr;
+const int32_t *const aGlobalPointer3;
 long double longDouble;
 long double *pointerToLongDouble;
-
-int globalArray0[3];
 
 // This should be ignored
 int GlobalIgnore;
 
-struct EmptyStruct {};
+struct EmptyStruct
+{
+};
 
 struct EmptyStruct globalStruct;
 

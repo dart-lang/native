@@ -51,7 +51,6 @@ public class KotlinMetadataAnnotationVisitor extends AnnotationVisitor {
       case "xi":
         extraInt = (int) value;
     }
-    super.visit(name, value);
   }
 
   @Override

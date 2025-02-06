@@ -21,4 +21,3 @@ Function1StructPassByValue
 funcWithEnum1
 funcWithEnum2
 getStructWithEnums
-globalArray

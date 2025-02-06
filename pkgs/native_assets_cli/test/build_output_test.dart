@@ -49,7 +49,7 @@ void main() {
 
     // The JSON format of the build output.
     <String, Object?>{
-      'version': '1.9.0',
+      'version': '1.8.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'metadata': {
         'meta-a': 'meta-b',

@@ -119,12 +119,6 @@ Library expectedLibrary() {
         exposeSymbolAddress: true,
         constant: true,
       ),
-      Global(
-        type: ConstantArray(3, intType, useArrayType: false),
-        name: 'globalArray0',
-        exposeSymbolAddress: true,
-        constant: true,
-      ),
       globalStruct,
       Global(
         name: 'globalStruct',

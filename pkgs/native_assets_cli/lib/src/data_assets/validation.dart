@@ -10,13 +10,13 @@ Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
     const [];
 
 Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
-  final errors = <String>[
-    for (final asset in input.assets.data)
-      ..._validateFile(
-        'LinkInput.assets.data asset "${asset.id}" file',
-        asset.file,
-      ),
-  ];
+  final errors = <String>[];
+  for (final asset in input.assets.data) {
+    if (!File.fromUri(asset.file).existsSync()) {
+      errors.add('LinkInput.assets.data contained asset ${asset.id} with file '
+          '(${asset.file}) which does not exist.');
+    }
+  }
   return errors;
 }
 
@@ -50,19 +50,13 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
 
   for (final asset in encodedAssets) {
     if (asset.type != DataAsset.type) continue;
-    _validateDataAsset(
-      input,
-      dryRun,
-      DataAsset.fromEncoded(asset),
-      errors,
-      ids,
-      isBuild,
-    );
+    _validateDataAssets(
+        input, dryRun, DataAsset.fromEncoded(asset), errors, ids, isBuild);
   }
   return errors;
 }
 
-void _validateDataAsset(
+void _validateDataAssets(
   HookInput input,
   bool dryRun,
   DataAsset dataAsset,
@@ -74,28 +68,12 @@ void _validateDataAsset(
     errors.add('Data asset must have package name ${input.packageName}');
   }
   if (!ids.add(dataAsset.name)) {
-    errors.add('More than one data asset with same "${dataAsset.name}" name.');
+    errors.add('More than one code asset with same "${dataAsset.name}" name.');
   }
   final file = dataAsset.file;
-  errors.addAll(_validateFile(
-    'Data asset ${dataAsset.name} file',
-    file,
-    mustExist: !dryRun,
-  ));
-}
-
-ValidationErrors _validateFile(
-  String name,
-  Uri uri, {
-  bool mustExist = true,
-  bool mustBeAbsolute = true,
-}) {
-  final errors = <String>[];
-  if (mustBeAbsolute && !uri.isAbsolute) {
-    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
+  if (!dryRun && (!File.fromUri(file).existsSync())) {
+    errors.add(
+        'EncodedAsset "${dataAsset.name}" has a file "${file.toFilePath()}", '
+        'which does not exist.');
   }
-  if (mustExist && !File.fromUri(uri).existsSync()) {
-    errors.add('$name (${uri.toFilePath()}) does not exist as a file.');
-  }
-  return errors;
 }

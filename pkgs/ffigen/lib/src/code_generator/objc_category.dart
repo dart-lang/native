@@ -35,9 +35,6 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
   }
 
   @override
-  bool get isObjCImport => builtInFunctions.isBuiltInCategory(originalName);
-
-  @override
   final ObjCBuiltInFunctions builtInFunctions;
 
   @override

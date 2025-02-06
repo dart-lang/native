@@ -66,8 +66,6 @@ class Linker extends Visitor<Classes, Future<void>> {
           resolve(TypeUsage.object.name);
     }
 
-    (TypeUsage.object.type as DeclaredType).classDecl =
-        resolve(TypeUsage.object.name);
     final classLinker = _ClassLinker(
       config,
       resolve,
@@ -199,17 +197,6 @@ class _MethodLinker extends Visitor<Method, void> {
       typeVarOrigin[typeParam.name] = typeParam;
     }
     node.returnType.accept(typeLinker);
-
-    // If the type itself does not have nullability annotations, use the
-    // parent's nullability annotations. Some annotations such as
-    // `androidx.annotation.NonNull` only get applied to elements but not types.
-    if (!node.returnType.type.hasNullabilityAnnotations &&
-        node.hasNullabilityAnnotations) {
-      node.returnType.type.annotations = [
-        ...?node.returnType.type.annotations,
-        ...?node.annotations,
-      ];
-    }
     final typeParamLinker = _TypeParamLinker(typeLinker);
     final paramLinker = _ParamLinker(typeLinker);
     for (final typeParam in node.typeParams) {
@@ -221,24 +208,6 @@ class _MethodLinker extends Visitor<Method, void> {
       param.method = node;
     }
     node.asyncReturnType?.accept(typeLinker);
-    // Fill out operator overloadings.
-    if (node.kotlinFunction?.isOperator ?? false) {
-      if (Operator.values.asNameMap()[node.kotlinFunction!.name]
-          case final operatorKind? when operatorKind.isCompatibleWith(node)) {
-        node.classDecl.operators[operatorKind] ??= node;
-      }
-    }
-    // Fill out compareTo method of the class used for comparison operators.
-    if (node.name == 'compareTo' && node.params.length == 1) {
-      final returnType = node.returnType.type;
-      final parameterType = node.params.single.type.type;
-      if (parameterType is DeclaredType &&
-          parameterType.binaryName == node.classDecl.binaryName &&
-          returnType is PrimitiveType &&
-          returnType.dartType == 'int') {
-        node.classDecl.compareTo = node;
-      }
-    }
   }
 }
 
@@ -250,10 +219,10 @@ class _TypeLinker extends TypeVisitor<void> {
 
   @override
   void visitDeclaredType(DeclaredType node) {
-    node.classDecl = resolve(node.binaryName);
     for (final param in node.params) {
       param.accept(this);
     }
+    node.classDecl = resolve(node.binaryName);
   }
 
   @override
@@ -290,16 +259,6 @@ class _FieldLinker extends Visitor<Field, void> {
 
   @override
   void visit(Field node) {
-    // If the type itself does not have nullability annotations, use the
-    // parent's nullability annotations. Some annotations such as
-    // `androidx.annotation.NonNull` only get applied to elements but not types.
-    if (!node.type.type.hasNullabilityAnnotations &&
-        node.hasNullabilityAnnotations) {
-      node.type.type.annotations = [
-        ...?node.type.type.annotations,
-        ...?node.annotations,
-      ];
-    }
     node.type.accept(typeLinker);
   }
 }
@@ -324,16 +283,6 @@ class _ParamLinker extends Visitor<Param, void> {
 
   @override
   void visit(Param node) {
-    // If the type itself does not have nullability annotations, use the
-    // parent's nullability annotations. Some annotations such as
-    // `androidx.annotation.NonNull` only get applied to elements but not types.
-    if (!node.type.type.hasNullabilityAnnotations &&
-        node.hasNullabilityAnnotations) {
-      node.type.type.annotations = [
-        ...?node.type.type.annotations,
-        ...?node.annotations,
-      ];
-    }
     node.type.accept(typeLinker);
   }
 }

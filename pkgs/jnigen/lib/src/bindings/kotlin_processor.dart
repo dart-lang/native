@@ -136,7 +136,6 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
   @override
   void visit(Method node) {
     _processParams(node.params, function.valueParameters);
-    node.kotlinFunction = function;
     for (var i = 0; i < node.typeParams.length; ++i) {
       node.typeParams[i]
           .accept(_KotlinTypeParamProcessor(function.typeParameters[i]));

@@ -60,27 +60,6 @@ Future<void> inTempDir(
   }
 }
 
-Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
-  // Deal with Windows temp folder aliases.
-  final tempUri =
-      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
-  if ((!Platform.environment.containsKey(keepTempKey) ||
-          Platform.environment[keepTempKey]!.isEmpty) &&
-      !keepTemp) {
-    addTearDown(() async {
-      try {
-        await tempDir.delete(recursive: true);
-      } on FileSystemException {
-        // On Windows, the temp dir might still be locked even though all
-        // process invocations have finished.
-        if (!Platform.isWindows) rethrow;
-      }
-    });
-  }
-  return tempUri;
-}
-
 /// Runs a [Process].
 ///
 /// If [logger] is provided, stream stdout and stderr to it.
@@ -190,14 +169,8 @@ final cCompiler = (_cc == null || _ar == null || _ld == null)
         compiler: _cc!,
         archiver: _ar!,
         linker: _ld!,
-        windows: _envScript == null
-            ? null
-            : WindowsCCompilerConfig(
-                developerCommandPrompt: DeveloperCommandPrompt(
-                  script: _envScript!,
-                  arguments: _envScriptArgs ?? [],
-                ),
-              ),
+        envScript: _envScript,
+        envScriptArgs: _envScriptArgs,
       );
 
 extension on String {

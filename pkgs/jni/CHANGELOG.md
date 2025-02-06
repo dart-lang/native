@@ -1,20 +1,3 @@
-## 0.14.0
-
-- Added `DynamicLibraryLoadError` which is thrown when the dynamic library fails
-  to load. `HelperNotFoundError` will only be thrown when the helper library
-  cannot be found.
-- Update the README.md to include info about generating bindings for built-in
-  java types.
-- Do not require a `dylibDir` when running `Jni.spawn` from Dart standalone,
-  instead use the default value of `build/jni_libs`.
-- Added `JArray.of`, which allows a `JArray` to be constructed from an
-  `Iterable`.
-- Added `JObject.isA`, which checks whether a `JObject` is a instance of a
-  java class.
-- Do not require JAWT when building for desktop.
-- Added `JByteArray.from`, which allows a `JByteArray` to be constructed
-  from an `Iterable<int>`.
-
 ## 0.13.0
 
 - **Breaking Change**: Separated primitive arrays from object arrays.

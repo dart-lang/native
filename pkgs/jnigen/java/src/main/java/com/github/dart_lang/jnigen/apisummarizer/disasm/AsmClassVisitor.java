@@ -74,7 +74,6 @@ public class AsmClassVisitor extends ClassVisitor {
       visited.get(binaryName).modifiers = TypeUtils.access(access);
       visited.get(binaryName).outerClassBinaryName = outerClass.get(binaryName);
     }
-    super.visitInnerClass(name, outerName, innerName, access);
   }
 
   @Override
@@ -90,7 +89,6 @@ public class AsmClassVisitor extends ClassVisitor {
     field.defaultValue = value;
     field.modifiers = TypeUtils.access(access);
     if ((access & ACC_ENUM) != 0) {
-      field.type.type.annotations.add(JavaAnnotation.nonNull);
       peekVisiting().values.add(name);
     }
     if (signature != null) {
@@ -187,7 +185,6 @@ public class AsmClassVisitor extends ClassVisitor {
   public void visitEnd() {
     var classToAdd = popVisiting();
     visited.put(classToAdd.binaryName, classToAdd);
-    super.visitEnd();
   }
 
   private ClassDecl peekVisiting() {

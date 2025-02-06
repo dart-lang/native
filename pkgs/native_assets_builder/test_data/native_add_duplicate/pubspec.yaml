@@ -11,10 +11,10 @@ dependencies:
   logging: ^1.1.1
   native_add:
     path: ../native_add/
-  # native_assets_cli: ^0.11.0
+  # native_assets_cli: ^0.10.0
   native_assets_cli:
     path: ../../../native_assets_cli/
-  # native_toolchain_c: ^0.8.0
+  # native_toolchain_c: ^0.7.0
   native_toolchain_c:
     path: ../../../native_toolchain_c/
 

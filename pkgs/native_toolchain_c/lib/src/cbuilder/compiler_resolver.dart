@@ -198,33 +198,27 @@ class CompilerResolver {
   }
 
   Future<Map<String, String>> resolveEnvironment(ToolInstance compiler) async {
-    if (codeConfig.targetOS != OS.windows) {
-      return {};
-    }
-
-    final cCompilerConfig = codeConfig.cCompiler;
-    if (cCompilerConfig != null &&
-        cCompilerConfig.windows.developerCommandPrompt != null) {
-      final envScriptFromConfig =
-          cCompilerConfig.windows.developerCommandPrompt!.script;
-      final vcvarsArgs =
-          cCompilerConfig.windows.developerCommandPrompt!.arguments;
+    final envScriptFromConfig = codeConfig.cCompiler?.envScript;
+    if (envScriptFromConfig != null) {
       logger?.fine('Using envScript from input: $envScriptFromConfig');
-      if (vcvarsArgs.isNotEmpty) {
+      final vcvarsArgs = codeConfig.cCompiler?.envScriptArgs;
+      if (vcvarsArgs != null) {
         logger?.fine('Using envScriptArgs from input: $vcvarsArgs');
       }
       return await environmentFromBatchFile(
         envScriptFromConfig,
-        arguments: vcvarsArgs,
+        arguments: vcvarsArgs ?? [],
       );
     }
 
-    final compilerTool = compiler.tool;
-    if (compilerTool != cl) {
-      // If Clang is used on Windows, and we could discover the MSVC
-      // installation, then Clang should be able to discover it as well.
+    if (codeConfig.cCompiler?.compiler != null) {
+      logger?.fine('Compiler provided without envScript,'
+          ' assuming environment is already set up.');
       return {};
     }
+
+    final compilerTool = compiler.tool;
+    assert(compilerTool == cl);
     final vcvarsScript =
         (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
     return await environmentFromBatchFile(

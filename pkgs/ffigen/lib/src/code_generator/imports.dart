@@ -120,7 +120,6 @@ final objcPkgImport = LibraryImport(
     'objc', 'package:objective_c/objective_c.dart',
     importPathWhenImportedByPackageObjC: '../objective_c.dart');
 final self = LibraryImport('self', '');
-final allLibraries = [ffiImport, ffiPkgImport, objcPkgImport, self];
 
 final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 
@@ -167,5 +166,3 @@ final objCSelType = ImportedType(
     objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'struct objc_selector');
 final objCBlockType =
     ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id');
-final objCProtocolType =
-    ImportedType(objcPkgImport, 'ObjCProtocol', 'ObjCProtocol', 'void');

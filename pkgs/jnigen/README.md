@@ -135,9 +135,7 @@ More advanced features such as callbacks are not supported yet. Support for thes
 
 On Flutter targets, native libraries are built automatically and bundled. On standalone platforms, no such infrastructure exists yet. As a stopgap solution, running `dart run jni:setup` in a target directory builds all JNI native dependencies of the package into `build/jni_libs`. 
 
-To start a JVM, call `Jni.spawn`. It's assumed that all dependencies are built into the same target directory, so that once JNI is initialized, generated bindings can load their respective C libraries automatically.
-
-If a custom build path has been set for the dynamic libraries built by `dart run jni:setup --build-path path/to/dylib`, the same path must be passed to `Jni.spawn`. Also anytime a new Dart isolate is spawned, the directory must be set again using `Jni.setDylibDir`.
+The build directory has to be passed to `Jni.spawn` call. It's assumed that all dependencies are built into the same target directory, so that once JNI is initialized, generated bindings can load their respective C libraries automatically.
 
 ## Requirements
 ### SDK
@@ -156,10 +154,8 @@ __On windows, append the path of `jvm.dll` in your JDK installation to PATH.__
 For example, on Powershell:
 
 ```powershell
-$env:Path += ";${env:JAVA_HOME}\bin\server"
+$env:Path += ";${env:JAVA_HOME}\bin\server".
 ```
-
-Note: The above will only add `jvm.dll` to `PATH` for the current Powershell session, use the Control Panel to add it to path permanently.
 
 If JAVA_HOME not set, find the `java.exe` executable and set the environment variable in Control Panel. If java is installed through a package manager, there may be a more automatic way to do this. (Eg: `scoop reset`).
 
@@ -182,22 +178,6 @@ If the classes are in JAR file, make sure to provide path to JAR file itself, an
 
 #### `jnigen` is unable to parse sources.
 If the errors are similar to `symbol not found`, ensure all dependencies of the source are available. If such dependency is compiled, it can be included in `class_path`.
-
-#### Generate bindings for built-in types
-To generate bindings for built-in Java types (like those in `java.*` packages), you need to provide the OpenJDK source code to the generator. Here's how:
-
-1. Locate the `src.zip` file in your Java installation directory
-2. Extract the `java.base` folder from this zip file
-3. Add the path to the extracted `java.base` folder in your `source_path` list in the YAML configuration
-
-For example, to generate bindings for `java.lang.Math`, your configuration might look like:
-
-```yaml
-source_path:
-  - '/path/to/extracted/java.base'
-classes:
-  - 'java.lang.Math'
-```
 
 #### How are classes mapped into bindings?
 Each Java class generates a subclass of `JObject` class, which wraps a `jobject` reference in JNI. Nested classes use `_` as separator, `Example.NestedClass` will be mapped to `Example_NestedClass`.
@@ -268,7 +248,7 @@ Currently we don't have an automatic mechanism for using these. You can unpack t
 However there are 2 caveats to this caveat.
 
 * SDK stubs after version 28 are incomplete. OpenJDK Doclet API we use to generate API summaries will error on incomplete sources.
-* The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be used instead. See [Generate bindings for built-in types](#generate-bindings-for-built-in-types) above for instructions on how to use OpenJDK sources.
+* The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be used instead.
 
 The JAR files (`$SDK_ROOT/platforms/android-$VERSION/android.jar`) can be used instead. But compiled JARs do not include JavaDoc and method parameter names. This JAR is automatically included by Gradle when `android_sdk_config` >> `add_gradle_deps` is specified.
 

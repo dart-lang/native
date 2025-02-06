@@ -115,5 +115,3 @@ StructWithEnums getStructWithEnums() {
     }
     return s;
 }
-
-int globalArray[3];

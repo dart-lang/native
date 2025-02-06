@@ -149,19 +149,13 @@ void registerCommonTests(Classes classes) {
     expect(mapType.params, hasLength(2));
     final strType = mapType.params[0];
     expect(strType.name, 'java.lang.String');
+    // TODO(#141): Wildcard implementation.
+    /*
     final wildcardType = mapType.params[1];
     expect(wildcardType.kind, equals(Kind.wildcard));
     expect((wildcardType.type as Wildcard).extendsBound?.name,
         equals('java.lang.CharSequence'));
-  });
-
-  test('typeParameters', () {
-    final grandParent = classes.getClass('generics', 'GrandParent');
-    final stringParent = grandParent.getMethod('stringParent');
-    final returnType = stringParent.returnType.type as DeclaredType;
-    expect(returnType.params, hasLength(2));
-    expect(returnType.params[0].type, isA<TypeVar>());
-    expect(returnType.params[1].type, isA<DeclaredType>());
+    */
   });
 
   test('superclass', () {
@@ -232,15 +226,22 @@ void registerCommonTests(Classes classes) {
     expect(example.declKind, DeclKind.classKind);
     final myInterface = classes.getClass('interfaces', 'MyInterface');
     expect(myInterface.declKind, DeclKind.interfaceKind);
-    final color = classes.getClass('enums', 'Colors');
+    final color = classes.getClass('simple_package', 'Color');
     expect(color.declKind, DeclKind.enumKind);
   });
 
   test('Enum values', () {
     final example = classes.getExampleClass();
     expect(example.values, anyOf(isNull, isEmpty));
-    final color = classes.getClass('enums', 'Colors');
-    const expectedEnumValues = {'red', 'green', 'blue'};
+    final color = classes.getClass('simple_package', 'Color');
+    const expectedEnumValues = {
+      'RED',
+      'BLUE',
+      'BLACK',
+      'GREEN',
+      'YELLOW',
+      'LIME'
+    };
     expect(color.values?.toSet(), expectedEnumValues);
   });
 
