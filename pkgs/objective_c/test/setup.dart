@@ -49,6 +49,7 @@ String _resolve(String file) => _pkgDir.resolve(file).toFilePath();
 void _runClang(List<String> flags, String output) {
   final args = [
     ...flags,
+    '-Ofast',
     '-o',
     output,
   ];
