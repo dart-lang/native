@@ -9,7 +9,6 @@ library;
 import 'dart:ffi';
 
 import 'package:objective_c/objective_c.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
