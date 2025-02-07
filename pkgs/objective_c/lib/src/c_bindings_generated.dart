@@ -132,6 +132,10 @@ external ffi.Pointer<ObjCObject> getObjectClass(
   ffi.Pointer<ObjCObject> object,
 );
 
+/// Returns the MacOS/iOS version we're running on.
+@ffi.Native<Version Function()>(symbol: "DOBJC_getOsVesion", isLeaf: true)
+external Version getOsVesion();
+
 @ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "objc_getProtocol", isLeaf: true)
 external ffi.Pointer<ObjCProtocol> getProtocol(
@@ -261,3 +265,14 @@ final class ObjCObject extends ffi.Opaque {}
 final class ObjCProtocol extends ffi.Opaque {}
 
 final class ObjCSelector extends ffi.Opaque {}
+
+final class Version extends ffi.Struct {
+  @ffi.Int()
+  external int major;
+
+  @ffi.Int()
+  external int minor;
+
+  @ffi.Int()
+  external int patch;
+}

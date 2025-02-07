@@ -114,5 +114,6 @@ export 'src/objective_c_bindings_generated.dart'
         NSValue,
         NSZone,
         Protocol;
+export 'src/os_version.dart';
 export 'src/protocol_builder.dart';
 export 'src/selector.dart';
