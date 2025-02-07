@@ -22,6 +22,7 @@ dependencies:
   ffi: ^2.1.0
   flutter:
     sdk: flutter
+  pub_semver: ^2.1.4
 
 dev_dependencies:
   args: ^2.6.0
