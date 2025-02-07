@@ -6,6 +6,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:path/path.dart';
+
 import '../../tools.dart';
 import '../config/config.dart';
 import '../elements/elements.dart';
@@ -125,8 +127,17 @@ Future<Classes> getSummary(Config config) async {
     await Directory(jarPath).create(recursive: true);
     await GradleTools.downloadMavenSources(
         GradleTools.deps(mavenDl.sourceDeps), mavenDl.sourceDir);
+    // Include sources in jar download to make sure transitive
+    // dependencies are included
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(mavenDl.jarOnlyDeps), mavenDl.jarDir);
+        GradleTools.deps(mavenDl.jarOnlyDeps + mavenDl.sourceDeps),
+        mavenDl.jarDir);
+    for (var dep in mavenDl.sourceDeps) {
+      log.info(dep);
+      final filename =
+          MavenDependency.fromString(dep).filename(isSource: false);
+      File(join(mavenDl.jarDir, filename)).deleteSync();
+    }
     extraJars.addAll(await Directory(jarPath)
         .list()
         .where((entry) => entry.path.endsWith('.jar'))
