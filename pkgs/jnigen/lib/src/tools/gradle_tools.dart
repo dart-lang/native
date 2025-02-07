@@ -106,7 +106,7 @@ class GradleTools {
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,
-      {String javaVersion = '11', String sourcesDir = '.'}) {
+      {String javaVersion = '11'}) {
     final depDecls = <String>[];
     // Use implementation configuration
     for (var dep in deps) {
@@ -175,7 +175,7 @@ class MavenDependency {
   }
 
   String toURLString(String repoLocation) {
-    var parts = <String>[repoLocation];
+    final parts = <String>[repoLocation];
     parts.addAll(groupID.split('.'));
     parts.addAll(artifactID.split('.'));
     parts.add(version);

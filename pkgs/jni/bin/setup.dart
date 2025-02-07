@@ -216,7 +216,7 @@ void main(List<String> arguments) async {
   final javaSrc = await findSources('jni', 'java');
   final targetJar = File.fromUri(buildDir.uri.resolve('jni.jar'));
   final isWin = Platform.isWindows;
-  verboseLog("File exists:${targetJar.existsSync()}");
+  verboseLog('File exists:${targetJar.existsSync()}');
 
   final gradleWExecutable = (Platform.isLinux || Platform.isMacOS)
       ? Uri.directory(javaSrc).resolve('gradlew')
