@@ -58,7 +58,8 @@ Future<void> buildApiSummarizer() async {
         File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
 
     if (exitCode == 0) {
-      sourceJar.copySync(targetJarFile);
+      sourceJar.copySync(
+          File(targetJarFile).uri.toFilePath(windows: Platform.isWindows));
     } else {
       printError(gradleProc.stdout);
       printError(gradleProc.stderr);
