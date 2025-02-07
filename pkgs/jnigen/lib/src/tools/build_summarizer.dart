@@ -54,8 +54,9 @@ Future<void> buildApiSummarizer() async {
         gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath, runInShell: true);
     final exitCode = gradleProc.exitCode;
-    final sourceJar =
-        File(pkg.resolve('java/build/libs/ApiSummarizer.jar').path);
+    final sourceJar = File(pkg
+        .resolve('java/build/libs/ApiSummarizer.jar')
+        .toFilePath(windows: Platform.isWindows));
 
     if (exitCode == 0) {
       sourceJar.copySync(
