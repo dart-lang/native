@@ -22,7 +22,12 @@ java {
 }
 
 tasks.withType<Jar> {
-    destinationDirectory = file("../build/jni_libs")
+    val targetDir: String? = project.findProperty("jni.targetDir") as String?
+    if (targetDir != null) {
+        destinationDirectory = file(targetDir)
+    } else {
+        destinationDirectory = file("build/jni_libs")
+    }
 }
 
 tasks.withType<JavaCompile>() {
