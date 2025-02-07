@@ -49,7 +49,8 @@ class GradleTools {
     final gradleArgs = [
       '-b', // specify gradle file to run
       tempGradle,
-      extractSources ? 'extractSourceJars' : 'copyJars'
+      extractSources ? 'extractSourceJars' : 'copyJars',
+      '-q' // quiet mode
     ];
     await _runCmd(gradleWrapper!.toFilePath(), gradleArgs);
     await Directory(tempDir.path).delete(recursive: true);

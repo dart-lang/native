@@ -28,7 +28,7 @@ void compileKotlinSources(String workingDir) async {
   final gradlew = await GradleTools.getGradleWExecutable();
   final procRes = Process.runSync(
     gradlew!.path.toString(),
-    ['jar'],
+    ['jar', '-q'],
     workingDirectory: kotlinPath,
     runInShell: true,
   );

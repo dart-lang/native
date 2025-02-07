@@ -45,7 +45,8 @@ Future<void> buildApiSummarizer() async {
     '-b',
     gradleFile.toFilePath(),
     'buildFatJar', // from ktor plugin
-    '-x', 'test' // ignore failing tests
+    '-x', 'test', // ignore failing tests
+    '-q' // quiet
   ];
 
   try {
