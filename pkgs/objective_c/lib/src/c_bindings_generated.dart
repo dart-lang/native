@@ -133,8 +133,8 @@ external ffi.Pointer<ObjCObject> getObjectClass(
 );
 
 /// Returns the MacOS/iOS version we're running on.
-@ffi.Native<CVersion Function()>(symbol: "DOBJC_getOsVesion", isLeaf: true)
-external CVersion getOsVesion();
+@ffi.Native<_Version Function()>(symbol: "DOBJC_getOsVesion", isLeaf: true)
+external _Version getOsVesion();
 
 @ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "objc_getProtocol", isLeaf: true)
@@ -211,17 +211,6 @@ external void signalWaiter(
   ffi.Pointer<ffi.Void> waiter,
 );
 
-final class CVersion extends ffi.Struct {
-  @ffi.Int()
-  external int major;
-
-  @ffi.Int()
-  external int minor;
-
-  @ffi.Int()
-  external int patch;
-}
-
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
 final class Dart_FinalizableHandle_ extends ffi.Opaque {}
@@ -276,3 +265,14 @@ final class ObjCObject extends ffi.Opaque {}
 final class ObjCProtocol extends ffi.Opaque {}
 
 final class ObjCSelector extends ffi.Opaque {}
+
+final class _Version extends ffi.Struct {
+  @ffi.Int()
+  external int major;
+
+  @ffi.Int()
+  external int minor;
+
+  @ffi.Int()
+  external int patch;
+}
