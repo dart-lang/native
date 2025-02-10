@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+export 'package:pub_semver/pub_semver.dart' show Version;
 export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
@@ -114,5 +115,6 @@ export 'src/objective_c_bindings_generated.dart'
         NSValue,
         NSZone,
         Protocol;
+export 'src/os_version.dart';
 export 'src/protocol_builder.dart';
 export 'src/selector.dart';

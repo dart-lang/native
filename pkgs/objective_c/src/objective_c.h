@@ -42,7 +42,7 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
 // Functions for creating a waiter, signaling it, and waiting for the signal. A
 // waiter is one-time-use, and the object that newWaiter creates will be
 // destroyed once signalWaiter and awaitWaiter are called exactly once.
-FFI_EXPORT void* DOBJC_newWaiter();
+FFI_EXPORT void* DOBJC_newWaiter(void);
 FFI_EXPORT void DOBJC_signalWaiter(void* waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void* waiter);
 
