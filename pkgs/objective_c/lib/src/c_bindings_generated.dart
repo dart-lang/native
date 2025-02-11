@@ -35,23 +35,6 @@ external void DOBJC_runOnMainThread(
   ffi.Pointer<ffi.Void> arg,
 );
 
-/// \mainpage Dynamically Linked Dart API
-///
-/// This exposes a subset of symbols from dart_api.h and dart_native_api.h
-/// available in every Dart embedder through dynamic linking.
-///
-/// All symbols are postfixed with _DL to indicate that they are dynamically
-/// linked and to prevent conflicts with the original symbol.
-///
-/// Link `dart_api_dl.c` file into your library and invoke
-/// `Dart_InitializeApiDL` with `NativeApi.initializeApiDLData`.
-///
-/// Returns 0 on success.
-@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
-external int Dart_InitializeApiDL(
-  ffi.Pointer<ffi.Void> data,
-);
-
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteAutoBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteAutoBlock;

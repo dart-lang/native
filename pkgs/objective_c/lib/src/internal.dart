@@ -176,8 +176,9 @@ final class _FinalizablePointer<T extends NativeType> implements Finalizable {
 bool _dartAPIInitialized = false;
 void _ensureDartAPI() {
   if (!_dartAPIInitialized) {
+    final result = c.DOBJC_InitializeApi(NativeApi.initializeApiDLData);
+    assert(result == 0);
     _dartAPIInitialized = true;
-    c.DOBJC_InitializeApi(NativeApi.initializeApiDLData);
   }
 }
 

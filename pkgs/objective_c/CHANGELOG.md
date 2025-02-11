@@ -7,6 +7,8 @@
 - Add various ObjC protocols to the bindings.
 - Make all visible API types public.
 - Add a `osVersion` getter, which returns the current MacOS/iOS version.
+- Fixed [a bug](https://github.com/dart-lang/native/issues/1978) where Dart API
+  symbols could be null despite Dart_InitializeApiDL returning successfully.
 
 ## 4.1.0
 
