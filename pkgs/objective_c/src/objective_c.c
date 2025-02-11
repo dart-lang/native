@@ -46,3 +46,5 @@ bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
   Dart_NewFinalizableHandle_DL(owner, pointer, 1, finalizeMalloc);
   return pointer;
 }
+
+intptr_t DOBJC_InitializeApi(void* data) { return Dart_InitializeApiDL(data); }

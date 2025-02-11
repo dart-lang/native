@@ -177,7 +177,7 @@ bool _dartAPIInitialized = false;
 void _ensureDartAPI() {
   if (!_dartAPIInitialized) {
     _dartAPIInitialized = true;
-    c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
+    c.DOBJC_InitializeApi(NativeApi.initializeApiDLData);
   }
 }
 

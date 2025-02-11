@@ -46,4 +46,6 @@ FFI_EXPORT void* DOBJC_newWaiter(void);
 FFI_EXPORT void DOBJC_signalWaiter(void* waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void* waiter);
 
+intptr_t DOBJC_InitializeApi(void* data);
+
 #endif // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

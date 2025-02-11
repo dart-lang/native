@@ -20,6 +20,11 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
+external int DOBJC_InitializeApi(
+  ffi.Pointer<ffi.Void> data,
+);
+
 @ffi.Native<
     ffi.Void Function(
         ffi.Pointer<
