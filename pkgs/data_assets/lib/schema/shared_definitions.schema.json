@@ -1,0 +1,50 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Shared Definitions",
+    "allOf": [
+        {
+            "$ref": "../../../hook/lib/schema/shared_definitions.schema.json"
+        }
+    ],
+    "$defs": {
+        "Asset": {
+            "allOf": [
+                {
+                    "$ref": "../../../hook/lib/schema/shared_definitions.schema.json#/$defs/Asset"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "file": {
+                            "type": "string",
+                            "format": "uri-reference",
+                            "description": "Path to the asset file"
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "The name of this asset, which must be unique for the package."
+                        },
+                        "package": {
+                            "type": "string",
+                            "description": "The package which contains this asset."
+                        }
+                    },
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "data"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "file",
+                            "name",
+                            "package"
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

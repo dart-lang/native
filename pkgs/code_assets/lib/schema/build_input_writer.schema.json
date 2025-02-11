@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Build Input with Code Schema for SDKs.",
+    "allOf": [
+        {
+            "$ref": "../../../hook/lib/schema/build_input_writer.schema.json"
+        },
+        {
+            "$ref": "build_input_shared.schema.json#"
+        },
+        {
+            "$ref": "hook_input_writer.schema.json#"
+        }
+    ]
+}

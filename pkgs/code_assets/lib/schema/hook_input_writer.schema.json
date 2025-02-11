@@ -1,0 +1,30 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Hook Input with Code Schema for SDKs.",
+    "allOf": [
+        {
+            "$ref": "../../../hook/lib/schema/hook_input_writer.schema.json"
+        },
+        {
+            "$ref": "hook_input_shared.schema.json#"
+        }
+    ],
+    "unevaluatedProperties": false,
+    "properties": {
+        "config": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "object",
+                    "properties": {
+                        "c_compiler": {
+                            "_versionSkew": {
+                                "windows": "Older hooks don't read windows.developerCommandPrompt, so also emit env_script."
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

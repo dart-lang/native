@@ -1,0 +1,20 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Build Output Schema",
+    "allOf": [
+        {
+            "$ref": "../../../hook/lib/schema/hook_output.schema.json"
+        },
+        {
+            "$ref": "shared_definitions.schema.json#"
+        }
+    ],
+    "properties": {
+        "assets": {
+            "type": "array",
+            "items": {
+                "$ref": "shared_definitions.schema.json#/$defs/Asset"
+            }
+        }
+    }
+}

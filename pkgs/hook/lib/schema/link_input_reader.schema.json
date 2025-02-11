@@ -1,0 +1,27 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Link input schema for hook writers.",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "link_input_shared.schema.json#"
+        }
+    ],
+    "properties": {
+        "version": {
+            "_deprecated": "Instead of versioning the protocol with version numbers, each field has it's own life cycle. Individual fields can be marked deprecated and will be removed as a breaking change after some time.",
+            "deprecated": true
+        }
+    },
+    "required": [
+        "build_asset_types",
+        "package_name",
+        "package_root",
+        "out_dir",
+        "out_dir_shared"
+    ],
+    "_versionSkew": {
+        "out_file": "'out_file' is not provided by older SDKs. Then, it must be $out_dir/output.json.",
+        "version": "Future SDKs will no longer provide 'version'."
+    }
+}

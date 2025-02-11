@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Hook Input with Code Schema for hook writers.",
+    "allOf": [
+        {
+            "$ref": "../../../hook/lib/schema/hook_input_reader.schema.json"
+        },
+        {
+            "$ref": "hook_input_shared.schema.json#"
+        }
+    ],
+    "properties": {
+        "config": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "object",
+                    "properties": {
+                        "c_compiler": {
+                            "type": "object",
+                            "properties": {
+                                "env_script": {
+                                    "_deprecated": "Use windows.developerCommandPrompt instead.",
+                                    "deprecated": true
+                                },
+                                "env_script_arguments": {
+                                    "_deprecated": "Use windows.developerCommandPrompt instead.",
+                                    "deprecated": true
+                                }
+                            },
+                            "_versionSkew": {
+                                "windows": "Older SDKs don't emit windows.developerCommandPrompt, so fall back to env_script."
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

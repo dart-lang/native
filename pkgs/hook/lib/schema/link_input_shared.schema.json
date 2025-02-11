@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Base link input schema.",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "hook_input_shared.schema.json#"
+        },
+        {
+            "$ref": "shared_definitions.schema.json#"
+        }
+    ],
+    "properties": {
+        "assets": {
+            "type": "array",
+            "description": "List of assets",
+            "items": {
+                "$ref": "shared_definitions.schema.json#/$defs/Asset"
+            }
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Build Output Schema",
+    "allOf": [
+        {
+            "$ref": "shared_definitions.schema.json#"
+        }
+    ],
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "string",
+            "description": "Version of the build output"
+        },
+        "timestamp": {
+            "type": "string",
+            "description": "Timestamp of the build output"
+        },
+        "dependencies": {
+            "type": "array",
+            "description": "List of dependencies",
+            "items": {
+                "type": "string",
+                "format": "uri-reference"
+            }
+        },
+        "assets": {
+            "type": "array",
+            "description": "List of assets",
+            "items": {
+                "$ref": "shared_definitions.schema.json#/$defs/Asset"
+            }
+        }
+    },
+    "required": [
+        "version",
+        "timestamp"
+    ]
+}

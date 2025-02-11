@@ -1,0 +1,34 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Build Output Schema",
+    "allOf": [
+        {
+            "$ref": "shared_definitions.schema.json#"
+        },
+        {
+            "$ref": "hook_output.schema.json#"
+        }
+    ],
+    "type": "object",
+    "properties": {
+        "assetsForLinking": {
+            "type": "object",
+            "description": "Assets for linking, by package",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "shared_definitions.schema.json#/$defs/Asset"
+                }
+            }
+        },
+        "assets_for_linking": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "shared_definitions.schema.json#/$defs/Asset"
+                }
+            }
+        }
+    }
+}

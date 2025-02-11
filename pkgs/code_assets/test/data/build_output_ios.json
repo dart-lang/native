@@ -1,0 +1,20 @@
+{
+    "$schema": "../../lib/schema/build_output.schema.json",
+    "version": "1.6.0",
+    "timestamp": "2025-02-07 17:32:13.000",
+    "dependencies": [
+        "/Users/dacoharkes/src/dacoharkes/playground/my_package/src/my_package.c"
+    ],
+    "assets": [
+        {
+            "architecture": "arm64",
+            "file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/51d66b45a7c440edc44bf124509a5dda/out/libmy_package.dylib",
+            "id": "package:my_package/my_package_bindings_generated.dart",
+            "link_mode": {
+                "type": "dynamic_loading_bundle"
+            },
+            "os": "ios",
+            "type": "native_code"
+        }
+    ]
+}

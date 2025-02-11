@@ -1,0 +1,9 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Shared Build Input with Code Schema",
+    "allOf": [
+        {
+            "$ref": "hook_input_shared.schema.json#"
+        }
+    ]
+}

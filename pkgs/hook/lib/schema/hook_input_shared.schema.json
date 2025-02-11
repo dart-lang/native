@@ -1,0 +1,46 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Base hook input schema.",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "Reference to the meta-schema"
+        },
+        "version": {
+            "type": "string",
+            "description": "Version of the build input."
+        },
+        "build_asset_types": {
+            "type": "array",
+            "description": "Types of assets to build",
+            "items": {
+                "type": "string"
+            }
+        },
+        "package_name": {
+            "type": "string",
+            "description": "Name of the package"
+        },
+        "package_root": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "Root directory of the package"
+        },
+        "out_file": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "Path to the output file"
+        },
+        "out_dir": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "Path to the output directory"
+        },
+        "out_dir_shared": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "Path to the shared output directory"
+        }
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Build Output Schema for both Code and Data extension",
+    "allOf": [
+        {
+            "$ref": "../../../data_assets/lib/schema/build_output.schema.json"
+        },
+        {
+            "$ref": "../../../code_assets/lib/schema/build_output.schema.json"
+        }
+    ],
+    "$defs": {
+        "Asset": {
+            "allOf": [
+                {
+                    "$ref": "../../../code_assets/lib/schema/shared_definitions.schema.json#/$defs/Asset"
+                },
+                {
+                    "$ref": "../../../data_assets/lib/schema/shared_definitions.schema.json#/$defs/Asset"
+                }
+            ]
+        }
+    },
+    "properties": {
+        "assets": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/Asset"
+            }
+        },
+        "assetsForLinking": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/$defs/Asset"
+                }
+            }
+        },
+        "assets_for_linking": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/$defs/Asset"
+                }
+            }
+        }
+    }
+}

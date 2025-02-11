@@ -1,0 +1,27 @@
+{
+    "$schema": "../../lib/schema/build_output.schema.json",
+    "version": "1.9.0",
+    "timestamp": "2025-02-11 11:20:20.000",
+    "dependencies": [
+        "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json",
+        "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json"
+    ],
+    "assets": [
+        {
+            "name": "assets/data_0.json",
+            "package": "simple_link",
+            "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+            "type": "data"
+        },
+        {
+            "architecture": "arm64",
+            "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/iv6i0d/native_add/.dart_tool/native_assets_builder/native_add/c6b312c90c95d2d98ffb6760a738fb36/out/libnative_add.a",
+            "id": "package:native_add/src/native_add_bindings_generated.dart",
+            "link_mode": {
+                "type": "static"
+            },
+            "os": "macos",
+            "type": "native_code"
+        }
+    ]
+}

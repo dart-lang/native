@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Base build input schema.",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "hook_input_shared.schema.json#"
+        }
+    ],
+    "properties": {
+        "linking_enabled": {
+            "type": "boolean",
+            "description": "Whether linking is enabled"
+        },
+        "dependency_metadata": {
+            "type": "object",
+            "description": "Metadata for dependencies",
+            "additionalProperties": true
+        }
+    }
+}

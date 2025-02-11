@@ -1,0 +1,176 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Shared Definitions",
+    "allOf": [
+        {
+            "$ref": "../../../hook/lib/schema/shared_definitions.schema.json"
+        }
+    ],
+    "$defs": {
+        "Architecture": {
+            "type": "string",
+            "description": "Target architecture (open enum)",
+            "anyOf": [
+                {
+                    "const": "arm"
+                },
+                {
+                    "const": "arm64"
+                },
+                {
+                    "const": "ia32"
+                },
+                {
+                    "const": "riscv32"
+                },
+                {
+                    "const": "riscv64"
+                },
+                {
+                    "const": "x64"
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "OS": {
+            "type": "string",
+            "description": "Target operating system (open enum)",
+            "anyOf": [
+                {
+                    "const": "android"
+                },
+                {
+                    "const": "ios"
+                },
+                {
+                    "const": "linux"
+                },
+                {
+                    "const": "macos"
+                },
+                {
+                    "const": "windows"
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "Asset": {
+            "allOf": [
+                {
+                    "$ref": "../../../hook/lib/schema/shared_definitions.schema.json#/$defs/Asset"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "architecture": {
+                            "$ref": "#/$defs/Architecture"
+                        },
+                        "file": {
+                            "type": "string",
+                            "format": "uri-reference",
+                            "description": "Path to the asset file"
+                        },
+                        "id": {
+                            "type": "string",
+                            "description": "ID of the asset"
+                        },
+                        "link_mode": {
+                            "type": "object",
+                            "description": "Link mode of the asset",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "description": "Type of link mode",
+                                    "anyOf": [
+                                        {
+                                            "const": "dynamic_loading_bundle"
+                                        },
+                                        {
+                                            "const": "dynamic_loading_system"
+                                        },
+                                        {
+                                            "const": "dynamic_loading_executable"
+                                        },
+                                        {
+                                            "const": "dynamic_loading_process"
+                                        },
+                                        {
+                                            "const": "static"
+                                        },
+                                        {
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "uri": {
+                                    "type": "string",
+                                    "description": "URI (if applicable)"
+                                }
+                            },
+                            "required": [
+                                "type"
+                            ],
+                            "if": {
+                                "properties": {
+                                    "type": {
+                                        "const": "dynamic_loading_system"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "required": [
+                                    "uri"
+                                ]
+                            }
+                        },
+                        "os": {
+                            "$ref": "#/$defs/OS"
+                        }
+                    },
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "native_code"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "architecture",
+                            "id",
+                            "link_mode",
+                            "os"
+                        ],
+                        "if": {
+                            "properties": {
+                                "link_mode": {
+                                    "properties": {
+                                        "type": {
+                                            "anyOf": [
+                                                {
+                                                    "const": "dynamic_loading_bundle"
+                                                },
+                                                {
+                                                    "const": "static"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "file"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

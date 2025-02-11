@@ -1,0 +1,217 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Shared Input with Code Schema",
+    "allOf": [
+        {
+            "$ref": "shared_definitions.schema.json#"
+        }
+    ],
+    "type": "object",
+    "properties": {
+        "config": {
+            "type": "object",
+            "description": "Build configuration",
+            "properties": {
+                "code": {
+                    "type": "object",
+                    "description": "Code generation configuration",
+                    "properties": {
+                        "target_architecture": {
+                            "$ref": "shared_definitions.schema.json#/$defs/Architecture"
+                        },
+                        "target_os": {
+                            "$ref": "shared_definitions.schema.json#/$defs/OS"
+                        },
+                        "link_mode_preference": {
+                            "type": "string",
+                            "description": "Link mode preference"
+                        },
+                        "c_compiler": {
+                            "type": "object",
+                            "description": "C compiler configuration",
+                            "properties": {
+                                "ar": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "Path to the ar tool"
+                                },
+                                "cc": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "Path to the C compiler"
+                                },
+                                "ld": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "Path to the linker"
+                                },
+                                "env_script": {
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                    "description": "Path to the environment script"
+                                },
+                                "env_script_arguments": {
+                                    "type": "array",
+                                    "description": "Arguments for the environment script",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "windows": {
+                                    "type": "object",
+                                    "description": "Windows-specific configuration",
+                                    "properties": {
+                                        "developer_command_prompt": {
+                                            "type": "object",
+                                            "description": "Developer command prompt configuration",
+                                            "properties": {
+                                                "arguments": {
+                                                    "type": "array",
+                                                    "description": "Arguments for the developer command prompt",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "script": {
+                                                    "type": "string",
+                                                    "format": "uri-reference",
+                                                    "description": "Path to the developer command prompt script"
+                                                }
+                                            },
+                                            "required": [
+                                                "arguments",
+                                                "script"
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "ar",
+                                "cc",
+                                "ld"
+                            ]
+                        },
+                        "macos": {
+                            "type": "object",
+                            "description": "macOS-specific configuration",
+                            "properties": {
+                                "target_version": {
+                                    "type": "integer",
+                                    "description": "Target macOS version"
+                                }
+                            },
+                            "required": [
+                                "target_version"
+                            ]
+                        },
+                        "ios": {
+                            "type": "object",
+                            "description": "iOS-specific configuration",
+                            "properties": {
+                                "target_sdk": {
+                                    "type": "string",
+                                    "description": "Target iOS SDK"
+                                },
+                                "target_version": {
+                                    "type": "integer",
+                                    "description": "Target iOS version"
+                                }
+                            },
+                            "required": [
+                                "target_sdk",
+                                "target_version"
+                            ]
+                        },
+                        "android": {
+                            "type": "object",
+                            "description": "Android-specific configuration",
+                            "properties": {
+                                "target_ndk_api": {
+                                    "type": "integer",
+                                    "description": "Target Android NDK API level"
+                                }
+                            },
+                            "required": [
+                                "target_ndk_api"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "target_architecture",
+                        "target_os",
+                        "link_mode_preference"
+                    ],
+                    "allOf": [
+                        {
+                            "if": {
+                                "properties": {
+                                    "target_os": {
+                                        "const": "macos"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "required": [
+                                    "macos"
+                                ]
+                            }
+                        },
+                        {
+                            "if": {
+                                "properties": {
+                                    "target_os": {
+                                        "const": "ios"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "required": [
+                                    "ios"
+                                ]
+                            }
+                        },
+                        {
+                            "if": {
+                                "properties": {
+                                    "target_os": {
+                                        "const": "android"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "required": [
+                                    "android"
+                                ]
+                            }
+                        },
+                        {
+                            "if": {
+                                "properties": {
+                                    "target_os": {
+                                        "const": "windows"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "properties": {
+                                    "c_compiler": {
+                                        "required": [
+                                            "windows"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "required": [
+            "code"
+        ]
+    },
+    "required": [
+        "config"
+    ]
+}

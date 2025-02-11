@@ -1,0 +1,17 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "title": "Shared Link Input with Data Schema",
+    "allOf": [
+        {
+            "$ref": "../../../hook/lib/schema/link_input_shared.schema.json"
+        }
+    ],
+    "properties": {
+        "assets": {
+            "type": "array",
+            "items": {
+                "$ref": "shared_definitions.schema.json#/$defs/Asset"
+            }
+        }
+    }
+}
