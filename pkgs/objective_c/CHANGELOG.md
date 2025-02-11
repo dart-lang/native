@@ -1,4 +1,4 @@
-## 5.0.0-wip
+## 5.0.0
 
 - __Breaking change__: Rename the `NSString` to `String` conversion method from
   `toString()` to `toDartString()`.
