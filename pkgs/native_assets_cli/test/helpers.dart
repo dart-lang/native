@@ -33,6 +33,8 @@ Future<void> inTempDir(
         // process invocations have finished.
         if (!Platform.isWindows) rethrow;
       }
+    } else {
+      print('$keepTempKey $tempUri');
     }
   }
 }
