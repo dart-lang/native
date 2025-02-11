@@ -5,6 +5,7 @@
 import '../../ast/_core/interfaces/function_declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
@@ -90,10 +91,15 @@ MethodDeclaration _transformFunction(
     transformationMap,
   );
 
+  final (type, isWrapper) = getWrapperIfNeeded(
+    transformedReturnType,
+    originalFunction.throws,
+  );
+
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
     name: wrapperMethodName,
-    returnType: transformedReturnType,
+    returnType: type,
     params: transformedParams,
     hasObjCAnnotation: true,
     isStatic: originalFunction is MethodDeclaration
@@ -108,6 +114,7 @@ MethodDeclaration _transformFunction(
     transformedMethod,
     globalNamer,
     transformationMap,
+    isWrapper,
     originalCallGenerator: originalCallStatementGenerator,
   );
 
@@ -144,7 +151,8 @@ List<String> _generateStatements(
   FunctionDeclaration originalFunction,
   MethodDeclaration transformedMethod,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap, {
+  TransformationMap transformationMap,
+  bool isWrapper, {
   required String Function(String arguments) originalCallGenerator,
 }) {
   final localNamer = UniqueNamer();
@@ -174,6 +182,7 @@ List<String> _generateStatements(
     resultName,
     globalNamer,
     transformationMap,
+    iswrapperPrimitive: isWrapper,
   );
 
   assert(wrapperType.sameAs(transformedMethod.returnType));

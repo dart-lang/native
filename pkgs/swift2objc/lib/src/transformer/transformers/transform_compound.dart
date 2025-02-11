@@ -38,7 +38,7 @@ ClassDeclaration transformCompound(
     superClass: objectType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
-    wrapperInitializer: _buildWrapperInitializer(wrappedCompoundInstance),
+    wrapperInitializer: buildWrapperInitializer(wrappedCompoundInstance),
   );
 
   transformationMap[originalCompound] = transformedCompound;
@@ -99,7 +99,7 @@ ClassDeclaration transformCompound(
   return transformedCompound;
 }
 
-InitializerDeclaration _buildWrapperInitializer(
+InitializerDeclaration buildWrapperInitializer(
   PropertyDeclaration wrappedClassInstance,
 ) {
   return InitializerDeclaration(

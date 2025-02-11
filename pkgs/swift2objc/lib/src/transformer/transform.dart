@@ -15,6 +15,7 @@ import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
+final primitiveWrapperClasses = <Declaration>{};
 
 Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
     visit(DependencyVisitation(), decls).topLevelDeclarations;
@@ -23,6 +24,7 @@ Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
 List<Declaration> transform(List<Declaration> declarations,
     {required bool Function(Declaration) filter}) {
   final transformationMap = <Declaration, Declaration>{};
+  primitiveWrapperClasses.clear();
 
   final declarations0 = declarations.where(filter).toSet();
   declarations0.addAll(generateDependencies(declarations0));
@@ -51,7 +53,7 @@ List<Declaration> transform(List<Declaration> declarations,
       transformGlobals(globals, globalNamer, transformationMap),
   ];
 
-  return transformedDeclarations
+  return (transformedDeclarations + primitiveWrapperClasses.toList())
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 

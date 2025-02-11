@@ -4,6 +4,7 @@
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../transform.dart';
 import 'unique_namer.dart';
@@ -12,12 +13,13 @@ import 'unique_namer.dart';
 // probably be methods on ReferredType, but the transformDeclaration call makes
 // that weird. Refactor this as part of the transformer refactor.
 
-(String value, ReferredType type) maybeWrapValue(
-  ReferredType type,
-  String value,
-  UniqueNamer globalNamer,
-  TransformationMap transformationMap,
-) {
+(String value, ReferredType type) maybeWrapValue(ReferredType type,
+    String value, UniqueNamer globalNamer, TransformationMap transformationMap,
+    {bool iswrapperPrimitive = false}) {
+  if (iswrapperPrimitive) {
+    final wrapper = getPrimitiveWrapper(type as DeclaredType) as DeclaredType;
+    return ('${wrapper.name}($value)', wrapper);
+  }
   if (type.isObjCRepresentable) {
     return (value, type);
   }
