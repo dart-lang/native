@@ -8,71 +8,92 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
+  test('PlatformAvailability.deprecatedOrObsoleted', () {
+    expect(PlatformAvailability().deprecatedOrObsoleted, null);
+    expect(
+        PlatformAvailability(deprecated: Version(1, 2, 3))
+            .deprecatedOrObsoleted,
+        Version(1, 2, 3));
+    expect(
+        PlatformAvailability(obsoleted: Version(1, 2, 3)).deprecatedOrObsoleted,
+        Version(1, 2, 3));
+    expect(
+        PlatformAvailability(
+                deprecated: Version(1, 2, 3), obsoleted: Version(4, 5, 6))
+            .deprecatedOrObsoleted,
+        Version(1, 2, 3));
+    expect(
+        PlatformAvailability(
+                deprecated: Version(4, 5, 6), obsoleted: Version(1, 2, 3))
+            .deprecatedOrObsoleted,
+        Version(1, 2, 3));
+  });
+
   group('API availability', () {
     test('empty', () {
       final api = ApiAvailability();
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
-            macos: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3)),
-            macos: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          true);
+          Availability.all);
     });
 
     test('always deprecated', () {
       final api = ApiAvailability(alwaysDeprecated: true);
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
-            macos: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3)),
-            macos: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          false);
+          Availability.none);
     });
 
     test('always unavailable', () {
       final api = ApiAvailability(alwaysUnavailable: true);
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
-            macos: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3)),
-            macos: Versions(min: Version(1, 2, 3)),
+          api.getAvailability(ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
           )),
-          false);
+          Availability.none);
     });
 
     test('ios', () {
@@ -84,48 +105,48 @@ void main() {
         ),
       );
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(1, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(5, 0, 0)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          false);
+          Availability.none);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(1, 0, 0)),
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(5, 0, 0)),
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
     });
 
     test('ios, empty PlatformAvailability', () {
@@ -133,23 +154,23 @@ void main() {
         ios: PlatformAvailability(),
       );
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
     });
 
     test('ios, unavailable', () {
@@ -159,23 +180,23 @@ void main() {
         ),
       );
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
     });
 
     test('macos', () {
@@ -187,48 +208,48 @@ void main() {
         ),
       );
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(1, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(5, 0, 0)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          false);
+          Availability.none);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(1, 0, 0)),
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(5, 0, 0)),
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
     });
 
     test('macos, empty PlatformAvailability', () {
@@ -236,23 +257,23 @@ void main() {
         macos: PlatformAvailability(),
       );
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
     });
 
     test('macos, unavailable', () {
@@ -262,23 +283,23 @@ void main() {
         ),
       );
 
-      expect(api.isAvailable(const ExternalVersions()), true);
+      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             macos: Versions(min: Version(10, 0, 0)),
             ios: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
     });
 
     test('both', () {
@@ -296,61 +317,61 @@ void main() {
       );
 
       expect(
-          api.isAvailable(const ExternalVersions(
+          api.getAvailability(const ExternalVersions(
             ios: null,
             macos: null,
           )),
-          true);
+          Availability.all);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(1, 0, 0)),
             macos: null,
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
             macos: null,
           )),
-          false);
+          Availability.none);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: null,
             macos: Versions(min: Version(1, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(1, 0, 0)),
             macos: Versions(min: Version(1, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
             macos: Versions(min: Version(1, 0, 0)),
           )),
-          true);
+          Availability.some);
 
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: null,
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          false);
+          Availability.none);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(1, 0, 0)),
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          true);
+          Availability.some);
       expect(
-          api.isAvailable(ExternalVersions(
+          api.getAvailability(ExternalVersions(
             ios: Versions(min: Version(10, 0, 0)),
             macos: Versions(min: Version(10, 0, 0)),
           )),
-          false);
+          Availability.none);
     });
   });
 }

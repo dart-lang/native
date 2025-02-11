@@ -676,6 +676,7 @@ Versions? versionsExtractor(dynamic yamlConfig) {
   if (yamlMap == null) return null;
   return Versions(
     min: versionExtractor(yamlMap[strings.externalVersionsMin]),
+    max: versionExtractor(yamlMap[strings.externalVersionsMax]),
   );
 }
 

@@ -5,6 +5,7 @@
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
+import 'package:meta/meta.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../config_provider/config_types.dart';
@@ -12,9 +13,16 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../utils.dart';
 
+enum Availability {
+  none,
+  some,
+  all,
+}
+
+// TODO: Remove this.
 bool isApiAvailable(clang_types.CXCursor cursor) {
   final api = ApiAvailability.fromCursor(cursor);
-  return api.isAvailable(config.externalVersions);
+  return api.getAvailability(config.externalVersions) != Availability.none;
 }
 
 class ApiAvailability {
@@ -80,52 +88,76 @@ class ApiAvailability {
     return api;
   }
 
-  bool isAvailable(ExternalVersions extVers) {
-    final macosVer = extVers.macos?.min;
-    final iosVer = extVers.ios?.min;
+  Availability getAvailability(ExternalVersions extVers) {
+    final macosVer = normalizeVersions(extVers.macos);
+    final iosVer = normalizeVersions(extVers.ios);
 
     // If no versions are specified, everything is available.
     if (iosVer == null && macosVer == null) {
-      return true;
+      return Availability.all;
     }
 
     if (alwaysDeprecated || alwaysUnavailable) {
-      return false;
+      return Availability.none;
     }
 
-    for (final (plat, minVer) in [(ios, iosVer), (macos, macosVer)]) {
-      // If the user hasn't specified a minimum version for this platform, defer
-      // to the other platforms.
-      if (minVer == null) {
+    var availability = null;
+    for (final (plat, ver) in [(ios, iosVer), (macos, macosVer)]) {
+      // If the user hasn't specified any versions for this platform, defer to
+      // the other platforms.
+      if (ver == null) {
         continue;
       }
       // If the API is available on any platform, return that it's available.
-      if (_platformAvailable(plat, minVer)) {
-        return true;
-      }
+      availability =
+          mergeAvailability(availability, platformAvailable(plat, ver));
     }
-    // The API is not available on any of the platforms the user cares about.
-    return false;
+    return availability ?? Availability.none;
   }
 
-  bool _platformAvailable(PlatformAvailability? plat, Version minVer) {
+  // If the min and max version are null, the versions object should be null.
+  @visibleForTesting
+  static Versions? normalizeVersions(Versions? versions) =>
+      versions?.min == null && versions?.max == null ? null : versions;
+
+  @visibleForTesting
+  static Availability mergeAvailability(Availability? x, Availability y) =>
+      x == null ? y : (x == y ? x : Availability.some);
+
+  @visibleForTesting
+  Availability platformAvailable(PlatformAvailability? plat, Versions ver) {
     if (plat == null) {
       // Clang's availability info has nothing to say about the given platform,
       // so assume the API is available.
-      return true;
+      return Availability.all;
     }
     if (plat.unavailable) {
-      return false;
+      return Availability.none;
     }
-    if (_unavailableByVersion(minVer, plat.deprecated) ||
-        _unavailableByVersion(minVer, plat.obsoleted)) {
-      return false;
+    // Note: greaterThan treats null as Version(infinity). For lower bound
+    // versions, null should be Version(0).
+    final minVer = ver.min ?? Version(0, 0, 0);
+    final maxVer = ver.max;
+    final lower = plat.introduced ?? Version(0, 0, 0);
+    final upper = plat.deprecatedOrObsoleted;
+    if (lessThanOrEqual(lower, ver.min) && greaterThan(upper, ver.max)) {
+      return Availability.all;
     }
-    return true;
+    if (lessThanOrEqual(lower, ver.max) && greaterThan(upper, ver.min)) {
+      return Availability.some;
+    }
+    return Availability.none;
   }
 
-  bool _unavailableByVersion(Version minVer, Version? deprecated) =>
-      deprecated != null && minVer >= deprecated;
+  @visibleForTesting
+  static bool lessThanOrEqual(Version? x, Version? y) => !greaterThan(x, y);
+
+  @visibleForTesting
+  static bool greaterThan(Version? x, Version? y) {
+    if (x == null) return true;
+    if (y == null) return false;
+    return x > y;
+  }
 
   @override
   String toString() => '''Availability {
@@ -148,6 +180,14 @@ class PlatformAvailability {
     this.obsoleted,
     this.unavailable = false,
   });
+
+  @visibleForTesting
+  Version? get deprecatedOrObsoleted {
+    if (deprecated == null || obsoleted == null) {
+      return deprecated ?? obsoleted;
+    }
+    return deprecated! < obsoleted! ? deprecated : obsoleted;
+  }
 
   @override
   String toString() => 'introduced: $introduced, deprecated: $deprecated, '

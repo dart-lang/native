@@ -470,9 +470,6 @@ class ExternalVersions {
 
 class Versions {
   final Version? min;
-
-  // TODO(https://github.com/dart-lang/native/issues/300): max isn't supported
-  // yet.
   final Version? max;
 
   const Versions({this.min, this.max});
