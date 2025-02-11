@@ -51,6 +51,8 @@ Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
           Platform.environment[keepTempKey]!.isEmpty) &&
       !keepTemp) {
     addTearDown(() => tempDir.delete(recursive: true));
+  } else {
+    addTearDown(() => print('$keepTempKey $tempUri'));
   }
   return tempUri;
 }

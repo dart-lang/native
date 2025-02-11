@@ -56,6 +56,8 @@ Future<void> inTempDir(
         // process invocations have finished.
         if (!Platform.isWindows) rethrow;
       }
+    } else {
+      print('$keepTempKey $tempUri');
     }
   }
 }
@@ -77,6 +79,8 @@ Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
         if (!Platform.isWindows) rethrow;
       }
     });
+  } else {
+    print('$keepTempKey $tempUri');
   }
   return tempUri;
 }

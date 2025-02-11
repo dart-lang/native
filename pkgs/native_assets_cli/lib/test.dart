@@ -80,6 +80,8 @@ Future<void> testBuildHook({
     final keepTempDir = (Platform.environment[keepTempKey] ?? '').isNotEmpty;
     if (!keepTempDir) {
       tempDir.deleteSync(recursive: true);
+    } else {
+      print('$keepTempKey ${tempDir.uri}');
     }
   }
 }
