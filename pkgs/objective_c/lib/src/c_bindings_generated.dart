@@ -20,6 +20,11 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
+external int DOBJC_InitializeApi(
+  ffi.Pointer<ffi.Void> data,
+);
+
 @ffi.Native<
     ffi.Void Function(
         ffi.Pointer<
@@ -28,23 +33,6 @@ import 'dart:ffi' as ffi;
 external void DOBJC_runOnMainThread(
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>> fn,
   ffi.Pointer<ffi.Void> arg,
-);
-
-/// \mainpage Dynamically Linked Dart API
-///
-/// This exposes a subset of symbols from dart_api.h and dart_native_api.h
-/// available in every Dart embedder through dynamic linking.
-///
-/// All symbols are postfixed with _DL to indicate that they are dynamically
-/// linked and to prevent conflicts with the original symbol.
-///
-/// Link `dart_api_dl.c` file into your library and invoke
-/// `Dart_InitializeApiDL` with `NativeApi.initializeApiDLData`.
-///
-/// Returns 0 on success.
-@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
-external int Dart_InitializeApiDL(
-  ffi.Pointer<ffi.Void> data,
 );
 
 @ffi.Array.multi([32])

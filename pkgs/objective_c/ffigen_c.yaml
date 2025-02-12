@@ -21,7 +21,6 @@ functions:
     - 'sel_getName'
     - 'protocol_getMethodDescription'
     - 'protocol_getName'
-    - 'Dart_InitializeApiDL'
     - 'newFinalizableHandle'
     - 'DOBJC_.*'
   leaf:
