@@ -39,7 +39,8 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
   var hasNegativeEnumConstants = false;
 
-  if (!isApiAvailable(cursor)) {
+  final report = getApiAvailability(cursor);
+  if (report.availability == Availability.none) {
     _logger.info('Omitting deprecated enum $enumName');
     return (null, nativeType);
   }
@@ -54,7 +55,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: enumUsr,
-      dartDoc: getCursorDocComment(cursor),
+      dartDoc: getCursorDocComment(cursor, availability: report.dartDoc),
       originalName: enumName,
       name: config.enumClassDecl.rename(decl),
       nativeType: nativeType,
@@ -71,7 +72,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
               EnumConstant(
                   dartDoc: getCursorDocComment(
                     child,
-                    nesting.length + commentPrefix.length,
+                    indent: nesting.length + commentPrefix.length,
                   ),
                   originalName: child.spelling(),
                   name: config.enumClassDecl.renameMember(

@@ -45,7 +45,8 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     cursor = clang.clang_getCursorDefinition(selfSuperCursor);
   }
 
-  if (!isApiAvailable(cursor)) {
+  final report = getApiAvailability(cursor);
+  if (report.availability == Availability.none) {
     _logger.info('Omitting deprecated protocol $name');
     return null;
   }
@@ -58,7 +59,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     originalName: name,
     name: config.objcProtocols.rename(decl),
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
-    dartDoc: getCursorDocComment(cursor),
+    dartDoc: getCursorDocComment(cursor, availability: report.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
   );
 

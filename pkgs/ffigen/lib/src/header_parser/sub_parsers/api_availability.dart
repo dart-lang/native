@@ -20,9 +20,23 @@ enum Availability {
 }
 
 // TODO: Remove this.
-bool isApiAvailable(clang_types.CXCursor cursor) {
+// bool isApiAvailable(clang_types.CXCursor cursor) {
+//   final api = ApiAvailability.fromCursor(cursor);
+//   return api.getAvailability(config.externalVersions) != Availability.none;
+// }
+
+typedef ApiAvailabilityReport = ({
+  Availability availability,
+  String? dartDoc,
+});
+
+ApiAvailabilityReport getApiAvailability(clang_types.CXCursor cursor) {
   final api = ApiAvailability.fromCursor(cursor);
-  return api.getAvailability(config.externalVersions) != Availability.none;
+  final availability = api.getAvailability(config.externalVersions);
+  return (
+    availability: availability,
+    dartDoc: availability == Availability.some ? api.dartDoc : null,
+  );
 }
 
 class ApiAvailability {
@@ -63,10 +77,10 @@ class ApiAvailability {
       );
       switch (platform.Platform.string()) {
         case 'ios':
-          ios = platformAvailability;
+          ios = platformAvailability..name = 'iOS';
           break;
         case 'macos':
-          macos = platformAvailability;
+          macos = platformAvailability..name = 'macOS';
           break;
       }
     }
@@ -89,8 +103,8 @@ class ApiAvailability {
   }
 
   Availability getAvailability(ExternalVersions extVers) {
-    final macosVer = normalizeVersions(extVers.macos);
-    final iosVer = normalizeVersions(extVers.ios);
+    final macosVer = _normalizeVersions(extVers.macos);
+    final iosVer = _normalizeVersions(extVers.ios);
 
     // If no versions are specified, everything is available.
     if (iosVer == null && macosVer == null) {
@@ -101,7 +115,7 @@ class ApiAvailability {
       return Availability.none;
     }
 
-    var availability = null;
+    Availability? availability;
     for (final (plat, ver) in [(ios, iosVer), (macos, macosVer)]) {
       // If the user hasn't specified any versions for this platform, defer to
       // the other platforms.
@@ -109,55 +123,21 @@ class ApiAvailability {
         continue;
       }
       // If the API is available on any platform, return that it's available.
-      availability =
-          mergeAvailability(availability, platformAvailable(plat, ver));
+      final platAvailability = plat?.getAvailability(ver) ?? Availability.all;
+      availability = _mergeAvailability(availability, platAvailability);
     }
     return availability ?? Availability.none;
   }
 
   // If the min and max version are null, the versions object should be null.
-  @visibleForTesting
-  static Versions? normalizeVersions(Versions? versions) =>
+  static Versions? _normalizeVersions(Versions? versions) =>
       versions?.min == null && versions?.max == null ? null : versions;
 
-  @visibleForTesting
-  static Availability mergeAvailability(Availability? x, Availability y) =>
+  static Availability _mergeAvailability(Availability? x, Availability y) =>
       x == null ? y : (x == y ? x : Availability.some);
 
-  @visibleForTesting
-  Availability platformAvailable(PlatformAvailability? plat, Versions ver) {
-    if (plat == null) {
-      // Clang's availability info has nothing to say about the given platform,
-      // so assume the API is available.
-      return Availability.all;
-    }
-    if (plat.unavailable) {
-      return Availability.none;
-    }
-    // Note: greaterThan treats null as Version(infinity). For lower bound
-    // versions, null should be Version(0).
-    final minVer = ver.min ?? Version(0, 0, 0);
-    final maxVer = ver.max;
-    final lower = plat.introduced ?? Version(0, 0, 0);
-    final upper = plat.deprecatedOrObsoleted;
-    if (lessThanOrEqual(lower, ver.min) && greaterThan(upper, ver.max)) {
-      return Availability.all;
-    }
-    if (lessThanOrEqual(lower, ver.max) && greaterThan(upper, ver.min)) {
-      return Availability.some;
-    }
-    return Availability.none;
-  }
-
-  @visibleForTesting
-  static bool lessThanOrEqual(Version? x, Version? y) => !greaterThan(x, y);
-
-  @visibleForTesting
-  static bool greaterThan(Version? x, Version? y) {
-    if (x == null) return true;
-    if (y == null) return false;
-    return x > y;
-  }
+  String get dartDoc =>
+      [ios, macos].nonNulls.map((plat) => plat.dartDoc).join('\n');
 
   @override
   String toString() => '''Availability {
@@ -169,12 +149,14 @@ class ApiAvailability {
 }
 
 class PlatformAvailability {
+  String? name;
   Version? introduced;
   Version? deprecated;
   Version? obsoleted;
   bool unavailable;
 
   PlatformAvailability({
+    this.name,
     this.introduced,
     this.deprecated,
     this.obsoleted,
@@ -187,6 +169,50 @@ class PlatformAvailability {
       return deprecated ?? obsoleted;
     }
     return deprecated! < obsoleted! ? deprecated : obsoleted;
+  }
+
+  @visibleForTesting
+  Availability getAvailability(Versions ver) {
+    if (unavailable) {
+      return Availability.none;
+    }
+
+    // Note: _greaterThan treats null as Version(infinity). For lower bound
+    // versions, null should be Version(0).
+    final confMin = ver.min ?? Version(0, 0, 0);
+    final confMax = ver.max;
+    final apiMin = introduced ?? Version(0, 0, 0);
+    final apiMax = deprecatedOrObsoleted;
+    if (_lessThanOrEqual(apiMin, confMin) && _greaterThan(apiMax, confMax)) {
+      return Availability.all;
+    }
+    if (_lessThanOrEqual(apiMin, confMax) && _greaterThan(apiMax, confMin)) {
+      return Availability.some;
+    }
+    return Availability.none;
+  }
+
+  static bool _lessThanOrEqual(Version? x, Version? y) => !_greaterThan(x, y);
+
+  static bool _greaterThan(Version? x, Version? y) {
+    if (x == null) return true;
+    if (y == null) return false;
+    return x > y;
+  }
+
+  String get dartDoc {
+    final s = StringBuffer();
+    s.write('$name: ');
+    if (unavailable) {
+      s.write('unavailable');
+    } else {
+      s.write([
+        if (introduced != null) 'introduced $introduced',
+        if (deprecated != null) 'deprecated $deprecated',
+        if (obsoleted != null) 'obsoleted $obsoleted',
+      ].join(', '));
+    }
+    return s.toString();
   }
 
   @override

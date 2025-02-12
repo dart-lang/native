@@ -116,9 +116,7 @@ abstract class Compound extends BindingType {
 
     final s = StringBuffer();
     final enclosingClassName = name;
-    if (dartDoc != null) {
-      s.write(makeDartDoc(dartDoc!));
-    }
+    s.write(makeDartDoc(dartDoc));
 
     /// Adding [enclosingClassName] because dart doesn't allow class member
     /// to have the same name as the class.

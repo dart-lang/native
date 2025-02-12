@@ -243,7 +243,7 @@ clang_types.CXSourceRange? lastCommentRange;
 /// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
 String? getCursorDocComment(clang_types.CXCursor cursor,
-    [int indent = commentPrefix.length]) {
+    {int indent = commentPrefix.length, String? availability}) {
   String? formattedDocComment;
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
@@ -268,7 +268,8 @@ String? getCursorDocComment(clang_types.CXCursor cursor,
     }
   }
   lastCommentRange = currentCommentRange;
-  return formattedDocComment;
+  final docs = [formattedDocComment, availability].nonNulls;
+  return docs.isEmpty ? null : docs.join('\n\n');
 }
 
 /// Wraps [string] according to given [lineWidth].

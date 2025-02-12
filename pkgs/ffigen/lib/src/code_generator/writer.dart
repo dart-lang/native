@@ -272,9 +272,7 @@ class Writer {
     /// Write [lookUpBindings].
     if (lookUpBindings.isNotEmpty) {
       // Write doc comment for wrapper class.
-      if (classDocComment != null) {
-        s.write(makeDartDoc(classDocComment!));
-      }
+      s.write(makeDartDoc(classDocComment));
       // Write wrapper classs.
       s.write('class $_className{\n');
       // Write dylib.

@@ -26,7 +26,8 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     return cachedCategory;
   }
 
-  if (!isApiAvailable(cursor)) {
+  final report = getApiAvailability(cursor);
+  if (report.availability == Availability.none) {
     _logger.info('Omitting deprecated category $name');
     return null;
   }
@@ -53,7 +54,7 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     originalName: name,
     name: config.objcCategories.rename(decl),
     parent: parentInterface,
-    dartDoc: getCursorDocComment(cursor),
+    dartDoc: getCursorDocComment(cursor, availability: report.dartDoc) ?? name,
     builtInFunctions: objCBuiltInFunctions,
   );
 
