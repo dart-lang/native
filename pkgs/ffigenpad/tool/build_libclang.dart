@@ -10,7 +10,9 @@ import 'package:dart_style/dart_style.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
-final _formatter = DartFormatter();
+final _formatter = DartFormatter(
+  languageVersion: DartFormatter.latestLanguageVersion,
+);
 
 /// Used to mock the Clang class in ffigen.
 /// Generates `lib/src/header_parser/clang_bindings/clang_wrapper.dart`.

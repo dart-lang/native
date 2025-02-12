@@ -15,7 +15,9 @@ import 'utils.dart';
 import 'writer.dart';
 
 final _logger = Logger('ffigen.code_generator.library');
-final _formatter = DartFormatter();
+final _formatter = DartFormatter(
+  languageVersion: DartFormatter.latestLanguageVersion,
+);
 
 /// Container for all Bindings.
 class Library {
