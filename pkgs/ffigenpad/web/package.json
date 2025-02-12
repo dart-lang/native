@@ -12,26 +12,26 @@
   "dependencies": {
     "@ark-ui/solid": "^3.7.0",
     "@codemirror/lang-cpp": "^6.0.2",
-    "@codemirror/lang-yaml": "^6.1.1",
-    "@codemirror/language": "^6.10.2",
-    "@codemirror/legacy-modes": "^6.4.1",
-    "@codemirror/state": "^6.4.1",
+    "@codemirror/lang-yaml": "^6.1.2",
+    "@codemirror/language": "^6.10.8",
+    "@codemirror/legacy-modes": "^6.4.2",
+    "@codemirror/state": "^6.5.2",
     "@codemirror/theme-one-dark": "^6.1.2",
-    "@fontsource-variable/reddit-mono": "^5.0.4",
+    "@fontsource-variable/reddit-mono": "^5.1.1",
     "codemirror": "^6.0.1",
     "pathe": "^1.1.2",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.8.21"
+    "solid-js": "^1.9.4"
   },
   "devDependencies": {
-    "@babel/types": "^7.25.6",
-    "@pandacss/dev": "^0.45.1",
-    "@park-ui/panda-preset": "^0.42.0",
-    "@types/node": "^22.4.0",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.1",
-    "vite-plugin-solid": "^2.10.2",
-    "vite-tsconfig-paths": "^5.0.1"
+    "@babel/types": "^7.26.8",
+    "@pandacss/dev": "^0.53.0",
+    "@park-ui/panda-preset": "^0.43.1",
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vite-plugin-solid": "^2.11.1",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "engines": {
     "node": ">=20.17.0"

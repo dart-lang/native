@@ -24,8 +24,7 @@ However the files listed do not have an ffigen counterpart:
 - dart
 - emscripten (>= 3.1.61)
 - for website
-  - nodejs (>= ^20.17.0)
-  - pnpm (optional but recommended)
+  - bunjs (>= ^1.2.0)
 
 ### Steps
 
@@ -57,7 +56,7 @@ dart compile wasm ./lib/ffigenpad.dart -o ./bin/ffigenpad.wasm \
 ```sh
 # in project root
 cd web
-npm i # install dependencies
-npm run build
+bun i # install dependencies
+bun run build
 # preview with: npm run preview
 ```
