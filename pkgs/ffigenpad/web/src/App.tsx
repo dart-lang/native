@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import { TbClipboardCopy, TbExternalLink } from "solid-icons/tb";
+import TablerCopy from '~icons/tabler/copy'
+import TablerExternalLink from '~icons/tabler/external-link'
 import {
   createResource,
   createSignal,
@@ -102,7 +103,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
                   target="_blank"
                 >
                   Config Docs
-                  <TbExternalLink />
+                  <TablerExternalLink />
                 </a>
               )}
             />
@@ -120,7 +121,7 @@ function FFIGenPad({ ffigenpad }: { ffigenpad: WebAssembly.Instance }) {
               <Tabs.Indicator />
             </Tabs.List>
             <Button onClick={copyBindings} size="sm">
-              <TbClipboardCopy />
+              <TablerCopy />
               Copy
             </Button>
           </HStack>

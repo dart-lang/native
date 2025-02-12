@@ -3,14 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import { basename, dirname, join } from "pathe";
-import {
-  TbChevronRight,
-  TbFileDots,
-  TbFilePlus,
-  TbFileUpload,
-  TbFolderPlus,
-  TbTrash,
-} from "solid-icons/tb";
+import TablerChevronRight from '~icons/tabler/chevron-right'
+import TablerFileDots from '~icons/tabler/file-dots'
+import TablerFilePlus from '~icons/tabler/file-plus'
+import TablerFileUpload from '~icons/tabler/file-upload'
+import TablerFolderPlus from '~icons/tabler/folder-plus'
+import TablerTrash from '~icons/tabler/trash'
 import { createSignal, For, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 import { HStack, Stack } from "styled-system/jsx";
@@ -138,7 +136,7 @@ const FileTree = () => {
               variant="ghost"
               onClick={() => deleteFile(path)}
             >
-              <TbTrash />
+              <TablerTrash />
             </IconButton>
           </HStack>
         }
@@ -148,7 +146,7 @@ const FileTree = () => {
           <HStack gap="1">
             <StyledTreeView.BranchControl flexGrow={1}>
               <StyledTreeView.BranchIndicator>
-                <TbChevronRight />
+                <TablerChevronRight />
               </StyledTreeView.BranchIndicator>
               <Editable.Root
                 disabled={name === "/home/web_user"}
@@ -172,21 +170,21 @@ const FileTree = () => {
                 variant="ghost"
                 onClick={() => addFile(pathParts)}
               >
-                <TbFilePlus />
+                <TablerFilePlus />
               </IconButton>
               <IconButton
                 size="xs"
                 variant="ghost"
                 onClick={() => addFolder(pathParts)}
               >
-                <TbFolderPlus />
+                <TablerFolderPlus />
               </IconButton>
               <IconButton
                 size="xs"
                 variant="ghost"
                 onClick={() => deleteFolder(path)}
               >
-                <TbTrash />
+                <TablerTrash />
               </IconButton>
             </HStack>
           </HStack>
@@ -256,7 +254,7 @@ function UploadFiles() {
       <Dialog.Trigger
         asChild={(triggerProps) => (
           <Button {...triggerProps()} size="sm" flexGrow={1}>
-            <TbFileUpload />
+            <TablerFileUpload />
             Upload Files
           </Button>
         )}
@@ -297,7 +295,7 @@ function UploadFiles() {
                                 size="sm"
                                 {...triggerProps()}
                               >
-                                <TbTrash />
+                                <TablerTrash />
                               </IconButton>
                             )}
                           />
@@ -345,7 +343,7 @@ const FileExplorer = () => {
       <Drawer.Trigger
         asChild={(triggerProps) => (
           <Button {...triggerProps()}>
-            <TbFileDots />
+            <TablerFileDots />
             {basename(selectedFile())}
           </Button>
         )}

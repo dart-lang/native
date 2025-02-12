@@ -2,7 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import { TbBrandGithub, TbBug, TbMoon, TbSun } from "solid-icons/tb";
+import TablerBrandGithub from '~icons/tabler/brand-github'
+import TablerBug from '~icons/tabler/bug'
+import TablerMoon from '~icons/tabler/moon'
+import TablerSun from '~icons/tabler/sun'
+
 import { Show } from "solid-js";
 import { Divider, HStack } from "styled-system/jsx";
 import { $theme } from "~/lib/theme";
@@ -18,9 +22,9 @@ const ThemeSwitcher = () => {
   const [darkMode, setDarkMode] = $theme.darkMode;
 
   return (
-    <IconButton onClick={() => setDarkMode((x) => !x)} variant="ghost">
-      <Show when={darkMode()} fallback={<TbMoon />}>
-        <TbSun />
+    <IconButton size="xs" onClick={() => setDarkMode((x) => !x)} variant="ghost">
+      <Show when={darkMode()} fallback={<TablerMoon />}>
+        <TablerSun />
       </Show>
     </IconButton>
   );
@@ -28,15 +32,9 @@ const ThemeSwitcher = () => {
 
 export const Navbar = () => {
   return (
-    <Divider
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      px="4"
-      mb="1.5"
-    >
+    <HStack justify="space-between" px="4" py="2">
       <HStack>
-        <Heading as="h1" textStyle="xl">
+        <Heading as="h1" textStyle="lg">
           FFIgenPad
         </Heading>
         <Badge>ffigen 14.0.0-wip</Badge>
@@ -49,30 +47,30 @@ export const Navbar = () => {
           asChild={(localProps) => (
             <a
               {...localProps()}
-              // TODO: url redirects to pull request
               href="https://github.com/dart-lang/native/pull/1390"
               target="_blank"
             >
-              <TbBug />
+              <TablerBug />
               Report a Bug
             </a>
           )}
         />
-        <Divider orientation="vertical" h="6" mx="3" />
+        <Divider orientation="vertical" mx="2" h="6" />
         <ThemeSwitcher />
         <IconButton
           variant="ghost"
+          size="xs"
           asChild={(localProps) => (
             <a
               {...localProps()}
               href="https://github.com/dart-lang/native/tree/main/pkgs/ffigen"
               target="_blank"
             >
-              <TbBrandGithub />
+              <TablerBrandGithub />
             </a>
           )}
         />
       </HStack>
-    </Divider>
+    </HStack>
   );
 };

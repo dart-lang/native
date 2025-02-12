@@ -5,9 +5,10 @@
 import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
 import tsconfigPaths from "vite-tsconfig-paths";
+import Icons from 'unplugin-icons/vite'
 
 export default defineConfig({
-  plugins: [solid(), tsconfigPaths()],
+  plugins: [solid(), tsconfigPaths(), Icons({ compiler: 'solid' })],
   server: {
     fs: {
       // Allow serving files from one level up to the project root

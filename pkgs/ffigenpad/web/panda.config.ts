@@ -17,7 +17,7 @@ export default defineConfig({
       radius: "sm"
     }),
   ],
-  include: ["./src/**/*.{js,jsx,ts,tsx,vue}"],
+  include: ["./src/**/*.{js,jsx,ts,tsx,vue}", "./third_party/**/*.{js,jsx,ts,tsx,vue}"],
   jsxFramework: "solid",
   outdir: "styled-system",
   theme: {

@@ -6,7 +6,7 @@ import { createSignal, For } from "solid-js";
 import { $logs } from "~/lib/log";
 import { Select } from "third_party/ui/select";
 import { Table } from "third_party/ui/table";
-import { TbSelector } from "solid-icons/tb";
+import TablerSelector from '~icons/tabler/selector'
 
 /**
  * level and label pairs as defined by package:logging in dart
@@ -45,7 +45,7 @@ const LevelSelect = (props: {
       <Select.Control>
         <Select.Trigger>
           <Select.ValueText placeholder="Level" />
-          <TbSelector />
+          <TablerSelector />
         </Select.Trigger>
       </Select.Control>
       <Select.Positioner>
