@@ -19,36 +19,35 @@ void main() async {
       final packageUri = tempUri.resolve('$packageName/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       final logMessages = <String>[];
       late BuildResult buildResult;
       late LinkResult linkResult;
       Future<void> runBuild() async {
         logMessages.clear();
-        buildResult = (await buildDataAssets(
-          packageUri,
-          linkingEnabled: true,
-          capturedLogs: logMessages,
-        ))!;
+        buildResult =
+            (await buildDataAssets(
+              packageUri,
+              linkingEnabled: true,
+              capturedLogs: logMessages,
+            ))!;
       }
 
       Future<void> runLink() async {
         logMessages.clear();
-        linkResult = (await link(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildResult: buildResult,
-          buildAssetTypes: [DataAsset.type],
-          capturedLogs: logMessages,
-          inputValidator: validateDataAssetLinkInput,
-          linkValidator: validateDataAssetLinkOutput,
-          applicationAssetValidator: (_) async => [],
-        ))!;
+        linkResult =
+            (await link(
+              packageUri,
+              logger,
+              dartExecutable,
+              buildResult: buildResult,
+              buildAssetTypes: [DataAsset.type],
+              capturedLogs: logMessages,
+              inputValidator: validateDataAssetLinkInput,
+              linkValidator: validateDataAssetLinkOutput,
+              applicationAssetValidator: (_) async => [],
+            ))!;
       }
 
       await runBuild();

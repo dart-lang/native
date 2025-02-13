@@ -46,16 +46,14 @@ workspace:
     }
     await File.fromUri(workspacePubSpecUri).writeAsString(workspacePubSpec);
 
-    await runPubGet(
-      workingDirectory: tempUri,
-      logger: logger,
-    );
+    await runPubGet(workingDirectory: tempUri, logger: logger);
   }
 
   test('pub workspaces', () async {
     final packageUri = tempUri.resolve('named_add_renamed/');
-    await Directory.fromUri(tempUri.resolve('native_add/'))
-        .rename(packageUri.toFilePath());
+    await Directory.fromUri(
+      tempUri.resolve('native_add/'),
+    ).rename(packageUri.toFilePath());
     await makePubWorkspace([
       'dart_app',
       'native_subtract',
@@ -68,21 +66,19 @@ workspace:
 
     (await buildCodeAssets(packageUri, runPackageName: 'native_add'))!;
     final buildDirectory = tempUri.resolve('.dart_tool/native_assets_builder/');
-    final buildDirs = Directory.fromUri(buildDirectory)
-        .listSync()
-        .whereType<Directory>()
-        .map((e) => e.uri.pathSegments.lastWhere((e) => e.isNotEmpty))
-        .toList()
-      ..sort();
+    final buildDirs =
+        Directory.fromUri(buildDirectory)
+            .listSync()
+            .whereType<Directory>()
+            .map((e) => e.uri.pathSegments.lastWhere((e) => e.isNotEmpty))
+            .toList()
+          ..sort();
     expect(buildDirs, contains('native_add'));
     // Do not build packages not in dependencies of runPackageName.
     expect(buildDirs, isNot(contains('native_subtract')));
 
     final logs = <String>[];
-    (await buildCodeAssets(
-      tempUri.resolve('dart_app/'),
-      capturedLogs: logs,
-    ))!;
+    (await buildCodeAssets(tempUri.resolve('dart_app/'), capturedLogs: logs))!;
     // Reuse hook results of other packages in the same workspace
     expect(logs.join('\n'), contains('Skipping build for native_add'));
   });

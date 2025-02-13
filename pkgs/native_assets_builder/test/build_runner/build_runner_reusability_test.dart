@@ -20,10 +20,7 @@ void main() async {
       final packageUri = tempUri.resolve('$packageName/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       final packageLayout = await PackageLayout.fromWorkingDirectory(
         const LocalFileSystem(),
@@ -39,15 +36,17 @@ void main() async {
 
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
-      BuildInputBuilder inputCreator() => BuildInputBuilder()
-        ..config.setupCode(
-          targetArchitecture: Architecture.current,
-          targetOS: OS.current,
-          macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-              : null,
-          linkModePreference: LinkModePreference.dynamic,
-        );
+      BuildInputBuilder inputCreator() =>
+          BuildInputBuilder()
+            ..config.setupCode(
+              targetArchitecture: Architecture.current,
+              targetOS: OS.current,
+              macOS:
+                  targetOS == OS.macOS
+                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                      : null,
+              linkModePreference: LinkModePreference.dynamic,
+            );
 
       await buildRunner.build(
         inputCreator: inputCreator,

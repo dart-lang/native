@@ -48,11 +48,7 @@ class PackageLayout {
   ) {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
-    return PackageLayout._(
-      packageConfig,
-      packageConfigUri,
-      runPackageName,
-    );
+    return PackageLayout._(packageConfig, packageConfigUri, runPackageName);
   }
 
   static Future<PackageLayout> fromWorkingDirectory(
@@ -61,23 +57,22 @@ class PackageLayout {
     String runPackgeName,
   ) async {
     workingDirectory = workingDirectory.normalizePath();
-    final packageConfigUri =
-        await findPackageConfig(fileSystem, workingDirectory);
+    final packageConfigUri = await findPackageConfig(
+      fileSystem,
+      workingDirectory,
+    );
     assert(await fileSystem.file(packageConfigUri).exists());
     final packageConfig = await loadPackageConfigUri(packageConfigUri!);
-    return PackageLayout._(
-      packageConfig,
-      packageConfigUri,
-      runPackgeName,
-    );
+    return PackageLayout._(packageConfig, packageConfigUri, runPackgeName);
   }
 
   static Future<Uri?> findPackageConfig(
     FileSystem fileSystem,
     Uri rootPackageRoot,
   ) async {
-    final packageConfigUri =
-        rootPackageRoot.resolve('.dart_tool/package_config.json');
+    final packageConfigUri = rootPackageRoot.resolve(
+      '.dart_tool/package_config.json',
+    );
     final file = fileSystem.file(packageConfigUri);
     if (await file.exists()) {
       return file.uri;
@@ -109,8 +104,9 @@ class PackageLayout {
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
   ///
   /// `$rootPackageRoot/.dart_tool/native_assets_builder/`.
-  late final Uri dartToolNativeAssetsBuilder =
-      dartTool.resolve('native_assets_builder/');
+  late final Uri dartToolNativeAssetsBuilder = dartTool.resolve(
+    'native_assets_builder/',
+  );
 
   /// The root of `package:$packageName`.
   ///

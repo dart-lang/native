@@ -13,10 +13,7 @@ import '../utils/file.dart';
 import '../utils/uri.dart';
 
 class DependenciesHashFile {
-  DependenciesHashFile(
-    this._fileSystem, {
-    required this.fileUri,
-  });
+  DependenciesHashFile(this._fileSystem, {required this.fileUri});
 
   final FileSystem _fileSystem;
   final Uri fileUri;
@@ -72,8 +69,9 @@ class DependenciesHashFile {
       _hashes.files.add(FilesystemEntityHash(uri, hash));
     }
     for (final entry in environment.entries) {
-      _hashes.environment.add(EnvironmentVariableHash(
-          entry.key, _hashEnvironmentValue(entry.value)));
+      _hashes.environment.add(
+        EnvironmentVariableHash(entry.key, _hashEnvironmentValue(entry.value)),
+      );
     }
     await _persist();
     return modifiedAfterTimeStamp;
@@ -145,8 +143,8 @@ class DependenciesHashFile {
       return _hashNotExists;
     }
     final children = directory.listSync(followLinks: true, recursive: false);
-    final childrenNames = children.map((e) => _pathBaseName(e.path)).toList()
-      ..sort();
+    final childrenNames =
+        children.map((e) => _pathBaseName(e.path)).toList()..sort();
     return _md5int64(utf8.encode(childrenNames.join(';')));
   }
 
@@ -178,8 +176,8 @@ class FileSystemHashes {
   FileSystemHashes({
     List<FilesystemEntityHash>? files,
     List<EnvironmentVariableHash>? environment,
-  })  : files = files ?? [],
-        environment = environment ?? [];
+  }) : files = files ?? [],
+       environment = environment ?? [];
 
   factory FileSystemHashes.fromJson(Map<String, Object> json) {
     final rawFilesystemEntries =
@@ -194,10 +192,7 @@ class FileSystemHashes {
       for (final rawEntry in rawEnvironmentEntries)
         EnvironmentVariableHash._fromJson((rawEntry as Map).cast()),
     ];
-    return FileSystemHashes(
-      files: files,
-      environment: environment,
-    );
+    return FileSystemHashes(files: files, environment: environment);
   }
 
   final List<FilesystemEntityHash> files;
@@ -208,13 +203,13 @@ class FileSystemHashes {
   static const _environmentKey = 'environment';
 
   Map<String, Object> toJson() => <String, Object>{
-        _filesystemKey: <Object>[
-          for (final FilesystemEntityHash file in files) file.toJson(),
-        ],
-        _environmentKey: <Object>[
-          for (final EnvironmentVariableHash env in environment) env.toJson(),
-        ],
-      };
+    _filesystemKey: <Object>[
+      for (final FilesystemEntityHash file in files) file.toJson(),
+    ],
+    _environmentKey: <Object>[
+      for (final EnvironmentVariableHash env in environment) env.toJson(),
+    ],
+  };
 }
 
 /// A stored file or directory hash and path.
@@ -223,10 +218,7 @@ class FileSystemHashes {
 ///
 /// [Directory] hashes are a hash of the names of the direct children.
 class FilesystemEntityHash {
-  FilesystemEntityHash(
-    this.path,
-    this.hash,
-  );
+  FilesystemEntityHash(this.path, this.hash);
 
   factory FilesystemEntityHash._fromJson(Map<String, Object> json) =>
       FilesystemEntityHash(
@@ -243,22 +235,16 @@ class FilesystemEntityHash {
   final int hash;
 
   Object toJson() => <String, Object>{
-        _pathKey: path.toFilePath(),
-        _hashKey: hash,
-      };
+    _pathKey: path.toFilePath(),
+    _hashKey: hash,
+  };
 }
 
 class EnvironmentVariableHash {
-  EnvironmentVariableHash(
-    this.key,
-    this.hash,
-  );
+  EnvironmentVariableHash(this.key, this.hash);
 
   factory EnvironmentVariableHash._fromJson(Map<String, Object> json) =>
-      EnvironmentVariableHash(
-        json[_keyKey] as String,
-        json[_hashKey] as int,
-      );
+      EnvironmentVariableHash(json[_keyKey] as String, json[_hashKey] as int);
 
   static const _keyKey = 'key';
   static const _hashKey = 'hash';
@@ -268,10 +254,7 @@ class EnvironmentVariableHash {
   /// A 64 bit hash.
   final int hash;
 
-  Object toJson() => <String, Object>{
-        _keyKey: key,
-        _hashKey: hash,
-      };
+  Object toJson() => <String, Object>{_keyKey: key, _hashKey: hash};
 }
 
 bool _isDirectoryPath(String path) =>

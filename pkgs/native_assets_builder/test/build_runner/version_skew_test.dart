@@ -10,59 +10,60 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test('Test hook using an older version of native_assets_cli',
-      timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add_version_skew/');
+  test(
+    'Test hook using an older version of native_assets_cli',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add_version_skew/');
 
-      // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+        // First, run `pub get`, we need pub to resolve our dependencies.
+        await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      {
-        final result = await build(
+        {
+          final result = await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            inputValidator: validateCodeAssetBuildInput,
+            buildAssetTypes: [CodeAsset.type],
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          );
+          expect(result?.encodedAssets.length, 1);
+        }
+      });
+    },
+  );
+
+  test(
+    'Test hook using a too old version of native_assets_cli',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add_version_skew_2/');
+
+        // First, run `pub get`, we need pub to resolve our dependencies.
+        await runPubGet(workingDirectory: packageUri, logger: logger);
+
+        final logMessages = <String>[];
+        final result = await buildCodeAssets(
           packageUri,
-          logger,
-          dartExecutable,
-          inputValidator: validateCodeAssetBuildInput,
-          buildAssetTypes: [CodeAsset.type],
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
+          capturedLogs: logMessages,
         );
-        expect(result?.encodedAssets.length, 1);
-      }
-    });
-  });
-
-  test('Test hook using a too old version of native_assets_cli',
-      timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add_version_skew_2/');
-
-      // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
-
-      final logMessages = <String>[];
-      final result = await buildCodeAssets(
-        packageUri,
-        capturedLogs: logMessages,
-      );
-      expect(result, isNull);
-      expect(
+        expect(result, isNull);
+        expect(
           logMessages.join('\n'),
           stringContainsInOrder([
             'The protocol version of ',
             'native_assets_cli',
             ' is 1.3.0, which is no longer supported.',
-            'Please update your dependencies.'
-          ]));
-    });
-  });
+            'Please update your dependencies.',
+          ]),
+        );
+      });
+    },
+  );
 }
