@@ -19,12 +19,6 @@ enum Availability {
   all,
 }
 
-// TODO: Remove this.
-// bool isApiAvailable(clang_types.CXCursor cursor) {
-//   final api = ApiAvailability.fromCursor(cursor);
-//   return api.getAvailability(config.externalVersions) != Availability.none;
-// }
-
 typedef ApiAvailabilityReport = ({
   Availability availability,
   String? dartDoc,

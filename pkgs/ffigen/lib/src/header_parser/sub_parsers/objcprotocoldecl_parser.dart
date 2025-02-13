@@ -55,7 +55,8 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     originalName: name,
     name: config.objcProtocols.rename(decl),
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
-    dartDoc: getCursorDocComment(cursor, fallbackComment: name, availability: report.dartDoc),
+    dartDoc: getCursorDocComment(cursor,
+        fallbackComment: name, availability: report.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
     unavailable: report.availability == Availability.none,
   );
