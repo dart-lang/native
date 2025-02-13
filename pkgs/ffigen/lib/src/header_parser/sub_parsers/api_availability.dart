@@ -96,9 +96,9 @@ class ApiAvailability {
     return api;
   }
 
-  Availability getAvailability(ExternalVersions extVers) {
-    final macosVer = _normalizeVersions(extVers.macos);
-    final iosVer = _normalizeVersions(extVers.ios);
+  Availability getAvailability(ExternalVersions externalVersions) {
+    final macosVer = _normalizeVersions(externalVersions.macos);
+    final iosVer = _normalizeVersions(externalVersions.ios);
 
     // If no versions are specified, everything is available.
     if (iosVer == null && macosVer == null) {
@@ -110,14 +110,15 @@ class ApiAvailability {
     }
 
     Availability? availability;
-    for (final (plat, ver) in [(ios, iosVer), (macos, macosVer)]) {
+    for (final (platform, version) in [(ios, iosVer), (macos, macosVer)]) {
       // If the user hasn't specified any versions for this platform, defer to
       // the other platforms.
-      if (ver == null) {
+      if (version == null) {
         continue;
       }
       // If the API is available on any platform, return that it's available.
-      final platAvailability = plat?.getAvailability(ver) ?? Availability.all;
+      final platAvailability =
+          platform?.getAvailability(version) ?? Availability.all;
       availability = _mergeAvailability(availability, platAvailability);
     }
     return availability ?? Availability.none;
@@ -131,7 +132,7 @@ class ApiAvailability {
       x == null ? y : (x == y ? x : Availability.some);
 
   String get dartDoc =>
-      [ios, macos].nonNulls.map((plat) => plat.dartDoc).join('\n');
+      [ios, macos].nonNulls.map((platform) => platform.dartDoc).join('\n');
 
   @override
   String toString() => '''Availability {
@@ -166,15 +167,15 @@ class PlatformAvailability {
   }
 
   @visibleForTesting
-  Availability getAvailability(Versions ver) {
+  Availability getAvailability(Versions version) {
     if (unavailable) {
       return Availability.none;
     }
 
     // Note: _greaterThan treats null as Version(infinity). For lower bound
     // versions, null should be Version(0).
-    final confMin = ver.min ?? Version(0, 0, 0);
-    final confMax = ver.max;
+    final confMin = version.min ?? Version(0, 0, 0);
+    final confMax = version.max;
     final apiMin = introduced ?? Version(0, 0, 0);
     final apiMax = deprecatedOrObsoleted;
     if (_lessThanOrEqual(apiMin, confMin) && _greaterThan(apiMax, confMax)) {
