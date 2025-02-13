@@ -1224,6 +1224,9 @@ class NSData extends NSObject
   }
 
   /// compressedDataUsingAlgorithm:error:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSData? compressedDataUsingAlgorithm_error_(
       NSDataCompressionAlgorithm algorithm,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
@@ -1235,6 +1238,9 @@ class NSData extends NSObject
   }
 
   /// decompressedDataUsingAlgorithm:error:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSData? decompressedDataUsingAlgorithm_error_(
       NSDataCompressionAlgorithm algorithm,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
@@ -1410,6 +1416,8 @@ enum NSDataBase64EncodingOptions {
       };
 }
 
+/// iOS: introduced 13.0.0
+/// macOS: introduced 10.15.0
 enum NSDataCompressionAlgorithm {
   NSDataCompressionAlgorithmLZFSE(0),
   NSDataCompressionAlgorithmLZ4(1),
@@ -2099,7 +2107,8 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
-  /// underlyingErrors
+  /// iOS: introduced 14.5.0
+  /// macOS: introduced 11.3.0
   NSArray get underlyingErrors {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_underlyingErrors);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -4480,6 +4489,9 @@ class NSMutableData extends NSData {
   }
 
   /// compressedDataUsingAlgorithm:error:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSMutableData? compressedDataUsingAlgorithm_error_(
       NSDataCompressionAlgorithm algorithm,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
@@ -4491,6 +4503,9 @@ class NSMutableData extends NSData {
   }
 
   /// decompressedDataUsingAlgorithm:error:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSMutableData? decompressedDataUsingAlgorithm_error_(
       NSDataCompressionAlgorithm algorithm,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
@@ -5874,6 +5889,9 @@ class NSMutableString extends NSString {
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
+  ///
+  /// iOS: introduced 16.0.0
+  /// macOS: introduced 13.0.0
   NSMutableString? initWithValidatedFormat_validFormatSpecifiers_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -5890,6 +5908,9 @@ class NSMutableString extends NSString {
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
+  ///
+  /// iOS: introduced 16.0.0
+  /// macOS: introduced 13.0.0
   NSMutableString? initWithValidatedFormat_validFormatSpecifiers_locale_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -7496,6 +7517,9 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
 }
 
 /// NSOrderedCollectionDifference
+///
+/// iOS: introduced 13.0.0
+/// macOS: introduced 10.15.0
 class NSOrderedCollectionDifference extends NSObject
     implements NSFastEnumeration {
   NSOrderedCollectionDifference._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -7553,7 +7577,8 @@ class NSOrderedCollectionDifference extends NSObject
         _sel_countByEnumeratingWithState_objects_count_, state, buffer, len);
   }
 
-  /// hasChanges
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   bool get hasChanges {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_hasChanges);
   }
@@ -7567,6 +7592,9 @@ class NSOrderedCollectionDifference extends NSObject
   }
 
   /// initWithChanges:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference initWithChanges_(objc.ObjCObjectBase changes) {
     final _ret = _objc_msgSend_1sotr3r(this.ref.retainAndReturnPointer(),
         _sel_initWithChanges_, changes.ref.pointer);
@@ -7575,6 +7603,9 @@ class NSOrderedCollectionDifference extends NSObject
   }
 
   /// initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference
       initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_(
           NSIndexSet inserts,
@@ -7593,6 +7624,9 @@ class NSOrderedCollectionDifference extends NSObject
   }
 
   /// initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:additionalChanges:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference
       initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_additionalChanges_(
           NSIndexSet inserts,
@@ -7612,13 +7646,17 @@ class NSOrderedCollectionDifference extends NSObject
         retain: false, release: true);
   }
 
-  /// insertions
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   objc.ObjCObjectBase get insertions {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_insertions);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// inverseDifference
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   NSOrderedCollectionDifference inverseDifference() {
     final _ret =
         _objc_msgSend_151sglz(this.ref.pointer, _sel_inverseDifference);
@@ -7626,13 +7664,16 @@ class NSOrderedCollectionDifference extends NSObject
         retain: true, release: true);
   }
 
-  /// removals
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
   objc.ObjCObjectBase get removals {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_removals);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 }
 
+/// iOS: introduced 13.0.0
+/// macOS: introduced 10.15.0
 enum NSOrderedCollectionDifferenceCalculationOptions {
   NSOrderedCollectionDifferenceCalculationOmitInsertedObjects(1),
   NSOrderedCollectionDifferenceCalculationOmitRemovedObjects(2),
@@ -9237,6 +9278,9 @@ class NSString extends NSObject
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:error:
+  ///
+  /// iOS: introduced 16.0.0
+  /// macOS: introduced 13.0.0
   NSString? initWithValidatedFormat_validFormatSpecifiers_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -9253,6 +9297,9 @@ class NSString extends NSObject
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
+  ///
+  /// iOS: introduced 16.0.0
+  /// macOS: introduced 13.0.0
   NSString? initWithValidatedFormat_validFormatSpecifiers_locale_error_(
       NSString format,
       NSString validFormatSpecifiers,
@@ -10204,6 +10251,9 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// URLWithString:encodingInvalidCharacters:
+  ///
+  /// iOS: introduced 17.0.0
+  /// macOS: introduced 14.0.0
   static NSURL? URLWithString_encodingInvalidCharacters_(
       NSString URLString, bool encodingInvalidCharacters) {
     final _ret = _objc_msgSend_17amj0z(
@@ -10599,6 +10649,9 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// initWithString:encodingInvalidCharacters:
+  ///
+  /// iOS: introduced 17.0.0
+  /// macOS: introduced 14.0.0
   NSURL? initWithString_encodingInvalidCharacters_(
       NSString URLString, bool encodingInvalidCharacters) {
     final _ret = _objc_msgSend_17amj0z(
@@ -10633,7 +10686,8 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_isFileURL);
   }
 
-  /// parameterString
+  /// iOS: introduced 2.0.0, deprecated 13.0.0
+  /// macOS: introduced 10.2.0, deprecated 10.15.0
   NSString? get parameterString {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_parameterString);
     return _ret.address == 0

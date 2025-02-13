@@ -243,7 +243,9 @@ clang_types.CXSourceRange? lastCommentRange;
 /// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
 String? getCursorDocComment(clang_types.CXCursor cursor,
-    {int indent = commentPrefix.length, String? availability}) {
+    {int indent = commentPrefix.length,
+    String? fallbackComment,
+    String? availability}) {
   String? formattedDocComment;
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
@@ -268,7 +270,7 @@ String? getCursorDocComment(clang_types.CXCursor cursor,
     }
   }
   lastCommentRange = currentCommentRange;
-  final docs = [formattedDocComment, availability].nonNulls;
+  final docs = [formattedDocComment ?? fallbackComment, availability].nonNulls;
   return docs.isEmpty ? null : docs.join('\n\n');
 }
 

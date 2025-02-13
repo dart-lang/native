@@ -37,8 +37,8 @@ Type? parseObjCInterfaceDeclaration(clang_types.CXCursor cursor) {
     originalName: itfName,
     name: config.objcInterfaces.rename(decl),
     lookupName: applyModulePrefix(itfName, config.interfaceModule(decl)),
-    dartDoc:
-        getCursorDocComment(cursor, availability: report.dartDoc) ?? itfName,
+    dartDoc: getCursorDocComment(cursor,
+        fallbackComment: itfName, availability: report.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
   );
 }
@@ -211,8 +211,8 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     builtInFunctions: objCBuiltInFunctions,
     originalName: methodName,
     name: filters.renameMember(itfDecl, methodName),
-    dartDoc:
-        getCursorDocComment(cursor, availability: report.dartDoc) ?? methodName,
+    dartDoc: getCursorDocComment(cursor,
+        fallbackComment: methodName, availability: report.dartDoc),
     kind: ObjCMethodKind.method,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,

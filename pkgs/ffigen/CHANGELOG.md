@@ -14,6 +14,8 @@
       `id` is used: `id<FooProtocol, BarProtocol>` becomes `FooProtocol`. The
       `FooProtocol.castFrom` method can help work around issues this may cause.
 - Fix the handling of global arrays to remove the extra pointer reference.
+- Add a `max` field to the `external-versions` config, and use it to determine
+  which APIs are generated.
 
 ## 16.1.0
 

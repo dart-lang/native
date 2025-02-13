@@ -30,10 +30,13 @@ void main() {
   });
 
   test('PlatformAvailability.getAvailability', () {
-    expect(PlatformAvailability(unavailable: true).getAvailability(Versions()),
+    expect(
+        PlatformAvailability(unavailable: true)
+            .getAvailability(const Versions()),
         Availability.none);
 
-    Availability getAvailability(apiMin, apiMax, confMin, confMax) =>
+    Availability getAvailability(Version? apiMin, Version? apiMax,
+            Version? confMin, Version? confMax) =>
         PlatformAvailability(introduced: apiMin, deprecated: apiMax)
             .getAvailability(Versions(min: confMin, max: confMax));
 
@@ -98,7 +101,8 @@ void main() {
     expect(getAvailability(v3, v6, v5, v8), Availability.some);
     expect(getAvailability(v3, v6, v6, null), Availability.none);
     expect(getAvailability(v3, v6, v6, v8), Availability.none);
-    expect(getAvailability(v3, v6, v8, null), Availability.none);
+    expect(getAvailability(v3, v6, v7, null), Availability.none);
+    expect(getAvailability(v3, v6, v7, v8), Availability.none);
   });
 
   group('Availability.getAvailability', () {
@@ -180,9 +184,13 @@ void main() {
       final verInside = Versions(min: v2, max: v3);
       final verOverlap = Versions(min: v2, max: v6);
       final verOutside = Versions(min: v5, max: v6);
-      final verEmpty = Versions();
+      final verEmpty = const Versions();
 
-      Availability getAvail(iosAvail, macosAvail, iosVer, macosVer) =>
+      Availability getAvail(
+              PlatformAvailability? iosAvail,
+              PlatformAvailability? macosAvail,
+              Versions? iosVer,
+              Versions? macosVer) =>
           ApiAvailability(
             ios: iosAvail,
             macos: macosAvail,

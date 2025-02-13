@@ -54,7 +54,8 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     originalName: name,
     name: config.objcCategories.rename(decl),
     parent: parentInterface,
-    dartDoc: getCursorDocComment(cursor, availability: report.dartDoc) ?? name,
+    dartDoc: getCursorDocComment(cursor,
+        fallbackComment: name, availability: report.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
   );
 
