@@ -46,10 +46,6 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
   }
 
   final report = getApiAvailability(cursor);
-  if (report.availability == Availability.none) {
-    _logger.info('Omitting deprecated protocol $name');
-    return null;
-  }
 
   _logger.fine('++++ Adding ObjC protocol: '
       'Name: $name, ${cursor.completeStringRepr()}');
@@ -59,8 +55,9 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     originalName: name,
     name: config.objcProtocols.rename(decl),
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
-    dartDoc: getCursorDocComment(cursor, availability: report.dartDoc),
+    dartDoc: getCursorDocComment(cursor, fallbackComment: name, availability: report.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
+    unavailable: report.availability == Availability.none,
   );
 
   // Make sure to add the protocol to the index before parsing the AST, to break

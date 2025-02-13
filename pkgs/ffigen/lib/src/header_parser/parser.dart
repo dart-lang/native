@@ -195,6 +195,9 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
               config, included, directlyIncluded),
           included)
       .directTransitives;
+  // print("\n\nDirectly Included:\n  ${directlyIncluded.whereType<ObjCCategory>().map((p) => '${p.name}').join('\n  ')}");
+  // print("\n\nTransitives:\n  ${transitives.whereType<ObjCCategory>().map((p) => '${p.name}').join('\n  ')}");
+  // print("\n\nDirect Transitives:\n  ${directTransitives.whereType<ObjCCategory>().map((p) => '${p.name}').join('\n  ')}");
 
   final finalBindings = visit(
           ListBindingsVisitation(

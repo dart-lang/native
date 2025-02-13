@@ -15,6 +15,7 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   final ObjCInternalGlobal _protocolPointer;
   late final ObjCInternalGlobal _conformsTo;
   late final ObjCMsgSendFunc _conformsToMsgSend;
+  final bool unavailable;
 
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
@@ -29,6 +30,7 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     String? lookupName,
     super.dartDoc,
     required this.builtInFunctions,
+    this.unavailable = false,
   })  : lookupName = lookupName ?? originalName,
         _protocolPointer = ObjCInternalGlobal(
             '_protocol_$originalName',

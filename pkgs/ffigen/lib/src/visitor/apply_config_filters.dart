@@ -38,6 +38,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
+    if (node.unavailable) return;
+
     node.filterMethods(
         (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName));
     _visitImpl(node, config.objcInterfaces);
@@ -61,6 +63,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
+    if (node.unavailable) return;
+
     node.filterMethods((m) {
       // TODO(https://github.com/dart-lang/native/issues/1149): Support class
       // methods on protocols if there's a use case. For now filter them. We

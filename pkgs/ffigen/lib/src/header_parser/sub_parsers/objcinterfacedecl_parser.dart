@@ -22,12 +22,7 @@ Type? parseObjCInterfaceDeclaration(clang_types.CXCursor cursor) {
   final itfUsr = cursor.usr();
   final itfName = cursor.spelling();
   final decl = Declaration(usr: itfUsr, originalName: itfName);
-
   final report = getApiAvailability(cursor);
-  if (report.availability == Availability.none) {
-    _logger.info('Omitting deprecated interface $itfName');
-    return null;
-  }
 
   _logger.fine('++++ Adding ObjC interface: '
       'Name: $itfName, ${cursor.completeStringRepr()}');
@@ -40,6 +35,7 @@ Type? parseObjCInterfaceDeclaration(clang_types.CXCursor cursor) {
     dartDoc: getCursorDocComment(cursor,
         fallbackComment: itfName, availability: report.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
+    unavailable: report.availability == Availability.none,
   );
 }
 
