@@ -348,7 +348,7 @@ class ObjCMethod extends AstNode {
     ].join(', ');
 
     // The method declaration.
-    s.write('\n  ${makeDartDoc(dartDoc ?? originalName)}  ');
+    s.write('\n  ${makeDartDoc(dartDoc)}  ');
     late String targetStr;
     if (isClassMethod) {
       targetStr = target.classObject.name;

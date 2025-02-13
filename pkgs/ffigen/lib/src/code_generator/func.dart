@@ -102,9 +102,8 @@ class Func extends LookUpBinding {
     final s = StringBuffer();
     final enclosingFuncName = name;
 
-    if (dartDoc != null) {
-      s.write(makeDartDoc(dartDoc!));
-    }
+    s.write(makeDartDoc(dartDoc));
+
     // Resolve name conflicts in function parameter names.
     final paramNamer = UniqueNamer({});
     for (final p in functionType.dartTypeParameters) {

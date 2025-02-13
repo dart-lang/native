@@ -20,6 +20,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   final protocols = <ObjCProtocol>[];
   final categories = <ObjCCategory>[];
   final subtypes = <ObjCInterface>[];
+  final bool unavailable;
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -34,6 +35,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     String? lookupName,
     super.dartDoc,
     required this.builtInFunctions,
+    this.unavailable = false,
   })  : lookupName = lookupName ?? originalName,
         super(name: name ?? originalName) {
     classObject = ObjCInternalGlobal('_class_$originalName',
@@ -69,7 +71,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 ///
 ''');
     }
-    s.write(makeDartDoc(dartDoc ?? originalName));
+    s.write(makeDartDoc(dartDoc));
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);

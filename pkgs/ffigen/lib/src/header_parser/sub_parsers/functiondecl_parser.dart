@@ -22,7 +22,8 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
   final funcUsr = cursor.usr();
   final funcName = cursor.spelling();
 
-  if (!isApiAvailable(cursor)) {
+  final report = getApiAvailability(cursor);
+  if (report.availability == Availability.none) {
     _logger.info('Omitting deprecated function $funcName');
     return funcs;
   }
@@ -119,7 +120,8 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       funcs.add(Func(
         dartDoc: getCursorDocComment(
           cursor,
-          nesting.length + commentPrefix.length,
+          indent: nesting.length + commentPrefix.length,
+          availability: report.dartDoc,
         ),
         usr: funcUsr + vaFunc.postfix,
         name: config.functionDecl.rename(decl) + vaFunc.postfix,

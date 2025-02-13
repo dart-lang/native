@@ -22,11 +22,7 @@ Type? parseObjCInterfaceDeclaration(clang_types.CXCursor cursor) {
   final itfUsr = cursor.usr();
   final itfName = cursor.spelling();
   final decl = Declaration(usr: itfUsr, originalName: itfName);
-
-  if (!isApiAvailable(cursor)) {
-    _logger.info('Omitting deprecated interface $itfName');
-    return null;
-  }
+  final report = getApiAvailability(cursor);
 
   _logger.fine('++++ Adding ObjC interface: '
       'Name: $itfName, ${cursor.completeStringRepr()}');
@@ -36,8 +32,10 @@ Type? parseObjCInterfaceDeclaration(clang_types.CXCursor cursor) {
     originalName: itfName,
     name: config.objcInterfaces.rename(decl),
     lookupName: applyModulePrefix(itfName, config.interfaceModule(decl)),
-    dartDoc: getCursorDocComment(cursor),
+    dartDoc: getCursorDocComment(cursor,
+        fallbackComment: itfName, availability: report.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
+    unavailable: report.availability == Availability.none,
   );
 }
 
@@ -113,7 +111,8 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType();
 
-  if (!isApiAvailable(cursor)) {
+  final report = getApiAvailability(cursor);
+  if (report.availability == Availability.none) {
     _logger
         .info('Omitting deprecated property ${decl.originalName}.$fieldName');
     return (null, null);
@@ -125,7 +124,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     return (null, null);
   }
 
-  final dartDoc = getCursorDocComment(cursor);
+  final dartDoc = getCursorDocComment(cursor, availability: report.dartDoc);
 
   final propertyAttributes =
       clang.clang_Cursor_getObjCPropertyAttributes(cursor, 0);
@@ -152,7 +151,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     originalName: getterName,
     name: getterName,
     property: property,
-    dartDoc: dartDoc,
+    dartDoc: dartDoc ?? getterName,
     kind: ObjCMethodKind.propertyGetter,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
@@ -170,7 +169,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
       originalName: setterName,
       name: setterName,
       property: property,
-      dartDoc: dartDoc,
+      dartDoc: dartDoc ?? setterName,
       kind: ObjCMethodKind.propertySetter,
       isClassMethod: isClassMethod,
       isOptional: isOptionalMethod,
@@ -197,7 +196,8 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     return null;
   }
 
-  if (!isApiAvailable(cursor)) {
+  final report = getApiAvailability(cursor);
+  if (report.availability == Availability.none) {
     _logger
         .info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
     return null;
@@ -207,7 +207,8 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     builtInFunctions: objCBuiltInFunctions,
     originalName: methodName,
     name: filters.renameMember(itfDecl, methodName),
-    dartDoc: getCursorDocComment(cursor),
+    dartDoc: getCursorDocComment(cursor,
+        fallbackComment: methodName, availability: report.dartDoc),
     kind: ObjCMethodKind.method,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
