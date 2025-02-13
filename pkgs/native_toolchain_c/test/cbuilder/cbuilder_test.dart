@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
 import 'dart:ffi';
@@ -24,12 +21,16 @@ void main() {
   });
 
   final targetOS = OS.current;
-  final macOSConfig = targetOS == OS.macOS
-      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-      : null;
+  final macOSConfig =
+      targetOS == OS.macOS
+          ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+          : null;
   for (final pic in [null, true, false]) {
-    final picTag =
-        switch (pic) { null => 'auto_pic', true => 'pic', false => 'no_pic' };
+    final picTag = switch (pic) {
+      null => 'auto_pic',
+      true => 'pic',
+      false => 'no_pic',
+    };
 
     for (final buildMode in BuildMode.values) {
       final suffix = testSuffix([buildMode, picTag]);
@@ -37,8 +38,9 @@ void main() {
       test('CBuilder executable$suffix', () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
-        final helloWorldCUri = packageUri
-            .resolve('test/cbuilder/testfiles/hello_world/src/hello_world.c');
+        final helloWorldCUri = packageUri.resolve(
+          'test/cbuilder/testfiles/hello_world/src/hello_world.c',
+        );
         if (!await File.fromUri(helloWorldCUri).exists()) {
           throw Exception('Run the test from the root directory.');
         }
@@ -47,27 +49,25 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildInputBuilder = BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectory: tempUri,
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(
-            linkingEnabled: false,
-            dryRun: false,
-          )
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
-          );
+        final buildInputBuilder =
+            BuildInputBuilder()
+              ..setupShared(
+                packageName: name,
+                packageRoot: tempUri,
+                outputFile: tempUri.resolve('output.json'),
+                outputDirectory: tempUri,
+                outputDirectoryShared: tempUri2,
+              )
+              ..config.setupBuild(linkingEnabled: false, dryRun: false)
+              ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+              ..config.setupCode(
+                targetOS: targetOS,
+                macOS: macOSConfig,
+                targetArchitecture: Architecture.current,
+                // Ignored by executables.
+                linkModePreference: LinkModePreference.dynamic,
+                cCompiler: cCompiler,
+              );
 
         final buildInput = BuildInput(buildInputBuilder.json);
         final buildOutput = BuildOutputBuilder();
@@ -84,8 +84,9 @@ void main() {
           logger: logger,
         );
 
-        final executableUri =
-            tempUri.resolve(OS.current.executableFileName(name));
+        final executableUri = tempUri.resolve(
+          OS.current.executableFileName(name),
+        );
         expect(await File.fromUri(executableUri).exists(), true);
         final result = await runProcess(
           executable: executableUri,
@@ -123,25 +124,24 @@ void main() {
         test('CBuilder dylib$suffix', () async {
           final tempUri = await tempDirForTest();
           final tempUri2 = await tempDirForTest();
-          final addCUri =
-              packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+          final addCUri = packageUri.resolve(
+            'test/cbuilder/testfiles/add/src/add.c',
+          );
           const name = 'add';
 
           final logMessages = <String>[];
           final logger = createCapturingLogger(logMessages);
 
-          final buildInputBuilder = BuildInputBuilder()
-            ..setupShared(
-              packageName: name,
-              packageRoot: tempUri,
-              outputFile: tempUri.resolve('output.json'),
-              outputDirectory: tempUri,
-              outputDirectoryShared: tempUri2,
-            )
-            ..config.setupBuild(
-              linkingEnabled: false,
-              dryRun: dryRun,
-            );
+          final buildInputBuilder =
+              BuildInputBuilder()
+                ..setupShared(
+                  packageName: name,
+                  packageRoot: tempUri,
+                  outputFile: tempUri.resolve('output.json'),
+                  outputDirectory: tempUri,
+                  outputDirectoryShared: tempUri2,
+                )
+                ..config.setupBuild(linkingEnabled: false, dryRun: dryRun);
           if (buildCodeAssets) {
             buildInputBuilder.config.setupShared(
               buildAssetTypes: [CodeAsset.type],
@@ -178,8 +178,10 @@ void main() {
           );
           if (!dryRun && buildCodeAssets) {
             final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
-            final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-                int Function(int, int)>('add');
+            final add = dylib.lookupFunction<
+              Int32 Function(Int32, Int32),
+              int Function(int, int)
+            >('add');
             expect(add(1, 2), 3);
 
             final compilerInvocation = logMessages.singleWhere(
@@ -230,8 +232,9 @@ void main() {
   test('CBuilder flags', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final definesCUri =
-        packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
+    final definesCUri = packageUri.resolve(
+      'test/cbuilder/testfiles/defines/src/defines.c',
+    );
     if (!await File.fromUri(definesCUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
@@ -240,27 +243,25 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: name,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: targetOS,
-        macOS: macOSConfig,
-        targetArchitecture: Architecture.current,
-        // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-      );
+    final buildInputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: targetOS,
+            macOS: macOSConfig,
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
@@ -275,18 +276,11 @@ void main() {
       flags: [flag],
       buildMode: BuildMode.release,
     );
-    await cbuilder.run(
-      input: buildInput,
-      output: buildOutput,
-      logger: logger,
-    );
+    await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
     final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
-    final result = await runProcess(
-      executable: executableUri,
-      logger: logger,
-    );
+    final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
     expect(result.stdout, contains('Macro FOO is defined: USER_FLAG'));
 
@@ -299,35 +293,36 @@ void main() {
   test('CBuilder includes', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final includeDirectoryUri =
-        packageUri.resolve('test/cbuilder/testfiles/includes/include');
-    final includesHUri = packageUri
-        .resolve('test/cbuilder/testfiles/includes/include/includes.h');
-    final includesCUri =
-        packageUri.resolve('test/cbuilder/testfiles/includes/src/includes.c');
+    final includeDirectoryUri = packageUri.resolve(
+      'test/cbuilder/testfiles/includes/include',
+    );
+    final includesHUri = packageUri.resolve(
+      'test/cbuilder/testfiles/includes/include/includes.h',
+    );
+    final includesCUri = packageUri.resolve(
+      'test/cbuilder/testfiles/includes/src/includes.c',
+    );
     const name = 'includes';
 
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: name,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: targetOS,
-        macOS: macOSConfig,
-        targetArchitecture: Architecture.current,
-        // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-      );
+    final buildInputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: targetOS,
+            macOS: macOSConfig,
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
 
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutputBuilder = BuildOutputBuilder();
@@ -365,27 +360,25 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: name,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: targetOS,
-        macOS: macOSConfig,
-        targetArchitecture: Architecture.current,
-        // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-      );
+    final buildInputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: targetOS,
+            macOS: macOSConfig,
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
 
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -402,17 +395,15 @@ void main() {
       std: std,
       buildMode: BuildMode.release,
     );
-    await cbuilder.run(
-      input: buildInput,
-      output: buildOutput,
-      logger: logger,
-    );
+    await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
     final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
 
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
-    final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-        int Function(int, int)>('add');
+    final add = dylib
+        .lookupFunction<Int32 Function(Int32, Int32), int Function(int, int)>(
+          'add',
+        );
     expect(add(1, 2), 3);
 
     final compilerInvocation = logMessages.singleWhere(
@@ -425,7 +416,8 @@ void main() {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final helloWorldCppUri = packageUri.resolve(
-        'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
+      'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc',
+    );
     if (!await File.fromUri(helloWorldCppUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
@@ -435,27 +427,25 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: name,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: targetOS,
-        macOS: macOSConfig,
-        targetArchitecture: Architecture.current,
-        // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-      );
+    final buildInputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: targetOS,
+            macOS: macOSConfig,
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
@@ -472,18 +462,11 @@ void main() {
       language: Language.cpp,
       buildMode: BuildMode.release,
     );
-    await cbuilder.run(
-      input: buildInput,
-      output: buildOutput,
-      logger: logger,
-    );
+    await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
     final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
-    final result = await runProcess(
-      executable: executableUri,
-      logger: logger,
-    );
+    final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
     expect(result.stdout.trim(), endsWith('Hello world.'));
 
@@ -499,7 +482,8 @@ void main() {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final helloWorldCppUri = packageUri.resolve(
-        'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc');
+      'test/cbuilder/testfiles/hello_world_cpp/src/hello_world_cpp.cc',
+    );
     if (!await File.fromUri(helloWorldCppUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
@@ -509,27 +493,25 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: name,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: targetOS,
-        macOS: macOSConfig,
-        targetArchitecture: Architecture.current,
-        // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-      );
+    final buildInputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: targetOS,
+            macOS: macOSConfig,
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
@@ -557,8 +539,9 @@ void main() {
         logger: logger,
       );
 
-      final executableUri =
-          tempUri.resolve(OS.current.executableFileName(name));
+      final executableUri = tempUri.resolve(
+        OS.current.executableFileName(name),
+      );
       expect(await File.fromUri(executableUri).exists(), true);
       final result = await runProcess(
         executable: executableUri,
@@ -578,10 +561,12 @@ void main() {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
 
-    final dynamicallyLinkedSrcUri =
-        packageUri.resolve('test/cbuilder/testfiles/dynamically_linked/src/');
-    final dynamicallyLinkedCUri =
-        dynamicallyLinkedSrcUri.resolve('dynamically_linked.c');
+    final dynamicallyLinkedSrcUri = packageUri.resolve(
+      'test/cbuilder/testfiles/dynamically_linked/src/',
+    );
+    final dynamicallyLinkedCUri = dynamicallyLinkedSrcUri.resolve(
+      'dynamically_linked.c',
+    );
     final debugCUri = dynamicallyLinkedSrcUri.resolve('debug.c');
     final mathCUri = dynamicallyLinkedSrcUri.resolve('math.c');
 
@@ -594,27 +579,25 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: name,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: targetOS,
-        macOS: macOSConfig,
-        targetArchitecture: Architecture.current,
-        // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-      );
+    final buildInputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: targetOS,
+            macOS: macOSConfig,
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
 
@@ -632,8 +615,9 @@ void main() {
       logger: logger,
     );
 
-    final debugLibraryFile =
-        File.fromUri(tempUri.resolve(OS.current.dylibFileName('debug')));
+    final debugLibraryFile = File.fromUri(
+      tempUri.resolve(OS.current.dylibFileName('debug')),
+    );
     final nestedDebugLibraryFile = File.fromUri(
       tempUri.resolve('debug/').resolve(OS.current.dylibFileName('debug')),
     );
@@ -672,10 +656,7 @@ void main() {
 
     final executableUri = tempUri.resolve(OS.current.executableFileName(name));
     expect(await File.fromUri(executableUri).exists(), true);
-    final result = await runProcess(
-      executable: executableUri,
-      logger: logger,
-    );
+    final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
   });
 }
@@ -688,37 +669,37 @@ Future<void> testDefines({
 }) async {
   final tempUri = await tempDirForTest();
   final tempUri2 = await tempDirForTest();
-  final definesCUri =
-      packageUri.resolve('test/cbuilder/testfiles/defines/src/defines.c');
+  final definesCUri = packageUri.resolve(
+    'test/cbuilder/testfiles/defines/src/defines.c',
+  );
   if (!await File.fromUri(definesCUri).exists()) {
     throw Exception('Run the test from the root directory.');
   }
   const name = 'defines';
 
   final targetOS = OS.current;
-  final buildInputBuilder = BuildInputBuilder()
-    ..setupShared(
-      packageName: name,
-      packageRoot: tempUri,
-      outputFile: tempUri.resolve('output.json'),
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-    )
-    ..config.setupBuild(
-      linkingEnabled: false,
-      dryRun: false,
-    )
-    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-    ..config.setupCode(
-      targetOS: targetOS,
-      macOS: targetOS == OS.macOS
-          ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-          : null,
-      targetArchitecture: Architecture.current,
-      // Ignored by executables.
-      linkModePreference: LinkModePreference.dynamic,
-      cCompiler: cCompiler,
-    );
+  final buildInputBuilder =
+      BuildInputBuilder()
+        ..setupShared(
+          packageName: name,
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+          outputDirectory: tempUri,
+          outputDirectoryShared: tempUri2,
+        )
+        ..config.setupBuild(linkingEnabled: false, dryRun: false)
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
+          targetOS: targetOS,
+          macOS:
+              targetOS == OS.macOS
+                  ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                  : null,
+          targetArchitecture: Architecture.current,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        );
 
   final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutput = BuildOutputBuilder();
@@ -734,18 +715,11 @@ Future<void> testDefines({
     ndebugDefine: ndebugDefine,
     buildMode: buildMode,
   );
-  await cbuilder.run(
-    input: buildInput,
-    output: buildOutput,
-    logger: logger,
-  );
+  await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
   final executableUri = tempUri.resolve(OS.current.executableFileName(name));
   expect(await File.fromUri(executableUri).exists(), true);
-  final result = await runProcess(
-    executable: executableUri,
-    logger: logger,
-  );
+  final result = await runProcess(executable: executableUri, logger: logger);
   expect(result.exitCode, 0);
 
   if (buildModeDefine) {
@@ -761,28 +735,17 @@ Future<void> testDefines({
   }
 
   if (ndebugDefine && buildMode != BuildMode.debug) {
-    expect(
-      result.stdout,
-      contains('Macro NDEBUG is defined: 1'),
-    );
+    expect(result.stdout, contains('Macro NDEBUG is defined: 1'));
   } else {
-    expect(
-      result.stdout,
-      contains('Macro NDEBUG is undefined.'),
-    );
+    expect(result.stdout, contains('Macro NDEBUG is undefined.'));
   }
 
   if (customDefineWithValue != null) {
     expect(
       result.stdout,
-      contains(
-        'Macro FOO is defined: ${customDefineWithValue ? 'BAR' : '1'}',
-      ),
+      contains('Macro FOO is defined: ${customDefineWithValue ? 'BAR' : '1'}'),
     );
   } else {
-    expect(
-      result.stdout,
-      contains('Macro FOO is undefined.'),
-    );
+    expect(result.stdout, contains('Macro FOO is undefined.'));
   }
 }

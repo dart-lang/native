@@ -31,25 +31,23 @@ Future<void> main() async {
 
     final uri = await buildTestArchive(tempUri, tempUri2, os, architecture);
 
-    final linkInputBuilder = LinkInputBuilder()
-      ..setupShared(
-        packageName: 'testpackage',
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: tempUri,
-        outputDirectoryShared: tempUri2,
-      )
-      ..setupLink(
-        assets: [],
-        recordedUsesFile: null,
-      )
-      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-      ..config.setupCode(
-        targetOS: os,
-        targetArchitecture: architecture,
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-      );
+    final linkInputBuilder =
+        LinkInputBuilder()
+          ..setupShared(
+            packageName: 'testpackage',
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: tempUri,
+            outputDirectoryShared: tempUri2,
+          )
+          ..setupLink(assets: [], recordedUsesFile: null)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: os,
+            targetArchitecture: architecture,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
 
     final linkInput = LinkInput(linkInputBuilder.json);
     final linkOutput = LinkOutputBuilder();
@@ -61,22 +59,12 @@ Future<void> main() async {
       assetName: '',
       linkerOptions: LinkerOptions.manual(gcSections: false),
       sources: [uri.toFilePath()],
-    ).run(
-      input: linkInput,
-      output: linkOutput,
-      logger: logger,
-    );
+    ).run(input: linkInput, output: linkOutput, logger: logger);
 
     final codeAssets = LinkOutput(linkOutput.json).assets.code;
     expect(codeAssets, hasLength(1));
     final asset = codeAssets.first;
     expect(asset, isA<CodeAsset>());
-    await expectSymbols(
-      asset: asset,
-      symbols: [
-        'my_func',
-        'my_other_func',
-      ],
-    );
+    await expectSymbols(asset: asset, symbols: ['my_func', 'my_other_func']);
   });
 }

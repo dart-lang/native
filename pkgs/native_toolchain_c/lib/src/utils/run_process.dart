@@ -47,27 +47,32 @@ Future<RunProcessResult> runProcess({
   final stdoutSub = process.stdout
       .transform(utf8.decoder)
       .transform(const LineSplitter())
-      .listen(captureOutput
-          ? (s) {
+      .listen(
+        captureOutput
+            ? (s) {
               logger?.fine(s);
               stdoutBuffer.writeln(s);
             }
-          : logger?.fine);
+            : logger?.fine,
+      );
   final stderrSub = process.stderr
       .transform(utf8.decoder)
       .transform(const LineSplitter())
-      .listen(captureOutput
-          ? (s) {
+      .listen(
+        captureOutput
+            ? (s) {
               logger?.severe(s);
               stderrBuffer.writeln(s);
             }
-          : logger?.severe);
+            : logger?.severe,
+      );
 
-  final (exitCode, _, _) = await (
-    process.exitCode,
-    stdoutSub.asFuture<void>(),
-    stderrSub.asFuture<void>()
-  ).wait;
+  final (exitCode, _, _) =
+      await (
+        process.exitCode,
+        stdoutSub.asFuture<void>(),
+        stderrSub.asFuture<void>(),
+      ).wait;
   final result = RunProcessResult(
     pid: process.pid,
     command: commandString,

@@ -38,9 +38,9 @@ class LinkerOptions {
     List<String>? flags,
     bool? gcSections,
     this.linkerScript,
-  })  : _linkerFlags = flags ?? [],
-        gcSections = gcSections ?? true,
-        _wholeArchiveSandwich = false;
+  }) : _linkerFlags = flags ?? [],
+       gcSections = gcSections ?? true,
+       _wholeArchiveSandwich = false;
 
   /// Create linking options to tree-shake symbols from the input files.
   ///
@@ -48,14 +48,15 @@ class LinkerOptions {
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
-  })  : _linkerFlags = <String>[
-          ...flags ?? [],
-          '--strip-debug',
-          if (symbols != null) ...symbols.expand((e) => ['-u', e]),
-        ].toList(),
-        gcSections = true,
-        _wholeArchiveSandwich = symbols == null,
-        linkerScript = _createLinkerScript(symbols);
+  }) : _linkerFlags =
+           <String>[
+             ...flags ?? [],
+             '--strip-debug',
+             if (symbols != null) ...symbols.expand((e) => ['-u', e]),
+           ].toList(),
+       gcSections = true,
+       _wholeArchiveSandwich = symbols == null,
+       linkerScript = _createLinkerScript(symbols);
 
   Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
     if (linker.isClangLike) {
@@ -92,16 +93,14 @@ extension LinkerOptionsExt on LinkerOptions {
   /// trick, which includes all symbols when linking object files.
   ///
   /// Throws if the [linker] is not supported.
-  Iterable<String> preSourcesFlags(
-    Tool linker,
-    Iterable<String> sourceFiles,
-  ) =>
+  Iterable<String> preSourcesFlags(Tool linker, Iterable<String> sourceFiles) =>
       _toLinkerSyntax(
-          linker,
-          sourceFiles.any((source) => source.endsWith('.a')) ||
-                  _wholeArchiveSandwich
-              ? ['--whole-archive']
-              : []);
+        linker,
+        sourceFiles.any((source) => source.endsWith('.a')) ||
+                _wholeArchiveSandwich
+            ? ['--whole-archive']
+            : [],
+      );
 
   /// The flags for the specified [linker], which are inserted _after_ the
   /// sources.
@@ -113,14 +112,12 @@ extension LinkerOptionsExt on LinkerOptions {
   Iterable<String> postSourcesFlags(
     Tool linker,
     Iterable<String> sourceFiles,
-  ) =>
-      _toLinkerSyntax(linker, [
-        ..._linkerFlags,
-        if (gcSections) '--gc-sections',
-        if (linkerScript != null)
-          '--version-script=${linkerScript!.toFilePath()}',
-        if (sourceFiles.any((source) => source.endsWith('.a')) ||
-            _wholeArchiveSandwich)
-          '--no-whole-archive',
-      ]);
+  ) => _toLinkerSyntax(linker, [
+    ..._linkerFlags,
+    if (gcSections) '--gc-sections',
+    if (linkerScript != null) '--version-script=${linkerScript!.toFilePath()}',
+    if (sourceFiles.any((source) => source.endsWith('.a')) ||
+        _wholeArchiveSandwich)
+      '--no-whole-archive',
+  ]);
 }

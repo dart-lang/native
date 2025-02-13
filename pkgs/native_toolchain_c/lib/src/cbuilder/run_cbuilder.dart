@@ -70,11 +70,11 @@ class RunCBuilder {
     this.language = Language.c,
     this.cppLinkStdLib,
     required this.optimizationLevel,
-  })  : outDir = input.outputDirectory,
-        assert([executable, dynamicLibrary, staticLibrary]
-                .whereType<Uri>()
-                .length ==
-            1) {
+  }) : outDir = input.outputDirectory,
+       assert(
+         [executable, dynamicLibrary, staticLibrary].whereType<Uri>().length ==
+             1,
+       ) {
     if (codeConfig.targetOS == OS.windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
@@ -84,8 +84,10 @@ class RunCBuilder {
     }
   }
 
-  late final _resolver =
-      CompilerResolver(codeConfig: codeConfig, logger: logger);
+  late final _resolver = CompilerResolver(
+    codeConfig: codeConfig,
+    logger: logger,
+  );
 
   Future<ToolInstance> compiler() async => await _resolver.resolveCompiler();
 
@@ -95,23 +97,20 @@ class RunCBuilder {
 
   Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOS) {
-      return (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
-          .where((i) => i.tool == iPhoneOSSdk)
-          .first
-          .uri;
+      return (await iPhoneOSSdk.defaultResolver!.resolve(
+        logger: logger,
+      )).where((i) => i.tool == iPhoneOSSdk).first.uri;
     }
     assert(iosSdk == IOSSdk.iPhoneSimulator);
-    return (await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger))
-        .where((i) => i.tool == iPhoneSimulatorSdk)
-        .first
-        .uri;
+    return (await iPhoneSimulatorSdk.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == iPhoneSimulatorSdk).first.uri;
   }
 
   Future<Uri> macosSdk({required Logger? logger}) async =>
-      (await macosxSdk.defaultResolver!.resolve(logger: logger))
-          .where((i) => i.tool == macosxSdk)
-          .first
-          .uri;
+      (await macosxSdk.defaultResolver!.resolve(
+        logger: logger,
+      )).where((i) => i.tool == macosxSdk).first.uri;
 
   Uri androidSysroot(ToolInstance compiler) =>
       compiler.uri.resolve('../sysroot/');
@@ -290,7 +289,7 @@ class RunCBuilder {
           '-x',
           'c++',
           '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!
+          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
         ],
         if (optimizationLevel != OptimizationLevel.unspecified)
           optimizationLevel.clangFlag(),
@@ -304,10 +303,7 @@ class RunCBuilder {
         for (final include in includes) '-I${include.toFilePath()}',
         ...sourceFiles,
         if (language == Language.objectiveC) ...[
-          for (final framework in frameworks) ...[
-            '-framework',
-            framework,
-          ],
+          for (final framework in frameworks) ...['-framework', framework],
         ],
         if (executable != null) ...[
           '-o',
@@ -392,10 +388,7 @@ class RunCBuilder {
     if (staticLibrary != null) {
       await runProcess(
         executable: archiver_!,
-        arguments: [
-          '/out:${staticLibrary!.toFilePath()}',
-          '*.obj',
-        ],
+        arguments: ['/out:${staticLibrary!.toFilePath()}', '*.obj'],
         workingDirectory: outDir,
         environment: environment,
         logger: logger,
@@ -425,9 +418,7 @@ class RunCBuilder {
       IOSSdk.iPhoneOS: 'arm64-apple-ios',
       IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
     },
-    Architecture.x64: {
-      IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator',
-    },
+    Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
   };
 
   static const clangWindowsTargetFlags = {

@@ -53,9 +53,7 @@ class _AndroidNdkResolver implements ToolResolver {
             '\$HOME/Android/Sdk/ndk/*/',
             '\$HOME/Android/Sdk/ndk-bundle/',
           ],
-          if (Platform.isMacOS) ...[
-            '\$HOME/Library/Android/sdk/ndk/*/',
-          ],
+          if (Platform.isMacOS) ...['\$HOME/Library/Android/sdk/ndk/*/'],
           if (Platform.isWindows) ...[
             '\$HOME/AppData/Local/Android/Sdk/ndk/*/',
           ],
@@ -71,11 +69,8 @@ class _AndroidNdkResolver implements ToolResolver {
     return [
       for (final ndkInstance in ndkInstances) ...[
         ndkInstance,
-        ...await tryResolveClang(
-          ndkInstance,
-          logger: logger,
-        )
-      ]
+        ...await tryResolveClang(ndkInstance, logger: logger),
+      ],
     ];
   }
 
@@ -84,8 +79,9 @@ class _AndroidNdkResolver implements ToolResolver {
     required Logger? logger,
   }) async {
     final result = <ToolInstance>[];
-    final prebuiltUri =
-        androidNdkInstance.uri.resolve('toolchains/llvm/prebuilt/');
+    final prebuiltUri = androidNdkInstance.uri.resolve(
+      'toolchains/llvm/prebuilt/',
+    );
     final prebuiltDir = Directory.fromUri(prebuiltUri);
     final hostArchDirs =
         (await prebuiltDir.list().toList()).whereType<Directory>().toList();
@@ -94,37 +90,34 @@ class _AndroidNdkResolver implements ToolResolver {
           .resolve('bin/')
           .resolve(OS.current.executableFileName('clang'));
       if (await File.fromUri(clangUri).exists()) {
-        result.add(await CliVersionResolver.lookupVersion(
-          ToolInstance(
-            tool: androidNdkClang,
-            uri: clangUri,
+        result.add(
+          await CliVersionResolver.lookupVersion(
+            ToolInstance(tool: androidNdkClang, uri: clangUri),
+            logger: logger,
           ),
-          logger: logger,
-        ));
+        );
       }
       final arUri = hostArchDir.uri
           .resolve('bin/')
           .resolve(OS.current.executableFileName('llvm-ar'));
       if (await File.fromUri(arUri).exists()) {
-        result.add(await CliVersionResolver.lookupVersion(
-          ToolInstance(
-            tool: androidNdkLlvmAr,
-            uri: arUri,
+        result.add(
+          await CliVersionResolver.lookupVersion(
+            ToolInstance(tool: androidNdkLlvmAr, uri: arUri),
+            logger: logger,
           ),
-          logger: logger,
-        ));
+        );
       }
       final ldUri = hostArchDir.uri
           .resolve('bin/')
           .resolve(OS.current.executableFileName('ld.lld'));
       if (await File.fromUri(arUri).exists()) {
-        result.add(await CliVersionResolver.lookupVersion(
-          ToolInstance(
-            tool: androidNdkLld,
-            uri: ldUri,
+        result.add(
+          await CliVersionResolver.lookupVersion(
+            ToolInstance(tool: androidNdkLld, uri: ldUri),
+            logger: logger,
           ),
-          logger: logger,
-        ));
+        );
       }
     }
     return result;

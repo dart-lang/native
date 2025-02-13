@@ -21,21 +21,19 @@ final Tool vswhere = Tool(
   name: 'Visual Studio Locator',
   defaultResolver: CliVersionResolver(
     arguments: [],
-    wrappedResolver: ToolResolvers(
-      [
-        PathToolResolver(
-          toolName: 'Visual Studio Locator',
-          executableName: 'vswhere.exe',
-        ),
-        InstallLocationResolver(
-          toolName: 'Visual Studio Locator',
-          paths: [
-            'C:/Program Files \\(x86\\)/Microsoft Visual Studio/Installer/vswhere.exe',
-            'C:/Program Files/Microsoft Visual Studio/Installer/vswhere.exe',
-          ],
-        ),
-      ],
-    ),
+    wrappedResolver: ToolResolvers([
+      PathToolResolver(
+        toolName: 'Visual Studio Locator',
+        executableName: 'vswhere.exe',
+      ),
+      InstallLocationResolver(
+        toolName: 'Visual Studio Locator',
+        paths: [
+          'C:/Program Files \\(x86\\)/Microsoft Visual Studio/Installer/vswhere.exe',
+          'C:/Program Files/Microsoft Visual Studio/Installer/vswhere.exe',
+        ],
+      ),
+    ]),
   ),
 );
 
@@ -81,9 +79,7 @@ Tool vcvars(ToolInstance toolInstance) {
     name: fileName,
     defaultResolver: InstallLocationResolver(
       toolName: fileName,
-      paths: [
-        Glob.quote(batchScript.toFilePath().replaceAll('\\', '/')),
-      ],
+      paths: [Glob.quote(batchScript.toFilePath().replaceAll('\\', '/'))],
     ),
   );
 }
@@ -238,10 +234,7 @@ Tool _msvcTool({
 }) {
   final executableName = OS.windows.executableFileName(name);
   if (OS.current != OS.windows) {
-    return Tool(
-      name: executableName,
-      defaultResolver: ToolResolvers([]),
-    );
+    return Tool(name: executableName, defaultResolver: ToolResolvers([]));
   }
   final hostArchName = _msvcArchNames[hostArchitecture]!;
   final targetArchName = _msvcArchNames[targetArchitecture]!;
@@ -259,17 +252,15 @@ Tool _msvcTool({
       wrappedResolver: resolver,
     );
   }
-  return Tool(
-    name: executableName,
-    defaultResolver: resolver,
-  );
+  return Tool(name: executableName, defaultResolver: resolver);
 }
 
 class VisualStudioResolver implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final vswhereInstances =
-        await vswhere.defaultResolver!.resolve(logger: logger);
+    final vswhereInstances = await vswhere.defaultResolver!.resolve(
+      logger: logger,
+    );
 
     final result = <ToolInstance>[];
     for (final vswhereInstance in vswhereInstances.take(1)) {
@@ -285,8 +276,11 @@ class VisualStudioResolver implements ToolResolver {
         assert(await dir.exists());
         final uri = dir.uri;
         final version = versionFromString(toolInfoParsed['installationName']!);
-        final instance =
-            ToolInstance(tool: visualStudio, uri: uri, version: version);
+        final instance = ToolInstance(
+          tool: visualStudio,
+          uri: uri,
+          version: version,
+        );
         logger?.fine('Found $instance.');
         result.add(instance);
       }
