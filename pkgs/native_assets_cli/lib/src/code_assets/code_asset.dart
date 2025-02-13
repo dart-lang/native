@@ -91,12 +91,12 @@ final class CodeAsset {
     Uri? file,
     Architecture? architecture,
   }) : this._(
-          id: 'package:$package/$name',
-          linkMode: linkMode,
-          os: os,
-          file: file,
-          architecture: architecture,
-        );
+         id: 'package:$package/$name',
+         linkMode: linkMode,
+         os: os,
+         file: file,
+         architecture: architecture,
+       );
 
   CodeAsset._({
     required this.id,
@@ -110,8 +110,9 @@ final class CodeAsset {
     assert(asset.type == CodeAsset.type);
     final jsonMap = asset.encoding;
 
-    final linkMode =
-        LinkMode.fromJson(as<Map<String, Object?>>(jsonMap[_linkModeKey]));
+    final linkMode = LinkMode.fromJson(
+      as<Map<String, Object?>>(jsonMap[_linkModeKey]),
+    );
     final fileString = jsonMap.optionalString(_fileKey);
     final Uri? file;
     if (fileString != null) {
@@ -143,14 +144,13 @@ final class CodeAsset {
     OS? os,
     Architecture? architecture,
     Uri? file,
-  }) =>
-      CodeAsset._(
-        id: id ?? this.id,
-        linkMode: linkMode ?? this.linkMode,
-        os: os ?? this.os,
-        architecture: architecture ?? this.architecture,
-        file: file ?? this.file,
-      );
+  }) => CodeAsset._(
+    id: id ?? this.id,
+    linkMode: linkMode ?? this.linkMode,
+    os: os ?? this.os,
+    architecture: architecture ?? this.architecture,
+    file: file ?? this.file,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -165,23 +165,18 @@ final class CodeAsset {
   }
 
   @override
-  int get hashCode => Object.hash(
-        id,
-        linkMode,
-        architecture,
-        os,
-        file,
-      );
+  int get hashCode => Object.hash(id, linkMode, architecture, os, file);
 
   EncodedAsset encode() => EncodedAsset(
-      CodeAsset.type,
-      <String, Object>{
-        if (architecture != null) _architectureKey: architecture.toString(),
-        if (file != null) _fileKey: file!.toFilePath(),
-        _idKey: id,
-        _linkModeKey: linkMode.toJson(),
-        _osKey: os.toString(),
-      }..sortOnKey());
+    CodeAsset.type,
+    <String, Object>{
+      if (architecture != null) _architectureKey: architecture.toString(),
+      if (file != null) _fileKey: file!.toFilePath(),
+      _idKey: id,
+      _linkModeKey: linkMode.toJson(),
+      _osKey: os.toString(),
+    }..sortOnKey(),
+  );
 
   static const String type = 'native_code';
 }

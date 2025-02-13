@@ -62,16 +62,8 @@ void main() {
     ),
   ];
   final dataAssets = [
-    DataAsset(
-      name: 'my_data_asset',
-      package: 'my_package',
-      file: dataUri,
-    ),
-    DataAsset(
-      name: 'my_data_asset2',
-      package: 'my_package',
-      file: data2Uri,
-    ),
+    DataAsset(name: 'my_data_asset', package: 'my_package', file: dataUri),
+    DataAsset(name: 'my_data_asset2', package: 'my_package', file: data2Uri),
   ];
   final assets = [
     for (final asset in nativeCodeAssets) asset.encode(),
@@ -85,31 +77,31 @@ void main() {
       'id': 'package:my_package/foo',
       'link_mode': {'type': 'dynamic_loading_bundle'},
       'os': 'android',
-      'type': 'native_code'
+      'type': 'native_code',
     },
     {
       'architecture': 'x64',
       'id': 'package:my_package/foo3',
       'link_mode': {
         'type': 'dynamic_loading_system',
-        'uri': foo3Uri.toFilePath()
+        'uri': foo3Uri.toFilePath(),
       },
       'os': 'android',
-      'type': 'native_code'
+      'type': 'native_code',
     },
     {
       'architecture': 'x64',
       'id': 'package:my_package/foo4',
       'link_mode': {'type': 'dynamic_loading_executable'},
       'os': 'android',
-      'type': 'native_code'
+      'type': 'native_code',
     },
     {
       'architecture': 'x64',
       'id': 'package:my_package/foo5',
       'link_mode': {'type': 'dynamic_loading_process'},
       'os': 'android',
-      'type': 'native_code'
+      'type': 'native_code',
     },
     {
       'architecture': 'arm64',
@@ -117,7 +109,7 @@ void main() {
       'id': 'package:my_package/bar',
       'link_mode': {'type': 'static'},
       'os': 'linux',
-      'type': 'native_code'
+      'type': 'native_code',
     },
     {
       'architecture': 'x64',
@@ -125,20 +117,20 @@ void main() {
       'id': 'package:my_package/bla',
       'link_mode': {'type': 'dynamic_loading_bundle'},
       'os': 'windows',
-      'type': 'native_code'
+      'type': 'native_code',
     },
     {
       'name': 'my_data_asset',
       'package': 'my_package',
       'file': Uri.file('path/to/data.txt').toFilePath(),
-      'type': 'data'
+      'type': 'data',
     },
     {
       'name': 'my_data_asset2',
       'package': 'my_package',
       'file': Uri.file('path/to/data.json').toFilePath(),
-      'type': 'data'
-    }
+      'type': 'data',
+    },
   ];
 
   test('asset json', () {
@@ -151,11 +143,13 @@ void main() {
   test('AssetPath factory', () async {
     expect(
       () => LinkMode.fromJson({'type': 'wrong'}),
-      throwsA(predicate(
-        (e) =>
-            e is FormatException &&
-            e.message.contains('The link mode "wrong" is not known'),
-      )),
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains('The link mode "wrong" is not known'),
+        ),
+      ),
     );
   });
 

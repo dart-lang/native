@@ -13,54 +13,59 @@ const resourceFile = '''{
   "identifiers": []
 }''';
 
-final resourceIdentifiers = ResourceIdentifiers(identifiers: [
-  Identifier(
-    name: 'methodName1',
-    id: 'someMetadata',
-    uri: Uri.file('path/to/file'),
-    nonConstant: true,
-    files: [
-      ResourceFile(part: 1, references: [
-        ResourceReference(
-          uri: Uri.file('path/to/reference'),
-          line: 2,
-          column: 4,
-          arguments: {
-            '1': 'Some positional argument',
-          },
+final resourceIdentifiers = ResourceIdentifiers(
+  identifiers: [
+    Identifier(
+      name: 'methodName1',
+      id: 'someMetadata',
+      uri: Uri.file('path/to/file'),
+      nonConstant: true,
+      files: [
+        ResourceFile(
+          part: 1,
+          references: [
+            ResourceReference(
+              uri: Uri.file('path/to/reference'),
+              line: 2,
+              column: 4,
+              arguments: {'1': 'Some positional argument'},
+            ),
+          ],
         ),
-      ]),
-    ],
-  ),
-  Identifier(
-    name: 'methodName2',
-    id: 'someOtherMetadata',
-    uri: Uri.file('path/to/other/file'),
-    nonConstant: false,
-    files: [
-      ResourceFile(part: 1, references: [
-        ResourceReference(
-          uri: Uri.file('path/to/reference'),
-          line: 15,
-          column: 3,
-          arguments: {
-            'namedIntParam': 1,
-          },
+      ],
+    ),
+    Identifier(
+      name: 'methodName2',
+      id: 'someOtherMetadata',
+      uri: Uri.file('path/to/other/file'),
+      nonConstant: false,
+      files: [
+        ResourceFile(
+          part: 1,
+          references: [
+            ResourceReference(
+              uri: Uri.file('path/to/reference'),
+              line: 15,
+              column: 3,
+              arguments: {'namedIntParam': 1},
+            ),
+          ],
         ),
-      ]),
-      ResourceFile(part: 2, references: [
-        ResourceReference(
-          uri: Uri.file('path/to/reference'),
-          line: 15,
-          column: 3,
-          arguments: {
-            'namedIntParam': 2,
-          },
+        ResourceFile(
+          part: 2,
+          references: [
+            ResourceReference(
+              uri: Uri.file('path/to/reference'),
+              line: 15,
+              column: 3,
+              arguments: {'namedIntParam': 2},
+            ),
+          ],
         ),
-      ]),
-    ],
-  ),
-]);
+      ],
+    ),
+  ],
+);
 
 final resourceIdentifiersJson = {
   'identifiers': [
@@ -77,13 +82,13 @@ final resourceIdentifiersJson = {
               '@': {
                 'uri': Uri.file('path/to/reference').toFilePath(),
                 'line': 2,
-                'column': 4
+                'column': 4,
               },
-              '1': 'Some positional argument'
-            }
-          ]
-        }
-      ]
+              '1': 'Some positional argument',
+            },
+          ],
+        },
+      ],
     },
     {
       'name': 'methodName2',
@@ -98,11 +103,11 @@ final resourceIdentifiersJson = {
               '@': {
                 'uri': Uri.file('path/to/reference').toFilePath(),
                 'line': 15,
-                'column': 3
+                'column': 3,
               },
-              'namedIntParam': 1
-            }
-          ]
+              'namedIntParam': 1,
+            },
+          ],
         },
         {
           'part': 2,
@@ -111,13 +116,13 @@ final resourceIdentifiersJson = {
               '@': {
                 'uri': Uri.file('path/to/reference').toFilePath(),
                 'line': 15,
-                'column': 3
+                'column': 3,
               },
-              'namedIntParam': 2
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              'namedIntParam': 2,
+            },
+          ],
+        },
+      ],
+    },
+  ],
 };

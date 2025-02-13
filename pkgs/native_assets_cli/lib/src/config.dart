@@ -65,18 +65,20 @@ sealed class HookInput {
   final Uri packageRoot;
 
   HookInput(this.json)
-      : version = switch (Version.parse(json.string(_versionKey))) {
-          final Version version => (version.major != latestVersion.major ||
+    : version = switch (Version.parse(json.string(_versionKey))) {
+        final Version version =>
+          (version.major != latestVersion.major ||
                   version < latestParsableVersion)
               ? throw FormatException(
-                  'Only compatible versions with $latestVersion are supported '
-                  '(was: $version).')
+                'Only compatible versions with $latestVersion are supported '
+                '(was: $version).',
+              )
               : version,
-        },
-        outputDirectory = json.path(_outDirInputKey),
-        outputDirectoryShared = json.path(_outDirSharedInputKey),
-        packageRoot = json.path(_packageRootInputKey),
-        packageName = json.string(_packageNameInputKey);
+      },
+      outputDirectory = json.path(_outDirInputKey),
+      outputDirectoryShared = json.path(_outDirSharedInputKey),
+      packageRoot = json.path(_packageRootInputKey),
+      packageName = json.string(_packageNameInputKey);
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
@@ -85,9 +87,7 @@ sealed class HookInput {
 }
 
 sealed class HookInputBuilder {
-  final Map<String, Object?> json = {
-    'version': latestVersion.toString(),
-  };
+  final Map<String, Object?> json = {'version': latestVersion.toString()};
 
   void setupShared({
     required Uri packageRoot,
@@ -143,13 +143,14 @@ final class BuildInput extends HookInput {
   final Uri outputFile;
 
   BuildInput(super.json)
-      : outputFile = json.optionalPath(_outputFileKey) ??
-            json.path(_outDirInputKey).resolve('build_output.json'),
-        metadata = {
-          for (final entry
-              in (json.optionalMap(_dependencyMetadataKey) ?? {}).entries)
-            entry.key: Metadata.fromJson(as<Map<String, Object?>>(entry.value)),
-        };
+    : outputFile =
+          json.optionalPath(_outputFileKey) ??
+          json.path(_outDirInputKey).resolve('build_output.json'),
+      metadata = {
+        for (final entry
+            in (json.optionalMap(_dependencyMetadataKey) ?? {}).entries)
+          entry.key: Metadata.fromJson(as<Map<String, Object?>>(entry.value)),
+      };
 
   Object? metadatum(String packageName, String key) =>
       metadata[packageName]?.metadata[key];
@@ -159,9 +160,7 @@ final class BuildInput extends HookInput {
 }
 
 final class BuildInputBuilder extends HookInputBuilder {
-  void setupBuildInput({
-    Map<String, Metadata> metadata = const {},
-  }) {
+  void setupBuildInput({Map<String, Metadata> metadata = const {}}) {
     json[_dependencyMetadataKey] = {
       for (final key in metadata.keys) key: metadata[key]!.toJson(),
     };
@@ -178,9 +177,7 @@ final class HookConfigBuilder {
 
   HookConfigBuilder._(this.builder);
 
-  void setupShared({
-    required List<String> buildAssetTypes,
-  }) {
+  void setupShared({required List<String> buildAssetTypes}) {
     json[_buildAssetTypesKey] = buildAssetTypes;
     json[_supportedAssetTypesKey] = buildAssetTypes;
     json.setNested([_configKey, _buildAssetTypesKey], buildAssetTypes);
@@ -192,10 +189,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 }
 
 extension BuildConfigBuilderSetup on BuildConfigBuilder {
-  void setupBuild({
-    required bool dryRun,
-    required bool linkingEnabled,
-  }) {
+  void setupBuild({required bool dryRun, required bool linkingEnabled}) {
     json[_dryRunConfigKey] = dryRun;
     json[_linkingEnabledKey] = linkingEnabled;
     json.setNested([_configKey, _linkingEnabledKey], linkingEnabled);
@@ -219,11 +213,13 @@ final class LinkInput extends HookInput {
   final Uri outputFile;
 
   LinkInput(super.json)
-      : outputFile = json.optionalPath(_outputFileKey) ??
-            json.path(_outDirInputKey).resolve('link_output.json'),
-        _encodedAssets =
-            _parseAssets(json.getOptional<List<Object?>>(_assetsKey)),
-        recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
+    : outputFile =
+          json.optionalPath(_outputFileKey) ??
+          json.path(_outDirInputKey).resolve('link_output.json'),
+      _encodedAssets = _parseAssets(
+        json.getOptional<List<Object?>>(_assetsKey),
+      ),
+      recordedUsagesFile = json.optionalPath(_recordedUsagesFileInputKey);
 
   LinkInputAssets get assets => LinkInputAssets._(this);
 }
@@ -246,12 +242,13 @@ final class LinkInputBuilder extends HookInputBuilder {
   }
 }
 
-List<EncodedAsset> _parseAssets(List<Object?>? object) => object == null
-    ? []
-    : [
-        for (int i = 0; i < object.length; ++i)
-          EncodedAsset.fromJson(object.mapAt(i)),
-      ];
+List<EncodedAsset> _parseAssets(List<Object?>? object) =>
+    object == null
+        ? []
+        : [
+          for (int i = 0; i < object.length; ++i)
+            EncodedAsset.fromJson(object.mapAt(i)),
+        ];
 
 const _recordedUsagesFileInputKey = 'resource_identifiers';
 const _assetsKey = 'assets';
@@ -283,16 +280,18 @@ sealed class HookOutput {
   final List<Uri> dependencies;
 
   HookOutput(this.json)
-      : version = switch (Version.parse(json.string(_versionKey))) {
-          final Version version => (version.major != latestVersion.major ||
+    : version = switch (Version.parse(json.string(_versionKey))) {
+        final Version version =>
+          (version.major != latestVersion.major ||
                   version < latestParsableVersion)
               ? throw FormatException(
-                  'Only compatible versions with $latestVersion are supported '
-                  '(was: $version).')
+                'Only compatible versions with $latestVersion are supported '
+                '(was: $version).',
+              )
               : version,
-        },
-        timestamp = DateTime.parse(json.string(_timestampKey)),
-        dependencies = _parseDependencies(json.optionalList(_dependenciesKey));
+      },
+      timestamp = DateTime.parse(json.string(_timestampKey)),
+      dependencies = _parseDependencies(json.optionalList(_dependenciesKey));
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
@@ -300,9 +299,7 @@ sealed class HookOutput {
 
 List<Uri> _parseDependencies(List<Object?>? list) {
   if (list == null) return const [];
-  return [
-    for (int i = 0; i < list.length; ++i) list.pathAt(i),
-  ];
+  return [for (int i = 0; i < list.length; ++i) list.pathAt(i)];
 }
 
 const String _timestampKey = 'timestamp';
@@ -358,14 +355,13 @@ class BuildOutput extends HookOutput {
 
   /// Creates a [BuildOutput] from the given [json].
   BuildOutput(super.json)
-      : _encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey)),
-        _encodedAssetsForLinking = {
-          for (final MapEntry(:key, :value)
-              in (json.optionalMap(_assetsForLinkingKey) ?? {}).entries)
-            key: _parseEncodedAssets(value as List<Object?>),
-        },
-        metadata =
-            Metadata.fromJson(json.optionalMap(_metadataConfigKey) ?? {});
+    : _encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey)),
+      _encodedAssetsForLinking = {
+        for (final MapEntry(:key, :value)
+            in (json.optionalMap(_assetsForLinkingKey) ?? {}).entries)
+          key: _parseEncodedAssets(value as List<Object?>),
+      },
+      metadata = Metadata.fromJson(json.optionalMap(_metadataConfigKey) ?? {});
 
   BuildOutputAssets get assets => BuildOutputAssets._(this);
 }
@@ -389,12 +385,13 @@ extension type BuildOutputAssets._(BuildOutput _output) {
       _output._encodedAssetsForLinking;
 }
 
-List<EncodedAsset> _parseEncodedAssets(List<Object?>? json) => json == null
-    ? const []
-    : [
-        for (int i = 0; i < json.length; ++i)
-          EncodedAsset.fromJson(json.mapAt(i)),
-      ];
+List<EncodedAsset> _parseEncodedAssets(List<Object?>? json) =>
+    json == null
+        ? const []
+        : [
+          for (int i = 0; i < json.length; ++i)
+            EncodedAsset.fromJson(json.mapAt(i)),
+        ];
 
 const _assetsForLinkingKey = 'assetsForLinking';
 const _dependencyMetadataKey = 'dependency_metadata';
@@ -514,7 +511,7 @@ class LinkOutput extends HookOutput {
 
   /// Creates a [BuildOutput] from the given [json].
   LinkOutput(super.json)
-      : _encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey));
+    : _encodedAssets = _parseEncodedAssets(json.optionalList(_assetsKey));
 
   LinkOutputAssets get assets => LinkOutputAssets._(this);
 }
@@ -633,12 +630,13 @@ final class HookConfig {
   final List<String> buildAssetTypes;
 
   HookConfig(this.json)
-      : buildAssetTypes = json
-                .optionalMap(_configKey)
-                ?.optionalStringList(_buildAssetTypesKey) ??
-            json.optionalStringList(_buildAssetTypesKey) ??
-            json.optionalStringList(_supportedAssetTypesKey) ??
-            const [];
+    : buildAssetTypes =
+          json
+              .optionalMap(_configKey)
+              ?.optionalStringList(_buildAssetTypesKey) ??
+          json.optionalStringList(_buildAssetTypesKey) ??
+          json.optionalStringList(_supportedAssetTypesKey) ??
+          const [];
 }
 
 final class BuildConfig extends HookConfig {
@@ -654,9 +652,9 @@ final class BuildConfig extends HookConfig {
   final bool linkingEnabled;
 
   BuildConfig(super.json)
-      // ignore: deprecated_member_use_from_same_package
-      : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
-        linkingEnabled =
-            json.optionalMap(_configKey)?.optionalBool(_linkingEnabledKey) ??
-                json.get<bool>(_linkingEnabledKey);
+    // ignore: deprecated_member_use_from_same_package
+    : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
+      linkingEnabled =
+          json.optionalMap(_configKey)?.optionalBool(_linkingEnabledKey) ??
+          json.get<bool>(_linkingEnabledKey);
 }

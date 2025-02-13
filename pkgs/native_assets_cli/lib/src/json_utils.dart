@@ -10,8 +10,10 @@ extension MapJsonUtils on Map<String, Object?> {
   String string(String key, {Iterable<String>? validValues}) {
     final value = get<String>(key);
     if (validValues != null && !validValues.contains(value)) {
-      throw FormatException('Json "$key" had value $value but expected one of '
-          '${validValues.join(',')}');
+      throw FormatException(
+        'Json "$key" had value $value but expected one of '
+        '${validValues.join(',')}',
+      );
     }
     return value;
   }
@@ -20,8 +22,10 @@ extension MapJsonUtils on Map<String, Object?> {
     final value = getOptional<String>(key);
     if (value == null) return null;
     if (validValues != null && !validValues.contains(value)) {
-      throw FormatException('Json "$key" had value $value but expected one of '
-          '${validValues.join(',')}');
+      throw FormatException(
+        'Json "$key" had value $value but expected one of '
+        '${validValues.join(',')}',
+      );
     }
     return value;
   }
@@ -59,16 +63,18 @@ extension MapJsonUtils on Map<String, Object?> {
     }
     if (value is T) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for key \'.$key\' in input file. '
-        'Expected a $T.');
+      'Unexpected value \'$value\' for key \'.$key\' in input file. '
+      'Expected a $T.',
+    );
   }
 
   T? getOptional<T extends Object>(String key) {
     final value = this[key];
     if (value is T?) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for key \'.$key\' in input file. '
-        'Expected a $T?.');
+      'Unexpected value \'$value\' for key \'.$key\' in input file. '
+      'Expected a $T?.',
+    );
   }
 
   void setNested(List<String> nestedMapKeys, Object? value) {
@@ -88,8 +94,9 @@ extension ListJsonUtils on List<Object?> {
     }
     if (value is T) return value;
     throw FormatException(
-        'Unexpected value \'$value\' for index \'.$index\' in input file. '
-        'Expected a $T.');
+      'Unexpected value \'$value\' for index \'.$index\' in input file. '
+      'Expected a $T.',
+    );
   }
 
   Map<String, Object?> mapAt(int index) => get<Map<String, Object?>>(index);

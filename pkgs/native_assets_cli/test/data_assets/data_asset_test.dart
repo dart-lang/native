@@ -8,16 +8,17 @@ import 'package:test/test.dart';
 void main() async {
   test('DataAsset', () {
     expect(
-        DataAsset(
-          package: 'my_package',
-          name: 'name',
-          file: Uri.file('not there'),
-        ).encode().toJson(),
-        {
-          'file': 'not there',
-          'package': 'my_package',
-          'name': 'name',
-          'type': 'data',
-        });
+      DataAsset(
+        package: 'my_package',
+        name: 'name',
+        file: Uri.file('not there'),
+      ).encode().toJson(),
+      {
+        'file': 'not there',
+        'package': 'my_package',
+        'name': 'name',
+        'type': 'data',
+      },
+    );
   });
 }

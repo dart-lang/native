@@ -23,21 +23,23 @@ Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
 Future<ValidationErrors> validateDataAssetBuildOutput(
   BuildInput input,
   BuildOutput output,
-) =>
-    _validateDataAssetBuildOrLinkOutput(
-      input,
-      output.assets.encodedAssets,
-      // ignore: deprecated_member_use_from_same_package
-      input.config.dryRun,
-      true,
-    );
+) => _validateDataAssetBuildOrLinkOutput(
+  input,
+  output.assets.encodedAssets,
+  // ignore: deprecated_member_use_from_same_package
+  input.config.dryRun,
+  true,
+);
 
 Future<ValidationErrors> validateDataAssetLinkOutput(
   LinkInput input,
   LinkOutput output,
-) =>
-    _validateDataAssetBuildOrLinkOutput(
-        input, output.assets.encodedAssets, false, false);
+) => _validateDataAssetBuildOrLinkOutput(
+  input,
+  output.assets.encodedAssets,
+  false,
+  false,
+);
 
 Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
   HookInput input,
@@ -77,11 +79,13 @@ void _validateDataAsset(
     errors.add('More than one data asset with same "${dataAsset.name}" name.');
   }
   final file = dataAsset.file;
-  errors.addAll(_validateFile(
-    'Data asset ${dataAsset.name} file',
-    file,
-    mustExist: !dryRun,
-  ));
+  errors.addAll(
+    _validateFile(
+      'Data asset ${dataAsset.name} file',
+      file,
+      mustExist: !dryRun,
+    ),
+  );
 }
 
 ValidationErrors _validateFile(

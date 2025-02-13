@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
 import 'dart:convert';
@@ -42,38 +39,37 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final targetOS = OS.current;
-      final inputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageRoot: testPackageUri,
-          packageName: name,
-          outputFile: buildOutputUri,
-          outputDirectory: outputDirectory,
-          outputDirectoryShared: outputDirectoryShared,
-        )
-        ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: OS.current,
-          macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-              : null,
-          targetArchitecture: dryRun ? null : Architecture.current,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: dryRun ? null : cCompiler,
-        );
+      final inputBuilder =
+          BuildInputBuilder()
+            ..setupShared(
+              packageRoot: testPackageUri,
+              packageName: name,
+              outputFile: buildOutputUri,
+              outputDirectory: outputDirectory,
+              outputDirectoryShared: outputDirectoryShared,
+            )
+            ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
+            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+            ..config.setupCode(
+              targetOS: OS.current,
+              macOS:
+                  targetOS == OS.macOS
+                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                      : null,
+              targetArchitecture: dryRun ? null : Architecture.current,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: dryRun ? null : cCompiler,
+            );
 
       final buildInputUri = testTempUri.resolve('build_input.json');
-      await File.fromUri(buildInputUri)
-          .writeAsString(jsonEncode(inputBuilder.json));
+      await File.fromUri(
+        buildInputUri,
+      ).writeAsString(jsonEncode(inputBuilder.json));
 
-      final processResult = await Process.run(
-        dartUri.toFilePath(),
-        [
-          'hook/build.dart',
-          '--config=${buildInputUri.toFilePath()}',
-        ],
-        workingDirectory: testPackageUri.toFilePath(),
-      );
+      final processResult = await Process.run(dartUri.toFilePath(), [
+        'hook/build.dart',
+        '--config=${buildInputUri.toFilePath()}',
+      ], workingDirectory: testPackageUri.toFilePath());
       if (processResult.exitCode != 0) {
         print(processResult.stdout);
         print(processResult.stderr);
@@ -82,8 +78,9 @@ void main() async {
       expect(processResult.exitCode, 0);
 
       final buildOutput = BuildOutput(
-          json.decode(await File.fromUri(buildOutputUri).readAsString())
-              as Map<String, Object?>);
+        json.decode(await File.fromUri(buildOutputUri).readAsString())
+            as Map<String, Object?>,
+      );
       final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
       if (dryRun) {
@@ -92,12 +89,7 @@ void main() async {
       } else {
         expect(assets.length, 1);
         expect(await assets.allExist(), true);
-        expect(
-          dependencies,
-          [
-            testPackageUri.resolve('src/$name.c'),
-          ],
-        );
+        expect(dependencies, [testPackageUri.resolve('src/$name.c')]);
       }
     });
   }
