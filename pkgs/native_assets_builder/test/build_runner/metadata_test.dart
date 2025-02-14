@@ -18,10 +18,7 @@ void main() async {
       final packageUri = tempUri.resolve('package_reading_metadata/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       // Trigger a build, should invoke build for libraries with native assets.
       {
@@ -37,14 +34,15 @@ void main() async {
           applicationAssetValidator: (_) async => [],
         );
         expect(
-            logMessages.join('\n'),
-            stringContainsInOrder([
-              'package_with_metadata${Platform.pathSeparator}hook'
-                  '${Platform.pathSeparator}build.dart',
-              'package_reading_metadata${Platform.pathSeparator}hook'
-                  '${Platform.pathSeparator}build.dart',
-              '{some_int: 3, some_key: some_value}',
-            ]));
+          logMessages.join('\n'),
+          stringContainsInOrder([
+            'package_with_metadata${Platform.pathSeparator}hook'
+                '${Platform.pathSeparator}build.dart',
+            'package_reading_metadata${Platform.pathSeparator}hook'
+                '${Platform.pathSeparator}build.dart',
+            '{some_int: 3, some_key: some_value}',
+          ]),
+        );
       }
     });
   });

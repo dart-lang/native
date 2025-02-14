@@ -12,18 +12,17 @@ void main(List<String> arguments) async {
     final cbuilder = CBuilder.library(
       name: packageName,
       assetName: 'src/native_add_bindings_generated.dart',
-      sources: [
-        'src/native_add.c',
-      ],
+      sources: ['src/native_add.c'],
     );
     await cbuilder.run(
       config: config,
       output: output,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) {
-          print('${record.level.name}: ${record.time}: ${record.message}');
-        }),
+      logger:
+          Logger('')
+            ..level = Level.ALL
+            ..onRecord.listen((record) {
+              print('${record.level.name}: ${record.time}: ${record.message}');
+            }),
     );
   });
 }

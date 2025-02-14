@@ -18,34 +18,30 @@ void main() async {
       final packageUri = tempUri.resolve('dart_app/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       // Trigger a build, should invoke build for libraries with native assets.
       {
         final logMessages = <String>[];
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              capturedLogs: logMessages,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
         expect(
           logMessages.join('\n'),
-          stringContainsInOrder(
-            [
-              'native_add${Platform.pathSeparator}hook'
-                  '${Platform.pathSeparator}build.dart',
-              'native_subtract${Platform.pathSeparator}hook'
-                  '${Platform.pathSeparator}build.dart',
-            ],
-          ),
+          stringContainsInOrder([
+            'native_add${Platform.pathSeparator}hook'
+                '${Platform.pathSeparator}build.dart',
+            'native_subtract${Platform.pathSeparator}hook'
+                '${Platform.pathSeparator}build.dart',
+          ]),
         );
         expect(result.encodedAssets.length, 2);
         expect(
@@ -64,12 +60,15 @@ void main() async {
             // https://github.com/dart-lang/sdk/issues/59657
             // Deps file on windows sometimes have lowercase drive letters.
             // File.exists will work, but Uri equality doesn't.
-            result.dependencies
-                .map((e) => Uri.file(e.toFilePath().toLowerCase())),
-            containsAll([
-              tempUri.resolve('native_add/hook/build.dart'),
-              tempUri.resolve('native_subtract/hook/build.dart'),
-            ].map((e) => Uri.file(e.toFilePath().toLowerCase()))),
+            result.dependencies.map(
+              (e) => Uri.file(e.toFilePath().toLowerCase()),
+            ),
+            containsAll(
+              [
+                tempUri.resolve('native_add/hook/build.dart'),
+                tempUri.resolve('native_subtract/hook/build.dart'),
+              ].map((e) => Uri.file(e.toFilePath().toLowerCase())),
+            ),
           );
         }
       }

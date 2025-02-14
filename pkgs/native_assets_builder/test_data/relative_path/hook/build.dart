@@ -7,18 +7,15 @@ import 'dart:io';
 import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> args) async {
-  await build(
-    args,
-    (input, output) async {
-      if (input.config.buildAssetTypes.contains(DataAsset.type)) {
-        output.assets.data.add(
-          DataAsset(
-            package: input.packageName,
-            name: 'assets/test_asset.txt',
-            file: File('assets/test_asset.txt').uri,
-          ),
-        );
-      }
-    },
-  );
+  await build(args, (input, output) async {
+    if (input.config.buildAssetTypes.contains(DataAsset.type)) {
+      output.assets.data.add(
+        DataAsset(
+          package: input.packageName,
+          name: 'assets/test_asset.txt',
+          file: File('assets/test_asset.txt').uri,
+        ),
+      );
+    }
+  });
 }

@@ -9,10 +9,7 @@ String yamlEncode(Object yamlEncoding) {
   final editor = YamlEditor('');
   editor.update(
     [],
-    wrapAsYamlNode(
-      yamlEncoding,
-      collectionStyle: CollectionStyle.BLOCK,
-    ),
+    wrapAsYamlNode(yamlEncoding, collectionStyle: CollectionStyle.BLOCK),
   );
   return editor.toString();
 }

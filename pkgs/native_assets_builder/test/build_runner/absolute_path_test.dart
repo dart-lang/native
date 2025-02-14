@@ -13,10 +13,7 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('relative_path/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
         final logMessages = <String>[];
@@ -26,10 +23,7 @@ void main() async {
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);
-        expect(
-          fullLog,
-          contains('must be an absolute path'),
-        );
+        expect(fullLog, contains('must be an absolute path'));
       }
     });
   });

@@ -22,17 +22,20 @@ void main() async {
       await runPubGet(workingDirectory: nativeAddUri, logger: logger);
 
       final packageLayout = await PackageLayout.fromWorkingDirectory(
-          const LocalFileSystem(), nativeAddUri, 'native_add');
+        const LocalFileSystem(),
+        nativeAddUri,
+        'native_add',
+      );
       final nativeAssetsBuildPlanner =
           await NativeAssetsBuildPlanner.fromPackageConfigUri(
-        packageConfigUri: nativeAddUri.resolve(
-          '.dart_tool/package_config.json',
-        ),
-        dartExecutable: Uri.file(Platform.resolvedExecutable),
-        logger: logger,
-        packageLayout: packageLayout,
-        fileSystem: const LocalFileSystem(),
-      );
+            packageConfigUri: nativeAddUri.resolve(
+              '.dart_tool/package_config.json',
+            ),
+            dartExecutable: Uri.file(Platform.resolvedExecutable),
+            logger: logger,
+            packageLayout: packageLayout,
+            fileSystem: const LocalFileSystem(),
+          );
       final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
       expect(buildPlan!.length, 1);
       expect(buildPlan.single.name, 'native_add');
@@ -56,14 +59,14 @@ void main() async {
         );
         final nativeAssetsBuildPlanner =
             await NativeAssetsBuildPlanner.fromPackageConfigUri(
-          packageConfigUri: nativeAddUri.resolve(
-            '.dart_tool/package_config.json',
-          ),
-          dartExecutable: Uri.file(Platform.resolvedExecutable),
-          logger: logger,
-          packageLayout: packageLayout,
-          fileSystem: const LocalFileSystem(),
-        );
+              packageConfigUri: nativeAddUri.resolve(
+                '.dart_tool/package_config.json',
+              ),
+              dartExecutable: Uri.file(Platform.resolvedExecutable),
+              logger: logger,
+              packageLayout: packageLayout,
+              fileSystem: const LocalFileSystem(),
+            );
         final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
         expect(buildPlan!.length, 0);
       });
