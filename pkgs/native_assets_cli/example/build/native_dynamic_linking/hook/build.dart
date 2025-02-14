@@ -16,36 +16,26 @@ void main(List<String> args) async {
       CBuilder.library(
         name: 'debug',
         assetName: 'debug',
-        sources: [
-          'src/debug.c',
-        ],
+        sources: ['src/debug.c'],
       ),
       CBuilder.library(
         name: 'math',
         assetName: 'math',
-        sources: [
-          'src/math.c',
-        ],
+        sources: ['src/math.c'],
         libraries: ['debug'],
       ),
       CBuilder.library(
         name: 'add',
         assetName: 'add.dart',
-        sources: [
-          'src/add.c',
-        ],
+        sources: ['src/add.c'],
         libraries: ['math'],
-      )
+      ),
     ];
 
     // Note: These builders need to be run sequentially because they depend on
     // each others output.
     for (final builder in builders) {
-      await builder.run(
-        input: input,
-        output: output,
-        logger: logger,
-      );
+      await builder.run(input: input, output: output, logger: logger);
     }
   });
 }

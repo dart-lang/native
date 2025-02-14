@@ -17,16 +17,15 @@ Future<void> runBuild(BuildInput input, BuildOutputBuilder output) async {
   final cbuilder = CBuilder.library(
     name: name,
     assetName: 'native_add.dart',
-    sources: [
-      'src/native_add.c',
-    ],
+    sources: ['src/native_add.c'],
   );
   await cbuilder.run(
     input: input,
     output: output,
-    logger: Logger('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) => print(record.message)),
+    logger:
+        Logger('')
+          ..level = Level.ALL
+          ..onRecord.listen((record) => print(record.message)),
   );
 }
 

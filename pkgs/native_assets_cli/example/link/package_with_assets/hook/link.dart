@@ -17,11 +17,15 @@ void main(List<String> args) async {
   await link(args, (input, output) async {
     final usages = input.usages;
 
-    final usedAssets = (usages.instancesOf(multiplyIdentifier) ?? []).map((e) =>
-        (e.instanceConstant.fields.values.first as StringConstant).value);
+    final usedAssets = (usages.instancesOf(multiplyIdentifier) ?? []).map(
+      (e) => (e.instanceConstant.fields.values.first as StringConstant).value,
+    );
 
-    output.assets.data.addAll(input.assets.data
-        .where((dataAsset) => usedAssets.contains(dataAsset.name)));
+    output.assets.data.addAll(
+      input.assets.data.where(
+        (dataAsset) => usedAssets.contains(dataAsset.name),
+      ),
+    );
   });
 }
 

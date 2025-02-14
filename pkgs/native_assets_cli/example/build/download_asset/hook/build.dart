@@ -32,23 +32,28 @@ void main(List<String> args) async {
         outputDirectory,
       );
       final fileHash = await hashAsset(file);
-      final expectedHash = assetHashes[createTargetName(
-        targetOS.name,
-        targetArchitecture.name,
-        iOSSdk?.type,
-      )];
+      final expectedHash =
+          assetHashes[createTargetName(
+            targetOS.name,
+            targetArchitecture.name,
+            iOSSdk?.type,
+          )];
       if (fileHash != expectedHash) {
-        throw Exception('File $file was not downloaded correctly. '
-            'Found hash $fileHash, expected $expectedHash.');
+        throw Exception(
+          'File $file was not downloaded correctly. '
+          'Found hash $fileHash, expected $expectedHash.',
+        );
       }
-      output.assets.code.add(CodeAsset(
-        package: input.packageName,
-        name: 'native_add.dart',
-        linkMode: DynamicLoadingBundled(),
-        os: targetOS,
-        architecture: targetArchitecture,
-        file: file.uri,
-      ));
+      output.assets.code.add(
+        CodeAsset(
+          package: input.packageName,
+          name: 'native_add.dart',
+          linkMode: DynamicLoadingBundled(),
+          os: targetOS,
+          architecture: targetArchitecture,
+          file: file.uri,
+        ),
+      );
     }
   });
 }
