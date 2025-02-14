@@ -45,7 +45,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     cursor = clang.clang_getCursorDefinition(selfSuperCursor);
   }
 
-  final report = getApiAvailability(cursor);
+  final apiAvailability = ApiAvailability.fromCursor(cursor);
 
   _logger.fine('++++ Adding ObjC protocol: '
       'Name: $name, ${cursor.completeStringRepr()}');
@@ -56,9 +56,9 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     name: config.objcProtocols.rename(decl),
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
     dartDoc: getCursorDocComment(cursor,
-        fallbackComment: name, availability: report.dartDoc),
+        fallbackComment: name, availability: apiAvailability.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
-    unavailable: report.availability == Availability.none,
+    apiAvailability: apiAvailability,
   );
 
   // Make sure to add the protocol to the index before parsing the AST, to break

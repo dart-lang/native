@@ -107,8 +107,8 @@ Compound? parseCompoundDeclaration(
     declName = '';
   }
 
-  final report = getApiAvailability(cursor);
-  if (report.availability == Availability.none) {
+  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  if (apiAvailability.availability == Availability.none) {
     _logger.info('Omitting deprecated $className $declName');
     return null;
   }
@@ -120,7 +120,8 @@ Compound? parseCompoundDeclaration(
       type: compoundType,
       name: incrementalNamer.name('Unnamed$className'),
       usr: declUsr,
-      dartDoc: getCursorDocComment(cursor, availability: report.dartDoc),
+      dartDoc:
+          getCursorDocComment(cursor, availability: apiAvailability.dartDoc),
       objCBuiltInFunctions: objCBuiltInFunctions,
       nativeType: cursor.type().spelling(),
     );
@@ -133,7 +134,8 @@ Compound? parseCompoundDeclaration(
       usr: declUsr,
       originalName: declName,
       name: configDecl.rename(decl),
-      dartDoc: getCursorDocComment(cursor, availability: report.dartDoc),
+      dartDoc:
+          getCursorDocComment(cursor, availability: apiAvailability.dartDoc),
       objCBuiltInFunctions: objCBuiltInFunctions,
       nativeType: cursor.type().spelling(),
     );

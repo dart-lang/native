@@ -7,6 +7,7 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
 import 'utils.dart';
@@ -201,6 +202,7 @@ class ObjCMethod extends AstNode {
   final bool isOptional;
   ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
+  final ApiAvailability apiAvailability;
   bool consumesSelfAttribute = false;
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
@@ -228,6 +230,7 @@ class ObjCMethod extends AstNode {
     required this.isOptional,
     required this.returnType,
     required this.family,
+    required this.apiAvailability,
     List<Parameter>? params_,
   })  : params = params_ ?? [],
         selObject = builtInFunctions.getSelObject(originalName);
@@ -385,6 +388,13 @@ class ObjCMethod extends AstNode {
     s.write(' {\n');
 
     // Implementation.
+    final versionCheck = apiAvailability?.runtimeCheck(
+        ObjCBuiltInFunctions.checkOsVersion.gen(w),
+        '${target.originalName}.$originalName');
+    if (versionCheck != null) {
+      s.write('  $versionCheck\n');
+    }
+
     final sel = selObject.name;
     if (isOptional) {
       s.write('''
