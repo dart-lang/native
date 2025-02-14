@@ -3,9 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @TestOn('windows')
-@OnPlatform({
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'windows': Timeout.factor(10)})
 library;
 
 import 'dart:io';
@@ -28,8 +26,9 @@ void main() {
   });
 
   test('visualStudio', () async {
-    final instances =
-        await visualStudio.defaultResolver!.resolve(logger: logger);
+    final instances = await visualStudio.defaultResolver!.resolve(
+      logger: logger,
+    );
     expect(instances.isNotEmpty, true);
   });
 
@@ -92,9 +91,9 @@ void main() {
     final clInstances = await clIA32.defaultResolver!.resolve(logger: logger);
     expect(clInstances.isNotEmpty, true);
 
-    final instances = await vcvars(clInstances.first)
-        .defaultResolver!
-        .resolve(logger: logger);
+    final instances = await vcvars(
+      clInstances.first,
+    ).defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     expect(instance.tool, vcvars32);
@@ -107,9 +106,9 @@ void main() {
     final clInstances = await cl.defaultResolver!.resolve(logger: logger);
     expect(clInstances.isNotEmpty, true);
 
-    final instances = await vcvars(clInstances.first)
-        .defaultResolver!
-        .resolve(logger: logger);
+    final instances = await vcvars(
+      clInstances.first,
+    ).defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     expect(instance.tool, vcvars64);
@@ -122,9 +121,9 @@ void main() {
     final clInstances = await clArm64.defaultResolver!.resolve(logger: logger);
     expect(clInstances.isNotEmpty, true);
 
-    final instances = await vcvars(clInstances.first)
-        .defaultResolver!
-        .resolve(logger: logger);
+    final instances = await vcvars(
+      clInstances.first,
+    ).defaultResolver!.resolve(logger: logger);
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     expect(instance.tool, vcvarsarm64);
@@ -152,8 +151,9 @@ void main() {
   });
 
   test('vcvarsarm64', () async {
-    final instances =
-        await vcvarsarm64.defaultResolver!.resolve(logger: logger);
+    final instances = await vcvarsarm64.defaultResolver!.resolve(
+      logger: logger,
+    );
     expect(instances.isNotEmpty, true);
     final instance = instances.first;
     final env = await environmentFromBatchFile(instance.uri);
@@ -167,11 +167,7 @@ void main() {
     final instance = instances.first;
     final env = await environmentFromBatchFile(
       instance.uri,
-      arguments: [
-        'x64',
-        'uwp',
-        '10.0',
-      ],
+      arguments: ['x64', 'uwp', '10.0'],
     );
     expect(env['INCLUDE'] != null, true);
     expect(env['WindowsSdkDir'] != null, true); // stdio.h

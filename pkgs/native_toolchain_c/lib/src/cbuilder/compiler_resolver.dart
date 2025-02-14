@@ -31,8 +31,8 @@ class CompilerResolver {
     required this.logger,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
-  })  : hostOS = hostOS ?? OS.current,
-        hostArchitecture = hostArchitecture ?? Architecture.current;
+  }) : hostOS = hostOS ?? OS.current,
+       hostArchitecture = hostArchitecture ?? Architecture.current;
 
   Future<ToolInstance> resolveCompiler() async {
     // First, check if the launcher provided a direct path to the compiler.
@@ -103,20 +103,24 @@ class CompilerResolver {
     final inputCcUri = codeConfig.cCompiler?.compiler;
     if (inputCcUri != null) {
       assert(await File.fromUri(inputCcUri).exists());
-      logger?.finer('Using compiler ${inputCcUri.toFilePath()} '
-          'from BuildInput.cCompiler.cc.');
-      return (await CompilerRecognizer(inputCcUri).resolve(logger: logger))
-          .first;
+      logger?.finer(
+        'Using compiler ${inputCcUri.toFilePath()} '
+        'from BuildInput.cCompiler.cc.',
+      );
+      return (await CompilerRecognizer(
+        inputCcUri,
+      ).resolve(logger: logger)).first;
     }
     logger?.finer('No compiler set in BuildInput.cCompiler.cc.');
     return null;
   }
 
   Future<ToolInstance?> _tryLoadToolFromNativeToolchain(Tool tool) async {
-    final resolved = (await tool.defaultResolver!.resolve(logger: logger))
-        .where((i) => i.tool == tool)
-        .toList()
-      ..sort();
+    final resolved =
+        (await tool.defaultResolver!.resolve(
+            logger: logger,
+          )).where((i) => i.tool == tool).toList()
+          ..sort();
     return resolved.isEmpty ? null : resolved.first;
   }
 
@@ -188,10 +192,13 @@ class CompilerResolver {
     final inputArUri = codeConfig.cCompiler?.archiver;
     if (inputArUri != null) {
       assert(await File.fromUri(inputArUri).exists());
-      logger?.finer('Using archiver ${inputArUri.toFilePath()} '
-          'from BuildInput.cCompiler.ar.');
-      return (await ArchiverRecognizer(inputArUri).resolve(logger: logger))
-          .first;
+      logger?.finer(
+        'Using archiver ${inputArUri.toFilePath()} '
+        'from BuildInput.cCompiler.ar.',
+      );
+      return (await ArchiverRecognizer(
+        inputArUri,
+      ).resolve(logger: logger)).first;
     }
     logger?.finer('No archiver set in BuildInput.cCompiler.ar.');
     return null;
@@ -262,8 +269,10 @@ class CompilerResolver {
     final inputLdUri = codeConfig.cCompiler?.linker;
     if (inputLdUri != null) {
       assert(await File.fromUri(inputLdUri).exists());
-      logger?.finer('Using linker ${inputLdUri.toFilePath()} '
-          'from cCompiler.ld.');
+      logger?.finer(
+        'Using linker ${inputLdUri.toFilePath()} '
+        'from cCompiler.ld.',
+      );
       final tools = await LinkerRecognizer(inputLdUri).resolve(logger: logger);
       return tools.first;
     }

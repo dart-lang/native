@@ -36,9 +36,9 @@ export 'package:native_assets_cli/code_assets_builder.dart';
 /// }
 /// ```
 String testSuffix(List<Object> tags) => switch (tags) {
-      [] => '',
-      _ => ' (${tags.join(', ')})',
-    };
+  [] => '',
+  _ => ' (${tags.join(', ')})',
+};
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
@@ -58,7 +58,8 @@ Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
 }
 
 /// Logger that outputs the full trace when a test fails.
-Logger get logger => _logger ??= () {
+Logger get logger =>
+    _logger ??= () {
       // A new logger is lazily created for each test so that the messages
       // captured by printOnFailure are scoped to the correct test.
       addTearDown(() => _logger = null);
@@ -75,7 +76,8 @@ Logger _createTestLogger({List<String>? capturedMessages}) =>
       ..level = Level.ALL
       ..onRecord.listen((record) {
         printOnFailure(
-            '${record.level.name}: ${record.time}: ${record.message}');
+          '${record.level.name}: ${record.time}: ${record.message}',
+        );
         capturedMessages?.add(record.message);
       });
 
@@ -110,10 +112,12 @@ Uri findPackageRoot(String packageName) {
       return cwd;
     }
   }
-  throw StateError("Could not find package root for package '$packageName'. "
-      'Tried finding the package root via Platform.script '
-      "'${Platform.script.toFilePath()}' and Directory.current "
-      "'${Directory.current.uri.toFilePath()}'.");
+  throw StateError(
+    "Could not find package root for package '$packageName'. "
+    'Tried finding the package root via Platform.script '
+    "'${Platform.script.toFilePath()}' and Directory.current "
+    "'${Directory.current.uri.toFilePath()}'.",
+  );
 }
 
 Uri packageUri = findPackageRoot('native_toolchain_c');
@@ -143,9 +147,9 @@ final Uri? _ld =
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript = Platform
-    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
-    ?.asFileUri();
+final Uri? _envScript =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+        ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
@@ -157,21 +161,23 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = (_cc == null || _ar == null || _ld == null)
-    ? null
-    : CCompilerConfig(
-        compiler: _cc!,
-        archiver: _ar!,
-        linker: _ld!,
-        windows: WindowsCCompilerConfig(
-          developerCommandPrompt: _envScript == null
-              ? null
-              : DeveloperCommandPrompt(
-                  script: _envScript!,
-                  arguments: _envScriptArgs ?? [],
-                ),
-        ),
-      );
+final cCompiler =
+    (_cc == null || _ar == null || _ld == null)
+        ? null
+        : CCompilerConfig(
+          compiler: _cc!,
+          archiver: _ar!,
+          linker: _ld!,
+          windows: WindowsCCompilerConfig(
+            developerCommandPrompt:
+                _envScript == null
+                    ? null
+                    : DeveloperCommandPrompt(
+                      script: _envScript!,
+                      arguments: _envScriptArgs ?? [],
+                    ),
+          ),
+        );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -191,11 +197,14 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
   expect(otoolResult.exitCode, 0);
   // Leading space on purpose to differentiate from other types of names.
   const installNameName = ' name ';
-  final installName = otoolResult.stdout
-      .split('\n')
-      .firstWhere((e) => e.contains(installNameName) && e.contains(libraryName))
-      .trim()
-      .split(' ')[1];
+  final installName =
+      otoolResult.stdout
+          .split('\n')
+          .firstWhere(
+            (e) => e.contains(installNameName) && e.contains(libraryName),
+          )
+          .trim()
+          .split(' ')[1];
   return installName;
 }
 
@@ -239,10 +248,7 @@ Future<String> nmReadSymbols(CodeAsset asset) async {
   final assetUri = asset.file!;
   final result = await runProcess(
     executable: Uri(path: 'nm'),
-    arguments: [
-      '-D',
-      assetUri.toFilePath(),
-    ],
+    arguments: ['-D', assetUri.toFilePath()],
     logger: logger,
   );
 
@@ -257,10 +263,7 @@ Future<void> expectSymbols({
   if (Platform.isLinux) {
     final nmOutput = await nmReadSymbols(asset);
 
-    expect(
-      nmOutput,
-      stringContainsInOrder(symbols),
-    );
+    expect(nmOutput, stringContainsInOrder(symbols));
   } else {
     throw UnimplementedError();
   }
@@ -276,8 +279,9 @@ Future<int> textSectionAddress(Uri dylib) async {
       logger: logger,
     );
     expect(result.exitCode, 0);
-    final textSection =
-        result.stdout.split('\n').firstWhere((e) => e.contains('.text'));
+    final textSection = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('.text'));
     final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
     expect(parsed[1], '.text');
     expect(parsed[4], 'TEXT');
@@ -288,8 +292,9 @@ Future<int> textSectionAddress(Uri dylib) async {
     // Find the line in the readelf output that looks like:
     // [11] .text             PROGBITS   00004328 000328 000064 00  AX  0   0  4
     final result = await readelf(dylib.toFilePath(), 'S');
-    final textSection =
-        result.split('\n').firstWhere((e) => e.contains('.text'));
+    final textSection = result
+        .split('\n')
+        .firstWhere((e) => e.contains('.text'));
     final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
     expect(parsed[1], '.text');
     expect(parsed[2], 'PROGBITS');
@@ -299,10 +304,7 @@ Future<int> textSectionAddress(Uri dylib) async {
   throw UnimplementedError();
 }
 
-Future<void> expectPageSize(
-  Uri dylib,
-  int pageSize,
-) async {
+Future<void> expectPageSize(Uri dylib, int pageSize) async {
   if (Platform.isMacOS || Platform.isLinux) {
     // If page size is 16kb, the `.text` section address should be
     // above 0x4000. With smaller page sizes it's above 0x1000.
