@@ -371,7 +371,8 @@ macOS: deprecated 10.11.12''');
         'macOS: unavailable');
 
     expect(
-        ApiAvailability(externalVersions: ExternalVersions(ios: Versions()))
+        ApiAvailability(
+                externalVersions: const ExternalVersions(ios: Versions()))
             .dartDoc,
         isNull);
   });
