@@ -286,6 +286,62 @@ void main() {
           ),
           externalVersions: const ExternalVersions(),
         ).dartDoc,
+        isNull);
+
+    expect(
+        ApiAvailability(
+          ios: PlatformAvailability(
+            name: 'iOS',
+            introduced: Version(1, 2, 3),
+            deprecated: Version(4, 5, 6),
+            obsoleted: Version(7, 8, 9),
+          ),
+          macos: PlatformAvailability(
+            name: 'macOS',
+            deprecated: Version(10, 11, 12),
+          ),
+          externalVersions: ExternalVersions(
+            ios: Versions(max: Version(1, 0, 0)),
+          ),
+        ).dartDoc,
+        isNull);
+
+    expect(
+        ApiAvailability(
+          ios: PlatformAvailability(
+            name: 'iOS',
+            introduced: Version(1, 2, 3),
+            deprecated: Version(4, 5, 6),
+            obsoleted: Version(7, 8, 9),
+          ),
+          macos: PlatformAvailability(
+            name: 'macOS',
+            deprecated: Version(10, 11, 12),
+          ),
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
+            macos: Versions(max: Version(4, 5, 6)),
+          ),
+        ).dartDoc,
+        isNull);
+
+    expect(
+        ApiAvailability(
+          ios: PlatformAvailability(
+            name: 'iOS',
+            introduced: Version(1, 2, 3),
+            deprecated: Version(4, 5, 6),
+            obsoleted: Version(7, 8, 9),
+          ),
+          macos: PlatformAvailability(
+            name: 'macOS',
+            deprecated: Version(10, 11, 12),
+          ),
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
+            macos: Versions(max: Version(11, 12, 13)),
+          ),
+        ).dartDoc,
         '''
 iOS: introduced 1.2.3, deprecated 4.5.6, obsoleted 7.8.9
 macOS: deprecated 10.11.12''');
@@ -297,7 +353,8 @@ macOS: deprecated 10.11.12''');
             introduced: Version(1, 2, 3),
             obsoleted: Version(4, 5, 6),
           ),
-          externalVersions: const ExternalVersions(),
+          externalVersions:
+              ExternalVersions(ios: Versions(max: Version(2, 3, 4))),
         ).dartDoc,
         'iOS: introduced 1.2.3, obsoleted 4.5.6');
 
@@ -307,11 +364,15 @@ macOS: deprecated 10.11.12''');
             name: 'macOS',
             unavailable: true,
           ),
-          externalVersions: const ExternalVersions(),
+          externalVersions: ExternalVersions(
+              ios: Versions(max: Version(1, 2, 3)),
+              macos: Versions(max: Version(2, 3, 4))),
         ).dartDoc,
         'macOS: unavailable');
 
-    expect(ApiAvailability(externalVersions: const ExternalVersions()).dartDoc,
-        '');
+    expect(
+        ApiAvailability(externalVersions: ExternalVersions(ios: Versions()))
+            .dartDoc,
+        isNull);
   });
 }
