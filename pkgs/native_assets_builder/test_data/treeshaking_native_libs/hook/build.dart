@@ -11,23 +11,22 @@ void main(List<String> arguments) async {
     final cbuilder = CBuilder.library(
       name: input.packageName + (input.config.linkingEnabled ? '_static' : ''),
       assetName: 'src/${input.packageName}_bindings_generated.dart',
-      sources: [
-        'src/native_add.c',
-        'src/native_multiply.c',
-      ],
-      linkModePreference: input.config.linkingEnabled
-          ? LinkModePreference.static
-          : LinkModePreference.dynamic,
+      sources: ['src/native_add.c', 'src/native_multiply.c'],
+      linkModePreference:
+          input.config.linkingEnabled
+              ? LinkModePreference.static
+              : LinkModePreference.dynamic,
     );
     await cbuilder.run(
       input: input,
       output: output,
       linkInPackage: input.config.linkingEnabled ? input.packageName : null,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) {
-          print('${record.level.name}: ${record.time}: ${record.message}');
-        }),
+      logger:
+          Logger('')
+            ..level = Level.ALL
+            ..onRecord.listen((record) {
+              print('${record.level.name}: ${record.time}: ${record.message}');
+            }),
     );
   });
 }

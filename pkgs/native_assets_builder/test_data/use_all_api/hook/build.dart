@@ -33,14 +33,16 @@ void main(List<String> args) async {
     input.config.code.cCompiler?.compiler;
     input.config.code.cCompiler?.linker;
 
-    output.assets.code.add(CodeAsset(
-      package: 'package',
-      name: 'name',
-      linkMode: DynamicLoadingBundled(),
-      os: input.config.code.targetOS,
-      architecture: input.config.code.targetArchitecture,
-      file: input.outputDirectory.resolve('foo'),
-    ));
+    output.assets.code.add(
+      CodeAsset(
+        package: 'package',
+        name: 'name',
+        linkMode: DynamicLoadingBundled(),
+        os: input.config.code.targetOS,
+        architecture: input.config.code.targetArchitecture,
+        file: input.outputDirectory.resolve('foo'),
+      ),
+    );
     output.assets.data.add(
       DataAsset(
         file: input.outputDirectory.resolve('foo'),
