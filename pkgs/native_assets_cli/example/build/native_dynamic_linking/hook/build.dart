@@ -8,9 +8,10 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final logger = Logger('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) => print(record.message));
+    final logger =
+        Logger('')
+          ..level = Level.ALL
+          ..onRecord.listen((record) => print(record.message));
 
     final builders = [
       CBuilder.library(
