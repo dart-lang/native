@@ -70,10 +70,12 @@ Uri findPackageRoot(String packageName) {
       return cwd;
     }
   }
-  throw StateError("Could not find package root for package '$packageName'. "
-      'Tried finding the package root via Platform.script '
-      "'${Platform.script.toFilePath()}' and Directory.current "
-      "'${Directory.current.uri.toFilePath()}'.");
+  throw StateError(
+    "Could not find package root for package '$packageName'. "
+    'Tried finding the package root via Platform.script '
+    "'${Platform.script.toFilePath()}' and Directory.current "
+    "'${Directory.current.uri.toFilePath()}'.",
+  );
 }
 
 Uri packageUri = findPackageRoot('native_assets_cli');
@@ -103,9 +105,9 @@ final Uri? _ld =
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript = Platform
-    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
-    ?.asFileUri();
+final Uri? _envScript =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+        ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
@@ -117,21 +119,23 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = (_cc == null || _ar == null || _ld == null)
-    ? null
-    : CCompilerConfig(
-        compiler: _cc!,
-        archiver: _ar!,
-        linker: _ld!,
-        windows: WindowsCCompilerConfig(
-          developerCommandPrompt: _envScript == null
-              ? null
-              : DeveloperCommandPrompt(
-                  script: _envScript!,
-                  arguments: _envScriptArgs ?? [],
-                ),
-        ),
-      );
+final cCompiler =
+    (_cc == null || _ar == null || _ld == null)
+        ? null
+        : CCompilerConfig(
+          compiler: _cc!,
+          archiver: _ar!,
+          linker: _ld!,
+          windows: WindowsCCompilerConfig(
+            developerCommandPrompt:
+                _envScript == null
+                    ? null
+                    : DeveloperCommandPrompt(
+                      script: _envScript!,
+                      arguments: _envScriptArgs ?? [],
+                    ),
+          ),
+        );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -172,7 +176,8 @@ extension UriExtension on Uri {
 }
 
 /// Logger that outputs the full trace when a test fails.
-Logger get logger => _logger ??= () {
+Logger get logger =>
+    _logger ??= () {
       // A new logger is lazily created for each test so that the messages
       // captured by printOnFailure are scoped to the correct test.
       addTearDown(() => _logger = null);

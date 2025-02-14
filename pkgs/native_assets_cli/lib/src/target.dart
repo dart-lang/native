@@ -24,28 +24,30 @@ final class Target implements Comparable<Target> {
     final split = versionStringFull.split('"');
     if (split.length < 2) {
       throw FormatException(
-          "Unknown version from Platform.version '$versionStringFull'.");
+        "Unknown version from Platform.version '$versionStringFull'.",
+      );
     }
     final versionString = split[1];
     final target = _dartVMstringToTarget[versionString];
     if (target == null) {
-      throw FormatException("Unknown ABI '$versionString' from Platform.version"
-          " '$versionStringFull'.");
+      throw FormatException(
+        "Unknown ABI '$versionString' from Platform.version"
+        " '$versionStringFull'.",
+      );
     }
     return target;
   }
 
-  factory Target.fromArchitectureAndOS(
-    Architecture architecture,
-    OS os,
-  ) {
+  factory Target.fromArchitectureAndOS(Architecture architecture, OS os) {
     for (final value in values) {
       if (value.os == os && value.architecture == architecture) {
         return value;
       }
     }
-    throw ArgumentError('Unsupported combination of OS and architecture: '
-        "'${os}_$architecture'");
+    throw ArgumentError(
+      'Unsupported combination of OS and architecture: '
+      "'${os}_$architecture'",
+    );
   }
 
   static const androidArm = Target._(Abi.androidArm);
@@ -96,12 +98,14 @@ final class Target implements Comparable<Target> {
 
   /// Mapping from strings as used in [Target.toString] to [Target]s.
   static final Map<String, Target> _stringToTarget = Map.fromEntries(
-      Target.values.map((target) => MapEntry(target.toString(), target)));
+    Target.values.map((target) => MapEntry(target.toString(), target)),
+  );
 
   /// Mapping from lowercased strings as used in [Platform.version] to
   /// [Target]s.
   static final Map<String, Target> _dartVMstringToTarget = Map.fromEntries(
-      Target.values.map((target) => MapEntry(target.dartVMToString(), target)));
+    Target.values.map((target) => MapEntry(target.dartVMToString(), target)),
+  );
 
   /// The current [Target].
   ///
@@ -110,7 +114,8 @@ final class Target implements Comparable<Target> {
 
   Architecture get architecture => Architecture.fromAbi(abi);
 
-  OS get os => {
+  OS get os =>
+      {
         Abi.androidArm: OS.android,
         Abi.androidArm64: OS.android,
         Abi.androidIA32: OS.android,
@@ -147,15 +152,17 @@ final class Target implements Comparable<Target> {
   int compareTo(Target other) => toString().compareTo(other.toString());
 
   /// A list of supported target [Target]s from this host [os].
-  List<Target> supportedTargetTargets(
-          {Map<OS, List<OS>> osCrossCompilation =
-              OS.osCrossCompilationDefault}) =>
+  List<Target> supportedTargetTargets({
+    Map<OS, List<OS>> osCrossCompilation = OS.osCrossCompilationDefault,
+  }) =>
       Target.values
-          .where((target) =>
-              // Only valid cross compilation.
-              osCrossCompilation[os]!.contains(target.os) &&
-              // And no deprecated architectures.
-              target != Target.iOSArm)
+          .where(
+            (target) =>
+                // Only valid cross compilation.
+                osCrossCompilation[os]!.contains(target.os) &&
+                // And no deprecated architectures.
+                target != Target.iOSArm,
+          )
           .sorted;
 }
 

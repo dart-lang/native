@@ -76,7 +76,7 @@ final class Architecture {
   String toString() => name;
 
   static final Map<String, Architecture> _architectureByName = {
-    for (var architecture in values) architecture.name: architecture
+    for (var architecture in values) architecture.name: architecture,
   };
 
   /// Creates an [Architecture] from the given [name].

@@ -13,9 +13,7 @@ Future<void> main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.code.linkModePreference == LinkModePreference.static) {
       // Simulate that this build hook only supports dynamic libraries.
-      throw UnsupportedError(
-        'LinkModePreference.static is not supported.',
-      );
+      throw UnsupportedError('LinkModePreference.static is not supported.');
     }
 
     final packageName = input.packageName;
@@ -26,9 +24,7 @@ Future<void> main(List<String> args) async {
       // Insert code that downloads or builds the asset to `assetPath`.
       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 
-      output.addDependencies([
-        assetSourcePath,
-      ]);
+      output.addDependencies([assetSourcePath]);
     }
 
     output.assets.code.add(

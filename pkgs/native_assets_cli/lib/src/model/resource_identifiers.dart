@@ -20,23 +20,27 @@ class ResourceIdentifiers {
   factory ResourceIdentifiers.fromFileContents(String fileContents) {
     final fileJson = (jsonDecode(fileContents) as Map)['identifiers'] as List;
     return ResourceIdentifiers(
-        identifiers: fileJson
-            .map((e) => e as Map<String, Object?>)
-            .map(Identifier.fromJson)
-            .toList());
+      identifiers:
+          fileJson
+              .map((e) => e as Map<String, Object?>)
+              .map(Identifier.fromJson)
+              .toList(),
+    );
   }
 
   factory ResourceIdentifiers.fromJson(Map<String, Object?> map) =>
       ResourceIdentifiers(
-        identifiers: List<Identifier>.from((map['identifiers'] as List?)
-                ?.whereType<Map<String, Object?>>()
-                .map(Identifier.fromJson) ??
-            []),
+        identifiers: List<Identifier>.from(
+          (map['identifiers'] as List?)?.whereType<Map<String, Object?>>().map(
+                Identifier.fromJson,
+              ) ??
+              [],
+        ),
       );
 
   Map<String, Object?> toJson() => {
-        'identifiers': identifiers.map((x) => x.toJson()).toList(),
-      };
+    'identifiers': identifiers.map((x) => x.toJson()).toList(),
+  };
 
   @override
   bool operator ==(Object other) {
@@ -70,26 +74,28 @@ class Identifier {
   });
 
   Map<String, Object?> toJson() => {
-        'name': name,
-        'id': id,
-        'uri': uri.toFilePath(),
-        'nonConstant': nonConstant,
-        'files': files.map((x) => x.toJson()).toList(),
-      };
+    'name': name,
+    'id': id,
+    'uri': uri.toFilePath(),
+    'nonConstant': nonConstant,
+    'files': files.map((x) => x.toJson()).toList(),
+  };
 
   @override
   String toString() =>
       '''Identifier(name: $name, id: $id, uri: $uri, nonConstant: $nonConstant, files: $files)''';
 
   factory Identifier.fromJson(Map<String, Object?> map) => Identifier(
-        name: map['name'] as String,
-        id: map['id'] as String,
-        uri: Uri.file(map['uri'] as String),
-        nonConstant: map['nonConstant'] as bool,
-        files: List<ResourceFile>.from((map['files'] as List)
-            .map((e) => e as Map<String, Object?>)
-            .map(ResourceFile.fromJson)),
-      );
+    name: map['name'] as String,
+    id: map['id'] as String,
+    uri: Uri.file(map['uri'] as String),
+    nonConstant: map['nonConstant'] as bool,
+    files: List<ResourceFile>.from(
+      (map['files'] as List)
+          .map((e) => e as Map<String, Object?>)
+          .map(ResourceFile.fromJson),
+    ),
+  );
 
   @override
   bool operator ==(Object other) {
@@ -120,16 +126,18 @@ class ResourceFile {
   ResourceFile({required this.part, required this.references});
 
   Map<String, Object?> toJson() => {
-        'part': part,
-        'references': references.map((x) => x.toJson()).toList(),
-      };
+    'part': part,
+    'references': references.map((x) => x.toJson()).toList(),
+  };
 
   factory ResourceFile.fromJson(Map<String, Object?> map) => ResourceFile(
-        part: map['part'] as int,
-        references: List<ResourceReference>.from((map['references'] as List)
-            .map((e) => e as Map<String, Object?>)
-            .map(ResourceReference.fromJson)),
-      );
+    part: map['part'] as int,
+    references: List<ResourceReference>.from(
+      (map['references'] as List)
+          .map((e) => e as Map<String, Object?>)
+          .map(ResourceReference.fromJson),
+    ),
+  );
 
   @override
   String toString() => 'ResourceFile(part: $part, references: $references)';
@@ -162,13 +170,9 @@ class ResourceReference {
   });
 
   Map<String, Object?> toJson() => {
-        '@': {
-          'uri': uri.toFilePath(),
-          'line': line,
-          'column': column,
-        },
-        ...arguments,
-      };
+    '@': {'uri': uri.toFilePath(), 'line': line, 'column': column},
+    ...arguments,
+  };
 
   @override
   String toString() =>

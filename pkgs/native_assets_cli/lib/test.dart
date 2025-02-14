@@ -54,10 +54,7 @@ Future<void> testBuildHook({
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..config.setupBuild(
-        dryRun: false,
-        linkingEnabled: true,
-      );
+      ..config.setupBuild(dryRun: false, linkingEnabled: true);
     extraInputSetup(inputBuilder);
 
     final input = BuildInput(inputBuilder.json);
@@ -71,7 +68,8 @@ Future<void> testBuildHook({
     final validationErrors = await validateBuildOutput(input, output);
     if (validationErrors.isNotEmpty) {
       throw ValidationFailure(
-          'encountered build output validation issues: $validationErrors');
+        'encountered build output validation issues: $validationErrors',
+      );
     }
 
     // Run user-defined tests.

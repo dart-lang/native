@@ -39,11 +39,7 @@ final class DataAsset {
   /// different packages.
   String get id => 'package:$package/$name';
 
-  DataAsset({
-    required this.file,
-    required this.name,
-    required this.package,
-  });
+  DataAsset({required this.file, required this.name, required this.package});
 
   /// Constructs a [DataAsset] from an [EncodedAsset].
   factory DataAsset.fromEncoded(EncodedAsset asset) {
@@ -67,19 +63,16 @@ final class DataAsset {
   }
 
   @override
-  int get hashCode => Object.hash(
-        package,
-        name,
-        file.toFilePath(),
-      );
+  int get hashCode => Object.hash(package, name, file.toFilePath());
 
   EncodedAsset encode() => EncodedAsset(
-      DataAsset.type,
-      <String, Object>{
-        _nameKey: name,
-        _packageKey: package,
-        _fileKey: file.toFilePath(),
-      }..sortOnKey());
+    DataAsset.type,
+    <String, Object>{
+      _nameKey: name,
+      _packageKey: package,
+      _fileKey: file.toFilePath(),
+    }..sortOnKey(),
+  );
 
   @override
   String toString() => 'DataAsset(${encode().encoding})';

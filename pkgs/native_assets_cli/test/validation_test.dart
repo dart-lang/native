@@ -30,19 +30,17 @@ void main() {
   });
 
   BuildInput makeBuildInput() {
-    final inputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: packageName,
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outDirSharedUri,
-      )
-      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      );
+    final inputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectory: outDirUri,
+            outputDirectoryShared: outDirSharedUri,
+          )
+          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
+          ..config.setupBuild(linkingEnabled: false, dryRun: false);
     return BuildInput(inputBuilder.json);
   }
 
@@ -55,12 +53,11 @@ void main() {
       EncodedAsset('my-asset-type', {}),
       linkInPackage: 'bar',
     );
-    final errors =
-        await validateBuildOutput(input, BuildOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('linkingEnabled is false')),
+    final errors = await validateBuildOutput(
+      input,
+      BuildOutput(outputBuilder.json),
     );
+    expect(errors, contains(contains('linkingEnabled is false')));
   });
 
   test('supported asset type', () async {
@@ -69,11 +66,10 @@ void main() {
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
     outputBuilder.assets.addEncodedAsset(EncodedAsset('baz', {}));
-    final errors =
-        await validateBuildOutput(input, BuildOutput(outputBuilder.json));
-    expect(
-      errors,
-      contains(contains('"baz" is not a supported asset type')),
+    final errors = await validateBuildOutput(
+      input,
+      BuildOutput(outputBuilder.json),
     );
+    expect(errors, contains(contains('"baz" is not a supported asset type')));
   });
 }

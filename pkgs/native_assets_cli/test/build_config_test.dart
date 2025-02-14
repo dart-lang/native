@@ -31,29 +31,23 @@ void main() async {
         'key': 'value',
         'foo': ['asdf', 'fdsa'],
       }),
-      'foo': const Metadata({
-        'key': 321,
-      }),
+      'foo': const Metadata({'key': 321}),
     };
   });
 
   test('BuildInputBuilder->JSON->BuildInput', () {
-    final inputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: packageName,
-        packageRoot: packageRootUri,
-        outputFile: outFile,
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      )
-      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupBuildInput(
-        metadata: metadata,
-      );
+    final inputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: packageRootUri,
+            outputFile: outFile,
+            outputDirectory: outDirUri,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
+          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..setupBuildInput(metadata: metadata);
     final input = BuildInput(inputBuilder.json);
 
     final expectedInputJson = {
@@ -68,9 +62,7 @@ void main() async {
           'key': 'value',
           'foo': ['asdf', 'fdsa'],
         },
-        'foo': {
-          'key': 321,
-        },
+        'foo': {'key': 321},
       },
       'dry_run': false,
       'linking_enabled': false,
@@ -99,20 +91,18 @@ void main() async {
   });
 
   test('BuildInput.config.dryRun', () {
-    final inputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: packageName,
-        packageRoot: packageRootUri,
-        outputFile: outFile,
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      )
-      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-      ..config.setupBuild(
-        linkingEnabled: true,
-        dryRun: true,
-      )
-      ..setupBuildInput();
+    final inputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: packageRootUri,
+            outputFile: outFile,
+            outputDirectory: outDirUri,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
+          ..config.setupBuild(linkingEnabled: true, dryRun: true)
+          ..setupBuildInput();
     final input = BuildInput(inputBuilder.json);
 
     final expectedInputJson = {
@@ -167,12 +157,14 @@ void main() async {
         };
         expect(
           () => BuildInput(input),
-          throwsA(predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(version) &&
-                e.message.contains(latestVersion.toString()),
-          )),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is FormatException &&
+                  e.message.contains(version) &&
+                  e.message.contains(latestVersion.toString()),
+            ),
+          ),
         );
       });
     }
@@ -180,13 +172,13 @@ void main() async {
     test('BuildInput FormatExceptions', () {
       expect(
         () => BuildInput({}),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                'No value was provided for required key: ',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains('No value was provided for required key: '),
+          ),
+        ),
       );
       expect(
         () => BuildInput({
@@ -197,13 +189,15 @@ void main() async {
           'linking_enabled': true,
           'build_asset_types': ['my-asset-type'],
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                'No value was provided for required key: out_dir',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(
+                  'No value was provided for required key: out_dir',
+                ),
+          ),
+        ),
       );
       expect(
         () => BuildInput({
@@ -221,12 +215,14 @@ void main() async {
             'foo': <int>[],
           },
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains("Unexpected value '[]' ") &&
-              e.message.contains('Expected a Map<String, Object?>'),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains("Unexpected value '[]' ") &&
+                e.message.contains('Expected a Map<String, Object?>'),
+          ),
+        ),
       );
     });
   });

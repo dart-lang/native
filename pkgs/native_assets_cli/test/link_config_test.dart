@@ -26,24 +26,24 @@ void main() async {
     packageRootUri = tempUri.resolve('$packageName/');
     assets = [
       for (int i = 0; i < 3; i++)
-        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'})
+        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
     ];
   });
 
   test('LinkInputBuilder->JSON->LinkInput', () {
-    final inputBuilder = LinkInputBuilder()
-      ..setupShared(
-        packageName: packageName,
-        packageRoot: packageRootUri,
-        outputFile: outFile,
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      )
-      ..config.setupShared(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
-      ..setupLink(
-        assets: assets,
-        recordedUsesFile: null,
-      );
+    final inputBuilder =
+        LinkInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: packageRootUri,
+            outputFile: outFile,
+            outputDirectory: outDirUri,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupShared(
+            buildAssetTypes: ['asset-type-1', 'asset-type-2'],
+          )
+          ..setupLink(assets: assets, recordedUsesFile: null);
     final input = LinkInput(inputBuilder.json);
 
     final expectedInputJson = {
@@ -91,23 +91,27 @@ void main() async {
         };
         expect(
           () => LinkInput(input),
-          throwsA(predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(version) &&
-                e.message.contains(latestVersion.toString()),
-          )),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is FormatException &&
+                  e.message.contains(version) &&
+                  e.message.contains(latestVersion.toString()),
+            ),
+          ),
         );
       });
     }
     test('LinkInput FormatExceptions', () {
       expect(
         () => LinkInput({}),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains('No value was provided for required key: '),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains('No value was provided for required key: '),
+          ),
+        ),
       );
       expect(
         () => LinkInput({
@@ -118,13 +122,15 @@ void main() async {
           'target_os': 'android',
           'assets': <String>[],
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                'No value was provided for required key: out_dir',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(
+                  'No value was provided for required key: out_dir',
+                ),
+          ),
+        ),
       );
       expect(
         () => LinkInput({
@@ -138,14 +144,16 @@ void main() async {
           'target_os': 'android',
           'assets': 'astring',
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                "Unexpected value 'astring' for key '.assets' in input file. "
-                'Expected a List<Object?>?.',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(
+                  "Unexpected value 'astring' for key '.assets' in input file. "
+                  'Expected a List<Object?>?.',
+                ),
+          ),
+        ),
       );
     });
   });

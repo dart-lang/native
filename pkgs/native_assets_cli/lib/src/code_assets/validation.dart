@@ -17,11 +17,7 @@ Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
     );
 
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
-    _validateCodeConfig(
-      'LinkInput.config.code',
-      false,
-      input.config.code,
-    );
+    _validateCodeConfig('LinkInput.config.code', false, input.config.code);
 
 ValidationErrors _validateCodeConfig(
   String inputName,
@@ -36,45 +32,42 @@ ValidationErrors _validateCodeConfig(
   switch (targetOS) {
     case OS.macOS:
       if (code.macOS.targetVersionSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.macOS but '
-            '$inputName.macOS.targetVersion was missing');
+        errors.add(
+          '$inputName.targetOS is OS.macOS but '
+          '$inputName.macOS.targetVersion was missing',
+        );
       }
       break;
     case OS.iOS:
       if (code.iOS.targetSdkSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.iOS but '
-            '$inputName.iOS.targetSdk was missing');
+        errors.add(
+          '$inputName.targetOS is OS.iOS but '
+          '$inputName.iOS.targetSdk was missing',
+        );
       }
       if (code.iOS.targetVersionSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.iOS but '
-            '$inputName.iOS.targetVersion was missing');
+        errors.add(
+          '$inputName.targetOS is OS.iOS but '
+          '$inputName.iOS.targetVersion was missing',
+        );
       }
       break;
     case OS.android:
       if (code.android.targetNdkApiSyntactic == null) {
-        errors.add('$inputName.targetOS is OS.android but '
-            '$inputName.android.targetNdkApi was missing');
+        errors.add(
+          '$inputName.targetOS is OS.android but '
+          '$inputName.android.targetNdkApi was missing',
+        );
       }
       break;
   }
   final cCompiler = code.cCompiler;
   if (cCompiler != null) {
-    errors.addAll(
-      [
-        ..._validateFile(
-          '$inputName.cCompiler.compiler',
-          cCompiler.compiler,
-        ),
-        ..._validateFile(
-          '$inputName.cCompiler.linker',
-          cCompiler.linker,
-        ),
-        ..._validateFile(
-          '$inputName.cCompiler.archiver',
-          cCompiler.archiver,
-        ),
-      ],
-    );
+    errors.addAll([
+      ..._validateFile('$inputName.cCompiler.compiler', cCompiler.compiler),
+      ..._validateFile('$inputName.cCompiler.linker', cCompiler.linker),
+      ..._validateFile('$inputName.cCompiler.archiver', cCompiler.archiver),
+    ]);
     if (code.targetOS == OS.windows &&
         cCompiler.windows.developerCommandPrompt != null) {
       errors.addAll([
@@ -91,29 +84,27 @@ ValidationErrors _validateCodeConfig(
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
   BuildOutput output,
-) =>
-    _validateCodeAssetBuildOrLinkOutput(
-      input,
-      input.config.code,
-      output.assets.encodedAssets,
-      // ignore: deprecated_member_use_from_same_package
-      input.config.dryRun,
-      output,
-      true,
-    );
+) => _validateCodeAssetBuildOrLinkOutput(
+  input,
+  input.config.code,
+  output.assets.encodedAssets,
+  // ignore: deprecated_member_use_from_same_package
+  input.config.dryRun,
+  output,
+  true,
+);
 
 Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
   LinkOutput output,
-) =>
-    _validateCodeAssetBuildOrLinkOutput(
-      input,
-      input.config.code,
-      output.assets.encodedAssets,
-      false,
-      output,
-      false,
-    );
+) => _validateCodeAssetBuildOrLinkOutput(
+  input,
+  input.config.code,
+  output.assets.encodedAssets,
+  false,
+  output,
+  false,
+);
 
 /// Validates that the given code assets can be used together in an application.
 ///
@@ -121,7 +112,8 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
 /// on the entire application build and not on individual `hook/build.dart`
 /// invocations.
 Future<ValidationErrors> validateCodeAssetInApplication(
-    List<EncodedAsset> assets) async {
+  List<EncodedAsset> assets,
+) async {
   final fileNameToEncodedAssetId = <String, Set<String>>{};
   for (final asset in assets) {
     if (asset.type != CodeAsset.type) continue;
@@ -189,14 +181,17 @@ void _validateCodeAssets(
   final linkMode = codeAsset.linkMode;
   if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
       (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
-    errors.add('CodeAsset "$id" has a link mode "$linkMode", which '
-        'is not allowed by by the input link mode preference '
-        '"$preference".');
+    errors.add(
+      'CodeAsset "$id" has a link mode "$linkMode", which '
+      'is not allowed by by the input link mode preference '
+      '"$preference".',
+    );
   }
 
   final os = codeAsset.os;
   if (codeConfig.targetOS != os) {
-    final error = 'CodeAsset "$id" has a os "$os", which '
+    final error =
+        'CodeAsset "$id" has a os "$os", which '
         'is not the target os "${codeConfig.targetOS}".';
     errors.add(error);
   }
@@ -206,8 +201,10 @@ void _validateCodeAssets(
     if (architecture == null) {
       errors.add('CodeAsset "$id" has no architecture.');
     } else if (architecture != codeConfig.targetArchitecture) {
-      errors.add('CodeAsset "$id" has an architecture "$architecture", which '
-          'is not the target architecture "${codeConfig.targetArchitecture}".');
+      errors.add(
+        'CodeAsset "$id" has an architecture "$architecture", which '
+        'is not the target architecture "${codeConfig.targetArchitecture}".',
+      );
     }
   }
 
@@ -216,22 +213,20 @@ void _validateCodeAssets(
     errors.add('CodeAsset "$id" has no file.');
   }
   if (file != null) {
-    errors.addAll(_validateFile(
-      'Code asset "$id" file',
-      file,
-      mustExist: !dryRun,
-    ));
+    errors.addAll(
+      _validateFile('Code asset "$id" file', file, mustExist: !dryRun),
+    );
   }
 }
 
 bool _mustHaveFile(LinkMode linkMode) => switch (linkMode) {
-      LookupInExecutable _ => false,
-      LookupInProcess _ => false,
-      DynamicLoadingSystem _ => false,
-      DynamicLoadingBundled _ => true,
-      StaticLinking _ => true,
-      _ => throw UnsupportedError('Unknown link mode: $linkMode.'),
-    };
+  LookupInExecutable _ => false,
+  LookupInProcess _ => false,
+  DynamicLoadingSystem _ => false,
+  DynamicLoadingBundled _ => true,
+  StaticLinking _ => true,
+  _ => throw UnsupportedError('Unknown link mode: $linkMode.'),
+};
 
 void _groupCodeAssetsByFilename(
   CodeAsset codeAsset,
@@ -246,7 +241,9 @@ void _groupCodeAssetsByFilename(
 }
 
 void _validateNoDuplicateDylibNames(
-    List<String> errors, Map<String, Set<String>> fileNameToEncodedAssetId) {
+  List<String> errors,
+  Map<String, Set<String>> fileNameToEncodedAssetId,
+) {
   for (final fileName in fileNameToEncodedAssetId.keys) {
     final assetIds = fileNameToEncodedAssetId[fileName]!;
     if (assetIds.length > 1) {
