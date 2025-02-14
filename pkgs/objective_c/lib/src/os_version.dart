@@ -25,6 +25,7 @@ final class OsVersionError implements Exception {
 
 typedef PlatformAvailability = (bool unavailable, (int, int, int)? introduced);
 
+/// Only for use by ffigen bindings.
 void checkOsVersion(
   String apiName, {
   PlatformAvailability? iOS,

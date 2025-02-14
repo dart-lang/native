@@ -388,7 +388,7 @@ class ObjCMethod extends AstNode {
     s.write(' {\n');
 
     // Implementation.
-    final versionCheck = apiAvailability?.runtimeCheck(
+    final versionCheck = apiAvailability.runtimeCheck(
         ObjCBuiltInFunctions.checkOsVersion.gen(w),
         '${target.originalName}.$originalName');
     if (versionCheck != null) {

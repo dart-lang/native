@@ -76,7 +76,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     }
     s.write(makeDartDoc(dartDoc));
 
-    final versionCheck = apiAvailability?.runtimeCheck(
+    final versionCheck = apiAvailability.runtimeCheck(
         ObjCBuiltInFunctions.checkOsVersion.gen(w), originalName);
     final ctorBody = versionCheck == null ? ';' : ' { $versionCheck }';
 
