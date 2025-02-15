@@ -28,9 +28,18 @@ import Foundation
     return BoolWrapper(result)
   }
 
+  @objc static public func globalVar5Wrapper() throws -> String {
+    let result = try globalVar5
+    return String(result)
+  }
+
   @objc static public func intFuncWrapper() throws -> IntWrapper {
     let result = try intFunc()
     return IntWrapper(result)
+  }
+
+  @objc static public func strFuncWrapper() throws -> String {
+    return try strFunc()
   }
 
   @objc static public func boolFuncWrapper() throws -> BoolWrapper {
@@ -62,6 +71,11 @@ import Foundation
     return IntWrapper(result)
   }
 
+  @objc public func str() throws -> String {
+    let result = try wrappedInstance.str
+    return String(result)
+  }
+
   @objc public func name() throws -> FloatWrapper {
     let result = try wrappedInstance.name
     return FloatWrapper(result)
@@ -80,6 +94,10 @@ import Foundation
   @objc public func intFunc() throws -> IntWrapper {
     let result = try wrappedInstance.intFunc()
     return IntWrapper(result)
+  }
+
+  @objc public func strFunc() throws -> String {
+    return try wrappedInstance.strFunc()
   }
 
   @objc public func boolFunc() throws -> BoolWrapper {

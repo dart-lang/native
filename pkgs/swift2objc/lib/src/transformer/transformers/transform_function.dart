@@ -5,10 +5,10 @@
 import '../../ast/_core/interfaces/function_declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
-import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../_core/primitive_wrappers.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
@@ -92,9 +92,7 @@ MethodDeclaration _transformFunction(
   );
 
   final (type, isWrapper) = getWrapperIfNeeded(
-    transformedReturnType,
-    originalFunction.throws,
-  );
+      transformedReturnType, originalFunction.throws, transformationMap);
 
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,

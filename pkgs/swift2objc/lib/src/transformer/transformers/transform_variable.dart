@@ -1,9 +1,9 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/variable_declaration.dart';
-import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../_core/primitive_wrappers.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
@@ -81,8 +81,8 @@ Declaration _transformVariable(
       if (originalVariable.async) 'await'
     ].join(' ');
 
-    final (type, isWrapper) =
-        getWrapperIfNeeded(transformedType, originalVariable.throws);
+    final (type, isWrapper) = getWrapperIfNeeded(
+        transformedType, originalVariable.throws, transformationMap);
 
     return MethodDeclaration(
       id: originalVariable.id,

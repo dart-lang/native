@@ -21,6 +21,11 @@ public class MyClass {
         return true
     }
   }
+  public var str : String {
+    get throws {
+        return "Hello"
+    }
+  }
 
   public func intFunc() throws -> Int {
     return 10
@@ -33,6 +38,9 @@ public class MyClass {
   }
   public func boolFunc() throws -> Bool {
     return true
+  }
+  public func strFunc() throws -> String {
+    return "Hello"
   }
 }
 
@@ -56,6 +64,11 @@ public var globalVar4 : Bool {
     return true
   }
 }
+public var globalVar5 : String {
+  get throws {
+    return "Hello"
+  }
+}
 
 public func intFunc() throws -> Int {
   return 10
@@ -68,4 +81,7 @@ public func doubleFunc() throws -> Double {
 }
 public func boolFunc() throws -> Bool {
   return true
+}
+public func strFunc() throws -> String {
+  return "Hello"
 }

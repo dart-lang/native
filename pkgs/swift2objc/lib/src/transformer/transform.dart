@@ -5,6 +5,7 @@
 import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
 import '../ast/_core/interfaces/nestable_declaration.dart';
+import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
@@ -15,7 +16,6 @@ import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
-final primitiveWrapperClasses = <Declaration>{};
 
 Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
     visit(DependencyVisitation(), decls).topLevelDeclarations;
@@ -24,7 +24,6 @@ Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
 List<Declaration> transform(List<Declaration> declarations,
     {required bool Function(Declaration) filter}) {
   final transformationMap = <Declaration, Declaration>{};
-  primitiveWrapperClasses.clear();
 
   final declarations0 = declarations.where(filter).toSet();
   declarations0.addAll(generateDependencies(declarations0));
@@ -53,7 +52,8 @@ List<Declaration> transform(List<Declaration> declarations,
       transformGlobals(globals, globalNamer, transformationMap),
   ];
 
-  return (transformedDeclarations + primitiveWrapperClasses.toList())
+  return (transformedDeclarations +
+      _getPrimitiveWrapperClasses(transformationMap))
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 
@@ -81,4 +81,12 @@ Declaration transformDeclaration(
       ),
     _ => throw UnimplementedError(),
   };
+}
+
+List<Declaration> _getPrimitiveWrapperClasses(
+    TransformationMap transformationMap) {
+  return transformationMap.entries
+      .where((entry) => entry.key is BuiltInDeclaration)
+      .map((entry) => entry.value)
+      .toList();
 }
