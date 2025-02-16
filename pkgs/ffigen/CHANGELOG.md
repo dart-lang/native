@@ -1,6 +1,6 @@
-## 17.0.0-wip
+## 17.0.0
 
-- Use package:objective_c 5.0.0
+- Use package:objective_c 6.0.0
 - Support transitive categories of built-in types:
   https://github.com/dart-lang/native/issues/1820
 - __Breaking change__: Maintain protocol conformance when translating from ObjC
