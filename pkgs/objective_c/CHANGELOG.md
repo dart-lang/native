@@ -1,3 +1,7 @@
+## 6.0.0-wip
+
+- Use ffigen 17.0.0
+
 ## 5.0.0
 
 - __Breaking change__: Rename the `NSString` to `String` conversion method from

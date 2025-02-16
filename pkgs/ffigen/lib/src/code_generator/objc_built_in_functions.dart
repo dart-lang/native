@@ -47,6 +47,7 @@ class ObjCBuiltInFunctions {
   static const dartProxy = ObjCImport('DartProxy');
   static const unimplementedOptionalMethodException =
       ObjCImport('UnimplementedOptionalMethodException');
+  static const checkOsVersion = ObjCImport('checkOsVersion');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 

@@ -19,32 +19,24 @@ enum Availability {
   all,
 }
 
-typedef ApiAvailabilityReport = ({
-  Availability availability,
-  String? dartDoc,
-});
-
-ApiAvailabilityReport getApiAvailability(clang_types.CXCursor cursor) {
-  final api = ApiAvailability.fromCursor(cursor);
-  final availability = api.getAvailability(config.externalVersions);
-  return (
-    availability: availability,
-    dartDoc: availability == Availability.some ? api.dartDoc : null,
-  );
-}
-
 class ApiAvailability {
   final bool alwaysDeprecated;
   final bool alwaysUnavailable;
-  PlatformAvailability? ios;
-  PlatformAvailability? macos;
+  final PlatformAvailability? ios;
+  final PlatformAvailability? macos;
+
+  late final Availability availability;
 
   ApiAvailability({
     this.alwaysDeprecated = false,
     this.alwaysUnavailable = false,
     this.ios,
     this.macos,
-  });
+    ExternalVersions? externalVersions,
+  }) {
+    availability =
+        _getAvailability(externalVersions ?? config.externalVersions);
+  }
 
   static ApiAvailability fromCursor(clang_types.CXCursor cursor) {
     final platformsLength = clang.clang_getCursorPlatformAvailability(
@@ -96,7 +88,7 @@ class ApiAvailability {
     return api;
   }
 
-  Availability getAvailability(ExternalVersions externalVersions) {
+  Availability _getAvailability(ExternalVersions externalVersions) {
     final macosVer = _normalizeVersions(externalVersions.macos);
     final iosVer = _normalizeVersions(externalVersions.ios);
 
@@ -109,7 +101,7 @@ class ApiAvailability {
       return Availability.none;
     }
 
-    Availability? availability;
+    Availability? availability_;
     for (final (platform, version) in [(ios, iosVer), (macos, macosVer)]) {
       // If the user hasn't specified any versions for this platform, defer to
       // the other platforms.
@@ -119,9 +111,9 @@ class ApiAvailability {
       // If the API is available on any platform, return that it's available.
       final platAvailability =
           platform?.getAvailability(version) ?? Availability.all;
-      availability = _mergeAvailability(availability, platAvailability);
+      availability_ = _mergeAvailability(availability_, platAvailability);
     }
-    return availability ?? Availability.none;
+    return availability_ ?? Availability.none;
   }
 
   // If the min and max version are null, the versions object should be null.
@@ -131,8 +123,21 @@ class ApiAvailability {
   static Availability _mergeAvailability(Availability? x, Availability y) =>
       x == null ? y : (x == y ? x : Availability.some);
 
-  String get dartDoc =>
-      [ios, macos].nonNulls.map((platform) => platform.dartDoc).join('\n');
+  List<PlatformAvailability> get _platforms => [ios, macos].nonNulls.toList();
+
+  String? get dartDoc {
+    if (availability != Availability.some) return null;
+    final platforms = _platforms;
+    if (platforms.isEmpty) return null;
+    return platforms.map((platform) => platform.dartDoc).join('\n');
+  }
+
+  String? runtimeCheck(String checkOsVersion, String apiName) {
+    final platforms = _platforms;
+    if (platforms.isEmpty) return null;
+    final args = platforms.map((platform) => platform.checkArgs).join(', ');
+    return "$checkOsVersion('$apiName', $args);";
+  }
 
   @override
   String toString() => '''Availability {
@@ -209,6 +214,10 @@ class PlatformAvailability {
     }
     return s.toString();
   }
+
+  String get checkArgs => '$name: ($unavailable, ${_toRecord(introduced)})';
+  String _toRecord(Version? v) =>
+      v == null ? 'null' : '(${v.major}, ${v.minor}, ${v.patch})';
 
   @override
   String toString() => 'introduced: $introduced, deprecated: $deprecated, '

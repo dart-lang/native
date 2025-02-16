@@ -107,68 +107,90 @@ void main() {
 
   group('Availability.getAvailability', () {
     test('empty', () {
-      final api = ApiAvailability();
-
-      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.getAvailability(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(externalVersions: const ExternalVersions())
+              .availability,
           Availability.all);
       expect(
-          api.getAvailability(ExternalVersions(
-            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(
+              externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          )).availability,
           Availability.all);
       expect(
-          api.getAvailability(ExternalVersions(
+          ApiAvailability(
+              externalVersions: ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          )).availability,
+          Availability.all);
+      expect(
+          ApiAvailability(
+              externalVersions: ExternalVersions(
             ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
             macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          )).availability,
           Availability.all);
     });
 
     test('always deprecated', () {
-      final api = ApiAvailability(alwaysDeprecated: true);
-
-      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.getAvailability(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(
+                  alwaysDeprecated: true,
+                  externalVersions: const ExternalVersions())
+              .availability,
+          Availability.all);
+      expect(
+          ApiAvailability(
+              alwaysDeprecated: true,
+              externalVersions: ExternalVersions(
+                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+              )).availability,
           Availability.none);
       expect(
-          api.getAvailability(ExternalVersions(
-            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(
+              alwaysDeprecated: true,
+              externalVersions: ExternalVersions(
+                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+              )).availability,
           Availability.none);
       expect(
-          api.getAvailability(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(
+              alwaysDeprecated: true,
+              externalVersions: ExternalVersions(
+                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+              )).availability,
           Availability.none);
     });
 
     test('always unavailable', () {
-      final api = ApiAvailability(alwaysUnavailable: true);
-
-      expect(api.getAvailability(const ExternalVersions()), Availability.all);
       expect(
-          api.getAvailability(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(
+                  alwaysUnavailable: true,
+                  externalVersions: const ExternalVersions())
+              .availability,
+          Availability.all);
+      expect(
+          ApiAvailability(
+              alwaysUnavailable: true,
+              externalVersions: ExternalVersions(
+                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+              )).availability,
           Availability.none);
       expect(
-          api.getAvailability(ExternalVersions(
-            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(
+              alwaysUnavailable: true,
+              externalVersions: ExternalVersions(
+                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+              )).availability,
           Availability.none);
       expect(
-          api.getAvailability(ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )),
+          ApiAvailability(
+              alwaysUnavailable: true,
+              externalVersions: ExternalVersions(
+                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+              )).availability,
           Availability.none);
     });
 
@@ -192,9 +214,11 @@ void main() {
               Versions? iosVer,
               Versions? macosVer) =>
           ApiAvailability(
-            ios: iosAvail,
-            macos: macosAvail,
-          ).getAvailability(ExternalVersions(ios: iosVer, macos: macosVer));
+                  ios: iosAvail,
+                  macos: macosAvail,
+                  externalVersions:
+                      ExternalVersions(ios: iosVer, macos: macosVer))
+              .availability;
 
       expect(getAvail(null, null, null, null), Availability.all);
       expect(getAvail(null, null, verEmpty, verEmpty), Availability.all);
@@ -260,6 +284,63 @@ void main() {
             name: 'macOS',
             deprecated: Version(10, 11, 12),
           ),
+          externalVersions: const ExternalVersions(),
+        ).dartDoc,
+        isNull);
+
+    expect(
+        ApiAvailability(
+          ios: PlatformAvailability(
+            name: 'iOS',
+            introduced: Version(1, 2, 3),
+            deprecated: Version(4, 5, 6),
+            obsoleted: Version(7, 8, 9),
+          ),
+          macos: PlatformAvailability(
+            name: 'macOS',
+            deprecated: Version(10, 11, 12),
+          ),
+          externalVersions: ExternalVersions(
+            ios: Versions(max: Version(1, 0, 0)),
+          ),
+        ).dartDoc,
+        isNull);
+
+    expect(
+        ApiAvailability(
+          ios: PlatformAvailability(
+            name: 'iOS',
+            introduced: Version(1, 2, 3),
+            deprecated: Version(4, 5, 6),
+            obsoleted: Version(7, 8, 9),
+          ),
+          macos: PlatformAvailability(
+            name: 'macOS',
+            deprecated: Version(10, 11, 12),
+          ),
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
+            macos: Versions(max: Version(4, 5, 6)),
+          ),
+        ).dartDoc,
+        isNull);
+
+    expect(
+        ApiAvailability(
+          ios: PlatformAvailability(
+            name: 'iOS',
+            introduced: Version(1, 2, 3),
+            deprecated: Version(4, 5, 6),
+            obsoleted: Version(7, 8, 9),
+          ),
+          macos: PlatformAvailability(
+            name: 'macOS',
+            deprecated: Version(10, 11, 12),
+          ),
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
+            macos: Versions(max: Version(11, 12, 13)),
+          ),
         ).dartDoc,
         '''
 iOS: introduced 1.2.3, deprecated 4.5.6, obsoleted 7.8.9
@@ -272,6 +353,8 @@ macOS: deprecated 10.11.12''');
             introduced: Version(1, 2, 3),
             obsoleted: Version(4, 5, 6),
           ),
+          externalVersions:
+              ExternalVersions(ios: Versions(max: Version(2, 3, 4))),
         ).dartDoc,
         'iOS: introduced 1.2.3, obsoleted 4.5.6');
 
@@ -281,9 +364,16 @@ macOS: deprecated 10.11.12''');
             name: 'macOS',
             unavailable: true,
           ),
+          externalVersions: ExternalVersions(
+              ios: Versions(max: Version(1, 2, 3)),
+              macos: Versions(max: Version(2, 3, 4))),
         ).dartDoc,
         'macOS: unavailable');
 
-    expect(ApiAvailability().dartDoc, '');
+    expect(
+        ApiAvailability(
+                externalVersions: const ExternalVersions(ios: Versions()))
+            .dartDoc,
+        isNull);
   });
 }

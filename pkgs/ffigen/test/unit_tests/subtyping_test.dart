@@ -3,11 +3,15 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('subtyping', () {
     final builtInFunctions = ObjCBuiltInFunctions('', false);
+    final availability =
+        ApiAvailability(externalVersions: const ExternalVersions());
 
     ObjCInterface makeInterface(
         String name, ObjCInterface? superType, List<ObjCProtocol> protocols) {
@@ -15,6 +19,7 @@ void main() {
         usr: name,
         originalName: name,
         builtInFunctions: builtInFunctions,
+        apiAvailability: availability,
       );
       if (superType != null) {
         itf.superType = superType;
@@ -32,6 +37,7 @@ void main() {
         usr: name,
         originalName: name,
         builtInFunctions: builtInFunctions,
+        apiAvailability: availability,
       );
       proto.superProtocols.addAll(superProtocols);
       return proto;

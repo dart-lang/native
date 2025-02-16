@@ -16,6 +16,8 @@
 - Fix the handling of global arrays to remove the extra pointer reference.
 - Add a `max` field to the `external-versions` config, and use it to determine
   which APIs are generated.
+- Add a runtime OS version check to ObjC APIs, which throws an error if the
+  current OS version is earlier than the version that the API was introduced.
 
 ## 16.1.0
 
