@@ -267,19 +267,19 @@ class VisualStudioResolver implements ToolResolver {
     for (final vswhereInstance in vswhereInstances.take(1)) {
       final vswhereResult = await runProcess(
         executable: vswhereInstance.uri,
-        arguments: ['-format', 'json', '-utf8', '-latest', '-products', '*'],
+        arguments: ['-format', 'json', '-latest', '-products', '*'],
         logger: logger,
       );
       final toolInfos = json.decode(vswhereResult.stdout) as List;
       for (final toolInfo in toolInfos) {
         final toolInfoParsed = toolInfo as Map<String, Object?>;
         if (toolInfoParsed['installationPath'] != null &&
-            toolInfoParsed['installationName'] != null) {
+            toolInfoParsed['installationVersion'] != null) {
           final dir = Directory(toolInfoParsed['installationPath']! as String);
           assert(await dir.exists());
           final uri = dir.uri;
           final version = versionFromString(
-            toolInfoParsed['installationName']! as String,
+            toolInfoParsed['installationVersion']! as String,
           );
           final instance = ToolInstance(
             tool: visualStudio,
