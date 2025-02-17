@@ -1,6 +1,7 @@
 ## 0.14.1-wip
 
-- Updated `setup.dart` to use Gradle instead of Maven for building Java sources.
+- Updated `bin/setup.dart` to use Gradle instead of Maven for building Java sources. Added gradle executables 
+  and bootstrap jars [#2003](https://github.com/dart-lang/native/issues/2003)
 
 ## 0.14.0
 
