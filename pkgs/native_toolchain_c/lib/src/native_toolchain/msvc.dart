@@ -270,25 +270,32 @@ class VisualStudioResolver implements ToolResolver {
         arguments: ['-format', 'json', '-latest', '-products', '*'],
         logger: logger,
       );
-      final toolInfos = json.decode(vswhereResult.stdout) as List;
-      for (final toolInfo in toolInfos) {
-        final toolInfoParsed = toolInfo as Map<String, Object?>;
-        if (toolInfoParsed['installationPath'] != null &&
-            toolInfoParsed['installationVersion'] != null) {
-          final dir = Directory(toolInfoParsed['installationPath']! as String);
-          assert(await dir.exists());
-          final uri = dir.uri;
-          final version = versionFromString(
-            toolInfoParsed['installationVersion']! as String,
-          );
-          final instance = ToolInstance(
-            tool: visualStudio,
-            uri: uri,
-            version: version,
-          );
-          logger?.fine('Found $instance.');
-          result.add(instance);
-        }
+      final instances = parseVswhere(vswhereResult.stdout, logger);
+      result.addAll(instances);
+    }
+    return result;
+  }
+
+  List<ToolInstance> parseVswhere(String vswhereStdout, [Logger? logger]) {
+    final result = <ToolInstance>[];
+    final toolInfos = json.decode(vswhereStdout) as List;
+    for (final toolInfo in toolInfos) {
+      final toolInfoParsed = toolInfo as Map<String, Object?>;
+      if (toolInfoParsed['installationPath'] != null &&
+          toolInfoParsed['installationVersion'] != null) {
+        final dir = Directory(toolInfoParsed['installationPath'] as String);
+        assert(dir.existsSync());
+        final uri = dir.uri;
+        final version = versionFromString(
+          toolInfoParsed['installationVersion'] as String,
+        );
+        final instance = ToolInstance(
+          tool: visualStudio,
+          uri: uri,
+          version: version,
+        );
+        logger?.fine('Found $instance.');
+        result.add(instance);
       }
     }
     return result;
