@@ -4,7 +4,8 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show Platform, Process, ProcessException, ProcessResult;
+import 'dart:io'
+    show Platform, Process, ProcessException, ProcessResult, systemEncoding;
 
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
@@ -52,28 +53,33 @@ Future<RunProcessResult> runProcess({
         (!includeParentEnvironment || workingDirectory != null),
   );
 
-  final stdoutSub = process.stdout
-      .transform(utf8.decoder)
-      .transform(const LineSplitter())
-      .listen(
-        captureOutput
-            ? (s) {
-              logger?.fine(s);
-              stdoutBuffer.writeln(s);
-            }
-            : logger?.fine,
-      );
-  final stderrSub = process.stderr
-      .transform(utf8.decoder)
-      .transform(const LineSplitter())
-      .listen(
-        captureOutput
-            ? (s) {
-              logger?.severe(s);
-              stderrBuffer.writeln(s);
-            }
-            : logger?.severe,
-      );
+  const lineSplitter = LineSplitter();
+  final stdoutSub = process.stdout.listen((List<int> data) {
+    try {
+      for (final line in lineSplitter.convert(systemEncoding.decode(data))) {
+        logger?.fine(line);
+        if (captureOutput) {
+          stdoutBuffer.write(line);
+        }
+      }
+    } catch (e) {
+      logger?.warning('Failed to decode stdout: $e');
+      stdoutBuffer.write('Failed to decode stdout: $e');
+    }
+  });
+  final stderrSub = process.stderr.listen((List<int> data) {
+    try {
+      for (final line in lineSplitter.convert(systemEncoding.decode(data))) {
+        logger?.severe(line);
+        if (captureOutput) {
+          stderrBuffer.write(line);
+        }
+      }
+    } catch (e) {
+      logger?.severe('Failed to decode stderr: $e');
+      stderrBuffer.write('Failed to decode stderr: $e');
+    }
+  });
 
   final (exitCode, _, _) =
       await (

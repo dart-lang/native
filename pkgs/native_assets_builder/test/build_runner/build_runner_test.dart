@@ -56,9 +56,15 @@ void main() async {
           buildDirectory.uri.resolve('stderr.txt'),
         );
         expect(stdoutFile.existsSync(), true);
-        expect(stdoutFile.readAsStringSync(), contains('Some stdout.'));
+        expect(
+          stdoutFile.readAsStringSync(encoding: systemEncoding),
+          contains('Some stdout.'),
+        );
         expect(stderrFile.existsSync(), true);
-        expect(stderrFile.readAsStringSync(), contains('Some stderr.'));
+        expect(
+          stderrFile.readAsStringSync(encoding: systemEncoding),
+          contains('Some stderr.'),
+        );
       }
 
       // Trigger a build, should not invoke anything.

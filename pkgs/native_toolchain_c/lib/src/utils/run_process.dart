@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -43,11 +44,15 @@ Future<RunProcessResult> runProcess({
     runInShell: Platform.isWindows && workingDirectory != null,
   );
 
+  const lineSplitter = LineSplitter();
   final stdoutSub = process.stdout.listen((List<int> data) {
     try {
-      final decodedData = systemEncoding.decode(data);
-      logger?.fine(decodedData);
-      stdoutBuffer.write(decodedData);
+      for (final line in lineSplitter.convert(systemEncoding.decode(data))) {
+        logger?.fine(line);
+        if (captureOutput) {
+          stdoutBuffer.write(line);
+        }
+      }
     } catch (e) {
       logger?.warning('Failed to decode stdout: $e');
       stdoutBuffer.write('Failed to decode stdout: $e');
@@ -55,9 +60,12 @@ Future<RunProcessResult> runProcess({
   });
   final stderrSub = process.stderr.listen((List<int> data) {
     try {
-      final decodedData = systemEncoding.decode(data);
-      logger?.severe(decodedData);
-      stderrBuffer.write(decodedData);
+      for (final line in lineSplitter.convert(systemEncoding.decode(data))) {
+        logger?.severe(line);
+        if (captureOutput) {
+          stderrBuffer.write(line);
+        }
+      }
     } catch (e) {
       logger?.severe('Failed to decode stderr: $e');
       stderrBuffer.write('Failed to decode stderr: $e');
