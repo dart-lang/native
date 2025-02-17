@@ -1,3 +1,7 @@
+## 0.14.1-wip
+
+- Updated `setup.dart` to use Gradle instead of Maven for building Java sources.
+
 ## 0.14.0
 
 - Added `DynamicLibraryLoadError` which is thrown when the dynamic library fails
