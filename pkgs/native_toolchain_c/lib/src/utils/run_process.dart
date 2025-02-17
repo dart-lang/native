@@ -44,28 +44,26 @@ Future<RunProcessResult> runProcess({
     runInShell: Platform.isWindows && workingDirectory != null,
   );
 
-  final stdoutSub = process.stdout
-      .transform(utf8.decoder)
-      .transform(const LineSplitter())
-      .listen(
-        captureOutput
-            ? (s) {
-              logger?.fine(s);
-              stdoutBuffer.writeln(s);
-            }
-            : logger?.fine,
-      );
-  final stderrSub = process.stderr
-      .transform(utf8.decoder)
-      .transform(const LineSplitter())
-      .listen(
-        captureOutput
-            ? (s) {
-              logger?.severe(s);
-              stderrBuffer.writeln(s);
-            }
-            : logger?.severe,
-      );
+  final stdoutSub = process.stdout.listen((List<int> data) {
+    try {
+      final decodedData = utf8.decode(data);
+      logger?.fine(decodedData);
+      stdoutBuffer.write(decodedData);
+    } catch (e) {
+      logger?.warning('Failed to decode stdout: $e');
+      stdoutBuffer.write('Failed to decode stdout: $e');
+    }
+  });
+  final stderrSub = process.stderr.listen((List<int> data) {
+    try {
+      final decodedData = utf8.decode(data);
+      logger?.severe(decodedData);
+      stderrBuffer.write(decodedData);
+    } catch (e) {
+      logger?.severe('Failed to decode stderr: $e');
+      stderrBuffer.write('Failed to decode stderr: $e');
+    }
+  });
 
   final (exitCode, _, _) =
       await (
