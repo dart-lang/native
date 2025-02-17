@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
@@ -46,7 +45,7 @@ Future<RunProcessResult> runProcess({
 
   final stdoutSub = process.stdout.listen((List<int> data) {
     try {
-      final decodedData = utf8.decode(data);
+      final decodedData = _systemEncoding.decode(data);
       logger?.fine(decodedData);
       stdoutBuffer.write(decodedData);
     } catch (e) {
@@ -56,7 +55,7 @@ Future<RunProcessResult> runProcess({
   });
   final stderrSub = process.stderr.listen((List<int> data) {
     try {
-      final decodedData = utf8.decode(data);
+      final decodedData = _systemEncoding.decode(data);
       logger?.severe(decodedData);
       stderrBuffer.write(decodedData);
     } catch (e) {
@@ -116,3 +115,5 @@ exitCode: $exitCode
 stdout: $stdout
 stderr: $stderr''';
 }
+
+const _systemEncoding = SystemEncoding();
