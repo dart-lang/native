@@ -81,7 +81,7 @@ Declaration _transformVariable(
       if (originalVariable.async) 'await'
     ].join(' ');
 
-    final (type, isWrapper) = getWrapperIfNeeded(
+    final (type, _) = getWrapperIfNeeded(
         transformedType, originalVariable.throws, transformationMap);
 
     return MethodDeclaration(

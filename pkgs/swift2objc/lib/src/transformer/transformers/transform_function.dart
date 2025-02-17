@@ -91,8 +91,13 @@ MethodDeclaration _transformFunction(
     transformationMap,
   );
 
-  final (type, isWrapper) = getWrapperIfNeeded(
-      transformedReturnType, originalFunction.throws, transformationMap);
+  final shouldWrapPrimitives = originalFunction.throws &&
+      transformedReturnType is DeclaredType &&
+      getPrimitiveWrapper(transformedReturnType) != null;
+
+  final (_, type) = maybeWrapValue(
+      transformedReturnType, '', globalNamer, transformationMap,
+      shouldWrapPrimitives: shouldWrapPrimitives);
 
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
@@ -112,7 +117,7 @@ MethodDeclaration _transformFunction(
     transformedMethod,
     globalNamer,
     transformationMap,
-    isWrapper,
+    shouldWrapPrimitives,
     originalCallGenerator: originalCallStatementGenerator,
   );
 
@@ -150,7 +155,7 @@ List<String> _generateStatements(
   MethodDeclaration transformedMethod,
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
-  bool isWrapper, {
+  bool shouldWrapPrimitives, {
   required String Function(String arguments) originalCallGenerator,
 }) {
   final localNamer = UniqueNamer();
@@ -180,7 +185,7 @@ List<String> _generateStatements(
     resultName,
     globalNamer,
     transformationMap,
-    iswrapperPrimitive: isWrapper,
+    shouldWrapPrimitives: shouldWrapPrimitives,
   );
 
   assert(wrapperType.sameAs(transformedMethod.returnType));
