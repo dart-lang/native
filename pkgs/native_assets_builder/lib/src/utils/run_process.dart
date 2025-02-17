@@ -59,12 +59,12 @@ Future<RunProcessResult> runProcess({
       for (final line in lineSplitter.convert(systemEncoding.decode(data))) {
         logger?.fine(line);
         if (captureOutput) {
-          stdoutBuffer.write(line);
+          stdoutBuffer.writeln(line);
         }
       }
     } catch (e) {
       logger?.warning('Failed to decode stdout: $e');
-      stdoutBuffer.write('Failed to decode stdout: $e');
+      stdoutBuffer.writeln('Failed to decode stdout: $e');
     }
   });
   final stderrSub = process.stderr.listen((List<int> data) {
@@ -72,12 +72,12 @@ Future<RunProcessResult> runProcess({
       for (final line in lineSplitter.convert(systemEncoding.decode(data))) {
         logger?.severe(line);
         if (captureOutput) {
-          stderrBuffer.write(line);
+          stderrBuffer.writeln(line);
         }
       }
     } catch (e) {
       logger?.severe('Failed to decode stderr: $e');
-      stderrBuffer.write('Failed to decode stderr: $e');
+      stderrBuffer.writeln('Failed to decode stderr: $e');
     }
   });
 
