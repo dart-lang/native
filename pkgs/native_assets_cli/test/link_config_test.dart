@@ -79,7 +79,6 @@ void main() async {
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'out_file': outFile.toFilePath(),
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'linux',
           'version': version,
           'package_name': packageName,
         };
@@ -112,7 +111,6 @@ void main() async {
           'version': latestVersion.toString(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'android',
           'assets': <String>[],
         }),
         throwsA(
@@ -133,7 +131,6 @@ void main() async {
           'out_file': outFile.toFilePath(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'android',
           'assets': 'astring',
         }),
         throwsA(

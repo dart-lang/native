@@ -78,19 +78,12 @@ class CodeConfig {
       json.code!.string(_linkModePreferenceKey),
     );
     final targetArchitecture = Architecture.fromString(
-      json.code?.optionalString(
-            _targetArchitectureKey,
-            validValues: Architecture.values.map((a) => a.name),
-          ) ??
-          json.string(
-            _targetArchitectureKey,
-            validValues: Architecture.values.map((a) => a.name),
-          ),
+      json.code!.string(
+        _targetArchitectureKey,
+        validValues: Architecture.values.map((a) => a.name),
+      ),
     );
-    final targetOS = OS.fromString(
-      json.code?.optionalString(_targetOSConfigKey) ??
-          json.string(_targetOSConfigKey),
-    );
+    final targetOS = OS.fromString(json.code!.string(_targetOSConfigKey));
     final cCompiler = switch (json.code?.optionalMap(_compilerKey)) {
       final Map<String, Object?> map => CCompilerConfig.fromJson(map),
       null => null,
@@ -153,13 +146,12 @@ class IOSCodeConfig {
       _targetVersion = targetVersion;
 
   IOSCodeConfig.fromJson(Map<String, Object?> json)
-    : _targetVersion =
-          json.code?.optionalMap(_iosKey)?.optionalInt(_targetVersionKey) ??
-          json.optionalInt(_targetIOSVersionKeyDeprecated),
+    : _targetVersion = json.code
+          ?.optionalMap(_iosKey)
+          ?.optionalInt(_targetVersionKey),
       _targetSdk = switch (json.code
-              ?.optionalMap(_iosKey)
-              ?.optionalString(_targetSdkKey) ??
-          json.optionalString(_targetIOSSdkKeyDeprecated)) {
+          ?.optionalMap(_iosKey)
+          ?.optionalString(_targetSdkKey)) {
         null => null,
         String e => IOSSdk.fromString(e),
       };
@@ -181,9 +173,9 @@ class AndroidCodeConfig {
   AndroidCodeConfig({required int targetNdkApi}) : _targetNdkApi = targetNdkApi;
 
   AndroidCodeConfig.fromJson(Map<String, Object?> json)
-    : _targetNdkApi =
-          json.code?.optionalMap(_androidKey)?.optionalInt(_targetNdkApiKey) ??
-          json.optionalInt(_targetAndroidNdkApiKeyDeprecated);
+    : _targetNdkApi = json.code
+          ?.optionalMap(_androidKey)
+          ?.optionalInt(_targetNdkApiKey);
 }
 
 extension AndroidConfigSyntactic on AndroidCodeConfig {
@@ -201,9 +193,9 @@ class MacOSCodeConfig {
     : _targetVersion = targetVersion;
 
   MacOSCodeConfig.fromJson(Map<String, Object?> json)
-    : _targetVersion =
-          json.code?.optionalMap(_macosKey)?.optionalInt(_targetVersionKey) ??
-          json.optionalInt(_targetMacOSVersionKeyDeprecated);
+    : _targetVersion = json.code
+          ?.optionalMap(_macosKey)
+          ?.optionalInt(_targetVersionKey);
 }
 
 extension MacOSConfigSyntactic on MacOSCodeConfig {
@@ -267,14 +259,12 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     MacOSCodeConfig? macOS,
   }) {
     if (targetArchitecture != null) {
-      json[_targetArchitectureKey] = targetArchitecture.toString();
       json.setNested([
         _configKey,
         _codeKey,
         _targetArchitectureKey,
       ], targetArchitecture.toString());
     }
-    json[_targetOSConfigKey] = targetOS.toString();
     json.setNested([
       _configKey,
       _codeKey,
@@ -292,7 +282,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     // Note, using ?. instead of !. makes missing data be a semantic error
     // rather than a syntactic error to be caught in the validation.
     if (targetOS == OS.android) {
-      json[_targetAndroidNdkApiKeyDeprecated] = android?.targetNdkApi;
       json.setNested([
         _configKey,
         _codeKey,
@@ -300,8 +289,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
         _targetNdkApiKey,
       ], android?.targetNdkApi);
     } else if (targetOS == OS.iOS) {
-      json[_targetIOSSdkKeyDeprecated] = iOS?.targetSdk.toString();
-      json[_targetIOSVersionKeyDeprecated] = iOS?.targetVersion;
       json.setNested([
         _configKey,
         _codeKey,
@@ -315,7 +302,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
         _targetVersionKey,
       ], iOS?.targetVersion);
     } else if (targetOS == OS.macOS) {
-      json[_targetMacOSVersionKeyDeprecated] = macOS?.targetVersion;
       json.setNested([
         _configKey,
         _codeKey,
@@ -349,13 +335,9 @@ extension CodeAssetLinkOutput on LinkOutputAssets {
 const String _compilerKey = 'c_compiler';
 const String _linkModePreferenceKey = 'link_mode_preference';
 const String _targetNdkApiKey = 'target_ndk_api';
-const String _targetAndroidNdkApiKeyDeprecated = 'target_android_ndk_api';
 const String _targetArchitectureKey = 'target_architecture';
 const String _targetSdkKey = 'target_sdk';
-const String _targetIOSSdkKeyDeprecated = 'target_ios_sdk';
 const String _targetVersionKey = 'target_version';
-const String _targetIOSVersionKeyDeprecated = 'target_ios_version';
-const String _targetMacOSVersionKeyDeprecated = 'target_macos_version';
 const String _targetOSConfigKey = 'target_os';
 
 const _configKey = 'config';

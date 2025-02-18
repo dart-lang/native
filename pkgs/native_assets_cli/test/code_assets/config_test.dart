@@ -94,10 +94,6 @@ void main() async {
     'out_file': outFile.toFilePath(),
     'package_name': packageName,
     'package_root': packageRootUri.toFilePath(),
-    if (includeDeprecated && targetOS == OS.android)
-      'target_android_ndk_api': 30,
-    if (includeDeprecated) 'target_architecture': 'arm64',
-    if (includeDeprecated) 'target_os': targetOS.name,
     'version': '1.9.0',
   };
 
@@ -227,7 +223,12 @@ void main() async {
   test('BuildInput.config.code: invalid architecture', () {
     final input = {
       'config': {
-        'code': {'link_mode_preference': 'prefer-static'},
+        'code': {
+          'link_mode_preference': 'prefer-static',
+          'android': {'target_ndk_api': 30},
+          'target_architecture': 'invalid_architecture',
+          'target_os': 'android',
+        },
         'linking_enabled': false,
       },
       'out_dir': outDirUri.toFilePath(),
@@ -235,9 +236,6 @@ void main() async {
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'target_android_ndk_api': 30,
-      'target_architecture': 'invalid_architecture',
-      'target_os': 'android',
       'version': latestVersion.toString(),
     };
     expect(() => BuildInput(input).config.code, throwsFormatException);
@@ -246,16 +244,18 @@ void main() async {
   test('LinkInput.config.code: invalid architecture', () {
     final input = {
       'config': {
-        'code': {'link_mode_preference': 'prefer-static'},
+        'code': {
+          'link_mode_preference': 'prefer-static',
+          'android': {'target_ndk_api': 30},
+          'target_architecture': 'invalid_architecture',
+          'target_os': 'android',
+        },
       },
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'target_android_ndk_api': 30,
-      'target_architecture': 'invalid_architecture',
-      'target_os': 'android',
       'version': latestVersion.toString(),
     };
     expect(() => LinkInput(input).config.code, throwsFormatException);

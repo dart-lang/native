@@ -92,13 +92,13 @@ void main() async {
           'config': {
             'build_asset_types': ['my-asset-type'],
             'linking_enabled': false,
+            'target_os': 'linux',
+            'link_mode_preference': 'prefer-static',
           },
-          'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'out_file': outFile.toFilePath(),
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'linux',
           'version': version,
           'package_name': packageName,
         };
