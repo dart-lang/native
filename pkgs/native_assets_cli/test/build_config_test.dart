@@ -46,7 +46,7 @@ void main() async {
             outputDirectoryShared: outputDirectoryShared,
           )
           ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..setupBuildInput(metadata: metadata);
     final input = BuildInput(inputBuilder.json);
 
@@ -62,7 +62,6 @@ void main() async {
         },
         'foo': {'key': 321},
       },
-      'dry_run': false,
       'linking_enabled': false,
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
@@ -83,54 +82,7 @@ void main() async {
     expect(input.config.buildAssetTypes, ['my-asset-type']);
 
     expect(input.config.linkingEnabled, false);
-    expect(input.config.dryRun, false);
     expect(input.metadata, metadata);
-  });
-
-  test('BuildInput.config.dryRun', () {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-          ..config.setupBuild(linkingEnabled: true, dryRun: true)
-          ..setupBuildInput();
-    final input = BuildInput(inputBuilder.json);
-
-    final expectedInputJson = {
-      'config': {
-        'build_asset_types': ['my-asset-type'],
-        'linking_enabled': true,
-      },
-      'dependency_metadata': <String, Object?>{},
-      'dry_run': true,
-      'linking_enabled': true,
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
-      'out_file': outFile.toFilePath(),
-      'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
-      'version': latestVersion.toString(),
-    };
-
-    expect(input.json, expectedInputJson);
-    expect(json.decode(input.toString()), expectedInputJson);
-
-    expect(input.outputDirectory, outDirUri);
-    expect(input.outputDirectoryShared, outputDirectoryShared);
-
-    expect(input.packageName, packageName);
-    expect(input.packageRoot, packageRootUri);
-    expect(input.config.buildAssetTypes, ['my-asset-type']);
-
-    expect(input.config.linkingEnabled, true);
-    expect(input.config.dryRun, true);
-    expect(input.metadata, <String, Object?>{});
   });
 
   group('BuildInput format issues', () {
@@ -146,7 +98,6 @@ void main() async {
           'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'dry_run': true,
           'linking_enabled': false,
         };
         expect(

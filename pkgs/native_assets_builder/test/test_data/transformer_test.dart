@@ -50,7 +50,7 @@ void main() async {
                 outputDirectory: outputDirectory,
                 outputDirectoryShared: outputDirectoryShared,
               )
-              ..config.setupBuild(dryRun: false, linkingEnabled: false)
+              ..config.setupBuild(linkingEnabled: false)
               ..config.setupShared(
                 buildAssetTypes: [CodeAsset.type, DataAsset.type],
               )

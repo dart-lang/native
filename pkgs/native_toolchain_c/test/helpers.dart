@@ -23,13 +23,13 @@ export 'package:native_assets_cli/code_assets_builder.dart';
 ///
 /// The instances of the test below will have the following descriptions:
 ///
-/// - `My test`
-/// - `My test (dry_run)`
+/// - `My test (debug)`
+/// - `My test (release)`
 ///
 /// ```dart
 /// void main() {
-///   for (final dryRun in [true, false]) {
-///     final suffix = testSuffix([if (dryRun) 'dry_run']);
+///   for (final buildMode in BuildMode.values) {
+///     final suffix = testSuffix([buildMode]);
 ///
 ///     test('My test$suffix', () {});
 ///   }

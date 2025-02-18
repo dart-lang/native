@@ -58,7 +58,7 @@ void main() {
                 outputDirectory: tempUri,
                 outputDirectoryShared: tempUri2,
               )
-              ..config.setupBuild(linkingEnabled: false, dryRun: false)
+              ..config.setupBuild(linkingEnabled: false)
               ..config.setupShared(buildAssetTypes: [CodeAsset.type])
               ..config.setupCode(
                 targetOS: targetOS,
@@ -117,91 +117,86 @@ void main() {
       });
     }
 
-    for (final dryRun in [true, false]) {
-      for (final buildCodeAssets in [true, if (!dryRun) false]) {
-        final suffix = testSuffix([if (dryRun) 'dry_run', picTag]);
+    for (final buildCodeAssets in [true, false]) {
+      final suffix = testSuffix([picTag]);
 
-        test('CBuilder dylib$suffix', () async {
-          final tempUri = await tempDirForTest();
-          final tempUri2 = await tempDirForTest();
-          final addCUri = packageUri.resolve(
-            'test/cbuilder/testfiles/add/src/add.c',
+      test('CBuilder dylib$suffix', () async {
+        final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
+        final addCUri = packageUri.resolve(
+          'test/cbuilder/testfiles/add/src/add.c',
+        );
+        const name = 'add';
+
+        final logMessages = <String>[];
+        final logger = createCapturingLogger(logMessages);
+
+        final buildInputBuilder =
+            BuildInputBuilder()
+              ..setupShared(
+                packageName: name,
+                packageRoot: tempUri,
+                outputFile: tempUri.resolve('output.json'),
+                outputDirectory: tempUri,
+                outputDirectoryShared: tempUri2,
+              )
+              ..config.setupBuild(linkingEnabled: false);
+        if (buildCodeAssets) {
+          buildInputBuilder.config.setupShared(
+            buildAssetTypes: [CodeAsset.type],
           );
-          const name = 'add';
+          buildInputBuilder.config.setupCode(
+            targetOS: targetOS,
+            macOS: macOSConfig,
+            targetArchitecture: Architecture.current,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
+        }
 
-          final logMessages = <String>[];
-          final logger = createCapturingLogger(logMessages);
+        final buildInput = BuildInput(buildInputBuilder.json);
+        final buildOutput = BuildOutputBuilder();
 
-          final buildInputBuilder =
-              BuildInputBuilder()
-                ..setupShared(
-                  packageName: name,
-                  packageRoot: tempUri,
-                  outputFile: tempUri.resolve('output.json'),
-                  outputDirectory: tempUri,
-                  outputDirectoryShared: tempUri2,
-                )
-                ..config.setupBuild(linkingEnabled: false, dryRun: dryRun);
-          if (buildCodeAssets) {
-            buildInputBuilder.config.setupShared(
-              buildAssetTypes: [CodeAsset.type],
-            );
-            buildInputBuilder.config.setupCode(
-              targetOS: targetOS,
-              macOS: macOSConfig,
-              targetArchitecture: Architecture.current,
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: dryRun ? null : cCompiler,
-            );
+        final cbuilder = CBuilder.library(
+          sources: [addCUri.toFilePath()],
+          name: name,
+          assetName: name,
+          pic: pic,
+          buildMode: BuildMode.release,
+        );
+        await cbuilder.run(
+          input: buildInput,
+          output: buildOutput,
+          logger: logger,
+        );
+
+        final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
+        expect(await File.fromUri(dylibUri).exists(), equals(buildCodeAssets));
+        if (buildCodeAssets) {
+          final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
+          final add = dylib.lookupFunction<
+            Int32 Function(Int32, Int32),
+            int Function(int, int)
+          >('add');
+          expect(add(1, 2), 3);
+
+          final compilerInvocation = logMessages.singleWhere(
+            (message) => message.contains(addCUri.toFilePath()),
+          );
+          switch ((buildInput.config.code.targetOS, pic)) {
+            case (OS.windows, _) || (_, null):
+              expect(compilerInvocation, isNot(contains('-fPIC')));
+              expect(compilerInvocation, isNot(contains('-fPIE')));
+              expect(compilerInvocation, isNot(contains('-fno-PIC')));
+              expect(compilerInvocation, isNot(contains('-fno-PIE')));
+            case (_, true):
+              expect(compilerInvocation, contains('-fPIC'));
+            case (_, false):
+              expect(compilerInvocation, contains('-fno-PIC'));
+              expect(compilerInvocation, contains('-fno-PIE'));
           }
-
-          final buildInput = BuildInput(buildInputBuilder.json);
-          final buildOutput = BuildOutputBuilder();
-
-          final cbuilder = CBuilder.library(
-            sources: [addCUri.toFilePath()],
-            name: name,
-            assetName: name,
-            pic: pic,
-            buildMode: BuildMode.release,
-          );
-          await cbuilder.run(
-            input: buildInput,
-            output: buildOutput,
-            logger: logger,
-          );
-
-          final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
-          expect(
-            await File.fromUri(dylibUri).exists(),
-            equals(!dryRun && buildCodeAssets),
-          );
-          if (!dryRun && buildCodeAssets) {
-            final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
-            final add = dylib.lookupFunction<
-              Int32 Function(Int32, Int32),
-              int Function(int, int)
-            >('add');
-            expect(add(1, 2), 3);
-
-            final compilerInvocation = logMessages.singleWhere(
-              (message) => message.contains(addCUri.toFilePath()),
-            );
-            switch ((buildInput.config.code.targetOS, pic)) {
-              case (OS.windows, _) || (_, null):
-                expect(compilerInvocation, isNot(contains('-fPIC')));
-                expect(compilerInvocation, isNot(contains('-fPIE')));
-                expect(compilerInvocation, isNot(contains('-fno-PIC')));
-                expect(compilerInvocation, isNot(contains('-fno-PIE')));
-              case (_, true):
-                expect(compilerInvocation, contains('-fPIC'));
-              case (_, false):
-                expect(compilerInvocation, contains('-fno-PIC'));
-                expect(compilerInvocation, contains('-fno-PIE'));
-            }
-          }
-        });
-      }
+        }
+      });
     }
   }
 
@@ -252,7 +247,7 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
@@ -313,7 +308,7 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
@@ -369,7 +364,7 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
@@ -436,7 +431,7 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
@@ -502,7 +497,7 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
@@ -588,7 +583,7 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
@@ -687,7 +682,7 @@ Future<void> testDefines({
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
         )
-        ..config.setupBuild(linkingEnabled: false, dryRun: false)
+        ..config.setupBuild(linkingEnabled: false)
         ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetOS: targetOS,

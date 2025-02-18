@@ -38,7 +38,14 @@ extension CodeAssetLinkInput on LinkInputAssets {
 
 /// Configuration for hook writers if code assets are supported.
 class CodeConfig {
-  final Architecture? _targetArchitecture;
+  /// The architecture the code code asset should be built for.
+  ///
+  /// The build and link hooks are invoked once per [targetArchitecture]. If the
+  /// invoker produces multi-architecture applications, the invoker is
+  /// responsible for combining the [CodeAsset]s for individual architectures
+  /// into a universal binary. So, the build and link hook implementations are
+  /// not responsible for providing universal binaries.
+  final Architecture targetArchitecture;
 
   final LinkModePreference linkModePreference;
 
@@ -54,39 +61,33 @@ class CodeConfig {
 
   // Should not be made public, class will be replaced as a view on `json`.
   CodeConfig._({
-    required Architecture? targetArchitecture,
+    required this.targetArchitecture,
     required this.targetOS,
     required this.linkModePreference,
     CCompilerConfig? cCompilerConfig,
     AndroidCodeConfig? androidConfig,
     IOSCodeConfig? iOSConfig,
     MacOSCodeConfig? macOSConfig,
-  }) : _targetArchitecture = targetArchitecture,
-       cCompiler = cCompilerConfig,
+  }) : cCompiler = cCompilerConfig,
        _iOSConfig = iOSConfig,
        _androidConfig = androidConfig,
        _macOSConfig = macOSConfig;
 
   factory CodeConfig.fromJson(Map<String, Object?> json) {
-    final dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false;
-
     final linkModePreference = LinkModePreference.fromString(
       json.code?.optionalString(_linkModePreferenceKey) ??
           json.string(_linkModePreferenceKey),
     );
-    final targetArchitecture =
-        dryRun
-            ? null
-            : Architecture.fromString(
-              json.code?.optionalString(
-                    _targetArchitectureKey,
-                    validValues: Architecture.values.map((a) => a.name),
-                  ) ??
-                  json.string(
-                    _targetArchitectureKey,
-                    validValues: Architecture.values.map((a) => a.name),
-                  ),
-            );
+    final targetArchitecture = Architecture.fromString(
+      json.code?.optionalString(
+            _targetArchitectureKey,
+            validValues: Architecture.values.map((a) => a.name),
+          ) ??
+          json.string(
+            _targetArchitectureKey,
+            validValues: Architecture.values.map((a) => a.name),
+          ),
+    );
     final targetOS = OS.fromString(
       json.code?.optionalString(_targetOSConfigKey) ??
           json.string(_targetOSConfigKey),
@@ -96,14 +97,11 @@ class CodeConfig {
       null => null,
     };
 
-    final iOSConfig =
-        dryRun || targetOS != OS.iOS ? null : IOSCodeConfig.fromJson(json);
+    final iOSConfig = targetOS != OS.iOS ? null : IOSCodeConfig.fromJson(json);
     final androidConfig =
-        dryRun || targetOS != OS.android
-            ? null
-            : AndroidCodeConfig.fromJson(json);
+        targetOS != OS.android ? null : AndroidCodeConfig.fromJson(json);
     final macOSConfig =
-        dryRun || targetOS != OS.macOS ? null : MacOSCodeConfig.fromJson(json);
+        targetOS != OS.macOS ? null : MacOSCodeConfig.fromJson(json);
 
     return CodeConfig._(
       targetArchitecture: targetArchitecture,
@@ -116,29 +114,9 @@ class CodeConfig {
     );
   }
 
-  /// The architecture the code code asset should be built for.
-  ///
-  /// The build and link hooks are invoked once per [targetArchitecture]. If the
-  /// invoker produces multi-architecture applications, the invoker is
-  /// responsible for combining the [CodeAsset]s for individual architectures
-  /// into a universal binary. So, the build and link hook implementations are
-  /// not responsible for providing universal binaries.
-  Architecture get targetArchitecture {
-    // TODO: Remove once Dart 3.7 stable is out and we bump the minimum SDK to
-    // 3.7.
-    if (_targetArchitecture == null) {
-      throw StateError('Cannot access target architecture in dry runs.');
-    }
-    return _targetArchitecture;
-  }
-
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   IOSCodeConfig get iOS => switch (_iOSConfig) {
-    null =>
-      throw StateError(
-        'Cannot access iOSConfig if targetOS is not iOS'
-        ' or in dry runs.',
-      ),
+    null => throw StateError('Cannot access iOSConfig if targetOS is not iOS.'),
     final c => c,
   };
 
@@ -146,8 +124,7 @@ class CodeConfig {
   AndroidCodeConfig get android => switch (_androidConfig) {
     null =>
       throw StateError(
-        'Cannot access androidConfig if targetOS is not android'
-        ' or in dry runs.',
+        'Cannot access androidConfig if targetOS is not android.',
       ),
     final c => c,
   };
@@ -155,10 +132,7 @@ class CodeConfig {
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   MacOSCodeConfig get macOS => switch (_macOSConfig) {
     null =>
-      throw StateError(
-        'Cannot access macOSConfig if targetOS is not MacOS'
-        ' or in dry runs.',
-      ),
+      throw StateError('Cannot access macOSConfig if targetOS is not MacOS.'),
     final c => c,
   };
 }
@@ -385,8 +359,6 @@ const String _targetVersionKey = 'target_version';
 const String _targetIOSVersionKeyDeprecated = 'target_ios_version';
 const String _targetMacOSVersionKeyDeprecated = 'target_macos_version';
 const String _targetOSConfigKey = 'target_os';
-
-const _dryRunConfigKey = 'dry_run';
 
 const _configKey = 'config';
 const _codeKey = 'code';

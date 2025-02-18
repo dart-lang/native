@@ -52,7 +52,7 @@ void main() {
             outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: targetOS,
@@ -106,7 +106,7 @@ void main() {
             outputDirectoryShared: tempUri2,
             outputDirectory: tempUri,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: OS.windows,

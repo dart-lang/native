@@ -44,24 +44,6 @@ void main() async {
     ];
   });
 
-  // Tests JSON encoding & accessors of code-asset configuration.
-  void expectCorrectCodeConfigDryRun(
-    Map<String, Object?> json,
-    CodeConfig codeConfig,
-  ) {
-    <String, Object?>{
-      'build_asset_types': [CodeAsset.type],
-      'link_mode_preference': 'prefer-static',
-    }.forEach((k, v) {
-      expect(json[k], v);
-    });
-
-    expect(() => codeConfig.targetArchitecture, throwsStateError);
-    expect(() => codeConfig.android.targetNdkApi, throwsStateError);
-    expect(codeConfig.linkModePreference, LinkModePreference.preferStatic);
-    expect(codeConfig.cCompiler, null);
-  }
-
   // Full JSON to see where the config sits in the full JSON.
   // When removing the non-hierarchical JSON, we can change this test to only
   // check the nested key.
@@ -107,7 +89,7 @@ void main() async {
           'ios': {'target_sdk': 'iphoneos', 'target_version': 13},
       },
     },
-    if (hookType == 'build' && includeDeprecated) 'dry_run': false,
+
     if (hookType == 'build' && includeDeprecated) 'linking_enabled': false,
     if (includeDeprecated) 'link_mode_preference': 'prefer-static',
     'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -153,7 +135,7 @@ void main() async {
             outputDirectory: outDirUri,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false)
+          ..config.setupBuild(linkingEnabled: false)
           ..config.setupShared(buildAssetTypes: [CodeAsset.type])
           ..config.setupCode(
             targetOS: OS.android,
@@ -187,8 +169,6 @@ void main() async {
       expect(input.outputDirectory, outDirUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
       expect(input.config.linkingEnabled, false);
-      // ignore: deprecated_member_use_from_same_package
-      expect(input.config.dryRun, false);
       expect(input.config.buildAssetTypes, [CodeAsset.type]);
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
@@ -249,7 +229,6 @@ void main() async {
 
   test('BuildInput.config.code: invalid architecture', () {
     final input = {
-      'dry_run': false,
       'linking_enabled': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
@@ -267,7 +246,6 @@ void main() async {
 
   test('LinkInput.config.code: invalid architecture', () {
     final input = {
-      'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),

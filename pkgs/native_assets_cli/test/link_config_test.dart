@@ -83,7 +83,6 @@ void main() async {
           'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'dry_run': true,
         };
         expect(
           () => LinkInput(input),
