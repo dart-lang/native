@@ -91,8 +91,7 @@ class CodeConfig {
       json.code?.optionalString(_targetOSConfigKey) ??
           json.string(_targetOSConfigKey),
     );
-    final cCompiler = switch (json.code?.optionalMap(_compilerKey) ??
-        json.optionalMap(_compilerKey)) {
+    final cCompiler = switch (json.code?.optionalMap(_compilerKey)) {
       final Map<String, Object?> map => CCompilerConfig.fromJson(map),
       null => null,
     };
@@ -315,7 +314,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
       _linkModePreferenceKey,
     ], linkModePreference.toString());
     if (cCompiler != null) {
-      json[_compilerKey] = cCompiler.toJson(deprecatedTopLevel: true);
       json.setNested([_configKey, _codeKey, _compilerKey], cCompiler.toJson());
     }
 
