@@ -51,8 +51,6 @@ void main() async {
     final input = BuildInput(inputBuilder.json);
 
     final expectedInputJson = {
-      'build_asset_types': ['my-asset-type'],
-      'build_mode': 'release',
       'config': {
         'build_asset_types': ['my-asset-type'],
         'linking_enabled': false,
@@ -71,7 +69,6 @@ void main() async {
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'supported_asset_types': ['my-asset-type'],
       'version': latestVersion.toString(),
     };
 
@@ -106,7 +103,6 @@ void main() async {
     final input = BuildInput(inputBuilder.json);
 
     final expectedInputJson = {
-      'build_asset_types': ['my-asset-type'],
       'config': {
         'build_asset_types': ['my-asset-type'],
         'linking_enabled': true,
@@ -119,7 +115,6 @@ void main() async {
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'supported_asset_types': ['my-asset-type'],
       'version': latestVersion.toString(),
     };
 
@@ -151,7 +146,6 @@ void main() async {
           'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'build_asset_types': ['my-asset-type'],
           'dry_run': true,
           'linking_enabled': false,
         };
@@ -187,7 +181,6 @@ void main() async {
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
           'linking_enabled': true,
-          'build_asset_types': ['my-asset-type'],
         }),
         throwsA(
           predicate(
@@ -209,7 +202,6 @@ void main() async {
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
           'linking_enabled': true,
-          'build_asset_types': ['my-asset-type'],
           'dependency_metadata': {
             'bar': {'key': 'value'},
             'foo': <int>[],

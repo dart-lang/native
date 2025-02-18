@@ -81,8 +81,6 @@ void main() async {
           'type': 'native_code',
         },
       ],
-    if (includeDeprecated) 'build_asset_types': [CodeAsset.type],
-    if (includeDeprecated) 'build_mode': 'release',
     'config': {
       'build_asset_types': ['native_code'],
       if (hookType == 'build') 'linking_enabled': false,
@@ -125,7 +123,6 @@ void main() async {
     'out_file': outFile.toFilePath(),
     'package_name': packageName,
     'package_root': packageRootUri.toFilePath(),
-    if (includeDeprecated) 'supported_asset_types': [CodeAsset.type],
     if (includeDeprecated && targetOS == OS.android)
       'target_android_ndk_api': 30,
     if (includeDeprecated) 'target_architecture': 'arm64',
@@ -153,29 +150,6 @@ void main() async {
     expect(codeCondig.cCompiler?.linker, fakeLd);
     expect(codeCondig.cCompiler?.archiver, fakeAr);
   }
-
-  test('BuildInput.config.code (dry-run)', () {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..config.setupBuild(linkingEnabled: true, dryRun: true)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: OS.android,
-            android: null, // not available in dry run
-            targetArchitecture: null, // not available in dry run
-            cCompiler: null, // not available in dry run
-            linkModePreference: LinkModePreference.preferStatic,
-          );
-    final input = BuildInput(inputBuilder.json);
-    expectCorrectCodeConfigDryRun(input.json, input.config.code);
-  });
 
   test('BuildInput.config.code', () {
     final inputBuilder =
@@ -294,7 +268,6 @@ void main() async {
       'target_android_ndk_api': 30,
       'target_architecture': 'invalid_architecture',
       'target_os': 'android',
-      'build_asset_types': ['my-asset-type'],
       'version': latestVersion.toString(),
     };
     expect(() => BuildInput(input).config.code, throwsFormatException);
@@ -302,7 +275,6 @@ void main() async {
 
   test('LinkInput.config.code: invalid architecture', () {
     final input = {
-      'build_asset_types': [CodeAsset.type],
       'dry_run': false,
       'link_mode_preference': 'prefer-static',
       'out_dir': outDirUri.toFilePath(),

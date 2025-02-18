@@ -123,15 +123,12 @@ sealed class HookInputBuilder {
   HookConfigBuilder get config => HookConfigBuilder._(this);
 }
 
-// TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-const _buildModeInputKeyDeprecated = 'build_mode';
 const _metadataConfigKey = 'metadata';
 const _outputFileKey = 'out_file';
 const _outDirInputKey = 'out_dir';
 const _outDirSharedInputKey = 'out_dir_shared';
 const _packageNameInputKey = 'package_name';
 const _packageRootInputKey = 'package_root';
-const _supportedAssetTypesKey = 'supported_asset_types';
 const _buildAssetTypesKey = 'build_asset_types';
 
 const _configKey = 'config';
@@ -178,8 +175,6 @@ final class HookConfigBuilder {
   HookConfigBuilder._(this.builder);
 
   void setupShared({required List<String> buildAssetTypes}) {
-    json[_buildAssetTypesKey] = buildAssetTypes;
-    json[_supportedAssetTypesKey] = buildAssetTypes;
     json.setNested([_configKey, _buildAssetTypesKey], buildAssetTypes);
   }
 }
@@ -193,11 +188,6 @@ extension BuildConfigBuilderSetup on BuildConfigBuilder {
     json[_dryRunConfigKey] = dryRun;
     json[_linkingEnabledKey] = linkingEnabled;
     json.setNested([_configKey, _linkingEnabledKey], linkingEnabled);
-
-    // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-    if (!dryRun) {
-      json[_buildModeInputKeyDeprecated] = 'release';
-    }
   }
 }
 
@@ -234,8 +224,6 @@ final class LinkInputBuilder extends HookInputBuilder {
     required Uri? recordedUsesFile,
   }) {
     json[_assetsKey] = [for (final asset in assets) asset.toJson()];
-    // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-    json[_buildModeInputKeyDeprecated] = 'release';
     if (recordedUsesFile != null) {
       json[_recordedUsagesFileInputKey] = recordedUsesFile.toFilePath();
     }
@@ -606,7 +594,7 @@ final latestVersion = Version(1, 9, 0);
 ///
 /// When updating this number, update the version_skew_test.dart. (This test
 /// catches issues with 2.)
-final latestParsableVersion = Version(1, 5, 0);
+final latestParsableVersion = Version(1, 7, 0);
 
 /// The configuration for a build or link hook invocation.
 final class HookConfig {
@@ -634,8 +622,6 @@ final class HookConfig {
           json
               .optionalMap(_configKey)
               ?.optionalStringList(_buildAssetTypesKey) ??
-          json.optionalStringList(_buildAssetTypesKey) ??
-          json.optionalStringList(_supportedAssetTypesKey) ??
           const [];
 }
 
