@@ -58,12 +58,13 @@ void main() async {
               .toFilePath(),
           tempUri.toFilePath(),
         ]);
+
         final stdoutSub = process.stdout
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.fine);
         final stderrSub = process.stderr
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.severe);
 
@@ -118,11 +119,11 @@ void main() async {
         ]);
 
         final stdoutSub = process.stdout
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.fine);
         final stderrSub = process.stderr
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.severe);
 

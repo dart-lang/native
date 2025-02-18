@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:glob/glob.dart';
@@ -266,16 +267,28 @@ class VisualStudioResolver implements ToolResolver {
     for (final vswhereInstance in vswhereInstances.take(1)) {
       final vswhereResult = await runProcess(
         executable: vswhereInstance.uri,
-        arguments: ['-latest', '-products', '*'],
+        arguments: ['-format', 'json', '-utf8', '-latest', '-products', '*'],
         logger: logger,
       );
-      final toolInfos = vswhereResult.stdout.split(_newLine * 2).skip(1);
-      for (final toolInfo in toolInfos) {
-        final toolInfoParsed = parseToolInfo(toolInfo);
-        final dir = Directory(toolInfoParsed['installationPath']!);
-        assert(await dir.exists());
+      final instances = parseVswhere(vswhereResult.stdout, logger);
+      result.addAll(instances);
+    }
+    return result;
+  }
+
+  List<ToolInstance> parseVswhere(String vswhereStdout, [Logger? logger]) {
+    final result = <ToolInstance>[];
+    final toolInfos = json.decode(vswhereStdout) as List;
+    for (final toolInfo in toolInfos) {
+      final toolInfoParsed = toolInfo as Map<String, Object?>;
+      if (toolInfoParsed['installationPath'] != null &&
+          toolInfoParsed['installationVersion'] != null) {
+        final dir = Directory(toolInfoParsed['installationPath'] as String);
+        assert(dir.existsSync());
         final uri = dir.uri;
-        final version = versionFromString(toolInfoParsed['installationName']!);
+        final version = versionFromString(
+          toolInfoParsed['installationVersion'] as String,
+        );
         final instance = ToolInstance(
           tool: visualStudio,
           uri: uri,
@@ -287,19 +300,4 @@ class VisualStudioResolver implements ToolResolver {
     }
     return result;
   }
-
-  static Map<String, String> parseToolInfo(String toolInfo) {
-    final result = <String, String>{};
-    final lines = toolInfo.split(_newLine);
-    for (final line in lines) {
-      final splitLine = line.split(': ');
-      final key = splitLine.first;
-      final value = splitLine.skip(1).join(': ');
-      result[key] = value;
-    }
-    return result;
-  }
 }
-
-// runProcess uses writeln which uses '\n'.
-const _newLine = '\n';
