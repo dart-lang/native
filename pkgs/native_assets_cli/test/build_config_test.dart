@@ -62,7 +62,6 @@ void main() async {
         },
         'foo': {'key': 321},
       },
-      'linking_enabled': false,
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
       'out_file': outFile.toFilePath(),
@@ -90,6 +89,10 @@ void main() async {
       test('BuildInput version $version', () {
         final outDir = outDirUri;
         final input = {
+          'config': {
+            'build_asset_types': ['my-asset-type'],
+            'linking_enabled': false,
+          },
           'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -98,7 +101,6 @@ void main() async {
           'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'linking_enabled': false,
         };
         expect(
           () => BuildInput(input),
@@ -131,7 +133,6 @@ void main() async {
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
-          'linking_enabled': true,
         }),
         throwsA(
           predicate(
@@ -145,6 +146,10 @@ void main() async {
       );
       expect(
         () => BuildInput({
+          'config': {
+            'build_asset_types': ['my-asset-type'],
+            'linking_enabled': false,
+          },
           'version': latestVersion.toString(),
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -152,7 +157,6 @@ void main() async {
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
-          'linking_enabled': true,
           'dependency_metadata': {
             'bar': {'key': 'value'},
             'foo': <int>[],

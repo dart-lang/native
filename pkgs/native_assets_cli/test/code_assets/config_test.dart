@@ -89,8 +89,6 @@ void main() async {
           'ios': {'target_sdk': 'iphoneos', 'target_version': 13},
       },
     },
-
-    if (hookType == 'build' && includeDeprecated) 'linking_enabled': false,
     'out_dir_shared': outputDirectoryShared.toFilePath(),
     'out_dir': outDirUri.toFilePath(),
     'out_file': outFile.toFilePath(),
@@ -228,9 +226,9 @@ void main() async {
 
   test('BuildInput.config.code: invalid architecture', () {
     final input = {
-      'linking_enabled': false,
       'config': {
         'code': {'link_mode_preference': 'prefer-static'},
+        'linking_enabled': false,
       },
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),

@@ -9,8 +9,6 @@ import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
-import 'code_assets/architecture.dart';
-import 'code_assets/os.dart';
 import 'encoded_asset.dart';
 import 'json_utils.dart';
 import 'metadata.dart';
@@ -185,7 +183,6 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 
 extension BuildConfigBuilderSetup on BuildConfigBuilder {
   void setupBuild({required bool linkingEnabled}) {
-    json[_linkingEnabledKey] = linkingEnabled;
     json.setNested([_configKey, _linkingEnabledKey], linkingEnabled);
   }
 }
@@ -609,7 +606,5 @@ final class BuildConfig extends HookConfig {
   final bool linkingEnabled;
 
   BuildConfig(super.json)
-    : linkingEnabled =
-          json.optionalMap(_configKey)?.optionalBool(_linkingEnabledKey) ??
-          json.get<bool>(_linkingEnabledKey);
+    : linkingEnabled = json.map$(_configKey).bool(_linkingEnabledKey);
 }
