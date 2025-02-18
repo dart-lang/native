@@ -83,6 +83,9 @@ class _AndroidNdkResolver implements ToolResolver {
       'toolchains/llvm/prebuilt/',
     );
     final prebuiltDir = Directory.fromUri(prebuiltUri);
+    if (!prebuiltDir.existsSync()) {
+      return [];
+    }
     final hostArchDirs =
         (await prebuiltDir.list().toList()).whereType<Directory>().toList();
     for (final hostArchDir in hostArchDirs) {
