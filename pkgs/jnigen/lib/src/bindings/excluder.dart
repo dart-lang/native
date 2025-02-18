@@ -62,7 +62,7 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
   @override
   void visit(ClassDecl node) {
     node.methods = node.methods.where((method) {
-      final isExcluded = method.isExcluded;
+      final isExcluded = method.userDefinedIsExcluded;
       final isPrivate = method.isPrivate;
       final isAbstractCtor = method.isConstructor && node.isAbstract;
       final isBridgeMethod = method.isSynthetic && method.isBridge;

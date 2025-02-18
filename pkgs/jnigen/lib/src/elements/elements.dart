@@ -15,6 +15,24 @@ import '../bindings/visitor.dart';
 
 part 'elements.g.dart';
 
+/// The stage in the generation pipeline.
+enum GenerationStage {
+  // The order of the enum elements must match the order in
+  // `../generate_bindings.dart`.
+  unprocessed,
+  userVisitors,
+  excluder,
+  kotlinProcessor,
+  linker,
+  descriptor,
+  renamer,
+  dartGenerator;
+
+  bool operator <=(GenerationStage stage) {
+    return index <= stage.index;
+  }
+}
+
 abstract class Element<T extends Element<T>> {
   const Element();
 
@@ -71,8 +89,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
     this.superclass,
     this.outerClassBinaryName,
     this.interfaces = const [],
-    this.hasStaticInit = false,
-    this.hasInstanceInit = false,
     this.values,
     this.kotlinClass,
     this.kotlinPackage,
@@ -98,8 +114,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   List<Method> methods;
   List<Field> fields;
   final List<TypeUsage> interfaces;
-  final bool hasStaticInit;
-  final bool hasInstanceInit;
 
   /// Will default to java.lang.Object if null by [Linker].
   TypeUsage? superclass;
@@ -110,7 +124,7 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final ClassDecl? outerClass;
+  late ClassDecl? outerClass;
 
   /// Contains enum constant names if class is an enum,
   /// as obtained by `.values()` method in Java.
@@ -124,26 +138,26 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final int superCount;
+  late int superCount;
 
   /// Final name of this class.
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   @override
-  late final String finalName;
+  late String finalName;
 
   /// Name of the type class.
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  late final String typeClassName;
+  late String typeClassName;
 
   /// Name of the nullable type class.
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  late final String nullableTypeClassName;
+  late String nullableTypeClassName;
 
   /// Type parameters including the ones from its outer classes.
   ///
@@ -151,19 +165,19 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final List<TypeParam> allTypeParams;
+  late List<TypeParam> allTypeParams;
 
   /// The path which this class is generated in.
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final String path;
+  late String path;
 
   /// The numeric suffix of the methods.
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  late final Map<String, int> methodNumsAfterRenaming;
+  late Map<String, int> methodNumsAfterRenaming;
 
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
@@ -246,14 +260,14 @@ class TypeUsage {
     ..type = DeclaredType(binaryName: 'java.lang.Object');
 
   final String shorthand;
-  final Kind kind;
+  Kind kind;
 
   @JsonKey(name: 'type')
   final Map<String, dynamic> typeJson;
 
   /// Populated by [TypeUsage.fromJson].
   @JsonKey(includeFromJson: false)
-  late final ReferredType type;
+  late ReferredType type;
 
   /// Populated by [Descriptor].
   @JsonKey(includeFromJson: false)
@@ -290,7 +304,9 @@ class TypeUsage {
     return type.accept(v);
   }
 
-  TypeUsage clone() {
+  // TODO(https://github.com/dart-lang/native/issues/2010): Removing [TypeUsage]
+  // entirely, makes this logic nicer.
+  TypeUsage clone({GenerationStage until = GenerationStage.userVisitors}) {
     final ReferredType clonedType;
     final clonedTypeJson = {...typeJson};
     switch (kind) {
@@ -299,6 +315,9 @@ class TypeUsage {
         break;
       case Kind.typeVariable:
         clonedType = TypeVar.fromJson(clonedTypeJson);
+        if (GenerationStage.linker <= until) {
+          (clonedType as TypeVar).origin = (type as TypeVar).origin;
+        }
         break;
       case Kind.wildcard:
         clonedType = Wildcard.fromJson(clonedTypeJson);
@@ -311,8 +330,13 @@ class TypeUsage {
         break;
     }
     clonedType.annotations = type.annotations;
-    return TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
-      ..type = clonedType;
+    final cloned =
+        TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
+          ..type = clonedType;
+    if (GenerationStage.descriptor <= until) {
+      cloned.descriptor = descriptor;
+    }
+    return cloned;
   }
 }
 
@@ -466,7 +490,7 @@ class DeclaredType extends ReferredType {
 class TypeVar extends ReferredType {
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final TypeParam origin;
+  late TypeParam origin;
 
   TypeVar({
     required this.name,
@@ -651,7 +675,7 @@ mixin ClassMember {
 @JsonSerializable(createToJson: false)
 class Method with ClassMember, Annotated implements Element<Method> {
   Method({
-    this.isExcluded = false,
+    this.userDefinedIsExcluded = false,
     this.annotations,
     this.javadoc,
     this.modifiers = const {},
@@ -662,12 +686,6 @@ class Method with ClassMember, Annotated implements Element<Method> {
     required this.returnType,
   });
 
-  @JsonKey(includeFromJson: false)
-  bool isExcluded;
-
-  @JsonKey(includeFromJson: false)
-  String? userDefinedName;
-
   @override
   final String name;
   @override
@@ -675,27 +693,17 @@ class Method with ClassMember, Annotated implements Element<Method> {
   @override
   List<Annotation>? annotations;
   final JavaDocComment? javadoc;
-  final List<TypeParam> typeParams;
+  List<TypeParam> typeParams;
   List<Param> params;
-  final TypeUsage returnType;
+  TypeUsage returnType;
 
-  /// Can be used to match with [KotlinFunction]'s descriptor.
-  ///
-  /// Can create a unique signature in combination with [name].
-  /// Populated either by the ASM backend or [Descriptor].
-  String? descriptor;
-
-  /// The [ClassDecl] where this method is defined.
-  ///
-  /// Populated by [Linker].
+  /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
-  @override
-  late ClassDecl classDecl;
+  bool userDefinedIsExcluded;
 
-  /// Populated by [Renamer].
+  /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
-  @override
-  late String finalName;
+  String? userDefinedName;
 
   /// Populated by [KotlinProcessor].
   @JsonKey(includeFromJson: false)
@@ -707,12 +715,72 @@ class Method with ClassMember, Annotated implements Element<Method> {
   @JsonKey(includeFromJson: false)
   TypeUsage? asyncReturnType;
 
+  /// The [ClassDecl] where this method is defined.
+  ///
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final String javaSig = '$name$descriptor';
+  @override
+  late ClassDecl classDecl;
+
+  /// Can be used to match with [KotlinFunction]'s descriptor.
+  ///
+  /// Can create a unique signature in combination with [name].
+  /// Populated either by the ASM backend or [Descriptor].
+  String? descriptor;
+
+  @JsonKey(includeFromJson: false)
+  late String javaSig = '$name$descriptor';
+
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  @override
+  late String finalName;
 
   bool get isConstructor => name == '<init>';
 
   factory Method.fromJson(Map<String, dynamic> json) => _$MethodFromJson(json);
+
+  Method clone({GenerationStage until = GenerationStage.userVisitors}) {
+    final cloned = Method(
+      name: name,
+      returnType: returnType.clone(until: until),
+      annotations: [...?annotations],
+      descriptor: descriptor,
+      userDefinedIsExcluded: userDefinedIsExcluded,
+      javadoc: javadoc,
+      modifiers: {...modifiers},
+      params: params.map((param) => param.clone(until: until)).toList(),
+      typeParams:
+          typeParams.map((typeParam) => typeParam.clone(until: until)).toList(),
+    );
+
+    // In the reversed order of [GenerationStage]. So each stage sets all the
+    // properties of the previous steps.
+    switch (until) {
+      case GenerationStage.dartGenerator:
+      case GenerationStage.renamer:
+        cloned.finalName = finalName;
+      case GenerationStage.descriptor:
+        cloned.descriptor = descriptor;
+      case GenerationStage.linker:
+        cloned.classDecl = classDecl;
+        for (final param in cloned.params) {
+          param.method = cloned;
+        }
+        for (final typeParam in cloned.typeParams) {
+          typeParam.parent = cloned;
+        }
+      case GenerationStage.kotlinProcessor:
+        cloned.kotlinFunction = kotlinFunction;
+        cloned.asyncReturnType = asyncReturnType;
+      case GenerationStage.excluder:
+      case GenerationStage.userVisitors:
+        cloned.userDefinedIsExcluded = userDefinedIsExcluded;
+        cloned.userDefinedName = userDefinedName;
+      case GenerationStage.unprocessed:
+    }
+    return cloned;
+  }
 
   @override
   R accept<R>(Visitor<Method, R> v) {
@@ -743,17 +811,33 @@ class Param with Annotated implements Element<Param> {
   @JsonKey(defaultValue: 'synthetic')
   final String name;
 
-  final TypeUsage type;
+  TypeUsage type;
+
+  /// Populated by [Linker].
+  @JsonKey(includeFromJson: false)
+  late Method method;
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   late String finalName;
 
-  /// Populated by [Linker].
-  @JsonKey(includeFromJson: false)
-  late final Method method;
-
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
+
+  Param clone({GenerationStage until = GenerationStage.userVisitors}) {
+    final cloned = Param(
+      name: name,
+      type: type,
+      annotations: [...?annotations],
+      javadoc: javadoc,
+    );
+    if (GenerationStage.linker <= until) {
+      cloned.method = method;
+    }
+    if (GenerationStage.renamer <= until) {
+      cloned.finalName = finalName;
+    }
+    return cloned;
+  }
 
   @override
   R accept<R>(Visitor<Param, R> v) {
@@ -795,12 +879,12 @@ class Field with ClassMember, Annotated implements Element<Field> {
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
   @override
-  late final ClassDecl classDecl;
+  late ClassDecl classDecl;
 
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
   @override
-  late final String finalName;
+  late String finalName;
 
   factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
 
@@ -833,10 +917,23 @@ class TypeParam with Annotated implements Element<TypeParam> {
   ///
   /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late final ClassMember parent;
+  late ClassMember parent;
 
   factory TypeParam.fromJson(Map<String, dynamic> json) =>
       _$TypeParamFromJson(json);
+
+  /// Set [parent] after cloning.
+  TypeParam clone({GenerationStage until = GenerationStage.userVisitors}) {
+    final cloned = TypeParam(
+      name: name,
+      annotations: [...?annotations],
+      bounds: bounds.map((bound) => bound.clone(until: until)).toList(),
+    );
+    if (GenerationStage.linker <= until) {
+      cloned.parent = parent;
+    }
+    return cloned;
+  }
 
   @override
   R accept<R>(Visitor<TypeParam, R> v) {
@@ -849,9 +946,6 @@ class JavaDocComment implements Element<JavaDocComment> {
   JavaDocComment({this.comment = ''});
 
   final String comment;
-
-  @JsonKey(includeFromJson: false)
-  late final String dartDoc;
 
   factory JavaDocComment.fromJson(Map<String, dynamic> json) =>
       _$JavaDocCommentFromJson(json);

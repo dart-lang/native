@@ -123,8 +123,7 @@ public class Main {
         break;
       case AUTO:
         Map<String, ClassDecl> classes = new LinkedHashMap<>();
-        // Preferring DOCLET as the source of summary a class exists in
-        // both ASM and DOCLET.
+        // Prefer DOCLET as the source of summary if a class exists in both ASM and DOCLET.
         if (!classStreamProviders.isEmpty()) {
           classes.putAll(AsmSummarizer.run(classStreamProviders));
         }

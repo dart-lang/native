@@ -9,11 +9,11 @@
   instead use the default value of `build/jni_libs`.
 - Added `JArray.of`, which allows a `JArray` to be constructed from an
   `Iterable`.
-- Added `JObject.isA`, which checks whether a `JObject` is a instance of a
-  java class.
+- Added `JObject.isA`, which checks whether a `JObject` is a instance of a java
+  class.
 - Do not require JAWT when building for desktop.
-- Added `JByteArray.from`, which allows a `JByteArray` to be constructed
-  from an `Iterable<int>`.
+- Added `JByteArray.from`, which allows a `JByteArray` to be constructed from an
+  `Iterable<int>`.
 
 ## 0.13.0
 

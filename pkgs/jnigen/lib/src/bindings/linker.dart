@@ -119,6 +119,30 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     final superclass = (node.superclass!.type as DeclaredType).classDecl;
     superclass.accept(this);
 
+    // Add all methods from the superinterfaces of this class.
+    for (final interface in node.interfaces) {
+      interface.accept(typeLinker);
+      final methodSignatures = <String>{};
+      for (final method in node.methods) {
+        methodSignatures.add(method.javaSig);
+      }
+      if (interface.type case final DeclaredType interfaceType) {
+        interfaceType.classDecl.accept(this);
+
+        for (final interfaceMethod in interfaceType.classDecl.methods) {
+          if (methodSignatures.contains(interfaceMethod.javaSig)) {
+            continue;
+          }
+          methodSignatures.add(interfaceMethod.javaSig);
+          final clonedMethod =
+              interfaceMethod.clone(until: GenerationStage.linker);
+          clonedMethod
+              .accept(_MethodMover(fromType: interfaceType, toClass: node));
+          node.methods.add(clonedMethod);
+        }
+      }
+    }
+
     node.superCount = superclass.superCount + 1;
 
     final fieldLinker = _FieldLinker(typeLinker);
@@ -130,9 +154,6 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     for (final method in node.methods) {
       method.classDecl = node;
       method.accept(methodLinker);
-    }
-    for (final interface in node.interfaces) {
-      interface.accept(typeLinker);
     }
     for (final typeParam in node.typeParams) {
       typeParam.accept(_TypeParamLinker(typeLinker));
@@ -335,5 +356,90 @@ class _ParamLinker extends Visitor<Param, void> {
       ];
     }
     node.type.accept(typeLinker);
+  }
+}
+
+/// Once a [Method] is cloned and added to another [ClassDecl], the original
+/// type parameters can be replaced with other ones and its `classDecl` will be
+/// different. This visitor fixes these issues after the cloning is done.
+class _MethodMover extends Visitor<Method, void> {
+  final DeclaredType fromType;
+  final ClassDecl toClass;
+
+  _MethodMover({required this.fromType, required this.toClass});
+
+  @override
+  void visit(Method node) {
+    node.classDecl = toClass;
+    final typeMover = _TypeMover(fromType: fromType);
+    if (node.returnType.kind == Kind.typeVariable) {
+      node.returnType = typeMover.replaceTypeVar(node.returnType);
+    } else {
+      node.returnType.accept(typeMover);
+    }
+    for (final param in node.params) {
+      if (param.type.kind == Kind.typeVariable) {
+        param.type = typeMover.replaceTypeVar(param.type);
+      } else {
+        param.type.accept(typeMover);
+      }
+    }
+    for (final typeParam in node.typeParams) {
+      for (final (i, bound) in typeParam.bounds.indexed) {
+        if (bound.kind == Kind.typeVariable) {
+          typeParam.bounds[i] = typeMover.replaceTypeVar(bound);
+        } else {
+          bound.accept(typeMover);
+        }
+      }
+    }
+  }
+}
+
+class _TypeMover extends TypeVisitor<void> {
+  final DeclaredType fromType;
+
+  _TypeMover({required this.fromType});
+
+  @override
+  void visitNonPrimitiveType(ReferredType node) {
+    // Do nothing.
+  }
+
+  TypeUsage replaceTypeVar(TypeUsage typeUsage) {
+    final typeVar = typeUsage.type as TypeVar;
+    if (typeVar.origin.parent == fromType.classDecl) {
+      final index = fromType.classDecl.allTypeParams
+          .indexWhere((typeParam) => typeParam.name == typeVar.name);
+      if (index != -1) {
+        return fromType.params[index].clone(until: GenerationStage.linker);
+      }
+    }
+    return typeUsage;
+  }
+
+  @override
+  void visitDeclaredType(DeclaredType node) {
+    for (final (i, typeParam) in node.params.indexed) {
+      if (typeParam.type is TypeVar) {
+        node.params[i] = replaceTypeVar(typeParam);
+      } else {
+        typeParam.type.accept(this);
+      }
+    }
+  }
+
+  @override
+  void visitArrayType(ArrayType node) {
+    if (node.elementType.type is TypeVar) {
+      node.elementType = replaceTypeVar(node.elementType);
+    } else {
+      node.elementType.accept(this);
+    }
+  }
+
+  @override
+  void visitPrimitiveType(PrimitiveType node) {
+    // Do nothing.
   }
 }
