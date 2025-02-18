@@ -23,7 +23,7 @@ void main() {
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('rename');
-      bindings = File('test/native_objc_test/transitive_bindings.dart')
+      bindings = File('test/native_objc_test/sdk_variable_bindings.dart')
           .readAsStringSync();
     });
 
