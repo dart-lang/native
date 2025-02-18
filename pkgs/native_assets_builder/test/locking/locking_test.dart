@@ -12,7 +12,6 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
-const lineSplitter = LineSplitter();
 
 void main() async {
   final packageUri = findPackageRoot('native_assets_builder');
