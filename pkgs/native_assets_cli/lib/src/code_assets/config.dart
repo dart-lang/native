@@ -75,8 +75,7 @@ class CodeConfig {
 
   factory CodeConfig.fromJson(Map<String, Object?> json) {
     final linkModePreference = LinkModePreference.fromString(
-      json.code?.optionalString(_linkModePreferenceKey) ??
-          json.string(_linkModePreferenceKey),
+      json.code!.string(_linkModePreferenceKey),
     );
     final targetArchitecture = Architecture.fromString(
       json.code?.optionalString(
@@ -281,7 +280,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
       _codeKey,
       _targetOSConfigKey,
     ], targetOS.toString());
-    json[_linkModePreferenceKey] = linkModePreference.toString();
     json.setNested([
       _configKey,
       _codeKey,

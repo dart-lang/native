@@ -91,7 +91,6 @@ void main() async {
     },
 
     if (hookType == 'build' && includeDeprecated) 'linking_enabled': false,
-    if (includeDeprecated) 'link_mode_preference': 'prefer-static',
     'out_dir_shared': outputDirectoryShared.toFilePath(),
     'out_dir': outDirUri.toFilePath(),
     'out_file': outFile.toFilePath(),
@@ -230,7 +229,9 @@ void main() async {
   test('BuildInput.config.code: invalid architecture', () {
     final input = {
       'linking_enabled': false,
-      'link_mode_preference': 'prefer-static',
+      'config': {
+        'code': {'link_mode_preference': 'prefer-static'},
+      },
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),
@@ -246,7 +247,9 @@ void main() async {
 
   test('LinkInput.config.code: invalid architecture', () {
     final input = {
-      'link_mode_preference': 'prefer-static',
+      'config': {
+        'code': {'link_mode_preference': 'prefer-static'},
+      },
       'out_dir': outDirUri.toFilePath(),
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),

@@ -75,7 +75,6 @@ void main() async {
       test('LinkInput version $version', () {
         final outDir = outDirUri;
         final input = {
-          'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'out_file': outFile.toFilePath(),
