@@ -10,7 +10,8 @@ It's currently used in `jnigen` to get the information of the Java API.
 
 When using it via `jnigen`, the `jnigen:setup` script will take care of building the jar in appropriate location.
 
-To build the jar manually, run `mvn compile` in project root. To build the jar and run the tests as well, run `mvn test`. The jar will be created in `target/` directory.
+To build the jar manually, run `gradlew(.bat) buildFatJar` in project root. The jar will be created in `build/libs`
+directory.
 
 ## Command line
 
