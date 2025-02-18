@@ -18,38 +18,55 @@ import '../util/find_package.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');
-final jarFile = join(toolPath, 'ApiSummarizer.jar');
-final targetJarFile = join(mvnTargetDir, 'ApiSummarizer.jar');
+final gradleBuildDir = join('.', 'java', 'build');
+final gradleTargetDir = join(gradleBuildDir, 'libs');
+final jarFile = join(gradleTargetDir, 'ApiSummarizer.jar');
+final targetJarFile = join(toolPath, 'ApiSummarizer.jar');
+
+Future<Uri?> getGradleWExecutable() async {
+  final pkg = await findPackageRoot('jnigen');
+  if (Platform.isLinux || Platform.isMacOS) {
+    return pkg!.resolve('java/gradlew');
+  } else if (Platform.isWindows) {
+    return pkg!.resolve('java/gradlew.bat');
+  }
+  return null;
+}
 
 Future<void> buildApiSummarizer() async {
   final pkg = await findPackageRoot('jnigen');
   if (pkg == null) {
     log.fatal('package jnigen not found!');
   }
-  final pom = pkg.resolve('java/pom.xml');
+  final gradleFile = pkg.resolve('java/build.gradle.kts');
+  final gradleWrapper = await getGradleWExecutable();
   await Directory(toolPath).create(recursive: true);
-  final mvnArgs = [
-    'compile',
-    '--batch-mode',
-    '--update-snapshots',
-    '-f',
-    pom.toFilePath(),
+  final gradleArgs = [
+    '-b',
+    gradleFile.toFilePath(),
+    'buildFatJar', // from ktor plugin
+    '-x', 'test', // ignore failing tests
+    '-q' // quiet
   ];
-  log.info('execute mvn ${mvnArgs.join(" ")}');
+
   try {
-    final mvnProc = await Process.run('mvn', mvnArgs,
+    final gradleProc = await Process.run(
+        gradleWrapper!.toFilePath(), gradleArgs,
         workingDirectory: toolPath, runInShell: true);
-    final exitCode = mvnProc.exitCode;
+    final exitCode = gradleProc.exitCode;
+    final sourceJar = File(pkg
+        .resolve('java/build/libs/ApiSummarizer.jar')
+        .toFilePath(windows: Platform.isWindows));
+
     if (exitCode == 0) {
-      await File(targetJarFile).rename(jarFile);
+      sourceJar.copySync(
+          File(targetJarFile).uri.toFilePath(windows: Platform.isWindows));
     } else {
-      printError(mvnProc.stdout);
-      printError(mvnProc.stderr);
-      printError('maven exited with $exitCode');
+      printError(gradleProc.stdout);
+      printError(gradleProc.stderr);
+      printError('gradle exited with $exitCode');
     }
-  } finally {
-    await Directory(mvnTargetDir).delete(recursive: true);
-  }
+  } finally {}
 }
 
 Future<void> buildSummarizerIfNotExists({bool force = false}) async {
