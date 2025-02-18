@@ -120,15 +120,14 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     superclass.accept(this);
 
     // Add all methods from the superinterfaces of this class.
+    final methodSignatures = <String>{};
+    for (final method in node.methods) {
+      methodSignatures.add(method.javaSig);
+    }
     for (final interface in node.interfaces) {
       interface.accept(typeLinker);
-      final methodSignatures = <String>{};
-      for (final method in node.methods) {
-        methodSignatures.add(method.javaSig);
-      }
       if (interface.type case final DeclaredType interfaceType) {
         interfaceType.classDecl.accept(this);
-
         for (final interfaceMethod in interfaceType.classDecl.methods) {
           if (methodSignatures.contains(interfaceMethod.javaSig)) {
             continue;
