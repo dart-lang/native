@@ -5,7 +5,9 @@
 import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
+import 'package:jnigen/src/tools/gradle_tools.dart';
 import 'package:jnigen/tools.dart';
+import 'package:path/path.dart';
 
 /// Downloads maven dependencies downloaded by equivalent jnigen invocation.
 ///
@@ -14,9 +16,20 @@ void main(List<String> args) async {
   final config = Config.parseArgs(args);
   final mavenDownloads = config.mavenDownloads;
   if (mavenDownloads != null) {
-    await MavenTools.downloadMavenJars(
-        MavenTools.deps(mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
+    await GradleTools.downloadMavenSources(
+        GradleTools.deps(mavenDownloads.sourceDeps), mavenDownloads.sourceDir);
+    // Include sources in jar download to make sure transitive
+    // dependencies are included
+    await GradleTools.downloadMavenJars(
+        GradleTools.deps(
+            mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
         mavenDownloads.jarDir);
+    // // remove duplicated jars
+    for (var dep in mavenDownloads.sourceDeps) {
+      final filename =
+          MavenDependency.fromString(dep).filename(isSource: false);
+      File(join(mavenDownloads.jarDir, filename)).deleteSync();
+    }
     await Directory(mavenDownloads.jarDir)
         .list()
         .map((entry) => entry.path)

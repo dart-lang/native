@@ -15,6 +15,7 @@ import 'package:path/path.dart';
 
 import '../logging/logging.dart';
 import '../util/find_package.dart';
+import 'gradle_tools.dart';
 
 final toolPath = join('.', '.dart_tool', 'jnigen');
 final mvnTargetDir = join(toolPath, 'target');
@@ -23,23 +24,13 @@ final gradleTargetDir = join(gradleBuildDir, 'libs');
 final jarFile = join(gradleTargetDir, 'ApiSummarizer.jar');
 final targetJarFile = join(toolPath, 'ApiSummarizer.jar');
 
-Future<Uri?> getGradleWExecutable() async {
-  final pkg = await findPackageRoot('jnigen');
-  if (Platform.isLinux || Platform.isMacOS) {
-    return pkg!.resolve('java/gradlew');
-  } else if (Platform.isWindows) {
-    return pkg!.resolve('java/gradlew.bat');
-  }
-  return null;
-}
-
 Future<void> buildApiSummarizer() async {
   final pkg = await findPackageRoot('jnigen');
   if (pkg == null) {
     log.fatal('package jnigen not found!');
   }
   final gradleFile = pkg.resolve('java/build.gradle.kts');
-  final gradleWrapper = await getGradleWExecutable();
+  final gradleWrapper = await GradleTools.getGradleWExecutable();
   await Directory(toolPath).create(recursive: true);
   final gradleArgs = [
     '-b',
