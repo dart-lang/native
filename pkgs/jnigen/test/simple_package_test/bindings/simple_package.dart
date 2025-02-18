@@ -6873,7 +6873,7 @@ class InheritedFromMyInterface extends jni$_.JObject {
 
   static final _id_varCallback = _class.instanceMethodId(
     r'varCallback',
-    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
   );
 
   static final _varCallback = jni$_.ProtectedJniExtensions.lookup<
@@ -6977,7 +6977,7 @@ class InheritedFromMyInterface extends jni$_.JObject {
                 .toPointer() ??
             jni$_.nullptr;
       }
-      if ($d == r'varCallback(Ljava/lang/Object;)Ljava/lang/Object;') {
+      if ($d == r'varCallback(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.varCallback(
           $a![0]?.as(const jni$_.JStringType(), releaseOriginal: true),
         );
@@ -9183,6 +9183,707 @@ final class $BaseClass$Type<$T extends jni$_.JObject?>
     return other.runtimeType == ($BaseClass$Type<$T>) &&
         other is $BaseClass$Type<$T> &&
         T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.BaseGenericInterface`
+class BaseGenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<BaseGenericInterface<$T>> $type;
+
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  BaseGenericInterface.fromReference(
+    this.T,
+    jni$_.JReference reference,
+  )   : $type = type<$T>(T),
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/BaseGenericInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static $BaseGenericInterface$NullableType<$T>
+      nullableType<$T extends jni$_.JObject?>(
+    jni$_.JObjType<$T> T,
+  ) {
+    return $BaseGenericInterface$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $BaseGenericInterface$Type<$T> type<$T extends jni$_.JObject?>(
+    jni$_.JObjType<$T> T,
+  ) {
+    return $BaseGenericInterface$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_foo = _class.instanceMethodId(
+    r'foo',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _foo = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract T foo()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? foo() {
+    return _foo(reference.pointer, _id_foo as jni$_.JMethodIDPtr)
+        .object<$T?>(T.nullableType);
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $BaseGenericInterface> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'foo()Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.foo();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.JObjectType())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn<$T extends jni$_.JObject?>(
+    jni$_.JImplementer implementer,
+    $BaseGenericInterface<$T> $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.BaseGenericInterface',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory BaseGenericInterface.implement(
+    $BaseGenericInterface<$T> $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return BaseGenericInterface<$T>.fromReference(
+      $impl.T,
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $BaseGenericInterface<$T extends jni$_.JObject?> {
+  factory $BaseGenericInterface({
+    required jni$_.JObjType<$T> T,
+    required $T? Function() foo,
+  }) = _$BaseGenericInterface<$T>;
+
+  jni$_.JObjType<$T> get T;
+
+  $T? foo();
+}
+
+final class _$BaseGenericInterface<$T extends jni$_.JObject?>
+    with $BaseGenericInterface<$T> {
+  _$BaseGenericInterface({
+    required this.T,
+    required $T? Function() foo,
+  }) : _foo = foo;
+
+  @core$_.override
+  final jni$_.JObjType<$T> T;
+
+  final $T? Function() _foo;
+
+  $T? foo() {
+    return _foo();
+  }
+}
+
+final class $BaseGenericInterface$NullableType<$T extends jni$_.JObject?>
+    extends jni$_.JObjType<BaseGenericInterface<$T>?> {
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  const $BaseGenericInterface$NullableType(
+    this.T,
+  );
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/BaseGenericInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  BaseGenericInterface<$T>? fromReference(jni$_.JReference reference) =>
+      reference.isNull
+          ? null
+          : BaseGenericInterface<$T>.fromReference(
+              T,
+              reference,
+            );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<BaseGenericInterface<$T>?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => Object.hash($BaseGenericInterface$NullableType, T);
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($BaseGenericInterface$NullableType<$T>) &&
+        other is $BaseGenericInterface$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $BaseGenericInterface$Type<$T extends jni$_.JObject?>
+    extends jni$_.JObjType<BaseGenericInterface<$T>> {
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  const $BaseGenericInterface$Type(
+    this.T,
+  );
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/BaseGenericInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  BaseGenericInterface<$T> fromReference(jni$_.JReference reference) =>
+      BaseGenericInterface<$T>.fromReference(
+        T,
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<BaseGenericInterface<$T>?> get nullableType =>
+      $BaseGenericInterface$NullableType<$T>(T);
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => Object.hash($BaseGenericInterface$Type, T);
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($BaseGenericInterface$Type<$T>) &&
+        other is $BaseGenericInterface$Type<$T> &&
+        T == other.T;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.BaseInterface`
+class BaseInterface extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<BaseInterface> $type;
+
+  @jni$_.internal
+  BaseInterface.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/BaseInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $BaseInterface$NullableType();
+  static const type = $BaseInterface$Type();
+  static final _id_foo = _class.instanceMethodId(
+    r'foo',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _foo = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.String foo()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? foo() {
+    return _foo(reference.pointer, _id_foo as jni$_.JMethodIDPtr)
+        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $BaseInterface> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'foo()Ljava/lang/String;') {
+        final $r = _$impls[$p]!.foo();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.JObjectType())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $BaseInterface $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.BaseInterface',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory BaseInterface.implement(
+    $BaseInterface $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return BaseInterface.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $BaseInterface {
+  factory $BaseInterface({
+    required jni$_.JString? Function() foo,
+  }) = _$BaseInterface;
+
+  jni$_.JString? foo();
+}
+
+final class _$BaseInterface with $BaseInterface {
+  _$BaseInterface({
+    required jni$_.JString? Function() foo,
+  }) : _foo = foo;
+
+  final jni$_.JString? Function() _foo;
+
+  jni$_.JString? foo() {
+    return _foo();
+  }
+}
+
+final class $BaseInterface$NullableType extends jni$_.JObjType<BaseInterface?> {
+  @jni$_.internal
+  const $BaseInterface$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/BaseInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  BaseInterface? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : BaseInterface.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<BaseInterface?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($BaseInterface$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($BaseInterface$NullableType) &&
+        other is $BaseInterface$NullableType;
+  }
+}
+
+final class $BaseInterface$Type extends jni$_.JObjType<BaseInterface> {
+  @jni$_.internal
+  const $BaseInterface$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/BaseInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  BaseInterface fromReference(jni$_.JReference reference) =>
+      BaseInterface.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<BaseInterface?> get nullableType =>
+      const $BaseInterface$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($BaseInterface$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($BaseInterface$Type) &&
+        other is $BaseInterface$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.DerivedInterface`
+class DerivedInterface extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<DerivedInterface> $type;
+
+  @jni$_.internal
+  DerivedInterface.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/DerivedInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $DerivedInterface$NullableType();
+  static const type = $DerivedInterface$Type();
+  static final _id_foo = _class.instanceMethodId(
+    r'foo',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _foo = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.String foo()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? foo() {
+    return _foo(reference.pointer, _id_foo as jni$_.JMethodIDPtr)
+        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $DerivedInterface> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'foo()Ljava/lang/String;') {
+        final $r = _$impls[$p]!.foo();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.JObjectType())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $DerivedInterface $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.DerivedInterface',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory DerivedInterface.implement(
+    $DerivedInterface $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return DerivedInterface.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $DerivedInterface {
+  factory $DerivedInterface({
+    required jni$_.JString? Function() foo,
+  }) = _$DerivedInterface;
+
+  jni$_.JString? foo();
+}
+
+final class _$DerivedInterface with $DerivedInterface {
+  _$DerivedInterface({
+    required jni$_.JString? Function() foo,
+  }) : _foo = foo;
+
+  final jni$_.JString? Function() _foo;
+
+  jni$_.JString? foo() {
+    return _foo();
+  }
+}
+
+final class $DerivedInterface$NullableType
+    extends jni$_.JObjType<DerivedInterface?> {
+  @jni$_.internal
+  const $DerivedInterface$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/DerivedInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  DerivedInterface? fromReference(jni$_.JReference reference) =>
+      reference.isNull
+          ? null
+          : DerivedInterface.fromReference(
+              reference,
+            );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<DerivedInterface?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($DerivedInterface$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($DerivedInterface$NullableType) &&
+        other is $DerivedInterface$NullableType;
+  }
+}
+
+final class $DerivedInterface$Type extends jni$_.JObjType<DerivedInterface> {
+  @jni$_.internal
+  const $DerivedInterface$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/DerivedInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  DerivedInterface fromReference(jni$_.JReference reference) =>
+      DerivedInterface.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<DerivedInterface?> get nullableType =>
+      const $DerivedInterface$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($DerivedInterface$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($DerivedInterface$Type) &&
+        other is $DerivedInterface$Type;
   }
 }
 

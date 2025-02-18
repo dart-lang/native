@@ -5,6 +5,7 @@
 import '../config/config.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
+import 'descriptor.dart';
 import 'visitor.dart';
 
 typedef _Resolver = ClassDecl Function(String? binaryName);
@@ -129,14 +130,14 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
       if (interface.type case final DeclaredType interfaceType) {
         interfaceType.classDecl.accept(this);
         for (final interfaceMethod in interfaceType.classDecl.methods) {
-          if (methodSignatures.contains(interfaceMethod.javaSig)) {
-            continue;
-          }
-          methodSignatures.add(interfaceMethod.javaSig);
           final clonedMethod =
               interfaceMethod.clone(until: GenerationStage.linker);
           clonedMethod
               .accept(_MethodMover(fromType: interfaceType, toClass: node));
+          if (methodSignatures.contains(clonedMethod.javaSig)) {
+            continue;
+          }
+          methodSignatures.add(interfaceMethod.javaSig);
           node.methods.add(clonedMethod);
         }
       }
@@ -392,6 +393,9 @@ class _MethodMover extends Visitor<Method, void> {
         }
       }
     }
+    // Since the types can be changed, the descriptor can be changed as well.
+    node.descriptor =
+        node.accept(MethodDescriptor(node.classDecl.allTypeParams));
   }
 }
 
