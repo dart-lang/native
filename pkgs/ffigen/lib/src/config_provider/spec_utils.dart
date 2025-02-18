@@ -18,28 +18,9 @@ import '../code_generator/utils.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';
+import 'utils.dart';
 
 final _logger = Logger('ffigen.config_provider.spec_utils');
-
-/// Replaces the path separators according to current platform.
-String _replaceSeparators(String path) {
-  if (Platform.isWindows) {
-    return path.replaceAll(p.posix.separator, p.windows.separator);
-  } else {
-    return path.replaceAll(p.windows.separator, p.posix.separator);
-  }
-}
-
-/// Replaces the path separators according to current platform, and normalizes .
-/// and .. in the path. If a relative path is passed in, it is resolved relative
-/// to the config path, and the absolute path is returned.
-String normalizePath(String path, String? configFilename) {
-  final resolveInConfigDir =
-      (configFilename == null) || p.isAbsolute(path) || path.startsWith('**');
-  return _replaceSeparators(p.normalize(resolveInConfigDir
-      ? path
-      : p.absolute(p.join(p.dirname(configFilename), path))));
-}
 
 Map<String, LibraryImport> libraryImportsExtractor(
     Map<String, String>? typeMap) {
@@ -276,7 +257,7 @@ YamlHeaders headersExtractor(
   for (final key in yamlConfig.keys) {
     if (key == strings.entryPoints) {
       for (final h in yamlConfig[key]!) {
-        final headerGlob = normalizePath(h, configFilename);
+        final headerGlob = normalizePath(substituteVars(h), configFilename);
         // Add file directly to header if it's not a Glob but a File.
         if (File(headerGlob).existsSync()) {
           final osSpecificPath = headerGlob;
@@ -295,9 +276,8 @@ YamlHeaders headersExtractor(
     }
     if (key == strings.includeDirectives) {
       for (final h in yamlConfig[key]!) {
-        final headerGlob = h;
-        final fixedGlob = normalizePath(headerGlob, configFilename);
-        includeGlobs.add(quiver.Glob(fixedGlob));
+        final headerGlob = normalizePath(substituteVars(h), configFilename);
+        includeGlobs.add(quiver.Glob(headerGlob));
       }
     }
   }
