@@ -60,20 +60,14 @@ void main() async {
           tempUri.toFilePath(),
         ]);
 
-        final stdoutSub = process.stdout.listen((data) {
-          for (final line in lineSplitter.convert(
-            systemEncoding.decode(data),
-          )) {
-            logger.info(line);
-          }
-        });
-        final stderrSub = process.stderr.listen((data) {
-          for (final line in lineSplitter.convert(
-            systemEncoding.decode(data),
-          )) {
-            logger.severe(line);
-          }
-        });
+        final stdoutSub = process.stdout
+            .transform(systemEncoding.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.fine);
+        final stderrSub = process.stderr
+            .transform(systemEncoding.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.severe);
 
         Timer? timer;
         if (killAfter != null) {
@@ -125,20 +119,14 @@ void main() async {
           if (timeout != null) timeout.inMilliseconds.toString(),
         ]);
 
-        final stdoutSub = process.stdout.listen((data) {
-          for (final line in lineSplitter.convert(
-            systemEncoding.decode(data),
-          )) {
-            logger.info(line);
-          }
-        });
-        final stderrSub = process.stderr.listen((data) {
-          for (final line in lineSplitter.convert(
-            systemEncoding.decode(data),
-          )) {
-            logger.severe(line);
-          }
-        });
+        final stdoutSub = process.stdout
+            .transform(systemEncoding.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.fine);
+        final stderrSub = process.stderr
+            .transform(systemEncoding.decoder)
+            .transform(const LineSplitter())
+            .listen(logger.severe);
 
         final (exitCode, _, _) =
             await (
