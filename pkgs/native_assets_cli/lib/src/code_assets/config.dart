@@ -38,7 +38,14 @@ extension CodeAssetLinkInput on LinkInputAssets {
 
 /// Configuration for hook writers if code assets are supported.
 class CodeConfig {
-  final Architecture? _targetArchitecture;
+  /// The architecture the code code asset should be built for.
+  ///
+  /// The build and link hooks are invoked once per [targetArchitecture]. If the
+  /// invoker produces multi-architecture applications, the invoker is
+  /// responsible for combining the [CodeAsset]s for individual architectures
+  /// into a universal binary. So, the build and link hook implementations are
+  /// not responsible for providing universal binaries.
+  final Architecture targetArchitecture;
 
   final LinkModePreference linkModePreference;
 
@@ -54,57 +61,39 @@ class CodeConfig {
 
   // Should not be made public, class will be replaced as a view on `json`.
   CodeConfig._({
-    required Architecture? targetArchitecture,
+    required this.targetArchitecture,
     required this.targetOS,
     required this.linkModePreference,
     CCompilerConfig? cCompilerConfig,
     AndroidCodeConfig? androidConfig,
     IOSCodeConfig? iOSConfig,
     MacOSCodeConfig? macOSConfig,
-  }) : _targetArchitecture = targetArchitecture,
-       cCompiler = cCompilerConfig,
+  }) : cCompiler = cCompilerConfig,
        _iOSConfig = iOSConfig,
        _androidConfig = androidConfig,
        _macOSConfig = macOSConfig;
 
   factory CodeConfig.fromJson(Map<String, Object?> json) {
-    final dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false;
-
     final linkModePreference = LinkModePreference.fromString(
-      json.code?.optionalString(_linkModePreferenceKey) ??
-          json.string(_linkModePreferenceKey),
+      json.code!.string(_linkModePreferenceKey),
     );
-    final targetArchitecture =
-        dryRun
-            ? null
-            : Architecture.fromString(
-              json.code?.optionalString(
-                    _targetArchitectureKey,
-                    validValues: Architecture.values.map((a) => a.name),
-                  ) ??
-                  json.string(
-                    _targetArchitectureKey,
-                    validValues: Architecture.values.map((a) => a.name),
-                  ),
-            );
-    final targetOS = OS.fromString(
-      json.code?.optionalString(_targetOSConfigKey) ??
-          json.string(_targetOSConfigKey),
+    final targetArchitecture = Architecture.fromString(
+      json.code!.string(
+        _targetArchitectureKey,
+        validValues: Architecture.values.map((a) => a.name),
+      ),
     );
-    final cCompiler = switch (json.code?.optionalMap(_compilerKey) ??
-        json.optionalMap(_compilerKey)) {
+    final targetOS = OS.fromString(json.code!.string(_targetOSConfigKey));
+    final cCompiler = switch (json.code?.optionalMap(_compilerKey)) {
       final Map<String, Object?> map => CCompilerConfig.fromJson(map),
       null => null,
     };
 
-    final iOSConfig =
-        dryRun || targetOS != OS.iOS ? null : IOSCodeConfig.fromJson(json);
+    final iOSConfig = targetOS != OS.iOS ? null : IOSCodeConfig.fromJson(json);
     final androidConfig =
-        dryRun || targetOS != OS.android
-            ? null
-            : AndroidCodeConfig.fromJson(json);
+        targetOS != OS.android ? null : AndroidCodeConfig.fromJson(json);
     final macOSConfig =
-        dryRun || targetOS != OS.macOS ? null : MacOSCodeConfig.fromJson(json);
+        targetOS != OS.macOS ? null : MacOSCodeConfig.fromJson(json);
 
     return CodeConfig._(
       targetArchitecture: targetArchitecture,
@@ -117,29 +106,9 @@ class CodeConfig {
     );
   }
 
-  /// The architecture the code code asset should be built for.
-  ///
-  /// The build and link hooks are invoked once per [targetArchitecture]. If the
-  /// invoker produces multi-architecture applications, the invoker is
-  /// responsible for combining the [CodeAsset]s for individual architectures
-  /// into a universal binary. So, the build and link hook implementations are
-  /// not responsible for providing universal binaries.
-  Architecture get targetArchitecture {
-    // TODO: Remove once Dart 3.7 stable is out and we bump the minimum SDK to
-    // 3.7.
-    if (_targetArchitecture == null) {
-      throw StateError('Cannot access target architecture in dry runs.');
-    }
-    return _targetArchitecture;
-  }
-
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   IOSCodeConfig get iOS => switch (_iOSConfig) {
-    null =>
-      throw StateError(
-        'Cannot access iOSConfig if targetOS is not iOS'
-        ' or in dry runs.',
-      ),
+    null => throw StateError('Cannot access iOSConfig if targetOS is not iOS.'),
     final c => c,
   };
 
@@ -147,8 +116,7 @@ class CodeConfig {
   AndroidCodeConfig get android => switch (_androidConfig) {
     null =>
       throw StateError(
-        'Cannot access androidConfig if targetOS is not android'
-        ' or in dry runs.',
+        'Cannot access androidConfig if targetOS is not android.',
       ),
     final c => c,
   };
@@ -156,10 +124,7 @@ class CodeConfig {
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   MacOSCodeConfig get macOS => switch (_macOSConfig) {
     null =>
-      throw StateError(
-        'Cannot access macOSConfig if targetOS is not MacOS'
-        ' or in dry runs.',
-      ),
+      throw StateError('Cannot access macOSConfig if targetOS is not MacOS.'),
     final c => c,
   };
 }
@@ -181,13 +146,12 @@ class IOSCodeConfig {
       _targetVersion = targetVersion;
 
   IOSCodeConfig.fromJson(Map<String, Object?> json)
-    : _targetVersion =
-          json.code?.optionalMap(_iosKey)?.optionalInt(_targetVersionKey) ??
-          json.optionalInt(_targetIOSVersionKeyDeprecated),
+    : _targetVersion = json.code
+          ?.optionalMap(_iosKey)
+          ?.optionalInt(_targetVersionKey),
       _targetSdk = switch (json.code
-              ?.optionalMap(_iosKey)
-              ?.optionalString(_targetSdkKey) ??
-          json.optionalString(_targetIOSSdkKeyDeprecated)) {
+          ?.optionalMap(_iosKey)
+          ?.optionalString(_targetSdkKey)) {
         null => null,
         String e => IOSSdk.fromString(e),
       };
@@ -209,9 +173,9 @@ class AndroidCodeConfig {
   AndroidCodeConfig({required int targetNdkApi}) : _targetNdkApi = targetNdkApi;
 
   AndroidCodeConfig.fromJson(Map<String, Object?> json)
-    : _targetNdkApi =
-          json.code?.optionalMap(_androidKey)?.optionalInt(_targetNdkApiKey) ??
-          json.optionalInt(_targetAndroidNdkApiKeyDeprecated);
+    : _targetNdkApi = json.code
+          ?.optionalMap(_androidKey)
+          ?.optionalInt(_targetNdkApiKey);
 }
 
 extension AndroidConfigSyntactic on AndroidCodeConfig {
@@ -229,9 +193,9 @@ class MacOSCodeConfig {
     : _targetVersion = targetVersion;
 
   MacOSCodeConfig.fromJson(Map<String, Object?> json)
-    : _targetVersion =
-          json.code?.optionalMap(_macosKey)?.optionalInt(_targetVersionKey) ??
-          json.optionalInt(_targetMacOSVersionKeyDeprecated);
+    : _targetVersion = json.code
+          ?.optionalMap(_macosKey)
+          ?.optionalInt(_targetVersionKey);
 }
 
 extension MacOSConfigSyntactic on MacOSCodeConfig {
@@ -295,34 +259,29 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     MacOSCodeConfig? macOS,
   }) {
     if (targetArchitecture != null) {
-      json[_targetArchitectureKey] = targetArchitecture.toString();
       json.setNested([
         _configKey,
         _codeKey,
         _targetArchitectureKey,
       ], targetArchitecture.toString());
     }
-    json[_targetOSConfigKey] = targetOS.toString();
     json.setNested([
       _configKey,
       _codeKey,
       _targetOSConfigKey,
     ], targetOS.toString());
-    json[_linkModePreferenceKey] = linkModePreference.toString();
     json.setNested([
       _configKey,
       _codeKey,
       _linkModePreferenceKey,
     ], linkModePreference.toString());
     if (cCompiler != null) {
-      json[_compilerKey] = cCompiler.toJson(deprecatedTopLevel: true);
       json.setNested([_configKey, _codeKey, _compilerKey], cCompiler.toJson());
     }
 
     // Note, using ?. instead of !. makes missing data be a semantic error
     // rather than a syntactic error to be caught in the validation.
     if (targetOS == OS.android) {
-      json[_targetAndroidNdkApiKeyDeprecated] = android?.targetNdkApi;
       json.setNested([
         _configKey,
         _codeKey,
@@ -330,8 +289,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
         _targetNdkApiKey,
       ], android?.targetNdkApi);
     } else if (targetOS == OS.iOS) {
-      json[_targetIOSSdkKeyDeprecated] = iOS?.targetSdk.toString();
-      json[_targetIOSVersionKeyDeprecated] = iOS?.targetVersion;
       json.setNested([
         _configKey,
         _codeKey,
@@ -345,7 +302,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
         _targetVersionKey,
       ], iOS?.targetVersion);
     } else if (targetOS == OS.macOS) {
-      json[_targetMacOSVersionKeyDeprecated] = macOS?.targetVersion;
       json.setNested([
         _configKey,
         _codeKey,
@@ -379,16 +335,10 @@ extension CodeAssetLinkOutput on LinkOutputAssets {
 const String _compilerKey = 'c_compiler';
 const String _linkModePreferenceKey = 'link_mode_preference';
 const String _targetNdkApiKey = 'target_ndk_api';
-const String _targetAndroidNdkApiKeyDeprecated = 'target_android_ndk_api';
 const String _targetArchitectureKey = 'target_architecture';
 const String _targetSdkKey = 'target_sdk';
-const String _targetIOSSdkKeyDeprecated = 'target_ios_sdk';
 const String _targetVersionKey = 'target_version';
-const String _targetIOSVersionKeyDeprecated = 'target_ios_version';
-const String _targetMacOSVersionKeyDeprecated = 'target_macos_version';
 const String _targetOSConfigKey = 'target_os';
-
-const _dryRunConfigKey = 'dry_run';
 
 const _configKey = 'config';
 const _codeKey = 'code';

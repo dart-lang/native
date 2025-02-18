@@ -80,7 +80,7 @@ void main() {
                         outputDirectory: tempUri,
                         outputDirectoryShared: tempUri2,
                       )
-                      ..config.setupBuild(linkingEnabled: false, dryRun: false)
+                      ..config.setupBuild(linkingEnabled: false)
                       ..config.setupShared(buildAssetTypes: [CodeAsset.type])
                       ..config.setupCode(
                         targetOS: OS.iOS,
@@ -243,7 +243,7 @@ Future<Uri> buildLib(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUri2,
         )
-        ..config.setupBuild(linkingEnabled: false, dryRun: false)
+        ..config.setupBuild(linkingEnabled: false)
         ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetOS: OS.iOS,

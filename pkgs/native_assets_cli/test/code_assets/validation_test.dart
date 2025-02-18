@@ -39,7 +39,7 @@ void main() {
             outputDirectory: outDirUri,
             outputDirectoryShared: outDirSharedUri,
           )
-          ..config.setupBuild(linkingEnabled: false, dryRun: false);
+          ..config.setupBuild(linkingEnabled: false);
     return inputBuilder;
   }
 

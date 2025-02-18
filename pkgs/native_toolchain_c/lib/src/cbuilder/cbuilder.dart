@@ -157,42 +157,40 @@ class CBuilder extends CTool implements Builder {
       for (final directory in this.libraryDirectories)
         outDir.resolveUri(Uri.file(directory)),
     ];
-    // ignore: deprecated_member_use
-    if (!input.config.dryRun) {
-      final task = RunCBuilder(
-        input: input,
-        codeConfig: input.config.code,
-        logger: logger,
-        sources: sources,
-        includes: includes,
-        frameworks: frameworks,
-        libraries: libraries,
-        libraryDirectories: libraryDirectories,
-        dynamicLibrary:
-            type == OutputType.library && linkMode == DynamicLoadingBundled()
-                ? libUri
-                : null,
-        staticLibrary:
-            type == OutputType.library && linkMode == StaticLinking()
-                ? libUri
-                : null,
-        executable: type == OutputType.executable ? exeUri : null,
-        // ignore: invalid_use_of_visible_for_testing_member
-        installName: installName,
-        flags: flags,
-        defines: {
-          ...defines,
-          if (buildModeDefine) buildMode.name.toUpperCase(): null,
-          if (ndebugDefine && buildMode != BuildMode.debug) 'NDEBUG': null,
-        },
-        pic: pic,
-        std: std,
-        language: language,
-        cppLinkStdLib: cppLinkStdLib,
-        optimizationLevel: optimizationLevel,
-      );
-      await task.run();
-    }
+
+    final task = RunCBuilder(
+      input: input,
+      codeConfig: input.config.code,
+      logger: logger,
+      sources: sources,
+      includes: includes,
+      frameworks: frameworks,
+      libraries: libraries,
+      libraryDirectories: libraryDirectories,
+      dynamicLibrary:
+          type == OutputType.library && linkMode == DynamicLoadingBundled()
+              ? libUri
+              : null,
+      staticLibrary:
+          type == OutputType.library && linkMode == StaticLinking()
+              ? libUri
+              : null,
+      executable: type == OutputType.executable ? exeUri : null,
+      // ignore: invalid_use_of_visible_for_testing_member
+      installName: installName,
+      flags: flags,
+      defines: {
+        ...defines,
+        if (buildModeDefine) buildMode.name.toUpperCase(): null,
+        if (ndebugDefine && buildMode != BuildMode.debug) 'NDEBUG': null,
+      },
+      pic: pic,
+      std: std,
+      language: language,
+      cppLinkStdLib: cppLinkStdLib,
+      optimizationLevel: optimizationLevel,
+    );
+    await task.run();
 
     if (assetName != null) {
       output.assets.code.add(
@@ -202,31 +200,27 @@ class CBuilder extends CTool implements Builder {
           file: libUri,
           linkMode: linkMode,
           os: input.config.code.targetOS,
-          architecture:
-              // ignore: deprecated_member_use
-              input.config.dryRun ? null : input.config.code.targetArchitecture,
+          architecture: input.config.code.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );
     }
-    // ignore: deprecated_member_use
-    if (!input.config.dryRun) {
-      final includeFiles =
-          await Stream.fromIterable(includes)
-              .asyncExpand(
-                (include) => Directory(include.toFilePath())
-                    .list(recursive: true)
-                    .where((entry) => entry is File)
-                    .map((file) => file.uri),
-              )
-              .toList();
 
-      output.addDependencies({
-        // Note: We use a Set here to deduplicate the dependencies.
-        ...sources,
-        ...includeFiles,
-        ...dartBuildFiles,
-      });
-    }
+    final includeFiles =
+        await Stream.fromIterable(includes)
+            .asyncExpand(
+              (include) => Directory(include.toFilePath())
+                  .list(recursive: true)
+                  .where((entry) => entry is File)
+                  .map((file) => file.uri),
+            )
+            .toList();
+
+    output.addDependencies({
+      // Note: We use a Set here to deduplicate the dependencies.
+      ...sources,
+      ...includeFiles,
+      ...dartBuildFiles,
+    });
   }
 }

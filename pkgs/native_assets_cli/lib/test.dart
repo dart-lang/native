@@ -54,7 +54,7 @@ Future<void> testBuildHook({
         outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..config.setupBuild(dryRun: false, linkingEnabled: true);
+      ..config.setupBuild(linkingEnabled: true);
     extraInputSetup(inputBuilder);
 
     final input = BuildInput(inputBuilder.json);

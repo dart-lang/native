@@ -67,14 +67,12 @@ import '../validation.dart';
 ///     final packageName = input.packageName;
 ///     final assetPath = input.outputDirectory.resolve(assetName);
 ///     final assetSourcePath = input.packageRoot.resolveUri(packageAssetPath);
-///     if (!input.dryRun) {
-///       // Insert code that downloads or builds the asset to `assetPath`.
-///       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
+///     // Insert code that downloads or builds the asset to `assetPath`.
+///     await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 ///
-///       output.addDependencies([
-///         assetSourcePath,
-///       ]);
-///     }
+///     output.addDependencies([
+///       assetSourcePath,
+///     ]);
 ///
 ///     output.assets.code.add(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
