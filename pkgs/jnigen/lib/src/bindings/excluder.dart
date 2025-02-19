@@ -26,7 +26,10 @@ extension on String {
       this != '<clinit>';
 }
 
-class Excluder extends Visitor<Classes, void> {
+class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
+  @override
+  final GenerationStage stage = GenerationStage.excluder;
+
   final Config config;
 
   const Excluder(this.config);

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -10,6 +11,7 @@ import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
 import 'bindings/renamer.dart';
+import 'bindings/visitor.dart';
 import 'config/config.dart';
 import 'elements/elements.dart';
 import 'elements/j_elements.dart' as j_ast;
@@ -41,10 +43,18 @@ Future<void> generateJniBindings(Config config) async {
   final userClasses = j_ast.Classes(classes);
   config.visitors?.forEach(userClasses.accept);
 
-  classes.accept(Excluder(config));
-  classes.accept(KotlinProcessor());
-  await classes.accept(Linker(config));
-  classes.accept(Renamer(config));
+  // Keep the order in sync with `elements/elements.dart`.
+  var stage = GenerationStage.userVisitors;
+  R runStage<R>(TopLevelVisitor<R> visitor) {
+    assert(visitor.stage.index == stage.index + 1);
+    stage = visitor.stage;
+    return classes.accept(visitor);
+  }
+
+  runStage(Excluder(config));
+  runStage(KotlinProcessor());
+  await runStage(Linker(config));
+  runStage(Renamer(config));
   // classes.accept(const Printer());
 
   try {

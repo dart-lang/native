@@ -16,7 +16,10 @@ typedef _Resolver = ClassDecl Function(String? binaryName);
 /// * Links [ClassDecl] objects from imported dependencies.
 /// * Adds references from child elements back to their parent elements.
 /// * Resolves Kotlin specific `asyncReturnType` for methods.
-class Linker extends Visitor<Classes, Future<void>> {
+class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
+  @override
+  final GenerationStage stage = GenerationStage.linker;
+
   Linker(this.config);
 
   final Config config;

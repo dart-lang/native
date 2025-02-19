@@ -254,8 +254,10 @@ class TypeUsage {
   });
 
   static final object = TypeUsage(
-      kind: Kind.declared, shorthand: 'java.lang.Object', typeJson: {})
-    ..type = DeclaredType(binaryName: 'java.lang.Object');
+    kind: Kind.declared,
+    shorthand: 'java.lang.Object',
+    typeJson: {},
+  )..type = DeclaredType(binaryName: 'java.lang.Object');
 
   final String shorthand;
   Kind kind;
@@ -328,9 +330,11 @@ class TypeUsage {
         break;
     }
     clonedType.annotations = type.annotations;
-    final cloned =
-        TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
-          ..type = clonedType;
+    final cloned = TypeUsage(
+      shorthand: shorthand,
+      kind: kind,
+      typeJson: clonedTypeJson,
+    )..type = clonedType;
     if (GenerationStage.linker <= until) {
       cloned.descriptor = descriptor;
     }
@@ -490,10 +494,7 @@ class TypeVar extends ReferredType {
   @JsonKey(includeFromJson: false)
   late TypeParam origin;
 
-  TypeVar({
-    required this.name,
-    this.annotations,
-  });
+  TypeVar({required this.name, this.annotations});
 
   @override
   String name;
@@ -542,11 +543,7 @@ class TypeVar extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class Wildcard extends ReferredType {
-  Wildcard({
-    this.extendsBound,
-    this.superBound,
-    this.annotations,
-  });
+  Wildcard({this.extendsBound, this.superBound, this.annotations});
   TypeUsage? extendsBound, superBound;
 
   @override
@@ -577,10 +574,7 @@ class Wildcard extends ReferredType {
 
 @JsonSerializable(createToJson: false)
 class ArrayType extends ReferredType {
-  ArrayType({
-    required this.elementType,
-    this.annotations,
-  });
+  ArrayType({required this.elementType, this.annotations});
   TypeUsage elementType;
 
   @override
@@ -618,10 +612,12 @@ mixin Annotated {
     'io.reactivex.rxjava3.annotations.Nullable',
   ];
   bool get hasNullable {
-    return annotations?.any((annotation) =>
-            nullableAnnotations.contains(annotation.binaryName) ||
-            annotation.binaryName == 'javax.annotation.Nullable' &&
-                annotation.properties['when'] == 'ALWAYS') ??
+    return annotations?.any(
+          (annotation) =>
+              nullableAnnotations.contains(annotation.binaryName) ||
+              annotation.binaryName == 'javax.annotation.Nullable' &&
+                  annotation.properties['when'] == 'ALWAYS',
+        ) ??
         false;
   }
 
@@ -638,10 +634,12 @@ mixin Annotated {
     'io.reactivex.rxjava3.annotations.NonNull',
   ];
   bool get hasNonNull {
-    return annotations?.any((annotation) =>
-            nonNullAnnotations.contains(annotation.binaryName) ||
-            annotation.binaryName == 'javax.annotation.Nonnull' &&
-                annotation.properties['when'] == 'ALWAYS') ??
+    return annotations?.any(
+          (annotation) =>
+              nonNullAnnotations.contains(annotation.binaryName) ||
+              annotation.binaryName == 'javax.annotation.Nonnull' &&
+                  annotation.properties['when'] == 'ALWAYS',
+        ) ??
         false;
   }
 
@@ -758,6 +756,8 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.dartGenerator:
       case GenerationStage.renamer:
         cloned.finalName = finalName;
+        continue linker;
+      linker:
       case GenerationStage.linker:
         cloned.descriptor = descriptor;
         cloned.classDecl = classDecl;
@@ -767,9 +767,13 @@ class Method with ClassMember, Annotated implements Element<Method> {
         for (final typeParam in cloned.typeParams) {
           typeParam.parent = cloned;
         }
+        continue kotlinProcessor;
+      kotlinProcessor:
       case GenerationStage.kotlinProcessor:
         cloned.kotlinFunction = kotlinFunction;
         cloned.asyncReturnType = asyncReturnType;
+        continue excluder;
+      excluder:
       case GenerationStage.excluder:
       case GenerationStage.userVisitors:
         cloned.userDefinedIsExcluded = userDefinedIsExcluded;
@@ -893,11 +897,7 @@ class Field with ClassMember, Annotated implements Element<Field> {
 
 @JsonSerializable(createToJson: false)
 class TypeParam with Annotated implements Element<TypeParam> {
-  TypeParam({
-    required this.name,
-    this.bounds = const [],
-    this.annotations,
-  });
+  TypeParam({required this.name, this.bounds = const [], this.annotations});
 
   final String name;
   final List<TypeUsage> bounds;
@@ -1117,10 +1117,7 @@ class KotlinClass implements Element<KotlinClass> {
 
 @JsonSerializable(createToJson: false)
 class KotlinPackage implements Element<KotlinPackage> {
-  KotlinPackage({
-    this.functions = const [],
-    this.properties = const [],
-  });
+  KotlinPackage({this.functions = const [], this.properties = const []});
 
   final List<KotlinFunction> functions;
   final List<KotlinProperty> properties;
@@ -1352,10 +1349,7 @@ sealed class KotlinTypeArgument implements Element<KotlinTypeArgument> {
 class KotlinWildcard extends KotlinTypeArgument {}
 
 class KotlinTypeProjection extends KotlinTypeArgument {
-  KotlinTypeProjection({
-    required this.type,
-    required this.variance,
-  });
+  KotlinTypeProjection({required this.type, required this.variance});
 
   final KotlinType type;
   final KmVariance variance;
