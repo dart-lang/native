@@ -39,7 +39,7 @@ ApiSummarizer's current use is in `jnigen` for obtaining public API of java pack
 
 ## Running tests
 
-Run `mvn surefire:test`
+Run `gradlew(.bat) test`
 
 There are not many tests at the moment. We plan to add some later.
 
