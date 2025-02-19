@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/tools/gradle_tools.dart';
 import 'package:jnigen/tools.dart';
-import 'package:path/path.dart';
 
 /// Downloads maven dependencies downloaded by equivalent jnigen invocation.
 ///
