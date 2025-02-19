@@ -10,6 +10,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
@@ -863,6 +864,193 @@ void main() {
         expect(objectRetainCount(objectPtr), 0);
       }
     });
+
+    test('Block.fromFunction, keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final blocksCreated = Completer<void>();
+      final blkKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Blocks created') {
+          blocksCreated.complete();
+        } else if (msg == 'blkKeepAlive destroyed') {
+          blkKeepAliveDestroyed.complete();
+        }
+      });
+
+      var isExited = false;
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited = true;
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final blkKeepAlive =
+            VoidBlock.fromFunction(() {}, keepIsolateAlive: true);
+        final blkDontKeepAlive =
+            VoidBlock.fromFunction(() {}, keepIsolateAlive: false);
+        sendPort.send('Blocks created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy blkKeepAlive') {
+            blkKeepAlive.ref.release();
+            sendPort.send('blkKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await blocksCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited, isFalse);
+
+      (await isolateSendPort.future).send('Destroy blkKeepAlive');
+      await blkKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only blkDontKeepAlive is alive.
+      expect(isExited, isTrue);
+
+      receivePort.close();
+    }, skip: !canDoGC);
+
+    test('Block.listener, keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final blocksCreated = Completer<void>();
+      final blkKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Blocks created') {
+          blocksCreated.complete();
+        } else if (msg == 'blkKeepAlive destroyed') {
+          blkKeepAliveDestroyed.complete();
+        }
+      });
+
+      var isExited = false;
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited = true;
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final blkKeepAlive = VoidBlock.listener(() {}, keepIsolateAlive: true);
+        final blkDontKeepAlive =
+            VoidBlock.listener(() {}, keepIsolateAlive: false);
+        sendPort.send('Blocks created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy blkKeepAlive') {
+            blkKeepAlive.ref.release();
+            sendPort.send('blkKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await blocksCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited, isFalse);
+
+      (await isolateSendPort.future).send('Destroy blkKeepAlive');
+      await blkKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only blkDontKeepAlive is alive.
+      expect(isExited, isTrue);
+
+      receivePort.close();
+    }, skip: !canDoGC);
+
+    test('Block.blocking, keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final blocksCreated = Completer<void>();
+      final blkKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Blocks created') {
+          blocksCreated.complete();
+        } else if (msg == 'blkKeepAlive destroyed') {
+          blkKeepAliveDestroyed.complete();
+        }
+      });
+
+      var isExited = false;
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited = true;
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final blkKeepAlive = VoidBlock.blocking(() {}, keepIsolateAlive: true);
+        final blkDontKeepAlive =
+            VoidBlock.blocking(() {}, keepIsolateAlive: false);
+        sendPort.send('Blocks created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy blkKeepAlive') {
+            blkKeepAlive.ref.release();
+            sendPort.send('blkKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await blocksCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited, isFalse);
+
+      (await isolateSendPort.future).send('Destroy blkKeepAlive');
+      await blkKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only blkDontKeepAlive is alive.
+      expect(isExited, isTrue);
+
+      receivePort.close();
+    }, skip: !canDoGC);
   });
 }
 

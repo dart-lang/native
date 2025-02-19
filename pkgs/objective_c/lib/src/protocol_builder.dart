@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:isolate';
 
 import 'c_bindings_generated.dart' as c;
 import 'internal.dart'
@@ -27,7 +28,16 @@ class ObjCProtocolBuilder {
   ///
   /// This can be called multiple times to construct multiple object instances
   /// that all implement the same protocol methods using the same functions.
-  objc.DartProxy build() => objc.DartProxy.newFromBuilder_(_builder);
+  objc.DartProxy build({bool keepIsolateAlive = false}) {
+    var disposePort = c.ILLEGAL_PORT;
+    if (keepIsolateAlive) {
+      late final RawReceivePort keepAlivePort;
+      keepAlivePort = RawReceivePort((_) => keepAlivePort.close());
+      disposePort = keepAlivePort.sendPort.nativePort;
+    }
+    return objc.DartProxy.newFromBuilder_withDisposePort_(
+        _builder, disposePort);
+  }
 }
 
 /// A method in an ObjC protocol.

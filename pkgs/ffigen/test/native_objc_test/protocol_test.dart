@@ -8,6 +8,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
@@ -379,7 +380,8 @@ void main() {
         proxyBuilder.implementMethod_withSignature_andBlock_(
             otherSel, otherSignature, otherBlock.ref.pointer.cast());
 
-        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+        final proxy =
+            DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
         final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
         final SecondaryProtocol asSecondaryProtocol =
             SecondaryProtocol.castFrom(proxy);
@@ -404,7 +406,8 @@ void main() {
       test('Unimplemented method', () {
         final proxyBuilder = DartProxyBuilder.new1();
         final consumer = ProtocolConsumer.new1();
-        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+        final proxy =
+            DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
         final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
 
         // Optional instance method, not implemented.
@@ -446,7 +449,8 @@ void main() {
         proxyBuilder.implementMethod_withSignature_andBlock_(
             sel, signature, block.ref.pointer.cast());
 
-        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
+        final proxy =
+            DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
 
         final proxyPtr = proxy.ref.pointer;
         final blockPtr = block.ref.pointer;
@@ -539,5 +543,68 @@ void main() {
       expect(EmptyProtocol.conformsTo(inst), isFalse);
       expect(UnusedProtocol.conformsTo(inst), isFalse);
     });
+
+    test('keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final protosCreated = Completer<void>();
+      final protoKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Protocols created') {
+          protosCreated.complete();
+        } else if (msg == 'protoKeepAlive destroyed') {
+          protoKeepAliveDestroyed.complete();
+        }
+      });
+
+      var isExited = false;
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited = true;
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final protoKeepAlive =
+            ObjCProtocolBuilder().build(keepIsolateAlive: true);
+        final protoDontKeepAlive =
+            ObjCProtocolBuilder().build(keepIsolateAlive: false);
+        sendPort.send('Protocols created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy protoKeepAlive') {
+            protoKeepAlive.ref.release();
+            sendPort.send('protoKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await protosCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited, isFalse);
+
+      (await isolateSendPort.future).send('Destroy protoKeepAlive');
+      await protoKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only protoDontKeepAlive is alive.
+      expect(isExited, isTrue);
+
+      receivePort.close();
+    }, skip: !canDoGC);
   });
 }

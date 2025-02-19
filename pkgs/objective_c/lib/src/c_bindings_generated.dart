@@ -203,6 +203,8 @@ typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
 final class Dart_FinalizableHandle_ extends ffi.Opaque {}
 
+const int ILLEGAL_PORT = 0;
+
 final class ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
   external int reserved;
