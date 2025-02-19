@@ -224,7 +224,7 @@ abstract interface class Config {
     bool sort = false,
     bool useSupportedTypedefs = true,
     List<LibraryImport> libraryImports = const <LibraryImport>[],
-    List<ImportedType> usrTypeMappings = const <ImportedType>[],
+    Map<String, ImportedType> usrTypeMappings = const <String, ImportedType>{},
     List<ImportedType> typedefTypeMappings = const <ImportedType>[],
     List<ImportedType> structTypeMappings = const <ImportedType>[],
     List<ImportedType> unionTypeMappings = const <ImportedType>[],
@@ -285,9 +285,7 @@ abstract interface class Config {
         libraryImports: Map<String, LibraryImport>.fromEntries(
             libraryImports.map((import) =>
                 MapEntry<String, LibraryImport>(import.name, import))),
-        usrTypeMappings: Map<String, ImportedType>.fromEntries(
-            usrTypeMappings.map((import) =>
-                MapEntry<String, ImportedType>(import.nativeType, import))),
+        usrTypeMappings: usrTypeMappings,
         typedefTypeMappings: Map<String, ImportedType>.fromEntries(
             typedefTypeMappings.map((import) =>
                 MapEntry<String, ImportedType>(import.nativeType, import))),
