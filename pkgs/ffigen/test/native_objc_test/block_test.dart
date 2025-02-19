@@ -879,10 +879,10 @@ void main() {
         }
       });
 
-      var isExited = false;
+      final isExited = Completer<void>();
       late final RawReceivePort exitPort;
       exitPort = RawReceivePort((_) {
-        isExited = true;
+        isExited.complete();
         exitPort.close();
       });
 
@@ -912,7 +912,7 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let exit message arrive.
 
       // Both blocks are still alive.
-      expect(isExited, isFalse);
+      expect(isExited.isCompleted, isFalse);
 
       (await isolateSendPort.future).send('Destroy blkKeepAlive');
       await blkKeepAliveDestroyed.future;
@@ -923,7 +923,7 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let exit message arrive.
 
       // Only blkDontKeepAlive is alive.
-      expect(isExited, isTrue);
+      await isExited;
 
       receivePort.close();
     }, skip: !canDoGC);
@@ -942,10 +942,10 @@ void main() {
         }
       });
 
-      var isExited = false;
+      final isExited = Completer<void>();
       late final RawReceivePort exitPort;
       exitPort = RawReceivePort((_) {
-        isExited = true;
+        isExited.complete();
         exitPort.close();
       });
 
@@ -974,7 +974,7 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let exit message arrive.
 
       // Both blocks are still alive.
-      expect(isExited, isFalse);
+      expect(isExited.isCompleted, isFalse);
 
       (await isolateSendPort.future).send('Destroy blkKeepAlive');
       await blkKeepAliveDestroyed.future;
@@ -985,7 +985,7 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let exit message arrive.
 
       // Only blkDontKeepAlive is alive.
-      expect(isExited, isTrue);
+      await isExited;
 
       receivePort.close();
     }, skip: !canDoGC);
@@ -1004,10 +1004,10 @@ void main() {
         }
       });
 
-      var isExited = false;
+      final isExited = Completer<void>();
       late final RawReceivePort exitPort;
       exitPort = RawReceivePort((_) {
-        isExited = true;
+        isExited.complete();
         exitPort.close();
       });
 
@@ -1036,7 +1036,7 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let exit message arrive.
 
       // Both blocks are still alive.
-      expect(isExited, isFalse);
+      expect(isExited.isCompleted, isFalse);
 
       (await isolateSendPort.future).send('Destroy blkKeepAlive');
       await blkKeepAliveDestroyed.future;
@@ -1047,7 +1047,7 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let exit message arrive.
 
       // Only blkDontKeepAlive is alive.
-      expect(isExited, isTrue);
+      await isExited;
 
       receivePort.close();
     }, skip: !canDoGC);
