@@ -37,9 +37,13 @@ class GradleTools {
       List<MavenDependency> deps, String targetDir,
       {bool extractSources = false}) async {
     final gradleWrapper = await getGradleWExecutable();
+    // Paths in Gradle files on Windows get improperly escaped
+    final targetPath = Platform.isWindows
+        ? File(targetDir).absolute.path.replaceAll(r'\', r'\\')
+        : File(targetDir).absolute.path;
     final gradle = _getStubGradle(
       deps,
-      File(targetDir).absolute.path,
+      targetPath,
     );
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
