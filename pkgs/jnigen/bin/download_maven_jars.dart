@@ -25,11 +25,11 @@ void main(List<String> args) async {
             mavenDownloads.jarOnlyDeps + mavenDownloads.sourceDeps),
         mavenDownloads.jarDir);
     // // remove duplicated jars
-    for (var dep in mavenDownloads.sourceDeps) {
-      final filename =
-          MavenDependency.fromString(dep).filename(isSource: false);
-      File(join(mavenDownloads.jarDir, filename)).deleteSync();
-    }
+    // for (var dep in mavenDownloads.sourceDeps) {
+    //   final filename =
+    //       MavenDependency.fromString(dep).filename(isSource: false);
+    //   File(join(mavenDownloads.jarDir, filename)).deleteSync();
+    // }
     await Directory(mavenDownloads.jarDir)
         .list()
         .map((entry) => entry.path)
