@@ -380,7 +380,8 @@ void main() {
         proxyBuilder.implementMethod_withSignature_andBlock_(
             otherSel, otherSignature, otherBlock.ref.pointer.cast());
 
-        final proxy = DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
+        final proxy =
+            DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
         final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
         final SecondaryProtocol asSecondaryProtocol =
             SecondaryProtocol.castFrom(proxy);
@@ -405,7 +406,8 @@ void main() {
       test('Unimplemented method', () {
         final proxyBuilder = DartProxyBuilder.new1();
         final consumer = ProtocolConsumer.new1();
-        final proxy = DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
+        final proxy =
+            DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
         final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
 
         // Optional instance method, not implemented.
@@ -447,7 +449,8 @@ void main() {
         proxyBuilder.implementMethod_withSignature_andBlock_(
             sel, signature, block.ref.pointer.cast());
 
-        final proxy = DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
+        final proxy =
+            DartProxy.newFromBuilder_withDisposePort_(proxyBuilder, 0);
 
         final proxyPtr = proxy.ref.pointer;
         final blockPtr = block.ref.pointer;
