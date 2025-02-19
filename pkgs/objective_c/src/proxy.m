@@ -57,19 +57,23 @@
 
 @implementation DOBJCDartProxy {
   NSDictionary *methods;
+  Dart_Port dispose_port;
 }
 
 - (DOBJCProxyMethod*)getMethod:(SEL)sel {
   return [methods objectForKey:[NSValue valueWithPointer:sel]];
 }
 
-+ (instancetype)newFromBuilder:(DOBJCDartProxyBuilder*)builder {
-  return [[self alloc] initFromBuilder:builder];
++ (instancetype)newFromBuilder:(DOBJCDartProxyBuilder*)builder
+    withDisposePort:(Dart_Port)port {
+  return [[self alloc] initFromBuilder:builder withDisposePort:port];
 }
 
-- (instancetype)initFromBuilder:(DOBJCDartProxyBuilder*)builder {
+- (instancetype)initFromBuilder:(DOBJCDartProxyBuilder*)builder
+    withDisposePort:(Dart_Port)port {
   if (self) {
     methods = [builder copyMethods];
+    dispose_port = port;
   }
   return self;
 }
@@ -88,6 +92,12 @@
   DOBJCProxyMethod *m = [self getMethod:invocation.selector];
   if (m != nil) {
     [invocation invokeWithTarget:m.block];
+  }
+}
+
+- (void)dealloc {
+  if (dispose_port != ILLEGAL_PORT) {
+    Dart_PostInteger_DL(dispose_port, 0);
   }
 }
 
