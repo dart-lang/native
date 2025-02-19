@@ -4,8 +4,8 @@
   locate Apple APIs: `$XCODE`, `$IOS_SDK`, and `$MACOS_SDK`.
 - __Breaking change__: Change the `usrTypeMappings` field of `Config`'s factory
   constructor from a `List<ImportedType>` to a `Map<String, ImportedType>`.
-- Add a `keepIsolateAlive` parameter to the block constructors that allows a
-  block to keep its owner isolate alive.
+- Add a `keepIsolateAlive` parameter to the block and protocol constructors that
+  allows a block or protocol to keep its owner isolate alive.
 
 ## 17.0.0
 
