@@ -8,6 +8,7 @@ import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../_core/primitive_wrappers.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
@@ -90,10 +91,18 @@ MethodDeclaration _transformFunction(
     transformationMap,
   );
 
+  final shouldWrapPrimitives = originalFunction.throws &&
+      transformedReturnType is DeclaredType &&
+      getPrimitiveWrapper(transformedReturnType) != null;
+
+  final (_, type) = maybeWrapValue(
+      transformedReturnType, '', globalNamer, transformationMap,
+      shouldWrapPrimitives: shouldWrapPrimitives);
+
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
     name: wrapperMethodName,
-    returnType: transformedReturnType,
+    returnType: type,
     params: transformedParams,
     hasObjCAnnotation: true,
     isStatic: originalFunction is MethodDeclaration
@@ -108,6 +117,7 @@ MethodDeclaration _transformFunction(
     transformedMethod,
     globalNamer,
     transformationMap,
+    shouldWrapPrimitives,
     originalCallGenerator: originalCallStatementGenerator,
   );
 
@@ -144,7 +154,8 @@ List<String> _generateStatements(
   FunctionDeclaration originalFunction,
   MethodDeclaration transformedMethod,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap, {
+  TransformationMap transformationMap,
+  bool shouldWrapPrimitives, {
   required String Function(String arguments) originalCallGenerator,
 }) {
   final localNamer = UniqueNamer();
@@ -174,6 +185,7 @@ List<String> _generateStatements(
     resultName,
     globalNamer,
     transformationMap,
+    shouldWrapPrimitives: shouldWrapPrimitives,
   );
 
   assert(wrapperType.sameAs(transformedMethod.returnType));
