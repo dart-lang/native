@@ -157,12 +157,6 @@ public class SummarizerDoclet implements Doclet {
             Log.info("Skip method: %s", element.getSimpleName());
           }
           break;
-        case STATIC_INIT:
-          cls.hasStaticInit = true;
-          break;
-        case INSTANCE_INIT:
-          cls.hasInstanceInit = true;
-          break;
       }
       return null;
     }

@@ -10,6 +10,10 @@ abstract class Visitor<T extends Element<T>, R> {
   R visit(T node);
 }
 
+mixin TopLevelVisitor<R> on Visitor<Classes, R> {
+  GenerationStage get stage;
+}
+
 abstract class TypeVisitor<R> {
   const TypeVisitor();
 

@@ -33,8 +33,6 @@ public class ClassDecl {
   public TypeUsage superclass;
   public String outerClassBinaryName;
   public List<TypeUsage> interfaces = new ArrayList<>();
-  public boolean hasStaticInit;
-  public boolean hasInstanceInit;
   public JavaDocComment javadoc;
   public List<JavaAnnotation> annotations = new ArrayList<>();
   public KotlinClass kotlinClass;

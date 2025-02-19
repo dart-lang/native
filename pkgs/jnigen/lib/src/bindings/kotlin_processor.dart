@@ -32,7 +32,10 @@ String _toJavaBinaryName(String kotlinBinaryName) {
 
 /// A [Visitor] that adds the the information from Kotlin's metadata to the Java
 /// classes and methods.
-class KotlinProcessor extends Visitor<Classes, void> {
+class KotlinProcessor extends Visitor<Classes, void> with TopLevelVisitor {
+  @override
+  final GenerationStage stage = GenerationStage.kotlinProcessor;
+
   @override
   void visit(Classes node) {
     final classProcessor = _KotlinClassProcessor();

@@ -137,7 +137,10 @@ String _renameConflict(
   return _keywordRename(name, kind);
 }
 
-class Renamer implements Visitor<Classes, void> {
+class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
+  @override
+  final GenerationStage stage = GenerationStage.renamer;
+
   final Config config;
 
   Renamer(this.config);

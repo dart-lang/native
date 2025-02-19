@@ -39,8 +39,6 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
               ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      hasStaticInit: json['hasStaticInit'] as bool? ?? false,
-      hasInstanceInit: json['hasInstanceInit'] as bool? ?? false,
       values:
           (json['values'] as List<dynamic>?)?.map((e) => e as String).toList(),
       kotlinClass: json['kotlinClass'] == null
