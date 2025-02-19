@@ -11717,13 +11717,18 @@ abstract final class ObjCBlock_NSArray_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> fromFunction(
-          NSArray Function(ffi.Pointer<ffi.Void>) fn) =>
+          NSArray Function(ffi.Pointer<ffi.Void>) fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(
               _ObjCBlock_NSArray_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) =>
-                  fn(arg0).ref.retainAndAutorelease()),
+                  fn(arg0).ref.retainAndAutorelease(),
+              keepIsolateAlive),
           retain: false,
           release: true);
 }
@@ -11814,16 +11819,20 @@ abstract final class ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NS
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)> fromFunction(
           NSItemProviderRepresentationVisibility Function(
                   ffi.Pointer<ffi.Void>, NSString)
-              fn) =>
+              fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
           objc.newClosureBlock(
               _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable,
               (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
-                  fn(arg0, NSString.castFromPointer(arg1, retain: true, release: true))
-                      .value),
+                  fn(arg0, NSString.castFromPointer(arg1, retain: true, release: true)).value,
+              keepIsolateAlive),
           retain: false,
           release: true);
 }
@@ -11904,13 +11913,18 @@ abstract final class ObjCBlock_NSString_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)> fromFunction(
-          NSString Function(ffi.Pointer<ffi.Void>) fn) =>
+          NSString Function(ffi.Pointer<ffi.Void>) fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(
               _ObjCBlock_NSString_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) =>
-                  fn(arg0).ref.retainAndAutorelease()),
+                  fn(arg0).ref.retainAndAutorelease(),
+              keepIsolateAlive),
           retain: false,
           release: true);
 }
@@ -11989,12 +12003,17 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>
-      fromFunction(int Function(ffi.Pointer<ffi.Void>) fn) =>
+      fromFunction(int Function(ffi.Pointer<ffi.Void>) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(
                   _ObjCBlock_NSUInteger_ffiVoid_closureCallable,
-                  (ffi.Pointer<ffi.Void> arg0) => fn(arg0)),
+                  (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -12113,19 +12132,24 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObj
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<
-      ffi.UnsignedLong Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<NSFastEnumerationState>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-          ffi.UnsignedLong)> fromFunction(int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int) fn) =>
-      objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, ffi.UnsignedLong)>(
-          objc.newClosureBlock(
-              _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureCallable,
-              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<NSFastEnumerationState> arg1, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg2, int arg3) =>
-                  fn(arg0, arg1, arg2, arg3)),
-          retain: false,
-          release: true);
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc
+      .ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, ffi.UnsignedLong)>
+      fromFunction(int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int) fn,
+              {bool keepIsolateAlive = false}) =>
+          objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, ffi.UnsignedLong)>(
+              objc.newClosureBlock(
+                  _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureCallable,
+                  (ffi.Pointer<ffi.Void> arg0,
+                          ffi.Pointer<NSFastEnumerationState> arg1,
+                          ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg2,
+                          int arg3) =>
+                      fn(arg0, arg1, arg2, arg3),
+                  keepIsolateAlive),
+              retain: false,
+              release: true);
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, ffi.UnsignedLong)>`.
@@ -12214,11 +12238,15 @@ abstract final class ObjCBlock_NSZone_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>
-      fromFunction(ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>) fn) =>
+      fromFunction(ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(_ObjCBlock_NSZone_ffiVoid_closureCallable,
-                  (ffi.Pointer<ffi.Void> arg0) => fn(arg0)),
+                  (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -12289,11 +12317,15 @@ abstract final class ObjCBlock_bool_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)> fromFunction(
-          bool Function(ffi.Pointer<ffi.Void>) fn) =>
+          bool Function(ffi.Pointer<ffi.Void>) fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(_ObjCBlock_bool_ffiVoid_closureCallable,
-              (ffi.Pointer<ffi.Void> arg0) => fn(arg0)),
+              (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
           retain: false,
           release: true);
 }
@@ -12375,18 +12407,21 @@ abstract final class ObjCBlock_bool_ffiVoid_Protocol {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>
-      fromFunction(bool Function(ffi.Pointer<ffi.Void>, Protocol) fn) =>
-          objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>(
-              objc.newClosureBlock(
-                  _ObjCBlock_bool_ffiVoid_Protocol_closureCallable,
-                  (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
-                      fn(
-                          arg0,
-                          Protocol.castFromPointer(arg1,
-                              retain: true, release: true))),
-              retain: false,
-              release: true);
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+      ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)> fromFunction(
+          bool Function(ffi.Pointer<ffi.Void>, Protocol) fn,
+          {bool keepIsolateAlive = false}) =>
+      objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>(
+          objc.newClosureBlock(
+              _ObjCBlock_bool_ffiVoid_Protocol_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
+                  fn(arg0, Protocol.castFromPointer(arg1, retain: true, release: true)),
+              keepIsolateAlive),
+          retain: false,
+          release: true);
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>`.
@@ -12472,18 +12507,21 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCObject {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>
-      fromFunction(
-              bool Function(ffi.Pointer<ffi.Void>, objc.ObjCObjectBase) fn) =>
-          objc.ObjCBlock<
-                  ffi.Bool Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-              objc.newClosureBlock(
-                  _ObjCBlock_bool_ffiVoid_objcObjCObject_closureCallable,
-                  (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
-                      fn(arg0, objc.ObjCObjectBase(arg1, retain: true, release: true))),
-              retain: false,
-              release: true);
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+      ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)> fromFunction(
+          bool Function(ffi.Pointer<ffi.Void>, objc.ObjCObjectBase) fn,
+          {bool keepIsolateAlive = false}) =>
+      objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
+          objc.newClosureBlock(
+              _ObjCBlock_bool_ffiVoid_objcObjCObject_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
+                  fn(arg0, objc.ObjCObjectBase(arg1, retain: true, release: true)),
+              keepIsolateAlive),
+          retain: false,
+          release: true);
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>`.
@@ -12570,16 +12608,19 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCSelector {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc
-      .ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>
-      fromFunction(bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>) fn) =>
-          objc.ObjCBlock<
-                  ffi.Bool Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+          ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>
+      fromFunction(bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>) fn,
+              {bool keepIsolateAlive = false}) =>
+          objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
               objc.newClosureBlock(
                   _ObjCBlock_bool_ffiVoid_objcObjCSelector_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCSelector> arg1) =>
-                      fn(arg0, arg1)),
+                      fn(arg0, arg1),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -12773,18 +12814,20 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>
-      fromFunction(void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, objc.ObjCObjectBase, NSDictionary) fn) =>
+      fromFunction(void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, objc.ObjCObjectBase, NSDictionary) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>(
               objc.newClosureBlock(
                   _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable,
-                  (ffi.Pointer<objc.ObjCBlockImpl> arg0,
-                          ffi.Pointer<objc.ObjCObject> arg1,
-                          ffi.Pointer<objc.ObjCObject> arg2) =>
-                      fn(
-                          ObjCBlock_ffiVoid_idNSSecureCoding_NSError.castFromPointer(arg0, retain: true, release: true),
-                          objc.ObjCObjectBase(arg1, retain: true, release: true),
-                          NSDictionary.castFromPointer(arg2, retain: true, release: true))),
+                  (ffi.Pointer<objc.ObjCBlockImpl> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<objc.ObjCObject> arg2) => fn(
+                      ObjCBlock_ffiVoid_idNSSecureCoding_NSError.castFromPointer(arg0, retain: true, release: true),
+                      objc.ObjCObjectBase(arg1, retain: true, release: true),
+                      NSDictionary.castFromPointer(arg2, retain: true, release: true)),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 
@@ -12795,8 +12838,8 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
   /// but only supports void functions, and is not run synchronously. See
   /// NativeCallable.listener for more details.
   ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
       ffi.Void Function(
           objc.ObjCBlock<
@@ -12808,7 +12851,8 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
               objc.ObjCObjectBase,
               NSDictionary)
-          fn) {
+          fn,
+      {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable
             .nativeFunction
@@ -12821,7 +12865,8 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                     retain: false, release: true),
                 objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
-                    retain: false, release: true)));
+                    retain: false, release: true)),
+        keepIsolateAlive);
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_1b3bb6a(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
@@ -12838,8 +12883,9 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
   /// caller until the callback is handled by the Dart isolate that created
   /// the block. Async functions are not supported.
   ///
-  /// This block does not keep the owner isolate alive. If the owner isolate has
-  /// shut down, and the block is invoked by native code, it may block
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<
       ffi.Void Function(
@@ -12852,7 +12898,8 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                   ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
               objc.ObjCObjectBase,
               NSDictionary)
-          fn) {
+          fn,
+      {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable
             .nativeFunction
@@ -12865,7 +12912,8 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                     retain: false, release: true),
                 objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
-                    retain: false, release: true)));
+                    retain: false, release: true)),
+        keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingListenerCallable
             .nativeFunction
@@ -12878,7 +12926,8 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                     retain: false, release: true),
                 objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
-                    retain: false, release: true)));
+                    retain: false, release: true)),
+        keepIsolateAlive);
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_1b3bb6a, raw, rawListener);
     objc.objectRelease(raw.cast());
@@ -13017,11 +13066,15 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> fromFunction(
-          void Function(ffi.Pointer<ffi.Void>) fn) =>
+          void Function(ffi.Pointer<ffi.Void>) fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(_ObjCBlock_ffiVoid_ffiVoid_closureCallable,
-              (ffi.Pointer<ffi.Void> arg0) => fn(arg0)),
+              (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
           retain: false,
           release: true);
 
@@ -13032,13 +13085,15 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   /// but only supports void functions, and is not run synchronously. See
   /// NativeCallable.listener for more details.
   ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> listener(
-      void Function(ffi.Pointer<ffi.Void>) fn) {
+      void Function(ffi.Pointer<ffi.Void>) fn,
+      {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_listenerCallable.nativeFunction.cast(),
-        (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
+        (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
+        keepIsolateAlive);
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_ovsamd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(wrapper,
@@ -13051,18 +13106,22 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   /// caller until the callback is handled by the Dart isolate that created
   /// the block. Async functions are not supported.
   ///
-  /// This block does not keep the owner isolate alive. If the owner isolate has
-  /// shut down, and the block is invoked by native code, it may block
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> blocking(
-      void Function(ffi.Pointer<ffi.Void>) fn) {
+      void Function(ffi.Pointer<ffi.Void>) fn,
+      {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_blockingCallable.nativeFunction.cast(),
-        (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
+        (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
+        keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_blockingListenerCallable.nativeFunction
             .cast(),
-        (ffi.Pointer<ffi.Void> arg0) => fn(arg0));
+        (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
+        keepIsolateAlive);
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_ovsamd, raw, rawListener);
     objc.objectRelease(raw.cast());
@@ -13210,15 +13269,19 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)> fromFunction(
-          void Function(ffi.Pointer<ffi.Void>, NSCoder) fn) =>
+          void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
           objc.newClosureBlock(
               _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureCallable,
-              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-                  arg0,
-                  NSCoder.castFromPointer(arg1, retain: true, release: true))),
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
+                  fn(arg0, NSCoder.castFromPointer(arg1, retain: true, release: true)),
+              keepIsolateAlive),
           retain: false,
           release: true);
 
@@ -13229,15 +13292,17 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   /// but only supports void functions, and is not run synchronously. See
   /// NativeCallable.listener for more details.
   ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>
-      listener(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn) {
+      listener(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
+          {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable.nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-            arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)));
+            arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)),
+        keepIsolateAlive);
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_18v1jvf(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
@@ -13252,22 +13317,26 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   /// caller until the callback is handled by the Dart isolate that created
   /// the block. Async functions are not supported.
   ///
-  /// This block does not keep the owner isolate alive. If the owner isolate has
-  /// shut down, and the block is invoked by native code, it may block
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>
-      blocking(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn) {
+      blocking(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
+          {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable.nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-            arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)));
+            arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)),
+        keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingListenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
-            arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)));
+            arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)),
+        keepIsolateAlive);
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_18v1jvf, raw, rawListener);
     objc.objectRelease(raw.cast());
@@ -13446,17 +13515,21 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)> fromFunction(
-          void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn) =>
+          void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>(
           objc.newClosureBlock(
               _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable,
-              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1,
-                      int arg2) =>
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1, int arg2) =>
                   fn(
                       arg0,
                       NSStream.castFromPointer(arg1, retain: true, release: true),
-                      NSStreamEvent.fromValue(arg2))),
+                      NSStreamEvent.fromValue(arg2)),
+              keepIsolateAlive),
           retain: false,
           release: true);
 
@@ -13467,12 +13540,12 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   /// but only supports void functions, and is not run synchronously. See
   /// NativeCallable.listener for more details.
   ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
-      listener(
-          void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn) {
+      listener(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
+          {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable
             .nativeFunction
@@ -13482,7 +13555,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
             fn(
                 arg0,
                 NSStream.castFromPointer(arg1, retain: false, release: true),
-                NSStreamEvent.fromValue(arg2)));
+                NSStreamEvent.fromValue(arg2)),
+        keepIsolateAlive);
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_hoampi(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
@@ -13496,13 +13570,14 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   /// caller until the callback is handled by the Dart isolate that created
   /// the block. Async functions are not supported.
   ///
-  /// This block does not keep the owner isolate alive. If the owner isolate has
-  /// shut down, and the block is invoked by native code, it may block
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
-      blocking(
-          void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn) {
+      blocking(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
+          {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable
             .nativeFunction
@@ -13512,7 +13587,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
             fn(
                 arg0,
                 NSStream.castFromPointer(arg1, retain: false, release: true),
-                NSStreamEvent.fromValue(arg2)));
+                NSStreamEvent.fromValue(arg2)),
+        keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingListenerCallable
             .nativeFunction
@@ -13522,7 +13598,8 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
             fn(
                 arg0,
                 NSStream.castFromPointer(arg1, retain: false, release: true),
-                NSStreamEvent.fromValue(arg2)));
+                NSStreamEvent.fromValue(arg2)),
+        keepIsolateAlive);
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_hoampi, raw, rawListener);
     objc.objectRelease(raw.cast());
@@ -13688,17 +13765,21 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)> fromFunction(
-          void Function(NSSecureCoding?, NSError) fn) =>
+          void Function(NSSecureCoding?, NSError) fn,
+          {bool keepIsolateAlive = false}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
           objc.newClosureBlock(
               _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable,
               (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
                   arg0.address == 0
                       ? null
-                      : NSSecureCoding.castFromPointer(arg0,
-                          retain: true, release: true),
-                  NSError.castFromPointer(arg1, retain: true, release: true))),
+                      : NSSecureCoding.castFromPointer(arg0, retain: true, release: true),
+                  NSError.castFromPointer(arg1, retain: true, release: true)),
+              keepIsolateAlive),
           retain: false,
           release: true);
 
@@ -13709,11 +13790,12 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   /// but only supports void functions, and is not run synchronously. See
   /// NativeCallable.listener for more details.
   ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
-      listener(void Function(NSSecureCoding?, NSError) fn) {
+      listener(void Function(NSSecureCoding?, NSError) fn,
+          {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable
             .nativeFunction
@@ -13725,7 +13807,8 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
                     ? null
                     : NSSecureCoding.castFromPointer(arg0,
                         retain: false, release: true),
-                NSError.castFromPointer(arg1, retain: false, release: true)));
+                NSError.castFromPointer(arg1, retain: false, release: true)),
+        keepIsolateAlive);
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
@@ -13739,12 +13822,14 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   /// caller until the callback is handled by the Dart isolate that created
   /// the block. Async functions are not supported.
   ///
-  /// This block does not keep the owner isolate alive. If the owner isolate has
-  /// shut down, and the block is invoked by native code, it may block
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
-      blocking(void Function(NSSecureCoding?, NSError) fn) {
+      blocking(void Function(NSSecureCoding?, NSError) fn,
+          {bool keepIsolateAlive = false}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable
             .nativeFunction
@@ -13756,7 +13841,8 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
                     ? null
                     : NSSecureCoding.castFromPointer(arg0,
                         retain: false, release: true),
-                NSError.castFromPointer(arg1, retain: false, release: true)));
+                NSError.castFromPointer(arg1, retain: false, release: true)),
+        keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable
             .nativeFunction
@@ -13768,7 +13854,8 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
                     ? null
                     : NSSecureCoding.castFromPointer(arg0,
                         retain: false, release: true),
-                NSError.castFromPointer(arg1, retain: false, release: true)));
+                NSError.castFromPointer(arg1, retain: false, release: true)),
+        keepIsolateAlive);
     final wrapper = objc.wrapBlockingBlock(
         _ObjectiveCBindings_wrapBlockingBlock_pfv6jd, raw, rawListener);
     objc.objectRelease(raw.cast());
@@ -13863,10 +13950,13 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc
-      .ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>
       fromFunction(
-              Dartinstancetype? Function(ffi.Pointer<ffi.Void>, NSCoder) fn) =>
+              Dartinstancetype? Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>(
               objc.newClosureBlock(
                   _ObjCBlock_instancetype_ffiVoid_NSCoder_closureCallable,
@@ -13874,7 +13964,8 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder {
                       fn(arg0, NSCoder.castFromPointer(arg1, retain: true, release: true))
                           ?.ref
                           .retainAndReturnPointer() ??
-                      ffi.nullptr),
+                      ffi.nullptr,
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -14002,8 +14093,13 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>
-      fromFunction(Dartinstancetype? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>) fn) =>
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc
+      .ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>
+      fromFunction(Dartinstancetype? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>(
               objc.newClosureBlock(
                   _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable,
@@ -14011,8 +14107,8 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError {
                           ffi.Pointer<objc.ObjCObject> arg1,
                           ffi.Pointer<objc.ObjCObject> arg2,
                           ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3) =>
-                      fn(arg0, NSData.castFromPointer(arg1, retain: true, release: true), NSString.castFromPointer(arg2, retain: true, release: true), arg3)?.ref.retainAndAutorelease() ??
-                      ffi.nullptr),
+                      fn(arg0, NSData.castFromPointer(arg1, retain: true, release: true), NSString.castFromPointer(arg2, retain: true, release: true), arg3)?.ref.retainAndAutorelease() ?? ffi.nullptr,
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -14113,15 +14209,20 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc
       .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>
-      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn) =>
+      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<
                   ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(
                   _ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0) =>
-                      fn(arg0).ref.retainAndAutorelease()),
+                      fn(arg0).ref.retainAndAutorelease(),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -14216,16 +14317,20 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_NSZone {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc
-      .ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>
-      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>) fn) =>
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>
+      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<
                   objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>(
               objc.newClosureBlock(
                   _ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<NSZone> arg1) =>
-                      fn(arg0, arg1).ref.retainAndReturnPointer()),
+                      fn(arg0, arg1).ref.retainAndReturnPointer(),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -14330,17 +14435,22 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>
-      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>) fn) =>
-          objc.ObjCBlock<
-                  ffi.Pointer<objc.ObjCObject> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
-              objc.newClosureBlock(
-                  _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureCallable,
-                  (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCSelector> arg1) =>
-                      fn(arg0, arg1).ref.retainAndAutorelease()),
-              retain: false,
-              release: true);
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)> fromFunction(
+          objc.ObjCObjectBase Function(
+                  ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)
+              fn,
+          {bool keepIsolateAlive = false}) =>
+      objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
+          objc.newClosureBlock(
+              _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureCallable,
+              (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCSelector> arg1) =>
+                  fn(arg0, arg1).ref.retainAndAutorelease(),
+              keepIsolateAlive),
+          retain: false,
+          release: true);
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>`.
@@ -14455,8 +14565,12 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>
-      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, objc.ObjCObjectBase) fn) =>
+      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, objc.ObjCObjectBase) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>(
               objc.newClosureBlock(
                   _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureCallable,
@@ -14465,7 +14579,8 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
                           ffi.Pointer<objc.ObjCObject> arg2) =>
                       fn(arg0, arg1, objc.ObjCObjectBase(arg2, retain: true, release: true))
                           .ref
-                          .retainAndAutorelease()),
+                          .retainAndAutorelease(),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -14598,8 +14713,13 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
-      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, objc.ObjCObjectBase, objc.ObjCObjectBase) fn) =>
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc
+      .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
+      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, objc.ObjCObjectBase, objc.ObjCObjectBase) fn,
+              {bool keepIsolateAlive = false}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>(
               objc.newClosureBlock(
                   _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureCallable,
@@ -14607,9 +14727,8 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
                           ffi.Pointer<objc.ObjCSelector> arg1,
                           ffi.Pointer<objc.ObjCObject> arg2,
                           ffi.Pointer<objc.ObjCObject> arg3) =>
-                      fn(arg0, arg1, objc.ObjCObjectBase(arg2, retain: true, release: true), objc.ObjCObjectBase(arg3, retain: true, release: true))
-                          .ref
-                          .retainAndAutorelease()),
+                      fn(arg0, arg1, objc.ObjCObjectBase(arg2, retain: true, release: true), objc.ObjCObjectBase(arg3, retain: true, release: true)).ref.retainAndAutorelease(),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
