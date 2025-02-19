@@ -176,7 +176,7 @@ interface class $name extends $protocolBase $impls{
 ''');
       }
 
-      buildArgs.add('bool \$keepIsolateAlive = false');
+      buildArgs.add('bool \$keepIsolateAlive = true');
       final args = '{${buildArgs.join(', ')}}';
       final builders = '''
   /// Builds an object that implements the $originalName protocol. To implement

@@ -6,6 +6,8 @@
   constructor from a `List<ImportedType>` to a `Map<String, ImportedType>`.
 - Add a `keepIsolateAlive` parameter to the block and protocol constructors that
   allows a block or protocol to keep its owner isolate alive.
+- __Breaking change__: `keepIsolateAlive` defaults to true, so all existing ObjC
+  blocks and protocols now keep their isolates alive by default.
 
 ## 17.0.0
 

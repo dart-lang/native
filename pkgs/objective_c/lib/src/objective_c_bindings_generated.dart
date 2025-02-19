@@ -939,7 +939,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   static NSCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -952,7 +952,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
   }
@@ -966,7 +966,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   static NSCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implementAsListener(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -980,7 +980,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSCoding.encodeWithCoder_.implementAsListener(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
   }
@@ -994,7 +994,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   static NSCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCoding.encodeWithCoder_.implementAsBlocking(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -1008,7 +1008,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSCoding.encodeWithCoder_.implementAsBlocking(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
   }
@@ -1095,7 +1095,7 @@ interface class NSCopying extends objc.ObjCProtocolBase {
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>) copyWithZone_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSCopying.copyWithZone_.implement(builder, copyWithZone_);
     return NSCopying.castFrom(
@@ -1106,7 +1106,7 @@ interface class NSCopying extends objc.ObjCProtocolBase {
   /// [objc.ObjCProtocolBuilder].
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>) copyWithZone_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSCopying.copyWithZone_.implement(builder, copyWithZone_);
   }
 
@@ -3429,7 +3429,7 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
       {required int Function(ffi.Pointer<NSFastEnumerationState>,
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)
           countByEnumeratingWithState_objects_count_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSFastEnumeration.countByEnumeratingWithState_objects_count_
         .implement(builder, countByEnumeratingWithState_objects_count_);
@@ -3443,7 +3443,7 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
       {required int Function(ffi.Pointer<NSFastEnumerationState>,
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)
           countByEnumeratingWithState_objects_count_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSFastEnumeration.countByEnumeratingWithState_objects_count_
         .implement(builder, countByEnumeratingWithState_objects_count_);
   }
@@ -4040,7 +4040,7 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
   ///
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
-  static NSItemProviderReading implement({bool $keepIsolateAlive = false}) {
+  static NSItemProviderReading implement({bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
 
     return NSItemProviderReading.castFrom(
@@ -4050,7 +4050,7 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
   /// Adds the implementation of the NSItemProviderReading protocol to an existing
   /// [objc.ObjCProtocolBuilder].
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
-      {bool $keepIsolateAlive = false}) {}
+      {bool $keepIsolateAlive = true}) {}
 }
 
 enum NSItemProviderRepresentationVisibility {
@@ -4104,7 +4104,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
       {NSItemProviderRepresentationVisibility Function(NSString)?
           itemProviderVisibilityForRepresentationWithTypeIdentifier_,
       NSArray Function()? writableTypeIdentifiersForItemProvider,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSItemProviderWriting
         .itemProviderVisibilityForRepresentationWithTypeIdentifier_
@@ -4122,7 +4122,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
       {NSItemProviderRepresentationVisibility Function(NSString)?
           itemProviderVisibilityForRepresentationWithTypeIdentifier_,
       NSArray Function()? writableTypeIdentifiersForItemProvider,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSItemProviderWriting
         .itemProviderVisibilityForRepresentationWithTypeIdentifier_
         .implement(builder,
@@ -4541,7 +4541,7 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
   static NSMutableCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           mutableCopyWithZone_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSMutableCopying.mutableCopyWithZone_
         .implement(builder, mutableCopyWithZone_);
@@ -4554,7 +4554,7 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           mutableCopyWithZone_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSMutableCopying.mutableCopyWithZone_
         .implement(builder, mutableCopyWithZone_);
   }
@@ -7255,7 +7255,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() self1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
@@ -7314,7 +7314,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() self1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
     NSObjectProtocol.conformsToProtocol_
@@ -7374,7 +7374,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() self1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
@@ -7434,7 +7434,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() self1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
     NSObjectProtocol.conformsToProtocol_
@@ -7494,7 +7494,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() self1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
@@ -7554,7 +7554,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() self1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
     NSObjectProtocol.conformsToProtocol_
@@ -8796,7 +8796,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   static NSSecureCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -8809,7 +8809,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSSecureCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
   }
@@ -8823,7 +8823,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   static NSSecureCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_
         .implementAsListener(builder, encodeWithCoder_);
@@ -8838,7 +8838,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSSecureCoding.encodeWithCoder_
         .implementAsListener(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -8853,7 +8853,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   static NSSecureCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSSecureCoding.encodeWithCoder_
         .implementAsBlocking(builder, encodeWithCoder_);
@@ -8868,7 +8868,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSSecureCoding.encodeWithCoder_
         .implementAsBlocking(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -9264,7 +9264,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implement(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implement(builder, stream_handleEvent_);
@@ -9276,7 +9276,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// [objc.ObjCProtocolBuilder].
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSStreamDelegate.stream_handleEvent_
         .implement(builder, stream_handleEvent_);
   }
@@ -9289,7 +9289,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implementAsListener(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implementAsListener(builder, stream_handleEvent_);
@@ -9302,7 +9302,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// be.
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSStreamDelegate.stream_handleEvent_
         .implementAsListener(builder, stream_handleEvent_);
   }
@@ -9315,7 +9315,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implementAsBlocking(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder();
     NSStreamDelegate.stream_handleEvent_
         .implementAsBlocking(builder, stream_handleEvent_);
@@ -9328,7 +9328,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// listeners will be.
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
-      bool $keepIsolateAlive = false}) {
+      bool $keepIsolateAlive = true}) {
     NSStreamDelegate.stream_handleEvent_
         .implementAsBlocking(builder, stream_handleEvent_);
   }
@@ -11826,7 +11826,7 @@ abstract final class ObjCBlock_NSArray_ffiVoid {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)> fromFunction(
           NSArray Function(ffi.Pointer<ffi.Void>) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(
               _ObjCBlock_NSArray_ffiVoid_closureCallable,
@@ -11930,7 +11930,7 @@ abstract final class ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NS
           NSItemProviderRepresentationVisibility Function(
                   ffi.Pointer<ffi.Void>, NSString)
               fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
           objc.newClosureBlock(
               _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable,
@@ -12022,7 +12022,7 @@ abstract final class ObjCBlock_NSString_ffiVoid {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)> fromFunction(
           NSString Function(ffi.Pointer<ffi.Void>) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(
               _ObjCBlock_NSString_ffiVoid_closureCallable,
@@ -12112,7 +12112,7 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>
       fromFunction(int Function(ffi.Pointer<ffi.Void>) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(
                   _ObjCBlock_NSUInteger_ffiVoid_closureCallable,
@@ -12242,7 +12242,7 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObj
   static objc
       .ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, ffi.UnsignedLong)>
       fromFunction(int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, ffi.UnsignedLong)>(
               objc.newClosureBlock(
                   _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureCallable,
@@ -12347,7 +12347,7 @@ abstract final class ObjCBlock_NSZone_ffiVoid {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>
       fromFunction(ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(_ObjCBlock_NSZone_ffiVoid_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
@@ -12426,7 +12426,7 @@ abstract final class ObjCBlock_bool_ffiVoid {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)> fromFunction(
           bool Function(ffi.Pointer<ffi.Void>) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(_ObjCBlock_bool_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
@@ -12517,7 +12517,7 @@ abstract final class ObjCBlock_bool_ffiVoid_Protocol {
   static objc.ObjCBlock<
       ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)> fromFunction(
           bool Function(ffi.Pointer<ffi.Void>, Protocol) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>(
           objc.newClosureBlock(
               _ObjCBlock_bool_ffiVoid_Protocol_closureCallable,
@@ -12617,7 +12617,7 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCObject {
   static objc.ObjCBlock<
       ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)> fromFunction(
           bool Function(ffi.Pointer<ffi.Void>, objc.ObjCObjectBase) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
           objc.newClosureBlock(
               _ObjCBlock_bool_ffiVoid_objcObjCObject_closureCallable,
@@ -12718,7 +12718,7 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCSelector {
   static objc.ObjCBlock<
           ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>
       fromFunction(bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
               objc.newClosureBlock(
                   _ObjCBlock_bool_ffiVoid_objcObjCSelector_closureCallable,
@@ -12923,7 +12923,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>
       fromFunction(void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, objc.ObjCObjectBase, NSDictionary) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>(
               objc.newClosureBlock(
                   _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable,
@@ -12956,7 +12956,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
               objc.ObjCObjectBase,
               NSDictionary)
           fn,
-      {bool keepIsolateAlive = false}) {
+      {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable
             .nativeFunction
@@ -13003,7 +13003,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
               objc.ObjCObjectBase,
               NSDictionary)
           fn,
-      {bool keepIsolateAlive = false}) {
+      {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable
             .nativeFunction
@@ -13175,7 +13175,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> fromFunction(
           void Function(ffi.Pointer<ffi.Void>) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(_ObjCBlock_ffiVoid_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
@@ -13193,7 +13193,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> listener(
       void Function(ffi.Pointer<ffi.Void>) fn,
-      {bool keepIsolateAlive = false}) {
+      {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
@@ -13216,7 +13216,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
   /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> blocking(
       void Function(ffi.Pointer<ffi.Void>) fn,
-      {bool keepIsolateAlive = false}) {
+      {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_blockingCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
@@ -13379,7 +13379,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   static objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)> fromFunction(
           void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
           objc.newClosureBlock(
               _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureCallable,
@@ -13400,7 +13400,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>
       listener(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
-          {bool keepIsolateAlive = false}) {
+          {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable.nativeFunction
             .cast(),
@@ -13427,7 +13427,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
   /// indefinitely, or have other undefined behavior.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>
       blocking(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
-          {bool keepIsolateAlive = false}) {
+          {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable.nativeFunction
             .cast(),
@@ -13624,7 +13624,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)> fromFunction(
           void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>(
           objc.newClosureBlock(
               _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable,
@@ -13649,7 +13649,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   static objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
       listener(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
-          {bool keepIsolateAlive = false}) {
+          {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable
             .nativeFunction
@@ -13681,7 +13681,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
   static objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>
       blocking(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
-          {bool keepIsolateAlive = false}) {
+          {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable
             .nativeFunction
@@ -13874,7 +13874,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)> fromFunction(
           void Function(NSSecureCoding?, NSError) fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
           objc.newClosureBlock(
               _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable,
@@ -13899,7 +13899,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
       listener(void Function(NSSecureCoding?, NSError) fn,
-          {bool keepIsolateAlive = false}) {
+          {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable
             .nativeFunction
@@ -13933,7 +13933,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
   static objc
       .ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>
       blocking(void Function(NSSecureCoding?, NSError) fn,
-          {bool keepIsolateAlive = false}) {
+          {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable
             .nativeFunction
@@ -14060,7 +14060,7 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder {
   static objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>
       fromFunction(
               Dartinstancetype? Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>(
               objc.newClosureBlock(
                   _ObjCBlock_instancetype_ffiVoid_NSCoder_closureCallable,
@@ -14203,7 +14203,7 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError {
   static objc
       .ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>
       fromFunction(Dartinstancetype? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>(
               objc.newClosureBlock(
                   _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable,
@@ -14319,7 +14319,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
   static objc
       .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>
       fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<
                   ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(
@@ -14426,7 +14426,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_NSZone {
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>
       fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<
                   objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>(
@@ -14546,7 +14546,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector {
           objc.ObjCObjectBase Function(
                   ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)
               fn,
-          {bool keepIsolateAlive = false}) =>
+          {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
           objc.newClosureBlock(
               _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureCallable,
@@ -14674,7 +14674,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>
       fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, objc.ObjCObjectBase) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>(
               objc.newClosureBlock(
                   _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureCallable,
@@ -14823,7 +14823,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
   static objc
       .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
       fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, objc.ObjCObjectBase, objc.ObjCObjectBase) fn,
-              {bool keepIsolateAlive = false}) =>
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>(
               objc.newClosureBlock(
                   _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureCallable,

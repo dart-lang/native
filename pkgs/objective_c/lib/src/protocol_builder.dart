@@ -28,7 +28,7 @@ class ObjCProtocolBuilder {
   ///
   /// This can be called multiple times to construct multiple object instances
   /// that all implement the same protocol methods using the same functions.
-  objc.DartProxy build({bool keepIsolateAlive = false}) {
+  objc.DartProxy build({bool keepIsolateAlive = true}) {
     var disposePort = c.ILLEGAL_PORT;
     if (keepIsolateAlive) {
       late final RawReceivePort keepAlivePort;
