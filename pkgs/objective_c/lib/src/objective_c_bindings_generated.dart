@@ -933,6 +933,9 @@ interface class NSCoding extends objc.ObjCProtocolBase {
 
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -957,6 +960,9 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -982,6 +988,9 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -1081,6 +1090,9 @@ interface class NSCopying extends objc.ObjCProtocolBase {
 
   /// Builds an object that implements the NSCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>) copyWithZone_,
       bool $keepIsolateAlive = false}) {
@@ -3410,6 +3422,9 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
 
   /// Builds an object that implements the NSFastEnumeration protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSFastEnumeration implement(
       {required int Function(ffi.Pointer<NSFastEnumerationState>,
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)
@@ -4022,6 +4037,9 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
 
   /// Builds an object that implements the NSItemProviderReading protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSItemProviderReading implement({bool $keepIsolateAlive = false}) {
     final builder = objc.ObjCProtocolBuilder();
 
@@ -4079,6 +4097,9 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
 
   /// Builds an object that implements the NSItemProviderWriting protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSItemProviderWriting implement(
       {NSItemProviderRepresentationVisibility Function(NSString)?
           itemProviderVisibilityForRepresentationWithTypeIdentifier_,
@@ -4514,6 +4535,9 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
 
   /// Builds an object that implements the NSMutableCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSMutableCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           mutableCopyWithZone_,
@@ -7201,6 +7225,9 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
 
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implement(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
@@ -7317,6 +7344,9 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implementAsListener(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
@@ -7434,6 +7464,9 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implementAsBlocking(
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
@@ -8757,6 +8790,9 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
 
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSSecureCoding implement(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -8781,6 +8817,9 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSSecureCoding implementAsListener(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -8808,6 +8847,9 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSSecureCoding implementAsBlocking(
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -9217,6 +9259,9 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
 
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implement(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = false}) {
@@ -9239,6 +9284,9 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implementAsListener(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = false}) {
@@ -9262,6 +9310,9 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implementAsBlocking(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = false}) {

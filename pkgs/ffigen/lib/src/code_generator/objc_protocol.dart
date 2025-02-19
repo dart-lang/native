@@ -181,6 +181,9 @@ interface class $name extends $protocolBase $impls{
       final builders = '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
+  ///
+  /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static $name implement($args) {
     final builder = $protocolBuilder();
     $buildImplementations
@@ -200,6 +203,9 @@ interface class $name extends $protocolBase $impls{
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
+  ///
+  /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static $name implementAsListener($args) {
     final builder = $protocolBuilder();
     $buildListenerImplementations
@@ -216,6 +222,9 @@ interface class $name extends $protocolBase $impls{
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static $name implementAsBlocking($args) {
     final builder = $protocolBuilder();
     $buildBlockingImplementations
