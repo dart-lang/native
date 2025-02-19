@@ -180,6 +180,7 @@
       "simpleName" : "Example"
     }
   },
+  "outerClassBinaryName" : "com.example.Example",
   "hasStaticInit" : false,
   "hasInstanceInit" : false
 } ]
