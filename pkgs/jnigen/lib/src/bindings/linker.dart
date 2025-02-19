@@ -5,7 +5,6 @@
 import '../config/config.dart';
 import '../elements/elements.dart';
 import '../logging/logging.dart';
-import 'descriptor.dart';
 import 'visitor.dart';
 
 typedef _Resolver = ClassDecl Function(String? binaryName);
@@ -120,10 +119,17 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     final superclass = (node.superclass!.type as DeclaredType).classDecl;
     superclass.accept(this);
 
-    // Add all methods from the superinterfaces of this class.
     final methodSignatures = <String>{};
+    final methodLinker = _MethodLinker(config, resolve, {...typeVarOrigin});
     for (final method in node.methods) {
+      method.classDecl = node;
+      method.accept(methodLinker);
       methodSignatures.add(method.javaSig);
+    }
+    // Add all methods from the superinterfaces of this class.
+    if (node.methods.isEmpty) {
+      // Make the list modifiable.
+      node.methods = [];
     }
     for (final interface in node.interfaces) {
       interface.accept(typeLinker);
@@ -132,13 +138,16 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
         for (final interfaceMethod in interfaceType.classDecl.methods) {
           final clonedMethod =
               interfaceMethod.clone(until: GenerationStage.linker);
-          clonedMethod
-              .accept(_MethodMover(fromType: interfaceType, toClass: node));
-          if (methodSignatures.contains(clonedMethod.javaSig)) {
-            continue;
+          clonedMethod.accept(_MethodMover(
+            typeVarOrigin: {...typeVarOrigin},
+            fromType: interfaceType,
+            toClass: node,
+          ));
+          if (!methodSignatures.contains(clonedMethod.javaSig)) {
+            clonedMethod.accept(methodLinker);
+            methodSignatures.add(clonedMethod.javaSig);
+            node.methods.add(clonedMethod);
           }
-          methodSignatures.add(interfaceMethod.javaSig);
-          node.methods.add(clonedMethod);
         }
       }
     }
@@ -149,11 +158,6 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     for (final field in node.fields) {
       field.classDecl = node;
       field.accept(fieldLinker);
-    }
-    final methodLinker = _MethodLinker(config, resolve, {...typeVarOrigin});
-    for (final method in node.methods) {
-      method.classDecl = node;
-      method.accept(methodLinker);
     }
     for (final typeParam in node.typeParams) {
       typeParam.accept(_TypeParamLinker(typeLinker));
@@ -219,6 +223,7 @@ class _MethodLinker extends Visitor<Method, void> {
     for (final typeParam in node.typeParams) {
       typeVarOrigin[typeParam.name] = typeParam;
     }
+    node.descriptor = node.accept(_MethodDescriptor(typeVarOrigin));
     node.returnType.accept(typeLinker);
 
     // If the type itself does not have nullability annotations, use the
@@ -322,6 +327,8 @@ class _FieldLinker extends Visitor<Field, void> {
       ];
     }
     node.type.accept(typeLinker);
+    node.type.descriptor =
+        node.type.accept(_TypeDescriptor(typeLinker.typeVarOrigin));
   }
 }
 
@@ -363,10 +370,15 @@ class _ParamLinker extends Visitor<Param, void> {
 /// type parameters can be replaced with other ones and its `classDecl` will be
 /// different. This visitor fixes these issues after the cloning is done.
 class _MethodMover extends Visitor<Method, void> {
+  final Map<String, TypeParam> typeVarOrigin;
   final DeclaredType fromType;
   final ClassDecl toClass;
 
-  _MethodMover({required this.fromType, required this.toClass});
+  _MethodMover({
+    required this.typeVarOrigin,
+    required this.fromType,
+    required this.toClass,
+  });
 
   @override
   void visit(Method node) {
@@ -394,8 +406,10 @@ class _MethodMover extends Visitor<Method, void> {
       }
     }
     // Since the types can be changed, the descriptor can be changed as well.
-    node.descriptor =
-        node.accept(MethodDescriptor(node.classDecl.allTypeParams));
+    for (final typeParam in node.typeParams) {
+      typeVarOrigin[typeParam.name] = typeParam;
+    }
+    node.descriptor = node.accept(_MethodDescriptor(typeVarOrigin));
   }
 }
 
@@ -444,5 +458,78 @@ class _TypeMover extends TypeVisitor<void> {
   @override
   void visitPrimitiveType(PrimitiveType node) {
     // Do nothing.
+  }
+}
+
+/// Generates JNI Method descriptor.
+///
+/// https://docs.oracle.com/en/java/javase/18/docs/specs/jni/types.html#type-signatures
+/// Also see: [_TypeDescriptor]
+class _MethodDescriptor extends Visitor<Method, String> {
+  final Map<String, TypeParam> typeVarOrigin;
+
+  _MethodDescriptor(this.typeVarOrigin);
+
+  @override
+  String visit(Method node) {
+    final s = StringBuffer();
+    final typeDescriptor = _TypeDescriptor(typeVarOrigin);
+    s.write('(');
+    for (final param in node.params) {
+      final desc = param.type.accept(typeDescriptor);
+      param.type.descriptor = desc;
+      s.write(desc);
+    }
+    s.write(')');
+    final returnTypeDesc =
+        node.returnType.accept(_TypeDescriptor(typeVarOrigin));
+    node.returnType.descriptor = returnTypeDesc;
+    s.write(returnTypeDesc);
+    return s.toString();
+  }
+}
+
+/// JVM representation of type signatures.
+///
+/// https://docs.oracle.com/en/java/javase/18/docs/specs/jni/types.html#type-signatures
+class _TypeDescriptor extends TypeVisitor<String> {
+  final Map<String, TypeParam> typeVarOrigin;
+
+  _TypeDescriptor(this.typeVarOrigin);
+
+  @override
+  String visitArrayType(ArrayType node) {
+    final inner = node.elementType.accept(this);
+    return '[$inner';
+  }
+
+  @override
+  String visitDeclaredType(DeclaredType node) {
+    final internalName = node.binaryName.replaceAll('.', '/');
+    return 'L$internalName;';
+  }
+
+  @override
+  String visitPrimitiveType(PrimitiveType node) {
+    return node.signature;
+  }
+
+  @override
+  String visitTypeVar(TypeVar node) {
+    final typeParam = typeVarOrigin[node.name]!;
+    return typeParam.bounds.isEmpty
+        ? super.visitTypeVar(node)
+        : typeParam.bounds.first.accept(this);
+  }
+
+  @override
+  String visitWildcard(Wildcard node) {
+    final extendsBound = node.extendsBound?.accept(this);
+    return extendsBound ?? super.visitWildcard(node);
+  }
+
+  @override
+  String visitNonPrimitiveType(ReferredType node) {
+    return 'Ljava/lang/Object;';
   }
 }

@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'bindings/dart_generator.dart';
-import 'bindings/descriptor.dart';
 import 'bindings/excluder.dart';
 import 'bindings/kotlin_processor.dart';
 import 'bindings/linker.dart';
@@ -45,7 +44,6 @@ Future<void> generateJniBindings(Config config) async {
   classes.accept(Excluder(config));
   classes.accept(KotlinProcessor());
   await classes.accept(Linker(config));
-  classes.accept(const Descriptor());
   classes.accept(Renamer(config));
   // classes.accept(const Printer());
 

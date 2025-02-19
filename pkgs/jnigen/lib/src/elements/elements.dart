@@ -7,7 +7,6 @@ import 'package:meta/meta.dart';
 
 // Types to describe java API elements
 
-import '../bindings/descriptor.dart';
 import '../bindings/kotlin_processor.dart';
 import '../bindings/linker.dart';
 import '../bindings/renamer.dart';
@@ -24,7 +23,6 @@ enum GenerationStage {
   excluder,
   kotlinProcessor,
   linker,
-  descriptor,
   renamer,
   dartGenerator;
 
@@ -269,9 +267,9 @@ class TypeUsage {
   @JsonKey(includeFromJson: false)
   late ReferredType type;
 
-  /// Populated by [Descriptor].
+  /// Populated by [Linker].
   @JsonKey(includeFromJson: false)
-  late String descriptor;
+  String? descriptor;
 
   String get name => type.name;
 
@@ -333,7 +331,7 @@ class TypeUsage {
     final cloned =
         TypeUsage(shorthand: shorthand, kind: kind, typeJson: clonedTypeJson)
           ..type = clonedType;
-    if (GenerationStage.descriptor <= until) {
+    if (GenerationStage.linker <= until) {
       cloned.descriptor = descriptor;
     }
     return cloned;
@@ -725,7 +723,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
   /// Can be used to match with [KotlinFunction]'s descriptor.
   ///
   /// Can create a unique signature in combination with [name].
-  /// Populated either by the ASM backend or [Descriptor].
+  /// Populated either by the ASM backend or [Linker].
   String? descriptor;
 
   @JsonKey(includeFromJson: false)
@@ -760,9 +758,8 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.dartGenerator:
       case GenerationStage.renamer:
         cloned.finalName = finalName;
-      case GenerationStage.descriptor:
-        cloned.descriptor = descriptor;
       case GenerationStage.linker:
+        cloned.descriptor = descriptor;
         cloned.classDecl = classDecl;
         for (final param in cloned.params) {
           param.method = cloned;
