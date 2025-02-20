@@ -11,22 +11,15 @@ import 'link_mode.dart';
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
     _validateCodeConfig(
       'BuildInput.config.code',
+
       // ignore: deprecated_member_use_from_same_package
-      input.config.dryRun,
       input.config.code,
     );
 
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
-    _validateCodeConfig('LinkInput.config.code', false, input.config.code);
+    _validateCodeConfig('LinkInput.config.code', input.config.code);
 
-ValidationErrors _validateCodeConfig(
-  String inputName,
-  bool dryRun,
-  CodeConfig code,
-) {
-  // The dry run will be removed soon.
-  if (dryRun) return const [];
-
+ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
   final errors = <String>[];
   final targetOS = code.targetOS;
   switch (targetOS) {
@@ -88,8 +81,6 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
-  // ignore: deprecated_member_use_from_same_package
-  input.config.dryRun,
   output,
   true,
 );
@@ -101,7 +92,6 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
-  false,
   output,
   false,
 );
@@ -131,7 +121,6 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookInput input,
   CodeConfig codeConfig,
   List<EncodedAsset> encodedAssets,
-  bool dryRun,
   HookOutput output,
   bool isBuild,
 ) async {
@@ -144,7 +133,6 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
     _validateCodeAssets(
       input,
       codeConfig,
-      dryRun,
       CodeAsset.fromEncoded(asset),
       errors,
       ids,
@@ -162,7 +150,6 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 void _validateCodeAssets(
   HookInput input,
   CodeConfig codeConfig,
-  bool dryRun,
   CodeAsset codeAsset,
   List<String> errors,
   Set<String> ids,
@@ -197,25 +184,22 @@ void _validateCodeAssets(
   }
 
   final architecture = codeAsset.architecture;
-  if (!dryRun) {
-    if (architecture == null) {
-      errors.add('CodeAsset "$id" has no architecture.');
-    } else if (architecture != codeConfig.targetArchitecture) {
-      errors.add(
-        'CodeAsset "$id" has an architecture "$architecture", which '
-        'is not the target architecture "${codeConfig.targetArchitecture}".',
-      );
-    }
+
+  if (architecture == null) {
+    errors.add('CodeAsset "$id" has no architecture.');
+  } else if (architecture != codeConfig.targetArchitecture) {
+    errors.add(
+      'CodeAsset "$id" has an architecture "$architecture", which '
+      'is not the target architecture "${codeConfig.targetArchitecture}".',
+    );
   }
 
   final file = codeAsset.file;
-  if (file == null && !dryRun && _mustHaveFile(codeAsset.linkMode)) {
+  if (file == null && _mustHaveFile(codeAsset.linkMode)) {
     errors.add('CodeAsset "$id" has no file.');
   }
   if (file != null) {
-    errors.addAll(
-      _validateFile('Code asset "$id" file', file, mustExist: !dryRun),
-    );
+    errors.addAll(_validateFile('Code asset "$id" file', file));
   }
 }
 

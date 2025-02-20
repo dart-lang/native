@@ -45,7 +45,7 @@ void main() {
                   final builder = BuildInputBuilder();
                   if (hook == 'build') {
                     builder.config.setupBuild(
-                      dryRun: false, // no embedders will pass true anymore
+                      // no embedders will pass true anymore
                       linkingEnabled: linking,
                     );
                   }

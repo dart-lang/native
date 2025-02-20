@@ -135,7 +135,7 @@ class NativeAssetsBuildRunner {
       final inputBuilder =
           inputCreator()
             ..config.setupShared(buildAssetTypes: buildAssetTypes)
-            ..config.setupBuild(dryRun: false, linkingEnabled: linkingEnabled)
+            ..config.setupBuild(linkingEnabled: linkingEnabled)
             ..setupBuildInput(metadata: metadata);
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(

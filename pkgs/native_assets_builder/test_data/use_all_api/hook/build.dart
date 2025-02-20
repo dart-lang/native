@@ -19,7 +19,6 @@ void main(List<String> args) async {
     // c. target config
     // c.1. per hook
     input.config.linkingEnabled; // build only
-    input.config.dryRun; // build only, deleted soon
     // c.2. per asset
     input.config.buildAssetTypes;
     input.config.code.linkModePreference;

@@ -13,6 +13,7 @@ import 'package:meta/meta.dart';
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
 import '../config_provider.dart';
+import '../config_provider/utils.dart';
 import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
@@ -159,17 +160,10 @@ List<Binding> parseToBindings(Config c) {
   return bindings.toList();
 }
 
-List<String> _findObjectiveCSysroot() {
-  final result = Process.runSync('xcrun', ['--show-sdk-path']);
-  if (result.exitCode == 0) {
-    for (final line in (result.stdout as String).split('\n')) {
-      if (line.isNotEmpty) {
-        return ['-isysroot', line];
-      }
-    }
-  }
-  return [];
-}
+List<String> _findObjectiveCSysroot() => [
+      '-isysroot',
+      firstLineOfStdout('xcrun', ['--show-sdk-path'])
+    ];
 
 @visibleForTesting
 List<Binding> transformBindings(Config config, List<Binding> bindings) {

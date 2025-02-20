@@ -7,6 +7,8 @@
 
 #import <Foundation/NSProxy.h>
 
+#include "include/dart_api_dl.h"
+
 @interface DOBJCDartProxyBuilder : NSObject
 + (instancetype)new;
 - (instancetype)init;
@@ -16,11 +18,14 @@
 @end
 
 @interface DOBJCDartProxy : NSProxy
-+ (instancetype)newFromBuilder:(__strong DOBJCDartProxyBuilder*)builder;
-- (instancetype)initFromBuilder:(__strong DOBJCDartProxyBuilder*)builder;
++ (instancetype)newFromBuilder:(__strong DOBJCDartProxyBuilder*)builder
+    withDisposePort:(Dart_Port)port;
+- (instancetype)initFromBuilder:(__strong DOBJCDartProxyBuilder*)builder
+    withDisposePort:(Dart_Port)port;
 - (BOOL)respondsToSelector:(SEL)sel;
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
 - (void)forwardInvocation:(__strong NSInvocation *)invocation;
+- (void)dealloc;
 @end
 
 #endif  // OBJECTIVE_C_SRC_PROXY_H_

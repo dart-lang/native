@@ -1,3 +1,14 @@
+## 18.0.0-wip
+
+- Add variable substitutions that can be used in the `headers.entry-points` to
+  locate Apple APIs: `$XCODE`, `$IOS_SDK`, and `$MACOS_SDK`.
+- __Breaking change__: Change the `usrTypeMappings` field of `Config`'s factory
+  constructor from a `List<ImportedType>` to a `Map<String, ImportedType>`.
+- Add a `keepIsolateAlive` parameter to the block and protocol constructors that
+  allows a block or protocol to keep its owner isolate alive.
+- __Breaking change__: `keepIsolateAlive` defaults to true, so all existing ObjC
+  blocks and protocols now keep their isolates alive by default.
+
 ## 17.0.0
 
 - Use package:objective_c 6.0.0

@@ -176,14 +176,18 @@ interface class $name extends $protocolBase $impls{
 ''');
       }
 
-      final args = buildArgs.isEmpty ? '' : '{${buildArgs.join(', ')}}';
+      buildArgs.add('bool \$keepIsolateAlive = true');
+      final args = '{${buildArgs.join(', ')}}';
       final builders = '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
+  ///
+  /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static $name implement($args) {
     final builder = $protocolBuilder();
     $buildImplementations
-    return $name.castFrom(builder.build());
+    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -199,10 +203,13 @@ interface class $name extends $protocolBase $impls{
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
+  ///
+  /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static $name implementAsListener($args) {
     final builder = $protocolBuilder();
     $buildListenerImplementations
-    return $name.castFrom(builder.build());
+    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -215,10 +222,13 @@ interface class $name extends $protocolBase $impls{
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
   static $name implementAsBlocking($args) {
     final builder = $protocolBuilder();
     $buildBlockingImplementations
-    return $name.castFrom(builder.build());
+    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing

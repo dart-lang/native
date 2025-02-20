@@ -83,7 +83,7 @@ BuildInput createBuildInput(
           outputDirectoryShared: outputDirectoryShared,
         )
         ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupBuild(dryRun: false, linkingEnabled: false)
+        ..config.setupBuild(linkingEnabled: false)
         ..config.setupCode(
           targetArchitecture: Architecture.fromString(architecture),
           targetOS: os,

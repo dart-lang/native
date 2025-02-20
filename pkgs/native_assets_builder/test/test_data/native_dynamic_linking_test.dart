@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
+import '../build_runner/helpers.dart';
 import '../helpers.dart';
 
 void main() async {
@@ -38,7 +39,7 @@ void main() async {
               outputDirectory: outputDirectory,
               outputDirectoryShared: outputDirectoryShared,
             )
-            ..config.setupBuild(dryRun: false, linkingEnabled: false)
+            ..config.setupBuild(linkingEnabled: false)
             ..config.setupShared(buildAssetTypes: [CodeAsset.type])
             ..config.setupCode(
               targetArchitecture: Architecture.current,
@@ -55,6 +56,8 @@ void main() async {
       File.fromUri(
         buildInputUri,
       ).writeAsStringSync(jsonEncode(inputBuilder.json));
+
+      await runPubGet(workingDirectory: testPackageUri, logger: logger);
 
       final processResult = await Process.run(dartUri.toFilePath(), [
         'hook/build.dart',

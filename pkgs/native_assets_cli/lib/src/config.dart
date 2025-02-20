@@ -9,8 +9,6 @@ import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
-import 'code_assets/architecture.dart';
-import 'code_assets/os.dart';
 import 'encoded_asset.dart';
 import 'json_utils.dart';
 import 'metadata.dart';
@@ -123,15 +121,12 @@ sealed class HookInputBuilder {
   HookConfigBuilder get config => HookConfigBuilder._(this);
 }
 
-// TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-const _buildModeInputKeyDeprecated = 'build_mode';
 const _metadataConfigKey = 'metadata';
 const _outputFileKey = 'out_file';
 const _outDirInputKey = 'out_dir';
 const _outDirSharedInputKey = 'out_dir_shared';
 const _packageNameInputKey = 'package_name';
 const _packageRootInputKey = 'package_root';
-const _supportedAssetTypesKey = 'supported_asset_types';
 const _buildAssetTypesKey = 'build_asset_types';
 
 const _configKey = 'config';
@@ -178,8 +173,6 @@ final class HookConfigBuilder {
   HookConfigBuilder._(this.builder);
 
   void setupShared({required List<String> buildAssetTypes}) {
-    json[_buildAssetTypesKey] = buildAssetTypes;
-    json[_supportedAssetTypesKey] = buildAssetTypes;
     json.setNested([_configKey, _buildAssetTypesKey], buildAssetTypes);
   }
 }
@@ -189,19 +182,11 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 }
 
 extension BuildConfigBuilderSetup on BuildConfigBuilder {
-  void setupBuild({required bool dryRun, required bool linkingEnabled}) {
-    json[_dryRunConfigKey] = dryRun;
-    json[_linkingEnabledKey] = linkingEnabled;
+  void setupBuild({required bool linkingEnabled}) {
     json.setNested([_configKey, _linkingEnabledKey], linkingEnabled);
-
-    // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-    if (!dryRun) {
-      json[_buildModeInputKeyDeprecated] = 'release';
-    }
   }
 }
 
-const _dryRunConfigKey = 'dry_run';
 const _linkingEnabledKey = 'linking_enabled';
 
 final class LinkInput extends HookInput {
@@ -234,8 +219,6 @@ final class LinkInputBuilder extends HookInputBuilder {
     required Uri? recordedUsesFile,
   }) {
     json[_assetsKey] = [for (final asset in assets) asset.toJson()];
-    // TODO: Bump min-SDK constraint to 3.7 and remove once stable.
-    json[_buildModeInputKeyDeprecated] = 'release';
     if (recordedUsesFile != null) {
       json[_recordedUsagesFileInputKey] = recordedUsesFile.toFilePath();
     }
@@ -335,9 +318,6 @@ sealed class HookOutputBuilder {
 
 class BuildOutput extends HookOutput {
   /// The assets produced by this build.
-  ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
   final List<EncodedAsset> _encodedAssets;
 
   /// The assets produced by this build which should be linked.
@@ -345,9 +325,6 @@ class BuildOutput extends HookOutput {
   /// Every key in the map is a package name. These assets in the values are not
   /// bundled with the application, but are sent to the link hook of the package
   /// specified in the key, which can decide if they are bundled or not.
-  ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
   final Map<String, List<EncodedAsset>> _encodedAssetsForLinking;
 
   /// Metadata passed to dependent build hook invocations.
@@ -368,9 +345,6 @@ class BuildOutput extends HookOutput {
 
 extension type BuildOutputAssets._(BuildOutput _output) {
   /// The assets produced by this build.
-  ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
   List<EncodedAsset> get encodedAssets => _output._encodedAssets;
 
   /// The assets produced by this build which should be linked.
@@ -378,9 +352,6 @@ extension type BuildOutputAssets._(BuildOutput _output) {
   /// Every key in the map is a package name. These assets in the values are not
   /// bundled with the application, but are sent to the link hook of the package
   /// specified in the key, which can decide if they are bundled or not.
-  ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
   Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
       _output._encodedAssetsForLinking;
 }
@@ -434,7 +405,7 @@ class BuildOutputBuilder extends HookOutputBuilder {
 }
 
 extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
-  /// Adds [EncodedAsset]s produced by this build or dry run.
+  /// Adds [EncodedAsset]s produced by this build.
   ///
   /// If the [linkInPackage] argument is specified, the asset will not be
   /// bundled during the build step, but sent as input to the link hook of the
@@ -456,7 +427,7 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
     list.add(asset.toJson());
   }
 
-  /// Adds [EncodedAsset]s produced by this build or dry run.
+  /// Adds [EncodedAsset]s produced by this build.
   ///
   /// If the [linkInPackage] argument is specified, the assets will not be
   /// bundled during the build step, but sent as input to the link hook of the
@@ -504,9 +475,6 @@ List<Object?> _getEncodedAssetsList(
 
 class LinkOutput extends HookOutput {
   /// The assets produced by this build.
-  ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
   final List<EncodedAsset> _encodedAssets;
 
   /// Creates a [BuildOutput] from the given [json].
@@ -518,9 +486,6 @@ class LinkOutput extends HookOutput {
 
 extension type LinkOutputAssets._(LinkOutput _output) {
   /// The assets produced by this build.
-  ///
-  /// In dry runs, the assets for all [Architecture]s for the [OS] specified in
-  /// the dry run must be provided.
   List<EncodedAsset> get encodedAssets => _output._encodedAssets;
 }
 
@@ -606,7 +571,7 @@ final latestVersion = Version(1, 9, 0);
 ///
 /// When updating this number, update the version_skew_test.dart. (This test
 /// catches issues with 2.)
-final latestParsableVersion = Version(1, 5, 0);
+final latestParsableVersion = Version(1, 7, 0);
 
 /// The configuration for a build or link hook invocation.
 final class HookConfig {
@@ -634,27 +599,12 @@ final class HookConfig {
           json
               .optionalMap(_configKey)
               ?.optionalStringList(_buildAssetTypesKey) ??
-          json.optionalStringList(_buildAssetTypesKey) ??
-          json.optionalStringList(_supportedAssetTypesKey) ??
           const [];
 }
 
 final class BuildConfig extends HookConfig {
-  // TODO(dcharkes): Remove after 3.7.0 stable is released and bump the SDK
-  // constraint in the pubspec. Ditto for all uses in related packages.
-  /// Whether this run is a dry-run, which doesn't build anything.
-  ///
-  /// A dry-run only reports information about which assets a build would
-  /// create, but doesn't actually create files.
-  @Deprecated('Flutter will no longer invoke dry run as of 3.28.')
-  final bool dryRun;
-
   final bool linkingEnabled;
 
   BuildConfig(super.json)
-    // ignore: deprecated_member_use_from_same_package
-    : dryRun = json.getOptional<bool>(_dryRunConfigKey) ?? false,
-      linkingEnabled =
-          json.optionalMap(_configKey)?.optionalBool(_linkingEnabledKey) ??
-          json.get<bool>(_linkingEnabledKey);
+    : linkingEnabled = json.map$(_configKey).bool(_linkingEnabledKey);
 }

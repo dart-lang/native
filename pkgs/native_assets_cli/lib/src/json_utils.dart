@@ -30,7 +30,8 @@ extension MapJsonUtils on Map<String, Object?> {
     return value;
   }
 
-  bool? optionalBool(String key) => getOptional<bool>(key);
+  core.bool bool(String key) => get<core.bool>(key);
+  core.bool? optionalBool(String key) => getOptional<core.bool>(key);
   core.int int(String key) => get<core.int>(key);
   core.int? optionalInt(String key) => getOptional<core.int>(key);
 

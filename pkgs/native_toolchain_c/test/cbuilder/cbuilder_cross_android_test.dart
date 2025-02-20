@@ -152,7 +152,7 @@ Future<Uri> buildLib(
           outputDirectory: tempUri,
           outputDirectoryShared: tempUriShared,
         )
-        ..config.setupBuild(linkingEnabled: false, dryRun: false)
+        ..config.setupBuild(linkingEnabled: false)
         ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupCode(
           targetOS: OS.android,

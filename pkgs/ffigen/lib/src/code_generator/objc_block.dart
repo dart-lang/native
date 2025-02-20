@@ -240,8 +240,12 @@ abstract final class $name {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static $blockType fromFunction(${func.dartType} fn) =>
-      $blockType($newClosureBlock($closureCallable, $convFn),
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static $blockType fromFunction(${func.dartType} fn,
+          {bool keepIsolateAlive = true}) =>
+      $blockType($newClosureBlock($closureCallable, $convFn, keepIsolateAlive),
           retain: false, release: true);
 ''');
 
@@ -274,11 +278,12 @@ abstract final class $name {
   /// but only supports void functions, and is not run synchronously. See
   /// NativeCallable.listener for more details.
   ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
-  static $blockType listener(${func.dartType} fn) {
-    final raw = $newClosureBlock(
-        $listenerCallable.nativeFunction.cast(), $listenerConvFn);
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static $blockType listener(${func.dartType} fn,
+          {bool keepIsolateAlive = true}) {
+    final raw = $newClosureBlock($listenerCallable.nativeFunction.cast(),
+        $listenerConvFn, keepIsolateAlive);
     final wrapper = $wrapListenerFn(raw);
     $releaseFn(raw.cast());
     return $blockType(wrapper, retain: false, release: true);
@@ -290,14 +295,17 @@ abstract final class $name {
   /// caller until the callback is handled by the Dart isolate that created
   /// the block. Async functions are not supported.
   ///
-  /// This block does not keep the owner isolate alive. If the owner isolate has
-  /// shut down, and the block is invoked by native code, it may block
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
-  static $blockType blocking(${func.dartType} fn) {
-    final raw = $newClosureBlock(
-        $blockingCallable.nativeFunction.cast(), $listenerConvFn);
+  static $blockType blocking(${func.dartType} fn,
+          {bool keepIsolateAlive = true}) {
+    final raw = $newClosureBlock($blockingCallable.nativeFunction.cast(),
+        $listenerConvFn, keepIsolateAlive);
     final rawListener = $newClosureBlock(
-        $blockingListenerCallable.nativeFunction.cast(), $listenerConvFn);
+        $blockingListenerCallable.nativeFunction.cast(),
+        $listenerConvFn, keepIsolateAlive);
     final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, rawListener);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
