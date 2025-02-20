@@ -63,9 +63,18 @@ class ObjCProtocolMethod<T extends Function> {
   /// the wrong thread will result in a crash.
   void implement(ObjCProtocolBuilder builder, T? function) {
     if (function != null) {
-      builder.implementMethod(_sel, _sig, _createBlock(function));
+      implementWithBlock(builder, _createBlock(function));
     }
   }
+
+  /// Implement this method on the protocol [builder] using an ObjC [block].
+  ///
+  /// **IMPORTANT**: The [block] must have the same signature as the method,
+  /// but with an extra `void*` argument as the first parameter, before all the
+  /// method parameters. Most users should use one of the other `implement`
+  /// methods, which handles this signature change automatically.
+  void implementWithBlock(ObjCProtocolBuilder builder, ObjCBlockBase block) =>
+      builder.implementMethod(_sel, _sig, block);
 
   bool get isAvailable => _signature != null;
 
@@ -100,7 +109,7 @@ class ObjCProtocolListenableMethod<T extends Function>
   /// See NativeCallable.listener for more details.
   void implementAsListener(ObjCProtocolBuilder builder, T? function) {
     if (function != null) {
-      builder.implementMethod(_sel, _sig, _createListenerBlock(function));
+      implementWithBlock(builder, _createListenerBlock(function));
     }
   }
 
@@ -112,7 +121,7 @@ class ObjCProtocolListenableMethod<T extends Function>
   /// the method. Async functions are not supported.
   void implementAsBlocking(ObjCProtocolBuilder builder, T? function) {
     if (function != null) {
-      builder.implementMethod(_sel, _sig, _createBlockingBlock(function));
+      implementWithBlock(builder, _createBlockingBlock(function));
     }
   }
 }

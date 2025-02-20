@@ -1,6 +1,8 @@
 ## 7.0.0-wip
 
 - Use ffigen 18.0.0
+- `ObjCProtocolBuilder` supports implementing protocol methods directly using a
+  block.
 
 ## 6.0.0
 
