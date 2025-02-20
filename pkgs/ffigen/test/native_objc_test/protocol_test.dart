@@ -340,6 +340,22 @@ void main() {
         consumer.callBlockingMethodOnRandomThread_(asMyProtocol);
         expect(await listenerCompleter.future, 98765);
       });
+
+      test('Direct method implementation using block', () async {
+        final consumer = ProtocolConsumer.new1();
+
+        final builder = ObjCProtocolBuilder();
+        MyProtocol.instanceMethod_withDouble_.implementWithBlock(
+            builder,
+            ObjCBlock_NSString_ffiVoid_NSString_ffiDouble.fromFunction(
+                (Pointer<Void> _, NSString s, double x) =>
+                    'DirectImpl: ${s.toDartString()}: $x'.toNSString()));
+        final myProtocol = MyProtocol.castFrom(builder.build());
+
+        // Required instance method.
+        final result = consumer.callInstanceMethod_(myProtocol);
+        expect(result.toDartString(), 'DirectImpl: Hello from ObjC: 3.14');
+      });
     });
 
     group('Manual DartProxy implementation', () {
