@@ -1418,9 +1418,6 @@ ${modifier}final _$name = $_protectedExtension
         ? '$_core.Future<'
             '${node.asyncReturnType!.accept(_TypeGenerator(resolver))}>'
         : node.returnType.accept(_TypeGenerator(resolver));
-    final returnTypeClass = (node.asyncReturnType ?? node.returnType)
-        .accept(_TypeClassGenerator(resolver))
-        .name;
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = node.typeParams
@@ -1451,15 +1448,18 @@ ${modifier}final _$name = $_protectedExtension
     final \$p = $_jni.ReceivePort();
     final _\$$continuation = $_protectedExtension.newPortContinuation(\$p);
     ${localReferences.join(_newLine(depth: 2))}
-    $callExpr.release();
+    final \$r = $callExpr.reference;
     _\$$continuation.release();
-    final \$o = $_jGlobalReference($_jPointer.fromAddress(await \$p.first));
-    final \$k = $returnTypeClass.jClass.reference;
-    if (!$_jni.Jni.env.IsInstanceOf(\$o.pointer, \$k.pointer)) {
-      \$k.release();
-      throw 'Failed';
+    final $_jni.JReference \$o;
+    if ($_jni.Jni.env.IsInstanceOf(
+      \$r.pointer,
+      $_jni.coroutineSingletonsClass.reference.pointer,
+    )) {
+      \$o = $_jGlobalReference($_jPointer.fromAddress(await \$p.first));
+      \$r.release();
+    } else {
+      \$o = \$r;
     }
-    \$k.release();
     return $returningType.fromReference(\$o);
   }
 

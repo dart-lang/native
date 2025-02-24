@@ -9,6 +9,18 @@ import kotlinx.coroutines.delay
 import kotlin.coroutines.Continuation
 
 public class SuspendFun {
+    suspend fun sayHelloWithoutDelay(): String {
+        return "Hello!"
+    }
+
+    suspend fun failWithoutDelay(): String {
+        throw Error()
+    }
+
+    suspend fun fail(): String {
+        throw Error()
+    }
+
     suspend fun sayHello(): String {
         delay(100L)
         return "Hello!"

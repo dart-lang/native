@@ -3,6 +3,8 @@
 - Added support for generating matching Kotlin operators as Dart operators.
 - Include the methods of the superinterfaces of a class or interface in the
   bindings.
+- Fix a bug where Kotlin suspendable functions that returned the result without
+  ever suspending would timeout in Dart.
 
 ## 0.14.0
 

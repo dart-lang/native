@@ -98,21 +98,23 @@ class Example extends jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    _thinkBeforeAnswering(
+    final $r = _thinkBeforeAnswering(
             reference.pointer,
             _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
             _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.JObjectType())
-        .release();
+        .reference;
     _$continuation.release();
-    final $o =
-        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni$_.JStringType().jClass.reference;
-    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
-      $k.release();
-      throw 'Failed';
+    final jni$_.JReference $o;
+    if (jni$_.Jni.env.IsInstanceOf(
+      $r.pointer,
+      jni$_.coroutineSingletonsClass.reference.pointer,
+    )) {
+      $o = jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+      $r.release();
+    } else {
+      $o = $r;
     }
-    $k.release();
     return const jni$_.JStringType().fromReference($o);
   }
 }
