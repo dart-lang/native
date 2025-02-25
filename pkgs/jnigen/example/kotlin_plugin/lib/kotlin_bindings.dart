@@ -98,22 +98,27 @@ class Example extends jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    _thinkBeforeAnswering(
+    final $r = _thinkBeforeAnswering(
             reference.pointer,
             _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .release();
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final $o =
-        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni$_.JStringType().jClass.reference;
-    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
-      $k.release();
-      throw 'Failed';
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
     }
-    $k.release();
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 }
 

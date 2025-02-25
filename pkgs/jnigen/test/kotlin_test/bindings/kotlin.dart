@@ -2630,6 +2630,137 @@ class SuspendFun extends jni$_.JObject {
             .reference);
   }
 
+  static final _id_sayHelloWithoutDelay = _class.instanceMethodId(
+    r'sayHelloWithoutDelay',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayHelloWithoutDelay = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.lang.Object sayHelloWithoutDelay(kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> sayHelloWithoutDelay() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _sayHelloWithoutDelay(
+            reference.pointer,
+            _id_sayHelloWithoutDelay as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
+    _$continuation.release();
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
+  }
+
+  static final _id_failWithoutDelay = _class.instanceMethodId(
+    r'failWithoutDelay',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _failWithoutDelay = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.lang.Object failWithoutDelay(kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> failWithoutDelay() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _failWithoutDelay(reference.pointer,
+            _id_failWithoutDelay as jni$_.JMethodIDPtr, _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
+    _$continuation.release();
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
+  }
+
+  static final _id_fail = _class.instanceMethodId(
+    r'fail',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _fail = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.lang.Object fail(kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> fail() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _fail(reference.pointer, _id_fail as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
+    _$continuation.release();
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
+  }
+
   static final _id_sayHello = _class.instanceMethodId(
     r'sayHello',
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
@@ -2652,20 +2783,25 @@ class SuspendFun extends jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
+    final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .release();
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final $o =
-        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni$_.JStringType().jClass.reference;
-    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
-      $k.release();
-      throw 'Failed';
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
     }
-    $k.release();
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 
   static final _id_sayHello$1 = _class.instanceMethodId(
@@ -2698,20 +2834,28 @@ class SuspendFun extends jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
     final _$string = string.reference;
-    _sayHello$1(reference.pointer, _id_sayHello$1 as jni$_.JMethodIDPtr,
-            _$string.pointer, _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .release();
+    final $r = _sayHello$1(
+            reference.pointer,
+            _id_sayHello$1 as jni$_.JMethodIDPtr,
+            _$string.pointer,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final $o =
-        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni$_.JStringType().jClass.reference;
-    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
-      $k.release();
-      throw 'Failed';
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
     }
-    $k.release();
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 }
 
