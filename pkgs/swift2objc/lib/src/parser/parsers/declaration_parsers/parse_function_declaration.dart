@@ -91,6 +91,22 @@ ParsedFunctionInfo parseFunctionInfo(
 
   final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
   if (openParen == -1) throw malformedInitializerException;
+
+  final prefixAnnotations = <String>{};
+  while (true) {
+    final tok = tokens.first['kind'].get<String>();
+    if (tok == 'keyword') {
+      final keyword = maybeConsume('keyword');
+      if (keyword == 'func') {
+        break;
+      } else if (keyword == null) {
+        if (maybeConsume('text') != '') break;
+      } else {
+        prefixAnnotations.add(keyword);
+      }
+    }
+  }
+
   tokens = tokens.slice(openParen + 1);
 
   // Parse parameters until we find a ')'.
@@ -141,11 +157,7 @@ ParsedFunctionInfo parseFunctionInfo(
     params: parameters,
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
-    mutating: declarationFragments
-        .where((j) =>
-            j['kind'].get<String?>() == 'keyword' &&
-            j['spelling'].get<String?>() == 'mutating')
-        .isNotEmpty
+    mutating: prefixAnnotations.contains('mutating')
   );
 }
 

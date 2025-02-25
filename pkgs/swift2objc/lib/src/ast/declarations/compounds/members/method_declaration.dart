@@ -77,5 +77,4 @@ class MethodDeclaration extends AstNode
     visitor.visitAll(typeParams);
     visitor.visit(returnType);
   }
-
 }
