@@ -2,6 +2,8 @@
 
 - Updated `bin/setup.dart` to use Gradle instead of Maven for building Java sources. Added gradle executables 
   and bootstrap jars [#2003](https://github.com/dart-lang/native/issues/2003)
+- Added `JObject.isInstanceOf` which checks whether a `JObject` is an instance 
+  of a java class.
 
 ## 0.14.0
 
@@ -14,8 +16,8 @@
   instead use the default value of `build/jni_libs`.
 - Added `JArray.of`, which allows a `JArray` to be constructed from an
   `Iterable`.
-- Added `JObject.isA`, which checks whether a `JObject` is a instance of a java
-  class.
+- Added `JObject.isA`, which checks whether a `JObject` is an instance of a java
+  typeclass.
 - Do not require JAWT when building for desktop.
 - Added `JByteArray.from`, which allows a `JByteArray` to be constructed from an
   `Iterable<int>`.

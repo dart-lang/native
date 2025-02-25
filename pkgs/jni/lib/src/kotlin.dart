@@ -9,3 +9,10 @@ import 'types.dart';
 @internal
 final coroutineSingletonsClass =
     JClass.forName('kotlin/coroutines/intrinsics/CoroutineSingletons');
+
+@internal
+final result$FailureClass = JClass.forName(r'kotlin/Result$Failure');
+
+@internal
+final failureExceptionField =
+    result$FailureClass.instanceFieldId('exception', 'Ljava/lang/Throwable;');

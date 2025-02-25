@@ -18,6 +18,7 @@ public class SuspendFun {
     }
 
     suspend fun fail(): String {
+        delay(100L)
         throw Error()
     }
 

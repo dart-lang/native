@@ -95,6 +95,8 @@ const Map<String, int> _definedSyms = {
   'runtimeType': 1,
   'noSuchMethod': 1,
   'reference': 1,
+  'isA': 1,
+  'isInstanceOf': 1,
   'isReleased': 1,
   'isNull': 1,
   'use': 1,

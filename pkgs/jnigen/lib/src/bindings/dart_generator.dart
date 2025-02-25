@@ -1448,19 +1448,23 @@ ${modifier}final _$name = $_protectedExtension
     final \$p = $_jni.ReceivePort();
     final _\$$continuation = $_protectedExtension.newPortContinuation(\$p);
     ${localReferences.join(_newLine(depth: 2))}
-    final \$r = $callExpr.reference;
+    final \$r = $callExpr;
     _\$$continuation.release();
-    final $_jni.JReference \$o;
-    if ($_jni.Jni.env.IsInstanceOf(
-      \$r.pointer,
-      $_jni.coroutineSingletonsClass.reference.pointer,
-    )) {
-      \$o = $_jGlobalReference($_jPointer.fromAddress(await \$p.first));
+    final $_jObject \$o;
+    if (\$r.isInstanceOf($_jni.coroutineSingletonsClass)) {
       \$r.release();
+      \$o = $_jObject.fromReference(
+          $_jGlobalReference($_jPointer.fromAddress(await \$p.first)));
+      if (\$o.isInstanceOf($_jni.result\$FailureClass)) {
+        final \$e =
+            $_jni.failureExceptionField.get(\$o, const ${_jObject}Type());
+        \$o.release();
+        $_jni.Jni.throwException(\$e.reference.toPointer());
+      }
     } else {
       \$o = \$r;
     }
-    return $returningType.fromReference(\$o);
+    return \$o.as($returningType, releaseOriginal: true);
   }
 
 ''');

@@ -2656,20 +2656,23 @@ class SuspendFun extends jni$_.JObject {
             reference.pointer,
             _id_sayHelloWithoutDelay as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .reference;
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final jni$_.JReference $o;
-    if (jni$_.Jni.env.IsInstanceOf(
-      $r.pointer,
-      jni$_.coroutineSingletonsClass.reference.pointer,
-    )) {
-      $o = jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
     } else {
       $o = $r;
     }
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 
   static final _id_failWithoutDelay = _class.instanceMethodId(
@@ -2696,20 +2699,23 @@ class SuspendFun extends jni$_.JObject {
 
     final $r = _failWithoutDelay(reference.pointer,
             _id_failWithoutDelay as jni$_.JMethodIDPtr, _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .reference;
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final jni$_.JReference $o;
-    if (jni$_.Jni.env.IsInstanceOf(
-      $r.pointer,
-      jni$_.coroutineSingletonsClass.reference.pointer,
-    )) {
-      $o = jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
     } else {
       $o = $r;
     }
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 
   static final _id_fail = _class.instanceMethodId(
@@ -2736,20 +2742,23 @@ class SuspendFun extends jni$_.JObject {
 
     final $r = _fail(reference.pointer, _id_fail as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .reference;
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final jni$_.JReference $o;
-    if (jni$_.Jni.env.IsInstanceOf(
-      $r.pointer,
-      jni$_.coroutineSingletonsClass.reference.pointer,
-    )) {
-      $o = jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
     } else {
       $o = $r;
     }
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 
   static final _id_sayHello = _class.instanceMethodId(
@@ -2776,20 +2785,23 @@ class SuspendFun extends jni$_.JObject {
 
     final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .reference;
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final jni$_.JReference $o;
-    if (jni$_.Jni.env.IsInstanceOf(
-      $r.pointer,
-      jni$_.coroutineSingletonsClass.reference.pointer,
-    )) {
-      $o = jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
     } else {
       $o = $r;
     }
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 
   static final _id_sayHello$1 = _class.instanceMethodId(
@@ -2827,20 +2839,23 @@ class SuspendFun extends jni$_.JObject {
             _id_sayHello$1 as jni$_.JMethodIDPtr,
             _$string.pointer,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .reference;
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final jni$_.JReference $o;
-    if (jni$_.Jni.env.IsInstanceOf(
-      $r.pointer,
-      jni$_.coroutineSingletonsClass.reference.pointer,
-    )) {
-      $o = jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
     } else {
       $o = $r;
     }
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 }
 
