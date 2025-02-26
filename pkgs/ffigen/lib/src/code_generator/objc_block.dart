@@ -22,7 +22,6 @@ class ObjCBlock extends BindingType {
     required List<Parameter> params,
     required bool returnsRetained,
     required ObjCBuiltInFunctions builtInFunctions,
-    bool generateProtocolTrampoline = false,
   }) {
     final renamedParams = [
       for (var i = 0; i < params.length; ++i)
@@ -47,7 +46,6 @@ class ObjCBlock extends BindingType {
       params: renamedParams,
       returnsRetained: returnsRetained,
       builtInFunctions: builtInFunctions,
-      generateProtocolTrampoline: generateProtocolTrampoline,
     );
     bindingsIndex.addObjCBlockToSeen(usr, block);
 
@@ -61,14 +59,14 @@ class ObjCBlock extends BindingType {
     required this.params,
     required this.returnsRetained,
     required this.builtInFunctions,
-    required bool generateProtocolTrampoline,
   }) : super(originalName: name) {
     if (hasListener) {
       _blockWrappers = builtInFunctions.getBlockTrampolines(this);
     }
-    if (generateProtocolTrampoline) {
-      protocolTrampoline = builtInFunctions.getProtocolMethodTrampoline(this);
-    }
+  }
+
+  void fillProtocolTrampoline() {
+    protocolTrampoline ??= builtInFunctions.getProtocolMethodTrampoline(this);
   }
 
   // Generates a human readable name for the block based on the args and return
