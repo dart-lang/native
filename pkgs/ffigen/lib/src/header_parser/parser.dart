@@ -183,17 +183,18 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
 
   final transitives =
       visit(FindTransitiveDepsVisitation(), included).transitives;
-  final directTransitives = visit(
-          FindDirectTransitiveDepsVisitation(
-              config, included, directlyIncluded),
-          included)
-      .directTransitives;
 
   // Fill method deps (msgSend and protocol blocks) after calculating all the
   // transitive deps, so that msgSends etc don't force include AST nodes that
   // would otherwise be omitted. This is safe because the method deps don't use
   // any types that aren't already being used by the method itself.
   visit(FillMethodDependenciesVisitation(), bindings);
+
+  final directTransitives = visit(
+          FindDirectTransitiveDepsVisitation(
+              config, included, directlyIncluded),
+          included)
+      .directTransitives;
 
   final finalBindings = visit(
           ListBindingsVisitation(
