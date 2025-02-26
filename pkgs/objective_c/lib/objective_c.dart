@@ -26,6 +26,8 @@ export 'src/ns_string.dart';
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
     show
+        DartProtocol,
+        DartProtocolBuilder,
         NSArray,
         NSBinarySearchingOptions,
         NSCharacterSet,

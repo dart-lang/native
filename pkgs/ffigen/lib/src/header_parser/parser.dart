@@ -169,7 +169,6 @@ List<String> _findObjectiveCSysroot() => [
 List<Binding> transformBindings(Config config, List<Binding> bindings) {
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
-  visit(FillMethodDependenciesVisitation(), bindings);
 
   final filterResults = visit(ApplyConfigFiltersVisitation(config), bindings);
   final directlyIncluded = filterResults.directlyIncluded;
@@ -189,6 +188,12 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
               config, included, directlyIncluded),
           included)
       .directTransitives;
+
+  // Fill method deps (msgSend and protocol blocks) after calculating all the
+  // transitive deps, so that msgSends etc don't force include AST nodes that
+  // would otherwise be omitted. This is safe because the method deps don't use
+  // any types that aren't already being used by the method itself.
+  visit(FillMethodDependenciesVisitation(), bindings);
 
   final finalBindings = visit(
           ListBindingsVisitation(

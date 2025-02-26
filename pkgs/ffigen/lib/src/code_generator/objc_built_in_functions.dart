@@ -44,7 +44,6 @@ class ObjCBuiltInFunctions {
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
-  static const dartProxy = ObjCImport('DartProxy');
   static const unimplementedOptionalMethodException =
       ObjCImport('UnimplementedOptionalMethodException');
   static const checkOsVersion = ObjCImport('checkOsVersion');
@@ -54,8 +53,8 @@ class ObjCBuiltInFunctions {
   @visibleForTesting
   static const builtInInterfaces = {
     'DartInputStreamAdapter',
-    'DartProxy',
-    'DartProxyBuilder',
+    'DartProtocol',
+    'DartProtocolBuilder',
     'NSArray',
     'NSCharacterSet',
     'NSCoder',
@@ -83,7 +82,6 @@ class ObjCBuiltInFunctions {
     'NSOrderedCollectionDifference',
     'NSOrderedSet',
     'NSOutputStream',
-    'NSProxy',
     'NSRunLoop',
     'NSSet',
     'NSStream',
