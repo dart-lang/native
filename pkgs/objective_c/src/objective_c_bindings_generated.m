@@ -241,26 +241,32 @@ id  _ObjectiveCBindings_protocolTrampoline_xr62hr(id target, void * sel, id arg1
   return ((_ProtocolTrampoline11)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline12)(void * sel, struct _NSZone * arg1);
+typedef id  (^_ProtocolTrampoline12)(void * sel, id arg1, id arg2, id * arg3);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _ObjectiveCBindings_protocolTrampoline_18nsem0(id target, void * sel, struct _NSZone * arg1) {
-  return ((_ProtocolTrampoline12)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+id  _ObjectiveCBindings_protocolTrampoline_10z9f5k(id target, void * sel, id arg1, id arg2, id * arg3) {
+  return ((_ProtocolTrampoline12)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
 }
 
-typedef id  (^_ProtocolTrampoline13)(void * sel, struct objc_selector * arg1);
+typedef id  (^_ProtocolTrampoline13)(void * sel, struct _NSZone * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _ObjectiveCBindings_protocolTrampoline_50as9u(id target, void * sel, struct objc_selector * arg1) {
+id  _ObjectiveCBindings_protocolTrampoline_18nsem0(id target, void * sel, struct _NSZone * arg1) {
   return ((_ProtocolTrampoline13)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline14)(void * sel, struct objc_selector * arg1, id arg2);
+typedef id  (^_ProtocolTrampoline14)(void * sel, struct objc_selector * arg1);
 __attribute__((visibility("default"))) __attribute__((used))
-id  _ObjectiveCBindings_protocolTrampoline_1mllhpc(id target, void * sel, struct objc_selector * arg1, id arg2) {
-  return ((_ProtocolTrampoline14)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
+id  _ObjectiveCBindings_protocolTrampoline_50as9u(id target, void * sel, struct objc_selector * arg1) {
+  return ((_ProtocolTrampoline14)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef id  (^_ProtocolTrampoline15)(void * sel, struct objc_selector * arg1, id arg2, id arg3);
+typedef id  (^_ProtocolTrampoline15)(void * sel, struct objc_selector * arg1, id arg2);
+__attribute__((visibility("default"))) __attribute__((used))
+id  _ObjectiveCBindings_protocolTrampoline_1mllhpc(id target, void * sel, struct objc_selector * arg1, id arg2) {
+  return ((_ProtocolTrampoline15)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
+}
+
+typedef id  (^_ProtocolTrampoline16)(void * sel, struct objc_selector * arg1, id arg2, id arg3);
 __attribute__((visibility("default"))) __attribute__((used))
 id  _ObjectiveCBindings_protocolTrampoline_c7gk2u(id target, void * sel, struct objc_selector * arg1, id arg2, id arg3) {
-  return ((_ProtocolTrampoline15)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
+  return ((_ProtocolTrampoline16)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
 }
