@@ -43,7 +43,7 @@ void main() {
     }
 
     test('Sending object through a port', () async {
-      Sendable? sendable = Sendable.new1();
+      Sendable? sendable = Sendable();
       sendable.value = 123;
 
       final port = ReceivePort();
@@ -70,7 +70,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('Capturing object in closure', () async {
-      Sendable? sendable = Sendable.new1();
+      Sendable? sendable = Sendable();
       sendable.value = 123;
 
       final oldValue = await Isolate.run(() {
@@ -157,7 +157,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('Manual release across isolates', () async {
-      final sendable = Sendable.new1();
+      final sendable = Sendable();
       final pointer = sendable.ref.pointer;
 
       expect(objectRetainCount(pointer), 1);
@@ -177,7 +177,7 @@ void main() {
     });
 
     test('Use after release and double release', () async {
-      final sendable = Sendable.new1();
+      final sendable = Sendable();
       sendable.value = 123;
       final pointer = sendable.ref.pointer;
 

@@ -38,7 +38,7 @@ void main() {
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>) newMethodsInner(
         Pointer<Int32> counter) {
-      final obj1 = RefCountTestObject.new1();
+      final obj1 = RefCountTestObject();
       obj1.setCounter_(counter);
       expect(counter.value, 1);
       final obj2 = RefCountTestObject.newWithCounter_(counter);
@@ -406,7 +406,7 @@ void main() {
     }
 
     test('castFromPointer - release and retain', () {
-      final obj1 = RefCounted.new1();
+      final obj1 = RefCounted();
       expect(obj1.refCount, 1);
 
       castFromPointerInnerReleaseAndRetain(obj1.meAsInt());
@@ -423,7 +423,7 @@ void main() {
     }
 
     test('castFromPointer - no release and retain', () {
-      final obj1 = RefCounted.new1();
+      final obj1 = RefCounted();
       expect(obj1.refCount, 1);
 
       castFromPointerInnerNoReleaseAndRetain(obj1.meAsInt());
@@ -494,7 +494,7 @@ void main() {
     }, skip: !canDoGC);
 
     RefCountTestObject unownedReferenceInner2(Pointer<Int32> counter) {
-      final obj1 = RefCountTestObject.new1();
+      final obj1 = RefCountTestObject();
       obj1.setCounter_(counter);
       expect(counter.value, 1);
       expect(objectRetainCount(obj1.ref.pointer), 1);
@@ -505,7 +505,7 @@ void main() {
       // Make a second object so that the counter check in unownedReferenceInner
       // sees some sort of change. Otherwise this test could pass just by the GC
       // not working correctly.
-      final obj2 = RefCountTestObject.new1();
+      final obj2 = RefCountTestObject();
       obj2.setCounter_(counter);
       expect(counter.value, 2);
       expect(objectRetainCount(obj2.ref.pointer), 1);

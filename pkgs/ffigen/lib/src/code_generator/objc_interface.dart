@@ -127,6 +127,18 @@ ${generateAsStub ? '' : _generateMethods(w)}
 ''');
     s.write(generateMethodBindings(w, this));
 
+    final newMethod = methods.where((ObjCMethod m) =>
+        m.isClassMethod &&
+        m.family == ObjCMethodFamily.new_ &&
+        m.params.isEmpty &&
+        m.originalName == 'new').firstOrNull;
+    if (newMethod != null && originalName != 'NSString') {
+      s.write('''
+  /// Returns a new instance of $name constructed with the default `new` method.
+  factory $name() => ${newMethod.dartMethodName}();
+''');
+    }
+
     return s.toString();
   }
 

@@ -194,6 +194,7 @@ class ObjCMethod extends AstNode {
   final String? dartDoc;
   final String originalName;
   final String name;
+  String? dartMethodName;
   final ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
@@ -338,7 +339,8 @@ class ObjCMethod extends AstNode {
 
   String generateBindings(
       Writer w, ObjCInterface target, UniqueNamer methodNamer) {
-    final methodName = getDartMethodName(methodNamer);
+    dartMethodName ??= getDartMethodName(methodNamer);
+    final methodName = dartMethodName!;
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 

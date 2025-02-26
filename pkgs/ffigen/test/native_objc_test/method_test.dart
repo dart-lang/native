@@ -24,7 +24,7 @@ void main() {
       final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      testInstance = MethodInterface.new1();
+      testInstance = MethodInterface();
       generateBindingsForCoverage('method');
     });
 
