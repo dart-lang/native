@@ -336,6 +336,10 @@ class ObjCProtocolMethodTrampoline extends AstNode {
     super.visitChildren(visitor);
     visitor.visit(func);
   }
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitObjCProtocolMethodTrampoline(this);
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.
