@@ -31,18 +31,18 @@ void main() {
     });
 
     test('BlockInheritTestBase', () {
-      final BlockInheritTestBase baseObj = BlockInheritTestBase.new1();
+      final BlockInheritTestBase baseObj = BlockInheritTestBase();
       expect(baseObj.getAnimal().laysEggs(), false);
-      expect(baseObj.acceptAnimal_(Platypus.new1()), true);
+      expect(baseObj.acceptAnimal_(Platypus()), true);
 
       final ObjCBlock<Mammal Function()> returner = baseObj.getReturner();
       final Mammal returnerResult = returner();
       expect(returnerResult.laysEggs(), false);
 
       final ObjCBlock<Bool Function(Platypus)> accepter = baseObj.getAccepter();
-      expect(accepter(Platypus.new1()), true);
+      expect(accepter(Platypus()), true);
 
-      final platypus = Platypus.new1();
+      final platypus = Platypus();
       final ObjCBlock<Platypus Function()> platypusReturner =
           ObjCBlock_Platypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
@@ -54,11 +54,11 @@ void main() {
     });
 
     test('BlockInheritTestChild', () {
-      final BlockInheritTestChild childObj = BlockInheritTestChild.new1();
+      final BlockInheritTestChild childObj = BlockInheritTestChild();
       final BlockInheritTestBase baseObj = childObj;
       expect(baseObj.getAnimal().laysEggs(), true);
-      expect(baseObj.acceptAnimal_(Platypus.new1()), true);
-      expect(childObj.acceptAnimal_(Mammal.new1()), false);
+      expect(baseObj.acceptAnimal_(Platypus()), true);
+      expect(childObj.acceptAnimal_(Mammal()), false);
 
       final ObjCBlock<Mammal Function()> baseReturner = baseObj.getReturner();
       final Mammal baseReturnerResult = baseReturner();
@@ -71,19 +71,19 @@ void main() {
 
       final ObjCBlock<Bool Function(Platypus)> baseAccepter =
           baseObj.getAccepter();
-      expect(baseAccepter(Platypus.new1()), true);
+      expect(baseAccepter(Platypus()), true);
 
       final ObjCBlock<Bool Function(Mammal)> childAccepter =
           childObj.getAccepter();
-      expect(childAccepter(Mammal.new1()), false);
-      expect(childAccepter(Platypus.new1()), true);
+      expect(childAccepter(Mammal()), false);
+      expect(childAccepter(Platypus()), true);
 
-      final platypus = Platypus.new1();
+      final platypus = Platypus();
       final ObjCBlock<Platypus Function()> platypusReturner =
           ObjCBlock_Platypus.fromFunction(() => platypus);
       expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
 
-      final mammal = Mammal.new1();
+      final mammal = Mammal();
       final ObjCBlock<Mammal Function()> mammalReturner =
           ObjCBlock_Mammal.fromFunction(() => mammal);
       expect(childObj.invokeReturner_(mammalReturner).laysEggs(), false);

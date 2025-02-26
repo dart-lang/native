@@ -449,6 +449,9 @@ class DartProxyBuilder extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of DartProxyBuilder constructed with the default `new` method.
+  factory DartProxyBuilder() => new1();
 }
 
 /// NSArray
@@ -605,6 +608,9 @@ class NSArray extends NSObject
         _objc_msgSend_14hpxwa(this.ref.pointer, _sel_objectAtIndex_, index);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSArray constructed with the default `new` method.
+  factory NSArray() => new1();
 }
 
 enum NSBinarySearchingOptions {
@@ -886,6 +892,9 @@ class NSCharacterSet extends NSObject
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSCharacterSet constructed with the default `new` method.
+  factory NSCharacterSet() => new1();
 }
 
 /// NSCoder
@@ -1433,6 +1442,9 @@ class NSData extends NSObject
   int get length {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_length);
   }
+
+  /// Returns a new instance of NSData constructed with the default `new` method.
+  factory NSData() => new1();
 }
 
 enum NSDataBase64DecodingOptions {
@@ -1740,6 +1752,9 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
         : _objc_msgSend_1ukqyt8(
             this.ref.pointer, _sel_timeIntervalSinceReferenceDate);
   }
+
+  /// Returns a new instance of NSDate constructed with the default `new` method.
+  factory NSDate() => new1();
 }
 
 /// NSDictionary
@@ -1929,6 +1944,9 @@ class NSDictionary extends NSObject
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSDictionary constructed with the default `new` method.
+  factory NSDictionary() => new1();
 }
 
 enum NSEnumerationOptions {
@@ -2011,6 +2029,9 @@ class NSEnumerator extends NSObject implements NSFastEnumeration {
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSEnumerator constructed with the default `new` method.
+  factory NSEnumerator() => new1();
 }
 
 /// NSError
@@ -2182,6 +2203,9 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_userInfo);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSError constructed with the default `new` method.
+  factory NSError() => new1();
 }
 
 /// NSExtendedArray
@@ -3680,6 +3704,9 @@ class NSIndexSet extends NSObject
   int get lastIndex {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_lastIndex);
   }
+
+  /// Returns a new instance of NSIndexSet constructed with the default `new` method.
+  factory NSIndexSet() => new1();
 }
 
 /// NSInputStream
@@ -3998,6 +4025,9 @@ class NSItemProvider extends NSObject implements NSCopying {
         ? null
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSItemProvider constructed with the default `new` method.
+  factory NSItemProvider() => new1();
 }
 
 enum NSItemProviderFileOptions {
@@ -4338,6 +4368,9 @@ class NSMethodSignature extends NSObject {
   int get numberOfArguments {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_numberOfArguments);
   }
+
+  /// Returns a new instance of NSMethodSignature constructed with the default `new` method.
+  factory NSMethodSignature() => new1();
 }
 
 /// NSMutableArray
@@ -4510,6 +4543,9 @@ class NSMutableArray extends NSArray {
     _objc_msgSend_1gypgok(this.ref.pointer,
         _sel_replaceObjectAtIndex_withObject_, index, anObject.ref.pointer);
   }
+
+  /// Returns a new instance of NSMutableArray constructed with the default `new` method.
+  factory NSMutableArray() => new1();
 }
 
 /// NSMutableCopying
@@ -4919,6 +4955,9 @@ class NSMutableData extends NSData {
   set length(int value) {
     _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
   }
+
+  /// Returns a new instance of NSMutableData constructed with the default `new` method.
+  factory NSMutableData() => new1();
 }
 
 /// NSMutableDictionary
@@ -5118,6 +5157,9 @@ class NSMutableDictionary extends NSDictionary {
     _objc_msgSend_pfv6jd(this.ref.pointer, _sel_setObject_forKey_,
         anObject.ref.pointer, aKey.ref.pointer);
   }
+
+  /// Returns a new instance of NSMutableDictionary constructed with the default `new` method.
+  factory NSMutableDictionary() => new1();
 }
 
 /// NSMutableIndexSet
@@ -5274,6 +5316,9 @@ class NSMutableIndexSet extends NSIndexSet {
     _objc_msgSend_otx1t4(
         this.ref.pointer, _sel_shiftIndexesStartingAtIndex_by_, index, delta);
   }
+
+  /// Returns a new instance of NSMutableIndexSet constructed with the default `new` method.
+  factory NSMutableIndexSet() => new1();
 }
 
 /// NSMutableOrderedSet
@@ -5645,6 +5690,9 @@ class NSMutableOrderedSet extends NSOrderedSet {
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
   }
+
+  /// Returns a new instance of NSMutableOrderedSet constructed with the default `new` method.
+  factory NSMutableOrderedSet() => new1();
 }
 
 /// NSMutableSet
@@ -5812,6 +5860,9 @@ class NSMutableSet extends NSSet {
     _objc_msgSend_xtuoz7(
         this.ref.pointer, _sel_removeObject_, object.ref.pointer);
   }
+
+  /// Returns a new instance of NSMutableSet constructed with the default `new` method.
+  factory NSMutableSet() => new1();
 }
 
 /// NSMutableString
@@ -6285,6 +6336,9 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSMutableString constructed with the default `new` method.
+  factory NSMutableString() => new1();
 }
 
 /// NSNotification
@@ -6425,6 +6479,9 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSNotification constructed with the default `new` method.
+  factory NSNotification() => new1();
 }
 
 /// NSNumber
@@ -6715,6 +6772,9 @@ class NSNumber extends NSValue {
   int get unsignedShortValue {
     return _objc_msgSend_ud8gg(this.ref.pointer, _sel_unsignedShortValue);
   }
+
+  /// Returns a new instance of NSNumber constructed with the default `new` method.
+  factory NSNumber() => new1();
 }
 
 /// NSNumberCreation
@@ -7200,6 +7260,9 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   ffi.Pointer<NSZone> zone() {
     return _objc_msgSend_sz90oi(this.ref.pointer, _sel_zone);
   }
+
+  /// Returns a new instance of NSObject constructed with the default `new` method.
+  factory NSObject() => new1();
 }
 
 /// NSObject
@@ -8110,6 +8173,9 @@ class NSOrderedCollectionDifference extends NSObject
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_removals);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSOrderedCollectionDifference constructed with the default `new` method.
+  factory NSOrderedCollectionDifference() => new1();
 }
 
 /// iOS: introduced 13.0.0
@@ -8460,6 +8526,9 @@ class NSOrderedSet extends NSObject
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSOrderedSet constructed with the default `new` method.
+  factory NSOrderedSet() => new1();
 }
 
 /// NSOutputStream
@@ -9086,6 +9155,9 @@ class NSSet extends NSObject
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_objectEnumerator);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSSet constructed with the default `new` method.
+  factory NSSet() => new1();
 }
 
 enum NSSortOptions {
@@ -9233,6 +9305,9 @@ class NSStream extends NSObject {
     final _ret = _objc_msgSend_1efxbd8(this.ref.pointer, _sel_streamStatus);
     return NSStreamStatus.fromValue(_ret);
   }
+
+  /// Returns a new instance of NSStream constructed with the default `new` method.
+  factory NSStream() => new1();
 }
 
 /// NSStreamDelegate
@@ -11541,6 +11616,9 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
         ? null
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSURL constructed with the default `new` method.
+  factory NSURL() => new1();
 }
 
 enum NSURLBookmarkCreationOptions {
@@ -11651,6 +11729,9 @@ class NSURLHandle extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of NSURLHandle constructed with the default `new` method.
+  factory NSURLHandle() => new1();
 }
 
 enum NSURLHandleStatus {
@@ -11759,6 +11840,9 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   ffi.Pointer<ffi.Char> get objCType {
     return _objc_msgSend_1fuqfwb(this.ref.pointer, _sel_objCType);
   }
+
+  /// Returns a new instance of NSValue constructed with the default `new` method.
+  factory NSValue() => new1();
 }
 
 final class NSZone extends ffi.Opaque {}
