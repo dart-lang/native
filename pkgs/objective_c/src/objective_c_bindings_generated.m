@@ -1,5 +1,6 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
+#import <objc/message.h>
 #import "foundation.h"
 #import "input_stream_adapter.h"
 #import "protocol.h"
@@ -9,7 +10,6 @@
 #endif
 
 id objc_retainBlock(id);
-void objc_msgSend(void);
 
 Protocol* _ObjectiveCBindings_NSCoding(void) { return @protocol(NSCoding); }
 

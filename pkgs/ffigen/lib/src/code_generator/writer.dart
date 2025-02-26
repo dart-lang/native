@@ -429,6 +429,7 @@ class Writer {
     s.write('''
 #include <stdint.h>
 #import <Foundation/Foundation.h>
+#import <objc/message.h>
 ''');
 
     for (final entryPoint in nativeEntryPoints) {
@@ -441,7 +442,6 @@ class Writer {
 #endif
 
 id objc_retainBlock(id);
-void objc_msgSend(void);
 ''');
 
     var empty = true;
