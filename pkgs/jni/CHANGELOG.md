@@ -4,6 +4,9 @@
   and bootstrap jars [#2003](https://github.com/dart-lang/native/issues/2003)
 - Added `JObject.isInstanceOf` which checks whether a `JObject` is an instance 
   of a java class.
+- Fixed a [bug](https://github.com/dart-lang/native/issues/1908) where
+  Java interfaces implemented in on the main thread in Dart could deadlock when
+  invoked from the main thread outside the context of a Dart isolate.
 
 ## 0.14.0
 
