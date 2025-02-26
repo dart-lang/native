@@ -441,6 +441,7 @@ class Writer {
 #endif
 
 id objc_retainBlock(id);
+void objc_msgSend(void);
 ''');
 
     var empty = true;

@@ -15,12 +15,14 @@ class ObjCBlock extends BindingType {
   final List<Parameter> params;
   final bool returnsRetained;
   ObjCBlockWrapperFuncs? _blockWrappers;
+  ObjCProtocolMethodTrampoline? protocolTrampoline;
 
   factory ObjCBlock({
     required Type returnType,
     required List<Parameter> params,
     required bool returnsRetained,
     required ObjCBuiltInFunctions builtInFunctions,
+    bool generateProtocolTrampoline = false,
   }) {
     final renamedParams = [
       for (var i = 0; i < params.length; ++i)
@@ -45,6 +47,7 @@ class ObjCBlock extends BindingType {
       params: renamedParams,
       returnsRetained: returnsRetained,
       builtInFunctions: builtInFunctions,
+      generateProtocolTrampoline: generateProtocolTrampoline,
     );
     bindingsIndex.addObjCBlockToSeen(usr, block);
 
@@ -58,9 +61,13 @@ class ObjCBlock extends BindingType {
     required this.params,
     required this.returnsRetained,
     required this.builtInFunctions,
+    required bool generateProtocolTrampoline,
   }) : super(originalName: name) {
     if (hasListener) {
       _blockWrappers = builtInFunctions.getBlockTrampolines(this);
+    }
+    if (generateProtocolTrampoline) {
+      protocolTrampoline = builtInFunctions.getProtocolMethodTrampoline(this);
     }
   }
 
@@ -346,6 +353,16 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
 
   @override
   BindingString? toObjCBindingString(Writer w) {
+    final chunks = [
+      _blockWrappersBindingString(w),
+      _protocolTrampolineBindingString(w),
+    ].nonNulls;
+    if (chunks.isEmpty) return null;
+    return BindingString(
+        type: BindingStringType.objcBlock, string: chunks.join(''));
+  }
+
+  String? _blockWrappersBindingString(Writer w) {
     if (_blockWrappers?.objCBindingsGenerated ?? true) return null;
     _blockWrappers!.objCBindingsGenerated = true;
 
@@ -375,8 +392,7 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
     final blockingName =
         w.objCLevelUniqueNamer.makeUnique('_BlockingTrampoline');
 
-    final s = StringBuffer();
-    s.write('''
+    return '''
 
 typedef ${returnType.getNativeType()} (^$listenerName)($argStr);
 __attribute__((visibility("default"))) __attribute__((used))
@@ -405,9 +421,39 @@ $listenerName $blockingWrapper(
     }
   };
 }
-''');
-    return BindingString(
-        type: BindingStringType.objcBlock, string: s.toString());
+''';
+  }
+
+  String? _protocolTrampolineBindingString(Writer w) {
+    if (protocolTrampoline?.objCBindingsGenerated ?? true) return null;
+    protocolTrampoline!.objCBindingsGenerated = true;
+
+    final argsReceived = <String>[];
+    final argsPassed = <String>[];
+    for (var i = 0; i < params.length; ++i) {
+      final param = params[i];
+      final argName = i == 0 ? 'sel' : 'arg$i';
+      argsReceived.add(param.getNativeType(varName: argName));
+      argsPassed.add(argName);
+    }
+
+    final ret = returnType.getNativeType();
+    final argRecv = argsReceived.join(', ');
+    final argPass = argsPassed.join(', ');
+    final fnName = protocolTrampoline!.func.name;
+    final blk = w.objCLevelUniqueNamer.makeUnique('_ProtocolTrampoline');
+    final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';
+    final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';
+    final blkGetter = '(($blk)$msgSend(target, $getterSel, sel))';
+
+    return '''
+
+typedef $ret (^$blk)($argRecv);
+__attribute__((visibility("default"))) __attribute__((used))
+$ret $fnName(id target, $argRecv) {
+  return $blkGetter($argPass);
+}
+''';
   }
 
   @override
@@ -465,6 +511,7 @@ $listenerName $blockingWrapper(
     visitor.visit(returnType);
     visitor.visitAll(params);
     visitor.visit(_blockWrappers);
+    visitor.visit(protocolTrampoline);
   }
 
   @override

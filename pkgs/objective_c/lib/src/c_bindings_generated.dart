@@ -56,6 +56,30 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
 
+@ffi.Native<
+    ffi.Bool Function(
+        ffi.Pointer<ObjCObject>,
+        ffi.Pointer<ObjCSelector>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ffi.Char>)>(symbol: "class_addMethod", isLeaf: true)
+external bool addMethod(
+  ffi.Pointer<ObjCObject> cls,
+  ffi.Pointer<ObjCSelector> name,
+  ffi.Pointer<ffi.Void> imp,
+  ffi.Pointer<ffi.Char> types,
+);
+
+@ffi.Native<
+    ffi.Pointer<ObjCObject> Function(
+        ffi.Pointer<ObjCObject>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size)>(symbol: "objc_allocateClassPair", isLeaf: true)
+external ffi.Pointer<ObjCObject> allocateClassPair(
+  ffi.Pointer<ObjCObject> superclass,
+  ffi.Pointer<ffi.Char> name,
+  int extraBytes,
+);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     symbol: "DOBJC_awaitWaiter")
 external void awaitWaiter(
@@ -185,6 +209,12 @@ external void objectRelease(
     symbol: "objc_retain", isLeaf: true)
 external ffi.Pointer<ObjCObject> objectRetain(
   ffi.Pointer<ObjCObject> object,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_registerClassPair", isLeaf: true)
+external void registerClassPair(
+  ffi.Pointer<ObjCObject> cls,
 );
 
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(

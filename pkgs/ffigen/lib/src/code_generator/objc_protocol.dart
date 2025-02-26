@@ -164,6 +164,7 @@ interface class $name extends $protocolBase $impls{
         methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${_protocolPointer.name},
       ${method.selObject.name},
+      ${_trampolineAddress(w, block)},
       $getSignature(
           ${_protocolPointer.name},
           ${method.selObject.name},
@@ -185,13 +186,15 @@ interface class $name extends $protocolBase $impls{
   /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static $name implement($args) {
-    final builder = $protocolBuilder();
+    final builder = $protocolBuilder(debugName: '$originalName');
     $buildImplementations
     return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
   /// [$protocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder($protocolBuilder builder, $args) {
     $buildImplementations
   }
@@ -207,7 +210,7 @@ interface class $name extends $protocolBase $impls{
   /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static $name implementAsListener($args) {
-    final builder = $protocolBuilder();
+    final builder = $protocolBuilder(debugName: '$originalName');
     $buildListenerImplementations
     return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
@@ -215,6 +218,8 @@ interface class $name extends $protocolBase $impls{
   /// Adds the implementation of the $originalName protocol to an existing
   /// [$protocolBuilder]. All methods that can be implemented as listeners will
   /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener($protocolBuilder builder, $args) {
     $buildListenerImplementations
   }
@@ -226,7 +231,7 @@ interface class $name extends $protocolBase $impls{
   /// If `\$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static $name implementAsBlocking($args) {
-    final builder = $protocolBuilder();
+    final builder = $protocolBuilder(debugName: '$originalName');
     $buildBlockingImplementations
     return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
@@ -234,6 +239,8 @@ interface class $name extends $protocolBase $impls{
   /// Adds the implementation of the $originalName protocol to an existing
   /// [$protocolBuilder]. All methods that can be implemented as blocking
   /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking($protocolBuilder builder, $args) {
     $buildBlockingImplementations
   }
@@ -262,6 +269,13 @@ interface class $name extends $protocolBase $impls{
 
     return BindingString(
         type: BindingStringType.objcProtocol, string: s.toString());
+  }
+
+  static String _trampolineAddress(Writer w, ObjCBlock block) {
+    final func = block.protocolTrampoline!.func;
+    final type =
+        NativeFunc(func.functionType).getCType(w, writeArgumentNames: false);
+    return '${w.ffiLibraryPrefix}.Native.addressOf<$type>(${func.name}).cast()';
   }
 
   @override

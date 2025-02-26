@@ -26,8 +26,6 @@ export 'src/ns_string.dart';
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
     show
-        DartProxy,
-        DartProxyBuilder,
         NSArray,
         NSBinarySearchingOptions,
         NSCharacterSet,
@@ -92,7 +90,6 @@ export 'src/objective_c_bindings_generated.dart'
         NSOrderedCollectionDifferenceCalculationOptions,
         NSOrderedSet,
         NSOutputStream,
-        NSProxy,
         NSRange,
         NSRunLoop,
         NSSecureCoding,

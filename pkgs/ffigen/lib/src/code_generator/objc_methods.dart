@@ -259,6 +259,7 @@ class ObjCMethod extends AstNode {
       ],
       returnsRetained: returnsRetained,
       builtInFunctions: builtInFunctions,
+      generateProtocolTrampoline: true,
     );
   }
 
