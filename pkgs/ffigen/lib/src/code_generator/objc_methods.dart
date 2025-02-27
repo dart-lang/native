@@ -260,7 +260,7 @@ class ObjCMethod extends AstNode {
       ],
       returnsRetained: returnsRetained,
       builtInFunctions: builtInFunctions,
-    );
+    )..fillProtocolTrampoline();
   }
 
   String getDartMethodName(UniqueNamer uniqueNamer,

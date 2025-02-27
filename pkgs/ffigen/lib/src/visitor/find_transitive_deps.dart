@@ -71,5 +71,11 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
   }
 
   @override
+  void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) {
+    // Don't visit transitive deps of ObjCProtocolMethodTrampoline, as it can
+    // force include protocols that would otherwise be omitted.
+  }
+
+  @override
   void visitBinding(Binding node) => _visitImpl(node, true);
 }

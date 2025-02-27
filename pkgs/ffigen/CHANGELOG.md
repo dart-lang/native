@@ -10,6 +10,9 @@
   allows a block or protocol to keep its owner isolate alive.
 - __Breaking change__: `keepIsolateAlive` defaults to true, so all existing ObjC
   blocks and protocols now keep their isolates alive by default.
+- Change how protocols are implemented to fix
+  [a bug](https://github.com/dart-lang/http/issues/1702), by removing all uses
+  of `NSProxy`.
 
 ## 17.0.0
 

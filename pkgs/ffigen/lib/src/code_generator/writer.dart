@@ -429,6 +429,7 @@ class Writer {
     s.write('''
 #include <stdint.h>
 #import <Foundation/Foundation.h>
+#import <objc/message.h>
 ''');
 
     for (final entryPoint in nativeEntryPoints) {

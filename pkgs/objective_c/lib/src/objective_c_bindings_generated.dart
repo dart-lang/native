@@ -37,6 +37,180 @@ set NSLocalizedDescriptionKey(NSString value) {
 }
 
 @ffi.Native<
+    instancetype Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>()
+external instancetype _ObjectiveCBindings_protocolTrampoline_10z9f5k(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+  ffi.Pointer<objc.ObjCObject> arg2,
+  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+);
+
+@ffi.Native<
+    ffi.UnsignedLong Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<NSFastEnumerationState>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        ffi.UnsignedLong)>()
+external int _ObjectiveCBindings_protocolTrampoline_17ap02x(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<NSFastEnumerationState> arg1,
+  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg2,
+  int arg3,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>()
+external ffi.Pointer<objc.ObjCObject>
+    _ObjectiveCBindings_protocolTrampoline_18nsem0(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<NSZone> arg1,
+);
+
+@ffi.Native<
+    ffi.Void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>)>()
+external void _ObjectiveCBindings_protocolTrampoline_18v1jvf(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+);
+
+@ffi.Native<
+    ffi.Pointer<NSZone> Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>()
+external ffi.Pointer<NSZone> _ObjectiveCBindings_protocolTrampoline_1a8cl66(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+);
+
+@ffi.Native<
+    ffi.UnsignedLong Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>()
+external int _ObjectiveCBindings_protocolTrampoline_1ckyi24(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+);
+
+@ffi.Native<
+    ffi.Long Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>)>()
+external int _ObjectiveCBindings_protocolTrampoline_1ldqghh(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>()
+external ffi.Pointer<objc.ObjCObject>
+    _ObjectiveCBindings_protocolTrampoline_1mbt9g9(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>)>()
+external ffi.Pointer<objc.ObjCObject>
+    _ObjectiveCBindings_protocolTrampoline_1mllhpc(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCSelector> arg1,
+  ffi.Pointer<objc.ObjCObject> arg2,
+);
+
+@ffi.Native<
+    ffi.Bool Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>)>()
+external bool _ObjectiveCBindings_protocolTrampoline_3su7tt(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>()
+external ffi.Pointer<objc.ObjCObject>
+    _ObjectiveCBindings_protocolTrampoline_50as9u(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCSelector> arg1,
+);
+
+@ffi.Native<
+    ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>)>()
+external ffi.Pointer<objc.ObjCObject>
+    _ObjectiveCBindings_protocolTrampoline_c7gk2u(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCSelector> arg1,
+  ffi.Pointer<objc.ObjCObject> arg2,
+  ffi.Pointer<objc.ObjCObject> arg3,
+);
+
+@ffi.Native<
+    ffi.Bool Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>()
+external bool _ObjectiveCBindings_protocolTrampoline_e3qsqz(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+);
+
+@ffi.Native<
+    ffi.Void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>, ffi.UnsignedLong)>()
+external void _ObjectiveCBindings_protocolTrampoline_hoampi(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+  int arg2,
+);
+
+@ffi.Native<
+    ffi.Void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>()
+external void _ObjectiveCBindings_protocolTrampoline_ovsamd(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+);
+
+@ffi.Native<
+    ffi.Bool Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCSelector>)>()
+external bool _ObjectiveCBindings_protocolTrampoline_w1e3k0(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCSelector> arg1,
+);
+
+@ffi.Native<
+    instancetype Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>)>()
+external instancetype _ObjectiveCBindings_protocolTrampoline_xr62hr(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+);
+
+@ffi.Native<
         ffi.Pointer<objc.ObjCBlockImpl> Function(
             ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCBlockImpl>,
@@ -282,45 +456,50 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   }
 }
 
-/// DOBJCDartProxy
-class DartProxy extends NSProxy {
-  DartProxy._(ffi.Pointer<objc.ObjCObject> pointer,
+/// DOBJCDartProtocol
+class DartProtocol extends NSObject {
+  DartProtocol._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
 
-  /// Constructs a [DartProxy] that points to the same underlying object as [other].
-  DartProxy.castFrom(objc.ObjCObjectBase other)
+  /// Constructs a [DartProtocol] that points to the same underlying object as [other].
+  DartProtocol.castFrom(objc.ObjCObjectBase other)
       : this._(other.ref.pointer, retain: true, release: true);
 
-  /// Constructs a [DartProxy] that wraps the given raw object pointer.
-  DartProxy.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+  /// Constructs a [DartProtocol] that wraps the given raw object pointer.
+  DartProtocol.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
       {bool retain = false, bool release = false})
       : this._(other, retain: retain, release: release);
 
-  /// Returns whether [obj] is an instance of [DartProxy].
+  /// Returns whether [obj] is an instance of [DartProtocol].
   static bool isInstance(objc.ObjCObjectBase obj) {
     return _objc_msgSend_19nvye5(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProxy);
+        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProtocol);
   }
 
   /// alloc
-  static objc.ObjCObjectBase alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_DOBJCDartProxy, _sel_alloc);
-    return objc.ObjCObjectBase(_ret, retain: false, release: true);
+  static DartProtocol alloc() {
+    final _ret = _objc_msgSend_151sglz(_class_DOBJCDartProtocol, _sel_alloc);
+    return DartProtocol.castFromPointer(_ret, retain: false, release: true);
   }
 
-  /// newFromBuilder:withDisposePort:
-  static DartProxy newFromBuilder_withDisposePort_(
-      DartProxyBuilder builder, int port) {
-    final _ret = _objc_msgSend_dbvvll(_class_DOBJCDartProxy,
-        _sel_newFromBuilder_withDisposePort_, builder.ref.pointer, port);
-    return DartProxy.castFromPointer(_ret, retain: false, release: true);
+  /// allocWithZone:
+  static DartProtocol allocWithZone_(ffi.Pointer<NSZone> zone) {
+    final _ret = _objc_msgSend_1cwp428(
+        _class_DOBJCDartProtocol, _sel_allocWithZone_, zone);
+    return DartProtocol.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// new
+  static DartProtocol new1() {
+    final _ret = _objc_msgSend_151sglz(_class_DOBJCDartProtocol, _sel_new);
+    return DartProtocol.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// autorelease
-  DartProxy autorelease() {
+  DartProtocol autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DartProxy.castFromPointer(_ret, retain: true, release: true);
+    return DartProtocol.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// dealloc
@@ -328,130 +507,135 @@ class DartProxy extends NSProxy {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_dealloc);
   }
 
-  /// forwardInvocation:
-  void forwardInvocation_(NSInvocation invocation) {
-    _objc_msgSend_xtuoz7(
-        this.ref.pointer, _sel_forwardInvocation_, invocation.ref.pointer);
-  }
-
-  /// initFromBuilder:withDisposePort:
-  DartProxy initFromBuilder_withDisposePort_(
-      DartProxyBuilder builder, int port) {
-    final _ret = _objc_msgSend_dbvvll(this.ref.retainAndReturnPointer(),
-        _sel_initFromBuilder_withDisposePort_, builder.ref.pointer, port);
-    return DartProxy.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// methodSignatureForSelector:
-  NSMethodSignature methodSignatureForSelector_(
+  /// getDOBJCDartProtocolMethodForSelector:
+  objc.ObjCObjectBase getDOBJCDartProtocolMethodForSelector_(
       ffi.Pointer<objc.ObjCSelector> sel) {
     final _ret = _objc_msgSend_3ctkt6(
-        this.ref.pointer, _sel_methodSignatureForSelector_, sel);
-    return NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// respondsToSelector:
-  bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> sel) {
-    return _objc_msgSend_1srf6wk(
-        this.ref.pointer, _sel_respondsToSelector_, sel);
-  }
-
-  /// retain
-  DartProxy retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DartProxy.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// self
-  DartProxy self1() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DartProxy.castFromPointer(_ret, retain: true, release: true);
-  }
-}
-
-/// DOBJCDartProxyBuilder
-class DartProxyBuilder extends NSObject {
-  DartProxyBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
-      {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
-
-  /// Constructs a [DartProxyBuilder] that points to the same underlying object as [other].
-  DartProxyBuilder.castFrom(objc.ObjCObjectBase other)
-      : this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [DartProxyBuilder] that wraps the given raw object pointer.
-  DartProxyBuilder.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
-      {bool retain = false, bool release = false})
-      : this._(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [DartProxyBuilder].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProxyBuilder);
-  }
-
-  /// alloc
-  static DartProxyBuilder alloc() {
-    final _ret =
-        _objc_msgSend_151sglz(_class_DOBJCDartProxyBuilder, _sel_alloc);
-    return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static DartProxyBuilder allocWithZone_(ffi.Pointer<NSZone> zone) {
-    final _ret = _objc_msgSend_1cwp428(
-        _class_DOBJCDartProxyBuilder, _sel_allocWithZone_, zone);
-    return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// new
-  static DartProxyBuilder new1() {
-    final _ret = _objc_msgSend_151sglz(_class_DOBJCDartProxyBuilder, _sel_new);
-    return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// autorelease
-  DartProxyBuilder autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// implementMethod:withSignature:andBlock:
-  void implementMethod_withSignature_andBlock_(
-      ffi.Pointer<objc.ObjCSelector> sel,
-      NSMethodSignature signature,
-      ffi.Pointer<ffi.Void> block) {
-    _objc_msgSend_140ec04(
-        this.ref.pointer,
-        _sel_implementMethod_withSignature_andBlock_,
-        sel,
-        signature.ref.pointer,
-        block);
+        this.ref.pointer, _sel_getDOBJCDartProtocolMethodForSelector_, sel);
+    return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// init
-  DartProxyBuilder init() {
-    objc.checkOsVersion('DOBJCDartProxyBuilder.init',
+  DartProtocol init() {
+    objc.checkOsVersion('DOBJCDartProtocol.init',
         iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
     final _ret =
         _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
-    return DartProxyBuilder.castFromPointer(_ret, retain: false, release: true);
+    return DartProtocol.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initDOBJCDartProtocolFromDartProtocolBuilder:withDisposePort:
+  DartProtocol initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_(
+      DartProtocolBuilder builder, int port) {
+    final _ret = _objc_msgSend_dbvvll(
+        this.ref.retainAndReturnPointer(),
+        _sel_initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_,
+        builder.ref.pointer,
+        port);
+    return DartProtocol.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// retain
-  DartProxyBuilder retain() {
+  DartProtocol retain() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
+    return DartProtocol.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// self
-  DartProxyBuilder self1() {
+  DartProtocol self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DartProxyBuilder.castFromPointer(_ret, retain: true, release: true);
+    return DartProtocol.castFromPointer(_ret, retain: true, release: true);
   }
 
-  /// Returns a new instance of DartProxyBuilder constructed with the default `new` method.
-  factory DartProxyBuilder() => new1();
+  /// Returns a new instance of DartProtocol constructed with the default `new` method.
+  factory DartProtocol() => new1();
+}
+
+/// DOBJCDartProtocolBuilder
+class DartProtocolBuilder extends NSObject {
+  DartProtocolBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [DartProtocolBuilder] that points to the same underlying object as [other].
+  DartProtocolBuilder.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [DartProtocolBuilder] that wraps the given raw object pointer.
+  DartProtocolBuilder.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [DartProtocolBuilder].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_19nvye5(
+        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCDartProtocolBuilder);
+  }
+
+  /// alloc
+  static DartProtocolBuilder alloc() {
+    final _ret =
+        _objc_msgSend_151sglz(_class_DOBJCDartProtocolBuilder, _sel_alloc);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static DartProtocolBuilder allocWithZone_(ffi.Pointer<NSZone> zone) {
+    final _ret = _objc_msgSend_1cwp428(
+        _class_DOBJCDartProtocolBuilder, _sel_allocWithZone_, zone);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// new
+  static DartProtocolBuilder new1() {
+    final _ret =
+        _objc_msgSend_151sglz(_class_DOBJCDartProtocolBuilder, _sel_new);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// autorelease
+  DartProtocolBuilder autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: true, release: true);
+  }
+
+  /// implementMethod:withBlock:
+  void implementMethod_withBlock_(
+      ffi.Pointer<objc.ObjCSelector> sel, ffi.Pointer<ffi.Void> block) {
+    _objc_msgSend_1iqj6b6(
+        this.ref.pointer, _sel_implementMethod_withBlock_, sel, block);
+  }
+
+  /// init
+  DartProtocolBuilder init() {
+    objc.checkOsVersion('DOBJCDartProtocolBuilder.init',
+        iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
+    final _ret =
+        _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// retain
+  DartProtocolBuilder retain() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: true, release: true);
+  }
+
+  /// self
+  DartProtocolBuilder self1() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: true, release: true);
+  }
+
+  /// Returns a new instance of DartProtocolBuilder constructed with the default `new` method.
+  factory DartProtocolBuilder() => new1();
 }
 
 /// NSArray
@@ -949,7 +1133,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSCoding');
     NSCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
     return NSCoding.castFrom(
@@ -958,6 +1142,8 @@ interface class NSCoding extends objc.ObjCProtocolBase {
 
   /// Adds the implementation of the NSCoding protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -976,7 +1162,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSCoding');
     NSCoding.encodeWithCoder_.implementAsListener(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
     return NSCoding.castFrom(
@@ -986,6 +1172,8 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   /// Adds the implementation of the NSCoding protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
   /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -1004,7 +1192,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSCoding');
     NSCoding.encodeWithCoder_.implementAsBlocking(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
     return NSCoding.castFrom(
@@ -1014,6 +1202,8 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   /// Adds the implementation of the NSCoding protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
   /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -1027,6 +1217,12 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       objc.ObjCProtocolListenableMethod<void Function(NSCoder)>(
     _protocol_NSCoding,
     _sel_encodeWithCoder_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_18v1jvf)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSCoding,
       _sel_encodeWithCoder_,
@@ -1047,6 +1243,12 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<Dartinstancetype? Function(NSCoder)>(
     _protocol_NSCoding,
     _sel_initWithCoder_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_xr62hr)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSCoding,
       _sel_initWithCoder_,
@@ -1105,7 +1307,7 @@ interface class NSCopying extends objc.ObjCProtocolBase {
   static NSCopying implement(
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>) copyWithZone_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSCopying');
     NSCopying.copyWithZone_.implement(builder, copyWithZone_);
     return NSCopying.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
@@ -1113,6 +1315,8 @@ interface class NSCopying extends objc.ObjCProtocolBase {
 
   /// Adds the implementation of the NSCopying protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>) copyWithZone_,
       bool $keepIsolateAlive = true}) {
@@ -1124,6 +1328,14 @@ interface class NSCopying extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)>(
     _protocol_NSCopying,
     _sel_copyWithZone_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<NSZone>)>>(
+            _ObjectiveCBindings_protocolTrampoline_18nsem0)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSCopying,
       _sel_copyWithZone_,
@@ -3454,7 +3666,7 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)
           countByEnumeratingWithState_objects_count_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSFastEnumeration');
     NSFastEnumeration.countByEnumeratingWithState_objects_count_
         .implement(builder, countByEnumeratingWithState_objects_count_);
     return NSFastEnumeration.castFrom(
@@ -3463,6 +3675,8 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
 
   /// Adds the implementation of the NSFastEnumeration protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required int Function(ffi.Pointer<NSFastEnumerationState>,
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)
@@ -3479,6 +3693,16 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
               ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, int)>(
     _protocol_NSFastEnumeration,
     _sel_countByEnumeratingWithState_objects_count_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.UnsignedLong Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<NSFastEnumerationState>,
+                        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                        ffi.UnsignedLong)>>(
+            _ObjectiveCBindings_protocolTrampoline_17ap02x)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSFastEnumeration,
       _sel_countByEnumeratingWithState_objects_count_,
@@ -4071,7 +4295,8 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSItemProviderReading implement({bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder =
+        objc.ObjCProtocolBuilder(debugName: 'NSItemProviderReading');
 
     return NSItemProviderReading.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
@@ -4079,6 +4304,8 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
 
   /// Adds the implementation of the NSItemProviderReading protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {bool $keepIsolateAlive = true}) {}
 }
@@ -4135,7 +4362,8 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
           itemProviderVisibilityForRepresentationWithTypeIdentifier_,
       NSArray Function()? writableTypeIdentifiersForItemProvider,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder =
+        objc.ObjCProtocolBuilder(debugName: 'NSItemProviderWriting');
     NSItemProviderWriting
         .itemProviderVisibilityForRepresentationWithTypeIdentifier_
         .implement(builder,
@@ -4148,6 +4376,8 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
 
   /// Adds the implementation of the NSItemProviderWriting protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {NSItemProviderRepresentationVisibility Function(NSString)?
           itemProviderVisibilityForRepresentationWithTypeIdentifier_,
@@ -4167,6 +4397,12 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
           NSItemProviderRepresentationVisibility Function(NSString)>(
     _protocol_NSItemProviderWriting,
     _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1ldqghh)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSItemProviderWriting,
       _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_,
@@ -4184,6 +4420,12 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
       objc.ObjCProtocolMethod<NSArray Function()>(
     _protocol_NSItemProviderWriting,
     _sel_writableTypeIdentifiersForItemProvider,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSItemProviderWriting,
       _sel_writableTypeIdentifiersForItemProvider,
@@ -4578,7 +4820,7 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           mutableCopyWithZone_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSMutableCopying');
     NSMutableCopying.mutableCopyWithZone_
         .implement(builder, mutableCopyWithZone_);
     return NSMutableCopying.castFrom(
@@ -4587,6 +4829,8 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
 
   /// Adds the implementation of the NSMutableCopying protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)
           mutableCopyWithZone_,
@@ -4600,6 +4844,14 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase Function(ffi.Pointer<NSZone>)>(
     _protocol_NSMutableCopying,
     _sel_mutableCopyWithZone_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<NSZone>)>>(
+            _ObjectiveCBindings_protocolTrampoline_18nsem0)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSMutableCopying,
       _sel_mutableCopyWithZone_,
@@ -7319,7 +7571,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
     NSObjectProtocol.conformsToProtocol_
@@ -7350,6 +7602,8 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
 
   /// Adds the implementation of the NSObject protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
@@ -7438,7 +7692,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
     NSObjectProtocol.conformsToProtocol_
@@ -7470,6 +7724,8 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Adds the implementation of the NSObject protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
   /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
@@ -7558,7 +7814,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
     NSObjectProtocol.autorelease.implement(builder, autorelease);
     NSObjectProtocol.class1.implement(builder, class1);
     NSObjectProtocol.conformsToProtocol_
@@ -7590,6 +7846,8 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Adds the implementation of the NSObject protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
   /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function() autorelease,
       required objc.ObjCObjectBase Function() class1,
@@ -7649,6 +7907,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_autorelease,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_autorelease,
@@ -7666,6 +7930,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final class1 = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_class,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_class,
@@ -7684,6 +7954,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<bool Function(Protocol)>(
     _protocol_NSObject,
     _sel_conformsToProtocol_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_3su7tt)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_conformsToProtocol_,
@@ -7699,6 +7975,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final debugDescription = objc.ObjCProtocolMethod<NSString Function()>(
     _protocol_NSObject,
     _sel_debugDescription,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_debugDescription,
@@ -7715,6 +7997,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final description = objc.ObjCProtocolMethod<NSString Function()>(
     _protocol_NSObject,
     _sel_description,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_description,
@@ -7731,6 +8019,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final hash = objc.ObjCProtocolMethod<int Function()>(
     _protocol_NSObject,
     _sel_hash,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.UnsignedLong Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1ckyi24)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_hash,
@@ -7748,6 +8042,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<bool Function(objc.ObjCObjectBase)>(
     _protocol_NSObject,
     _sel_isEqual_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_3su7tt)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_isEqual_,
@@ -7764,6 +8064,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<bool Function(objc.ObjCObjectBase)>(
     _protocol_NSObject,
     _sel_isKindOfClass_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_3su7tt)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_isKindOfClass_,
@@ -7780,6 +8086,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<bool Function(objc.ObjCObjectBase)>(
     _protocol_NSObject,
     _sel_isMemberOfClass_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_3su7tt)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_isMemberOfClass_,
@@ -7795,6 +8107,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final isProxy = objc.ObjCProtocolMethod<bool Function()>(
     _protocol_NSObject,
     _sel_isProxy,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Bool Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_e3qsqz)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_isProxy,
@@ -7812,6 +8130,14 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase Function(ffi.Pointer<objc.ObjCSelector>)>(
     _protocol_NSObject,
     _sel_performSelector_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<objc.ObjCSelector>)>>(
+            _ObjectiveCBindings_protocolTrampoline_50as9u)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_performSelector_,
@@ -7830,6 +8156,15 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           ffi.Pointer<objc.ObjCSelector>, objc.ObjCObjectBase)>(
     _protocol_NSObject,
     _sel_performSelector_withObject_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<objc.ObjCSelector>,
+                        ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mllhpc)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_performSelector_withObject_,
@@ -7852,6 +8187,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           objc.ObjCObjectBase, objc.ObjCObjectBase)>(
     _protocol_NSObject,
     _sel_performSelector_withObject_withObject_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<objc.ObjCSelector>,
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_c7gk2u)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_performSelector_withObject_withObject_,
@@ -7873,6 +8218,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final release = objc.ObjCProtocolListenableMethod<void Function()>(
     _protocol_NSObject,
     _sel_release,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Void Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_ovsamd)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_release,
@@ -7898,6 +8249,14 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<bool Function(ffi.Pointer<objc.ObjCSelector>)>(
     _protocol_NSObject,
     _sel_respondsToSelector_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Bool Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<objc.ObjCSelector>)>>(
+            _ObjectiveCBindings_protocolTrampoline_w1e3k0)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_respondsToSelector_,
@@ -7914,6 +8273,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final retain = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_retain,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_retain,
@@ -7931,6 +8296,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final retainCount = objc.ObjCProtocolMethod<int Function()>(
     _protocol_NSObject,
     _sel_retainCount,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.UnsignedLong Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1ckyi24)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_retainCount,
@@ -7947,6 +8318,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final self1 = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_self,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_self,
@@ -7965,6 +8342,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_superclass,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<objc.ObjCObject> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_superclass,
@@ -7982,6 +8365,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   static final zone = objc.ObjCProtocolMethod<ffi.Pointer<NSZone> Function()>(
     _protocol_NSObject,
     _sel_zone,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Pointer<NSZone> Function(
+                        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>>(
+            _ObjectiveCBindings_protocolTrampoline_1a8cl66)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
       _sel_zone,
@@ -8634,177 +9023,6 @@ class NSOutputStream extends NSStream {
   }
 }
 
-/// NSProxy
-class NSProxy extends objc.ObjCObjectBase implements NSObjectProtocol {
-  NSProxy._(ffi.Pointer<objc.ObjCObject> pointer,
-      {bool retain = false, bool release = false})
-      : super(pointer, retain: retain, release: release);
-
-  /// Constructs a [NSProxy] that points to the same underlying object as [other].
-  NSProxy.castFrom(objc.ObjCObjectBase other)
-      : this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [NSProxy] that wraps the given raw object pointer.
-  NSProxy.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
-      {bool retain = false, bool release = false})
-      : this._(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [NSProxy].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_NSProxy);
-  }
-
-  /// alloc
-  static objc.ObjCObjectBase alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_NSProxy, _sel_alloc);
-    return objc.ObjCObjectBase(_ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static objc.ObjCObjectBase allocWithZone_(ffi.Pointer<NSZone> zone) {
-    final _ret =
-        _objc_msgSend_1cwp428(_class_NSProxy, _sel_allocWithZone_, zone);
-    return objc.ObjCObjectBase(_ret, retain: false, release: true);
-  }
-
-  /// class
-  static objc.ObjCObjectBase class1() {
-    final _ret = _objc_msgSend_151sglz(_class_NSProxy, _sel_class);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
-  }
-
-  /// respondsToSelector:
-  static bool respondsToSelector_(ffi.Pointer<objc.ObjCSelector> aSelector) {
-    return _objc_msgSend_1srf6wk(
-        _class_NSProxy, _sel_respondsToSelector_, aSelector);
-  }
-
-  /// autorelease
-  NSProxy autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSProxy.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// dealloc
-  void dealloc() {
-    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_dealloc);
-  }
-
-  /// debugDescription
-  NSString get debugDescription {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_debugDescription);
-    return NSString.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// description
-  NSString get description {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
-    return NSString.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// finalize
-  void finalize() {
-    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_finalize);
-  }
-
-  /// forwardInvocation:
-  void forwardInvocation_(NSInvocation invocation) {
-    _objc_msgSend_xtuoz7(
-        this.ref.pointer, _sel_forwardInvocation_, invocation.ref.pointer);
-  }
-
-  /// isEqual:
-  bool isEqual_(objc.ObjCObjectBase object) {
-    return _objc_msgSend_19nvye5(
-        this.ref.pointer, _sel_isEqual_, object.ref.pointer);
-  }
-
-  /// isKindOfClass:
-  bool isKindOfClass_(objc.ObjCObjectBase aClass) {
-    return _objc_msgSend_19nvye5(
-        this.ref.pointer, _sel_isKindOfClass_, aClass.ref.pointer);
-  }
-
-  /// isMemberOfClass:
-  bool isMemberOfClass_(objc.ObjCObjectBase aClass) {
-    return _objc_msgSend_19nvye5(
-        this.ref.pointer, _sel_isMemberOfClass_, aClass.ref.pointer);
-  }
-
-  /// isProxy
-  bool isProxy() {
-    return _objc_msgSend_91o635(this.ref.pointer, _sel_isProxy);
-  }
-
-  /// methodSignatureForSelector:
-  NSMethodSignature? methodSignatureForSelector_(
-      ffi.Pointer<objc.ObjCSelector> sel) {
-    final _ret = _objc_msgSend_3ctkt6(
-        this.ref.pointer, _sel_methodSignatureForSelector_, sel);
-    return _ret.address == 0
-        ? null
-        : NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// performSelector:
-  objc.ObjCObjectBase performSelector_(
-      ffi.Pointer<objc.ObjCSelector> aSelector) {
-    final _ret = _objc_msgSend_3ctkt6(
-        this.ref.pointer, _sel_performSelector_, aSelector);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
-  }
-
-  /// performSelector:withObject:
-  objc.ObjCObjectBase performSelector_withObject_(
-      ffi.Pointer<objc.ObjCSelector> aSelector, objc.ObjCObjectBase object) {
-    final _ret = _objc_msgSend_gx50so(this.ref.pointer,
-        _sel_performSelector_withObject_, aSelector, object.ref.pointer);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
-  }
-
-  /// performSelector:withObject:withObject:
-  objc.ObjCObjectBase performSelector_withObject_withObject_(
-      ffi.Pointer<objc.ObjCSelector> aSelector,
-      objc.ObjCObjectBase object1,
-      objc.ObjCObjectBase object2) {
-    final _ret = _objc_msgSend_cfx8ce(
-        this.ref.pointer,
-        _sel_performSelector_withObject_withObject_,
-        aSelector,
-        object1.ref.pointer,
-        object2.ref.pointer);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
-  }
-
-  /// release
-  void release() {
-    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_release);
-  }
-
-  /// retain
-  NSProxy retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSProxy.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// retainCount
-  int retainCount() {
-    return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_retainCount);
-  }
-
-  /// self
-  NSProxy self1() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSProxy.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// zone
-  ffi.Pointer<NSZone> zone() {
-    return _objc_msgSend_sz90oi(this.ref.pointer, _sel_zone);
-  }
-}
-
 final class NSRange extends ffi.Struct {
   @ffi.UnsignedLong()
   external int location;
@@ -8866,7 +9084,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSSecureCoding');
     NSSecureCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
     return NSSecureCoding.castFrom(
@@ -8875,6 +9093,8 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
 
   /// Adds the implementation of the NSSecureCoding protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -8893,7 +9113,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSSecureCoding');
     NSSecureCoding.encodeWithCoder_
         .implementAsListener(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -8904,6 +9124,8 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   /// Adds the implementation of the NSSecureCoding protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
   /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -8923,7 +9145,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSSecureCoding');
     NSSecureCoding.encodeWithCoder_
         .implementAsBlocking(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
@@ -8934,6 +9156,8 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   /// Adds the implementation of the NSSecureCoding protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
   /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {required void Function(NSCoder) encodeWithCoder_,
       required Dartinstancetype? Function(NSCoder) initWithCoder_,
@@ -8948,6 +9172,12 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
       objc.ObjCProtocolListenableMethod<void Function(NSCoder)>(
     _protocol_NSSecureCoding,
     _sel_encodeWithCoder_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_18v1jvf)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSSecureCoding,
       _sel_encodeWithCoder_,
@@ -8968,6 +9198,12 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
       objc.ObjCProtocolMethod<Dartinstancetype? Function(NSCoder)>(
     _protocol_NSSecureCoding,
     _sel_initWithCoder_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    instancetype Function(ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>>(
+            _ObjectiveCBindings_protocolTrampoline_xr62hr)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSSecureCoding,
       _sel_initWithCoder_,
@@ -9340,7 +9576,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   static NSStreamDelegate implement(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
     NSStreamDelegate.stream_handleEvent_
         .implement(builder, stream_handleEvent_);
     return NSStreamDelegate.castFrom(
@@ -9349,6 +9585,8 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
 
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
   /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = true}) {
@@ -9365,7 +9603,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   static NSStreamDelegate implementAsListener(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
     NSStreamDelegate.stream_handleEvent_
         .implementAsListener(builder, stream_handleEvent_);
     return NSStreamDelegate.castFrom(
@@ -9375,6 +9613,8 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
   /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = true}) {
@@ -9391,7 +9631,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   static NSStreamDelegate implementAsBlocking(
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = true}) {
-    final builder = objc.ObjCProtocolBuilder();
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
     NSStreamDelegate.stream_handleEvent_
         .implementAsBlocking(builder, stream_handleEvent_);
     return NSStreamDelegate.castFrom(
@@ -9401,6 +9641,8 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// Adds the implementation of the NSStreamDelegate protocol to an existing
   /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
   /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
       bool $keepIsolateAlive = true}) {
@@ -9413,6 +9655,15 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
       objc.ObjCProtocolListenableMethod<void Function(NSStream, NSStreamEvent)>(
     _protocol_NSStreamDelegate,
     _sel_stream_handleEvent_,
+    ffi.Native.addressOf<
+                ffi.NativeFunction<
+                    ffi.Void Function(
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.Pointer<ffi.Void>,
+                        ffi.Pointer<objc.ObjCObject>,
+                        ffi.UnsignedLong)>>(
+            _ObjectiveCBindings_protocolTrampoline_hoampi)
+        .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSStreamDelegate,
       _sel_stream_handleEvent_,
@@ -14979,9 +15230,9 @@ class Protocol extends objc.ObjCObjectBase {
 
 late final _class_DOBJCDartInputStreamAdapter =
     objc.getClass("DOBJCDartInputStreamAdapter");
-late final _class_DOBJCDartProxy = objc.getClass("DOBJCDartProxy");
-late final _class_DOBJCDartProxyBuilder =
-    objc.getClass("DOBJCDartProxyBuilder");
+late final _class_DOBJCDartProtocol = objc.getClass("DOBJCDartProtocol");
+late final _class_DOBJCDartProtocolBuilder =
+    objc.getClass("DOBJCDartProtocolBuilder");
 late final _class_NSArray = objc.getClass("NSArray");
 late final _class_NSCharacterSet = objc.getClass("NSCharacterSet");
 late final _class_NSCoder = objc.getClass("NSCoder");
@@ -15010,7 +15261,6 @@ late final _class_NSOrderedCollectionDifference =
     objc.getClass("NSOrderedCollectionDifference");
 late final _class_NSOrderedSet = objc.getClass("NSOrderedSet");
 late final _class_NSOutputStream = objc.getClass("NSOutputStream");
-late final _class_NSProxy = objc.getClass("NSProxy");
 late final _class_NSRunLoop = objc.getClass("NSRunLoop");
 late final _class_NSSet = objc.getClass("NSSet");
 late final _class_NSStream = objc.getClass("NSStream");
@@ -15130,22 +15380,6 @@ final _objc_msgSend_13yqbb6 = objc.msgSendPointer
     .asFunction<
         int Function(
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
-final _objc_msgSend_140ec04 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_14hpxwa = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -15620,6 +15854,20 @@ final _objc_msgSend_1i9r4xy = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
+final _objc_msgSend_1iqj6b6 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1iyq28l = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -17305,7 +17553,6 @@ late final _sel_fileURLWithPath_isDirectory_relativeToURL_ =
     objc.registerName("fileURLWithPath:isDirectory:relativeToURL:");
 late final _sel_fileURLWithPath_relativeToURL_ =
     objc.registerName("fileURLWithPath:relativeToURL:");
-late final _sel_finalize = objc.registerName("finalize");
 late final _sel_firstIndex = objc.registerName("firstIndex");
 late final _sel_firstObject = objc.registerName("firstObject");
 late final _sel_firstObjectCommonWithArray_ =
@@ -17328,6 +17575,8 @@ late final _sel_getCString_maxLength_encoding_ =
     objc.registerName("getCString:maxLength:encoding:");
 late final _sel_getCharacters_range_ =
     objc.registerName("getCharacters:range:");
+late final _sel_getDOBJCDartProtocolMethodForSelector_ =
+    objc.registerName("getDOBJCDartProtocolMethodForSelector:");
 late final _sel_getFileSystemRepresentation_maxLength_ =
     objc.registerName("getFileSystemRepresentation:maxLength:");
 late final _sel_getIndexes_maxCount_inIndexRange_ =
@@ -17357,8 +17606,8 @@ late final _sel_hash = objc.registerName("hash");
 late final _sel_helpAnchor = objc.registerName("helpAnchor");
 late final _sel_host = objc.registerName("host");
 late final _sel_illegalCharacterSet = objc.registerName("illegalCharacterSet");
-late final _sel_implementMethod_withSignature_andBlock_ =
-    objc.registerName("implementMethod:withSignature:andBlock:");
+late final _sel_implementMethod_withBlock_ =
+    objc.registerName("implementMethod:withBlock:");
 late final _sel_increaseLengthBy_ = objc.registerName("increaseLengthBy:");
 late final _sel_indexGreaterThanIndex_ =
     objc.registerName("indexGreaterThanIndex:");
@@ -17384,6 +17633,9 @@ late final _sel_initAbsoluteURLWithDataRepresentation_relativeToURL_ =
 late final _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_ =
     objc.registerName(
         "initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:");
+late final _sel_initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_ =
+    objc.registerName(
+        "initDOBJCDartProtocolFromDartProtocolBuilder:withDisposePort:");
 late final _sel_initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL_ =
     objc.registerName(
         "initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:");
@@ -17395,8 +17647,6 @@ late final _sel_initFileURLWithPath_isDirectory_relativeToURL_ =
     objc.registerName("initFileURLWithPath:isDirectory:relativeToURL:");
 late final _sel_initFileURLWithPath_relativeToURL_ =
     objc.registerName("initFileURLWithPath:relativeToURL:");
-late final _sel_initFromBuilder_withDisposePort_ =
-    objc.registerName("initFromBuilder:withDisposePort:");
 late final _sel_initToBuffer_capacity_ =
     objc.registerName("initToBuffer:capacity:");
 late final _sel_initToFileAtPath_append_ =
@@ -17671,8 +17921,6 @@ late final _sel_mutableCopyWithZone_ =
     objc.registerName("mutableCopyWithZone:");
 late final _sel_name = objc.registerName("name");
 late final _sel_new = objc.registerName("new");
-late final _sel_newFromBuilder_withDisposePort_ =
-    objc.registerName("newFromBuilder:withDisposePort:");
 late final _sel_newlineCharacterSet = objc.registerName("newlineCharacterSet");
 late final _sel_nextObject = objc.registerName("nextObject");
 late final _sel_nonBaseCharacterSet = objc.registerName("nonBaseCharacterSet");

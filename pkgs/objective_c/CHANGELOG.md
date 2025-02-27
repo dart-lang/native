@@ -3,6 +3,15 @@
 - Use ffigen 18.0.0
 - `ObjCProtocolBuilder` supports implementing protocol methods directly using a
   block.
+- Change how `ObjCProtocolBuilder` is implemented to fix
+  [a bug](https://github.com/dart-lang/http/issues/1702), by removing all uses
+  of `NSProxy`. This causes a couple of very minor breaking changes:
+  - __Breaking change__: It's no longer possible to add more methods to an
+    `ObjCProtocolBuilder` after `build()` has been invoked.
+  - __Breaking change__: Remove `NSProxy` from the bindings. Rename
+    `DOBJCDartProxyBuilder` to `DOBJCDartProtocolBuilder` and `DOBJCDartProxy`
+    to `DOBJCDartProtocol` and change their APIs. Users should not be using
+    these classes.
 
 ## 6.0.0
 

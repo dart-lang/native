@@ -8,8 +8,6 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
-import 'objective_c_bindings_generated.dart' as objc;
-import 'selector.dart';
 
 typedef ObjectPtr = Pointer<c.ObjCObject>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
@@ -115,7 +113,7 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
 }
 
 /// Only for use by ffigen bindings.
-objc.NSMethodSignature? getProtocolMethodSignature(
+Pointer<Char>? getProtocolMethodSignature(
   Pointer<c.ObjCProtocol> protocol,
   Pointer<c.ObjCSelector> sel, {
   required bool isRequired,
@@ -123,16 +121,7 @@ objc.NSMethodSignature? getProtocolMethodSignature(
 }) {
   final sig =
       c.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
-  if (sig == nullptr) {
-    return null;
-  }
-  final sigObj = objc.NSMethodSignature.signatureWithObjCTypes_(sig);
-  if (sigObj == null) {
-    throw ObjCRuntimeError(
-        'Failed to construct signature for Objective-C protocol method: '
-        '${protocol.name}.${sel.toDartString()}');
-  }
-  return sigObj;
+  return sig == nullptr ? null : sig;
 }
 
 /// Only for use by ffigen bindings.
