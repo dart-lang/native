@@ -250,7 +250,7 @@ void main() {
         return x;
       });
 
-      final obj = DummyObject.new1();
+      final obj = DummyObject();
       final result1 = block(obj);
       expect(result1, obj);
       expect(isCalled, isTrue);
@@ -269,7 +269,7 @@ void main() {
         return x;
       });
 
-      final obj = DummyObject.new1();
+      final obj = DummyObject();
       final result1 = block(obj);
       expect(result1, obj);
       expect(isCalled, isTrue);
@@ -732,7 +732,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('Blocking block ref counting same thread', () async {
-      DummyObject? dummyObject = DummyObject.new1();
+      DummyObject? dummyObject = DummyObject();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.blocking((DummyObject obj) {
         // Object passed as argument.
@@ -762,7 +762,7 @@ void main() {
 
     test('Blocking block ref counting new thread', () async {
       final completer = Completer<void>();
-      DummyObject? dummyObject = DummyObject.new1();
+      DummyObject? dummyObject = DummyObject();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.blocking((DummyObject obj) {
         // Object passed as argument.
@@ -828,7 +828,7 @@ void main() {
 
     (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObject>) regress1571Inner(
         Completer<void> completer) {
-      final dummyObject = DummyObject.new1();
+      final dummyObject = DummyObject();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.listener((DummyObject obj) {
         expect(objectRetainCount(obj.ref.pointer), greaterThan(0));

@@ -36,11 +36,11 @@ void main() {
 
     group('ObjC implementation', () {
       test('Method implementation', () {
-        final protocolImpl = ObjCProtocolImpl.new1();
+        final protocolImpl = ObjCProtocolImpl();
         final MyProtocol asMyProtocol = protocolImpl;
         final SecondaryProtocol asSecondaryProtocol = protocolImpl;
 
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         // Required instance method.
         final result = consumer.callInstanceMethod_(asMyProtocol);
@@ -61,7 +61,7 @@ void main() {
       });
 
       test('Method implementation, invoke from Dart', () {
-        final protocolImpl = ObjCProtocolImpl.new1();
+        final protocolImpl = ObjCProtocolImpl();
 
         // Required instance method.
         final result =
@@ -89,8 +89,8 @@ void main() {
       });
 
       test('Unimplemented method', () {
-        final protocolImpl = ObjCProtocolImplMissingMethod.new1();
-        final consumer = ProtocolConsumer.new1();
+        final protocolImpl = ObjCProtocolImplMissingMethod();
+        final consumer = ProtocolConsumer();
 
         // Optional instance method, not implemented.
         final intResult = consumer.callOptionalMethod_(protocolImpl);
@@ -98,7 +98,7 @@ void main() {
       });
 
       test('Unimplemented method, invoke from Dart', () {
-        final protocolImpl = ObjCProtocolImplMissingMethod.new1();
+        final protocolImpl = ObjCProtocolImplMissingMethod();
 
         // Optional instance method, not implemented.
         final structPtr = calloc<SomeStruct>();
@@ -115,7 +115,7 @@ void main() {
 
     group('Dart implementation using helpers', () {
       test('Method implementation', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final MyProtocol myProtocol = MyProtocol.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
@@ -136,7 +136,7 @@ void main() {
       });
 
       test('Multiple protocol implementation', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final protocolBuilder = ObjCProtocolBuilder();
         MyProtocol.addToBuilder(
@@ -171,7 +171,7 @@ void main() {
       });
 
       test('Multiple protocol implementation using method fields', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final protocolBuilder = ObjCProtocolBuilder();
         MyProtocol.instanceMethod_withDouble_.implement(protocolBuilder,
@@ -197,7 +197,7 @@ void main() {
       });
 
       test('Unimplemented method', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final MyProtocol myProtocol = MyProtocol.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
@@ -211,7 +211,7 @@ void main() {
       });
 
       test('Method implementation as listener', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final MyProtocol myProtocol = MyProtocol.implementAsListener(
@@ -240,7 +240,7 @@ void main() {
       });
 
       test('Multiple protocol implementation as listener', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final protocolBuilder = ObjCProtocolBuilder();
@@ -284,7 +284,7 @@ void main() {
       }
 
       test('Method implementation as blocking', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final MyProtocol myProtocol = MyProtocol.implementAsBlocking(
@@ -306,7 +306,7 @@ void main() {
       });
 
       test('Multiple protocol implementation as blocking', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final protocolBuilder = ObjCProtocolBuilder();
@@ -342,7 +342,7 @@ void main() {
       });
 
       test('Direct method implementation using block', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final builder = ObjCProtocolBuilder();
         MyProtocol.instanceMethod_withDouble_.implementWithBlock(
@@ -405,7 +405,7 @@ void main() {
     });
 
     test('conformsTo', () {
-      final inst = ObjCProtocolImpl.new1();
+      final inst = ObjCProtocolImpl();
       expect(NSObjectProtocol.conformsTo(inst), isTrue);
       expect(MyProtocol.conformsTo(inst), isTrue);
       expect(SecondaryProtocol.conformsTo(inst), isTrue);

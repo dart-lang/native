@@ -2,6 +2,8 @@
 
 - Add variable substitutions that can be used in the `headers.entry-points` to
   locate Apple APIs: `$XCODE`, `$IOS_SDK`, and `$MACOS_SDK`.
+- Add an empty constructor to all ObjC interfaces that have a `new` method,
+  which just calls that method.
 - __Breaking change__: Change the `usrTypeMappings` field of `Config`'s factory
   constructor from a `List<ImportedType>` to a `Map<String, ImportedType>`.
 - Add a `keepIsolateAlive` parameter to the block and protocol constructors that

@@ -27,11 +27,11 @@ void main() {
     });
 
     test('Interface', () {
-      expect(() => FutureAPIInterface.new1(), throwsA(isA<OsVersionError>()));
+      expect(() => FutureAPIInterface(), throwsA(isA<OsVersionError>()));
     });
 
     test('Interface methods', () {
-      final api = FutureAPIMethods.new1();
+      final api = FutureAPIMethods();
       expect(() => api.unavailableMac(), throwsA(isA<OsVersionError>()));
       expect(api.unavailableIos(), 2);
       expect(() => api.unavailableBoth(), throwsA(isA<OsVersionError>()));
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('Category methods', () {
-      final api = NSObject.new1();
+      final api = NSObject();
       expect(() => api.catUnavailableMac(), throwsA(isA<OsVersionError>()));
       expect(api.catUnavailableIos(), 2);
       expect(() => api.catUnavailableBoth(), throwsA(isA<OsVersionError>()));

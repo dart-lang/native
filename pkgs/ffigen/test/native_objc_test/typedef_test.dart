@@ -27,7 +27,7 @@ void main() {
     test('Regression test for #386', () {
       // https://github.com/dart-lang/ffigen/issues/386
       // Make sure that the typedef DartSomeClassPtr is for SomeClass.
-      final DartSomeClassPtr instance = SomeClass.new1();
+      final DartSomeClassPtr instance = SomeClass();
       expect(instance.ref.pointer, isNot(nullptr));
     });
   });

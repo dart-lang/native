@@ -34,7 +34,7 @@ void main() {
     });
 
     Pointer<ObjCObject> globalObjectRefCountingInner() {
-      globalObject = NSObject.new1();
+      globalObject = NSObject();
       final obj1raw = globalObject!.ref.pointer;
 
       // TODO(https://github.com/dart-lang/native/issues/1435): Fix flakiness.

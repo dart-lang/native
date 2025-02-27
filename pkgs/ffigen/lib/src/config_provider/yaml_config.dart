@@ -405,9 +405,6 @@ class YamlConfig implements Config {
             allowedValues: {strings.langC, strings.langObjC},
             transform: (node) {
               if (node.value == strings.langObjC) {
-                _logger.severe(
-                    'Objective C support is EXPERIMENTAL. The API may change '
-                    'in a breaking way without notice.');
                 return Language.objc;
               } else {
                 return Language.c;

@@ -19,6 +19,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final helloBob =
             await suspendFun.sayHello$1(name.toJString()..releasedBy(arena));
         expect(helloBob.toDartString(releaseOriginal: true), 'Hello $name!');
+        final noDelayHello = await suspendFun.sayHelloWithoutDelay();
+        expect(noDelayHello.toDartString(releaseOriginal: true), 'Hello!');
+        await expectLater(suspendFun.fail, throwsA(isA<JniException>()));
+        await expectLater(
+            suspendFun.failWithoutDelay, throwsA(isA<JniException>()));
       });
     });
 

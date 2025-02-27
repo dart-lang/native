@@ -21,7 +21,7 @@ void main() {
       // load. The native objc_getClass returns null, which the wrapper in
       // package:objective_c turns into an exception.
       expect(
-          () => ClassThatWillFailToLoad.new1(),
+          () => ClassThatWillFailToLoad(),
           throwsA(predicate(
               (e) => e.toString().contains('ClassThatWillFailToLoad'))));
     });

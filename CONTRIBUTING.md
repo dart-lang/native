@@ -66,3 +66,11 @@ GitHub actions on this repo.
    the Dart CI.
 4. Native toolchains are not installed in default locations. So, any test
    manually instantiating `HookConfig`s must pass in the environment.
+
+The `jnigen` packages has a set of test cases that use the Java build library 
+Maven (`mvn` command) to build some sources and run integration tests. 
+
+On Linux and MacOS, it can be installed with the [`sdkman`](https://sdkman.io/)
+ package manager or a manual method. On Windows, it can be installed with 
+[chocolatey](https://community.chocolatey.org/packages/maven) or 
+[scoop](https://scoop.sh/#/apps?q=maven).
