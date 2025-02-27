@@ -439,14 +439,14 @@ $listenerName $blockingWrapper(
     final argRecv = argsReceived.join(', ');
     final argPass = argsPassed.join(', ');
     final fnName = protocolTrampoline!.func.name;
-    final blk = w.objCLevelUniqueNamer.makeUnique('_ProtocolTrampoline');
+    final block = w.objCLevelUniqueNamer.makeUnique('_ProtocolTrampoline');
     final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';
     final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';
-    final blkGetter = '(($blk)$msgSend(target, $getterSel, sel))';
+    final blkGetter = '(($block)$msgSend(target, $getterSel, sel))';
 
     return '''
 
-typedef $ret (^$blk)($argRecv);
+typedef $ret (^$block)($argRecv);
 __attribute__((visibility("default"))) __attribute__((used))
 $ret $fnName(id target, $argRecv) {
   return $blkGetter($argPass);
