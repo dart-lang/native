@@ -546,6 +546,9 @@ class DartProtocol extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProtocol.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of DartProtocol constructed with the default `new` method.
+  factory DartProtocol() => new1();
 }
 
 /// DOBJCDartProtocolBuilder
@@ -631,8 +634,8 @@ class DartProtocolBuilder extends NSObject {
         retain: true, release: true);
   }
 
-  /// Returns a new instance of DartProxyBuilder constructed with the default `new` method.
-  factory DartProxyBuilder() => new1();
+  /// Returns a new instance of DartProtocolBuilder constructed with the default `new` method.
+  factory DartProtocolBuilder() => new1();
 }
 
 /// NSArray
