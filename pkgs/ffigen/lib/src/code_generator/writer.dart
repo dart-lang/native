@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 
 import '../code_generator.dart';
 import '../strings.dart' as strings;
+import 'unique_namer.dart';
 import 'utils.dart';
 
 final _logger = Logger('ffigen.code_generator.writer');
@@ -110,11 +111,6 @@ class Writer {
   late UniqueNamer _objCLevelUniqueNamer;
   UniqueNamer get objCLevelUniqueNamer => _objCLevelUniqueNamer;
 
-  late String _arrayHelperClassPrefix;
-
-  /// Guaranteed to be a unique prefix.
-  String get arrayHelperClassPrefix => _arrayHelperClassPrefix;
-
   /// Set true after calling [generate]. Indicates if
   /// [generateSymbolOutputYamlMap] can be called.
   bool get canGenerateSymbolOutput => _canGenerateSymbolOutput;
@@ -135,15 +131,15 @@ class Writer {
     required this.silenceEnumWarning,
     required this.nativeEntryPoints,
   }) {
-    final globalLevelNameSet = noLookUpBindings.map((e) => e.name).toSet();
-    final wrapperLevelNameSet = lookUpBindings.map((e) => e.name).toSet();
-    final allNameSet = <String>{}
-      ..addAll(globalLevelNameSet)
-      ..addAll(wrapperLevelNameSet);
+    final globalLevelNames = noLookUpBindings.map((e) => e.name);
+    final wrapperLevelNames = lookUpBindings.map((e) => e.name);
 
-    _initialTopLevelUniqueNamer = UniqueNamer(globalLevelNameSet);
-    _initialWrapperLevelUniqueNamer = UniqueNamer(wrapperLevelNameSet);
-    final allLevelsUniqueNamer = UniqueNamer(allNameSet);
+    _initialTopLevelUniqueNamer = UniqueNamer()..markAllUsed(globalLevelNames);
+    _initialWrapperLevelUniqueNamer = UniqueNamer()
+      ..markAllUsed(wrapperLevelNames);
+    final allLevelsUniqueNamer = UniqueNamer()
+      ..markAllUsed(globalLevelNames)
+      ..markAllUsed(wrapperLevelNames);
 
     /// Wrapper class name must be unique among all names.
     _className = _resolveNameConflict(
@@ -168,7 +164,6 @@ class Writer {
     _lookupFuncIdentifier = _resolveNameConflict(
       name: '_lookup',
       makeUnique: _initialTopLevelUniqueNamer,
-      markUsed: [_initialTopLevelUniqueNamer],
     );
 
     /// Resolve name conflicts of identifiers used for SymbolAddresses.
@@ -180,29 +175,13 @@ class Writer {
     _symbolAddressVariableName = _resolveNameConflict(
       name: 'addresses',
       makeUnique: _initialWrapperLevelUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer],
     );
     _symbolAddressLibraryVarName = _resolveNameConflict(
       name: '_library',
       makeUnique: _initialWrapperLevelUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer],
     );
 
-    /// Finding a unique prefix for Array Helper Classes and store into
-    /// [_arrayHelperClassPrefix].
-    final base = 'ArrayHelper';
-    _arrayHelperClassPrefix = base;
-    var suffixInt = 0;
-    for (var i = 0; i < allNameSet.length; i++) {
-      if (allNameSet.elementAt(i).startsWith(_arrayHelperClassPrefix)) {
-        // Not a unique prefix, start over with a new suffix.
-        i = -1;
-        suffixInt++;
-        _arrayHelperClassPrefix = '$base$suffixInt';
-      }
-    }
-
-    _resetUniqueNamersNamers();
+    _resetUniqueNamers();
   }
 
   /// Resolved name conflict using [makeUnique] and marks the result as used in
@@ -220,10 +199,11 @@ class Writer {
   }
 
   /// Resets the namers to initial state. Namers are reset before generating.
-  void _resetUniqueNamersNamers() {
-    _topLevelUniqueNamer = _initialTopLevelUniqueNamer.clone();
-    _wrapperLevelUniqueNamer = _initialWrapperLevelUniqueNamer.clone();
-    _objCLevelUniqueNamer = UniqueNamer({});
+  void _resetUniqueNamers() {
+    _topLevelUniqueNamer = UniqueNamer(parent: _initialTopLevelUniqueNamer);
+    _wrapperLevelUniqueNamer =
+        UniqueNamer(parent: _initialWrapperLevelUniqueNamer);
+    _objCLevelUniqueNamer = UniqueNamer();
   }
 
   void markImportUsed(LibraryImport import) {
@@ -239,7 +219,7 @@ class Writer {
     final result = StringBuffer();
 
     // Reset unique namers to initial state.
-    _resetUniqueNamersNamers();
+    _resetUniqueNamers();
 
     // Reset [usedEnumCTypes].
     usedEnumCTypes.clear();

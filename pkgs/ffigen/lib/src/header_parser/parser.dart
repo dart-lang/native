@@ -11,7 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
-import '../code_generator/utils.dart';
+import '../code_generator/unique_namer.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
 import '../strings.dart' as strings;
@@ -208,7 +208,7 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
   }
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
-  final declConflictHandler = UniqueNamer({});
+  final declConflictHandler = UniqueNamer();
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b);
     _resolveIfNameConflicts(declConflictHandler, b);

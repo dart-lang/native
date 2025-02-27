@@ -10,6 +10,7 @@ import '../code_generator.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
+import 'unique_namer.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -102,9 +103,16 @@ mixin ObjCMethods {
         return true;
       });
 
-  UniqueNamer createMethodRenamer(Writer w) => UniqueNamer(
-      {name, 'pointer', 'toString', 'hashCode', 'runtimeType', 'noSuchMethod'},
-      parent: w.topLevelUniqueNamer);
+  UniqueNamer createMethodRenamer(Writer w) =>
+      UniqueNamer(parent: w.topLevelUniqueNamer)
+        ..markAllUsed([
+          name,
+          'pointer',
+          'toString',
+          'hashCode',
+          'runtimeType',
+          'noSuchMethod'
+        ]);
 
   void sortMethods() => _order.sort();
 

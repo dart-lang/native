@@ -6,6 +6,7 @@ import '../code_generator.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'unique_namer.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -120,7 +121,7 @@ abstract class Compound extends BindingType {
 
     /// Adding [enclosingClassName] because dart doesn't allow class member
     /// to have the same name as the class.
-    final localUniqueNamer = UniqueNamer({enclosingClassName});
+    final localUniqueNamer = UniqueNamer()..markUsed(enclosingClassName);
 
     /// Marking type names because dart doesn't allow class member to have the
     /// same name as a type name used internally.

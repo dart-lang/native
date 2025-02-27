@@ -7,6 +7,7 @@ import '../config_provider/config_types.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'unique_namer.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -105,7 +106,7 @@ class Func extends LookUpBinding {
     s.write(makeDartDoc(dartDoc));
 
     // Resolve name conflicts in function parameter names.
-    final paramNamer = UniqueNamer({});
+    final paramNamer = UniqueNamer();
     for (final p in functionType.dartTypeParameters) {
       p.name = paramNamer.makeUnique(p.name);
     }

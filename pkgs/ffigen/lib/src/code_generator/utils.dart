@@ -7,67 +7,9 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
-import 'dart_keywords.dart';
 import 'pointer.dart';
 import 'type.dart';
 import 'writer.dart';
-
-class UniqueNamer {
-  final Set<String> _usedUpNames;
-
-  /// Creates a UniqueNamer with given [usedUpNames] and Dart reserved keywords.
-  ///
-  /// If [parent] is provided, also includes all the parent's names.
-  UniqueNamer(Set<String> usedUpNames, {UniqueNamer? parent})
-      : _usedUpNames = {
-          ...keywords,
-          ...usedUpNames,
-          ...parent?._usedUpNames ?? {},
-        };
-
-  /// Creates a UniqueNamer with given [_usedUpNames] only.
-  UniqueNamer._raw(this._usedUpNames);
-
-  /// Returns a unique name by appending `<int>` to it if necessary.
-  ///
-  /// Adds the resulting name to the used names by default.
-  String makeUnique(String name, [bool addToUsedUpNames = true]) {
-    // For example, nested structures/unions may not have a name
-    if (name.isEmpty) {
-      name = 'unnamed';
-    }
-
-    var crName = name;
-    var i = 1;
-    while (_usedUpNames.contains(crName)) {
-      crName = '$name$i';
-      i++;
-    }
-    if (addToUsedUpNames) {
-      _usedUpNames.add(crName);
-    }
-    return crName;
-  }
-
-  /// Adds a name to used names.
-  ///
-  /// Note: [makeUnique] also adds the name by default.
-  void markUsed(String name) {
-    _usedUpNames.add(name);
-  }
-
-  /// Returns true if a name has been used before.
-  bool isUsed(String name) {
-    return _usedUpNames.contains(name);
-  }
-
-  /// Returns true if a name has not been used before.
-  bool isUnique(String name) {
-    return !_usedUpNames.contains(name);
-  }
-
-  UniqueNamer clone() => UniqueNamer._raw({..._usedUpNames});
-}
 
 /// Converts [text] to a dart doc comment(`///`).
 ///
