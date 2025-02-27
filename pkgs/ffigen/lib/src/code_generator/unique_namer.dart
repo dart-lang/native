@@ -7,9 +7,7 @@ import 'dart_keywords.dart';
 class UniqueNamer {
   final Set<String> _used;
 
-  /// Creates a UniqueNamer with given Dart reserved keywords.
-  ///
-  /// If [parent] is provided, also includes all the parent's names.
+  /// Creates a UniqueNamer including all the [parent]'s names.
   UniqueNamer({UniqueNamer? parent}) : _used = parent?._used.toSet() ?? {};
 
   /// Creates a unique name and adds it to the set of used names.
