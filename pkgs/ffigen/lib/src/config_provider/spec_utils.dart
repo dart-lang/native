@@ -73,8 +73,9 @@ Map<String, ImportedType> symbolFileImportExtractor(
           '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).');
       exit(1);
     }
-    final uniqueNamer = UniqueNamer()..markAllUsed(libraryImports.keys)
-        ..markUsed(strings.defaultSymbolFileImportPrefix);
+    final uniqueNamer = UniqueNamer()
+      ..markAllUsed(libraryImports.keys)
+      ..markUsed(strings.defaultSymbolFileImportPrefix);
     final files = symbolFile[strings.files] as YamlMap;
     for (final file in files.keys) {
       final existingImports = libraryImports.values

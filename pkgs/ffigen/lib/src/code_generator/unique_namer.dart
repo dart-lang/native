@@ -31,6 +31,7 @@ class UniqueNamer {
       crName = '$name$i';
       i++;
     }
+    _usedUpNames.add(crName);
     return crName;
   }
 
