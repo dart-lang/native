@@ -471,6 +471,8 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     //
     // When the current isolate is `null`, enter the main isolate that is pinned
     // to the main thread first before invoking the `functionPtr`.
+    assert(Dart_CurrentIsolate_DL() == NULL ||
+           Dart_CurrentIsolate_DL() == (Dart_Isolate)isolateId);
     bool mustEnterIsolate = Dart_CurrentIsolate_DL() == NULL && mayEnterIsolate;
     if (mustEnterIsolate) {
       Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
