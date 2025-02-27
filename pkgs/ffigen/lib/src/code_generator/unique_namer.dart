@@ -10,36 +10,40 @@ class UniqueNamer {
   /// Creates a UniqueNamer with given Dart reserved keywords.
   ///
   /// If [parent] is provided, also includes all the parent's names.
-  UniqueNamer({UniqueNamer? parent})
-      : _used = {
-          ...keywords,
-          if (parent != null) ...parent._used,
-        };
+  UniqueNamer({UniqueNamer? parent}) : _used = parent?._used.toSet() ?? {};
 
-  /// Returns a unique name by appending `<int>` to it if necessary.
-  ///
-  /// Adds the resulting name to the used names.
+  /// Creates a unique name and adds it to the set of used names.
   String makeUnique(String name) {
-    // For example, nested structures/unions may not have a name
     if (name.isEmpty) {
+      // For example, nested structures/unions may not have a name.
       name = 'unnamed';
+    } else if (name.startsWith('_')) {
+      // If the name starts with '_', prepend a '$' so that it is public.
+      name = '\$$name';
     }
 
-    var crName = name;
-    var i = 1;
-    while (_used.contains(crName)) {
-      crName = '$name$i';
-      i++;
+    // If the name is a keyword, append a '$'. Note that this extra '$' is
+    // dropped if we start doing numbered renames below.
+    var newName = name;
+    if (keywords.contains(newName)) {
+      newName = '$newName\$';
     }
-    _used.add(crName);
-    return crName;
+
+    // Append '$i' until we find an i that hasn't been used.
+    var i = 1;
+    while (_used.contains(newName)) {
+      newName = '$name\$$i';
+      ++i;
+    }
+
+    _used.add(newName);
+    return newName;
   }
 
   /// Adds a name to used names.
-  ///
-  /// Note: [makeUnique] also adds the name by default.
   void markUsed(String name) => _used.add(name);
 
+  /// Adds all the names to the used names.
   void markAllUsed(Iterable<String> names) => names.forEach(markUsed);
 
   /// Returns true if a name has been used before.
