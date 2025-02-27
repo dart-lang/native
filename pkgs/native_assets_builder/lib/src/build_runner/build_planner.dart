@@ -37,14 +37,26 @@ class NativeAssetsBuildPlanner {
     required PackageLayout packageLayout,
     required FileSystem fileSystem,
   }) async {
-    final workingDirectory = packageConfigUri.resolve('../');
-    final result = await Process.run(dartExecutable.toFilePath(), [
-      'pub',
-      'deps',
-      '--json',
-    ], workingDirectory: workingDirectory.toFilePath());
-    final packageGraph = PackageGraph.fromPubDepsJsonString(
-      result.stdout as String,
+    final packageGraphJsonFile = fileSystem.file(
+      packageConfigUri.resolve('package_graph.json'),
+    );
+    final String packageGraphJson;
+    if (packageGraphJsonFile.existsSync()) {
+      packageGraphJson = await packageGraphJsonFile.readAsString();
+    } else {
+      // TODO: Either bump SDK constraint to dev release (but we can't while
+      // flutter_tools requires published stable packages). Or wait for Dart 3.8
+      // to be released to remove this fallback.
+      final workingDirectory = packageConfigUri.resolve('../');
+      final result = await Process.run(
+        dartExecutable.toFilePath(),
+        ['pub', 'deps', '--json'],
+        workingDirectory: workingDirectory.toFilePath(),
+      );
+      packageGraphJson = result.stdout as String;
+    }
+    final packageGraph = PackageGraph.fromPackageGraphJsonString(
+      packageGraphJson,
     );
     final packageGraphFromRunPackage = packageGraph.subGraph(
       packageLayout.runPackageName,
@@ -144,12 +156,12 @@ class PackageGraph {
 
   PackageGraph(this.map);
 
-  /// Constructs a graph from the JSON produced by `dart pub deps --json`.
-  factory PackageGraph.fromPubDepsJsonString(String json) =>
-      PackageGraph.fromPubDepsJson(jsonDecode(json) as Map<dynamic, dynamic>);
+  factory PackageGraph.fromPackageGraphJsonString(String json) =>
+      PackageGraph.fromPackageGraphJson(
+        jsonDecode(json) as Map<dynamic, dynamic>,
+      );
 
-  /// Constructs a graph from the JSON produced by `dart pub deps --json`.
-  factory PackageGraph.fromPubDepsJson(Map<dynamic, dynamic> map) {
+  factory PackageGraph.fromPackageGraphJson(Map<dynamic, dynamic> map) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {
