@@ -10,14 +10,11 @@ class UniqueNamer {
   /// Creates a UniqueNamer including all the [parent]'s names.
   UniqueNamer({UniqueNamer? parent}) : _used = parent?._used.toSet() ?? {};
 
-  /// Creates a unique name and adds it to the set of used names.
+  /// Creates a unique version of [name] and adds it to the set of used names.
   String makeUnique(String name) {
     if (name.isEmpty) {
       // For example, nested structures/unions may not have a name.
       name = 'unnamed';
-    } else if (name.startsWith('_')) {
-      // If the name starts with '_', prepend a '$' so that it is public.
-      name = '\$$name';
     }
 
     // If the name is a keyword, append a '$'. Note that this extra '$' is
@@ -38,12 +35,16 @@ class UniqueNamer {
     return newName;
   }
 
-  /// Adds a name to used names.
+  /// Adds a [name] to used names.
   void markUsed(String name) => _used.add(name);
 
-  /// Adds all the names to the used names.
+  /// Adds all the [names] to the used names.
   void markAllUsed(Iterable<String> names) => names.forEach(markUsed);
 
-  /// Returns true if a name has been used before.
+  /// Returns true if a [name] has been used before.
   bool isUsed(String name) => _used.contains(name);
+
+  /// Returns a version of [name] that can safely be used in C code. Not
+  /// guaranteed to be unique.
+  static String cSafeName(String name) => name.replaceAll('\$', '_');
 }

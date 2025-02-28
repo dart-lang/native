@@ -22,18 +22,18 @@ import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
 @ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: "NSLocalizedDescriptionKey")
-external ffi.Pointer<objc.ObjCObject> $_NSLocalizedDescriptionKey;
+external ffi.Pointer<objc.ObjCObject> _NSLocalizedDescriptionKey;
 
 NSString get NSLocalizedDescriptionKey =>
-    NSString.castFromPointer($_NSLocalizedDescriptionKey,
+    NSString.castFromPointer(_NSLocalizedDescriptionKey,
         retain: true, release: true);
 
 set NSLocalizedDescriptionKey(NSString value) {
-  NSString.castFromPointer($_NSLocalizedDescriptionKey,
+  NSString.castFromPointer(_NSLocalizedDescriptionKey,
           retain: false, release: true)
       .ref
       .release();
-  $_NSLocalizedDescriptionKey = value.ref.retainAndReturnPointer();
+  _NSLocalizedDescriptionKey = value.ref.retainAndReturnPointer();
 }
 
 @ffi.Native<
@@ -12098,7 +12098,7 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
 
 final class NSZone extends ffi.Opaque {}
 
-ffi.Pointer<objc.ObjCObject> $_ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline(
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
         .cast<
@@ -12108,21 +12108,21 @@ ffi.Pointer<objc.ObjCObject> $_ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline(
         .asFunction<
             ffi.Pointer<objc.ObjCObject> Function(
                 ffi.Pointer<ffi.Void>)>()(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSArray_ffiVoid_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSArray_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline)
+            _ObjCBlock_NSArray_ffiVoid_fnPtrTrampoline)
         .cast();
-ffi.Pointer<objc.ObjCObject> $_ObjCBlock_NSArray_ffiVoid_closureTrampoline(
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSArray_ffiVoid_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
         ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSArray_ffiVoid_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSArray_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSArray_ffiVoid_closureTrampoline)
+            _ObjCBlock_NSArray_ffiVoid_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>`.
@@ -12147,7 +12147,7 @@ abstract final class ObjCBlock_NSArray_ffiVoid {
               ptr) =>
       objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
           objc.newPointerBlock(
-              $_ObjCBlock_NSArray_ffiVoid_fnPtrCallable, ptr.cast()),
+              _ObjCBlock_NSArray_ffiVoid_fnPtrCallable, ptr.cast()),
           retain: false,
           release: true);
 
@@ -12164,7 +12164,7 @@ abstract final class ObjCBlock_NSArray_ffiVoid {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<NSArray Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(
-              $_ObjCBlock_NSArray_ffiVoid_closureCallable,
+              _ObjCBlock_NSArray_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) =>
                   fn(arg0).ref.retainAndAutorelease(),
               keepIsolateAlive),
@@ -12190,7 +12190,7 @@ extension ObjCBlock_NSArray_ffiVoid_CallExtension
       release: true);
 }
 
-int $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline(
+int _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
@@ -12203,25 +12203,25 @@ int $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTra
             int Function(ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable =
+    _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Long Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline,
+            _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrTrampoline,
             0)
         .cast();
-int $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline(
+int _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
     (objc.getBlockClosure(block) as int Function(
         ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable =
+    _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Long Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline,
+            _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureTrampoline,
             0)
         .cast();
 
@@ -12249,7 +12249,7 @@ abstract final class ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NS
                               ffi.Pointer<objc.ObjCObject> arg1)>>
                   ptr) =>
           objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
-              objc.newPointerBlock($_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -12268,7 +12268,7 @@ abstract final class ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NS
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Long Function(ffi.Pointer<ffi.Void>, NSString)>(
           objc.newClosureBlock(
-              $_ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable,
+              _ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_closureCallable,
               (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
                   fn(arg0, NSString.castFromPointer(arg1, retain: true, release: true)).value,
               keepIsolateAlive),
@@ -12294,7 +12294,7 @@ extension ObjCBlock_NSItemProviderRepresentationVisibility_ffiVoid_NSString_Call
           ref.pointer, arg0, arg1.ref.pointer));
 }
 
-ffi.Pointer<objc.ObjCObject> $_ObjCBlock_NSString_ffiVoid_fnPtrTrampoline(
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSString_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
         .cast<
@@ -12304,21 +12304,21 @@ ffi.Pointer<objc.ObjCObject> $_ObjCBlock_NSString_ffiVoid_fnPtrTrampoline(
         .asFunction<
             ffi.Pointer<objc.ObjCObject> Function(
                 ffi.Pointer<ffi.Void>)>()(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSString_ffiVoid_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSString_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSString_ffiVoid_fnPtrTrampoline)
+            _ObjCBlock_NSString_ffiVoid_fnPtrTrampoline)
         .cast();
-ffi.Pointer<objc.ObjCObject> $_ObjCBlock_NSString_ffiVoid_closureTrampoline(
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_NSString_ffiVoid_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
         ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSString_ffiVoid_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSString_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSString_ffiVoid_closureTrampoline)
+            _ObjCBlock_NSString_ffiVoid_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)>`.
@@ -12343,7 +12343,7 @@ abstract final class ObjCBlock_NSString_ffiVoid {
               ptr) =>
       objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)>(
           objc.newPointerBlock(
-              $_ObjCBlock_NSString_ffiVoid_fnPtrCallable, ptr.cast()),
+              _ObjCBlock_NSString_ffiVoid_fnPtrCallable, ptr.cast()),
           retain: false,
           release: true);
 
@@ -12360,7 +12360,7 @@ abstract final class ObjCBlock_NSString_ffiVoid {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<NSString Function(ffi.Pointer<ffi.Void>)>(
           objc.newClosureBlock(
-              $_ObjCBlock_NSString_ffiVoid_closureCallable,
+              _ObjCBlock_NSString_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) =>
                   fn(arg0).ref.retainAndAutorelease(),
               keepIsolateAlive),
@@ -12386,27 +12386,27 @@ extension ObjCBlock_NSString_ffiVoid_CallExtension
       release: true);
 }
 
-int $_ObjCBlock_NSUInteger_ffiVoid_fnPtrTrampoline(
+int _ObjCBlock_NSUInteger_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
         .cast<
             ffi.NativeFunction<
                 ffi.UnsignedLong Function(ffi.Pointer<ffi.Void> arg0)>>()
         .asFunction<int Function(ffi.Pointer<ffi.Void>)>()(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSUInteger_ffiVoid_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSUInteger_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.UnsignedLong Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSUInteger_ffiVoid_fnPtrTrampoline, 0)
+            _ObjCBlock_NSUInteger_ffiVoid_fnPtrTrampoline, 0)
         .cast();
-int $_ObjCBlock_NSUInteger_ffiVoid_closureTrampoline(
+int _ObjCBlock_NSUInteger_ffiVoid_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     (objc.getBlockClosure(block) as int Function(ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSUInteger_ffiVoid_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSUInteger_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.UnsignedLong Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSUInteger_ffiVoid_closureTrampoline, 0)
+            _ObjCBlock_NSUInteger_ffiVoid_closureTrampoline, 0)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>`.
@@ -12433,7 +12433,7 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid {
                               ffi.Pointer<ffi.Void> arg0)>>
                   ptr) =>
           objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>(
-              objc.newPointerBlock($_ObjCBlock_NSUInteger_ffiVoid_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_NSUInteger_ffiVoid_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -12450,7 +12450,7 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid {
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_NSUInteger_ffiVoid_closureCallable,
+                  _ObjCBlock_NSUInteger_ffiVoid_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
                   keepIsolateAlive),
               retain: false,
@@ -12470,7 +12470,7 @@ extension ObjCBlock_NSUInteger_ffiVoid_CallExtension
               ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0);
 }
 
-int $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrTrampoline(
+int _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<NSFastEnumerationState> arg1,
@@ -12491,7 +12491,7 @@ int $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInte
                 ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
                 int)>()(arg0, arg1, arg2, arg3);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrCallable =
+    _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.UnsignedLong Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
@@ -12499,10 +12499,10 @@ ffi.Pointer<ffi.Void>
                     ffi.Pointer<NSFastEnumerationState>,
                     ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
                     ffi.UnsignedLong)>(
-            $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrTrampoline,
+            _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrTrampoline,
             0)
         .cast();
-int $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureTrampoline(
+int _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<NSFastEnumerationState> arg1,
@@ -12514,7 +12514,7 @@ int $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInte
         ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
         int))(arg0, arg1, arg2, arg3);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureCallable =
+    _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.UnsignedLong Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
@@ -12522,7 +12522,7 @@ ffi.Pointer<ffi.Void>
                     ffi.Pointer<NSFastEnumerationState>,
                     ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
                     ffi.UnsignedLong)>(
-            $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureTrampoline,
+            _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureTrampoline,
             0)
         .cast();
 
@@ -12562,7 +12562,7 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObj
                       ffi.Pointer<NSFastEnumerationState>,
                       ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
                       ffi.UnsignedLong)>(
-              objc.newPointerBlock($_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -12580,7 +12580,7 @@ abstract final class ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObj
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.UnsignedLong Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSFastEnumerationState>, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>, ffi.UnsignedLong)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureCallable,
+                  _ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSUInteger_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0,
                           ffi.Pointer<NSFastEnumerationState> arg1,
                           ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg2,
@@ -12619,7 +12619,7 @@ extension ObjCBlock_NSUInteger_ffiVoid_NSFastEnumerationState_objcObjCObject_NSU
                   int)>()(ref.pointer, arg0, arg1, arg2, arg3);
 }
 
-ffi.Pointer<NSZone> $_ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline(
+ffi.Pointer<NSZone> _ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
             .cast<
@@ -12627,21 +12627,21 @@ ffi.Pointer<NSZone> $_ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline(
                     ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void> arg0)>>()
             .asFunction<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>()(
         arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSZone_ffiVoid_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSZone_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<NSZone> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline)
+            _ObjCBlock_NSZone_ffiVoid_fnPtrTrampoline)
         .cast();
-ffi.Pointer<NSZone> $_ObjCBlock_NSZone_ffiVoid_closureTrampoline(
+ffi.Pointer<NSZone> _ObjCBlock_NSZone_ffiVoid_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     (objc.getBlockClosure(block) as ffi.Pointer<NSZone> Function(
         ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_NSZone_ffiVoid_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_NSZone_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<NSZone> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_NSZone_ffiVoid_closureTrampoline)
+            _ObjCBlock_NSZone_ffiVoid_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>`.
@@ -12668,7 +12668,7 @@ abstract final class ObjCBlock_NSZone_ffiVoid {
                               ffi.Pointer<ffi.Void> arg0)>>
                   ptr) =>
           objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>(
-              objc.newPointerBlock($_ObjCBlock_NSZone_ffiVoid_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_NSZone_ffiVoid_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -12684,7 +12684,7 @@ abstract final class ObjCBlock_NSZone_ffiVoid {
       fromFunction(ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>) fn,
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<NSZone> Function(ffi.Pointer<ffi.Void>)>(
-              objc.newClosureBlock($_ObjCBlock_NSZone_ffiVoid_closureCallable,
+              objc.newClosureBlock(_ObjCBlock_NSZone_ffiVoid_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
               retain: false,
               release: true);
@@ -12704,26 +12704,26 @@ extension ObjCBlock_NSZone_ffiVoid_CallExtension
               ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0);
 }
 
-bool $_ObjCBlock_bool_ffiVoid_fnPtrTrampoline(
+bool _ObjCBlock_bool_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
         .cast<
             ffi.NativeFunction<ffi.Bool Function(ffi.Pointer<ffi.Void> arg0)>>()
         .asFunction<bool Function(ffi.Pointer<ffi.Void>)>()(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_bool_ffiVoid_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_bool_ffiVoid_fnPtrTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_fnPtrTrampoline, false)
         .cast();
-bool $_ObjCBlock_bool_ffiVoid_closureTrampoline(
+bool _ObjCBlock_bool_ffiVoid_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     (objc.getBlockClosure(block) as bool Function(ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_bool_ffiVoid_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_bool_ffiVoid_closureTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_closureTrampoline, false)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>`.
@@ -12740,16 +12740,16 @@ abstract final class ObjCBlock_bool_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)> fromFunctionPointer(
-          ffi.Pointer<
-                  ffi.NativeFunction<
-                      ffi.Bool Function(ffi.Pointer<ffi.Void> arg0)>>
-              ptr) =>
-      objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>(
-          objc.newPointerBlock(
-              $_ObjCBlock_bool_ffiVoid_fnPtrCallable, ptr.cast()),
-          retain: false,
-          release: true);
+  static objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>
+      fromFunctionPointer(
+              ffi.Pointer<
+                      ffi.NativeFunction<
+                          ffi.Bool Function(ffi.Pointer<ffi.Void> arg0)>>
+                  ptr) =>
+          objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>(
+              objc.newPointerBlock(_ObjCBlock_bool_ffiVoid_fnPtrCallable, ptr.cast()),
+              retain: false,
+              release: true);
 
   /// Creates a block from a Dart function.
   ///
@@ -12763,7 +12763,7 @@ abstract final class ObjCBlock_bool_ffiVoid {
           bool Function(ffi.Pointer<ffi.Void>) fn,
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>)>(
-          objc.newClosureBlock($_ObjCBlock_bool_ffiVoid_closureCallable,
+          objc.newClosureBlock(_ObjCBlock_bool_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
           retain: false,
           release: true);
@@ -12782,7 +12782,7 @@ extension ObjCBlock_bool_ffiVoid_CallExtension
               ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0);
 }
 
-bool $_ObjCBlock_bool_ffiVoid_Protocol_fnPtrTrampoline(
+bool _ObjCBlock_bool_ffiVoid_Protocol_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
@@ -12794,23 +12794,23 @@ bool $_ObjCBlock_bool_ffiVoid_Protocol_fnPtrTrampoline(
         .asFunction<
             bool Function(ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_bool_ffiVoid_Protocol_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_Protocol_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_bool_ffiVoid_Protocol_fnPtrTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_Protocol_fnPtrTrampoline, false)
         .cast();
-bool $_ObjCBlock_bool_ffiVoid_Protocol_closureTrampoline(
+bool _ObjCBlock_bool_ffiVoid_Protocol_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
     (objc.getBlockClosure(block) as bool Function(
         ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_bool_ffiVoid_Protocol_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_Protocol_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_bool_ffiVoid_Protocol_closureTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_Protocol_closureTrampoline, false)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>`.
@@ -12837,7 +12837,7 @@ abstract final class ObjCBlock_bool_ffiVoid_Protocol {
                               ffi.Pointer<objc.ObjCObject> arg1)>>
                   ptr) =>
           objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>(
-              objc.newPointerBlock($_ObjCBlock_bool_ffiVoid_Protocol_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_bool_ffiVoid_Protocol_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -12855,7 +12855,7 @@ abstract final class ObjCBlock_bool_ffiVoid_Protocol {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, Protocol)>(
           objc.newClosureBlock(
-              $_ObjCBlock_bool_ffiVoid_Protocol_closureCallable,
+              _ObjCBlock_bool_ffiVoid_Protocol_closureCallable,
               (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
                   fn(arg0, Protocol.castFromPointer(arg1, retain: true, release: true)),
               keepIsolateAlive),
@@ -12879,7 +12879,7 @@ extension ObjCBlock_bool_ffiVoid_Protocol_CallExtension
       ref.pointer, arg0, arg1.ref.pointer);
 }
 
-bool $_ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrTrampoline(
+bool _ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
@@ -12891,23 +12891,23 @@ bool $_ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrTrampoline(
         .asFunction<
             bool Function(ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrTrampoline, false)
         .cast();
-bool $_ObjCBlock_bool_ffiVoid_objcObjCObject_closureTrampoline(
+bool _ObjCBlock_bool_ffiVoid_objcObjCObject_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
     (objc.getBlockClosure(block) as bool Function(
         ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_bool_ffiVoid_objcObjCObject_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_objcObjCObject_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_bool_ffiVoid_objcObjCObject_closureTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_objcObjCObject_closureTrampoline, false)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>`.
@@ -12937,7 +12937,7 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCObject {
                           ffi.Pointer<objc.ObjCObject> arg1)>>
               ptr) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-          objc.newPointerBlock($_ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrCallable, ptr.cast()),
+          objc.newPointerBlock(_ObjCBlock_bool_ffiVoid_objcObjCObject_fnPtrCallable, ptr.cast()),
           retain: false,
           release: true);
 
@@ -12955,7 +12955,7 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCObject {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
           objc.newClosureBlock(
-              $_ObjCBlock_bool_ffiVoid_objcObjCObject_closureCallable,
+              _ObjCBlock_bool_ffiVoid_objcObjCObject_closureCallable,
               (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
                   fn(arg0, objc.ObjCObjectBase(arg1, retain: true, release: true)),
               keepIsolateAlive),
@@ -12980,7 +12980,7 @@ extension ObjCBlock_bool_ffiVoid_objcObjCObject_CallExtension on objc.ObjCBlock<
           ref.pointer, arg0, arg1.ref.pointer);
 }
 
-bool $_ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrTrampoline(
+bool _ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCSelector> arg1) =>
@@ -12992,24 +12992,23 @@ bool $_ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrTrampoline(
         .asFunction<
             bool Function(ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCSelector>)>()(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
-            $_ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrTrampoline, false)
         .cast();
-bool $_ObjCBlock_bool_ffiVoid_objcObjCSelector_closureTrampoline(
+bool _ObjCBlock_bool_ffiVoid_objcObjCSelector_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCSelector> arg1) =>
     (objc.getBlockClosure(block) as bool Function(
         ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>))(arg0, arg1);
-ffi.Pointer<ffi.Void>
-    $_ObjCBlock_bool_ffiVoid_objcObjCSelector_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_bool_ffiVoid_objcObjCSelector_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Bool Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
-            $_ObjCBlock_bool_ffiVoid_objcObjCSelector_closureTrampoline, false)
+            _ObjCBlock_bool_ffiVoid_objcObjCSelector_closureTrampoline, false)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>`.
@@ -13039,7 +13038,7 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCSelector {
                           ffi.Pointer<objc.ObjCSelector> arg1)>>
               ptr) =>
       objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
-          objc.newPointerBlock($_ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrCallable, ptr.cast()),
+          objc.newPointerBlock(_ObjCBlock_bool_ffiVoid_objcObjCSelector_fnPtrCallable, ptr.cast()),
           retain: false,
           release: true);
 
@@ -13057,7 +13056,7 @@ abstract final class ObjCBlock_bool_ffiVoid_objcObjCSelector {
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Bool Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_bool_ffiVoid_objcObjCSelector_closureCallable,
+                  _ObjCBlock_bool_ffiVoid_objcObjCSelector_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCSelector> arg1) =>
                       fn(arg0, arg1),
                   keepIsolateAlive),
@@ -13086,7 +13085,7 @@ extension ObjCBlock_bool_ffiVoid_objcObjCSelector_CallExtension
 }
 
 void
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrTrampoline(
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<objc.ObjCBlockImpl> arg0,
             ffi.Pointer<objc.ObjCObject> arg1,
@@ -13104,17 +13103,17 @@ void
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1, arg2);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrCallable =
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrTrampoline)
+            _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrTrampoline)
         .cast();
 void
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureTrampoline(
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<objc.ObjCBlockImpl> arg0,
             ffi.Pointer<objc.ObjCObject> arg1,
@@ -13124,17 +13123,17 @@ void
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable =
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureTrampoline)
+            _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureTrampoline)
         .cast();
 void
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerTrampoline(
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<objc.ObjCBlockImpl> arg0,
         ffi.Pointer<objc.ObjCObject> arg1,
@@ -13152,17 +13151,17 @@ ffi.NativeCallable<
             ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable =
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable =
     ffi.NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.listener(
-        $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerTrampoline)
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerTrampoline)
       ..keepIsolateAlive = false;
 void
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingTrampoline(
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> waiter,
         ffi.Pointer<objc.ObjCBlockImpl> arg0,
@@ -13187,7 +13186,7 @@ ffi.NativeCallable<
             ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable =
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable =
     ffi.NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
@@ -13195,7 +13194,7 @@ ffi.NativeCallable<
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.isolateLocal(
-        $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingTrampoline)
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingTrampoline)
       ..keepIsolateAlive = false;
 ffi.NativeCallable<
         ffi.Void Function(
@@ -13204,7 +13203,7 @@ ffi.NativeCallable<
             ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingListenerCallable =
+    _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingListenerCallable =
     ffi.NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
@@ -13212,7 +13211,7 @@ ffi.NativeCallable<
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.listener(
-        $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingTrampoline)
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>`.
@@ -13247,7 +13246,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
               ffi.Void Function(
                   objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
                   ffi.Pointer<objc.ObjCObject>,
-                  NSDictionary)>(objc.newPointerBlock($_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrCallable, ptr.cast()), retain: false, release: true);
+                  NSDictionary)>(objc.newPointerBlock(_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_fnPtrCallable, ptr.cast()), retain: false, release: true);
 
   /// Creates a block from a Dart function.
   ///
@@ -13262,7 +13261,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Void Function(objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>, ffi.Pointer<objc.ObjCObject>, NSDictionary)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable,
+                  _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_closureCallable,
                   (ffi.Pointer<objc.ObjCBlockImpl> arg0, ffi.Pointer<objc.ObjCObject> arg1, ffi.Pointer<objc.ObjCObject> arg2) => fn(
                       ObjCBlock_ffiVoid_idNSSecureCoding_NSError.castFromPointer(arg0, retain: true, release: true),
                       objc.ObjCObjectBase(arg1, retain: true, release: true),
@@ -13294,7 +13293,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
           fn,
       {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_listenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCBlockImpl> arg0,
@@ -13341,7 +13340,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
           fn,
       {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCBlockImpl> arg0,
@@ -13355,7 +13354,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                     retain: false, release: true)),
         keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingListenerCallable
+        _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingListenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCBlockImpl> arg0,
@@ -13411,28 +13410,28 @@ extension ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDic
           ref.pointer, arg0.ref.pointer, arg1.ref.pointer, arg2.ref.pointer);
 }
 
-void $_ObjCBlock_ffiVoid_ffiVoid_fnPtrTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
         .cast<
             ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> arg0)>>()
         .asFunction<void Function(ffi.Pointer<ffi.Void>)>()(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_ffiVoid_ffiVoid_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_ffiVoid_ffiVoid_fnPtrTrampoline)
+            _ObjCBlock_ffiVoid_ffiVoid_fnPtrTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_ffiVoid_closureTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_ffiVoid_ffiVoid_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_ffiVoid_ffiVoid_closureTrampoline)
+            _ObjCBlock_ffiVoid_ffiVoid_closureTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_ffiVoid_listenerTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_listenerTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) {
   (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>))(arg0);
   objc.objectRelease(block.cast());
@@ -13441,12 +13440,12 @@ void $_ObjCBlock_ffiVoid_ffiVoid_listenerTrampoline(
 ffi.NativeCallable<
         ffi.Void Function(
             ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>
-    $_ObjCBlock_ffiVoid_ffiVoid_listenerCallable = ffi.NativeCallable<
+    _ObjCBlock_ffiVoid_ffiVoid_listenerCallable = ffi.NativeCallable<
             ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>)>.listener(
-        $_ObjCBlock_ffiVoid_ffiVoid_listenerTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_listenerTrampoline)
       ..keepIsolateAlive = false;
-void $_ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<ffi.Void> arg0) {
@@ -13462,18 +13461,18 @@ void $_ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline(
 ffi.NativeCallable<
         ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>
-    $_ObjCBlock_ffiVoid_ffiVoid_blockingCallable = ffi.NativeCallable<
+    _ObjCBlock_ffiVoid_ffiVoid_blockingCallable = ffi.NativeCallable<
             ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>.isolateLocal(
-        $_ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline)
       ..keepIsolateAlive = false;
 ffi.NativeCallable<
         ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>
-    $_ObjCBlock_ffiVoid_ffiVoid_blockingListenerCallable = ffi.NativeCallable<
+    _ObjCBlock_ffiVoid_ffiVoid_blockingListenerCallable = ffi.NativeCallable<
             ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>.listener(
-        $_ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_blockingTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>`.
@@ -13497,7 +13496,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
               ptr) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
           objc.newPointerBlock(
-              $_ObjCBlock_ffiVoid_ffiVoid_fnPtrCallable, ptr.cast()),
+              _ObjCBlock_ffiVoid_ffiVoid_fnPtrCallable, ptr.cast()),
           retain: false,
           release: true);
 
@@ -13513,7 +13512,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
           void Function(ffi.Pointer<ffi.Void>) fn,
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-          objc.newClosureBlock($_ObjCBlock_ffiVoid_ffiVoid_closureCallable,
+          objc.newClosureBlock(_ObjCBlock_ffiVoid_ffiVoid_closureCallable,
               (ffi.Pointer<ffi.Void> arg0) => fn(arg0), keepIsolateAlive),
           retain: false,
           release: true);
@@ -13531,7 +13530,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
       void Function(ffi.Pointer<ffi.Void>) fn,
       {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_listenerCallable.nativeFunction.cast(),
+        _ObjCBlock_ffiVoid_ffiVoid_listenerCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
         keepIsolateAlive);
     final wrapper = _ObjectiveCBindings_wrapListenerBlock_ovsamd(raw);
@@ -13554,11 +13553,11 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
       void Function(ffi.Pointer<ffi.Void>) fn,
       {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_blockingCallable.nativeFunction.cast(),
+        _ObjCBlock_ffiVoid_ffiVoid_blockingCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
         keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_blockingListenerCallable.nativeFunction
+        _ObjCBlock_ffiVoid_ffiVoid_blockingListenerCallable.nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
         keepIsolateAlive);
@@ -13584,7 +13583,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_CallExtension
               ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0);
 }
 
-void $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
@@ -13596,25 +13595,25 @@ void $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrTrampoline(
         .asFunction<
             void Function(ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrTrampoline)
+            _ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
     (objc.getBlockClosure(block) as void Function(
         ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureTrampoline)
+            _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> arg0,
     ffi.Pointer<objc.ObjCObject> arg1) {
@@ -13626,12 +13625,12 @@ void $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerTrampoline(
 ffi.NativeCallable<
         ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable = ffi.NativeCallable<
+    _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable = ffi.NativeCallable<
             ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>.listener(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerTrampoline)
       ..keepIsolateAlive = false;
-void $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<ffi.Void> arg0,
@@ -13652,13 +13651,13 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable = ffi.NativeCallable<
+    _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable = ffi.NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>)>.isolateLocal(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline)
       ..keepIsolateAlive = false;
 ffi.NativeCallable<
         ffi.Void Function(
@@ -13666,14 +13665,14 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingListenerCallable = ffi
+    _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingListenerCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>)>.listener(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>`.
@@ -13700,7 +13699,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
                               ffi.Pointer<objc.ObjCObject> arg1)>>
                   ptr) =>
           objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
-              objc.newPointerBlock($_ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_ffiVoid_ffiVoid_NSCoder_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -13718,7 +13717,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
           objc.newClosureBlock(
-              $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureCallable,
+              _ObjCBlock_ffiVoid_ffiVoid_NSCoder_closureCallable,
               (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
                   fn(arg0, NSCoder.castFromPointer(arg1, retain: true, release: true)),
               keepIsolateAlive),
@@ -13738,7 +13737,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
       listener(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
           {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable.nativeFunction
+        _ObjCBlock_ffiVoid_ffiVoid_NSCoder_listenerCallable.nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)),
@@ -13765,13 +13764,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
       blocking(void Function(ffi.Pointer<ffi.Void>, NSCoder) fn,
           {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable.nativeFunction
+        _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingCallable.nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)),
         keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingListenerCallable
+        _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingListenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
@@ -13804,7 +13803,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSCoder_CallExtension
       ref.pointer, arg0, arg1.ref.pointer);
 }
 
-void $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1,
@@ -13820,16 +13819,16 @@ void $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrTrampoline(
             void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>,
                 int)>()(arg0, arg1, arg2);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrCallable =
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.UnsignedLong)>(
-            $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrTrampoline)
+            _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1,
@@ -13837,16 +13836,16 @@ void $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureTrampoline(
     (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>,
         ffi.Pointer<objc.ObjCObject>, int))(arg0, arg1, arg2);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable =
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.UnsignedLong)>(
-            $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureTrampoline)
+            _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> arg0,
     ffi.Pointer<objc.ObjCObject> arg1,
@@ -13862,16 +13861,16 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.UnsignedLong)>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable = ffi
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.UnsignedLong)>.listener(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerTrampoline)
       ..keepIsolateAlive = false;
-void $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingTrampoline(
+void _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<ffi.Void> arg0,
@@ -13894,7 +13893,7 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.UnsignedLong)>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable =
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable =
     ffi.NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
@@ -13902,7 +13901,7 @@ ffi.NativeCallable<
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.UnsignedLong)>.isolateLocal(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingTrampoline)
       ..keepIsolateAlive = false;
 ffi.NativeCallable<
         ffi.Void Function(
@@ -13911,7 +13910,7 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.UnsignedLong)>
-    $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingListenerCallable =
+    _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingListenerCallable =
     ffi.NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
@@ -13919,7 +13918,7 @@ ffi.NativeCallable<
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.UnsignedLong)>.listener(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingTrampoline)
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>`.
@@ -13945,7 +13944,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
                   ptr) =>
           objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>(
               objc.newPointerBlock(
-                  $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrCallable,
+                  _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_fnPtrCallable,
                   ptr.cast()),
               retain: false,
               release: true);
@@ -13963,7 +13962,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>(
           objc.newClosureBlock(
-              $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable,
+              _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_closureCallable,
               (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1, int arg2) =>
                   fn(
                       arg0,
@@ -13987,7 +13986,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
       listener(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
           {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_listenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1,
@@ -14019,7 +14018,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
       blocking(void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn,
           {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1,
@@ -14030,7 +14029,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
                 NSStreamEvent.fromValue(arg2)),
         keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingListenerCallable
+        _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingListenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1,
@@ -14071,7 +14070,7 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_CallExtension
                   int)>()(ref.pointer, arg0, arg1.ref.pointer, arg2.value);
 }
 
-void $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
@@ -14084,30 +14083,30 @@ void $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrTrampoline(
             void Function(ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrCallable =
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrTrampoline)
+            _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<objc.ObjCObject> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
     (objc.getBlockClosure(block) as void Function(ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable =
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Void Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureTrampoline)
+            _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureTrampoline)
         .cast();
-void $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<objc.ObjCObject> arg0,
     ffi.Pointer<objc.ObjCObject> arg1) {
@@ -14119,15 +14118,15 @@ void $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerTrampoline(
 ffi.NativeCallable<
         ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>,
             ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable = ffi
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.listener(
-        $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerTrampoline)
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerTrampoline)
       ..keepIsolateAlive = false;
-void $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline(
+void _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline(
     ffi.Pointer<objc.ObjCBlockImpl> block,
     ffi.Pointer<ffi.Void> waiter,
     ffi.Pointer<objc.ObjCObject> arg0,
@@ -14148,14 +14147,14 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable = ffi
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.isolateLocal(
-        $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline)
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline)
       ..keepIsolateAlive = false;
 ffi.NativeCallable<
         ffi.Void Function(
@@ -14163,14 +14162,14 @@ ffi.NativeCallable<
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>)>
-    $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable = ffi
+    _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable = ffi
         .NativeCallable<
             ffi.Void Function(
                 ffi.Pointer<objc.ObjCBlockImpl>,
                 ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>,
                 ffi.Pointer<objc.ObjCObject>)>.listener(
-        $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline)
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingTrampoline)
       ..keepIsolateAlive = false;
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>`.
@@ -14196,7 +14195,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
                           ffi.Pointer<objc.ObjCObject> arg1)>>
               ptr) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
-          objc.newPointerBlock($_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrCallable, ptr.cast()),
+          objc.newPointerBlock(_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_fnPtrCallable, ptr.cast()),
           retain: false,
           release: true);
 
@@ -14213,7 +14212,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(
           objc.newClosureBlock(
-              $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable,
+              _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_closureCallable,
               (ffi.Pointer<objc.ObjCObject> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
                   arg0.address == 0
                       ? null
@@ -14237,7 +14236,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
       listener(void Function(NSSecureCoding?, NSError) fn,
           {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_listenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCObject> arg0,
@@ -14271,7 +14270,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
       blocking(void Function(NSSecureCoding?, NSError) fn,
           {bool keepIsolateAlive = true}) {
     final raw = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCObject> arg0,
@@ -14284,7 +14283,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
                 NSError.castFromPointer(arg1, retain: false, release: true)),
         keepIsolateAlive);
     final rawListener = objc.newClosureBlock(
-        $_ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable
+        _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<objc.ObjCObject> arg0,
@@ -14324,7 +14323,7 @@ extension ObjCBlock_ffiVoid_idNSSecureCoding_NSError_CallExtension on objc
       ref.pointer, arg0?.ref.pointer ?? ffi.nullptr, arg1.ref.pointer);
 }
 
-instancetype $_ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrTrampoline(
+instancetype _ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
@@ -14336,23 +14335,23 @@ instancetype $_ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrTrampoline(
         .asFunction<
             instancetype Function(ffi.Pointer<ffi.Void>,
                 ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 instancetype Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrTrampoline)
+            _ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrTrampoline)
         .cast();
-instancetype $_ObjCBlock_instancetype_ffiVoid_NSCoder_closureTrampoline(
+instancetype _ObjCBlock_instancetype_ffiVoid_NSCoder_closureTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block,
         ffi.Pointer<ffi.Void> arg0,
         ffi.Pointer<objc.ObjCObject> arg1) =>
     (objc.getBlockClosure(block) as instancetype Function(
         ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>))(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_instancetype_ffiVoid_NSCoder_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_instancetype_ffiVoid_NSCoder_closureCallable =
     ffi.Pointer.fromFunction<
                 instancetype Function(ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_instancetype_ffiVoid_NSCoder_closureTrampoline)
+            _ObjCBlock_instancetype_ffiVoid_NSCoder_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>`.
@@ -14381,7 +14380,7 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder {
                   objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(
                       ffi.Pointer<ffi.Void>, NSCoder)>(
               objc.newPointerBlock(
-                  $_ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrCallable, ptr.cast()),
+                  _ObjCBlock_instancetype_ffiVoid_NSCoder_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -14399,7 +14398,7 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSCoder {
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>?> Function(ffi.Pointer<ffi.Void>, NSCoder)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_instancetype_ffiVoid_NSCoder_closureCallable,
+                  _ObjCBlock_instancetype_ffiVoid_NSCoder_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) =>
                       fn(arg0, NSCoder.castFromPointer(arg1, retain: true, release: true))
                           ?.ref
@@ -14437,7 +14436,7 @@ extension ObjCBlock_instancetype_ffiVoid_NSCoder_CallExtension
 }
 
 instancetype
-    $_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline(
+    _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCObject> arg1,
@@ -14459,7 +14458,7 @@ instancetype
                         ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>()(
             arg0, arg1, arg2, arg3);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable =
+    _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 instancetype Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
@@ -14467,10 +14466,10 @@ ffi.Pointer<ffi.Void>
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>(
-            $_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline)
+            _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline)
         .cast();
 instancetype
-    $_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline(
+    _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCObject> arg1,
@@ -14482,7 +14481,7 @@ instancetype
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>))(arg0, arg1, arg2, arg3);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable =
+    _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable =
     ffi.Pointer.fromFunction<
                 instancetype Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
@@ -14490,7 +14489,7 @@ ffi.Pointer<ffi.Void>
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>(
-            $_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline)
+            _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>`.
@@ -14524,7 +14523,7 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError {
                       NSData,
                       NSString,
                       ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>(
-              objc.newPointerBlock($_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -14542,7 +14541,7 @@ abstract final class ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError {
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable,
+                  _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0,
                           ffi.Pointer<objc.ObjCObject> arg1,
                           ffi.Pointer<objc.ObjCObject> arg2,
@@ -14585,7 +14584,7 @@ extension ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_CallExtension
           release: true);
 }
 
-ffi.Pointer<objc.ObjCObject> $_ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline(
+ffi.Pointer<objc.ObjCObject> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline(
         ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
     block.ref.target
         .cast<
@@ -14595,23 +14594,23 @@ ffi.Pointer<objc.ObjCObject> $_ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline(
         .asFunction<
             ffi.Pointer<objc.ObjCObject> Function(
                 ffi.Pointer<ffi.Void>)>()(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline)
         .cast();
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0) =>
         (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> $_ObjCBlock_objcObjCObject_ffiVoid_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
@@ -14640,7 +14639,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
                               ffi.Pointer<ffi.Void> arg0)>>
                   ptr) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
-              objc.newPointerBlock($_ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -14659,7 +14658,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
           objc.ObjCBlock<
                   ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
+                  _ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0) =>
                       fn(arg0).ref.retainAndAutorelease(),
                   keepIsolateAlive),
@@ -14686,7 +14685,7 @@ extension ObjCBlock_objcObjCObject_ffiVoid_CallExtension on objc
 }
 
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<NSZone> arg1) =>
@@ -14699,29 +14698,28 @@ ffi.Pointer<objc.ObjCObject>
             .asFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>()(arg0, arg1);
-ffi.Pointer<ffi.Void> $_ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<NSZone>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrTrampoline)
         .cast();
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<NSZone> arg1) =>
         (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>))(arg0, arg1);
-ffi.Pointer<ffi.Void>
-    $_ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureCallable =
+ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<NSZone>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>`.
@@ -14749,7 +14747,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_NSZone {
           objc.ObjCBlock<
                   objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>(
-              objc.newPointerBlock($_ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_objcObjCObject_ffiVoid_NSZone_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -14768,7 +14766,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_NSZone {
                   objc.Retained<ffi.Pointer<objc.ObjCObject>> Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<NSZone>)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureCallable,
+                  _ObjCBlock_objcObjCObject_ffiVoid_NSZone_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<NSZone> arg1) =>
                       fn(arg0, arg1).ref.retainAndReturnPointer(),
                   keepIsolateAlive),
@@ -14801,7 +14799,7 @@ extension ObjCBlock_objcObjCObject_ffiVoid_NSZone_CallExtension
 }
 
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCSelector> arg1) =>
@@ -14815,29 +14813,29 @@ ffi.Pointer<objc.ObjCObject>
                 ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>,
                     ffi.Pointer<objc.ObjCSelector>)>()(arg0, arg1);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrCallable =
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<objc.ObjCSelector>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrTrampoline)
         .cast();
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCSelector> arg1) =>
         (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
             ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>))(arg0, arg1);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureCallable =
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<objc.ObjCSelector>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>`.
@@ -14867,7 +14865,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector {
           objc.ObjCBlock<
                   ffi.Pointer<objc.ObjCObject> Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
-              objc.newPointerBlock($_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -14886,7 +14884,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector {
           {bool keepIsolateAlive = true}) =>
       objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>)>(
           objc.newClosureBlock(
-              $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureCallable,
+              _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_closureCallable,
               (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCSelector> arg1) =>
                   fn(arg0, arg1).ref.retainAndAutorelease(),
               keepIsolateAlive),
@@ -14920,7 +14918,7 @@ extension ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_CallExtension
 }
 
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCSelector> arg1,
@@ -14938,17 +14936,17 @@ ffi.Pointer<objc.ObjCObject>
                     ffi.Pointer<objc.ObjCSelector>,
                     ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1, arg2);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrCallable =
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<objc.ObjCSelector>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrTrampoline)
         .cast();
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCSelector> arg1,
@@ -14958,14 +14956,14 @@ ffi.Pointer<objc.ObjCObject>
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureCallable =
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
                     ffi.Pointer<ffi.Void>,
                     ffi.Pointer<objc.ObjCSelector>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>`.
@@ -14997,7 +14995,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<objc.ObjCSelector>,
                       ffi.Pointer<objc.ObjCObject>)>(
-              objc.newPointerBlock($_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -15014,7 +15012,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureCallable,
+                  _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0,
                           ffi.Pointer<objc.ObjCSelector> arg1,
                           ffi.Pointer<objc.ObjCObject> arg2) =>
@@ -15054,7 +15052,7 @@ extension ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_CallE
 }
 
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCSelector> arg1,
@@ -15075,7 +15073,7 @@ ffi.Pointer<objc.ObjCObject>
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>()(arg0, arg1, arg2, arg3);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrCallable =
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
@@ -15083,10 +15081,10 @@ ffi.Pointer<ffi.Void>
                     ffi.Pointer<objc.ObjCSelector>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrTrampoline)
         .cast();
 ffi.Pointer<objc.ObjCObject>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureTrampoline(
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureTrampoline(
             ffi.Pointer<objc.ObjCBlockImpl> block,
             ffi.Pointer<ffi.Void> arg0,
             ffi.Pointer<objc.ObjCSelector> arg1,
@@ -15098,7 +15096,7 @@ ffi.Pointer<objc.ObjCObject>
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCObject>))(arg0, arg1, arg2, arg3);
 ffi.Pointer<ffi.Void>
-    $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureCallable =
+    _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureCallable =
     ffi.Pointer.fromFunction<
                 ffi.Pointer<objc.ObjCObject> Function(
                     ffi.Pointer<objc.ObjCBlockImpl>,
@@ -15106,7 +15104,7 @@ ffi.Pointer<ffi.Void>
                     ffi.Pointer<objc.ObjCSelector>,
                     ffi.Pointer<objc.ObjCObject>,
                     ffi.Pointer<objc.ObjCObject>)>(
-            $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureTrampoline)
+            _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>`.
@@ -15145,7 +15143,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
                       ffi.Pointer<objc.ObjCSelector>,
                       ffi.Pointer<objc.ObjCObject>,
                       ffi.Pointer<objc.ObjCObject>)>(
-              objc.newPointerBlock($_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrCallable, ptr.cast()),
+              objc.newPointerBlock(_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_fnPtrCallable, ptr.cast()),
               retain: false,
               release: true);
 
@@ -15163,7 +15161,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCO
               {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCObject>)>(
               objc.newClosureBlock(
-                  $_ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureCallable,
+                  _ObjCBlock_objcObjCObject_ffiVoid_objcObjCSelector_objcObjCObject_objcObjCObject_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0,
                           ffi.Pointer<objc.ObjCSelector> arg1,
                           ffi.Pointer<objc.ObjCObject> arg2,
@@ -15230,47 +15228,47 @@ class Protocol extends objc.ObjCObjectBase {
   }
 }
 
-late final $_class_DOBJCDartInputStreamAdapter =
+late final _class_DOBJCDartInputStreamAdapter =
     objc.getClass("DOBJCDartInputStreamAdapter");
-late final $_class_DOBJCDartProtocol = objc.getClass("DOBJCDartProtocol");
-late final $_class_DOBJCDartProtocolBuilder =
+late final _class_DOBJCDartProtocol = objc.getClass("DOBJCDartProtocol");
+late final _class_DOBJCDartProtocolBuilder =
     objc.getClass("DOBJCDartProtocolBuilder");
-late final $_class_NSArray = objc.getClass("NSArray");
-late final $_class_NSCharacterSet = objc.getClass("NSCharacterSet");
-late final $_class_NSCoder = objc.getClass("NSCoder");
-late final $_class_NSData = objc.getClass("NSData");
-late final $_class_NSDate = objc.getClass("NSDate");
-late final $_class_NSDictionary = objc.getClass("NSDictionary");
-late final $_class_NSEnumerator = objc.getClass("NSEnumerator");
-late final $_class_NSError = objc.getClass("NSError");
-late final $_class_NSIndexSet = objc.getClass("NSIndexSet");
-late final $_class_NSInputStream = objc.getClass("NSInputStream");
-late final $_class_NSInvocation = objc.getClass("NSInvocation");
-late final $_class_NSItemProvider = objc.getClass("NSItemProvider");
-late final $_class_NSLocale = objc.getClass("NSLocale");
-late final $_class_NSMethodSignature = objc.getClass("NSMethodSignature");
-late final $_class_NSMutableArray = objc.getClass("NSMutableArray");
-late final $_class_NSMutableData = objc.getClass("NSMutableData");
-late final $_class_NSMutableDictionary = objc.getClass("NSMutableDictionary");
-late final $_class_NSMutableIndexSet = objc.getClass("NSMutableIndexSet");
-late final $_class_NSMutableOrderedSet = objc.getClass("NSMutableOrderedSet");
-late final $_class_NSMutableSet = objc.getClass("NSMutableSet");
-late final $_class_NSMutableString = objc.getClass("NSMutableString");
-late final $_class_NSNotification = objc.getClass("NSNotification");
-late final $_class_NSNumber = objc.getClass("NSNumber");
-late final $_class_NSObject = objc.getClass("NSObject");
-late final $_class_NSOrderedCollectionDifference =
+late final _class_NSArray = objc.getClass("NSArray");
+late final _class_NSCharacterSet = objc.getClass("NSCharacterSet");
+late final _class_NSCoder = objc.getClass("NSCoder");
+late final _class_NSData = objc.getClass("NSData");
+late final _class_NSDate = objc.getClass("NSDate");
+late final _class_NSDictionary = objc.getClass("NSDictionary");
+late final _class_NSEnumerator = objc.getClass("NSEnumerator");
+late final _class_NSError = objc.getClass("NSError");
+late final _class_NSIndexSet = objc.getClass("NSIndexSet");
+late final _class_NSInputStream = objc.getClass("NSInputStream");
+late final _class_NSInvocation = objc.getClass("NSInvocation");
+late final _class_NSItemProvider = objc.getClass("NSItemProvider");
+late final _class_NSLocale = objc.getClass("NSLocale");
+late final _class_NSMethodSignature = objc.getClass("NSMethodSignature");
+late final _class_NSMutableArray = objc.getClass("NSMutableArray");
+late final _class_NSMutableData = objc.getClass("NSMutableData");
+late final _class_NSMutableDictionary = objc.getClass("NSMutableDictionary");
+late final _class_NSMutableIndexSet = objc.getClass("NSMutableIndexSet");
+late final _class_NSMutableOrderedSet = objc.getClass("NSMutableOrderedSet");
+late final _class_NSMutableSet = objc.getClass("NSMutableSet");
+late final _class_NSMutableString = objc.getClass("NSMutableString");
+late final _class_NSNotification = objc.getClass("NSNotification");
+late final _class_NSNumber = objc.getClass("NSNumber");
+late final _class_NSObject = objc.getClass("NSObject");
+late final _class_NSOrderedCollectionDifference =
     objc.getClass("NSOrderedCollectionDifference");
-late final $_class_NSOrderedSet = objc.getClass("NSOrderedSet");
-late final $_class_NSOutputStream = objc.getClass("NSOutputStream");
-late final $_class_NSRunLoop = objc.getClass("NSRunLoop");
-late final $_class_NSSet = objc.getClass("NSSet");
-late final $_class_NSStream = objc.getClass("NSStream");
-late final $_class_NSString = objc.getClass("NSString");
-late final $_class_NSURL = objc.getClass("NSURL");
-late final $_class_NSURLHandle = objc.getClass("NSURLHandle");
-late final $_class_NSValue = objc.getClass("NSValue");
-late final $_class_Protocol = objc.getClass("Protocol");
+late final _class_NSOrderedSet = objc.getClass("NSOrderedSet");
+late final _class_NSOutputStream = objc.getClass("NSOutputStream");
+late final _class_NSRunLoop = objc.getClass("NSRunLoop");
+late final _class_NSSet = objc.getClass("NSSet");
+late final _class_NSStream = objc.getClass("NSStream");
+late final _class_NSString = objc.getClass("NSString");
+late final _class_NSURL = objc.getClass("NSURL");
+late final _class_NSURLHandle = objc.getClass("NSURLHandle");
+late final _class_NSValue = objc.getClass("NSValue");
+late final _class_Protocol = objc.getClass("Protocol");
 final _objc_msgSend_102xxo4 = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -17331,942 +17329,942 @@ final _objc_msgSend_zug4wi = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>,
             NSRange)>();
-late final $_protocol_NSCoding = objc.getProtocol("NSCoding");
-late final $_protocol_NSCopying = objc.getProtocol("NSCopying");
-late final $_protocol_NSFastEnumeration = objc.getProtocol("NSFastEnumeration");
-late final $_protocol_NSItemProviderReading =
+late final _protocol_NSCoding = objc.getProtocol("NSCoding");
+late final _protocol_NSCopying = objc.getProtocol("NSCopying");
+late final _protocol_NSFastEnumeration = objc.getProtocol("NSFastEnumeration");
+late final _protocol_NSItemProviderReading =
     objc.getProtocol("NSItemProviderReading");
-late final $_protocol_NSItemProviderWriting =
+late final _protocol_NSItemProviderWriting =
     objc.getProtocol("NSItemProviderWriting");
-late final $_protocol_NSMutableCopying = objc.getProtocol("NSMutableCopying");
-late final $_protocol_NSObject = objc.getProtocol("NSObject");
-late final $_protocol_NSSecureCoding = objc.getProtocol("NSSecureCoding");
-late final $_protocol_NSStreamDelegate = objc.getProtocol("NSStreamDelegate");
-late final $_sel_URLByResolvingAliasFileAtURL_options_error_ =
+late final _protocol_NSMutableCopying = objc.getProtocol("NSMutableCopying");
+late final _protocol_NSObject = objc.getProtocol("NSObject");
+late final _protocol_NSSecureCoding = objc.getProtocol("NSSecureCoding");
+late final _protocol_NSStreamDelegate = objc.getProtocol("NSStreamDelegate");
+late final _sel_URLByResolvingAliasFileAtURL_options_error_ =
     objc.registerName("URLByResolvingAliasFileAtURL:options:error:");
-late final $_sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_ =
+late final _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_ =
     objc.registerName(
         "URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:");
-late final $_sel_URLWithDataRepresentation_relativeToURL_ =
+late final _sel_URLWithDataRepresentation_relativeToURL_ =
     objc.registerName("URLWithDataRepresentation:relativeToURL:");
-late final $_sel_URLWithString_ = objc.registerName("URLWithString:");
-late final $_sel_URLWithString_encodingInvalidCharacters_ =
+late final _sel_URLWithString_ = objc.registerName("URLWithString:");
+late final _sel_URLWithString_encodingInvalidCharacters_ =
     objc.registerName("URLWithString:encodingInvalidCharacters:");
-late final $_sel_URLWithString_relativeToURL_ =
+late final _sel_URLWithString_relativeToURL_ =
     objc.registerName("URLWithString:relativeToURL:");
-late final $_sel_UTF8String = objc.registerName("UTF8String");
-late final $_sel_absoluteString = objc.registerName("absoluteString");
-late final $_sel_absoluteURL = objc.registerName("absoluteURL");
-late final $_sel_absoluteURLWithDataRepresentation_relativeToURL_ =
+late final _sel_UTF8String = objc.registerName("UTF8String");
+late final _sel_absoluteString = objc.registerName("absoluteString");
+late final _sel_absoluteURL = objc.registerName("absoluteURL");
+late final _sel_absoluteURLWithDataRepresentation_relativeToURL_ =
     objc.registerName("absoluteURLWithDataRepresentation:relativeToURL:");
-late final $_sel_addData_ = objc.registerName("addData:");
-late final $_sel_addEntriesFromDictionary_ =
+late final _sel_addData_ = objc.registerName("addData:");
+late final _sel_addEntriesFromDictionary_ =
     objc.registerName("addEntriesFromDictionary:");
-late final $_sel_addIndex_ = objc.registerName("addIndex:");
-late final $_sel_addIndexesInRange_ = objc.registerName("addIndexesInRange:");
-late final $_sel_addIndexes_ = objc.registerName("addIndexes:");
-late final $_sel_addObject_ = objc.registerName("addObject:");
-late final $_sel_addObjectsFromArray_ =
+late final _sel_addIndex_ = objc.registerName("addIndex:");
+late final _sel_addIndexesInRange_ = objc.registerName("addIndexesInRange:");
+late final _sel_addIndexes_ = objc.registerName("addIndexes:");
+late final _sel_addObject_ = objc.registerName("addObject:");
+late final _sel_addObjectsFromArray_ =
     objc.registerName("addObjectsFromArray:");
-late final $_sel_addObjects_count_ = objc.registerName("addObjects:count:");
-late final $_sel_allKeys = objc.registerName("allKeys");
-late final $_sel_allKeysForObject_ = objc.registerName("allKeysForObject:");
-late final $_sel_allObjects = objc.registerName("allObjects");
-late final $_sel_allValues = objc.registerName("allValues");
-late final $_sel_alloc = objc.registerName("alloc");
-late final $_sel_allocWithZone_ = objc.registerName("allocWithZone:");
-late final $_sel_alphanumericCharacterSet =
+late final _sel_addObjects_count_ = objc.registerName("addObjects:count:");
+late final _sel_allKeys = objc.registerName("allKeys");
+late final _sel_allKeysForObject_ = objc.registerName("allKeysForObject:");
+late final _sel_allObjects = objc.registerName("allObjects");
+late final _sel_allValues = objc.registerName("allValues");
+late final _sel_alloc = objc.registerName("alloc");
+late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _sel_alphanumericCharacterSet =
     objc.registerName("alphanumericCharacterSet");
-late final $_sel_anyObject = objc.registerName("anyObject");
-late final $_sel_appendBytes_length_ = objc.registerName("appendBytes:length:");
-late final $_sel_appendData_ = objc.registerName("appendData:");
-late final $_sel_array = objc.registerName("array");
-late final $_sel_arrayByAddingObject_ =
+late final _sel_anyObject = objc.registerName("anyObject");
+late final _sel_appendBytes_length_ = objc.registerName("appendBytes:length:");
+late final _sel_appendData_ = objc.registerName("appendData:");
+late final _sel_array = objc.registerName("array");
+late final _sel_arrayByAddingObject_ =
     objc.registerName("arrayByAddingObject:");
-late final $_sel_arrayByAddingObjectsFromArray_ =
+late final _sel_arrayByAddingObjectsFromArray_ =
     objc.registerName("arrayByAddingObjectsFromArray:");
-late final $_sel_arrayWithArray_ = objc.registerName("arrayWithArray:");
-late final $_sel_arrayWithCapacity_ = objc.registerName("arrayWithCapacity:");
-late final $_sel_arrayWithObject_ = objc.registerName("arrayWithObject:");
-late final $_sel_arrayWithObjects_ = objc.registerName("arrayWithObjects:");
-late final $_sel_arrayWithObjects_count_ =
+late final _sel_arrayWithArray_ = objc.registerName("arrayWithArray:");
+late final _sel_arrayWithCapacity_ = objc.registerName("arrayWithCapacity:");
+late final _sel_arrayWithObject_ = objc.registerName("arrayWithObject:");
+late final _sel_arrayWithObjects_ = objc.registerName("arrayWithObjects:");
+late final _sel_arrayWithObjects_count_ =
     objc.registerName("arrayWithObjects:count:");
-late final $_sel_autorelease = objc.registerName("autorelease");
-late final $_sel_availableStringEncodings =
+late final _sel_autorelease = objc.registerName("autorelease");
+late final _sel_availableStringEncodings =
     objc.registerName("availableStringEncodings");
-late final $_sel_baseURL = objc.registerName("baseURL");
-late final $_sel_bitmapRepresentation =
+late final _sel_baseURL = objc.registerName("baseURL");
+late final _sel_bitmapRepresentation =
     objc.registerName("bitmapRepresentation");
-late final $_sel_bookmarkDataWithContentsOfURL_error_ =
+late final _sel_bookmarkDataWithContentsOfURL_error_ =
     objc.registerName("bookmarkDataWithContentsOfURL:error:");
-late final $_sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_ =
+late final _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_ =
     objc.registerName(
         "bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:");
-late final $_sel_boolValue = objc.registerName("boolValue");
-late final $_sel_bytes = objc.registerName("bytes");
-late final $_sel_cStringUsingEncoding_ =
+late final _sel_boolValue = objc.registerName("boolValue");
+late final _sel_bytes = objc.registerName("bytes");
+late final _sel_cStringUsingEncoding_ =
     objc.registerName("cStringUsingEncoding:");
-late final $_sel_canBeConvertedToEncoding_ =
+late final _sel_canBeConvertedToEncoding_ =
     objc.registerName("canBeConvertedToEncoding:");
-late final $_sel_canLoadObjectOfClass_ =
+late final _sel_canLoadObjectOfClass_ =
     objc.registerName("canLoadObjectOfClass:");
-late final $_sel_capitalizedLetterCharacterSet =
+late final _sel_capitalizedLetterCharacterSet =
     objc.registerName("capitalizedLetterCharacterSet");
-late final $_sel_capitalizedString = objc.registerName("capitalizedString");
-late final $_sel_capitalizedStringWithLocale_ =
+late final _sel_capitalizedString = objc.registerName("capitalizedString");
+late final _sel_capitalizedStringWithLocale_ =
     objc.registerName("capitalizedStringWithLocale:");
-late final $_sel_caseInsensitiveCompare_ =
+late final _sel_caseInsensitiveCompare_ =
     objc.registerName("caseInsensitiveCompare:");
-late final $_sel_charValue = objc.registerName("charValue");
-late final $_sel_characterAtIndex_ = objc.registerName("characterAtIndex:");
-late final $_sel_characterIsMember_ = objc.registerName("characterIsMember:");
-late final $_sel_characterSetWithBitmapRepresentation_ =
+late final _sel_charValue = objc.registerName("charValue");
+late final _sel_characterAtIndex_ = objc.registerName("characterAtIndex:");
+late final _sel_characterIsMember_ = objc.registerName("characterIsMember:");
+late final _sel_characterSetWithBitmapRepresentation_ =
     objc.registerName("characterSetWithBitmapRepresentation:");
-late final $_sel_characterSetWithCharactersInString_ =
+late final _sel_characterSetWithCharactersInString_ =
     objc.registerName("characterSetWithCharactersInString:");
-late final $_sel_characterSetWithContentsOfFile_ =
+late final _sel_characterSetWithContentsOfFile_ =
     objc.registerName("characterSetWithContentsOfFile:");
-late final $_sel_characterSetWithRange_ =
+late final _sel_characterSetWithRange_ =
     objc.registerName("characterSetWithRange:");
-late final $_sel_class = objc.registerName("class");
-late final $_sel_close = objc.registerName("close");
-late final $_sel_code = objc.registerName("code");
-late final $_sel_commonPrefixWithString_options_ =
+late final _sel_class = objc.registerName("class");
+late final _sel_close = objc.registerName("close");
+late final _sel_code = objc.registerName("code");
+late final _sel_commonPrefixWithString_options_ =
     objc.registerName("commonPrefixWithString:options:");
-late final $_sel_compare_ = objc.registerName("compare:");
-late final $_sel_compare_options_ = objc.registerName("compare:options:");
-late final $_sel_compare_options_range_ =
+late final _sel_compare_ = objc.registerName("compare:");
+late final _sel_compare_options_ = objc.registerName("compare:options:");
+late final _sel_compare_options_range_ =
     objc.registerName("compare:options:range:");
-late final $_sel_compare_options_range_locale_ =
+late final _sel_compare_options_range_locale_ =
     objc.registerName("compare:options:range:locale:");
-late final $_sel_componentsJoinedByString_ =
+late final _sel_componentsJoinedByString_ =
     objc.registerName("componentsJoinedByString:");
-late final $_sel_componentsSeparatedByCharactersInSet_ =
+late final _sel_componentsSeparatedByCharactersInSet_ =
     objc.registerName("componentsSeparatedByCharactersInSet:");
-late final $_sel_componentsSeparatedByString_ =
+late final _sel_componentsSeparatedByString_ =
     objc.registerName("componentsSeparatedByString:");
-late final $_sel_compressedDataUsingAlgorithm_error_ =
+late final _sel_compressedDataUsingAlgorithm_error_ =
     objc.registerName("compressedDataUsingAlgorithm:error:");
-late final $_sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
-late final $_sel_containsIndex_ = objc.registerName("containsIndex:");
-late final $_sel_containsIndexesInRange_ =
+late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
+late final _sel_containsIndex_ = objc.registerName("containsIndex:");
+late final _sel_containsIndexesInRange_ =
     objc.registerName("containsIndexesInRange:");
-late final $_sel_containsIndexes_ = objc.registerName("containsIndexes:");
-late final $_sel_containsObject_ = objc.registerName("containsObject:");
-late final $_sel_containsString_ = objc.registerName("containsString:");
-late final $_sel_controlCharacterSet = objc.registerName("controlCharacterSet");
-late final $_sel_copy = objc.registerName("copy");
-late final $_sel_copyWithZone_ = objc.registerName("copyWithZone:");
-late final $_sel_count = objc.registerName("count");
-late final $_sel_countByEnumeratingWithState_objects_count_ =
+late final _sel_containsIndexes_ = objc.registerName("containsIndexes:");
+late final _sel_containsObject_ = objc.registerName("containsObject:");
+late final _sel_containsString_ = objc.registerName("containsString:");
+late final _sel_controlCharacterSet = objc.registerName("controlCharacterSet");
+late final _sel_copy = objc.registerName("copy");
+late final _sel_copyWithZone_ = objc.registerName("copyWithZone:");
+late final _sel_count = objc.registerName("count");
+late final _sel_countByEnumeratingWithState_objects_count_ =
     objc.registerName("countByEnumeratingWithState:objects:count:");
-late final $_sel_countOfIndexesInRange_ =
+late final _sel_countOfIndexesInRange_ =
     objc.registerName("countOfIndexesInRange:");
-late final $_sel_data = objc.registerName("data");
-late final $_sel_dataRepresentation = objc.registerName("dataRepresentation");
-late final $_sel_dataUsingEncoding_ = objc.registerName("dataUsingEncoding:");
-late final $_sel_dataUsingEncoding_allowLossyConversion_ =
+late final _sel_data = objc.registerName("data");
+late final _sel_dataRepresentation = objc.registerName("dataRepresentation");
+late final _sel_dataUsingEncoding_ = objc.registerName("dataUsingEncoding:");
+late final _sel_dataUsingEncoding_allowLossyConversion_ =
     objc.registerName("dataUsingEncoding:allowLossyConversion:");
-late final $_sel_dataWithBytesNoCopy_length_ =
+late final _sel_dataWithBytesNoCopy_length_ =
     objc.registerName("dataWithBytesNoCopy:length:");
-late final $_sel_dataWithBytesNoCopy_length_freeWhenDone_ =
+late final _sel_dataWithBytesNoCopy_length_freeWhenDone_ =
     objc.registerName("dataWithBytesNoCopy:length:freeWhenDone:");
-late final $_sel_dataWithBytes_length_ =
+late final _sel_dataWithBytes_length_ =
     objc.registerName("dataWithBytes:length:");
-late final $_sel_dataWithCapacity_ = objc.registerName("dataWithCapacity:");
-late final $_sel_dataWithContentsOfFile_ =
+late final _sel_dataWithCapacity_ = objc.registerName("dataWithCapacity:");
+late final _sel_dataWithContentsOfFile_ =
     objc.registerName("dataWithContentsOfFile:");
-late final $_sel_dataWithContentsOfFile_options_error_ =
+late final _sel_dataWithContentsOfFile_options_error_ =
     objc.registerName("dataWithContentsOfFile:options:error:");
-late final $_sel_dataWithContentsOfURL_ =
+late final _sel_dataWithContentsOfURL_ =
     objc.registerName("dataWithContentsOfURL:");
-late final $_sel_dataWithContentsOfURL_options_error_ =
+late final _sel_dataWithContentsOfURL_options_error_ =
     objc.registerName("dataWithContentsOfURL:options:error:");
-late final $_sel_dataWithData_ = objc.registerName("dataWithData:");
-late final $_sel_dataWithLength_ = objc.registerName("dataWithLength:");
-late final $_sel_date = objc.registerName("date");
-late final $_sel_dateByAddingTimeInterval_ =
+late final _sel_dataWithData_ = objc.registerName("dataWithData:");
+late final _sel_dataWithLength_ = objc.registerName("dataWithLength:");
+late final _sel_date = objc.registerName("date");
+late final _sel_dateByAddingTimeInterval_ =
     objc.registerName("dateByAddingTimeInterval:");
-late final $_sel_dateWithTimeIntervalSince1970_ =
+late final _sel_dateWithTimeIntervalSince1970_ =
     objc.registerName("dateWithTimeIntervalSince1970:");
-late final $_sel_dateWithTimeIntervalSinceNow_ =
+late final _sel_dateWithTimeIntervalSinceNow_ =
     objc.registerName("dateWithTimeIntervalSinceNow:");
-late final $_sel_dateWithTimeIntervalSinceReferenceDate_ =
+late final _sel_dateWithTimeIntervalSinceReferenceDate_ =
     objc.registerName("dateWithTimeIntervalSinceReferenceDate:");
-late final $_sel_dateWithTimeInterval_sinceDate_ =
+late final _sel_dateWithTimeInterval_sinceDate_ =
     objc.registerName("dateWithTimeInterval:sinceDate:");
-late final $_sel_dealloc = objc.registerName("dealloc");
-late final $_sel_debugDescription = objc.registerName("debugDescription");
-late final $_sel_decimalDigitCharacterSet =
+late final _sel_dealloc = objc.registerName("dealloc");
+late final _sel_debugDescription = objc.registerName("debugDescription");
+late final _sel_decimalDigitCharacterSet =
     objc.registerName("decimalDigitCharacterSet");
-late final $_sel_decomposableCharacterSet =
+late final _sel_decomposableCharacterSet =
     objc.registerName("decomposableCharacterSet");
-late final $_sel_decomposedStringWithCanonicalMapping =
+late final _sel_decomposedStringWithCanonicalMapping =
     objc.registerName("decomposedStringWithCanonicalMapping");
-late final $_sel_decomposedStringWithCompatibilityMapping =
+late final _sel_decomposedStringWithCompatibilityMapping =
     objc.registerName("decomposedStringWithCompatibilityMapping");
-late final $_sel_decompressedDataUsingAlgorithm_error_ =
+late final _sel_decompressedDataUsingAlgorithm_error_ =
     objc.registerName("decompressedDataUsingAlgorithm:error:");
-late final $_sel_defaultCStringEncoding =
+late final _sel_defaultCStringEncoding =
     objc.registerName("defaultCStringEncoding");
-late final $_sel_delegate = objc.registerName("delegate");
-late final $_sel_description = objc.registerName("description");
-late final $_sel_descriptionInStringsFileFormat =
+late final _sel_delegate = objc.registerName("delegate");
+late final _sel_description = objc.registerName("description");
+late final _sel_descriptionInStringsFileFormat =
     objc.registerName("descriptionInStringsFileFormat");
-late final $_sel_descriptionWithLocale_ =
+late final _sel_descriptionWithLocale_ =
     objc.registerName("descriptionWithLocale:");
-late final $_sel_descriptionWithLocale_indent_ =
+late final _sel_descriptionWithLocale_indent_ =
     objc.registerName("descriptionWithLocale:indent:");
-late final $_sel_dictionary = objc.registerName("dictionary");
-late final $_sel_dictionaryWithCapacity_ =
+late final _sel_dictionary = objc.registerName("dictionary");
+late final _sel_dictionaryWithCapacity_ =
     objc.registerName("dictionaryWithCapacity:");
-late final $_sel_dictionaryWithDictionary_ =
+late final _sel_dictionaryWithDictionary_ =
     objc.registerName("dictionaryWithDictionary:");
-late final $_sel_dictionaryWithObject_forKey_ =
+late final _sel_dictionaryWithObject_forKey_ =
     objc.registerName("dictionaryWithObject:forKey:");
-late final $_sel_dictionaryWithObjectsAndKeys_ =
+late final _sel_dictionaryWithObjectsAndKeys_ =
     objc.registerName("dictionaryWithObjectsAndKeys:");
-late final $_sel_dictionaryWithObjects_forKeys_ =
+late final _sel_dictionaryWithObjects_forKeys_ =
     objc.registerName("dictionaryWithObjects:forKeys:");
-late final $_sel_dictionaryWithObjects_forKeys_count_ =
+late final _sel_dictionaryWithObjects_forKeys_count_ =
     objc.registerName("dictionaryWithObjects:forKeys:count:");
-late final $_sel_doesNotRecognizeSelector_ =
+late final _sel_doesNotRecognizeSelector_ =
     objc.registerName("doesNotRecognizeSelector:");
-late final $_sel_domain = objc.registerName("domain");
-late final $_sel_doubleValue = objc.registerName("doubleValue");
-late final $_sel_earlierDate_ = objc.registerName("earlierDate:");
-late final $_sel_encodeWithCoder_ = objc.registerName("encodeWithCoder:");
-late final $_sel_errorWithDomain_code_userInfo_ =
+late final _sel_domain = objc.registerName("domain");
+late final _sel_doubleValue = objc.registerName("doubleValue");
+late final _sel_earlierDate_ = objc.registerName("earlierDate:");
+late final _sel_encodeWithCoder_ = objc.registerName("encodeWithCoder:");
+late final _sel_errorWithDomain_code_userInfo_ =
     objc.registerName("errorWithDomain:code:userInfo:");
-late final $_sel_exchangeObjectAtIndex_withObjectAtIndex_ =
+late final _sel_exchangeObjectAtIndex_withObjectAtIndex_ =
     objc.registerName("exchangeObjectAtIndex:withObjectAtIndex:");
-late final $_sel_fastestEncoding = objc.registerName("fastestEncoding");
-late final $_sel_filePathURL = objc.registerName("filePathURL");
-late final $_sel_fileReferenceURL = objc.registerName("fileReferenceURL");
-late final $_sel_fileSystemRepresentation =
+late final _sel_fastestEncoding = objc.registerName("fastestEncoding");
+late final _sel_filePathURL = objc.registerName("filePathURL");
+late final _sel_fileReferenceURL = objc.registerName("fileReferenceURL");
+late final _sel_fileSystemRepresentation =
     objc.registerName("fileSystemRepresentation");
-late final $_sel_fileURLWithFileSystemRepresentation_isDirectory_relativeToURL_ =
+late final _sel_fileURLWithFileSystemRepresentation_isDirectory_relativeToURL_ =
     objc.registerName(
         "fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:");
-late final $_sel_fileURLWithPath_ = objc.registerName("fileURLWithPath:");
-late final $_sel_fileURLWithPath_isDirectory_ =
+late final _sel_fileURLWithPath_ = objc.registerName("fileURLWithPath:");
+late final _sel_fileURLWithPath_isDirectory_ =
     objc.registerName("fileURLWithPath:isDirectory:");
-late final $_sel_fileURLWithPath_isDirectory_relativeToURL_ =
+late final _sel_fileURLWithPath_isDirectory_relativeToURL_ =
     objc.registerName("fileURLWithPath:isDirectory:relativeToURL:");
-late final $_sel_fileURLWithPath_relativeToURL_ =
+late final _sel_fileURLWithPath_relativeToURL_ =
     objc.registerName("fileURLWithPath:relativeToURL:");
-late final $_sel_firstIndex = objc.registerName("firstIndex");
-late final $_sel_firstObject = objc.registerName("firstObject");
-late final $_sel_firstObjectCommonWithArray_ =
+late final _sel_firstIndex = objc.registerName("firstIndex");
+late final _sel_firstObject = objc.registerName("firstObject");
+late final _sel_firstObjectCommonWithArray_ =
     objc.registerName("firstObjectCommonWithArray:");
-late final $_sel_floatValue = objc.registerName("floatValue");
-late final $_sel_forwardInvocation_ = objc.registerName("forwardInvocation:");
-late final $_sel_forwardingTargetForSelector_ =
+late final _sel_floatValue = objc.registerName("floatValue");
+late final _sel_forwardInvocation_ = objc.registerName("forwardInvocation:");
+late final _sel_forwardingTargetForSelector_ =
     objc.registerName("forwardingTargetForSelector:");
-late final $_sel_fragment = objc.registerName("fragment");
-late final $_sel_frameLength = objc.registerName("frameLength");
-late final $_sel_getArgumentTypeAtIndex_ =
+late final _sel_fragment = objc.registerName("fragment");
+late final _sel_frameLength = objc.registerName("frameLength");
+late final _sel_getArgumentTypeAtIndex_ =
     objc.registerName("getArgumentTypeAtIndex:");
-late final $_sel_getBuffer_length_ = objc.registerName("getBuffer:length:");
-late final $_sel_getBytes_length_ = objc.registerName("getBytes:length:");
-late final $_sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_ =
+late final _sel_getBuffer_length_ = objc.registerName("getBuffer:length:");
+late final _sel_getBytes_length_ = objc.registerName("getBytes:length:");
+late final _sel_getBytes_maxLength_usedLength_encoding_options_range_remainingRange_ =
     objc.registerName(
         "getBytes:maxLength:usedLength:encoding:options:range:remainingRange:");
-late final $_sel_getBytes_range_ = objc.registerName("getBytes:range:");
-late final $_sel_getCString_maxLength_encoding_ =
+late final _sel_getBytes_range_ = objc.registerName("getBytes:range:");
+late final _sel_getCString_maxLength_encoding_ =
     objc.registerName("getCString:maxLength:encoding:");
-late final $_sel_getCharacters_range_ =
+late final _sel_getCharacters_range_ =
     objc.registerName("getCharacters:range:");
-late final $_sel_getDOBJCDartProtocolMethodForSelector_ =
+late final _sel_getDOBJCDartProtocolMethodForSelector_ =
     objc.registerName("getDOBJCDartProtocolMethodForSelector:");
-late final $_sel_getFileSystemRepresentation_maxLength_ =
+late final _sel_getFileSystemRepresentation_maxLength_ =
     objc.registerName("getFileSystemRepresentation:maxLength:");
-late final $_sel_getIndexes_maxCount_inIndexRange_ =
+late final _sel_getIndexes_maxCount_inIndexRange_ =
     objc.registerName("getIndexes:maxCount:inIndexRange:");
-late final $_sel_getLineStart_end_contentsEnd_forRange_ =
+late final _sel_getLineStart_end_contentsEnd_forRange_ =
     objc.registerName("getLineStart:end:contentsEnd:forRange:");
-late final $_sel_getObjects_andKeys_count_ =
+late final _sel_getObjects_andKeys_count_ =
     objc.registerName("getObjects:andKeys:count:");
-late final $_sel_getObjects_range_ = objc.registerName("getObjects:range:");
-late final $_sel_getParagraphStart_end_contentsEnd_forRange_ =
+late final _sel_getObjects_range_ = objc.registerName("getObjects:range:");
+late final _sel_getParagraphStart_end_contentsEnd_forRange_ =
     objc.registerName("getParagraphStart:end:contentsEnd:forRange:");
-late final $_sel_getResourceValue_forKey_error_ =
+late final _sel_getResourceValue_forKey_error_ =
     objc.registerName("getResourceValue:forKey:error:");
-late final $_sel_getValue_size_ = objc.registerName("getValue:size:");
-late final $_sel_hasBytesAvailable = objc.registerName("hasBytesAvailable");
-late final $_sel_hasChanges = objc.registerName("hasChanges");
-late final $_sel_hasDirectoryPath = objc.registerName("hasDirectoryPath");
-late final $_sel_hasItemConformingToTypeIdentifier_ =
+late final _sel_getValue_size_ = objc.registerName("getValue:size:");
+late final _sel_hasBytesAvailable = objc.registerName("hasBytesAvailable");
+late final _sel_hasChanges = objc.registerName("hasChanges");
+late final _sel_hasDirectoryPath = objc.registerName("hasDirectoryPath");
+late final _sel_hasItemConformingToTypeIdentifier_ =
     objc.registerName("hasItemConformingToTypeIdentifier:");
-late final $_sel_hasMemberInPlane_ = objc.registerName("hasMemberInPlane:");
-late final $_sel_hasPrefix_ = objc.registerName("hasPrefix:");
-late final $_sel_hasRepresentationConformingToTypeIdentifier_fileOptions_ = objc
+late final _sel_hasMemberInPlane_ = objc.registerName("hasMemberInPlane:");
+late final _sel_hasPrefix_ = objc.registerName("hasPrefix:");
+late final _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_ = objc
     .registerName("hasRepresentationConformingToTypeIdentifier:fileOptions:");
-late final $_sel_hasSpaceAvailable = objc.registerName("hasSpaceAvailable");
-late final $_sel_hasSuffix_ = objc.registerName("hasSuffix:");
-late final $_sel_hash = objc.registerName("hash");
-late final $_sel_helpAnchor = objc.registerName("helpAnchor");
-late final $_sel_host = objc.registerName("host");
-late final $_sel_illegalCharacterSet = objc.registerName("illegalCharacterSet");
-late final $_sel_implementMethod_withBlock_ =
+late final _sel_hasSpaceAvailable = objc.registerName("hasSpaceAvailable");
+late final _sel_hasSuffix_ = objc.registerName("hasSuffix:");
+late final _sel_hash = objc.registerName("hash");
+late final _sel_helpAnchor = objc.registerName("helpAnchor");
+late final _sel_host = objc.registerName("host");
+late final _sel_illegalCharacterSet = objc.registerName("illegalCharacterSet");
+late final _sel_implementMethod_withBlock_ =
     objc.registerName("implementMethod:withBlock:");
-late final $_sel_increaseLengthBy_ = objc.registerName("increaseLengthBy:");
-late final $_sel_indexGreaterThanIndex_ =
+late final _sel_increaseLengthBy_ = objc.registerName("increaseLengthBy:");
+late final _sel_indexGreaterThanIndex_ =
     objc.registerName("indexGreaterThanIndex:");
-late final $_sel_indexGreaterThanOrEqualToIndex_ =
+late final _sel_indexGreaterThanOrEqualToIndex_ =
     objc.registerName("indexGreaterThanOrEqualToIndex:");
-late final $_sel_indexLessThanIndex_ = objc.registerName("indexLessThanIndex:");
-late final $_sel_indexLessThanOrEqualToIndex_ =
+late final _sel_indexLessThanIndex_ = objc.registerName("indexLessThanIndex:");
+late final _sel_indexLessThanOrEqualToIndex_ =
     objc.registerName("indexLessThanOrEqualToIndex:");
-late final $_sel_indexOfObjectIdenticalTo_ =
+late final _sel_indexOfObjectIdenticalTo_ =
     objc.registerName("indexOfObjectIdenticalTo:");
-late final $_sel_indexOfObjectIdenticalTo_inRange_ =
+late final _sel_indexOfObjectIdenticalTo_inRange_ =
     objc.registerName("indexOfObjectIdenticalTo:inRange:");
-late final $_sel_indexOfObject_ = objc.registerName("indexOfObject:");
-late final $_sel_indexOfObject_inRange_ =
+late final _sel_indexOfObject_ = objc.registerName("indexOfObject:");
+late final _sel_indexOfObject_inRange_ =
     objc.registerName("indexOfObject:inRange:");
-late final $_sel_indexSet = objc.registerName("indexSet");
-late final $_sel_indexSetWithIndex_ = objc.registerName("indexSetWithIndex:");
-late final $_sel_indexSetWithIndexesInRange_ =
+late final _sel_indexSet = objc.registerName("indexSet");
+late final _sel_indexSetWithIndex_ = objc.registerName("indexSetWithIndex:");
+late final _sel_indexSetWithIndexesInRange_ =
     objc.registerName("indexSetWithIndexesInRange:");
-late final $_sel_init = objc.registerName("init");
-late final $_sel_initAbsoluteURLWithDataRepresentation_relativeToURL_ =
+late final _sel_init = objc.registerName("init");
+late final _sel_initAbsoluteURLWithDataRepresentation_relativeToURL_ =
     objc.registerName("initAbsoluteURLWithDataRepresentation:relativeToURL:");
-late final $_sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_ =
+late final _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_ =
     objc.registerName(
         "initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:");
-late final $_sel_initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_ =
+late final _sel_initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_ =
     objc.registerName(
         "initDOBJCDartProtocolFromDartProtocolBuilder:withDisposePort:");
-late final $_sel_initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL_ =
+late final _sel_initFileURLWithFileSystemRepresentation_isDirectory_relativeToURL_ =
     objc.registerName(
         "initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:");
-late final $_sel_initFileURLWithPath_ =
+late final _sel_initFileURLWithPath_ =
     objc.registerName("initFileURLWithPath:");
-late final $_sel_initFileURLWithPath_isDirectory_ =
+late final _sel_initFileURLWithPath_isDirectory_ =
     objc.registerName("initFileURLWithPath:isDirectory:");
-late final $_sel_initFileURLWithPath_isDirectory_relativeToURL_ =
+late final _sel_initFileURLWithPath_isDirectory_relativeToURL_ =
     objc.registerName("initFileURLWithPath:isDirectory:relativeToURL:");
-late final $_sel_initFileURLWithPath_relativeToURL_ =
+late final _sel_initFileURLWithPath_relativeToURL_ =
     objc.registerName("initFileURLWithPath:relativeToURL:");
-late final $_sel_initToBuffer_capacity_ =
+late final _sel_initToBuffer_capacity_ =
     objc.registerName("initToBuffer:capacity:");
-late final $_sel_initToFileAtPath_append_ =
+late final _sel_initToFileAtPath_append_ =
     objc.registerName("initToFileAtPath:append:");
-late final $_sel_initToMemory = objc.registerName("initToMemory");
-late final $_sel_initWithArray_ = objc.registerName("initWithArray:");
-late final $_sel_initWithArray_copyItems_ =
+late final _sel_initToMemory = objc.registerName("initToMemory");
+late final _sel_initWithArray_ = objc.registerName("initWithArray:");
+late final _sel_initWithArray_copyItems_ =
     objc.registerName("initWithArray:copyItems:");
-late final $_sel_initWithArray_range_copyItems_ =
+late final _sel_initWithArray_range_copyItems_ =
     objc.registerName("initWithArray:range:copyItems:");
-late final $_sel_initWithBase64EncodedData_options_ =
+late final _sel_initWithBase64EncodedData_options_ =
     objc.registerName("initWithBase64EncodedData:options:");
-late final $_sel_initWithBase64EncodedString_options_ =
+late final _sel_initWithBase64EncodedString_options_ =
     objc.registerName("initWithBase64EncodedString:options:");
-late final $_sel_initWithBool_ = objc.registerName("initWithBool:");
-late final $_sel_initWithBytesNoCopy_length_ =
+late final _sel_initWithBool_ = objc.registerName("initWithBool:");
+late final _sel_initWithBytesNoCopy_length_ =
     objc.registerName("initWithBytesNoCopy:length:");
-late final $_sel_initWithBytesNoCopy_length_encoding_freeWhenDone_ =
+late final _sel_initWithBytesNoCopy_length_encoding_freeWhenDone_ =
     objc.registerName("initWithBytesNoCopy:length:encoding:freeWhenDone:");
-late final $_sel_initWithBytesNoCopy_length_freeWhenDone_ =
+late final _sel_initWithBytesNoCopy_length_freeWhenDone_ =
     objc.registerName("initWithBytesNoCopy:length:freeWhenDone:");
-late final $_sel_initWithBytes_length_ =
+late final _sel_initWithBytes_length_ =
     objc.registerName("initWithBytes:length:");
-late final $_sel_initWithBytes_length_encoding_ =
+late final _sel_initWithBytes_length_encoding_ =
     objc.registerName("initWithBytes:length:encoding:");
-late final $_sel_initWithBytes_objCType_ =
+late final _sel_initWithBytes_objCType_ =
     objc.registerName("initWithBytes:objCType:");
-late final $_sel_initWithCString_encoding_ =
+late final _sel_initWithCString_encoding_ =
     objc.registerName("initWithCString:encoding:");
-late final $_sel_initWithCapacity_ = objc.registerName("initWithCapacity:");
-late final $_sel_initWithChanges_ = objc.registerName("initWithChanges:");
-late final $_sel_initWithChar_ = objc.registerName("initWithChar:");
-late final $_sel_initWithCharactersNoCopy_length_freeWhenDone_ =
+late final _sel_initWithCapacity_ = objc.registerName("initWithCapacity:");
+late final _sel_initWithChanges_ = objc.registerName("initWithChanges:");
+late final _sel_initWithChar_ = objc.registerName("initWithChar:");
+late final _sel_initWithCharactersNoCopy_length_freeWhenDone_ =
     objc.registerName("initWithCharactersNoCopy:length:freeWhenDone:");
-late final $_sel_initWithCharacters_length_ =
+late final _sel_initWithCharacters_length_ =
     objc.registerName("initWithCharacters:length:");
-late final $_sel_initWithCoder_ = objc.registerName("initWithCoder:");
-late final $_sel_initWithContentsOfFile_ =
+late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
+late final _sel_initWithContentsOfFile_ =
     objc.registerName("initWithContentsOfFile:");
-late final $_sel_initWithContentsOfFile_encoding_error_ =
+late final _sel_initWithContentsOfFile_encoding_error_ =
     objc.registerName("initWithContentsOfFile:encoding:error:");
-late final $_sel_initWithContentsOfFile_options_error_ =
+late final _sel_initWithContentsOfFile_options_error_ =
     objc.registerName("initWithContentsOfFile:options:error:");
-late final $_sel_initWithContentsOfFile_usedEncoding_error_ =
+late final _sel_initWithContentsOfFile_usedEncoding_error_ =
     objc.registerName("initWithContentsOfFile:usedEncoding:error:");
-late final $_sel_initWithContentsOfURL_ =
+late final _sel_initWithContentsOfURL_ =
     objc.registerName("initWithContentsOfURL:");
-late final $_sel_initWithContentsOfURL_encoding_error_ =
+late final _sel_initWithContentsOfURL_encoding_error_ =
     objc.registerName("initWithContentsOfURL:encoding:error:");
-late final $_sel_initWithContentsOfURL_options_error_ =
+late final _sel_initWithContentsOfURL_options_error_ =
     objc.registerName("initWithContentsOfURL:options:error:");
-late final $_sel_initWithContentsOfURL_usedEncoding_error_ =
+late final _sel_initWithContentsOfURL_usedEncoding_error_ =
     objc.registerName("initWithContentsOfURL:usedEncoding:error:");
-late final $_sel_initWithDataRepresentation_relativeToURL_ =
+late final _sel_initWithDataRepresentation_relativeToURL_ =
     objc.registerName("initWithDataRepresentation:relativeToURL:");
-late final $_sel_initWithData_ = objc.registerName("initWithData:");
-late final $_sel_initWithData_encoding_ =
+late final _sel_initWithData_ = objc.registerName("initWithData:");
+late final _sel_initWithData_encoding_ =
     objc.registerName("initWithData:encoding:");
-late final $_sel_initWithDictionary_ = objc.registerName("initWithDictionary:");
-late final $_sel_initWithDictionary_copyItems_ =
+late final _sel_initWithDictionary_ = objc.registerName("initWithDictionary:");
+late final _sel_initWithDictionary_copyItems_ =
     objc.registerName("initWithDictionary:copyItems:");
-late final $_sel_initWithDomain_code_userInfo_ =
+late final _sel_initWithDomain_code_userInfo_ =
     objc.registerName("initWithDomain:code:userInfo:");
-late final $_sel_initWithDouble_ = objc.registerName("initWithDouble:");
-late final $_sel_initWithFileAtPath_ = objc.registerName("initWithFileAtPath:");
-late final $_sel_initWithFloat_ = objc.registerName("initWithFloat:");
-late final $_sel_initWithFormat_ = objc.registerName("initWithFormat:");
-late final $_sel_initWithFormat_locale_ =
+late final _sel_initWithDouble_ = objc.registerName("initWithDouble:");
+late final _sel_initWithFileAtPath_ = objc.registerName("initWithFileAtPath:");
+late final _sel_initWithFloat_ = objc.registerName("initWithFloat:");
+late final _sel_initWithFormat_ = objc.registerName("initWithFormat:");
+late final _sel_initWithFormat_locale_ =
     objc.registerName("initWithFormat:locale:");
-late final $_sel_initWithIndexSet_ = objc.registerName("initWithIndexSet:");
-late final $_sel_initWithIndex_ = objc.registerName("initWithIndex:");
-late final $_sel_initWithIndexesInRange_ =
+late final _sel_initWithIndexSet_ = objc.registerName("initWithIndexSet:");
+late final _sel_initWithIndex_ = objc.registerName("initWithIndex:");
+late final _sel_initWithIndexesInRange_ =
     objc.registerName("initWithIndexesInRange:");
-late final $_sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_ =
+late final _sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_ =
     objc.registerName(
         "initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:");
-late final $_sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_additionalChanges_ =
+late final _sel_initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_additionalChanges_ =
     objc.registerName(
         "initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:additionalChanges:");
-late final $_sel_initWithInt_ = objc.registerName("initWithInt:");
-late final $_sel_initWithInteger_ = objc.registerName("initWithInteger:");
-late final $_sel_initWithItem_typeIdentifier_ =
+late final _sel_initWithInt_ = objc.registerName("initWithInt:");
+late final _sel_initWithInteger_ = objc.registerName("initWithInteger:");
+late final _sel_initWithItem_typeIdentifier_ =
     objc.registerName("initWithItem:typeIdentifier:");
-late final $_sel_initWithLength_ = objc.registerName("initWithLength:");
-late final $_sel_initWithLongLong_ = objc.registerName("initWithLongLong:");
-late final $_sel_initWithLong_ = objc.registerName("initWithLong:");
-late final $_sel_initWithName_object_userInfo_ =
+late final _sel_initWithLength_ = objc.registerName("initWithLength:");
+late final _sel_initWithLongLong_ = objc.registerName("initWithLongLong:");
+late final _sel_initWithLong_ = objc.registerName("initWithLong:");
+late final _sel_initWithName_object_userInfo_ =
     objc.registerName("initWithName:object:userInfo:");
-late final $_sel_initWithObject_ = objc.registerName("initWithObject:");
-late final $_sel_initWithObjectsAndKeys_ =
+late final _sel_initWithObject_ = objc.registerName("initWithObject:");
+late final _sel_initWithObjectsAndKeys_ =
     objc.registerName("initWithObjectsAndKeys:");
-late final $_sel_initWithObjects_ = objc.registerName("initWithObjects:");
-late final $_sel_initWithObjects_count_ =
+late final _sel_initWithObjects_ = objc.registerName("initWithObjects:");
+late final _sel_initWithObjects_count_ =
     objc.registerName("initWithObjects:count:");
-late final $_sel_initWithObjects_forKeys_ =
+late final _sel_initWithObjects_forKeys_ =
     objc.registerName("initWithObjects:forKeys:");
-late final $_sel_initWithObjects_forKeys_count_ =
+late final _sel_initWithObjects_forKeys_count_ =
     objc.registerName("initWithObjects:forKeys:count:");
-late final $_sel_initWithOrderedSet_ = objc.registerName("initWithOrderedSet:");
-late final $_sel_initWithOrderedSet_copyItems_ =
+late final _sel_initWithOrderedSet_ = objc.registerName("initWithOrderedSet:");
+late final _sel_initWithOrderedSet_copyItems_ =
     objc.registerName("initWithOrderedSet:copyItems:");
-late final $_sel_initWithOrderedSet_range_copyItems_ =
+late final _sel_initWithOrderedSet_range_copyItems_ =
     objc.registerName("initWithOrderedSet:range:copyItems:");
-late final $_sel_initWithSet_ = objc.registerName("initWithSet:");
-late final $_sel_initWithSet_copyItems_ =
+late final _sel_initWithSet_ = objc.registerName("initWithSet:");
+late final _sel_initWithSet_copyItems_ =
     objc.registerName("initWithSet:copyItems:");
-late final $_sel_initWithShort_ = objc.registerName("initWithShort:");
-late final $_sel_initWithString_ = objc.registerName("initWithString:");
-late final $_sel_initWithString_encodingInvalidCharacters_ =
+late final _sel_initWithShort_ = objc.registerName("initWithShort:");
+late final _sel_initWithString_ = objc.registerName("initWithString:");
+late final _sel_initWithString_encodingInvalidCharacters_ =
     objc.registerName("initWithString:encodingInvalidCharacters:");
-late final $_sel_initWithString_relativeToURL_ =
+late final _sel_initWithString_relativeToURL_ =
     objc.registerName("initWithString:relativeToURL:");
-late final $_sel_initWithTimeIntervalSince1970_ =
+late final _sel_initWithTimeIntervalSince1970_ =
     objc.registerName("initWithTimeIntervalSince1970:");
-late final $_sel_initWithTimeIntervalSinceNow_ =
+late final _sel_initWithTimeIntervalSinceNow_ =
     objc.registerName("initWithTimeIntervalSinceNow:");
-late final $_sel_initWithTimeIntervalSinceReferenceDate_ =
+late final _sel_initWithTimeIntervalSinceReferenceDate_ =
     objc.registerName("initWithTimeIntervalSinceReferenceDate:");
-late final $_sel_initWithTimeInterval_sinceDate_ =
+late final _sel_initWithTimeInterval_sinceDate_ =
     objc.registerName("initWithTimeInterval:sinceDate:");
-late final $_sel_initWithURL_ = objc.registerName("initWithURL:");
-late final $_sel_initWithURL_append_ = objc.registerName("initWithURL:append:");
-late final $_sel_initWithUTF8String_ = objc.registerName("initWithUTF8String:");
-late final $_sel_initWithUnsignedChar_ =
+late final _sel_initWithURL_ = objc.registerName("initWithURL:");
+late final _sel_initWithURL_append_ = objc.registerName("initWithURL:append:");
+late final _sel_initWithUTF8String_ = objc.registerName("initWithUTF8String:");
+late final _sel_initWithUnsignedChar_ =
     objc.registerName("initWithUnsignedChar:");
-late final $_sel_initWithUnsignedInt_ =
+late final _sel_initWithUnsignedInt_ =
     objc.registerName("initWithUnsignedInt:");
-late final $_sel_initWithUnsignedInteger_ =
+late final _sel_initWithUnsignedInteger_ =
     objc.registerName("initWithUnsignedInteger:");
-late final $_sel_initWithUnsignedLongLong_ =
+late final _sel_initWithUnsignedLongLong_ =
     objc.registerName("initWithUnsignedLongLong:");
-late final $_sel_initWithUnsignedLong_ =
+late final _sel_initWithUnsignedLong_ =
     objc.registerName("initWithUnsignedLong:");
-late final $_sel_initWithUnsignedShort_ =
+late final _sel_initWithUnsignedShort_ =
     objc.registerName("initWithUnsignedShort:");
-late final $_sel_initWithValidatedFormat_validFormatSpecifiers_error_ =
+late final _sel_initWithValidatedFormat_validFormatSpecifiers_error_ =
     objc.registerName("initWithValidatedFormat:validFormatSpecifiers:error:");
-late final $_sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_ =
+late final _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_ =
     objc.registerName(
         "initWithValidatedFormat:validFormatSpecifiers:locale:error:");
-late final $_sel_initialize = objc.registerName("initialize");
-late final $_sel_inputStreamWithData_ =
+late final _sel_initialize = objc.registerName("initialize");
+late final _sel_inputStreamWithData_ =
     objc.registerName("inputStreamWithData:");
-late final $_sel_inputStreamWithFileAtPath_ =
+late final _sel_inputStreamWithFileAtPath_ =
     objc.registerName("inputStreamWithFileAtPath:");
-late final $_sel_inputStreamWithPort_ =
+late final _sel_inputStreamWithPort_ =
     objc.registerName("inputStreamWithPort:");
-late final $_sel_inputStreamWithURL_ = objc.registerName("inputStreamWithURL:");
-late final $_sel_insertObject_atIndex_ =
+late final _sel_inputStreamWithURL_ = objc.registerName("inputStreamWithURL:");
+late final _sel_insertObject_atIndex_ =
     objc.registerName("insertObject:atIndex:");
-late final $_sel_insertObjects_atIndexes_ =
+late final _sel_insertObjects_atIndexes_ =
     objc.registerName("insertObjects:atIndexes:");
-late final $_sel_insertions = objc.registerName("insertions");
-late final $_sel_instanceMethodForSelector_ =
+late final _sel_insertions = objc.registerName("insertions");
+late final _sel_instanceMethodForSelector_ =
     objc.registerName("instanceMethodForSelector:");
-late final $_sel_instanceMethodSignatureForSelector_ =
+late final _sel_instanceMethodSignatureForSelector_ =
     objc.registerName("instanceMethodSignatureForSelector:");
-late final $_sel_instancesRespondToSelector_ =
+late final _sel_instancesRespondToSelector_ =
     objc.registerName("instancesRespondToSelector:");
-late final $_sel_intValue = objc.registerName("intValue");
-late final $_sel_integerValue = objc.registerName("integerValue");
-late final $_sel_intersectOrderedSet_ =
+late final _sel_intValue = objc.registerName("intValue");
+late final _sel_integerValue = objc.registerName("integerValue");
+late final _sel_intersectOrderedSet_ =
     objc.registerName("intersectOrderedSet:");
-late final $_sel_intersectSet_ = objc.registerName("intersectSet:");
-late final $_sel_intersectsIndexesInRange_ =
+late final _sel_intersectSet_ = objc.registerName("intersectSet:");
+late final _sel_intersectsIndexesInRange_ =
     objc.registerName("intersectsIndexesInRange:");
-late final $_sel_intersectsOrderedSet_ =
+late final _sel_intersectsOrderedSet_ =
     objc.registerName("intersectsOrderedSet:");
-late final $_sel_intersectsSet_ = objc.registerName("intersectsSet:");
-late final $_sel_inverseDifference = objc.registerName("inverseDifference");
-late final $_sel_invertedSet = objc.registerName("invertedSet");
-late final $_sel_isEqualToArray_ = objc.registerName("isEqualToArray:");
-late final $_sel_isEqualToData_ = objc.registerName("isEqualToData:");
-late final $_sel_isEqualToDate_ = objc.registerName("isEqualToDate:");
-late final $_sel_isEqualToDictionary_ =
+late final _sel_intersectsSet_ = objc.registerName("intersectsSet:");
+late final _sel_inverseDifference = objc.registerName("inverseDifference");
+late final _sel_invertedSet = objc.registerName("invertedSet");
+late final _sel_isEqualToArray_ = objc.registerName("isEqualToArray:");
+late final _sel_isEqualToData_ = objc.registerName("isEqualToData:");
+late final _sel_isEqualToDate_ = objc.registerName("isEqualToDate:");
+late final _sel_isEqualToDictionary_ =
     objc.registerName("isEqualToDictionary:");
-late final $_sel_isEqualToIndexSet_ = objc.registerName("isEqualToIndexSet:");
-late final $_sel_isEqualToNumber_ = objc.registerName("isEqualToNumber:");
-late final $_sel_isEqualToOrderedSet_ =
+late final _sel_isEqualToIndexSet_ = objc.registerName("isEqualToIndexSet:");
+late final _sel_isEqualToNumber_ = objc.registerName("isEqualToNumber:");
+late final _sel_isEqualToOrderedSet_ =
     objc.registerName("isEqualToOrderedSet:");
-late final $_sel_isEqualToSet_ = objc.registerName("isEqualToSet:");
-late final $_sel_isEqualToString_ = objc.registerName("isEqualToString:");
-late final $_sel_isEqual_ = objc.registerName("isEqual:");
-late final $_sel_isFileReferenceURL = objc.registerName("isFileReferenceURL");
-late final $_sel_isFileURL = objc.registerName("isFileURL");
-late final $_sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-late final $_sel_isMemberOfClass_ = objc.registerName("isMemberOfClass:");
-late final $_sel_isOneway = objc.registerName("isOneway");
-late final $_sel_isProxy = objc.registerName("isProxy");
-late final $_sel_isSubclassOfClass_ = objc.registerName("isSubclassOfClass:");
-late final $_sel_isSubsetOfOrderedSet_ =
+late final _sel_isEqualToSet_ = objc.registerName("isEqualToSet:");
+late final _sel_isEqualToString_ = objc.registerName("isEqualToString:");
+late final _sel_isEqual_ = objc.registerName("isEqual:");
+late final _sel_isFileReferenceURL = objc.registerName("isFileReferenceURL");
+late final _sel_isFileURL = objc.registerName("isFileURL");
+late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_isMemberOfClass_ = objc.registerName("isMemberOfClass:");
+late final _sel_isOneway = objc.registerName("isOneway");
+late final _sel_isProxy = objc.registerName("isProxy");
+late final _sel_isSubclassOfClass_ = objc.registerName("isSubclassOfClass:");
+late final _sel_isSubsetOfOrderedSet_ =
     objc.registerName("isSubsetOfOrderedSet:");
-late final $_sel_isSubsetOfSet_ = objc.registerName("isSubsetOfSet:");
-late final $_sel_isSupersetOfSet_ = objc.registerName("isSupersetOfSet:");
-late final $_sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
+late final _sel_isSubsetOfSet_ = objc.registerName("isSubsetOfSet:");
+late final _sel_isSupersetOfSet_ = objc.registerName("isSupersetOfSet:");
+late final _sel_itemProviderVisibilityForRepresentationWithTypeIdentifier_ =
     objc.registerName(
         "itemProviderVisibilityForRepresentationWithTypeIdentifier:");
-late final $_sel_keyEnumerator = objc.registerName("keyEnumerator");
-late final $_sel_keysSortedByValueUsingSelector_ =
+late final _sel_keyEnumerator = objc.registerName("keyEnumerator");
+late final _sel_keysSortedByValueUsingSelector_ =
     objc.registerName("keysSortedByValueUsingSelector:");
-late final $_sel_lastIndex = objc.registerName("lastIndex");
-late final $_sel_lastObject = objc.registerName("lastObject");
-late final $_sel_laterDate_ = objc.registerName("laterDate:");
-late final $_sel_length = objc.registerName("length");
-late final $_sel_lengthOfBytesUsingEncoding_ =
+late final _sel_lastIndex = objc.registerName("lastIndex");
+late final _sel_lastObject = objc.registerName("lastObject");
+late final _sel_laterDate_ = objc.registerName("laterDate:");
+late final _sel_length = objc.registerName("length");
+late final _sel_lengthOfBytesUsingEncoding_ =
     objc.registerName("lengthOfBytesUsingEncoding:");
-late final $_sel_letterCharacterSet = objc.registerName("letterCharacterSet");
-late final $_sel_lineRangeForRange_ = objc.registerName("lineRangeForRange:");
-late final $_sel_load = objc.registerName("load");
-late final $_sel_loadItemForTypeIdentifier_options_completionHandler_ =
+late final _sel_letterCharacterSet = objc.registerName("letterCharacterSet");
+late final _sel_lineRangeForRange_ = objc.registerName("lineRangeForRange:");
+late final _sel_load = objc.registerName("load");
+late final _sel_loadItemForTypeIdentifier_options_completionHandler_ =
     objc.registerName("loadItemForTypeIdentifier:options:completionHandler:");
-late final $_sel_localizedCapitalizedString =
+late final _sel_localizedCapitalizedString =
     objc.registerName("localizedCapitalizedString");
-late final $_sel_localizedCaseInsensitiveCompare_ =
+late final _sel_localizedCaseInsensitiveCompare_ =
     objc.registerName("localizedCaseInsensitiveCompare:");
-late final $_sel_localizedCaseInsensitiveContainsString_ =
+late final _sel_localizedCaseInsensitiveContainsString_ =
     objc.registerName("localizedCaseInsensitiveContainsString:");
-late final $_sel_localizedCompare_ = objc.registerName("localizedCompare:");
-late final $_sel_localizedDescription =
+late final _sel_localizedCompare_ = objc.registerName("localizedCompare:");
+late final _sel_localizedDescription =
     objc.registerName("localizedDescription");
-late final $_sel_localizedFailureReason =
+late final _sel_localizedFailureReason =
     objc.registerName("localizedFailureReason");
-late final $_sel_localizedLowercaseString =
+late final _sel_localizedLowercaseString =
     objc.registerName("localizedLowercaseString");
-late final $_sel_localizedNameOfStringEncoding_ =
+late final _sel_localizedNameOfStringEncoding_ =
     objc.registerName("localizedNameOfStringEncoding:");
-late final $_sel_localizedRecoveryOptions =
+late final _sel_localizedRecoveryOptions =
     objc.registerName("localizedRecoveryOptions");
-late final $_sel_localizedRecoverySuggestion =
+late final _sel_localizedRecoverySuggestion =
     objc.registerName("localizedRecoverySuggestion");
-late final $_sel_localizedStandardCompare_ =
+late final _sel_localizedStandardCompare_ =
     objc.registerName("localizedStandardCompare:");
-late final $_sel_localizedStandardContainsString_ =
+late final _sel_localizedStandardContainsString_ =
     objc.registerName("localizedStandardContainsString:");
-late final $_sel_localizedStandardRangeOfString_ =
+late final _sel_localizedStandardRangeOfString_ =
     objc.registerName("localizedStandardRangeOfString:");
-late final $_sel_localizedStringWithFormat_ =
+late final _sel_localizedStringWithFormat_ =
     objc.registerName("localizedStringWithFormat:");
-late final $_sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_ =
+late final _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_ =
     objc.registerName(
         "localizedStringWithValidatedFormat:validFormatSpecifiers:error:");
-late final $_sel_localizedUppercaseString =
+late final _sel_localizedUppercaseString =
     objc.registerName("localizedUppercaseString");
-late final $_sel_longCharacterIsMember_ =
+late final _sel_longCharacterIsMember_ =
     objc.registerName("longCharacterIsMember:");
-late final $_sel_longLongValue = objc.registerName("longLongValue");
-late final $_sel_longValue = objc.registerName("longValue");
-late final $_sel_lowercaseLetterCharacterSet =
+late final _sel_longLongValue = objc.registerName("longLongValue");
+late final _sel_longValue = objc.registerName("longValue");
+late final _sel_lowercaseLetterCharacterSet =
     objc.registerName("lowercaseLetterCharacterSet");
-late final $_sel_lowercaseString = objc.registerName("lowercaseString");
-late final $_sel_lowercaseStringWithLocale_ =
+late final _sel_lowercaseString = objc.registerName("lowercaseString");
+late final _sel_lowercaseStringWithLocale_ =
     objc.registerName("lowercaseStringWithLocale:");
-late final $_sel_makeObjectsPerformSelector_ =
+late final _sel_makeObjectsPerformSelector_ =
     objc.registerName("makeObjectsPerformSelector:");
-late final $_sel_makeObjectsPerformSelector_withObject_ =
+late final _sel_makeObjectsPerformSelector_withObject_ =
     objc.registerName("makeObjectsPerformSelector:withObject:");
-late final $_sel_maximumLengthOfBytesUsingEncoding_ =
+late final _sel_maximumLengthOfBytesUsingEncoding_ =
     objc.registerName("maximumLengthOfBytesUsingEncoding:");
-late final $_sel_member_ = objc.registerName("member:");
-late final $_sel_methodForSelector_ = objc.registerName("methodForSelector:");
-late final $_sel_methodReturnLength = objc.registerName("methodReturnLength");
-late final $_sel_methodReturnType = objc.registerName("methodReturnType");
-late final $_sel_methodSignatureForSelector_ =
+late final _sel_member_ = objc.registerName("member:");
+late final _sel_methodForSelector_ = objc.registerName("methodForSelector:");
+late final _sel_methodReturnLength = objc.registerName("methodReturnLength");
+late final _sel_methodReturnType = objc.registerName("methodReturnType");
+late final _sel_methodSignatureForSelector_ =
     objc.registerName("methodSignatureForSelector:");
-late final $_sel_minusOrderedSet_ = objc.registerName("minusOrderedSet:");
-late final $_sel_minusSet_ = objc.registerName("minusSet:");
-late final $_sel_moveObjectsAtIndexes_toIndex_ =
+late final _sel_minusOrderedSet_ = objc.registerName("minusOrderedSet:");
+late final _sel_minusSet_ = objc.registerName("minusSet:");
+late final _sel_moveObjectsAtIndexes_toIndex_ =
     objc.registerName("moveObjectsAtIndexes:toIndex:");
-late final $_sel_mutableBytes = objc.registerName("mutableBytes");
-late final $_sel_mutableCopy = objc.registerName("mutableCopy");
-late final $_sel_mutableCopyWithZone_ =
+late final _sel_mutableBytes = objc.registerName("mutableBytes");
+late final _sel_mutableCopy = objc.registerName("mutableCopy");
+late final _sel_mutableCopyWithZone_ =
     objc.registerName("mutableCopyWithZone:");
-late final $_sel_name = objc.registerName("name");
-late final $_sel_new = objc.registerName("new");
-late final $_sel_newlineCharacterSet = objc.registerName("newlineCharacterSet");
-late final $_sel_nextObject = objc.registerName("nextObject");
-late final $_sel_nonBaseCharacterSet = objc.registerName("nonBaseCharacterSet");
-late final $_sel_notificationWithName_object_ =
+late final _sel_name = objc.registerName("name");
+late final _sel_new = objc.registerName("new");
+late final _sel_newlineCharacterSet = objc.registerName("newlineCharacterSet");
+late final _sel_nextObject = objc.registerName("nextObject");
+late final _sel_nonBaseCharacterSet = objc.registerName("nonBaseCharacterSet");
+late final _sel_notificationWithName_object_ =
     objc.registerName("notificationWithName:object:");
-late final $_sel_notificationWithName_object_userInfo_ =
+late final _sel_notificationWithName_object_userInfo_ =
     objc.registerName("notificationWithName:object:userInfo:");
-late final $_sel_numberOfArguments = objc.registerName("numberOfArguments");
-late final $_sel_numberWithBool_ = objc.registerName("numberWithBool:");
-late final $_sel_numberWithChar_ = objc.registerName("numberWithChar:");
-late final $_sel_numberWithDouble_ = objc.registerName("numberWithDouble:");
-late final $_sel_numberWithFloat_ = objc.registerName("numberWithFloat:");
-late final $_sel_numberWithInt_ = objc.registerName("numberWithInt:");
-late final $_sel_numberWithInteger_ = objc.registerName("numberWithInteger:");
-late final $_sel_numberWithLongLong_ = objc.registerName("numberWithLongLong:");
-late final $_sel_numberWithLong_ = objc.registerName("numberWithLong:");
-late final $_sel_numberWithShort_ = objc.registerName("numberWithShort:");
-late final $_sel_numberWithUnsignedChar_ =
+late final _sel_numberOfArguments = objc.registerName("numberOfArguments");
+late final _sel_numberWithBool_ = objc.registerName("numberWithBool:");
+late final _sel_numberWithChar_ = objc.registerName("numberWithChar:");
+late final _sel_numberWithDouble_ = objc.registerName("numberWithDouble:");
+late final _sel_numberWithFloat_ = objc.registerName("numberWithFloat:");
+late final _sel_numberWithInt_ = objc.registerName("numberWithInt:");
+late final _sel_numberWithInteger_ = objc.registerName("numberWithInteger:");
+late final _sel_numberWithLongLong_ = objc.registerName("numberWithLongLong:");
+late final _sel_numberWithLong_ = objc.registerName("numberWithLong:");
+late final _sel_numberWithShort_ = objc.registerName("numberWithShort:");
+late final _sel_numberWithUnsignedChar_ =
     objc.registerName("numberWithUnsignedChar:");
-late final $_sel_numberWithUnsignedInt_ =
+late final _sel_numberWithUnsignedInt_ =
     objc.registerName("numberWithUnsignedInt:");
-late final $_sel_numberWithUnsignedInteger_ =
+late final _sel_numberWithUnsignedInteger_ =
     objc.registerName("numberWithUnsignedInteger:");
-late final $_sel_numberWithUnsignedLongLong_ =
+late final _sel_numberWithUnsignedLongLong_ =
     objc.registerName("numberWithUnsignedLongLong:");
-late final $_sel_numberWithUnsignedLong_ =
+late final _sel_numberWithUnsignedLong_ =
     objc.registerName("numberWithUnsignedLong:");
-late final $_sel_numberWithUnsignedShort_ =
+late final _sel_numberWithUnsignedShort_ =
     objc.registerName("numberWithUnsignedShort:");
-late final $_sel_objCType = objc.registerName("objCType");
-late final $_sel_object = objc.registerName("object");
-late final $_sel_objectAtIndex_ = objc.registerName("objectAtIndex:");
-late final $_sel_objectAtIndexedSubscript_ =
+late final _sel_objCType = objc.registerName("objCType");
+late final _sel_object = objc.registerName("object");
+late final _sel_objectAtIndex_ = objc.registerName("objectAtIndex:");
+late final _sel_objectAtIndexedSubscript_ =
     objc.registerName("objectAtIndexedSubscript:");
-late final $_sel_objectEnumerator = objc.registerName("objectEnumerator");
-late final $_sel_objectForKey_ = objc.registerName("objectForKey:");
-late final $_sel_objectForKeyedSubscript_ =
+late final _sel_objectEnumerator = objc.registerName("objectEnumerator");
+late final _sel_objectForKey_ = objc.registerName("objectForKey:");
+late final _sel_objectForKeyedSubscript_ =
     objc.registerName("objectForKeyedSubscript:");
-late final $_sel_objectWithItemProviderData_typeIdentifier_error_ =
+late final _sel_objectWithItemProviderData_typeIdentifier_error_ =
     objc.registerName("objectWithItemProviderData:typeIdentifier:error:");
-late final $_sel_objectsAtIndexes_ = objc.registerName("objectsAtIndexes:");
-late final $_sel_objectsForKeys_notFoundMarker_ =
+late final _sel_objectsAtIndexes_ = objc.registerName("objectsAtIndexes:");
+late final _sel_objectsForKeys_notFoundMarker_ =
     objc.registerName("objectsForKeys:notFoundMarker:");
-late final $_sel_open = objc.registerName("open");
-late final $_sel_orderedSet = objc.registerName("orderedSet");
-late final $_sel_orderedSetWithArray_ =
+late final _sel_open = objc.registerName("open");
+late final _sel_orderedSet = objc.registerName("orderedSet");
+late final _sel_orderedSetWithArray_ =
     objc.registerName("orderedSetWithArray:");
-late final $_sel_orderedSetWithArray_range_copyItems_ =
+late final _sel_orderedSetWithArray_range_copyItems_ =
     objc.registerName("orderedSetWithArray:range:copyItems:");
-late final $_sel_orderedSetWithCapacity_ =
+late final _sel_orderedSetWithCapacity_ =
     objc.registerName("orderedSetWithCapacity:");
-late final $_sel_orderedSetWithObject_ =
+late final _sel_orderedSetWithObject_ =
     objc.registerName("orderedSetWithObject:");
-late final $_sel_orderedSetWithObjects_ =
+late final _sel_orderedSetWithObjects_ =
     objc.registerName("orderedSetWithObjects:");
-late final $_sel_orderedSetWithObjects_count_ =
+late final _sel_orderedSetWithObjects_count_ =
     objc.registerName("orderedSetWithObjects:count:");
-late final $_sel_orderedSetWithOrderedSet_ =
+late final _sel_orderedSetWithOrderedSet_ =
     objc.registerName("orderedSetWithOrderedSet:");
-late final $_sel_orderedSetWithOrderedSet_range_copyItems_ =
+late final _sel_orderedSetWithOrderedSet_range_copyItems_ =
     objc.registerName("orderedSetWithOrderedSet:range:copyItems:");
-late final $_sel_orderedSetWithSet_ = objc.registerName("orderedSetWithSet:");
-late final $_sel_orderedSetWithSet_copyItems_ =
+late final _sel_orderedSetWithSet_ = objc.registerName("orderedSetWithSet:");
+late final _sel_orderedSetWithSet_copyItems_ =
     objc.registerName("orderedSetWithSet:copyItems:");
-late final $_sel_outputStreamToBuffer_capacity_ =
+late final _sel_outputStreamToBuffer_capacity_ =
     objc.registerName("outputStreamToBuffer:capacity:");
-late final $_sel_outputStreamToFileAtPath_append_ =
+late final _sel_outputStreamToFileAtPath_append_ =
     objc.registerName("outputStreamToFileAtPath:append:");
-late final $_sel_outputStreamToMemory =
+late final _sel_outputStreamToMemory =
     objc.registerName("outputStreamToMemory");
-late final $_sel_outputStreamWithURL_append_ =
+late final _sel_outputStreamWithURL_append_ =
     objc.registerName("outputStreamWithURL:append:");
-late final $_sel_paragraphRangeForRange_ =
+late final _sel_paragraphRangeForRange_ =
     objc.registerName("paragraphRangeForRange:");
-late final $_sel_parameterString = objc.registerName("parameterString");
-late final $_sel_password = objc.registerName("password");
-late final $_sel_path = objc.registerName("path");
-late final $_sel_performSelector_ = objc.registerName("performSelector:");
-late final $_sel_performSelector_withObject_ =
+late final _sel_parameterString = objc.registerName("parameterString");
+late final _sel_password = objc.registerName("password");
+late final _sel_path = objc.registerName("path");
+late final _sel_performSelector_ = objc.registerName("performSelector:");
+late final _sel_performSelector_withObject_ =
     objc.registerName("performSelector:withObject:");
-late final $_sel_performSelector_withObject_withObject_ =
+late final _sel_performSelector_withObject_withObject_ =
     objc.registerName("performSelector:withObject:withObject:");
-late final $_sel_port = objc.registerName("port");
-late final $_sel_precomposedStringWithCanonicalMapping =
+late final _sel_port = objc.registerName("port");
+late final _sel_precomposedStringWithCanonicalMapping =
     objc.registerName("precomposedStringWithCanonicalMapping");
-late final $_sel_precomposedStringWithCompatibilityMapping =
+late final _sel_precomposedStringWithCompatibilityMapping =
     objc.registerName("precomposedStringWithCompatibilityMapping");
-late final $_sel_propertyForKey_ = objc.registerName("propertyForKey:");
-late final $_sel_punctuationCharacterSet =
+late final _sel_propertyForKey_ = objc.registerName("propertyForKey:");
+late final _sel_punctuationCharacterSet =
     objc.registerName("punctuationCharacterSet");
-late final $_sel_query = objc.registerName("query");
-late final $_sel_rangeOfCharacterFromSet_ =
+late final _sel_query = objc.registerName("query");
+late final _sel_rangeOfCharacterFromSet_ =
     objc.registerName("rangeOfCharacterFromSet:");
-late final $_sel_rangeOfCharacterFromSet_options_ =
+late final _sel_rangeOfCharacterFromSet_options_ =
     objc.registerName("rangeOfCharacterFromSet:options:");
-late final $_sel_rangeOfCharacterFromSet_options_range_ =
+late final _sel_rangeOfCharacterFromSet_options_range_ =
     objc.registerName("rangeOfCharacterFromSet:options:range:");
-late final $_sel_rangeOfComposedCharacterSequenceAtIndex_ =
+late final _sel_rangeOfComposedCharacterSequenceAtIndex_ =
     objc.registerName("rangeOfComposedCharacterSequenceAtIndex:");
-late final $_sel_rangeOfComposedCharacterSequencesForRange_ =
+late final _sel_rangeOfComposedCharacterSequencesForRange_ =
     objc.registerName("rangeOfComposedCharacterSequencesForRange:");
-late final $_sel_rangeOfData_options_range_ =
+late final _sel_rangeOfData_options_range_ =
     objc.registerName("rangeOfData:options:range:");
-late final $_sel_rangeOfString_ = objc.registerName("rangeOfString:");
-late final $_sel_rangeOfString_options_ =
+late final _sel_rangeOfString_ = objc.registerName("rangeOfString:");
+late final _sel_rangeOfString_options_ =
     objc.registerName("rangeOfString:options:");
-late final $_sel_rangeOfString_options_range_ =
+late final _sel_rangeOfString_options_range_ =
     objc.registerName("rangeOfString:options:range:");
-late final $_sel_rangeOfString_options_range_locale_ =
+late final _sel_rangeOfString_options_range_locale_ =
     objc.registerName("rangeOfString:options:range:locale:");
-late final $_sel_read_maxLength_ = objc.registerName("read:maxLength:");
-late final $_sel_recoveryAttempter = objc.registerName("recoveryAttempter");
-late final $_sel_registerObject_visibility_ =
+late final _sel_read_maxLength_ = objc.registerName("read:maxLength:");
+late final _sel_recoveryAttempter = objc.registerName("recoveryAttempter");
+late final _sel_registerObject_visibility_ =
     objc.registerName("registerObject:visibility:");
-late final $_sel_registeredTypeIdentifiers =
+late final _sel_registeredTypeIdentifiers =
     objc.registerName("registeredTypeIdentifiers");
-late final $_sel_registeredTypeIdentifiersWithFileOptions_ =
+late final _sel_registeredTypeIdentifiersWithFileOptions_ =
     objc.registerName("registeredTypeIdentifiersWithFileOptions:");
-late final $_sel_relativePath = objc.registerName("relativePath");
-late final $_sel_relativeString = objc.registerName("relativeString");
-late final $_sel_release = objc.registerName("release");
-late final $_sel_removals = objc.registerName("removals");
-late final $_sel_removeAllCachedResourceValues =
+late final _sel_relativePath = objc.registerName("relativePath");
+late final _sel_relativeString = objc.registerName("relativeString");
+late final _sel_release = objc.registerName("release");
+late final _sel_removals = objc.registerName("removals");
+late final _sel_removeAllCachedResourceValues =
     objc.registerName("removeAllCachedResourceValues");
-late final $_sel_removeAllIndexes = objc.registerName("removeAllIndexes");
-late final $_sel_removeAllObjects = objc.registerName("removeAllObjects");
-late final $_sel_removeCachedResourceValueForKey_ =
+late final _sel_removeAllIndexes = objc.registerName("removeAllIndexes");
+late final _sel_removeAllObjects = objc.registerName("removeAllObjects");
+late final _sel_removeCachedResourceValueForKey_ =
     objc.registerName("removeCachedResourceValueForKey:");
-late final $_sel_removeFromRunLoop_forMode_ =
+late final _sel_removeFromRunLoop_forMode_ =
     objc.registerName("removeFromRunLoop:forMode:");
-late final $_sel_removeIndex_ = objc.registerName("removeIndex:");
-late final $_sel_removeIndexesInRange_ =
+late final _sel_removeIndex_ = objc.registerName("removeIndex:");
+late final _sel_removeIndexesInRange_ =
     objc.registerName("removeIndexesInRange:");
-late final $_sel_removeIndexes_ = objc.registerName("removeIndexes:");
-late final $_sel_removeLastObject = objc.registerName("removeLastObject");
-late final $_sel_removeObjectAtIndex_ =
+late final _sel_removeIndexes_ = objc.registerName("removeIndexes:");
+late final _sel_removeLastObject = objc.registerName("removeLastObject");
+late final _sel_removeObjectAtIndex_ =
     objc.registerName("removeObjectAtIndex:");
-late final $_sel_removeObjectForKey_ = objc.registerName("removeObjectForKey:");
-late final $_sel_removeObjectIdenticalTo_ =
+late final _sel_removeObjectForKey_ = objc.registerName("removeObjectForKey:");
+late final _sel_removeObjectIdenticalTo_ =
     objc.registerName("removeObjectIdenticalTo:");
-late final $_sel_removeObjectIdenticalTo_inRange_ =
+late final _sel_removeObjectIdenticalTo_inRange_ =
     objc.registerName("removeObjectIdenticalTo:inRange:");
-late final $_sel_removeObject_ = objc.registerName("removeObject:");
-late final $_sel_removeObject_inRange_ =
+late final _sel_removeObject_ = objc.registerName("removeObject:");
+late final _sel_removeObject_inRange_ =
     objc.registerName("removeObject:inRange:");
-late final $_sel_removeObjectsAtIndexes_ =
+late final _sel_removeObjectsAtIndexes_ =
     objc.registerName("removeObjectsAtIndexes:");
-late final $_sel_removeObjectsForKeys_ =
+late final _sel_removeObjectsForKeys_ =
     objc.registerName("removeObjectsForKeys:");
-late final $_sel_removeObjectsInArray_ =
+late final _sel_removeObjectsInArray_ =
     objc.registerName("removeObjectsInArray:");
-late final $_sel_removeObjectsInRange_ =
+late final _sel_removeObjectsInRange_ =
     objc.registerName("removeObjectsInRange:");
-late final $_sel_replaceBytesInRange_withBytes_ =
+late final _sel_replaceBytesInRange_withBytes_ =
     objc.registerName("replaceBytesInRange:withBytes:");
-late final $_sel_replaceBytesInRange_withBytes_length_ =
+late final _sel_replaceBytesInRange_withBytes_length_ =
     objc.registerName("replaceBytesInRange:withBytes:length:");
-late final $_sel_replaceCharactersInRange_withString_ =
+late final _sel_replaceCharactersInRange_withString_ =
     objc.registerName("replaceCharactersInRange:withString:");
-late final $_sel_replaceObjectAtIndex_withObject_ =
+late final _sel_replaceObjectAtIndex_withObject_ =
     objc.registerName("replaceObjectAtIndex:withObject:");
-late final $_sel_replaceObjectsAtIndexes_withObjects_ =
+late final _sel_replaceObjectsAtIndexes_withObjects_ =
     objc.registerName("replaceObjectsAtIndexes:withObjects:");
-late final $_sel_replaceObjectsInRange_withObjectsFromArray_ =
+late final _sel_replaceObjectsInRange_withObjectsFromArray_ =
     objc.registerName("replaceObjectsInRange:withObjectsFromArray:");
-late final $_sel_replaceObjectsInRange_withObjectsFromArray_range_ =
+late final _sel_replaceObjectsInRange_withObjectsFromArray_range_ =
     objc.registerName("replaceObjectsInRange:withObjectsFromArray:range:");
-late final $_sel_replaceObjectsInRange_withObjects_count_ =
+late final _sel_replaceObjectsInRange_withObjects_count_ =
     objc.registerName("replaceObjectsInRange:withObjects:count:");
-late final $_sel_resetBytesInRange_ = objc.registerName("resetBytesInRange:");
-late final $_sel_resolveClassMethod_ = objc.registerName("resolveClassMethod:");
-late final $_sel_resolveInstanceMethod_ =
+late final _sel_resetBytesInRange_ = objc.registerName("resetBytesInRange:");
+late final _sel_resolveClassMethod_ = objc.registerName("resolveClassMethod:");
+late final _sel_resolveInstanceMethod_ =
     objc.registerName("resolveInstanceMethod:");
-late final $_sel_resourceSpecifier = objc.registerName("resourceSpecifier");
-late final $_sel_resourceValuesForKeys_error_ =
+late final _sel_resourceSpecifier = objc.registerName("resourceSpecifier");
+late final _sel_resourceValuesForKeys_error_ =
     objc.registerName("resourceValuesForKeys:error:");
-late final $_sel_resourceValuesForKeys_fromBookmarkData_ =
+late final _sel_resourceValuesForKeys_fromBookmarkData_ =
     objc.registerName("resourceValuesForKeys:fromBookmarkData:");
-late final $_sel_respondsToSelector_ = objc.registerName("respondsToSelector:");
-late final $_sel_retain = objc.registerName("retain");
-late final $_sel_retainCount = objc.registerName("retainCount");
-late final $_sel_reverseObjectEnumerator =
+late final _sel_respondsToSelector_ = objc.registerName("respondsToSelector:");
+late final _sel_retain = objc.registerName("retain");
+late final _sel_retainCount = objc.registerName("retainCount");
+late final _sel_reverseObjectEnumerator =
     objc.registerName("reverseObjectEnumerator");
-late final $_sel_reversedOrderedSet = objc.registerName("reversedOrderedSet");
-late final $_sel_scheduleInRunLoop_forMode_ =
+late final _sel_reversedOrderedSet = objc.registerName("reversedOrderedSet");
+late final _sel_scheduleInRunLoop_forMode_ =
     objc.registerName("scheduleInRunLoop:forMode:");
-late final $_sel_scheme = objc.registerName("scheme");
-late final $_sel_self = objc.registerName("self");
-late final $_sel_set = objc.registerName("set");
-late final $_sel_setArray_ = objc.registerName("setArray:");
-late final $_sel_setByAddingObject_ = objc.registerName("setByAddingObject:");
-late final $_sel_setByAddingObjectsFromArray_ =
+late final _sel_scheme = objc.registerName("scheme");
+late final _sel_self = objc.registerName("self");
+late final _sel_set = objc.registerName("set");
+late final _sel_setArray_ = objc.registerName("setArray:");
+late final _sel_setByAddingObject_ = objc.registerName("setByAddingObject:");
+late final _sel_setByAddingObjectsFromArray_ =
     objc.registerName("setByAddingObjectsFromArray:");
-late final $_sel_setByAddingObjectsFromSet_ =
+late final _sel_setByAddingObjectsFromSet_ =
     objc.registerName("setByAddingObjectsFromSet:");
-late final $_sel_setData_ = objc.registerName("setData:");
-late final $_sel_setDelegate_ = objc.registerName("setDelegate:");
-late final $_sel_setDictionary_ = objc.registerName("setDictionary:");
-late final $_sel_setDone = objc.registerName("setDone");
-late final $_sel_setError_ = objc.registerName("setError:");
-late final $_sel_setLength_ = objc.registerName("setLength:");
-late final $_sel_setObject_atIndex_ = objc.registerName("setObject:atIndex:");
-late final $_sel_setObject_atIndexedSubscript_ =
+late final _sel_setData_ = objc.registerName("setData:");
+late final _sel_setDelegate_ = objc.registerName("setDelegate:");
+late final _sel_setDictionary_ = objc.registerName("setDictionary:");
+late final _sel_setDone = objc.registerName("setDone");
+late final _sel_setError_ = objc.registerName("setError:");
+late final _sel_setLength_ = objc.registerName("setLength:");
+late final _sel_setObject_atIndex_ = objc.registerName("setObject:atIndex:");
+late final _sel_setObject_atIndexedSubscript_ =
     objc.registerName("setObject:atIndexedSubscript:");
-late final $_sel_setObject_forKey_ = objc.registerName("setObject:forKey:");
-late final $_sel_setObject_forKeyedSubscript_ =
+late final _sel_setObject_forKey_ = objc.registerName("setObject:forKey:");
+late final _sel_setObject_forKeyedSubscript_ =
     objc.registerName("setObject:forKeyedSubscript:");
-late final $_sel_setProperty_forKey_ = objc.registerName("setProperty:forKey:");
-late final $_sel_setResourceValue_forKey_error_ =
+late final _sel_setProperty_forKey_ = objc.registerName("setProperty:forKey:");
+late final _sel_setResourceValue_forKey_error_ =
     objc.registerName("setResourceValue:forKey:error:");
-late final $_sel_setResourceValues_error_ =
+late final _sel_setResourceValues_error_ =
     objc.registerName("setResourceValues:error:");
-late final $_sel_setSet_ = objc.registerName("setSet:");
-late final $_sel_setSuggestedName_ = objc.registerName("setSuggestedName:");
-late final $_sel_setTemporaryResourceValue_forKey_ =
+late final _sel_setSet_ = objc.registerName("setSet:");
+late final _sel_setSuggestedName_ = objc.registerName("setSuggestedName:");
+late final _sel_setTemporaryResourceValue_forKey_ =
     objc.registerName("setTemporaryResourceValue:forKey:");
-late final $_sel_setWithArray_ = objc.registerName("setWithArray:");
-late final $_sel_setWithCapacity_ = objc.registerName("setWithCapacity:");
-late final $_sel_setWithObject_ = objc.registerName("setWithObject:");
-late final $_sel_setWithObjects_ = objc.registerName("setWithObjects:");
-late final $_sel_setWithObjects_count_ =
+late final _sel_setWithArray_ = objc.registerName("setWithArray:");
+late final _sel_setWithCapacity_ = objc.registerName("setWithCapacity:");
+late final _sel_setWithObject_ = objc.registerName("setWithObject:");
+late final _sel_setWithObjects_ = objc.registerName("setWithObjects:");
+late final _sel_setWithObjects_count_ =
     objc.registerName("setWithObjects:count:");
-late final $_sel_setWithSet_ = objc.registerName("setWithSet:");
-late final $_sel_shiftIndexesStartingAtIndex_by_ =
+late final _sel_setWithSet_ = objc.registerName("setWithSet:");
+late final _sel_shiftIndexesStartingAtIndex_by_ =
     objc.registerName("shiftIndexesStartingAtIndex:by:");
-late final $_sel_shortValue = objc.registerName("shortValue");
-late final $_sel_signatureWithObjCTypes_ =
+late final _sel_shortValue = objc.registerName("shortValue");
+late final _sel_signatureWithObjCTypes_ =
     objc.registerName("signatureWithObjCTypes:");
-late final $_sel_smallestEncoding = objc.registerName("smallestEncoding");
-late final $_sel_sortUsingFunction_context_ =
+late final _sel_smallestEncoding = objc.registerName("smallestEncoding");
+late final _sel_sortUsingFunction_context_ =
     objc.registerName("sortUsingFunction:context:");
-late final $_sel_sortUsingSelector_ = objc.registerName("sortUsingSelector:");
-late final $_sel_sortedArrayHint = objc.registerName("sortedArrayHint");
-late final $_sel_sortedArrayUsingFunction_context_ =
+late final _sel_sortUsingSelector_ = objc.registerName("sortUsingSelector:");
+late final _sel_sortedArrayHint = objc.registerName("sortedArrayHint");
+late final _sel_sortedArrayUsingFunction_context_ =
     objc.registerName("sortedArrayUsingFunction:context:");
-late final $_sel_sortedArrayUsingFunction_context_hint_ =
+late final _sel_sortedArrayUsingFunction_context_hint_ =
     objc.registerName("sortedArrayUsingFunction:context:hint:");
-late final $_sel_sortedArrayUsingSelector_ =
+late final _sel_sortedArrayUsingSelector_ =
     objc.registerName("sortedArrayUsingSelector:");
-late final $_sel_standardizedURL = objc.registerName("standardizedURL");
-late final $_sel_startAccessingSecurityScopedResource =
+late final _sel_standardizedURL = objc.registerName("standardizedURL");
+late final _sel_startAccessingSecurityScopedResource =
     objc.registerName("startAccessingSecurityScopedResource");
-late final $_sel_stopAccessingSecurityScopedResource =
+late final _sel_stopAccessingSecurityScopedResource =
     objc.registerName("stopAccessingSecurityScopedResource");
-late final $_sel_streamError = objc.registerName("streamError");
-late final $_sel_streamStatus = objc.registerName("streamStatus");
-late final $_sel_stream_handleEvent_ = objc.registerName("stream:handleEvent:");
-late final $_sel_string = objc.registerName("string");
-late final $_sel_stringByAppendingFormat_ =
+late final _sel_streamError = objc.registerName("streamError");
+late final _sel_streamStatus = objc.registerName("streamStatus");
+late final _sel_stream_handleEvent_ = objc.registerName("stream:handleEvent:");
+late final _sel_string = objc.registerName("string");
+late final _sel_stringByAppendingFormat_ =
     objc.registerName("stringByAppendingFormat:");
-late final $_sel_stringByAppendingString_ =
+late final _sel_stringByAppendingString_ =
     objc.registerName("stringByAppendingString:");
-late final $_sel_stringByApplyingTransform_reverse_ =
+late final _sel_stringByApplyingTransform_reverse_ =
     objc.registerName("stringByApplyingTransform:reverse:");
-late final $_sel_stringByFoldingWithOptions_locale_ =
+late final _sel_stringByFoldingWithOptions_locale_ =
     objc.registerName("stringByFoldingWithOptions:locale:");
-late final $_sel_stringByPaddingToLength_withString_startingAtIndex_ =
+late final _sel_stringByPaddingToLength_withString_startingAtIndex_ =
     objc.registerName("stringByPaddingToLength:withString:startingAtIndex:");
-late final $_sel_stringByReplacingCharactersInRange_withString_ =
+late final _sel_stringByReplacingCharactersInRange_withString_ =
     objc.registerName("stringByReplacingCharactersInRange:withString:");
-late final $_sel_stringByReplacingOccurrencesOfString_withString_ =
+late final _sel_stringByReplacingOccurrencesOfString_withString_ =
     objc.registerName("stringByReplacingOccurrencesOfString:withString:");
-late final $_sel_stringByReplacingOccurrencesOfString_withString_options_range_ =
+late final _sel_stringByReplacingOccurrencesOfString_withString_options_range_ =
     objc.registerName(
         "stringByReplacingOccurrencesOfString:withString:options:range:");
-late final $_sel_stringByTrimmingCharactersInSet_ =
+late final _sel_stringByTrimmingCharactersInSet_ =
     objc.registerName("stringByTrimmingCharactersInSet:");
-late final $_sel_stringValue = objc.registerName("stringValue");
-late final $_sel_stringWithCString_encoding_ =
+late final _sel_stringValue = objc.registerName("stringValue");
+late final _sel_stringWithCString_encoding_ =
     objc.registerName("stringWithCString:encoding:");
-late final $_sel_stringWithCharacters_length_ =
+late final _sel_stringWithCharacters_length_ =
     objc.registerName("stringWithCharacters:length:");
-late final $_sel_stringWithContentsOfFile_encoding_error_ =
+late final _sel_stringWithContentsOfFile_encoding_error_ =
     objc.registerName("stringWithContentsOfFile:encoding:error:");
-late final $_sel_stringWithContentsOfFile_usedEncoding_error_ =
+late final _sel_stringWithContentsOfFile_usedEncoding_error_ =
     objc.registerName("stringWithContentsOfFile:usedEncoding:error:");
-late final $_sel_stringWithContentsOfURL_encoding_error_ =
+late final _sel_stringWithContentsOfURL_encoding_error_ =
     objc.registerName("stringWithContentsOfURL:encoding:error:");
-late final $_sel_stringWithContentsOfURL_usedEncoding_error_ =
+late final _sel_stringWithContentsOfURL_usedEncoding_error_ =
     objc.registerName("stringWithContentsOfURL:usedEncoding:error:");
-late final $_sel_stringWithFormat_ = objc.registerName("stringWithFormat:");
-late final $_sel_stringWithString_ = objc.registerName("stringWithString:");
-late final $_sel_stringWithUTF8String_ =
+late final _sel_stringWithFormat_ = objc.registerName("stringWithFormat:");
+late final _sel_stringWithString_ = objc.registerName("stringWithString:");
+late final _sel_stringWithUTF8String_ =
     objc.registerName("stringWithUTF8String:");
-late final $_sel_stringWithValidatedFormat_validFormatSpecifiers_error_ =
+late final _sel_stringWithValidatedFormat_validFormatSpecifiers_error_ =
     objc.registerName("stringWithValidatedFormat:validFormatSpecifiers:error:");
-late final $_sel_subarrayWithRange_ = objc.registerName("subarrayWithRange:");
-late final $_sel_subdataWithRange_ = objc.registerName("subdataWithRange:");
-late final $_sel_substringFromIndex_ = objc.registerName("substringFromIndex:");
-late final $_sel_substringToIndex_ = objc.registerName("substringToIndex:");
-late final $_sel_substringWithRange_ = objc.registerName("substringWithRange:");
-late final $_sel_suggestedName = objc.registerName("suggestedName");
-late final $_sel_superclass = objc.registerName("superclass");
-late final $_sel_supportsSecureCoding =
+late final _sel_subarrayWithRange_ = objc.registerName("subarrayWithRange:");
+late final _sel_subdataWithRange_ = objc.registerName("subdataWithRange:");
+late final _sel_substringFromIndex_ = objc.registerName("substringFromIndex:");
+late final _sel_substringToIndex_ = objc.registerName("substringToIndex:");
+late final _sel_substringWithRange_ = objc.registerName("substringWithRange:");
+late final _sel_suggestedName = objc.registerName("suggestedName");
+late final _sel_superclass = objc.registerName("superclass");
+late final _sel_supportsSecureCoding =
     objc.registerName("supportsSecureCoding");
-late final $_sel_symbolCharacterSet = objc.registerName("symbolCharacterSet");
-late final $_sel_timeIntervalSince1970 =
+late final _sel_symbolCharacterSet = objc.registerName("symbolCharacterSet");
+late final _sel_timeIntervalSince1970 =
     objc.registerName("timeIntervalSince1970");
-late final $_sel_timeIntervalSinceDate_ =
+late final _sel_timeIntervalSinceDate_ =
     objc.registerName("timeIntervalSinceDate:");
-late final $_sel_timeIntervalSinceNow =
+late final _sel_timeIntervalSinceNow =
     objc.registerName("timeIntervalSinceNow");
-late final $_sel_timeIntervalSinceReferenceDate =
+late final _sel_timeIntervalSinceReferenceDate =
     objc.registerName("timeIntervalSinceReferenceDate");
-late final $_sel_underlyingErrors = objc.registerName("underlyingErrors");
-late final $_sel_unionOrderedSet_ = objc.registerName("unionOrderedSet:");
-late final $_sel_unionSet_ = objc.registerName("unionSet:");
-late final $_sel_unsignedCharValue = objc.registerName("unsignedCharValue");
-late final $_sel_unsignedIntValue = objc.registerName("unsignedIntValue");
-late final $_sel_unsignedIntegerValue =
+late final _sel_underlyingErrors = objc.registerName("underlyingErrors");
+late final _sel_unionOrderedSet_ = objc.registerName("unionOrderedSet:");
+late final _sel_unionSet_ = objc.registerName("unionSet:");
+late final _sel_unsignedCharValue = objc.registerName("unsignedCharValue");
+late final _sel_unsignedIntValue = objc.registerName("unsignedIntValue");
+late final _sel_unsignedIntegerValue =
     objc.registerName("unsignedIntegerValue");
-late final $_sel_unsignedLongLongValue =
+late final _sel_unsignedLongLongValue =
     objc.registerName("unsignedLongLongValue");
-late final $_sel_unsignedLongValue = objc.registerName("unsignedLongValue");
-late final $_sel_unsignedShortValue = objc.registerName("unsignedShortValue");
-late final $_sel_uppercaseLetterCharacterSet =
+late final _sel_unsignedLongValue = objc.registerName("unsignedLongValue");
+late final _sel_unsignedShortValue = objc.registerName("unsignedShortValue");
+late final _sel_uppercaseLetterCharacterSet =
     objc.registerName("uppercaseLetterCharacterSet");
-late final $_sel_uppercaseString = objc.registerName("uppercaseString");
-late final $_sel_uppercaseStringWithLocale_ =
+late final _sel_uppercaseString = objc.registerName("uppercaseString");
+late final _sel_uppercaseStringWithLocale_ =
     objc.registerName("uppercaseStringWithLocale:");
-late final $_sel_user = objc.registerName("user");
-late final $_sel_userInfo = objc.registerName("userInfo");
-late final $_sel_whitespaceAndNewlineCharacterSet =
+late final _sel_user = objc.registerName("user");
+late final _sel_userInfo = objc.registerName("userInfo");
+late final _sel_whitespaceAndNewlineCharacterSet =
     objc.registerName("whitespaceAndNewlineCharacterSet");
-late final $_sel_whitespaceCharacterSet =
+late final _sel_whitespaceCharacterSet =
     objc.registerName("whitespaceCharacterSet");
-late final $_sel_writableTypeIdentifiersForItemProvider =
+late final _sel_writableTypeIdentifiersForItemProvider =
     objc.registerName("writableTypeIdentifiersForItemProvider");
-late final $_sel_writeBookmarkData_toURL_options_error_ =
+late final _sel_writeBookmarkData_toURL_options_error_ =
     objc.registerName("writeBookmarkData:toURL:options:error:");
-late final $_sel_writeToFile_atomically_ =
+late final _sel_writeToFile_atomically_ =
     objc.registerName("writeToFile:atomically:");
-late final $_sel_writeToFile_atomically_encoding_error_ =
+late final _sel_writeToFile_atomically_encoding_error_ =
     objc.registerName("writeToFile:atomically:encoding:error:");
-late final $_sel_writeToFile_options_error_ =
+late final _sel_writeToFile_options_error_ =
     objc.registerName("writeToFile:options:error:");
-late final $_sel_writeToURL_atomically_ =
+late final _sel_writeToURL_atomically_ =
     objc.registerName("writeToURL:atomically:");
-late final $_sel_writeToURL_atomically_encoding_error_ =
+late final _sel_writeToURL_atomically_encoding_error_ =
     objc.registerName("writeToURL:atomically:encoding:error:");
-late final $_sel_writeToURL_error_ = objc.registerName("writeToURL:error:");
-late final $_sel_writeToURL_options_error_ =
+late final _sel_writeToURL_error_ = objc.registerName("writeToURL:error:");
+late final _sel_writeToURL_options_error_ =
     objc.registerName("writeToURL:options:error:");
-late final $_sel_write_maxLength_ = objc.registerName("write:maxLength:");
-late final $_sel_zone = objc.registerName("zone");
+late final _sel_write_maxLength_ = objc.registerName("write:maxLength:");
+late final _sel_zone = objc.registerName("zone");
 typedef instancetype = ffi.Pointer<objc.ObjCObject>;
 typedef Dartinstancetype = objc.ObjCObjectBase;

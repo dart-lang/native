@@ -37,7 +37,7 @@ extension NSDataListExtension on List<int> {
   /// `value.toUnsigned(8)`.
   NSData toNSData() {
     if (length == 0) {
-      return NSData.new1();
+      return NSData();
     }
     final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);

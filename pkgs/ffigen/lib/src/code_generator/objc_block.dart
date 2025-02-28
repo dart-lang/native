@@ -8,6 +8,7 @@ import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'writer.dart';
+import 'unique_namer.dart';
 
 class ObjCBlock extends BindingType {
   final ObjCBuiltInFunctions builtInFunctions;
@@ -385,10 +386,10 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
 
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
-    final listenerName =
-        w.objCLevelUniqueNamer.makeUnique('_ListenerTrampoline');
-    final blockingName =
-        w.objCLevelUniqueNamer.makeUnique('_BlockingTrampoline');
+    final listenerName = UniqueNamer.cSafeName(
+        w.objCLevelUniqueNamer.makeUnique('ListenerTrampoline'));
+    final blockingName = UniqueNamer.cSafeName(
+        w.objCLevelUniqueNamer.makeUnique('BlockingTrampoline'));
 
     return '''
 
@@ -439,7 +440,8 @@ $listenerName $blockingWrapper(
     final argRecv = argsReceived.join(', ');
     final argPass = argsPassed.join(', ');
     final fnName = protocolTrampoline!.func.name;
-    final block = w.objCLevelUniqueNamer.makeUnique('_ProtocolTrampoline');
+    final block = UniqueNamer.cSafeName(
+        w.objCLevelUniqueNamer.makeUnique('ProtocolTrampoline'));
     final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';
     final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';
     final blkGetter = '(($block)$msgSend(target, $getterSel, sel))';
