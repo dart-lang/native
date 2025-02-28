@@ -67,5 +67,13 @@ void main() {
       expect(UniqueNamer.cSafeName(namer.makeUnique('foo')), 'foo_2');
       expect(UniqueNamer.cSafeName(namer.makeUnique('foo')), 'foo_3');
     });
+
+    test('stringLiteral', () {
+      final namer = UniqueNamer();
+      expect(UniqueNamer.stringLiteral(namer.makeUnique('foo')), 'foo');
+      expect(UniqueNamer.stringLiteral(namer.makeUnique('foo')), 'foo\\\$1');
+      expect(UniqueNamer.stringLiteral(namer.makeUnique('foo')), 'foo\\\$2');
+      expect(UniqueNamer.stringLiteral(namer.makeUnique('foo')), 'foo\\\$3');
+    });
   });
 }

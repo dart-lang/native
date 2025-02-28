@@ -224,8 +224,8 @@ class EnumClass extends BindingType {
       s.write('$depth$depth${member.value} => $memberName,\n');
     }
     s.write(
-      '$depth${depth}_ => '
-      'throw ArgumentError("Unknown value for $name: \$value"),\n',
+      '$depth${depth}_ => throw ArgumentError('
+          "'Unknown value for ${UniqueNamer.stringLiteral(name)}: \$value'),\n",
     );
     s.write('$depth};\n');
   }

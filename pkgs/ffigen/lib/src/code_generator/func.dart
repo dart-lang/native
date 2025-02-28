@@ -208,7 +208,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       final lookupStr = UniqueNamer.stringLiteral(_lookupName);
       s.write('''
 late final $funcPointerName = ${w.lookupFuncIdentifier}<
-    ${w.ffiLibraryPrefix}.NativeFunction<$cType>>($lookupStr);
+    ${w.ffiLibraryPrefix}.NativeFunction<$cType>>('$lookupStr');
 late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
 ''');

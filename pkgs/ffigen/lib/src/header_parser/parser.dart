@@ -239,13 +239,10 @@ void _warnIfPrivateDeclaration(Binding b) {
 /// Resolves name conflict(if any) and logs a warning.
 void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
   // Print warning if name was conflicting and has been changed.
-  if (namer.isUsed(b.name)) {
-    final oldName = b.name;
-    b.name = namer.makeUnique(b.name);
-
+  final oldName = b.name;
+  b.name = namer.makeUnique(b.name);
+  if (oldName != b.name) {
     _logger.warning("Resolved name conflict: Declaration '$oldName' "
         "and has been renamed to '${b.name}'.");
-  } else {
-    namer.markUsed(b.name);
   }
 }

@@ -101,7 +101,8 @@ class Writer {
 
   /// Initial namers set after running constructor. Namers are reset to this
   /// initial state everytime [generate] is called.
-  late UniqueNamer _initialTopLevelUniqueNamer, _initialWrapperLevelUniqueNamer;
+  late UniqueNamer _initialTopLevelUniqueNamer;
+  late UniqueNamer _initialWrapperLevelUniqueNamer;
 
   /// Used by [Binding]s for generating required code.
   late UniqueNamer _topLevelUniqueNamer;
