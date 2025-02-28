@@ -110,7 +110,7 @@ enum AudioChannelBitmap {
         33554432 => kAudioChannelBit_CenterTopRear,
         67108864 => kAudioChannelBit_RightTopRear,
         _ =>
-          throw ArgumentError("Unknown value for AudioChannelBitmap: $value"),
+          throw ArgumentError('Unknown value for AudioChannelBitmap: $value'),
       };
 
   @override
@@ -141,7 +141,7 @@ enum AudioChannelFlags {
         1 => kAudioChannelFlags_RectangularCoordinates,
         2 => kAudioChannelFlags_SphericalCoordinates,
         4 => kAudioChannelFlags_Meters,
-        _ => throw ArgumentError("Unknown value for AudioChannelFlags: $value"),
+        _ => throw ArgumentError('Unknown value for AudioChannelFlags: $value'),
       };
 }
 
@@ -195,7 +195,7 @@ enum AVAudioCommonFormat {
         3 => AVAudioPCMFormatInt16,
         4 => AVAudioPCMFormatInt32,
         _ =>
-          throw ArgumentError("Unknown value for AVAudioCommonFormat: $value"),
+          throw ArgumentError('Unknown value for AVAudioCommonFormat: $value'),
       };
 }
 

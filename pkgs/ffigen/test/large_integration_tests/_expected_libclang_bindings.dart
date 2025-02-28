@@ -6047,7 +6047,7 @@ enum CXErrorCode {
         2 => CXError_Crashed,
         3 => CXError_InvalidArguments,
         4 => CXError_ASTReadError,
-        _ => throw ArgumentError("Unknown value for CXErrorCode: $value"),
+        _ => throw ArgumentError('Unknown value for CXErrorCode: $value'),
       };
 }
 
@@ -6135,7 +6135,7 @@ enum CXAvailabilityKind {
         2 => CXAvailability_NotAvailable,
         3 => CXAvailability_NotAccessible,
         _ =>
-          throw ArgumentError("Unknown value for CXAvailabilityKind: $value"),
+          throw ArgumentError('Unknown value for CXAvailabilityKind: $value'),
       };
 }
 
@@ -6206,7 +6206,7 @@ enum CXCursor_ExceptionSpecificationKind {
         8 => CXCursor_ExceptionSpecificationKind_Unparsed,
         9 => CXCursor_ExceptionSpecificationKind_NoThrow,
         _ => throw ArgumentError(
-            "Unknown value for CXCursor_ExceptionSpecificationKind: $value"),
+            'Unknown value for CXCursor_ExceptionSpecificationKind: $value'),
       };
 }
 
@@ -6234,7 +6234,7 @@ enum CXGlobalOptFlags {
         1 => CXGlobalOpt_ThreadBackgroundPriorityForIndexing,
         2 => CXGlobalOpt_ThreadBackgroundPriorityForEditing,
         3 => CXGlobalOpt_ThreadBackgroundPriorityForAll,
-        _ => throw ArgumentError("Unknown value for CXGlobalOptFlags: $value"),
+        _ => throw ArgumentError('Unknown value for CXGlobalOptFlags: $value'),
       };
 }
 
@@ -6308,7 +6308,7 @@ enum CXDiagnosticSeverity {
         3 => CXDiagnostic_Error,
         4 => CXDiagnostic_Fatal,
         _ =>
-          throw ArgumentError("Unknown value for CXDiagnosticSeverity: $value"),
+          throw ArgumentError('Unknown value for CXDiagnosticSeverity: $value'),
       };
 }
 
@@ -6344,7 +6344,7 @@ enum CXLoadDiag_Error {
         1 => CXLoadDiag_Unknown,
         2 => CXLoadDiag_CannotLoad,
         3 => CXLoadDiag_InvalidFile,
-        _ => throw ArgumentError("Unknown value for CXLoadDiag_Error: $value"),
+        _ => throw ArgumentError('Unknown value for CXLoadDiag_Error: $value'),
       };
 }
 
@@ -6381,7 +6381,7 @@ enum CXDiagnosticDisplayOptions {
         16 => CXDiagnostic_DisplayCategoryId,
         32 => CXDiagnostic_DisplayCategoryName,
         _ => throw ArgumentError(
-            "Unknown value for CXDiagnosticDisplayOptions: $value"),
+            'Unknown value for CXDiagnosticDisplayOptions: $value'),
       };
 }
 
@@ -6470,7 +6470,7 @@ enum CXTranslationUnit_Flags {
         16384 => CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles,
         32768 => CXTranslationUnit_RetainExcludedConditionalBlocks,
         _ => throw ArgumentError(
-            "Unknown value for CXTranslationUnit_Flags: $value"),
+            'Unknown value for CXTranslationUnit_Flags: $value'),
       };
 }
 
@@ -6485,7 +6485,7 @@ enum CXSaveTranslationUnit_Flags {
   static CXSaveTranslationUnit_Flags fromValue(int value) => switch (value) {
         0 => CXSaveTranslationUnit_None,
         _ => throw ArgumentError(
-            "Unknown value for CXSaveTranslationUnit_Flags: $value"),
+            'Unknown value for CXSaveTranslationUnit_Flags: $value'),
       };
 }
 
@@ -6515,7 +6515,7 @@ enum CXSaveError {
         1 => CXSaveError_Unknown,
         2 => CXSaveError_TranslationErrors,
         3 => CXSaveError_InvalidTU,
-        _ => throw ArgumentError("Unknown value for CXSaveError: $value"),
+        _ => throw ArgumentError('Unknown value for CXSaveError: $value'),
       };
 }
 
@@ -6529,7 +6529,7 @@ enum CXReparse_Flags {
 
   static CXReparse_Flags fromValue(int value) => switch (value) {
         0 => CXReparse_None,
-        _ => throw ArgumentError("Unknown value for CXReparse_Flags: $value"),
+        _ => throw ArgumentError('Unknown value for CXReparse_Flags: $value'),
       };
 }
 
@@ -6576,7 +6576,7 @@ enum CXTUResourceUsageKind {
         13 => CXTUResourceUsage_SourceManager_DataStructures,
         14 => CXTUResourceUsage_Preprocessor_HeaderSearch,
         _ => throw ArgumentError(
-            "Unknown value for CXTUResourceUsageKind: $value"),
+            'Unknown value for CXTUResourceUsageKind: $value'),
       };
 
   @override
@@ -7506,7 +7506,7 @@ enum CXCursorKind {
         602 => CXCursor_StaticAssert,
         603 => CXCursor_FriendDecl,
         700 => CXCursor_OverloadCandidate,
-        _ => throw ArgumentError("Unknown value for CXCursorKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXCursorKind: $value'),
       };
 
   @override
@@ -7595,7 +7595,7 @@ enum CXLinkageKind {
         2 => CXLinkage_Internal,
         3 => CXLinkage_UniqueExternal,
         4 => CXLinkage_External,
-        _ => throw ArgumentError("Unknown value for CXLinkageKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXLinkageKind: $value'),
       };
 }
 
@@ -7621,7 +7621,7 @@ enum CXVisibilityKind {
         1 => CXVisibility_Hidden,
         2 => CXVisibility_Protected,
         3 => CXVisibility_Default,
-        _ => throw ArgumentError("Unknown value for CXVisibilityKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXVisibilityKind: $value'),
       };
 }
 
@@ -7667,7 +7667,7 @@ enum CXLanguageKind {
         1 => CXLanguage_C,
         2 => CXLanguage_ObjC,
         3 => CXLanguage_CPlusPlus,
-        _ => throw ArgumentError("Unknown value for CXLanguageKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXLanguageKind: $value'),
       };
 }
 
@@ -7685,7 +7685,7 @@ enum CXTLSKind {
         0 => CXTLS_None,
         1 => CXTLS_Dynamic,
         2 => CXTLS_Static,
-        _ => throw ArgumentError("Unknown value for CXTLSKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXTLSKind: $value'),
       };
 }
 
@@ -7941,7 +7941,7 @@ enum CXTypeKind {
         174 => CXType_OCLIntelSubgroupAVCImeSingleRefStreamin,
         175 => CXType_OCLIntelSubgroupAVCImeDualRefStreamin,
         176 => CXType_ExtVector,
-        _ => throw ArgumentError("Unknown value for CXTypeKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXTypeKind: $value'),
       };
 
   @override
@@ -8001,7 +8001,7 @@ enum CXCallingConv {
         16 => CXCallingConv_AArch64VectorCall,
         100 => CXCallingConv_Invalid,
         200 => CXCallingConv_Unexposed,
-        _ => throw ArgumentError("Unknown value for CXCallingConv: $value"),
+        _ => throw ArgumentError('Unknown value for CXCallingConv: $value'),
       };
 
   @override
@@ -8051,7 +8051,7 @@ enum CXTemplateArgumentKind {
         8 => CXTemplateArgumentKind_Pack,
         9 => CXTemplateArgumentKind_Invalid,
         _ => throw ArgumentError(
-            "Unknown value for CXTemplateArgumentKind: $value"),
+            'Unknown value for CXTemplateArgumentKind: $value'),
       };
 }
 
@@ -8079,7 +8079,7 @@ enum CXTypeNullabilityKind {
         2 => CXTypeNullability_Unspecified,
         3 => CXTypeNullability_Invalid,
         _ => throw ArgumentError(
-            "Unknown value for CXTypeNullabilityKind: $value"),
+            'Unknown value for CXTypeNullabilityKind: $value'),
       };
 }
 
@@ -8114,7 +8114,7 @@ enum CXTypeLayoutError {
         -4 => CXTypeLayoutError_NotConstantSize,
         -5 => CXTypeLayoutError_InvalidFieldName,
         -6 => CXTypeLayoutError_Undeduced,
-        _ => throw ArgumentError("Unknown value for CXTypeLayoutError: $value"),
+        _ => throw ArgumentError('Unknown value for CXTypeLayoutError: $value'),
       };
 }
 
@@ -8136,7 +8136,7 @@ enum CXRefQualifierKind {
         1 => CXRefQualifier_LValue,
         2 => CXRefQualifier_RValue,
         _ =>
-          throw ArgumentError("Unknown value for CXRefQualifierKind: $value"),
+          throw ArgumentError('Unknown value for CXRefQualifierKind: $value'),
       };
 }
 
@@ -8157,7 +8157,7 @@ enum CX_CXXAccessSpecifier {
         2 => CX_CXXProtected,
         3 => CX_CXXPrivate,
         _ => throw ArgumentError(
-            "Unknown value for CX_CXXAccessSpecifier: $value"),
+            'Unknown value for CX_CXXAccessSpecifier: $value'),
       };
 }
 
@@ -8185,7 +8185,7 @@ enum CX_StorageClass {
         5 => CX_SC_OpenCLWorkGroupLocal,
         6 => CX_SC_Auto,
         7 => CX_SC_Register,
-        _ => throw ArgumentError("Unknown value for CX_StorageClass: $value"),
+        _ => throw ArgumentError('Unknown value for CX_StorageClass: $value'),
       };
 }
 
@@ -8211,7 +8211,7 @@ enum CXChildVisitResult {
         1 => CXChildVisit_Continue,
         2 => CXChildVisit_Recurse,
         _ =>
-          throw ArgumentError("Unknown value for CXChildVisitResult: $value"),
+          throw ArgumentError('Unknown value for CXChildVisitResult: $value'),
       };
 }
 
@@ -8291,7 +8291,7 @@ enum CXPrintingPolicyProperty {
         24 => CXPrintingPolicy_SuppressImplicitBase,
         25 => CXPrintingPolicy_FullyQualifiedName,
         _ => throw ArgumentError(
-            "Unknown value for CXPrintingPolicyProperty: $value"),
+            'Unknown value for CXPrintingPolicyProperty: $value'),
       };
 
   @override
@@ -8338,7 +8338,7 @@ enum CXObjCPropertyAttrKind {
         2048 => CXObjCPropertyAttr_unsafe_unretained,
         4096 => CXObjCPropertyAttr_class,
         _ => throw ArgumentError(
-            "Unknown value for CXObjCPropertyAttrKind: $value"),
+            'Unknown value for CXObjCPropertyAttrKind: $value'),
       };
 }
 
@@ -8365,7 +8365,7 @@ enum CXObjCDeclQualifierKind {
         16 => CXObjCDeclQualifier_Byref,
         32 => CXObjCDeclQualifier_Oneway,
         _ => throw ArgumentError(
-            "Unknown value for CXObjCDeclQualifierKind: $value"),
+            'Unknown value for CXObjCDeclQualifierKind: $value'),
       };
 }
 
@@ -8390,7 +8390,7 @@ enum CXNameRefFlags {
         1 => CXNameRange_WantQualifier,
         2 => CXNameRange_WantTemplateArgs,
         4 => CXNameRange_WantSinglePiece,
-        _ => throw ArgumentError("Unknown value for CXNameRefFlags: $value"),
+        _ => throw ArgumentError('Unknown value for CXNameRefFlags: $value'),
       };
 }
 
@@ -8420,7 +8420,7 @@ enum CXTokenKind {
         2 => CXToken_Identifier,
         3 => CXToken_Literal,
         4 => CXToken_Comment,
-        _ => throw ArgumentError("Unknown value for CXTokenKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXTokenKind: $value'),
       };
 }
 
@@ -8546,7 +8546,7 @@ enum CXCompletionChunkKind {
         19 => CXCompletionChunk_HorizontalSpace,
         20 => CXCompletionChunk_VerticalSpace,
         _ => throw ArgumentError(
-            "Unknown value for CXCompletionChunkKind: $value"),
+            'Unknown value for CXCompletionChunkKind: $value'),
       };
 }
 
@@ -8593,7 +8593,7 @@ enum CXCodeComplete_Flags {
         8 => CXCodeComplete_SkipPreamble,
         16 => CXCodeComplete_IncludeCompletionsWithFixIts,
         _ =>
-          throw ArgumentError("Unknown value for CXCodeComplete_Flags: $value"),
+          throw ArgumentError('Unknown value for CXCodeComplete_Flags: $value'),
       };
 }
 
@@ -8719,7 +8719,7 @@ enum CXCompletionContext {
         4194304 => CXCompletionContext_IncludedFile,
         8388607 => CXCompletionContext_Unknown,
         _ =>
-          throw ArgumentError("Unknown value for CXCompletionContext: $value"),
+          throw ArgumentError('Unknown value for CXCompletionContext: $value'),
       };
 }
 
@@ -8759,7 +8759,7 @@ enum CXEvalResultKind {
         5 => CXEval_CFStr,
         6 => CXEval_Other,
         0 => CXEval_UnExposed,
-        _ => throw ArgumentError("Unknown value for CXEvalResultKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXEvalResultKind: $value'),
       };
 }
 
@@ -8780,7 +8780,7 @@ enum CXVisitorResult {
   static CXVisitorResult fromValue(int value) => switch (value) {
         0 => CXVisit_Break,
         1 => CXVisit_Continue,
-        _ => throw ArgumentError("Unknown value for CXVisitorResult: $value"),
+        _ => throw ArgumentError('Unknown value for CXVisitorResult: $value'),
       };
 }
 
@@ -8810,7 +8810,7 @@ enum CXResult {
         0 => CXResult_Success,
         1 => CXResult_Invalid,
         2 => CXResult_VisitBreak,
-        _ => throw ArgumentError("Unknown value for CXResult: $value"),
+        _ => throw ArgumentError('Unknown value for CXResult: $value'),
       };
 }
 
@@ -8936,7 +8936,7 @@ enum CXIdxEntityKind {
         24 => CXIdxEntity_CXXConversionFunction,
         25 => CXIdxEntity_CXXTypeAlias,
         26 => CXIdxEntity_CXXInterface,
-        _ => throw ArgumentError("Unknown value for CXIdxEntityKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXIdxEntityKind: $value'),
       };
 }
 
@@ -8957,7 +8957,7 @@ enum CXIdxEntityLanguage {
         3 => CXIdxEntityLang_CXX,
         4 => CXIdxEntityLang_Swift,
         _ =>
-          throw ArgumentError("Unknown value for CXIdxEntityLanguage: $value"),
+          throw ArgumentError('Unknown value for CXIdxEntityLanguage: $value'),
       };
 }
 
@@ -8980,7 +8980,7 @@ enum CXIdxEntityCXXTemplateKind {
         2 => CXIdxEntity_TemplatePartialSpecialization,
         3 => CXIdxEntity_TemplateSpecialization,
         _ => throw ArgumentError(
-            "Unknown value for CXIdxEntityCXXTemplateKind: $value"),
+            'Unknown value for CXIdxEntityCXXTemplateKind: $value'),
       };
 }
 
@@ -8998,7 +8998,7 @@ enum CXIdxAttrKind {
         1 => CXIdxAttr_IBAction,
         2 => CXIdxAttr_IBOutlet,
         3 => CXIdxAttr_IBOutletCollection,
-        _ => throw ArgumentError("Unknown value for CXIdxAttrKind: $value"),
+        _ => throw ArgumentError('Unknown value for CXIdxAttrKind: $value'),
       };
 }
 
@@ -9065,7 +9065,7 @@ enum CXIdxDeclInfoFlags {
   static CXIdxDeclInfoFlags fromValue(int value) => switch (value) {
         1 => CXIdxDeclFlag_Skipped,
         _ =>
-          throw ArgumentError("Unknown value for CXIdxDeclInfoFlags: $value"),
+          throw ArgumentError('Unknown value for CXIdxDeclInfoFlags: $value'),
       };
 }
 
@@ -9120,7 +9120,7 @@ enum CXIdxObjCContainerKind {
         1 => CXIdxObjCContainer_Interface,
         2 => CXIdxObjCContainer_Implementation,
         _ => throw ArgumentError(
-            "Unknown value for CXIdxObjCContainerKind: $value"),
+            'Unknown value for CXIdxObjCContainerKind: $value'),
       };
 }
 
@@ -9210,7 +9210,7 @@ enum CXIdxEntityRefKind {
         1 => CXIdxEntityRef_Direct,
         2 => CXIdxEntityRef_Implicit,
         _ =>
-          throw ArgumentError("Unknown value for CXIdxEntityRefKind: $value"),
+          throw ArgumentError('Unknown value for CXIdxEntityRefKind: $value'),
       };
 }
 
@@ -9241,7 +9241,7 @@ enum CXSymbolRole {
         64 => CXSymbolRole_Dynamic,
         128 => CXSymbolRole_AddressOf,
         256 => CXSymbolRole_Implicit,
-        _ => throw ArgumentError("Unknown value for CXSymbolRole: $value"),
+        _ => throw ArgumentError('Unknown value for CXSymbolRole: $value'),
       };
 }
 
@@ -9368,7 +9368,7 @@ enum CXIndexOptFlags {
         4 => CXIndexOpt_IndexImplicitTemplateInstantiations,
         8 => CXIndexOpt_SuppressWarnings,
         16 => CXIndexOpt_SkipParsedBodiesInSession,
-        _ => throw ArgumentError("Unknown value for CXIndexOptFlags: $value"),
+        _ => throw ArgumentError('Unknown value for CXIndexOptFlags: $value'),
       };
 }
 
