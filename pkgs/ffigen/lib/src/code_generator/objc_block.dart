@@ -405,17 +405,19 @@ typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
-  NSThread *targetThread = [NSThread currentThread];
+    DOBJC_Context* context) NS_RETURNS_RETAINED {
+  assert(context->version > 1);
+  void* targetIsolate = context.currentIsolate();
   return ^void($argStr) {
-    if ([NSThread currentThread] == targetThread) {
+    void* currentIsolate = context.currentIsolate();
+    if (currentIsolate == targetIsolate) {
       ${generateRetain('block')};
       block(${blockingRetains.join(', ')});
     } else {
-      void* waiter = newWaiter();
+      void* waiter = context.newWaiter();
       ${generateRetain('listenerBlock')};
       listenerBlock(${blockingListenerRetains.join(', ')});
-      awaitWaiter(waiter);
+      context.awaitWaiter(waiter);
     }
   };
 }

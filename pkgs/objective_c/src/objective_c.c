@@ -53,3 +53,15 @@ FFI_EXPORT bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
 FFI_EXPORT intptr_t DOBJC_InitializeApi(void* data) {
   return Dart_InitializeApiDL(data);
 }
+
+FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
+  context->version = 1;
+  context->newWaiter = DOBJC_newWaiter;
+  context->awaitWaiter = DOBJC_awaitWaiter;
+  context->currentIsolate = Dart_CurrentIsolateDL;
+  context->enterIsolate = Dart_EnterIsolateDL;
+  context->exitIsolate = Dart_ExitIsolateDL;
+  context->getMainPortId = Dart_GetMainPortIdDL;
+  context->getCurrentThreadOwnsIsolate = Dart_GetCurrentThreadOwnsIsolateDL;
+  return context;
+}

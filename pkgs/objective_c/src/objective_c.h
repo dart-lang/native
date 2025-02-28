@@ -49,4 +49,20 @@ FFI_EXPORT void *DOBJC_newWaiter(void);
 FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
+// Context object containing functions needed by the ffigen bindings. Any
+// changes to this struct should bump the `version` field filled in by
+// package:objective_c, and checked by ffigen. Never change or delete existing
+// fields. Keep in sync with the struct defined in ffigen's writer.dart.
+typedef struct _DOBJC_Context {
+  int64_t version;
+  void* (*newWaiter)(void);
+  void (*awaitWaiter)(void*);
+  void* (*currentIsolate)(void);
+  void (*enterIsolate)(void*);
+  void (*exitIsolate)(void);
+  int64_t (*getMainPortId)(void);
+  bool (*getCurrentThreadOwnsIsolate)(int64_t);
+} DOBJC_Context;
+FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context);
+
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_
