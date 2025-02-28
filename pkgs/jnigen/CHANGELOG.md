@@ -1,4 +1,4 @@
-## 0.14.1-wip
+## 0.14.1
 
 - Added support for generating matching Kotlin operators as Dart operators.
 - Include the methods of the superinterfaces of a class or interface in the
