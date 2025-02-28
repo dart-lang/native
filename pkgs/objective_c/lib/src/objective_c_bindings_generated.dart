@@ -810,7 +810,7 @@ enum NSBinarySearchingOptions {
         512 => NSBinarySearchingLastEqual,
         1024 => NSBinarySearchingInsertionIndex,
         _ => throw ArgumentError(
-            "Unknown value for NSBinarySearchingOptions: $value"),
+            'Unknown value for NSBinarySearchingOptions: $value'),
       };
 }
 
@@ -1274,7 +1274,7 @@ enum NSComparisonResult {
         0 => NSOrderedSame,
         1 => NSOrderedDescending,
         _ =>
-          throw ArgumentError("Unknown value for NSComparisonResult: $value"),
+          throw ArgumentError('Unknown value for NSComparisonResult: $value'),
       };
 }
 
@@ -1668,7 +1668,7 @@ enum NSDataBase64DecodingOptions {
   static NSDataBase64DecodingOptions fromValue(int value) => switch (value) {
         1 => NSDataBase64DecodingIgnoreUnknownCharacters,
         _ => throw ArgumentError(
-            "Unknown value for NSDataBase64DecodingOptions: $value"),
+            'Unknown value for NSDataBase64DecodingOptions: $value'),
       };
 }
 
@@ -1687,7 +1687,7 @@ enum NSDataBase64EncodingOptions {
         16 => NSDataBase64EncodingEndLineWithCarriageReturn,
         32 => NSDataBase64EncodingEndLineWithLineFeed,
         _ => throw ArgumentError(
-            "Unknown value for NSDataBase64EncodingOptions: $value"),
+            'Unknown value for NSDataBase64EncodingOptions: $value'),
       };
 }
 
@@ -1708,7 +1708,7 @@ enum NSDataCompressionAlgorithm {
         2 => NSDataCompressionAlgorithmLZMA,
         3 => NSDataCompressionAlgorithmZlib,
         _ => throw ArgumentError(
-            "Unknown value for NSDataCompressionAlgorithm: $value"),
+            'Unknown value for NSDataCompressionAlgorithm: $value'),
       };
 }
 
@@ -1732,7 +1732,7 @@ enum NSDataReadingOptions {
         2 => NSDataReadingUncached,
         8 => NSDataReadingMappedAlways,
         _ =>
-          throw ArgumentError("Unknown value for NSDataReadingOptions: $value"),
+          throw ArgumentError('Unknown value for NSDataReadingOptions: $value'),
       };
 
   @override
@@ -1756,7 +1756,7 @@ enum NSDataSearchOptions {
         1 => NSDataSearchBackwards,
         2 => NSDataSearchAnchored,
         _ =>
-          throw ArgumentError("Unknown value for NSDataSearchOptions: $value"),
+          throw ArgumentError('Unknown value for NSDataSearchOptions: $value'),
       };
 }
 
@@ -1786,7 +1786,7 @@ enum NSDataWritingOptions {
         1342177280 => NSDataWritingFileProtectionCompleteWhenUserInactive,
         4026531840 => NSDataWritingFileProtectionMask,
         _ =>
-          throw ArgumentError("Unknown value for NSDataWritingOptions: $value"),
+          throw ArgumentError('Unknown value for NSDataWritingOptions: $value'),
       };
 
   @override
@@ -2172,7 +2172,7 @@ enum NSEnumerationOptions {
         1 => NSEnumerationConcurrent,
         2 => NSEnumerationReverse,
         _ =>
-          throw ArgumentError("Unknown value for NSEnumerationOptions: $value"),
+          throw ArgumentError('Unknown value for NSEnumerationOptions: $value'),
       };
 }
 
@@ -4263,7 +4263,7 @@ enum NSItemProviderFileOptions {
   static NSItemProviderFileOptions fromValue(int value) => switch (value) {
         1 => NSItemProviderFileOptionOpenInPlace,
         _ => throw ArgumentError(
-            "Unknown value for NSItemProviderFileOptions: $value"),
+            'Unknown value for NSItemProviderFileOptions: $value'),
       };
 }
 
@@ -4326,7 +4326,7 @@ enum NSItemProviderRepresentationVisibility {
         2 => NSItemProviderRepresentationVisibilityGroup,
         3 => NSItemProviderRepresentationVisibilityOwnProcess,
         _ => throw ArgumentError(
-            "Unknown value for NSItemProviderRepresentationVisibility: $value"),
+            'Unknown value for NSItemProviderRepresentationVisibility: $value'),
       };
 }
 
@@ -4453,7 +4453,7 @@ enum NSKeyValueChange {
         2 => NSKeyValueChangeInsertion,
         3 => NSKeyValueChangeRemoval,
         4 => NSKeyValueChangeReplacement,
-        _ => throw ArgumentError("Unknown value for NSKeyValueChange: $value"),
+        _ => throw ArgumentError('Unknown value for NSKeyValueChange: $value'),
       };
 }
 
@@ -4472,7 +4472,7 @@ enum NSKeyValueObservingOptions {
         4 => NSKeyValueObservingOptionInitial,
         8 => NSKeyValueObservingOptionPrior,
         _ => throw ArgumentError(
-            "Unknown value for NSKeyValueObservingOptions: $value"),
+            'Unknown value for NSKeyValueObservingOptions: $value'),
       };
 }
 
@@ -4491,7 +4491,7 @@ enum NSKeyValueSetMutationKind {
         3 => NSKeyValueIntersectSetMutation,
         4 => NSKeyValueSetSetMutation,
         _ => throw ArgumentError(
-            "Unknown value for NSKeyValueSetMutationKind: $value"),
+            'Unknown value for NSKeyValueSetMutationKind: $value'),
       };
 }
 
@@ -8583,7 +8583,7 @@ enum NSOrderedCollectionDifferenceCalculationOptions {
         2 => NSOrderedCollectionDifferenceCalculationOmitRemovedObjects,
         4 => NSOrderedCollectionDifferenceCalculationInferMoves,
         _ => throw ArgumentError(
-            "Unknown value for NSOrderedCollectionDifferenceCalculationOptions: $value"),
+            'Unknown value for NSOrderedCollectionDifferenceCalculationOptions: $value'),
       };
 }
 
@@ -9406,7 +9406,7 @@ enum NSSortOptions {
   static NSSortOptions fromValue(int value) => switch (value) {
         1 => NSSortConcurrent,
         16 => NSSortStable,
-        _ => throw ArgumentError("Unknown value for NSSortOptions: $value"),
+        _ => throw ArgumentError('Unknown value for NSSortOptions: $value'),
       };
 }
 
@@ -9703,7 +9703,7 @@ enum NSStreamEvent {
         4 => NSStreamEventHasSpaceAvailable,
         8 => NSStreamEventErrorOccurred,
         16 => NSStreamEventEndEncountered,
-        _ => throw ArgumentError("Unknown value for NSStreamEvent: $value"),
+        _ => throw ArgumentError('Unknown value for NSStreamEvent: $value'),
       };
 }
 
@@ -9729,7 +9729,7 @@ enum NSStreamStatus {
         5 => NSStreamStatusAtEnd,
         6 => NSStreamStatusClosed,
         7 => NSStreamStatusError,
-        _ => throw ArgumentError("Unknown value for NSStreamStatus: $value"),
+        _ => throw ArgumentError('Unknown value for NSStreamStatus: $value'),
       };
 }
 
@@ -10247,7 +10247,7 @@ enum NSStringCompareOptions {
         512 => NSForcedOrderingSearch,
         1024 => NSRegularExpressionSearch,
         _ => throw ArgumentError(
-            "Unknown value for NSStringCompareOptions: $value"),
+            'Unknown value for NSStringCompareOptions: $value'),
       };
 }
 
@@ -10263,7 +10263,7 @@ enum NSStringEncodingConversionOptions {
         1 => NSStringEncodingConversionAllowLossy,
         2 => NSStringEncodingConversionExternalRepresentation,
         _ => throw ArgumentError(
-            "Unknown value for NSStringEncodingConversionOptions: $value"),
+            'Unknown value for NSStringEncodingConversionOptions: $value'),
       };
 }
 
@@ -10294,7 +10294,7 @@ enum NSStringEnumerationOptions {
         512 => NSStringEnumerationSubstringNotRequired,
         1024 => NSStringEnumerationLocalized,
         _ => throw ArgumentError(
-            "Unknown value for NSStringEnumerationOptions: $value"),
+            'Unknown value for NSStringEnumerationOptions: $value'),
       };
 }
 
@@ -11891,7 +11891,7 @@ enum NSURLBookmarkCreationOptions {
         4096 => NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess,
         536870912 => NSURLBookmarkCreationWithoutImplicitSecurityScope,
         _ => throw ArgumentError(
-            "Unknown value for NSURLBookmarkCreationOptions: $value"),
+            'Unknown value for NSURLBookmarkCreationOptions: $value'),
       };
 }
 
@@ -11910,7 +11910,7 @@ enum NSURLBookmarkResolutionOptions {
         1024 => NSURLBookmarkResolutionWithSecurityScope,
         32768 => NSURLBookmarkResolutionWithoutImplicitStartAccessing,
         _ => throw ArgumentError(
-            "Unknown value for NSURLBookmarkResolutionOptions: $value"),
+            'Unknown value for NSURLBookmarkResolutionOptions: $value'),
       };
 }
 
@@ -11999,7 +11999,7 @@ enum NSURLHandleStatus {
         1 => NSURLHandleLoadSucceeded,
         2 => NSURLHandleLoadInProgress,
         3 => NSURLHandleLoadFailed,
-        _ => throw ArgumentError("Unknown value for NSURLHandleStatus: $value"),
+        _ => throw ArgumentError('Unknown value for NSURLHandleStatus: $value'),
       };
 }
 
