@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 
 import 'pointer.dart';
 import 'type.dart';
+import 'unique_namer.dart';
 import 'writer.dart';
 
 /// Converts [text] to a dart doc comment(`///`).
@@ -45,7 +46,7 @@ String makeNativeAnnotation(
 }) {
   final args = <(String, String)>[];
   if (dartName != nativeSymbolName) {
-    args.add(('symbol', '"$nativeSymbolName"'));
+    args.add(('symbol', UniqueNamer.stringLiteral(nativeSymbolName)));
   }
   if (isLeaf) {
     args.add(('isLeaf', 'true'));

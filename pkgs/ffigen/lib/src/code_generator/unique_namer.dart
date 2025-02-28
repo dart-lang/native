@@ -47,4 +47,8 @@ class UniqueNamer {
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
   static String cSafeName(String name) => name.replaceAll('\$', '_');
+
+  /// Returns a string literal containing the name, escaping the '$' as needed.
+  static String stringLiteral(String name) =>
+      "'${name.replaceAll('\$', '\\\$')}'";
 }

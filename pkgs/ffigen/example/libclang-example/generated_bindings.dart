@@ -58,10 +58,10 @@ class LibClang {
 
   /// Free the given string set.
   void clang_disposeStringSet(
-    ffi.Pointer<CXStringSet> set1,
+    ffi.Pointer<CXStringSet> set$,
   ) {
     return _clang_disposeStringSet(
-      set1,
+      set$,
     );
   }
 
@@ -7668,9 +7668,9 @@ typedef DartClang_getCString = ffi.Pointer<ffi.Char> Function(CXString string);
 typedef NativeClang_disposeString = ffi.Void Function(CXString string);
 typedef DartClang_disposeString = void Function(CXString string);
 typedef NativeClang_disposeStringSet = ffi.Void Function(
-    ffi.Pointer<CXStringSet> set1);
+    ffi.Pointer<CXStringSet> set$);
 typedef DartClang_disposeStringSet = void Function(
-    ffi.Pointer<CXStringSet> set1);
+    ffi.Pointer<CXStringSet> set$);
 
 /// An "index" that consists of a set of translation units that would
 /// typically be linked together into an executable or library.

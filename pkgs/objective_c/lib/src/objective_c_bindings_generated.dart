@@ -21,7 +21,7 @@ import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-@ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: "NSLocalizedDescriptionKey")
+@ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: 'NSLocalizedDescriptionKey')
 external ffi.Pointer<objc.ObjCObject> _NSLocalizedDescriptionKey;
 
 NSString get NSLocalizedDescriptionKey =>

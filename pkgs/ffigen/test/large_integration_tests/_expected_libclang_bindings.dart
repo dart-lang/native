@@ -53,10 +53,10 @@ class LibClang {
 
   /// Free the given string set.
   void clang_disposeStringSet(
-    ffi.Pointer<CXStringSet> set1,
+    ffi.Pointer<CXStringSet> set$,
   ) {
     return _clang_disposeStringSet(
-      set1,
+      set$,
     );
   }
 

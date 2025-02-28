@@ -37,13 +37,13 @@ void main() {
 
       renamed.property = 123;
       expect(renamed.toString(), "Instance of 'Renamed'");
-      expect(renamed.toString1().toDartString(), "123");
+      expect(renamed.toString$1().toDartString(), "123");
     });
 
     test('Method with the same name as a type', () {
       final renamed = Renamed();
 
-      expect(renamed.CollidingStructName1(), 456);
+      expect(renamed.CollidingStructName$1(), 456);
     });
 
     test('Renamed method', () {
