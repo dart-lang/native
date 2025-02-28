@@ -31,7 +31,7 @@ class UniqueNamer {
       ++i;
     }
 
-    _used.add(newName);
+    markUsed(newName);
     return newName;
   }
 

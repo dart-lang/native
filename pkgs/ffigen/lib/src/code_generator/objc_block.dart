@@ -7,8 +7,8 @@ import '../header_parser/data.dart' show bindingsIndex;
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
-import 'writer.dart';
 import 'unique_namer.dart';
+import 'writer.dart';
 
 class ObjCBlock extends BindingType {
   final ObjCBuiltInFunctions builtInFunctions;

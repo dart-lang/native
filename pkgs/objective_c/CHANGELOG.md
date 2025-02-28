@@ -12,6 +12,9 @@
     `DOBJCDartProxyBuilder` to `DOBJCDartProtocolBuilder` and `DOBJCDartProxy`
     to `DOBJCDartProtocol` and change their APIs. Users should not be using
     these classes.
+- __Breaking change__: Some API names have changed due to ffigen's new duplicate
+  identifier renaming logic. `$` is now used as a delimiter, to match jnigen's
+  renaming logic.
 
 ## 6.0.0
 
