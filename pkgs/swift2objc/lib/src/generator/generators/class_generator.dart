@@ -97,6 +97,7 @@ List<String> _generateInitializer(InitializerDeclaration initializer) {
 List<String> _generateClassMethods(ClassDeclaration declaration) =>
     [for (final method in declaration.methods) ..._generateClassMethod(method)];
 
+
 List<String> _generateClassMethod(MethodDeclaration method) {
   final header = StringBuffer();
 
@@ -134,6 +135,7 @@ List<String> _generateClassProperties(ClassDeclaration declaration) => [
         ..._generateClassProperty(property),
     ];
 
+// TODO: Generate Class properties for constants (i.e let)
 List<String> _generateClassProperty(PropertyDeclaration property) {
   final header = StringBuffer();
 

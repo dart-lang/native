@@ -10,6 +10,7 @@ import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/protocol_declaration.dart';
 import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
@@ -33,21 +34,25 @@ ClassDeclaration transformCompound(
 
   final superClass = originalCompound is ClassDeclaration ? 
     (originalCompound.superClass == null ? null : 
-      transformationMap.findByOriginalName(originalCompound.superClass!.name)) 
+      transformationMap.findByOriginalId(originalCompound.superClass!.id)) 
     : null;
 
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
     hasObjCAnnotation: true,
-    // TODO: superclass can be previous superclass since it will already inherit 
     superClass: superClass?.asDeclaredType ?? objectType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
     wrapperInitializer: _buildWrapperInitializer(wrappedCompoundInstance),
   );
 
-  transformationMap[originalCompound] = transformedCompound;
+  // transformedCompound.conformedProtocols.addAll(
+  //   originalCompound.conformedProtocols.map((p) {
+  //     return (transformationMap.findByOriginalId(p.id) as ProtocolDeclaration)
+  //       .asDeclaredType;
+  //   })
+  // );
 
   transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
       .map((nested) => transformDeclaration(
@@ -89,6 +94,9 @@ ClassDeclaration transformCompound(
       .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
+
+  transformationMap[originalCompound] = transformedCompound;
 
   return transformedCompound;
 }

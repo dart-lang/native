@@ -20,8 +20,9 @@ import 'transformers/transform_protocol.dart';
 typedef TransformationMap = Map<Declaration, Declaration>;
 
 extension TransformationMapUtils on TransformationMap {
-  Declaration? findByOriginalName(String name) {
-    return this[keys.where((k) => k.name == name).firstOrNull];
+  Declaration? findByOriginalId(String id) {
+    print(this.entries.map((e) => (e.key.name, e.value.name)));
+    return this[keys.where((k) => k.id == id).firstOrNull];
   }
 }
 

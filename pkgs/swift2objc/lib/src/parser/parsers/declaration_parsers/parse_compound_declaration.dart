@@ -124,8 +124,7 @@ ProtocolDeclaration parseProtocolDeclaration(
       properties: [],
       methods: [],
       initializers: [],
-      conformedProtocols: [],
-      typeParams: []);
+      conformedProtocols: []);
 
   // get optional member declarations if any
   final optionalMemberDeclarations = compoundRelations

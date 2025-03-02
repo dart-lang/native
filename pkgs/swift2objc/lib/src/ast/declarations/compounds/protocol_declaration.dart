@@ -44,9 +44,6 @@ class ProtocolDeclaration extends AstNode
   bool hasObjCAnnotation;
 
   @override
-  List<GenericType> typeParams;
-
-  @override
   List<InitializerDeclaration> initializers;
 
   @override
@@ -62,7 +59,6 @@ class ProtocolDeclaration extends AstNode
     required this.methods,
     required this.initializers,
     required this.conformedProtocols,
-    required this.typeParams,
     this.hasObjCAnnotation = false,
     this.nestingParent,
   })  : associatedTypes = [],
@@ -80,9 +76,15 @@ class ProtocolDeclaration extends AstNode
     visitor.visitAll(properties);
     visitor.visitAll(methods);
     visitor.visitAll(conformedProtocols);
-    visitor.visitAll(typeParams);
     visitor.visitAll(initializers);
     visitor.visit(nestingParent);
     visitor.visitAll(nestedDeclarations);
   }
+  
+  @override
+  List<GenericType> get typeParams => 
+    throw Exception(
+      'Protocols do not have type params: '
+      'Did you mean to use `associatedTypes` instead?'
+    );
 }
