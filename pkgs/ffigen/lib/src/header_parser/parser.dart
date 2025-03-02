@@ -11,7 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
-import '../code_generator/utils.dart';
+import '../code_generator/unique_namer.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
 import '../strings.dart' as strings;
@@ -208,7 +208,7 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
   }
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
-  final declConflictHandler = UniqueNamer({});
+  final declConflictHandler = UniqueNamer();
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b);
     _resolveIfNameConflicts(declConflictHandler, b);
@@ -239,13 +239,10 @@ void _warnIfPrivateDeclaration(Binding b) {
 /// Resolves name conflict(if any) and logs a warning.
 void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
   // Print warning if name was conflicting and has been changed.
-  if (namer.isUsed(b.name)) {
-    final oldName = b.name;
-    b.name = namer.makeUnique(b.name);
-
+  final oldName = b.name;
+  b.name = namer.makeUnique(b.name);
+  if (oldName != b.name) {
     _logger.warning("Resolved name conflict: Declaration '$oldName' "
         "and has been renamed to '${b.name}'.");
-  } else {
-    namer.markUsed(b.name);
   }
 }

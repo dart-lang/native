@@ -296,7 +296,7 @@ void main() {
           [1, 2, 3],
         ]).toNSInputStream() as DartInputStreamAdapter;
 
-        inputStream.delegate = NSStreamDelegate.castFrom(NSObject.new1());
+        inputStream.delegate = NSStreamDelegate.castFrom(NSObject());
         expect(inputStream.delegate, isNot(inputStream));
 
         final ptr = inputStream.ref.pointer;

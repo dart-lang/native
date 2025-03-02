@@ -25,14 +25,14 @@ class NativeLibrary {
   int myfunc(
     int a,
     int va,
-    ffi.Pointer<ffi.Char> va1,
-    SA va2,
+    ffi.Pointer<ffi.Char> va$1,
+    SA va$2,
   ) {
     return _myfunc(
       a,
       va,
-      va1,
-      va2,
+      va$1,
+      va$2,
     );
   }
 
@@ -53,13 +53,13 @@ class NativeLibrary {
     int a,
     int b,
     ffi.Pointer<ffi.Char> va,
-    ffi.Pointer<ffi.Pointer<ffi.Long>> va1,
+    ffi.Pointer<ffi.Pointer<ffi.Long>> va$1,
   ) {
     return _myfunc2CharPtrLongPtrPtr(
       a,
       b,
       va,
-      va1,
+      va$1,
     );
   }
 
@@ -82,15 +82,15 @@ class NativeLibrary {
     int a,
     int b,
     SA va,
-    ffi.Pointer<ffi.Int> va1,
-    ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>> va2,
+    ffi.Pointer<ffi.Int> va$1,
+    ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>> va$2,
   ) {
     return _myfunc2SAIntPtrUnsignedcharPtrPtr(
       a,
       b,
       va,
-      va1,
-      va2,
+      va$1,
+      va$2,
     );
   }
 
@@ -114,15 +114,15 @@ class NativeLibrary {
     int a,
     int b,
     SA va,
-    ffi.Pointer<ffi.Int> va1,
-    ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>> va2,
+    ffi.Pointer<ffi.Int> va$1,
+    ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>> va$2,
   ) {
     return _myfunc2_custompostfix(
       a,
       b,
       va,
-      va1,
-      va2,
+      va$1,
+      va$2,
     );
   }
 
@@ -144,12 +144,12 @@ class NativeLibrary {
   void myfunc3Struct_WithLong_Name_testPtrFloatPtr(
     int a,
     ffi.Pointer<Struct_WithLong_Name_test> va,
-    ffi.Pointer<ffi.Float> va1,
+    ffi.Pointer<ffi.Float> va$1,
   ) {
     return _myfunc3Struct_WithLong_Name_testPtrFloatPtr(
       a,
       va,
-      va1,
+      va$1,
     );
   }
 

@@ -119,7 +119,7 @@ enum AnonymousEnumInTypedef {
   static AnonymousEnumInTypedef fromValue(int value) => switch (value) {
         0 => a,
         _ => throw ArgumentError(
-            "Unknown value for AnonymousEnumInTypedef: $value"),
+            'Unknown value for AnonymousEnumInTypedef: $value'),
       };
 }
 
@@ -132,7 +132,7 @@ enum _NamedEnumInTypedef {
   static _NamedEnumInTypedef fromValue(int value) => switch (value) {
         0 => b,
         _ =>
-          throw ArgumentError("Unknown value for _NamedEnumInTypedef: $value"),
+          throw ArgumentError('Unknown value for _NamedEnumInTypedef: $value'),
       };
 }
 

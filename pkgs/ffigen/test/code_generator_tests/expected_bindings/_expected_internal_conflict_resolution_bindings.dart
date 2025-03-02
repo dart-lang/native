@@ -10,28 +10,28 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-class init_dylib1 {
+class init_dylib$1 {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
       _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
-  init_dylib1(ffi.DynamicLibrary dynamicLibrary)
+  init_dylib$1(ffi.DynamicLibrary dynamicLibrary)
       : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
-  init_dylib1.fromLookup(
+  init_dylib$1.fromLookup(
       ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
           lookup)
       : _lookup = lookup;
 
   void test() {
-    return _test1();
+    return _test$1();
   }
 
   late final _testPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('test');
-  late final _test1 = _testPtr.asFunction<void Function()>();
+  late final _test$1 = _testPtr.asFunction<void Function()>();
 
   void _test() {
     return __test();

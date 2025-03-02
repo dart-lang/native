@@ -13,20 +13,20 @@ final class A extends ffi.Struct {
 
 final class B extends ffi.Struct {
   @ffi.Int()
-  external int B1;
+  external int B$1;
 
   @ffi.Int()
   external int A;
 }
 
 final class C extends ffi.Struct {
-  external A A1;
+  external A A$1;
 
-  external B B1;
+  external B B$1;
 }
 
 final class D extends ffi.Struct {
-  external B A1;
+  external B A$1;
 
-  external A B1;
+  external A B$1;
 }

@@ -21,7 +21,7 @@ import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-@ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: "NSLocalizedDescriptionKey")
+@ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: 'NSLocalizedDescriptionKey')
 external ffi.Pointer<objc.ObjCObject> _NSLocalizedDescriptionKey;
 
 NSString get NSLocalizedDescriptionKey =>
@@ -491,7 +491,7 @@ class DartProtocol extends NSObject {
   }
 
   /// new
-  static DartProtocol new1() {
+  static DartProtocol new$() {
     final _ret = _objc_msgSend_151sglz(_class_DOBJCDartProtocol, _sel_new);
     return DartProtocol.castFromPointer(_ret, retain: false, release: true);
   }
@@ -542,13 +542,13 @@ class DartProtocol extends NSObject {
   }
 
   /// self
-  DartProtocol self1() {
+  DartProtocol self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProtocol.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// Returns a new instance of DartProtocol constructed with the default `new` method.
-  factory DartProtocol() => new1();
+  factory DartProtocol() => new$();
 }
 
 /// DOBJCDartProtocolBuilder
@@ -589,7 +589,7 @@ class DartProtocolBuilder extends NSObject {
   }
 
   /// new
-  static DartProtocolBuilder new1() {
+  static DartProtocolBuilder new$() {
     final _ret =
         _objc_msgSend_151sglz(_class_DOBJCDartProtocolBuilder, _sel_new);
     return DartProtocolBuilder.castFromPointer(_ret,
@@ -628,14 +628,14 @@ class DartProtocolBuilder extends NSObject {
   }
 
   /// self
-  DartProtocolBuilder self1() {
+  DartProtocolBuilder self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProtocolBuilder.castFromPointer(_ret,
         retain: true, release: true);
   }
 
   /// Returns a new instance of DartProtocolBuilder constructed with the default `new` method.
-  factory DartProtocolBuilder() => new1();
+  factory DartProtocolBuilder() => new$();
 }
 
 /// NSArray
@@ -709,7 +709,7 @@ class NSArray extends NSObject
   }
 
   /// new
-  static NSArray new1() {
+  static NSArray new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSArray, _sel_new);
     return NSArray.castFromPointer(_ret, retain: false, release: true);
   }
@@ -794,7 +794,7 @@ class NSArray extends NSObject
   }
 
   /// Returns a new instance of NSArray constructed with the default `new` method.
-  factory NSArray() => new1();
+  factory NSArray() => new$();
 }
 
 enum NSBinarySearchingOptions {
@@ -810,7 +810,7 @@ enum NSBinarySearchingOptions {
         512 => NSBinarySearchingLastEqual,
         1024 => NSBinarySearchingInsertionIndex,
         _ => throw ArgumentError(
-            "Unknown value for NSBinarySearchingOptions: $value"),
+            'Unknown value for NSBinarySearchingOptions: $value'),
       };
 }
 
@@ -936,7 +936,7 @@ class NSCharacterSet extends NSObject
   }
 
   /// new
-  static NSCharacterSet new1() {
+  static NSCharacterSet new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSCharacterSet, _sel_new);
     return NSCharacterSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -1072,13 +1072,13 @@ class NSCharacterSet extends NSObject
   }
 
   /// self
-  NSCharacterSet self1() {
+  NSCharacterSet self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// Returns a new instance of NSCharacterSet constructed with the default `new` method.
-  factory NSCharacterSet() => new1();
+  factory NSCharacterSet() => new$();
 }
 
 /// NSCoder
@@ -1274,7 +1274,7 @@ enum NSComparisonResult {
         0 => NSOrderedSame,
         1 => NSOrderedDescending,
         _ =>
-          throw ArgumentError("Unknown value for NSComparisonResult: $value"),
+          throw ArgumentError('Unknown value for NSComparisonResult: $value'),
       };
 }
 
@@ -1470,7 +1470,7 @@ class NSData extends NSObject
   }
 
   /// new
-  static NSData new1() {
+  static NSData new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSData, _sel_new);
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
@@ -1656,7 +1656,7 @@ class NSData extends NSObject
   }
 
   /// Returns a new instance of NSData constructed with the default `new` method.
-  factory NSData() => new1();
+  factory NSData() => new$();
 }
 
 enum NSDataBase64DecodingOptions {
@@ -1668,7 +1668,7 @@ enum NSDataBase64DecodingOptions {
   static NSDataBase64DecodingOptions fromValue(int value) => switch (value) {
         1 => NSDataBase64DecodingIgnoreUnknownCharacters,
         _ => throw ArgumentError(
-            "Unknown value for NSDataBase64DecodingOptions: $value"),
+            'Unknown value for NSDataBase64DecodingOptions: $value'),
       };
 }
 
@@ -1687,7 +1687,7 @@ enum NSDataBase64EncodingOptions {
         16 => NSDataBase64EncodingEndLineWithCarriageReturn,
         32 => NSDataBase64EncodingEndLineWithLineFeed,
         _ => throw ArgumentError(
-            "Unknown value for NSDataBase64EncodingOptions: $value"),
+            'Unknown value for NSDataBase64EncodingOptions: $value'),
       };
 }
 
@@ -1708,7 +1708,7 @@ enum NSDataCompressionAlgorithm {
         2 => NSDataCompressionAlgorithmLZMA,
         3 => NSDataCompressionAlgorithmZlib,
         _ => throw ArgumentError(
-            "Unknown value for NSDataCompressionAlgorithm: $value"),
+            'Unknown value for NSDataCompressionAlgorithm: $value'),
       };
 }
 
@@ -1732,7 +1732,7 @@ enum NSDataReadingOptions {
         2 => NSDataReadingUncached,
         8 => NSDataReadingMappedAlways,
         _ =>
-          throw ArgumentError("Unknown value for NSDataReadingOptions: $value"),
+          throw ArgumentError('Unknown value for NSDataReadingOptions: $value'),
       };
 
   @override
@@ -1756,7 +1756,7 @@ enum NSDataSearchOptions {
         1 => NSDataSearchBackwards,
         2 => NSDataSearchAnchored,
         _ =>
-          throw ArgumentError("Unknown value for NSDataSearchOptions: $value"),
+          throw ArgumentError('Unknown value for NSDataSearchOptions: $value'),
       };
 }
 
@@ -1786,7 +1786,7 @@ enum NSDataWritingOptions {
         1342177280 => NSDataWritingFileProtectionCompleteWhenUserInactive,
         4026531840 => NSDataWritingFileProtectionMask,
         _ =>
-          throw ArgumentError("Unknown value for NSDataWritingOptions: $value"),
+          throw ArgumentError('Unknown value for NSDataWritingOptions: $value'),
       };
 
   @override
@@ -1867,7 +1867,7 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// new
-  static NSDate new1() {
+  static NSDate new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSDate, _sel_new);
     return NSDate.castFromPointer(_ret, retain: false, release: true);
   }
@@ -1951,7 +1951,7 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// self
-  NSDate self1() {
+  NSDate self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSDate.castFromPointer(_ret, retain: true, release: true);
   }
@@ -1966,7 +1966,7 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// Returns a new instance of NSDate constructed with the default `new` method.
-  factory NSDate() => new1();
+  factory NSDate() => new$();
 }
 
 /// NSDictionary
@@ -2055,7 +2055,7 @@ class NSDictionary extends NSObject
   }
 
   /// new
-  static NSDictionary new1() {
+  static NSDictionary new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSDictionary, _sel_new);
     return NSDictionary.castFromPointer(_ret, retain: false, release: true);
   }
@@ -2158,7 +2158,7 @@ class NSDictionary extends NSObject
   }
 
   /// Returns a new instance of NSDictionary constructed with the default `new` method.
-  factory NSDictionary() => new1();
+  factory NSDictionary() => new$();
 }
 
 enum NSEnumerationOptions {
@@ -2172,7 +2172,7 @@ enum NSEnumerationOptions {
         1 => NSEnumerationConcurrent,
         2 => NSEnumerationReverse,
         _ =>
-          throw ArgumentError("Unknown value for NSEnumerationOptions: $value"),
+          throw ArgumentError('Unknown value for NSEnumerationOptions: $value'),
       };
 }
 
@@ -2211,7 +2211,7 @@ class NSEnumerator extends NSObject implements NSFastEnumeration {
   }
 
   /// new
-  static NSEnumerator new1() {
+  static NSEnumerator new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSEnumerator, _sel_new);
     return NSEnumerator.castFromPointer(_ret, retain: false, release: true);
   }
@@ -2243,7 +2243,7 @@ class NSEnumerator extends NSObject implements NSFastEnumeration {
   }
 
   /// Returns a new instance of NSEnumerator constructed with the default `new` method.
-  factory NSEnumerator() => new1();
+  factory NSEnumerator() => new$();
 }
 
 /// NSError
@@ -2293,7 +2293,7 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// new
-  static NSError new1() {
+  static NSError new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSError, _sel_new);
     return NSError.castFromPointer(_ret, retain: false, release: true);
   }
@@ -2417,7 +2417,7 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// Returns a new instance of NSError constructed with the default `new` method.
-  factory NSError() => new1();
+  factory NSError() => new$();
 }
 
 /// NSExtendedArray
@@ -3530,7 +3530,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   }
 
   /// set
-  objc.ObjCObjectBase get set1 {
+  objc.ObjCObjectBase get set$ {
     objc.checkOsVersion('NSOrderedSet.set',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_set);
@@ -3789,7 +3789,7 @@ class NSIndexSet extends NSObject
   }
 
   /// new
-  static NSIndexSet new1() {
+  static NSIndexSet new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSIndexSet, _sel_new);
     return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -3930,7 +3930,7 @@ class NSIndexSet extends NSObject
   }
 
   /// Returns a new instance of NSIndexSet constructed with the default `new` method.
-  factory NSIndexSet() => new1();
+  factory NSIndexSet() => new$();
 }
 
 /// NSInputStream
@@ -4089,7 +4089,7 @@ class NSItemProvider extends NSObject implements NSCopying {
   }
 
   /// new
-  static NSItemProvider new1() {
+  static NSItemProvider new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSItemProvider, _sel_new);
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
   }
@@ -4227,7 +4227,7 @@ class NSItemProvider extends NSObject implements NSCopying {
   }
 
   /// self
-  NSItemProvider self1() {
+  NSItemProvider self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
@@ -4251,7 +4251,7 @@ class NSItemProvider extends NSObject implements NSCopying {
   }
 
   /// Returns a new instance of NSItemProvider constructed with the default `new` method.
-  factory NSItemProvider() => new1();
+  factory NSItemProvider() => new$();
 }
 
 enum NSItemProviderFileOptions {
@@ -4263,7 +4263,7 @@ enum NSItemProviderFileOptions {
   static NSItemProviderFileOptions fromValue(int value) => switch (value) {
         1 => NSItemProviderFileOptionOpenInPlace,
         _ => throw ArgumentError(
-            "Unknown value for NSItemProviderFileOptions: $value"),
+            'Unknown value for NSItemProviderFileOptions: $value'),
       };
 }
 
@@ -4326,7 +4326,7 @@ enum NSItemProviderRepresentationVisibility {
         2 => NSItemProviderRepresentationVisibilityGroup,
         3 => NSItemProviderRepresentationVisibilityOwnProcess,
         _ => throw ArgumentError(
-            "Unknown value for NSItemProviderRepresentationVisibility: $value"),
+            'Unknown value for NSItemProviderRepresentationVisibility: $value'),
       };
 }
 
@@ -4453,7 +4453,7 @@ enum NSKeyValueChange {
         2 => NSKeyValueChangeInsertion,
         3 => NSKeyValueChangeRemoval,
         4 => NSKeyValueChangeReplacement,
-        _ => throw ArgumentError("Unknown value for NSKeyValueChange: $value"),
+        _ => throw ArgumentError('Unknown value for NSKeyValueChange: $value'),
       };
 }
 
@@ -4472,7 +4472,7 @@ enum NSKeyValueObservingOptions {
         4 => NSKeyValueObservingOptionInitial,
         8 => NSKeyValueObservingOptionPrior,
         _ => throw ArgumentError(
-            "Unknown value for NSKeyValueObservingOptions: $value"),
+            'Unknown value for NSKeyValueObservingOptions: $value'),
       };
 }
 
@@ -4491,7 +4491,7 @@ enum NSKeyValueSetMutationKind {
         3 => NSKeyValueIntersectSetMutation,
         4 => NSKeyValueSetSetMutation,
         _ => throw ArgumentError(
-            "Unknown value for NSKeyValueSetMutationKind: $value"),
+            'Unknown value for NSKeyValueSetMutationKind: $value'),
       };
 }
 
@@ -4554,7 +4554,7 @@ class NSMethodSignature extends NSObject {
   }
 
   /// new
-  static NSMethodSignature new1() {
+  static NSMethodSignature new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMethodSignature, _sel_new);
     return NSMethodSignature.castFromPointer(_ret,
         retain: false, release: true);
@@ -4612,7 +4612,7 @@ class NSMethodSignature extends NSObject {
   }
 
   /// Returns a new instance of NSMethodSignature constructed with the default `new` method.
-  factory NSMethodSignature() => new1();
+  factory NSMethodSignature() => new$();
 }
 
 /// NSMutableArray
@@ -4692,7 +4692,7 @@ class NSMutableArray extends NSArray {
   }
 
   /// new
-  static NSMutableArray new1() {
+  static NSMutableArray new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableArray, _sel_new);
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
@@ -4787,7 +4787,7 @@ class NSMutableArray extends NSArray {
   }
 
   /// Returns a new instance of NSMutableArray constructed with the default `new` method.
-  factory NSMutableArray() => new1();
+  factory NSMutableArray() => new$();
 }
 
 /// NSMutableCopying
@@ -5004,7 +5004,7 @@ class NSMutableData extends NSData {
   }
 
   /// new
-  static NSMutableData new1() {
+  static NSMutableData new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableData, _sel_new);
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
@@ -5209,7 +5209,7 @@ class NSMutableData extends NSData {
   }
 
   /// Returns a new instance of NSMutableData constructed with the default `new` method.
-  factory NSMutableData() => new1();
+  factory NSMutableData() => new$();
 }
 
 /// NSMutableDictionary
@@ -5314,7 +5314,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// new
-  static NSMutableDictionary new1() {
+  static NSMutableDictionary new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableDictionary, _sel_new);
     return NSMutableDictionary.castFromPointer(_ret,
         retain: false, release: true);
@@ -5411,7 +5411,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// Returns a new instance of NSMutableDictionary constructed with the default `new` method.
-  factory NSMutableDictionary() => new1();
+  factory NSMutableDictionary() => new$();
 }
 
 /// NSMutableIndexSet
@@ -5471,7 +5471,7 @@ class NSMutableIndexSet extends NSIndexSet {
   }
 
   /// new
-  static NSMutableIndexSet new1() {
+  static NSMutableIndexSet new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableIndexSet, _sel_new);
     return NSMutableIndexSet.castFromPointer(_ret,
         retain: false, release: true);
@@ -5570,7 +5570,7 @@ class NSMutableIndexSet extends NSIndexSet {
   }
 
   /// Returns a new instance of NSMutableIndexSet constructed with the default `new` method.
-  factory NSMutableIndexSet() => new1();
+  factory NSMutableIndexSet() => new$();
 }
 
 /// NSMutableOrderedSet
@@ -5613,7 +5613,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// new
-  static NSMutableOrderedSet new1() {
+  static NSMutableOrderedSet new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableOrderedSet, _sel_new);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: false, release: true);
@@ -5937,14 +5937,14 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// self
-  NSMutableOrderedSet self1() {
+  NSMutableOrderedSet self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSMutableOrderedSet.castFromPointer(_ret,
         retain: true, release: true);
   }
 
   /// Returns a new instance of NSMutableOrderedSet constructed with the default `new` method.
-  factory NSMutableOrderedSet() => new1();
+  factory NSMutableOrderedSet() => new$();
 }
 
 /// NSMutableSet
@@ -5982,13 +5982,13 @@ class NSMutableSet extends NSSet {
   }
 
   /// new
-  static NSMutableSet new1() {
+  static NSMutableSet new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_new);
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// set
-  static NSMutableSet set1() {
+  static NSMutableSet set$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableSet, _sel_set);
     return NSMutableSet.castFromPointer(_ret, retain: true, release: true);
   }
@@ -6114,7 +6114,7 @@ class NSMutableSet extends NSSet {
   }
 
   /// Returns a new instance of NSMutableSet constructed with the default `new` method.
-  factory NSMutableSet() => new1();
+  factory NSMutableSet() => new$();
 }
 
 /// NSMutableString
@@ -6180,7 +6180,7 @@ class NSMutableString extends NSString {
   }
 
   /// new
-  static NSMutableString new1() {
+  static NSMutableString new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSMutableString, _sel_new);
     return NSMutableString.castFromPointer(_ret, retain: false, release: true);
   }
@@ -6584,13 +6584,13 @@ class NSMutableString extends NSString {
   }
 
   /// self
-  NSMutableString self1() {
+  NSMutableString self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// Returns a new instance of NSMutableString constructed with the default `new` method.
-  factory NSMutableString() => new1();
+  factory NSMutableString() => new$();
 }
 
 /// NSNotification
@@ -6628,7 +6628,7 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
   }
 
   /// new
-  static NSNotification new1() {
+  static NSNotification new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSNotification, _sel_new);
     return NSNotification.castFromPointer(_ret, retain: false, release: true);
   }
@@ -6719,7 +6719,7 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
   }
 
   /// self
-  NSNotification self1() {
+  NSNotification self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
@@ -6733,7 +6733,7 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
   }
 
   /// Returns a new instance of NSNotification constructed with the default `new` method.
-  factory NSNotification() => new1();
+  factory NSNotification() => new$();
 }
 
 /// NSNumber
@@ -6771,7 +6771,7 @@ class NSNumber extends NSValue {
   }
 
   /// new
-  static NSNumber new1() {
+  static NSNumber new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSNumber, _sel_new);
     return NSNumber.castFromPointer(_ret, retain: false, release: true);
   }
@@ -7026,7 +7026,7 @@ class NSNumber extends NSValue {
   }
 
   /// Returns a new instance of NSNumber constructed with the default `new` method.
-  factory NSNumber() => new1();
+  factory NSNumber() => new$();
 }
 
 /// NSNumberCreation
@@ -7179,7 +7179,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// class
-  static objc.ObjCObjectBase class1() {
+  static objc.ObjCObjectBase class$() {
     final _ret = _objc_msgSend_151sglz(_class_NSObject, _sel_class);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
@@ -7282,7 +7282,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// new
-  static NSObject new1() {
+  static NSObject new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSObject, _sel_new);
     return NSObject.castFromPointer(_ret, retain: false, release: true);
   }
@@ -7318,13 +7318,13 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// class
-  objc.ObjCObjectBase class2() {
+  objc.ObjCObjectBase class$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_class);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// conformsToProtocol:
-  bool conformsToProtocol_1(Protocol aProtocol) {
+  bool conformsToProtocol_$1(Protocol aProtocol) {
     return _objc_msgSend_19nvye5(
         this.ref.pointer, _sel_conformsToProtocol_, aProtocol.ref.pointer);
   }
@@ -7343,7 +7343,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// debugDescription
-  NSString get debugDescription1 {
+  NSString get debugDescription$1 {
     if (!objc.respondsToSelector(this.ref.pointer, _sel_debugDescription)) {
       throw objc.UnimplementedOptionalMethodException(
           'NSObject', 'debugDescription');
@@ -7353,7 +7353,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// description
-  NSString get description1 {
+  NSString get description$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -7383,7 +7383,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// hash
-  int get hash1 {
+  int get hash$1 {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_hash);
   }
 
@@ -7497,13 +7497,13 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// self
-  NSObject self1() {
+  NSObject self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSObject.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// superclass
-  objc.ObjCObjectBase get superclass1 {
+  objc.ObjCObjectBase get superclass$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_superclass);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
@@ -7514,7 +7514,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// Returns a new instance of NSObject constructed with the default `new` method.
-  factory NSObject() => new1();
+  factory NSObject() => new$();
 }
 
 /// NSObject
@@ -7545,7 +7545,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implement(
       {required objc.ObjCObjectBase Function() autorelease,
-      required objc.ObjCObjectBase Function() class1,
+      required objc.ObjCObjectBase Function() class$,
       required bool Function(Protocol) conformsToProtocol_,
       NSString Function()? debugDescription,
       required NSString Function() description,
@@ -7567,13 +7567,13 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           respondsToSelector_,
       required objc.ObjCObjectBase Function() retain,
       required int Function() retainCount,
-      required objc.ObjCObjectBase Function() self1,
+      required objc.ObjCObjectBase Function() self$1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
     NSObjectProtocol.autorelease.implement(builder, autorelease);
-    NSObjectProtocol.class1.implement(builder, class1);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_
         .implement(builder, conformsToProtocol_);
     NSObjectProtocol.debugDescription.implement(builder, debugDescription);
@@ -7593,7 +7593,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
         .implement(builder, respondsToSelector_);
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self1.implement(builder, self1);
+    NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     return NSObjectProtocol.castFrom(
@@ -7606,7 +7606,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function() autorelease,
-      required objc.ObjCObjectBase Function() class1,
+      required objc.ObjCObjectBase Function() class$,
       required bool Function(Protocol) conformsToProtocol_,
       NSString Function()? debugDescription,
       required NSString Function() description,
@@ -7628,12 +7628,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           respondsToSelector_,
       required objc.ObjCObjectBase Function() retain,
       required int Function() retainCount,
-      required objc.ObjCObjectBase Function() self1,
+      required objc.ObjCObjectBase Function() self$1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
     NSObjectProtocol.autorelease.implement(builder, autorelease);
-    NSObjectProtocol.class1.implement(builder, class1);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_
         .implement(builder, conformsToProtocol_);
     NSObjectProtocol.debugDescription.implement(builder, debugDescription);
@@ -7653,7 +7653,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
         .implement(builder, respondsToSelector_);
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self1.implement(builder, self1);
+    NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
   }
@@ -7666,7 +7666,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implementAsListener(
       {required objc.ObjCObjectBase Function() autorelease,
-      required objc.ObjCObjectBase Function() class1,
+      required objc.ObjCObjectBase Function() class$,
       required bool Function(Protocol) conformsToProtocol_,
       NSString Function()? debugDescription,
       required NSString Function() description,
@@ -7688,13 +7688,13 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           respondsToSelector_,
       required objc.ObjCObjectBase Function() retain,
       required int Function() retainCount,
-      required objc.ObjCObjectBase Function() self1,
+      required objc.ObjCObjectBase Function() self$1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
     NSObjectProtocol.autorelease.implement(builder, autorelease);
-    NSObjectProtocol.class1.implement(builder, class1);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_
         .implement(builder, conformsToProtocol_);
     NSObjectProtocol.debugDescription.implement(builder, debugDescription);
@@ -7714,7 +7714,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
         .implement(builder, respondsToSelector_);
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self1.implement(builder, self1);
+    NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     return NSObjectProtocol.castFrom(
@@ -7728,7 +7728,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function() autorelease,
-      required objc.ObjCObjectBase Function() class1,
+      required objc.ObjCObjectBase Function() class$,
       required bool Function(Protocol) conformsToProtocol_,
       NSString Function()? debugDescription,
       required NSString Function() description,
@@ -7750,12 +7750,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           respondsToSelector_,
       required objc.ObjCObjectBase Function() retain,
       required int Function() retainCount,
-      required objc.ObjCObjectBase Function() self1,
+      required objc.ObjCObjectBase Function() self$1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
     NSObjectProtocol.autorelease.implement(builder, autorelease);
-    NSObjectProtocol.class1.implement(builder, class1);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_
         .implement(builder, conformsToProtocol_);
     NSObjectProtocol.debugDescription.implement(builder, debugDescription);
@@ -7775,7 +7775,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
         .implement(builder, respondsToSelector_);
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self1.implement(builder, self1);
+    NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
   }
@@ -7788,7 +7788,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implementAsBlocking(
       {required objc.ObjCObjectBase Function() autorelease,
-      required objc.ObjCObjectBase Function() class1,
+      required objc.ObjCObjectBase Function() class$,
       required bool Function(Protocol) conformsToProtocol_,
       NSString Function()? debugDescription,
       required NSString Function() description,
@@ -7810,13 +7810,13 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           respondsToSelector_,
       required objc.ObjCObjectBase Function() retain,
       required int Function() retainCount,
-      required objc.ObjCObjectBase Function() self1,
+      required objc.ObjCObjectBase Function() self$1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
     NSObjectProtocol.autorelease.implement(builder, autorelease);
-    NSObjectProtocol.class1.implement(builder, class1);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_
         .implement(builder, conformsToProtocol_);
     NSObjectProtocol.debugDescription.implement(builder, debugDescription);
@@ -7836,7 +7836,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
         .implement(builder, respondsToSelector_);
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self1.implement(builder, self1);
+    NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     return NSObjectProtocol.castFrom(
@@ -7850,7 +7850,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking(objc.ObjCProtocolBuilder builder,
       {required objc.ObjCObjectBase Function() autorelease,
-      required objc.ObjCObjectBase Function() class1,
+      required objc.ObjCObjectBase Function() class$,
       required bool Function(Protocol) conformsToProtocol_,
       NSString Function()? debugDescription,
       required NSString Function() description,
@@ -7872,12 +7872,12 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
           respondsToSelector_,
       required objc.ObjCObjectBase Function() retain,
       required int Function() retainCount,
-      required objc.ObjCObjectBase Function() self1,
+      required objc.ObjCObjectBase Function() self$1,
       required objc.ObjCObjectBase Function() superclass,
       required ffi.Pointer<NSZone> Function() zone,
       bool $keepIsolateAlive = true}) {
     NSObjectProtocol.autorelease.implement(builder, autorelease);
-    NSObjectProtocol.class1.implement(builder, class1);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_
         .implement(builder, conformsToProtocol_);
     NSObjectProtocol.debugDescription.implement(builder, debugDescription);
@@ -7897,7 +7897,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
         .implement(builder, respondsToSelector_);
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self1.implement(builder, self1);
+    NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
   }
@@ -7927,7 +7927,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   );
 
   /// class
-  static final class1 = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
+  static final class$ = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_class,
     ffi.Native.addressOf<
@@ -8315,7 +8315,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   );
 
   /// self
-  static final self1 = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
+  static final self$1 = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_self,
     ffi.Native.addressOf<
@@ -8433,7 +8433,7 @@ class NSOrderedCollectionDifference extends NSObject
   }
 
   /// new
-  static NSOrderedCollectionDifference new1() {
+  static NSOrderedCollectionDifference new$() {
     final _ret =
         _objc_msgSend_151sglz(_class_NSOrderedCollectionDifference, _sel_new);
     return NSOrderedCollectionDifference.castFromPointer(_ret,
@@ -8564,7 +8564,7 @@ class NSOrderedCollectionDifference extends NSObject
   }
 
   /// Returns a new instance of NSOrderedCollectionDifference constructed with the default `new` method.
-  factory NSOrderedCollectionDifference() => new1();
+  factory NSOrderedCollectionDifference() => new$();
 }
 
 /// iOS: introduced 13.0.0
@@ -8583,7 +8583,7 @@ enum NSOrderedCollectionDifferenceCalculationOptions {
         2 => NSOrderedCollectionDifferenceCalculationOmitRemovedObjects,
         4 => NSOrderedCollectionDifferenceCalculationInferMoves,
         _ => throw ArgumentError(
-            "Unknown value for NSOrderedCollectionDifferenceCalculationOptions: $value"),
+            'Unknown value for NSOrderedCollectionDifferenceCalculationOptions: $value'),
       };
 }
 
@@ -8626,7 +8626,7 @@ class NSOrderedSet extends NSObject
   }
 
   /// new
-  static NSOrderedSet new1() {
+  static NSOrderedSet new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSOrderedSet, _sel_new);
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -8911,13 +8911,13 @@ class NSOrderedSet extends NSObject
   }
 
   /// self
-  NSOrderedSet self1() {
+  NSOrderedSet self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSOrderedSet.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// Returns a new instance of NSOrderedSet constructed with the default `new` method.
-  factory NSOrderedSet() => new1();
+  factory NSOrderedSet() => new$();
 }
 
 /// NSOutputStream
@@ -9251,13 +9251,13 @@ class NSSet extends NSObject
   }
 
   /// new
-  static NSSet new1() {
+  static NSSet new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSSet, _sel_new);
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// set
-  static NSSet set1() {
+  static NSSet set$() {
     final _ret = _objc_msgSend_151sglz(_class_NSSet, _sel_set);
     return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
@@ -9393,7 +9393,7 @@ class NSSet extends NSObject
   }
 
   /// Returns a new instance of NSSet constructed with the default `new` method.
-  factory NSSet() => new1();
+  factory NSSet() => new$();
 }
 
 enum NSSortOptions {
@@ -9406,7 +9406,7 @@ enum NSSortOptions {
   static NSSortOptions fromValue(int value) => switch (value) {
         1 => NSSortConcurrent,
         16 => NSSortStable,
-        _ => throw ArgumentError("Unknown value for NSSortOptions: $value"),
+        _ => throw ArgumentError('Unknown value for NSSortOptions: $value'),
       };
 }
 
@@ -9445,7 +9445,7 @@ class NSStream extends NSObject {
   }
 
   /// new
-  static NSStream new1() {
+  static NSStream new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSStream, _sel_new);
     return NSStream.castFromPointer(_ret, retain: false, release: true);
   }
@@ -9511,7 +9511,7 @@ class NSStream extends NSObject {
   }
 
   /// self
-  NSStream self1() {
+  NSStream self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSStream.castFromPointer(_ret, retain: true, release: true);
   }
@@ -9543,7 +9543,7 @@ class NSStream extends NSObject {
   }
 
   /// Returns a new instance of NSStream constructed with the default `new` method.
-  factory NSStream() => new1();
+  factory NSStream() => new$();
 }
 
 /// NSStreamDelegate
@@ -9703,7 +9703,7 @@ enum NSStreamEvent {
         4 => NSStreamEventHasSpaceAvailable,
         8 => NSStreamEventErrorOccurred,
         16 => NSStreamEventEndEncountered,
-        _ => throw ArgumentError("Unknown value for NSStreamEvent: $value"),
+        _ => throw ArgumentError('Unknown value for NSStreamEvent: $value'),
       };
 }
 
@@ -9729,7 +9729,7 @@ enum NSStreamStatus {
         5 => NSStreamStatusAtEnd,
         6 => NSStreamStatusClosed,
         7 => NSStreamStatusError,
-        _ => throw ArgumentError("Unknown value for NSStreamStatus: $value"),
+        _ => throw ArgumentError('Unknown value for NSStreamStatus: $value'),
       };
 }
 
@@ -9804,7 +9804,7 @@ class NSString extends NSObject
   }
 
   /// new
-  static NSString new1() {
+  static NSString new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSString, _sel_new);
     return NSString.castFromPointer(_ret, retain: false, release: true);
   }
@@ -10216,7 +10216,7 @@ class NSString extends NSObject
   }
 
   /// self
-  NSString self1() {
+  NSString self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -10247,7 +10247,7 @@ enum NSStringCompareOptions {
         512 => NSForcedOrderingSearch,
         1024 => NSRegularExpressionSearch,
         _ => throw ArgumentError(
-            "Unknown value for NSStringCompareOptions: $value"),
+            'Unknown value for NSStringCompareOptions: $value'),
       };
 }
 
@@ -10263,7 +10263,7 @@ enum NSStringEncodingConversionOptions {
         1 => NSStringEncodingConversionAllowLossy,
         2 => NSStringEncodingConversionExternalRepresentation,
         _ => throw ArgumentError(
-            "Unknown value for NSStringEncodingConversionOptions: $value"),
+            'Unknown value for NSStringEncodingConversionOptions: $value'),
       };
 }
 
@@ -10294,7 +10294,7 @@ enum NSStringEnumerationOptions {
         512 => NSStringEnumerationSubstringNotRequired,
         1024 => NSStringEnumerationLocalized,
         _ => throw ArgumentError(
-            "Unknown value for NSStringEnumerationOptions: $value"),
+            'Unknown value for NSStringEnumerationOptions: $value'),
       };
 }
 
@@ -11327,7 +11327,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// new
-  static NSURL new1() {
+  static NSURL new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSURL, _sel_new);
     return NSURL.castFromPointer(_ret, retain: false, release: true);
   }
@@ -11869,7 +11869,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// Returns a new instance of NSURL constructed with the default `new` method.
-  factory NSURL() => new1();
+  factory NSURL() => new$();
 }
 
 enum NSURLBookmarkCreationOptions {
@@ -11891,7 +11891,7 @@ enum NSURLBookmarkCreationOptions {
         4096 => NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess,
         536870912 => NSURLBookmarkCreationWithoutImplicitSecurityScope,
         _ => throw ArgumentError(
-            "Unknown value for NSURLBookmarkCreationOptions: $value"),
+            'Unknown value for NSURLBookmarkCreationOptions: $value'),
       };
 }
 
@@ -11910,7 +11910,7 @@ enum NSURLBookmarkResolutionOptions {
         1024 => NSURLBookmarkResolutionWithSecurityScope,
         32768 => NSURLBookmarkResolutionWithoutImplicitStartAccessing,
         _ => throw ArgumentError(
-            "Unknown value for NSURLBookmarkResolutionOptions: $value"),
+            'Unknown value for NSURLBookmarkResolutionOptions: $value'),
       };
 }
 
@@ -11949,7 +11949,7 @@ class NSURLHandle extends NSObject {
   }
 
   /// new
-  static NSURLHandle new1() {
+  static NSURLHandle new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSURLHandle, _sel_new);
     return NSURLHandle.castFromPointer(_ret, retain: false, release: true);
   }
@@ -11976,13 +11976,13 @@ class NSURLHandle extends NSObject {
   }
 
   /// self
-  NSURLHandle self1() {
+  NSURLHandle self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// Returns a new instance of NSURLHandle constructed with the default `new` method.
-  factory NSURLHandle() => new1();
+  factory NSURLHandle() => new$();
 }
 
 enum NSURLHandleStatus {
@@ -11999,7 +11999,7 @@ enum NSURLHandleStatus {
         1 => NSURLHandleLoadSucceeded,
         2 => NSURLHandleLoadInProgress,
         3 => NSURLHandleLoadFailed,
-        _ => throw ArgumentError("Unknown value for NSURLHandleStatus: $value"),
+        _ => throw ArgumentError('Unknown value for NSURLHandleStatus: $value'),
       };
 }
 
@@ -12038,7 +12038,7 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// new
-  static NSValue new1() {
+  static NSValue new$() {
     final _ret = _objc_msgSend_151sglz(_class_NSValue, _sel_new);
     return NSValue.castFromPointer(_ret, retain: false, release: true);
   }
@@ -12093,7 +12093,7 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// Returns a new instance of NSValue constructed with the default `new` method.
-  factory NSValue() => new1();
+  factory NSValue() => new$();
 }
 
 final class NSZone extends ffi.Opaque {}
