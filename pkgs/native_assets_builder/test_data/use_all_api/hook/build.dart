@@ -19,7 +19,6 @@ void main(List<String> args) async {
     // c. target config
     // c.1. per hook
     input.config.linkingEnabled; // build only
-    input.config.dryRun; // build only, deleted soon
     // c.2. per asset
     input.config.buildAssetTypes;
     input.config.code.linkModePreference;
@@ -33,14 +32,16 @@ void main(List<String> args) async {
     input.config.code.cCompiler?.compiler;
     input.config.code.cCompiler?.linker;
 
-    output.assets.code.add(CodeAsset(
-      package: 'package',
-      name: 'name',
-      linkMode: DynamicLoadingBundled(),
-      os: input.config.code.targetOS,
-      architecture: input.config.code.targetArchitecture,
-      file: input.outputDirectory.resolve('foo'),
-    ));
+    output.assets.code.add(
+      CodeAsset(
+        package: 'package',
+        name: 'name',
+        linkMode: DynamicLoadingBundled(),
+        os: input.config.code.targetOS,
+        architecture: input.config.code.targetArchitecture,
+        file: input.outputDirectory.resolve('foo'),
+      ),
+    );
     output.assets.data.add(
       DataAsset(
         file: input.outputDirectory.resolve('foo'),

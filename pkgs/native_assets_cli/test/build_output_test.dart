@@ -13,17 +13,11 @@ void main() {
   test('BuildOutputBuilder->JSON->BuildOutput', () {
     final assets = [
       for (int i = 0; i < 3; i++)
-        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'})
+        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
     ];
-    final uris = [
-      for (int i = 0; i < 3; ++i) Uri.file('path$i'),
-    ];
-    final metadata0 = {
-      'meta-a': 'meta-b',
-    };
-    final metadata1 = {
-      for (int i = 0; i < 2; ++i) 'meta$i': 'meta$i-value',
-    };
+    final uris = [for (int i = 0; i < 3; ++i) Uri.file('path$i')];
+    final metadata0 = {'meta-a': 'meta-b'};
+    final metadata1 = {for (int i = 0; i < 2; ++i) 'meta$i': 'meta$i-value'};
     final before = DateTime.now().roundDownToSeconds();
     final builder = BuildOutputBuilder();
     final after = DateTime.now().roundDownToSeconds();
@@ -34,38 +28,43 @@ void main() {
     builder.addMetadata(metadata1);
 
     builder.assets.addEncodedAsset(assets.take(1).single);
-    builder.assets.addEncodedAsset(assets.skip(1).first,
-        linkInPackage: 'package:linker1');
+    builder.assets.addEncodedAsset(
+      assets.skip(1).first,
+      linkInPackage: 'package:linker1',
+    );
     builder.assets.addEncodedAssets(assets.skip(2).take(2).toList());
-    builder.assets.addEncodedAssets(assets.skip(4).toList(),
-        linkInPackage: 'package:linker2');
+    builder.assets.addEncodedAssets(
+      assets.skip(4).toList(),
+      linkInPackage: 'package:linker2',
+    );
 
     final input = BuildOutput(builder.json);
     expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
     expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
-        true);
+      input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
+      true,
+    );
 
     // The JSON format of the build output.
     <String, Object?>{
-      'version': '1.8.0',
+      'version': '1.9.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'metadata': {
         'meta-a': 'meta-b',
         'meta0': 'meta0-value',
-        'meta1': 'meta1-value'
+        'meta1': 'meta1-value',
       },
       'assets': [
         {'a-0': 'v-0', 'type': 'my-asset-type'},
-        {'a-2': 'v-2', 'type': 'my-asset-type'}
+        {'a-2': 'v-2', 'type': 'my-asset-type'},
       ],
       'assetsForLinking': {
         'package:linker1': [
-          {'a-1': 'v-1', 'type': 'my-asset-type'}
+          {'a-1': 'v-1', 'type': 'my-asset-type'},
         ],
         'package:linker2': <Object?>[],
-      }
+      },
     }.forEach((k, v) {
       expect(input.json[k], equals(v));
     });
@@ -75,12 +74,14 @@ void main() {
     test('BuildOutput version $version', () {
       expect(
         () => BuildOutput({'version': version}),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(version) &&
-              e.message.contains(latestVersion.toString()),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(version) &&
+                e.message.contains(latestVersion.toString()),
+          ),
+        ),
       );
     });
   }

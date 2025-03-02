@@ -3,34 +3,57 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('subtyping', () {
     final builtInFunctions = ObjCBuiltInFunctions('', false);
+    final availability =
+        ApiAvailability(externalVersions: const ExternalVersions());
 
-    ObjCInterface makeInterface(String name, ObjCInterface? superType,
-        [List<ObjCMethod> methods = const []]) {
+    ObjCInterface makeInterface(
+        String name, ObjCInterface? superType, List<ObjCProtocol> protocols) {
       final itf = ObjCInterface(
         usr: name,
         originalName: name,
         builtInFunctions: builtInFunctions,
+        apiAvailability: availability,
       );
       if (superType != null) {
         itf.superType = superType;
         superType.subtypes.add(itf);
       }
-      for (final m in methods) {
-        itf.addMethod(m);
+      for (final p in protocols) {
+        itf.addProtocol(p);
       }
       itf.filled = true;
       return itf;
     }
 
-    final grandparent = makeInterface('Grandparent', null);
-    final parent = makeInterface('Parent', grandparent);
-    final uncle = makeInterface('Uncle', grandparent);
-    final child = makeInterface('Child', parent);
+    ObjCProtocol makeProtocol(String name, List<ObjCProtocol> superProtocols) {
+      final proto = ObjCProtocol(
+        usr: name,
+        originalName: name,
+        builtInFunctions: builtInFunctions,
+        apiAvailability: availability,
+      );
+      proto.superProtocols.addAll(superProtocols);
+      return proto;
+    }
+
+    final proto1 = makeProtocol('Proto1', []);
+    final proto2 = makeProtocol('Proto2', []);
+    final proto3 = makeProtocol('Proto3', []);
+    final proto4 = makeProtocol('Proto4', []);
+    final protoSub1 = makeProtocol('ProtoSub1', [proto1]);
+    final protoSub12 = makeProtocol('ProtoSub12', [protoSub1, proto2]);
+
+    final grandparent = makeInterface('Grandparent', null, [protoSub12]);
+    final parent = makeInterface('Parent', grandparent, [protoSub1, proto3]);
+    final uncle = makeInterface('Uncle', grandparent, [proto1, proto3]);
+    final child = makeInterface('Child', parent, [proto1, proto4]);
 
     ObjCBlock makeBlock(Type returnType, List<Type> argTypes) => ObjCBlock(
         returnType: returnType,
@@ -67,6 +90,85 @@ void main() {
 
         expect(child.isSupertypeOf(uncle), isFalse);
         expect(uncle.isSupertypeOf(child), isFalse);
+      });
+    });
+
+    group('ObjCProtocol', () {
+      test('subtype', () {
+        expect(protoSub1.isSubtypeOf(protoSub1), isTrue);
+        expect(proto3.isSubtypeOf(proto3), isTrue);
+
+        expect(protoSub12.isSubtypeOf(protoSub1), isTrue);
+        expect(protoSub1.isSubtypeOf(protoSub12), isFalse);
+
+        expect(protoSub12.isSubtypeOf(proto1), isTrue);
+        expect(proto1.isSubtypeOf(protoSub12), isFalse);
+
+        expect(protoSub12.isSubtypeOf(proto2), isTrue);
+        expect(proto2.isSubtypeOf(protoSub12), isFalse);
+
+        expect(protoSub1.isSubtypeOf(proto2), isFalse);
+        expect(proto2.isSubtypeOf(protoSub1), isFalse);
+
+        expect(proto1.isSubtypeOf(proto3), isFalse);
+        expect(proto3.isSubtypeOf(proto1), isFalse);
+      });
+
+      test('supertype', () {
+        expect(protoSub1.isSupertypeOf(protoSub1), isTrue);
+        expect(proto3.isSupertypeOf(proto3), isTrue);
+
+        expect(protoSub12.isSupertypeOf(protoSub1), isFalse);
+        expect(protoSub1.isSupertypeOf(protoSub12), isTrue);
+
+        expect(protoSub12.isSupertypeOf(proto1), isFalse);
+        expect(proto1.isSupertypeOf(protoSub12), isTrue);
+
+        expect(protoSub12.isSupertypeOf(proto2), isFalse);
+        expect(proto2.isSupertypeOf(protoSub12), isTrue);
+
+        expect(protoSub1.isSupertypeOf(proto2), isFalse);
+        expect(proto2.isSupertypeOf(protoSub1), isFalse);
+
+        expect(proto1.isSupertypeOf(proto3), isFalse);
+        expect(proto3.isSupertypeOf(proto1), isFalse);
+      });
+
+      test('vs ObjCInterface', () {
+        expect(grandparent.isSubtypeOf(protoSub12), isTrue);
+        expect(grandparent.isSubtypeOf(protoSub1), isTrue);
+        expect(grandparent.isSubtypeOf(proto1), isTrue);
+        expect(grandparent.isSubtypeOf(proto2), isTrue);
+        expect(grandparent.isSubtypeOf(proto3), isFalse);
+        expect(grandparent.isSubtypeOf(proto4), isFalse);
+
+        expect(parent.isSubtypeOf(protoSub12), isTrue);
+        expect(parent.isSubtypeOf(protoSub1), isTrue);
+        expect(parent.isSubtypeOf(proto1), isTrue);
+        expect(parent.isSubtypeOf(proto2), isTrue);
+        expect(parent.isSubtypeOf(proto3), isTrue);
+        expect(parent.isSubtypeOf(proto4), isFalse);
+
+        expect(uncle.isSubtypeOf(protoSub12), isTrue);
+        expect(uncle.isSubtypeOf(protoSub1), isTrue);
+        expect(uncle.isSubtypeOf(proto1), isTrue);
+        expect(uncle.isSubtypeOf(proto2), isTrue);
+        expect(uncle.isSubtypeOf(proto3), isTrue);
+        expect(uncle.isSubtypeOf(proto4), isFalse);
+
+        expect(child.isSubtypeOf(protoSub12), isTrue);
+        expect(child.isSubtypeOf(protoSub1), isTrue);
+        expect(child.isSubtypeOf(proto1), isTrue);
+        expect(child.isSubtypeOf(proto2), isTrue);
+        expect(child.isSubtypeOf(proto3), isTrue);
+        expect(child.isSubtypeOf(proto4), isTrue);
+
+        // Protocols are never subtypes of interfaces.
+        expect(protoSub12.isSubtypeOf(grandparent), isFalse);
+        expect(protoSub1.isSubtypeOf(grandparent), isFalse);
+        expect(proto1.isSubtypeOf(grandparent), isFalse);
+        expect(proto2.isSubtypeOf(grandparent), isFalse);
+        expect(proto3.isSubtypeOf(grandparent), isFalse);
       });
     });
 
@@ -256,6 +358,36 @@ void main() {
       final block = makeBlock(voidType, []);
       expect(block.isSubtypeOf(ObjCBlockPointer()), isTrue);
       expect(ObjCBlockPointer().isSubtypeOf(block), isFalse);
+    });
+
+    test('ObjCObjectPointerWithProtocols', () {
+      final idP1 = ObjCObjectPointerWithProtocols([proto1]);
+      final idP2 = ObjCObjectPointerWithProtocols([proto2]);
+      final idP1P2 = ObjCObjectPointerWithProtocols([proto1, proto2]);
+      final idP2P1 = ObjCObjectPointerWithProtocols([proto2, proto1]);
+      final idPSub1 = ObjCObjectPointerWithProtocols([protoSub1]);
+      final idPSub12 = ObjCObjectPointerWithProtocols([protoSub12]);
+
+      expect(idP1.isSubtypeOf(idP1), isTrue);
+      expect(idP1.isSubtypeOf(idP2), isFalse);
+      expect(idP2.isSubtypeOf(idP1), isFalse);
+
+      expect(idP1P2.isSubtypeOf(idP1), isTrue);
+      expect(idP1.isSubtypeOf(idP1P2), isTrue);
+      expect(idP1P2.isSubtypeOf(idP2), isFalse);
+      expect(idP1P2.isSubtypeOf(idP2P1), isFalse);
+      expect(idP2P1.isSubtypeOf(idP2), isTrue);
+      expect(idP2.isSubtypeOf(idP2P1), isTrue);
+
+      expect(idPSub1.isSubtypeOf(idP1), isTrue);
+      expect(idP1.isSubtypeOf(idPSub1), isFalse);
+      expect(idPSub12.isSubtypeOf(idP1), isTrue);
+      expect(idPSub12.isSubtypeOf(idP2), isTrue);
+      expect(idP1.isSubtypeOf(idPSub12), isFalse);
+      expect(idP2.isSubtypeOf(idPSub12), isFalse);
+
+      expect(ObjCObjectPointer().isSubtypeOf(idP1), isFalse);
+      expect(idP1.isSubtypeOf(ObjCObjectPointer()), isTrue);
     });
   });
 }

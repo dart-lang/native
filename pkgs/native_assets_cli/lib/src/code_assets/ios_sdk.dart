@@ -21,10 +21,7 @@ final class IOSSdk {
   static const iPhoneSimulator = IOSSdk._('iphonesimulator');
 
   /// All known values for [IOSSdk].
-  static const values = [
-    iPhoneOS,
-    iPhoneSimulator,
-  ];
+  static const values = [iPhoneOS, iPhoneSimulator];
 
   /// The type of this [IOSSdk].
   ///

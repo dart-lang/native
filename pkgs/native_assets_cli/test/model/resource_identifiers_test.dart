@@ -11,8 +11,9 @@ import 'resource_data.dart';
 
 void main() {
   test('empty resources parsing', () {
-    final resourceIdentifiers =
-        ResourceIdentifiers.fromFileContents(resourceFile);
+    final resourceIdentifiers = ResourceIdentifiers.fromFileContents(
+      resourceFile,
+    );
     expect(resourceIdentifiers.identifiers, isEmpty);
   });
   test('Serialize to JSON', () {

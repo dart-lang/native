@@ -9,6 +9,8 @@
 #ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
 #define OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_
 
+#include <stddef.h>
+
 #include "include/dart_api_dl.h"
 
 typedef struct _ObjCSelector ObjCSelector;
@@ -24,6 +26,11 @@ void objc_release(ObjCObject *object);
 ObjCObject *objc_autorelease(ObjCObject *object);
 ObjCObject *object_getClass(ObjCObject *object);
 ObjCObject** objc_copyClassList(unsigned int* count);
+ObjCObject *objc_allocateClassPair(
+    ObjCObject *superclass, const char *name, size_t extraBytes);
+void objc_registerClassPair(ObjCObject *cls);
+bool class_addMethod(
+    ObjCObject *cls, ObjCSelector *name, void *imp, const char *types);
 
 // The signature of this function is just a placeholder. This function is used
 // by every method invocation, and is cast to every signature we need.

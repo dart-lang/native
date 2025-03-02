@@ -27,7 +27,7 @@ void main() {
     });
 
     test('Category methods', () {
-      final thing = Thing.new1();
+      final thing = Thing();
       expect(thing.add_Y_(1000, 234), 1234);
       expect(thing.sub_Y_(1234, 1000), 234);
       expect(thing.mul_Y_(1234, 1000), 1234000);
@@ -38,13 +38,13 @@ void main() {
     });
 
     test('Protocol methods', () {
-      final thing = Thing.new1();
+      final thing = Thing();
       expect(thing.protoMethod(), 987);
       expect(CatImplementsProto.staticProtoMethod(), 654);
     });
 
     test('Instancetype', () {
-      Thing thing1 = Thing.new1();
+      Thing thing1 = Thing();
       expect(Thing.isInstance(thing1), isTrue);
       expect(ChildOfThing.isInstance(thing1), isFalse);
 
@@ -53,7 +53,7 @@ void main() {
       expect(Thing.isInstance(thing2), isTrue);
       expect(ChildOfThing.isInstance(thing2), isFalse);
 
-      ChildOfThing child1 = ChildOfThing.new1();
+      ChildOfThing child1 = ChildOfThing();
       expect(Thing.isInstance(child1), isTrue);
       expect(ChildOfThing.isInstance(child1), isTrue);
 
@@ -66,12 +66,27 @@ void main() {
     test('Category on built-in type', () {
       final str = 'Hello'.toNSString();
 
-      expect(str.method().toString(), 'HelloWorld!');
-      expect(InterfaceOnBuiltInType.staticMethod().method().toString(),
+      expect(str.method().toDartString(), 'HelloWorld!');
+      expect(InterfaceOnBuiltInType.staticMethod().method().toDartString(),
           'GoodbyeWorld!');
 
       NSString str2 = str.instancetypeMethod();
-      expect(str2.toString(), 'Hello');
+      expect(str2.toDartString(), 'Hello');
+    });
+
+    test('Transitive category on built-in type', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1820.
+      // Include transitive category of explicitly included buit-in type.
+      expect(NSURL.alloc().extensionMethod(), 555);
+
+      // Don't include transitive category of built-in type that hasn't been
+      // explicitly included.
+      final bindings = File('test/native_objc_test/category_bindings.dart')
+          .readAsStringSync();
+      expect(bindings, isNot(contains('excludedExtensionMethod')));
+
+      // This method is from an NSObject extension, which shouldn't be included.
+      expect(bindings, isNot(contains('autoContentAccessingProxy')));
     });
   });
 }

@@ -9,24 +9,19 @@
 import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(symbol: 'add')
-external int add(
-  int a,
-  int b,
-);
+external int add(int a, int b);
 
 @ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(symbol: 'InitDartApiDL')
-external int InitDartApiDL(
-  ffi.Pointer<ffi.Void> data,
-);
+external int InitDartApiDL(ffi.Pointer<ffi.Void> data);
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Handle)>(
-    symbol: 'NewPersistentHandle')
+  symbol: 'NewPersistentHandle',
+)
 external ffi.Pointer<ffi.Void> NewPersistentHandle(
   Object non_persistent_handle,
 );
 
 @ffi.Native<ffi.Handle Function(ffi.Pointer<ffi.Void>)>(
-    symbol: 'HandleFromPersistent')
-external Object HandleFromPersistent(
-  ffi.Pointer<ffi.Void> persistent_handle,
-);
+  symbol: 'HandleFromPersistent',
+)
+external Object HandleFromPersistent(ffi.Pointer<ffi.Void> persistent_handle);

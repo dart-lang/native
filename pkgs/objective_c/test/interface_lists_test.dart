@@ -20,10 +20,12 @@ void main() {
     late List<String> yamlStructs;
     late List<String> yamlEnums;
     late List<String> yamlProtocols;
+    late List<String> yamlCategories;
 
     setUpAll(() {
       final yaml =
           loadYaml(File('ffigen_objc.yaml').readAsStringSync()) as YamlMap;
+
       final interfaceRenames =
           (yaml['objc-interfaces'] as YamlMap)['rename'] as YamlMap;
       yamlInterfaces = ((yaml['objc-interfaces'] as YamlMap)['include']
@@ -32,17 +34,29 @@ void main() {
               (dynamic name) => (interfaceRenames[name] ?? name) as String)
           .toList()
         ..sort();
+
       final structRenames = (yaml['structs'] as YamlMap)['rename'] as YamlMap;
       yamlStructs = ((yaml['structs'] as YamlMap)['include'] as YamlList)
           .map<String>(
               (dynamic name) => (structRenames[name] ?? name) as String)
           .toList()
         ..sort();
+
       yamlEnums = ((yaml['enums'] as YamlMap)['include'] as YamlList)
           .map<String>((dynamic i) => i as String)
           .toList()
         ..sort();
+
+      final protocolRenames =
+          (yaml['objc-protocols'] as YamlMap)['rename'] as YamlMap;
       yamlProtocols = ((yaml['objc-protocols'] as YamlMap)['include']
+              as YamlList)
+          .map<String>(
+              (dynamic name) => (protocolRenames[name] ?? name) as String)
+          .toList()
+        ..sort();
+
+      yamlCategories = ((yaml['objc-categories'] as YamlMap)['include']
               as YamlList)
           .map<String>((dynamic i) => i as String)
           .toList()
@@ -62,7 +76,11 @@ void main() {
     });
 
     test('ObjCBuiltInFunctions.builtInProtocols', () {
-      expect(ObjCBuiltInFunctions.builtInProtocols, yamlProtocols);
+      expect(ObjCBuiltInFunctions.builtInProtocols.values, yamlProtocols);
+    });
+
+    test('ObjCBuiltInFunctions.builtInCategories', () {
+      expect(ObjCBuiltInFunctions.builtInCategories, yamlCategories);
     });
 
     test('package:objective_c exports all the interfaces', () {
@@ -92,6 +110,13 @@ void main() {
       final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final protocol in yamlProtocols) {
         expect(exportFile, contains(RegExp('\\W$protocol\\W')));
+      }
+    });
+
+    test('package:objective_c exports all the categories', () {
+      final exportFile = File('lib/objective_c.dart').readAsStringSync();
+      for (final category in yamlCategories) {
+        expect(exportFile, contains(RegExp('\\W$category\\W')));
       }
     });
 
@@ -138,8 +163,7 @@ void main() {
     });
 
     test('All code genned protocols are included in the list', () {
-      final protocolNameRegExp =
-          RegExp(r'^abstract final class (?!ObjCBlock_)(\w+) {');
+      final protocolNameRegExp = RegExp(r'^interface class (\w+) ');
       final allProtocolNames = <String>[];
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {
@@ -149,6 +173,25 @@ void main() {
         }
       }
       expect(allProtocolNames, unorderedEquals(yamlProtocols));
+    });
+
+    test('All code genned categories are included in the list', () {
+      final categoryNameRegExp = RegExp(r'^extension (\w+) on \w+ {');
+      final allCategoryNames = <String>[];
+      for (final line in File('lib/src/objective_c_bindings_generated.dart')
+          .readAsLinesSync()) {
+        final match = categoryNameRegExp.firstMatch(line);
+        if (match != null) {
+          allCategoryNames.add(match[1]!);
+        }
+      }
+      expect(allCategoryNames, unorderedEquals(yamlCategories));
+    });
+
+    test('No stubs', () {
+      final bindings = File('lib/src/objective_c_bindings_generated.dart')
+          .readAsStringSync();
+      expect(bindings, isNot(contains(RegExp(r'\Wstub\W'))));
     });
   });
 }

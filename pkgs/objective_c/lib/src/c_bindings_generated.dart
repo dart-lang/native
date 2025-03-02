@@ -20,6 +20,11 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
+external int DOBJC_InitializeApi(
+  ffi.Pointer<ffi.Void> data,
+);
+
 @ffi.Native<
     ffi.Void Function(
         ffi.Pointer<
@@ -28,23 +33,6 @@ import 'dart:ffi' as ffi;
 external void DOBJC_runOnMainThread(
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>> fn,
   ffi.Pointer<ffi.Void> arg,
-);
-
-/// \mainpage Dynamically Linked Dart API
-///
-/// This exposes a subset of symbols from dart_api.h and dart_native_api.h
-/// available in every Dart embedder through dynamic linking.
-///
-/// All symbols are postfixed with _DL to indicate that they are dynamically
-/// linked and to prevent conflicts with the original symbol.
-///
-/// Link `dart_api_dl.c` file into your library and invoke
-/// `Dart_InitializeApiDL` with `NativeApi.initializeApiDLData`.
-///
-/// Returns 0 on success.
-@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
-external int Dart_InitializeApiDL(
-  ffi.Pointer<ffi.Void> data,
 );
 
 @ffi.Array.multi([32])
@@ -67,6 +55,30 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteStackBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
+
+@ffi.Native<
+    ffi.Bool Function(
+        ffi.Pointer<ObjCObject>,
+        ffi.Pointer<ObjCSelector>,
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<ffi.Char>)>(symbol: "class_addMethod", isLeaf: true)
+external bool addMethod(
+  ffi.Pointer<ObjCObject> cls,
+  ffi.Pointer<ObjCSelector> name,
+  ffi.Pointer<ffi.Void> imp,
+  ffi.Pointer<ffi.Char> types,
+);
+
+@ffi.Native<
+    ffi.Pointer<ObjCObject> Function(
+        ffi.Pointer<ObjCObject>,
+        ffi.Pointer<ffi.Char>,
+        ffi.Size)>(symbol: "objc_allocateClassPair", isLeaf: true)
+external ffi.Pointer<ObjCObject> allocateClassPair(
+  ffi.Pointer<ObjCObject> superclass,
+  ffi.Pointer<ffi.Char> name,
+  int extraBytes,
+);
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     symbol: "DOBJC_awaitWaiter")
@@ -132,6 +144,10 @@ external ffi.Pointer<ObjCObject> getObjectClass(
   ffi.Pointer<ObjCObject> object,
 );
 
+/// Returns the MacOS/iOS version we're running on.
+@ffi.Native<_Version Function()>(symbol: "DOBJC_getOsVesion", isLeaf: true)
+external _Version getOsVesion();
+
 @ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "objc_getProtocol", isLeaf: true)
 external ffi.Pointer<ObjCProtocol> getProtocol(
@@ -195,6 +211,12 @@ external ffi.Pointer<ObjCObject> objectRetain(
   ffi.Pointer<ObjCObject> object,
 );
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
+    symbol: "objc_registerClassPair", isLeaf: true)
+external void registerClassPair(
+  ffi.Pointer<ObjCObject> cls,
+);
+
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
     symbol: "sel_registerName", isLeaf: true)
 external ffi.Pointer<ObjCSelector> registerName(
@@ -210,6 +232,8 @@ external void signalWaiter(
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
 final class Dart_FinalizableHandle_ extends ffi.Opaque {}
+
+const int ILLEGAL_PORT = 0;
 
 final class ObjCBlockDesc extends ffi.Struct {
   @ffi.UnsignedLong()
@@ -261,3 +285,14 @@ final class ObjCObject extends ffi.Opaque {}
 final class ObjCProtocol extends ffi.Opaque {}
 
 final class ObjCSelector extends ffi.Opaque {}
+
+final class _Version extends ffi.Struct {
+  @ffi.Int()
+  external int major;
+
+  @ffi.Int()
+  external int minor;
+
+  @ffi.Int()
+  external int patch;
+}

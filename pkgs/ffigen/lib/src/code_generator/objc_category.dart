@@ -35,6 +35,9 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
   }
 
   @override
+  bool get isObjCImport => builtInFunctions.isBuiltInCategory(originalName);
+
+  @override
   final ObjCBuiltInFunctions builtInFunctions;
 
   @override
@@ -44,7 +47,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     s.write('\n');
-    s.write(makeDartDoc(dartDoc ?? originalName));
+    s.write(makeDartDoc(dartDoc));
     s.write('''
 extension $name on ${parent.getDartType(w)} {
 ${generateMethodBindings(w, parent)}

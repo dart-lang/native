@@ -2,15 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
+import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 import 'transform_function.dart';
 import 'transform_referred_type.dart';
 
-InitializerDeclaration transformInitializer(
+Declaration transformInitializer(
   InitializerDeclaration originalInitializer,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
@@ -29,6 +32,30 @@ InitializerDeclaration transformInitializer(
         ),
       )
       .toList();
+
+  if (originalInitializer.async) {
+    final methodReturnType = transformReferredType(
+        wrappedClassInstance.type, globalNamer, transformationMap);
+
+    return MethodDeclaration(
+      id: originalInitializer.id,
+      name: '${originalInitializer.name}Wrapper',
+      returnType: originalInitializer.isFailable
+          ? OptionalType(methodReturnType)
+          : methodReturnType,
+      params: transformedParams,
+      hasObjCAnnotation: true,
+      statements: _generateMethodStatements(
+        originalInitializer,
+        wrappedClassInstance,
+        methodReturnType,
+        transformedParams,
+      ),
+      throws: originalInitializer.throws,
+      async: originalInitializer.async,
+      isStatic: true,
+    );
+  }
 
   final transformedInitializer = InitializerDeclaration(
       id: originalInitializer.id,
@@ -56,17 +83,8 @@ List<String> _generateInitializerStatements(
   PropertyDeclaration wrappedClassInstance,
   InitializerDeclaration transformedInitializer,
 ) {
-  final localNamer = UniqueNamer();
-  final arguments = generateInvocationParams(
-      localNamer, originalInitializer.params, transformedInitializer.params);
-  var instanceConstruction =
-      '${wrappedClassInstance.type.swiftType}($arguments)';
-  if (transformedInitializer.async) {
-    instanceConstruction = 'await $instanceConstruction';
-  }
-  if (transformedInitializer.throws) {
-    instanceConstruction = 'try $instanceConstruction';
-  }
+  final (instanceConstruction, localNamer) = _generateInstanceConstruction(
+      originalInitializer, wrappedClassInstance, transformedInitializer.params);
   if (originalInitializer.isFailable) {
     final instance = localNamer.makeUnique('instance');
     return [
@@ -79,4 +97,48 @@ List<String> _generateInitializerStatements(
   } else {
     return ['${wrappedClassInstance.name} = $instanceConstruction'];
   }
+}
+
+List<String> _generateMethodStatements(
+  InitializerDeclaration originalInitializer,
+  PropertyDeclaration wrappedClassInstance,
+  ReferredType wrapperClass,
+  List<Parameter> transformedParams,
+) {
+  final (instanceConstruction, localNamer) = _generateInstanceConstruction(
+      originalInitializer, wrappedClassInstance, transformedParams);
+  final instance = localNamer.makeUnique('instance');
+  if (originalInitializer.isFailable) {
+    return [
+      'if let $instance = $instanceConstruction {',
+      '  return ${wrapperClass.swiftType}($instance)',
+      '} else {',
+      '  return nil',
+      '}',
+    ];
+  } else {
+    return [
+      'let $instance = $instanceConstruction',
+      'return ${wrapperClass.swiftType}($instance)',
+    ];
+  }
+}
+
+(String, UniqueNamer) _generateInstanceConstruction(
+  InitializerDeclaration originalInitializer,
+  PropertyDeclaration wrappedClassInstance,
+  List<Parameter> transformedParams,
+) {
+  final localNamer = UniqueNamer();
+  final arguments = generateInvocationParams(
+      localNamer, originalInitializer.params, transformedParams);
+  var instanceConstruction =
+      '${wrappedClassInstance.type.swiftType}($arguments)';
+  if (originalInitializer.async) {
+    instanceConstruction = 'await $instanceConstruction';
+  }
+  if (originalInitializer.throws) {
+    instanceConstruction = 'try $instanceConstruction';
+  }
+  return (instanceConstruction, localNamer);
 }

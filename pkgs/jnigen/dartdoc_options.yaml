@@ -1,8 +1,22 @@
 dartdoc:
   categories:
-    "Implementing Java interfaces from Dart":
-      markdown: doc/interface_implementation.md
-      name: "Interface Implementation"
-    "Syntactic and semantic differences between Java and the generated Dart bindings":
+    "Java Differences":
       markdown: doc/java_differences.md
-      name: "Java Differences"
+      name: Syntactic and semantic differences between Java and the generated Dart bindings
+    "Lifecycle":
+      markdown: doc/lifecycle.md
+      name: Lifecycle of Java objects
+    "Threading":
+      markdown: doc/threading.md
+      name: Threading considerations
+    "Interface Implementation":
+      markdown: doc/interface_implementation.md
+      name: Interface implementation
+
+  categoryOrder:
+    - "Java Differences"
+    - "Lifecycle"
+    - "Threading"
+    - "Interface Implementation"
+
+  showUndocumentedCategories: true

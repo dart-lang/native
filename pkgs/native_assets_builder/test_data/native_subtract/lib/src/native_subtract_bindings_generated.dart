@@ -9,7 +9,4 @@
 import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(symbol: 'subtract')
-external int subtract(
-  int a,
-  int b,
-);
+external int subtract(int a, int b);

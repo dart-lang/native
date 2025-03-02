@@ -29,10 +29,23 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     return cachedProtocol;
   }
 
-  if (!isApiAvailable(cursor)) {
-    _logger.info('Omitting deprecated protocol $name');
-    return null;
+  // There's a strange shape in the AST for protocols seen in certain contexts,
+  // where instead of the AST looking like (decl -> methods/etc), it looks like
+  // (stubDecl --superProto-> decl -> methods/etc). If we try and parse the stub
+  // in this case, we'll be left with an empty protocol with itself as its super
+  // protocol. The USR is the same for both the stub and the real decl, so at
+  // least this case is easy to detect and fix.
+  final selfSuperCursor = cursor.findChildWhere((child) {
+    if (child.kind == clang_types.CXCursorKind.CXCursor_ObjCProtocolRef) {
+      return clang.clang_getCursorDefinition(child).usr() == usr;
+    }
+    return false;
+  });
+  if (selfSuperCursor != null) {
+    cursor = clang.clang_getCursorDefinition(selfSuperCursor);
   }
+
+  final apiAvailability = ApiAvailability.fromCursor(cursor);
 
   _logger.fine('++++ Adding ObjC protocol: '
       'Name: $name, ${cursor.completeStringRepr()}');
@@ -42,8 +55,10 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     originalName: name,
     name: config.objcProtocols.rename(decl),
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
-    dartDoc: getCursorDocComment(cursor),
+    dartDoc: getCursorDocComment(cursor,
+        fallbackComment: name, availability: apiAvailability.dartDoc),
     builtInFunctions: objCBuiltInFunctions,
+    apiAvailability: apiAvailability,
   );
 
   // Make sure to add the protocol to the index before parsing the AST, to break

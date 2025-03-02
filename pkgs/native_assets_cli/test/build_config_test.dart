@@ -31,34 +31,26 @@ void main() async {
         'key': 'value',
         'foo': ['asdf', 'fdsa'],
       }),
-      'foo': const Metadata({
-        'key': 321,
-      }),
+      'foo': const Metadata({'key': 321}),
     };
   });
 
   test('BuildInputBuilder->JSON->BuildInput', () {
-    final inputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: packageName,
-        packageRoot: packageRootUri,
-        outputFile: outFile,
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      )
-      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-      ..config.setupBuild(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupBuildInput(
-        metadata: metadata,
-      );
+    final inputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: packageRootUri,
+            outputFile: outFile,
+            outputDirectory: outDirUri,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
+          ..config.setupBuild(linkingEnabled: false)
+          ..setupBuildInput(metadata: metadata);
     final input = BuildInput(inputBuilder.json);
 
     final expectedInputJson = {
-      'build_asset_types': ['my-asset-type'],
-      'build_mode': 'release',
       'config': {
         'build_asset_types': ['my-asset-type'],
         'linking_enabled': false,
@@ -68,18 +60,13 @@ void main() async {
           'key': 'value',
           'foo': ['asdf', 'fdsa'],
         },
-        'foo': {
-          'key': 321,
-        },
+        'foo': {'key': 321},
       },
-      'dry_run': false,
-      'linking_enabled': false,
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_dir': outDirUri.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'supported_asset_types': ['my-asset-type'],
       'version': latestVersion.toString(),
     };
 
@@ -94,58 +81,7 @@ void main() async {
     expect(input.config.buildAssetTypes, ['my-asset-type']);
 
     expect(input.config.linkingEnabled, false);
-    expect(input.config.dryRun, false);
     expect(input.metadata, metadata);
-  });
-
-  test('BuildInput.config.dryRun', () {
-    final inputBuilder = BuildInputBuilder()
-      ..setupShared(
-        packageName: packageName,
-        packageRoot: packageRootUri,
-        outputFile: outFile,
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      )
-      ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-      ..config.setupBuild(
-        linkingEnabled: true,
-        dryRun: true,
-      )
-      ..setupBuildInput();
-    final input = BuildInput(inputBuilder.json);
-
-    final expectedInputJson = {
-      'build_asset_types': ['my-asset-type'],
-      'config': {
-        'build_asset_types': ['my-asset-type'],
-        'linking_enabled': true,
-      },
-      'dependency_metadata': <String, Object?>{},
-      'dry_run': true,
-      'linking_enabled': true,
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
-      'out_file': outFile.toFilePath(),
-      'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
-      'supported_asset_types': ['my-asset-type'],
-      'version': latestVersion.toString(),
-    };
-
-    expect(input.json, expectedInputJson);
-    expect(json.decode(input.toString()), expectedInputJson);
-
-    expect(input.outputDirectory, outDirUri);
-    expect(input.outputDirectoryShared, outputDirectoryShared);
-
-    expect(input.packageName, packageName);
-    expect(input.packageRoot, packageRootUri);
-    expect(input.config.buildAssetTypes, ['my-asset-type']);
-
-    expect(input.config.linkingEnabled, true);
-    expect(input.config.dryRun, true);
-    expect(input.metadata, <String, Object?>{});
   });
 
   group('BuildInput format issues', () {
@@ -153,26 +89,29 @@ void main() async {
       test('BuildInput version $version', () {
         final outDir = outDirUri;
         final input = {
-          'link_mode_preference': 'prefer-static',
+          'config': {
+            'build_asset_types': ['my-asset-type'],
+            'linking_enabled': false,
+            'target_os': 'linux',
+            'link_mode_preference': 'prefer-static',
+          },
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'out_file': outFile.toFilePath(),
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'build_asset_types': ['my-asset-type'],
-          'dry_run': true,
-          'linking_enabled': false,
         };
         expect(
           () => BuildInput(input),
-          throwsA(predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(version) &&
-                e.message.contains(latestVersion.toString()),
-          )),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is FormatException &&
+                  e.message.contains(version) &&
+                  e.message.contains(latestVersion.toString()),
+            ),
+          ),
         );
       });
     }
@@ -180,13 +119,13 @@ void main() async {
     test('BuildInput FormatExceptions', () {
       expect(
         () => BuildInput({}),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                'No value was provided for required key: ',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains('No value was provided for required key: '),
+          ),
+        ),
       );
       expect(
         () => BuildInput({
@@ -194,19 +133,23 @@ void main() async {
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
-          'linking_enabled': true,
-          'build_asset_types': ['my-asset-type'],
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                'No value was provided for required key: out_dir',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(
+                  'No value was provided for required key: out_dir',
+                ),
+          ),
+        ),
       );
       expect(
         () => BuildInput({
+          'config': {
+            'build_asset_types': ['my-asset-type'],
+            'linking_enabled': false,
+          },
           'version': latestVersion.toString(),
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
@@ -214,19 +157,19 @@ void main() async {
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
           'target_os': 'android',
-          'linking_enabled': true,
-          'build_asset_types': ['my-asset-type'],
           'dependency_metadata': {
             'bar': {'key': 'value'},
             'foo': <int>[],
           },
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains("Unexpected value '[]' ") &&
-              e.message.contains('Expected a Map<String, Object?>'),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains("Unexpected value '[]' ") &&
+                e.message.contains('Expected a Map<String, Object?>'),
+          ),
+        ),
       );
     });
   });

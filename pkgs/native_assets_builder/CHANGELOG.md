@@ -1,5 +1,16 @@
-## 0.11.0-wip
+## 0.12.0-wip
 
+- Nothing yet.
+
+## 0.11.1
+
+- Don't recompile hooks on `package_config.json` having an updated timestamp.
+
+## 0.11.0
+
+- **Breaking change** Complete overhaul of the use of `NativeAssetsBuildRunner`
+  to support pub workspaces
+  ([#1905](https://github.com/dart-lang/native/issues/1905)).
 - Bump `package:native_assets_cli` to 0.11.0.
 
 ## 0.10.2

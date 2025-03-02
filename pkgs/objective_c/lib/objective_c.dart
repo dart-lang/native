@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+export 'package:pub_semver/pub_semver.dart' show Version;
 export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
@@ -25,13 +26,15 @@ export 'src/ns_string.dart';
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
     show
-        DartProxy,
-        DartProxyBuilder,
+        DartProtocol,
+        DartProtocolBuilder,
         NSArray,
         NSBinarySearchingOptions,
         NSCharacterSet,
         NSCoder,
+        NSCoding,
         NSComparisonResult,
+        NSCopying,
         NSData,
         NSDataBase64DecodingOptions,
         NSDataBase64EncodingOptions,
@@ -45,20 +48,35 @@ export 'src/objective_c_bindings_generated.dart'
         NSEnumerationOptions,
         NSEnumerator,
         NSError,
+        NSExtendedArray,
+        NSExtendedData,
+        NSExtendedDate,
+        NSExtendedDictionary,
+        NSExtendedEnumerator,
+        NSExtendedMutableArray,
         NSExtendedMutableData,
+        NSExtendedMutableDictionary,
+        NSExtendedMutableOrderedSet,
+        NSExtendedMutableSet,
+        NSExtendedOrderedSet,
+        NSExtendedSet,
+        NSFastEnumeration,
         NSFastEnumerationState,
         NSIndexSet,
         NSInputStream,
         NSInvocation,
         NSItemProvider,
         NSItemProviderFileOptions,
+        NSItemProviderReading,
         NSItemProviderRepresentationVisibility,
+        NSItemProviderWriting,
         NSKeyValueChange,
         NSKeyValueObservingOptions,
         NSKeyValueSetMutationKind,
         NSLocale,
         NSMethodSignature,
         NSMutableArray,
+        NSMutableCopying,
         NSMutableData,
         NSMutableDictionary,
         NSMutableIndexSet,
@@ -69,13 +87,14 @@ export 'src/objective_c_bindings_generated.dart'
         NSNumber,
         NSNumberCreation,
         NSObject,
+        NSObjectProtocol,
         NSOrderedCollectionDifference,
         NSOrderedCollectionDifferenceCalculationOptions,
         NSOrderedSet,
         NSOutputStream,
-        NSProxy,
         NSRange,
         NSRunLoop,
+        NSSecureCoding,
         NSSet,
         NSSortOptions,
         NSStream,
@@ -95,5 +114,6 @@ export 'src/objective_c_bindings_generated.dart'
         NSValue,
         NSZone,
         Protocol;
+export 'src/os_version.dart';
 export 'src/protocol_builder.dart';
 export 'src/selector.dart';

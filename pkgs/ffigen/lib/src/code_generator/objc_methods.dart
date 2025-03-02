@@ -7,6 +7,7 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
 import 'utils.dart';
@@ -193,6 +194,7 @@ class ObjCMethod extends AstNode {
   final String? dartDoc;
   final String originalName;
   final String name;
+  String? dartMethodName;
   final ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
@@ -201,6 +203,7 @@ class ObjCMethod extends AstNode {
   final bool isOptional;
   ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
+  final ApiAvailability apiAvailability;
   bool consumesSelfAttribute = false;
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
@@ -228,6 +231,7 @@ class ObjCMethod extends AstNode {
     required this.isOptional,
     required this.returnType,
     required this.family,
+    required this.apiAvailability,
     List<Parameter>? params_,
   })  : params = params_ ?? [],
         selObject = builtInFunctions.getSelObject(originalName);
@@ -256,7 +260,7 @@ class ObjCMethod extends AstNode {
       ],
       returnsRetained: returnsRetained,
       builtInFunctions: builtInFunctions,
-    );
+    )..fillProtocolTrampoline();
   }
 
   String getDartMethodName(UniqueNamer uniqueNamer,
@@ -335,7 +339,8 @@ class ObjCMethod extends AstNode {
 
   String generateBindings(
       Writer w, ObjCInterface target, UniqueNamer methodNamer) {
-    final methodName = getDartMethodName(methodNamer);
+    dartMethodName ??= getDartMethodName(methodNamer);
+    final methodName = dartMethodName!;
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 
@@ -348,7 +353,7 @@ class ObjCMethod extends AstNode {
     ].join(', ');
 
     // The method declaration.
-    s.write('\n  ${makeDartDoc(dartDoc ?? originalName)}  ');
+    s.write('\n  ${makeDartDoc(dartDoc)}  ');
     late String targetStr;
     if (isClassMethod) {
       targetStr = target.classObject.name;
@@ -385,6 +390,13 @@ class ObjCMethod extends AstNode {
     s.write(' {\n');
 
     // Implementation.
+    final versionCheck = apiAvailability.runtimeCheck(
+        ObjCBuiltInFunctions.checkOsVersion.gen(w),
+        '${target.originalName}.$originalName');
+    if (versionCheck != null) {
+      s.write('  $versionCheck\n');
+    }
+
     final sel = selObject.name;
     if (isOptional) {
       s.write('''

@@ -25,7 +25,7 @@ void main() {
       final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      testInstance = Castaway.new1();
+      testInstance = Castaway();
       generateBindingsForCoverage('cast');
     });
 
@@ -57,7 +57,7 @@ void main() {
       final meAsInt = testInstance!.meAsInt();
       final fromCast =
           Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
-      expect(fromCast, isNot(equals(NSObject.new1())));
+      expect(fromCast, isNot(equals(NSObject())));
     });
   });
 }

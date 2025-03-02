@@ -25,22 +25,26 @@ String _getLibraryFileName(String base) {
   } else if (Platform.isMacOS) {
     return 'lib$base.dylib';
   } else {
-    throw UnsupportedError('cannot derive library name: unsupported platform');
+    throw UnsupportedError('Cannot derive library name: unsupported platform');
   }
 }
 
-/// Load Dart-JNI Helper library.
-///
-/// If path is provided, it's used to load the library.
-/// Else just the platform-specific filename is passed to DynamicLibrary.open
+/// Loads dartjni helper library.
 DynamicLibrary _loadDartJniLibrary({String? dir, String baseName = 'dartjni'}) {
-  final fileName = _getLibraryFileName(baseName);
-  final libPath = (dir != null) ? join(dir, fileName) : fileName;
+  var fileName = _getLibraryFileName(baseName);
+  if (!Platform.isAndroid) {
+    if (dir != null) {
+      fileName = join(dir, fileName);
+    }
+    final file = File(fileName);
+    if (!file.existsSync()) {
+      throw HelperNotFoundError(fileName);
+    }
+  }
   try {
-    final dylib = DynamicLibrary.open(libPath);
-    return dylib;
+    return DynamicLibrary.open(fileName);
   } catch (_) {
-    throw HelperNotFoundError(libPath);
+    throw DynamicLibraryLoadError(fileName);
   }
 }
 
@@ -50,7 +54,7 @@ abstract final class Jni {
   static final JniBindings _bindings = JniBindings(_dylib);
 
   /// Store dylibDir if any was used.
-  static String? _dylibDir;
+  static String _dylibDir = join('build', 'jni_libs');
 
   /// Sets the directory where dynamic libraries are looked for.
   /// On dart standalone, call this in new isolate before doing
@@ -81,7 +85,7 @@ abstract final class Jni {
     List<String> jvmOptions = const [],
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
-    int jniVersion = JniVersions.JNI_VERSION_1_6,
+    JniVersions jniVersion = JniVersions.VERSION_1_6,
   }) {
     final status = spawnIfNotExists(
       dylibDir: dylibDir,
@@ -105,10 +109,10 @@ abstract final class Jni {
     List<String> jvmOptions = const [],
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
-    int jniVersion = JniVersions.JNI_VERSION_1_6,
+    JniVersions jniVersion = JniVersions.VERSION_1_6,
   }) =>
       using((arena) {
-        _dylibDir = dylibDir;
+        _dylibDir = dylibDir ?? _dylibDir;
         final jvmArgs = _createVMArgs(
           options: jvmOptions,
           classPath: classPath,
@@ -118,9 +122,9 @@ abstract final class Jni {
           allocator: arena,
         );
         final status = _bindings.SpawnJvm(jvmArgs);
-        if (status == JniErrorCode.JNI_OK) {
+        if (status == JniErrorCode.OK) {
           return true;
-        } else if (status == DART_JNI_SINGLETON_EXISTS) {
+        } else if (status == JniErrorCode.SINGLETON_EXISTS) {
           return false;
         } else {
           throw JniError.of(status);
@@ -132,7 +136,7 @@ abstract final class Jni {
     List<String> classPath = const [],
     String? dylibPath,
     bool ignoreUnrecognized = false,
-    int version = JniVersions.JNI_VERSION_1_6,
+    JniVersions version = JniVersions.VERSION_1_6,
     required Allocator allocator,
   }) {
     final args = allocator<JavaVMInitArgs>();
@@ -159,7 +163,7 @@ abstract final class Jni {
       args.ref.nOptions = count;
     }
     args.ref.ignoreUnrecognized = ignoreUnrecognized ? 1 : 0;
-    args.ref.version = version;
+    args.ref.version = version.value;
     return args;
   }
 
@@ -179,6 +183,7 @@ abstract final class Jni {
 
   /// Throws an exception.
   // TODO(#561): Throw an actual `JThrowable`.
+  @internal
   static void throwException(JThrowablePtr exception) {
     final details = _bindings.GetExceptionDetails(exception);
     final env = Jni.env;
@@ -284,7 +289,7 @@ extension ProtectedJniExtensions on Jni {
   static Dart_FinalizableHandle newJObjectFinalizableHandle(
     Object object,
     Pointer<Void> reference,
-    int refType,
+    JObjectRefType refType,
   ) {
     ensureInitialized();
     return Jni._bindings

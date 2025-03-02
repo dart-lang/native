@@ -23,8 +23,9 @@ class ListBindingsVisitation extends Visitation {
   final Set<Binding> directTransitives;
   final bindings = <Binding>{};
 
-  ListBindingsVisitation(
-      this.config, this.includes, this.transitives, this.directTransitives);
+  ListBindingsVisitation(this.config, this.includes,
+      Set<Binding> indirectTransitives, this.directTransitives)
+      : transitives = {...indirectTransitives, ...directTransitives};
 
   void _add(Binding node) {
     node.visitChildren(visitor);
@@ -59,12 +60,13 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    if (!_visitImpl(
+    final omit = node.unavailable ||
+        !_visitImpl(
             node,
             config.includeTransitiveObjCInterfaces
                 ? _IncludeBehavior.configOrTransitive
-                : _IncludeBehavior.configOnly) &&
-        directTransitives.contains(node)) {
+                : _IncludeBehavior.configOnly);
+    if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
     }
@@ -78,11 +80,18 @@ class ListBindingsVisitation extends Visitation {
           : _IncludeBehavior.configOnly);
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) => _visitImpl(
-      node,
-      config.includeTransitiveObjCProtocols
-          ? _IncludeBehavior.configOrTransitive
-          : _IncludeBehavior.configOnly);
+  void visitObjCProtocol(ObjCProtocol node) {
+    final omit = node.unavailable ||
+        !_visitImpl(
+            node,
+            config.includeTransitiveObjCProtocols
+                ? _IncludeBehavior.configOrTransitive
+                : _IncludeBehavior.configOnly);
+    if (omit && directTransitives.contains(node)) {
+      node.generateAsStub = true;
+      bindings.add(node);
+    }
+  }
 
   @override
   void visitTypealias(Typealias node) {

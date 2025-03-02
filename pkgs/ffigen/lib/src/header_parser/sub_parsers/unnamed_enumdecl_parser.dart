@@ -44,7 +44,8 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
 
 /// Adds the parameter to func in functiondecl_parser.dart.
 Constant? _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
-  if (!isApiAvailable(cursor)) {
+  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  if (apiAvailability.availability == Availability.none) {
     _logger.info('Omitting deprecated unnamed enum value ${cursor.spelling()}');
     return null;
   }
@@ -57,6 +58,7 @@ Constant? _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
     name: config.unnamedEnumConstants.rename(
       Declaration(usr: cursor.usr(), originalName: cursor.spelling()),
     ),
+    dartDoc: apiAvailability.dartDoc,
     rawType: 'int',
     rawValue: clang.clang_getEnumConstantDeclValue(cursor).toString(),
   );

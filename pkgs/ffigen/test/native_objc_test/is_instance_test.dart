@@ -27,8 +27,8 @@ void main() {
     });
 
     test('Unrelated classes', () {
-      final base = NSObject.castFrom(IsInstanceBaseClass.new1());
-      final unrelated = NSObject.castFrom(IsInstanceUnrelatedClass.new1());
+      final base = NSObject.castFrom(IsInstanceBaseClass());
+      final unrelated = NSObject.castFrom(IsInstanceUnrelatedClass());
       expect(IsInstanceBaseClass.isInstance(base), isTrue);
       expect(IsInstanceBaseClass.isInstance(unrelated), isFalse);
       expect(IsInstanceUnrelatedClass.isInstance(base), isFalse);
@@ -36,8 +36,8 @@ void main() {
     });
 
     test('Base class vs child class', () {
-      final base = NSObject.castFrom(IsInstanceBaseClass.new1());
-      final child = NSObject.castFrom(IsInstanceChildClass.new1());
+      final base = NSObject.castFrom(IsInstanceBaseClass());
+      final child = NSObject.castFrom(IsInstanceChildClass());
       expect(IsInstanceBaseClass.isInstance(base), isTrue);
       expect(IsInstanceBaseClass.isInstance(child), isTrue);
       expect(IsInstanceChildClass.isInstance(base), isFalse);

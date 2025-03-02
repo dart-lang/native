@@ -29,14 +29,14 @@ void main() {
     });
 
     test('Global string', () {
-      expect(lib.globalString.toString(), 'Hello World');
+      expect(lib.globalString.toDartString(), 'Hello World');
       lib.globalString = 'Something else'.toNSString();
-      expect(lib.globalString.toString(), 'Something else');
+      expect(lib.globalString.toDartString(), 'Something else');
       lib.globalString = 'Hello World'.toNSString();
     });
 
     Pointer<ObjCObject> globalObjectRefCountingInner() {
-      lib.globalObject = NSObject.new1();
+      lib.globalObject = NSObject();
       final obj1raw = lib.globalObject!.ref.pointer;
 
       // TODO(https://github.com/dart-lang/native/issues/1435): Fix flakiness.

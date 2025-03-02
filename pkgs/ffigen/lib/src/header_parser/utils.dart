@@ -197,12 +197,13 @@ extension CXCursorExt on clang_types.CXCursor {
     return result == 0;
   }
 
-  /// Returns the first child with the given CXCursorKind, or null if there
+  /// Returns the first child where `predicate(child)` is true, or null if there
   /// isn't one.
-  clang_types.CXCursor? findChildWithKind(int kind) {
+  clang_types.CXCursor? findChildWhere(
+      bool Function(clang_types.CXCursor) predicate) {
     clang_types.CXCursor? result;
     visitChildrenMayBreak((child) {
-      if (child.kind == kind) {
+      if (predicate(child)) {
         result = child;
         return false;
       }
@@ -210,6 +211,11 @@ extension CXCursorExt on clang_types.CXCursor {
     });
     return result;
   }
+
+  /// Returns the first child with the given CXCursorKind, or null if there
+  /// isn't one.
+  clang_types.CXCursor? findChildWithKind(int kind) =>
+      findChildWhere((child) => child.kind == kind);
 
   /// Returns whether there is a child with the given CXCursorKind.
   bool hasChildWithKind(int kind) => findChildWithKind(kind) != null;
@@ -237,7 +243,9 @@ clang_types.CXSourceRange? lastCommentRange;
 /// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
 String? getCursorDocComment(clang_types.CXCursor cursor,
-    [int indent = commentPrefix.length]) {
+    {int indent = commentPrefix.length,
+    String? fallbackComment,
+    String? availability}) {
   String? formattedDocComment;
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
@@ -262,7 +270,8 @@ String? getCursorDocComment(clang_types.CXCursor cursor,
     }
   }
   lastCommentRange = currentCommentRange;
-  return formattedDocComment;
+  final docs = [formattedDocComment ?? fallbackComment, availability].nonNulls;
+  return docs.isEmpty ? null : docs.join('\n\n');
 }
 
 /// Wraps [string] according to given [lineWidth].

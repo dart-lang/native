@@ -18,12 +18,7 @@ void main() async {
   test('json format', () async {
     await inTempDir((tempUri) async {
       final hashes = FileSystemHashes(
-        files: [
-          FilesystemEntityHash(
-            tempUri.resolve('foo.dll'),
-            1337,
-          ),
-        ],
+        files: [FilesystemEntityHash(tempUri.resolve('foo.dll'), 1337)],
       );
       final hashes2 = FileSystemHashes.fromJson(hashes.toJson());
       expect(hashes.files.single.path, equals(hashes2.files.single.path));
@@ -48,10 +43,7 @@ void main() async {
         await subFile.writeAsString('world');
 
         await hashes.hashDependencies(
-          [
-            tempFile.uri,
-            tempSubDir.uri,
-          ],
+          [tempFile.uri, tempSubDir.uri],
           (await tempFile.lastModified()).add(const Duration(minutes: 1)),
           environment,
         );
@@ -122,9 +114,7 @@ void main() async {
       // If a file is modified after the valid timestamp, it should be marked
       // as changed.
       await hashes.hashDependencies(
-        [
-          tempFile.uri,
-        ],
+        [tempFile.uri],
         (await tempFile.lastModified()).subtract(const Duration(seconds: 1)),
         environment,
       );

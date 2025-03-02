@@ -231,7 +231,7 @@ class SwiftClass extends objc.NSObject {
   }
 
   /// self
-  SwiftClass self() {
+  SwiftClass self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return SwiftClass.castFromPointer(_ret, retain: true, release: true);
   }

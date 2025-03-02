@@ -26,30 +26,28 @@ void main() async {
     packageRootUri = tempUri.resolve('$packageName/');
     assets = [
       for (int i = 0; i < 3; i++)
-        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'})
+        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
     ];
   });
 
   test('LinkInputBuilder->JSON->LinkInput', () {
-    final inputBuilder = LinkInputBuilder()
-      ..setupShared(
-        packageName: packageName,
-        packageRoot: packageRootUri,
-        outputFile: outFile,
-        outputDirectory: outDirUri,
-        outputDirectoryShared: outputDirectoryShared,
-      )
-      ..config.setupShared(buildAssetTypes: ['asset-type-1', 'asset-type-2'])
-      ..setupLink(
-        assets: assets,
-        recordedUsesFile: null,
-      );
+    final inputBuilder =
+        LinkInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: packageRootUri,
+            outputFile: outFile,
+            outputDirectory: outDirUri,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupShared(
+            buildAssetTypes: ['asset-type-1', 'asset-type-2'],
+          )
+          ..setupLink(assets: assets, recordedUsesFile: null);
     final input = LinkInput(inputBuilder.json);
 
     final expectedInputJson = {
       'assets': [for (final asset in assets) asset.toJson()],
-      'build_asset_types': ['asset-type-1', 'asset-type-2'],
-      'build_mode': 'release',
       'config': {
         'build_asset_types': ['asset-type-1', 'asset-type-2'],
       },
@@ -58,7 +56,6 @@ void main() async {
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'supported_asset_types': ['asset-type-1', 'asset-type-2'],
       'version': latestVersion.toString(),
     };
     expect(input.json, expectedInputJson);
@@ -78,74 +75,74 @@ void main() async {
       test('LinkInput version $version', () {
         final outDir = outDirUri;
         final input = {
-          'link_mode_preference': 'prefer-static',
           'out_dir': outDir.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'out_file': outFile.toFilePath(),
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'linux',
           'version': version,
           'package_name': packageName,
-          'build_asset_types': ['my-asset-type'],
-          'dry_run': true,
         };
         expect(
           () => LinkInput(input),
-          throwsA(predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(version) &&
-                e.message.contains(latestVersion.toString()),
-          )),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is FormatException &&
+                  e.message.contains(version) &&
+                  e.message.contains(latestVersion.toString()),
+            ),
+          ),
         );
       });
     }
     test('LinkInput FormatExceptions', () {
       expect(
         () => LinkInput({}),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains('No value was provided for required key: '),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains('No value was provided for required key: '),
+          ),
+        ),
       );
       expect(
         () => LinkInput({
           'version': latestVersion.toString(),
-          'build_asset_types': ['my-asset-type'],
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'android',
           'assets': <String>[],
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                'No value was provided for required key: out_dir',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(
+                  'No value was provided for required key: out_dir',
+                ),
+          ),
+        ),
       );
       expect(
         () => LinkInput({
           'version': latestVersion.toString(),
-          'build_asset_types': ['my-asset-type'],
           'out_dir': outDirUri.toFilePath(),
           'out_dir_shared': outputDirectoryShared.toFilePath(),
           'out_file': outFile.toFilePath(),
           'package_name': packageName,
           'package_root': packageRootUri.toFilePath(),
-          'target_os': 'android',
           'assets': 'astring',
         }),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                "Unexpected value 'astring' for key '.assets' in input file. "
-                'Expected a List<Object?>?.',
-              ),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(
+                  "Unexpected value 'astring' for key '.assets' in input file. "
+                  'Expected a List<Object?>?.',
+                ),
+          ),
+        ),
       );
     });
   });

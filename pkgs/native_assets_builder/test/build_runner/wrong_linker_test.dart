@@ -16,10 +16,7 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('wrong_linker/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
         final logMessages = <String>[];
@@ -35,10 +32,7 @@ void main() async {
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);
-        expect(
-          fullLog,
-          contains('but that package does not have a link hook'),
-        );
+        expect(fullLog, contains('but that package does not have a link hook'));
       }
     });
   });

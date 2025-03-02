@@ -100,12 +100,12 @@ class CBuilder extends CTool implements Builder {
     super.optimizationLevel = OptimizationLevel.o3,
     this.buildMode = BuildMode.release,
   }) : super(
-          type: OutputType.executable,
-          assetName: null,
-          installName: null,
-          pic: pie,
-          linkModePreference: null,
-        );
+         type: OutputType.executable,
+         assetName: null,
+         installName: null,
+         pic: pie,
+         linkModePreference: null,
+       );
 
   /// Runs the C Compiler with on this C build spec.
   ///
@@ -118,8 +118,10 @@ class CBuilder extends CTool implements Builder {
     String? linkInPackage,
   }) async {
     if (!input.config.buildCodeAssets) {
-      logger?.info('buildAssetTypes did not contain "${CodeAsset.type}", '
-          'skipping CodeAsset $assetName build.');
+      logger?.info(
+        'buildAssetTypes did not contain "${CodeAsset.type}", '
+        'skipping CodeAsset $assetName build.',
+      );
       return;
     }
     assert(
@@ -130,12 +132,15 @@ class CBuilder extends CTool implements Builder {
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode =
-        getLinkMode(linkModePreference ?? input.config.code.linkModePreference);
-    final libUri = outDir
-        .resolve(input.config.code.targetOS.libraryFileName(name, linkMode));
-    final exeUri =
-        outDir.resolve(input.config.code.targetOS.executableFileName(name));
+    final linkMode = getLinkMode(
+      linkModePreference ?? input.config.code.linkModePreference,
+    );
+    final libUri = outDir.resolve(
+      input.config.code.targetOS.libraryFileName(name, linkMode),
+    );
+    final exeUri = outDir.resolve(
+      input.config.code.targetOS.executableFileName(name),
+    );
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -152,41 +157,40 @@ class CBuilder extends CTool implements Builder {
       for (final directory in this.libraryDirectories)
         outDir.resolveUri(Uri.file(directory)),
     ];
-    // ignore: deprecated_member_use
-    if (!input.config.dryRun) {
-      final task = RunCBuilder(
-        input: input,
-        codeConfig: input.config.code,
-        logger: logger,
-        sources: sources,
-        includes: includes,
-        frameworks: frameworks,
-        libraries: libraries,
-        libraryDirectories: libraryDirectories,
-        dynamicLibrary:
-            type == OutputType.library && linkMode == DynamicLoadingBundled()
-                ? libUri
-                : null,
-        staticLibrary: type == OutputType.library && linkMode == StaticLinking()
-            ? libUri
-            : null,
-        executable: type == OutputType.executable ? exeUri : null,
-        // ignore: invalid_use_of_visible_for_testing_member
-        installName: installName,
-        flags: flags,
-        defines: {
-          ...defines,
-          if (buildModeDefine) buildMode.name.toUpperCase(): null,
-          if (ndebugDefine && buildMode != BuildMode.debug) 'NDEBUG': null,
-        },
-        pic: pic,
-        std: std,
-        language: language,
-        cppLinkStdLib: cppLinkStdLib,
-        optimizationLevel: optimizationLevel,
-      );
-      await task.run();
-    }
+
+    final task = RunCBuilder(
+      input: input,
+      codeConfig: input.config.code,
+      logger: logger,
+      sources: sources,
+      includes: includes,
+      frameworks: frameworks,
+      libraries: libraries,
+      libraryDirectories: libraryDirectories,
+      dynamicLibrary:
+          type == OutputType.library && linkMode == DynamicLoadingBundled()
+              ? libUri
+              : null,
+      staticLibrary:
+          type == OutputType.library && linkMode == StaticLinking()
+              ? libUri
+              : null,
+      executable: type == OutputType.executable ? exeUri : null,
+      // ignore: invalid_use_of_visible_for_testing_member
+      installName: installName,
+      flags: flags,
+      defines: {
+        ...defines,
+        if (buildModeDefine) buildMode.name.toUpperCase(): null,
+        if (ndebugDefine && buildMode != BuildMode.debug) 'NDEBUG': null,
+      },
+      pic: pic,
+      std: std,
+      language: language,
+      cppLinkStdLib: cppLinkStdLib,
+      optimizationLevel: optimizationLevel,
+    );
+    await task.run();
 
     if (assetName != null) {
       output.assets.code.add(
@@ -196,30 +200,27 @@ class CBuilder extends CTool implements Builder {
           file: libUri,
           linkMode: linkMode,
           os: input.config.code.targetOS,
-          architecture:
-              // ignore: deprecated_member_use
-              input.config.dryRun ? null : input.config.code.targetArchitecture,
+          architecture: input.config.code.targetArchitecture,
         ),
         linkInPackage: linkInPackage,
       );
     }
-    // ignore: deprecated_member_use
-    if (!input.config.dryRun) {
-      final includeFiles = await Stream.fromIterable(includes)
-          .asyncExpand(
-            (include) => Directory(include.toFilePath())
-                .list(recursive: true)
-                .where((entry) => entry is File)
-                .map((file) => file.uri),
-          )
-          .toList();
 
-      output.addDependencies({
-        // Note: We use a Set here to deduplicate the dependencies.
-        ...sources,
-        ...includeFiles,
-        ...dartBuildFiles,
-      });
-    }
+    final includeFiles =
+        await Stream.fromIterable(includes)
+            .asyncExpand(
+              (include) => Directory(include.toFilePath())
+                  .list(recursive: true)
+                  .where((entry) => entry is File)
+                  .map((file) => file.uri),
+            )
+            .toList();
+
+    output.addDependencies({
+      // Note: We use a Set here to deduplicate the dependencies.
+      ...sources,
+      ...includeFiles,
+      ...dartBuildFiles,
+    });
   }
 }

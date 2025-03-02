@@ -37,7 +37,7 @@ class KernelAssets {
         for (final entry in assetsPerTarget.entries)
           entry.key.toString(): {
             for (final e in entry.value) e.id: e.path.toJson(),
-          }
+          },
       },
     };
 
@@ -50,11 +50,7 @@ class KernelAsset {
   final Target target;
   final KernelAssetPath path;
 
-  KernelAsset({
-    required this.id,
-    required this.target,
-    required this.path,
-  });
+  KernelAsset({required this.id, required this.target, required this.path});
 }
 
 abstract class KernelAssetPath {

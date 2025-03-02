@@ -38,7 +38,7 @@ void main() {
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>) newMethodsInner(
         Pointer<Int32> counter) {
-      final obj1 = ArcTestObject.new1();
+      final obj1 = ArcTestObject();
       obj1.setCounter_(counter);
       expect(counter.value, 1);
       final obj2 = ArcTestObject.newWithCounter_(counter);

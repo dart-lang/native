@@ -38,7 +38,8 @@ extension DataAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
 
 /// Supports emitting code assets for build hooks.
 extension type DataAssetBuildOutputBuilderAdd._(
-    EncodedAssetBuildOutputBuilder _output) {
+  EncodedAssetBuildOutputBuilder _output
+) {
   /// Adds the given [asset] to the hook output (or send to [linkInPackage]
   /// for linking if provided).
   void add(DataAsset asset, {String? linkInPackage}) =>
@@ -62,7 +63,8 @@ extension DataAssetLinkOutputBuilder on EncodedAssetLinkOutputBuilder {
 
 /// Extension on [LinkOutputBuilder] to emit data assets.
 extension type DataAssetLinkOutputBuilderAdd(
-    EncodedAssetLinkOutputBuilder _output) {
+  EncodedAssetLinkOutputBuilder _output
+) {
   /// Adds the given [asset] to the link hook output.
   void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
 
@@ -72,16 +74,18 @@ extension type DataAssetLinkOutputBuilderAdd(
 
 /// Provides access to [DataAsset]s from a build hook output.
 extension DataAssetBuildOutput on BuildOutputAssets {
-  List<DataAsset> get data => encodedAssets
-      .where((asset) => asset.type == DataAsset.type)
-      .map<DataAsset>(DataAsset.fromEncoded)
-      .toList();
+  List<DataAsset> get data =>
+      encodedAssets
+          .where((asset) => asset.type == DataAsset.type)
+          .map<DataAsset>(DataAsset.fromEncoded)
+          .toList();
 }
 
 /// Provides access to [DataAsset]s from a link hook output.
 extension DataAssetLinkOutput on LinkOutputAssets {
-  List<DataAsset> get data => encodedAssets
-      .where((asset) => asset.type == DataAsset.type)
-      .map<DataAsset>(DataAsset.fromEncoded)
-      .toList();
+  List<DataAsset> get data =>
+      encodedAssets
+          .where((asset) => asset.type == DataAsset.type)
+          .map<DataAsset>(DataAsset.fromEncoded)
+          .toList();
 }

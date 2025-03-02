@@ -1617,6 +1617,444 @@ final class $Nullability$Type<$T extends jni$_.JObject?,
   }
 }
 
+/// from: `com.github.dart_lang.jnigen.Operators`
+class Operators extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Operators> $type;
+
+  @jni$_.internal
+  Operators.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Operators');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Operators$NullableType();
+  static const type = $Operators$Type();
+  static final _id_new$ = _class.constructorId(
+    r'(I)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Operators(
+    int i,
+  ) {
+    return Operators.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, i)
+            .reference);
+  }
+
+  static final _id_getValue = _class.instanceMethodId(
+    r'getValue',
+    r'()I',
+  );
+
+  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int getValue()`
+  int getValue() {
+    return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_setValue = _class.instanceMethodId(
+    r'setValue',
+    r'(I)V',
+  );
+
+  static final _setValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public final void setValue(int i)`
+  void setValue(
+    int i,
+  ) {
+    _setValue(reference.pointer, _id_setValue as jni$_.JMethodIDPtr, i).check();
+  }
+
+  static final _id_plus = _class.instanceMethodId(
+    r'plus',
+    r'(Lcom/github/dart_lang/jnigen/Operators;)Lcom/github/dart_lang/jnigen/Operators;',
+  );
+
+  static final _plus = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Operators plus(com.github.dart_lang.jnigen.Operators operators)`
+  /// The returned object must be released after use, by calling the [release] method.
+  Operators plus(
+    Operators operators,
+  ) {
+    final _$operators = operators.reference;
+    return _plus(reference.pointer, _id_plus as jni$_.JMethodIDPtr,
+            _$operators.pointer)
+        .object<Operators>(const $Operators$Type());
+  }
+
+  static final _id_plus$1 = _class.instanceMethodId(
+    r'plus',
+    r'(I)Lcom/github/dart_lang/jnigen/Operators;',
+  );
+
+  static final _plus$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Operators plus(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  Operators plus$1(
+    int i,
+  ) {
+    return _plus$1(reference.pointer, _id_plus$1 as jni$_.JMethodIDPtr, i)
+        .object<Operators>(const $Operators$Type());
+  }
+
+  static final _id_minus = _class.instanceMethodId(
+    r'minus',
+    r'(Lcom/github/dart_lang/jnigen/Operators;)Lcom/github/dart_lang/jnigen/Operators;',
+  );
+
+  static final _minus = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Operators minus(com.github.dart_lang.jnigen.Operators operators)`
+  /// The returned object must be released after use, by calling the [release] method.
+  Operators minus(
+    Operators operators,
+  ) {
+    final _$operators = operators.reference;
+    return _minus(reference.pointer, _id_minus as jni$_.JMethodIDPtr,
+            _$operators.pointer)
+        .object<Operators>(const $Operators$Type());
+  }
+
+  static final _id_times = _class.instanceMethodId(
+    r'times',
+    r'(Lcom/github/dart_lang/jnigen/Operators;)Lcom/github/dart_lang/jnigen/Operators;',
+  );
+
+  static final _times = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Operators times(com.github.dart_lang.jnigen.Operators operators)`
+  /// The returned object must be released after use, by calling the [release] method.
+  Operators times(
+    Operators operators,
+  ) {
+    final _$operators = operators.reference;
+    return _times(reference.pointer, _id_times as jni$_.JMethodIDPtr,
+            _$operators.pointer)
+        .object<Operators>(const $Operators$Type());
+  }
+
+  static final _id_div = _class.instanceMethodId(
+    r'div',
+    r'(Lcom/github/dart_lang/jnigen/Operators;)Lcom/github/dart_lang/jnigen/Operators;',
+  );
+
+  static final _div = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Operators div(com.github.dart_lang.jnigen.Operators operators)`
+  /// The returned object must be released after use, by calling the [release] method.
+  Operators div(
+    Operators operators,
+  ) {
+    final _$operators = operators.reference;
+    return _div(reference.pointer, _id_div as jni$_.JMethodIDPtr,
+            _$operators.pointer)
+        .object<Operators>(const $Operators$Type());
+  }
+
+  static final _id_rem = _class.instanceMethodId(
+    r'rem',
+    r'(Lcom/github/dart_lang/jnigen/Operators;)Lcom/github/dart_lang/jnigen/Operators;',
+  );
+
+  static final _rem = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final com.github.dart_lang.jnigen.Operators rem(com.github.dart_lang.jnigen.Operators operators)`
+  /// The returned object must be released after use, by calling the [release] method.
+  Operators rem(
+    Operators operators,
+  ) {
+    final _$operators = operators.reference;
+    return _rem(reference.pointer, _id_rem as jni$_.JMethodIDPtr,
+            _$operators.pointer)
+        .object<Operators>(const $Operators$Type());
+  }
+
+  static final _id_get = _class.instanceMethodId(
+    r'get',
+    r'(I)Z',
+  );
+
+  static final _get = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public final boolean get(int i)`
+  bool get(
+    int i,
+  ) {
+    return _get(reference.pointer, _id_get as jni$_.JMethodIDPtr, i).boolean;
+  }
+
+  static final _id_set = _class.instanceMethodId(
+    r'set',
+    r'(IZ)V',
+  );
+
+  static final _set = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public final void set(int i, boolean z)`
+  void set(
+    int i,
+    bool z,
+  ) {
+    _set(reference.pointer, _id_set as jni$_.JMethodIDPtr, i, z ? 1 : 0)
+        .check();
+  }
+
+  static final _id_compareTo = _class.instanceMethodId(
+    r'compareTo',
+    r'(Lcom/github/dart_lang/jnigen/Operators;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final int compareTo(com.github.dart_lang.jnigen.Operators operators)`
+  int compareTo(
+    Operators operators,
+  ) {
+    final _$operators = operators.reference;
+    return _compareTo(reference.pointer, _id_compareTo as jni$_.JMethodIDPtr,
+            _$operators.pointer)
+        .integer;
+  }
+
+  Operators operator +(Operators operators) {
+    return plus(operators);
+  }
+
+  Operators operator -(Operators operators) {
+    return minus(operators);
+  }
+
+  Operators operator *(Operators operators) {
+    return times(operators);
+  }
+
+  Operators operator /(Operators operators) {
+    return div(operators);
+  }
+
+  Operators operator %(Operators operators) {
+    return rem(operators);
+  }
+
+  bool operator [](int i) {
+    return get(i);
+  }
+
+  void operator []=(int i, bool z) {
+    set(i, z);
+  }
+
+  bool operator <(Operators operators) {
+    return compareTo(operators) < 0;
+  }
+
+  bool operator <=(Operators operators) {
+    return compareTo(operators) <= 0;
+  }
+
+  bool operator >(Operators operators) {
+    return compareTo(operators) > 0;
+  }
+
+  bool operator >=(Operators operators) {
+    return compareTo(operators) >= 0;
+  }
+}
+
+final class $Operators$NullableType extends jni$_.JObjType<Operators?> {
+  @jni$_.internal
+  const $Operators$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/Operators;';
+
+  @jni$_.internal
+  @core$_.override
+  Operators? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : Operators.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Operators?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Operators$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Operators$NullableType) &&
+        other is $Operators$NullableType;
+  }
+}
+
+final class $Operators$Type extends jni$_.JObjType<Operators> {
+  @jni$_.internal
+  const $Operators$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/Operators;';
+
+  @jni$_.internal
+  @core$_.override
+  Operators fromReference(jni$_.JReference reference) =>
+      Operators.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Operators?> get nullableType =>
+      const $Operators$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Operators$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Operators$Type) && other is $Operators$Type;
+  }
+}
+
 /// from: `com.github.dart_lang.jnigen.Speed`
 class Speed extends Measure<SpeedUnit> {
   @jni$_.internal
@@ -2192,6 +2630,137 @@ class SuspendFun extends jni$_.JObject {
             .reference);
   }
 
+  static final _id_sayHelloWithoutDelay = _class.instanceMethodId(
+    r'sayHelloWithoutDelay',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayHelloWithoutDelay = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.lang.Object sayHelloWithoutDelay(kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> sayHelloWithoutDelay() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _sayHelloWithoutDelay(
+            reference.pointer,
+            _id_sayHelloWithoutDelay as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
+    _$continuation.release();
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
+  }
+
+  static final _id_failWithoutDelay = _class.instanceMethodId(
+    r'failWithoutDelay',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _failWithoutDelay = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.lang.Object failWithoutDelay(kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> failWithoutDelay() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _failWithoutDelay(reference.pointer,
+            _id_failWithoutDelay as jni$_.JMethodIDPtr, _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
+    _$continuation.release();
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
+  }
+
+  static final _id_fail = _class.instanceMethodId(
+    r'fail',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _fail = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.lang.Object fail(kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> fail() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _fail(reference.pointer, _id_fail as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
+    _$continuation.release();
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
+  }
+
   static final _id_sayHello = _class.instanceMethodId(
     r'sayHello',
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
@@ -2214,20 +2783,25 @@ class SuspendFun extends jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
+    final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .release();
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final $o =
-        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni$_.JStringType().jClass.reference;
-    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
-      $k.release();
-      throw 'Failed';
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
     }
-    $k.release();
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 
   static final _id_sayHello$1 = _class.instanceMethodId(
@@ -2260,20 +2834,28 @@ class SuspendFun extends jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
     final _$string = string.reference;
-    _sayHello$1(reference.pointer, _id_sayHello$1 as jni$_.JMethodIDPtr,
-            _$string.pointer, _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType())
-        .release();
+    final $r = _sayHello$1(
+            reference.pointer,
+            _id_sayHello$1 as jni$_.JMethodIDPtr,
+            _$string.pointer,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType());
     _$continuation.release();
-    final $o =
-        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
-    final $k = const jni$_.JStringType().jClass.reference;
-    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
-      $k.release();
-      throw 'Failed';
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
     }
-    $k.release();
-    return const jni$_.JStringType().fromReference($o);
+    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
   }
 }
 

@@ -25,8 +25,8 @@ void main() {
       final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      nullableInterface = NullableInterface.new1();
-      obj = NSObject.new1();
+      nullableInterface = NullableInterface();
+      obj = NSObject();
       generateBindingsForCoverage('nullable');
     });
 
@@ -75,7 +75,8 @@ void main() {
     test('Nullable typealias', () {
       // Regression test for https://github.com/dart-lang/native/issues/1701
       expect(NullableInterface.returnNullableAlias_(true), isNull);
-      expect(NullableInterface.returnNullableAlias_(false)?.toString(), "Hi");
+      expect(
+          NullableInterface.returnNullableAlias_(false)?.toDartString(), "Hi");
     });
   });
 }

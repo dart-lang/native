@@ -16,47 +16,42 @@ Future<void> main() async {
       continue;
     }
 
-    test(
-      'throws on some platforms',
-      () async {
-        final tempUri = await tempDirForTest();
-        final tempUri2 = await tempDirForTest();
+    test('throws on some platforms', () async {
+      final tempUri = await tempDirForTest();
+      final tempUri2 = await tempDirForTest();
 
-        final linkInputBuilder = LinkInputBuilder()
-          ..setupShared(
-            packageName: 'testpackage',
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-            outputDirectory: tempUri,
-          )
-          ..setupLink(
-            assets: [],
-            recordedUsesFile: null,
-          )
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: os,
-            targetArchitecture: Architecture.x64,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
-          );
+      final linkInputBuilder =
+          LinkInputBuilder()
+            ..setupShared(
+              packageName: 'testpackage',
+              packageRoot: tempUri,
+              outputFile: tempUri.resolve('output.json'),
+              outputDirectoryShared: tempUri2,
+              outputDirectory: tempUri,
+            )
+            ..setupLink(assets: [], recordedUsesFile: null)
+            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+            ..config.setupCode(
+              targetOS: os,
+              targetArchitecture: Architecture.x64,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            );
 
-        final linkHookInput = LinkInput(linkInputBuilder.json);
+      final linkHookInput = LinkInput(linkInputBuilder.json);
 
-        final cLinker = CLinker.library(
-          name: 'mylibname',
-          linkerOptions: LinkerOptions.manual(),
-        );
-        await expectLater(
-          () => cLinker.run(
-            input: linkHookInput,
-            output: LinkOutputBuilder(),
-            logger: logger,
-          ),
-          throwsUnsupportedError,
-        );
-      },
-    );
+      final cLinker = CLinker.library(
+        name: 'mylibname',
+        linkerOptions: LinkerOptions.manual(),
+      );
+      await expectLater(
+        () => cLinker.run(
+          input: linkHookInput,
+          output: LinkOutputBuilder(),
+          logger: logger,
+        ),
+        throwsUnsupportedError,
+      );
+    });
   }
 }
