@@ -80,11 +80,9 @@ class ProtocolDeclaration extends AstNode
     visitor.visit(nestingParent);
     visitor.visitAll(nestedDeclarations);
   }
-  
+
   @override
-  List<GenericType> get typeParams => 
-    throw Exception(
-      'Protocols do not have type params: '
-      'Did you mean to use `associatedTypes` instead?'
-    );
+  List<GenericType> get typeParams =>
+      throw Exception('Protocols do not have type params: '
+          'Did you mean to use `associatedTypes` instead?');
 }

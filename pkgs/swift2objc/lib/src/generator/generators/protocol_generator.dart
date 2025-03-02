@@ -38,9 +38,10 @@ String _generateProtocolHeader(ProtocolDeclaration declaration) {
   return header.toString();
 }
 
-List<String> _generateProtocolMethods(ProtocolDeclaration declaration) =>
-    [for (final method in declaration.methods) ..._generateProtocolMethod(method)];
-
+List<String> _generateProtocolMethods(ProtocolDeclaration declaration) => [
+      for (final method in declaration.methods)
+        ..._generateProtocolMethod(method)
+    ];
 
 List<String> _generateProtocolMethod(MethodDeclaration method) {
   final header = StringBuffer();
@@ -67,9 +68,7 @@ List<String> _generateProtocolMethod(MethodDeclaration method) {
     header.write('-> ${method.returnType.swiftType} ');
   }
 
-  return [
-    '$header'
-  ];
+  return ['$header'];
 }
 
 List<String> _generateProtocolProperties(ProtocolDeclaration declaration) => [
@@ -92,8 +91,9 @@ List<String> _generateProtocolProperty(PropertyDeclaration property) {
   header.write(property.isConstant ? 'let' : 'var');
   header.write(' ${property.name}: ${property.type.swiftType}');
   header.write(' { ${[
-    if (property.getter != null) 'get', if (property.setter != null) 'set']
-    .join(' ')} }');
+    if (property.getter != null) 'get',
+    if (property.setter != null) 'set'
+  ].join(' ')} }');
 
   return [
     header.toString(),

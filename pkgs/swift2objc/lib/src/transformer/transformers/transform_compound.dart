@@ -10,8 +10,6 @@ import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
-import '../../ast/declarations/compounds/protocol_declaration.dart';
-import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
@@ -32,10 +30,11 @@ ClassDeclaration transformCompound(
     type: originalCompound.asDeclaredType,
   );
 
-  final superClass = originalCompound is ClassDeclaration ? 
-    (originalCompound.superClass == null ? null : 
-      transformationMap.findByOriginalId(originalCompound.superClass!.id)) 
-    : null;
+  final superClass = originalCompound is ClassDeclaration
+      ? (originalCompound.superClass == null
+          ? null
+          : transformationMap.findByOriginalId(originalCompound.superClass!.id))
+      : null;
 
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
@@ -49,7 +48,7 @@ ClassDeclaration transformCompound(
 
   // transformedCompound.conformedProtocols.addAll(
   //   originalCompound.conformedProtocols.map((p) {
-  //     return (transformationMap.findByOriginalId(p.id) as ProtocolDeclaration)
+  //   return (transformationMap.findByOriginalId(p.id) as ProtocolDeclaration)
   //       .asDeclaredType;
   //   })
   // );
@@ -94,7 +93,6 @@ ClassDeclaration transformCompound(
       .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
-
 
   transformationMap[originalCompound] = transformedCompound;
 

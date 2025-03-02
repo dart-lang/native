@@ -10,7 +10,6 @@ import '../ast/declarations/compounds/protocol_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/visitor.dart';
-import '../parser/_core/utils.dart';
 import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
@@ -21,7 +20,7 @@ typedef TransformationMap = Map<Declaration, Declaration>;
 
 extension TransformationMapUtils on TransformationMap {
   Declaration? findByOriginalId(String id) {
-    print(this.entries.map((e) => (e.key.name, e.value.name)));
+    print(entries.map((e) => (e.key.name, e.value.name)));
     return this[keys.where((k) => k.id == id).firstOrNull];
   }
 }
@@ -87,12 +86,8 @@ Declaration transformDeclaration(
         parentNamer,
         transformationMap,
       ),
-    ProtocolDeclaration() => transformProtocol(
-      declaration, 
-      parentNamer,
-      transformationMap
-    ),
+    ProtocolDeclaration() =>
+      transformProtocol(declaration, parentNamer, transformationMap),
     _ => throw UnimplementedError(),
   };
 }
-

@@ -1,9 +1,6 @@
-import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:swift2objc/src/ast/declarations/compounds/protocol_declaration.dart';
-import 'package:swift2objc/src/config.dart';
-import 'package:swift2objc/src/generate_wrapper.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/_core/utils.dart';
 import 'package:swift2objc/src/parser/parsers/parse_declarations.dart';
@@ -47,7 +44,7 @@ void main() {
       expect(testDecl.properties.where((m) => m.isStatic), hasLength(1));
 
       final declProp = testDecl.properties.where((m) => m.isStatic).single;
-      final declMethod = testDecl.methods.where((m) => m.isStatic).single;
+      // final declMethod = testDecl.methods.where((m) => m.isStatic).single;
 
       expect(declProp.name, equalsIgnoringCase('configurationName'));
     });

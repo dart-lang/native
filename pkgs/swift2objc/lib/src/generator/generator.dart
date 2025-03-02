@@ -27,4 +27,3 @@ List<String> generateDeclaration(Declaration declaration) {
       ),
   };
 }
-
