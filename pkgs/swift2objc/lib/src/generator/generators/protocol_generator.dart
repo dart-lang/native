@@ -87,7 +87,6 @@ List<String> _generateProtocolProperty(PropertyDeclaration property) {
     header.write('static ');
   }
 
-  // TODO: Getters work differently
   header.write(property.isConstant ? 'let' : 'var');
   header.write(' ${property.name}: ${property.type.swiftType}');
   header.write(' { ${[
