@@ -1,6 +1,11 @@
-## 0.8.0-wip
+## 0.9.0-wip
+
+- Nothing yet.
+
+## 0.8.0
 
 - Bump `package:native_assets_cli` to 0.11.0.
+- Support for LLVM Clang on Windows (requires MSVC to be installed).
 
 ## 0.7.0
 

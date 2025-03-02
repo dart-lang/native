@@ -206,9 +206,7 @@ class EnumClass extends BindingType {
 
   /// Writes the DartDoc string for this enum.
   void writeDartDoc(StringBuffer s) {
-    if (dartDoc != null) {
-      s.write(makeDartDoc(dartDoc!));
-    }
+    s.write(makeDartDoc(dartDoc));
   }
 
   /// Writes a sealed class when no members exist, because Dart enums cannot be

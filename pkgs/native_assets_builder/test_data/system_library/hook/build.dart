@@ -13,17 +13,14 @@ void main(List<String> arguments) async {
         package: input.packageName,
         name: 'memory_system.dart',
         linkMode: DynamicLoadingSystem(
-          Uri.file(
-            switch (targetOS) {
-              OS.android => 'libc.so.6',
-              OS.iOS => 'libc.dylib',
-              OS.linux => 'libc.so.6',
-              OS.macOS => 'libc.dylib',
-              OS.windows => 'ole32.dll',
-              _ =>
-                throw UnsupportedError('Unknown operating system: $targetOS'),
-            },
-          ),
+          Uri.file(switch (targetOS) {
+            OS.android => 'libc.so.6',
+            OS.iOS => 'libc.dylib',
+            OS.linux => 'libc.so.6',
+            OS.macOS => 'libc.dylib',
+            OS.windows => 'ole32.dll',
+            _ => throw UnsupportedError('Unknown operating system: $targetOS'),
+          }),
         ),
         os: targetOS,
         architecture: targetArchitecture,

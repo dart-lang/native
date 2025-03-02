@@ -125,9 +125,12 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
   factory JArray(JObjType<E> elementType, int length) {
     RangeError.checkNotNegative(length);
     if (!elementType.isNullable) {
-      throw StateError('Element type of JArray must be nullable when '
-          'all elements with null\n\n'
-          'Try using .nullableType instead');
+      throw ArgumentError.value(
+          elementType,
+          'elementType',
+          'Element type of JArray must be nullable when constructed with a '
+              'length (because the elements will be initialized to null).\n\n'
+              'Try using .nullableType instead');
     }
     return _newArray<E>(elementType, length);
   }
@@ -157,6 +160,13 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
     RangeError.checkNotNegative(length);
     E ??= fill.$type as JObjType<$E>;
     return _newArray<$E>(E, length, fill);
+  }
+
+  /// Creates a [JArray] from `elements`.
+  static JArray<$E> of<$E extends JObject?>(
+      JObjType<$E> elementType, Iterable<$E> elements) {
+    return _newArray<$E>(elementType, elements.length)
+      ..setRange(0, elements.length, elements);
   }
 
   /// The number of elements in this array.
@@ -458,6 +468,13 @@ final class JByteArrayType extends JObjType<JByteArray> {
   }
 }
 
+/// A fixed-length array of Java [`Byte`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Byte.html).
+///
+/// Integers stored in the list are truncated to their low eight bits,
+/// interpreted as a signed 8-bit two's complement integer with values in the
+/// range -128 to +127.
+///
+/// Java equivalent of [Int8List].
 class JByteArray extends JObject with Iterable<int> {
   @internal
   @override
@@ -474,6 +491,16 @@ class JByteArray extends JObject with Iterable<int> {
   JByteArray.fromReference(super.reference)
       : $type = type,
         super.fromReference();
+
+  /// Creates a [JByteArray] containing all `elements`.
+  ///
+  /// The [Iterator] of elements provides the order of the elements.
+  ///
+  /// Elements outside of the range -128 to +127 are truncated to their low
+  /// eight bits and interpreted as signed 8-bit two's complement integers.
+  factory JByteArray.from(Iterable<int> elements) {
+    return JByteArray(elements.length)..setRange(0, elements.length, elements);
+  }
 
   /// Creates a [JByteArray] of the given [length].
   ///

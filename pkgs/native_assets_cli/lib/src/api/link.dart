@@ -42,15 +42,17 @@ Future<void> link(
 ) async {
   final inputPath = getInputArgument(arguments);
   final bytes = File(inputPath).readAsBytesSync();
-  final jsonInput = const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
-      as Map<String, Object?>;
+  final jsonInput =
+      const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
+          as Map<String, Object?>;
   final input = LinkInput(jsonInput);
   final output = LinkOutputBuilder();
   await linker(input, output);
   final errors = await validateLinkOutput(input, LinkOutput(output.json));
   if (errors.isEmpty) {
-    final jsonOutput =
-        const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
+    final jsonOutput = const JsonEncoder()
+        .fuse(const Utf8Encoder())
+        .convert(output.json);
     await File.fromUri(input.outputFile).writeAsBytes(jsonOutput);
   } else {
     final message = [

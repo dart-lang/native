@@ -52,16 +52,20 @@ class CLinker extends CTool implements Linker {
     required Logger? logger,
   }) async {
     if (OS.current != OS.linux || input.config.code.targetOS != OS.linux) {
-      throw UnsupportedError('Currently, only linux is supported for this '
-          'feature. See also https://github.com/dart-lang/native/issues/1376');
+      throw UnsupportedError(
+        'Currently, only linux is supported for this '
+        'feature. See also https://github.com/dart-lang/native/issues/1376',
+      );
     }
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
-    final linkMode =
-        getLinkMode(linkModePreference ?? input.config.code.linkModePreference);
-    final libUri = outDir
-        .resolve(input.config.code.targetOS.libraryFileName(name, linkMode));
+    final linkMode = getLinkMode(
+      linkModePreference ?? input.config.code.linkModePreference,
+    );
+    final libUri = outDir.resolve(
+      input.config.code.targetOS.libraryFileName(name, linkMode),
+    );
     final sources = [
       for (final source in this.sources)
         packageRoot.resolveUri(Uri.file(source)),
@@ -99,23 +103,26 @@ class CLinker extends CTool implements Linker {
     await task.run();
 
     if (assetName != null) {
-      output.assets.code.add(CodeAsset(
-        package: input.packageName,
-        name: assetName!,
-        file: libUri,
-        linkMode: linkMode,
-        os: input.config.code.targetOS,
-        architecture: input.config.code.targetArchitecture,
-      ));
+      output.assets.code.add(
+        CodeAsset(
+          package: input.packageName,
+          name: assetName!,
+          file: libUri,
+          linkMode: linkMode,
+          os: input.config.code.targetOS,
+          architecture: input.config.code.targetArchitecture,
+        ),
+      );
     }
-    final includeFiles = await Stream.fromIterable(includes)
-        .asyncExpand(
-          (include) => Directory(include.toFilePath())
-              .list(recursive: true)
-              .where((entry) => entry is File)
-              .map((file) => file.uri),
-        )
-        .toList();
+    final includeFiles =
+        await Stream.fromIterable(includes)
+            .asyncExpand(
+              (include) => Directory(include.toFilePath())
+                  .list(recursive: true)
+                  .where((entry) => entry is File)
+                  .map((file) => file.uri),
+            )
+            .toList();
 
     output.addDependencies({
       // Note: We use a Set here to deduplicate the dependencies.

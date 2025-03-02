@@ -62,6 +62,7 @@ const ios = 'ios';
 const externalVersions = 'external-versions';
 const externalVersionsPlatforms = [ios, macos];
 const externalVersionsMin = 'min';
+const externalVersionsMax = 'max';
 
 const compilerOptsAuto = 'compiler-opts-automatic';
 // Sub-fields of compilerOptsAuto.macos

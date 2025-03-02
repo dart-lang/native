@@ -167,3 +167,5 @@ final objCSelType = ImportedType(
     objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'struct objc_selector');
 final objCBlockType =
     ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id');
+final objCProtocolType =
+    ImportedType(objcPkgImport, 'ObjCProtocol', 'ObjCProtocol', 'void');

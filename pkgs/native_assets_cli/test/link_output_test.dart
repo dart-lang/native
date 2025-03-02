@@ -11,11 +11,9 @@ void main() {
   test('LinkOutputBuilder->JSON->LinkOutput', () {
     final assets = [
       for (int i = 0; i < 3; i++)
-        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'})
+        EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
     ];
-    final uris = [
-      for (int i = 0; i < 3; ++i) Uri.file('path$i'),
-    ];
+    final uris = [for (int i = 0; i < 3; ++i) Uri.file('path$i')];
     final before = DateTime.now().roundDownToSeconds();
     final builder = LinkOutputBuilder();
     final after = DateTime.now().roundDownToSeconds();
@@ -30,18 +28,19 @@ void main() {
     expect(input.timestamp.compareTo(before), greaterThanOrEqualTo(0));
     expect(input.timestamp.compareTo(after), lessThanOrEqualTo(0));
     expect(
-        input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
-        true);
+      input.timestamp.isAtSameMomentAs(input.timestamp.roundDownToSeconds()),
+      true,
+    );
 
     // The JSON format of the link output.
     <String, Object?>{
-      'version': '1.8.0',
+      'version': '1.9.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'assets': [
         {'a-0': 'v-0', 'type': 'my-asset-type'},
         {'a-1': 'v-1', 'type': 'my-asset-type'},
-        {'a-2': 'v-2', 'type': 'my-asset-type'}
-      ]
+        {'a-2': 'v-2', 'type': 'my-asset-type'},
+      ],
     }.forEach((k, v) {
       expect(input.json[k], equals(v));
     });
@@ -51,12 +50,14 @@ void main() {
     test('LinkOutput version $version', () {
       expect(
         () => LinkOutput({'version': version}),
-        throwsA(predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(version) &&
-              e.message.contains(latestVersion.toString()),
-        )),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains(version) &&
+                e.message.contains(latestVersion.toString()),
+          ),
+        ),
       );
     });
   }

@@ -9,13 +9,7 @@
 import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(symbol: 'add')
-external int add(
-  int a,
-  int b,
-);
+external int add(int a, int b);
 
 @ffi.Native<ffi.IntPtr Function(ffi.IntPtr, ffi.IntPtr)>(symbol: 'multiply')
-external int multiply(
-  int a,
-  int b,
-);
+external int multiply(int a, int b);

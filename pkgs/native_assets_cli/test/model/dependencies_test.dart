@@ -10,13 +10,18 @@ import 'package:test/test.dart';
 void main() {
   late Uri tempUri;
 
-  setUp(() async => tempUri = Directory(
-          await (await Directory.systemTemp.createTemp())
-              .resolveSymbolicLinks())
-      .uri);
+  setUp(
+    () async =>
+        tempUri =
+            Directory(
+              await (await Directory.systemTemp.createTemp())
+                  .resolveSymbolicLinks(),
+            ).uri,
+  );
 
   tearDown(
-      () async => await Directory.fromUri(tempUri).delete(recursive: true));
+    () async => await Directory.fromUri(tempUri).delete(recursive: true),
+  );
 
   final dependencies = Dependencies([
     Uri.file('src/bar.c'),
@@ -64,10 +69,7 @@ void main() {
 
     final now = DateTime.now();
 
-    final dependencies = Dependencies([
-      someFileUri,
-      deletedFileUri,
-    ]);
+    final dependencies = Dependencies([someFileUri, deletedFileUri]);
     final depsLastModified = await dependencies.lastModified();
     expect(depsLastModified == now || depsLastModified.isAfter(now), true);
   });

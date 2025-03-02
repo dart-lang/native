@@ -3,8 +3,8 @@ description: >-
   A library that contains the argument and file formats for implementing a
   native assets CLI.
 
-# Note: Bump BuildConfig.version and BuildOutput.version on breaking changes!
-version: 0.11.0-wip
+# Note: Bump BuildInput.version and BuildOutput.version on breaking changes!
+version: 0.12.0-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli
 
 publish_to: none
@@ -15,7 +15,7 @@ topics:
   - native-assets
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
+  sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
   collection: ^1.17.1

@@ -9,17 +9,15 @@ import 'ast.dart';
 
 class ApplyConfigFiltersVisitation extends Visitation {
   final Config config;
-  final _directlyIncluded = <Binding>{};
-  final _superTypes = <Binding>{};
+  final directlyIncluded = <Binding>{};
+  final indirectlyIncluded = <Binding>{};
   ApplyConfigFiltersVisitation(this.config);
-
-  Set<Binding> get included => _directlyIncluded.union(_superTypes);
 
   void _visitImpl(Binding node, DeclarationFilters filters) {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (config.usrTypeMappings.containsKey(node.usr)) return;
-    if (filters.shouldInclude(node)) _directlyIncluded.add(node);
+    if (filters.shouldInclude(node)) directlyIncluded.add(node);
   }
 
   @override
@@ -40,14 +38,16 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
+    if (node.unavailable) return;
+
     node.filterMethods(
         (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName));
     _visitImpl(node, config.objcInterfaces);
 
     // If this node is included, include all its super types.
-    if (_directlyIncluded.contains(node)) {
+    if (directlyIncluded.contains(node)) {
       for (ObjCInterface? t = node; t != null; t = t.superType) {
-        if (!_superTypes.add(t)) break;
+        if (!indirectlyIncluded.add(t)) break;
       }
     }
   }
@@ -63,6 +63,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
+    if (node.unavailable) return;
+
     node.filterMethods((m) {
       // TODO(https://github.com/dart-lang/native/issues/1149): Support class
       // methods on protocols if there's a use case. For now filter them. We

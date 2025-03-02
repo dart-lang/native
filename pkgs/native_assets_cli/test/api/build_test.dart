@@ -40,10 +40,7 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.setupShared(buildAssetTypes: ['foo'])
-      ..config.setupBuild(
-        dryRun: false,
-        linkingEnabled: false,
-      );
+      ..config.setupBuild(linkingEnabled: false);
     input = BuildInput(inputBuilder.json);
 
     final inputJson = json.encode(input.json);
@@ -52,8 +49,10 @@ void main() async {
   });
 
   test('build method', () async {
-    await build(['--config', buildInputUri.toFilePath()],
-        (input, output) async {
+    await build(['--config', buildInputUri.toFilePath()], (
+      input,
+      output,
+    ) async {
       output.addDependency(packageRootUri.resolve('foo'));
     });
     final buildOutputUri = input.outputFile;

@@ -11,7 +11,8 @@ import 'package:native_assets_cli/src/args_parser.dart';
 void main(List<String> args) async {
   final inputPath = getInputArgument(args);
   final buildInput = BuildInput(
-      json.decode(File(inputPath).readAsStringSync()) as Map<String, Object?>);
+    json.decode(File(inputPath).readAsStringSync()) as Map<String, Object?>,
+  );
   await File.fromUri(buildInput.outputFile).writeAsString(_rightContents);
   exit(1);
 }
@@ -21,5 +22,5 @@ const _rightContents = '''{
   "encodedAssets": [],
   "dependencies": [],
   "metadata": {},
-  "version": "1.8.0"
+  "version": "1.9.0"
 }''';

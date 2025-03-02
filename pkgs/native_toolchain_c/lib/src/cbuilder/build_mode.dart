@@ -31,10 +31,7 @@ final class BuildMode {
   static const release = BuildMode._('release');
 
   /// All known build modes.
-  static const values = [
-    debug,
-    release,
-  ];
+  static const values = [debug, release];
 
   /// The name of this [BuildMode].
   ///

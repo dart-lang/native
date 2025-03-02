@@ -11,10 +11,7 @@ void main() {
       parseDepFileInputs(
         r'C:\\Program\ Files\\foo.dill: C:\\Program\ Files\\foo.dart C:\\Program\ Files\\bar.dart',
       ),
-      [
-        r'C:\Program Files\foo.dart',
-        r'C:\Program Files\bar.dart',
-      ],
+      [r'C:\Program Files\foo.dart', r'C:\Program Files\bar.dart'],
     );
   });
 }

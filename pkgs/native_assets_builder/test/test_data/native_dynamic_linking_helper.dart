@@ -9,7 +9,9 @@ void main(List<String> arguments) {
   final a = int.parse(arguments[1]);
   final b = int.parse(arguments[2]);
   final addLibrary = DynamicLibrary.open(addLibraryPath);
-  final add = addLibrary.lookupFunction<Int32 Function(Int32, Int32),
-      int Function(int, int)>('add');
+  final add = addLibrary
+      .lookupFunction<Int32 Function(Int32, Int32), int Function(int, int)>(
+        'add',
+      );
   print('Result: ${add(a, b)}');
 }

@@ -27,8 +27,11 @@ class CompilerRecognizer implements ToolResolver {
     if (filePath.contains('-gcc')) {
       tool = gcc;
     } else if (filePath.endsWith(os.executableFileName('clang'))) {
-      final stdout = await CliFilter.executeCli(uri,
-          arguments: ['--version'], logger: logger);
+      final stdout = await CliFilter.executeCli(
+        uri,
+        arguments: ['--version'],
+        logger: logger,
+      );
       if (stdout.contains('Apple clang')) {
         tool = appleClang;
       } else {
@@ -45,9 +48,7 @@ class CompilerRecognizer implements ToolResolver {
         await CliVersionResolver.lookupVersion(
           toolInstance,
           logger: logger,
-          arguments: [
-            if (tool != cl) '--version',
-          ],
+          arguments: [if (tool != cl) '--version'],
         ),
       ];
     }
@@ -83,10 +84,7 @@ class LinkerRecognizer implements ToolResolver {
       final toolInstance = ToolInstance(tool: tool, uri: uri);
       if (tool == lld) {
         return [
-          await CliVersionResolver.lookupVersion(
-            toolInstance,
-            logger: logger,
-          ),
+          await CliVersionResolver.lookupVersion(toolInstance, logger: logger),
         ];
       }
       if (tool == msvcLink) {
@@ -133,10 +131,7 @@ class ArchiverRecognizer implements ToolResolver {
       final toolInstance = ToolInstance(tool: tool, uri: uri);
       if (tool == llvmAr) {
         return [
-          await CliVersionResolver.lookupVersion(
-            toolInstance,
-            logger: logger,
-          ),
+          await CliVersionResolver.lookupVersion(toolInstance, logger: logger),
         ];
       }
       return [toolInstance];

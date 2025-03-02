@@ -195,7 +195,7 @@ enum AVAudioCommonFormat {
 /// AVAudioFormat in your config's objc-interfaces list.
 ///
 /// AVAudioFormat
-class AVAudioFormat extends objc.NSObject {
+class AVAudioFormat extends objc.NSObject implements objc.NSSecureCoding {
   AVAudioFormat._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -337,6 +337,27 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
+
+/// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
+/// AVAudioPlayerDelegate in your config's objc-protocols list.
+///
+/// AVAudioPlayerDelegate
+interface class AVAudioPlayerDelegate extends objc.ObjCProtocolBase
+    implements objc.NSObjectProtocol {
+  AVAudioPlayerDelegate._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [AVAudioPlayerDelegate] that points to the same underlying object as [other].
+  AVAudioPlayerDelegate.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [AVAudioPlayerDelegate] that wraps the given raw object pointer.
+  AVAudioPlayerDelegate.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+}
+
 late final _sel_delegate = objc.registerName("delegate");
 late final _sel_setDelegate_ = objc.registerName("setDelegate:");
 late final _sel_url = objc.registerName("url");
@@ -689,15 +710,16 @@ class AVAudioPlayer extends objc.NSObject {
   }
 
   /// delegate
-  objc.ObjCObjectBase? get delegate {
+  AVAudioPlayerDelegate? get delegate {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_delegate);
     return _ret.address == 0
         ? null
-        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+        : AVAudioPlayerDelegate.castFromPointer(_ret,
+            retain: true, release: true);
   }
 
   /// setDelegate:
-  set delegate(objc.ObjCObjectBase? value) {
+  set delegate(AVAudioPlayerDelegate? value) {
     _objc_msgSend_xtuoz7(
         this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
   }
@@ -886,7 +908,7 @@ class AVAudioPlayer extends objc.NSObject {
   }
 
   /// self
-  AVAudioPlayer self() {
+  AVAudioPlayer self1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return AVAudioPlayer.castFromPointer(_ret, retain: true, release: true);
   }

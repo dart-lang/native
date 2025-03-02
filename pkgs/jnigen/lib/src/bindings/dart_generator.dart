@@ -432,6 +432,13 @@ class $name$typeParamsDef extends $superName {
     // Fields and Methods
     generateFieldsAndMethods(node, classRef);
 
+    // Operators
+    for (final MapEntry(key: operator, value: method)
+        in node.operators.entries) {
+      method.accept(_OperatorGenerator(resolver, s, operator: operator));
+    }
+    node.compareTo?.accept(_ComparatorGenerator(resolver, s));
+
     if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
   /// Maps a specific port to the implemented interface.
@@ -1411,9 +1418,6 @@ ${modifier}final _$name = $_protectedExtension
         ? '$_core.Future<'
             '${node.asyncReturnType!.accept(_TypeGenerator(resolver))}>'
         : node.returnType.accept(_TypeGenerator(resolver));
-    final returnTypeClass = (node.asyncReturnType ?? node.returnType)
-        .accept(_TypeClassGenerator(resolver))
-        .name;
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = node.typeParams
@@ -1444,16 +1448,23 @@ ${modifier}final _$name = $_protectedExtension
     final \$p = $_jni.ReceivePort();
     final _\$$continuation = $_protectedExtension.newPortContinuation(\$p);
     ${localReferences.join(_newLine(depth: 2))}
-    $callExpr.release();
+    final \$r = $callExpr;
     _\$$continuation.release();
-    final \$o = $_jGlobalReference($_jPointer.fromAddress(await \$p.first));
-    final \$k = $returnTypeClass.jClass.reference;
-    if (!$_jni.Jni.env.IsInstanceOf(\$o.pointer, \$k.pointer)) {
-      \$k.release();
-      throw 'Failed';
+    final $_jObject \$o;
+    if (\$r.isInstanceOf($_jni.coroutineSingletonsClass)) {
+      \$r.release();
+      \$o = $_jObject.fromReference(
+          $_jGlobalReference($_jPointer.fromAddress(await \$p.first)));
+      if (\$o.isInstanceOf($_jni.result\$FailureClass)) {
+        final \$e =
+            $_jni.failureExceptionField.get(\$o, const ${_jObject}Type());
+        \$o.release();
+        $_jni.Jni.throwException(\$e.reference.toPointer());
+      }
+    } else {
+      \$o = \$r;
     }
-    \$k.release();
-    return $returningType.fromReference(\$o);
+    return \$o.as($returningType, releaseOriginal: true);
   }
 
 ''');
@@ -1968,5 +1979,58 @@ class _CallMethodName extends Visitor<Method, String> {
       type = 'Object';
     }
     return 'globalEnv_Call${node.isStatic ? 'Static' : ''}${type}Method';
+  }
+}
+
+class _OperatorGenerator extends Visitor<Method, void> {
+  final Resolver resolver;
+  final StringSink s;
+  final Operator operator;
+
+  _OperatorGenerator(this.resolver, this.s, {required this.operator});
+
+  @override
+  void visit(Method node) {
+    final returnType = operator.returnsVoid
+        ? 'void'
+        : node.returnType.accept(_TypeGenerator(resolver));
+    final paramsDef = node.params.accept(_ParamDef(resolver)).join(', ');
+    final paramsCall = node.params.map((param) => param.finalName).join(', ');
+    s.write('''
+  $returnType operator ${operator.dartSymbol}($paramsDef) {
+    ${operator.returnsVoid ? '' : 'return '}${node.finalName}($paramsCall);
+  }
+''');
+  }
+}
+
+class _ComparatorGenerator extends Visitor<Method, void> {
+  final Resolver resolver;
+  final StringSink s;
+
+  _ComparatorGenerator(this.resolver, this.s);
+
+  @override
+  void visit(Method node) {
+    final paramsDef = node.params.accept(_ParamDef(resolver)).join(', ');
+    final paramsCall = node.params.map((param) => param.finalName).join(', ');
+    final name = node.finalName;
+    s.write('''
+  bool operator <($paramsDef) {
+    return $name($paramsCall) < 0;
+  }
+
+  bool operator <=($paramsDef) {
+    return $name($paramsCall) <= 0;
+  }
+
+  bool operator >($paramsDef) {
+    return $name($paramsCall) > 0;
+  }
+
+  bool operator >=($paramsDef) {
+    return $name($paramsCall) >= 0;
+  }
+''');
   }
 }

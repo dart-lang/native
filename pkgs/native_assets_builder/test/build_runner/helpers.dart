@@ -29,6 +29,40 @@ Future<void> runPubGet({
   expect(result.exitCode, 0);
 }
 
+Future<BuildResult?> buildDataAssets(
+  Uri packageUri, {
+  String? runPackageName,
+  List<String>? capturedLogs,
+  bool linkingEnabled = false,
+}) => build(
+  packageUri,
+  logger,
+  dartExecutable,
+  capturedLogs: capturedLogs,
+  buildAssetTypes: [DataAsset.type],
+  inputValidator: validateDataAssetBuildInput,
+  buildValidator: validateDataAssetBuildOutput,
+  applicationAssetValidator: (_) async => [],
+  runPackageName: runPackageName,
+  linkingEnabled: linkingEnabled,
+);
+
+Future<BuildResult?> buildCodeAssets(
+  Uri packageUri, {
+  String? runPackageName,
+  List<String>? capturedLogs,
+}) => build(
+  packageUri,
+  logger,
+  dartExecutable,
+  capturedLogs: capturedLogs,
+  inputValidator: validateCodeAssetBuildInput,
+  buildAssetTypes: [CodeAsset.type],
+  buildValidator: validateCodeAssetBuildOutput,
+  applicationAssetValidator: validateCodeAssetInApplication,
+  runPackageName: runPackageName,
+);
+
 Future<BuildResult?> build(
   Uri packageUri,
   Logger logger,
@@ -39,7 +73,6 @@ Future<BuildResult?> build(
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
-  PackageLayout? packageLayout,
   String? runPackageName,
   IOSSdk? targetIOSSdk,
   int? targetIOSVersion,
@@ -51,12 +84,20 @@ Future<BuildResult?> build(
   Map<String, String>? hookEnvironment,
 }) async {
   final targetOS = target?.os ?? OS.current;
+  final runPackageName_ =
+      runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
+  final packageLayout = await PackageLayout.fromWorkingDirectory(
+    const LocalFileSystem(),
+    packageUri,
+    runPackageName_,
+  );
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
       dartExecutable: dartExecutable,
       fileSystem: const LocalFileSystem(),
       hookEnvironment: hookEnvironment,
+      packageLayout: packageLayout,
     ).build(
       inputCreator: () {
         final inputBuilder = BuildInputBuilder();
@@ -66,27 +107,28 @@ Future<BuildResult?> build(
             targetOS: targetOS,
             linkModePreference: linkModePreference,
             cCompiler: cCompiler ?? dartCICompilerConfig,
-            iOS: targetOS == OS.iOS
-                ? IOSConfig(
-                    targetSdk: targetIOSSdk!,
-                    targetVersion: targetIOSVersion!,
-                  )
-                : null,
-            macOS: targetOS == OS.macOS
-                ? MacOSConfig(
-                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
-                : null,
-            android: targetOS == OS.android
-                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
-                : null,
+            iOS:
+                targetOS == OS.iOS
+                    ? IOSCodeConfig(
+                      targetSdk: targetIOSSdk!,
+                      targetVersion: targetIOSVersion!,
+                    )
+                    : null,
+            macOS:
+                targetOS == OS.macOS
+                    ? MacOSCodeConfig(
+                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                    )
+                    : null,
+            android:
+                targetOS == OS.android
+                    ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+                    : null,
           );
         }
         return inputBuilder;
       },
       inputValidator: inputValidator,
-      workingDirectory: packageUri,
-      packageLayout: packageLayout,
-      runPackageName: runPackageName,
       linkingEnabled: linkingEnabled,
       buildAssetTypes: buildAssetTypes,
       buildValidator: buildValidator,
@@ -115,7 +157,7 @@ Future<LinkResult?> link(
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
-  PackageLayout? packageLayout,
+  String? runPackageName,
   required BuildResult buildResult,
   Uri? resourceIdentifiers,
   IOSSdk? targetIOSSdk,
@@ -126,11 +168,19 @@ Future<LinkResult?> link(
   required List<String> buildAssetTypes,
 }) async {
   final targetOS = target?.os ?? OS.current;
+  final runPackageName_ =
+      runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
+  final packageLayout = await PackageLayout.fromWorkingDirectory(
+    const LocalFileSystem(),
+    packageUri,
+    runPackageName_,
+  );
   return await runWithLog(capturedLogs, () async {
     final result = await NativeAssetsBuildRunner(
       logger: logger,
       dartExecutable: dartExecutable,
       fileSystem: const LocalFileSystem(),
+      packageLayout: packageLayout,
     ).link(
       inputCreator: () {
         final inputBuilder = LinkInputBuilder();
@@ -140,26 +190,28 @@ Future<LinkResult?> link(
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
             cCompiler: cCompiler ?? dartCICompilerConfig,
-            iOS: targetOS == OS.iOS
-                ? IOSConfig(
-                    targetSdk: targetIOSSdk!,
-                    targetVersion: targetIOSVersion!,
-                  )
-                : null,
-            macOS: targetOS == OS.macOS
-                ? MacOSConfig(
-                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
-                : null,
-            android: targetOS == OS.android
-                ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
-                : null,
+            iOS:
+                targetOS == OS.iOS
+                    ? IOSCodeConfig(
+                      targetSdk: targetIOSSdk!,
+                      targetVersion: targetIOSVersion!,
+                    )
+                    : null,
+            macOS:
+                targetOS == OS.macOS
+                    ? MacOSCodeConfig(
+                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                    )
+                    : null,
+            android:
+                targetOS == OS.android
+                    ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+                    : null,
           );
         }
         return inputBuilder;
       },
       inputValidator: inputValidator,
-      workingDirectory: packageUri,
-      packageLayout: packageLayout,
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
       buildAssetTypes: buildAssetTypes,
@@ -196,102 +248,112 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   Target? target,
   Uri? resourceIdentifiers,
   required List<String> buildAssetTypes,
-}) async =>
-    await runWithLog(capturedLogs, () async {
-      final buildRunner = NativeAssetsBuildRunner(
-        logger: logger,
-        dartExecutable: dartExecutable,
-        fileSystem: const LocalFileSystem(),
-      );
-      final targetOS = target?.os ?? OS.current;
-      final buildResult = await buildRunner.build(
-        inputCreator: () {
-          final inputBuilder = BuildInputBuilder();
-          if (buildAssetTypes.contains(CodeAsset.type)) {
-            inputBuilder.config.setupCode(
-              targetArchitecture: target?.architecture ?? Architecture.current,
-              targetOS: target?.os ?? OS.current,
-              linkModePreference: linkModePreference,
-              cCompiler: cCompiler ?? dartCICompilerConfig,
-              iOS: targetOS == OS.iOS
-                  ? IOSConfig(
-                      targetSdk: targetIOSSdk!,
-                      targetVersion: targetIOSVersion!,
-                    )
+}) async => await runWithLog(capturedLogs, () async {
+  final runPackageName_ =
+      runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
+  final packageLayout = await PackageLayout.fromWorkingDirectory(
+    const LocalFileSystem(),
+    packageUri,
+    runPackageName_,
+  );
+  final buildRunner = NativeAssetsBuildRunner(
+    logger: logger,
+    dartExecutable: dartExecutable,
+    fileSystem: const LocalFileSystem(),
+    packageLayout: packageLayout,
+  );
+  final targetOS = target?.os ?? OS.current;
+  final buildResult = await buildRunner.build(
+    inputCreator: () {
+      final inputBuilder = BuildInputBuilder();
+      if (buildAssetTypes.contains(CodeAsset.type)) {
+        inputBuilder.config.setupCode(
+          targetArchitecture: target?.architecture ?? Architecture.current,
+          targetOS: target?.os ?? OS.current,
+          linkModePreference: linkModePreference,
+          cCompiler: cCompiler ?? dartCICompilerConfig,
+          iOS:
+              targetOS == OS.iOS
+                  ? IOSCodeConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
                   : null,
-              macOS: targetOS == OS.macOS
-                  ? MacOSConfig(
-                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
+          macOS:
+              targetOS == OS.macOS
+                  ? MacOSCodeConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                  )
                   : null,
-              android: targetOS == OS.android
-                  ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
+          android:
+              targetOS == OS.android
+                  ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
-            );
-          }
-          return inputBuilder;
-        },
-        inputValidator: buildInputValidator,
-        workingDirectory: packageUri,
-        packageLayout: packageLayout,
-        runPackageName: runPackageName,
-        linkingEnabled: true,
-        buildAssetTypes: buildAssetTypes,
-        buildValidator: buildValidator,
-        applicationAssetValidator: applicationAssetValidator,
-      );
-
-      if (buildResult == null) {
-        return (null, null);
+        );
       }
+      return inputBuilder;
+    },
+    inputValidator: buildInputValidator,
+    linkingEnabled: true,
+    buildAssetTypes: buildAssetTypes,
+    buildValidator: buildValidator,
+    applicationAssetValidator: applicationAssetValidator,
+  );
 
-      expect(await buildResult.encodedAssets.allExist(), true);
-      for (final encodedAssetsForLinking
-          in buildResult.encodedAssetsForLinking.values) {
-        expect(await encodedAssetsForLinking.allExist(), true);
+  if (buildResult == null) {
+    return (null, null);
+  }
+
+  expect(await buildResult.encodedAssets.allExist(), true);
+  for (final encodedAssetsForLinking
+      in buildResult.encodedAssetsForLinking.values) {
+    expect(await encodedAssetsForLinking.allExist(), true);
+  }
+
+  final linkResult = await buildRunner.link(
+    inputCreator: () {
+      final inputBuilder = LinkInputBuilder();
+      if (buildAssetTypes.contains(CodeAsset.type)) {
+        inputBuilder.config.setupCode(
+          targetArchitecture: target?.architecture ?? Architecture.current,
+          targetOS: target?.os ?? OS.current,
+          linkModePreference: linkModePreference,
+          cCompiler: cCompiler ?? dartCICompilerConfig,
+          iOS:
+              targetOS == OS.iOS
+                  ? IOSCodeConfig(
+                    targetSdk: targetIOSSdk!,
+                    targetVersion: targetIOSVersion!,
+                  )
+                  : null,
+          macOS:
+              targetOS == OS.macOS
+                  ? MacOSCodeConfig(
+                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                  )
+                  : null,
+          android:
+              targetOS == OS.android
+                  ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+                  : null,
+        );
       }
+      return inputBuilder;
+    },
+    inputValidator: linkInputValidator,
+    buildResult: buildResult,
+    resourceIdentifiers: resourceIdentifiers,
+    buildAssetTypes: buildAssetTypes,
+    linkValidator: linkValidator,
+    applicationAssetValidator: applicationAssetValidator,
+  );
 
-      final linkResult = await buildRunner.link(
-        inputCreator: () {
-          final inputBuilder = LinkInputBuilder();
-          if (buildAssetTypes.contains(CodeAsset.type)) {
-            inputBuilder.config.setupCode(
-              targetArchitecture: target?.architecture ?? Architecture.current,
-              targetOS: target?.os ?? OS.current,
-              linkModePreference: linkModePreference,
-              cCompiler: cCompiler ?? dartCICompilerConfig,
-              iOS: targetOS == OS.iOS
-                  ? IOSConfig(
-                      targetSdk: targetIOSSdk!,
-                      targetVersion: targetIOSVersion!,
-                    )
-                  : null,
-              macOS: targetOS == OS.macOS
-                  ? MacOSConfig(
-                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion)
-                  : null,
-              android: targetOS == OS.android
-                  ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
-                  : null,
-            );
-          }
-          return inputBuilder;
-        },
-        inputValidator: linkInputValidator,
-        workingDirectory: packageUri,
-        packageLayout: packageLayout,
-        buildResult: buildResult,
-        resourceIdentifiers: resourceIdentifiers,
-        buildAssetTypes: buildAssetTypes,
-        linkValidator: linkValidator,
-        applicationAssetValidator: applicationAssetValidator,
-      );
+  if (linkResult != null) {
+    expect(await linkResult.encodedAssets.allExist(), true);
+  }
 
-      if (linkResult != null) {
-        expect(await linkResult.encodedAssets.allExist(), true);
-      }
-
-      return (buildResult, linkResult);
-    });
+  return (buildResult, linkResult);
+});
 
 Future<T> runWithLog<T>(
   List<String>? capturedLogs,
@@ -299,8 +361,9 @@ Future<T> runWithLog<T>(
 ) async {
   StreamSubscription<LogRecord>? subscription;
   if (capturedLogs != null) {
-    subscription =
-        logger.onRecord.listen((event) => capturedLogs.add(event.message));
+    subscription = logger.onRecord.listen(
+      (event) => capturedLogs.add(event.message),
+    );
   }
 
   final result = await f();
@@ -320,46 +383,47 @@ Future<void> expectSymbols({
     final assetUri = asset.file!;
     final nmResult = await runProcess(
       executable: Uri(path: 'nm'),
-      arguments: [
-        '-D',
-        assetUri.toFilePath(),
-      ],
+      arguments: ['-D', assetUri.toFilePath()],
       logger: logger,
     );
 
-    expect(
-      nmResult.stdout,
-      stringContainsInOrder(symbols),
-    );
+    expect(nmResult.stdout, stringContainsInOrder(symbols));
   }
 }
 
-final CCompilerConfig? dartCICompilerConfig = (() {
-  // Specifically for running our tests on Dart CI with the test runner, we
-  // recognize specific variables to setup the C Compiler configuration.
-  final env = Platform.environment;
-  final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
-  final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
-  final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
-  final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
-  final envScriptArgs =
-      env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
-          ?.split(' ')
-          .map((arg) => arg.trim())
-          .where((arg) => arg.isNotEmpty)
-          .toList();
-  final hasEnvScriptArgs = envScriptArgs != null && envScriptArgs.isNotEmpty;
+final CCompilerConfig? dartCICompilerConfig =
+    (() {
+      // Specifically for running our tests on Dart CI with the test runner, we
+      // recognize specific variables to setup the C Compiler configuration.
+      final env = Platform.environment;
+      final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+      final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+      final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+      final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
+      final envScriptArgs =
+          env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
+              ?.split(' ')
+              .map((arg) => arg.trim())
+              .where((arg) => arg.isNotEmpty)
+              .toList();
 
-  if (cc != null && ar != null && ld != null) {
-    return CCompilerConfig(
-      archiver: Uri.file(ar),
-      compiler: Uri.file(cc),
-      envScript: envScript != null ? Uri.file(envScript) : null,
-      envScriptArgs: hasEnvScriptArgs ? envScriptArgs : null,
-      linker: Uri.file(ld),
-    );
-  }
-  return null;
-})();
+      if (cc != null && ar != null && ld != null) {
+        return CCompilerConfig(
+          archiver: Uri.file(ar),
+          compiler: Uri.file(cc),
+          linker: Uri.file(ld),
+          windows: WindowsCCompilerConfig(
+            developerCommandPrompt:
+                envScript == null
+                    ? null
+                    : DeveloperCommandPrompt(
+                      script: Uri.file(envScript),
+                      arguments: envScriptArgs ?? [],
+                    ),
+          ),
+        );
+      }
+      return null;
+    })();
 
 int defaultMacOSVersion = 13;

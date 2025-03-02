@@ -17,47 +17,44 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
         final logMessages = <String>[];
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-          runPackageName: 'some_dev_dep',
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateDataAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              capturedLogs: logMessages,
+              runPackageName: 'some_dev_dep',
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateDataAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
       }
 
       {
         final logMessages = <String>[];
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-          runPackageName: 'native_add',
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateDataAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              capturedLogs: logMessages,
+              runPackageName: 'native_add',
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateDataAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
         expect(result.encodedAssets, isNotEmpty);
         expect(
           result.dependencies,
-          contains(
-            packageUri.resolve('src/native_add.c'),
-          ),
+          contains(packageUri.resolve('src/native_add.c')),
         );
         expect(
           logMessages.join('\n'),

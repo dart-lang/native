@@ -32,31 +32,30 @@ final class HookResult implements BuildResult, LinkResult {
     List<EncodedAsset>? encodedAssets,
     Map<String, List<EncodedAsset>>? encodedAssetsForLinking,
     List<Uri>? dependencies,
-  }) =>
-      HookResult._(
-        encodedAssets: encodedAssets ?? [],
-        encodedAssetsForLinking: encodedAssetsForLinking ?? {},
-        dependencies: dependencies ?? [],
-      );
+  }) => HookResult._(
+    encodedAssets: encodedAssets ?? [],
+    encodedAssetsForLinking: encodedAssetsForLinking ?? {},
+    dependencies: dependencies ?? [],
+  );
 
   HookResult copyAdd(HookOutput hookOutput, List<Uri> hookDependencies) {
     final mergedMaps = mergeMaps(
-        encodedAssetsForLinking,
-        hookOutput is BuildOutput
-            ? hookOutput.assets.encodedAssetsForLinking
-            : <String, List<EncodedAsset>>{},
-        value: (encodedAssets1, encodedAssets2) => [
-              ...encodedAssets1,
-              ...encodedAssets2,
-            ]);
-    final hookOutputAssets = (hookOutput is BuildOutput)
-        ? hookOutput.assets.encodedAssets
-        : (hookOutput as LinkOutput).assets.encodedAssets;
+      encodedAssetsForLinking,
+      hookOutput is BuildOutput
+          ? hookOutput.assets.encodedAssetsForLinking
+          : <String, List<EncodedAsset>>{},
+      value:
+          (encodedAssets1, encodedAssets2) => [
+            ...encodedAssets1,
+            ...encodedAssets2,
+          ],
+    );
+    final hookOutputAssets =
+        (hookOutput is BuildOutput)
+            ? hookOutput.assets.encodedAssets
+            : (hookOutput as LinkOutput).assets.encodedAssets;
     return HookResult(
-      encodedAssets: [
-        ...encodedAssets,
-        ...hookOutputAssets,
-      ],
+      encodedAssets: [...encodedAssets, ...hookOutputAssets],
       encodedAssetsForLinking: mergedMaps,
       dependencies: [
         ...dependencies,

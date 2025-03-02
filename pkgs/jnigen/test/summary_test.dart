@@ -64,7 +64,6 @@ void registerCommonTests(Classes classes) {
     expect(example.getMethod('getNumber').modifiers, isPublic);
     expect(example.getMethod('privateMethod').modifiers, isPrivate);
     expect(example.getMethod('protectedMethod').modifiers, isProtected);
-    print(example.fields.map((f) => f.name).toList());
     expect(example.getField('OFF').modifiers, isPublic);
     expect(example.getField('number').modifiers, isPrivate);
     expect(example.getField('protectedField').modifiers, isProtected);
@@ -150,13 +149,19 @@ void registerCommonTests(Classes classes) {
     expect(mapType.params, hasLength(2));
     final strType = mapType.params[0];
     expect(strType.name, 'java.lang.String');
-    // TODO(#141): Wildcard implementation.
-    /*
     final wildcardType = mapType.params[1];
     expect(wildcardType.kind, equals(Kind.wildcard));
     expect((wildcardType.type as Wildcard).extendsBound?.name,
         equals('java.lang.CharSequence'));
-    */
+  });
+
+  test('typeParameters', () {
+    final grandParent = classes.getClass('generics', 'GrandParent');
+    final stringParent = grandParent.getMethod('stringParent');
+    final returnType = stringParent.returnType.type as DeclaredType;
+    expect(returnType.params, hasLength(2));
+    expect(returnType.params[0].type, isA<TypeVar>());
+    expect(returnType.params[1].type, isA<DeclaredType>());
   });
 
   test('superclass', () {

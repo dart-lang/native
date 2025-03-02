@@ -43,26 +43,32 @@ Future<void> testCodeBuildHook({
         cCompiler: cCompiler,
         targetArchitecture: targetArchitecture ?? Architecture.current,
         targetOS: targetOS ?? OS.current,
-        iOS: targetOS == OS.iOS
-            ? IOSConfig(
-                targetSdk: targetIOSSdk!,
-                targetVersion: targetIOSVersion!,
-              )
-            : null,
-        macOS: targetOS == OS.macOS
-            ? MacOSConfig(targetVersion: targetMacOSVersion!)
-            : null,
-        android: targetOS == OS.android
-            ? AndroidConfig(targetNdkApi: targetAndroidNdkApi!)
-            : null,
+        iOS:
+            targetOS == OS.iOS
+                ? IOSCodeConfig(
+                  targetSdk: targetIOSSdk!,
+                  targetVersion: targetIOSVersion!,
+                )
+                : null,
+        macOS:
+            targetOS == OS.macOS
+                ? MacOSCodeConfig(targetVersion: targetMacOSVersion!)
+                : null,
+        android:
+            targetOS == OS.android
+                ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+                : null,
       );
     },
     check: (input, output) async {
-      final validationErrors =
-          await validateCodeAssetBuildOutput(input, output);
+      final validationErrors = await validateCodeAssetBuildOutput(
+        input,
+        output,
+      );
       if (validationErrors.isNotEmpty) {
         throw ValidationFailure(
-            'encountered build output validation issues: $validationErrors');
+          'encountered build output validation issues: $validationErrors',
+        );
       }
 
       await check(input, output);

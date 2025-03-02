@@ -185,3 +185,51 @@ class ObjCBlockPointer extends ObjCObjectPointer {
     return other is ObjCBlockPointer || other is ObjCBlock;
   }
 }
+
+/// A pointer to an Objective C object with protocols.
+class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
+  List<ObjCProtocol> protocols;
+
+  ObjCObjectPointerWithProtocols(this.protocols)
+      : assert(protocols.isNotEmpty),
+        super._();
+
+  @override
+  String getDartType(Writer w) => protocols.first.getDartType(w);
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is ObjCObjectPointerWithProtocols) {
+      // The "correct" logic would be to return true if each of our protocols
+      // was a supertype of one of the other's protocols. But this method is
+      // designed to reflect the subtyping rules of the *Dart bindings*, not the
+      // ObjC types. So since the codegen just uses the first protocol, we do
+      // the same here.
+      return protocols.first.isSupertypeOf(other.protocols.first);
+    }
+    return false;
+  }
+
+  @override
+  String toString() => 'id<${protocols.join(', ')}>';
+
+  @override
+  String cacheKey() => 'id<${protocols.map((p) => p.cacheKey()).join(', ')}>';
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) =>
+      protocols.first.convertFfiDartTypeToDartType(w, value,
+          objCRetain: objCRetain, objCEnclosingClass: objCEnclosingClass);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(protocols);
+  }
+}

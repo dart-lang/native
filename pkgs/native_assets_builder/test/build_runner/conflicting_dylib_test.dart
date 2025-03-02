@@ -16,10 +16,7 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add_duplicate/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
         final logMessages = <String>[];
@@ -34,48 +31,46 @@ void main() async {
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);
-        expect(
-          fullLog,
-          contains('Duplicate dynamic library file name'),
-        );
+        expect(fullLog, contains('Duplicate dynamic library file name'));
       }
     });
   });
 
-  test('conflicting dylib name between link and build', timeout: longTimeout,
-      () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add_duplicate/');
+  test(
+    'conflicting dylib name between link and build',
+    timeout: longTimeout,
+    () async {
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final packageUri = tempUri.resolve('native_add_duplicate/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+        await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final buildResult = (await build(
-        packageUri,
-        logger,
-        linkingEnabled: true,
-        dartExecutable,
-        buildAssetTypes: [CodeAsset.type],
-        inputValidator: validateCodeAssetBuildInput,
-        buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      ))!;
+        final buildResult =
+            (await build(
+              packageUri,
+              logger,
+              linkingEnabled: true,
+              dartExecutable,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
 
-      final linkResult = await link(
-        packageUri,
-        logger,
-        dartExecutable,
-        buildResult: buildResult,
-        buildAssetTypes: [CodeAsset.type],
-        inputValidator: validateCodeAssetLinkInput,
-        linkValidator: validateCodeAssetLinkOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      );
-      // Application validation error due to conflicting dylib name.
-      expect(linkResult, isNull);
-    });
-  });
+        final linkResult = await link(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildResult: buildResult,
+          buildAssetTypes: [CodeAsset.type],
+          inputValidator: validateCodeAssetLinkInput,
+          linkValidator: validateCodeAssetLinkOutput,
+          applicationAssetValidator: validateCodeAssetInApplication,
+        );
+        // Application validation error due to conflicting dylib name.
+        expect(linkResult, isNull);
+      });
+    },
+  );
 }

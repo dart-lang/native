@@ -9,7 +9,7 @@ headers:
   entry-points:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
-    - 'src/proxy.h'
+    - 'src/protocol.h'
 ffi-native:
 exclude-all-by-default: true
 include-transitive-objc-categories: false
@@ -25,8 +25,8 @@ objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
-    - DOBJCDartProxy
-    - DOBJCDartProxyBuilder
+    - DOBJCDartProtocolBuilder
+    - DOBJCDartProtocol
     - NSArray
     - NSCharacterSet
     - NSCoder
@@ -54,7 +54,6 @@ objc-interfaces:
     - NSOutputStream
     - NSOrderedCollectionDifference
     - NSOrderedSet
-    - NSProxy
     - NSRunLoop
     - NSSet
     - NSStream
@@ -65,11 +64,21 @@ objc-interfaces:
     - Protocol
   rename:
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
-    'DOBJCDartProxy': 'DartProxy'
-    'DOBJCDartProxyBuilder': 'DartProxyBuilder'
+    'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
+    'DOBJCDartProtocol': 'DartProtocol'
 objc-protocols:
   include:
+    - NSCoding
+    - NSCopying
+    - NSFastEnumeration
+    - NSItemProviderReading
+    - NSItemProviderWriting
+    - NSMutableCopying
+    - NSObject
+    - NSSecureCoding
     - NSStreamDelegate
+  rename:
+    'NSObject': 'NSObjectProtocol'
 objc-categories:
   include:
     - NSDataCreation

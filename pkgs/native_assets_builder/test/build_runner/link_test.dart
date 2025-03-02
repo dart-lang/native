@@ -12,125 +12,94 @@ import 'helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
-  test(
-    'simple_link linking',
-    timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('simple_link/');
+  test('simple_link linking', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('simple_link/');
 
-        // First, run `pub get`, we need pub to resolve our dependencies.
-        await runPubGet(
-          workingDirectory: packageUri,
-          logger: logger,
-        );
+      // First, run `pub get`, we need pub to resolve our dependencies.
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          linkingEnabled: true,
-          buildAssetTypes: [DataAsset.type],
-          inputValidator: validateDataAssetBuildInput,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
-        ))!;
-        expect(buildResult.encodedAssets.length, 0);
+      final buildResult =
+          (await buildDataAssets(packageUri, linkingEnabled: true))!;
+      expect(buildResult.encodedAssets.length, 0);
 
-        final linkResult = (await link(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildResult: buildResult,
-          buildAssetTypes: [DataAsset.type],
-          inputValidator: validateDataAssetLinkInput,
-          linkValidator: validateDataAssetLinkOutput,
-          applicationAssetValidator: (_) async => [],
-        ))!;
-        expect(linkResult.encodedAssets.length, 2);
+      final linkResult =
+          (await link(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildResult: buildResult,
+            buildAssetTypes: [DataAsset.type],
+            inputValidator: validateDataAssetLinkInput,
+            linkValidator: validateDataAssetLinkOutput,
+            applicationAssetValidator: (_) async => [],
+          ))!;
+      expect(linkResult.encodedAssets.length, 2);
 
-        final buildNoLinkResult = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          linkingEnabled: false,
-          buildAssetTypes: [DataAsset.type],
-          inputValidator: validateDataAssetBuildInput,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
-        ))!;
-        expect(buildNoLinkResult.encodedAssets.length, 4);
-      });
-    },
-  );
+      final buildNoLinkResult =
+          (await buildDataAssets(packageUri, linkingEnabled: false))!;
+      expect(buildNoLinkResult.encodedAssets.length, 4);
+    });
+  });
 
-  test(
-    'complex_link linking',
-    timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        // From package:complex_link_helper.
-        const builtHelperAssets = [
-          'assets/data_helper_0.json',
-          'assets/data_helper_1.json',
-        ];
-        const helperAssetsForLinking = [
-          'assets/data_helper_2.json',
-          'assets/data_helper_3.json',
-        ];
-        // From package:complex_link.
-        const mainAssetsForLinking = [
-          'assets/data_0.json',
-          'assets/data_1.json',
-        ];
-        final encodedAssetsForLinking = [
-          ...helperAssetsForLinking,
-          ...mainAssetsForLinking,
-        ];
-        final linkedAssets = encodedAssetsForLinking.skip(1);
+  test('complex_link linking', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      // From package:complex_link_helper.
+      const builtHelperAssets = [
+        'assets/data_helper_0.json',
+        'assets/data_helper_1.json',
+      ];
+      const helperAssetsForLinking = [
+        'assets/data_helper_2.json',
+        'assets/data_helper_3.json',
+      ];
+      // From package:complex_link.
+      const mainAssetsForLinking = ['assets/data_0.json', 'assets/data_1.json'];
+      final encodedAssetsForLinking = [
+        ...helperAssetsForLinking,
+        ...mainAssetsForLinking,
+      ];
+      final linkedAssets = encodedAssetsForLinking.skip(1);
 
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('complex_link/');
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('complex_link/');
 
-        // First, run `pub get`, we need pub to resolve our dependencies.
-        await runPubGet(workingDirectory: packageUri, logger: logger);
+      // First, run `pub get`, we need pub to resolve our dependencies.
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult = await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          linkingEnabled: true,
-          buildAssetTypes: [DataAsset.type],
-          inputValidator: validateDataAssetBuildInput,
-          buildValidator: validateDataAssetBuildOutput,
-          applicationAssetValidator: (_) async => [],
-        );
-        expect(buildResult, isNotNull);
-        expect(_getNames(buildResult!.encodedAssets),
-            unorderedEquals(builtHelperAssets));
-        expect(
-          _getNames(buildResult.encodedAssetsForLinking['complex_link']!),
-          unorderedEquals(encodedAssetsForLinking),
-        );
+      final buildResult = await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      );
+      expect(buildResult, isNotNull);
+      expect(
+        _getNames(buildResult!.encodedAssets),
+        unorderedEquals(builtHelperAssets),
+      );
+      expect(
+        _getNames(buildResult.encodedAssetsForLinking['complex_link']!),
+        unorderedEquals(encodedAssetsForLinking),
+      );
 
-        final linkResult = await link(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildResult: buildResult,
-          buildAssetTypes: [DataAsset.type],
-          inputValidator: validateDataAssetLinkInput,
-          linkValidator: validateDataAssetLinkOutput,
-          applicationAssetValidator: (_) async => [],
-        );
-        expect(linkResult, isNotNull);
+      final linkResult = await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        buildAssetTypes: [DataAsset.type],
+        inputValidator: validateDataAssetLinkInput,
+        linkValidator: validateDataAssetLinkOutput,
+        applicationAssetValidator: (_) async => [],
+      );
+      expect(linkResult, isNotNull);
 
-        expect(_getNames(linkResult!.encodedAssets),
-            unorderedEquals([...builtHelperAssets, ...linkedAssets]));
-      });
-    },
-  );
+      expect(
+        _getNames(linkResult!.encodedAssets),
+        unorderedEquals([...builtHelperAssets, ...linkedAssets]),
+      );
+    });
+  });
 
   test('no_asset_for_link', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
@@ -138,36 +107,26 @@ void main() async {
       final packageUri = tempUri.resolve('no_asset_for_link/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final buildResult = (await build(
-        packageUri,
-        logger,
-        dartExecutable,
-        linkingEnabled: true,
-        buildAssetTypes: [DataAsset.type],
-        inputValidator: validateDataAssetBuildInput,
-        buildValidator: validateDataAssetBuildOutput,
-        applicationAssetValidator: (_) async => [],
-      ))!;
+      final buildResult =
+          (await buildDataAssets(packageUri, linkingEnabled: true))!;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 0);
 
       final logMessages = <String>[];
-      final linkResult = (await link(
-        packageUri,
-        logger,
-        dartExecutable,
-        buildResult: buildResult,
-        capturedLogs: logMessages,
-        buildAssetTypes: [DataAsset.type],
-        inputValidator: validateDataAssetLinkInput,
-        linkValidator: validateDataAssetLinkOutput,
-        applicationAssetValidator: (_) async => [],
-      ))!;
+      final linkResult =
+          (await link(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildResult: buildResult,
+            capturedLogs: logMessages,
+            buildAssetTypes: [DataAsset.type],
+            inputValidator: validateDataAssetLinkInput,
+            linkValidator: validateDataAssetLinkOutput,
+            applicationAssetValidator: (_) async => [],
+          ))!;
       expect(linkResult.encodedAssets.length, 0);
       expect(
         logMessages,
@@ -184,50 +143,45 @@ void main() async {
     return;
   }
 
-  test(
-    'treeshaking assets using CLinker',
-    timeout: longTimeout,
-    () async {
-      await inTempDir((tempUri) async {
-        await copyTestProjects(targetUri: tempUri);
-        final packageUri = tempUri.resolve('treeshaking_native_libs/');
+  test('treeshaking assets using CLinker', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('treeshaking_native_libs/');
 
-        // First, run `pub get`, we need pub to resolve our dependencies.
-        await runPubGet(
-          workingDirectory: packageUri,
-          logger: logger,
-        );
+      // First, run `pub get`, we need pub to resolve our dependencies.
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          linkingEnabled: true,
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
-        expect(buildResult.encodedAssets.length, 0);
-        expect(buildResult.encodedAssetsForLinking.length, 1);
+      final buildResult =
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            linkingEnabled: true,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
+      expect(buildResult.encodedAssets.length, 0);
+      expect(buildResult.encodedAssetsForLinking.length, 1);
 
-        final logMessages = <String>[];
-        final linkResult = (await link(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildResult: buildResult,
-          capturedLogs: logMessages,
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetLinkInput,
-          linkValidator: validateCodeAssetLinkOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
-        expect(linkResult.encodedAssets.length, 1);
-        expect(linkResult.encodedAssets.first.type, CodeAsset.type);
-      });
-    },
-  );
+      final logMessages = <String>[];
+      final linkResult =
+          (await link(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildResult: buildResult,
+            capturedLogs: logMessages,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetLinkInput,
+            linkValidator: validateCodeAssetLinkOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
+      expect(linkResult.encodedAssets.length, 1);
+      expect(linkResult.encodedAssets.first.type, CodeAsset.type);
+    });
+  });
 }
 
 Iterable<String> _getNames(List<EncodedAsset> assets) => assets

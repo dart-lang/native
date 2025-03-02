@@ -43,9 +43,14 @@ final javaFiles = [
   join(javaPrefix, 'generics', 'StringMap.java'),
   join(javaPrefix, 'generics', 'StringValuedMap.java'),
   join(javaPrefix, 'inheritance', 'BaseClass.java'),
+  join(javaPrefix, 'inheritance', 'BaseInterface.java'),
+  join(javaPrefix, 'inheritance', 'BaseGenericInterface.java'),
+  join(javaPrefix, 'inheritance', 'DerivedInterface.java'),
   join(javaPrefix, 'inheritance', 'GenericDerivedClass.java'),
   join(javaPrefix, 'inheritance', 'SpecificDerivedClass.java'),
   join(javaPrefix, 'interfaces', 'GenericInterface.java'),
+  join(javaPrefix, 'interfaces', 'InheritedFromMyInterface.java'),
+  join(javaPrefix, 'interfaces', 'InheritedFromMyRunnable.java'),
   join(javaPrefix, 'interfaces', 'MyInterface.java'),
   join(javaPrefix, 'interfaces', 'MyInterfaceConsumer.java'),
   join(javaPrefix, 'interfaces', 'MyRunnable.java'),
@@ -63,7 +68,7 @@ void compileJavaSources(String workingDir, List<String> files) async {
   }
 }
 
-Config getConfig() {
+Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
   compileJavaSources(javaPath, javaFiles);
   final dartWrappersRoot = Uri.directory(
     join(testRoot, 'bindings'),
@@ -71,7 +76,7 @@ Config getConfig() {
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
-    summarizerOptions: SummarizerOptions(backend: SummarizerBackend.asm),
+    summarizerOptions: SummarizerOptions(backend: backend),
     classes: [
       'com.github.dart_lang.jnigen.simple_package',
       'com.github.dart_lang.jnigen.pkg2',

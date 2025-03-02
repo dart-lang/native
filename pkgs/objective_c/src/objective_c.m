@@ -8,6 +8,7 @@
 #import <dispatch/dispatch.h>
 
 #include "ffi.h"
+#include "os_version.h"
 
 FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 #ifdef NO_MAIN_THREAD_DISPATCH
@@ -53,7 +54,7 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 }
 @end
 
-FFI_EXPORT void* DOBJC_newWaiter() {
+FFI_EXPORT void* DOBJC_newWaiter(void) {
   DOBJCWaiter* w = [[DOBJCWaiter alloc] init];
   // __bridge_retained increments the ref count, __bridge_transfer decrements
   // it, and __bridge doesn't change it. One of the __bridge_retained calls is
@@ -70,4 +71,14 @@ FFI_EXPORT void DOBJC_signalWaiter(void* waiter) {
 
 FFI_EXPORT void DOBJC_awaitWaiter(void* waiter) {
   [(__bridge_transfer DOBJCWaiter*)waiter wait];
+}
+
+FFI_EXPORT Version DOBJC_getOsVesion(void) {
+  NSOperatingSystemVersion objc_version =
+      [[NSProcessInfo processInfo] operatingSystemVersion];
+  Version c_version;
+  c_version.major = objc_version.majorVersion;
+  c_version.minor = objc_version.minorVersion;
+  c_version.patch = objc_version.patchVersion;
+  return c_version;
 }

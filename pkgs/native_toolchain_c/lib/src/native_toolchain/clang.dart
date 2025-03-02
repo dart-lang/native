@@ -29,9 +29,7 @@ final Tool clang = Tool(
         ),
         InstallLocationResolver(
           toolName: 'Clang',
-          paths: [
-            'C:/Program Files/LLVM/bin/clang.exe',
-          ],
+          paths: ['C:/Program Files/LLVM/bin/clang.exe'],
         ),
       ]),
     ),

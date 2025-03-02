@@ -8,6 +8,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'rename_bindings.dart';
@@ -25,34 +26,34 @@ void main() {
     });
 
     test('Renamed class', () {
-      final renamed = Renamed.new1();
+      final renamed = Renamed();
 
       renamed.property = 123;
       expect(renamed.property, 123);
     });
 
     test('Method with the same name as a Dart built in method', () {
-      final renamed = Renamed.new1();
+      final renamed = Renamed();
 
       renamed.property = 123;
       expect(renamed.toString(), "Instance of 'Renamed'");
-      expect(renamed.toString1().toString(), "123");
+      expect(renamed.toString1().toDartString(), "123");
     });
 
     test('Method with the same name as a type', () {
-      final renamed = Renamed.new1();
+      final renamed = Renamed();
 
       expect(renamed.CollidingStructName1(), 456);
     });
 
     test('Renamed method', () {
-      final renamed = Renamed.new1();
+      final renamed = Renamed();
 
       expect(renamed.fooBarBaz(123, 456), 579);
     });
 
     test('Renamed property', () {
-      final renamed = Renamed.new1();
+      final renamed = Renamed();
 
       renamed.reProp = 2468;
       expect(renamed.reProp, 2468);
