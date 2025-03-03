@@ -1,0 +1,1212 @@
+{
+    "metadata": {
+        "formatVersion": {
+            "major": 0,
+            "minor": 6,
+            "patch": 0
+        },
+        "generator": "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)"
+    },
+    "module": {
+        "name": "primitive_symbolgraph_module",
+        "platform": {
+            "architecture": "arm64",
+            "vendor": "apple",
+            "operatingSystem": {
+                "name": "macosx",
+                "minimumVersion": {
+                    "major": 15,
+                    "minor": 0
+                }
+            }
+        }
+    },
+    "symbols": [
+        {
+            "kind": {
+                "identifier": "swift.protocol",
+                "displayName": "Protocol"
+            },
+            "identifier": {
+                "precise": "s:28primitive_symbolgraph_module1AP",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "A"
+            ],
+            "names": {
+                "title": "A",
+                "navigator": [
+                    {
+                        "kind": "identifier",
+                        "spelling": "A"
+                    }
+                ],
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "protocol"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "A"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "protocol"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "A"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://types.swift",
+                "position": {
+                    "line": 0,
+                    "character": 16
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.func",
+                "displayName": "Function"
+            },
+            "identifier": {
+                "precise": "s:28primitive_symbolgraph_module7myFunc21myx_tAA1ARzlF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "myFunc2(m:)"
+            ],
+            "names": {
+                "title": "myFunc2(m:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "myFunc2"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "<"
+                    },
+                    {
+                        "kind": "genericParameter",
+                        "spelling": "T"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ">("
+                    },
+                    {
+                        "kind": "externalParam",
+                        "spelling": "m"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "T",
+                        "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc21myx_tAA1ARzlF1TL_xmfp"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ")"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "m",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "m"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "T",
+                                "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc21myx_tAA1ARzlF1TL_xmfp"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "swiftGenerics": {
+                "parameters": [
+                    {
+                        "name": "T",
+                        "index": 0,
+                        "depth": 0
+                    }
+                ],
+                "constraints": [
+                    {
+                        "kind": "conformance",
+                        "lhs": "T",
+                        "rhs": "A",
+                        "rhsPrecise": "s:28primitive_symbolgraph_module1AP"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "myFunc2"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "<"
+                },
+                {
+                    "kind": "genericParameter",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ">("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "m"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc21myx_tAA1ARzlF1TL_xmfp"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ") "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "where"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "A",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module1AP"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://types.swift",
+                "position": {
+                    "line": 15,
+                    "character": 12
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.func",
+                "displayName": "Function"
+            },
+            "identifier": {
+                "precise": "s:28primitive_symbolgraph_module7myFunc31mq_x_tAA1ARzAaDR_r0_lF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "myFunc3(m:)"
+            ],
+            "names": {
+                "title": "myFunc3(m:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "myFunc3"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "<"
+                    },
+                    {
+                        "kind": "genericParameter",
+                        "spelling": "T"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ", "
+                    },
+                    {
+                        "kind": "genericParameter",
+                        "spelling": "U"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ">("
+                    },
+                    {
+                        "kind": "externalParam",
+                        "spelling": "m"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "T",
+                        "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc31mq_x_tAA1ARzAaDR_r0_lF1TL_xmfp"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ") -> "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "U",
+                        "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc31mq_x_tAA1ARzAaDR_r0_lF1UL_q_mfp"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "m",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "m"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "T",
+                                "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc31mq_x_tAA1ARzAaDR_r0_lF1TL_xmfp"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "U"
+                    }
+                ]
+            },
+            "swiftGenerics": {
+                "parameters": [
+                    {
+                        "name": "T",
+                        "index": 0,
+                        "depth": 0
+                    },
+                    {
+                        "name": "U",
+                        "index": 1,
+                        "depth": 0
+                    }
+                ],
+                "constraints": [
+                    {
+                        "kind": "conformance",
+                        "lhs": "T",
+                        "rhs": "A",
+                        "rhsPrecise": "s:28primitive_symbolgraph_module1AP"
+                    },
+                    {
+                        "kind": "conformance",
+                        "lhs": "U",
+                        "rhs": "A",
+                        "rhsPrecise": "s:28primitive_symbolgraph_module1AP"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "myFunc3"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "<"
+                },
+                {
+                    "kind": "genericParameter",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ", "
+                },
+                {
+                    "kind": "genericParameter",
+                    "spelling": "U"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ">("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "m"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc31mq_x_tAA1ARzAaDR_r0_lF1TL_xmfp"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ") -> "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "U",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc31mq_x_tAA1ARzAaDR_r0_lF1UL_q_mfp"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "where"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "A",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module1AP"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ", "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "U"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "A",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module1AP"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://types.swift",
+                "position": {
+                    "line": 19,
+                    "character": 12
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.func",
+                "displayName": "Function"
+            },
+            "identifier": {
+                "precise": "s:28primitive_symbolgraph_module16basicGenericFunc1myx_tlF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "basicGenericFunc(m:)"
+            ],
+            "names": {
+                "title": "basicGenericFunc(m:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "basicGenericFunc"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "<"
+                    },
+                    {
+                        "kind": "genericParameter",
+                        "spelling": "U"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ">("
+                    },
+                    {
+                        "kind": "externalParam",
+                        "spelling": "m"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "U",
+                        "preciseIdentifier": "s:28primitive_symbolgraph_module16basicGenericFunc1myx_tlF1UL_xmfp"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ")"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "m",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "m"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "U",
+                                "preciseIdentifier": "s:28primitive_symbolgraph_module16basicGenericFunc1myx_tlF1UL_xmfp"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "swiftGenerics": {
+                "parameters": [
+                    {
+                        "name": "U",
+                        "index": 0,
+                        "depth": 0
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "basicGenericFunc"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "<"
+                },
+                {
+                    "kind": "genericParameter",
+                    "spelling": "U"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ">("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "m"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "U",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module16basicGenericFunc1myx_tlF1UL_xmfp"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ")"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://types.swift",
+                "position": {
+                    "line": 8,
+                    "character": 12
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.func",
+                "displayName": "Function"
+            },
+            "identifier": {
+                "precise": "s:28primitive_symbolgraph_module6myFunc1myx_tAA1ARzlF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "myFunc(m:)"
+            ],
+            "names": {
+                "title": "myFunc(m:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "myFunc"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "<"
+                    },
+                    {
+                        "kind": "genericParameter",
+                        "spelling": "T"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ">("
+                    },
+                    {
+                        "kind": "externalParam",
+                        "spelling": "m"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "T",
+                        "preciseIdentifier": "s:28primitive_symbolgraph_module6myFunc1myx_tAA1ARzlF1TL_xmfp"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ")"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "m",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "m"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "T",
+                                "preciseIdentifier": "s:28primitive_symbolgraph_module6myFunc1myx_tAA1ARzlF1TL_xmfp"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "swiftGenerics": {
+                "parameters": [
+                    {
+                        "name": "T",
+                        "index": 0,
+                        "depth": 0
+                    }
+                ],
+                "constraints": [
+                    {
+                        "kind": "conformance",
+                        "lhs": "T",
+                        "rhs": "A",
+                        "rhsPrecise": "s:28primitive_symbolgraph_module1AP"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "myFunc"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "<"
+                },
+                {
+                    "kind": "genericParameter",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ">("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "m"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module6myFunc1myx_tAA1ARzlF1TL_xmfp"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ") "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "where"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "A",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module1AP"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://types.swift",
+                "position": {
+                    "line": 12,
+                    "character": 12
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.func",
+                "displayName": "Function"
+            },
+            "identifier": {
+                "precise": "s:28primitive_symbolgraph_module9basicFunc1mySS_tF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "basicFunc(m:)"
+            ],
+            "names": {
+                "title": "basicFunc(m:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "basicFunc"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "("
+                    },
+                    {
+                        "kind": "externalParam",
+                        "spelling": "m"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "String",
+                        "preciseIdentifier": "s:SS"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ")"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "m",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "m"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "String",
+                                "preciseIdentifier": "s:SS"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "basicFunc"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "m"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ")"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://types.swift",
+                "position": {
+                    "line": 4,
+                    "character": 12
+                }
+            }
+        },
+        {
+            "kind": {
+                "identifier": "swift.func",
+                "displayName": "Function"
+            },
+            "identifier": {
+                "precise": "s:28primitive_symbolgraph_module7myFunc41m1uyx_q_tAA1ARzAaER_r0_lF",
+                "interfaceLanguage": "swift"
+            },
+            "pathComponents": [
+                "myFunc4(m:u:)"
+            ],
+            "names": {
+                "title": "myFunc4(m:u:)",
+                "subHeading": [
+                    {
+                        "kind": "keyword",
+                        "spelling": "func"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": " "
+                    },
+                    {
+                        "kind": "identifier",
+                        "spelling": "myFunc4"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": "<"
+                    },
+                    {
+                        "kind": "genericParameter",
+                        "spelling": "T"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ", "
+                    },
+                    {
+                        "kind": "genericParameter",
+                        "spelling": "U"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ">("
+                    },
+                    {
+                        "kind": "externalParam",
+                        "spelling": "m"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "T",
+                        "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc41m1uyx_q_tAA1ARzAaER_r0_lF1TL_xmfp"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ", "
+                    },
+                    {
+                        "kind": "externalParam",
+                        "spelling": "u"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ": "
+                    },
+                    {
+                        "kind": "typeIdentifier",
+                        "spelling": "U",
+                        "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc41m1uyx_q_tAA1ARzAaER_r0_lF1UL_q_mfp"
+                    },
+                    {
+                        "kind": "text",
+                        "spelling": ")"
+                    }
+                ]
+            },
+            "functionSignature": {
+                "parameters": [
+                    {
+                        "name": "m",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "m"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "T",
+                                "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc41m1uyx_q_tAA1ARzAaER_r0_lF1TL_xmfp"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "u",
+                        "declarationFragments": [
+                            {
+                                "kind": "identifier",
+                                "spelling": "u"
+                            },
+                            {
+                                "kind": "text",
+                                "spelling": ": "
+                            },
+                            {
+                                "kind": "typeIdentifier",
+                                "spelling": "U",
+                                "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc41m1uyx_q_tAA1ARzAaER_r0_lF1UL_q_mfp"
+                            }
+                        ]
+                    }
+                ],
+                "returns": [
+                    {
+                        "kind": "text",
+                        "spelling": "()"
+                    }
+                ]
+            },
+            "swiftGenerics": {
+                "parameters": [
+                    {
+                        "name": "T",
+                        "index": 0,
+                        "depth": 0
+                    },
+                    {
+                        "name": "U",
+                        "index": 1,
+                        "depth": 0
+                    }
+                ],
+                "constraints": [
+                    {
+                        "kind": "conformance",
+                        "lhs": "T",
+                        "rhs": "A",
+                        "rhsPrecise": "s:28primitive_symbolgraph_module1AP"
+                    },
+                    {
+                        "kind": "conformance",
+                        "lhs": "U",
+                        "rhs": "A",
+                        "rhsPrecise": "s:28primitive_symbolgraph_module1AP"
+                    }
+                ]
+            },
+            "declarationFragments": [
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "myFunc4"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "<"
+                },
+                {
+                    "kind": "genericParameter",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ", "
+                },
+                {
+                    "kind": "genericParameter",
+                    "spelling": "U"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ">("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "m"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc41m1uyx_q_tAA1ARzAaER_r0_lF1TL_xmfp"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ", "
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "u"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "U",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module7myFunc41m1uyx_q_tAA1ARzAaER_r0_lF1UL_q_mfp"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ") "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "where"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "T"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "A",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module1AP"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ", "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "U"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " : "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "A",
+                    "preciseIdentifier": "s:28primitive_symbolgraph_module1AP"
+                }
+            ],
+            "accessLevel": "public",
+            "location": {
+                "uri": "file://types.swift",
+                "position": {
+                    "line": 23,
+                    "character": 12
+                }
+            }
+        }
+    ],
+    "relationships": []
+}

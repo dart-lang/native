@@ -7,6 +7,7 @@ import '../../_core/interfaces/objc_annotatable.dart';
 import '../../ast_node.dart';
 
 /// Describes a built-in Swift type (e.g Int, String, etc).
+/// TODO(https://github.com/dart-lang/native/issues/1827): Include builtin protocols like `Hashable`, `Numeric`
 class BuiltInDeclaration extends AstNode
     implements Declaration, ObjCAnnotatable {
   @override

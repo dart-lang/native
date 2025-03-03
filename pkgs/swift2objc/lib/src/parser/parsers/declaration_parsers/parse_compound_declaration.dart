@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/_core/interfaces/compound_declaration.dart';
+import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
@@ -12,6 +13,7 @@ import '../../../ast/declarations/compounds/struct_declaration.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
+import '../utils/parse_generics.dart';
 
 typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required String id,
@@ -19,6 +21,7 @@ typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required List<PropertyDeclaration> properties,
   required List<MethodDeclaration> methods,
   required List<InitializerDeclaration> initializers,
+  required List<GenericType> typeParams,
   required List<NestableDeclaration> nestedDeclarations,
 });
 
@@ -37,10 +40,16 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
     methods: [],
     properties: [],
     initializers: [],
+    typeParams: [],
     nestedDeclarations: [],
   );
 
   compoundSymbol.declaration = compound;
+
+  final typeParams = parseTypeParams(compoundSymbol.json, symbolgraph);
+  compound.typeParams.addAll(
+    typeParams
+  );
 
   final memberDeclarations = compoundRelations
       .where(
@@ -77,6 +86,7 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
         .whereType<InitializerDeclaration>()
         .dedupeBy((m) => m.fullName),
   );
+
   compound.nestedDeclarations.addAll(
     memberDeclarations.whereType<NestableDeclaration>(),
   );
