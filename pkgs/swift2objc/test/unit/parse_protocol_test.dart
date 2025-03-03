@@ -1,4 +1,3 @@
-
 import 'package:path/path.dart' as p;
 import 'package:swift2objc/src/ast/declarations/compounds/protocol_declaration.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';

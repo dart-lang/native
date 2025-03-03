@@ -97,9 +97,8 @@ ClassDeclaration transformCompound(
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-
   transformationMap[originalCompound] = transformedCompound;
-  
+
   transformedCompound.initializers = transformedInitializers
       .whereType<InitializerDeclaration>()
       .toList()

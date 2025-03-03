@@ -9,8 +9,8 @@ import '../transform.dart';
 
 /// NOTES:
 /// 1. Protocols with `associatedTypes` are not allowed
-// TODO: Update TransformationMap to make referencing types easy. 
-//  Would want to just add wrapper suffix but due to unique naming, 
+// TODO: Update TransformationMap to make referencing types easy.
+//  Would want to just add wrapper suffix but due to unique naming,
 //  can't take chances
 ProtocolDeclaration transformProtocol(ProtocolDeclaration originalProtocol,
     UniqueNamer parentNamer, TransformationMap transformationMap) {
