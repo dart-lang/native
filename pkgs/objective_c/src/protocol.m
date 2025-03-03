@@ -37,8 +37,8 @@
   [self implement:sel withBlock:(__bridge id)block];
 }
 
-- (NSDictionary*)copyMethods NS_RETURNS_RETAINED {
-  return [methods copy];
+- (NSDictionary*)getMethods NS_RETURNS_RETAINED {
+  return methods;
 }
 @end
 
@@ -55,7 +55,7 @@
     (DOBJCDartProtocolBuilder*)builder
     withDisposePort:(Dart_Port)port {
   if (self) {
-    methods = [builder copyMethods];
+    methods = [builder getMethods];
     dispose_port = port;
   }
   return self;
