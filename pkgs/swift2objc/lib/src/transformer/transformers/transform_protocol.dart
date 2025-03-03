@@ -9,7 +9,7 @@ import '../transform.dart';
 
 /// NOTES:
 /// 1. Protocols with `associatedTypes` are not allowed
-// TODO: Update TransformationMap to make referencing types easy.
+// TODO(https://github.com/dart-lang/native/pull/2056): Update TransformationMap to make referencing types easy.
 //  Would want to just add wrapper suffix but due to unique naming,
 //  can't take chances
 ProtocolDeclaration transformProtocol(ProtocolDeclaration originalProtocol,
