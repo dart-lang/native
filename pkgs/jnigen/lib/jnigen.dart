@@ -5,6 +5,10 @@
 /// This library exports a high level programmatic API to jnigen, the entry
 /// point of which is runJniGenTask function, which takes run configuration as
 /// a JniGenTask.
+/// {@category Java Differences}
+/// {@category Lifecycle}
+/// {@category Threading}
+/// {@category Interface Implementation}
 library;
 
 export 'src/config/config.dart';
