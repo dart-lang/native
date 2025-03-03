@@ -16,6 +16,8 @@ PropertyDeclaration parsePropertyDeclaration(
   bool isStatic = false,
 }) {
   final isConstant = _parseVariableIsConstant(propertySymbolJson);
+  final variableModifiers = findKeywordsInFragments(propertySymbolJson);
+
   return PropertyDeclaration(
     id: parseSymbolId(propertySymbolJson),
     name: parseSymbolName(propertySymbolJson),
@@ -24,8 +26,11 @@ PropertyDeclaration parsePropertyDeclaration(
     isConstant: isConstant,
     hasSetter: isConstant ? false : _parsePropertyHasSetter(propertySymbolJson),
     isStatic: isStatic,
-    throws: _parseVariableThrows(propertySymbolJson),
-    async: _parseVariableAsync(propertySymbolJson),
+    throws: variableModifiers.throws,
+    async: variableModifiers.async,
+    unowned: variableModifiers.unowned,
+    weak: variableModifiers.weak,
+    lazy: variableModifiers.lazy,
   );
 }
 
@@ -36,13 +41,15 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 }) {
   final isConstant = _parseVariableIsConstant(variableSymbolJson);
   final hasSetter = _parsePropertyHasSetter(variableSymbolJson);
+  final variableModifiers = findKeywordsInFragments(variableSymbolJson);
+
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
     name: parseSymbolName(variableSymbolJson),
     type: _parseVariableType(variableSymbolJson, symbolgraph),
     isConstant: isConstant || !hasSetter,
-    throws: _parseVariableThrows(variableSymbolJson),
-    async: _parseVariableAsync(variableSymbolJson),
+    throws: variableModifiers.throws,
+    async: variableModifiers.async
   );
 }
 
@@ -69,17 +76,38 @@ bool _parseVariableIsConstant(Json variableSymbolJson) {
   return matchFragment(declarationKeyword, 'keyword', 'let');
 }
 
-bool _parseVariableThrows(Json json) {
-  final throws = json['declarationFragments']
-      .any((frag) => matchFragment(frag, 'keyword', 'throws'));
-  return throws;
+bool _findKeywordInFragments(Json json, String keyword) {
+  final keywordIsPresent = json['declarationFragments']
+      .any((frag) => matchFragment(frag, 'keyword', keyword));
+  return keywordIsPresent;
 }
 
-bool _parseVariableAsync(Json json) {
-  final async = json['declarationFragments']
-      .any((frag) => matchFragment(frag, 'keyword', 'async'));
-  return async;
+class PropertyKeywords {
+  bool async;
+  bool throws;
+  bool unowned;
+  bool weak;
+  bool lazy;
+
+  PropertyKeywords({
+    this.async = false,
+    this.throws = false,
+    this.unowned = false,
+    this.weak = false,
+    this.lazy = false,
+  });
 }
+
+PropertyKeywords findKeywordsInFragments(Json json) {
+  return PropertyKeywords(
+    async: _findKeywordInFragments(json, 'async'),
+    throws: _findKeywordInFragments(json, 'throws'),
+    unowned: _findKeywordInFragments(json, 'unowned'),
+    weak: _findKeywordInFragments(json, 'weak'),
+    lazy: _findKeywordInFragments(json, 'lazy')
+  );
+}
+
 
 bool _parsePropertyHasSetter(Json propertySymbolJson) {
   final fragmentsJson = propertySymbolJson['declarationFragments'];
