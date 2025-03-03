@@ -34,7 +34,7 @@ class ObjCBuiltInFunctions {
   static const getProtocol = ObjCImport('getProtocol');
   static const objectRelease = ObjCImport('objectRelease');
   static const signalWaiter = ObjCImport('signalWaiter');
-  static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
+  static const objCContext = ObjCImport('objCContext');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const protocolBase = ObjCImport('ObjCProtocolBase');
   static const blockType = ObjCImport('ObjCBlock');
@@ -260,16 +260,8 @@ class ObjCBuiltInFunctions {
                 type: PointerType(objCBlockType),
                 objCConsumed: false),
             Parameter(
-                name: 'newWaiter',
-                type: PointerType(NativeFunc(FunctionType(
-                    returnType: PointerType(voidType), parameters: []))),
-                objCConsumed: false),
-            Parameter(
-                name: 'awaitWaiter',
-                type: PointerType(
-                    NativeFunc(FunctionType(returnType: voidType, parameters: [
-                  Parameter(type: PointerType(voidType), objCConsumed: false),
-                ]))),
+                name: 'context',
+                type: PointerType(objCContextType),
                 objCConsumed: false),
           ],
         ],

@@ -20,12 +20,6 @@ library;
 
 import 'dart:ffi' as ffi;
 
-@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(
-    symbol: "DOBJC_InitializeApi", isLeaf: true)
-external int InitializeApi(
-  ffi.Pointer<ffi.Void> data,
-);
-
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: "_NSConcreteAutoBlock")
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteAutoBlock;
@@ -157,6 +151,12 @@ external ffi.Pointer<ffi.Char> getProtocolName(
   ffi.Pointer<ObjCProtocol> proto,
 );
 
+@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(
+    symbol: "DOBJC_initializeApi", isLeaf: true)
+external int initializeApi(
+  ffi.Pointer<ffi.Void> data,
+);
+
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(
     symbol: "DOBJC_isValidBlock", isLeaf: true)
 external bool isValidBlock(
@@ -247,11 +247,12 @@ final class DOBJC_Context extends ffi.Struct {
       .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
       awaitWaiter;
 
-  external ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
+  external ffi
+      .Pointer<ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>>
       currentIsolate;
 
-  external ffi
-      .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+  external ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>>
       enterIsolate;
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> exitIsolate;
@@ -318,6 +319,8 @@ final class ObjCObject extends ffi.Opaque {}
 final class ObjCProtocol extends ffi.Opaque {}
 
 final class ObjCSelector extends ffi.Opaque {}
+
+final class _Dart_Isolate extends ffi.Opaque {}
 
 final class _Version extends ffi.Struct {
   @ffi.Int()

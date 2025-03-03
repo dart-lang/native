@@ -10,7 +10,7 @@
 #include "objective_c_runtime.h"
 
 // Initialize the Dart API.
-FFI_EXPORT intptr_t DOBJC_InitializeApi(void *data);
+FFI_EXPORT intptr_t DOBJC_initializeApi(void *data);
 
 // Dispose helper for ObjC blocks that wrap a Dart closure.
 FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl *block);
@@ -57,8 +57,8 @@ typedef struct _DOBJC_Context {
   int64_t version;
   void* (*newWaiter)(void);
   void (*awaitWaiter)(void*);
-  void* (*currentIsolate)(void);
-  void (*enterIsolate)(void*);
+  Dart_Isolate (*currentIsolate)(void);
+  void (*enterIsolate)(Dart_Isolate);
   void (*exitIsolate)(void);
   int64_t (*getMainPortId)(void);
   bool (*getCurrentThreadOwnsIsolate)(int64_t);

@@ -102,18 +102,18 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _ObjectiveCBindings_wrapBlockingBlock_1b3bb6a(
     _BlockingTrampoline block, _BlockingTrampoline listenerBlock,
     DOBJC_Context* context) NS_RETURNS_RETAINED {
-  assert(context->version > 1);
-  void* targetIsolate = context.currentIsolate();
+  assert(context->version >= 1);
+  void* targetIsolate = context->currentIsolate();
   return ^void(id arg0, id arg1, id arg2) {
-    void* currentIsolate = context.currentIsolate();
+    void* currentIsolate = context->currentIsolate();
     if (currentIsolate == targetIsolate) {
       objc_retainBlock(block);
       block(nil, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
     } else {
-      void* waiter = context.newWaiter();
+      void* waiter = context->newWaiter();
       objc_retainBlock(listenerBlock);
       listenerBlock(waiter, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
-      context.awaitWaiter(waiter);
+      context->awaitWaiter(waiter);
     }
   };
 }
@@ -132,18 +132,18 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline1 _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
     _BlockingTrampoline1 block, _BlockingTrampoline1 listenerBlock,
     DOBJC_Context* context) NS_RETURNS_RETAINED {
-  assert(context->version > 1);
-  void* targetIsolate = context.currentIsolate();
+  assert(context->version >= 1);
+  void* targetIsolate = context->currentIsolate();
   return ^void(void * arg0) {
-    void* currentIsolate = context.currentIsolate();
+    void* currentIsolate = context->currentIsolate();
     if (currentIsolate == targetIsolate) {
       objc_retainBlock(block);
       block(nil, arg0);
     } else {
-      void* waiter = context.newWaiter();
+      void* waiter = context->newWaiter();
       objc_retainBlock(listenerBlock);
       listenerBlock(waiter, arg0);
-      context.awaitWaiter(waiter);
+      context->awaitWaiter(waiter);
     }
   };
 }
@@ -168,18 +168,18 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline2 _ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
     _BlockingTrampoline2 block, _BlockingTrampoline2 listenerBlock,
     DOBJC_Context* context) NS_RETURNS_RETAINED {
-  assert(context->version > 1);
-  void* targetIsolate = context.currentIsolate();
+  assert(context->version >= 1);
+  void* targetIsolate = context->currentIsolate();
   return ^void(void * arg0, id arg1) {
-    void* currentIsolate = context.currentIsolate();
+    void* currentIsolate = context->currentIsolate();
     if (currentIsolate == targetIsolate) {
       objc_retainBlock(block);
       block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1));
     } else {
-      void* waiter = context.newWaiter();
+      void* waiter = context->newWaiter();
       objc_retainBlock(listenerBlock);
       listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1));
-      context.awaitWaiter(waiter);
+      context->awaitWaiter(waiter);
     }
   };
 }
@@ -204,18 +204,18 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline3 _ObjectiveCBindings_wrapBlockingBlock_hoampi(
     _BlockingTrampoline3 block, _BlockingTrampoline3 listenerBlock,
     DOBJC_Context* context) NS_RETURNS_RETAINED {
-  assert(context->version > 1);
-  void* targetIsolate = context.currentIsolate();
+  assert(context->version >= 1);
+  void* targetIsolate = context->currentIsolate();
   return ^void(void * arg0, id arg1, NSStreamEvent arg2) {
-    void* currentIsolate = context.currentIsolate();
+    void* currentIsolate = context->currentIsolate();
     if (currentIsolate == targetIsolate) {
       objc_retainBlock(block);
       block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
     } else {
-      void* waiter = context.newWaiter();
+      void* waiter = context->newWaiter();
       objc_retainBlock(listenerBlock);
       listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
-      context.awaitWaiter(waiter);
+      context->awaitWaiter(waiter);
     }
   };
 }
@@ -240,18 +240,18 @@ __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline4 _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
     _BlockingTrampoline4 block, _BlockingTrampoline4 listenerBlock,
     DOBJC_Context* context) NS_RETURNS_RETAINED {
-  assert(context->version > 1);
-  void* targetIsolate = context.currentIsolate();
+  assert(context->version >= 1);
+  void* targetIsolate = context->currentIsolate();
   return ^void(id arg0, id arg1) {
-    void* currentIsolate = context.currentIsolate();
+    void* currentIsolate = context->currentIsolate();
     if (currentIsolate == targetIsolate) {
       objc_retainBlock(block);
       block(nil, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
     } else {
-      void* waiter = context.newWaiter();
+      void* waiter = context->newWaiter();
       objc_retainBlock(listenerBlock);
       listenerBlock(waiter, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
-      context.awaitWaiter(waiter);
+      context->awaitWaiter(waiter);
     }
   };
 }

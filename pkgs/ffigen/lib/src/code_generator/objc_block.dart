@@ -147,7 +147,7 @@ class ObjCBlock extends BindingType {
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
-    final wrapBlockingBlockFn = ObjCBuiltInFunctions.wrapBlockingBlock.gen(w);
+    final objCContext = ObjCBuiltInFunctions.objCContext.gen(w);
     final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(w);
     final returnFfiDartType = returnType.getFfiDartType(w);
     final voidPtrCType = voidPtr.getCType(w);
@@ -311,7 +311,7 @@ abstract final class $name {
     final rawListener = $newClosureBlock(
         $blockingListenerCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, rawListener);
+    final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
     return $blockType(wrapper, retain: false, release: true);
@@ -406,18 +406,20 @@ __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
     DOBJC_Context* context) NS_RETURNS_RETAINED {
-  assert(context->version > 1);
-  void* targetIsolate = context.currentIsolate();
+  assert(context->version >= 1);
+  void* targetIsolate = context->currentIsolate();
+  // int64_t targetIsolatePort = context->getMainPortId();
   return ^void($argStr) {
-    void* currentIsolate = context.currentIsolate();
+    void* currentIsolate = context->currentIsolate();
     if (currentIsolate == targetIsolate) {
       ${generateRetain('block')};
       block(${blockingRetains.join(', ')});
+    // } else if (context->getMainPortId()) {
     } else {
-      void* waiter = context.newWaiter();
+      void* waiter = context->newWaiter();
       ${generateRetain('listenerBlock')};
       listenerBlock(${blockingListenerRetains.join(', ')});
-      context.awaitWaiter(waiter);
+      context->awaitWaiter(waiter);
     }
   };
 }
