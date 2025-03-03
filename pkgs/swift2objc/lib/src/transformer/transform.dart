@@ -14,6 +14,9 @@ import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
+// TODO: Update TransformationMap to make referencing types easy.
+//  Would want to just add wrapper suffix but due to unique naming,
+//  can't take chances
 typedef TransformationMap = Map<Declaration, Declaration>;
 
 Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
