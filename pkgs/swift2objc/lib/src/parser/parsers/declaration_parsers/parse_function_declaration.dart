@@ -89,23 +89,25 @@ ParsedFunctionInfo parseFunctionInfo(
     return spelling;
   }
 
-  final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
-  if (openParen == -1) throw malformedInitializerException;
-
   final prefixAnnotations = <String>{};
+
   while (true) {
-    final tok = tokens.first['kind'].get<String>();
-    if (tok == 'keyword') {
-      final keyword = maybeConsume('keyword');
-      if (keyword == 'func') {
+    final keyword = maybeConsume('keyword');
+    if (keyword != null) {
+      if (keyword == 'func' || keyword == 'init') {
         break;
-      } else if (keyword == null) {
-        if (maybeConsume('text') != '') break;
       } else {
         prefixAnnotations.add(keyword);
       }
+    } else {
+      if (maybeConsume('text') != '') {
+        throw malformedInitializerException;
+      }
     }
   }
+
+  final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
+  if (openParen == -1) throw malformedInitializerException;
 
   tokens = tokens.slice(openParen + 1);
 
