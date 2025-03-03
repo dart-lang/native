@@ -71,7 +71,7 @@ void main() {
             /// Conflicts with ffi library prefix, name of prefix is changed.
             Struct(name: 'ffi'),
             Func(
-                name: 'ffi1',
+                name: 'ffi\$1',
                 returnType: NativeType(SupportedNativeType.voidType)),
           ]));
       matchLibraryWithExpected(

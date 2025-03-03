@@ -30,16 +30,16 @@ typedef DoubleBlock = ObjCBlock_ffiDouble_ffiDouble;
 typedef Vec4Block = ObjCBlock_Vec4_Vec4;
 typedef SelectorBlock = ObjCBlock_ffiVoid_objcObjCSelector;
 typedef ObjectBlock = ObjCBlock_DummyObject_DummyObject;
-typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject1;
+typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject$1;
 typedef NullableStringBlock = ObjCBlock_NSString_NSString;
 typedef ObjectListenerBlock = ObjCBlock_ffiVoid_DummyObject;
-typedef NullableListenerBlock = ObjCBlock_ffiVoid_DummyObject1;
+typedef NullableListenerBlock = ObjCBlock_ffiVoid_DummyObject$1;
 typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
 typedef NSStringListenerBlock = ObjCBlock_ffiVoid_NSString;
 typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
 typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
-typedef ResultBlock = ObjCBlock_ffiVoid_Int321;
+typedef ResultBlock = ObjCBlock_ffiVoid_Int32$1;
 
 void main() {
   late final BlockTestObjCLibrary lib;

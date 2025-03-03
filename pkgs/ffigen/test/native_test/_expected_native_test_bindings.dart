@@ -316,7 +316,7 @@ enum Enum1 {
         0 => enum1Value1,
         1 => enum1Value2,
         2 => enum1Value3,
-        _ => throw ArgumentError("Unknown value for Enum1: $value"),
+        _ => throw ArgumentError('Unknown value for Enum1: $value'),
       };
 }
 

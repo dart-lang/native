@@ -45,7 +45,7 @@ final class PrimitivesWithPointers extends ffi.Union {
 
   external ffi.Pointer<Union1> d;
 
-  external ffi.Pointer<Struct1> d1;
+  external ffi.Pointer<Struct1> d$1;
 }
 
 final class WithArray extends ffi.Union {
@@ -56,7 +56,7 @@ final class WithArray extends ffi.Union {
   external ffi.Array<Union1> b;
 
   @ffi.Array.multi([10])
-  external ffi.Array<Struct1> b1;
+  external ffi.Array<Struct1> b$1;
 
   @ffi.Array.multi([10])
   external ffi.Array<ffi.Pointer<Union1>> c;
