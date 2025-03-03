@@ -31,17 +31,28 @@ ClassDeclaration transformCompound(
     type: originalCompound.asDeclaredType,
   );
 
+  final superClass = originalCompound is ClassDeclaration
+      ? (originalCompound.superClass == null
+          ? null
+          : transformationMap.findByOriginalId(originalCompound.superClass!.id))
+      : null;
+
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
     hasObjCAnnotation: true,
-    superClass: objectType,
+    superClass: superClass?.asDeclaredType ?? objectType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
     wrapperInitializer: _buildWrapperInitializer(wrappedCompoundInstance),
   );
 
-  transformationMap[originalCompound] = transformedCompound;
+  // transformedCompound.conformedProtocols.addAll(
+  //   originalCompound.conformedProtocols.map((p) {
+  //   return (transformationMap.findByOriginalId(p.id) as ProtocolDeclaration)
+  //       .asDeclaredType;
+  //   })
+  // );
 
   transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
       .map((nested) => transformDeclaration(
@@ -85,6 +96,8 @@ ClassDeclaration transformCompound(
       .whereType<PropertyDeclaration>()
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
+  transformationMap[originalCompound] = transformedCompound;
 
   transformedCompound.initializers = transformedInitializers
       .whereType<InitializerDeclaration>()
