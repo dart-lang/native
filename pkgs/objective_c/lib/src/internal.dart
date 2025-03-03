@@ -8,8 +8,6 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
-import 'objective_c_bindings_generated.dart' as objc;
-import 'selector.dart';
 
 typedef ObjectPtr = Pointer<c.ObjCObject>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
@@ -115,7 +113,7 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
 }
 
 /// Only for use by ffigen bindings.
-objc.NSMethodSignature? getProtocolMethodSignature(
+Pointer<Char>? getProtocolMethodSignature(
   Pointer<c.ObjCProtocol> protocol,
   Pointer<c.ObjCSelector> sel, {
   required bool isRequired,
@@ -123,16 +121,7 @@ objc.NSMethodSignature? getProtocolMethodSignature(
 }) {
   final sig =
       c.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
-  if (sig == nullptr) {
-    return null;
-  }
-  final sigObj = objc.NSMethodSignature.signatureWithObjCTypes_(sig);
-  if (sigObj == null) {
-    throw ObjCRuntimeError(
-        'Failed to construct signature for Objective-C protocol method: '
-        '${protocol.name}.${sel.toDartString()}');
-  }
-  return sigObj;
+  return sig == nullptr ? null : sig;
 }
 
 /// Only for use by ffigen bindings.
@@ -176,8 +165,9 @@ final class _FinalizablePointer<T extends NativeType> implements Finalizable {
 bool _dartAPIInitialized = false;
 void _ensureDartAPI() {
   if (!_dartAPIInitialized) {
+    final result = c.DOBJC_InitializeApi(NativeApi.initializeApiDLData);
+    assert(result == 0);
     _dartAPIInitialized = true;
-    c.Dart_InitializeApiDL(NativeApi.initializeApiDLData);
   }
 }
 
@@ -327,6 +317,11 @@ bool _isValidClass(ObjectPtr clazz) {
   return _allClasses.contains(clazz);
 }
 
+/// Only for use by ffigen bindings.
+class ObjCProtocolBase extends ObjCObjectBase {
+  ObjCProtocolBase(super.ptr, {required super.retain, required super.release});
+}
+
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
@@ -383,18 +378,24 @@ BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
 const int _blockHasCopyDispose = 1 << 25;
 
 /// Only for use by ffigen bindings.
-BlockPtr newClosureBlock(VoidPtr invoke, Function fn) => _newBlock(
-    invoke,
-    _registerBlockClosure(fn),
-    _closureBlockDesc,
-    _blockClosureDisposer.sendPort.nativePort,
-    _blockHasCopyDispose);
+BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
+    _newBlock(
+        invoke,
+        _registerBlockClosure(fn, keepIsolateAlive),
+        _closureBlockDesc,
+        _blockClosureDisposer.sendPort.nativePort,
+        _blockHasCopyDispose);
 
 /// Only for use by ffigen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
-final _blockClosureRegistry = <int, Function>{};
+typedef _RegEntry = ({
+  Function closure,
+  RawReceivePort? keepAlivePort,
+});
+
+final _blockClosureRegistry = <int, _RegEntry>{};
 
 int _blockClosureRegistryLastId = 0;
 
@@ -403,15 +404,19 @@ final _blockClosureDisposer = () {
   return RawReceivePort((dynamic msg) {
     final id = msg as int;
     assert(_blockClosureRegistry.containsKey(id));
-    _blockClosureRegistry.remove(id);
+    final entry = _blockClosureRegistry.remove(id)!;
+    entry.keepAlivePort?.close();
   }, 'ObjCBlockClosureDisposer')
     ..keepIsolateAlive = false;
 }();
 
-VoidPtr _registerBlockClosure(Function closure) {
+VoidPtr _registerBlockClosure(Function closure, bool keepIsolateAlive) {
   ++_blockClosureRegistryLastId;
   assert(!_blockClosureRegistry.containsKey(_blockClosureRegistryLastId));
-  _blockClosureRegistry[_blockClosureRegistryLastId] = closure;
+  _blockClosureRegistry[_blockClosureRegistryLastId] = (
+    closure: closure,
+    keepAlivePort: keepIsolateAlive ? RawReceivePort() : null,
+  );
   return VoidPtr.fromAddress(_blockClosureRegistryLastId);
 }
 
@@ -419,7 +424,7 @@ VoidPtr _registerBlockClosure(Function closure) {
 Function getBlockClosure(BlockPtr block) {
   var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
-  return _blockClosureRegistry[id]!;
+  return _blockClosureRegistry[id]!.closure;
 }
 
 typedef NewWaiterFn = NativeFunction<VoidPtr Function()>;

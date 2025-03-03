@@ -46,14 +46,15 @@ MethodDeclaration parseMethodDeclaration(
     id: parseSymbolId(methodSymbolJson),
     name: parseSymbolName(methodSymbolJson),
     returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
-//     throws: info.throws,
-//     async: info.async,
-//     params: info.params
     params: _parseFunctionParams(methodSymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
     typeParams: parseTypeParams(methodSymbolJson, symbolgraph),
     isStatic: isStatic,
-  );
+//       params: info.params,
+//       throws: info.throws,
+//       async: info.async,
+//       mutating: info.mutating
+        );
 }
 
 ReferredType _parseFunctionReturnType(
@@ -157,6 +158,7 @@ typedef ParsedFunctionInfo = ({
   List<Parameter> params,
   bool throws,
   bool async,
+  bool mutating,
 });
 
 ParsedFunctionInfo parseFunctionInfo(
@@ -164,9 +166,9 @@ ParsedFunctionInfo parseFunctionInfo(
   ParsedSymbolgraph symbolgraph,
 ) {
   // `declarationFragments` describes each part of the function declaration,
-  // things like the `func` keyword, brackets, spaces, etc. We only care about
-  // the parameter fragments and annotations here, and they always appear in
-  // this order:
+  // things like the `func` keyword, brackets, spaces, etc.
+  // For the most part, We only care about the parameter fragments and
+  // annotations here, and they always appear in this order:
   // [
   //   ..., '(',
   //   externalParam, ' ', internalParam, ': ', type..., ', '
@@ -186,6 +188,7 @@ ParsedFunctionInfo parseFunctionInfo(
   );
 
   var tokens = TokenList(declarationFragments);
+
   String? maybeConsume(String kind) {
     if (tokens.isEmpty) return null;
     final spelling = getSpellingForKind(tokens[0], kind);
@@ -193,8 +196,26 @@ ParsedFunctionInfo parseFunctionInfo(
     return spelling;
   }
 
+  final prefixAnnotations = <String>{};
+
+  while (true) {
+    final keyword = maybeConsume('keyword');
+    if (keyword != null) {
+      if (keyword == 'func' || keyword == 'init') {
+        break;
+      } else {
+        prefixAnnotations.add(keyword);
+      }
+    } else {
+      if (maybeConsume('text') != '') {
+        throw malformedInitializerException;
+      }
+    }
+  }
+
   final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
   if (openParen == -1) throw malformedInitializerException;
+
   tokens = tokens.slice(openParen + 1);
 
   // Parse parameters until we find a ')'.
@@ -245,5 +266,6 @@ ParsedFunctionInfo parseFunctionInfo(
     params: parameters,
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
+    mutating: prefixAnnotations.contains('mutating')
   );
 }

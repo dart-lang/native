@@ -3,9 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @TestOn('mac-os')
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-})
+@OnPlatform({'mac-os': Timeout.factor(2)})
 library;
 
 import 'dart:io';
@@ -24,28 +22,30 @@ void main() {
   }
 
   test('xcrun', () async {
-    final resolved = (await xcrun.defaultResolver!.resolve(logger: logger))
-        .where((i) => i.tool == xcrun);
+    final resolved = (await xcrun.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == xcrun);
     expect(resolved.isNotEmpty, true);
   });
 
   test('macosxSdk', () async {
-    final resolved = (await macosxSdk.defaultResolver!.resolve(logger: logger))
-        .where((i) => i.tool == macosxSdk);
+    final resolved = (await macosxSdk.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == macosxSdk);
     expect(resolved.isNotEmpty, true);
   });
 
   test('iPhoneOSSdk', () async {
-    final resolved =
-        (await iPhoneOSSdk.defaultResolver!.resolve(logger: logger))
-            .where((i) => i.tool == iPhoneOSSdk);
+    final resolved = (await iPhoneOSSdk.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == iPhoneOSSdk);
     expect(resolved.isNotEmpty, true);
   });
 
   test('iPhoneSimulatorSdk', () async {
-    final resolved =
-        (await iPhoneSimulatorSdk.defaultResolver!.resolve(logger: logger))
-            .where((i) => i.tool == iPhoneSimulatorSdk);
+    final resolved = (await iPhoneSimulatorSdk.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == iPhoneSimulatorSdk);
     expect(resolved.isNotEmpty, true);
   });
 

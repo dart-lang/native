@@ -7,6 +7,7 @@ import '../header_parser/data.dart' show bindingsIndex;
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'unique_namer.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType {
@@ -15,6 +16,7 @@ class ObjCBlock extends BindingType {
   final List<Parameter> params;
   final bool returnsRetained;
   ObjCBlockWrapperFuncs? _blockWrappers;
+  ObjCProtocolMethodTrampoline? protocolTrampoline;
 
   factory ObjCBlock({
     required Type returnType,
@@ -62,6 +64,10 @@ class ObjCBlock extends BindingType {
     if (hasListener) {
       _blockWrappers = builtInFunctions.getBlockTrampolines(this);
     }
+  }
+
+  void fillProtocolTrampoline() {
+    protocolTrampoline ??= builtInFunctions.getProtocolMethodTrampoline(this);
   }
 
   // Generates a human readable name for the block based on the args and return
@@ -240,8 +246,12 @@ abstract final class $name {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static $blockType fromFunction(${func.dartType} fn) =>
-      $blockType($newClosureBlock($closureCallable, $convFn),
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static $blockType fromFunction(${func.dartType} fn,
+          {bool keepIsolateAlive = true}) =>
+      $blockType($newClosureBlock($closureCallable, $convFn, keepIsolateAlive),
           retain: false, release: true);
 ''');
 
@@ -274,11 +284,12 @@ abstract final class $name {
   /// but only supports void functions, and is not run synchronously. See
   /// NativeCallable.listener for more details.
   ///
-  /// Note that unlike the default behavior of NativeCallable.listener, listener
-  /// blocks do not keep the isolate alive.
-  static $blockType listener(${func.dartType} fn) {
-    final raw = $newClosureBlock(
-        $listenerCallable.nativeFunction.cast(), $listenerConvFn);
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static $blockType listener(${func.dartType} fn,
+          {bool keepIsolateAlive = true}) {
+    final raw = $newClosureBlock($listenerCallable.nativeFunction.cast(),
+        $listenerConvFn, keepIsolateAlive);
     final wrapper = $wrapListenerFn(raw);
     $releaseFn(raw.cast());
     return $blockType(wrapper, retain: false, release: true);
@@ -290,14 +301,17 @@ abstract final class $name {
   /// caller until the callback is handled by the Dart isolate that created
   /// the block. Async functions are not supported.
   ///
-  /// This block does not keep the owner isolate alive. If the owner isolate has
-  /// shut down, and the block is invoked by native code, it may block
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
-  static $blockType blocking(${func.dartType} fn) {
-    final raw = $newClosureBlock(
-        $blockingCallable.nativeFunction.cast(), $listenerConvFn);
+  static $blockType blocking(${func.dartType} fn,
+          {bool keepIsolateAlive = true}) {
+    final raw = $newClosureBlock($blockingCallable.nativeFunction.cast(),
+        $listenerConvFn, keepIsolateAlive);
     final rawListener = $newClosureBlock(
-        $blockingListenerCallable.nativeFunction.cast(), $listenerConvFn);
+        $blockingListenerCallable.nativeFunction.cast(),
+        $listenerConvFn, keepIsolateAlive);
     final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, rawListener);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
@@ -338,6 +352,16 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
 
   @override
   BindingString? toObjCBindingString(Writer w) {
+    final chunks = [
+      _blockWrappersBindingString(w),
+      _protocolTrampolineBindingString(w),
+    ].nonNulls;
+    if (chunks.isEmpty) return null;
+    return BindingString(
+        type: BindingStringType.objcBlock, string: chunks.join(''));
+  }
+
+  String? _blockWrappersBindingString(Writer w) {
     if (_blockWrappers?.objCBindingsGenerated ?? true) return null;
     _blockWrappers!.objCBindingsGenerated = true;
 
@@ -362,13 +386,12 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
 
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
-    final listenerName =
-        w.objCLevelUniqueNamer.makeUnique('_ListenerTrampoline');
-    final blockingName =
-        w.objCLevelUniqueNamer.makeUnique('_BlockingTrampoline');
+    final listenerName = UniqueNamer.cSafeName(
+        w.objCLevelUniqueNamer.makeUnique('ListenerTrampoline'));
+    final blockingName = UniqueNamer.cSafeName(
+        w.objCLevelUniqueNamer.makeUnique('BlockingTrampoline'));
 
-    final s = StringBuffer();
-    s.write('''
+    return '''
 
 typedef ${returnType.getNativeType()} (^$listenerName)($argStr);
 __attribute__((visibility("default"))) __attribute__((used))
@@ -397,9 +420,40 @@ $listenerName $blockingWrapper(
     }
   };
 }
-''');
-    return BindingString(
-        type: BindingStringType.objcBlock, string: s.toString());
+''';
+  }
+
+  String? _protocolTrampolineBindingString(Writer w) {
+    if (protocolTrampoline?.objCBindingsGenerated ?? true) return null;
+    protocolTrampoline!.objCBindingsGenerated = true;
+
+    final argsReceived = <String>[];
+    final argsPassed = <String>[];
+    for (var i = 0; i < params.length; ++i) {
+      final param = params[i];
+      final argName = i == 0 ? 'sel' : 'arg$i';
+      argsReceived.add(param.getNativeType(varName: argName));
+      argsPassed.add(argName);
+    }
+
+    final ret = returnType.getNativeType();
+    final argRecv = argsReceived.join(', ');
+    final argPass = argsPassed.join(', ');
+    final fnName = protocolTrampoline!.func.name;
+    final block = UniqueNamer.cSafeName(
+        w.objCLevelUniqueNamer.makeUnique('ProtocolTrampoline'));
+    final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';
+    final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';
+    final blkGetter = '(($block)$msgSend(target, $getterSel, sel))';
+
+    return '''
+
+typedef $ret (^$block)($argRecv);
+__attribute__((visibility("default"))) __attribute__((used))
+$ret $fnName(id target, $argRecv) {
+  return $blkGetter($argPass);
+}
+''';
   }
 
   @override
@@ -457,6 +511,7 @@ $listenerName $blockingWrapper(
     visitor.visit(returnType);
     visitor.visitAll(params);
     visitor.visit(_blockWrappers);
+    visitor.visit(protocolTrampoline);
   }
 
   @override

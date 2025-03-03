@@ -14,18 +14,17 @@ void main(List<String> arguments) async {
     final cbuilder = CBuilder.library(
       name: packageName,
       assetName: 'src/${packageName}_bindings_generated.dart',
-      sources: [
-        'src/$packageName.c',
-      ],
+      sources: ['src/$packageName.c'],
     );
     await cbuilder.run(
       input: input,
       output: output,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) {
-          print('${record.level.name}: ${record.time}: ${record.message}');
-        }),
+      logger:
+          Logger('')
+            ..level = Level.ALL
+            ..onRecord.listen((record) {
+              print('${record.level.name}: ${record.time}: ${record.message}');
+            }),
     );
     stdout.writeln('Some stdout.');
     stderr.writeln('Some stderr.');

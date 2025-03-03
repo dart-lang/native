@@ -77,7 +77,7 @@ final class UnnamedUnion2 extends ffi.Union {
 final class Union6 extends ffi.Union {
   external UnnamedUnion1 unnamed;
 
-  external UnnamedUnion2 unnamed1;
+  external UnnamedUnion2 unnamed$1;
 }
 
 final class Union7 extends ffi.Opaque {}

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:glob/glob.dart';
@@ -21,21 +22,19 @@ final Tool vswhere = Tool(
   name: 'Visual Studio Locator',
   defaultResolver: CliVersionResolver(
     arguments: [],
-    wrappedResolver: ToolResolvers(
-      [
-        PathToolResolver(
-          toolName: 'Visual Studio Locator',
-          executableName: 'vswhere.exe',
-        ),
-        InstallLocationResolver(
-          toolName: 'Visual Studio Locator',
-          paths: [
-            'C:/Program Files \\(x86\\)/Microsoft Visual Studio/Installer/vswhere.exe',
-            'C:/Program Files/Microsoft Visual Studio/Installer/vswhere.exe',
-          ],
-        ),
-      ],
-    ),
+    wrappedResolver: ToolResolvers([
+      PathToolResolver(
+        toolName: 'Visual Studio Locator',
+        executableName: 'vswhere.exe',
+      ),
+      InstallLocationResolver(
+        toolName: 'Visual Studio Locator',
+        paths: [
+          'C:/Program Files \\(x86\\)/Microsoft Visual Studio/Installer/vswhere.exe',
+          'C:/Program Files/Microsoft Visual Studio/Installer/vswhere.exe',
+        ],
+      ),
+    ]),
   ),
 );
 
@@ -81,9 +80,7 @@ Tool vcvars(ToolInstance toolInstance) {
     name: fileName,
     defaultResolver: InstallLocationResolver(
       toolName: fileName,
-      paths: [
-        Glob.quote(batchScript.toFilePath().replaceAll('\\', '/')),
-      ],
+      paths: [Glob.quote(batchScript.toFilePath().replaceAll('\\', '/'))],
     ),
   );
 }
@@ -238,10 +235,7 @@ Tool _msvcTool({
 }) {
   final executableName = OS.windows.executableFileName(name);
   if (OS.current != OS.windows) {
-    return Tool(
-      name: executableName,
-      defaultResolver: ToolResolvers([]),
-    );
+    return Tool(name: executableName, defaultResolver: ToolResolvers([]));
   }
   final hostArchName = _msvcArchNames[hostArchitecture]!;
   final targetArchName = _msvcArchNames[targetArchitecture]!;
@@ -259,53 +253,51 @@ Tool _msvcTool({
       wrappedResolver: resolver,
     );
   }
-  return Tool(
-    name: executableName,
-    defaultResolver: resolver,
-  );
+  return Tool(name: executableName, defaultResolver: resolver);
 }
 
 class VisualStudioResolver implements ToolResolver {
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final vswhereInstances =
-        await vswhere.defaultResolver!.resolve(logger: logger);
+    final vswhereInstances = await vswhere.defaultResolver!.resolve(
+      logger: logger,
+    );
 
     final result = <ToolInstance>[];
     for (final vswhereInstance in vswhereInstances.take(1)) {
       final vswhereResult = await runProcess(
         executable: vswhereInstance.uri,
-        arguments: ['-latest', '-products', '*'],
+        arguments: ['-format', 'json', '-utf8', '-latest', '-products', '*'],
         logger: logger,
       );
-      final toolInfos = vswhereResult.stdout.split(_newLine * 2).skip(1);
-      for (final toolInfo in toolInfos) {
-        final toolInfoParsed = parseToolInfo(toolInfo);
-        final dir = Directory(toolInfoParsed['installationPath']!);
-        assert(await dir.exists());
+      final instances = parseVswhere(vswhereResult.stdout, logger);
+      result.addAll(instances);
+    }
+    return result;
+  }
+
+  List<ToolInstance> parseVswhere(String vswhereStdout, [Logger? logger]) {
+    final result = <ToolInstance>[];
+    final toolInfos = json.decode(vswhereStdout) as List;
+    for (final toolInfo in toolInfos) {
+      final toolInfoParsed = toolInfo as Map<String, Object?>;
+      if (toolInfoParsed['installationPath'] != null &&
+          toolInfoParsed['installationVersion'] != null) {
+        final dir = Directory(toolInfoParsed['installationPath'] as String);
+        assert(dir.existsSync());
         final uri = dir.uri;
-        final version = versionFromString(toolInfoParsed['installationName']!);
-        final instance =
-            ToolInstance(tool: visualStudio, uri: uri, version: version);
+        final version = versionFromString(
+          toolInfoParsed['installationVersion'] as String,
+        );
+        final instance = ToolInstance(
+          tool: visualStudio,
+          uri: uri,
+          version: version,
+        );
         logger?.fine('Found $instance.');
         result.add(instance);
       }
     }
     return result;
   }
-
-  static Map<String, String> parseToolInfo(String toolInfo) {
-    final result = <String, String>{};
-    final lines = toolInfo.split(_newLine);
-    for (final line in lines) {
-      final splitLine = line.split(': ');
-      final key = splitLine.first;
-      final value = splitLine.skip(1).join(': ');
-      result[key] = value;
-    }
-    return result;
-  }
 }
-
-// runProcess uses writeln which uses '\n'.
-const _newLine = '\n';

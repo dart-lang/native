@@ -35,14 +35,7 @@ final class OS {
   static const OS windows = OS._('windows');
 
   /// Known values for [OS].
-  static const List<OS> values = [
-    android,
-    fuchsia,
-    iOS,
-    linux,
-    macOS,
-    windows,
-  ];
+  static const List<OS> values = [android, fuchsia, iOS, linux, macOS, windows];
 
   /// Typical cross compilation between OSes.
   static const osCrossCompilationDefault = {
@@ -63,7 +56,7 @@ final class OS {
   /// Mapping from strings as used in [OS.toString] to
   /// [OS]s.
   static final Map<String, OS> _stringToOS = {
-    for (var os in OS.values) os.toString(): os
+    for (var os in OS.values) os.toString(): os,
   };
 
   /// Creates a [OS] from the given [name].

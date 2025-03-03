@@ -101,6 +101,14 @@ void main() {
     test('double', () {
       expect(bindings.Function1Double(0), 42.0);
     });
+    test('array global', () {
+      bindings.globalArray[0] = 1;
+      bindings.globalArray[1] = 2;
+      expect(bindings.globalArray[0], 1);
+      expect(bindings.globalArray[1], 2);
+      bindings.globalArray[1] = 3;
+      expect(bindings.globalArray[1], 3);
+    });
     test('Array Test: Order of access', () {
       final struct1 = bindings.getStruct1();
       var expectedValue = 1;

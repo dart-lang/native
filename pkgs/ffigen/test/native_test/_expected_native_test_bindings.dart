@@ -278,6 +278,11 @@ class NativeLibrary {
           'getStructWithEnums');
   late final _getStructWithEnums =
       _getStructWithEnumsPtr.asFunction<StructWithEnums Function()>();
+
+  late final ffi.Pointer<ffi.Int> _globalArray =
+      _lookup<ffi.Int>('globalArray');
+
+  ffi.Pointer<ffi.Int> get globalArray => _globalArray;
 }
 
 final class Struct1 extends ffi.Struct {
@@ -311,7 +316,7 @@ enum Enum1 {
         0 => enum1Value1,
         1 => enum1Value2,
         2 => enum1Value3,
-        _ => throw ArgumentError("Unknown value for Enum1: $value"),
+        _ => throw ArgumentError('Unknown value for Enum1: $value'),
       };
 }
 

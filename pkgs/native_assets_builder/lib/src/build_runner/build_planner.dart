@@ -37,20 +37,30 @@ class NativeAssetsBuildPlanner {
     required PackageLayout packageLayout,
     required FileSystem fileSystem,
   }) async {
-    final workingDirectory = packageConfigUri.resolve('../');
-    final result = await Process.run(
-      dartExecutable.toFilePath(),
-      [
-        'pub',
-        'deps',
-        '--json',
-      ],
-      workingDirectory: workingDirectory.toFilePath(),
+    final packageGraphJsonFile = fileSystem.file(
+      packageConfigUri.resolve('package_graph.json'),
     );
-    final packageGraph =
-        PackageGraph.fromPubDepsJsonString(result.stdout as String);
-    final packageGraphFromRunPackage =
-        packageGraph.subGraph(packageLayout.runPackageName);
+    final String packageGraphJson;
+    if (packageGraphJsonFile.existsSync()) {
+      packageGraphJson = await packageGraphJsonFile.readAsString();
+    } else {
+      // TODO: Either bump SDK constraint to dev release (but we can't while
+      // flutter_tools requires published stable packages). Or wait for Dart 3.8
+      // to be released to remove this fallback.
+      final workingDirectory = packageConfigUri.resolve('../');
+      final result = await Process.run(
+        dartExecutable.toFilePath(),
+        ['pub', 'deps', '--json'],
+        workingDirectory: workingDirectory.toFilePath(),
+      );
+      packageGraphJson = result.stdout as String;
+    }
+    final packageGraph = PackageGraph.fromPackageGraphJsonString(
+      packageGraphJson,
+    );
+    final packageGraphFromRunPackage = packageGraph.subGraph(
+      packageLayout.runPackageName,
+    );
     return NativeAssetsBuildPlanner._(
       packageGraph: packageGraphFromRunPackage,
       dartExecutable: dartExecutable,
@@ -70,10 +80,9 @@ class NativeAssetsBuildPlanner {
   // everyone has migrated. (Probably once we stop backwards compatibility of
   // the protocol version pre 1.2.0 on some future version.)
   Future<List<Package>> packagesWithHook(Hook hook) async => switch (hook) {
-        Hook.build => _packagesWithBuildHook ??=
-            await _runPackagesWithHook(hook),
-        Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
-      };
+    Hook.build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
+    Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
+  };
 
   List<Package>? _packagesWithBuildHook;
   List<Package>? _packagesWithLinkHook;
@@ -111,7 +120,7 @@ class NativeAssetsBuildPlanner {
     if (_buildHookPlan != null) return _buildHookPlan;
     final packagesWithNativeAssets = await packagesWithHook(Hook.build);
     final packageMap = {
-      for (final package in packagesWithNativeAssets) package.name: package
+      for (final package in packagesWithNativeAssets) package.name: package,
     };
     final packagesToBuild = packageMap.keys.toSet();
     final stronglyConnectedComponents = packageGraph.computeStrongComponents();
@@ -119,7 +128,7 @@ class NativeAssetsBuildPlanner {
     for (final stronglyConnectedComponent in stronglyConnectedComponents) {
       final stronglyConnectedComponentWithNativeAssets = [
         for (final packageName in stronglyConnectedComponent)
-          if (packagesToBuild.contains(packageName)) packageName
+          if (packagesToBuild.contains(packageName)) packageName,
       ];
       if (stronglyConnectedComponentWithNativeAssets.length > 1) {
         logger.severe(
@@ -129,7 +138,8 @@ class NativeAssetsBuildPlanner {
         return null;
       } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
         result.add(
-            packageMap[stronglyConnectedComponentWithNativeAssets.single]!);
+          packageMap[stronglyConnectedComponentWithNativeAssets.single]!,
+        );
       }
     }
     _buildHookPlan = result;
@@ -146,20 +156,21 @@ class PackageGraph {
 
   PackageGraph(this.map);
 
-  /// Constructs a graph from the JSON produced by `dart pub deps --json`.
-  factory PackageGraph.fromPubDepsJsonString(String json) =>
-      PackageGraph.fromPubDepsJson(jsonDecode(json) as Map<dynamic, dynamic>);
+  factory PackageGraph.fromPackageGraphJsonString(String json) =>
+      PackageGraph.fromPackageGraphJson(
+        jsonDecode(json) as Map<dynamic, dynamic>,
+      );
 
-  /// Constructs a graph from the JSON produced by `dart pub deps --json`.
-  factory PackageGraph.fromPubDepsJson(Map<dynamic, dynamic> map) {
+  factory PackageGraph.fromPackageGraphJson(Map<dynamic, dynamic> map) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {
       final package_ = package as Map<dynamic, dynamic>;
       final name = package_['name'] as String;
-      final dependencies = (package_['dependencies'] as List<dynamic>)
-          .whereType<String>()
-          .toList();
+      final dependencies =
+          (package_['dependencies'] as List<dynamic>)
+              .whereType<String>()
+              .toList();
       result[name] = dependencies;
     }
     return PackageGraph(result);
@@ -188,7 +199,7 @@ class PackageGraph {
           vertex: [
             for (final neighbor in map[vertex]!)
               if (subgraphVertices.contains(neighbor)) neighbor,
-          ]
+          ],
     });
   }
 

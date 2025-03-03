@@ -1,8 +1,43 @@
-## 17.0.0-wip
+## 18.0.0-wip
 
-- Use package:objective_c 5.0.0
+- Add variable substitutions that can be used in the `headers.entry-points` to
+  locate Apple APIs: `$XCODE`, `$IOS_SDK`, and `$MACOS_SDK`.
+- Add an empty constructor to all ObjC interfaces that have a `new` method,
+  which just calls that method.
+- __Breaking change__: Change the `usrTypeMappings` field of `Config`'s factory
+  constructor from a `List<ImportedType>` to a `Map<String, ImportedType>`.
+- Add a `keepIsolateAlive` parameter to the block and protocol constructors that
+  allows a block or protocol to keep its owner isolate alive.
+- __Breaking change__: `keepIsolateAlive` defaults to true, so all existing ObjC
+  blocks and protocols now keep their isolates alive by default.
+- Change how protocols are implemented to fix
+  [a bug](https://github.com/dart-lang/http/issues/1702), by removing all uses
+  of `NSProxy`.
+- __Breaking change__: Change how duplicate identifiers are renamed to match
+  jnigen. The main change is that `$` is used as a delimiter now, to avoid
+  renamed identifiers from colliding with other identifiers. For example, `foo`
+  is renamed to `foo$1` if there's already a `foo` in the namespace.
+
+## 17.0.0
+
+- Use package:objective_c 6.0.0
 - Support transitive categories of built-in types:
   https://github.com/dart-lang/native/issues/1820
+- __Breaking change__: Maintain protocol conformance when translating from ObjC
+  to Dart. For example, ObjC's `id<FooProtocol>` is now translated to Dart's
+  `FooProtocol`. Generally this shouldn't be a breaking change for code that is
+  using protocols correctly, with a few caveats:
+    - For more advanced use cases that use `ObjCProtocolBuilder` directly, after
+      calling `build()` you will need to cast the generated object to the target
+      protocol: `FooProtocol.castFrom(protocolBuilder.build())`.
+    - Due to limitations in the Dart type system, only the first protocol of an
+      `id` is used: `id<FooProtocol, BarProtocol>` becomes `FooProtocol`. The
+      `FooProtocol.castFrom` method can help work around issues this may cause.
+- Fix the handling of global arrays to remove the extra pointer reference.
+- Add a `max` field to the `external-versions` config, and use it to determine
+  which APIs are generated.
+- Add a runtime OS version check to ObjC APIs, which throws an error if the
+  current OS version is earlier than the version that the API was introduced.
 
 ## 16.1.0
 

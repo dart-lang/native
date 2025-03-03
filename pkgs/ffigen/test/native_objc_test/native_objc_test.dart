@@ -26,8 +26,8 @@ void main() {
     });
 
     test('Basic types', () {
-      final foo = Foo.new1();
-      final obj = NSObject.new1();
+      final foo = Foo();
+      final obj = NSObject();
 
       foo.intVal = 123;
       expect(foo.intVal, 123);

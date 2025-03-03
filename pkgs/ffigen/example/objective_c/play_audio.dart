@@ -17,7 +17,7 @@ void main(List<String> args) async {
   DynamicLibrary.open(_dylibPath);
   for (final file in args) {
     final fileStr = NSString(file);
-    print('Loading $fileStr');
+    print('Loading $file');
     final fileUrl = NSURL.fileURLWithPath_(fileStr);
     final player =
         AVAudioPlayer.alloc().initWithContentsOfURL_error_(fileUrl, nullptr);

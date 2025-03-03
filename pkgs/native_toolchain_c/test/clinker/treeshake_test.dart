@@ -20,7 +20,5 @@ Future<void> main() async {
     return;
   }
 
-  await runTests([
-    Architecture.current,
-  ]);
+  await runTests([Architecture.current]);
 }

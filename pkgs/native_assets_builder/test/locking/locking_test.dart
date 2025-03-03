@@ -19,26 +19,19 @@ void main() async {
   test('Concurrent invocations', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       Future<ProcessResult> runInProcess() async {
-        final result = await Process.run(
-          dartExecutable.toFilePath(),
-          [
-            packageUri
-                .resolve('test/locking/locking_test_helper.dart')
-                .toFilePath(),
-            tempUri.toFilePath(),
-          ],
-        );
+        final result = await Process.run(dartExecutable.toFilePath(), [
+          packageUri
+              .resolve('test/locking/locking_test_helper.dart')
+              .toFilePath(),
+          tempUri.toFilePath(),
+        ]);
         printOnFailure(result.stderr.toString());
         printOnFailure(result.stdout.toString());
         expect(result.exitCode, 0);
         return result;
       }
 
-      await Future.wait([
-        runInProcess(),
-        runInProcess(),
-        runInProcess(),
-      ]);
+      await Future.wait([runInProcess(), runInProcess(), runInProcess()]);
     });
   });
 
@@ -49,10 +42,7 @@ void main() async {
       if (lockFileContents.isNotEmpty) {
         // The process might have been killed in between creating the lock
         // file and writing to it.
-        expect(
-          lockFileContents,
-          stringContainsInOrder(['Last acquired by']),
-        );
+        expect(lockFileContents, stringContainsInOrder(['Last acquired by']));
       }
       return lockFile;
     }
@@ -61,24 +51,20 @@ void main() async {
 
   test('Terminations unlock', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
-      Future<int> runProcess({
-        Duration? killAfter,
-      }) async {
-        final process = await Process.start(
-          dartExecutable.toFilePath(),
-          [
-            packageUri
-                .resolve('test/locking/locking_test_helper.dart')
-                .toFilePath(),
-            tempUri.toFilePath(),
-          ],
-        );
+      Future<int> runProcess({Duration? killAfter}) async {
+        final process = await Process.start(dartExecutable.toFilePath(), [
+          packageUri
+              .resolve('test/locking/locking_test_helper.dart')
+              .toFilePath(),
+          tempUri.toFilePath(),
+        ]);
+
         final stdoutSub = process.stdout
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.fine);
         final stderrSub = process.stderr
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.severe);
 
@@ -89,11 +75,12 @@ void main() async {
             process.kill();
           });
         }
-        final (exitCode, _, _) = await (
-          process.exitCode,
-          stdoutSub.asFuture<void>(),
-          stderrSub.asFuture<void>()
-        ).wait;
+        final (exitCode, _, _) =
+            await (
+              process.exitCode,
+              stdoutSub.asFuture<void>(),
+              stderrSub.asFuture<void>(),
+            ).wait;
         if (timer != null) {
           timer.cancel();
         }
@@ -123,31 +110,29 @@ void main() async {
         Duration? timeout,
         bool expectTimeOut = false,
       }) async {
-        final process = await Process.start(
-          dartExecutable.toFilePath(),
-          [
-            packageUri
-                .resolve('test/locking/locking_test_helper.dart')
-                .toFilePath(),
-            tempUri.toFilePath(),
-            if (timeout != null) timeout.inMilliseconds.toString(),
-          ],
-        );
+        final process = await Process.start(dartExecutable.toFilePath(), [
+          packageUri
+              .resolve('test/locking/locking_test_helper.dart')
+              .toFilePath(),
+          tempUri.toFilePath(),
+          if (timeout != null) timeout.inMilliseconds.toString(),
+        ]);
 
         final stdoutSub = process.stdout
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.fine);
         final stderrSub = process.stderr
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.severe);
 
-        final (exitCode, _, _) = await (
-          process.exitCode,
-          stdoutSub.asFuture<void>(),
-          stderrSub.asFuture<void>()
-        ).wait;
+        final (exitCode, _, _) =
+            await (
+              process.exitCode,
+              stdoutSub.asFuture<void>(),
+              stderrSub.asFuture<void>(),
+            ).wait;
 
         if (expectTimeOut) {
           expect(exitCode, isNot(0));
@@ -189,17 +174,16 @@ void main() async {
         }
         await lock.unlock();
       });
-      await runProcess(
-        timeout: helperProcessTimeout,
-        expectTimeOut: true,
-      ).then((v) async {
-        printOnFailure('${DateTime.now()}: Helper exited.');
-        if (!timeoutCompletedFirst) {
-          printOnFailure('${DateTime.now()}: timeoutCompletedFirst');
-          helperCompletedFirst = true;
-        }
-        timer.cancel();
-      });
+      await runProcess(timeout: helperProcessTimeout, expectTimeOut: true).then(
+        (v) async {
+          printOnFailure('${DateTime.now()}: Helper exited.');
+          if (!timeoutCompletedFirst) {
+            printOnFailure('${DateTime.now()}: timeoutCompletedFirst');
+            helperCompletedFirst = true;
+          }
+          timer.cancel();
+        },
+      );
       expect(helperCompletedFirst, isTrue);
       expect(timeoutCompletedFirst, isFalse);
     });

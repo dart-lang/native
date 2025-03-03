@@ -12,16 +12,15 @@ void main(List<String> args) async {
     final cbuilder = CBuilder.library(
       name: packageName,
       assetName: '$packageName.dart',
-      sources: [
-        'src/$packageName.c',
-      ],
+      sources: ['src/$packageName.c'],
     );
     await cbuilder.run(
       input: input,
       output: output,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) => print(record.message)),
+      logger:
+          Logger('')
+            ..level = Level.ALL
+            ..onRecord.listen((record) => print(record.message)),
     );
   });
 }

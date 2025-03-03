@@ -16,54 +16,55 @@ void main() async {
       final packageUri = tempUri.resolve('native_add/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final resultDynamic = (await build(
-        packageUri,
-        logger,
-        dartExecutable,
-        linkModePreference: LinkModePreference.dynamic,
-        buildAssetTypes: [CodeAsset.type],
-        inputValidator: validateCodeAssetBuildInput,
-        buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      ))!;
+      final resultDynamic =
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            linkModePreference: LinkModePreference.dynamic,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
 
-      final resultPreferDynamic = (await build(
-        packageUri,
-        logger,
-        dartExecutable,
-        linkModePreference: LinkModePreference.preferDynamic,
-        buildAssetTypes: [CodeAsset.type],
-        inputValidator: validateCodeAssetBuildInput,
-        buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      ))!;
+      final resultPreferDynamic =
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            linkModePreference: LinkModePreference.preferDynamic,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
 
-      final resultStatic = (await build(
-        packageUri,
-        logger,
-        dartExecutable,
-        linkModePreference: LinkModePreference.static,
-        buildAssetTypes: [CodeAsset.type],
-        inputValidator: validateCodeAssetBuildInput,
-        buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      ))!;
+      final resultStatic =
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            linkModePreference: LinkModePreference.static,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
 
-      final resultPreferStatic = (await build(
-        packageUri,
-        logger,
-        dartExecutable,
-        linkModePreference: LinkModePreference.preferStatic,
-        buildAssetTypes: [CodeAsset.type],
-        inputValidator: validateCodeAssetBuildInput,
-        buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      ))!;
+      final resultPreferStatic =
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            linkModePreference: LinkModePreference.preferStatic,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
 
       // This package honors preferences.
       expect(
@@ -71,8 +72,9 @@ void main() async {
         DynamicLoadingBundled(),
       );
       expect(
-        CodeAsset.fromEncoded(resultPreferDynamic.encodedAssets.single)
-            .linkMode,
+        CodeAsset.fromEncoded(
+          resultPreferDynamic.encodedAssets.single,
+        ).linkMode,
         DynamicLoadingBundled(),
       );
       expect(

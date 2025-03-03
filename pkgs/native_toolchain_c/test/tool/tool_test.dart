@@ -19,8 +19,10 @@ void main() {
     expect(Tool(name: 'foo') != Tool(name: 'bar'), true);
     expect(
       Tool(name: 'foo').hashCode,
-      Tool(name: 'foo', defaultResolver: PathToolResolver(toolName: 'foo'))
-          .hashCode,
+      Tool(
+        name: 'foo',
+        defaultResolver: PathToolResolver(toolName: 'foo'),
+      ).hashCode,
     );
     expect(Tool(name: 'foo').hashCode != Tool(name: 'bar').hashCode, true);
   });

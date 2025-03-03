@@ -148,10 +148,15 @@ class JObject {
   /// }
   /// ```
   bool isA<T extends JObject?>(JObjType<T> type) {
-    final targetJClass = type.jClass.reference.toPointer();
-    final canBeCasted = Jni.env.IsInstanceOf(reference.pointer, targetJClass);
-    Jni.env.DeleteGlobalRef(targetJClass);
+    final targetJClass = type.jClass;
+    final canBeCasted = isInstanceOf(targetJClass);
+    targetJClass.release();
     return canBeCasted;
+  }
+
+  /// Whether this object is of the type of the given [jclass].
+  bool isInstanceOf(JClass jclass) {
+    return Jni.env.IsInstanceOf(reference.pointer, jclass.reference.pointer);
   }
 
   /// Casts this object to another [type].

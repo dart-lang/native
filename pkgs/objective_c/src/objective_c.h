@@ -9,6 +9,9 @@
 #include "include/dart_api_dl.h"
 #include "objective_c_runtime.h"
 
+// Initialize the Dart API.
+FFI_EXPORT intptr_t DOBJC_InitializeApi(void *data);
+
 // Dispose helper for ObjC blocks that wrap a Dart closure.
 FFI_EXPORT void DOBJC_disposeObjCBlockWithClosure(ObjCBlockImpl *block);
 
@@ -42,8 +45,8 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
 // Functions for creating a waiter, signaling it, and waiting for the signal. A
 // waiter is one-time-use, and the object that newWaiter creates will be
 // destroyed once signalWaiter and awaitWaiter are called exactly once.
-FFI_EXPORT void* DOBJC_newWaiter();
-FFI_EXPORT void DOBJC_signalWaiter(void* waiter);
-FFI_EXPORT void DOBJC_awaitWaiter(void* waiter);
+FFI_EXPORT void *DOBJC_newWaiter(void);
+FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
+FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
-#endif // OBJECTIVE_C_SRC_OBJECTIVE_C_H_
+#endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_H_

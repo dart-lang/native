@@ -107,7 +107,8 @@ Compound? parseCompoundDeclaration(
     declName = '';
   }
 
-  if (!isApiAvailable(cursor)) {
+  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  if (apiAvailability.availability == Availability.none) {
     _logger.info('Omitting deprecated $className $declName');
     return null;
   }
@@ -119,7 +120,8 @@ Compound? parseCompoundDeclaration(
       type: compoundType,
       name: incrementalNamer.name('Unnamed$className'),
       usr: declUsr,
-      dartDoc: getCursorDocComment(cursor),
+      dartDoc:
+          getCursorDocComment(cursor, availability: apiAvailability.dartDoc),
       objCBuiltInFunctions: objCBuiltInFunctions,
       nativeType: cursor.type().spelling(),
     );
@@ -132,7 +134,8 @@ Compound? parseCompoundDeclaration(
       usr: declUsr,
       originalName: declName,
       name: configDecl.rename(decl),
-      dartDoc: getCursorDocComment(cursor),
+      dartDoc:
+          getCursorDocComment(cursor, availability: apiAvailability.dartDoc),
       objCBuiltInFunctions: objCBuiltInFunctions,
       nativeType: cursor.type().spelling(),
     );
@@ -250,7 +253,7 @@ void _compoundMembersVisitor(
           CompoundMember(
             dartDoc: getCursorDocComment(
               cursor,
-              nesting.length + commentPrefix.length,
+              indent: nesting.length + commentPrefix.length,
             ),
             originalName: cursor.spelling(),
             name: config.structDecl.renameMember(decl, cursor.spelling()),
@@ -284,7 +287,7 @@ void _compoundMembersVisitor(
           CompoundMember(
             dartDoc: getCursorDocComment(
               cursor,
-              nesting.length + commentPrefix.length,
+              indent: nesting.length + commentPrefix.length,
             ),
             originalName: spelling,
             name: config.structDecl.renameMember(decl, spelling),

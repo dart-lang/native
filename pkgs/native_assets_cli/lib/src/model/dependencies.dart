@@ -17,16 +17,16 @@ class Dependencies {
   const Dependencies(this.dependencies);
 
   factory Dependencies.fromJson(List<Object?>? jsonList) => Dependencies([
-        if (jsonList != null)
-          for (final dependency in jsonList)
-            fileSystemPathToUri(as<String>(dependency)),
-      ]);
+    if (jsonList != null)
+      for (final dependency in jsonList)
+        fileSystemPathToUri(as<String>(dependency)),
+  ]);
 
   List<String> toJson() => toJsonList(dependencies);
 
   static List<String> toJsonList(List<Uri> dependencies) => [
-        for (final dependency in dependencies) dependency.toFilePath(),
-      ];
+    for (final dependency in dependencies) dependency.toFilePath(),
+  ];
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(toJson());

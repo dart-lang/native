@@ -45,7 +45,7 @@ void main() {
                   final builder = BuildInputBuilder();
                   if (hook == 'build') {
                     builder.config.setupBuild(
-                      dryRun: false, // no embedders will pass true anymore
+                      // no embedders will pass true anymore
                       linkingEnabled: linking,
                     );
                   }
@@ -54,18 +54,21 @@ void main() {
                     builder.config.setupCode(
                       targetArchitecture: architecture,
                       targetOS: os,
-                      android: os == OS.android
-                          ? AndroidCodeConfig(targetNdkApi: targetVersion)
-                          : null,
-                      macOS: os == OS.macOS
-                          ? MacOSCodeConfig(targetVersion: targetVersion)
-                          : null,
-                      iOS: os == OS.iOS
-                          ? IOSCodeConfig(
-                              targetVersion: targetVersion,
-                              targetSdk: iOSSdk,
-                            )
-                          : null,
+                      android:
+                          os == OS.android
+                              ? AndroidCodeConfig(targetNdkApi: targetVersion)
+                              : null,
+                      macOS:
+                          os == OS.macOS
+                              ? MacOSCodeConfig(targetVersion: targetVersion)
+                              : null,
+                      iOS:
+                          os == OS.iOS
+                              ? IOSCodeConfig(
+                                targetVersion: targetVersion,
+                                targetSdk: iOSSdk,
+                              )
+                              : null,
                       linkModePreference: LinkModePreference.dynamic,
                     );
                   }

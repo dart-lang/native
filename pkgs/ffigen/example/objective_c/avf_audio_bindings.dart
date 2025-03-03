@@ -11,6 +11,14 @@
 import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 
+@ffi.Native<
+    ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>()
+external ffi.Pointer<objc.ObjCObject> _AVFAudio_protocolTrampoline_1mbt9g9(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+);
+
 final class AudioStreamBasicDescription extends ffi.Struct {
   @ffi.Double()
   external double mSampleRate;
@@ -102,7 +110,7 @@ enum AudioChannelBitmap {
         33554432 => kAudioChannelBit_CenterTopRear,
         67108864 => kAudioChannelBit_RightTopRear,
         _ =>
-          throw ArgumentError("Unknown value for AudioChannelBitmap: $value"),
+          throw ArgumentError('Unknown value for AudioChannelBitmap: $value'),
       };
 
   @override
@@ -133,7 +141,7 @@ enum AudioChannelFlags {
         1 => kAudioChannelFlags_RectangularCoordinates,
         2 => kAudioChannelFlags_SphericalCoordinates,
         4 => kAudioChannelFlags_Meters,
-        _ => throw ArgumentError("Unknown value for AudioChannelFlags: $value"),
+        _ => throw ArgumentError('Unknown value for AudioChannelFlags: $value'),
       };
 }
 
@@ -187,7 +195,7 @@ enum AVAudioCommonFormat {
         3 => AVAudioPCMFormatInt16,
         4 => AVAudioPCMFormatInt32,
         _ =>
-          throw ArgumentError("Unknown value for AVAudioCommonFormat: $value"),
+          throw ArgumentError('Unknown value for AVAudioCommonFormat: $value'),
       };
 }
 
@@ -195,10 +203,13 @@ enum AVAudioCommonFormat {
 /// AVAudioFormat in your config's objc-interfaces list.
 ///
 /// AVAudioFormat
-class AVAudioFormat extends objc.NSObject {
+class AVAudioFormat extends objc.NSObject implements objc.NSSecureCoding {
   AVAudioFormat._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release) {
+    objc.checkOsVersion('AVAudioFormat',
+        iOS: (false, (8, 0, 0)), macOS: (false, (10, 10, 0)));
+  }
 
   /// Constructs a [AVAudioFormat] that points to the same underlying object as [other].
   AVAudioFormat.castFrom(objc.ObjCObjectBase other)
@@ -337,6 +348,27 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
+
+/// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
+/// AVAudioPlayerDelegate in your config's objc-protocols list.
+///
+/// AVAudioPlayerDelegate
+interface class AVAudioPlayerDelegate extends objc.ObjCProtocolBase
+    implements objc.NSObjectProtocol {
+  AVAudioPlayerDelegate._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [AVAudioPlayerDelegate] that points to the same underlying object as [other].
+  AVAudioPlayerDelegate.castFrom(objc.ObjCObjectBase other)
+      : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [AVAudioPlayerDelegate] that wraps the given raw object pointer.
+  AVAudioPlayerDelegate.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
+}
+
 late final _sel_delegate = objc.registerName("delegate");
 late final _sel_setDelegate_ = objc.registerName("setDelegate:");
 late final _sel_url = objc.registerName("url");
@@ -525,15 +557,20 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
   static objc
       .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>
-      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn) =>
+      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn,
+              {bool keepIsolateAlive = true}) =>
           objc.ObjCBlock<
                   ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
               objc.newClosureBlock(
                   _ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
                   (ffi.Pointer<ffi.Void> arg0) =>
-                      fn(arg0).ref.retainAndAutorelease()),
+                      fn(arg0).ref.retainAndAutorelease(),
+                  keepIsolateAlive),
               retain: false,
               release: true);
 }
@@ -563,7 +600,10 @@ late final _sel_autorelease = objc.registerName("autorelease");
 class AVAudioPlayer extends objc.NSObject {
   AVAudioPlayer._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
+      : super.castFromPointer(pointer, retain: retain, release: release) {
+    objc.checkOsVersion('AVAudioPlayer',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
+  }
 
   /// Constructs a [AVAudioPlayer] that points to the same underlying object as [other].
   AVAudioPlayer.castFrom(objc.ObjCObjectBase other)
@@ -583,6 +623,8 @@ class AVAudioPlayer extends objc.NSObject {
   /// initWithContentsOfURL:error:
   AVAudioPlayer? initWithContentsOfURL_error_(
       objc.NSURL url, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
+    objc.checkOsVersion('AVAudioPlayer.initWithContentsOfURL:error:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_1lhpu4m(this.ref.retainAndReturnPointer(),
         _sel_initWithContentsOfURL_error_, url.ref.pointer, outError);
     return _ret.address == 0
@@ -593,6 +635,8 @@ class AVAudioPlayer extends objc.NSObject {
   /// initWithData:error:
   AVAudioPlayer? initWithData_error_(
       objc.NSData data, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
+    objc.checkOsVersion('AVAudioPlayer.initWithData:error:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_1lhpu4m(this.ref.retainAndReturnPointer(),
         _sel_initWithData_error_, data.ref.pointer, outError);
     return _ret.address == 0
@@ -605,6 +649,10 @@ class AVAudioPlayer extends objc.NSObject {
       objc.NSURL url,
       objc.NSString? utiString,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
+    objc.checkOsVersion(
+        'AVAudioPlayer.initWithContentsOfURL:fileTypeHint:error:',
+        iOS: (false, (7, 0, 0)),
+        macOS: (false, (10, 9, 0)));
     final _ret = _objc_msgSend_1pnyuds(
         this.ref.retainAndReturnPointer(),
         _sel_initWithContentsOfURL_fileTypeHint_error_,
@@ -621,6 +669,8 @@ class AVAudioPlayer extends objc.NSObject {
       objc.NSData data,
       objc.NSString? utiString,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {
+    objc.checkOsVersion('AVAudioPlayer.initWithData:fileTypeHint:error:',
+        iOS: (false, (7, 0, 0)), macOS: (false, (10, 9, 0)));
     final _ret = _objc_msgSend_1pnyuds(
         this.ref.retainAndReturnPointer(),
         _sel_initWithData_fileTypeHint_error_,
@@ -634,41 +684,57 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// prepareToPlay
   bool prepareToPlay() {
+    objc.checkOsVersion('AVAudioPlayer.prepareToPlay',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_prepareToPlay);
   }
 
   /// play
   bool play() {
+    objc.checkOsVersion('AVAudioPlayer.play',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_play);
   }
 
   /// playAtTime:
   bool playAtTime_(double time) {
+    objc.checkOsVersion('AVAudioPlayer.playAtTime:',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_18chyc(this.ref.pointer, _sel_playAtTime_, time);
   }
 
   /// pause
   void pause() {
+    objc.checkOsVersion('AVAudioPlayer.pause',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_pause);
   }
 
   /// stop
   void stop() {
+    objc.checkOsVersion('AVAudioPlayer.stop',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_stop);
   }
 
   /// isPlaying
   bool get playing {
+    objc.checkOsVersion('AVAudioPlayer.isPlaying',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_isPlaying);
   }
 
   /// numberOfChannels
   int get numberOfChannels {
+    objc.checkOsVersion('AVAudioPlayer.numberOfChannels',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_numberOfChannels);
   }
 
   /// duration
   double get duration {
+    objc.checkOsVersion('AVAudioPlayer.duration',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(this.ref.pointer, _sel_duration)
         : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_duration);
@@ -676,6 +742,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// currentDevice
   objc.NSString? get currentDevice {
+    objc.checkOsVersion('AVAudioPlayer.currentDevice',
+        iOS: (true, null), macOS: (false, (10, 13, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_currentDevice);
     return _ret.address == 0
         ? null
@@ -684,26 +752,35 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setCurrentDevice:
   set currentDevice(objc.NSString? value) {
+    objc.checkOsVersion('AVAudioPlayer.setCurrentDevice:',
+        iOS: (true, null), macOS: (false, (10, 13, 0)));
     _objc_msgSend_xtuoz7(this.ref.pointer, _sel_setCurrentDevice_,
         value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// delegate
-  objc.ObjCObjectBase? get delegate {
+  AVAudioPlayerDelegate? get delegate {
+    objc.checkOsVersion('AVAudioPlayer.delegate',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_delegate);
     return _ret.address == 0
         ? null
-        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+        : AVAudioPlayerDelegate.castFromPointer(_ret,
+            retain: true, release: true);
   }
 
   /// setDelegate:
-  set delegate(objc.ObjCObjectBase? value) {
+  set delegate(AVAudioPlayerDelegate? value) {
+    objc.checkOsVersion('AVAudioPlayer.setDelegate:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_xtuoz7(
         this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// url
   objc.NSURL? get url {
+    objc.checkOsVersion('AVAudioPlayer.url',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_url);
     return _ret.address == 0
         ? null
@@ -712,6 +789,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// data
   objc.NSData? get data {
+    objc.checkOsVersion('AVAudioPlayer.data',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_data);
     return _ret.address == 0
         ? null
@@ -720,6 +799,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// pan
   double get pan {
+    objc.checkOsVersion('AVAudioPlayer.pan',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_2cgrxlFpret(this.ref.pointer, _sel_pan)
         : _objc_msgSend_2cgrxl(this.ref.pointer, _sel_pan);
@@ -727,11 +808,15 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setPan:
   set pan(double value) {
+    objc.checkOsVersion('AVAudioPlayer.setPan:',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setPan_, value);
   }
 
   /// volume
   double get volume {
+    objc.checkOsVersion('AVAudioPlayer.volume',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_2cgrxlFpret(this.ref.pointer, _sel_volume)
         : _objc_msgSend_2cgrxl(this.ref.pointer, _sel_volume);
@@ -739,27 +824,37 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setVolume:
   set volume(double value) {
+    objc.checkOsVersion('AVAudioPlayer.setVolume:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setVolume_, value);
   }
 
   /// setVolume:fadeDuration:
   void setVolume_fadeDuration_(double volume, double duration) {
+    objc.checkOsVersion('AVAudioPlayer.setVolume:fadeDuration:',
+        iOS: (false, (10, 0, 0)), macOS: (false, (10, 12, 0)));
     _objc_msgSend_1p4uk9e(
         this.ref.pointer, _sel_setVolume_fadeDuration_, volume, duration);
   }
 
   /// enableRate
   bool get enableRate {
+    objc.checkOsVersion('AVAudioPlayer.enableRate',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_enableRate);
   }
 
   /// setEnableRate:
   set enableRate(bool value) {
+    objc.checkOsVersion('AVAudioPlayer.setEnableRate:',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setEnableRate_, value);
   }
 
   /// rate
   double get rate {
+    objc.checkOsVersion('AVAudioPlayer.rate',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_2cgrxlFpret(this.ref.pointer, _sel_rate)
         : _objc_msgSend_2cgrxl(this.ref.pointer, _sel_rate);
@@ -767,11 +862,15 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setRate:
   set rate(double value) {
+    objc.checkOsVersion('AVAudioPlayer.setRate:',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setRate_, value);
   }
 
   /// currentTime
   double get currentTime {
+    objc.checkOsVersion('AVAudioPlayer.currentTime',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(this.ref.pointer, _sel_currentTime)
         : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_currentTime);
@@ -779,11 +878,15 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setCurrentTime:
   set currentTime(double value) {
+    objc.checkOsVersion('AVAudioPlayer.setCurrentTime:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_hwm8nu(this.ref.pointer, _sel_setCurrentTime_, value);
   }
 
   /// deviceCurrentTime
   double get deviceCurrentTime {
+    objc.checkOsVersion('AVAudioPlayer.deviceCurrentTime',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(this.ref.pointer, _sel_deviceCurrentTime)
         : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_deviceCurrentTime);
@@ -791,43 +894,59 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// numberOfLoops
   int get numberOfLoops {
+    objc.checkOsVersion('AVAudioPlayer.numberOfLoops',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_numberOfLoops);
   }
 
   /// setNumberOfLoops:
   set numberOfLoops(int value) {
+    objc.checkOsVersion('AVAudioPlayer.setNumberOfLoops:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_4sp4xj(this.ref.pointer, _sel_setNumberOfLoops_, value);
   }
 
   /// settings
   objc.NSDictionary get settings {
+    objc.checkOsVersion('AVAudioPlayer.settings',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_settings);
     return objc.NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// format
   AVAudioFormat get format {
+    objc.checkOsVersion('AVAudioPlayer.format',
+        iOS: (false, (10, 0, 0)), macOS: (false, (10, 12, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_format);
     return AVAudioFormat.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// isMeteringEnabled
   bool get meteringEnabled {
+    objc.checkOsVersion('AVAudioPlayer.isMeteringEnabled',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_isMeteringEnabled);
   }
 
   /// setMeteringEnabled:
   set meteringEnabled(bool value) {
+    objc.checkOsVersion('AVAudioPlayer.setMeteringEnabled:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setMeteringEnabled_, value);
   }
 
   /// updateMeters
   void updateMeters() {
+    objc.checkOsVersion('AVAudioPlayer.updateMeters',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_updateMeters);
   }
 
   /// peakPowerForChannel:
   double peakPowerForChannel_(int channelNumber) {
+    objc.checkOsVersion('AVAudioPlayer.peakPowerForChannel:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_65s5ywFpret(
             this.ref.pointer, _sel_peakPowerForChannel_, channelNumber)
@@ -837,6 +956,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// averagePowerForChannel:
   double averagePowerForChannel_(int channelNumber) {
+    objc.checkOsVersion('AVAudioPlayer.averagePowerForChannel:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_65s5ywFpret(
             this.ref.pointer, _sel_averagePowerForChannel_, channelNumber)
@@ -846,6 +967,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// channelAssignments
   objc.NSArray? get channelAssignments {
+    objc.checkOsVersion('AVAudioPlayer.channelAssignments',
+        iOS: (false, (7, 0, 0)), macOS: (true, null));
     final _ret =
         _objc_msgSend_151sglz(this.ref.pointer, _sel_channelAssignments);
     return _ret.address == 0
@@ -855,19 +978,23 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setChannelAssignments:
   set channelAssignments(objc.NSArray? value) {
+    objc.checkOsVersion('AVAudioPlayer.setChannelAssignments:',
+        iOS: (false, (7, 0, 0)), macOS: (true, null));
     _objc_msgSend_xtuoz7(this.ref.pointer, _sel_setChannelAssignments_,
         value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// init
   AVAudioPlayer init() {
+    objc.checkOsVersion('AVAudioPlayer.init',
+        iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
     final _ret =
         _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// new
-  static AVAudioPlayer new1() {
+  static AVAudioPlayer new$() {
     final _ret = _objc_msgSend_151sglz(_class_AVAudioPlayer, _sel_new);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
@@ -886,7 +1013,7 @@ class AVAudioPlayer extends objc.NSObject {
   }
 
   /// self
-  AVAudioPlayer self() {
+  AVAudioPlayer self$1() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return AVAudioPlayer.castFromPointer(_ret, retain: true, release: true);
   }
@@ -902,4 +1029,7 @@ class AVAudioPlayer extends objc.NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
     return AVAudioPlayer.castFromPointer(_ret, retain: true, release: true);
   }
+
+  /// Returns a new instance of AVAudioPlayer constructed with the default `new` method.
+  factory AVAudioPlayer() => new$();
 }

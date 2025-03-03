@@ -12,9 +12,6 @@ void main(List<String> args) async {
     assert(someValue != null);
     final someInt = input.metadatum('package_with_metadata', 'some_int');
     assert(someInt != null);
-    print({
-      'some_int': someInt,
-      'some_key': someValue,
-    });
+    print({'some_int': someInt, 'some_key': someValue});
   });
 }

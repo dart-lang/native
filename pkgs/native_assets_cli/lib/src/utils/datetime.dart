@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 extension DateTimeExtension on DateTime {
-  DateTime roundDownToSeconds() =>
-      DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
-          millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds);
+  DateTime roundDownToSeconds() => DateTime.fromMillisecondsSinceEpoch(
+    millisecondsSinceEpoch -
+        millisecondsSinceEpoch % const Duration(seconds: 1).inMilliseconds,
+  );
 }

@@ -50,8 +50,7 @@ void main() {
         final optimizationLevel = optimizationLevels[selectOptimizationLevel];
         selectOptimizationLevel =
             (selectOptimizationLevel + 1) % optimizationLevels.length;
-        test(
-            'CBuilder $linkMode library $target minSdkVersion $apiLevel '
+        test('CBuilder $linkMode library $target minSdkVersion $apiLevel '
             '$optimizationLevel', () async {
           final tempUri = await tempDirForTest();
           final libUri = await buildLib(
@@ -144,28 +143,27 @@ Future<Uri> buildLib(
 
   final tempUriShared = tempUri.resolve('shared/');
   await Directory.fromUri(tempUriShared).create();
-  final buildInputBuilder = BuildInputBuilder()
-    ..setupShared(
-      packageName: name,
-      packageRoot: tempUri,
-      outputFile: tempUri.resolve('output.json'),
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUriShared,
-    )
-    ..config.setupBuild(
-      linkingEnabled: false,
-      dryRun: false,
-    )
-    ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-    ..config.setupCode(
-      targetOS: OS.android,
-      targetArchitecture: targetArchitecture,
-      cCompiler: cCompiler,
-      android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
-      linkModePreference: linkMode == DynamicLoadingBundled()
-          ? LinkModePreference.dynamic
-          : LinkModePreference.static,
-    );
+  final buildInputBuilder =
+      BuildInputBuilder()
+        ..setupShared(
+          packageName: name,
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+          outputDirectory: tempUri,
+          outputDirectoryShared: tempUriShared,
+        )
+        ..config.setupBuild(linkingEnabled: false)
+        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+        ..config.setupCode(
+          targetOS: OS.android,
+          targetArchitecture: targetArchitecture,
+          cCompiler: cCompiler,
+          android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
+          linkModePreference:
+              linkMode == DynamicLoadingBundled()
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+        );
 
   final buildInput = BuildInput(buildInputBuilder.json);
   final buildOutput = BuildOutputBuilder();
@@ -177,11 +175,7 @@ Future<Uri> buildLib(
     flags: flags,
     buildMode: BuildMode.release,
   );
-  await cbuilder.run(
-    input: buildInput,
-    output: buildOutput,
-    logger: logger,
-  );
+  await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
   final libUri = tempUri.resolve(OS.android.libraryFileName(name, linkMode));
   return libUri;
