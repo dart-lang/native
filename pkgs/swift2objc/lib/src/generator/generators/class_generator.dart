@@ -134,6 +134,7 @@ List<String> _generateClassProperties(ClassDeclaration declaration) => [
         ..._generateClassProperty(property),
     ];
 
+// TODO: Generate Class properties for constants (i.e let)
 List<String> _generateClassProperty(PropertyDeclaration property) {
   final header = StringBuffer();
 
