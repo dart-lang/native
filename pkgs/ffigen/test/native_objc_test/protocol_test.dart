@@ -442,8 +442,8 @@ void main() {
 
       final block = InstanceMethodBlock.fromFunction(
           (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
-      MyProtocol.instanceMethod_withDouble_.implementWithBlock(
-          protocolBuilder, block);
+      MyProtocol.instanceMethod_withDouble_
+          .implementWithBlock(protocolBuilder, block);
       final protocol = protocolBuilder.build();
 
       final protocolPtr = protocol.ref.pointer;
@@ -546,7 +546,8 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, builder first', () {
-      ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(debugName: 'Foo');
+      ObjCProtocolBuilder? protocolBuilder =
+          ObjCProtocolBuilder(debugName: 'Foo');
 
       NSObject? protocol = protocolBuilder.build();
       final clazz = lib.getClass(protocol);
@@ -564,7 +565,8 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, instance first', () {
-      ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(debugName: 'Foo');
+      ObjCProtocolBuilder? protocolBuilder =
+          ObjCProtocolBuilder(debugName: 'Foo');
 
       NSObject? protocol = protocolBuilder.build();
       final clazz = lib.getClass(protocol);

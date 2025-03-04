@@ -26,8 +26,9 @@ class ObjCProtocolBuilder {
   final Pointer<c.ObjCObject> _class;
   var _built = false;
 
-  ObjCProtocolBuilder._(this._class) :
-      _builder = objc.DartProtocolBuilder.alloc().initWithClass_(_class.cast());
+  ObjCProtocolBuilder._(this._class)
+      : _builder =
+            objc.DartProtocolBuilder.alloc().initWithClass_(_class.cast());
 
   ObjCProtocolBuilder({String? debugName})
       : this._(_createProtocolClass(debugName));
