@@ -545,7 +545,7 @@ void main() {
       receivePort.close();
     }, skip: !canDoGC);
 
-    test('class disposal', () {
+    test('class disposal, builder first', () {
       ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(debugName: 'Foo');
 
       NSObject? protocol = protocolBuilder.build();
@@ -555,9 +555,29 @@ void main() {
       expect(isValidClass(clazz), isTrue);
 
       protocolBuilder = null;
+      doGC();
+      expect(isValidClass(clazz), isTrue);
+
       protocol = null;
       doGC();
+      expect(isValidClass(clazz), isFalse);
+    }, skip: !canDoGC);
 
+    test('class disposal, instance first', () {
+      ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(debugName: 'Foo');
+
+      NSObject? protocol = protocolBuilder.build();
+      final clazz = lib.getClass(protocol);
+      expect(lib.getClassName(clazz).cast<Utf8>().toDartString(),
+          startsWith('Foo'));
+      expect(isValidClass(clazz), isTrue);
+
+      protocolBuilder = null;
+      doGC();
+      expect(isValidClass(clazz), isTrue);
+
+      protocol = null;
+      doGC();
       expect(isValidClass(clazz), isFalse);
     }, skip: !canDoGC);
   });
