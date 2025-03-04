@@ -59,7 +59,7 @@ class ObjCProtocolBuilder {
     }
     final obj = objc.DartProtocol.castFromPointer(
         _msgSendAlloc(_class, _selAlloc),
-        retain: true,
+        retain: false,
         release: true);
 
     var disposePort = c.ILLEGAL_PORT;
