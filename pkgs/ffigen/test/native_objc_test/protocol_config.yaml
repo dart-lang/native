@@ -5,6 +5,10 @@ output:
   bindings: 'protocol_bindings.dart'
   objc-bindings: 'protocol_bindings.m'
 exclude-all-by-default: true
+functions:
+  include:
+    - getClass
+    - getClassName
 objc-interfaces:
   include:
     - ProtocolConsumer

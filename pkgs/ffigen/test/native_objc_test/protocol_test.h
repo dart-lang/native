@@ -5,6 +5,9 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
 
+const char* getClassName(void* cls);
+void* getClass(id object);
+
 typedef struct {
   int32_t x;
   int32_t y;

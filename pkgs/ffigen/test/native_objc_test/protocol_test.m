@@ -8,6 +8,16 @@
 
 #include "protocol_test.h"
 
+const char* class_getName(Class cls);
+
+const char* getClassName(void* cls) {
+  return class_getName((__bridge Class)cls);
+}
+
+void* getClass(id object) {
+  return (__bridge void*)[object class];
+}
+
 @implementation ProtocolConsumer : NSObject
 - (NSString*)callInstanceMethod:(id<SuperProtocol>)protocol {
   return [protocol instanceMethod:@"Hello from ObjC" withDouble:3.14];

@@ -24,13 +24,15 @@ typedef VoidMethodBlock = ObjCBlock_ffiVoid_ffiVoid_Int32;
 typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
 
 void main() {
+  late ProtocolTestObjCLibrary lib;
+
   group('protocol', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
       generateBindingsForCoverage('protocol');
     });
 
@@ -413,6 +415,73 @@ void main() {
       expect(UnusedProtocol.conformsTo(inst), isFalse);
     });
 
+    test('Threading stress test', () async {
+      final consumer = ProtocolConsumer();
+      final completer = Completer<void>();
+      int count = 0;
+
+      final protocolBuilder = ObjCProtocolBuilder();
+      MyProtocol.voidMethod_.implementAsListener(protocolBuilder, (int x) {
+        expect(x, 123);
+        ++count;
+        if (count == 1000) completer.complete();
+      });
+
+      final protocol = protocolBuilder.build();
+      final MyProtocol asMyProtocol = MyProtocol.castFrom(protocol);
+
+      for (int i = 0; i < 1000; ++i) {
+        consumer.callMethodOnRandomThread_(asMyProtocol);
+      }
+      await completer.future;
+      expect(count, 1000);
+    });
+
+    (NSObject, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
+      final protocolBuilder = ObjCProtocolBuilder();
+
+      final block = InstanceMethodBlock.fromFunction(
+          (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
+      MyProtocol.instanceMethod_withDouble_.implementWithBlock(
+          protocolBuilder, block);
+      final protocol = protocolBuilder.build();
+
+      final protocolPtr = protocol.ref.pointer;
+      final blockPtr = block.ref.pointer;
+
+      // There are 2 references to the block. One owned by the Dart wrapper
+      // object, and the other owned by the protocol. The method signature is
+      // also an ObjC object, so the same is true for it.
+      doGC();
+      expect(objectRetainCount(protocolPtr), 1);
+      expect(blockRetainCount(blockPtr), 2);
+
+      return (protocol, blockPtr);
+    }
+
+    (Pointer<ObjCObject>, Pointer<ObjCBlockImpl>) blockRefCountTest() {
+      final (protocol, blockPtr) = blockRefCountTestInner();
+      final protocolPtr = protocol.ref.pointer;
+
+      // The Dart side block pointer has gone out of scope, but the protocol
+      // still owns a reference to it. Same for the signature.
+      doGC();
+      expect(objectRetainCount(protocolPtr), 1);
+      expect(blockRetainCount(blockPtr), 1);
+
+      return (protocolPtr, blockPtr);
+    }
+
+    test('Block ref counting', () {
+      final (protocolPtr, blockPtr) = blockRefCountTest();
+
+      // The protocol object has gone out of scope, so it should be cleaned up.
+      // So should the block and the signature.
+      doGC();
+      expect(objectRetainCount(protocolPtr), 0);
+      expect(blockRetainCount(blockPtr), 0);
+    }, skip: !canDoGC);
+
     test('keepIsolateAlive', () async {
       final isolateSendPort = Completer<SendPort>();
       final protosCreated = Completer<void>();
@@ -474,6 +543,22 @@ void main() {
       await isExited;
 
       receivePort.close();
+    }, skip: !canDoGC);
+
+    test('class disposal', () {
+      ObjCProtocolBuilder? protocolBuilder = ObjCProtocolBuilder(debugName: 'Foo');
+
+      NSObject? protocol = protocolBuilder.build();
+      final clazz = lib.getClass(protocol);
+      expect(lib.getClassName(clazz).cast<Utf8>().toDartString(),
+          startsWith('Foo'));
+      expect(isValidClass(clazz), isTrue);
+
+      protocolBuilder = null;
+      protocol = null;
+      doGC();
+
+      expect(isValidClass(clazz), isFalse);
     }, skip: !canDoGC);
   });
 }

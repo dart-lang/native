@@ -10,8 +10,7 @@
 #include "include/dart_api_dl.h"
 
 @interface DOBJCDartProtocolBuilder : NSObject
-+ (instancetype)new;
-- (instancetype)init;
+- (instancetype)initWithClass: (void*)cls;
 - (void)implementMethod:(SEL) sel withBlock:(void*)block;
 @end
 
