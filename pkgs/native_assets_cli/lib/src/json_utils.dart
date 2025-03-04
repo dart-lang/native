@@ -51,11 +51,30 @@ extension MapJsonUtils on Map<String, Object?> {
 
   List<String> stringList(String key) => get<List<Object?>>(key).cast<String>();
 
+  List<Uri>? optionalPathList(String key) {
+    final strings = optionalStringList(key);
+    if (strings == null) {
+      return null;
+    }
+    return [for (final string in strings) _fileSystemPathToUri(string)];
+  }
+
   List<Object?> list(String key) => get<List<Object?>>(key);
   List<Object?>? optionalList(String key) => getOptional<List<Object?>>(key);
   Map<String, Object?> map$(String key) => get<Map<String, Object?>>(key);
-  Map<String, Object?>? optionalMap(String key) =>
-      getOptional<Map<String, Object?>>(key);
+  Map<String, T>? optionalMap<T extends Object?>(String key) {
+    final map_ = getOptional<Map<String, Object?>>(key);
+    if (map_ is Map<String, T>?) return map_;
+    for (final value in map_.values) {
+      if (value is! T) {
+        throw FormatException(
+          'Unexpected value \'$map_\' (${map_.runtimeType}) for key \'.$key\''
+          ' in input file. Expected a ${Map<String, T>}?.',
+        );
+      }
+    }
+    return map_.cast();
+  }
 
   T get<T extends Object>(String key) {
     final value = this[key];
@@ -109,4 +128,20 @@ Uri _fileSystemPathToUri(String path) {
     return Uri.directory(path);
   }
   return Uri.file(path);
+}
+
+extension UriList on List<Uri> {
+  List<String> toJson() => [for (final uri in this) uri.toFilePath()];
+}
+
+extension MapSorting<K extends Comparable<K>, V extends Object?> on Map<K, V> {
+  void sortOnKey() {
+    final result = <K, V>{};
+    final keysSorted = keys.toList()..sort();
+    for (final key in keysSorted) {
+      result[key] = this[key] as V;
+    }
+    clear();
+    addAll(result);
+  }
 }

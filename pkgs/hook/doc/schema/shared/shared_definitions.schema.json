@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Asset": {
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "BuildConfig": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Config"
+        },
+        {
+          "properties": {
+            "linking_enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "linking_enabled"
+          ]
+        }
+      ]
+    },
+    "BuildInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        }
+      ],
+      "properties": {
+        "config": {
+          "$ref": "#/definitions/BuildConfig"
+        },
+        "dependency_metadata": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "type": "object"
+        }
+      }
+    },
+    "BuildOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        }
+      ],
+      "properties": {
+        "assetsForLinking": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/definitions/Asset"
+            },
+            "type": "array"
+          },
+          "type": "object"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Config": {
+      "properties": {
+        "build_asset_types": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "build_asset_types"
+      ],
+      "type": "object"
+    },
+    "HookInput": {
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/Config"
+        },
+        "out_dir": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "out_dir_shared": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "out_file": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "package_name": {
+          "type": "string"
+        },
+        "package_root": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "config",
+        "out_dir",
+        "out_dir_shared",
+        "package_name",
+        "package_root",
+        "version"
+      ],
+      "type": "object"
+    },
+    "HookOutput": {
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "assets": {
+          "items": {
+            "$ref": "#/definitions/Asset"
+          },
+          "type": "array"
+        },
+        "dependencies": {
+          "items": {
+            "$ref": "#/definitions/absolutePath"
+          },
+          "type": "array"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp",
+        "version"
+      ],
+      "type": "object"
+    },
+    "LinkInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        }
+      ],
+      "properties": {
+        "assets": {
+          "items": {
+            "$ref": "#/definitions/Asset"
+          },
+          "type": "array"
+        },
+        "resource_identifiers": {
+          "$ref": "#/definitions/absolutePath"
+        }
+      }
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        }
+      ]
+    },
+    "absolutePath": {
+      "pattern": "^(\\/|[A-Za-z]:)",
+      "type": "string"
+    },
+    "relativePath": {
+      "pattern": "^([A-Za-z])",
+      "type": "string"
+    }
+  },
+  "title": "package:hook party:shared shared definitions"
+}

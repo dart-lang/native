@@ -238,17 +238,20 @@ void main() async {
       'package_root': packageRootUri.toFilePath(),
       'version': latestVersion.toString(),
     };
-    expect(() => BuildInput(input).config.code, throwsFormatException);
+    expect(
+      () => BuildInput(input).config.code.targetArchitecture,
+      throwsFormatException,
+    );
   });
 
-  test('LinkInput.config.code: invalid architecture', () {
+  test('LinkInput.config.code: invalid os', () {
     final input = {
       'config': {
         'code': {
           'link_mode_preference': 'prefer-static',
           'android': {'target_ndk_api': 30},
-          'target_architecture': 'invalid_architecture',
-          'target_os': 'android',
+          'target_architecture': 'x64',
+          'target_os': 'invalid_os',
         },
       },
       'out_dir': outDirUri.toFilePath(),
@@ -258,6 +261,6 @@ void main() async {
       'package_root': packageRootUri.toFilePath(),
       'version': latestVersion.toString(),
     };
-    expect(() => LinkInput(input).config.code, throwsFormatException);
+    expect(() => LinkInput(input).config.code.targetOS, throwsFormatException);
   });
 }

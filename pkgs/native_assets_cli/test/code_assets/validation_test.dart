@@ -213,7 +213,18 @@ void main() {
               targetOS: OS.iOS,
               targetArchitecture: Architecture.arm64,
               linkModePreference: LinkModePreference.dynamic,
+              iOS: IOSCodeConfig(
+                targetSdk: IOSSdk.iPhoneOS,
+                targetVersion: 123,
+              ),
             );
+      // TODO(https://github.com/dart-lang/native/issues/2039): Have a solution for
+      // syntactic errors that doesn't require manually manipulating the JSON.
+      final json = builder.json;
+      // ignore: avoid_dynamic_calls
+      final iosMap = (json as Map)['config']['code']['ios'] as Map;
+      iosMap.remove('target_version');
+      iosMap.remove('target_sdk');
       final errors = await validateCodeAssetBuildInput(
         BuildInput(builder.json),
       );
@@ -236,7 +247,14 @@ void main() {
               targetOS: OS.android,
               targetArchitecture: Architecture.arm64,
               linkModePreference: LinkModePreference.dynamic,
+              android: AndroidCodeConfig(targetNdkApi: 123),
             );
+      // TODO(https://github.com/dart-lang/native/issues/2039): Have a solution for
+      // syntactic errors that doesn't require manually manipulating the JSON.
+      final json = builder.json;
+      // ignore: avoid_dynamic_calls
+      final androidMap = (json as Map)['config']['code']['android'] as Map;
+      androidMap.remove('target_ndk_api');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
@@ -252,7 +270,12 @@ void main() {
               targetOS: OS.macOS,
               targetArchitecture: Architecture.arm64,
               linkModePreference: LinkModePreference.dynamic,
+              macOS: MacOSCodeConfig(targetVersion: 123),
             );
+      final json = builder.json;
+      // ignore: avoid_dynamic_calls
+      final macOSMap = (json as Map)['config']['code']['macos'] as Map;
+      macOSMap.remove('target_version');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
