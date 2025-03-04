@@ -141,10 +141,10 @@ void main() {
                 outputDirectoryShared: tempUri2,
               )
               ..config.setupBuild(linkingEnabled: false);
+        buildInputBuilder.config.setupShared(
+          buildAssetTypes: [if (buildCodeAssets) CodeAsset.type],
+        );
         if (buildCodeAssets) {
-          buildInputBuilder.config.setupShared(
-            buildAssetTypes: [CodeAsset.type],
-          );
           buildInputBuilder.config.setupCode(
             targetOS: targetOS,
             macOS: macOSConfig,
