@@ -14,14 +14,14 @@
 #endif
 
 @interface DOBJCDartProtocolClass : NSObject
-- (instancetype)initWithClass: (void*)cls;
+- (instancetype)initWithClass: (Class)cls;
 @end
 
 @implementation DOBJCDartProtocolClass {
-  void* clazz;
+  Class clazz;
 }
 
-- (instancetype)initWithClass: (void*)cls {
+- (instancetype)initWithClass: (Class)cls {
   if (self) {
     clazz = cls;
   }
@@ -29,7 +29,7 @@
 }
 
 - (void)dealloc {
-  objc_disposeClassPair((__bridge Class)clazz);
+  objc_disposeClassPair(clazz);
 }
 
 @end
@@ -42,7 +42,7 @@
 - (instancetype)initWithClass: (void*)cls {
   if (self) {
     methods = [NSMutableDictionary new];
-    clazz = [[DOBJCDartProtocolClass alloc] initWithClass: cls];
+    clazz = [[DOBJCDartProtocolClass alloc] initWithClass: (__bridge Class)cls];
   }
   return self;
 }
