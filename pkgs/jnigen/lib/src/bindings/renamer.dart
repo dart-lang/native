@@ -46,7 +46,7 @@ const _keywords = {
   'extends': _Allowed.none,
   'extension': _Allowed.fields | _Allowed.methods,
   'external': _Allowed.fields | _Allowed.methods,
-  'factory': _Allowed.fields | _Allowed.fields,
+  'factory': _Allowed.fields | _Allowed.methods,
   'false': _Allowed.none,
   'final': _Allowed.none,
   'finally': _Allowed.none,

@@ -1,3 +1,7 @@
+## 0.14.2-wip
+
+- The name `factory` can now also be used in a method name without renaming.
+
 ## 0.14.1
 
 - Added support for generating matching Kotlin operators as Dart operators.
