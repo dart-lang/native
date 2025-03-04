@@ -7,22 +7,42 @@
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSInvocation.h>
 #import <Foundation/NSValue.h>
+#import <objc/runtime.h>
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
 #endif
 
+@interface DOBJCDartProtocolClass : NSObject
+- (instancetype)initWithClass: (Class)cls;
+@end
+
+@implementation DOBJCDartProtocolClass {
+  Class clazz;
+}
+
+- (instancetype)initWithClass: (Class)cls {
+  if (self) {
+    clazz = cls;
+  }
+  return self;
+}
+
+- (void)dealloc {
+  objc_disposeClassPair(clazz);
+}
+
+@end
+
 @implementation DOBJCDartProtocolBuilder {
   NSMutableDictionary *methods;
+  DOBJCDartProtocolClass* clazz;
 }
 
-+ (instancetype)new {
-  return [[self alloc] init];
-}
-
-- (instancetype)init {
+- (instancetype)initWithClass: (void*)cls {
   if (self) {
     methods = [NSMutableDictionary new];
+    clazz = [[DOBJCDartProtocolClass alloc] initWithClass: (__bridge Class)cls];
   }
   return self;
 }
@@ -37,13 +57,19 @@
   [self implement:sel withBlock:(__bridge id)block];
 }
 
-- (NSDictionary*)copyMethods NS_RETURNS_RETAINED {
-  return [methods copy];
+- (NSDictionary*)getMethods {
+  return methods;
 }
+
+- (DOBJCDartProtocolClass*)getClass {
+  return clazz;
+}
+
 @end
 
 @implementation DOBJCDartProtocol {
   NSDictionary *methods;
+  DOBJCDartProtocolClass* clazz;
   Dart_Port dispose_port;
 }
 
@@ -55,7 +81,8 @@
     (DOBJCDartProtocolBuilder*)builder
     withDisposePort:(Dart_Port)port {
   if (self) {
-    methods = [builder copyMethods];
+    methods = [builder getMethods];
+    clazz = [builder getClass];
     dispose_port = port;
   }
   return self;

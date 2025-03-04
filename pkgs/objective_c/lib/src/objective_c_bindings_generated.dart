@@ -620,6 +620,14 @@ class DartProtocolBuilder extends NSObject {
         retain: false, release: true);
   }
 
+  /// initWithClass:
+  DartProtocolBuilder initWithClass_(ffi.Pointer<ffi.Void> cls) {
+    final _ret = _objc_msgSend_1mbt9g9(
+        this.ref.retainAndReturnPointer(), _sel_initWithClass_, cls);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
   /// retain
   DartProtocolBuilder retain() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
@@ -16024,6 +16032,14 @@ final _objc_msgSend_1lv8yz3 = objc.msgSendPointer
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int, int)>();
+final _objc_msgSend_1mbt9g9 = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>>()
+    .asFunction<
+        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1n40f6p = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -17683,6 +17699,7 @@ late final _sel_initWithCharactersNoCopy_length_freeWhenDone_ =
     objc.registerName("initWithCharactersNoCopy:length:freeWhenDone:");
 late final _sel_initWithCharacters_length_ =
     objc.registerName("initWithCharacters:length:");
+late final _sel_initWithClass_ = objc.registerName("initWithClass:");
 late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
 late final _sel_initWithContentsOfFile_ =
     objc.registerName("initWithContentsOfFile:");
