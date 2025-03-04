@@ -1,0 +1,497 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json"
+    }
+  ],
+  "definitions": {
+    "AndroidCodeConfig": {
+      "properties": {
+        "target_ndk_api": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "Architecture": {
+      "anyOf": [
+        {
+          "const": "arm"
+        },
+        {
+          "const": "arm64"
+        },
+        {
+          "const": "ia32"
+        },
+        {
+          "const": "riscv32"
+        },
+        {
+          "const": "riscv64"
+        },
+        {
+          "const": "x64"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "type": "string"
+    },
+    "Asset": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/Asset"
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "native_code"
+              }
+            }
+          },
+          "properties": {
+            "type": {
+              "anyOf": [
+                {
+                  "const": "native_code"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "then": {
+            "if": {
+              "properties": {
+                "link_mode": {
+                  "properties": {
+                    "type": {
+                      "anyOf": [
+                        {
+                          "const": "dynamic_loading_bundle"
+                        },
+                        {
+                          "const": "static"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "properties": {
+              "architecture": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/Architecture"
+                  }
+                ]
+              },
+              "file": {
+                "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+              },
+              "id": {
+                "type": "string"
+              },
+              "link_mode": {
+                "$ref": "#/definitions/LinkMode"
+              },
+              "os": {
+                "$ref": "#/definitions/OS"
+              }
+            },
+            "required": [
+              "id",
+              "link_mode",
+              "os"
+            ],
+            "then": {
+              "required": [
+                "file"
+              ]
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "BuildConfig": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Config"
+        },
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildConfig"
+        }
+      ]
+    },
+    "BuildInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildInput"
+        },
+        {
+          "properties": {
+            "config": {
+              "$ref": "#/definitions/BuildConfig"
+            }
+          }
+        }
+      ]
+    },
+    "BuildOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildOutput"
+        },
+        {
+          "properties": {
+            "assetsForLinking": {
+              "additionalProperties": {
+                "items": {
+                  "$ref": "#/definitions/Asset"
+                },
+                "type": "array"
+              },
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "CCompilerConfig": {
+      "properties": {
+        "ar": {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+        },
+        "cc": {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+        },
+        "env_script": {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+        },
+        "env_script_arguments": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "ld": {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+        },
+        "windows": {
+          "properties": {
+            "developer_command_prompt": {
+              "properties": {
+                "arguments": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "script": {
+                  "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+                }
+              },
+              "required": [
+                "arguments",
+                "script"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "ar",
+        "cc",
+        "ld"
+      ],
+      "type": "object"
+    },
+    "CodeConfig": {
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "target_os": {
+                "const": "macos"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "macos"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target_os": {
+                "const": "ios"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "ios"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target_os": {
+                "const": "android"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "android"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target_os": {
+                "const": "windows"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "c_compiler": {
+                "required": [
+                  "windows"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "android": {
+          "$ref": "#/definitions/AndroidCodeConfig"
+        },
+        "c_compiler": {
+          "$ref": "#/definitions/CCompilerConfig"
+        },
+        "ios": {
+          "$ref": "#/definitions/IOSCodeConfig"
+        },
+        "link_mode_preference": {
+          "$ref": "#/definitions/LinkModePreference"
+        },
+        "macos": {
+          "$ref": "#/definitions/MacOSCodeConfig"
+        },
+        "target_architecture": {
+          "$ref": "#/definitions/Architecture"
+        },
+        "target_os": {
+          "$ref": "#/definitions/OS"
+        }
+      },
+      "required": [
+        "link_mode_preference",
+        "target_architecture",
+        "target_os"
+      ],
+      "type": "object"
+    },
+    "Config": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/Config"
+        },
+        {
+          "properties": {
+            "code": {
+              "$ref": "#/definitions/CodeConfig"
+            }
+          }
+        }
+      ]
+    },
+    "HookInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/HookInput"
+        },
+        {
+          "properties": {
+            "config": {
+              "$ref": "#/definitions/Config"
+            }
+          },
+          "required": [
+            "config"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "HookOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/HookOutput"
+        },
+        {
+          "properties": {
+            "assets": {
+              "items": {
+                "$ref": "#/definitions/Asset"
+              },
+              "type": "array"
+            }
+          }
+        }
+      ]
+    },
+    "IOSCodeConfig": {
+      "properties": {
+        "target_sdk": {
+          "type": "string"
+        },
+        "target_version": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "LinkInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkInput"
+        }
+      ],
+      "properties": {
+        "assets": {
+          "items": {
+            "$ref": "#/definitions/Asset"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "LinkMode": {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "dynamic_loading_system"
+          }
+        }
+      },
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "const": "dynamic_loading_bundle"
+            },
+            {
+              "const": "dynamic_loading_executable"
+            },
+            {
+              "const": "dynamic_loading_process"
+            },
+            {
+              "const": "dynamic_loading_system"
+            },
+            {
+              "const": "static"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "then": {
+        "properties": {
+          "uri": {
+            "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/relativePath"
+          }
+        },
+        "required": [
+          "uri"
+        ]
+      },
+      "type": "object"
+    },
+    "LinkModePreference": {
+      "anyOf": [
+        {
+          "const": "dynamic"
+        },
+        {
+          "const": "prefer-dynamic"
+        },
+        {
+          "const": "prefer-static"
+        },
+        {
+          "const": "static"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "type": "string"
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkOutput"
+        }
+      ]
+    },
+    "MacOSCodeConfig": {
+      "properties": {
+        "target_version": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "OS": {
+      "anyOf": [
+        {
+          "const": "android"
+        },
+        {
+          "const": "ios"
+        },
+        {
+          "const": "linux"
+        },
+        {
+          "const": "macos"
+        },
+        {
+          "const": "windows"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "type": "string"
+    }
+  },
+  "title": "package:code_assets party:shared shared definitions"
+}

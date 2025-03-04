@@ -5,7 +5,6 @@
 import 'package:collection/collection.dart';
 
 import 'json_utils.dart';
-import 'utils/map.dart';
 
 /// An encoding of a particular asset type.
 final class EncodedAsset {
@@ -32,6 +31,7 @@ final class EncodedAsset {
   @override
   String toString() => 'EncodedAsset($type, $encoding)';
 
+  // TODO(https://github.com/dart-lang/native/issues/2045): Fix this.
   @override
   int get hashCode => Object.hash(type, const DeepCollectionEquality().hash);
 

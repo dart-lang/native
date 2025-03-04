@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "../shared/shared_definitions.schema.json#"
+    }
+  ],
+  "definitions": {
+    "BuildInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildInput"
+        }
+      ]
+    },
+    "BuildOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildOutput"
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "HookInput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookInput"
+        },
+        {
+          "_versionSkew": {
+            "out_file": "'out_file' is not provided by older SDKs. Then, it must be $out_dir/output.json.",
+            "version": "Future SDKs will no longer provide 'version'."
+          },
+          "properties": {
+            "version": {
+              "_deprecated": "Instead of versioning the protocol with version numbers, each field has it's own life cycle. Individual fields can be marked deprecated and will be removed as a breaking change after some time.",
+              "deprecated": true
+            }
+          }
+        }
+      ]
+    },
+    "HookOutput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookOutput"
+        },
+        {
+          "required": [
+            "version"
+          ]
+        }
+      ]
+    },
+    "LinkInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkInput"
+        }
+      ]
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkOutput"
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  },
+  "title": "package:hook party:hook shared definitions"
+}

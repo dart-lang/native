@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'syntax.g.dart' as syntax;
+
 /// An operating system the Dart VM runs on.
 final class OS {
   /// The name of this operating system.
@@ -44,8 +46,6 @@ final class OS {
     OS.windows: [OS.windows, OS.android],
   };
 
-  static const String configKey = 'target_os';
-
   /// The name of this [OS].
   ///
   /// This returns a stable string that can be used to construct a
@@ -53,19 +53,31 @@ final class OS {
   @override
   String toString() => name;
 
-  /// Mapping from strings as used in [OS.toString] to
-  /// [OS]s.
-  static final Map<String, OS> _stringToOS = {
-    for (var os in OS.values) os.toString(): os,
-  };
-
   /// Creates a [OS] from the given [name].
   ///
   /// The name can be obtained from [OS.name] or [OS.toString].
-  factory OS.fromString(String name) => _stringToOS[name]!;
+  factory OS.fromString(String name) =>
+      OSSyntax.fromSyntax(syntax.OS.fromJson(name));
 
   /// The current [OS].
   ///
   /// Consisten with the [Platform.version] string.
   static final OS current = OS.fromString(Platform.operatingSystem);
+}
+
+extension OSSyntax on OS {
+  static final _toSyntax = {
+    for (final item in OS.values) item: syntax.OS.fromJson(item.name),
+  };
+
+  static final _fromSyntax = {
+    for (var entry in _toSyntax.entries) entry.value: entry.key,
+  };
+
+  syntax.OS toSyntax() => _toSyntax[this]!;
+
+  static OS fromSyntax(syntax.OS syntax) => switch (_fromSyntax[syntax]) {
+    null => throw FormatException('The OS "${syntax.name}" is not known'),
+    final e => e,
+  };
 }

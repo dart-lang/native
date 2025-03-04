@@ -1,0 +1,37 @@
+{
+  "$schema": "../../doc/schema/sdk/build_input.schema.json",
+  "config": {
+    "build_asset_types": [
+      "native_code"
+    ],
+    "code": {
+      "c_compiler": {
+        "ar": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar",
+        "cc": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
+        "ld": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
+      },
+      "link_mode_preference": "dynamic",
+      "macos": {
+        "target_version": 13
+      },
+      "target_architecture": "arm64",
+      "target_os": "macos"
+    },
+    "linking_enabled": false
+  },
+  "dependency_metadata": {
+    "some_package": {
+      "baz": 1,
+      "foo": "bar",
+      "qux": {
+        "bar": "baz"
+      }
+    }
+  },
+  "out_dir": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/out/",
+  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/build/",
+  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/output.json",
+  "package_name": "my_package",
+  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+  "version": "1.9.0"
+}

@@ -24,8 +24,6 @@ import 'build_planner.dart';
 
 typedef DependencyMetadata = Map<String, Metadata>;
 
-typedef InputCreator = HookInputBuilder Function();
-
 typedef BuildInputCreator = BuildInputBuilder Function();
 
 typedef LinkInputCreator = LinkInputBuilder Function();
