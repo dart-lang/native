@@ -19,23 +19,21 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
         final logMessages = <String>[];
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              capturedLogs: logMessages,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
         expect(
           logMessages.join('\n'),
           contains(
@@ -45,24 +43,23 @@ void main() async {
         );
         expect(
           result.dependencies,
-          contains(
-            packageUri.resolve('src/native_add.c'),
-          ),
+          contains(packageUri.resolve('src/native_add.c')),
         );
       }
 
       {
         final logMessages = <String>[];
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          capturedLogs: logMessages,
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              capturedLogs: logMessages,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
         final hookUri = packageUri.resolve('hook/build.dart');
         expect(
           logMessages.join('\n'),
@@ -74,16 +71,16 @@ void main() async {
         );
         expect(
           logMessages.join('\n'),
-          isNot(contains(
-            'native_add${Platform.pathSeparator}hook'
-            '${Platform.pathSeparator}build.dart',
-          )),
+          isNot(
+            contains(
+              'native_add${Platform.pathSeparator}hook'
+              '${Platform.pathSeparator}build.dart',
+            ),
+          ),
         );
         expect(
           result.dependencies,
-          contains(
-            packageUri.resolve('src/native_add.c'),
-          ),
+          contains(packageUri.resolve('src/native_add.c')),
         );
       }
     });
@@ -97,25 +94,24 @@ void main() async {
       final logMessages = <String>[];
       final logger = createCapturingLogger(logMessages);
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
       logMessages.clear();
 
       {
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
         await expectSymbols(
-            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
-            symbols: ['add']);
+          asset: CodeAsset.fromEncoded(result.encodedAssets.single),
+          symbols: ['add'],
+        );
         logMessages.clear();
       }
 
@@ -125,25 +121,24 @@ void main() async {
       );
 
       {
-        final result = (await build(
-          packageUri,
-          logger,
-          dartExecutable,
-          buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
-        ))!;
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
 
         final cUri = packageUri.resolve('src/').resolve('native_add.c');
         expect(
           logMessages.join('\n'),
-          stringContainsInOrder(
-            [
-              'Rerunning build for native_add in',
-              'File contents changed: ${cUri.toFilePath()}.'
-            ],
-          ),
+          stringContainsInOrder([
+            'Rerunning build for native_add in',
+            'File contents changed: ${cUri.toFilePath()}.',
+          ]),
         );
 
         await expectSymbols(
@@ -154,10 +149,78 @@ void main() async {
     });
   });
 
-  test(
-    'add C file, modify hook',
-    timeout: longTimeout,
-    () async {
+  test('add C file, modify hook', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('native_add/');
+
+      final logMessages = <String>[];
+      final logger = createCapturingLogger(logMessages);
+
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+      logMessages.clear();
+
+      final result =
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildAssetTypes: [CodeAsset.type],
+            inputValidator: validateCodeAssetBuildInput,
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
+      {
+        final compiledHook =
+            logMessages
+                .where(
+                  (m) =>
+                      m.contains('dart compile kernel') ||
+                      m.contains('dart.exe compile kernel'),
+                )
+                .isNotEmpty;
+        expect(compiledHook, isTrue);
+      }
+      logMessages.clear();
+      await expectSymbols(
+        asset: CodeAsset.fromEncoded(result.encodedAssets.single),
+        symbols: ['add'],
+      );
+
+      await copyTestProjects(
+        sourceUri: testDataUri.resolve('native_add_add_source/'),
+        targetUri: packageUri,
+      );
+
+      {
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+            ))!;
+
+        final hookUri = packageUri.resolve('hook/build.dart');
+        expect(
+          logMessages.join('\n'),
+          contains('Recompiling ${hookUri.toFilePath()}'),
+        );
+
+        logMessages.clear();
+        await expectSymbols(
+          asset: CodeAsset.fromEncoded(result.encodedAssets.single),
+          symbols: ['add', 'multiply'],
+        );
+      }
+    });
+  });
+
+  for (final modifiedEnvKey in ['PATH', 'CUSTOM_KEY_123']) {
+    test('change environment $modifiedEnvKey', timeout: longTimeout, () async {
       await inTempDir((tempUri) async {
         await copyTestProjects(targetUri: tempUri);
         final packageUri = tempUri.resolve('native_add/');
@@ -168,7 +231,43 @@ void main() async {
         await runPubGet(workingDirectory: packageUri, logger: logger);
         logMessages.clear();
 
-        final result = (await build(
+        final result =
+            (await build(
+              packageUri,
+              logger,
+              dartExecutable,
+              buildAssetTypes: [CodeAsset.type],
+              inputValidator: validateCodeAssetBuildInput,
+              buildValidator: validateCodeAssetBuildOutput,
+              applicationAssetValidator: validateCodeAssetInApplication,
+              hookEnvironment:
+                  modifiedEnvKey == 'PATH'
+                      ? null
+                      : filteredEnvironment(
+                        NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
+                      ),
+            ))!;
+        logMessages.clear();
+
+        // Simulate that the environment variables changed by augmenting the
+        // persisted environment from the last invocation.
+        final dependenciesHashFile = File.fromUri(
+          CodeAsset.fromEncoded(result.encodedAssets.single).file!.parent.parent
+              .resolve('dependencies.dependencies_hash_file.json'),
+        );
+        expect(await dependenciesHashFile.exists(), true);
+        final dependenciesContent =
+            jsonDecode(await dependenciesHashFile.readAsString())
+                as Map<Object, Object?>;
+        (dependenciesContent['environment'] as List<dynamic>).add({
+          'key': modifiedEnvKey,
+          'hash': 123456789,
+        });
+        await dependenciesHashFile.writeAsString(
+          jsonEncode(dependenciesContent),
+        );
+
+        (await build(
           packageUri,
           logger,
           dartExecutable,
@@ -177,126 +276,17 @@ void main() async {
           buildValidator: validateCodeAssetBuildOutput,
           applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
-        {
-          final compiledHook = logMessages
-              .where((m) =>
-                  m.contains('dart compile kernel') ||
-                  m.contains('dart.exe compile kernel'))
-              .isNotEmpty;
-          expect(compiledHook, isTrue);
-        }
-        logMessages.clear();
-        await expectSymbols(
-          asset: CodeAsset.fromEncoded(result.encodedAssets.single),
-          symbols: ['add'],
+        expect(logMessages.join('\n'), contains('hook.dill'));
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('Skipping build for native_add')),
         );
-
-        await copyTestProjects(
-            sourceUri: testDataUri.resolve('native_add_add_source/'),
-            targetUri: packageUri);
-
-        {
-          final result = (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
-          ))!;
-
-          final hookUri = packageUri.resolve('hook/build.dart');
-          expect(
-            logMessages.join('\n'),
-            contains('Recompiling ${hookUri.toFilePath()}'),
-          );
-
-          logMessages.clear();
-          await expectSymbols(
-            asset: CodeAsset.fromEncoded(result.encodedAssets.single),
-            symbols: ['add', 'multiply'],
-          );
-        }
+        expect(
+          logMessages.join('\n'),
+          contains('Environment variable changed: $modifiedEnvKey.'),
+        );
+        logMessages.clear();
       });
-    },
-  );
-
-  for (final modifiedEnvKey in ['PATH', 'CUSTOM_KEY_123']) {
-    test(
-      'change environment $modifiedEnvKey',
-      timeout: longTimeout,
-      () async {
-        await inTempDir((tempUri) async {
-          await copyTestProjects(targetUri: tempUri);
-          final packageUri = tempUri.resolve('native_add/');
-
-          final logMessages = <String>[];
-          final logger = createCapturingLogger(logMessages);
-
-          await runPubGet(workingDirectory: packageUri, logger: logger);
-          logMessages.clear();
-
-          final result = (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
-            hookEnvironment: modifiedEnvKey == 'PATH'
-                ? null
-                : filteredEnvironment(
-                    NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
-                  ),
-          ))!;
-          logMessages.clear();
-
-          // Simulate that the environment variables changed by augmenting the
-          // persisted environment from the last invocation.
-          final dependenciesHashFile = File.fromUri(
-            CodeAsset.fromEncoded(result.encodedAssets.single)
-                .file!
-                .parent
-                .parent
-                .resolve('dependencies.dependencies_hash_file.json'),
-          );
-          expect(await dependenciesHashFile.exists(), true);
-          final dependenciesContent =
-              jsonDecode(await dependenciesHashFile.readAsString())
-                  as Map<Object, Object?>;
-          (dependenciesContent['environment'] as List<dynamic>).add({
-            'key': modifiedEnvKey,
-            'hash': 123456789,
-          });
-          await dependenciesHashFile
-              .writeAsString(jsonEncode(dependenciesContent));
-
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
-          ))!;
-          expect(
-            logMessages.join('\n'),
-            contains('hook.dill'),
-          );
-          expect(
-            logMessages.join('\n'),
-            isNot(contains('Skipping build for native_add')),
-          );
-          expect(
-            logMessages.join('\n'),
-            contains('Environment variable changed: $modifiedEnvKey.'),
-          );
-          logMessages.clear();
-        });
-      },
-    );
+    });
   }
 }

@@ -16,10 +16,7 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('wrong_namespace_asset/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
         final logMessages = <String>[];
@@ -45,18 +42,13 @@ void main() async {
   test('right asset id but other directory', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       final packageUri = tempUri.resolve('different_root_dir/');
-      await copyTestProjects(
-        targetUri: tempUri,
-      );
+      await copyTestProjects(targetUri: tempUri);
       await copyTestProjects(
         sourceUri: testDataUri.resolve('native_add/'),
         targetUri: packageUri,
       );
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
         final result = await build(

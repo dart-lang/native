@@ -21,10 +21,7 @@ void main() async {
         await copyTestProjects(targetUri: tempUri);
         final packageUri = tempUri.resolve('$package/');
 
-        await runPubGet(
-          workingDirectory: packageUri,
-          logger: logger,
-        );
+        await runPubGet(workingDirectory: packageUri, logger: logger);
 
         // Run twice, failures should not be cached and return the same errors.
         for (final _ in [1, 2]) {
@@ -42,15 +39,9 @@ void main() async {
           expect(result, isNull);
           if (package == 'wrong_build_output_3') {
             // Should re-execute the process on second run.
-            expect(
-              fullLog,
-              contains('build.dart returned with exit code: 1.'),
-            );
+            expect(fullLog, contains('build.dart returned with exit code: 1.'));
           } else {
-            expect(
-              fullLog,
-              contains('output.json contained a format error.'),
-            );
+            expect(fullLog, contains('output.json contained a format error.'));
           }
         }
       });

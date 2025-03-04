@@ -25,7 +25,7 @@ void main() {
     });
 
     test('Renamed class', () {
-      final swiftObject = MySwiftClass.new1();
+      final swiftObject = MySwiftClass();
       expect(swiftObject.getValue(), 123);
       swiftObject.setValueWithX_(456);
       expect(swiftObject.getValue(), 456);

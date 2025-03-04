@@ -44,17 +44,17 @@ class ObjCBuiltInFunctions {
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
-  static const dartProxy = ObjCImport('DartProxy');
   static const unimplementedOptionalMethodException =
       ObjCImport('UnimplementedOptionalMethodException');
+  static const checkOsVersion = ObjCImport('checkOsVersion');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 
   @visibleForTesting
   static const builtInInterfaces = {
     'DartInputStreamAdapter',
-    'DartProxy',
-    'DartProxyBuilder',
+    'DartProtocol',
+    'DartProtocolBuilder',
     'NSArray',
     'NSCharacterSet',
     'NSCoder',
@@ -82,7 +82,6 @@ class ObjCBuiltInFunctions {
     'NSOrderedCollectionDifference',
     'NSOrderedSet',
     'NSOutputStream',
-    'NSProxy',
     'NSRunLoop',
     'NSSet',
     'NSStream',
@@ -177,12 +176,9 @@ class ObjCBuiltInFunctions {
   ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
     params = _methodSigParams(params);
     returnType = _methodSigType(returnType);
-    final id = _methodSigId(returnType, params);
+    final (id, idHash) = _methodSigId(returnType, params);
     return _msgSendFuncs[id] ??= ObjCMsgSendFunc(
-        '_objc_msgSend_${fnvHash32(id).toRadixString(36)}',
-        returnType,
-        params,
-        useMsgSendVariants);
+        '_objc_msgSend_$idHash', returnType, params, useMsgSendVariants);
   }
 
   final _selObjects = <String, ObjCInternalGlobal>{};
@@ -193,7 +189,7 @@ class ObjCBuiltInFunctions {
     );
   }
 
-  String _methodSigId(Type returnType, List<Parameter> params) {
+  (String, String) _methodSigId(Type returnType, List<Parameter> params) {
     final paramIds = <String>[];
     for (final p in params) {
       // The trampoline ID is based on the getNativeType of the param. Objects
@@ -204,7 +200,8 @@ class ObjCBuiltInFunctions {
     }
     final rt =
         returnType.getNativeType(varName: returnType.generateRetain('') ?? '');
-    return '$rt,${paramIds.join(',')}';
+    final id = '$rt,${paramIds.join(',')}';
+    return (id, fnvHash32(id).toRadixString(36));
   }
 
   Type _methodSigType(Type t) {
@@ -241,8 +238,7 @@ class ObjCBuiltInFunctions {
 
   final _blockTrampolines = <String, ObjCBlockWrapperFuncs>{};
   ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
-    final id = _methodSigId(block.returnType, block.params);
-    final idHash = fnvHash32(id).toRadixString(36);
+    final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
       _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash'),
       _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
@@ -284,6 +280,27 @@ class ObjCBuiltInFunctions {
         ffiNativeConfig: const FfiNativeConfig(enabled: true),
       );
 
+  final _protocolTrampolines = <String, ObjCProtocolMethodTrampoline>{};
+  ObjCProtocolMethodTrampoline? getProtocolMethodTrampoline(ObjCBlock block) {
+    final (id, idHash) = _methodSigId(block.returnType, block.params);
+    return _protocolTrampolines[id] ??= ObjCProtocolMethodTrampoline(Func(
+      name: '_${wrapperName}_protocolTrampoline_$idHash',
+      returnType: block.returnType,
+      parameters: [
+        Parameter(
+            name: 'target',
+            type: PointerType(objCObjectType),
+            objCConsumed: false),
+        ...block.params,
+      ],
+      objCReturnsRetained: false,
+      isLeaf: false,
+      isInternal: true,
+      useNameForLookup: true,
+      ffiNativeConfig: const FfiNativeConfig(enabled: true),
+    ));
+  }
+
   static bool isInstanceType(Type type) {
     if (type is ObjCInstanceType) return true;
     final baseType = type.typealiasType;
@@ -305,6 +322,24 @@ class ObjCBlockWrapperFuncs extends AstNode {
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);
   }
+}
+
+/// A native trampoline function for a protocol method.
+class ObjCProtocolMethodTrampoline extends AstNode {
+  final Func func;
+  bool objCBindingsGenerated = false;
+
+  ObjCProtocolMethodTrampoline(this.func);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(func);
+  }
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitObjCProtocolMethodTrampoline(this);
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.

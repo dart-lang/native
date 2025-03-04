@@ -60,12 +60,13 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    if (!_visitImpl(
+    final omit = node.unavailable ||
+        !_visitImpl(
             node,
             config.includeTransitiveObjCInterfaces
                 ? _IncludeBehavior.configOrTransitive
-                : _IncludeBehavior.configOnly) &&
-        directTransitives.contains(node)) {
+                : _IncludeBehavior.configOnly);
+    if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
     }
@@ -80,12 +81,13 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    if (!_visitImpl(
+    final omit = node.unavailable ||
+        !_visitImpl(
             node,
             config.includeTransitiveObjCProtocols
                 ? _IncludeBehavior.configOrTransitive
-                : _IncludeBehavior.configOnly) &&
-        directTransitives.contains(node)) {
+                : _IncludeBehavior.configOnly);
+    if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
     }

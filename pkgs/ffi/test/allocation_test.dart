@@ -16,8 +16,10 @@ void main() async {
     for (var i = 0; i < testRuns; i++) {
       final allocBytes = Random().nextInt(1000);
       final mem = calloc<Uint8>(allocBytes);
-      expect(mem.asTypedList(allocBytes).where((element) => element != 0),
-          isEmpty);
+      expect(
+        mem.asTypedList(allocBytes).where((element) => element != 0),
+        isEmpty,
+      );
       calloc.free(mem);
     }
   });

@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
 import 'dart:convert';
@@ -13,6 +10,7 @@ import 'dart:io';
 
 import 'package:test/test.dart';
 
+import '../build_runner/helpers.dart';
 import '../helpers.dart';
 
 void main() async {
@@ -32,38 +30,39 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final targetOS = OS.current;
-      final inputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: testPackageUri,
-          outputFile: buildOutputUri,
-          outputDirectory: outputDirectory,
-          outputDirectoryShared: outputDirectoryShared,
-        )
-        ..config.setupBuild(dryRun: false, linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetArchitecture: Architecture.current,
-          targetOS: targetOS,
-          macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-              : null,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: cCompiler,
-        );
+      final inputBuilder =
+          BuildInputBuilder()
+            ..setupShared(
+              packageName: name,
+              packageRoot: testPackageUri,
+              outputFile: buildOutputUri,
+              outputDirectory: outputDirectory,
+              outputDirectoryShared: outputDirectoryShared,
+            )
+            ..config.setupBuild(linkingEnabled: false)
+            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+            ..config.setupCode(
+              targetArchitecture: Architecture.current,
+              targetOS: targetOS,
+              macOS:
+                  targetOS == OS.macOS
+                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                      : null,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            );
 
       final buildInputUri = testTempUri.resolve('build_input.json');
-      File.fromUri(buildInputUri)
-          .writeAsStringSync(jsonEncode(inputBuilder.json));
+      File.fromUri(
+        buildInputUri,
+      ).writeAsStringSync(jsonEncode(inputBuilder.json));
 
-      final processResult = await Process.run(
-        dartUri.toFilePath(),
-        [
-          'hook/build.dart',
-          '--config=${buildInputUri.toFilePath()}',
-        ],
-        workingDirectory: testPackageUri.toFilePath(),
-      );
+      await runPubGet(workingDirectory: testPackageUri, logger: logger);
+
+      final processResult = await Process.run(dartUri.toFilePath(), [
+        'hook/build.dart',
+        '--config=${buildInputUri.toFilePath()}',
+      ], workingDirectory: testPackageUri.toFilePath());
       if (processResult.exitCode != 0) {
         print(processResult.stdout);
         print(processResult.stderr);
@@ -72,28 +71,27 @@ void main() async {
       expect(processResult.exitCode, 0);
 
       final buildOutput = BuildOutput(
-          json.decode(await File.fromUri(buildOutputUri).readAsString())
-              as Map<String, Object?>);
+        json.decode(await File.fromUri(buildOutputUri).readAsString())
+            as Map<String, Object?>,
+      );
       final assets = buildOutput.assets.encodedAssets;
       final dependencies = buildOutput.dependencies;
 
       expect(assets.length, 3);
       expect(await assets.allExist(), true);
-      expect(
-        dependencies,
-        [
-          testPackageUri.resolve('src/debug.c'),
-          testPackageUri.resolve('src/math.c'),
-          testPackageUri.resolve('src/add.c'),
-        ],
-      );
+      expect(dependencies, [
+        testPackageUri.resolve('src/debug.c'),
+        testPackageUri.resolve('src/math.c'),
+        testPackageUri.resolve('src/add.c'),
+      ]);
 
-      final addLibraryPath = assets
-          .where((e) => e.type == CodeAsset.type)
-          .map(CodeAsset.fromEncoded)
-          .firstWhere((asset) => asset.id.endsWith('add.dart'))
-          .file!
-          .toFilePath();
+      final addLibraryPath =
+          assets
+              .where((e) => e.type == CodeAsset.type)
+              .map(CodeAsset.fromEncoded)
+              .firstWhere((asset) => asset.id.endsWith('add.dart'))
+              .file!
+              .toFilePath();
       final addResult = await runProcess(
         executable: dartExecutable,
         arguments: [
@@ -112,7 +110,8 @@ void main() async {
           // skip this if Dart would implicitly add dylib containing
           // directories to the PATH.
           if (Platform.isWindows)
-            'PATH': '${outputDirectory.toFilePath()};'
+            'PATH':
+                '${outputDirectory.toFilePath()};'
                 '${Platform.environment['PATH']}',
         },
         throwOnUnexpectedExitCode: true,
@@ -120,10 +119,7 @@ void main() async {
       );
       expect(
         addResult.stdout,
-        allOf(
-          contains('Adding 1 and 2.'),
-          contains('Result: 3'),
-        ),
+        allOf(contains('Adding 1 and 2.'), contains('Result: 3')),
       );
     }),
   );

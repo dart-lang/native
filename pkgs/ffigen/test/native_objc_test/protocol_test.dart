@@ -8,6 +8,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
@@ -35,11 +36,11 @@ void main() {
 
     group('ObjC implementation', () {
       test('Method implementation', () {
-        final protocolImpl = ObjCProtocolImpl.new1();
+        final protocolImpl = ObjCProtocolImpl();
         final MyProtocol asMyProtocol = protocolImpl;
         final SecondaryProtocol asSecondaryProtocol = protocolImpl;
 
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         // Required instance method.
         final result = consumer.callInstanceMethod_(asMyProtocol);
@@ -60,7 +61,7 @@ void main() {
       });
 
       test('Method implementation, invoke from Dart', () {
-        final protocolImpl = ObjCProtocolImpl.new1();
+        final protocolImpl = ObjCProtocolImpl();
 
         // Required instance method.
         final result =
@@ -88,8 +89,8 @@ void main() {
       });
 
       test('Unimplemented method', () {
-        final protocolImpl = ObjCProtocolImplMissingMethod.new1();
-        final consumer = ProtocolConsumer.new1();
+        final protocolImpl = ObjCProtocolImplMissingMethod();
+        final consumer = ProtocolConsumer();
 
         // Optional instance method, not implemented.
         final intResult = consumer.callOptionalMethod_(protocolImpl);
@@ -97,7 +98,7 @@ void main() {
       });
 
       test('Unimplemented method, invoke from Dart', () {
-        final protocolImpl = ObjCProtocolImplMissingMethod.new1();
+        final protocolImpl = ObjCProtocolImplMissingMethod();
 
         // Optional instance method, not implemented.
         final structPtr = calloc<SomeStruct>();
@@ -114,7 +115,7 @@ void main() {
 
     group('Dart implementation using helpers', () {
       test('Method implementation', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final MyProtocol myProtocol = MyProtocol.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
@@ -135,7 +136,7 @@ void main() {
       });
 
       test('Multiple protocol implementation', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final protocolBuilder = ObjCProtocolBuilder();
         MyProtocol.addToBuilder(
@@ -170,7 +171,7 @@ void main() {
       });
 
       test('Multiple protocol implementation using method fields', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final protocolBuilder = ObjCProtocolBuilder();
         MyProtocol.instanceMethod_withDouble_.implement(protocolBuilder,
@@ -196,7 +197,7 @@ void main() {
       });
 
       test('Unimplemented method', () {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final MyProtocol myProtocol = MyProtocol.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
@@ -210,7 +211,7 @@ void main() {
       });
 
       test('Method implementation as listener', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final MyProtocol myProtocol = MyProtocol.implementAsListener(
@@ -239,7 +240,7 @@ void main() {
       });
 
       test('Multiple protocol implementation as listener', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final protocolBuilder = ObjCProtocolBuilder();
@@ -283,7 +284,7 @@ void main() {
       }
 
       test('Method implementation as blocking', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final MyProtocol myProtocol = MyProtocol.implementAsBlocking(
@@ -305,7 +306,7 @@ void main() {
       });
 
       test('Multiple protocol implementation as blocking', () async {
-        final consumer = ProtocolConsumer.new1();
+        final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
         final protocolBuilder = ObjCProtocolBuilder();
@@ -339,150 +340,22 @@ void main() {
         consumer.callBlockingMethodOnRandomThread_(asMyProtocol);
         expect(await listenerCompleter.future, 98765);
       });
-    });
 
-    group('Manual DartProxy implementation', () {
-      test('Method implementation', () {
-        final proxyBuilder = DartProxyBuilder.new1();
-        final consumer = ProtocolConsumer.new1();
-        final protocol = getProtocol('MyProtocol');
-        final secondProtocol = getProtocol('SecondaryProtocol');
+      test('Direct method implementation using block', () async {
+        final consumer = ProtocolConsumer();
 
-        final sel = registerName('instanceMethod:withDouble:');
-        final signature = getProtocolMethodSignature(protocol, sel,
-            isRequired: true, isInstanceMethod: true)!;
-        final block = InstanceMethodBlock.fromFunction(
-            (Pointer<Void> p, NSString s, double x) {
-          return 'DartProxy: ${s.toDartString()}: $x'.toNSString();
-        });
-        proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature, block.ref.pointer.cast());
-
-        final optSel = registerName('optionalMethod:');
-        final optSignature = getProtocolMethodSignature(protocol, optSel,
-            isRequired: false, isInstanceMethod: true)!;
-        final optBlock =
-            OptionalMethodBlock.fromFunction((Pointer<Void> p, SomeStruct s) {
-          return s.y - s.x;
-        });
-        proxyBuilder.implementMethod_withSignature_andBlock_(
-            optSel, optSignature, optBlock.ref.pointer.cast());
-
-        final otherSel = registerName('otherMethod:b:c:d:');
-        final otherSignature = getProtocolMethodSignature(
-            secondProtocol, otherSel,
-            isRequired: true, isInstanceMethod: true)!;
-        final otherBlock = OtherMethodBlock.fromFunction(
-            (Pointer<Void> p, int a, int b, int c, int d) {
-          return a * b * c * d;
-        });
-        proxyBuilder.implementMethod_withSignature_andBlock_(
-            otherSel, otherSignature, otherBlock.ref.pointer.cast());
-
-        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(proxy);
+        final builder = ObjCProtocolBuilder();
+        MyProtocol.instanceMethod_withDouble_.implementWithBlock(
+            builder,
+            ObjCBlock_NSString_ffiVoid_NSString_ffiDouble.fromFunction(
+                (Pointer<Void> _, NSString s, double x) =>
+                    'DirectImpl: ${s.toDartString()}: $x'.toNSString()));
+        final myProtocol = MyProtocol.castFrom(builder.build());
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(asMyProtocol);
-        expect(result.toDartString(), "DartProxy: Hello from ObjC: 3.14");
-
-        // Optional instance method.
-        final intResult = consumer.callOptionalMethod_(asMyProtocol);
-        expect(intResult, 333);
-
-        // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
-        expect(otherIntResult, 24);
-
-        // Method using two protocols.
-        final twoMethodResult = consumer.callTwoMethods_(asMyProtocol);
-        expect(twoMethodResult, 222000);
+        final result = consumer.callInstanceMethod_(myProtocol);
+        expect(result.toDartString(), 'DirectImpl: Hello from ObjC: 3.14');
       });
-
-      test('Unimplemented method', () {
-        final proxyBuilder = DartProxyBuilder.new1();
-        final consumer = ProtocolConsumer.new1();
-        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
-
-        // Optional instance method, not implemented.
-        final intResult = consumer.callOptionalMethod_(asMyProtocol);
-        expect(intResult, -999);
-      });
-
-      test('Threading stress test', () async {
-        final consumer = ProtocolConsumer.new1();
-        final completer = Completer<void>();
-        int count = 0;
-
-        final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.voidMethod_.implementAsListener(protocolBuilder, (int x) {
-          expect(x, 123);
-          ++count;
-          if (count == 1000) completer.complete();
-        });
-
-        final proxy = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(proxy);
-
-        for (int i = 0; i < 1000; ++i) {
-          consumer.callMethodOnRandomThread_(asMyProtocol);
-        }
-        await completer.future;
-        expect(count, 1000);
-      });
-
-      (DartProxy, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
-        final proxyBuilder = DartProxyBuilder.new1();
-        final protocol = getProtocol('MyProtocol');
-
-        final sel = registerName('instanceMethod:withDouble:');
-        final signature = getProtocolMethodSignature(protocol, sel,
-            isRequired: true, isInstanceMethod: true)!;
-        final block = InstanceMethodBlock.fromFunction(
-            (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
-        proxyBuilder.implementMethod_withSignature_andBlock_(
-            sel, signature, block.ref.pointer.cast());
-
-        final proxy = DartProxy.newFromBuilder_(proxyBuilder);
-
-        final proxyPtr = proxy.ref.pointer;
-        final blockPtr = block.ref.pointer;
-
-        // There are 2 references to the block. One owned by the Dart wrapper
-        // object, and the other owned by the proxy. The method signature is
-        // also an ObjC object, so the same is true for it.
-        doGC();
-        expect(objectRetainCount(proxyPtr), 1);
-        expect(blockRetainCount(blockPtr), 2);
-
-        return (proxy, blockPtr);
-      }
-
-      (Pointer<ObjCObject>, Pointer<ObjCBlockImpl>) blockRefCountTest() {
-        final (proxy, blockPtr) = blockRefCountTestInner();
-        final proxyPtr = proxy.ref.pointer;
-
-        // The Dart side block pointer has gone out of scope, but the proxy
-        // still owns a reference to it. Same for the signature.
-        doGC();
-        expect(objectRetainCount(proxyPtr), 1);
-        expect(blockRetainCount(blockPtr), 1);
-
-        return (proxyPtr, blockPtr);
-      }
-
-      test('Block ref counting', () {
-        final (proxyPtr, blockPtr) = blockRefCountTest();
-
-        // The proxy object has gone out of scope, so it should be cleaned up.
-        // So should the block and the signature.
-        doGC();
-        expect(objectRetainCount(proxyPtr), 0);
-        expect(blockRetainCount(blockPtr), 0);
-      }, skip: !canDoGC);
     });
 
     test('Filters', () {
@@ -532,12 +405,75 @@ void main() {
     });
 
     test('conformsTo', () {
-      final inst = ObjCProtocolImpl.new1();
+      final inst = ObjCProtocolImpl();
       expect(NSObjectProtocol.conformsTo(inst), isTrue);
       expect(MyProtocol.conformsTo(inst), isTrue);
       expect(SecondaryProtocol.conformsTo(inst), isTrue);
       expect(EmptyProtocol.conformsTo(inst), isFalse);
       expect(UnusedProtocol.conformsTo(inst), isFalse);
     });
+
+    test('keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final protosCreated = Completer<void>();
+      final protoKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Protocols created') {
+          protosCreated.complete();
+        } else if (msg == 'protoKeepAlive destroyed') {
+          protoKeepAliveDestroyed.complete();
+        }
+      });
+
+      final isExited = Completer<void>();
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited.complete();
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final protoKeepAlive =
+            ObjCProtocolBuilder().build(keepIsolateAlive: true);
+        final protoDontKeepAlive =
+            ObjCProtocolBuilder().build(keepIsolateAlive: false);
+        sendPort.send('Protocols created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy protoKeepAlive') {
+            protoKeepAlive.ref.release();
+            sendPort.send('protoKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await protosCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited.isCompleted, isFalse);
+
+      (await isolateSendPort.future).send('Destroy protoKeepAlive');
+      await protoKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only protoDontKeepAlive is alive.
+      await isExited;
+
+      receivePort.close();
+    }, skip: !canDoGC);
   });
 }

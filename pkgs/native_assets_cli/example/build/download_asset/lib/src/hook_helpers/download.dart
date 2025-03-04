@@ -11,7 +11,8 @@ import 'c_build.dart';
 import 'version.dart';
 
 Uri downloadUri(String target) => Uri.parse(
-    'https://github.com/dart-lang/native/releases/download/$version/$target');
+  'https://github.com/dart-lang/native/releases/download/$version/$target',
+);
 
 Future<File> downloadAsset(
   OS targetOS,
@@ -19,11 +20,9 @@ Future<File> downloadAsset(
   IOSSdk? iOSSdk,
   Directory outputDirectory,
 ) async {
-  final targetName = targetOS.dylibFileName(createTargetName(
-    targetOS.name,
-    targetArchitecture.name,
-    iOSSdk?.type,
-  ));
+  final targetName = targetOS.dylibFileName(
+    createTargetName(targetOS.name, targetArchitecture.name, iOSSdk?.type),
+  );
   final uri = downloadUri(targetName);
   final request = await HttpClient().getUrl(uri);
   final response = await request.close();

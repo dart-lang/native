@@ -108,14 +108,12 @@ List<String> _validateOutputAssetTypes(
 }
 
 /// EncodedAssetsForLinking should be empty if linking is not supported.
-List<String> _validateAssetsForLinking(
-  BuildInput input,
-  BuildOutput output,
-) {
+List<String> _validateAssetsForLinking(BuildInput input, BuildOutput output) {
   final errors = <String>[];
   if (!input.config.linkingEnabled) {
     if (output.assets.encodedAssetsForLinking.isNotEmpty) {
-      const error = 'BuildOutput.assetsForLinking is not empty while '
+      const error =
+          'BuildOutput.assetsForLinking is not empty while '
           'BuildInput.config.linkingEnabled is false';
       errors.add(error);
     }

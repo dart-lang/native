@@ -95,6 +95,8 @@ const Map<String, int> _definedSyms = {
   'runtimeType': 1,
   'noSuchMethod': 1,
   'reference': 1,
+  'isA': 1,
+  'isInstanceOf': 1,
   'isReleased': 1,
   'isNull': 1,
   'use': 1,
@@ -137,7 +139,10 @@ String _renameConflict(
   return _keywordRename(name, kind);
 }
 
-class Renamer implements Visitor<Classes, void> {
+class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
+  @override
+  final GenerationStage stage = GenerationStage.renamer;
+
   final Config config;
 
   Renamer(this.config);

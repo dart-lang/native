@@ -18,16 +18,19 @@ import '../helpers.dart';
 void main() {
   if (Platform.isMacOS ||
       (Platform.isWindows &&
-          Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']
-                  ?.endsWith('cl.exe') ==
+          Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.endsWith(
+                'cl.exe',
+              ) ==
               true)) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
   test('clang smoke test', () async {
-    final requirement =
-        ToolRequirement(clang, minimumVersion: Version(14, 0, 0, pre: '0'));
+    final requirement = ToolRequirement(
+      clang,
+      minimumVersion: Version(14, 0, 0, pre: '0'),
+    );
     final resolved = await clang.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
@@ -40,8 +43,10 @@ void main() {
       uri: Uri.file('some/path'),
       version: Version.parse('14.0.0-1'),
     );
-    final requirement =
-        ToolRequirement(clang, minimumVersion: Version(14, 0, 0, pre: '0'));
+    final requirement = ToolRequirement(
+      clang,
+      minimumVersion: Version(14, 0, 0, pre: '0'),
+    );
     final satisfied = requirement.satisfy([clangInstance]);
     expect(satisfied?.length, 1);
   });

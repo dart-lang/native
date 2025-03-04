@@ -31,32 +31,32 @@ void main() {
       // method in some classes of the heirarchy, and a property in others. This
       // isn't allowed in Dart, so we change all such conflicts to properties.
       // https://github.com/dart-lang/native/issues/1220
-      expect(BadOverrideParent.new1().methodVsGetter, 1);
-      expect(BadOverrideChild.new1().methodVsGetter, 11);
-      expect(BadOverrideSibbling.new1().methodVsGetter, 12);
-      expect(BadOverrideGrandchild.new1().methodVsGetter, 111);
+      expect(BadOverrideParent().methodVsGetter, 1);
+      expect(BadOverrideChild().methodVsGetter, 11);
+      expect(BadOverrideSibbling().methodVsGetter, 12);
+      expect(BadOverrideGrandchild().methodVsGetter, 111);
 
-      var inst = BadOverrideParent.new1();
+      var inst = BadOverrideParent();
       expect(inst.methodVsGetter, 1);
-      inst = BadOverrideChild.new1();
+      inst = BadOverrideChild();
       expect(inst.methodVsGetter, 11);
-      inst = BadOverrideSibbling.new1();
+      inst = BadOverrideSibbling();
       expect(inst.methodVsGetter, 12);
-      inst = BadOverrideGrandchild.new1();
+      inst = BadOverrideGrandchild();
       expect(inst.methodVsGetter, 111);
 
       // Uncle isn't affected by the transform, so has an ordinary method.
-      expect(BadOverrideUncle.new1().methodVsGetter(), 2);
+      expect(BadOverrideUncle().methodVsGetter(), 2);
     });
 
     test('Contravariant returns', () {
       // Return types are supposed to be covariant, but ObjC allows them to be
       // contravariant.
       // https://github.com/dart-lang/native/issues/1220
-      Polygon parentResult = BadOverrideParent.new1().contravariantReturn();
+      Polygon parentResult = BadOverrideParent().contravariantReturn();
       expect(parentResult.name().toDartString(), 'Rectangle');
 
-      Polygon childResult = BadOverrideChild.new1().contravariantReturn();
+      Polygon childResult = BadOverrideChild().contravariantReturn();
       expect(childResult.name().toDartString(), 'Triangle');
     });
 
@@ -64,15 +64,15 @@ void main() {
       // Arg types are supposed to be contravariant, but ObjC allows them to be
       // covariant.
       // https://github.com/dart-lang/native/issues/1220
-      final square = Square.new1();
-      final triangle = Triangle.new1();
+      final square = Square();
+      final triangle = Triangle();
 
-      var parent = BadOverrideParent.new1();
+      var parent = BadOverrideParent();
       expect(parent.covariantArg_(square).toDartString(), 'Polygon: Square');
       expect(
           parent.covariantArg_(triangle).toDartString(), 'Polygon: Triangle');
 
-      parent = BadOverrideChild.new1();
+      parent = BadOverrideChild();
       expect(parent.covariantArg_(square).toDartString(), 'Rectangle: Square');
       expect(() => parent.covariantArg_(triangle), throwsA(isA<TypeError>()));
     });

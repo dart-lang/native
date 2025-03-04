@@ -6,15 +6,21 @@ import 'dart:convert';
 import 'dart:io';
 
 extension FileExtension on File {
-  Future<File> writeAsStringCreateDirectory(String contents,
-      {FileMode mode = FileMode.write,
-      Encoding encoding = utf8,
-      bool flush = false}) async {
+  Future<File> writeAsStringCreateDirectory(
+    String contents, {
+    FileMode mode = FileMode.write,
+    Encoding encoding = utf8,
+    bool flush = false,
+  }) async {
     if (!await parent.exists()) {
       await parent.create(recursive: true);
     }
-    return await writeAsString(contents,
-        mode: mode, encoding: encoding, flush: flush);
+    return await writeAsString(
+      contents,
+      mode: mode,
+      encoding: encoding,
+      flush: flush,
+    );
   }
 }
 

@@ -13,23 +13,17 @@ Future<void> main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.code.linkModePreference == LinkModePreference.static) {
       // Simulate that this build hook only supports dynamic libraries.
-      throw UnsupportedError(
-        'LinkModePreference.static is not supported.',
-      );
+      throw UnsupportedError('LinkModePreference.static is not supported.');
     }
 
     final packageName = input.packageName;
     final assetPath = input.outputDirectory.resolve(assetName);
     final assetSourcePath = input.packageRoot.resolveUri(packageAssetPath);
-    // ignore: deprecated_member_use
-    if (!input.config.dryRun) {
-      // Insert code that downloads or builds the asset to `assetPath`.
-      await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 
-      output.addDependencies([
-        assetSourcePath,
-      ]);
-    }
+    // Insert code that downloads or builds the asset to `assetPath`.
+    await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
+
+    output.addDependencies([assetSourcePath]);
 
     output.assets.code.add(
       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
@@ -39,9 +33,7 @@ Future<void> main(List<String> args) async {
         file: assetPath,
         linkMode: DynamicLoadingBundled(),
         os: input.config.code.targetOS,
-        architecture:
-            // ignore: deprecated_member_use
-            input.config.dryRun ? null : input.config.code.targetArchitecture,
+        architecture: input.config.code.targetArchitecture,
       ),
     );
   });

@@ -30,6 +30,8 @@ export 'package:meta/meta.dart' show internal;
 export 'src/accessors.dart';
 export 'src/jni.dart' show ProtectedJniExtensions;
 export 'src/jreference.dart';
+export 'src/kotlin.dart'
+    show coroutineSingletonsClass, failureExceptionField, result$FailureClass;
 export 'src/method_invocation.dart';
 export 'src/types.dart'
     show

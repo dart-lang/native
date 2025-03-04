@@ -23,10 +23,12 @@ final class CCompilerConfig {
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.windows].
   WindowsCCompilerConfig get windows => switch (_windows) {
-        null => throw StateError(
-            'Cannot access windows if CodeConfig.targetOS is not Windows'),
-        final c => c,
-      };
+    null =>
+      throw StateError(
+        'Cannot access windows if CodeConfig.targetOS is not Windows',
+      ),
+    final c => c,
+  };
 
   /// Constructs a new [CCompilerConfig] based on the given toolchain tools.
   CCompilerConfig({
@@ -47,12 +49,13 @@ final class CCompilerConfig {
           .map$(_windowsConfigKey)
           .optionalMap(_developerCommandPromptConfigKey);
       winConfig = WindowsCCompilerConfig(
-        developerCommandPrompt: dcpJson == null
-            ? null
-            : DeveloperCommandPrompt(
-                script: dcpJson.path(_scriptConfigKey),
-                arguments: dcpJson.stringList(_argumentsConfigKey),
-              ),
+        developerCommandPrompt:
+            dcpJson == null
+                ? null
+                : DeveloperCommandPrompt(
+                  script: dcpJson.path(_scriptConfigKey),
+                  arguments: dcpJson.stringList(_argumentsConfigKey),
+                ),
       );
     } else if (json[_envScriptConfigKeyDeprecated] != null) {
       winConfig = WindowsCCompilerConfig(
@@ -74,10 +77,8 @@ final class CCompilerConfig {
   ///
   /// The returned json can be used in [CCompilerConfig.fromJson] to
   /// obtain a [CCompilerConfig] again.
-  ///
-  /// If [deprecatedTopLevel], does not nest developerCommandPrompt.
-  // TODO: Remove deprecatedTopLevel once protocol 1.8.0 is no longer supported.
-  Map<String, Object> toJson({bool deprecatedTopLevel = false}) => {
+  Map<String, Object> toJson() =>
+      {
         _arConfigKey: archiver.toFilePath(),
         _ccConfigKey: compiler.toFilePath(),
         _ldConfigKey: linker.toFilePath(),
@@ -87,15 +88,15 @@ final class CCompilerConfig {
         if (_windows?.developerCommandPrompt?.arguments != null)
           _envScriptArgsConfigKeyDeprecated:
               _windows!.developerCommandPrompt!.arguments,
-        if (_windows != null && !deprecatedTopLevel)
+        if (_windows != null)
           _windowsConfigKey: {
             if (_windows.developerCommandPrompt != null)
               _developerCommandPromptConfigKey: {
                 _argumentsConfigKey: _windows.developerCommandPrompt!.arguments,
                 _scriptConfigKey:
                     _windows.developerCommandPrompt!.script.toFilePath(),
-              }
-          }
+              },
+          },
       }.sortOnKey();
 
   @override
@@ -111,8 +112,9 @@ final class CCompilerConfig {
       return false;
     }
     if (!const ListEquality<String>().equals(
-        other._windows?.developerCommandPrompt?.arguments,
-        _windows?.developerCommandPrompt?.arguments)) {
+      other._windows?.developerCommandPrompt?.arguments,
+      _windows?.developerCommandPrompt?.arguments,
+    )) {
       return false;
     }
     return true;
@@ -120,13 +122,14 @@ final class CCompilerConfig {
 
   @override
   int get hashCode => Object.hash(
-        archiver,
-        compiler,
-        linker,
-        _windows?.developerCommandPrompt?.script,
-        const ListEquality<String>()
-            .hash(_windows?.developerCommandPrompt?.arguments),
-      );
+    archiver,
+    compiler,
+    linker,
+    _windows?.developerCommandPrompt?.script,
+    const ListEquality<String>().hash(
+      _windows?.developerCommandPrompt?.arguments,
+    ),
+  );
 }
 
 const _arConfigKey = 'ar';
@@ -143,9 +146,7 @@ const _argumentsConfigKey = 'arguments';
 final class WindowsCCompilerConfig {
   final DeveloperCommandPrompt? developerCommandPrompt;
 
-  WindowsCCompilerConfig({
-    this.developerCommandPrompt,
-  });
+  WindowsCCompilerConfig({this.developerCommandPrompt});
 }
 
 /// The Windows Developer Command Prompt.
@@ -176,8 +177,5 @@ final class DeveloperCommandPrompt {
   /// script name does not.
   final List<String> arguments;
 
-  DeveloperCommandPrompt({
-    required this.script,
-    required this.arguments,
-  });
+  DeveloperCommandPrompt({required this.script, required this.arguments});
 }

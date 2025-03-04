@@ -35,20 +35,21 @@ void updateManifest(Directory directory, bool allowPartialProjects) {
   }
   final all = directory.listSync(recursive: true);
   final dirPath = directory.uri.toFilePath();
-  final files = all
-      .whereType<File>()
-      .where((f) {
-        for (final denyString in [
-          ...denyList,
-          if (!allowPartialProjects) ...partialProjects,
-        ]) {
-          if (f.path.contains(denyString)) return false;
-        }
-        return true;
-      })
-      .map((e) => e.path.replaceFirst(dirPath, ''))
-      .toList()
-    ..sort();
+  final files =
+      all
+          .whereType<File>()
+          .where((f) {
+            for (final denyString in [
+              ...denyList,
+              if (!allowPartialProjects) ...partialProjects,
+            ]) {
+              if (f.path.contains(denyString)) return false;
+            }
+            return true;
+          })
+          .map((e) => e.path.replaceFirst(dirPath, ''))
+          .toList()
+        ..sort();
   manifestFile.writeAsStringSync(header + files.map((e) => '- $e\n').join());
 }
 

@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
 import 'dart:convert';
@@ -28,79 +25,64 @@ void main() async {
     await Directory.fromUri(tempUri).delete(recursive: true);
   });
 
-  for (final dryRun in [true, false]) {
-    final testSuffix = dryRun ? ' dry_run' : '';
-    test('local_asset build$testSuffix', () async {
-      final buildOutputUri = tempUri.resolve('build_output.json');
-      final testTempUri = tempUri.resolve('test1/');
-      await Directory.fromUri(testTempUri).create();
-      final outputDirectory = tempUri.resolve('out/');
-      await Directory.fromUri(outputDirectory).create();
-      final outputDirectoryShared = tempUri.resolve('out_shared/');
-      await Directory.fromUri(outputDirectoryShared).create();
-      final testPackageUri = packageUri.resolve('example/build/$name/');
-      final dartUri = Uri.file(Platform.resolvedExecutable);
+  test('local_asset build', () async {
+    final buildOutputUri = tempUri.resolve('build_output.json');
+    final testTempUri = tempUri.resolve('test1/');
+    await Directory.fromUri(testTempUri).create();
+    final outputDirectory = tempUri.resolve('out/');
+    await Directory.fromUri(outputDirectory).create();
+    final outputDirectoryShared = tempUri.resolve('out_shared/');
+    await Directory.fromUri(outputDirectoryShared).create();
+    final testPackageUri = packageUri.resolve('example/build/$name/');
+    final dartUri = Uri.file(Platform.resolvedExecutable);
 
-      final targetOS = OS.current;
-      final inputBuilder = BuildInputBuilder()
-        ..setupShared(
-          packageRoot: testPackageUri,
-          packageName: name,
-          outputFile: buildOutputUri,
-          outputDirectory: outputDirectory,
-          outputDirectoryShared: outputDirectoryShared,
-        )
-        ..config.setupBuild(linkingEnabled: false, dryRun: dryRun)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: targetOS,
-          macOS: targetOS == OS.macOS
-              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-              : null,
-          targetArchitecture: dryRun ? null : Architecture.current,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: dryRun ? null : cCompiler,
-        );
+    final targetOS = OS.current;
+    final inputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageRoot: testPackageUri,
+            packageName: name,
+            outputFile: buildOutputUri,
+            outputDirectory: outputDirectory,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+          ..config.setupCode(
+            targetOS: targetOS,
+            macOS:
+                targetOS == OS.macOS
+                    ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                    : null,
+            targetArchitecture: Architecture.current,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          );
 
-      final buildInputUri = testTempUri.resolve('build_input.json');
-      await File.fromUri(buildInputUri)
-          .writeAsString(jsonEncode(inputBuilder.json));
+    final buildInputUri = testTempUri.resolve('build_input.json');
+    await File.fromUri(
+      buildInputUri,
+    ).writeAsString(jsonEncode(inputBuilder.json));
 
-      final processResult = await Process.run(
-        dartUri.toFilePath(),
-        [
-          'hook/build.dart',
-          '--config=${buildInputUri.toFilePath()}',
-        ],
-        workingDirectory: testPackageUri.toFilePath(),
-      );
-      if (processResult.exitCode != 0) {
-        print(processResult.stdout);
-        print(processResult.stderr);
-        print(processResult.exitCode);
-      }
-      expect(processResult.exitCode, 0);
+    final processResult = await Process.run(dartUri.toFilePath(), [
+      'hook/build.dart',
+      '--config=${buildInputUri.toFilePath()}',
+    ], workingDirectory: testPackageUri.toFilePath());
+    if (processResult.exitCode != 0) {
+      print(processResult.stdout);
+      print(processResult.stderr);
+      print(processResult.exitCode);
+    }
+    expect(processResult.exitCode, 0);
 
-      final buildOutput = BuildOutput(
-          json.decode(await File.fromUri(buildOutputUri).readAsString())
-              as Map<String, Object?>);
-      final assets = buildOutput.assets.encodedAssets;
-      final dependencies = buildOutput.dependencies;
-      if (dryRun) {
-        final codeAsset = buildOutput.assets.code.first;
-        expect(assets.length, greaterThanOrEqualTo(1));
-        expect(await File.fromUri(codeAsset.file!).exists(), false);
-        expect(dependencies, <Uri>[]);
-      } else {
-        expect(assets.length, 1);
-        expect(await assets.allExist(), true);
-        expect(
-          dependencies,
-          [
-            testPackageUri.resolve('assets/asset.txt'),
-          ],
-        );
-      }
-    });
-  }
+    final buildOutput = BuildOutput(
+      json.decode(await File.fromUri(buildOutputUri).readAsString())
+          as Map<String, Object?>,
+    );
+    final assets = buildOutput.assets.encodedAssets;
+    final dependencies = buildOutput.dependencies;
+    expect(assets.length, 1);
+    expect(await assets.allExist(), true);
+    expect(dependencies, [testPackageUri.resolve('assets/asset.txt')]);
+  });
 }

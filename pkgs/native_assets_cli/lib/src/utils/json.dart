@@ -25,6 +25,6 @@ T get<T>(Map<Object?, Object?> map, String key) {
 
 extension MapCast on Map<Object?, Object?> {
   Map<K, V> formatCast<K, V>() => <K, V>{
-        for (final e in entries) as<K>(e.key): as<V>(e.value),
-      };
+    for (final e in entries) as<K>(e.key): as<V>(e.value),
+  };
 }

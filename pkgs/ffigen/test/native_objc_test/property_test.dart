@@ -24,7 +24,7 @@ void main() {
       final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      testInstance = PropertyInterface.new1();
+      testInstance = PropertyInterface();
       generateBindingsForCoverage('property');
     });
 
@@ -83,7 +83,7 @@ void main() {
     test('Instance and static properties with same name', () {
       // Test for https://github.com/dart-lang/native/issues/1136
       expect(testInstance.instStaticSameName, 123);
-      expect(PropertyInterface.getInstStaticSameName1(), 456);
+      expect(PropertyInterface.getInstStaticSameName$1(), 456);
     });
   });
 }

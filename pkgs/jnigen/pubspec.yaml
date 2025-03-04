@@ -4,7 +4,7 @@
 
 name: jnigen
 description: A Dart bindings generator for Java and Kotlin that uses JNI under the hood to interop with Java virtual machine.
-version: 0.14.1-wip
+version: 0.14.1
 repository: https://github.com/dart-lang/native/tree/main/pkgs/jnigen
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajnigen
 
@@ -21,6 +21,7 @@ topics:
 dependencies:
   args: ^2.5.0
   cli_config: '>=0.1.0 <0.3.0'
+  http: ^1.3.0
   json_annotation: ^4.9.0
   logging: ^1.2.0
   meta: ^1.15.0

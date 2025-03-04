@@ -18,10 +18,7 @@ const pathDependencies = 'path-dependencies';
 
 const publishedDependency = 'published-dependency';
 
-const commands = [
-  pathDependencies,
-  publishedDependency,
-];
+const commands = [pathDependencies, publishedDependency];
 
 // Print all command-line arguments that are Dart files.
 void main(List<String> arguments) async {
@@ -96,11 +93,11 @@ Future<void> switchAllToPublishedDependency(
   String packageName,
   String newVersion,
 ) async {
-  await Future.wait(allPubspecs.map((e) => switchToPublishedDependency2(
-        e,
-        packageName,
-        newVersion,
-      )));
+  await Future.wait(
+    allPubspecs.map(
+      (e) => switchToPublishedDependency2(e, packageName, newVersion),
+    ),
+  );
   print('Switched $packageName to published dependency on $newVersion.');
   print('Did not remove `publish_to: none`.');
   print('Did not modify changelog or version in pubspec.');
@@ -142,7 +139,7 @@ final pkgsUri = Platform.script.resolve('../../');
 
 List<File> allPubspecs = [
   for (final package in packages)
-    ...Glob('${pkgsUri.resolve('$package/').toFilePath()}**pubspec.yaml')
-        .listSync()
-        .whereType<File>()
+    ...Glob(
+      '${pkgsUri.resolve('$package/').toFilePath()}**pubspec.yaml',
+    ).listSync().whereType<File>(),
 ];

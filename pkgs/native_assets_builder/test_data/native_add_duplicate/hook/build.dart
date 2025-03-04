@@ -14,20 +14,19 @@ void main(List<String> arguments) async {
     final cbuilder = CBuilder.library(
       name: duplicatedPackageName,
       assetName: 'src/${packageName}_bindings_generated.dart',
-      sources: [
-        'src/$duplicatedPackageName.c',
-      ],
+      sources: ['src/$duplicatedPackageName.c'],
     );
     // Temp output to prevent outputting the dylib for bundling.
     final outputBuilder = BuildOutputBuilder();
     await cbuilder.run(
       input: input,
       output: outputBuilder,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) {
-          print('${record.level.name}: ${record.time}: ${record.message}');
-        }),
+      logger:
+          Logger('')
+            ..level = Level.ALL
+            ..onRecord.listen((record) {
+              print('${record.level.name}: ${record.time}: ${record.message}');
+            }),
     );
     final tempBuildOutput = BuildOutput(outputBuilder.json);
     output.assets.code.add(
@@ -35,8 +34,6 @@ void main(List<String> arguments) async {
       // Send dylib to linking if linking is enabled.
       linkInPackage: input.config.linkingEnabled ? packageName : null,
     );
-    output.addDependencies(
-      tempBuildOutput.dependencies,
-    );
+    output.addDependencies(tempBuildOutput.dependencies);
   });
 }

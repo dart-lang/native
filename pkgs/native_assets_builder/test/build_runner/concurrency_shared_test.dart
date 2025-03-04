@@ -24,14 +24,9 @@ void main() async {
         targetUri: packageUri,
       );
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      Future<RunProcessResult> runBuildInProcess(
-        Target target,
-      ) async {
+      Future<RunProcessResult> runBuildInProcess(Target target) async {
         final result = await runProcess(
           executable: dartExecutable,
           arguments: [

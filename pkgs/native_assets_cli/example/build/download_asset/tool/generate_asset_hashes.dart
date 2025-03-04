@@ -11,18 +11,17 @@ import 'package:download_asset/src/hook_helpers/targets.dart';
 /// Regenerates [assetHashes].
 Future<void> main(List<String> args) async {
   final assetsDir = Directory.fromUri(
-      Platform.script.resolve('../.dart_tool/download_asset/'));
+    Platform.script.resolve('../.dart_tool/download_asset/'),
+  );
   await assetsDir.delete(recursive: true);
   await assetsDir.create(recursive: true);
   await Future.wait([
     for (final (targetOS, targetArchitecture, iOSSdk) in supportedTargets)
       downloadAsset(targetOS, targetArchitecture, iOSSdk, assetsDir),
   ]);
-  final assetFiles = assetsDir
-      .listSync(recursive: true)
-      .whereType<File>()
-      .toList()
-    ..sort((f1, f2) => f1.path.compareTo(f2.path));
+  final assetFiles =
+      assetsDir.listSync(recursive: true).whereType<File>().toList()
+        ..sort((f1, f2) => f1.path.compareTo(f2.path));
   final assetHashes = <String, String>{};
   for (final assetFile in assetFiles) {
     final fileHash = await hashAsset(assetFile);
@@ -35,7 +34,8 @@ Future<void> main(List<String> args) async {
 
 Future<void> writeHashesFile(Map<String, String> assetHashes) async {
   final hashesFile = File.fromUri(
-      Platform.script.resolve('../lib/src/hook_helpers/hashes.dart'));
+    Platform.script.resolve('../lib/src/hook_helpers/hashes.dart'),
+  );
   await hashesFile.create(recursive: true);
   final buffer = StringBuffer();
   buffer.write('''

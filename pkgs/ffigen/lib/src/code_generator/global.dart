@@ -44,9 +44,7 @@ class Global extends LookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     final globalVarName = name;
-    if (dartDoc != null) {
-      s.write(makeDartDoc(dartDoc!));
-    }
+    s.write(makeDartDoc(dartDoc));
     final dartType = type.getDartType(w);
     final ffiDartType = type.getFfiDartType(w);
 

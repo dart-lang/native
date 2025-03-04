@@ -25,8 +25,8 @@ void main() {
       final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
-      nullableInterface = NullableInterface.new1();
-      obj = NSObject.new1();
+      nullableInterface = NullableInterface();
+      obj = NSObject();
       generateBindingsForCoverage('nullable');
     });
 

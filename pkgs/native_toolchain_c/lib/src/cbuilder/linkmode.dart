@@ -9,7 +9,9 @@ LinkMode getLinkMode(LinkModePreference preference) {
       preference == LinkModePreference.preferDynamic) {
     return DynamicLoadingBundled();
   }
-  assert(preference == LinkModePreference.static ||
-      preference == LinkModePreference.preferStatic);
+  assert(
+    preference == LinkModePreference.static ||
+        preference == LinkModePreference.preferStatic,
+  );
   return StaticLinking();
 }

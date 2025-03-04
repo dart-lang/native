@@ -9,10 +9,7 @@ void main() {
   const metadata = Metadata({
     'key': 'value',
     'my_list': [1, 2, 3],
-    'my_map': {
-      3: 4,
-      'foo': 'bar',
-    },
+    'my_map': {3: 4, 'foo': 'bar'},
   });
 
   test('Metadata toString', metadata.toString);

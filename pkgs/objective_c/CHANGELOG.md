@@ -1,4 +1,26 @@
-## 5.0.0-wip
+## 7.0.0-wip
+
+- Use ffigen 18.0.0
+- `ObjCProtocolBuilder` supports implementing protocol methods directly using a
+  block.
+- Change how `ObjCProtocolBuilder` is implemented to fix
+  [a bug](https://github.com/dart-lang/http/issues/1702), by removing all uses
+  of `NSProxy`. This causes a couple of very minor breaking changes:
+  - __Breaking change__: It's no longer possible to add more methods to an
+    `ObjCProtocolBuilder` after `build()` has been invoked.
+  - __Breaking change__: Remove `NSProxy` from the bindings. Rename
+    `DOBJCDartProxyBuilder` to `DOBJCDartProtocolBuilder` and `DOBJCDartProxy`
+    to `DOBJCDartProtocol` and change their APIs. Users should not be using
+    these classes.
+- __Breaking change__: Some API names have changed due to ffigen's new duplicate
+  identifier renaming logic. `$` is now used as a delimiter, to match jnigen's
+  renaming logic.
+
+## 6.0.0
+
+- Use ffigen 17.0.0
+
+## 5.0.0
 
 - __Breaking change__: Rename the `NSString` to `String` conversion method from
   `toString()` to `toDartString()`.
@@ -6,6 +28,9 @@
 - Add various ObjC categories (extension methods) to the built in classes.
 - Add various ObjC protocols to the bindings.
 - Make all visible API types public.
+- Add a `osVersion` getter, which returns the current MacOS/iOS version.
+- Fixed [a bug](https://github.com/dart-lang/native/issues/1978) where Dart API
+  symbols could be null despite Dart_InitializeApiDL returning successfully.
 
 ## 4.1.0
 

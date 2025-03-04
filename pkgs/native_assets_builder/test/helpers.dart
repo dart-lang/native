@@ -56,6 +56,8 @@ Future<void> inTempDir(
         // process invocations have finished.
         if (!Platform.isWindows) rethrow;
       }
+    } else {
+      print('$keepTempKey $tempUri');
     }
   }
 }
@@ -77,6 +79,8 @@ Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
         if (!Platform.isWindows) rethrow;
       }
     });
+  } else {
+    print('$keepTempKey $tempUri');
   }
   return tempUri;
 }
@@ -95,18 +99,17 @@ Future<run_process.RunProcessResult> runProcess({
   bool captureOutput = true,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
-}) =>
-    run_process.runProcess(
-      filesystem: const LocalFileSystem(),
-      executable: executable,
-      arguments: arguments,
-      workingDirectory: workingDirectory,
-      environment: environment,
-      logger: logger,
-      captureOutput: captureOutput,
-      expectedExitCode: expectedExitCode,
-      throwOnUnexpectedExitCode: throwOnUnexpectedExitCode,
-    );
+}) => run_process.runProcess(
+  filesystem: const LocalFileSystem(),
+  executable: executable,
+  arguments: arguments,
+  workingDirectory: workingDirectory,
+  environment: environment,
+  logger: logger,
+  captureOutput: captureOutput,
+  expectedExitCode: expectedExitCode,
+  throwOnUnexpectedExitCode: throwOnUnexpectedExitCode,
+);
 
 /// Test files are run in a variety of ways, find this package root in all.
 ///
@@ -139,10 +142,12 @@ Uri findPackageRoot(String packageName) {
       return cwd;
     }
   }
-  throw StateError("Could not find package root for package '$packageName'. "
-      'Tried finding the package root via Platform.script '
-      "'${Platform.script.toFilePath()}' and Directory.current "
-      "'${Directory.current.uri.toFilePath()}'.");
+  throw StateError(
+    "Could not find package root for package '$packageName'. "
+    'Tried finding the package root via Platform.script '
+    "'${Platform.script.toFilePath()}' and Directory.current "
+    "'${Directory.current.uri.toFilePath()}'.",
+  );
 }
 
 final pkgNativeAssetsBuilderUri = findPackageRoot('native_assets_builder');
@@ -170,9 +175,9 @@ final Uri? _ld =
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript = Platform
-    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
-    ?.asFileUri();
+final Uri? _envScript =
+    Platform.environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+        ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
@@ -184,21 +189,23 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler = (_cc == null || _ar == null || _ld == null)
-    ? null
-    : CCompilerConfig(
-        compiler: _cc!,
-        archiver: _ar!,
-        linker: _ld!,
-        windows: _envScript == null
-            ? null
-            : WindowsCCompilerConfig(
-                developerCommandPrompt: DeveloperCommandPrompt(
-                  script: _envScript!,
-                  arguments: _envScriptArgs ?? [],
-                ),
-              ),
-      );
+final cCompiler =
+    (_cc == null || _ar == null || _ld == null)
+        ? null
+        : CCompilerConfig(
+          compiler: _cc!,
+          archiver: _ar!,
+          linker: _ld!,
+          windows:
+              _envScript == null
+                  ? null
+                  : WindowsCCompilerConfig(
+                    developerCommandPrompt: DeveloperCommandPrompt(
+                      script: _envScript!,
+                      arguments: _envScriptArgs ?? [],
+                    ),
+                  ),
+        );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -225,10 +232,7 @@ extension AssetIterable on Iterable<EncodedAsset> {
   }
 }
 
-Future<void> copyTestProjects({
-  Uri? sourceUri,
-  required Uri targetUri,
-}) async {
+Future<void> copyTestProjects({Uri? sourceUri, required Uri targetUri}) async {
   sourceUri ??= testDataUri;
   final manifestUri = sourceUri.resolve('manifest.yaml');
   final manifestFile = File.fromUri(manifestUri);
@@ -236,17 +240,24 @@ Future<void> copyTestProjects({
   final manifestYaml = loadYamlDocument(manifestString);
   final manifest = [
     for (final path in manifestYaml.contents as List<Object?>)
-      Uri(path: path as String)
+      Uri(path: path as String),
   ];
-  final filesToCopy = manifest
-      .where((e) => !(e.pathSegments.last.startsWith('pubspec') &&
-          e.pathSegments.last.endsWith('.yaml')))
-      .toList();
-  final filesToModify = manifest
-      .where((e) =>
-          e.pathSegments.last.startsWith('pubspec') &&
-          e.pathSegments.last.endsWith('.yaml'))
-      .toList();
+  final filesToCopy =
+      manifest
+          .where(
+            (e) =>
+                !(e.pathSegments.last.startsWith('pubspec') &&
+                    e.pathSegments.last.endsWith('.yaml')),
+          )
+          .toList();
+  final filesToModify =
+      manifest
+          .where(
+            (e) =>
+                e.pathSegments.last.startsWith('pubspec') &&
+                e.pathSegments.last.endsWith('.yaml'),
+          )
+          .toList();
 
   for (final pathToCopy in filesToCopy) {
     final sourceFile = File.fromUri(sourceUri.resolveUri(pathToCopy));
@@ -271,8 +282,9 @@ Future<void> copyTestProjects({
       'path: ../../',
       'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
     );
-    await File.fromUri(targetFileUri)
-        .writeAsString(modifiedString, flush: true);
+    await File.fromUri(
+      targetFileUri,
+    ).writeAsString(modifiedString, flush: true);
   }
 }
 
@@ -283,7 +295,8 @@ extension UnescapePath on String {
 }
 
 /// Logger that outputs the full trace when a test fails.
-Logger get logger => _logger ??= () {
+Logger get logger =>
+    _logger ??= () {
       // A new logger is lazily created for each test so that the messages
       // captured by printOnFailure are scoped to the correct test.
       addTearDown(() => _logger = null);
@@ -295,8 +308,7 @@ Logger? _logger;
 Logger createCapturingLogger(
   List<String> capturedMessages, {
   Level level = Level.ALL,
-}) =>
-    _createTestLogger(capturedMessages: capturedMessages, level: level);
+}) => _createTestLogger(capturedMessages: capturedMessages, level: level);
 
 Logger _createTestLogger({
   List<String>? capturedMessages,

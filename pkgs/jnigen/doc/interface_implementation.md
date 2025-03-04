@@ -145,6 +145,7 @@ final class Printer with $Runnable {
 
   @override
   bool get run$async => true; // This makes the run method non-blocking.
+}
 ```
 
 

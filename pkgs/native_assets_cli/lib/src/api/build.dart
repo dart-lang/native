@@ -67,14 +67,12 @@ import '../validation.dart';
 ///     final packageName = input.packageName;
 ///     final assetPath = input.outputDirectory.resolve(assetName);
 ///     final assetSourcePath = input.packageRoot.resolveUri(packageAssetPath);
-///     if (!input.dryRun) {
-///       // Insert code that downloads or builds the asset to `assetPath`.
-///       await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
+///     // Insert code that downloads or builds the asset to `assetPath`.
+///     await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 ///
-///       output.addDependencies([
-///         assetSourcePath,
-///       ]);
-///     }
+///     output.addDependencies([
+///       assetSourcePath,
+///     ]);
 ///
 ///     output.assets.code.add(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
@@ -101,15 +99,17 @@ Future<void> build(
 ) async {
   final inputPath = getInputArgument(arguments);
   final bytes = File(inputPath).readAsBytesSync();
-  final jsonInput = const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
-      as Map<String, Object?>;
+  final jsonInput =
+      const Utf8Decoder().fuse(const JsonDecoder()).convert(bytes)
+          as Map<String, Object?>;
   final input = BuildInput(jsonInput);
   final output = BuildOutputBuilder();
   await builder(input, output);
   final errors = await validateBuildOutput(input, BuildOutput(output.json));
   if (errors.isEmpty) {
-    final jsonOutput =
-        const JsonEncoder().fuse(const Utf8Encoder()).convert(output.json);
+    final jsonOutput = const JsonEncoder()
+        .fuse(const Utf8Encoder())
+        .convert(output.json);
     await File.fromUri(input.outputFile).writeAsBytes(jsonOutput);
   } else {
     final message = [

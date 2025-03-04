@@ -10,7 +10,8 @@ import 'package:jnigen/src/elements/j_elements.dart';
 import 'package:test/test.dart';
 
 extension on Iterable<ast.Method> {
-  List<bool> get isExcludedValues => map((c) => c.isExcluded).toList();
+  List<bool> get isExcludedValues =>
+      map((c) => c.userDefinedIsExcluded).toList();
 }
 
 extension on Iterable<ast.Field> {

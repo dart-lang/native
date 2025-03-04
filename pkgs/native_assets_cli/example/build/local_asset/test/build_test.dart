@@ -13,10 +13,7 @@ void main() async {
       mainMethod: build.main,
       check: (_, output) {
         expect(output.assets.code, isNotEmpty);
-        expect(
-          output.assets.code.first.id,
-          'package:local_asset/asset.txt',
-        );
+        expect(output.assets.code.first.id, 'package:local_asset/asset.txt');
       },
     );
   });

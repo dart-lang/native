@@ -21,14 +21,13 @@ final class EncodedAsset {
   factory EncodedAsset.fromJson(Map<String, Object?> json) =>
       EncodedAsset(json.get<String>(_typeKey), {
         for (final key in json.keys)
-          if (key != _typeKey) key: json[key]
+          if (key != _typeKey) key: json[key],
       });
 
   /// Encode this [EncodedAsset] tojson.
-  Map<String, Object?> toJson() => {
-        for (final key in encoding.keys) key: encoding[key],
-        _typeKey: type,
-      }..sortOnKey();
+  Map<String, Object?> toJson() =>
+      {for (final key in encoding.keys) key: encoding[key], _typeKey: type}
+        ..sortOnKey();
 
   @override
   String toString() => 'EncodedAsset($type, $encoding)';

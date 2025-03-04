@@ -22,10 +22,7 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       Future<RunProcessResult> runBuildInProcess() async {
         final result = await runProcess(
@@ -54,7 +51,8 @@ void main() async {
 
   File? findLockFile(Uri packageUri, String packageName) {
     final dir = Directory.fromUri(
-        packageUri.resolve('.dart_tool/native_assets_builder/$packageName/'));
+      packageUri.resolve('.dart_tool/native_assets_builder/$packageName/'),
+    );
     if (!dir.existsSync()) {
       // Too quick, dir doesn't exist yet.
       return null;
@@ -66,10 +64,7 @@ void main() async {
         if (lockFileContents.isNotEmpty) {
           // The process might have been killed in between creating the lock
           // file and writing to it.
-          expect(
-            lockFileContents,
-            stringContainsInOrder(['Last acquired by']),
-          );
+          expect(lockFileContents, stringContainsInOrder(['Last acquired by']));
         }
         return lockFile;
       }
@@ -83,28 +78,21 @@ void main() async {
       const packageName = 'native_add';
       final packageUri = tempUri.resolve('$packageName/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       Future<int> runBuildInProcess({Duration? killAfter}) async {
-        final process = await Process.start(
-          dartExecutable.toFilePath(),
-          [
-            pkgNativeAssetsBuilderUri
-                .resolve('test/build_runner/concurrency_test_helper.dart')
-                .toFilePath(),
-            packageUri.toFilePath(),
-          ],
-          workingDirectory: packageUri.toFilePath(),
-        );
+        final process = await Process.start(dartExecutable.toFilePath(), [
+          pkgNativeAssetsBuilderUri
+              .resolve('test/build_runner/concurrency_test_helper.dart')
+              .toFilePath(),
+          packageUri.toFilePath(),
+        ], workingDirectory: packageUri.toFilePath());
         final stdoutSub = process.stdout
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.fine);
         final stderrSub = process.stderr
-            .transform(utf8.decoder)
+            .transform(systemEncoding.decoder)
             .transform(const LineSplitter())
             .listen(logger.severe);
 
@@ -112,11 +100,12 @@ void main() async {
         if (killAfter != null) {
           timer = Timer(killAfter, process.kill);
         }
-        final (exitCode, _, _) = await (
-          process.exitCode,
-          stdoutSub.asFuture<void>(),
-          stderrSub.asFuture<void>()
-        ).wait;
+        final (exitCode, _, _) =
+            await (
+              process.exitCode,
+              stdoutSub.asFuture<void>(),
+              stderrSub.asFuture<void>(),
+            ).wait;
         if (timer != null) {
           timer.cancel();
         }
@@ -147,10 +136,7 @@ void main() async {
       const packageName = 'native_add';
       final packageUri = tempUri.resolve('$packageName/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       Future<RunProcessResult> runBuildInProcess({
         Duration? timeout,
@@ -195,14 +181,16 @@ void main() async {
       // And give the timer to end this test and release the lock even more
       // time. In a normal test run, the timer should always be cancelled.
       final helperTimeout = singleHookTimeout * 10;
-      printOnFailure([
-        'cachedInvocationDuration',
-        cachedInvocationDuration,
-        'singleHookTimeout',
-        singleHookTimeout,
-        'helperTimeout',
-        helperTimeout,
-      ].toString());
+      printOnFailure(
+        [
+          'cachedInvocationDuration',
+          cachedInvocationDuration,
+          'singleHookTimeout',
+          singleHookTimeout,
+          'helperTimeout',
+          helperTimeout,
+        ].toString(),
+      );
 
       final randomAccessFile = await lockFile.open(mode: FileMode.write);
       final lock = await randomAccessFile.lock(FileLock.exclusive);

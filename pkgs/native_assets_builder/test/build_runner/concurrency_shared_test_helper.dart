@@ -14,9 +14,10 @@ void main(List<String> args) async {
   final packageName = packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   final target = Target.fromString(args[1]);
 
-  final logger = Logger('')
-    ..level = Level.ALL
-    ..onRecord.listen((event) => print(event.message));
+  final logger =
+      Logger('')
+        ..level = Level.ALL
+        ..onRecord.listen((event) => print(event.message));
 
   final targetOS = target.os;
   final packageLayout = await PackageLayout.fromWorkingDirectory(
@@ -32,27 +33,34 @@ void main(List<String> args) async {
   ).build(
     // Set up the code input, so that the builds for different targets are
     // in different directories.
-    inputCreator: () => BuildInputBuilder()
-      ..config.setupCode(
-        targetArchitecture: target.architecture,
-        targetOS: targetOS,
-        macOS: targetOS == OS.macOS
-            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-            : null,
-        android:
-            targetOS == OS.android ? AndroidCodeConfig(targetNdkApi: 30) : null,
-        linkModePreference: LinkModePreference.dynamic,
-      ),
+    inputCreator:
+        () =>
+            BuildInputBuilder()
+              ..config.setupCode(
+                targetArchitecture: target.architecture,
+                targetOS: targetOS,
+                macOS:
+                    targetOS == OS.macOS
+                        ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                        : null,
+                android:
+                    targetOS == OS.android
+                        ? AndroidCodeConfig(targetNdkApi: 30)
+                        : null,
+                linkModePreference: LinkModePreference.dynamic,
+              ),
     linkingEnabled: false,
     buildAssetTypes: [DataAsset.type, CodeAsset.type],
-    inputValidator: (input) async => [
-      ...await validateDataAssetBuildInput(input),
-      ...await validateCodeAssetBuildInput(input),
-    ],
-    buildValidator: (input, output) async => [
-      ...await validateDataAssetBuildOutput(input, output),
-      ...await validateCodeAssetBuildOutput(input, output),
-    ],
+    inputValidator:
+        (input) async => [
+          ...await validateDataAssetBuildInput(input),
+          ...await validateCodeAssetBuildInput(input),
+        ],
+    buildValidator:
+        (input, output) async => [
+          ...await validateDataAssetBuildOutput(input, output),
+          ...await validateCodeAssetBuildOutput(input, output),
+        ],
     applicationAssetValidator: validateCodeAssetInApplication,
   );
   if (result == null) {

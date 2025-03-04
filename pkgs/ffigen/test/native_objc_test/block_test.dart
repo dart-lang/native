@@ -10,6 +10,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
@@ -29,16 +30,16 @@ typedef DoubleBlock = ObjCBlock_ffiDouble_ffiDouble;
 typedef Vec4Block = ObjCBlock_Vec4_Vec4;
 typedef SelectorBlock = ObjCBlock_ffiVoid_objcObjCSelector;
 typedef ObjectBlock = ObjCBlock_DummyObject_DummyObject;
-typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject1;
+typedef NullableObjectBlock = ObjCBlock_DummyObject_DummyObject$1;
 typedef NullableStringBlock = ObjCBlock_NSString_NSString;
 typedef ObjectListenerBlock = ObjCBlock_ffiVoid_DummyObject;
-typedef NullableListenerBlock = ObjCBlock_ffiVoid_DummyObject1;
+typedef NullableListenerBlock = ObjCBlock_ffiVoid_DummyObject$1;
 typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
 typedef NSStringListenerBlock = ObjCBlock_ffiVoid_NSString;
 typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
 typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
-typedef ResultBlock = ObjCBlock_ffiVoid_Int321;
+typedef ResultBlock = ObjCBlock_ffiVoid_Int32$1;
 
 void main() {
   late final BlockTestObjCLibrary lib;
@@ -249,7 +250,7 @@ void main() {
         return x;
       });
 
-      final obj = DummyObject.new1();
+      final obj = DummyObject();
       final result1 = block(obj);
       expect(result1, obj);
       expect(isCalled, isTrue);
@@ -268,7 +269,7 @@ void main() {
         return x;
       });
 
-      final obj = DummyObject.new1();
+      final obj = DummyObject();
       final result1 = block(obj);
       expect(result1, obj);
       expect(isCalled, isTrue);
@@ -731,7 +732,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('Blocking block ref counting same thread', () async {
-      DummyObject? dummyObject = DummyObject.new1();
+      DummyObject? dummyObject = DummyObject();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.blocking((DummyObject obj) {
         // Object passed as argument.
@@ -761,7 +762,7 @@ void main() {
 
     test('Blocking block ref counting new thread', () async {
       final completer = Completer<void>();
-      DummyObject? dummyObject = DummyObject.new1();
+      DummyObject? dummyObject = DummyObject();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.blocking((DummyObject obj) {
         // Object passed as argument.
@@ -827,7 +828,7 @@ void main() {
 
     (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObject>) regress1571Inner(
         Completer<void> completer) {
-      final dummyObject = DummyObject.new1();
+      final dummyObject = DummyObject();
       DartObjectListenerBlock? block =
           ObjectListenerBlock.listener((DummyObject obj) {
         expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
@@ -863,6 +864,193 @@ void main() {
         expect(objectRetainCount(objectPtr), 0);
       }
     });
+
+    test('Block.fromFunction, keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final blocksCreated = Completer<void>();
+      final blkKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Blocks created') {
+          blocksCreated.complete();
+        } else if (msg == 'blkKeepAlive destroyed') {
+          blkKeepAliveDestroyed.complete();
+        }
+      });
+
+      final isExited = Completer<void>();
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited.complete();
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final blkKeepAlive =
+            VoidBlock.fromFunction(() {}, keepIsolateAlive: true);
+        final blkDontKeepAlive =
+            VoidBlock.fromFunction(() {}, keepIsolateAlive: false);
+        sendPort.send('Blocks created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy blkKeepAlive') {
+            blkKeepAlive.ref.release();
+            sendPort.send('blkKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await blocksCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited.isCompleted, isFalse);
+
+      (await isolateSendPort.future).send('Destroy blkKeepAlive');
+      await blkKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only blkDontKeepAlive is alive.
+      await isExited;
+
+      receivePort.close();
+    }, skip: !canDoGC);
+
+    test('Block.listener, keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final blocksCreated = Completer<void>();
+      final blkKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Blocks created') {
+          blocksCreated.complete();
+        } else if (msg == 'blkKeepAlive destroyed') {
+          blkKeepAliveDestroyed.complete();
+        }
+      });
+
+      final isExited = Completer<void>();
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited.complete();
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final blkKeepAlive = VoidBlock.listener(() {}, keepIsolateAlive: true);
+        final blkDontKeepAlive =
+            VoidBlock.listener(() {}, keepIsolateAlive: false);
+        sendPort.send('Blocks created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy blkKeepAlive') {
+            blkKeepAlive.ref.release();
+            sendPort.send('blkKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await blocksCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited.isCompleted, isFalse);
+
+      (await isolateSendPort.future).send('Destroy blkKeepAlive');
+      await blkKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only blkDontKeepAlive is alive.
+      await isExited;
+
+      receivePort.close();
+    }, skip: !canDoGC);
+
+    test('Block.blocking, keepIsolateAlive', () async {
+      final isolateSendPort = Completer<SendPort>();
+      final blocksCreated = Completer<void>();
+      final blkKeepAliveDestroyed = Completer<void>();
+      final receivePort = RawReceivePort((msg) {
+        if (msg is SendPort) {
+          isolateSendPort.complete(msg);
+        } else if (msg == 'Blocks created') {
+          blocksCreated.complete();
+        } else if (msg == 'blkKeepAlive destroyed') {
+          blkKeepAliveDestroyed.complete();
+        }
+      });
+
+      final isExited = Completer<void>();
+      late final RawReceivePort exitPort;
+      exitPort = RawReceivePort((_) {
+        isExited.complete();
+        exitPort.close();
+      });
+
+      final isolate = Isolate.spawn((sendPort) {
+        final blkKeepAlive = VoidBlock.blocking(() {}, keepIsolateAlive: true);
+        final blkDontKeepAlive =
+            VoidBlock.blocking(() {}, keepIsolateAlive: false);
+        sendPort.send('Blocks created');
+
+        final isolatePort = RawReceivePort((msg) {
+          if (msg == 'Destroy blkKeepAlive') {
+            blkKeepAlive.ref.release();
+            sendPort.send('blkKeepAlive destroyed');
+          }
+        })
+          ..keepIsolateAlive = false;
+
+        sendPort.send(isolatePort.sendPort);
+      }, receivePort.sendPort, onExit: exitPort.sendPort);
+
+      await blocksCreated.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Both blocks are still alive.
+      expect(isExited.isCompleted, isFalse);
+
+      (await isolateSendPort.future).send('Destroy blkKeepAlive');
+      await blkKeepAliveDestroyed.future;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
+      doGC();
+      await Future<void>.delayed(Duration.zero); // Let exit message arrive.
+
+      // Only blkDontKeepAlive is alive.
+      await isExited;
+
+      receivePort.close();
+    }, skip: !canDoGC);
   });
 }
 

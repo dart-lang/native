@@ -15,22 +15,20 @@ void main() async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('system_library/');
 
-      await runPubGet(
-        workingDirectory: packageUri,
-        logger: logger,
-      );
+      await runPubGet(workingDirectory: packageUri, logger: logger);
 
       final logMessages = <String>[];
-      final result = (await build(
-        packageUri,
-        logger,
-        dartExecutable,
-        capturedLogs: logMessages,
-        inputValidator: validateCodeAssetBuildInput,
-        buildAssetTypes: [CodeAsset.type],
-        buildValidator: validateCodeAssetBuildOutput,
-        applicationAssetValidator: validateCodeAssetInApplication,
-      ))!;
+      final result =
+          (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            capturedLogs: logMessages,
+            inputValidator: validateCodeAssetBuildInput,
+            buildAssetTypes: [CodeAsset.type],
+            buildValidator: validateCodeAssetBuildOutput,
+            applicationAssetValidator: validateCodeAssetInApplication,
+          ))!;
       expect(result.encodedAssets.length, 3);
     });
   });
