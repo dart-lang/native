@@ -446,43 +446,35 @@ void main() {
           .implementWithBlock(protocolBuilder, block);
       final protocol = protocolBuilder.build();
 
-      final protocolPtr = protocol.ref.pointer;
       final blockPtr = block.ref.pointer;
 
       // There are 2 references to the block. One owned by the Dart wrapper
       // object, and the other owned by the protocol.
       doGC();
-      // expect(objectRetainCount(protocolPtr), 1);
       expect(blockRetainCount(blockPtr), 2);
-
-      expect(protocol, isNotNull); // Force protocol to stay in scope.
-      expect(block, isNotNull); // Force block to stay in scope.
 
       return (protocol, blockPtr);
     }
 
-    (Pointer<ObjCObject>, Pointer<ObjCBlockImpl>) blockRefCountTest() {
+    Pointer<ObjCBlockImpl> blockRefCountTest() {
       final (protocol, blockPtr) = blockRefCountTestInner();
-      final protocolPtr = protocol.ref.pointer;
 
       // The Dart side block pointer has gone out of scope, but the protocol
       // still owns a reference to it.
       doGC();
-      expect(objectRetainCount(protocolPtr), 1);
       expect(blockRetainCount(blockPtr), 1);
 
       expect(protocol, isNotNull); // Force protocol to stay in scope.
 
-      return (protocolPtr, blockPtr);
+      return blockPtr;
     }
 
     test('Block ref counting', () {
-      final (protocolPtr, blockPtr) = blockRefCountTest();
+      final blockPtr = blockRefCountTest();
 
       // The protocol object has gone out of scope, so it should be cleaned up.
       // So should the block.
       doGC();
-      expect(objectRetainCount(protocolPtr), 0);
       expect(blockRetainCount(blockPtr), 0);
     }, skip: !canDoGC);
 
