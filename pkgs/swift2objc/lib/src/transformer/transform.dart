@@ -5,6 +5,7 @@
 import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
 import '../ast/_core/interfaces/nestable_declaration.dart';
+import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
@@ -51,7 +52,8 @@ List<Declaration> transform(List<Declaration> declarations,
       transformGlobals(globals, globalNamer, transformationMap),
   ];
 
-  return transformedDeclarations
+  return (transformedDeclarations +
+      _getPrimitiveWrapperClasses(transformationMap))
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 
@@ -79,4 +81,12 @@ Declaration transformDeclaration(
       ),
     _ => throw UnimplementedError(),
   };
+}
+
+List<Declaration> _getPrimitiveWrapperClasses(
+    TransformationMap transformationMap) {
+  return transformationMap.entries
+      .where((entry) => entry.key is BuiltInDeclaration)
+      .map((entry) => entry.value)
+      .toList();
 }

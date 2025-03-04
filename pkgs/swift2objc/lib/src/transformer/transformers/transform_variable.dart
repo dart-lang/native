@@ -3,6 +3,7 @@ import '../../ast/_core/interfaces/variable_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../_core/primitive_wrappers.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
@@ -73,16 +74,20 @@ Declaration _transformVariable(
       ? originalVariable.hasSetter
       : !originalVariable.isConstant;
 
+  // properties that throw or are async need to be wrapped in a method
   if (originalVariable.throws || originalVariable.async) {
     final prefix = [
       if (originalVariable.throws) 'try',
       if (originalVariable.async) 'await'
     ].join(' ');
 
+    final (type, _) = getWrapperIfNeeded(
+        transformedType, originalVariable.throws, transformationMap);
+
     return MethodDeclaration(
       id: originalVariable.id,
       name: wrapperPropertyName,
-      returnType: transformedType,
+      returnType: type,
       params: [],
       hasObjCAnnotation: true,
       isStatic: originalVariable is PropertyDeclaration
@@ -90,7 +95,7 @@ Declaration _transformVariable(
           : true,
       statements: [
         'let result = $prefix $variableReferenceExpression',
-        'return $transformedType(result)',
+        'return $type(result)',
       ],
       throws: originalVariable.throws,
       async: originalVariable.async,
