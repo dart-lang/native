@@ -456,6 +456,9 @@ void main() {
       expect(objectRetainCount(protocolPtr), 1);
       expect(blockRetainCount(blockPtr), 2);
 
+      expect(protocol, isNotNull); // Force protocol to stay in scope.
+      expect(block, isNotNull); // Force block to stay in scope.
+
       return (protocol, blockPtr);
     }
 
@@ -468,6 +471,8 @@ void main() {
       doGC();
       expect(objectRetainCount(protocolPtr), 1);
       expect(blockRetainCount(blockPtr), 1);
+
+      expect(protocol, isNotNull); // Force protocol to stay in scope.
 
       return (protocolPtr, blockPtr);
     }
