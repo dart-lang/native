@@ -43,9 +43,9 @@ typedef ResultBlock = ObjCBlock_ffiVoid_Int32$1;
 
 bool get hasIsolateOwnershipApi =>
     DynamicLibrary.process().providesSymbol('Dart_SetCurrentThreadOwnsIsolate');
-void setCurrentThreadOwnsIsolate() => DynamicLibrary.process()
-            .lookupFunction<Void Function(), void Function()>(
-                'Dart_SetCurrentThreadOwnsIsolate')();
+void setCurrentThreadOwnsIsolate() =>
+    DynamicLibrary.process().lookupFunction<Void Function(), void Function()>(
+        'Dart_SetCurrentThreadOwnsIsolate')();
 
 void main() {
   late final BlockTestObjCLibrary lib;

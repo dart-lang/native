@@ -52,8 +52,8 @@ Future<void> _buildLib(List<String> inputs, String output) async {
   for (final input in inputs) {
     objFiles.add(await _buildObject(input, objc: true));
   }
-  objFiles.add(await _buildObject(
-      '../../../objective_c/src/include/dart_api_dl.c'));
+  objFiles.add(
+      await _buildObject('../../../objective_c/src/include/dart_api_dl.c'));
   await _linkLib(objFiles, output);
 }
 
