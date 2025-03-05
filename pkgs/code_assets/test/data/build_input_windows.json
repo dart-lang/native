@@ -1,0 +1,33 @@
+{
+  "$schema": "../../doc/schema/sdk/build_input.schema.json",
+  "config": {
+    "build_asset_types": [
+      "native_code"
+    ],
+    "code": {
+      "c_compiler": {
+        "ar": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\lib.exe",
+        "cc": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+        "env_script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
+        "env_script_arguments": [],
+        "ld": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\link.exe",
+        "windows": {
+          "developer_command_prompt": {
+            "arguments": [],
+            "script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
+          }
+        }
+      },
+      "link_mode_preference": "dynamic",
+      "target_architecture": "x64",
+      "target_os": "windows"
+    },
+    "linking_enabled": false
+  },
+  "out_dir": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\out\\",
+  "out_dir_shared": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\shared\\my_package\\Hook.build\\",
+  "out_file": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\output.json",
+  "package_name": "my_package",
+  "package_root": "C:\\src\\dacoharkes\\playground\\my_package\\",
+  "version": "1.9.0"
+}

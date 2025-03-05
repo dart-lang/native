@@ -1,0 +1,23 @@
+{
+  "$schema": "../../doc/schema/hook/link_output.schema.json",
+  "assets": [
+    {
+      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+      "name": "assets/data_0.json",
+      "package": "simple_link",
+      "type": "data"
+    },
+    {
+      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
+      "name": "assets/data_1.json",
+      "package": "simple_link",
+      "type": "data"
+    }
+  ],
+  "dependencies": [
+    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json",
+    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json"
+  ],
+  "timestamp": "2025-02-11 11:20:20.000",
+  "version": "1.9.0"
+}

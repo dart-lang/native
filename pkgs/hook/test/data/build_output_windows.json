@@ -1,0 +1,20 @@
+{
+  "$schema": "../../doc/schema/hook/build_output.schema.json",
+  "assets": [
+    {
+      "architecture": "x64",
+      "file": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\out\\my_package.dll",
+      "id": "package:my_package/my_package_bindings_generated.dart",
+      "link_mode": {
+        "type": "dynamic_loading_bundle"
+      },
+      "os": "windows",
+      "type": "native_code"
+    }
+  ],
+  "dependencies": [
+    "C:\\src\\dacoharkes\\playground\\my_package\\src\\my_package.c"
+  ],
+  "timestamp": "2025-02-17 09:57:36.000",
+  "version": "1.9.0"
+}
