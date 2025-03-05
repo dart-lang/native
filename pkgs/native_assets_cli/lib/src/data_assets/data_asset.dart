@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../encoded_asset.dart';
-import '../json_utils.dart';
-import '../utils/map.dart';
+import '../utils/json.dart';
 
 /// Data bundled with a Dart or Flutter application.
 ///

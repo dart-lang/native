@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../config.dart';
-import '../json_utils.dart';
+import '../utils/json.dart';
 import 'architecture.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';
@@ -314,6 +314,8 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
         _targetVersionKey,
       ], macOS?.targetVersion);
     }
+    (json[_configKey] as Map<String, Object?>).sortOnKey();
+    ((json[_configKey] as Map)[_codeKey] as Map<String, Object?>).sortOnKey();
   }
 }
 

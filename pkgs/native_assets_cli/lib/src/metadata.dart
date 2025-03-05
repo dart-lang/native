@@ -5,7 +5,6 @@
 import 'package:collection/collection.dart';
 
 import 'utils/json.dart';
-import 'utils/map.dart';
 
 class Metadata {
   final Map<String, Object> metadata;
@@ -15,7 +14,7 @@ class Metadata {
   factory Metadata.fromJson(Map<Object?, Object?>? jsonMap) =>
       Metadata(jsonMap?.formatCast<String, Object>() ?? {});
 
-  Map<String, Object> toJson() => metadata..sortOnKey();
+  Map<String, Object> toJson() => {...metadata}..sortOnKey();
 
   @override
   bool operator ==(Object other) {

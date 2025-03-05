@@ -4,8 +4,7 @@
 
 import 'package:collection/collection.dart';
 
-import 'json_utils.dart';
-import 'utils/map.dart';
+import 'utils/json.dart';
 
 /// An encoding of a particular asset type.
 final class EncodedAsset {

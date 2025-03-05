@@ -5,8 +5,7 @@
 import 'package:collection/collection.dart';
 
 import '../../code_assets.dart';
-import '../json_utils.dart';
-import '../utils/map.dart';
+import '../utils/json.dart';
 
 /// The configuration for a C toolchain.
 final class CCompilerConfig {
@@ -77,27 +76,26 @@ final class CCompilerConfig {
   ///
   /// The returned json can be used in [CCompilerConfig.fromJson] to
   /// obtain a [CCompilerConfig] again.
-  Map<String, Object> toJson() =>
-      {
-        _arConfigKey: archiver.toFilePath(),
-        _ccConfigKey: compiler.toFilePath(),
-        _ldConfigKey: linker.toFilePath(),
-        if (_windows?.developerCommandPrompt?.script != null)
-          _envScriptConfigKeyDeprecated:
-              _windows!.developerCommandPrompt!.script.toFilePath(),
-        if (_windows?.developerCommandPrompt?.arguments != null)
-          _envScriptArgsConfigKeyDeprecated:
-              _windows!.developerCommandPrompt!.arguments,
-        if (_windows != null)
-          _windowsConfigKey: {
-            if (_windows.developerCommandPrompt != null)
-              _developerCommandPromptConfigKey: {
-                _argumentsConfigKey: _windows.developerCommandPrompt!.arguments,
-                _scriptConfigKey:
-                    _windows.developerCommandPrompt!.script.toFilePath(),
-              },
+  Map<String, Object> toJson() => {
+    _arConfigKey: archiver.toFilePath(),
+    _ccConfigKey: compiler.toFilePath(),
+    _ldConfigKey: linker.toFilePath(),
+    if (_windows?.developerCommandPrompt?.script != null)
+      _envScriptConfigKeyDeprecated:
+          _windows!.developerCommandPrompt!.script.toFilePath(),
+    if (_windows?.developerCommandPrompt?.arguments != null)
+      _envScriptArgsConfigKeyDeprecated:
+          _windows!.developerCommandPrompt!.arguments,
+    if (_windows != null)
+      _windowsConfigKey: {
+        if (_windows.developerCommandPrompt != null)
+          _developerCommandPromptConfigKey: {
+            _argumentsConfigKey: _windows.developerCommandPrompt!.arguments,
+            _scriptConfigKey:
+                _windows.developerCommandPrompt!.script.toFilePath(),
           },
-      }.sortOnKey();
+      },
+  }..sortOnKey();
 
   @override
   bool operator ==(Object other) {
