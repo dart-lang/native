@@ -17,6 +17,10 @@
   jnigen. The main change is that `$` is used as a delimiter now, to avoid
   renamed identifiers from colliding with other identifiers. For example, `foo`
   is renamed to `foo$1` if there's already a `foo` in the namespace.
+- Fix [a bug](https://github.com/dart-lang/native/issues/1967) where blocking
+  blocks could deadlock if invoked from the Flutter UI thread. Note that this
+  relies on changes in Flutter that are currently only available in the main
+  channel. These changes will likely be released in Flutter 3.31.0.
 
 ## 17.0.0
 
