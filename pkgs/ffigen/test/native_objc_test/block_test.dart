@@ -53,6 +53,8 @@ void main() {
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
       generateBindingsForCoverage('block');
+
+      BlockTester.setup_(NativeApi.initializeApiDLData);
     });
 
     test('BlockTester is working', () {
@@ -1051,6 +1053,17 @@ void main() {
 
       receivePort.close();
     }, skip: !canDoGC);
+
+    test('Blocking block deadlock', () {
+      // Regression test for https://github.com/dart-lang/native/issues/1967
+      int value = 0;
+      final block = VoidBlock.blocking(() {
+        waitSync(Duration(milliseconds: 100));
+        value = 123;
+      });
+      BlockTester.callOnSameThreadOutsideIsolate_(block);
+      expect(value, 123);
+    });
   });
 }
 

@@ -24,12 +24,14 @@ Future<void> _runClang(List<String> flags, String output) async {
   print('Generated file: $output');
 }
 
-Future<String> _buildObject(String input) async {
+Future<String> _buildObject(String input, {bool objc = false}) async {
   final output = '$input.o';
   await _runClang([
-    '-x',
-    'objective-c',
-    if (!arcDisabledFiles.contains(input)) '-fobjc-arc',
+    if (objc) ...[
+      '-x',
+      'objective-c',
+    ],
+    if (objc && !arcDisabledFiles.contains(input)) '-fobjc-arc',
     '-Wno-nullability-completeness',
     '-c',
     input,
@@ -48,8 +50,10 @@ Future<void> _linkLib(List<String> inputs, String output) => _runClang([
 Future<void> _buildLib(List<String> inputs, String output) async {
   final objFiles = <String>[];
   for (final input in inputs) {
-    objFiles.add(await _buildObject(input));
+    objFiles.add(await _buildObject(input, objc: true));
   }
+  objFiles.add(await _buildObject(
+      '../../../objective_c/src/include/dart_api_dl.c'));
   await _linkLib(objFiles, output);
 }
 
