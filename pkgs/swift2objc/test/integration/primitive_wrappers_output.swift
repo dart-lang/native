@@ -30,7 +30,7 @@ import Foundation
 
   @objc static public func globalVar5Wrapper() throws -> String {
     let result = try globalVar5
-    return String(result)
+    return result
   }
 
   @objc static public func intFuncWrapper() throws -> IntWrapper {
@@ -73,7 +73,7 @@ import Foundation
 
   @objc public func str() throws -> String {
     let result = try wrappedInstance.str
-    return String(result)
+    return result
   }
 
   @objc public func name() throws -> FloatWrapper {

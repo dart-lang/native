@@ -8,7 +8,6 @@ import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
-import '../_core/primitive_wrappers.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
@@ -85,19 +84,12 @@ MethodDeclaration _transformFunction(
       )
       .toList();
 
-  final transformedReturnType = transformReferredType(
-    originalFunction.returnType,
-    globalNamer,
-    transformationMap,
-  );
+  final localNamer = UniqueNamer();
+  final resultName = localNamer.makeUnique('result');
 
-  final shouldWrapPrimitives = originalFunction.throws &&
-      transformedReturnType is DeclaredType &&
-      getPrimitiveWrapper(transformedReturnType) != null;
-
-  final (_, type) = maybeWrapValue(
-      transformedReturnType, '', globalNamer, transformationMap,
-      shouldWrapPrimitives: shouldWrapPrimitives);
+  final (wrapperResult, type) = maybeWrapValue(
+      originalFunction.returnType, resultName, globalNamer, transformationMap,
+      shouldWrapPrimitives: originalFunction.throws);
 
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
@@ -116,8 +108,10 @@ MethodDeclaration _transformFunction(
     originalFunction,
     transformedMethod,
     globalNamer,
+    localNamer,
+    resultName,
+    wrapperResult,
     transformationMap,
-    shouldWrapPrimitives,
     originalCallGenerator: originalCallStatementGenerator,
   );
 
@@ -154,11 +148,12 @@ List<String> _generateStatements(
   FunctionDeclaration originalFunction,
   MethodDeclaration transformedMethod,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
-  bool shouldWrapPrimitives, {
+  UniqueNamer localNamer,
+  String resultName,
+  String wrappedResult,
+  TransformationMap transformationMap, {
   required String Function(String arguments) originalCallGenerator,
 }) {
-  final localNamer = UniqueNamer();
   final arguments = generateInvocationParams(
       localNamer, originalFunction.params, transformedMethod.params);
   var originalMethodCall = originalCallGenerator(arguments);
@@ -177,23 +172,8 @@ List<String> _generateStatements(
     throw UnimplementedError('Generic types are not implemented yet');
   }
 
-  final resultName = localNamer.makeUnique('result');
-  final methodCallStmt = 'let $resultName = $originalMethodCall';
-
-  final (wrappedResult, wrapperType) = maybeWrapValue(
-    originalFunction.returnType,
-    resultName,
-    globalNamer,
-    transformationMap,
-    shouldWrapPrimitives: shouldWrapPrimitives,
-  );
-
-  assert(wrapperType.sameAs(transformedMethod.returnType));
-
-  final returnStmt = 'return $wrappedResult';
-
   return [
-    methodCallStmt,
-    returnStmt,
+    'let $resultName = $originalMethodCall',
+    'return $wrappedResult',
   ];
 }

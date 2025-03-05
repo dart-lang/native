@@ -19,11 +19,13 @@ import 'unique_namer.dart';
 (String value, ReferredType type) maybeWrapValue(ReferredType type,
     String value, UniqueNamer globalNamer, TransformationMap transformationMap,
     {bool shouldWrapPrimitives = false}) {
-  if (shouldWrapPrimitives) {
-    final (wrappedType, returnsWrappedPrimitive) =
-        getWrapperIfNeeded(type, shouldWrapPrimitives, transformationMap);
-    assert(returnsWrappedPrimitive);
-    return ('${(wrappedType as DeclaredType).name}($value)', wrappedType);
+  final (wrappedPrimitiveType, returnsWrappedPrimitive) =
+      maybeGetPrimitiveWrapper(type, shouldWrapPrimitives, transformationMap);
+  if (returnsWrappedPrimitive) {
+    return (
+      '${(wrappedPrimitiveType as DeclaredType).name}($value)',
+      wrappedPrimitiveType
+    );
   }
 
   if (type.isObjCRepresentable) {

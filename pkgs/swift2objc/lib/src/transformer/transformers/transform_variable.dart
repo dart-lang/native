@@ -3,7 +3,6 @@ import '../../ast/_core/interfaces/variable_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
-import '../_core/primitive_wrappers.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
@@ -81,8 +80,12 @@ Declaration _transformVariable(
       if (originalVariable.async) 'await'
     ].join(' ');
 
-    final (type, _) = getWrapperIfNeeded(
-        transformedType, originalVariable.throws, transformationMap);
+    final localNamer = UniqueNamer();
+    final resultName = localNamer.makeUnique('result');
+
+    final (wrapperResult, type) = maybeWrapValue(
+        originalVariable.type, resultName, globalNamer, transformationMap,
+        shouldWrapPrimitives: originalVariable.throws);
 
     return MethodDeclaration(
       id: originalVariable.id,
@@ -94,8 +97,8 @@ Declaration _transformVariable(
           ? originalVariable.isStatic
           : true,
       statements: [
-        'let result = $prefix $variableReferenceExpression',
-        'return $type(result)',
+        'let $resultName = $prefix $variableReferenceExpression',
+        'return $wrapperResult',
       ],
       throws: originalVariable.throws,
       async: originalVariable.async,

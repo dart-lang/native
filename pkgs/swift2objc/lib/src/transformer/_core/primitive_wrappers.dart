@@ -13,6 +13,13 @@ import '../../parser/_core/utils.dart';
 import '../../transformer/_core/utils.dart';
 import '../transform.dart';
 
+final _primitiveWrappers = List<(ReferredType, ReferredType)>.unmodifiable([
+  (intType, _createWrapperClass(intType)),
+  (floatType, _createWrapperClass(floatType)),
+  (doubleType, _createWrapperClass(doubleType)),
+  (boolType, _createWrapperClass(boolType)),
+]);
+
 ReferredType _createWrapperClass(DeclaredType primitiveType) {
   final property = PropertyDeclaration(
     id: primitiveType.id.addIdSuffix('wrappedInstance'),
@@ -33,7 +40,7 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
 // Support Optional primitives as return Type
 // TODO(https://github.com/dart-lang/native/issues/1743)
 
-(ReferredType, bool) getWrapperIfNeeded(
+(ReferredType, bool) maybeGetPrimitiveWrapper(
   ReferredType type,
   bool shouldWrapPrimitives,
   TransformationMap transformationMap,
@@ -42,7 +49,7 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
     return (type, false);
   }
 
-  final wrapper = getPrimitiveWrapper(type);
+  final wrapper = _getPrimitiveWrapper(type);
   if (wrapper == null) {
     return (type, false);
   }
@@ -51,15 +58,8 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
   return (wrapper, true);
 }
 
-ReferredType? getPrimitiveWrapper(DeclaredType other) {
-  final primitiveWrappers = <(ReferredType, ReferredType)>[
-    (intType, _createWrapperClass(intType)),
-    (floatType, _createWrapperClass(floatType)),
-    (doubleType, _createWrapperClass(doubleType)),
-    (boolType, _createWrapperClass(boolType)),
-  ];
-
-  return primitiveWrappers
+ReferredType? _getPrimitiveWrapper(DeclaredType other) {
+  return _primitiveWrappers
       .firstWhereOrNull((pair) => pair.$1.sameAs(other))
       ?.$2;
 }
