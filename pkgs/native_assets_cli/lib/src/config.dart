@@ -10,7 +10,6 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
 import 'encoded_asset.dart';
-import 'json_utils.dart';
 import 'metadata.dart';
 import 'utils/datetime.dart';
 import 'utils/json.dart';
@@ -174,6 +173,7 @@ final class HookConfigBuilder {
 
   void setupShared({required List<String> buildAssetTypes}) {
     json.setNested([_configKey, _buildAssetTypesKey], buildAssetTypes);
+    (json[_configKey] as Map<String, Object?>).sortOnKey();
   }
 }
 
@@ -184,6 +184,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 extension BuildConfigBuilderSetup on BuildConfigBuilder {
   void setupBuild({required bool linkingEnabled}) {
     json.setNested([_configKey, _linkingEnabledKey], linkingEnabled);
+    (json[_configKey] as Map<String, Object?>).sortOnKey();
   }
 }
 
