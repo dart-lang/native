@@ -51,7 +51,7 @@ extension NSMutableDataListExtension on List<int> {
   /// `value.toUnsigned(8)`.
   NSMutableData toNSMutableData() {
     if (length == 0) {
-      return NSMutableData.new1();
+      return NSMutableData();
     }
     final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);

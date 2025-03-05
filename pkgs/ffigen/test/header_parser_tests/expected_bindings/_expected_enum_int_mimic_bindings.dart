@@ -12,7 +12,7 @@ enum Simple {
 
   static Simple fromValue(int value) => switch (value) {
         0 => A0,
-        _ => throw ArgumentError("Unknown value for Simple: $value"),
+        _ => throw ArgumentError('Unknown value for Simple: $value'),
       };
 }
 
@@ -27,7 +27,7 @@ enum SimpleWithNegative {
         0 => B0,
         -1000 => B1,
         _ =>
-          throw ArgumentError("Unknown value for SimpleWithNegative: $value"),
+          throw ArgumentError('Unknown value for SimpleWithNegative: $value'),
       };
 }
 
@@ -40,7 +40,7 @@ enum PositiveIntOverflow {
   static PositiveIntOverflow fromValue(int value) => switch (value) {
         -2147483607 => C0,
         _ =>
-          throw ArgumentError("Unknown value for PositiveIntOverflow: $value"),
+          throw ArgumentError('Unknown value for PositiveIntOverflow: $value'),
       };
 }
 
@@ -54,7 +54,7 @@ enum ExplicitType {
   static ExplicitType fromValue(int value) => switch (value) {
         0 => E0,
         1 => E1,
-        _ => throw ArgumentError("Unknown value for ExplicitType: $value"),
+        _ => throw ArgumentError('Unknown value for ExplicitType: $value'),
       };
 }
 
@@ -69,7 +69,7 @@ enum ExplicitTypeWithOverflow {
         0 => F0,
         -32727 => F1,
         _ => throw ArgumentError(
-            "Unknown value for ExplicitTypeWithOverflow: $value"),
+            'Unknown value for ExplicitTypeWithOverflow: $value'),
       };
 }
 

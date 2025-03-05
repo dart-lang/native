@@ -10,8 +10,8 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-@ffi.Native<ffi.Void Function()>(symbol: "_test")
+@ffi.Native<ffi.Void Function()>(symbol: '_test')
 external void test();
 
-@ffi.Native<ffi.Int16>(symbol: "_testField")
+@ffi.Native<ffi.Int16>(symbol: '_testField')
 external int testField;

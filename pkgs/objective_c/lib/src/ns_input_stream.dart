@@ -29,7 +29,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         dataSubscription.pause();
       }
     }, onError: (Object e) {
-      final d = NSMutableDictionary.new1();
+      final d = NSMutableDictionary();
       d.setObject_forKey_(e.toString().toNSString(), NSLocalizedDescriptionKey);
       inputStream.setError_(NSError.errorWithDomain_code_userInfo_(
           'DartError'.toNSString(), 0, d));

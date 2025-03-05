@@ -22,6 +22,6 @@ enum Constants {
   static Constants fromValue(int value) => switch (value) {
         10 => a,
         -1 => b,
-        _ => throw ArgumentError("Unknown value for Constants: $value"),
+        _ => throw ArgumentError('Unknown value for Constants: $value'),
       };
 }

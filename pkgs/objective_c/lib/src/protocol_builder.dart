@@ -22,7 +22,7 @@ import 'selector.dart';
 
 /// Helper class for building Objective C objects that implement protocols.
 class ObjCProtocolBuilder {
-  final _builder = objc.DartProtocolBuilder.new1();
+  final _builder = objc.DartProtocolBuilder();
   final Pointer<c.ObjCObject> _class;
   var _built = false;
 

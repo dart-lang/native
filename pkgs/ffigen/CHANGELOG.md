@@ -13,6 +13,10 @@
 - Change how protocols are implemented to fix
   [a bug](https://github.com/dart-lang/http/issues/1702), by removing all uses
   of `NSProxy`.
+- __Breaking change__: Change how duplicate identifiers are renamed to match
+  jnigen. The main change is that `$` is used as a delimiter now, to avoid
+  renamed identifiers from colliding with other identifiers. For example, `foo`
+  is renamed to `foo$1` if there's already a `foo` in the namespace.
 
 ## 17.0.0
 

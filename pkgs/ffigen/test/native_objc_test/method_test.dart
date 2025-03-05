@@ -92,7 +92,7 @@ void main() {
 
       test('Method with same name as a type', () {
         // Test for https://github.com/dart-lang/native/issues/1007
-        final result = testInstance.Vec41(); // A slightly unfortunate rename :P
+        final result = testInstance.Vec4$1();
         expect(result.x, 1);
         expect(result.y, 2);
         expect(result.z, 3);
@@ -103,7 +103,7 @@ void main() {
     test('Instance and static methods with same name', () {
       // Test for https://github.com/dart-lang/native/issues/1136
       expect(testInstance.instStaticSameName(), 123);
-      expect(MethodInterface.instStaticSameName1(), 456);
+      expect(MethodInterface.instStaticSameName$1(), 456);
     });
   });
 }

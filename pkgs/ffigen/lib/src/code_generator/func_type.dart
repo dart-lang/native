@@ -5,7 +5,7 @@
 import '../code_generator.dart';
 import '../visitor/ast.dart';
 
-import 'utils.dart';
+import 'unique_namer.dart';
 import 'writer.dart';
 
 /// Represents a function type.
@@ -100,7 +100,7 @@ class FunctionType extends Type {
     if (names.length != parameters.length) {
       return;
     }
-    final paramNamer = UniqueNamer({});
+    final paramNamer = UniqueNamer();
     for (var i = 0; i < parameters.length; i++) {
       final finalName = paramNamer.makeUnique(names[i]);
       parameters[i] = Parameter(

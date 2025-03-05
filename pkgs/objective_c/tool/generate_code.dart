@@ -19,7 +19,6 @@ const extraMethodsFile = 'tool/data/extra_methods.dart.in';
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;
-  print('Running: $exec ${args.join(" ")}');
   final proc = Process.runSync(exec, args, runInShell: true);
   if (proc.exitCode != 0) {
     exitCode = proc.exitCode;
@@ -63,9 +62,14 @@ void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
 }
 
 Future<void> run() async {
+  print('Generating C bindings...');
   await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
+
+  print('Generating ObjC bindings...');
   await ffigen.main(['--no-format', '-v', 'severe', '--config', objcConfig]);
   mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
+
+  print('Formatting bindings...');
   dartCmd(['format', cBindings, objcBindings]);
 }
 
