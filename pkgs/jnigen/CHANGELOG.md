@@ -1,6 +1,8 @@
 ## 0.14.2-wip
 
 - The name `factory` can now also be used in a method name without renaming.
+- Throw when output folder contains non JNIgen files. Users with existing
+  package bindings will need to delete them once for it to start working.
 
 ## 0.14.1
 
@@ -9,7 +11,8 @@
   bindings.
 - Fix a bug where Kotlin suspendable functions that returned the result without
   ever suspending would timeout in Dart.
-- Retrieval of dependencies uses Gradle (`GradleTools`) en lieu of Maven (`MavenTools`).
+- Retrieval of dependencies uses Gradle (`GradleTools`) in lieu of Maven
+  (`MavenTools`).
 - Updated `bin\download_maven_jars.dart` to use `GradleTools`.
 
 ## 0.14.0
