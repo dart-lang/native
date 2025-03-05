@@ -205,29 +205,38 @@ void main() {
   });
 
   group('BuildInput.config.code validation', () {
-    test('Missing targetIOSVersion', () async {
-      final builder =
-          makeBuildInputBuilder()
-            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-            ..config.setupCode(
-              targetOS: OS.iOS,
-              targetArchitecture: Architecture.arm64,
-              linkModePreference: LinkModePreference.dynamic,
-            );
-      final errors = await validateCodeAssetBuildInput(
-        BuildInput(builder.json),
-      );
-      expect(
-        errors,
-        contains(
-          contains('BuildInput.config.code.iOS.targetVersion was missing'),
-        ),
-      );
-      expect(
-        errors,
-        contains(contains('BuildInput.config.code.iOS.targetSdk was missing')),
-      );
-    });
+    for (final (propertyKey, name) in [
+      ('target_version', 'targetVersion'),
+      ('target_sdk', 'targetSdk'),
+    ]) {
+      test('Missing targetIOSVersion', () async {
+        final builder =
+            makeBuildInputBuilder()
+              ..config.setupShared(buildAssetTypes: [CodeAsset.type])
+              ..config.setupCode(
+                targetOS: OS.iOS,
+                targetArchitecture: Architecture.arm64,
+                linkModePreference: LinkModePreference.dynamic,
+                iOS: IOSCodeConfig(
+                  targetSdk: IOSSdk.iPhoneOS,
+                  targetVersion: 123,
+                ),
+              );
+        traverseJson<Map<String, Object?>>(builder.json, [
+          'config',
+          'code',
+          'ios',
+        ]).remove(propertyKey);
+        final errors = await validateCodeAssetBuildInput(
+          BuildInput(builder.json),
+        );
+        expect(
+          errors,
+          contains(contains('BuildInput.config.code.iOS.$name was missing')),
+        );
+      });
+    }
+
     test('Missing targetAndroidNdkApi', () async {
       final builder =
           makeBuildInputBuilder()
@@ -236,7 +245,13 @@ void main() {
               targetOS: OS.android,
               targetArchitecture: Architecture.arm64,
               linkModePreference: LinkModePreference.dynamic,
+              android: AndroidCodeConfig(targetNdkApi: 123),
             );
+      traverseJson<Map<String, Object?>>(builder.json, [
+        'config',
+        'code',
+        'android',
+      ]).remove('target_ndk_api');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
@@ -252,7 +267,14 @@ void main() {
               targetOS: OS.macOS,
               targetArchitecture: Architecture.arm64,
               linkModePreference: LinkModePreference.dynamic,
+              macOS: MacOSCodeConfig(targetVersion: 123),
             );
+
+      traverseJson<Map<String, Object?>>(builder.json, [
+        'config',
+        'code',
+        'macos',
+      ]).remove('target_version');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
@@ -302,4 +324,21 @@ void main() {
       );
     });
   });
+}
+
+T traverseJson<T extends Object?>(Object json, List<Object> path) {
+  while (path.isNotEmpty) {
+    final key = path.removeAt(0);
+    switch (key) {
+      case final int i:
+        json = (json as List)[i] as Object;
+        break;
+      case final String s:
+        json = (json as Map)[s] as Object;
+        break;
+      default:
+        throw UnsupportedError(key.toString());
+    }
+  }
+  return json as T;
 }
