@@ -456,7 +456,7 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   }
 }
 
-/// DOBJCDartProtocol
+/// Base class of all classes DOBJCDartProtocolBuilder creates.
 class DartProtocol extends NSObject {
   DartProtocol._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -551,7 +551,8 @@ class DartProtocol extends NSObject {
   factory DartProtocol() => new$();
 }
 
-/// DOBJCDartProtocolBuilder
+/// Used by the Dart ObjCProtocolBuilder to construct ObjC classes at runtime to
+/// implement protocols.
 class DartProtocolBuilder extends NSObject {
   DartProtocolBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
