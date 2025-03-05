@@ -4,10 +4,10 @@
 
 import '../config.dart';
 import '../encoded_asset.dart';
-import '../utils/json.dart';
 import 'architecture.dart';
 import 'link_mode.dart';
 import 'os.dart';
+import 'syntax.g.dart' as syntax;
 
 /// A code asset which respects the native application binary interface (ABI).
 ///
@@ -107,32 +107,16 @@ final class CodeAsset {
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.type == CodeAsset.type);
     final jsonMap = asset.encoding;
-
-    final linkMode = LinkMode.fromJson(
-      as<Map<String, Object?>>(jsonMap[_linkModeKey]),
-    );
-    final fileString = jsonMap.optionalString(_fileKey);
-    final Uri? file;
-    if (fileString != null) {
-      file = Uri.file(fileString);
-    } else {
-      file = null;
-    }
-    final Architecture? architecture;
-    final os = OS.fromString(jsonMap.string(_osKey));
-    final architectureString = jsonMap.optionalString(_architectureKey);
-    if (architectureString != null) {
-      architecture = Architecture.fromString(architectureString);
-    } else {
-      architecture = null;
-    }
-
+    final syntaxNode = syntax.NativeCodeAsset.fromJson(jsonMap);
     return CodeAsset._(
-      id: jsonMap.string(_idKey),
-      os: os,
-      architecture: architecture,
-      linkMode: linkMode,
-      file: file,
+      id: syntaxNode.id,
+      os: OSSyntax.fromSyntax(syntaxNode.os),
+      architecture: switch (syntaxNode.architecture) {
+        null => null,
+        final a => ArchitectureSyntax.fromSyntax(a),
+      },
+      linkMode: LinkModeSyntax.fromSyntax(syntaxNode.linkMode),
+      file: syntaxNode.file,
     );
   }
 
@@ -165,16 +149,18 @@ final class CodeAsset {
   @override
   int get hashCode => Object.hash(id, linkMode, architecture, os, file);
 
-  EncodedAsset encode() => EncodedAsset(
-    CodeAsset.type,
-    <String, Object>{
-      if (architecture != null) _architectureKey: architecture.toString(),
-      if (file != null) _fileKey: file!.toFilePath(),
-      _idKey: id,
-      _linkModeKey: linkMode.toJson(),
-      _osKey: os.toString(),
-    }..sortOnKey(),
-  );
+  EncodedAsset encode() {
+    final nativeCodeAsset = syntax.NativeCodeAsset.fromJson({});
+    nativeCodeAsset.setup(
+      architecture: architecture?.toSyntax(),
+      file: file,
+      id: id,
+      linkMode: linkMode.toSyntax(),
+      os: os.toSyntax(),
+    );
+    final json = nativeCodeAsset.json;
+    return EncodedAsset(CodeAsset.type, json);
+  }
 
   static const String type = 'native_code';
 }
@@ -253,9 +239,3 @@ const _executableExtension = {
   OS.macOS: '',
   OS.windows: 'exe',
 };
-
-const _idKey = 'id';
-const _linkModeKey = 'link_mode';
-const _fileKey = 'file';
-const _osKey = 'os';
-const _architectureKey = 'architecture';

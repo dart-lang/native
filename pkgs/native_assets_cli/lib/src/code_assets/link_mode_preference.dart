@@ -4,6 +4,8 @@
 
 import 'code_asset.dart';
 
+import 'syntax.g.dart' as syntax;
+
 /// The preferred linkMode method for [CodeAsset]s.
 final class LinkModePreference {
   /// The name for this link mode.
@@ -12,7 +14,9 @@ final class LinkModePreference {
   const LinkModePreference(this.name);
 
   factory LinkModePreference.fromString(String name) =>
-      values.firstWhere((element) => element.name == name);
+      LinkModePreferenceSyntax.fromSyntax(
+        syntax.LinkModePreference.fromJson(name),
+      );
 
   /// Provide native assets as dynamic libraries.
   ///
@@ -43,4 +47,20 @@ final class LinkModePreference {
 
   @override
   String toString() => name;
+}
+
+extension LinkModePreferenceSyntax on LinkModePreference {
+  static final _toSyntax = {
+    for (final item in LinkModePreference.values)
+      item: syntax.LinkModePreference.fromJson(item.name),
+  };
+
+  static final _fromSyntax = {
+    for (var entry in _toSyntax.entries) entry.value: entry.key,
+  };
+
+  syntax.LinkModePreference toSyntax() => _toSyntax[this]!;
+
+  static LinkModePreference fromSyntax(syntax.LinkModePreference syntax) =>
+      _fromSyntax[syntax]!;
 }

@@ -54,6 +54,7 @@ jobs:
       - run: dart test
 
       - run: |
+          dart tool/generate.dart
           dart tool/normalize.dart
           git diff --exit-code
         working-directory: pkgs/${{ matrix.package }}/
