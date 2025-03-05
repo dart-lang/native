@@ -9,9 +9,14 @@
 
 #include "include/dart_api_dl.h"
 
+@class DOBJCDartProtocol;
+
 @interface DOBJCDartProtocolBuilder : NSObject
-- (instancetype)initWithClass: (void*)cls;
-- (void)implementMethod:(SEL) sel withBlock:(void*)block;
+- (instancetype)initWithClassName: (const char*)name;
+- (void)implementMethod:(SEL)sel withBlock:(void*)block
+    withTrampoline:(void*)trampoline withSignature:(char*)signature;
+- (void)registerClass;
+- (DOBJCDartProtocol*)buildInstance: (Dart_Port)port;
 @end
 
 @interface DOBJCDartProtocol : NSObject

@@ -9,6 +9,8 @@ functions:
   include:
     - getClass
     - getClassName
+    - objc_autoreleasePoolPop
+    - objc_autoreleasePoolPush
 objc-interfaces:
   include:
     - ProtocolConsumer

@@ -18,10 +18,10 @@
   Class clazz;
 }
 
-- (instancetype)initWithClass: (void*)cls {
+- (instancetype)initWithClassName: (const char*)name {
   if (self) {
     methods = [NSMutableDictionary new];
-    clazz = (__bridge Class)cls;
+    clazz = objc_allocateClassPair([DOBJCDartProtocol class], name, 0);
   }
   return self;
 }
@@ -32,8 +32,20 @@
   }
 }
 
-- (void)implementMethod:(SEL)sel withBlock:(void*)block {
+- (void)implementMethod:(SEL)sel withBlock:(void*)block
+    withTrampoline:(void*)trampoline withSignature:(char*)signature {
+  class_addMethod(clazz, sel, trampoline, signature);
   [self implement:sel withBlock:(__bridge id)block];
+}
+
+- (void)registerClass {
+  objc_registerClassPair(clazz);
+}
+
+- (DOBJCDartProtocol*)buildInstance: (Dart_Port)port {
+  DOBJCDartProtocol* inst = [clazz alloc];
+  return [inst initDOBJCDartProtocolFromDartProtocolBuilder:self
+               withDisposePort:port];
 }
 
 - (void)dealloc {

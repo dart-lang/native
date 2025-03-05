@@ -603,11 +603,26 @@ class DartProtocolBuilder extends NSObject {
         retain: true, release: true);
   }
 
-  /// implementMethod:withBlock:
-  void implementMethod_withBlock_(
-      ffi.Pointer<objc.ObjCSelector> sel, ffi.Pointer<ffi.Void> block) {
-    _objc_msgSend_1iqj6b6(
-        this.ref.pointer, _sel_implementMethod_withBlock_, sel, block);
+  /// buildInstance:
+  DartProtocol buildInstance_(int port) {
+    final _ret =
+        _objc_msgSend_1ya1kjn(this.ref.pointer, _sel_buildInstance_, port);
+    return DartProtocol.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// implementMethod:withBlock:withTrampoline:withSignature:
+  void implementMethod_withBlock_withTrampoline_withSignature_(
+      ffi.Pointer<objc.ObjCSelector> sel,
+      ffi.Pointer<ffi.Void> block,
+      ffi.Pointer<ffi.Void> trampoline,
+      ffi.Pointer<ffi.Char> signature) {
+    _objc_msgSend_1s2gdyk(
+        this.ref.pointer,
+        _sel_implementMethod_withBlock_withTrampoline_withSignature_,
+        sel,
+        block,
+        trampoline,
+        signature);
   }
 
   /// init
@@ -620,12 +635,17 @@ class DartProtocolBuilder extends NSObject {
         retain: false, release: true);
   }
 
-  /// initWithClass:
-  DartProtocolBuilder initWithClass_(ffi.Pointer<ffi.Void> cls) {
-    final _ret = _objc_msgSend_1mbt9g9(
-        this.ref.retainAndReturnPointer(), _sel_initWithClass_, cls);
+  /// initWithClassName:
+  DartProtocolBuilder initWithClassName_(ffi.Pointer<ffi.Char> name) {
+    final _ret = _objc_msgSend_56zxyn(
+        this.ref.retainAndReturnPointer(), _sel_initWithClassName_, name);
     return DartProtocolBuilder.castFromPointer(_ret,
         retain: false, release: true);
+  }
+
+  /// registerClass
+  void registerClass() {
+    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_registerClass);
   }
 
   /// retain
@@ -15862,20 +15882,6 @@ final _objc_msgSend_1i9r4xy = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
-final _objc_msgSend_1iqj6b6 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1iyq28l = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -16032,14 +16038,6 @@ final _objc_msgSend_1lv8yz3 = objc.msgSendPointer
     .asFunction<
         bool Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Char>, int, int)>();
-final _objc_msgSend_1mbt9g9 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1n40f6p = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -16200,6 +16198,24 @@ final _objc_msgSend_1qv0eq4 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>)>();
+final _objc_msgSend_1s2gdyk = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Char>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Char>)>();
 final _objc_msgSend_1sotr3r = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -17417,6 +17433,7 @@ late final _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeT
     objc.registerName(
         "bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:");
 late final _sel_boolValue = objc.registerName("boolValue");
+late final _sel_buildInstance_ = objc.registerName("buildInstance:");
 late final _sel_bytes = objc.registerName("bytes");
 late final _sel_cStringUsingEncoding_ =
     objc.registerName("cStringUsingEncoding:");
@@ -17622,8 +17639,8 @@ late final _sel_hash = objc.registerName("hash");
 late final _sel_helpAnchor = objc.registerName("helpAnchor");
 late final _sel_host = objc.registerName("host");
 late final _sel_illegalCharacterSet = objc.registerName("illegalCharacterSet");
-late final _sel_implementMethod_withBlock_ =
-    objc.registerName("implementMethod:withBlock:");
+late final _sel_implementMethod_withBlock_withTrampoline_withSignature_ = objc
+    .registerName("implementMethod:withBlock:withTrampoline:withSignature:");
 late final _sel_increaseLengthBy_ = objc.registerName("increaseLengthBy:");
 late final _sel_indexGreaterThanIndex_ =
     objc.registerName("indexGreaterThanIndex:");
@@ -17699,7 +17716,7 @@ late final _sel_initWithCharactersNoCopy_length_freeWhenDone_ =
     objc.registerName("initWithCharactersNoCopy:length:freeWhenDone:");
 late final _sel_initWithCharacters_length_ =
     objc.registerName("initWithCharacters:length:");
-late final _sel_initWithClass_ = objc.registerName("initWithClass:");
+late final _sel_initWithClassName_ = objc.registerName("initWithClassName:");
 late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
 late final _sel_initWithContentsOfFile_ =
     objc.registerName("initWithContentsOfFile:");
@@ -18050,6 +18067,7 @@ late final _sel_rangeOfString_options_range_locale_ =
     objc.registerName("rangeOfString:options:range:locale:");
 late final _sel_read_maxLength_ = objc.registerName("read:maxLength:");
 late final _sel_recoveryAttempter = objc.registerName("recoveryAttempter");
+late final _sel_registerClass = objc.registerName("registerClass");
 late final _sel_registerObject_visibility_ =
     objc.registerName("registerObject:visibility:");
 late final _sel_registeredTypeIdentifiers =

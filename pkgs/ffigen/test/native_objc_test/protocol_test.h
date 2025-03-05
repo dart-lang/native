@@ -7,6 +7,8 @@
 
 const char* getClassName(void* cls);
 void* getClass(id object);
+void objc_autoreleasePoolPop(void *pool);
+void *objc_autoreleasePoolPush();
 
 typedef struct {
   int32_t x;

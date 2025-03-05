@@ -438,6 +438,7 @@ void main() {
     });
 
     (NSObject, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
+      final pool = lib.objc_autoreleasePoolPush();
       final protocolBuilder = ObjCProtocolBuilder();
 
       final block = InstanceMethodBlock.fromFunction(
@@ -445,6 +446,7 @@ void main() {
       MyProtocol.instanceMethod_withDouble_
           .implementWithBlock(protocolBuilder, block);
       final protocol = protocolBuilder.build();
+      lib.objc_autoreleasePoolPop(pool);
 
       final blockPtr = block.ref.pointer;
 
@@ -542,6 +544,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, builder first', () {
+      final pool = lib.objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder =
           ObjCProtocolBuilder(debugName: 'Foo');
 
@@ -550,6 +553,7 @@ void main() {
       expect(lib.getClassName(clazz).cast<Utf8>().toDartString(),
           startsWith('Foo'));
       expect(isValidClass(clazz), isTrue);
+      lib.objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();
@@ -561,6 +565,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('class disposal, instance first', () {
+      final pool = lib.objc_autoreleasePoolPush();
       ObjCProtocolBuilder? protocolBuilder =
           ObjCProtocolBuilder(debugName: 'Foo');
 
@@ -569,6 +574,7 @@ void main() {
       expect(lib.getClassName(clazz).cast<Utf8>().toDartString(),
           startsWith('Foo'));
       expect(isValidClass(clazz), isTrue);
+      lib.objc_autoreleasePoolPop(pool);
 
       protocolBuilder = null;
       doGC();
@@ -578,5 +584,28 @@ void main() {
       doGC();
       expect(isValidClass(clazz), isFalse);
     }, skip: !canDoGC);
+
+    test('adding more methods after build', () {
+      final protocolBuilder = ObjCProtocolBuilder();
+
+      MyProtocol.addToBuilder(
+        protocolBuilder,
+        instanceMethod_withDouble_: (NSString s, double x) {
+          return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
+        },
+        optionalMethod_: (SomeStruct s) {
+          return s.y - s.x;
+        },
+      );
+
+      final protocolImpl = protocolBuilder.build();
+
+      expect(
+          () => SecondaryProtocol.addToBuilder(protocolBuilder,
+                  otherMethod_b_c_d_: (int a, int b, int c, int d) {
+                return a * b * c * d;
+              }),
+          throwsA(isA<StateError>()));
+    });
   });
 }
