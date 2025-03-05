@@ -405,23 +405,14 @@ typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
-    DOBJC_Context* context) NS_RETURNS_RETAINED {
-  assert(context->version >= 1);
-  void* targetIsolate = context->currentIsolate();
-  // int64_t targetIsolatePort = context->getMainPortId();
-  return ^void($argStr) {
-    void* currentIsolate = context->currentIsolate();
-    if (currentIsolate == targetIsolate) {
-      ${generateRetain('block')};
-      block(${blockingRetains.join(', ')});
-    // } else if (context->getMainPortId()) {
-    } else {
-      void* waiter = context->newWaiter();
-      ${generateRetain('listenerBlock')};
-      listenerBlock(${blockingListenerRetains.join(', ')});
-      context->awaitWaiter(waiter);
-    }
-  };
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void($argStr), {
+    ${generateRetain('block')};
+    block(${blockingRetains.join(', ')});
+  }, {
+    ${generateRetain('listenerBlock')};
+    listenerBlock(${blockingListenerRetains.join(', ')});
+  });
 }
 ''';
   }
