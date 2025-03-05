@@ -13,36 +13,15 @@
 #error "This file must be compiled with ARC enabled"
 #endif
 
-@interface DOBJCDartProtocolClass : NSObject
-- (instancetype)initWithClass: (Class)cls;
-@end
-
-@implementation DOBJCDartProtocolClass {
-  Class clazz;
-}
-
-- (instancetype)initWithClass: (Class)cls {
-  if (self) {
-    clazz = cls;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  objc_disposeClassPair(clazz);
-}
-
-@end
-
 @implementation DOBJCDartProtocolBuilder {
-  NSMutableDictionary *methods;
-  DOBJCDartProtocolClass* clazz;
+  @public NSMutableDictionary *methods;
+  Class clazz;
 }
 
 - (instancetype)initWithClass: (void*)cls {
   if (self) {
     methods = [NSMutableDictionary new];
-    clazz = [[DOBJCDartProtocolClass alloc] initWithClass: (__bridge Class)cls];
+    clazz = (__bridge Class)cls;
   }
   return self;
 }
@@ -57,32 +36,26 @@
   [self implement:sel withBlock:(__bridge id)block];
 }
 
-- (NSDictionary*)getMethods {
-  return methods;
-}
-
-- (DOBJCDartProtocolClass*)getClass {
-  return clazz;
+- (void)dealloc {
+  objc_disposeClassPair(clazz);
 }
 
 @end
 
 @implementation DOBJCDartProtocol {
-  NSDictionary *methods;
-  DOBJCDartProtocolClass* clazz;
+  DOBJCDartProtocolBuilder* builder;
   Dart_Port dispose_port;
 }
 
 - (id)getDOBJCDartProtocolMethodForSelector:(SEL)sel {
-  return [methods objectForKey:[NSValue valueWithPointer:sel]];
+  return [builder->methods objectForKey:[NSValue valueWithPointer:sel]];
 }
 
 - (instancetype)initDOBJCDartProtocolFromDartProtocolBuilder:
-    (DOBJCDartProtocolBuilder*)builder
+    (DOBJCDartProtocolBuilder*)builder_
     withDisposePort:(Dart_Port)port {
   if (self) {
-    methods = [builder getMethods];
-    clazz = [builder getClass];
+    builder = builder_;
     dispose_port = port;
   }
   return self;
