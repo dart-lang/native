@@ -11,6 +11,10 @@
 
 @class DOBJCDartProtocol;
 
+/**
+ * Used by the Dart ObjCProtocolBuilder to construct ObjC classes at runtime to
+ * implement protocols.
+ */
 @interface DOBJCDartProtocolBuilder : NSObject
 - (instancetype)initWithClassName: (const char*)name;
 - (void)implementMethod:(SEL)sel withBlock:(void*)block
@@ -19,6 +23,9 @@
 - (DOBJCDartProtocol*)buildInstance: (Dart_Port)port;
 @end
 
+/**
+ * Base class of all classes DOBJCDartProtocolBuilder creates.
+ */
 @interface DOBJCDartProtocol : NSObject
 - (instancetype)initDOBJCDartProtocolFromDartProtocolBuilder:
     (DOBJCDartProtocolBuilder*)builder

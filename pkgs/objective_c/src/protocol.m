@@ -19,10 +19,8 @@
 }
 
 - (instancetype)initWithClassName: (const char*)name {
-  if (self) {
-    methods = [NSMutableDictionary new];
-    clazz = objc_allocateClassPair([DOBJCDartProtocol class], name, 0);
-  }
+  methods = [NSMutableDictionary new];
+  clazz = objc_allocateClassPair([DOBJCDartProtocol class], name, 0);
   return self;
 }
 
@@ -66,10 +64,8 @@
 - (instancetype)initDOBJCDartProtocolFromDartProtocolBuilder:
     (DOBJCDartProtocolBuilder*)builder_
     withDisposePort:(Dart_Port)port {
-  if (self) {
-    builder = builder_;
-    dispose_port = port;
-  }
+  builder = builder_;
+  dispose_port = port;
   return self;
 }
 
