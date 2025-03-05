@@ -83,7 +83,12 @@ class CodeConfig {
         validValues: Architecture.values.map((a) => a.name),
       ),
     );
-    final targetOS = OS.fromString(json.code!.string(_targetOSConfigKey));
+    final targetOS = OS.fromString(
+      json.code!.string(
+        _targetOSConfigKey,
+        validValues: OS.values.map((a) => a.name),
+      ),
+    );
     final cCompiler = switch (json.code?.optionalMap(_compilerKey)) {
       final Map<String, Object?> map => CCompilerConfig.fromJson(map),
       null => null,
