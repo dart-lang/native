@@ -41,6 +41,12 @@ typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
 typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
 typedef ResultBlock = ObjCBlock_ffiVoid_Int32$1;
 
+bool get hasIsolateOwnershipApi =>
+    DynamicLibrary.process().providesSymbol('Dart_SetCurrentThreadOwnsIsolate');
+void setCurrentThreadOwnsIsolate() =>
+    DynamicLibrary.process().lookupFunction<Void Function(), void Function()>(
+        'Dart_SetCurrentThreadOwnsIsolate')();
+
 void main() {
   late final BlockTestObjCLibrary lib;
 
@@ -52,7 +58,9 @@ void main() {
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      generateBindingsForCoverage('block');
+      // generateBindingsForCoverage('block');
+
+      BlockTester.setup_(NativeApi.initializeApiDLData);
     });
 
     test('BlockTester is working', () {
@@ -1079,6 +1087,22 @@ void main() {
 
       receivePort.close();
     }, skip: !canDoGC);
+
+    test('Blocking block deadlock', () async {
+      // Regression test for https://github.com/dart-lang/native/issues/1967
+      // Run the test on a new isolate so we can safely claim ownership of it.
+      final value = await Isolate.run(() {
+        setCurrentThreadOwnsIsolate();
+
+        var innerValue = 0;
+        final block = VoidBlock.blocking(() {
+          innerValue = 123;
+        });
+        BlockTester.callOnSameThreadOutsideIsolate_(block);
+        return innerValue;
+      });
+      expect(value, 123);
+    }, skip: !hasIsolateOwnershipApi);
   });
 }
 

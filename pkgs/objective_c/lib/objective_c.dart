@@ -6,6 +6,7 @@ export 'package:pub_semver/pub_semver.dart' show Version;
 export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
+        DOBJC_Context,
         Dart_FinalizableHandle_,
         ObjCBlockDesc,
         ObjCBlockImpl,

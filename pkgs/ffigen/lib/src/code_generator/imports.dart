@@ -169,3 +169,5 @@ final objCBlockType =
     ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id');
 final objCProtocolType =
     ImportedType(objcPkgImport, 'ObjCProtocol', 'ObjCProtocol', 'void');
+final objCContextType = ImportedType(
+    objcPkgImport, 'DOBJC_Context', 'DOBJC_Context', 'DOBJC_Context');

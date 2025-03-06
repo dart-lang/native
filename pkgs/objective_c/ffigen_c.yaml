@@ -34,15 +34,7 @@ functions:
       - 'DOBJC_newFinalizableHandle'
       - 'DOBJC_awaitWaiter'
   rename:
-    'DOBJC_disposeObjCBlockWithClosure': 'disposeObjCBlockWithClosure'
-    'DOBJC_isValidBlock': 'isValidBlock'
-    'DOBJC_newFinalizableHandle': 'newFinalizableHandle'
-    'DOBJC_deleteFinalizableHandle': 'deleteFinalizableHandle'
-    'DOBJC_newFinalizableBool': 'newFinalizableBool'
-    'DOBJC_newWaiter': 'newWaiter'
-    'DOBJC_signalWaiter': 'signalWaiter'
-    'DOBJC_awaitWaiter': 'awaitWaiter'
-    'DOBJC_getOsVesion': 'getOsVesion'
+    'DOBJC_(.*)': '$1'
     'sel_registerName': 'registerName'
     'sel_getName': 'getName'
     'objc_getClass': 'getClass'
@@ -67,9 +59,12 @@ typedefs:
   include:
     - 'Dart_FinalizableHandle'
 structs:
+  include :
+    - '_DOBJC_Context'
   rename:
     '_ObjC(.*)': 'ObjC$1'
     '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'
+    '_DOBJC_Context': 'DOBJC_Context'
 macros:
   include:
     - 'ILLEGAL_PORT'
