@@ -1,0 +1,61 @@
+# CI for the native_* packages.
+#
+# Combined into a single workflow so that deps are configured and installed once.
+
+name: hook
+permissions: read-all
+
+on:
+  pull_request:
+    # No `branches:` to enable stacked PRs on GitHub.
+    paths:
+      - ".github/workflows/hook.yaml"
+      - "pkgs/hook/**"
+      - "pkgs/code_assets/**"
+      - "pkgs/data_assets/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/native.yaml"
+      - "pkgs/hook/**"
+      - "pkgs/code_assets/**"
+      - "pkgs/data_assets/**"
+  schedule:
+    - cron: "0 0 * * 0" # weekly
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, windows]
+        sdk: [dev]
+        package: [hook, code_assets, data_assets]
+
+    runs-on: ${{ matrix.os }}-latest
+
+    defaults:
+      run:
+        working-directory: pkgs/${{ matrix.package }}
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - run: dart pub get
+
+      - run: dart analyze --fatal-infos
+
+      - run: dart format --output=none --set-exit-if-changed .
+
+      - run: dart test
+
+      - run: |
+          dart tool/normalize.dart
+          git diff --exit-code
+        working-directory: pkgs/${{ matrix.package }}/
+        if: ${{ matrix.package == 'hook' && matrix.sdk == 'dev' }}
+

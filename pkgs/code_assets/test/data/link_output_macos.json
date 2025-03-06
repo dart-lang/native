@@ -1,0 +1,58 @@
+{
+  "$schema": "../../doc/schema/hook/link_output.schema.json",
+  "assets": [
+    {
+      "architecture": "arm64",
+      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/ZnD2I3/native_add/.dart_tool/native_assets_builder/native_add/14857adfaff1b1829b79c612288f54d7/out/libnative_add.dylib",
+      "id": "package:native_add/src/native_add_bindings_generated.dart",
+      "link_mode": {
+        "type": "dynamic_loading_bundle"
+      },
+      "os": "macos",
+      "type": "native_code"
+    },
+    {
+      "architecture": "arm64",
+      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/iv6i0d/native_add/.dart_tool/native_assets_builder/native_add/c6b312c90c95d2d98ffb6760a738fb36/out/libnative_add.a",
+      "id": "package:native_add/src/native_add_bindings_generated.dart",
+      "link_mode": {
+        "type": "static"
+      },
+      "os": "macos",
+      "type": "native_code"
+    },
+    {
+      "architecture": "arm64",
+      "id": "package:system_library/memory_executable.dart",
+      "link_mode": {
+        "type": "dynamic_loading_executable"
+      },
+      "os": "macos",
+      "type": "native_code"
+    },
+    {
+      "architecture": "arm64",
+      "id": "package:system_library/memory_process.dart",
+      "link_mode": {
+        "type": "dynamic_loading_process"
+      },
+      "os": "macos",
+      "type": "native_code"
+    },
+    {
+      "architecture": "arm64",
+      "id": "package:system_library/memory_system.dart",
+      "link_mode": {
+        "type": "dynamic_loading_system",
+        "uri": "libc.dylib"
+      },
+      "os": "macos",
+      "type": "native_code"
+    }
+  ],
+  "dependencies": [
+    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/ZnD2I3/native_add/src/native_add.c"
+  ],
+  "timestamp": "2025-02-10 16:47:01.000",
+  "version": "1.9.0"
+}

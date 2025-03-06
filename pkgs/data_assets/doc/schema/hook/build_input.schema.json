@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "package:data_assets party:hook BuildInput",
+  "allOf": [
+    {
+      "$ref": "shared_definitions.schema.json#/definitions/BuildInput"
+    }
+  ]
+}

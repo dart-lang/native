@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "package:hook party:hook shared definitions",
+  "allOf": [
+    {
+      "$ref": "../shared/shared_definitions.schema.json#"
+    }
+  ],
+  "definitions": {
+    "BuildInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildInput"
+        }
+      ]
+    },
+    "BuildOutput": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildOutput"
+        }
+      ]
+    },
+    "HookInput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookInput"
+        },
+        {
+          "properties": {
+            "out_file": {
+              "$comment": "'out_file' is not provided by older SDKs. Then, it must be $out_dir/output.json."
+            },
+            "version": {
+              "deprecated": true,
+              "$comment": "Future SDKs will no longer provide 'version'."
+            }
+          }
+        }
+      ]
+    },
+    "HookOutput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookOutput"
+        },
+        {
+          "required": [
+            "version"
+          ]
+        }
+      ]
+    },
+    "LinkInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkInput"
+        }
+      ]
+    },
+    "LinkOutput": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkOutput"
+        }
+      ]
+    }
+  }
+}

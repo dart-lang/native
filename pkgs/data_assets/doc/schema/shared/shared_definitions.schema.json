@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "package:data_assets party:shared shared definitions",
+  "allOf": [
+    {
+      "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json"
+    }
+  ],
+  "definitions": {
+    "Asset": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/Asset"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "anyOf": [
+                {
+                  "const": "data"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "if": {
+            "properties": {
+              "type": {
+                "const": "data"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "file": {
+                "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+              },
+              "name": {
+                "type": "string"
+              },
+              "package": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "file",
+              "name",
+              "package"
+            ]
+          }
+        }
+      ]
+    },
+    "BuildInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildInput"
+        }
+      ]
+    },
+    "BuildOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildOutput"
+        },
+        {
+          "properties": {
+            "assetsForLinking": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Asset"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "HookInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/HookInput"
+        }
+      ]
+    },
+    "HookOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/HookOutput"
+        },
+        {
+          "properties": {
+            "assets": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Asset"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "LinkInput": {
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkInput"
+        }
+      ]
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkOutput"
+        }
+      ]
+    }
+  }
+}

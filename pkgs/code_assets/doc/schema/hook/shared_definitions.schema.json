@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "package:code_assets party:hook shared definitions",
+  "allOf": [
+    {
+      "$ref": "../../../../hook/doc/schema/hook/shared_definitions.schema.json"
+    },
+    {
+      "$ref": "../shared/shared_definitions.schema.json#"
+    }
+  ],
+  "definitions": {
+    "BuildInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../../../../hook/doc/schema/hook/shared_definitions.schema.json#/definitions/BuildInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildInput"
+        }
+      ]
+    },
+    "BuildOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../../../../hook/doc/schema/hook/shared_definitions.schema.json#/definitions/BuildOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildOutput"
+        }
+      ]
+    },
+    "HookInput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/hook/shared_definitions.schema.json#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookInput"
+        }
+      ]
+    },
+    "HookOutput": {
+      "allOf": [
+        {
+          "$ref": "../../../../hook/doc/schema/hook/shared_definitions.schema.json#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookOutput"
+        }
+      ]
+    },
+    "LinkInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../../../../hook/doc/schema/hook/shared_definitions.schema.json#/definitions/LinkInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkInput"
+        }
+      ]
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../../../../hook/doc/schema/hook/shared_definitions.schema.json#/definitions/LinkOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkOutput"
+        }
+      ]
+    }
+  }
+}
