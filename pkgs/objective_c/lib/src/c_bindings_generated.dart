@@ -20,21 +20,6 @@ library;
 
 import 'dart:ffi' as ffi;
 
-@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(isLeaf: true)
-external int DOBJC_InitializeApi(
-  ffi.Pointer<ffi.Void> data,
-);
-
-@ffi.Native<
-    ffi.Void Function(
-        ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>,
-        ffi.Pointer<ffi.Void>)>(isLeaf: true)
-external void DOBJC_runOnMainThread(
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>> fn,
-  ffi.Pointer<ffi.Void> arg,
-);
-
 @ffi.Array.multi([32])
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: '_NSConcreteAutoBlock')
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteAutoBlock;
@@ -89,6 +74,12 @@ external void disposeObjCBlockWithClosure(
   ffi.Pointer<ObjCBlockImpl> block,
 );
 
+@ffi.Native<ffi.Pointer<DOBJC_Context> Function(ffi.Pointer<DOBJC_Context>)>(
+    symbol: 'DOBJC_fillContext', isLeaf: true)
+external ffi.Pointer<DOBJC_Context> fillContext(
+  ffi.Pointer<DOBJC_Context> context,
+);
+
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ffi.Char>)>(
     symbol: 'objc_getClass', isLeaf: true)
 external ffi.Pointer<ObjCObject> getClass(
@@ -134,6 +125,12 @@ external ffi.Pointer<ObjCProtocol> getProtocol(
     symbol: 'protocol_getName', isLeaf: true)
 external ffi.Pointer<ffi.Char> getProtocolName(
   ffi.Pointer<ObjCProtocol> proto,
+);
+
+@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(
+    symbol: 'DOBJC_initializeApi', isLeaf: true)
+external int initializeApi(
+  ffi.Pointer<ffi.Void> data,
 );
 
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ObjCBlockImpl>)>(
@@ -193,11 +190,48 @@ external ffi.Pointer<ObjCSelector> registerName(
   ffi.Pointer<ffi.Char> name,
 );
 
+@ffi.Native<
+    ffi.Void Function(
+        ffi.Pointer<
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>,
+        ffi.Pointer<ffi.Void>)>(symbol: 'DOBJC_runOnMainThread', isLeaf: true)
+external void runOnMainThread(
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>> fn,
+  ffi.Pointer<ffi.Void> arg,
+);
+
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     symbol: 'DOBJC_signalWaiter', isLeaf: true)
 external void signalWaiter(
   ffi.Pointer<ffi.Void> waiter,
 );
+
+final class DOBJC_Context extends ffi.Struct {
+  @ffi.Int64()
+  external int version;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
+      newWaiter;
+
+  external ffi
+      .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+      awaitWaiter;
+
+  external ffi
+      .Pointer<ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>>
+      currentIsolate;
+
+  external ffi.Pointer<
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>>
+      enterIsolate;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> exitIsolate;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function()>> getMainPortId;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
+      getCurrentThreadOwnsIsolate;
+}
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
@@ -255,6 +289,8 @@ final class ObjCObject extends ffi.Opaque {}
 final class ObjCProtocol extends ffi.Opaque {}
 
 final class ObjCSelector extends ffi.Opaque {}
+
+final class _Dart_Isolate extends ffi.Opaque {}
 
 final class _Version extends ffi.Struct {
   @ffi.Int()

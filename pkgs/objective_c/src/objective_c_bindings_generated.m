@@ -9,7 +9,44 @@
 #error "This file must be compiled with ARC enabled"
 #endif
 
+typedef struct {
+  int64_t version;
+  void* (*newWaiter)(void);
+  void (*awaitWaiter)(void*);
+  void* (*currentIsolate)(void);
+  void (*enterIsolate)(void*);
+  void (*exitIsolate)(void);
+  int64_t (*getMainPortId)(void);
+  bool (*getCurrentThreadOwnsIsolate)(int64_t);
+} DOBJC_Context;
+
 id objc_retainBlock(id);
+
+#define BLOCKING_BLOCK_IMPL(ctx, BLOCK_SIG, INVOKE_DIRECT, INVOKE_LISTENER)    \
+  assert(ctx->version >= 1);                                                   \
+  void* targetIsolate = ctx->currentIsolate();                                 \
+  int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
+  return BLOCK_SIG {                                                           \
+    void* currentIsolate = ctx->currentIsolate();                              \
+    bool mayEnterIsolate =                                                     \
+        currentIsolate == NULL &&                                              \
+        ctx->getCurrentThreadOwnsIsolate != NULL &&                            \
+        ctx->getCurrentThreadOwnsIsolate(targetPort);                          \
+    if (currentIsolate == targetIsolate || mayEnterIsolate) {                  \
+      if (mayEnterIsolate) {                                                   \
+        ctx->enterIsolate(targetIsolate);                                      \
+      }                                                                        \
+      INVOKE_DIRECT;                                                           \
+      if (mayEnterIsolate) {                                                   \
+        ctx->exitIsolate();                                                    \
+      }                                                                        \
+    } else {                                                                   \
+      void* waiter = ctx->newWaiter();                                         \
+      INVOKE_LISTENER;                                                         \
+      ctx->awaitWaiter(waiter);                                                \
+    }                                                                          \
+  };
+
 
 Protocol* _ObjectiveCBindings_NSCoding(void) { return @protocol(NSCoding); }
 
@@ -90,19 +127,14 @@ typedef void  (^BlockingTrampoline)(void * waiter, id arg0, id arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline _ObjectiveCBindings_wrapBlockingBlock_1b3bb6a(
     BlockingTrampoline block, BlockingTrampoline listenerBlock,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
-  NSThread *targetThread = [NSThread currentThread];
-  return ^void(id arg0, id arg1, id arg2) {
-    if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
-    } else {
-      void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
-      awaitWaiter(waiter);
-    }
-  };
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(id arg0, id arg1, id arg2), {
+    objc_retainBlock(block);
+    block(nil, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
+  });
 }
 
 typedef void  (^ListenerTrampoline_1)(void * arg0);
@@ -118,19 +150,14 @@ typedef void  (^BlockingTrampoline_1)(void * waiter, void * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_1 _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
     BlockingTrampoline_1 block, BlockingTrampoline_1 listenerBlock,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
-  NSThread *targetThread = [NSThread currentThread];
-  return ^void(void * arg0) {
-    if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, arg0);
-    } else {
-      void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, arg0);
-      awaitWaiter(waiter);
-    }
-  };
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0), {
+    objc_retainBlock(block);
+    block(nil, arg0);
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0);
+  });
 }
 
 typedef void  (^ProtocolTrampoline_8)(void * sel);
@@ -152,19 +179,14 @@ typedef void  (^BlockingTrampoline_2)(void * waiter, void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_2 _ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
     BlockingTrampoline_2 block, BlockingTrampoline_2 listenerBlock,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
-  NSThread *targetThread = [NSThread currentThread];
-  return ^void(void * arg0, id arg1) {
-    if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1));
-    } else {
-      void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1));
-      awaitWaiter(waiter);
-    }
-  };
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, id arg1), {
+    objc_retainBlock(block);
+    block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1));
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1));
+  });
 }
 
 typedef void  (^ProtocolTrampoline_9)(void * sel, id arg1);
@@ -186,19 +208,14 @@ typedef void  (^BlockingTrampoline_3)(void * waiter, void * arg0, id arg1, NSStr
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_3 _ObjectiveCBindings_wrapBlockingBlock_hoampi(
     BlockingTrampoline_3 block, BlockingTrampoline_3 listenerBlock,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
-  NSThread *targetThread = [NSThread currentThread];
-  return ^void(void * arg0, id arg1, NSStreamEvent arg2) {
-    if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
-    } else {
-      void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
-      awaitWaiter(waiter);
-    }
-  };
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, id arg1, NSStreamEvent arg2), {
+    objc_retainBlock(block);
+    block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
+  });
 }
 
 typedef void  (^ProtocolTrampoline_10)(void * sel, id arg1, NSStreamEvent arg2);
@@ -220,19 +237,14 @@ typedef void  (^BlockingTrampoline_4)(void * waiter, id arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_4 _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
     BlockingTrampoline_4 block, BlockingTrampoline_4 listenerBlock,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
-  NSThread *targetThread = [NSThread currentThread];
-  return ^void(id arg0, id arg1) {
-    if ([NSThread currentThread] == targetThread) {
-      objc_retainBlock(block);
-      block(nil, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
-    } else {
-      void* waiter = newWaiter();
-      objc_retainBlock(listenerBlock);
-      listenerBlock(waiter, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
-      awaitWaiter(waiter);
-    }
-  };
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void(id arg0, id arg1), {
+    objc_retainBlock(block);
+    block(nil, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
+  }, {
+    objc_retainBlock(listenerBlock);
+    listenerBlock(waiter, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
+  });
 }
 
 typedef id  (^ProtocolTrampoline_11)(void * sel, id arg1);
@@ -270,3 +282,4 @@ __attribute__((visibility("default"))) __attribute__((used))
 id  _ObjectiveCBindings_protocolTrampoline_c7gk2u(id target, void * sel, struct objc_selector * arg1, id arg2, id arg3) {
   return ((ProtocolTrampoline_16)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
 }
+#undef BLOCKING_BLOCK_IMPL
