@@ -3,8 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ast/_core/interfaces/declaration.dart';
+import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../transformer/_core/primitive_wrappers.dart';
 import '../transform.dart';
 import 'unique_namer.dart';
 
@@ -12,12 +16,18 @@ import 'unique_namer.dart';
 // probably be methods on ReferredType, but the transformDeclaration call makes
 // that weird. Refactor this as part of the transformer refactor.
 
-(String value, ReferredType type) maybeWrapValue(
-  ReferredType type,
-  String value,
-  UniqueNamer globalNamer,
-  TransformationMap transformationMap,
-) {
+(String value, ReferredType type) maybeWrapValue(ReferredType type,
+    String value, UniqueNamer globalNamer, TransformationMap transformationMap,
+    {bool shouldWrapPrimitives = false}) {
+  final (wrappedPrimitiveType, returnsWrappedPrimitive) =
+      maybeGetPrimitiveWrapper(type, shouldWrapPrimitives, transformationMap);
+  if (returnsWrappedPrimitive) {
+    return (
+      '${(wrappedPrimitiveType as DeclaredType).name}($value)',
+      wrappedPrimitiveType
+    );
+  }
+
   if (type.isObjCRepresentable) {
     return (value, type);
   }
@@ -76,4 +86,25 @@ import 'unique_namer.dart';
   } else {
     throw UnimplementedError('Unknown type: $type');
   }
+}
+
+InitializerDeclaration buildWrapperInitializer(
+  PropertyDeclaration wrappedClassInstance,
+) {
+  return InitializerDeclaration(
+    id: '',
+    params: [
+      Parameter(
+        name: '_',
+        internalName: 'wrappedInstance',
+        type: wrappedClassInstance.type,
+      )
+    ],
+    isOverriding: false,
+    isFailable: false,
+    throws: false,
+    async: false,
+    statements: ['self.${wrappedClassInstance.name} = wrappedInstance'],
+    hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
+  );
 }
