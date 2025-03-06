@@ -24,16 +24,17 @@
   return self;
 }
 
-- (void)implement:(SEL)sel withBlock:(id)block {
-  @synchronized(methods) {
-    [methods setObject:block forKey:[NSValue valueWithPointer:sel]];
-  }
-}
-
 - (void)implementMethod:(SEL)sel withBlock:(void*)block
     withTrampoline:(void*)trampoline withSignature:(char*)signature {
   class_addMethod(clazz, sel, trampoline, signature);
-  [self implement:sel withBlock:(__bridge id)block];
+  NSValue* key = [NSValue valueWithPointer:sel];
+  @synchronized(methods) {
+    [methods setObject:(__bridge id)block forKey:key];
+  }
+}
+
+- (void)addProtocol:(Protocol*) protocol {
+  class_addProtocol(clazz, protocol);
 }
 
 - (void)registerClass {

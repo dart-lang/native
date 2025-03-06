@@ -58,6 +58,13 @@ class ObjCProtocolBuilder {
     return _builder.buildInstance_(disposePort);
   }
 
+  /// Add the [protocol] to this implementation.
+  ///
+  /// This essentially declares that the implementation implements the protocol.
+  /// There is no automatic check that ensures that the implementation actually
+  /// implements all the methods of the protocol.
+  void addProtocol(objc.Protocol protocol) => _builder.addProtocol_(protocol);
+
   static final _rand = Random();
   static objc.DartProtocolBuilder _createBuilder(String debugName) {
     final name = '${debugName}_${_rand.nextInt(1 << 32)}'.toNativeUtf8();

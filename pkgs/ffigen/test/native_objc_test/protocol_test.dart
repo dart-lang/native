@@ -12,6 +12,7 @@ import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/src/internal.dart' show getProtocol;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -128,6 +129,9 @@ void main() {
           },
         );
 
+        expect(MyProtocol.conformsTo(myProtocol), isTrue);
+        expect(SecondaryProtocol.conformsTo(myProtocol), isFalse);
+
         // Required instance method.
         final result = consumer.callInstanceMethod_(myProtocol);
         expect(result.toDartString(), 'MyProtocol: Hello from ObjC: 3.14');
@@ -158,6 +162,9 @@ void main() {
         final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
         final SecondaryProtocol asSecondaryProtocol =
             SecondaryProtocol.castFrom(protocolImpl);
+
+        expect(MyProtocol.conformsTo(protocolImpl), isTrue);
+        expect(SecondaryProtocol.conformsTo(protocolImpl), isTrue);
 
         // Required instance method.
         final result = consumer.callInstanceMethod_(asMyProtocol);

@@ -95,4 +95,4 @@ int objectRetainCount(Pointer<ObjCObject> object) {
 }
 
 bool isValidClass(Pointer<Void> clazz) =>
-    internal_for_testing.isValidClass(clazz.cast(), bypassCache: true);
+    internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);

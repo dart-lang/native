@@ -19,6 +19,7 @@
 - (instancetype)initWithClassName: (const char*)name;
 - (void)implementMethod:(SEL)sel withBlock:(void*)block
     withTrampoline:(void*)trampoline withSignature:(char*)signature;
+- (void)addProtocol:(Protocol*) protocol;
 - (void)registerClass;
 - (DOBJCDartProtocol*)buildInstance: (Dart_Port)port;
 @end

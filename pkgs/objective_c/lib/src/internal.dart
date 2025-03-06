@@ -295,8 +295,8 @@ bool _isValidObject(ObjectPtr ptr) {
 
 final _allClasses = <ObjectPtr>{};
 
-bool _isValidClass(ObjectPtr clazz, {bool bypassCache = false}) {
-  if (!bypassCache && _allClasses.contains(clazz)) return true;
+bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
+  if (!forceReloadClasses && _allClasses.contains(clazz)) return true;
 
   // If the class is missing from the list, it either means we haven't created
   // the set yet, or more classes have been loaded since we created the set, or
@@ -446,6 +446,6 @@ BlockPtr wrapBlockingBlock(
 bool blockHasRegisteredClosure(BlockPtr block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
 bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
-bool isValidClass(ObjectPtr clazz, {bool bypassCache = false}) =>
-    _isValidClass(clazz, bypassCache: bypassCache);
+bool isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) =>
+    _isValidClass(clazz, forceReloadClasses: forceReloadClasses);
 bool isValidObject(ObjectPtr object) => _isValidObject(object);
