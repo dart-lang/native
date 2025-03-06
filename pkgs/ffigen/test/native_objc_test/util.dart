@@ -93,3 +93,6 @@ int objectRetainCount(Pointer<ObjCObject> object) {
   if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());
 }
+
+bool isValidClass(Pointer<Void> clazz) =>
+    internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);

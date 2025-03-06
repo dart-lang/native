@@ -456,7 +456,7 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   }
 }
 
-/// DOBJCDartProtocol
+/// Base class of all classes DOBJCDartProtocolBuilder creates.
 class DartProtocol extends NSObject {
   DartProtocol._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -551,7 +551,8 @@ class DartProtocol extends NSObject {
   factory DartProtocol() => new$();
 }
 
-/// DOBJCDartProtocolBuilder
+/// Used by the Dart ObjCProtocolBuilder to construct ObjC classes at runtime to
+/// implement protocols.
 class DartProtocolBuilder extends NSObject {
   DartProtocolBuilder._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -596,6 +597,12 @@ class DartProtocolBuilder extends NSObject {
         retain: false, release: true);
   }
 
+  /// addProtocol:
+  void addProtocol_(Protocol protocol) {
+    _objc_msgSend_xtuoz7(
+        this.ref.pointer, _sel_addProtocol_, protocol.ref.pointer);
+  }
+
   /// autorelease
   DartProtocolBuilder autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -603,11 +610,26 @@ class DartProtocolBuilder extends NSObject {
         retain: true, release: true);
   }
 
-  /// implementMethod:withBlock:
-  void implementMethod_withBlock_(
-      ffi.Pointer<objc.ObjCSelector> sel, ffi.Pointer<ffi.Void> block) {
-    _objc_msgSend_1iqj6b6(
-        this.ref.pointer, _sel_implementMethod_withBlock_, sel, block);
+  /// buildInstance:
+  DartProtocol buildInstance_(int port) {
+    final _ret =
+        _objc_msgSend_1ya1kjn(this.ref.pointer, _sel_buildInstance_, port);
+    return DartProtocol.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// implementMethod:withBlock:withTrampoline:withSignature:
+  void implementMethod_withBlock_withTrampoline_withSignature_(
+      ffi.Pointer<objc.ObjCSelector> sel,
+      ffi.Pointer<ffi.Void> block,
+      ffi.Pointer<ffi.Void> trampoline,
+      ffi.Pointer<ffi.Char> signature) {
+    _objc_msgSend_1s2gdyk(
+        this.ref.pointer,
+        _sel_implementMethod_withBlock_withTrampoline_withSignature_,
+        sel,
+        block,
+        trampoline,
+        signature);
   }
 
   /// init
@@ -618,6 +640,19 @@ class DartProtocolBuilder extends NSObject {
         _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
     return DartProtocolBuilder.castFromPointer(_ret,
         retain: false, release: true);
+  }
+
+  /// initWithClassName:
+  DartProtocolBuilder initWithClassName_(ffi.Pointer<ffi.Char> name) {
+    final _ret = _objc_msgSend_56zxyn(
+        this.ref.retainAndReturnPointer(), _sel_initWithClassName_, name);
+    return DartProtocolBuilder.castFromPointer(_ret,
+        retain: false, release: true);
+  }
+
+  /// registerClass
+  void registerClass() {
+    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_registerClass);
   }
 
   /// retain
@@ -1124,6 +1159,10 @@ interface class NSCoding extends objc.ObjCProtocolBase {
         obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSCoding);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSCoding.cast());
+
   /// Builds an object that implements the NSCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -1136,6 +1175,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSCoding');
     NSCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
     return NSCoding.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -1150,6 +1190,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       bool $keepIsolateAlive = true}) {
     NSCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSCoding protocol. To implement
@@ -1165,6 +1206,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSCoding');
     NSCoding.encodeWithCoder_.implementAsListener(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
     return NSCoding.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -1180,6 +1222,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       bool $keepIsolateAlive = true}) {
     NSCoding.encodeWithCoder_.implementAsListener(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSCoding protocol. To implement
@@ -1195,6 +1238,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSCoding');
     NSCoding.encodeWithCoder_.implementAsBlocking(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
     return NSCoding.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -1210,6 +1254,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
       bool $keepIsolateAlive = true}) {
     NSCoding.encodeWithCoder_.implementAsBlocking(builder, encodeWithCoder_);
     NSCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
   }
 
   /// encodeWithCoder:
@@ -1299,6 +1344,10 @@ interface class NSCopying extends objc.ObjCProtocolBase {
         obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSCopying);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSCopying.cast());
+
   /// Builds an object that implements the NSCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -1309,6 +1358,7 @@ interface class NSCopying extends objc.ObjCProtocolBase {
       bool $keepIsolateAlive = true}) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSCopying');
     NSCopying.copyWithZone_.implement(builder, copyWithZone_);
+    builder.addProtocol($protocol);
     return NSCopying.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -1321,6 +1371,7 @@ interface class NSCopying extends objc.ObjCProtocolBase {
       {required objc.ObjCObjectBase Function(ffi.Pointer<NSZone>) copyWithZone_,
       bool $keepIsolateAlive = true}) {
     NSCopying.copyWithZone_.implement(builder, copyWithZone_);
+    builder.addProtocol($protocol);
   }
 
   /// copyWithZone:
@@ -3656,6 +3707,10 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
         obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSFastEnumeration);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSFastEnumeration.cast());
+
   /// Builds an object that implements the NSFastEnumeration protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -3669,6 +3724,7 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSFastEnumeration');
     NSFastEnumeration.countByEnumeratingWithState_objects_count_
         .implement(builder, countByEnumeratingWithState_objects_count_);
+    builder.addProtocol($protocol);
     return NSFastEnumeration.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -3684,6 +3740,7 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
       bool $keepIsolateAlive = true}) {
     NSFastEnumeration.countByEnumeratingWithState_objects_count_
         .implement(builder, countByEnumeratingWithState_objects_count_);
+    builder.addProtocol($protocol);
   }
 
   /// countByEnumeratingWithState:objects:count:
@@ -4289,6 +4346,10 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
         _protocol_NSItemProviderReading);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSItemProviderReading.cast());
+
   /// Builds an object that implements the NSItemProviderReading protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -4298,6 +4359,7 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
     final builder =
         objc.ObjCProtocolBuilder(debugName: 'NSItemProviderReading');
 
+    builder.addProtocol($protocol);
     return NSItemProviderReading.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -4307,7 +4369,9 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
   ///
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(objc.ObjCProtocolBuilder builder,
-      {bool $keepIsolateAlive = true}) {}
+      {bool $keepIsolateAlive = true}) {
+    builder.addProtocol($protocol);
+  }
 }
 
 enum NSItemProviderRepresentationVisibility {
@@ -4352,6 +4416,10 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
         _protocol_NSItemProviderWriting);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSItemProviderWriting.cast());
+
   /// Builds an object that implements the NSItemProviderWriting protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -4370,6 +4438,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
             itemProviderVisibilityForRepresentationWithTypeIdentifier_);
     NSItemProviderWriting.writableTypeIdentifiersForItemProvider
         .implement(builder, writableTypeIdentifiersForItemProvider);
+    builder.addProtocol($protocol);
     return NSItemProviderWriting.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -4389,6 +4458,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
             itemProviderVisibilityForRepresentationWithTypeIdentifier_);
     NSItemProviderWriting.writableTypeIdentifiersForItemProvider
         .implement(builder, writableTypeIdentifiersForItemProvider);
+    builder.addProtocol($protocol);
   }
 
   /// itemProviderVisibilityForRepresentationWithTypeIdentifier:
@@ -4811,6 +4881,10 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
         obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSMutableCopying);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSMutableCopying.cast());
+
   /// Builds an object that implements the NSMutableCopying protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -4823,6 +4897,7 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSMutableCopying');
     NSMutableCopying.mutableCopyWithZone_
         .implement(builder, mutableCopyWithZone_);
+    builder.addProtocol($protocol);
     return NSMutableCopying.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -4837,6 +4912,7 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
       bool $keepIsolateAlive = true}) {
     NSMutableCopying.mutableCopyWithZone_
         .implement(builder, mutableCopyWithZone_);
+    builder.addProtocol($protocol);
   }
 
   /// mutableCopyWithZone:
@@ -7538,6 +7614,10 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
         obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSObject);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSObject.cast());
+
   /// Builds an object that implements the NSObject protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -7596,6 +7676,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
+    builder.addProtocol($protocol);
     return NSObjectProtocol.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -7656,6 +7737,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSObject protocol. To implement
@@ -7717,6 +7799,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
+    builder.addProtocol($protocol);
     return NSObjectProtocol.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -7778,6 +7861,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSObject protocol. To implement
@@ -7839,6 +7923,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
+    builder.addProtocol($protocol);
     return NSObjectProtocol.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -7900,6 +7985,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     NSObjectProtocol.self$1.implement(builder, self$1);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
+    builder.addProtocol($protocol);
   }
 
   /// autorelease
@@ -9075,6 +9161,10 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
         obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSSecureCoding);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSSecureCoding.cast());
+
   /// Builds an object that implements the NSSecureCoding protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -9087,6 +9177,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSSecureCoding');
     NSSecureCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
     return NSSecureCoding.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -9101,6 +9192,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
       bool $keepIsolateAlive = true}) {
     NSSecureCoding.encodeWithCoder_.implement(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSSecureCoding protocol. To implement
@@ -9117,6 +9209,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
     NSSecureCoding.encodeWithCoder_
         .implementAsListener(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
     return NSSecureCoding.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -9133,6 +9226,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
     NSSecureCoding.encodeWithCoder_
         .implementAsListener(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSSecureCoding protocol. To implement
@@ -9149,6 +9243,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
     NSSecureCoding.encodeWithCoder_
         .implementAsBlocking(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
     return NSSecureCoding.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -9165,6 +9260,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
     NSSecureCoding.encodeWithCoder_
         .implementAsBlocking(builder, encodeWithCoder_);
     NSSecureCoding.initWithCoder_.implement(builder, initWithCoder_);
+    builder.addProtocol($protocol);
   }
 
   /// encodeWithCoder:
@@ -9568,6 +9664,10 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
         obj.ref.pointer, _sel_conformsToProtocol_, _protocol_NSStreamDelegate);
   }
 
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.castFromPointer(_protocol_NSStreamDelegate.cast());
+
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
   /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
   ///
@@ -9579,6 +9679,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
     NSStreamDelegate.stream_handleEvent_
         .implement(builder, stream_handleEvent_);
+    builder.addProtocol($protocol);
     return NSStreamDelegate.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -9592,6 +9693,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
       bool $keepIsolateAlive = true}) {
     NSStreamDelegate.stream_handleEvent_
         .implement(builder, stream_handleEvent_);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
@@ -9606,6 +9708,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
     NSStreamDelegate.stream_handleEvent_
         .implementAsListener(builder, stream_handleEvent_);
+    builder.addProtocol($protocol);
     return NSStreamDelegate.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -9620,6 +9723,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
       bool $keepIsolateAlive = true}) {
     NSStreamDelegate.stream_handleEvent_
         .implementAsListener(builder, stream_handleEvent_);
+    builder.addProtocol($protocol);
   }
 
   /// Builds an object that implements the NSStreamDelegate protocol. To implement
@@ -9634,6 +9738,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
     NSStreamDelegate.stream_handleEvent_
         .implementAsBlocking(builder, stream_handleEvent_);
+    builder.addProtocol($protocol);
     return NSStreamDelegate.castFrom(
         builder.build(keepIsolateAlive: $keepIsolateAlive));
   }
@@ -9648,6 +9753,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
       bool $keepIsolateAlive = true}) {
     NSStreamDelegate.stream_handleEvent_
         .implementAsBlocking(builder, stream_handleEvent_);
+    builder.addProtocol($protocol);
   }
 
   /// stream:handleEvent:
@@ -15854,20 +15960,6 @@ final _objc_msgSend_1i9r4xy = objc.msgSendPointer
     .asFunction<
         void Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, int)>();
-final _objc_msgSend_1iqj6b6 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1iyq28l = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -16184,6 +16276,24 @@ final _objc_msgSend_1qv0eq4 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCSelector>,
             ffi.Pointer<objc.ObjCObject>)>();
+final _objc_msgSend_1s2gdyk = objc.msgSendPointer
+    .cast<
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Char>)>>()
+    .asFunction<
+        void Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Char>)>();
 final _objc_msgSend_1sotr3r = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -17367,6 +17477,7 @@ late final _sel_addObject_ = objc.registerName("addObject:");
 late final _sel_addObjectsFromArray_ =
     objc.registerName("addObjectsFromArray:");
 late final _sel_addObjects_count_ = objc.registerName("addObjects:count:");
+late final _sel_addProtocol_ = objc.registerName("addProtocol:");
 late final _sel_allKeys = objc.registerName("allKeys");
 late final _sel_allKeysForObject_ = objc.registerName("allKeysForObject:");
 late final _sel_allObjects = objc.registerName("allObjects");
@@ -17401,6 +17512,7 @@ late final _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeT
     objc.registerName(
         "bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:");
 late final _sel_boolValue = objc.registerName("boolValue");
+late final _sel_buildInstance_ = objc.registerName("buildInstance:");
 late final _sel_bytes = objc.registerName("bytes");
 late final _sel_cStringUsingEncoding_ =
     objc.registerName("cStringUsingEncoding:");
@@ -17606,8 +17718,8 @@ late final _sel_hash = objc.registerName("hash");
 late final _sel_helpAnchor = objc.registerName("helpAnchor");
 late final _sel_host = objc.registerName("host");
 late final _sel_illegalCharacterSet = objc.registerName("illegalCharacterSet");
-late final _sel_implementMethod_withBlock_ =
-    objc.registerName("implementMethod:withBlock:");
+late final _sel_implementMethod_withBlock_withTrampoline_withSignature_ = objc
+    .registerName("implementMethod:withBlock:withTrampoline:withSignature:");
 late final _sel_increaseLengthBy_ = objc.registerName("increaseLengthBy:");
 late final _sel_indexGreaterThanIndex_ =
     objc.registerName("indexGreaterThanIndex:");
@@ -17683,6 +17795,7 @@ late final _sel_initWithCharactersNoCopy_length_freeWhenDone_ =
     objc.registerName("initWithCharactersNoCopy:length:freeWhenDone:");
 late final _sel_initWithCharacters_length_ =
     objc.registerName("initWithCharacters:length:");
+late final _sel_initWithClassName_ = objc.registerName("initWithClassName:");
 late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
 late final _sel_initWithContentsOfFile_ =
     objc.registerName("initWithContentsOfFile:");
@@ -18033,6 +18146,7 @@ late final _sel_rangeOfString_options_range_locale_ =
     objc.registerName("rangeOfString:options:range:locale:");
 late final _sel_read_maxLength_ = objc.registerName("read:maxLength:");
 late final _sel_recoveryAttempter = objc.registerName("recoveryAttempter");
+late final _sel_registerClass = objc.registerName("registerClass");
 late final _sel_registerObject_visibility_ =
     objc.registerName("registerObject:visibility:");
 late final _sel_registeredTypeIdentifiers =

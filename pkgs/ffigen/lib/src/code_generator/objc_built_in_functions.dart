@@ -43,6 +43,7 @@ class ObjCBuiltInFunctions {
   static const protocolMethod = ObjCImport('ObjCProtocolMethod');
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');
+  static const protocolClass = ObjCImport('Protocol');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
   static const unimplementedOptionalMethodException =
       ObjCImport('UnimplementedOptionalMethodException');

@@ -12,6 +12,7 @@ import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/src/internal.dart' show getProtocol;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -24,13 +25,15 @@ typedef VoidMethodBlock = ObjCBlock_ffiVoid_ffiVoid_Int32;
 typedef OtherMethodBlock = ObjCBlock_Int32_ffiVoid_Int32_Int32_Int32_Int32;
 
 void main() {
+  late ProtocolTestObjCLibrary lib;
+
   group('protocol', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
       DynamicLibrary.open('../objective_c/test/objective_c.dylib');
       final dylib = File('test/native_objc_test/objc_test.dylib');
       verifySetupFile(dylib);
-      DynamicLibrary.open(dylib.absolute.path);
+      lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
       generateBindingsForCoverage('protocol');
     });
 
@@ -126,6 +129,9 @@ void main() {
           },
         );
 
+        expect(MyProtocol.conformsTo(myProtocol), isTrue);
+        expect(SecondaryProtocol.conformsTo(myProtocol), isFalse);
+
         // Required instance method.
         final result = consumer.callInstanceMethod_(myProtocol);
         expect(result.toDartString(), 'MyProtocol: Hello from ObjC: 3.14');
@@ -156,6 +162,9 @@ void main() {
         final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
         final SecondaryProtocol asSecondaryProtocol =
             SecondaryProtocol.castFrom(protocolImpl);
+
+        expect(MyProtocol.conformsTo(protocolImpl), isTrue);
+        expect(SecondaryProtocol.conformsTo(protocolImpl), isTrue);
 
         // Required instance method.
         final result = consumer.callInstanceMethod_(asMyProtocol);
@@ -413,6 +422,71 @@ void main() {
       expect(UnusedProtocol.conformsTo(inst), isFalse);
     });
 
+    test('Threading stress test', () async {
+      final consumer = ProtocolConsumer();
+      final completer = Completer<void>();
+      int count = 0;
+
+      final protocolBuilder = ObjCProtocolBuilder();
+      MyProtocol.voidMethod_.implementAsListener(protocolBuilder, (int x) {
+        expect(x, 123);
+        ++count;
+        if (count == 1000) completer.complete();
+      });
+
+      final protocol = protocolBuilder.build();
+      final MyProtocol asMyProtocol = MyProtocol.castFrom(protocol);
+
+      for (int i = 0; i < 1000; ++i) {
+        consumer.callMethodOnRandomThread_(asMyProtocol);
+      }
+      await completer.future;
+      expect(count, 1000);
+    });
+
+    (NSObject, Pointer<ObjCBlockImpl>) blockRefCountTestInner() {
+      final pool = lib.objc_autoreleasePoolPush();
+      final protocolBuilder = ObjCProtocolBuilder();
+
+      final block = InstanceMethodBlock.fromFunction(
+          (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString());
+      MyProtocol.instanceMethod_withDouble_
+          .implementWithBlock(protocolBuilder, block);
+      final protocol = protocolBuilder.build();
+      lib.objc_autoreleasePoolPop(pool);
+
+      final blockPtr = block.ref.pointer;
+
+      // There are 2 references to the block. One owned by the Dart wrapper
+      // object, and the other owned by the protocol.
+      doGC();
+      expect(blockRetainCount(blockPtr), 2);
+
+      return (protocol, blockPtr);
+    }
+
+    Pointer<ObjCBlockImpl> blockRefCountTest() {
+      final (protocol, blockPtr) = blockRefCountTestInner();
+
+      // The Dart side block pointer has gone out of scope, but the protocol
+      // still owns a reference to it.
+      doGC();
+      expect(blockRetainCount(blockPtr), 1);
+
+      expect(protocol, isNotNull); // Force protocol to stay in scope.
+
+      return blockPtr;
+    }
+
+    test('Block ref counting', () {
+      final blockPtr = blockRefCountTest();
+
+      // The protocol object has gone out of scope, so it should be cleaned up.
+      // So should the block.
+      doGC();
+      expect(blockRetainCount(blockPtr), 0);
+    }, skip: !canDoGC);
+
     test('keepIsolateAlive', () async {
       final isolateSendPort = Completer<SendPort>();
       final protosCreated = Completer<void>();
@@ -475,5 +549,70 @@ void main() {
 
       receivePort.close();
     }, skip: !canDoGC);
+
+    test('class disposal, builder first', () {
+      final pool = lib.objc_autoreleasePoolPush();
+      ObjCProtocolBuilder? protocolBuilder =
+          ObjCProtocolBuilder(debugName: 'Foo');
+
+      NSObject? protocol = protocolBuilder.build();
+      final clazz = lib.getClass(protocol);
+      expect(lib.getClassName(clazz).cast<Utf8>().toDartString(),
+          startsWith('Foo'));
+      expect(isValidClass(clazz), isTrue);
+      lib.objc_autoreleasePoolPop(pool);
+
+      protocolBuilder = null;
+      doGC();
+      expect(isValidClass(clazz), isTrue);
+
+      protocol = null;
+      doGC();
+      expect(isValidClass(clazz), isFalse);
+    }, skip: !canDoGC);
+
+    test('class disposal, instance first', () {
+      final pool = lib.objc_autoreleasePoolPush();
+      ObjCProtocolBuilder? protocolBuilder =
+          ObjCProtocolBuilder(debugName: 'Foo');
+
+      NSObject? protocol = protocolBuilder.build();
+      final clazz = lib.getClass(protocol);
+      expect(lib.getClassName(clazz).cast<Utf8>().toDartString(),
+          startsWith('Foo'));
+      expect(isValidClass(clazz), isTrue);
+      lib.objc_autoreleasePoolPop(pool);
+
+      protocolBuilder = null;
+      doGC();
+      expect(isValidClass(clazz), isTrue);
+
+      protocol = null;
+      doGC();
+      expect(isValidClass(clazz), isFalse);
+    }, skip: !canDoGC);
+
+    test('adding more methods after build', () {
+      final protocolBuilder = ObjCProtocolBuilder();
+
+      MyProtocol.addToBuilder(
+        protocolBuilder,
+        instanceMethod_withDouble_: (NSString s, double x) {
+          return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
+        },
+        optionalMethod_: (SomeStruct s) {
+          return s.y - s.x;
+        },
+      );
+
+      final protocolImpl = protocolBuilder.build();
+
+      expect(
+          () => SecondaryProtocol.addToBuilder(protocolBuilder,
+                  otherMethod_b_c_d_: (int a, int b, int c, int d) {
+                return a * b * c * d;
+              }),
+          throwsA(isA<StateError>()));
+    });
   });
 }

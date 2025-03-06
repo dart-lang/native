@@ -10,24 +10,19 @@ import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
 import 'internal.dart'
-    show
-        FailedToLoadProtocolMethodException,
-        GetProtocolName,
-        ObjCBlockBase,
-        getClass,
-        msgSendPointer,
-        registerName;
+    show FailedToLoadProtocolMethodException, GetProtocolName, ObjCBlockBase;
 import 'objective_c_bindings_generated.dart' as objc;
 import 'selector.dart';
 
 /// Helper class for building Objective C objects that implement protocols.
 class ObjCProtocolBuilder {
-  final _builder = objc.DartProtocolBuilder();
-  final Pointer<c.ObjCObject> _class;
+  final objc.DartProtocolBuilder _builder;
   var _built = false;
 
-  ObjCProtocolBuilder({String? debugName})
-      : _class = _createProtocolClass(debugName);
+  objc.DartProtocolBuilder get builder => _builder;
+
+  ObjCProtocolBuilder({String debugName = 'DOBJCDartProtocol'})
+      : _builder = _createBuilder(debugName);
 
   /// Add a method implementation to the protocol.
   ///
@@ -40,8 +35,8 @@ class ObjCProtocolBuilder {
     if (_built) {
       throw StateError('Protocol is already built');
     }
-    c.addMethod(_class, sel, trampoline, signature);
-    _builder.implementMethod_withBlock_(sel, block.ref.pointer.cast());
+    _builder.implementMethod_withBlock_withTrampoline_withSignature_(
+        sel, block.ref.pointer.cast(), trampoline, signature);
   }
 
   /// Builds the object.
@@ -50,13 +45,9 @@ class ObjCProtocolBuilder {
   /// that all implement the same protocol methods using the same functions.
   objc.NSObject build({bool keepIsolateAlive = true}) {
     if (!_built) {
-      c.registerClassPair(_class);
+      _builder.registerClass();
       _built = true;
     }
-    final obj = objc.DartProtocol.castFromPointer(
-        _msgSendAlloc(_class, _selAlloc),
-        retain: false,
-        release: true);
 
     var disposePort = c.ILLEGAL_PORT;
     if (keepIsolateAlive) {
@@ -64,28 +55,23 @@ class ObjCProtocolBuilder {
       keepAlivePort = RawReceivePort((_) => keepAlivePort.close());
       disposePort = keepAlivePort.sendPort.nativePort;
     }
-    return obj.initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_(
-        _builder, disposePort);
+    return _builder.buildInstance_(disposePort);
   }
 
-  static final _msgSendAlloc = msgSendPointer
-      .cast<
-          NativeFunction<
-              Pointer<c.ObjCObject> Function(
-                  Pointer<c.ObjCObject>, Pointer<c.ObjCSelector>)>>()
-      .asFunction<
-          Pointer<c.ObjCObject> Function(
-              Pointer<c.ObjCObject>, Pointer<c.ObjCSelector>)>();
-  static final _selAlloc = registerName('alloc');
+  /// Add the [protocol] to this implementation.
+  ///
+  /// This essentially declares that the implementation implements the protocol.
+  /// There is no automatic check that ensures that the implementation actually
+  /// implements all the methods of the protocol.
+  void addProtocol(objc.Protocol protocol) => _builder.addProtocol_(protocol);
 
-  static final _protocolClass = getClass('DOBJCDartProtocol');
   static final _rand = Random();
-  static Pointer<c.ObjCObject> _createProtocolClass(String? debugName) {
-    debugName ??= 'DOBJCDartProtocol';
+  static objc.DartProtocolBuilder _createBuilder(String debugName) {
     final name = '${debugName}_${_rand.nextInt(1 << 32)}'.toNativeUtf8();
-    final cls = c.allocateClassPair(_protocolClass, name.cast(), 0);
+    final builder =
+        objc.DartProtocolBuilder.alloc().initWithClassName_(name.cast());
     calloc.free(name);
-    return cls;
+    return builder;
   }
 }
 

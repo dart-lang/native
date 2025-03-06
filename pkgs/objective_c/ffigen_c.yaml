@@ -22,7 +22,6 @@ functions:
     - 'protocol_getMethodDescription'
     - 'protocol_getName'
     - 'newFinalizableHandle'
-    - 'class_addMethod'
     - 'DOBJC_.*'
   leaf:
     include:
@@ -56,10 +55,7 @@ functions:
     'objc_msgSend_stret': 'msgSendStret'
     'object_getClass': 'getObjectClass'
     'objc_copyClassList': 'copyClassList'
-    'objc_allocateClassPair': 'allocateClassPair'
-    'objc_registerClassPair': 'registerClassPair'
     'objc_getProtocol': 'getProtocol'
-    'class_addMethod': 'addMethod'
     'protocol_getMethodDescription': 'getMethodDescription'
     'protocol_getName': 'getProtocolName'
 globals:
