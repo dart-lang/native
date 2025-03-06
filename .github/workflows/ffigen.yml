@@ -78,7 +78,7 @@ jobs:
         working-directory: pkgs/ffigen/
     strategy:
       matrix:
-        channel: [stable, dev]
+        channel: [stable, master]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
