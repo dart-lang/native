@@ -1160,7 +1160,7 @@ interface class NSCoding extends objc.ObjCProtocolBase {
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSCoding.cast());
 
   /// Builds an object that implements the NSCoding protocol. To implement
@@ -1345,7 +1345,7 @@ interface class NSCopying extends objc.ObjCProtocolBase {
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSCopying.cast());
 
   /// Builds an object that implements the NSCopying protocol. To implement
@@ -3708,7 +3708,7 @@ interface class NSFastEnumeration extends objc.ObjCProtocolBase {
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSFastEnumeration.cast());
 
   /// Builds an object that implements the NSFastEnumeration protocol. To implement
@@ -4347,7 +4347,7 @@ interface class NSItemProviderReading extends objc.ObjCProtocolBase
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSItemProviderReading.cast());
 
   /// Builds an object that implements the NSItemProviderReading protocol. To implement
@@ -4417,7 +4417,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSItemProviderWriting.cast());
 
   /// Builds an object that implements the NSItemProviderWriting protocol. To implement
@@ -4882,7 +4882,7 @@ interface class NSMutableCopying extends objc.ObjCProtocolBase {
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSMutableCopying.cast());
 
   /// Builds an object that implements the NSMutableCopying protocol. To implement
@@ -7615,7 +7615,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSObject.cast());
 
   /// Builds an object that implements the NSObject protocol. To implement
@@ -9162,7 +9162,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSSecureCoding.cast());
 
   /// Builds an object that implements the NSSecureCoding protocol. To implement
@@ -9665,7 +9665,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   }
 
   /// Returns the [objc.Protocol] object for this protocol.
-  static get $protocol =>
+  static objc.Protocol get $protocol =>
       objc.Protocol.castFromPointer(_protocol_NSStreamDelegate.cast());
 
   /// Builds an object that implements the NSStreamDelegate protocol. To implement

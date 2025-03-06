@@ -182,7 +182,7 @@ interface class $name extends $protocolBase $impls{
       final args = '{${buildArgs.join(', ')}}';
       final builders = '''
   /// Returns the [$protocolClass] object for this protocol.
-  static get \$protocol =>
+  static $protocolClass get \$protocol =>
       $protocolClass.castFromPointer(${_protocolPointer.name}.cast());
 
   /// Builds an object that implements the $originalName protocol. To implement
