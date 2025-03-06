@@ -206,4 +206,12 @@ void objc_release(id value);
   }] start];
 }
 
++ (void)callBlockOnNewThread:(VoidBlock)blockingBlock
+        andListener:(ResultBlock)resultBlock {
+  [[[NSThread alloc] initWithBlock:^void() {
+    blockingBlock();
+    resultBlock(1234);
+  }] start];
+}
+
 @end

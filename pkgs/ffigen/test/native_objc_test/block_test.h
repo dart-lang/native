@@ -85,4 +85,6 @@ typedef void (^ResultBlock)(int32_t);
 - (void)invokeAndReleaseListener:(_Nullable id)_;
 + (void)blockingBlockTest:(IntPtrBlock)blockingBlock
               resultBlock:(ResultBlock)resultBlock;
++ (void)callBlockOnNewThread:(VoidBlock)blockingBlock
+        andListener:(ResultBlock)resultBlock;
 @end
