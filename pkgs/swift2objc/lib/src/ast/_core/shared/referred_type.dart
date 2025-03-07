@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ast_node.dart';
+import '../../declarations/compounds/protocol_declaration.dart';
 import '../interfaces/declaration.dart';
 import '../interfaces/nestable_declaration.dart';
 import '../interfaces/objc_annotatable.dart';
@@ -95,6 +96,29 @@ class GenericType extends AstNode implements ReferredType {
 
   @override
   void visit(Visitation visitation) => visitation.visitGenericType(this);
+}
+
+class AssociatedType extends AstNode implements ReferredType {
+  final String id;
+
+  final String name;
+
+  @override
+  bool get isObjCRepresentable => false;
+
+  @override
+  String get swiftType => name;
+
+  List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
+
+  @override
+  bool sameAs(ReferredType other) => other is AssociatedType && other.id == id;
+
+  AssociatedType(
+      {required this.id, required this.name, required this.conformedProtocols});
+
+  @override
+  String toString() => name;
 }
 
 /// An optional type, like Dart's nullable types. Eg `String?`.
