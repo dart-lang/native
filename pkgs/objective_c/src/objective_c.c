@@ -5,6 +5,7 @@
 #include "objective_c.h"
 
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "include/dart_api_dl.h"
@@ -29,30 +30,9 @@ FFI_EXPORT void DOBJC_finalizeObject(void* isolate_callback_data, void* peer) {
   DOBJC_runOnMainThread((void (*)(void*))objc_release, peer);
 }
 
-typedef struct {
-  ObjCObject* object;
-  void* destroyed_flag;
-} _DOBJCObjectWithDestroyedFlag;
-
-FFI_EXPORT void DOBJC_finalizeObjectWithDestroyedFlag(
-    void* isolate_callback_data, _DOBJCObjectWithDestroyedFlag* pair) {
-  DOBJC_flipDestroyedFlag(pair->destroyed_flag);
-  DOBJC_runOnMainThread((void (*)(void*))objc_release, pair->object);
-  free(pair);
-}
-
 FFI_EXPORT Dart_FinalizableHandle
-DOBJC_newFinalizableHandle(
-    Dart_Handle owner, ObjCObject* object, void* destroyed_flag) {
-  if (destroyed_flag == NULL) {
-    return Dart_NewFinalizableHandle_DL(owner, object, 0, DOBJC_finalizeObject);
-  }
-  _DOBJCObjectWithDestroyedFlag* pair =
-      malloc(sizeof(_DOBJCObjectWithDestroyedFlag));
-  pair->object = object;
-  pair->destroyed_flag = destroyed_flag;
-  return Dart_NewFinalizableHandle_DL(owner, pair, 0,
-      (Dart_HandleFinalizer)DOBJC_finalizeObjectWithDestroyedFlag);
+DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObject* object) {
+  return Dart_NewFinalizableHandle_DL(owner, object, 0, DOBJC_finalizeObject);
 }
 
 FFI_EXPORT void DOBJC_deleteFinalizableHandle(Dart_FinalizableHandle handle,
@@ -69,6 +49,17 @@ FFI_EXPORT bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
   *pointer = false;
   Dart_NewFinalizableHandle_DL(owner, pointer, 1, finalizeMalloc);
   return pointer;
+}
+
+static void finalizeFlag(void* isolate_callback_data, void* peer) {
+  printf("\nZZZZ: finalizeFlag: %p\n", peer);
+  DOBJC_flipDestroyedFlag(peer);
+}
+
+FFI_EXPORT Dart_FinalizableHandle
+DOBJC_newFinalizableFlag(Dart_Handle owner, void* flag) {
+  printf("\nZZZZ: DOBJC_newFinalizableFlag: %p\n", flag);
+  return Dart_NewFinalizableHandle_DL(owner, flag, 0, finalizeFlag);
 }
 
 FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {

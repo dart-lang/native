@@ -251,8 +251,8 @@ abstract final class $name {
   /// until it is garbage collected by both Dart and ObjC.
   static $blockType fromFunction(${func.dartType} fn,
           {bool keepIsolateAlive = true}) =>
-      $blockType($newClosureBlock($closureCallable, $convFn,
-          keepIsolateAlive), retain: false, release: true);
+      $blockType($newClosureBlock($closureCallable, $convFn, keepIsolateAlive),
+          retain: false, release: true);
 ''');
 
     // Listener block constructor is only available for void blocks.
@@ -310,15 +310,14 @@ abstract final class $name {
           {bool keepIsolateAlive = true}) {
     final raw = $newClosureBlock($blockingCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
+    final flag = $newDestroyedFlag();
     final rawListener = $newClosureBlock(
         $blockingListenerCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
-    final flag = $newDestroyedFlag();
+        $listenerConvFn, keepIsolateAlive, destroyedFlag: flag);
     final wrapper = $wrapBlockingFn(raw, rawListener, flag, $objCContext);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
-    return $blockType(
-        wrapper, retain: false, release: true, destroyedFlag: flag);
+    return $blockType(wrapper, retain: false, release: true);
   }
 ''');
     }

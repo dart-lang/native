@@ -196,16 +196,10 @@ void main() {
       });
 
       final isolate = await Isolate.spawn((_) async {
-        ObjCBlock<Void Function()>? block = VoidBlock.blocking(() {
-          while (true) {
-            // Block forever.
-          }
+        final block = VoidBlock.blocking(() {
+          Isolate.exit();
         });
-        final thread =
-            BlockTester.callBlockOnNewThread_andListener_(block, resultBlock);
-        block = null;
-        thread.start();
-        Isolate.current.kill();
+        BlockTester.callBlockOnNewThread_andListener_(block, resultBlock);
       }, null);
 
       expect(await resultPort.first, 1234);

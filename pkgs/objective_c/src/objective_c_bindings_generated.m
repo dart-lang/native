@@ -1,7 +1,6 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
-#import "atomic_bool.h"
 #import "foundation.h"
 #import "input_stream_adapter.h"
 #import "protocol.h"

@@ -7,11 +7,8 @@
 #import <Foundation/NSThread.h>
 #import <dispatch/dispatch.h>
 
-#include "atomic_bool.h"
 #include "ffi.h"
 #include "os_version.h"
-
-uint64_t getObjectRetainCount(void* object);
 
 FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 #ifdef NO_MAIN_THREAD_DISPATCH
@@ -26,6 +23,10 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
   }
 #endif
 }
+
+@interface DOBJCAtomicBool : NSObject
+@property(atomic) bool value;
+@end
 
 @implementation DOBJCAtomicBool
 -(instancetype)init {

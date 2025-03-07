@@ -22,7 +22,7 @@ FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl *block);
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.
 FFI_EXPORT Dart_FinalizableHandle DOBJC_newFinalizableHandle(
-    Dart_Handle owner, ObjCObject* object, void* destroyed_flag);
+    Dart_Handle owner, ObjCObject* object);
 
 // Delete a finalizable handle. Doesn't run the finalization callback, so
 // doesn't clean up the assocated pointer.
@@ -50,13 +50,14 @@ FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
 // A destroyed flag is a DOBJCAtomicBool used to track whether a Dart object is
-// still alive. DOBJC_newDestroyedFlag returns a +1 reference that is held in a
-// _DOBJCObjectWithDestroyedFlag, and balanced by DOBJC_flipDestroyedFlag. Other
-// code that needs to know whether the object is alive can cast it to a
-// DOBJCAtomicBool, hold a strong reference to it (so it outlives the object it
-// is tracking), and check its value.
+// still alive. DOBJC_newDestroyedFlag returns a +1 reference that is balanced
+// by DOBJC_flipDestroyedFlag. Other code that needs to know whether the object
+// is alive can cast it to a DOBJCAtomicBool, hold a strong reference to it (so
+// it outlives the object it is tracking), and check its value.
 FFI_EXPORT void *DOBJC_newDestroyedFlag();
 FFI_EXPORT void DOBJC_flipDestroyedFlag(void* flag);
+FFI_EXPORT Dart_FinalizableHandle DOBJC_newFinalizableFlag(
+    Dart_Handle owner, void* flag);
 
 // Context object containing functions needed by the ffigen bindings. Any
 // changes to this struct should bump the `version` field filled in by

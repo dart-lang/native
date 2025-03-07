@@ -172,15 +172,20 @@ void _ensureDartAPI() {
 }
 
 c.Dart_FinalizableHandle _newFinalizableHandle(
-    _FinalizablePointer finalizable, Pointer<Void> destroyedFlag) {
+    _FinalizablePointer finalizable) {
   _ensureDartAPI();
-  return c.newFinalizableHandle(
-      finalizable, finalizable.ptr.cast(), destroyedFlag);
+  return c.newFinalizableHandle(finalizable, finalizable.ptr.cast());
 }
 
 Pointer<Bool> _newFinalizableBool(Object owner) {
   _ensureDartAPI();
   return c.newFinalizableBool(owner);
+}
+
+c.Dart_FinalizableHandle? _newFinalizableFlag(_FinalizablePointer? flag) {
+  if (flag == null) return null;
+  _ensureDartAPI();
+  return c.newFinalizableFlag(flag, flag.ptr.cast());
 }
 
 @pragma('vm:deeply-immutable')
@@ -190,10 +195,10 @@ abstract final class _ObjCReference<T extends NativeType>
   final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
   final Pointer<Bool> _isReleased;
 
-  _ObjCReference(this._finalizable, Pointer<Void> destroyedFlag,
+  _ObjCReference(this._finalizable,
       {required bool retain, required bool release})
       : _ptrFinalizableHandle =
-            release ? _newFinalizableHandle(_finalizable, destroyedFlag) : null,
+            release ? _newFinalizableHandle(_finalizable) : null,
         _isReleased = _newFinalizableBool(_finalizable) {
     assert(_isValid(_finalizable.ptr));
     if (retain) {
@@ -272,7 +277,7 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 @pragma('vm:deeply-immutable')
 final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
-      : super(_FinalizablePointer(ptr), nullptr);
+      : super(_FinalizablePointer(ptr));
 
   @override
   void _retain(ObjectPtr ptr) => c.objectRetain(ptr);
@@ -325,11 +330,8 @@ class ObjCProtocolBase extends ObjCObjectBase {
 
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
-  ObjCBlockRef(BlockPtr ptr,
-      {required super.retain,
-      required super.release,
-      required Pointer<Void> destroyedFlag})
-      : super(_FinalizablePointer(ptr), destroyedFlag);
+  ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
+      : super(_FinalizablePointer(ptr));
 
   @override
   void _retain(BlockPtr ptr) => c.blockRetain(ptr.cast());
@@ -340,14 +342,8 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
 
 /// Only for use by ffigen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
-  ObjCBlockBase(BlockPtr ptr,
-      {required bool retain,
-      required bool release,
-      Pointer<Void>? destroyedFlag})
-      : super(ObjCBlockRef(ptr,
-            retain: retain,
-            release: release,
-            destroyedFlag: destroyedFlag ?? nullptr));
+  ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
+      : super(ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
@@ -388,10 +384,11 @@ BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
 const int _blockHasCopyDispose = 1 << 25;
 
 /// Only for use by ffigen bindings.
-BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
+BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive,
+        {Pointer<Void>? destroyedFlag}) =>
     _newBlock(
         invoke,
-        _registerBlockClosure(fn, keepIsolateAlive),
+        _registerBlockClosure(fn, keepIsolateAlive, destroyedFlag ?? nullptr),
         _closureBlockDesc,
         _blockClosureDisposer.sendPort.nativePort,
         _blockHasCopyDispose);
@@ -400,10 +397,15 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
-typedef _RegEntry = ({
-  Function closure,
-  RawReceivePort? keepAlivePort,
-});
+class _RegEntry {
+  final Function closure;
+  final RawReceivePort? keepAlivePort;
+  final _FinalizablePointer<Void>? destroyedFlag;
+  final c.Dart_FinalizableHandle? destroyedFlagFinalizableHandle;
+
+  _RegEntry(this.closure, this.keepAlivePort, this.destroyedFlag)
+      : destroyedFlagFinalizableHandle = _newFinalizableFlag(destroyedFlag);
+}
 
 final _blockClosureRegistry = <int, _RegEntry>{};
 
@@ -415,17 +417,26 @@ final _blockClosureDisposer = () {
     final id = msg as int;
     assert(_blockClosureRegistry.containsKey(id));
     final entry = _blockClosureRegistry.remove(id)!;
+    final flag = entry.destroyedFlag;
+    final flagHandle = entry.destroyedFlagFinalizableHandle;
+    if (flagHandle != null && flag != null) {
+      print("ZZZZ: deleteFinalizableHandle: ${flag.ptr}");
+      c.deleteFinalizableHandle(flagHandle, flag);
+      c.flipDestroyedFlag(flag.ptr);
+    }
     entry.keepAlivePort?.close();
   }, 'ObjCBlockClosureDisposer')
     ..keepIsolateAlive = false;
 }();
 
-VoidPtr _registerBlockClosure(Function closure, bool keepIsolateAlive) {
+VoidPtr _registerBlockClosure(
+    Function closure, bool keepIsolateAlive, Pointer<Void> destroyedFlag) {
   ++_blockClosureRegistryLastId;
   assert(!_blockClosureRegistry.containsKey(_blockClosureRegistryLastId));
-  _blockClosureRegistry[_blockClosureRegistryLastId] = (
-    closure: closure,
-    keepAlivePort: keepIsolateAlive ? RawReceivePort() : null,
+  _blockClosureRegistry[_blockClosureRegistryLastId] = _RegEntry(
+    closure,
+    keepIsolateAlive ? RawReceivePort() : null,
+    destroyedFlag == nullptr ? null : _FinalizablePointer<Void>(destroyedFlag),
   );
   return VoidPtr.fromAddress(_blockClosureRegistryLastId);
 }

@@ -320,87 +320,6 @@ external ffi.Pointer<objc.ObjCBlockImpl>
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
-/// DOBJCAtomicBool
-class AtomicBool extends NSObject {
-  AtomicBool._(ffi.Pointer<objc.ObjCObject> pointer,
-      {bool retain = false, bool release = false})
-      : super.castFromPointer(pointer, retain: retain, release: release);
-
-  /// Constructs a [AtomicBool] that points to the same underlying object as [other].
-  AtomicBool.castFrom(objc.ObjCObjectBase other)
-      : this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [AtomicBool] that wraps the given raw object pointer.
-  AtomicBool.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
-      {bool retain = false, bool release = false})
-      : this._(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [AtomicBool].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-        obj.ref.pointer, _sel_isKindOfClass_, _class_DOBJCAtomicBool);
-  }
-
-  /// alloc
-  static AtomicBool alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_DOBJCAtomicBool, _sel_alloc);
-    return AtomicBool.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static AtomicBool allocWithZone_(ffi.Pointer<NSZone> zone) {
-    final _ret = _objc_msgSend_1cwp428(
-        _class_DOBJCAtomicBool, _sel_allocWithZone_, zone);
-    return AtomicBool.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// new
-  static AtomicBool new$() {
-    final _ret = _objc_msgSend_151sglz(_class_DOBJCAtomicBool, _sel_new);
-    return AtomicBool.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// autorelease
-  AtomicBool autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return AtomicBool.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// init
-  AtomicBool init() {
-    objc.checkOsVersion('DOBJCAtomicBool.init',
-        iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
-    final _ret =
-        _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
-    return AtomicBool.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// retain
-  AtomicBool retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return AtomicBool.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// self
-  AtomicBool self$1() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return AtomicBool.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// setValue:
-  set value(bool value) {
-    _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setValue_, value);
-  }
-
-  /// value
-  bool get value {
-    return _objc_msgSend_91o635(this.ref.pointer, _sel_value);
-  }
-
-  /// Returns a new instance of AtomicBool constructed with the default `new` method.
-  factory AtomicBool() => new$();
-}
-
 /// Helper class to adapt a Dart stream into a `NSInputStream`.
 class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   DartInputStreamAdapter._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -13525,6 +13444,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                 NSDictionary.castFromPointer(arg2,
                     retain: false, release: true)),
         keepIsolateAlive);
+    final flag = objc.newDestroyedFlag();
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCObject_NSDictionary_blockingListenerCallable
             .nativeFunction
@@ -13538,19 +13458,18 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
                 objc.ObjCObjectBase(arg1, retain: false, release: true),
                 NSDictionary.castFromPointer(arg2,
                     retain: false, release: true)),
-        keepIsolateAlive);
-    final flag = objc.newDestroyedFlag();
+        keepIsolateAlive,
+        destroyedFlag: flag);
     final wrapper = _ObjectiveCBindings_wrapBlockingBlock_1b3bb6a(
         raw, rawListener, flag, objc.objCContext);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<
-            ffi.Void Function(
-                objc.ObjCBlock<
-                    ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
-                ffi.Pointer<objc.ObjCObject>,
-                NSDictionary)>(wrapper,
-        retain: false, release: true, destroyedFlag: flag);
+        ffi.Void Function(
+            objc.ObjCBlock<
+                ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>,
+            ffi.Pointer<objc.ObjCObject>,
+            NSDictionary)>(wrapper, retain: false, release: true);
   }
 }
 
@@ -13730,18 +13649,19 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
         _ObjCBlock_ffiVoid_ffiVoid_blockingCallable.nativeFunction.cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
         keepIsolateAlive);
+    final flag = objc.newDestroyedFlag();
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_blockingListenerCallable.nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
-        keepIsolateAlive);
-    final flag = objc.newDestroyedFlag();
+        keepIsolateAlive,
+        destroyedFlag: flag);
     final wrapper = _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
         raw, rawListener, flag, objc.objCContext);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(wrapper,
-        retain: false, release: true, destroyedFlag: flag);
+        retain: false, release: true);
   }
 }
 
@@ -13944,14 +13864,15 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)),
         keepIsolateAlive);
+    final flag = objc.newDestroyedFlag();
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSCoder_blockingListenerCallable
             .nativeFunction
             .cast(),
         (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObject> arg1) => fn(
             arg0, NSCoder.castFromPointer(arg1, retain: false, release: true)),
-        keepIsolateAlive);
-    final flag = objc.newDestroyedFlag();
+        keepIsolateAlive,
+        destroyedFlag: flag);
     final wrapper = _ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
         raw, rawListener, flag, objc.objCContext);
     objc.objectRelease(raw.cast());
@@ -13959,8 +13880,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
         wrapper,
         retain: false,
-        release: true,
-        destroyedFlag: flag);
+        release: true);
   }
 }
 
@@ -14205,6 +14125,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
                 NSStream.castFromPointer(arg1, retain: false, release: true),
                 NSStreamEvent.fromValue(arg2)),
         keepIsolateAlive);
+    final flag = objc.newDestroyedFlag();
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_blockingListenerCallable
             .nativeFunction
@@ -14215,16 +14136,15 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
                 arg0,
                 NSStream.castFromPointer(arg1, retain: false, release: true),
                 NSStreamEvent.fromValue(arg2)),
-        keepIsolateAlive);
-    final flag = objc.newDestroyedFlag();
+        keepIsolateAlive,
+        destroyedFlag: flag);
     final wrapper = _ObjectiveCBindings_wrapBlockingBlock_hoampi(
         raw, rawListener, flag, objc.objCContext);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<
-            ffi.Void Function(
-                ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)>(wrapper,
-        retain: false, release: true, destroyedFlag: flag);
+        ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream,
+            ffi.UnsignedLong)>(wrapper, retain: false, release: true);
   }
 }
 
@@ -14461,6 +14381,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
                         retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)),
         keepIsolateAlive);
+    final flag = objc.newDestroyedFlag();
     final rawListener = objc.newClosureBlock(
         _ObjCBlock_ffiVoid_idNSSecureCoding_NSError_blockingListenerCallable
             .nativeFunction
@@ -14473,15 +14394,15 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
                     : NSSecureCoding.castFromPointer(arg0,
                         retain: false, release: true),
                 NSError.castFromPointer(arg1, retain: false, release: true)),
-        keepIsolateAlive);
-    final flag = objc.newDestroyedFlag();
+        keepIsolateAlive,
+        destroyedFlag: flag);
     final wrapper = _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
         raw, rawListener, flag, objc.objCContext);
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
     return objc.ObjCBlock<
             ffi.Void Function(ffi.Pointer<objc.ObjCObject>?, NSError)>(wrapper,
-        retain: false, release: true, destroyedFlag: flag);
+        retain: false, release: true);
   }
 }
 
@@ -15408,7 +15329,6 @@ class Protocol extends objc.ObjCObjectBase {
   }
 }
 
-late final _class_DOBJCAtomicBool = objc.getClass("DOBJCAtomicBool");
 late final _class_DOBJCDartInputStreamAdapter =
     objc.getClass("DOBJCDartInputStreamAdapter");
 late final _class_DOBJCDartProtocol = objc.getClass("DOBJCDartProtocol");
@@ -16369,14 +16289,6 @@ final _objc_msgSend_1s2gdyk = objc.msgSendPointer
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<ffi.Char>)>();
-final _objc_msgSend_1s56lr9 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
-    .asFunction<
-        void Function(ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>, bool)>();
 final _objc_msgSend_1sotr3r = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -18334,7 +18246,6 @@ late final _sel_setSet_ = objc.registerName("setSet:");
 late final _sel_setSuggestedName_ = objc.registerName("setSuggestedName:");
 late final _sel_setTemporaryResourceValue_forKey_ =
     objc.registerName("setTemporaryResourceValue:forKey:");
-late final _sel_setValue_ = objc.registerName("setValue:");
 late final _sel_setWithArray_ = objc.registerName("setWithArray:");
 late final _sel_setWithCapacity_ = objc.registerName("setWithCapacity:");
 late final _sel_setWithObject_ = objc.registerName("setWithObject:");
@@ -18441,7 +18352,6 @@ late final _sel_uppercaseStringWithLocale_ =
     objc.registerName("uppercaseStringWithLocale:");
 late final _sel_user = objc.registerName("user");
 late final _sel_userInfo = objc.registerName("userInfo");
-late final _sel_value = objc.registerName("value");
 late final _sel_whitespaceAndNewlineCharacterSet =
     objc.registerName("whitespaceAndNewlineCharacterSet");
 late final _sel_whitespaceCharacterSet =

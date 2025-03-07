@@ -164,13 +164,19 @@ external ffi.Pointer<ffi.Bool> newFinalizableBool(
   Object owner,
 );
 
+@ffi.Native<Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ffi.Void>)>(
+    symbol: 'DOBJC_newFinalizableFlag')
+external Dart_FinalizableHandle newFinalizableFlag(
+  Object owner,
+  ffi.Pointer<ffi.Void> flag,
+);
+
 @ffi.Native<
-    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>,
-        ffi.Pointer<ffi.Void>)>(symbol: 'DOBJC_newFinalizableHandle')
+        Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>(
+    symbol: 'DOBJC_newFinalizableHandle')
 external Dart_FinalizableHandle newFinalizableHandle(
   Object owner,
   ffi.Pointer<ObjCObject> object,
-  ffi.Pointer<ffi.Void> destroyed_flag,
 );
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
