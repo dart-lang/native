@@ -8,13 +8,10 @@ import com.github.dart_lang.jnigen.apisummarizer.disasm.AsmSummarizer;
 import com.github.dart_lang.jnigen.apisummarizer.doclet.SummarizerDoclet;
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
 import com.github.dart_lang.jnigen.apisummarizer.util.ClassFinder;
-import com.github.dart_lang.jnigen.apisummarizer.util.InputStreamProvider;
+import com.github.dart_lang.jnigen.apisummarizer.util.JavaCoreClassFinder;
 import com.github.dart_lang.jnigen.apisummarizer.util.JsonWriter;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.*;
 import javax.tools.DocumentationTool;
 import javax.tools.JavaFileObject;
@@ -81,7 +78,7 @@ public class Main {
     var javaDoc = ToolProvider.getSystemDocumentationTool();
 
     var sourceClasses = new LinkedHashMap<String, List<JavaFileObject>>();
-    var binaryClasses = new LinkedHashMap<String, List<InputStreamProvider>>();
+    var binaryClasses = new LinkedHashMap<String, List<InputStream>>();
 
     for (var qualifiedName : options.args) {
       sourceClasses.put(qualifiedName, null);
@@ -102,7 +99,22 @@ public class Main {
       var foundSource = sourceClasses.get(qualifiedName) != null;
       var foundBinary = binaryClasses.get(qualifiedName) != null;
       if (!foundBinary && !foundSource) {
-        notFound.add(qualifiedName);
+        Map<String, InputStream> inputStreams = null;
+        try {
+          inputStreams = JavaCoreClassFinder.findAll(qualifiedName);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        if (inputStreams != null) {
+          inputStreams.forEach(
+              (className, inputStream) -> {
+                var list = new ArrayList<InputStream>();
+                list.add(inputStream);
+                binaryClasses.put(className, list);
+              });
+        } else {
+          notFound.add(qualifiedName);
+        }
       }
     }
 
