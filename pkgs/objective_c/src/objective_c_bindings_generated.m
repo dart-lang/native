@@ -1,6 +1,7 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
+#import "atomic_bool.h"
 #import "foundation.h"
 #import "input_stream_adapter.h"
 #import "protocol.h"
@@ -11,7 +12,7 @@
 
 typedef struct {
   int64_t version;
-  void* (*newWaiter)(void);
+  void* (*newWaiter)(void*);
   void (*awaitWaiter)(void*);
   void* (*currentIsolate)(void);
   void (*enterIsolate)(void*);
@@ -22,10 +23,12 @@ typedef struct {
 
 id objc_retainBlock(id);
 
-#define BLOCKING_BLOCK_IMPL(ctx, BLOCK_SIG, INVOKE_DIRECT, INVOKE_LISTENER)    \
+#define BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag,          \
+                            BLOCK_SIG, INVOKE_DIRECT, INVOKE_LISTENER)         \
   assert(ctx->version >= 1);                                                   \
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
+  id flagObject = (__bridge id)destroyedFlag;                                  \
   return BLOCK_SIG {                                                           \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
@@ -36,12 +39,14 @@ id objc_retainBlock(id);
       if (mayEnterIsolate) {                                                   \
         ctx->enterIsolate(targetIsolate);                                      \
       }                                                                        \
+      objc_retainBlock(block);                                                 \
       INVOKE_DIRECT;                                                           \
       if (mayEnterIsolate) {                                                   \
         ctx->exitIsolate();                                                    \
       }                                                                        \
     } else {                                                                   \
-      void* waiter = ctx->newWaiter();                                         \
+      void* waiter = ctx->newWaiter((__bridge void*)flagObject);               \
+      objc_retainBlock(listenerBlock);                                         \
       INVOKE_LISTENER;                                                         \
       ctx->awaitWaiter(waiter);                                                \
     }                                                                          \
@@ -126,13 +131,11 @@ ListenerTrampoline _ObjectiveCBindings_wrapListenerBlock_1b3bb6a(ListenerTrampol
 typedef void  (^BlockingTrampoline)(void * waiter, id arg0, id arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline _ObjectiveCBindings_wrapBlockingBlock_1b3bb6a(
-    BlockingTrampoline block, BlockingTrampoline listenerBlock,
+    BlockingTrampoline block, BlockingTrampoline listenerBlock, void* destroyedFlag,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(id arg0, id arg1, id arg2), {
-    objc_retainBlock(block);
+  BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag, ^void(id arg0, id arg1, id arg2), {
     block(nil, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
   }, {
-    objc_retainBlock(listenerBlock);
     listenerBlock(waiter, objc_retainBlock(arg0), (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2));
   });
 }
@@ -149,13 +152,11 @@ ListenerTrampoline_1 _ObjectiveCBindings_wrapListenerBlock_ovsamd(ListenerTrampo
 typedef void  (^BlockingTrampoline_1)(void * waiter, void * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_1 _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
-    BlockingTrampoline_1 block, BlockingTrampoline_1 listenerBlock,
+    BlockingTrampoline_1 block, BlockingTrampoline_1 listenerBlock, void* destroyedFlag,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0), {
-    objc_retainBlock(block);
+  BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag, ^void(void * arg0), {
     block(nil, arg0);
   }, {
-    objc_retainBlock(listenerBlock);
     listenerBlock(waiter, arg0);
   });
 }
@@ -178,13 +179,11 @@ ListenerTrampoline_2 _ObjectiveCBindings_wrapListenerBlock_18v1jvf(ListenerTramp
 typedef void  (^BlockingTrampoline_2)(void * waiter, void * arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_2 _ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
-    BlockingTrampoline_2 block, BlockingTrampoline_2 listenerBlock,
+    BlockingTrampoline_2 block, BlockingTrampoline_2 listenerBlock, void* destroyedFlag,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, id arg1), {
-    objc_retainBlock(block);
+  BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag, ^void(void * arg0, id arg1), {
     block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1));
   }, {
-    objc_retainBlock(listenerBlock);
     listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1));
   });
 }
@@ -207,13 +206,11 @@ ListenerTrampoline_3 _ObjectiveCBindings_wrapListenerBlock_hoampi(ListenerTrampo
 typedef void  (^BlockingTrampoline_3)(void * waiter, void * arg0, id arg1, NSStreamEvent arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_3 _ObjectiveCBindings_wrapBlockingBlock_hoampi(
-    BlockingTrampoline_3 block, BlockingTrampoline_3 listenerBlock,
+    BlockingTrampoline_3 block, BlockingTrampoline_3 listenerBlock, void* destroyedFlag,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, id arg1, NSStreamEvent arg2), {
-    objc_retainBlock(block);
+  BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag, ^void(void * arg0, id arg1, NSStreamEvent arg2), {
     block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
   }, {
-    objc_retainBlock(listenerBlock);
     listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1), arg2);
   });
 }
@@ -236,13 +233,11 @@ ListenerTrampoline_4 _ObjectiveCBindings_wrapListenerBlock_pfv6jd(ListenerTrampo
 typedef void  (^BlockingTrampoline_4)(void * waiter, id arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_4 _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
-    BlockingTrampoline_4 block, BlockingTrampoline_4 listenerBlock,
+    BlockingTrampoline_4 block, BlockingTrampoline_4 listenerBlock, void* destroyedFlag,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(id arg0, id arg1), {
-    objc_retainBlock(block);
+  BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag, ^void(id arg0, id arg1), {
     block(nil, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
   }, {
-    objc_retainBlock(listenerBlock);
     listenerBlock(waiter, (__bridge id)(__bridge_retained void*)(arg0), (__bridge id)(__bridge_retained void*)(arg1));
   });
 }

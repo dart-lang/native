@@ -424,7 +424,7 @@ class Writer {
 
 typedef struct {
   int64_t version;
-  void* (*newWaiter)(void);
+  void* (*newWaiter)(void*);
   void (*awaitWaiter)(void*);
   void* (*currentIsolate)(void);
   void (*enterIsolate)(void*);
@@ -435,10 +435,12 @@ typedef struct {
 
 id objc_retainBlock(id);
 
-#define BLOCKING_BLOCK_IMPL(ctx, BLOCK_SIG, INVOKE_DIRECT, INVOKE_LISTENER)    \
+#define BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag,          \
+                            BLOCK_SIG, INVOKE_DIRECT, INVOKE_LISTENER)         \
   assert(ctx->version >= 1);                                                   \
   void* targetIsolate = ctx->currentIsolate();                                 \
   int64_t targetPort = ctx->getMainPortId == NULL ? 0 : ctx->getMainPortId();  \
+  id flagObject = (__bridge id)destroyedFlag;                                  \
   return BLOCK_SIG {                                                           \
     void* currentIsolate = ctx->currentIsolate();                              \
     bool mayEnterIsolate =                                                     \
@@ -449,12 +451,14 @@ id objc_retainBlock(id);
       if (mayEnterIsolate) {                                                   \
         ctx->enterIsolate(targetIsolate);                                      \
       }                                                                        \
+      objc_retainBlock(block);                                                 \
       INVOKE_DIRECT;                                                           \
       if (mayEnterIsolate) {                                                   \
         ctx->exitIsolate();                                                    \
       }                                                                        \
     } else {                                                                   \
-      void* waiter = ctx->newWaiter();                                         \
+      void* waiter = ctx->newWaiter((__bridge void*)flagObject);               \
+      objc_retainBlock(listenerBlock);                                         \
       INVOKE_LISTENER;                                                         \
       ctx->awaitWaiter(waiter);                                                \
     }                                                                          \

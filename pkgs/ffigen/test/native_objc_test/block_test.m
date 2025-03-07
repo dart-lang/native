@@ -218,12 +218,12 @@ void objc_release(id value);
   }] start];
 }
 
-+ (void)callBlockOnNewThread:(VoidBlock)blockingBlock
++ (NSThread*)callBlockOnNewThread:(VoidBlock)blockingBlock
         andListener:(ResultBlock)resultBlock {
-  [[[NSThread alloc] initWithBlock:^void() {
+  return [[NSThread alloc] initWithBlock:^void() {
     blockingBlock();
     resultBlock(1234);
-  }] start];
+  }];
 }
 
 @end

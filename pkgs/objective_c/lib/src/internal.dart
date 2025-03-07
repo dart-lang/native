@@ -172,9 +172,10 @@ void _ensureDartAPI() {
 }
 
 c.Dart_FinalizableHandle _newFinalizableHandle(
-    _FinalizablePointer finalizable) {
+    _FinalizablePointer finalizable, Pointer<Void> destroyedFlag) {
   _ensureDartAPI();
-  return c.newFinalizableHandle(finalizable, finalizable.ptr.cast());
+  return c.newFinalizableHandle(
+      finalizable, finalizable.ptr.cast(), destroyedFlag);
 }
 
 Pointer<Bool> _newFinalizableBool(Object owner) {
@@ -189,10 +190,10 @@ abstract final class _ObjCReference<T extends NativeType>
   final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
   final Pointer<Bool> _isReleased;
 
-  _ObjCReference(this._finalizable,
+  _ObjCReference(this._finalizable, Pointer<Void> destroyedFlag,
       {required bool retain, required bool release})
       : _ptrFinalizableHandle =
-            release ? _newFinalizableHandle(_finalizable) : null,
+            release ? _newFinalizableHandle(_finalizable, destroyedFlag) : null,
         _isReleased = _newFinalizableBool(_finalizable) {
     assert(_isValid(_finalizable.ptr));
     if (retain) {
@@ -271,7 +272,7 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 @pragma('vm:deeply-immutable')
 final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
-      : super(_FinalizablePointer(ptr));
+      : super(_FinalizablePointer(ptr), nullptr);
 
   @override
   void _retain(ObjectPtr ptr) => c.objectRetain(ptr);
@@ -324,8 +325,11 @@ class ObjCProtocolBase extends ObjCObjectBase {
 
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
-  ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
-      : super(_FinalizablePointer(ptr));
+  ObjCBlockRef(BlockPtr ptr,
+      {required super.retain,
+      required super.release,
+      required Pointer<Void> destroyedFlag})
+      : super(_FinalizablePointer(ptr), destroyedFlag);
 
   @override
   void _retain(BlockPtr ptr) => c.blockRetain(ptr.cast());
@@ -336,8 +340,14 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
 
 /// Only for use by ffigen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
-  ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
-      : super(ObjCBlockRef(ptr, retain: retain, release: release));
+  ObjCBlockBase(BlockPtr ptr,
+      {required bool retain,
+      required bool release,
+      Pointer<Void>? destroyedFlag})
+      : super(ObjCBlockRef(ptr,
+            retain: retain,
+            release: release,
+            destroyedFlag: destroyedFlag ?? nullptr));
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(

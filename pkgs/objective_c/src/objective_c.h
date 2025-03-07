@@ -21,8 +21,8 @@ FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl *block);
 
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.
-FFI_EXPORT Dart_FinalizableHandle
-DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObject *object);
+FFI_EXPORT Dart_FinalizableHandle DOBJC_newFinalizableHandle(
+    Dart_Handle owner, ObjCObject* object, void* destroyed_flag);
 
 // Delete a finalizable handle. Doesn't run the finalization callback, so
 // doesn't clean up the assocated pointer.
@@ -45,9 +45,18 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
 // Functions for creating a waiter, signaling it, and waiting for the signal. A
 // waiter is one-time-use, and the object that newWaiter creates will be
 // destroyed once signalWaiter and awaitWaiter are called exactly once.
-FFI_EXPORT void *DOBJC_newWaiter(void);
+FFI_EXPORT void *DOBJC_newWaiter(void* flag);
 FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
+
+// A destroyed flag is a DOBJCAtomicBool used to track whether a Dart object is
+// still alive. DOBJC_newDestroyedFlag returns a +1 reference that is held in a
+// _DOBJCObjectWithDestroyedFlag, and balanced by DOBJC_flipDestroyedFlag. Other
+// code that needs to know whether the object is alive can cast it to a
+// DOBJCAtomicBool, hold a strong reference to it (so it outlives the object it
+// is tracking), and check its value.
+FFI_EXPORT void *DOBJC_newDestroyedFlag();
+FFI_EXPORT void DOBJC_flipDestroyedFlag(void* flag);
 
 // Context object containing functions needed by the ffigen bindings. Any
 // changes to this struct should bump the `version` field filled in by
@@ -55,7 +64,7 @@ FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 // fields. Keep in sync with the struct defined in ffigen's writer.dart.
 typedef struct _DOBJC_Context {
   int64_t version;
-  void* (*newWaiter)(void);
+  void* (*newWaiter)(void*);
   void (*awaitWaiter)(void*);
   Dart_Isolate (*currentIsolate)(void);
   void (*enterIsolate)(Dart_Isolate);

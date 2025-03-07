@@ -189,31 +189,26 @@ void main() {
     });
 
     test('Blocking block cancel', () async {
-      final port = ReceivePort();
-      final sendPort = port.sendPort;
+      final resultPort = ReceivePort();
+      final resultSendPort = resultPort.sendPort;
       final resultBlock = ResultBlock.listener((int result) {
-        sendPort.send(result);
+        resultSendPort.send(result);
       });
-      await Isolate.run(() async {
-        final blockingCompleter = Completer<void>();
-        final block = VoidBlock.blocking(() {
-          blockingCompleter.complete();
+
+      final isolate = await Isolate.spawn((_) async {
+        ObjCBlock<Void Function()>? block = VoidBlock.blocking(() {
           while (true) {
             // Block forever.
           }
         });
-        BlockTester.callBlockOnNewThread_andListener_(block, resultBlock);
-
-        // Wait for the blocking block to start running.
-        await blockingCompleter.future;
-
-        // Kill the isolate that owns the blocking block, while the block is
-        // still running. The response message will never be sent. This cancels
-        // the waitier waiting for the block, allowing the native function to
-        // continue.
+        final thread =
+            BlockTester.callBlockOnNewThread_andListener_(block, resultBlock);
+        block = null;
+        thread.start();
         Isolate.current.kill();
-      });
-      expect(await port.first, 1234);
+      }, null);
+
+      expect(await resultPort.first, 1234);
     });
 
     test('Float block', () {

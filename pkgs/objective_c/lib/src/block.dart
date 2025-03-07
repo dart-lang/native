@@ -26,7 +26,8 @@ import 'internal.dart';
 /// out the block's type is to simply copy it from the ffigen generated API.
 class ObjCBlock<T extends Function> extends ObjCBlockBase {
   /// This constructor is only for use by ffigen bindings.
-  ObjCBlock(super.ptr, {required super.retain, required super.release});
+  ObjCBlock(super.ptr,
+      {required super.retain, required super.release, super.destroyedFlag});
 }
 
 /// A sentinel class representing the `ns_returns_retained` attribute for

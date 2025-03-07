@@ -7,8 +7,11 @@
 #import <Foundation/NSThread.h>
 #import <dispatch/dispatch.h>
 
+#include "atomic_bool.h"
 #include "ffi.h"
 #include "os_version.h"
+
+uint64_t getObjectRetainCount(void* object);
 
 FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 #ifdef NO_MAIN_THREAD_DISPATCH
@@ -24,19 +27,26 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 #endif
 }
 
+@implementation DOBJCAtomicBool
+-(instancetype)init {
+  _value = false;
+  return self;
+}
+@end
+
 @interface DOBJCWaiter : NSObject {}
 @property(strong) NSCondition* cond;
 @property bool done;
+@property(strong) DOBJCAtomicBool* block_destroyed;
 -(void)signal;
 -(void)wait;
 @end
 
 @implementation DOBJCWaiter
--(instancetype)init {
-  if (self) {
-    _cond = [[NSCondition alloc] init];
-    _done = false;
-  }
+-(instancetype)initWithDestroyedFlag: (DOBJCAtomicBool*) block_destroyed {
+  _cond = [[NSCondition alloc] init];
+  _done = false;
+  _block_destroyed = block_destroyed;
   return self;
 }
 -(void)signal {
@@ -47,15 +57,17 @@ FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
 }
 -(void)wait {
   [_cond lock];
-  while (!_done) {
-    [_cond wait];
+  while (!_done && !_block_destroyed.value) {
+    [_cond waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
   }
   [_cond unlock];
 }
 @end
 
-FFI_EXPORT void* DOBJC_newWaiter(void) {
-  DOBJCWaiter* w = [[DOBJCWaiter alloc] init];
+FFI_EXPORT void* DOBJC_newWaiter(void* flag) {
+  DOBJCAtomicBool* block_destroyed = (__bridge DOBJCAtomicBool*)(flag);
+  DOBJCWaiter* w = [[DOBJCWaiter alloc] initWithDestroyedFlag: block_destroyed];
+
   // __bridge_retained increments the ref count, __bridge_transfer decrements
   // it, and __bridge doesn't change it. One of the __bridge_retained calls is
   // balanced by the __bridge_transfer in signalWaiter, and the other is
@@ -71,6 +83,14 @@ FFI_EXPORT void DOBJC_signalWaiter(void* waiter) {
 
 FFI_EXPORT void DOBJC_awaitWaiter(void* waiter) {
   [(__bridge_transfer DOBJCWaiter*)waiter wait];
+}
+
+FFI_EXPORT void *DOBJC_newDestroyedFlag() {
+  return (__bridge_retained void*)[[DOBJCAtomicBool alloc] init];
+}
+
+FFI_EXPORT void DOBJC_flipDestroyedFlag(void* flag) {
+  ((__bridge_transfer DOBJCAtomicBool*)flag).value = true;
 }
 
 FFI_EXPORT Version DOBJC_getOsVesion(void) {

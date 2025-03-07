@@ -80,6 +80,12 @@ external ffi.Pointer<DOBJC_Context> fillContext(
   ffi.Pointer<DOBJC_Context> context,
 );
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    symbol: 'DOBJC_flipDestroyedFlag', isLeaf: true)
+external void flipDestroyedFlag(
+  ffi.Pointer<ffi.Void> flag,
+);
+
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ffi.Char>)>(
     symbol: 'objc_getClass', isLeaf: true)
 external ffi.Pointer<ObjCObject> getClass(
@@ -148,6 +154,10 @@ external void msgSendFpret();
 @ffi.Native<ffi.Void Function()>(symbol: 'objc_msgSend_stret')
 external void msgSendStret();
 
+@ffi.Native<ffi.Pointer<ffi.Void> Function()>(
+    symbol: 'DOBJC_newDestroyedFlag', isLeaf: true)
+external ffi.Pointer<ffi.Void> newDestroyedFlag();
+
 @ffi.Native<ffi.Pointer<ffi.Bool> Function(ffi.Handle)>(
     symbol: 'DOBJC_newFinalizableBool')
 external ffi.Pointer<ffi.Bool> newFinalizableBool(
@@ -155,16 +165,19 @@ external ffi.Pointer<ffi.Bool> newFinalizableBool(
 );
 
 @ffi.Native<
-        Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)>(
-    symbol: 'DOBJC_newFinalizableHandle')
+    Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>,
+        ffi.Pointer<ffi.Void>)>(symbol: 'DOBJC_newFinalizableHandle')
 external Dart_FinalizableHandle newFinalizableHandle(
   Object owner,
   ffi.Pointer<ObjCObject> object,
+  ffi.Pointer<ffi.Void> destroyed_flag,
 );
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function()>(
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>(
     symbol: 'DOBJC_newWaiter', isLeaf: true)
-external ffi.Pointer<ffi.Void> newWaiter();
+external ffi.Pointer<ffi.Void> newWaiter(
+  ffi.Pointer<ffi.Void> flag,
+);
 
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
     symbol: 'objc_autorelease', isLeaf: true)
@@ -210,8 +223,9 @@ final class DOBJC_Context extends ffi.Struct {
   @ffi.Int64()
   external int version;
 
-  external ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
-      newWaiter;
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>> newWaiter;
 
   external ffi
       .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>

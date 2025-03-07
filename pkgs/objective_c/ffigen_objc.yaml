@@ -7,6 +7,7 @@ output:
   objc-bindings: 'src/objective_c_bindings_generated.m'
 headers:
   entry-points:
+    - 'src/atomic_bool.h'
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
     - 'src/protocol.h'
@@ -24,6 +25,7 @@ external-versions:
 objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
+    - DOBJCAtomicBool
     - DOBJCDartInputStreamAdapter
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
@@ -63,6 +65,7 @@ objc-interfaces:
     - NSValue
     - Protocol
   rename:
+    'DOBJCAtomicBool': 'AtomicBool'
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
     'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
     'DOBJCDartProtocol': 'DartProtocol'

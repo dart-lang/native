@@ -15,6 +15,7 @@ export 'src/c_bindings_generated.dart'
         ObjCProtocol,
         ObjCSelector,
         blockRetain,
+        newDestroyedFlag,
         objectRelease,
         objectRetain,
         signalWaiter;

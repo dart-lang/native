@@ -251,8 +251,8 @@ abstract final class $name {
   /// until it is garbage collected by both Dart and ObjC.
   static $blockType fromFunction(${func.dartType} fn,
           {bool keepIsolateAlive = true}) =>
-      $blockType($newClosureBlock($closureCallable, $convFn, keepIsolateAlive),
-          retain: false, release: true);
+      $blockType($newClosureBlock($closureCallable, $convFn,
+          keepIsolateAlive), retain: false, release: true);
 ''');
 
     // Listener block constructor is only available for void blocks.
@@ -274,6 +274,7 @@ abstract final class $name {
           '(${func.paramsFfiDartType}) => $listenerConvFnInvocation';
       final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
+      final newDestroyedFlag = ObjCBuiltInFunctions.newDestroyedFlag.gen(w);
 
       s.write('''
 
@@ -312,10 +313,12 @@ abstract final class $name {
     final rawListener = $newClosureBlock(
         $blockingListenerCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
+    final flag = $newDestroyedFlag();
+    final wrapper = $wrapBlockingFn(raw, rawListener, flag, $objCContext);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
-    return $blockType(wrapper, retain: false, release: true);
+    return $blockType(
+        wrapper, retain: false, release: true, destroyedFlag: flag);
   }
 ''');
     }
@@ -405,13 +408,11 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
-    $blockingName block, $blockingName listenerBlock,
+    $blockingName block, $blockingName listenerBlock, void* destroyedFlag,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void($argStr), {
-    ${generateRetain('block')};
+  BLOCKING_BLOCK_IMPL(ctx, block, listenerBlock, destroyedFlag, ^void($argStr), {
     block(${blockingRetains.join(', ')});
   }, {
-    ${generateRetain('listenerBlock')};
     listenerBlock(${blockingListenerRetains.join(', ')});
   });
 }
