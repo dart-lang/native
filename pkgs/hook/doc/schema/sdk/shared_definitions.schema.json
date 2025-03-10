@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "package:hook party:sdk shared definitions",
+  "allOf": [
+    {
+      "$ref": "../shared/shared_definitions.schema.json#"
+    }
+  ],
+  "definitions": {
+    "BuildInput": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildInput"
+        }
+      ]
+    },
+    "BuildOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildOutput"
+        }
+      ]
+    },
+    "HookInput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookInput"
+        },
+        {
+          "properties": {
+            "out_file": {
+              "$comment": "'out_file' is not read by older hooks. If the file doesn't exist, then it must be $out_dir/output.json."
+            },
+            "version": {
+              "$comment": "Older SDKs will read 'version', so it must be provided."
+            }
+          },
+          "required": [
+            "out_file",
+            "version"
+          ]
+        }
+      ]
+    },
+    "HookOutput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookOutput"
+        }
+      ]
+    },
+    "LinkInput": {
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkInput"
+        },
+        {
+          "required": [
+            "out_file",
+            "version"
+          ]
+        }
+      ]
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkOutput"
+        }
+      ]
+    }
+  }
+}

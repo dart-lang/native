@@ -1,0 +1,19 @@
+{
+  "$schema": "../../doc/schema/hook/link_output.schema.json",
+  "assets": [
+    {
+      "some_key": "some_value",
+      "type": "some_asset_type"
+    },
+    {
+      "some_other_key": "some_value",
+      "type": "some_other_asset_type"
+    }
+  ],
+  "dependencies": [
+    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json",
+    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json"
+  ],
+  "timestamp": "2025-02-11 11:20:20.000",
+  "version": "1.9.0"
+}

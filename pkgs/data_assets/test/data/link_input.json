@@ -1,0 +1,29 @@
+{
+  "$schema": "../../doc/schema/sdk/link_input.schema.json",
+  "assets": [
+    {
+      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+      "name": "assets/data_0.json",
+      "package": "simple_link",
+      "type": "data"
+    },
+    {
+      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
+      "name": "assets/data_1.json",
+      "package": "simple_link",
+      "type": "data"
+    }
+  ],
+  "config": {
+    "build_asset_types": [
+      "data"
+    ],
+    "linking_enabled": false
+  },
+  "out_dir": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/out/",
+  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/link/",
+  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/output.json",
+  "package_name": "my_package",
+  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+  "version": "1.9.0"
+}

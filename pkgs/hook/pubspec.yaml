@@ -1,0 +1,14 @@
+name: hook
+version: 0.1.0-wip
+repository: https://github.com/dart-lang/native/tree/main/pkgs/hook
+
+publish_to: none
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dev_dependencies:
+  dart_flutter_team_lints: ^2.1.1
+  json_schema: ^5.2.0
+  path: ^1.9.1
+  test: ^1.25.15
