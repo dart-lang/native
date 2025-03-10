@@ -6,9 +6,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
-import '../test/schema/helpers.dart' show packageUri;
+import '../test/schema/helpers.dart' show findPackageRoot;
 
 void main() {
+  final packageUri = findPackageRoot('hook');
+
   final directories = [
     Directory.fromUri(packageUri),
     Directory.fromUri(packageUri.resolve('../code_assets/')),

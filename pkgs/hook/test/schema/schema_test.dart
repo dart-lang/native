@@ -20,3 +20,5 @@ void main() {
     packageUri: packageUri,
   );
 }
+
+Uri packageUri = findPackageRoot('hook');

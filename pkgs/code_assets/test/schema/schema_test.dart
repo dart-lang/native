@@ -61,6 +61,8 @@ void main() {
   );
 }
 
+Uri packageUri = findPackageRoot('code_assets');
+
 FieldsFunction _codeFields(AllTestData allTestData) {
   final dataUri = packageUri.resolve('test/data/build_output_macos.json');
   final assets =

@@ -49,8 +49,6 @@ Uri findPackageRoot(String packageName) {
   );
 }
 
-Uri packageUri = findPackageRoot('hook');
-
 extension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
 }

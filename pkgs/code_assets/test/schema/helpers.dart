@@ -2,8 +2,4 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../../hook/test/schema/helpers.dart';
-
-export '../../../hook/test/schema/helpers.dart' hide packageUri;
-
-Uri packageUri = findPackageRoot('code_assets');
+export '../../../hook/test/schema/helpers.dart';

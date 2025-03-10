@@ -30,6 +30,8 @@ void main() {
   );
 }
 
+Uri packageUri = findPackageRoot('data_assets');
+
 const _dataAssetFields = ['package', 'name', 'file'];
 
 List<(List<Object>, void Function(ValidationResults result))> _dataFields({
