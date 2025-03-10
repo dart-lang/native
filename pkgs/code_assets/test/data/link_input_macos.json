@@ -1,0 +1,39 @@
+{
+  "$schema": "../../doc/schema/sdk/link_input.schema.json",
+  "assets": [
+    {
+      "architecture": "arm64",
+      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/iv6i0d/native_add/.dart_tool/native_assets_builder/native_add/c6b312c90c95d2d98ffb6760a738fb36/out/libnative_add.a",
+      "id": "package:native_add/src/native_add_bindings_generated.dart",
+      "link_mode": {
+        "type": "static"
+      },
+      "os": "macos",
+      "type": "native_code"
+    }
+  ],
+  "config": {
+    "build_asset_types": [
+      "native_code"
+    ],
+    "code": {
+      "c_compiler": {
+        "ar": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar",
+        "cc": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
+        "ld": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
+      },
+      "link_mode_preference": "dynamic",
+      "macos": {
+        "target_version": 13
+      },
+      "target_architecture": "arm64",
+      "target_os": "macos"
+    }
+  },
+  "out_dir": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/out/",
+  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/link/",
+  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/output.json",
+  "package_name": "my_package",
+  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+  "version": "1.9.0"
+}
