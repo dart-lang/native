@@ -1,4 +1,4 @@
-## 7.0.0-wip
+## 7.0.0
 
 - Use ffigen 18.0.0
 - `ObjCProtocolBuilder` supports implementing protocol methods directly using a
@@ -15,6 +15,7 @@
 - __Breaking change__: Some API names have changed due to ffigen's new duplicate
   identifier renaming logic. `$` is now used as a delimiter, to match jnigen's
   renaming logic.
+- Added a `checkOsVersion` function.
 
 ## 6.0.0
 

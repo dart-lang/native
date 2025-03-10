@@ -47,7 +47,7 @@ class ObjCBuiltInFunctions {
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
   static const unimplementedOptionalMethodException =
       ObjCImport('UnimplementedOptionalMethodException');
-  static const checkOsVersion = ObjCImport('checkOsVersion');
+  static const checkOsVersion = ObjCImport('checkOsVersionInternal');
 
   // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 
