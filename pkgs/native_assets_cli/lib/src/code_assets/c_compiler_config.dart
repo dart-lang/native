@@ -5,7 +5,7 @@
 import 'package:collection/collection.dart';
 
 import '../../code_assets.dart';
-import '../utils/json.dart';
+import 'syntax.g.dart' as syntax;
 
 /// The configuration for a C toolchain.
 final class CCompilerConfig {
@@ -41,61 +41,14 @@ final class CCompilerConfig {
   ///
   /// The json is expected to be valid encoding obtained via
   /// [CCompilerConfig.toJson].
-  factory CCompilerConfig.fromJson(Map<String, Object?> json) {
-    WindowsCCompilerConfig? winConfig;
-    if (json[_windowsConfigKey] != null) {
-      final dcpJson = json
-          .map$(_windowsConfigKey)
-          .optionalMap(_developerCommandPromptConfigKey);
-      winConfig = WindowsCCompilerConfig(
-        developerCommandPrompt:
-            dcpJson == null
-                ? null
-                : DeveloperCommandPrompt(
-                  script: dcpJson.path(_scriptConfigKey),
-                  arguments: dcpJson.stringList(_argumentsConfigKey),
-                ),
-      );
-    } else if (json[_envScriptConfigKeyDeprecated] != null) {
-      winConfig = WindowsCCompilerConfig(
-        developerCommandPrompt: DeveloperCommandPrompt(
-          script: json.path(_envScriptConfigKeyDeprecated),
-          arguments: json.stringList(_envScriptArgsConfigKeyDeprecated),
-        ),
-      );
-    }
-    return CCompilerConfig(
-      archiver: json.path(_arConfigKey),
-      compiler: json.path(_ccConfigKey),
-      linker: json.path(_ldConfigKey),
-      windows: winConfig,
-    );
-  }
+  factory CCompilerConfig.fromJson(Map<String, Object?> json) =>
+      CCompilerConfigSyntax.fromSyntax(syntax.CCompilerConfig.fromJson(json));
 
   /// The json representation of this [CCompilerConfig].
   ///
   /// The returned json can be used in [CCompilerConfig.fromJson] to
   /// obtain a [CCompilerConfig] again.
-  Map<String, Object> toJson() => {
-    _arConfigKey: archiver.toFilePath(),
-    _ccConfigKey: compiler.toFilePath(),
-    _ldConfigKey: linker.toFilePath(),
-    if (_windows?.developerCommandPrompt?.script != null)
-      _envScriptConfigKeyDeprecated:
-          _windows!.developerCommandPrompt!.script.toFilePath(),
-    if (_windows?.developerCommandPrompt?.arguments != null)
-      _envScriptArgsConfigKeyDeprecated:
-          _windows!.developerCommandPrompt!.arguments,
-    if (_windows != null)
-      _windowsConfigKey: {
-        if (_windows.developerCommandPrompt != null)
-          _developerCommandPromptConfigKey: {
-            _argumentsConfigKey: _windows.developerCommandPrompt!.arguments,
-            _scriptConfigKey:
-                _windows.developerCommandPrompt!.script.toFilePath(),
-          },
-      },
-  }..sortOnKey();
+  Map<String, Object?> toJson() => toSyntax().json;
 
   @override
   bool operator ==(Object other) {
@@ -129,16 +82,6 @@ final class CCompilerConfig {
     ),
   );
 }
-
-const _arConfigKey = 'ar';
-const _ccConfigKey = 'cc';
-const _ldConfigKey = 'ld';
-const _envScriptConfigKeyDeprecated = 'env_script';
-const _envScriptArgsConfigKeyDeprecated = 'env_script_arguments';
-const _windowsConfigKey = 'windows';
-const _developerCommandPromptConfigKey = 'developer_command_prompt';
-const _scriptConfigKey = 'script';
-const _argumentsConfigKey = 'arguments';
 
 /// Configuration provided when [CodeConfig.targetOS] is [OS.windows].
 final class WindowsCCompilerConfig {
@@ -176,4 +119,48 @@ final class DeveloperCommandPrompt {
   final List<String> arguments;
 
   DeveloperCommandPrompt({required this.script, required this.arguments});
+}
+
+extension CCompilerConfigSyntax on CCompilerConfig {
+  syntax.CCompilerConfig toSyntax() => syntax.CCompilerConfig(
+    ar: archiver,
+    cc: compiler,
+    ld: linker,
+    envScript: _windows?.developerCommandPrompt?.script,
+    envScriptArguments: _windows?.developerCommandPrompt?.arguments,
+    windows: _windows?.toSyntax(),
+  );
+
+  static CCompilerConfig fromSyntax(syntax.CCompilerConfig cCompiler) =>
+      CCompilerConfig(
+        archiver: cCompiler.ar,
+        compiler: cCompiler.cc,
+        linker: cCompiler.ld,
+        windows: switch (cCompiler.windows) {
+          null => null,
+          final windows => WindowsCCompilerConfigSyntax.fromSyntax(windows),
+        },
+      );
+}
+
+extension WindowsCCompilerConfigSyntax on WindowsCCompilerConfig {
+  syntax.Windows toSyntax() => syntax.Windows(
+    developerCommandPrompt: developerCommandPrompt?.toSyntax(),
+  );
+
+  static WindowsCCompilerConfig fromSyntax(syntax.Windows windows) =>
+      WindowsCCompilerConfig(
+        developerCommandPrompt: switch (windows.developerCommandPrompt) {
+          null => null,
+          final dcp => DeveloperCommandPromptSyntax.fromSyntax(dcp),
+        },
+      );
+}
+
+extension DeveloperCommandPromptSyntax on DeveloperCommandPrompt {
+  syntax.DeveloperCommandPrompt toSyntax() =>
+      syntax.DeveloperCommandPrompt(script: script, arguments: arguments);
+
+  static DeveloperCommandPrompt fromSyntax(syntax.DeveloperCommandPrompt dcp) =>
+      DeveloperCommandPrompt(script: dcp.script, arguments: dcp.arguments);
 }

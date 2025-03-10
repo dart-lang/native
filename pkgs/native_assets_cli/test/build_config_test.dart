@@ -166,8 +166,10 @@ void main() async {
           predicate(
             (e) =>
                 e is FormatException &&
-                e.message.contains("Unexpected value '[]' ") &&
-                e.message.contains('Expected a Map<String, Object?>'),
+                e.message.contains('Unexpected value') &&
+                e.message.contains(
+                  'Expected a Map<String, Map<String, Object?>>?',
+                ),
           ),
         ),
       );
