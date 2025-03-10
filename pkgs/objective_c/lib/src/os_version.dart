@@ -18,15 +18,17 @@ Version _osVersion = () {
 /// Returns whether the current MacOS/iOS version is greater than or equal to
 /// the given version.
 ///
+/// Designed to replace Objective-C's `@available` check.
+///
 /// The each platform's version is optional, and the function returns false if
 /// no version is provided for the current platform.
-bool checkOsVersion({Version? iOS, Version? macOS}) {
-  if (Platform.isIOS) return _checkOsVersionImpl(iOS);
-  if (Platform.isMacOS) return _checkOsVersionImpl(macOS);
+bool checkOSVersion({Version? iOS, Version? macOS}) {
+  if (Platform.isIOS) return _checkOSVersionImpl(iOS);
+  if (Platform.isMacOS) return _checkOSVersionImpl(macOS);
   throw UnsupportedError('Only supported on iOS and macOS');
 }
 
-bool _checkOsVersionImpl(Version? version) {
+bool _checkOSVersionImpl(Version? version) {
   if (version == null) return false;
   return osVersion >= version;
 }
