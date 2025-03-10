@@ -80,6 +80,12 @@ import Foundation
     }
   }
 
+  @objc public var mutatingProperty: Int {
+    get {
+      wrappedInstance.mutatingProperty
+    }
+  }
+
   init(_ wrappedInstance: MyStruct) {
     self.wrappedInstance = wrappedInstance
   }
