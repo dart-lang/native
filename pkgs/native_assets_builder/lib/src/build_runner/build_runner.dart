@@ -433,6 +433,8 @@ ${e.message}
     'TMP', // Needed for temp dirs in Dart process.
     'TMPDIR', // Needed for temp dirs in Dart process.
     'USER_PROFILE', // Needed to find tools in default install locations.
+    'WINDIR', // Needed for CMake.
+    'SYSTEMDRIVE', // Needed for CMake.
   };
 
   Future<HookOutput?> _runHookForPackage(
