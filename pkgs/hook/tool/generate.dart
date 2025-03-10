@@ -38,7 +38,10 @@ const _publicSetters = {
 
 String dependency(List<String> packages) {
   if (packages.length != 2) {
-    throw UnimplementedError();
+    throw UnimplementedError(
+      'Extensions on extensions not supported. '
+      'So, only expect at most two packages.',
+    );
   }
   if (packageImports[packages[0]]!.contains(packages[1])) {
     return packages[1];
@@ -46,12 +49,15 @@ String dependency(List<String> packages) {
   if (packageImports[packages[1]]!.contains(packages[0])) {
     return packages[0];
   }
-  throw UnimplementedError();
+  throw StateError('Unknown packages: $packages');
 }
 
 String importer(List<String> packages) {
   if (packages.length != 2) {
-    throw UnimplementedError();
+    throw UnimplementedError(
+      'Extensions on extensions not supported. '
+      'So, only expect at most two packages.',
+    );
   }
   if (packageImports[packages[0]]!.contains(packages[1])) {
     return packages[0];
@@ -59,7 +65,7 @@ String importer(List<String> packages) {
   if (packageImports[packages[1]]!.contains(packages[0])) {
     return packages[1];
   }
-  throw UnimplementedError();
+  throw StateError('Unknown packages: $packages');
 }
 
 void main() {
@@ -143,7 +149,10 @@ String generateExtension(JsonSchemas schemas) {
   final baseSchemas = schemas.baseSchemas;
   final baseName = baseSchemas.className;
   if (baseName != typeName) {
-    throw UnimplementedError();
+    throw StateError(
+      'Expected the class name of the extension '
+      'to be identical to the base schema class name.',
+    );
   }
   final basePropertyKeys = baseSchemas.propertyKeys;
   final extensionPropertyKeys =
@@ -479,7 +488,6 @@ String generateDartType(
             final itemType = items.type;
             switch (itemType) {
               case SchemaType.object:
-                if (required) throw UnimplementedError();
                 final typeName = items.className!;
                 dartTypeNonNullable = 'Map<String, List<$typeName>>';
               default:
@@ -489,12 +497,16 @@ String generateDartType(
             final additionalPropertiesBool =
                 additionalPropertiesSchema.additionalPropertiesBool;
             if (additionalPropertiesBool != true) {
-              throw UnimplementedError(additionalPropertiesBool.toString());
+              throw UnimplementedError(
+                'Expected an object with arbitrary properties.',
+              );
             }
             dartTypeNonNullable = 'Map<String, Map<String, Object?>>';
           case null:
             if (schemas.additionalPropertiesBool != true) {
-              throw UnimplementedError();
+              throw UnimplementedError(
+                'Expected an object with arbitrary properties.',
+              );
             }
             dartTypeNonNullable = 'Map<String, Object?>';
           default:
@@ -641,7 +653,11 @@ set $setterName(String? value) {
             final itemType = items.type;
             switch (itemType) {
               case SchemaType.object:
-                if (required) throw UnimplementedError();
+                if (required) {
+                  throw UnimplementedError(
+                    'Only implemented for nullable property.',
+                  );
+                }
                 final typeName = items.className!;
                 result += '''
 Map<String, List<$typeName>>? get $fieldName {
@@ -681,7 +697,9 @@ set $setterName(Map<String, List<$typeName>>? value) {
             final additionalPropertiesBool =
                 additionalPropertiesSchema.additionalPropertiesBool;
             if (additionalPropertiesBool != true) {
-              throw UnimplementedError(additionalPropertiesBool.toString());
+              throw UnimplementedError(
+                'Expected an object with arbitrary properties.',
+              );
             }
             result += '''
 Map<String, Map<String, Object?>>? get $fieldName =>
@@ -699,7 +717,9 @@ set $setterName(Map<String, Map<String, Object?>>? value) {
 ''';
           case null:
             if (schemas.additionalPropertiesBool != true) {
-              throw UnimplementedError();
+              throw UnimplementedError(
+                'Expected an object with arbitrary properties.',
+              );
             }
             result += '''
 Map<String, Object?>? get $fieldName => json.optionalMap('$propertyKey');
@@ -854,7 +874,7 @@ set $setterName(List<String>? value) {
         case SchemaType.object:
           final typeName = items.className!;
           if (required) {
-            throw UnimplementedError();
+            throw UnimplementedError('Expected an optional property.');
           } else {
             result += '''
 List<$typeName>? get $fieldName {
@@ -953,7 +973,10 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
     }
     final result = JsonSchemas._(flattened);
     if (result.dartPackages.length > 2) {
-      throw UnimplementedError();
+      throw UnimplementedError(
+        'Extensions on extensions not implemented. '
+        'So only two package names are expected here.',
+      );
     }
     return result;
   }
@@ -1058,7 +1081,7 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
       }
     }
     if (result.length > 1) {
-      throw UnimplementedError();
+      throw StateError('Both yes and no for additional properties.');
     }
     return result.singleOrNull;
   }
@@ -1089,7 +1112,7 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
       }
     }
     if (result.length > 1) {
-      throw UnimplementedError();
+      throw UnimplementedError('Conflicting const values.');
     }
     return result.singleOrNull;
   }
@@ -1184,7 +1207,7 @@ extension CodeGenDecisions on JsonSchemas {
       return names[1];
     }
     if (names.length > 2) {
-      throw UnimplementedError();
+      throw UnimplementedError('Deeper inheritance not implemented.');
     }
     return null;
   }
@@ -1201,7 +1224,7 @@ extension CodeGenDecisions on JsonSchemas {
       if (className != parentClassName) continue;
       return JsonSchemas(schema)._flatten();
     }
-    throw UnimplementedError();
+    throw StateError('No super class schema found for $parentClassName.');
   }
 
   JsonSchemas get baseSchemas {
@@ -1210,7 +1233,10 @@ extension CodeGenDecisions on JsonSchemas {
       return this;
     }
     if (packages.length != 2) {
-      throw UnimplementedError();
+      throw UnimplementedError(
+        'No extensions on extensions supported. '
+        'So, only two package names expected.',
+      );
     }
     final package = dependency(packages);
     final result = <JsonSchema>[];
@@ -1228,7 +1254,10 @@ extension CodeGenDecisions on JsonSchemas {
       return JsonSchemas._([]);
     }
     if (packages.length != 2) {
-      throw UnimplementedError();
+      throw UnimplementedError(
+        'No extensions on extensions supported. '
+        'So, only two package names expected.',
+      );
     }
     final package = importer(packages);
     final result = <JsonSchema>[];
