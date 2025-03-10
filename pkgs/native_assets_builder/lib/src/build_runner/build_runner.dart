@@ -428,11 +428,13 @@ ${e.message}
     'HOME', // Needed to find tools in default install locations.
     'PATH', // Needed to invoke native tools.
     'PROGRAMDATA', // Needed for vswhere.exe.
+    'SYSTEMDRIVE', // Needed for CMake.
     'SYSTEMROOT', // Needed for process invocations on Windows.
     'TEMP', // Needed for temp dirs in Dart process.
     'TMP', // Needed for temp dirs in Dart process.
     'TMPDIR', // Needed for temp dirs in Dart process.
     'USER_PROFILE', // Needed to find tools in default install locations.
+    'WINDIR', // Needed for CMake.
   };
 
   Future<HookOutput?> _runHookForPackage(
