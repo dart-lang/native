@@ -75,6 +75,30 @@ Declaration _transformVariable(
       ? originalVariable.hasSetter
       : !originalVariable.isConstant;
 
+  if (originalVariable.throws || originalVariable.async) {
+    final prefix = [
+      if (originalVariable.throws) 'try',
+      if (originalVariable.async) 'await'
+    ].join(' ');
+
+    return MethodDeclaration(
+      id: originalVariable.id,
+      name: wrapperPropertyName,
+      returnType: transformedType,
+      params: [],
+      hasObjCAnnotation: true,
+      isStatic: originalVariable is PropertyDeclaration
+          ? originalVariable.isStatic
+          : true,
+      statements: [
+        'let result = $prefix $variableReferenceExpression',
+        'return $transformedType(result)',
+      ],
+      throws: originalVariable.throws,
+      async: originalVariable.async,
+    );
+  }
+
   final transformedProperty = PropertyDeclaration(
     id: originalVariable.id,
     name: wrapperPropertyName,
@@ -96,11 +120,7 @@ Declaration _transformVariable(
     globalNamer,
     transformationMap,
   );
-  transformedProperty.getter = PropertyStatements(getterStatements,
-  async: originalVariable.async,
-  throws: originalVariable.throws,
-  mutating: property ? (originalVariable as PropertyDeclaration).mutating : false
-  );
+  transformedProperty.getter = PropertyStatements(getterStatements);
 
   if (shouldGenerateSetter) {
     final setterStatements = _generateSetterStatements(
@@ -123,7 +143,7 @@ List<String> _generateGetterStatements(
   UniqueNamer globalNamer,
   TransformationMap transformationMap,
 ) {
-  var (wrappedValue, wrapperType) = maybeWrapValue(
+  final (wrappedValue, wrapperType) = maybeWrapValue(
     originalVariable.type,
     variableReferenceExpression,
     globalNamer,
@@ -131,16 +151,6 @@ List<String> _generateGetterStatements(
   );
 
   assert(wrapperType.sameAs(transformedProperty.type));
-
-  if (originalVariable.async) { 
-    if (originalVariable.throws) {
-      wrappedValue = 'return try await $wrappedValue';
-    } else {
-      wrappedValue = 'return await $wrappedValue';
-    }
-  } else if (originalVariable.throws) { 
-    wrappedValue = 'return try $wrappedValue'; 
-  }
 
   return [wrappedValue];
 }

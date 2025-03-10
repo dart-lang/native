@@ -56,8 +56,7 @@ class PropertyDeclaration extends AstNode
     this.async = false,
     this.mutating = false
   })  : assert(!(isConstant && hasSetter)),
-        assert(!(hasSetter && throws)),
-        assert(async && (getter?.async == null || getter!.async));
+        assert(!(hasSetter && throws));
 
   @override
   void visit(Visitation visitation) =>
@@ -71,18 +70,8 @@ class PropertyDeclaration extends AstNode
 }
 
 class PropertyStatements implements Executable {
-  final bool async;
-
-  final bool throws;
-
-  final bool mutating;
-
   @override
   final List<String> statements;
 
-  PropertyStatements(this.statements, {
-    this.async = false,
-    this.mutating = false,
-    this.throws = false
-  });
+  PropertyStatements(this.statements);
 }
