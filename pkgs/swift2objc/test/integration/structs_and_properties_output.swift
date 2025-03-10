@@ -14,6 +14,12 @@ import Foundation
 @objc public class MyStructWrapper: NSObject {
   var wrappedInstance: MyStruct
 
+  @objc public var mutatingProperty: Int {
+    get {
+      wrappedInstance.mutatingProperty
+    }
+  }
+
   @objc public var customGetterProperty: MyOtherStructWrapper {
     get {
       MyOtherStructWrapper(wrappedInstance.customGetterProperty)
@@ -77,12 +83,6 @@ import Foundation
     }
     set {
       wrappedInstance.representableVariableProperty = newValue
-    }
-  }
-
-  @objc public var mutatingProperty: Int {
-    get {
-      wrappedInstance.mutatingProperty
     }
   }
 
