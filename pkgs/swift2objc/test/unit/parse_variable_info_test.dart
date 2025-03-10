@@ -1,20 +1,17 @@
 import 'dart:convert';
 
-import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
-import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
-import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
+// import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
-import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
-import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_function_declaration.dart';
+// import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_variable_declaration.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final parsedSymbols = {
-    for (final decl in builtInDeclarations)
-      decl.id: ParsedSymbol(json: Json(null), declaration: decl)
-  };
-  final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
+  // final parsedSymbols = {
+  //   for (final decl in builtInDeclarations)
+  //     decl.id: ParsedSymbol(json: Json(null), declaration: decl)
+  // };
+  // final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
 
   group('Variable Valid json', () {
     test('Variable with getter', () {
@@ -45,10 +42,10 @@ void main() {
                     "spelling": " { get }"
                 }
             ]'''));
-        
-        final info = parsePropertyInfo(json);
 
-        expect(info.getter, isTrue);
+      final info = parsePropertyInfo(json);
+
+      expect(info.getter, isTrue);
     });
 
     test('Variable Computed', () {
@@ -88,9 +85,9 @@ void main() {
                 }
             ]'''));
 
-        final info = parsePropertyInfo(json);
+      final info = parsePropertyInfo(json);
 
-        expect(info.getter, isTrue);
+      expect(info.getter, isTrue);
     });
 
     test('Variable with getter and setter', () {
@@ -138,10 +135,10 @@ void main() {
                 }
             ]'''));
 
-        final info = parsePropertyInfo(json);
+      final info = parsePropertyInfo(json);
 
-        expect(info.getter, isTrue);
-        expect(info.setter, isTrue);  
+      expect(info.getter, isTrue);
+      expect(info.setter, isTrue);
     });
 
     test('Constant variable', () {});
@@ -250,7 +247,7 @@ void main() {
                 }
             ]'''));
 
-        final info = parsePropertyInfo(json);
+      final info = parsePropertyInfo(json);
 
       expect(info.getter, isTrue);
       expect(info.mutating, isTrue);

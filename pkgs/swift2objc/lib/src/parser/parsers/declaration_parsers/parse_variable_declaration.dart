@@ -15,9 +15,7 @@ PropertyDeclaration parsePropertyDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final info = parsePropertyInfo(
-     propertySymbolJson['declarationFragments']
-  );
+  final info = parsePropertyInfo(propertySymbolJson['declarationFragments']);
   return PropertyDeclaration(
     id: parseSymbolId(propertySymbolJson),
     name: parseSymbolName(propertySymbolJson),
@@ -36,9 +34,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final info = parsePropertyInfo(
-     variableSymbolJson['declarationFragments']
-   );
+  final info = parsePropertyInfo(variableSymbolJson['declarationFragments']);
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
     name: parseSymbolName(variableSymbolJson),
@@ -57,43 +53,44 @@ ReferredType _parseVariableType(
         TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
 
 bool _parseVariableIsConstant(Json fragmentsJson) {
-   final declarationKeyword = fragmentsJson.firstWhere(
-     (json) =>
-         matchFragment(json, 'keyword', 'var') ||
+  final declarationKeyword = fragmentsJson.firstWhere(
+    (json) =>
+        matchFragment(json, 'keyword', 'var') ||
         matchFragment(json, 'keyword', 'let'),
     orElse: () => throw ArgumentError(
       'Invalid property declaration fragments at path: ${fragmentsJson.path}. '
       'Expected to find "var" or "let" as a keyword, found none',
     ),
   );
-   return matchFragment(declarationKeyword, 'keyword', 'let');
- }
+  return matchFragment(declarationKeyword, 'keyword', 'let');
+}
 
+bool _findKeywordInFragments(Json json, String keyword) {
+  final keywordIsPresent =
+      json.any((frag) => matchFragment(frag, 'keyword', keyword));
+  return keywordIsPresent;
+}
 
- bool _findKeywordInFragments(Json json, String keyword) {
-   final keywordIsPresent = json
-       .any((frag) => matchFragment(frag, 'keyword', keyword));
-   return keywordIsPresent;
- }
+typedef ParsedPropertyInfo = ({
+  bool async,
+  bool throws,
+  bool constant,
+  bool getter,
+  bool setter,
+  bool mutating,
+});
 
- typedef ParsedPropertyInfo = ({
-     bool async,
-     bool throws,
-     bool constant,
-     bool getter, bool setter,
-     bool mutating,
- });
-
- ParsedPropertyInfo parsePropertyInfo(Json json) {
+ParsedPropertyInfo parsePropertyInfo(Json json) {
   final (getter, setter) = _parsePropertyGetandSet(json);
-   return (
-     constant: _parseVariableIsConstant(json),
-     async: _findKeywordInFragments(json, 'async'),
-     throws: _findKeywordInFragments(json, 'throws'),
-     getter: getter, setter: setter,
-     mutating: _findKeywordInFragments(json, 'mutating')
-   );
- }
+  return (
+    constant: _parseVariableIsConstant(json),
+    async: _findKeywordInFragments(json, 'async'),
+    throws: _findKeywordInFragments(json, 'throws'),
+    getter: getter,
+    setter: setter,
+    mutating: _findKeywordInFragments(json, 'mutating')
+  );
+}
 
 (bool, bool) _parsePropertyGetandSet(Json fragmentsJson, {String? path}) {
   if (fragmentsJson.any((frag) => matchFragment(frag, 'text', ' { get }'))) {
@@ -118,8 +115,7 @@ bool _parseVariableIsConstant(Json fragmentsJson) {
     if (hasExplicitSetter) {
       // has no explicit getter and but has explicit setter
       throw Exception(
-        'Invalid property${
-          path != null ? ' at $path' : ''}. '
+        'Invalid property${path != null ? ' at $path' : ''}. '
         'Properties can not have a setter without a getter',
       );
     } else {
