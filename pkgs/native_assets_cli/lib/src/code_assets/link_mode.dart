@@ -4,6 +4,8 @@
 
 import 'code_asset.dart';
 
+import 'syntax.g.dart' as syntax;
+
 /// The link mode for a [CodeAsset].
 ///
 /// Known linking modes:
@@ -22,34 +24,37 @@ abstract final class LinkMode {
   /// Constructs a [LinkMode] from the given [json].
   ///
   /// The json is expected to be valid encoding obtained via [LinkMode.toJson].
-  factory LinkMode.fromJson(Map<String, Object?> json) {
-    final type = json['type'];
-    return switch (type) {
-      'static' => StaticLinking._singleton,
-      'dynamic_loading_process' => LookupInProcess._singleton,
-      'dynamic_loading_executable' => LookupInExecutable._singleton,
-      'dynamic_loading_bundle' => DynamicLoadingBundled._singleton,
-      'dynamic_loading_system' => DynamicLoadingSystem(
-        Uri.parse(json['uri'] as String),
-      ),
-      _ => throw FormatException('The link mode "$type" is not known'),
-    };
-  }
+  factory LinkMode.fromJson(Map<String, Object?> json) =>
+      LinkModeSyntax.fromSyntax(syntax.LinkMode.fromJson(json));
 
   /// The json representation of this [LinkMode].
   ///
   /// The returned json is stable and can be used in [LinkMode.fromJson] to
   /// obtain a [LinkMode] again.
-  Map<String, Object?> toJson() => switch (this) {
-    StaticLinking() => {'type': 'static'},
-    LookupInProcess() => {'type': 'dynamic_loading_process'},
-    LookupInExecutable() => {'type': 'dynamic_loading_executable'},
-    DynamicLoadingBundled() => {'type': 'dynamic_loading_bundle'},
-    final DynamicLoadingSystem system => {
-      'type': 'dynamic_loading_system',
-      'uri': system.uri.toFilePath(),
-    },
+  Map<String, Object?> toJson() => toSyntax().json;
+}
+
+extension LinkModeSyntax on LinkMode {
+  syntax.LinkMode toSyntax() => switch (this) {
+    StaticLinking() => syntax.StaticLinkMode(),
+    LookupInProcess() => syntax.DynamicLoadingProcessLinkMode(),
+    LookupInExecutable() => syntax.DynamicLoadingExecutableLinkMode(),
+    DynamicLoadingBundled() => syntax.DynamicLoadingBundleLinkMode(),
+    final DynamicLoadingSystem system => syntax.DynamicLoadingSystemLinkMode(
+      uri: system.uri,
+    ),
     _ => throw UnimplementedError('The link mode "$this" is not known'),
+  };
+
+  static LinkMode fromSyntax(syntax.LinkMode linkMode) => switch (linkMode) {
+    _ when linkMode.isStaticLinkMode => StaticLinking(),
+    _ when linkMode.isDynamicLoadingProcessLinkMode => LookupInProcess(),
+    _ when linkMode.isDynamicLoadingExecutableLinkMode => LookupInExecutable(),
+    _ when linkMode.isDynamicLoadingBundleLinkMode => DynamicLoadingBundled(),
+    _ when linkMode.isDynamicLoadingSystemLinkMode => DynamicLoadingSystem(
+      linkMode.asDynamicLoadingSystemLinkMode.uri,
+    ),
+    _ => throw FormatException('The link mode "${linkMode.type}" is not known'),
   };
 }
 

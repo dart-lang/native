@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../encoded_asset.dart';
-import '../utils/json.dart';
+import 'syntax.g.dart' as syntax;
 
 /// Data bundled with a Dart or Flutter application.
 ///
@@ -44,10 +44,11 @@ final class DataAsset {
   factory DataAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.type == DataAsset.type);
     final jsonMap = asset.encoding;
+    final syntaxNode = syntax.DataAsset.fromJson(jsonMap);
     return DataAsset(
-      name: jsonMap.string(_nameKey),
-      package: jsonMap.string(_packageKey),
-      file: jsonMap.path(_fileKey),
+      file: syntaxNode.file,
+      name: syntaxNode.name,
+      package: syntaxNode.package,
     );
   }
 
@@ -64,21 +65,15 @@ final class DataAsset {
   @override
   int get hashCode => Object.hash(package, name, file.toFilePath());
 
-  EncodedAsset encode() => EncodedAsset(
-    DataAsset.type,
-    <String, Object>{
-      _nameKey: name,
-      _packageKey: package,
-      _fileKey: file.toFilePath(),
-    }..sortOnKey(),
-  );
+  EncodedAsset encode() {
+    final dataAsset = syntax.DataAsset.fromJson({});
+    dataAsset.setup(file: file, name: name, package: package);
+    final json = dataAsset.json;
+    return EncodedAsset(DataAsset.type, json);
+  }
 
   @override
   String toString() => 'DataAsset(${encode().encoding})';
 
   static const String type = 'data';
 }
-
-const _nameKey = 'name';
-const _packageKey = 'package';
-const _fileKey = 'file';
