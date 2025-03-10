@@ -1267,6 +1267,6 @@ extension on JsonSchema {
 extension on String {
   bool startsWithUpperCase() {
     final codeUnit = codeUnitAt(0);
-    return codeUnit >= 65 && codeUnit <= 90;
+    return codeUnit >= 'A'.codeUnitAt(0) && codeUnit <= 'Z'.codeUnitAt(0);
   }
 }
