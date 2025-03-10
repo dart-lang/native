@@ -22,8 +22,8 @@ void main() {
 }
 
 void processDirectory(Directory directory) {
-  final stream = directory.listSync(recursive: true);
-  for (final entity in stream) {
+  final entities = directory.listSync(recursive: true);
+  for (final entity in entities) {
     if (entity is File &&
         p.extension(entity.path) == '.json' &&
         !entity.path.contains('.dart_tool/')) {
@@ -157,18 +157,19 @@ dynamic sortJson(dynamic data, String filePath) {
       });
     } else {
       // Sort keys alphabetically for non-schemas.
-      keys.sort((a, b) => a.compareTo(b));
+      keys.sort();
     }
 
     for (final key in keys) {
       sortedMap[key] = sortJson(data[key], filePath);
     }
     return sortedMap;
-  } else if (data is List) {
+  }
+  if (data is List) {
     return data.map((item) => sortJson(item, filePath)).toList()..sort((a, b) {
       if (a is Map && b is Map) {
-        final aKeys = a.keys.toList()..sort();
-        final bKeys = b.keys.toList()..sort();
+        final aKeys = a.keys.toList();
+        final bKeys = b.keys.toList();
         for (var i = 0; i < aKeys.length && i < bKeys.length; i++) {
           final comparison = aKeys[i].toString().compareTo(bKeys[i].toString());
           if (comparison != 0) {
@@ -182,15 +183,20 @@ dynamic sortJson(dynamic data, String filePath) {
               return valueComparison;
             }
           }
+          if (aValue == bValue) {
+            continue;
+          }
+          throw UnimplementedError(
+            'Not implemented to compare $aValue and $bValue.',
+          );
         }
         return 0;
       }
       if (a is String && b is String) {
         return a.compareTo(b);
       }
-      return 0;
+      throw UnimplementedError('Not implemented to compare $a and $b.');
     });
-  } else {
-    return data;
   }
+  return data;
 }
