@@ -539,7 +539,7 @@ String generateAccessor(
   bool allowEnum = true,
   bool setterPrivate = true,
 }) {
-  var result = '';
+  var result = StringBuffer();
   final type = schemas.type;
   final fieldName = snakeToCamelCase(remapPropertyKey(propertyKey));
   final setterName = setterPrivate ? '_$fieldName' : fieldName;
@@ -890,7 +890,7 @@ set $setterName(List<$typeName>? value) {
     default:
       throw UnimplementedError(type.toString());
   }
-  return result;
+  return result.toString();
 }
 
 String snakeToCamelCase(String string) {
@@ -910,17 +910,18 @@ String snakeToCamelCase(String string) {
   String remapCapitalization(String input) =>
       capitalizationOverrides[input] ?? input;
 
-  var camelStr = remapCapitalization(parts[0]);
+  var result = StringBuffer();
+  result += remapCapitalization(parts[0]);
 
   for (var i = 1; i < parts.length; i++) {
     if (parts[i].isNotEmpty) {
-      camelStr += remapCapitalization(
+      result += remapCapitalization(
         parts[i][0].toUpperCase() + parts[i].substring(1),
       );
     }
   }
 
-  return camelStr;
+  return result.toString();
 }
 
 String ucFirst(String str) {
@@ -1269,4 +1270,8 @@ extension on String {
     final codeUnit = codeUnitAt(0);
     return codeUnit >= 'A'.codeUnitAt(0) && codeUnit <= 'Z'.codeUnitAt(0);
   }
+}
+
+extension on StringBuffer {
+  StringBuffer operator +(String value) => this..write(value);
 }
