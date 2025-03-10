@@ -15,17 +15,19 @@ PropertyDeclaration parsePropertyDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final isConstant = _parseVariableIsConstant(propertySymbolJson);
+  final info = parsePropertyInfo(
+     propertySymbolJson['declarationFragments']
+  );
   return PropertyDeclaration(
     id: parseSymbolId(propertySymbolJson),
     name: parseSymbolName(propertySymbolJson),
     type: _parseVariableType(propertySymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(propertySymbolJson),
-    isConstant: isConstant,
-    hasSetter: isConstant ? false : _parsePropertyHasSetter(propertySymbolJson),
+    isConstant: info.constant,
+    hasSetter: info.constant ? false : info.setter,
     isStatic: isStatic,
-    throws: _parseVariableThrows(propertySymbolJson),
-    async: _parseVariableAsync(propertySymbolJson),
+    throws: info.throws,
+    async: info.async,
   );
 }
 
@@ -34,15 +36,16 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final isConstant = _parseVariableIsConstant(variableSymbolJson);
-  final hasSetter = _parsePropertyHasSetter(variableSymbolJson);
+  final info = parsePropertyInfo(
+     variableSymbolJson['declarationFragments']
+   );
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
     name: parseSymbolName(variableSymbolJson),
     type: _parseVariableType(variableSymbolJson, symbolgraph),
-    isConstant: isConstant || !hasSetter,
-    throws: _parseVariableThrows(variableSymbolJson),
-    async: _parseVariableAsync(variableSymbolJson),
+    isConstant: info.constant || !info.setter,
+    throws: info.throws,
+    async: info.async,
   );
 }
 
@@ -53,36 +56,48 @@ ReferredType _parseVariableType(
     parseTypeAfterSeparator(
         TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
 
-bool _parseVariableIsConstant(Json variableSymbolJson) {
-  final fragmentsJson = variableSymbolJson['declarationFragments'];
-
-  final declarationKeyword = fragmentsJson.firstWhere(
-    (json) =>
-        matchFragment(json, 'keyword', 'var') ||
+bool _parseVariableIsConstant(Json fragmentsJson) {
+   final declarationKeyword = fragmentsJson.firstWhere(
+     (json) =>
+         matchFragment(json, 'keyword', 'var') ||
         matchFragment(json, 'keyword', 'let'),
     orElse: () => throw ArgumentError(
       'Invalid property declaration fragments at path: ${fragmentsJson.path}. '
       'Expected to find "var" or "let" as a keyword, found none',
     ),
   );
+   return matchFragment(declarationKeyword, 'keyword', 'let');
+ }
 
-  return matchFragment(declarationKeyword, 'keyword', 'let');
-}
 
-bool _parseVariableThrows(Json json) {
-  final throws = json['declarationFragments']
-      .any((frag) => matchFragment(frag, 'keyword', 'throws'));
-  return throws;
-}
+ bool _findKeywordInFragments(Json json, String keyword) {
+   final keywordIsPresent = json
+       .any((frag) => matchFragment(frag, 'keyword', keyword));
+   return keywordIsPresent;
+ }
 
-bool _parseVariableAsync(Json json) {
-  final async = json['declarationFragments']
-      .any((frag) => matchFragment(frag, 'keyword', 'async'));
-  return async;
-}
+ typedef ParsedPropertyInfo = ({
+     bool async,
+     bool throws,
+     bool constant,
+     bool getter, bool setter
+ });
 
-bool _parsePropertyHasSetter(Json propertySymbolJson) {
-  final fragmentsJson = propertySymbolJson['declarationFragments'];
+ ParsedPropertyInfo parsePropertyInfo(Json json) {
+  final (getter, setter) = _parsePropertyGetandSet(json);
+   return (
+     constant: _parseVariableIsConstant(json),
+     async: _findKeywordInFragments(json, 'async'),
+     throws: _findKeywordInFragments(json, 'throws'),
+     getter: getter, setter: setter
+   );
+ }
+
+(bool, bool) _parsePropertyGetandSet(Json fragmentsJson, {String? path}) {
+  if (fragmentsJson.any((frag) => matchFragment(frag, 'text', ' { get }'))) {
+    // has explicit getter and no explicit setter
+    return (true, false);
+  }
 
   final hasExplicitSetter =
       fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'set'));
@@ -92,21 +107,22 @@ bool _parsePropertyHasSetter(Json propertySymbolJson) {
   if (hasExplicitGetter) {
     if (hasExplicitSetter) {
       // has explicit getter and has explicit setter
-      return true;
+      return (true, true);
     } else {
       // has explicit getter and no explicit setter
-      return false;
+      return (true, false);
     }
   } else {
     if (hasExplicitSetter) {
       // has no explicit getter and but has explicit setter
       throw Exception(
-        'Invalid property at ${propertySymbolJson.path}. '
+        'Invalid property${
+          path != null ? ' at $path' : ''}. '
         'Properties can not have a setter without a getter',
       );
     } else {
       // has no explicit getter and no explicit setter
-      return true;
+      return (false, false);
     }
   }
 }
