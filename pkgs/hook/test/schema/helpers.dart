@@ -200,10 +200,16 @@ typedef FieldsReturn =
     List<(List<Object>, void Function(ValidationResults result))>;
 typedef FieldsFunction =
     FieldsReturn Function({
-      required String inputOrOutput,
-      required String hook,
-      required String party,
+      required InputOrOutput inputOrOutput,
+      required Hook hook,
+      required Party party,
     });
+
+enum InputOrOutput { input, output }
+
+enum Hook { build, link }
+
+enum Party { sdk, hook }
 
 void testFields({
   required AllSchemas allSchemas,
@@ -212,9 +218,9 @@ void testFields({
   String dataSuffix = '',
   required FieldsFunction fields,
 }) {
-  for (final hook in ['build', 'link']) {
-    for (final party in ['sdk', 'hook']) {
-      for (final inputOrOutput in ['input', 'output']) {
+  for (final hook in Hook.values) {
+    for (final party in Party.values) {
+      for (final inputOrOutput in InputOrOutput.values) {
         final fields_ = fields(
           hook: hook,
           inputOrOutput: inputOrOutput,
@@ -224,12 +230,12 @@ void testFields({
           continue;
         }
 
-        final schemaName = '${hook}_$inputOrOutput';
+        final schemaName = '${hook.name}_${inputOrOutput.name}';
         final schemaUri = packageUri.resolve(
-          'doc/schema/$party/$schemaName.schema.json',
+          'doc/schema/${party.name}/$schemaName.schema.json',
         );
         final schema = allSchemas[schemaUri]!;
-        final dataName = '${hook}_$inputOrOutput$dataSuffix';
+        final dataName = '${hook.name}_${inputOrOutput.name}$dataSuffix';
         final dataUri = packageUri.resolve('test/data/$dataName.json');
         final data = allTestData[dataUri]!;
 
@@ -267,13 +273,13 @@ void testFieldsHook({
 }
 
 FieldsReturn _hookFields({
-  required String inputOrOutput,
-  required String hook,
-  required String party,
+  required InputOrOutput inputOrOutput,
+  required Hook hook,
+  required Party party,
 }) {
   void versionMissingExpectation(ValidationResults result) {
-    if ((party == 'sdk' && inputOrOutput == 'input') ||
-        (party == 'hook' && inputOrOutput == 'output')) {
+    if ((party == Party.sdk && inputOrOutput == InputOrOutput.input) ||
+        (party == Party.hook && inputOrOutput == InputOrOutput.output)) {
       // The writer must output this field. SDK must support older hooks reading
       // it.
       expect(result.isValid, isFalse);
@@ -286,7 +292,7 @@ FieldsReturn _hookFields({
   }
 
   void outFileMissingExpectation(ValidationResults result) {
-    if (party == 'sdk') {
+    if (party == Party.sdk) {
       // It's a new field, newer hooks will try to use it. SDKs must write it.
       expect(result.isValid, isFalse);
     } else {
@@ -299,32 +305,32 @@ FieldsReturn _hookFields({
   return <(List<Object>, void Function(ValidationResults result))>[
     ([r'$schema'], expectOptionalFieldMissing),
     (['version'], versionMissingExpectation),
-    if (inputOrOutput == 'input') ...[
+    if (inputOrOutput == InputOrOutput.input) ...[
       (['out_dir_shared'], expectRequiredFieldMissing),
       (['out_dir'], expectRequiredFieldMissing),
       (['package_name'], expectRequiredFieldMissing),
       (['package_root'], expectRequiredFieldMissing),
       (['config', 'build_asset_types'], expectRequiredFieldMissing),
-      if (hook == 'build') ...[
+      if (hook == Hook.build) ...[
         (['config', 'linking_enabled'], expectRequiredFieldMissing),
         (['dependency_metadata'], expectOptionalFieldMissing),
         (['dependency_metadata', 'some_package'], expectOptionalFieldMissing),
       ],
-      if (hook == 'link') ...[
+      if (hook == Hook.link) ...[
         (['assets'], expectOptionalFieldMissing),
         (['assets', 0], expectOptionalFieldMissing),
         (['assets', 0, 'type'], expectRequiredFieldMissing),
       ],
       (['out_file'], outFileMissingExpectation),
     ],
-    if (inputOrOutput == 'output') ...[
+    if (inputOrOutput == InputOrOutput.output) ...[
       (['timestamp'], expectRequiredFieldMissing),
       (['dependencies'], expectOptionalFieldMissing),
       (['dependencies', 0], expectOptionalFieldMissing),
       (['assets'], expectOptionalFieldMissing),
       (['assets', 0], expectOptionalFieldMissing),
       (['assets', 0, 'type'], expectRequiredFieldMissing),
-      if (hook == 'build') ...[
+      if (hook == Hook.build) ...[
         (['metadata'], expectOptionalFieldMissing),
         (['assetsForLinking'], expectOptionalFieldMissing),
         (

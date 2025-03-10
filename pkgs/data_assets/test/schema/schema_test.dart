@@ -35,20 +35,20 @@ Uri packageUri = findPackageRoot('data_assets');
 const _dataAssetFields = ['package', 'name', 'file'];
 
 List<(List<Object>, void Function(ValidationResults result))> _dataFields({
-  required String inputOrOutput,
-  required String hook,
-  required String party,
+  required InputOrOutput inputOrOutput,
+  required Hook hook,
+  required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
-  if (inputOrOutput == 'input') ...[
-    if (hook == 'link') ...[
+  if (inputOrOutput == InputOrOutput.input) ...[
+    if (hook == Hook.link) ...[
       for (final field in _dataAssetFields)
         (['assets', 0, field], expectRequiredFieldMissing),
     ],
   ],
-  if (inputOrOutput == 'output') ...[
+  if (inputOrOutput == InputOrOutput.output) ...[
     for (final field in _dataAssetFields)
       (['assets', 0, field], expectRequiredFieldMissing),
-    if (hook == 'build') ...[
+    if (hook == Hook.build) ...[
       for (final field in _dataAssetFields)
         (
           ['assetsForLinking', 'package_with_linker', 0, field],

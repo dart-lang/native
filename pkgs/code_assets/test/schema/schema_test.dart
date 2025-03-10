@@ -83,9 +83,9 @@ FieldsFunction _codeFields(AllTestData allTestData) {
   }
 
   List<(List<Object>, void Function(ValidationResults result))> codeFields({
-    required String inputOrOutput,
-    required String hook,
-    required String party,
+    required InputOrOutput inputOrOutput,
+    required Hook hook,
+    required Party party,
   }) {
     const requiredCodeAssetFields = [
       // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
@@ -97,7 +97,7 @@ FieldsFunction _codeFields(AllTestData allTestData) {
     ];
 
     return <(List<Object>, void Function(ValidationResults result))>[
-      if (inputOrOutput == 'input') ...[
+      if (inputOrOutput == InputOrOutput.input) ...[
         (['config', 'code', 'c_compiler'], expectOptionalFieldMissing),
         (['config', 'code', 'c_compiler', 'ar'], expectRequiredFieldMissing),
         (['config', 'code', 'c_compiler', 'cc'], expectRequiredFieldMissing),
@@ -108,19 +108,19 @@ FieldsFunction _codeFields(AllTestData allTestData) {
           // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
           expectOptionalFieldMissing,
         ),
-        if (hook == 'link') ...[
+        if (hook == Hook.link) ...[
           for (final field in requiredCodeAssetFields)
             (['assets', 0, ...field], expectRequiredFieldMissing),
           // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
           (['assets', 0, 'architecture'], expectOptionalFieldMissing),
         ],
       ],
-      if (inputOrOutput == 'output') ...[
+      if (inputOrOutput == InputOrOutput.output) ...[
         for (final field in requiredCodeAssetFields)
           (['assets', 0, ...field], expectRequiredFieldMissing),
         // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
         (['assets', 0, 'architecture'], expectOptionalFieldMissing),
-        if (hook == 'build') ...[
+        if (hook == Hook.build) ...[
           for (final field in requiredCodeAssetFields)
             (
               ['assetsForLinking', 'package_with_linker', 0, ...field],
@@ -150,11 +150,11 @@ FieldsFunction _codeFields(AllTestData allTestData) {
 
 List<(List<Object>, void Function(ValidationResults result))>
 _codeFieldsWindows({
-  required String inputOrOutput,
-  required String hook,
-  required String party,
+  required InputOrOutput inputOrOutput,
+  required Hook hook,
+  required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
-  if (inputOrOutput == 'input' && hook == 'build') ...[
+  if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
     (
       ['config', 'code', 'c_compiler', 'env_script'],
       expectOptionalFieldMissing,
@@ -194,11 +194,11 @@ _codeFieldsWindows({
 ];
 
 List<(List<Object>, void Function(ValidationResults result))> _codeFieldsIOS({
-  required String inputOrOutput,
-  required String hook,
-  required String party,
+  required InputOrOutput inputOrOutput,
+  required Hook hook,
+  required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
-  if (inputOrOutput == 'input' && hook == 'build') ...[
+  if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
     (['config', 'code', 'ios'], expectRequiredFieldMissing),
     (
       ['config', 'code', 'ios', 'target_sdk'],
@@ -215,11 +215,11 @@ List<(List<Object>, void Function(ValidationResults result))> _codeFieldsIOS({
 
 List<(List<Object>, void Function(ValidationResults result))>
 _codeFieldsAndroid({
-  required String inputOrOutput,
-  required String hook,
-  required String party,
+  required InputOrOutput inputOrOutput,
+  required Hook hook,
+  required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
-  if (inputOrOutput == 'input' && hook == 'build') ...[
+  if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
     (['config', 'code', 'android'], expectRequiredFieldMissing),
     (
       ['config', 'code', 'android', 'target_ndk_api'],
