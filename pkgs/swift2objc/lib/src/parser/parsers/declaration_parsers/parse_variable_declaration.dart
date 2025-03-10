@@ -15,22 +15,23 @@ PropertyDeclaration parsePropertyDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final isConstant = _parseVariableIsConstant(propertySymbolJson);
-  final variableModifiers = findKeywordsInFragments(propertySymbolJson);
+  final info = parsePropertyInfo(
+    propertySymbolJson['declarationFragments']
+  );
 
   return PropertyDeclaration(
     id: parseSymbolId(propertySymbolJson),
     name: parseSymbolName(propertySymbolJson),
     type: _parseVariableType(propertySymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(propertySymbolJson),
-    isConstant: isConstant,
-    hasSetter: isConstant ? false : _parsePropertyHasSetter(propertySymbolJson),
+    isConstant: info.constant,
+    hasSetter: info.constant ? false : _parsePropertyHasSetter(propertySymbolJson),
     isStatic: isStatic,
-    throws: variableModifiers.throws,
-    async: variableModifiers.async,
-    unowned: variableModifiers.unowned,
-    weak: variableModifiers.weak,
-    lazy: variableModifiers.lazy,
+    throws: info.throws,
+    async: info.async,
+    unowned: info.unowned,
+    weak: info.weak,
+    lazy: info.lazy,
   );
 }
 
@@ -41,7 +42,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 }) {
   final isConstant = _parseVariableIsConstant(variableSymbolJson);
   final hasSetter = _parsePropertyHasSetter(variableSymbolJson);
-  final variableModifiers = findKeywordsInFragments(variableSymbolJson);
+  final variableModifiers = parsePropertyInfo(variableSymbolJson);
 
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
@@ -60,9 +61,7 @@ ReferredType _parseVariableType(
     parseTypeAfterSeparator(
         TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
 
-bool _parseVariableIsConstant(Json variableSymbolJson) {
-  final fragmentsJson = variableSymbolJson['declarationFragments'];
-
+bool _parseVariableIsConstant(Json fragmentsJson) {
   final declarationKeyword = fragmentsJson.firstWhere(
     (json) =>
         matchFragment(json, 'keyword', 'var') ||
@@ -77,29 +76,23 @@ bool _parseVariableIsConstant(Json variableSymbolJson) {
 }
 
 bool _findKeywordInFragments(Json json, String keyword) {
-  final keywordIsPresent = json['declarationFragments']
+  final keywordIsPresent = json
       .any((frag) => matchFragment(frag, 'keyword', keyword));
   return keywordIsPresent;
 }
 
-class PropertyKeywords {
-  bool async;
-  bool throws;
-  bool unowned;
-  bool weak;
-  bool lazy;
+typedef ParsedPropertyInfo = ({
+    bool async,
+    bool throws,
+    bool unowned,
+    bool weak,
+    bool lazy,
+    bool constant,
+});
 
-  PropertyKeywords({
-    this.async = false,
-    this.throws = false,
-    this.unowned = false,
-    this.weak = false,
-    this.lazy = false,
-  });
-}
-
-PropertyKeywords findKeywordsInFragments(Json json) {
-  return PropertyKeywords(
+ParsedPropertyInfo parsePropertyInfo(Json json) {
+  return (
+    constant: _parseVariableIsConstant(json),
     async: _findKeywordInFragments(json, 'async'),
     throws: _findKeywordInFragments(json, 'throws'),
     unowned: _findKeywordInFragments(json, 'unowned'),
