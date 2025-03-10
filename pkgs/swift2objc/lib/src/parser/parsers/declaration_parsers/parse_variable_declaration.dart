@@ -80,7 +80,8 @@ bool _parseVariableIsConstant(Json fragmentsJson) {
      bool async,
      bool throws,
      bool constant,
-     bool getter, bool setter
+     bool getter, bool setter,
+     bool mutating,
  });
 
  ParsedPropertyInfo parsePropertyInfo(Json json) {
@@ -89,7 +90,8 @@ bool _parseVariableIsConstant(Json fragmentsJson) {
      constant: _parseVariableIsConstant(json),
      async: _findKeywordInFragments(json, 'async'),
      throws: _findKeywordInFragments(json, 'throws'),
-     getter: getter, setter: setter
+     getter: getter, setter: setter,
+     mutating: _findKeywordInFragments(json, 'mutating')
    );
  }
 

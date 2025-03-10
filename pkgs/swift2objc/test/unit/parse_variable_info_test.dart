@@ -146,7 +146,7 @@ void main() {
 
     test('Constant variable', () {});
 
-    test('Async Variable', () {
+    test('Async Get Variable', () {
       final json = Json(jsonDecode('''[
                 {
                     "kind": "keyword",
@@ -197,7 +197,67 @@ void main() {
       expect(info.async, isTrue);
     });
 
-    test('Async Throws Variable', () {
+    test('Mutating Variable', () {
+      final json = Json(jsonDecode('''[
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "computedWithSet"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Int",
+                    "preciseIdentifier": "s:Si"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "mutating"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "set"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ]'''));
+
+        final info = parsePropertyInfo(json);
+
+      expect(info.getter, isTrue);
+      expect(info.mutating, isTrue);
+      expect(info.setter, isTrue);
+    });
+
+    test('Async Throws Get Variable', () {
       final json = Json(jsonDecode('''
 [
                 {
