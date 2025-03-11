@@ -20,7 +20,6 @@ typedef TransformationMap = Map<Declaration, Declaration>;
 
 extension TransformationMapUtils on TransformationMap {
   Declaration? findByOriginalId(String id) {
-    print(entries.map((e) => (e.key.name, e.value.name)));
     return this[keys.where((k) => k.id == id).firstOrNull];
   }
 }

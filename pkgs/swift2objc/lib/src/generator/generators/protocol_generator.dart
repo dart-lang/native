@@ -54,10 +54,6 @@ List<String> _generateProtocolMethod(MethodDeclaration method) {
     header.write('static ');
   }
 
-  // if (method.isOverriding) {
-  //   header.write('override ');
-  // }
-
   header.write(
     'func ${method.name}(${generateParameters(method.params)}) ',
   );

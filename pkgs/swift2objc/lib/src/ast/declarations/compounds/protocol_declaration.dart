@@ -32,9 +32,8 @@ class ProtocolDeclaration extends AstNode
   /// Only present if indicated with `@objc`
   List<MethodDeclaration> optionalMethods;
 
-  /// Associated types used with this declaration
-  /// They are similar to generic types
-  /// but only designated for protocol declarations
+  /// Associated types used with this declaration. They are similar to generic 
+  /// types, but only designated for protocol declarations.
   List<AssociatedType> associatedTypes;
 
   @override

@@ -98,6 +98,10 @@ class GenericType extends AstNode implements ReferredType {
   void visit(Visitation visitation) => visitation.visitGenericType(this);
 }
 
+/// Associated Types are similar to Generics, but in the context of protocols. 
+/// They are declared with an `associatedType` keyword inside a protocol.
+/// 
+/// For more information: https://docs.swift.org/swift-book/documentation/the-swift-programming-language/generics/#Associated-Types
 class AssociatedType extends AstNode implements ReferredType {
   final String id;
 

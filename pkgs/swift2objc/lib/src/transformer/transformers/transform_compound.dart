@@ -11,6 +11,7 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/protocol_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
@@ -47,12 +48,15 @@ ClassDeclaration transformCompound(
     wrapperInitializer: _buildWrapperInitializer(wrappedCompoundInstance),
   );
 
-  // transformedCompound.conformedProtocols.addAll(
-  //   originalCompound.conformedProtocols.map((p) {
-  //   return (transformationMap.findByOriginalId(p.id) as ProtocolDeclaration)
-  //       .asDeclaredType;
-  //   })
-  // );
+  transformedCompound.conformedProtocols.addAll(
+    originalCompound.conformedProtocols.map((p) {
+     return (
+      transformDeclaration(p.declaration, compoundNamer, transformationMap) 
+        as ProtocolDeclaration
+      )
+        .asDeclaredType;
+    })
+  );
 
   transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
       .map((nested) => transformDeclaration(
