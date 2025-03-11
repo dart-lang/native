@@ -1,4 +1,4 @@
-## 18.0.0-wip
+## 18.0.0
 
 - Add variable substitutions that can be used in the `headers.entry-points` to
   locate Apple APIs: `$XCODE`, `$IOS_SDK`, and `$MACOS_SDK`.
