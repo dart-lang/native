@@ -31,9 +31,6 @@ void main() async {
             dartExecutable,
             buildResult: buildResult,
             buildAssetTypes: [DataAsset.type],
-            inputValidator: validateDataAssetLinkInput,
-            linkValidator: validateDataAssetLinkOutput,
-            applicationAssetValidator: (_) async => [],
           ))!;
       expect(linkResult.encodedAssets.length, 2);
 
@@ -88,9 +85,6 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         buildAssetTypes: [DataAsset.type],
-        inputValidator: validateDataAssetLinkInput,
-        linkValidator: validateDataAssetLinkOutput,
-        applicationAssetValidator: (_) async => [],
       );
       expect(linkResult, isNotNull);
 
@@ -123,9 +117,6 @@ void main() async {
             buildResult: buildResult,
             capturedLogs: logMessages,
             buildAssetTypes: [DataAsset.type],
-            inputValidator: validateDataAssetLinkInput,
-            linkValidator: validateDataAssetLinkOutput,
-            applicationAssetValidator: (_) async => [],
           ))!;
       expect(linkResult.encodedAssets.length, 0);
       expect(
@@ -158,9 +149,6 @@ void main() async {
             dartExecutable,
             linkingEnabled: true,
             buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 1);
@@ -174,9 +162,6 @@ void main() async {
             buildResult: buildResult,
             capturedLogs: logMessages,
             buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetLinkInput,
-            linkValidator: validateCodeAssetLinkOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
       expect(linkResult.encodedAssets.length, 1);
       expect(linkResult.encodedAssets.first.type, CodeAsset.type);

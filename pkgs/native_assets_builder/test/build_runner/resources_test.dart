@@ -39,9 +39,6 @@ void main() async {
         buildResult: buildResult,
         resourceIdentifiers: resourcesUri,
         buildAssetTypes: [DataAsset.type],
-        inputValidator: validateDataAssetLinkInput,
-        linkValidator: validateDataAssetLinkOutput,
-        applicationAssetValidator: (_) async => [],
       );
       expect(buildFiles(), anyElement(endsWith('resources.json')));
     });

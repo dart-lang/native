@@ -7,6 +7,7 @@ import 'dart:async';
 import '../../code_assets_builder.dart';
 import '../../test.dart';
 import '../validation.dart';
+import 'validation.dart';
 
 /// Validate a code build hook; this will throw an exception on validation
 /// errors.

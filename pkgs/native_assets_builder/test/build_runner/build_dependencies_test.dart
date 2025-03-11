@@ -30,9 +30,6 @@ void main() async {
               dartExecutable,
               capturedLogs: logMessages,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         expect(
           logMessages.join('\n'),

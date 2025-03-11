@@ -29,9 +29,6 @@ void main() async {
               capturedLogs: logMessages,
               runPackageName: 'some_dev_dep',
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateDataAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
@@ -47,9 +44,6 @@ void main() async {
               capturedLogs: logMessages,
               runPackageName: 'native_add',
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateDataAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         expect(result.encodedAssets, isNotEmpty);
         expect(

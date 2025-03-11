@@ -10,9 +10,4 @@ export 'native_assets_cli_builder.dart'
     hide EncodedAssetBuildOutputBuilder, EncodedAssetLinkOutputBuilder;
 export 'src/data_assets/config.dart'
     show DataAssetBuildInputBuilder, DataAssetBuildOutput, DataAssetLinkOutput;
-export 'src/data_assets/validation.dart'
-    show
-        validateDataAssetBuildInput,
-        validateDataAssetBuildOutput,
-        validateDataAssetLinkInput,
-        validateDataAssetLinkOutput;
+export 'src/data_assets/extension.dart';

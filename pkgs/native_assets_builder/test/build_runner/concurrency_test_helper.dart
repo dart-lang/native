@@ -36,32 +36,20 @@ void main(List<String> args) async {
     fileSystem: const LocalFileSystem(),
     packageLayout: packageLayout,
   ).build(
-    inputCreator:
-        () =>
-            BuildInputBuilder()
-              ..config.setupCode(
-                targetArchitecture: Architecture.current,
-                targetOS: targetOS,
-                linkModePreference: LinkModePreference.dynamic,
-                cCompiler: dartCICompilerConfig,
-                macOS:
-                    targetOS == OS.macOS
-                        ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                        : null,
-              ),
+    extensions: [
+      CodeAssetExtension(
+        targetArchitecture: Architecture.current,
+        targetOS: targetOS,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: dartCICompilerConfig,
+        macOS:
+            targetOS == OS.macOS
+                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                : null,
+      ),
+      DataAssetsExtension(),
+    ],
     linkingEnabled: false,
-    buildAssetTypes: [CodeAsset.type, DataAsset.type],
-    inputValidator:
-        (input) async => [
-          ...await validateDataAssetBuildInput(input),
-          ...await validateCodeAssetBuildInput(input),
-        ],
-    buildValidator:
-        (input, output) async => [
-          ...await validateCodeAssetBuildOutput(input, output),
-          ...await validateDataAssetBuildOutput(input, output),
-        ],
-    applicationAssetValidator: validateCodeAssetInApplication,
   );
   if (result == null) {
     throw Error();
