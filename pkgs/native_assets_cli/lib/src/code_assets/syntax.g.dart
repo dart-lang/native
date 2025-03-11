@@ -4,7 +4,6 @@
 
 // This file is generated, do not edit.
 
-import '../hook/syntax.g.dart';
 import '../utils/json.dart';
 
 class AndroidCodeConfig {
@@ -75,6 +74,30 @@ class Architecture {
 
   @override
   String toString() => name;
+}
+
+class Asset {
+  final Map<String, Object?> json;
+
+  Asset.fromJson(this.json);
+
+  Asset({String? type}) : json = {} {
+    _type = type;
+    json.sortOnKey();
+  }
+
+  String? get type => json.optionalString('type');
+
+  set _type(String? value) {
+    if (value == null) {
+      json.remove('type');
+    } else {
+      json['type'] = value;
+    }
+  }
+
+  @override
+  String toString() => 'Asset($json)';
 }
 
 class NativeCodeAsset extends Asset {
@@ -159,25 +182,6 @@ extension NativeCodeAssetExtension on Asset {
   bool get isNativeCodeAsset => type == 'native_code';
 
   NativeCodeAsset get asNativeCodeAsset => NativeCodeAsset.fromJson(json);
-}
-
-extension BuildConfigExtension on BuildConfig {
-  CodeConfig? get code {
-    final map_ = json.optionalMap('code');
-    if (map_ == null) {
-      return null;
-    }
-    return CodeConfig.fromJson(map_);
-  }
-
-  set code(CodeConfig? value) {
-    if (value == null) {
-      json.remove('code');
-    } else {
-      json['code'] = value.json;
-    }
-    json.sortOnKey();
-  }
 }
 
 class CCompilerConfig {
@@ -431,7 +435,16 @@ class CodeConfig {
   String toString() => 'CodeConfig($json)';
 }
 
-extension ConfigExtension on Config {
+class Config {
+  final Map<String, Object?> json;
+
+  Config.fromJson(this.json);
+
+  Config({CodeConfig? code}) : json = {} {
+    this.code = code;
+    json.sortOnKey();
+  }
+
   CodeConfig? get code {
     final map_ = json.optionalMap('code');
     if (map_ == null) {
@@ -448,6 +461,9 @@ extension ConfigExtension on Config {
     }
     json.sortOnKey();
   }
+
+  @override
+  String toString() => 'Config($json)';
 }
 
 class IOSCodeConfig {

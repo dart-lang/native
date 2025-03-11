@@ -1,5 +1,5 @@
 {
-  "$schema": "../../doc/schema/sdk/build_input.schema.json",
+  "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
   "config": {
     "build_asset_types": [
       "data"

@@ -121,11 +121,6 @@ void generate(
     }
   }
 
-  final imports = [
-    if (packageName != 'hook') "import '../hook/syntax.g.dart';",
-    "import '../utils/json.dart';",
-  ];
-
   final output2 = '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
@@ -133,7 +128,7 @@ void generate(
 
 // This file is generated, do not edit.
 
-${imports.join()}
+import '../utils/json.dart';
 
 ${classes.join('\n\n')}
 ''';
@@ -141,6 +136,7 @@ ${classes.join('\n\n')}
   file.createSync(recursive: true);
   file.writeAsStringSync(output2);
   Process.runSync(Platform.executable, ['format', outputUri.toFilePath()]);
+  print('Generated $outputUri');
 }
 
 String generateExtension(JsonSchemas schemas) {

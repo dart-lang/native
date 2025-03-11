@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$comment": "This schema was automatically generated. It combines various definitions into new definitions.",
+  "title": "package:hook party:sdk shared definitions generated",
+  "definitions": {
+    "BuildInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/BuildInput"
+        }
+      ]
+    },
+    "BuildOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/BuildOutput"
+        }
+      ]
+    },
+    "HookInput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/HookInput"
+        }
+      ]
+    },
+    "HookOutput": {
+      "allOf": [
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/HookOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/HookOutput"
+        }
+      ]
+    },
+    "LinkInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/LinkInput"
+        }
+      ]
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        },
+        {
+          "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/LinkOutput"
+        }
+      ]
+    }
+  }
+}
