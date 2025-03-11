@@ -66,9 +66,7 @@ bool _parseVariableIsConstant(Json fragmentsJson) {
 }
 
 bool _findKeywordInFragments(Json json, String keyword) {
-  final keywordIsPresent =
-      json.any((frag) => matchFragment(frag, 'keyword', keyword));
-  return keywordIsPresent;
+  return json.any((frag) => matchFragment(frag, 'keyword', keyword));
 }
 
 typedef ParsedPropertyInfo = ({
@@ -81,7 +79,7 @@ typedef ParsedPropertyInfo = ({
 });
 
 ParsedPropertyInfo parsePropertyInfo(Json json) {
-  final (getter, setter) = _parsePropertyGetandSet(json);
+  final (getter, setter) = _parsePropertyGetAndSet(json);
   return (
     constant: _parseVariableIsConstant(json),
     async: _findKeywordInFragments(json, 'async'),
@@ -92,7 +90,7 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
   );
 }
 
-(bool, bool) _parsePropertyGetandSet(Json fragmentsJson, {String? path}) {
+(bool, bool) _parsePropertyGetAndSet(Json fragmentsJson, {String? path}) {
   if (fragmentsJson.any((frag) => matchFragment(frag, 'text', ' { get }'))) {
     // has explicit getter and no explicit setter
     return (true, false);
@@ -119,8 +117,8 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
         'Properties can not have a setter without a getter',
       );
     } else {
-      // has no explicit getter and no explicit setter
-      return (false, false);
+      // has implicit getter and implicit setter
+      return (true, true);
     }
   }
 }

@@ -7,12 +7,6 @@ import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_variable
 import 'package:test/test.dart';
 
 void main() {
-  // final parsedSymbols = {
-  //   for (final decl in builtInDeclarations)
-  //     decl.id: ParsedSymbol(json: Json(null), declaration: decl)
-  // };
-  // final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
-
   group('Variable Valid json', () {
     test('Variable with getter', () {
       final json = Json(jsonDecode('''[
