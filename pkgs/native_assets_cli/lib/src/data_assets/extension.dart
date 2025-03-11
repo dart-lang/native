@@ -5,6 +5,8 @@
 import '../../data_assets_builder.dart';
 import 'validation.dart';
 
+/// The protocol extension for the `hook/build.dart` and `hook/link.dart`
+/// with [DataAsset]s.
 final class DataAssetsExtension implements ProtocolExtension {
   DataAssetsExtension();
 

@@ -78,6 +78,9 @@ class NativeAssetsBuildRunner {
   /// The native assets build runner does not support reentrancy for identical
   /// [BuildInput] and [LinkInput]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
+  ///
+  /// The base protocol can be extended with [extensions]. See
+  /// [ProtocolExtension] for more documentation.
   Future<BuildResult?> build({
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
@@ -177,6 +180,9 @@ class NativeAssetsBuildRunner {
   /// The native assets build runner does not support reentrancy for identical
   /// [BuildInput] and [LinkInput]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
+  ///
+  /// The base protocol can be extended with [extensions]. See
+  /// [ProtocolExtension] for more documentation.
   Future<LinkResult?> link({
     required List<ProtocolExtension> extensions,
     Uri? resourceIdentifiers,
