@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/src/code_assets/validation.dart';
 import 'package:test/test.dart';
 
 void main() {

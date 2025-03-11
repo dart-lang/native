@@ -33,29 +33,6 @@ typedef LinkInputCreator = LinkInputBuilder Function();
 typedef _HookValidator =
     Future<ValidationErrors> Function(HookInput input, HookOutput output);
 
-// A callback that validates the invariants of the [BuildInput].
-typedef BuildInputValidator =
-    Future<ValidationErrors> Function(BuildInput input);
-
-// A callback that validates the invariants of the [LinkInput].
-typedef LinkInputValidator = Future<ValidationErrors> Function(LinkInput input);
-
-// A callback that validates the output of a `hook/link.dart` invocation is
-// valid (it may valid asset-type specific information).
-typedef BuildValidator =
-    Future<ValidationErrors> Function(BuildInput input, BuildOutput outup);
-
-// A callback that validates the output of a `hook/link.dart` invocation is
-// valid (it may valid asset-type specific information).
-typedef LinkValidator =
-    Future<ValidationErrors> Function(LinkInput input, LinkOutput output);
-
-// A callback that validates assets emitted across all packages are valid / can
-// be used together (it may valid asset-type specific information - e.g. that
-// there are no classes in shared library filenames).
-typedef ApplicationAssetValidator =
-    Future<ValidationErrors> Function(List<EncodedAsset> assets);
-
 /// The programmatic API to be used by Dart launchers to invoke native builds.
 ///
 /// These methods are invoked by launchers such as dartdev (for `dart run`)
@@ -98,18 +75,11 @@ class NativeAssetsBuildRunner {
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
-  /// The given [applicationAssetValidator] is only used if the build is
-  /// performed without linking (i.e. [linkingEnabled] is `false`).
-  ///
   /// The native assets build runner does not support reentrancy for identical
   /// [BuildInput] and [LinkInput]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<BuildResult?> build({
-    required BuildInputCreator inputCreator,
-    required BuildInputValidator inputValidator,
-    required BuildValidator buildValidator,
-    required ApplicationAssetValidator applicationAssetValidator,
-    required List<String> buildAssetTypes,
+    required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
   }) async {
     final (buildPlan, packageGraph) = await _makePlan(
@@ -132,11 +102,15 @@ class NativeAssetsBuildRunner {
         targetMetadata: globalMetadata,
       )?.forEach((key, value) => metadata[key] = value);
 
-      final inputBuilder =
-          inputCreator()
-            ..config.setupShared(buildAssetTypes: buildAssetTypes)
-            ..config.setupBuild(linkingEnabled: linkingEnabled)
-            ..setupBuildInput(metadata: metadata);
+      final inputBuilder = BuildInputBuilder();
+      inputBuilder.config.setupShared(
+        buildAssetTypes: [for (final e in extensions) ...e.buildAssetTypes],
+      );
+      for (final e in extensions) {
+        e.setupBuildInput(inputBuilder);
+      }
+      inputBuilder.config.setupBuild(linkingEnabled: linkingEnabled);
+      inputBuilder.setupBuildInput(metadata: metadata);
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.build,
@@ -155,7 +129,7 @@ class NativeAssetsBuildRunner {
       final input = BuildInput(inputBuilder.json);
       final errors = [
         ...await validateBuildInput(input),
-        ...await inputValidator(input),
+        for (final e in extensions) ...await e.validateBuildInput(input),
       ];
       if (errors.isNotEmpty) {
         return _printErrors(
@@ -167,8 +141,13 @@ class NativeAssetsBuildRunner {
       final result = await _runHookForPackageCached(
         Hook.build,
         input,
-        (input, output) =>
-            buildValidator(input as BuildInput, output as BuildOutput),
+        (input, output) async => [
+          for (final e in extensions)
+            ...await e.validateBuildOutput(
+              input as BuildInput,
+              output as BuildOutput,
+            ),
+        ],
         null,
       );
       if (result == null) return null;
@@ -182,7 +161,10 @@ class NativeAssetsBuildRunner {
     // in the link step if linking is enableD).
     if (linkingEnabled) return hookResult;
 
-    final errors = await applicationAssetValidator(hookResult.encodedAssets);
+    final errors = [
+      for (final e in extensions)
+        ...await e.validateApplicationAssets(hookResult.encodedAssets),
+    ];
     if (errors.isEmpty) return hookResult;
 
     _printErrors('Application asset verification failed', errors);
@@ -196,12 +178,8 @@ class NativeAssetsBuildRunner {
   /// [BuildInput] and [LinkInput]! For more info see:
   /// https://github.com/dart-lang/native/issues/1319
   Future<LinkResult?> link({
-    required LinkInputCreator inputCreator,
-    required LinkInputValidator inputValidator,
-    required LinkValidator linkValidator,
-    required ApplicationAssetValidator applicationAssetValidator,
+    required List<ProtocolExtension> extensions,
     Uri? resourceIdentifiers,
-    required List<String> buildAssetTypes,
     required BuildResult buildResult,
   }) async {
     final (buildPlan, packageGraph) = await _makePlan(
@@ -212,8 +190,13 @@ class NativeAssetsBuildRunner {
 
     var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
-      final inputBuilder =
-          inputCreator()..config.setupShared(buildAssetTypes: buildAssetTypes);
+      final inputBuilder = LinkInputBuilder();
+      inputBuilder.config.setupShared(
+        buildAssetTypes: [for (final e in extensions) ...e.buildAssetTypes],
+      );
+      for (final e in extensions) {
+        e.setupLinkInput(inputBuilder);
+      }
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.link,
@@ -243,7 +226,7 @@ class NativeAssetsBuildRunner {
       final input = LinkInput(inputBuilder.json);
       final errors = [
         ...await validateLinkInput(input),
-        ...await inputValidator(input),
+        for (final e in extensions) ...await e.validateLinkInput(input),
       ];
       if (errors.isNotEmpty) {
         print(input.assets.encodedAssets);
@@ -256,8 +239,13 @@ class NativeAssetsBuildRunner {
       final result = await _runHookForPackageCached(
         Hook.link,
         input,
-        (input, output) =>
-            linkValidator(input as LinkInput, output as LinkOutput),
+        (input, output) async => [
+          for (final e in extensions)
+            ...await e.validateLinkOutput(
+              input as LinkInput,
+              output as LinkOutput,
+            ),
+        ],
         resourceIdentifiers,
       );
       if (result == null) return null;
@@ -265,7 +253,10 @@ class NativeAssetsBuildRunner {
       hookResult = hookResult.copyAdd(hookOutput, hookDeps);
     }
 
-    final errors = await applicationAssetValidator(hookResult.encodedAssets);
+    final errors = [
+      for (final e in extensions)
+        ...await e.validateApplicationAssets(hookResult.encodedAssets),
+    ];
     if (errors.isEmpty) return hookResult;
 
     _printErrors('Application asset verification failed', errors);

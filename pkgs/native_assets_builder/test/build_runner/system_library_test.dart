@@ -24,10 +24,7 @@ void main() async {
             logger,
             dartExecutable,
             capturedLogs: logMessages,
-            inputValidator: validateCodeAssetBuildInput,
             buildAssetTypes: [CodeAsset.type],
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
       expect(result.encodedAssets.length, 3);
     });

@@ -30,9 +30,6 @@ void main() async {
               dartExecutable,
               capturedLogs: logMessages,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         expect(
           logMessages.join('\n'),
@@ -56,9 +53,6 @@ void main() async {
               dartExecutable,
               capturedLogs: logMessages,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         final hookUri = packageUri.resolve('hook/build.dart');
         expect(
@@ -104,9 +98,6 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -127,9 +118,6 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
 
         final cUri = packageUri.resolve('src/').resolve('native_add.c');
@@ -166,9 +154,6 @@ void main() async {
             logger,
             dartExecutable,
             buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
       {
         final compiledHook =
@@ -199,9 +184,6 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
 
         final hookUri = packageUri.resolve('hook/build.dart');
@@ -237,9 +219,6 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
               hookEnvironment:
                   modifiedEnvKey == 'PATH'
                       ? null
@@ -272,9 +251,6 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
         ))!;
         expect(logMessages.join('\n'), contains('hook.dill'));
         expect(

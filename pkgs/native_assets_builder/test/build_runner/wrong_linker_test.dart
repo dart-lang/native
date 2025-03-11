@@ -25,9 +25,7 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
+
           linkingEnabled: true,
         );
         final fullLog = logMessages.join('\n');

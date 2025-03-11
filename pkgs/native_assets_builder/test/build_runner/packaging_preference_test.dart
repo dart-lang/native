@@ -25,9 +25,6 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.dynamic,
             buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
 
       final resultPreferDynamic =
@@ -37,9 +34,6 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.preferDynamic,
             buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
 
       final resultStatic =
@@ -49,9 +43,6 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.static,
             buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
 
       final resultPreferStatic =
@@ -61,9 +52,6 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.preferStatic,
             buildAssetTypes: [CodeAsset.type],
-            inputValidator: validateCodeAssetBuildInput,
-            buildValidator: validateCodeAssetBuildOutput,
-            applicationAssetValidator: validateCodeAssetInApplication,
           ))!;
 
       // This package honors preferences.

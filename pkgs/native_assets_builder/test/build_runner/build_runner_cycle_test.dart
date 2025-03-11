@@ -25,9 +25,6 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           buildAssetTypes: [],
-          inputValidator: (input) async => [],
-          buildValidator: (input, output) async => [],
-          applicationAssetValidator: (_) async => [],
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);

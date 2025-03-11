@@ -74,27 +74,6 @@ void main() async {
                   createCapturingLogger(logMessages, level: Level.SEVERE),
                   dartExecutable,
                   buildAssetTypes: [CodeAsset.type, DataAsset.type],
-                  buildInputValidator:
-                      (input) async => [
-                        ...await validateDataAssetBuildInput(input),
-                        ...await validateCodeAssetBuildInput(input),
-                      ],
-                  buildValidator:
-                      (input, output) async => [
-                        ...await validateCodeAssetBuildOutput(input, output),
-                        ...await validateDataAssetBuildOutput(input, output),
-                      ],
-                  linkInputValidator:
-                      (input) async => [
-                        ...await validateDataAssetLinkInput(input),
-                        ...await validateCodeAssetLinkInput(input),
-                      ],
-                  linkValidator:
-                      (input, output) async => [
-                        ...await validateCodeAssetLinkOutput(input, output),
-                        ...await validateDataAssetLinkOutput(input, output),
-                      ],
-                  applicationAssetValidator: validateCodeAssetInApplication,
                 );
                 final fullLog = logMessages.join('\n');
                 if (hook == 'build') {

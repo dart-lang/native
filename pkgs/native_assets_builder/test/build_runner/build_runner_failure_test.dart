@@ -27,9 +27,6 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
@@ -54,9 +51,6 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);
@@ -87,9 +81,6 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
@@ -121,9 +112,6 @@ void main() async {
           capturedLogs: logMessages,
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
         );
         Matcher stringContainsBuildHookCompilation(String packageName) =>
             stringContainsInOrder([

@@ -44,9 +44,6 @@ void main() async {
               buildResult: buildResult,
               buildAssetTypes: [DataAsset.type],
               capturedLogs: logMessages,
-              inputValidator: validateDataAssetLinkInput,
-              linkValidator: validateDataAssetLinkOutput,
-              applicationAssetValidator: (_) async => [],
             ))!;
       }
 

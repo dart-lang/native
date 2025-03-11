@@ -36,34 +36,18 @@ void main() async {
 
       final targetOS = OS.current;
       const defaultMacOSVersion = 13;
-      BuildInputBuilder inputCreator() =>
-          BuildInputBuilder()
-            ..config.setupCode(
-              targetArchitecture: Architecture.current,
-              targetOS: OS.current,
-              macOS:
-                  targetOS == OS.macOS
-                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                      : null,
-              linkModePreference: LinkModePreference.dynamic,
-            );
+      final extension = CodeAssetExtension(
+        targetArchitecture: Architecture.current,
+        targetOS: OS.current,
+        macOS:
+            targetOS == OS.macOS
+                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                : null,
+        linkModePreference: LinkModePreference.dynamic,
+      );
 
-      await buildRunner.build(
-        inputCreator: inputCreator,
-        linkingEnabled: false,
-        buildAssetTypes: [],
-        inputValidator: (input) async => [],
-        buildValidator: (input, output) async => [],
-        applicationAssetValidator: (_) async => [],
-      );
-      await buildRunner.build(
-        inputCreator: inputCreator,
-        linkingEnabled: false,
-        buildAssetTypes: [],
-        inputValidator: (input) async => [],
-        buildValidator: (input, output) async => [],
-        applicationAssetValidator: (_) async => [],
-      );
+      await buildRunner.build(extensions: [extension], linkingEnabled: false);
+      await buildRunner.build(extensions: [extension], linkingEnabled: false);
     });
   });
 }

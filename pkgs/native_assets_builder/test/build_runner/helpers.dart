@@ -40,9 +40,6 @@ Future<BuildResult?> buildDataAssets(
   dartExecutable,
   capturedLogs: capturedLogs,
   buildAssetTypes: [DataAsset.type],
-  inputValidator: validateDataAssetBuildInput,
-  buildValidator: validateDataAssetBuildOutput,
-  applicationAssetValidator: (_) async => [],
   runPackageName: runPackageName,
   linkingEnabled: linkingEnabled,
 );
@@ -56,10 +53,7 @@ Future<BuildResult?> buildCodeAssets(
   logger,
   dartExecutable,
   capturedLogs: capturedLogs,
-  inputValidator: validateCodeAssetBuildInput,
   buildAssetTypes: [CodeAsset.type],
-  buildValidator: validateCodeAssetBuildOutput,
-  applicationAssetValidator: validateCodeAssetInApplication,
   runPackageName: runPackageName,
 );
 
@@ -67,9 +61,6 @@ Future<BuildResult?> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  required BuildInputValidator inputValidator,
-  required BuildValidator buildValidator,
-  required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
@@ -99,10 +90,9 @@ Future<BuildResult?> build(
       hookEnvironment: hookEnvironment,
       packageLayout: packageLayout,
     ).build(
-      inputCreator: () {
-        final inputBuilder = BuildInputBuilder();
-        if (buildAssetTypes.contains(CodeAsset.type)) {
-          inputBuilder.config.setupCode(
+      extensions: [
+        if (buildAssetTypes.contains(CodeAsset.type))
+          CodeAssetExtension(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
             linkModePreference: linkModePreference,
@@ -124,15 +114,10 @@ Future<BuildResult?> build(
                 targetOS == OS.android
                     ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                     : null,
-          );
-        }
-        return inputBuilder;
-      },
-      inputValidator: inputValidator,
+          ),
+        if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+      ],
       linkingEnabled: linkingEnabled,
-      buildAssetTypes: buildAssetTypes,
-      buildValidator: buildValidator,
-      applicationAssetValidator: applicationAssetValidator,
     );
 
     if (result != null) {
@@ -151,9 +136,6 @@ Future<LinkResult?> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
-  required LinkInputValidator inputValidator,
-  required LinkValidator linkValidator,
-  required ApplicationAssetValidator applicationAssetValidator,
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompiler,
   List<String>? capturedLogs,
@@ -182,10 +164,9 @@ Future<LinkResult?> link(
       fileSystem: const LocalFileSystem(),
       packageLayout: packageLayout,
     ).link(
-      inputCreator: () {
-        final inputBuilder = LinkInputBuilder();
-        if (buildAssetTypes.contains(CodeAsset.type)) {
-          inputBuilder.config.setupCode(
+      extensions: [
+        if (buildAssetTypes.contains(CodeAsset.type))
+          CodeAssetExtension(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
             linkModePreference: linkModePreference,
@@ -207,16 +188,11 @@ Future<LinkResult?> link(
                 targetOS == OS.android
                     ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                     : null,
-          );
-        }
-        return inputBuilder;
-      },
-      inputValidator: inputValidator,
+          ),
+        if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+      ],
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
-      buildAssetTypes: buildAssetTypes,
-      linkValidator: linkValidator,
-      applicationAssetValidator: applicationAssetValidator,
     );
 
     if (result != null) {
@@ -233,11 +209,6 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   Uri dartExecutable, {
   LinkModePreference linkModePreference = LinkModePreference.dynamic,
   CCompilerConfig? cCompiler,
-  required BuildInputValidator buildInputValidator,
-  required LinkInputValidator linkInputValidator,
-  required BuildValidator buildValidator,
-  required LinkValidator linkValidator,
-  required ApplicationAssetValidator applicationAssetValidator,
   List<String>? capturedLogs,
   PackageLayout? packageLayout,
   String? runPackageName,
@@ -264,10 +235,9 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   );
   final targetOS = target?.os ?? OS.current;
   final buildResult = await buildRunner.build(
-    inputCreator: () {
-      final inputBuilder = BuildInputBuilder();
-      if (buildAssetTypes.contains(CodeAsset.type)) {
-        inputBuilder.config.setupCode(
+    extensions: [
+      if (buildAssetTypes.contains(CodeAsset.type))
+        CodeAssetExtension(
           targetArchitecture: target?.architecture ?? Architecture.current,
           targetOS: target?.os ?? OS.current,
           linkModePreference: linkModePreference,
@@ -289,15 +259,10 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
               targetOS == OS.android
                   ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
-        );
-      }
-      return inputBuilder;
-    },
-    inputValidator: buildInputValidator,
+        ),
+      if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+    ],
     linkingEnabled: true,
-    buildAssetTypes: buildAssetTypes,
-    buildValidator: buildValidator,
-    applicationAssetValidator: applicationAssetValidator,
   );
 
   if (buildResult == null) {
@@ -311,10 +276,9 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   }
 
   final linkResult = await buildRunner.link(
-    inputCreator: () {
-      final inputBuilder = LinkInputBuilder();
-      if (buildAssetTypes.contains(CodeAsset.type)) {
-        inputBuilder.config.setupCode(
+    extensions: [
+      if (buildAssetTypes.contains(CodeAsset.type))
+        CodeAssetExtension(
           targetArchitecture: target?.architecture ?? Architecture.current,
           targetOS: target?.os ?? OS.current,
           linkModePreference: linkModePreference,
@@ -336,16 +300,11 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
               targetOS == OS.android
                   ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
-        );
-      }
-      return inputBuilder;
-    },
-    inputValidator: linkInputValidator,
+        ),
+      if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+    ],
     buildResult: buildResult,
     resourceIdentifiers: resourceIdentifiers,
-    buildAssetTypes: buildAssetTypes,
-    linkValidator: linkValidator,
-    applicationAssetValidator: applicationAssetValidator,
   );
 
   if (linkResult != null) {

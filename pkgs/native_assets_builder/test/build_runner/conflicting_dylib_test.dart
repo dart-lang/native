@@ -25,9 +25,6 @@ void main() async {
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
           buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetBuildInput,
-          buildValidator: validateCodeAssetBuildOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);
@@ -53,9 +50,6 @@ void main() async {
               linkingEnabled: true,
               dartExecutable,
               buildAssetTypes: [CodeAsset.type],
-              inputValidator: validateCodeAssetBuildInput,
-              buildValidator: validateCodeAssetBuildOutput,
-              applicationAssetValidator: validateCodeAssetInApplication,
             ))!;
 
         final linkResult = await link(
@@ -64,9 +58,6 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           buildAssetTypes: [CodeAsset.type],
-          inputValidator: validateCodeAssetLinkInput,
-          linkValidator: validateCodeAssetLinkOutput,
-          applicationAssetValidator: validateCodeAssetInApplication,
         );
         // Application validation error due to conflicting dylib name.
         expect(linkResult, isNull);
