@@ -450,7 +450,10 @@ extension AddFoundCodeAssetsExtension on BuildOutput {
       if (entity is! File) continue;
       final filePath = entity.path;
       for (final name in libraryNames) {
-        final libName = OS.current.libraryFileName(name, linkMode);
+        final libName = input.config.code.targetOS.libraryFileName(
+          name,
+          linkMode,
+        );
         if (filePath.endsWith(libName)) {
           // Check local call duplicates.
           if (addedPaths.contains(filePath)) break;
