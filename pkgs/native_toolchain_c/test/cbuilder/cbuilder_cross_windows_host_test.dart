@@ -115,13 +115,22 @@ void main() async {
             sources: [addCUri.toFilePath()],
             optimizationLevel: optimizationLevel,
             buildMode: buildMode,
+            defines: {'FOO': '"BAR"'},
           );
           await cbuilder.run(
             input: buildInput,
             output: buildOutput,
             logger: logger,
           );
+          if (compiler == msvc) {
+            // ensure that the nfi.txt file is created
+            final nfiFile = tempUri.resolve('nfi.txt');
+            expect(await File.fromUri(nfiFile).exists(), true);
 
+            // ensure that the nfi.txt file contains the correct content
+            final nfiContent = await File.fromUri(nfiFile).readAsString();
+            expect(nfiContent, contains('#define FOO "BAR"'));
+          }
           final libUri = tempUri.resolve(
             OS.windows.libraryFileName(name, linkMode),
           );
