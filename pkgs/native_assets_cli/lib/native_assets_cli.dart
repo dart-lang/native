@@ -12,6 +12,7 @@ export 'src/api/link.dart' show link;
 export 'src/api/linker.dart' show Linker;
 export 'src/config.dart'
     show
+        AddFoundCodeAssetsExtension,
         BuildConfig,
         BuildConfigBuilder,
         BuildInput,

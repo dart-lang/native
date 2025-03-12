@@ -133,7 +133,10 @@ void main() {
     await file2.writeAsString('Hello Dart');
 
     final output = BuildOutput(outputBuilder.json);
-    await output.addDataAssetDirectories(['assets1', 'assets2'], input: input);
+    await outputBuilder.addDataAssetDirectories([
+      'assets1',
+      'assets2',
+    ], input: input);
 
     // Check that both subdirectories were added as dependencies.
     expect(output.dependencies, contains(assetsDir2.uri));
@@ -157,7 +160,7 @@ void main() {
     await file.writeAsString('Test content');
 
     final output = BuildOutput(outputBuilder.json);
-    await output.addDataAssetDirectories([
+    await outputBuilder.addDataAssetDirectories([
       'single_assets/single_file.txt',
     ], input: input);
 

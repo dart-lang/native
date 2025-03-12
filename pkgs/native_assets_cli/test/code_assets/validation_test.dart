@@ -331,19 +331,19 @@ void main() {
     test('finds matching file', () async {
       final input = makeCodeBuildInput();
       final outputBuilder = BuildOutputBuilder();
-
-      final buildOutput = BuildOutput(outputBuilder.json);
       // Compute expected library file name using the current OS conventions.
-      final linkMode = buildOutput.getLinkMode(input);
+      final linkMode = outputBuilder.getLinkMode(input);
       final expectedLibName = input.config.code.targetOS.libraryFileName(
         'foo',
         linkMode,
       );
       final fileUri = outDirUri.resolve(expectedLibName);
       await File.fromUri(fileUri).writeAsBytes([1, 2, 3]);
-      final found = await buildOutput.addFoundCodeAssets(
+      final found = await outputBuilder.addFoundCodeAssets(
         input: input,
-        libraryNames: ['foo'],
+        assetMappings: [
+          {'foo': 'foo.dart'},
+        ],
       );
       expect(found, contains(fileUri));
     });
@@ -351,10 +351,11 @@ void main() {
     test('returns empty list when no matching file is found', () async {
       final input = makeCodeBuildInput();
       final outputBuilder = BuildOutputBuilder();
-      final buildOutput = BuildOutput(outputBuilder.json);
-      final found = await buildOutput.addFoundCodeAssets(
+      final found = await outputBuilder.addFoundCodeAssets(
         input: input,
-        libraryNames: ['nonexistent'],
+        assetMappings: [
+          {'nonexistent': 'nonexistent.dart'},
+        ],
       );
       expect(found, isEmpty);
     });
@@ -365,7 +366,7 @@ void main() {
 
       final buildOutput = BuildOutput(outputBuilder.json);
 
-      final linkMode = buildOutput.getLinkMode(input);
+      final linkMode = outputBuilder.getLinkMode(input);
       final expectedLibName = input.config.code.targetOS.libraryFileName(
         'foo',
         linkMode,
@@ -373,14 +374,18 @@ void main() {
       final fileUri = outDirUri.resolve(expectedLibName);
       await File.fromUri(fileUri).writeAsBytes([1, 2, 3]);
       // Add the asset once.
-      final firstFound = await buildOutput.addFoundCodeAssets(
+      final firstFound = await outputBuilder.addFoundCodeAssets(
         input: input,
-        libraryNames: ['foo'],
+        assetMappings: [
+          {'foo': 'foo.dart'},
+        ],
       );
       // Try to add it again; duplicate should be prevented.
-      final secondFound = await buildOutput.addFoundCodeAssets(
+      final secondFound = await outputBuilder.addFoundCodeAssets(
         input: input,
-        libraryNames: ['foo'],
+        assetMappings: [
+          {'foo': 'foo.dart'},
+        ],
       );
       expect(firstFound, contains(fileUri));
       expect(secondFound, contains(fileUri));

@@ -27,5 +27,5 @@ const assetHashes = <String, String>{
   'libnative_add_macos_x64.dylib': 'b62263803dceb3c23508cb909b5a5583',
   'native_add_windows_arm64.dll': '7aa6f5e0275ba1b94cd5b7356f89ef04',
   'native_add_windows_ia32.dll': 'ab57b5504d92b5b5dc09732d990fd5e7',
-  'native_add_windows_x64.dll': 'be9ba2125800aa2e3481a759b1845a50',
+  'native_add_windows_x64': 'be9ba2125800aa2e3481a759b1845a50',
 };

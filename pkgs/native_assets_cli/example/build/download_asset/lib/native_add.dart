@@ -10,3 +10,7 @@ import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(symbol: 'add')
 external int add(int a, int b);
+
+void main() {
+  print(add(1, 2));
+}

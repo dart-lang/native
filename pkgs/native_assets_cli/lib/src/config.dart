@@ -350,7 +350,63 @@ class BuildOutput extends HookOutput {
   BuildOutputAssets get assets => BuildOutputAssets._(this);
 }
 
-extension DataAssetsDirectoryExtension on BuildOutput {
+extension type BuildOutputAssets._(BuildOutput _output) {
+  /// The assets produced by this build.
+  List<EncodedAsset> get encodedAssets => _output._encodedAssets;
+
+  /// The assets produced by this build which should be linked.
+  ///
+  /// Every key in the map is a package name. These assets in the values are not
+  /// bundled with the application, but are sent to the link hook of the package
+  /// specified in the key, which can decide if they are bundled or not.
+  Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
+      _output._encodedAssetsForLinking;
+}
+
+/// Builder to produce the output of a build hook.
+///
+/// There are various Dart extensions on this [BuildOutputBuilder] that allow
+/// adding specific asset types - which should be used by normal hook authors.
+/// For example
+///
+/// ```dart
+/// main(List<String> arguments) async {
+///   await build((input, output) {
+///     output.assets.code.add(CodeAsset(...));
+///     output.assets.data.add(DataAsset(...));
+///   });
+/// }
+/// ```
+class BuildOutputBuilder extends HookOutputBuilder {
+  /// Adds metadata to be passed to build hook invocations of dependent
+  /// packages.
+  @Deprecated(metadataDeprecation)
+  void addMetadatum(String key, Object value) {
+    final metadata = _syntax.metadata ?? {};
+    metadata[key] = value;
+    metadata.sortOnKey();
+    _syntax.metadata = metadata;
+  }
+
+  /// Adds metadata to be passed to build hook invocations of dependent
+  /// packages.
+  @Deprecated(metadataDeprecation)
+  void addMetadata(Map<String, Object> metadata) {
+    final value = _syntax.metadata ?? {};
+    value.addAll(metadata);
+    value.sortOnKey();
+    _syntax.metadata = value;
+  }
+
+  EncodedAssetBuildOutputBuilder get assets =>
+      EncodedAssetBuildOutputBuilder._(this);
+
+  @override
+  syntax.BuildOutput get _syntax =>
+      syntax.BuildOutput.fromJson(super._syntax.json);
+}
+
+extension DataAssetsDirectoryExtension on BuildOutputBuilder {
   /// Extension on [BuildOutput] to handle data asset directories and files.
   ///
   /// This extension provides a convenient way for build hooks to add
@@ -418,7 +474,7 @@ extension DataAssetsDirectoryExtension on BuildOutput {
   }
 }
 
-extension AddFoundCodeAssetsExtension on BuildOutput {
+extension AddFoundCodeAssetsExtension on BuildOutputBuilder {
   /// Searches recursively through the entire expected output directory
   /// for native library files that match the expected target filename.
   ///
@@ -436,7 +492,7 @@ extension AddFoundCodeAssetsExtension on BuildOutput {
   /// Returns a list of URIs corresponding to all the added code assets.
   Future<List<Uri>> addFoundCodeAssets({
     required BuildInput input,
-    required List<String> libraryNames,
+    required List<Map<String, String>> assetMappings,
   }) async {
     final linkMode = getLinkMode(input);
     final searchDir = Directory.fromUri(input.outputDirectory);
@@ -449,27 +505,32 @@ extension AddFoundCodeAssetsExtension on BuildOutput {
     )) {
       if (entity is! File) continue;
       final filePath = entity.path;
-      for (final name in libraryNames) {
-        final libName = input.config.code.targetOS.libraryFileName(
-          name,
-          linkMode,
-        );
-        if (filePath.endsWith(libName)) {
-          // Check local call duplicates.
-          if (addedPaths.contains(filePath)) break;
-          addEncodedAsset(
-            CodeAsset(
-              package: input.packageName,
-              name: '$name.dart',
-              linkMode: linkMode,
-              os: input.config.code.targetOS,
-              file: entity.uri,
-              architecture: input.config.code.targetArchitecture,
-            ),
+      // Iterate over each mapping in the list.
+      for (final mapping in assetMappings) {
+        for (final entry in mapping.entries) {
+          final searchName = entry.key;
+          final assetName = entry.value;
+          final expectedLibName = input.config.code.targetOS.libraryFileName(
+            searchName,
+            linkMode,
           );
-          addedPaths.add(filePath);
-          foundFiles.add(entity.uri);
-          break;
+          if (filePath.endsWith(expectedLibName)) {
+            if (addedPaths.contains(filePath)) break;
+            addEncodedAsset(
+              CodeAsset(
+                package: input.packageName,
+                name: assetName,
+                linkMode: linkMode,
+                os: input.config.code.targetOS,
+                file: entity.uri,
+                architecture: input.config.code.targetArchitecture,
+              ),
+            );
+            addedPaths.add(filePath);
+            foundFiles.add(entity.uri);
+            // Once a file matches one mapping, no need to check further.
+            break;
+          }
         }
       }
     }
@@ -493,7 +554,7 @@ extension AddFoundCodeAssetsExtension on BuildOutput {
   }
 }
 
-extension GetLinkMode on BuildOutput {
+extension GetLinkMode on BuildOutputBuilder {
   /// Returns the [LinkMode] that should be used for linking code assets.
   /// The link mode is determined by the [LinkModePreference] in the input
   /// configuration.
@@ -509,62 +570,6 @@ extension GetLinkMode on BuildOutput {
     );
     return StaticLinking();
   }
-}
-
-extension type BuildOutputAssets._(BuildOutput _output) {
-  /// The assets produced by this build.
-  List<EncodedAsset> get encodedAssets => _output._encodedAssets;
-
-  /// The assets produced by this build which should be linked.
-  ///
-  /// Every key in the map is a package name. These assets in the values are not
-  /// bundled with the application, but are sent to the link hook of the package
-  /// specified in the key, which can decide if they are bundled or not.
-  Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
-      _output._encodedAssetsForLinking;
-}
-
-/// Builder to produce the output of a build hook.
-///
-/// There are various Dart extensions on this [BuildOutputBuilder] that allow
-/// adding specific asset types - which should be used by normal hook authors.
-/// For example
-///
-/// ```dart
-/// main(List<String> arguments) async {
-///   await build((input, output) {
-///     output.assets.code.add(CodeAsset(...));
-///     output.assets.data.add(DataAsset(...));
-///   });
-/// }
-/// ```
-class BuildOutputBuilder extends HookOutputBuilder {
-  /// Adds metadata to be passed to build hook invocations of dependent
-  /// packages.
-  @Deprecated(metadataDeprecation)
-  void addMetadatum(String key, Object value) {
-    final metadata = _syntax.metadata ?? {};
-    metadata[key] = value;
-    metadata.sortOnKey();
-    _syntax.metadata = metadata;
-  }
-
-  /// Adds metadata to be passed to build hook invocations of dependent
-  /// packages.
-  @Deprecated(metadataDeprecation)
-  void addMetadata(Map<String, Object> metadata) {
-    final value = _syntax.metadata ?? {};
-    value.addAll(metadata);
-    value.sortOnKey();
-    _syntax.metadata = value;
-  }
-
-  EncodedAssetBuildOutputBuilder get assets =>
-      EncodedAssetBuildOutputBuilder._(this);
-
-  @override
-  syntax.BuildOutput get _syntax =>
-      syntax.BuildOutput.fromJson(super._syntax.json);
 }
 
 extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
