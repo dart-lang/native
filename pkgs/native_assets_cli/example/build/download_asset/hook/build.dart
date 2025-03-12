@@ -37,7 +37,14 @@ void main(List<String> args) async {
         targetArchitecture.name,
         iOSSdk?.type,
       );
-      final expectedHash = assetHashes[targetName];
+
+      // Create a lookup where the keys have their file extension removed.
+      final normalizedHashes = {
+        for (final entry in assetHashes.entries)
+          entry.key.substring(0, entry.key.lastIndexOf('.')): entry.value,
+      };
+
+      final expectedHash = normalizedHashes[targetName];
       if (fileHash != expectedHash) {
         throw Exception(
           'File $file was not downloaded correctly. '
