@@ -37,7 +37,6 @@ void main(List<String> args) async {
         targetArchitecture.name,
         iOSSdk?.type,
       );
-      stderr.writeln('Target name: $targetName');
       final expectedHash = assetHashes[targetName];
       if (fileHash != expectedHash) {
         throw Exception(
@@ -48,6 +47,7 @@ void main(List<String> args) async {
       await output.addFoundCodeAssets(
         input: input,
         assetMappings: [
+          // asset to find : name to add it as
           {targetName: 'native_add.dart'},
         ],
       );

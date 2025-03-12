@@ -476,17 +476,21 @@ extension DataAssetsDirectoryExtension on BuildOutputBuilder {
 
 extension AddFoundCodeAssetsExtension on BuildOutputBuilder {
   /// Searches recursively through the entire expected output directory
-  /// for native library files that match the expected target filename.
+  /// for native library files that match the expected target filename
+  /// based on a list of asset mappings.
   ///
-  /// Library names should be given without prefix and extension. For example,
-  /// foo instead of libfoo.so or foo.dll.
+  /// Each mapping in [assetMappings] is a Map with a single key-value pair
+  /// where:
+  /// - The key represents the filename (given without prefix and extension) to
+  ///   search for.
+  /// - The value represents the linked CodeAsset name that should be used.
   ///
   /// The expected filename is computed using the current operating system's
-  /// naming conventions combined with a concrete [LinkMode] derived from
-  /// the inputs link preference.
+  /// naming conventions and a concrete [LinkMode] derived from the input's
+  /// link preference.
   ///
   /// For each file that ends with the computed library filename for one of the
-  /// provided [libraryNames], a [CodeAsset] is created and added via
+  /// provided mappings, a [CodeAsset] is created and added via
   /// [addEncodedAsset] if it hasn't already been added.
   ///
   /// Returns a list of URIs corresponding to all the added code assets.
