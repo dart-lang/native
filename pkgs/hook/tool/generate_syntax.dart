@@ -99,6 +99,9 @@ ${classes.join('\n\n')}
   print('Generated $outputUri');
 }
 
+/// Generates the a class that can serialize/deserialize from a JSON object.
+///
+/// The sub classes are identified by a `type` property.
 List<String> generateSubClasses(JsonSchemas schemas) {
   final classes = <String>[];
   final typeName = schemas.className;
@@ -149,6 +152,10 @@ extension ${subTypeName}Extension on $typeName {
   return classes;
 }
 
+/// Generates the a class that can serialize/deserialize from a JSON object.
+///
+/// May have a super class, but it not distinguishable by a `type` property.
+/// For that case see [generateSubClasses].
 String generateClass(
   JsonSchemas schemas, {
   String? name,
@@ -184,7 +191,7 @@ String generateClass(
 
     if (parentPropertySchemas == null) {
       accessors.add(
-        generateAccessor(
+        generateGetterAndSetter(
           propertyKey,
           propertySchemas,
           required,
@@ -208,7 +215,7 @@ String generateClass(
             parentPropertySchemas?.type != null ||
             propertySchemas.className != null;
         accessors.add(
-          generateAccessor(
+          generateGetterAndSetter(
             propertyKey,
             propertySchemas,
             required,
@@ -309,6 +316,10 @@ ${classes.join('\n\n')}
 ''';
 }
 
+/// Generates an open enum class.
+///
+/// The 'name' or 'type' is an open enum. Static consts are generated for all
+/// known values. Parsing an unknown value doesn't fail.
 String generateEnumClass(JsonSchemas schemas, {String? name}) {
   if (schemas.type != SchemaType.string) {
     throw UnimplementedError(schemas.type.toString());
@@ -363,6 +374,9 @@ static const $valueName = $typeName._('$value');
   ''';
 }
 
+/// Generates the Dart type representing the type for a property.
+///
+/// Used for generating field types, getters, and setters.
 String generateDartType(
   String propertyKey,
   JsonSchemas schemas,
@@ -449,7 +463,8 @@ String generateDartType(
   return '$dartTypeNonNullable?';
 }
 
-String generateAccessor(
+/// Generate getter and setter pairs for a property.
+String generateGetterAndSetter(
   String propertyKey,
   JsonSchemas schemas,
   bool required, {
