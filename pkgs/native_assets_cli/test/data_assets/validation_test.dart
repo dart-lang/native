@@ -204,7 +204,11 @@ void main() {
     await nestedFile2.writeAsString('Nested file 2');
 
     final output = BuildOutput(outputBuilder.json);
-    await outputBuilder.addDataAssetDirectories(['assets3'], input: input);
+    await outputBuilder.addDataAssetDirectories(
+      ['assets3'],
+      input: input,
+      recursive: true,
+    );
 
     // Verify that the top-level directory, nested directory, and both files are
     // added.

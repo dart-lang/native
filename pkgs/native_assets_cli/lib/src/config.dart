@@ -415,9 +415,13 @@ extension DataAssetsDirectoryExtension on BuildOutputBuilder {
   /// If any specified path does not exist, a [FileSystemException] is thrown.
   /// Any error during the directory listing is caught and rethrown with
   /// additional context.
+  ///
+  /// When recursive is set to true, the method will also add all subdirectories
+  /// and their files as dependencies.
   Future<void> addDataAssetDirectories(
     List<String> paths, {
     required BuildInput input,
+    bool recursive = false,
   }) async {
     final packageName = input.packageName;
     final packageRoot = input.packageRoot;
@@ -431,7 +435,7 @@ extension DataAssetsDirectoryExtension on BuildOutputBuilder {
         addDependency(directory.uri);
         try {
           await for (final entity in directory.list(
-            recursive: true,
+            recursive: recursive,
             followLinks: false,
           )) {
             // Add dependency for every file and directory found.
