@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:math';
+import 'dart:io';
 
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/code_assets.dart';
@@ -348,6 +349,21 @@ class RunCBuilder {
       archiver_ = await archiver();
     }
 
+    // create temporary "Name Forced Include" file
+    final nfiFile = File.fromUri(outDir.resolve('nfi.txt'));
+    // add each preprocessor definition to the file
+    for (final MapEntry(key: name, :value) in defines.entries) {
+      (value == null)
+          ? await nfiFile.writeAsString(
+            '#ifndef $name\n#define $name\n#endif\n',
+            mode: FileMode.append,
+          )
+          : await nfiFile.writeAsString(
+            '#ifndef $name\n#define $name $value\n#endif\n',
+            mode: FileMode.append,
+          );
+    }
+
     final result = await runProcess(
       executable: tool.uri,
       arguments: [
@@ -356,8 +372,7 @@ class RunCBuilder {
         if (std != null) '/std:$std',
         if (language == Language.cpp) '/TP',
         ...flags,
-        for (final MapEntry(key: name, :value) in defines.entries)
-          if (value == null) '/D$name' else '/D$name=$value',
+        ...defines.isNotEmpty ? ['/FI${nfiFile.path}'] : [],
         for (final directory in includes) '/I${directory.toFilePath()}',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
