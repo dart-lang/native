@@ -2,7 +2,7 @@
 
 - Added validation that all URLs in the `Input` and `Output` of hooks are
   absolute.
-- Added extension methods on `BuildOutput`: `addDataAssetDirectories`,
+- Added extension methods on `BuildOutputBuilder`: `addDataAssetDirectories`,
   `addFoundCodeAssets`, and `getLinkMode`.
 
 ## 0.11.0
