@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/data_assets_builder.dart';
+import 'package:native_assets_cli/src/config.dart';
 import 'package:native_assets_cli/src/data_assets/validation.dart';
 import 'package:test/test.dart';
 
@@ -107,5 +108,62 @@ void main() {
       BuildOutput(outputBuilder.json),
     );
     expect(errors, contains(contains('More than one')));
+  });
+
+  test('addDataAssetDirectories processes multiple directories', () async {
+    final input = makeDataBuildInput();
+    final outputBuilder = BuildOutputBuilder();
+
+    final assetsDir1Uri = packageRootUri.resolve('assets1');
+    final assetsDir1 = Directory.fromUri(assetsDir1Uri);
+    await assetsDir1.create(recursive: true);
+
+    final assetsDir2Uri = packageRootUri.resolve('assets2');
+    final assetsDir2 = Directory.fromUri(assetsDir2Uri);
+    await assetsDir2.create(recursive: true);
+
+    // Create a file in assets1.
+    final file1Uri = assetsDir1.uri.resolve('file1.txt');
+    final file1 = File.fromUri(file1Uri);
+    await file1.writeAsString('Hello World');
+
+    // Create a file in assets2.
+    final file2Uri = assetsDir2.uri.resolve('file2.txt');
+    final file2 = File.fromUri(file2Uri);
+    await file2.writeAsString('Hello Dart');
+
+    final output = BuildOutput(outputBuilder.json);
+    await output.addDataAssetDirectories(['assets1', 'assets2'], input: input);
+
+    // Check that both subdirectories were added as dependencies.
+    expect(output.dependencies, contains(assetsDir2.uri));
+    expect(output.dependencies, contains(assetsDir2.uri));
+    // Check that the files in both directories were added as dependencies.
+    expect(output.dependencies, contains(file1Uri));
+    expect(output.dependencies, contains(file2Uri));
+  });
+
+  test('addDataAssetDirectories processes one file', () async {
+    final input = makeDataBuildInput();
+    final outputBuilder = BuildOutputBuilder();
+
+    final assetsDirUri = packageRootUri.resolve('single_assets');
+    final assetsDir = Directory.fromUri(assetsDirUri);
+    await assetsDir.create(recursive: true);
+
+    // Create a file in the single_assets directory.
+    final fileUri = assetsDir.uri.resolve('single_file.txt');
+    final file = File.fromUri(fileUri);
+    await file.writeAsString('Test content');
+
+    final output = BuildOutput(outputBuilder.json);
+    await output.addDataAssetDirectories([
+      'single_assets/single_file.txt',
+    ], input: input);
+
+    // Check that the directory was added as a dependency.
+    expect(output.dependencies, contains(assetsDir.uri));
+    // Check that the file in the directory was added as a dependency.
+    expect(output.dependencies, contains(fileUri));
   });
 }
