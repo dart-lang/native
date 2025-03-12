@@ -19,12 +19,6 @@ final rootSchemas = loadSchemas([
 ]);
 final rootSchemas2 = rootSchemas.map((key, value) => MapEntry(value, key));
 
-const packageImports = {
-  'code_assets': ['hook'],
-  'data_assets': ['hook'],
-  'hook': <String>[],
-};
-
 /// These classes are constructed peacemeal instead of in one go.
 ///
 /// Generate public setters.
@@ -35,38 +29,6 @@ const _publicSetters = {
   'HookOutput',
   'LinkOutput',
 };
-
-String dependency(List<String> packages) {
-  if (packages.length != 2) {
-    throw UnimplementedError(
-      'Extensions on extensions not supported. '
-      'So, only expect at most two packages.',
-    );
-  }
-  if (packageImports[packages[0]]!.contains(packages[1])) {
-    return packages[1];
-  }
-  if (packageImports[packages[1]]!.contains(packages[0])) {
-    return packages[0];
-  }
-  throw StateError('Unknown packages: $packages');
-}
-
-String importer(List<String> packages) {
-  if (packages.length != 2) {
-    throw UnimplementedError(
-      'Extensions on extensions not supported. '
-      'So, only expect at most two packages.',
-    );
-  }
-  if (packageImports[packages[0]]!.contains(packages[1])) {
-    return packages[0];
-  }
-  if (packageImports[packages[1]]!.contains(packages[0])) {
-    return packages[1];
-  }
-  throw StateError('Unknown packages: $packages');
-}
 
 void main() {
   if (rootSchemas.length != rootSchemas2.length) {
@@ -114,8 +76,6 @@ void generate(
     final definitionSchemas = schemas.getDefinition(definitionKey);
     if (definitionSchemas.generateOpenEnum) {
       classes.add(generateEnumClass(definitionSchemas, name: definitionKey));
-    } else if (definitionSchemas.generateExtension(packageName)) {
-      classes.add(generateExtension(definitionSchemas));
     } else if (definitionSchemas.generateClass) {
       classes.add(generateClass(definitionSchemas, name: definitionKey));
     }
@@ -137,56 +97,6 @@ ${classes.join('\n\n')}
   file.writeAsStringSync(output2);
   Process.runSync(Platform.executable, ['format', outputUri.toFilePath()]);
   print('Generated $outputUri');
-}
-
-String generateExtension(JsonSchemas schemas) {
-  final typeName = schemas.className!;
-  final extensionSchemas = schemas.extensionSchemas;
-  final baseSchemas = schemas.baseSchemas;
-  final baseName = baseSchemas.className;
-  if (baseName != typeName) {
-    throw StateError(
-      'Expected the class name of the extension '
-      'to be identical to the base schema class name.',
-    );
-  }
-  final basePropertyKeys = baseSchemas.propertyKeys;
-  final extensionPropertyKeys =
-      extensionSchemas.propertyKeys
-          .where((e) => !basePropertyKeys.contains(e))
-          .toList();
-
-  final accessors = <String>[];
-  final classes = <String>[];
-  for (final propertyKey in extensionPropertyKeys) {
-    final propertySchemas = schemas.property(propertyKey);
-    final required = schemas.propertyRequired(propertyKey);
-    accessors.add(
-      generateAccessor(
-        propertyKey,
-        propertySchemas,
-        required,
-        setterPrivate: false,
-      ),
-    );
-    if (propertySchemas.generateClass && propertySchemas.refs.isEmpty) {
-      classes.add(generateClass(propertySchemas, name: propertyKey));
-    }
-  }
-
-  if (schemas.generateSubClasses) {
-    classes.addAll(generateSubClasses(schemas));
-  }
-
-  return [
-    if (extensionPropertyKeys.isNotEmpty)
-      '''
-extension ${baseName}Extension on $baseName {
-  ${accessors.join('\n\n')}
-}
-''',
-    ...classes,
-  ].join('\n\n');
 }
 
 List<String> generateSubClasses(JsonSchemas schemas) {
@@ -968,12 +878,6 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
       }
     }
     final result = JsonSchemas._(flattened);
-    if (result.dartPackages.length > 2) {
-      throw UnimplementedError(
-        'Extensions on extensions not implemented. '
-        'So only two package names are expected here.',
-      );
-    }
     return result;
   }
 
@@ -1221,72 +1125,6 @@ extension CodeGenDecisions on JsonSchemas {
       return JsonSchemas(schema)._flatten();
     }
     throw StateError('No super class schema found for $parentClassName.');
-  }
-
-  JsonSchemas get baseSchemas {
-    final packages = dartPackages;
-    if (packages.length == 1) {
-      return this;
-    }
-    if (packages.length != 2) {
-      throw UnimplementedError(
-        'No extensions on extensions supported. '
-        'So, only two package names expected.',
-      );
-    }
-    final package = dependency(packages);
-    final result = <JsonSchema>[];
-    for (final schema in _schemas) {
-      if (schema.dartPackage == package) {
-        result.add(schema);
-      }
-    }
-    return JsonSchemas._(result);
-  }
-
-  JsonSchemas get extensionSchemas {
-    final packages = dartPackages;
-    if (packages.length == 1) {
-      return JsonSchemas._([]);
-    }
-    if (packages.length != 2) {
-      throw UnimplementedError(
-        'No extensions on extensions supported. '
-        'So, only two package names expected.',
-      );
-    }
-    final package = importer(packages);
-    final result = <JsonSchema>[];
-    for (final schema in _schemas) {
-      if (schema.dartPackage == package) {
-        result.add(schema);
-      }
-    }
-    return JsonSchemas._(result);
-  }
-
-  bool generateExtension(String currentPackage) =>
-      dartPackages.length > 1 ||
-      dartPackages[0] != currentPackage && className != null;
-
-  List<String> get dartPackages {
-    final result = <String>[];
-    for (final schema in _schemas) {
-      final pkg = schema.dartPackage;
-      if (!result.contains(pkg)) {
-        result.add(pkg);
-      }
-    }
-    return result;
-  }
-}
-
-extension on JsonSchema {
-  String get dartPackage {
-    final schemaUri = rootSchemas2[root]!;
-    final segments = schemaUri.pathSegments;
-    final pkgName = segments[segments.indexOf('pkgs') + 1];
-    return pkgName;
   }
 }
 
