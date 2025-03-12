@@ -455,12 +455,6 @@ extension DataAssetsDirectoryExtension on BuildOutputBuilder {
       }
     }
   }
-
-  void addDependency(Uri uri) {
-    final dependencies = _syntax.dependencies ?? [];
-    dependencies.add(uri);
-    _syntax.dependencies = dependencies;
-  }
 }
 
 extension AddFoundCodeAssetsExtension on BuildOutputBuilder {
