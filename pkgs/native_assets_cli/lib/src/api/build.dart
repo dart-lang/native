@@ -31,6 +31,7 @@ import '../validation.dart';
 ///       assetName: '$packageName.dart',
 ///       sources: [
 ///         'src/$packageName.c',
+///         'src/$packageName.h',
 ///       ],
 ///     );
 ///     await cbuilder.run(

@@ -50,6 +50,23 @@ experiment is only available on the master channel.
 We do breaking changes regularly! So frequently bump `package:native_assets_cli`
 and use dev/master SDK for CI.
 
+**Note:** When configuring `CBuilder` in your `hook/build.dart`, 
+include both `.c` source files and `.h` header files in the `sources` list. 
+This ensures that changes to header files (e.g., `native_add_library.h`) 
+invalidate the build cache, triggering a rebuild when necessary. For example:
+```dart
+final cbuilder = CBuilder.library(
+  name: 'native_add_library',
+  assetName: 'src/native_add_library_bindings_generated.dart',
+  sources: [
+    'src/native_add_library.c',
+    'src/native_add_library.h',
+    'src/dart_api_dl.c',
+    'src/dart_api_dl.h',
+  ],
+);
+```
+
 ## Development
 
 The development of the feature can be tracked in [dart-lang#50565],
