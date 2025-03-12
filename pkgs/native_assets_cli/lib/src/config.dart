@@ -434,19 +434,8 @@ extension DataAssetsDirectoryExtension on BuildOutputBuilder {
             recursive: true,
             followLinks: false,
           )) {
-            if (entity is! File) continue;
-            final assetUri = entity.uri;
-            final packageRootPath = packageRoot.toFilePath(
-              windows: Platform.isWindows,
-            );
-            final assetPath = assetUri.toFilePath(windows: Platform.isWindows);
-            final relativeName = assetPath.substring(packageRootPath.length);
-            final dataAsset = DataAsset(
-              package: input.packageName,
-              name: relativeName,
-              file: assetUri,
-            );
-            addDependency(dataAsset.file);
+            // Add dependency for every file and directory found.
+            addDependency(entity.uri);
           }
         } on FileSystemException catch (e) {
           throw FileSystemException(

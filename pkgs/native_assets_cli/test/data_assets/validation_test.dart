@@ -169,4 +169,49 @@ void main() {
     // Check that the file in the directory was added as a dependency.
     expect(output.dependencies, contains(fileUri));
   });
+
+  test('addDataAssetDirectories processes nested directories', () async {
+    final input = makeDataBuildInput();
+    final outputBuilder = BuildOutputBuilder();
+
+    // Create top-level assets directory.
+    final assetsDirUri = packageRootUri.resolve('assets3');
+    final assetsDir = Directory.fromUri(assetsDirUri);
+    await assetsDir.create(recursive: true);
+
+    // Create nested subdirectory.
+    final nestedDirUri = assetsDir.uri.resolve('subdir');
+    final nestedDir = Directory.fromUri(nestedDirUri);
+    await nestedDir.create(recursive: true);
+
+    final nestedDir2Uri = nestedDir.uri.resolve('subdir2');
+    final nestedDir2 = Directory.fromUri(nestedDir2Uri);
+    await nestedDir2.create(recursive: true);
+
+    // Create a file in the top-level assets directory.
+    final fileTopUri = assetsDir.uri.resolve('top_file.txt');
+    final fileTop = File.fromUri(fileTopUri);
+    await fileTop.writeAsString('Top level file');
+
+    // Create a file in the nested subdirectory.
+    final nestedFileUri = nestedDir.uri.resolve('nested_file.txt');
+    final nestedFile = File.fromUri(nestedFileUri);
+    await nestedFile.writeAsString('Nested file');
+
+    // Create a file in the nested subdirectory.
+    final nestedFile2Uri = nestedDir2.uri.resolve('nested_file2.txt');
+    final nestedFile2 = File.fromUri(nestedFile2Uri);
+    await nestedFile2.writeAsString('Nested file 2');
+
+    final output = BuildOutput(outputBuilder.json);
+    await outputBuilder.addDataAssetDirectories(['assets3'], input: input);
+
+    // Verify that the top-level directory, nested directory, and both files are
+    // added.
+    expect(output.dependencies, contains(assetsDir.uri));
+    expect(output.dependencies, contains(nestedDir.uri));
+    expect(output.dependencies, contains(fileTopUri));
+    expect(output.dependencies, contains(nestedFileUri));
+    expect(output.dependencies, contains(nestedFile2Uri));
+  });
 }
