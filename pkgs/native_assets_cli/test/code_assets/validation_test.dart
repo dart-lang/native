@@ -335,7 +335,10 @@ void main() {
       final buildOutput = BuildOutput(outputBuilder.json);
       // Compute expected library file name using the current OS conventions.
       final linkMode = buildOutput.getLinkMode(input);
-      final expectedLibName = OS.current.libraryFileName('foo', linkMode);
+      final expectedLibName = input.config.code.targetOS.libraryFileName(
+        'foo',
+        linkMode,
+      );
       final fileUri = outDirUri.resolve(expectedLibName);
       await File.fromUri(fileUri).writeAsBytes([1, 2, 3]);
       final found = await buildOutput.addFoundCodeAssets(
@@ -363,7 +366,10 @@ void main() {
       final buildOutput = BuildOutput(outputBuilder.json);
 
       final linkMode = buildOutput.getLinkMode(input);
-      final expectedLibName = OS.current.libraryFileName('foo', linkMode);
+      final expectedLibName = input.config.code.targetOS.libraryFileName(
+        'foo',
+        linkMode,
+      );
       final fileUri = outDirUri.resolve(expectedLibName);
       await File.fromUri(fileUri).writeAsBytes([1, 2, 3]);
       // Add the asset once.
