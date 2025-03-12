@@ -4,8 +4,31 @@
 
 // This file is generated, do not edit.
 
-import '../hook/syntax.g.dart';
 import '../utils/json.dart';
+
+class Asset {
+  final Map<String, Object?> json;
+
+  Asset.fromJson(this.json);
+
+  Asset({String? type}) : json = {} {
+    _type = type;
+    json.sortOnKey();
+  }
+
+  String? get type => json.optionalString('type');
+
+  set _type(String? value) {
+    if (value == null) {
+      json.remove('type');
+    } else {
+      json['type'] = value;
+    }
+  }
+
+  @override
+  String toString() => 'Asset($json)';
+}
 
 class DataAsset extends Asset {
   DataAsset.fromJson(super.json) : super.fromJson();

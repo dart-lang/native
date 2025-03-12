@@ -232,7 +232,7 @@ void testFields({
 
         final schemaName = '${hook.name}_${inputOrOutput.name}';
         final schemaUri = packageUri.resolve(
-          'doc/schema/${party.name}/$schemaName.schema.json',
+          'doc/schema/${party.name}/$schemaName.generated.schema.json',
         );
         final schema = allSchemas[schemaUri]!;
         final dataName = '${hook.name}_${inputOrOutput.name}$dataSuffix';

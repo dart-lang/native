@@ -42,7 +42,7 @@ class CodeConfig {
   final syntax.CodeConfig _syntax;
 
   CodeConfig._fromJson(Map<String, Object?> json)
-    : _syntax = hook_syntax.Config.fromJson(json).code!;
+    : _syntax = syntax.Config.fromJson(json).code!;
 
   /// The architecture the code code asset should be built for.
   ///
@@ -207,9 +207,9 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     IOSCodeConfig? iOS,
     MacOSCodeConfig? macOS,
   }) {
-    hook_syntax.HookInput.fromJson(
-      builder.json,
-    ).config.code = syntax.CodeConfig(
+    syntax.Config.fromJson(
+      hook_syntax.HookInput.fromJson(builder.json).config.json,
+    ).code = syntax.CodeConfig(
       linkModePreference: linkModePreference.toSyntax(),
       targetArchitecture: targetArchitecture.toSyntax(),
       targetOs: targetOS.toSyntax(),

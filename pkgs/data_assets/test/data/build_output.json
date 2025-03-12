@@ -1,5 +1,5 @@
 {
-  "$schema": "../../doc/schema/hook/build_output.schema.json",
+  "$schema": "../../doc/schema/hook/build_output.generated.schema.json",
   "assets": [
     {
       "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",

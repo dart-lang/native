@@ -55,6 +55,12 @@ const List<String> _orderedKeysInSchemas = [
   '\$schema',
   '\$id',
 
+  // Informational: Keyword for adding comments to the schema.
+  '\$comment',
+
+  // References to other schemas.
+  '\$ref',
+
   // Schema Metadata: Human-readable information about the schema.
   'title',
   'description',
@@ -127,9 +133,6 @@ const List<String> _orderedKeysInSchemas = [
   // Object Validation: Keywords for validating object data.
   'maxProperties',
   'minProperties',
-
-  // Informational: Keyword for adding comments to the schema.
-  '\$comment',
 ];
 
 dynamic sortJson(dynamic data, String filePath) {
