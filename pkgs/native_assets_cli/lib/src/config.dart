@@ -466,7 +466,8 @@ extension DataAssetsDirectoryExtension on BuildOutputBuilder {
 extension AddFoundCodeAssetsExtension on BuildOutputBuilder {
   /// Searches recursively through the entire expected output directory
   /// for native library files that match the expected target filename
-  /// based on a list of asset mappings.
+  /// based on a list of asset mappings. An output directory can be optionally
+  /// provided, otherwise the output directory from the input is used.
   ///
   /// Each mapping in [assetMappings] is a Map with a single key-value pair
   /// where:
@@ -486,9 +487,11 @@ extension AddFoundCodeAssetsExtension on BuildOutputBuilder {
   Future<List<Uri>> addFoundCodeAssets({
     required BuildInput input,
     required List<Map<String, String>> assetMappings,
+    Uri? outputDirectory,
   }) async {
     final linkMode = getLinkMode(input);
-    final searchDir = Directory.fromUri(input.outputDirectory);
+    final outDir = outputDirectory ?? input.outputDirectory;
+    final searchDir = Directory.fromUri(outDir);
     final addedPaths = <String>{};
     final foundFiles = <Uri>[];
 
