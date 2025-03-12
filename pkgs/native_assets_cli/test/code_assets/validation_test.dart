@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/src/code_assets/validation.dart';
+import 'package:native_assets_cli/src/config.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -323,6 +324,72 @@ void main() {
         errors.any((e) => matches(e, 'windows.developerCommandPrompt.script')),
         true,
       );
+    });
+  });
+
+  group('CodeAssetsExtension.addCodeAssets', () {
+    test('finds matching file', () async {
+      final input = makeCodeBuildInput();
+      final outputBuilder = BuildOutputBuilder();
+      // Compute expected library file name using the current OS conventions.
+      final linkMode = outputBuilder.getLinkMode(input);
+      final expectedLibName = input.config.code.targetOS.libraryFileName(
+        'foo',
+        linkMode,
+      );
+      final fileUri = outDirUri.resolve(expectedLibName);
+      await File.fromUri(fileUri).writeAsBytes([1, 2, 3]);
+      final found = await outputBuilder.addFoundCodeAssets(
+        input: input,
+        assetMappings: [
+          {'foo': 'foo.dart'},
+        ],
+      );
+      expect(found, contains(fileUri));
+    });
+
+    test('returns empty list when no matching file is found', () async {
+      final input = makeCodeBuildInput();
+      final outputBuilder = BuildOutputBuilder();
+      final found = await outputBuilder.addFoundCodeAssets(
+        input: input,
+        assetMappings: [
+          {'nonexistent': 'nonexistent.dart'},
+        ],
+      );
+      expect(found, isEmpty);
+    });
+
+    test('prevents duplicate asset addition', () async {
+      final input = makeCodeBuildInput();
+      final outputBuilder = BuildOutputBuilder();
+
+      final buildOutput = BuildOutput(outputBuilder.json);
+
+      final linkMode = outputBuilder.getLinkMode(input);
+      final expectedLibName = input.config.code.targetOS.libraryFileName(
+        'foo',
+        linkMode,
+      );
+      final fileUri = outDirUri.resolve(expectedLibName);
+      await File.fromUri(fileUri).writeAsBytes([1, 2, 3]);
+      // Add the asset once.
+      final firstFound = await outputBuilder.addFoundCodeAssets(
+        input: input,
+        assetMappings: [
+          {'foo': 'foo.dart'},
+        ],
+      );
+      // Try to add it again; duplicate should be prevented.
+      final secondFound = await outputBuilder.addFoundCodeAssets(
+        input: input,
+        assetMappings: [
+          {'foo': 'foo.dart'},
+        ],
+      );
+      expect(firstFound, contains(fileUri));
+      expect(secondFound, contains(fileUri));
+      expect(buildOutput.assets.code.length, 1);
     });
   });
 }

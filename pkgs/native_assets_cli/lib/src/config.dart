@@ -8,7 +8,9 @@ import 'dart:io';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
+import '../code_assets.dart';
 import 'api/deprecation_messages.dart';
+import 'data_assets/data_asset.dart';
 import 'encoded_asset.dart';
 import 'hook/syntax.g.dart' as syntax;
 import 'metadata.dart';
@@ -402,6 +404,166 @@ class BuildOutputBuilder extends HookOutputBuilder {
   @override
   syntax.BuildOutput get _syntax =>
       syntax.BuildOutput.fromJson(super._syntax.json);
+}
+
+extension DataAssetsDirectoryExtension on BuildOutputBuilder {
+  /// Extension on [BuildOutput] to handle data asset directories and files.
+  ///
+  /// This extension provides a convenient way for build hooks to add
+  /// [DataAsset] dependencies from one or more directories or individual files.
+  ///
+  /// If any specified path does not exist, a [FileSystemException] is thrown.
+  /// Any error during the directory listing is caught and rethrown with
+  /// additional context.
+  ///
+  /// When recursive is set to true, the method will also add all subdirectories
+  /// and their files as dependencies.
+  Future<void> addDataAssetDirectories(
+    List<String> paths, {
+    required BuildInput input,
+    bool recursive = false,
+  }) async {
+    final packageName = input.packageName;
+    final packageRoot = input.packageRoot;
+    for (final path in paths) {
+      final resolvedUri = packageRoot.resolve('$packageName/$path');
+      final directory = Directory.fromUri(resolvedUri);
+      final file = File.fromUri(resolvedUri);
+
+      if (await directory.exists()) {
+        // Process as a directory.
+        addDependency(directory.uri);
+        try {
+          await for (final entity in directory.list(
+            recursive: recursive,
+            followLinks: false,
+          )) {
+            // Add dependency for every file and directory found.
+            addDependency(entity.uri);
+          }
+        } on FileSystemException catch (e) {
+          throw FileSystemException(
+            'Error reading directory "$path": ${e.message}',
+            directory.path,
+            e.osError,
+          );
+        }
+      } else if (await file.exists()) {
+        addDependency(file.parent.uri);
+        addDependency(file.uri);
+      } else {
+        throw FileSystemException(
+          'Path does not exist',
+          resolvedUri.toFilePath(windows: Platform.isWindows),
+        );
+      }
+    }
+  }
+}
+
+extension AddFoundCodeAssetsExtension on BuildOutputBuilder {
+  /// Searches recursively through the entire expected output directory
+  /// for native library files that match the expected target filename
+  /// based on a list of asset mappings. An output directory can be optionally
+  /// provided, otherwise the output directory from the input is used.
+  ///
+  /// Each mapping in [assetMappings] is a Map with a single key-value pair
+  /// where:
+  /// - The key represents the filename (given without prefix and extension) to
+  ///   search for.
+  /// - The value represents the linked CodeAsset name that should be used.
+  ///
+  /// The expected filename is computed using the current operating system's
+  /// naming conventions and a concrete [LinkMode] derived from the input's
+  /// link preference.
+  ///
+  /// For each file that ends with the computed library filename for one of the
+  /// provided mappings, a [CodeAsset] is created and added via
+  /// [addEncodedAsset] if it hasn't already been added.
+  ///
+  /// Returns a list of URIs corresponding to all the added code assets.
+  Future<List<Uri>> addFoundCodeAssets({
+    required BuildInput input,
+    required List<Map<String, String>> assetMappings,
+    Uri? outputDirectory,
+  }) async {
+    final linkMode = getLinkMode(input);
+    final outDir = outputDirectory ?? input.outputDirectory;
+    final searchDir = Directory.fromUri(outDir);
+    final addedPaths = <String>{};
+    final foundFiles = <Uri>[];
+
+    await for (final entity in searchDir.list(
+      recursive: true,
+      followLinks: false,
+    )) {
+      if (entity is! File) continue;
+      final filePath = entity.path;
+      // Iterate over each mapping in the list.
+      for (final mapping in assetMappings) {
+        for (final entry in mapping.entries) {
+          final searchName = entry.key;
+          final assetName = entry.value;
+          final expectedLibName = input.config.code.targetOS.libraryFileName(
+            searchName,
+            linkMode,
+          );
+          if (filePath.endsWith(expectedLibName)) {
+            if (addedPaths.contains(filePath)) break;
+            addEncodedAsset(
+              CodeAsset(
+                package: input.packageName,
+                name: assetName,
+                linkMode: linkMode,
+                os: input.config.code.targetOS,
+                file: entity.uri,
+                architecture: input.config.code.targetArchitecture,
+              ),
+            );
+            addedPaths.add(filePath);
+            foundFiles.add(entity.uri);
+            // Once a file matches one mapping, no need to check further.
+            break;
+          }
+        }
+      }
+    }
+    return foundFiles;
+  }
+
+  /// Adds a [CodeAsset] by converting it into an encoded asset and appending
+  /// it to the internal list of assets.
+  /// Checks if an asset with the same uri already exists.
+  void addEncodedAsset(CodeAsset asset) {
+    final assetsJson = _syntax.assets ?? [];
+    final duplicate = assetsJson.any((savedAsset) {
+      final encoded = EncodedAsset.fromJson(savedAsset.json);
+      final codeAsset = CodeAsset.fromEncoded(encoded);
+      return asset.file == codeAsset.file;
+    });
+    if (!duplicate) {
+      assetsJson.add(syntax.Asset.fromJson(asset.encode().toJson()));
+      _syntax.assets = assetsJson;
+    }
+  }
+}
+
+extension GetLinkMode on BuildOutputBuilder {
+  /// Returns the [LinkMode] that should be used for linking code assets.
+  /// The link mode is determined by the [LinkModePreference] in the input
+  /// configuration.
+  LinkMode getLinkMode(BuildInput input) {
+    final preference = input.config.code.linkModePreference;
+    if (preference == LinkModePreference.dynamic ||
+        preference == LinkModePreference.preferDynamic) {
+      return DynamicLoadingBundled();
+    }
+    assert(
+      preference == LinkModePreference.static ||
+          preference == LinkModePreference.preferStatic,
+    );
+    return StaticLinking();
+  }
 }
 
 extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
