@@ -72,18 +72,6 @@ class CBuilder extends CTool implements Builder {
   CBuilder.library({
     required super.name,
     super.assetName,
-    /// The list of source files to build the library.
-    ///
-    /// This should include both C source files (e.g., `.c`) and header files
-    /// (e.g., `.h`). Including header files ensures that changes to them
-    /// invalidate the build cache, triggering recompilation when necessary.
-    /// For example, for a package named `native_add_library`:
-    /// ```dart
-    /// sources: [
-    ///   'src/native_add_library.c',
-    ///   'src/native_add_library.h',
-    /// ],
-    /// ```
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
