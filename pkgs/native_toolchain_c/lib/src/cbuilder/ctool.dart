@@ -37,6 +37,13 @@ abstract class CTool {
   /// Resolved against [LinkInput.packageRoot].
   ///
   /// The sources will be reported as dependencies of the hook.
+  ///
+  /// This should include both C source files (e.g., `.c`) and header files
+  /// (e.g., `.h`). Including header files ensures that changes to them
+  /// invalidate the build cache, triggering recompilation when necessary.
+  ///
+  /// If a compiler does not support this, the build system may filter `.h` files
+  /// from the compilation step while still tracking them as dependencies.
   final List<String> sources;
 
   /// Include directories to pass to the linker.

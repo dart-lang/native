@@ -43,29 +43,12 @@ assets work on Dart stable, but prefer using the dev releases as we regularly
 break things.
 
 To use native assets in Flutter, use
-`flutter config --enable-experiment=native-assets` and then
+`flutter config --enable-experiment=native-assets` and t
 `flutter create --template=package_ffi <package_name>`. In Flutter, the
 experiment is only available on the master channel.
 
 We do breaking changes regularly! So frequently bump `package:native_assets_cli`
 and use dev/master SDK for CI.
-
-**Note:** When configuring `CBuilder` in your `hook/build.dart`, 
-include both `.c` source files and `.h` header files in the `sources` list. 
-This ensures that changes to header files (e.g., `native_add_library.h`) 
-invalidate the build cache, triggering a rebuild when necessary. For example:
-```dart
-final cbuilder = CBuilder.library(
-  name: 'native_add_library',
-  assetName: 'src/native_add_library_bindings_generated.dart',
-  sources: [
-    'src/native_add_library.c',
-    'src/native_add_library.h',
-    'src/dart_api_dl.c',
-    'src/dart_api_dl.h',
-  ],
-);
-```
 
 ## Development
 

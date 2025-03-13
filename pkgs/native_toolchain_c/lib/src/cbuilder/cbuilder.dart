@@ -17,6 +17,25 @@ import 'output_type.dart';
 import 'run_cbuilder.dart';
 
 /// Specification for building an artifact with a C compiler.
+///
+/// **Note:** When configuring `CBuilder` in your `hook/build.dart`,
+/// include both `.c` source files and `.h` header files in the `sources` list.
+/// This ensures that changes to header files (e.g., `native_add_library.h`)
+/// invalidate the build cache, triggering a rebuild when necessary. For example:
+///
+/// ```dart
+/// final cbuilder = CBuilder.library(
+///   name: 'native_add_library',
+///   assetName: 'src/native_add_library_bindings_generated.dart',
+///   sources: [
+///     'src/native_add_library.c',
+///     'src/native_add_library.h',
+///   ],
+/// );
+/// ```
+///
+/// This class provides options to define sources, dependencies,
+/// and compiler configurations for building C-based native libraries.
 class CBuilder extends CTool implements Builder {
   /// The dart files involved in building this artifact.
   ///
@@ -63,14 +82,8 @@ class CBuilder extends CTool implements Builder {
     /// sources: [
     ///   'src/native_add_library.c',
     ///   'src/native_add_library.h',
-    ///   'src/dart_api_dl.c',
-    ///   'src/dart_api_dl.h',
     /// ],
     /// ```
-    /// Supported by Clang-like compilers, which can optimize with precompiled
-    /// headers when `.h` files are included. If a compiler does not support this,
-    /// the build system may filter `.h` files from the compilation step while
-    /// still tracking them as dependencies.
     super.sources = const [],
     super.includes = const [],
     super.frameworks = CTool.defaultFrameworks,
