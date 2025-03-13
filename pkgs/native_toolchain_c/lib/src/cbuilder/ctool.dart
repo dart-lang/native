@@ -46,6 +46,14 @@ abstract class CTool {
   /// The sources will be reported as dependencies of the hook.
   final List<String> includes;
 
+  /// Files passed to the compiler that will be included before all source
+  /// files.
+  ///
+  /// Resolved against [LinkInput.packageRoot].
+  ///
+  /// The sources will be reported as dependencies of the hook.
+  final List<String> forcedIncludes;
+
   /// Frameworks to link.
   ///
   /// Only effective if [language] is [Language.objectiveC].
@@ -154,6 +162,7 @@ abstract class CTool {
     required this.assetName,
     required this.sources,
     required this.includes,
+    required this.forcedIncludes,
     required this.frameworks,
     required this.libraries,
     required this.libraryDirectories,

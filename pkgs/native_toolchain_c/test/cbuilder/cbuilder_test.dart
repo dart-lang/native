@@ -233,6 +233,9 @@ void main() {
     if (!await File.fromUri(definesCUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
+    final forcedIncludeCUri = packageUri.resolve(
+      'test/cbuilder/testfiles/defines/src/forcedInclude.c',
+    );
     const name = 'defines';
 
     final logMessages = <String>[];
@@ -268,6 +271,7 @@ void main() {
     final cbuilder = CBuilder.executable(
       name: name,
       sources: [definesCUri.toFilePath()],
+      forcedIncludes: [forcedIncludeCUri.toFilePath()],
       flags: [flag],
       buildMode: BuildMode.release,
     );
@@ -278,6 +282,8 @@ void main() {
     final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
     expect(result.stdout, contains('Macro FOO is defined: USER_FLAG'));
+    // check the forced include is added
+    expect(result.stdout, contains('Macro FIFOO is defined: "QuotedFIFOO"'));
 
     final compilerInvocation = logMessages.singleWhere(
       (message) => message.contains(definesCUri.toFilePath()),

@@ -34,5 +34,11 @@ int main() {
   MACRO_IS_UNDEFINED(FOO);
 #endif
 
+#ifdef FIFOO
+  MACRO_IS_DEFINED(FIFOO);
+#else
+  MACRO_IS_UNDEFINED(FIFOO);
+#endif
+
   return 0;
 }
