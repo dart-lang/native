@@ -10,5 +10,7 @@ environment:
 dev_dependencies:
   dart_flutter_team_lints: ^2.1.1
   json_schema: ^5.2.0
+  json_syntax_generator:
+    path: ../json_syntax_generator/
   path: ^1.9.1
   test: ^1.25.15

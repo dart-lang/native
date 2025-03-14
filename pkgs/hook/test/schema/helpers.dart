@@ -96,6 +96,16 @@ AllSchemas loadSchemas(List<Uri> directories) {
     );
     allSchemas[entry.key] = schema;
   }
+
+  final allSchemasInverted = allSchemas.map(
+    (key, value) => MapEntry(value, key),
+  );
+  if (allSchemas.length != allSchemasInverted.length) {
+    throw StateError(
+      'Some schemas are not unique, try adding a unique title field.',
+    );
+  }
+
   return allSchemas;
 }
 

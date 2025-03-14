@@ -166,6 +166,7 @@ class NativeCodeAsset extends Asset {
   }
 
   LinkMode get linkMode => LinkMode.fromJson(json.map$('link_mode'));
+
   set _linkMode(LinkMode value) => json['link_mode'] = value.json;
 
   OS get os => OS.fromJson(json.string('os'));
@@ -525,6 +526,9 @@ class DynamicLoadingBundleLinkMode extends LinkMode {
   DynamicLoadingBundleLinkMode.fromJson(super.json) : super.fromJson();
 
   DynamicLoadingBundleLinkMode() : super(type: 'dynamic_loading_bundle');
+
+  @override
+  String toString() => 'DynamicLoadingBundleLinkMode($json)';
 }
 
 extension DynamicLoadingBundleLinkModeExtension on LinkMode {
@@ -539,6 +543,9 @@ class DynamicLoadingExecutableLinkMode extends LinkMode {
 
   DynamicLoadingExecutableLinkMode()
     : super(type: 'dynamic_loading_executable');
+
+  @override
+  String toString() => 'DynamicLoadingExecutableLinkMode($json)';
 }
 
 extension DynamicLoadingExecutableLinkModeExtension on LinkMode {
@@ -553,6 +560,9 @@ class DynamicLoadingProcessLinkMode extends LinkMode {
   DynamicLoadingProcessLinkMode.fromJson(super.json) : super.fromJson();
 
   DynamicLoadingProcessLinkMode() : super(type: 'dynamic_loading_process');
+
+  @override
+  String toString() => 'DynamicLoadingProcessLinkMode($json)';
 }
 
 extension DynamicLoadingProcessLinkModeExtension on LinkMode {
@@ -599,6 +609,9 @@ class StaticLinkMode extends LinkMode {
   StaticLinkMode.fromJson(super.json) : super.fromJson();
 
   StaticLinkMode() : super(type: 'static');
+
+  @override
+  String toString() => 'StaticLinkMode($json)';
 }
 
 extension StaticLinkModeExtension on LinkMode {
