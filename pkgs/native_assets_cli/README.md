@@ -43,7 +43,7 @@ assets work on Dart stable, but prefer using the dev releases as we regularly
 break things.
 
 To use native assets in Flutter, use
-`flutter config --enable-experiment=native-assets` and t
+`flutter config --enable-experiment=native-assets` and then
 `flutter create --template=package_ffi <package_name>`. In Flutter, the
 experiment is only available on the master channel.
 
