@@ -52,6 +52,10 @@ abstract class CTool {
   /// Resolved against [LinkInput.packageRoot].
   ///
   /// The sources will be reported as dependencies of the hook.
+  /// For clang, each of the files are added as an `-include` flag.
+  /// see: https://gcc.gnu.org/onlinedocs/gcc-13.2.0/gcc/Preprocessor-Options.html#index-include
+  /// For MSVC, each of the files are added as an `/FI` flag.
+  /// see: https://learn.microsoft.com/en-us/cpp/build/reference/fi-name-forced-include-file
   final List<String> forcedIncludes;
 
   /// Frameworks to link.

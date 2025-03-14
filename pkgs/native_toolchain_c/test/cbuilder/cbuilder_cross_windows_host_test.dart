@@ -121,6 +121,7 @@ void main() async {
             output: buildOutput,
             logger: logger,
           );
+
           final libUri = tempUri.resolve(
             OS.windows.libraryFileName(name, linkMode),
           );
