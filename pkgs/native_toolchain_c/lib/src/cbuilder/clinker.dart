@@ -28,6 +28,7 @@ class CLinker extends CTool implements Linker {
     required this.linkerOptions,
     super.sources = const [],
     super.includes = const [],
+    super.forcedIncludes = const [],
     super.frameworks = CTool.defaultFrameworks,
     super.libraries = const [],
     super.libraryDirectories = CTool.defaultLibraryDirectories,
