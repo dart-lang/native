@@ -431,8 +431,6 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
       final file = File.fromUri(resolvedUri);
 
       if (await directory.exists()) {
-        // Process as a directory.
-        addDependency(directory.uri);
         try {
           await for (final entity in directory.list(
             recursive: recursive,
