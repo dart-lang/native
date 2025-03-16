@@ -406,7 +406,7 @@ class BuildOutputBuilder extends HookOutputBuilder {
       syntax.BuildOutput.fromJson(super._syntax.json);
 }
 
-extension DataAssetsDirectoryExtension on BuildOutputBuilder {
+extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
   /// Extension on [BuildOutput] to handle data asset directories and files.
   ///
   /// This extension provides a convenient way for build hooks to add

@@ -55,7 +55,7 @@ void main(List<String> args) async {
         input: input,
         assetMappings: [
           // asset to find : name to add it as
-          {targetName: 'native_add.dart'},
+          { targetName : 'native_add.dart'},
         ],
       );
     }
