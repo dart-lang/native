@@ -8,7 +8,6 @@ import 'dart:io';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
-import '../code_assets.dart';
 import 'api/deprecation_messages.dart';
 import 'data_assets/data_asset.dart';
 import 'encoded_asset.dart';
