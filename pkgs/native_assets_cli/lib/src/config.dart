@@ -461,24 +461,6 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
   }
 }
 
-extension GetLinkMode on BuildOutputBuilder {
-  /// Returns the [LinkMode] that should be used for linking code assets.
-  /// The link mode is determined by the [LinkModePreference] in the input
-  /// configuration.
-  LinkMode getLinkMode(BuildInput input) {
-    final preference = input.config.code.linkModePreference;
-    if (preference == LinkModePreference.dynamic ||
-        preference == LinkModePreference.preferDynamic) {
-      return DynamicLoadingBundled();
-    }
-    assert(
-      preference == LinkModePreference.static ||
-          preference == LinkModePreference.preferStatic,
-    );
-    return StaticLinking();
-  }
-}
-
 extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
   /// Adds [EncodedAsset]s produced by this build.
   ///
