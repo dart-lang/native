@@ -13,14 +13,12 @@ export 'src/api/linker.dart' show Linker;
 export 'src/config.dart'
     show
         AddDataAssetsDirectoryExtension,
-        AddFoundCodeAssetsExtension,
         BuildConfig,
         BuildConfigBuilder,
         BuildInput,
         BuildOutputBuilder,
         EncodedAssetBuildOutputBuilder,
         EncodedAssetLinkOutputBuilder,
-        GetLinkMode,
         HookConfig,
         HookConfigBuilder,
         HookInput,
