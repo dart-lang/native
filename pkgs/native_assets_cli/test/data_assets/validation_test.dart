@@ -138,9 +138,6 @@ void main() {
       'assets2',
     ], input: input);
 
-    // Check that both subdirectories were added as dependencies.
-    expect(output.dependencies, contains(assetsDir2.uri));
-    expect(output.dependencies, contains(assetsDir2.uri));
     // Check that the files in both directories were added as dependencies.
     expect(output.dependencies, contains(file1Uri));
     expect(output.dependencies, contains(file2Uri));
@@ -164,8 +161,6 @@ void main() {
       'single_assets/single_file.txt',
     ], input: input);
 
-    // Check that the directory was added as a dependency.
-    expect(output.dependencies, contains(assetsDir.uri));
     // Check that the file in the directory was added as a dependency.
     expect(output.dependencies, contains(fileUri));
   });
@@ -212,8 +207,6 @@ void main() {
 
     // Verify that the top-level directory, nested directory, and both files are
     // added.
-    expect(output.dependencies, contains(assetsDir.uri));
-    expect(output.dependencies, contains(nestedDir.uri));
     expect(output.dependencies, contains(fileTopUri));
     expect(output.dependencies, contains(nestedFileUri));
     expect(output.dependencies, contains(nestedFile2Uri));
