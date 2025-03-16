@@ -51,12 +51,15 @@ void main(List<String> args) async {
           'Found hash $fileHash, expected $expectedHash.',
         );
       }
-      await output.addFoundCodeAssets(
-        input: input,
-        assetMappings: [
-          // asset to find : name to add it as
-          { targetName : 'native_add.dart'},
-        ],
+      output.assets.code.add(
+        CodeAsset(
+          package: input.packageName,
+          name: 'native_add.dart',
+          linkMode: DynamicLoadingBundled(),
+          os: targetOS,
+          architecture: targetArchitecture,
+          file: file.uri,
+        ),
       );
     }
   });
