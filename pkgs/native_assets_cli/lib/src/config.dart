@@ -449,7 +449,6 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
           );
         }
       } else if (await file.exists()) {
-        addDependency(file.parent.uri);
         addDependency(file.uri);
       } else {
         throw FileSystemException(
