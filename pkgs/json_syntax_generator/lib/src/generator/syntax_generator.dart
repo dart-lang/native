@@ -6,6 +6,7 @@ import '../model/class_info.dart';
 import '../model/dart_type.dart';
 import '../model/property_info.dart';
 import '../model/schema_info.dart';
+import 'helper_library.dart';
 
 /// Generates Dart code from a [SchemaInfo].
 ///
@@ -35,12 +36,16 @@ class SyntaxGenerator {
 
 // This file is generated, do not edit.
 
-import '../utils/json.dart';
+// ignore_for_file: unused_element
+
+import 'dart:io';
 ''');
 
     for (final classInfo in schemaInfo.classes) {
       buffer.writeln(_generateClass(classInfo));
     }
+
+    buffer.writeln(helperLib);
 
     return buffer.toString();
   }
@@ -301,7 +306,7 @@ class $className {
       case EnumClassInfo():
         if (required) {
           buffer.writeln('''
-$dartType get $fieldName => $classType.fromJson( json.string('$jsonKey') );
+$dartType get $fieldName => $classType.fromJson( json.get<String>('$jsonKey') );
 ''');
           if (!property.isOverride) {
             buffer.writeln('''
@@ -313,7 +318,7 @@ set $setterName($dartType value) {
         } else {
           buffer.writeln('''
 $dartType get $fieldName {
-  final string = json.optionalString('$jsonKey');
+  final string = json.get<String?>('$jsonKey');
   if(string == null) return null;
   return $classType.fromJson(string);
 }
@@ -384,7 +389,7 @@ set $setterName($dartType value) {
       case 'String':
         if (required) {
           buffer.writeln('''
-String get $fieldName => json.string('$jsonKey');
+String get $fieldName => json.get<String>('$jsonKey');
 
 set $setterName(String value) {
   json['$jsonKey'] = value;
@@ -393,7 +398,7 @@ set $setterName(String value) {
 ''');
         } else {
           buffer.writeln('''
-String? get $fieldName => json.optionalString('$jsonKey');
+String? get $fieldName => json.get<String?>('$jsonKey');
 
 set $setterName(String? value) {
   if (value == null) {
@@ -415,7 +420,7 @@ set $setterName(int value) => json['$jsonKey'] = value;
 ''');
         } else {
           buffer.writeln('''
-int? get $fieldName => json.getOptional<int>('$jsonKey');
+int? get $fieldName => json.get<int?>('$jsonKey');
 
 set $setterName(int? value) {
   if (value == null) {
@@ -440,7 +445,7 @@ set $setterName(bool value) {
 ''');
         } else {
           buffer.writeln('''
-bool? get $fieldName => json.getOptional<bool>('$jsonKey');
+bool? get $fieldName => json.get<bool?>('$jsonKey');
 
 set $setterName(bool? value) {
   if (value == null) {

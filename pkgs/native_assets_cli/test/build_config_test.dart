@@ -168,7 +168,7 @@ void main() async {
                 e is FormatException &&
                 e.message.contains('Unexpected value') &&
                 e.message.contains(
-                  'Expected a Map<String, Map<String, Object?>>?',
+                  'Expected a Map<String, Map<String, Object?>>',
                 ),
           ),
         ),
