@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../include/helper_library.dart';
 import '../model/class_info.dart';
 import '../model/dart_type.dart';
 import '../model/property_info.dart';
 import '../model/schema_info.dart';
+import 'helper_library.dart';
 
 /// Generates Dart code from a [SchemaInfo].
 ///
