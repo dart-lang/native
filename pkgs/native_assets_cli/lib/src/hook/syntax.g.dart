@@ -208,6 +208,7 @@ class HookInput {
   }
 
   Config get config => Config.fromJson(json.map$('config'));
+
   set config(Config value) => json['config'] = value.json;
 
   Uri get outDir => json.path('out_dir');
@@ -398,10 +399,6 @@ class LinkOutput extends HookOutput {
     required super.timestamp,
     required super.version,
   }) : super();
-
-  /// Setup all fields for [LinkOutput] that are not in
-  /// [HookOutput].
-  void setup() {}
 
   @override
   String toString() => 'LinkOutput($json)';

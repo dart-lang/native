@@ -1,0 +1,21 @@
+name: json_syntax_generator
+version: 0.1.0-wip
+repository: https://github.com/dart-lang/native/tree/main/pkgs/json_syntax_generator
+description: |
+  `package:json_syntax_generator` provides a powerful and flexible way to
+  generate Dart code from JSON schemas. It simplifies the process of working
+  with JSON data by automatically creating Dart classes that represent the
+  structure of your JSON data, including support for complex schema features.
+
+publish_to: none
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  json_schema: ^5.2.0
+
+dev_dependencies:
+  dart_flutter_team_lints: ^2.1.1
+  path: ^1.9.1
+  test: ^1.25.15

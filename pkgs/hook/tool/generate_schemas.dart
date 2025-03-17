@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../test/schema/helpers.dart';
-import 'generate_syntax.dart';
 import 'normalize.dart';
 
 void main() {
@@ -184,3 +183,10 @@ void generateEntryPoints() {
 
 String definitionName(Hook hook, InputOrOutput inputOrOutput) =>
     '${ucFirst(hook.name)}${ucFirst(inputOrOutput.name)}';
+
+String ucFirst(String str) {
+  if (str.isEmpty) {
+    return '';
+  }
+  return str[0].toUpperCase() + str.substring(1);
+}
