@@ -282,7 +282,7 @@ void main() {
     final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
     expect(result.stdout, contains('Macro FOO is defined: USER_FLAG'));
-    // check the forced include is added
+    // Check the forced include is added.
     expect(result.stdout, contains('Macro FIFOO is defined: "QuotedFIFOO"'));
 
     final compilerInvocation = logMessages.singleWhere(
