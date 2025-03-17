@@ -425,6 +425,11 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
   }) async {
     final packageName = input.packageName;
     final packageRoot = input.packageRoot;
+    final rootPath = packageRoot.toFilePath(windows: false);
+
+    String assetName(Uri assetUri) =>
+        assetUri.toFilePath(windows: false).substring(rootPath.length);
+
     for (final path in paths) {
       final resolvedUri = packageRoot.resolve('$packageName/$path');
       final directory = Directory.fromUri(resolvedUri);
@@ -436,17 +441,16 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
             recursive: recursive,
             followLinks: false,
           )) {
-            // Add dependency for every file and directory found.
-            assets.data.add(
-              DataAsset(
-                package: packageName,
-                name: entity.uri
-                    .toFilePath(windows: false)
-                    .substring(packageRoot.toFilePath(windows: false).length),
-                file: entity.uri,
-              ),
-            );
-            addDependency(entity.uri);
+            if (entity is File) {
+              assets.data.add(
+                DataAsset(
+                  package: packageName,
+                  name: assetName(entity.uri),
+                  file: entity.uri,
+                ),
+              );
+              addDependency(entity.uri);
+            }
           }
         } on FileSystemException catch (e) {
           throw FileSystemException(
@@ -459,9 +463,7 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
         assets.data.add(
           DataAsset(
             package: packageName,
-            name: file.uri
-                .toFilePath(windows: false)
-                .substring(packageRoot.toFilePath(windows: false).length),
+            name: assetName(file.uri),
             file: file.uri,
           ),
         );
