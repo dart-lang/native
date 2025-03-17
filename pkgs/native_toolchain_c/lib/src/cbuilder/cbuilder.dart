@@ -55,6 +55,7 @@ class CBuilder extends CTool implements Builder {
     super.assetName,
     super.sources = const [],
     super.includes = const [],
+    super.forcedIncludes = const [],
     super.frameworks = CTool.defaultFrameworks,
     super.libraries = const [],
     super.libraryDirectories = CTool.defaultLibraryDirectories,
@@ -81,6 +82,7 @@ class CBuilder extends CTool implements Builder {
     required super.name,
     super.sources = const [],
     super.includes = const [],
+    super.forcedIncludes = const [],
     super.frameworks = CTool.defaultFrameworks,
     super.libraries = const [],
     super.libraryDirectories = CTool.defaultLibraryDirectories,
@@ -149,6 +151,10 @@ class CBuilder extends CTool implements Builder {
       for (final directory in this.includes)
         packageRoot.resolveUri(Uri.file(directory)),
     ];
+    final forcedIncludes = [
+      for (final file in this.forcedIncludes)
+        packageRoot.resolveUri(Uri.file(file)),
+    ];
     final dartBuildFiles = [
       // ignore: deprecated_member_use_from_same_package
       for (final source in this.dartBuildFiles) packageRoot.resolve(source),
@@ -164,6 +170,7 @@ class CBuilder extends CTool implements Builder {
       logger: logger,
       sources: sources,
       includes: includes,
+      forcedIncludes: forcedIncludes,
       frameworks: frameworks,
       libraries: libraries,
       libraryDirectories: libraryDirectories,
@@ -220,6 +227,7 @@ class CBuilder extends CTool implements Builder {
       // Note: We use a Set here to deduplicate the dependencies.
       ...sources,
       ...includeFiles,
+      ...forcedIncludes,
       ...dartBuildFiles,
     });
   }

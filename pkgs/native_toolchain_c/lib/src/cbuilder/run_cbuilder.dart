@@ -26,6 +26,7 @@ class RunCBuilder {
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
+  final List<Uri> forcedIncludes;
   final List<String> frameworks;
   final List<String> libraries;
   final List<Uri> libraryDirectories;
@@ -56,6 +57,7 @@ class RunCBuilder {
     this.logger,
     this.sources = const [],
     this.includes = const [],
+    this.forcedIncludes = const [],
     required this.frameworks,
     this.libraries = const [],
     this.libraryDirectories = const [],
@@ -301,6 +303,8 @@ class RunCBuilder {
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
         for (final include in includes) '-I${include.toFilePath()}',
+        for (final forcedInclude in forcedIncludes)
+          '-include${forcedInclude.toFilePath()}',
         ...sourceFiles,
         if (language == Language.objectiveC) ...[
           for (final framework in frameworks) ...['-framework', framework],
@@ -359,6 +363,8 @@ class RunCBuilder {
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',
         for (final directory in includes) '/I${directory.toFilePath()}',
+        for (final forcedInclude in forcedIncludes)
+          '/FI${forcedInclude.toFilePath()}',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',
