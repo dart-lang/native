@@ -146,13 +146,14 @@ Future<void> generateAndAnalyzeBindings(Config config,
     if (!singleFile && confirmExists.isNotEmpty) {
       throw UnimplementedError('Currently only supports single file mode '
           'for confirming that classes exists');
-    }
-    final generatedCode =
-        await File.fromUri(tempDir.uri.resolve('generated.dart'))
-            .readAsString();
-    for (final className in confirmExists) {
-      if (!generatedCode.contains(className)) {
-        fail('$className does not exist in the generated bindings');
+    } else if (singleFile && confirmExists.isNotEmpty) {
+      final generatedCode =
+          await File.fromUri(tempDir.uri.resolve('generated.dart'))
+              .readAsString();
+      for (final className in confirmExists) {
+        if (!generatedCode.contains(className)) {
+          fail('$className does not exist in the generated bindings');
+        }
       }
     }
   } finally {
