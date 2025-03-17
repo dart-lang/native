@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$comment": "This schema was automatically generated. It is the schema for a json file in the build/link hook protocol.",
+  "title": "package:hook party:hook LinkInput",
+  "allOf": [
+    {
+      "$ref": "shared_definitions.generated.schema.json#/definitions/LinkInput"
+    }
+  ]
+}

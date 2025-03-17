@@ -1,5 +1,5 @@
 {
-  "$schema": "../../doc/schema/hook/link_output.schema.json",
+  "$schema": "../../doc/schema/hook/link_output.generated.schema.json",
   "assets": [
     {
       "some_key": "some_value",
