@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
+import '../data_assets.dart';
 import 'api/deprecation_messages.dart';
 import 'data_assets/data_asset.dart';
 import 'encoded_asset.dart';
@@ -436,6 +437,15 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
             followLinks: false,
           )) {
             // Add dependency for every file and directory found.
+            assets.data.add(
+              DataAsset(
+                package: packageName,
+                name: entity.uri
+                    .toFilePath(windows: false)
+                    .substring(packageRoot.toFilePath(windows: false).length),
+                file: entity.uri,
+              ),
+            );
             addDependency(entity.uri);
           }
         } on FileSystemException catch (e) {
@@ -446,6 +456,15 @@ extension AddDataAssetsDirectoryExtension on BuildOutputBuilder {
           );
         }
       } else if (await file.exists()) {
+        assets.data.add(
+          DataAsset(
+            package: packageName,
+            name: file.uri
+                .toFilePath(windows: false)
+                .substring(packageRoot.toFilePath(windows: false).length),
+            file: file.uri,
+          ),
+        );
         addDependency(file.uri);
       } else {
         throw FileSystemException(
