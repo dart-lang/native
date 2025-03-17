@@ -138,7 +138,7 @@ void main() async {
             (e) =>
                 e is FormatException &&
                 e.message.contains(
-                  "Unexpected value 'astring' for key '.assets' in input file. "
+                  "Unexpected value 'astring' for key '.assets'. "
                   'Expected a List<Object?>?.',
                 ),
           ),

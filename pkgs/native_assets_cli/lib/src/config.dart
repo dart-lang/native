@@ -130,7 +130,7 @@ sealed class HookInputBuilder {
 final class BuildInput extends HookInput {
   Map<String, Metadata> get metadata => {
     for (final entry in (_syntaxBuildInput.dependencyMetadata ?? {}).entries)
-      entry.key: Metadata.fromJson(as<Map<String, Object?>>(entry.value)),
+      entry.key: Metadata.fromJson(entry.value),
   };
 
   @override

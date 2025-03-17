@@ -4,15 +4,13 @@
 
 import 'package:collection/collection.dart';
 
-import 'utils/json.dart';
-
 class Metadata {
   final Map<String, Object?> metadata;
 
   const Metadata(this.metadata);
 
-  factory Metadata.fromJson(Map<Object?, Object?>? jsonMap) =>
-      Metadata(jsonMap?.formatCast<String, Object>() ?? {});
+  factory Metadata.fromJson(Map<String, Object?>? jsonMap) =>
+      Metadata(jsonMap ?? {});
 
   Map<String, Object?> toJson() => metadata;
 

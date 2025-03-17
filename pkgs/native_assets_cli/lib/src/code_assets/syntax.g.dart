@@ -4,7 +4,9 @@
 
 // This file is generated, do not edit.
 
-import '../utils/json.dart';
+// ignore_for_file: unused_element
+
+import 'dart:io';
 
 class AndroidCodeConfig {
   final Map<String, Object?> json;
@@ -16,7 +18,7 @@ class AndroidCodeConfig {
     json.sortOnKey();
   }
 
-  int? get targetNdkApi => json.getOptional<int>('target_ndk_api');
+  int? get targetNdkApi => json.get<int?>('target_ndk_api');
 
   set _targetNdkApi(int? value) {
     if (value == null) {
@@ -86,7 +88,7 @@ class Asset {
     json.sortOnKey();
   }
 
-  String? get type => json.optionalString('type');
+  String? get type => json.get<String?>('type');
 
   set _type(String? value) {
     if (value == null) {
@@ -136,7 +138,7 @@ class NativeCodeAsset extends Asset {
   }
 
   Architecture? get architecture {
-    final string = json.optionalString('architecture');
+    final string = json.get<String?>('architecture');
     if (string == null) return null;
     return Architecture.fromJson(string);
   }
@@ -159,7 +161,7 @@ class NativeCodeAsset extends Asset {
     }
   }
 
-  String get id => json.string('id');
+  String get id => json.get<String>('id');
 
   set _id(String value) {
     json['id'] = value;
@@ -169,7 +171,7 @@ class NativeCodeAsset extends Asset {
 
   set _linkMode(LinkMode value) => json['link_mode'] = value.json;
 
-  OS get os => OS.fromJson(json.string('os'));
+  OS get os => OS.fromJson(json.get<String>('os'));
 
   set _os(OS value) {
     json['os'] = value.name;
@@ -397,7 +399,7 @@ class CodeConfig {
   }
 
   LinkModePreference get linkModePreference =>
-      LinkModePreference.fromJson(json.string('link_mode_preference'));
+      LinkModePreference.fromJson(json.get<String>('link_mode_preference'));
 
   set _linkModePreference(LinkModePreference value) {
     json['link_mode_preference'] = value.name;
@@ -420,13 +422,13 @@ class CodeConfig {
   }
 
   Architecture get targetArchitecture =>
-      Architecture.fromJson(json.string('target_architecture'));
+      Architecture.fromJson(json.get<String>('target_architecture'));
 
   set _targetArchitecture(Architecture value) {
     json['target_architecture'] = value.name;
   }
 
-  OS get targetOs => OS.fromJson(json.string('target_os'));
+  OS get targetOs => OS.fromJson(json.get<String>('target_os'));
 
   set _targetOs(OS value) {
     json['target_os'] = value.name;
@@ -478,7 +480,7 @@ class IOSCodeConfig {
     json.sortOnKey();
   }
 
-  String? get targetSdk => json.optionalString('target_sdk');
+  String? get targetSdk => json.get<String?>('target_sdk');
 
   set _targetSdk(String? value) {
     if (value == null) {
@@ -488,7 +490,7 @@ class IOSCodeConfig {
     }
   }
 
-  int? get targetVersion => json.getOptional<int>('target_version');
+  int? get targetVersion => json.get<int?>('target_version');
 
   set _targetVersion(int? value) {
     if (value == null) {
@@ -512,7 +514,7 @@ class LinkMode {
     json.sortOnKey();
   }
 
-  String get type => json.string('type');
+  String get type => json.get<String>('type');
 
   set _type(String value) {
     json['type'] = value;
@@ -670,7 +672,7 @@ class MacOSCodeConfig {
     json.sortOnKey();
   }
 
-  int? get targetVersion => json.getOptional<int>('target_version');
+  int? get targetVersion => json.get<int?>('target_version');
 
   set _targetVersion(int? value) {
     if (value == null) {
@@ -719,4 +721,108 @@ class OS {
 
   @override
   String toString() => name;
+}
+
+extension on Map<String, Object?> {
+  T get<T extends Object?>(String key) {
+    final value = this[key];
+    if (value is T) return value;
+    if (value == null) {
+      throw FormatException('No value was provided for required key: $key');
+    }
+    throw FormatException(
+      'Unexpected value \'$value\' for key \'.$key\'. '
+      'Expected a $T.',
+    );
+  }
+
+  List<T> list<T extends Object?>(String key) =>
+      _castList<T>(get<List<Object?>>(key), key);
+
+  List<T>? optionalList<T extends Object?>(String key) =>
+      switch (get<List<Object?>?>(key)?.cast<T>()) {
+        null => null,
+        final l => _castList<T>(l, key),
+      };
+
+  /// [List.cast] but with [FormatException]s.
+  static List<T> _castList<T extends Object?>(List<Object?> list, String key) {
+    for (final value in list) {
+      if (value is! T) {
+        throw FormatException(
+          'Unexpected value \'$list\' (${list.runtimeType}) for key \'.$key\'. '
+          'Expected a ${List<T>}.',
+        );
+      }
+    }
+    return list.cast();
+  }
+
+  Map<String, T> map$<T extends Object?>(String key) =>
+      _castMap<T>(get<Map<String, Object?>>(key), key);
+
+  Map<String, T>? optionalMap<T extends Object?>(String key) =>
+      switch (get<Map<String, Object?>?>(key)) {
+        null => null,
+        final m => _castMap<T>(m, key),
+      };
+
+  /// [Map.cast] but with [FormatException]s.
+  static Map<String, T> _castMap<T extends Object?>(
+    Map<String, Object?> map_,
+    String key,
+  ) {
+    for (final value in map_.values) {
+      if (value is! T) {
+        throw FormatException(
+          'Unexpected value \'$map_\' (${map_.runtimeType}) for key \'.$key\'.'
+          'Expected a ${Map<String, T>}.',
+        );
+      }
+    }
+    return map_.cast();
+  }
+
+  List<String>? optionalStringList(String key) => optionalList<String>(key);
+
+  List<String> stringList(String key) => list<String>(key);
+
+  Uri path(String key) => _fileSystemPathToUri(get<String>(key));
+
+  Uri? optionalPath(String key) {
+    final value = get<String?>(key);
+    if (value == null) return null;
+    return _fileSystemPathToUri(value);
+  }
+
+  List<Uri>? optionalPathList(String key) {
+    final strings = optionalStringList(key);
+    if (strings == null) {
+      return null;
+    }
+    return [for (final string in strings) _fileSystemPathToUri(string)];
+  }
+
+  static Uri _fileSystemPathToUri(String path) {
+    if (path.endsWith(Platform.pathSeparator)) {
+      return Uri.directory(path);
+    }
+    return Uri.file(path);
+  }
+}
+
+extension on List<Uri> {
+  List<String> toJson() => [for (final uri in this) uri.toFilePath()];
+}
+
+extension<K extends Comparable<K>, V extends Object?> on Map<K, V> {
+  void sortOnKey() {
+    final result = <K, V>{};
+    final keysSorted = keys.toList()..sort();
+    for (final key in keysSorted) {
+      result[key] = this[key] as V;
+    }
+    clear();
+    addAll(result);
+  }
 }

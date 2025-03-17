@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 
 import '../utils/file.dart';
-import '../utils/json.dart';
 import '../utils/uri.dart';
 
 class Dependencies {
@@ -15,12 +14,6 @@ class Dependencies {
   final List<Uri> dependencies;
 
   const Dependencies(this.dependencies);
-
-  factory Dependencies.fromJson(List<Object?>? jsonList) => Dependencies([
-    if (jsonList != null)
-      for (final dependency in jsonList)
-        fileSystemPathToUri(as<String>(dependency)),
-  ]);
 
   List<String> toJson() => toJsonList(dependencies);
 

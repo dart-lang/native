@@ -4,6 +4,7 @@
 
 import 'package:collection/collection.dart';
 
+import 'hook/syntax.g.dart' as syntax;
 import 'utils/json.dart';
 
 /// An encoding of a particular asset type.
@@ -17,11 +18,13 @@ final class EncodedAsset {
   EncodedAsset(this.type, this.encoding);
 
   /// Decode an [EncodedAsset] from json.
-  factory EncodedAsset.fromJson(Map<String, Object?> json) =>
-      EncodedAsset(json.get<String>(_typeKey), {
-        for (final key in json.keys)
-          if (key != _typeKey) key: json[key],
-      });
+  factory EncodedAsset.fromJson(Map<String, Object?> json) {
+    final syntax_ = syntax.Asset.fromJson(json);
+    return EncodedAsset(syntax_.type, {
+      for (final key in json.keys)
+        if (key != _typeKey) key: json[key],
+    });
+  }
 
   /// Encode this [EncodedAsset] tojson.
   Map<String, Object?> toJson() =>
