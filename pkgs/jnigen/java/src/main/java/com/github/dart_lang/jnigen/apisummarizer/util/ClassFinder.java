@@ -2,8 +2,7 @@ package com.github.dart_lang.jnigen.apisummarizer.util;
 
 import static com.github.dart_lang.jnigen.apisummarizer.util.ExceptionUtil.wrapCheckedException;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -163,13 +162,29 @@ public class ClassFinder {
     return StreamUtil.map(entries, (entry) -> new JarEntryFileObject(jarFile, entry));
   }
 
-  private static List<InputStreamProvider> getInputStreamProvidersFromFiles(List<Path> files) {
-    return StreamUtil.map(files, (path) -> new FileInputStreamProvider(path.toFile()));
+  private static List<InputStream> getInputStreamProvidersFromFiles(List<Path> files) {
+    return StreamUtil.map(
+        files,
+        (path) -> {
+          try {
+            return new FileInputStream(path.toFile());
+          } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 
-  private static List<InputStreamProvider> getInputStreamProvidersFromJar(
+  private static List<InputStream> getInputStreamProvidersFromJar(
       JarFile jarFile, List<ZipEntry> entries) {
-    return StreamUtil.map(entries, entry -> new JarEntryInputStreamProvider(jarFile, entry));
+    return StreamUtil.map(
+        entries,
+        entry -> {
+          try {
+            return jarFile.getInputStream(entry);
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 
   public static void findJavaSources(
@@ -185,7 +200,7 @@ public class ClassFinder {
   }
 
   public static void findJavaClasses(
-      Map<String, List<InputStreamProvider>> classes, List<String> searchPaths) {
+      Map<String, List<InputStream>> classes, List<String> searchPaths) {
     find(
         classes,
         searchPaths,
