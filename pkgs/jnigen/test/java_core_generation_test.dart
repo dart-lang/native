@@ -25,6 +25,7 @@ void main() {
           'java.net.SocketOption',
         ],
       ),
+      confirmExists: ['StringBuilder', 'ModuleLayer', 'SocketOption'],
     );
   });
 }

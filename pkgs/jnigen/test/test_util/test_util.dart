@@ -131,7 +131,8 @@ Future<void> generateAndCompareBindings(Config config) async {
   }
 }
 
-Future<void> generateAndAnalyzeBindings(Config config) async {
+Future<void> generateAndAnalyzeBindings(Config config,
+    {Iterable<String> confirmExists = const []}) async {
   final tempDir = Directory.current.createTempSync('jnigen_test_temp');
   try {
     await _generateTempBindings(config, tempDir);
@@ -139,6 +140,20 @@ Future<void> generateAndAnalyzeBindings(Config config) async {
     if (analyzeResult.exitCode != 0) {
       stderr.write(analyzeResult.stdout);
       fail('Analyzer exited with non-zero status (${analyzeResult.exitCode})');
+    }
+    final singleFile =
+        config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
+    if (!singleFile && confirmExists.isNotEmpty) {
+      throw UnimplementedError('Currently only supports single file mode '
+          'for confirming that classes exists');
+    }
+    final generatedCode =
+        await File.fromUri(tempDir.uri.resolve('generated.dart'))
+            .readAsString();
+    for (final className in confirmExists) {
+      if (!generatedCode.contains(className)) {
+        fail('$className does not exist in the generated bindings');
+      }
     }
   } finally {
     tempDir.deleteSync(recursive: true);
