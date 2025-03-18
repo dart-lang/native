@@ -48,8 +48,8 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
                   file: entity.uri,
                 ),
               );
-              addDependency(entity.uri);
             }
+            addDependency(entity.uri);
           }
         } on FileSystemException catch (e) {
           throw FileSystemException(
