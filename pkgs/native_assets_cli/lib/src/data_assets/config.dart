@@ -25,15 +25,12 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
     required BuildInput input,
     bool recursive = false,
   }) async {
-    final packageName = input.packageName;
-    final packageRoot = input.packageRoot;
-    final rootPath = packageRoot.toFilePath(windows: false);
-
-    String assetName(Uri assetUri) =>
-        assetUri.toFilePath(windows: false).substring(rootPath.length);
+    String assetName(Uri assetUri) => assetUri
+        .toFilePath(windows: false)
+        .substring(input.packageRoot.toFilePath().length);
 
     for (final path in paths) {
-      final resolvedUri = packageRoot.resolve('$packageName/$path');
+      final resolvedUri = input.packageRoot.resolve(path);
       final directory = Directory.fromUri(resolvedUri);
       final file = File.fromUri(resolvedUri);
 
@@ -46,7 +43,7 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
             if (entity is File) {
               assets.data.add(
                 DataAsset(
-                  package: packageName,
+                  package: input.packageName,
                   name: assetName(entity.uri),
                   file: entity.uri,
                 ),
@@ -64,7 +61,7 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
       } else if (await file.exists()) {
         assets.data.add(
           DataAsset(
-            package: packageName,
+            package: input.packageName,
             name: assetName(file.uri),
             file: file.uri,
           ),

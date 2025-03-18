@@ -35,7 +35,7 @@ void main() {
         BuildInputBuilder()
           ..setupShared(
             packageName: packageName,
-            packageRoot: tempUri,
+            packageRoot: tempUri.resolve('$packageName/'),
             outputFile: tempUri.resolve('output.json'),
             outputDirectory: outDirUri,
             outputDirectoryShared: outDirSharedUri,
@@ -152,7 +152,7 @@ void main() {
 
     // Create a file in the single_assets directory.
     final fileUri = assetsDir.uri.resolve('single_file.txt');
-    final file = File.fromUri(fileUri);
+    final file = File.fromUri(fileUri)..createSync();
     await file.writeAsString('Test content');
 
     final output = BuildOutput(outputBuilder.json);
