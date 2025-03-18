@@ -32,19 +32,14 @@ void main(List<String> args) async {
         outputDirectory,
       );
       final fileHash = await hashAsset(file);
-      final targetName = createTargetName(
-        targetOS.name,
-        targetArchitecture.name,
-        iOSSdk?.type,
-      );
-
-      // Create a lookup where the keys have their file extension removed.
-      final normalizedHashes = {
-        for (final entry in assetHashes.entries)
-          entry.key.substring(0, entry.key.lastIndexOf('.')): entry.value,
-      };
-
-      final expectedHash = normalizedHashes[targetName];
+      final expectedHash =
+          assetHashes[input.config.code.targetOS.dylibFileName(
+            createTargetName(
+              targetOS.name,
+              targetArchitecture.name,
+              iOSSdk?.type,
+            ),
+          )];
       if (fileHash != expectedHash) {
         throw Exception(
           'File $file was not downloaded correctly. '
