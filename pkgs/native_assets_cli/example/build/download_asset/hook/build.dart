@@ -33,10 +33,12 @@ void main(List<String> args) async {
       );
       final fileHash = await hashAsset(file);
       final expectedHash =
-          assetHashes[createTargetName(
-            targetOS.name,
-            targetArchitecture.name,
-            iOSSdk?.type,
+          assetHashes[input.config.code.targetOS.dylibFileName(
+            createTargetName(
+              targetOS.name,
+              targetArchitecture.name,
+              iOSSdk?.type,
+            ),
           )];
       if (fileHash != expectedHash) {
         throw Exception(
