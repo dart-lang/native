@@ -20,15 +20,30 @@ sealed class DartType {
 
 /// A simple Dart type.
 ///
-/// This is 'bool', 'int', 'String', or 'Object'.
-class SimpleDartType extends DartType {
-  /// This is 'bool', 'int', 'String', or 'Object'.
+/// Types that don't need any encoding or decoding for JSON objects.
+sealed class SimpleDartType extends DartType {
   final String typeName;
 
   const SimpleDartType({required this.typeName, required super.isNullable});
 
   @override
   String toNonNullableString() => typeName;
+}
+
+class StringDartType extends SimpleDartType {
+  const StringDartType({required super.isNullable}) : super(typeName: 'String');
+}
+
+class IntDartType extends SimpleDartType {
+  const IntDartType({required super.isNullable}) : super(typeName: 'int');
+}
+
+class BoolDartType extends SimpleDartType {
+  const BoolDartType({required super.isNullable}) : super(typeName: 'bool');
+}
+
+class ObjectDartType extends SimpleDartType {
+  const ObjectDartType({required super.isNullable}) : super(typeName: 'Object');
 }
 
 class ClassDartType extends DartType {
@@ -43,7 +58,7 @@ class ClassDartType extends DartType {
 class ListDartType extends DartType {
   final DartType itemType;
 
-  ListDartType({required this.itemType, required super.isNullable});
+  const ListDartType({required this.itemType, required super.isNullable});
 
   @override
   String toNonNullableString() => 'List<$itemType>';
@@ -53,8 +68,8 @@ class MapDartType extends DartType {
   final DartType keyType;
   final DartType valueType;
 
-  MapDartType({
-    this.keyType = const SimpleDartType(typeName: 'String', isNullable: false),
+  const MapDartType({
+    this.keyType = const StringDartType(isNullable: false),
     required this.valueType,
     required super.isNullable,
   });
@@ -64,7 +79,7 @@ class MapDartType extends DartType {
 }
 
 class UriDartType extends DartType {
-  UriDartType({required super.isNullable});
+  const UriDartType({required super.isNullable});
 
   @override
   String toNonNullableString() => 'Uri';

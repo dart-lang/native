@@ -21,11 +21,7 @@ class Asset {
   String? get type => json.get<String?>('type');
 
   set _type(String? value) {
-    if (value == null) {
-      json.remove('type');
-    } else {
-      json['type'] = value;
-    }
+    json.setOrRemove('type', value);
   }
 
   @override
@@ -65,13 +61,13 @@ class DataAsset extends Asset {
   String get name => json.get<String>('name');
 
   set _name(String value) {
-    json['name'] = value;
+    json.setOrRemove('name', value);
   }
 
   String get package => json.get<String>('package');
 
   set _package(String value) {
-    json['package'] = value;
+    json.setOrRemove('package', value);
   }
 
   @override
@@ -117,6 +113,15 @@ extension on Map<String, Object?> {
       }
     }
     return list.cast();
+  }
+
+  List<T>? optionalListParsed<T extends Object?>(
+    String key,
+    T Function(Object?) elementParser,
+  ) {
+    final jsonValue = optionalList(key);
+    if (jsonValue == null) return null;
+    return [for (final element in jsonValue) elementParser(element)];
   }
 
   Map<String, T> map$<T extends Object?>(String key) =>
@@ -169,6 +174,14 @@ extension on Map<String, Object?> {
       return Uri.directory(path);
     }
     return Uri.file(path);
+  }
+
+  void setOrRemove(String key, Object? value) {
+    if (value == null) {
+      remove(key);
+    } else {
+      this[key] = value;
+    }
   }
 }
 

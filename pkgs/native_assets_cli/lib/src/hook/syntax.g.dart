@@ -21,7 +21,7 @@ class Asset {
   String get type => json.get<String>('type');
 
   set _type(String value) {
-    json['type'] = value;
+    json.setOrRemove('type', value);
   }
 
   @override
@@ -47,7 +47,7 @@ class BuildConfig extends Config {
   bool get linkingEnabled => json.get<bool>('linking_enabled');
 
   set _linkingEnabled(bool value) {
-    json['linking_enabled'] = value;
+    json.setOrRemove('linking_enabled', value);
   }
 
   @override
@@ -79,17 +79,16 @@ class BuildInput extends HookInput {
   }
 
   @override
-  BuildConfig get config => BuildConfig.fromJson(json.map$('config'));
+  BuildConfig get config {
+    final jsonValue = json.map$('config');
+    return BuildConfig.fromJson(jsonValue);
+  }
 
   Map<String, Map<String, Object?>>? get dependencyMetadata =>
       json.optionalMap<Map<String, Object?>>('dependency_metadata');
 
   set _dependencyMetadata(Map<String, Map<String, Object?>>? value) {
-    if (value == null) {
-      json.remove('dependency_metadata');
-    } else {
-      json['dependency_metadata'] = value;
-    }
+    json.setOrRemove('dependency_metadata', value);
   }
 
   @override
@@ -152,11 +151,7 @@ class BuildOutput extends HookOutput {
   Map<String, Object?>? get metadata => json.optionalMap('metadata');
 
   set metadata(Map<String, Object?>? value) {
-    if (value == null) {
-      json.remove('metadata');
-    } else {
-      json['metadata'] = value;
-    }
+    json.setOrRemove('metadata', value);
     json.sortOnKey();
   }
 
@@ -209,9 +204,15 @@ class HookInput {
     json.sortOnKey();
   }
 
-  Config get config => Config.fromJson(json.map$('config'));
+  Config get config {
+    final jsonValue = json.map$('config');
+    return Config.fromJson(jsonValue);
+  }
 
-  set config(Config value) => json['config'] = value.json;
+  set config(Config value) {
+    json['config'] = value.json;
+    json.sortOnKey();
+  }
 
   Uri get outDir => json.path('out_dir');
 
@@ -230,18 +231,14 @@ class HookInput {
   Uri? get outFile => json.optionalPath('out_file');
 
   set outFile(Uri? value) {
-    if (value == null) {
-      json.remove('out_file');
-    } else {
-      json['out_file'] = value.toFilePath();
-    }
+    json.setOrRemove('out_file', value?.toFilePath());
     json.sortOnKey();
   }
 
   String get packageName => json.get<String>('package_name');
 
   set packageName(String value) {
-    json['package_name'] = value;
+    json.setOrRemove('package_name', value);
     json.sortOnKey();
   }
 
@@ -255,7 +252,7 @@ class HookInput {
   String get version => json.get<String>('version');
 
   set version(String value) {
-    json['version'] = value;
+    json.setOrRemove('version', value);
     json.sortOnKey();
   }
 
@@ -281,17 +278,10 @@ class HookOutput {
     json.sortOnKey();
   }
 
-  List<Asset>? get assets {
-    final list_ = json.optionalList('assets')?.cast<Map<String, Object?>>();
-    if (list_ == null) {
-      return null;
-    }
-    final result = <Asset>[];
-    for (final item in list_) {
-      result.add(Asset.fromJson(item));
-    }
-    return result;
-  }
+  List<Asset>? get assets => json.optionalListParsed(
+    'assets',
+    (e) => Asset.fromJson(e as Map<String, Object?>),
+  );
 
   set assets(List<Asset>? value) {
     if (value == null) {
@@ -305,25 +295,21 @@ class HookOutput {
   List<Uri>? get dependencies => json.optionalPathList('dependencies');
 
   set dependencies(List<Uri>? value) {
-    if (value == null) {
-      json.remove('dependencies');
-    } else {
-      json['dependencies'] = value.toJson();
-    }
+    json.setOrRemove('dependencies', value?.toJson());
     json.sortOnKey();
   }
 
   String get timestamp => json.get<String>('timestamp');
 
   set timestamp(String value) {
-    json['timestamp'] = value;
+    json.setOrRemove('timestamp', value);
     json.sortOnKey();
   }
 
   String get version => json.get<String>('version');
 
   set version(String value) {
-    json['version'] = value;
+    json.setOrRemove('version', value);
     json.sortOnKey();
   }
 
@@ -358,17 +344,10 @@ class LinkInput extends HookInput {
     json.sortOnKey();
   }
 
-  List<Asset>? get assets {
-    final list_ = json.optionalList('assets')?.cast<Map<String, Object?>>();
-    if (list_ == null) {
-      return null;
-    }
-    final result = <Asset>[];
-    for (final item in list_) {
-      result.add(Asset.fromJson(item));
-    }
-    return result;
-  }
+  List<Asset>? get assets => json.optionalListParsed(
+    'assets',
+    (e) => Asset.fromJson(e as Map<String, Object?>),
+  );
 
   set _assets(List<Asset>? value) {
     if (value == null) {
@@ -381,11 +360,7 @@ class LinkInput extends HookInput {
   Uri? get resourceIdentifiers => json.optionalPath('resource_identifiers');
 
   set _resourceIdentifiers(Uri? value) {
-    if (value == null) {
-      json.remove('resource_identifiers');
-    } else {
-      json['resource_identifiers'] = value.toFilePath();
-    }
+    json.setOrRemove('resource_identifiers', value?.toFilePath());
   }
 
   @override
@@ -441,6 +416,15 @@ extension on Map<String, Object?> {
     return list.cast();
   }
 
+  List<T>? optionalListParsed<T extends Object?>(
+    String key,
+    T Function(Object?) elementParser,
+  ) {
+    final jsonValue = optionalList(key);
+    if (jsonValue == null) return null;
+    return [for (final element in jsonValue) elementParser(element)];
+  }
+
   Map<String, T> map$<T extends Object?>(String key) =>
       _castMap<T>(get<Map<String, Object?>>(key), key);
 
@@ -491,6 +475,14 @@ extension on Map<String, Object?> {
       return Uri.directory(path);
     }
     return Uri.file(path);
+  }
+
+  void setOrRemove(String key, Object? value) {
+    if (value == null) {
+      remove(key);
+    } else {
+      this[key] = value;
+    }
   }
 }
 
