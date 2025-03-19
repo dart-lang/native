@@ -16,7 +16,7 @@ import 'syntax.g.dart' as syntax;
 /// to code assets (only available if code assets are supported).
 extension CodeAssetHookConfig on HookConfig {
   /// Code asset specific configuration.
-  CodeConfig get code => CodeConfig._fromJson(json);
+  CodeConfig get code => CodeConfig._fromJson(json, path);
 
   bool get buildCodeAssets => buildAssetTypes.contains(CodeAsset.type);
 }
@@ -41,8 +41,8 @@ extension CodeAssetLinkInput on LinkInputAssets {
 class CodeConfig {
   final syntax.CodeConfig _syntax;
 
-  CodeConfig._fromJson(Map<String, Object?> json)
-    : _syntax = syntax.Config.fromJson(json).code!;
+  CodeConfig._fromJson(Map<String, Object?> json, List<Object> path)
+    : _syntax = syntax.Config.fromJson(json, path: path).code!;
 
   /// The architecture the code code asset should be built for.
   ///

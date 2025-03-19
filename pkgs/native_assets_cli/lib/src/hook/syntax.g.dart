@@ -11,14 +11,18 @@ import 'dart:io';
 class Asset {
   final Map<String, Object?> json;
 
-  Asset.fromJson(this.json);
+  final List<Object> path;
 
-  Asset({required String type}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  Asset.fromJson(this.json, {this.path = const []});
+
+  Asset({required String type}) : json = {}, path = const [] {
     _type = type;
     json.sortOnKey();
   }
 
-  String get type => json.get<String>('type');
+  String get type => _reader.get<String>('type');
 
   set _type(String value) {
     json.setOrRemove('type', value);
@@ -29,7 +33,7 @@ class Asset {
 }
 
 class BuildConfig extends Config {
-  BuildConfig.fromJson(super.json) : super.fromJson();
+  BuildConfig.fromJson(super.json, {super.path}) : super.fromJson();
 
   BuildConfig({required super.buildAssetTypes, required bool linkingEnabled})
     : super() {
@@ -44,7 +48,7 @@ class BuildConfig extends Config {
     json.sortOnKey();
   }
 
-  bool get linkingEnabled => json.get<bool>('linking_enabled');
+  bool get linkingEnabled => _reader.get<bool>('linking_enabled');
 
   set _linkingEnabled(bool value) {
     json.setOrRemove('linking_enabled', value);
@@ -55,7 +59,7 @@ class BuildConfig extends Config {
 }
 
 class BuildInput extends HookInput {
-  BuildInput.fromJson(super.json) : super.fromJson();
+  BuildInput.fromJson(super.json, {super.path}) : super.fromJson();
 
   BuildInput({
     required super.config,
@@ -80,12 +84,12 @@ class BuildInput extends HookInput {
 
   @override
   BuildConfig get config {
-    final jsonValue = json.map$('config');
-    return BuildConfig.fromJson(jsonValue);
+    final jsonValue = _reader.map$('config');
+    return BuildConfig.fromJson(jsonValue, path: [...path, 'config']);
   }
 
   Map<String, Map<String, Object?>>? get dependencyMetadata =>
-      json.optionalMap<Map<String, Object?>>('dependency_metadata');
+      _reader.optionalMap<Map<String, Object?>>('dependency_metadata');
 
   set _dependencyMetadata(Map<String, Map<String, Object?>>? value) {
     json.setOrRemove('dependency_metadata', value);
@@ -96,7 +100,7 @@ class BuildInput extends HookInput {
 }
 
 class BuildOutput extends HookOutput {
-  BuildOutput.fromJson(super.json) : super.fromJson();
+  BuildOutput.fromJson(super.json, {super.path}) : super.fromJson();
 
   BuildOutput({
     super.assets,
@@ -123,17 +127,22 @@ class BuildOutput extends HookOutput {
   }
 
   Map<String, List<Asset>>? get assetsForLinking {
-    final map_ = json.optionalMap('assetsForLinking');
-    if (map_ == null) {
+    final jsonValue = _reader.optionalMap('assetsForLinking');
+    if (jsonValue == null) {
       return null;
     }
-    return {
-      for (final MapEntry(:key, :value) in map_.entries)
-        key: [
-          for (final item in value as List<Object?>)
-            Asset.fromJson(item as Map<String, Object?>),
-        ],
-    };
+    final result = <String, List<Asset>>{};
+    for (final MapEntry(:key, :value) in jsonValue.entries) {
+      var index = 0;
+      result[key] = [
+        for (final item in value as List<Object?>)
+          Asset.fromJson(
+            item as Map<String, Object?>,
+            path: [...path, key, index++],
+          ),
+      ];
+    }
+    return result;
   }
 
   set assetsForLinking(Map<String, List<Asset>>? value) {
@@ -148,7 +157,7 @@ class BuildOutput extends HookOutput {
     json.sortOnKey();
   }
 
-  Map<String, Object?>? get metadata => json.optionalMap('metadata');
+  Map<String, Object?>? get metadata => _reader.optionalMap('metadata');
 
   set metadata(Map<String, Object?>? value) {
     json.setOrRemove('metadata', value);
@@ -162,14 +171,18 @@ class BuildOutput extends HookOutput {
 class Config {
   final Map<String, Object?> json;
 
-  Config.fromJson(this.json);
+  final List<Object> path;
 
-  Config({required List<String> buildAssetTypes}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  Config.fromJson(this.json, {this.path = const []});
+
+  Config({required List<String> buildAssetTypes}) : json = {}, path = const [] {
     this.buildAssetTypes = buildAssetTypes;
     json.sortOnKey();
   }
 
-  List<String> get buildAssetTypes => json.stringList('build_asset_types');
+  List<String> get buildAssetTypes => _reader.stringList('build_asset_types');
 
   set buildAssetTypes(List<String> value) {
     json['build_asset_types'] = value;
@@ -183,7 +196,11 @@ class Config {
 class HookInput {
   final Map<String, Object?> json;
 
-  HookInput.fromJson(this.json);
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  HookInput.fromJson(this.json, {this.path = const []});
 
   HookInput({
     required Config config,
@@ -193,7 +210,8 @@ class HookInput {
     required String packageName,
     required Uri packageRoot,
     required String version,
-  }) : json = {} {
+  }) : json = {},
+       path = const [] {
     this.config = config;
     this.outDir = outDir;
     this.outDirShared = outDirShared;
@@ -205,8 +223,8 @@ class HookInput {
   }
 
   Config get config {
-    final jsonValue = json.map$('config');
-    return Config.fromJson(jsonValue);
+    final jsonValue = _reader.map$('config');
+    return Config.fromJson(jsonValue, path: [...path, 'config']);
   }
 
   set config(Config value) {
@@ -214,42 +232,42 @@ class HookInput {
     json.sortOnKey();
   }
 
-  Uri get outDir => json.path('out_dir');
+  Uri get outDir => _reader.path$('out_dir');
 
   set outDir(Uri value) {
     json['out_dir'] = value.toFilePath();
     json.sortOnKey();
   }
 
-  Uri get outDirShared => json.path('out_dir_shared');
+  Uri get outDirShared => _reader.path$('out_dir_shared');
 
   set outDirShared(Uri value) {
     json['out_dir_shared'] = value.toFilePath();
     json.sortOnKey();
   }
 
-  Uri? get outFile => json.optionalPath('out_file');
+  Uri? get outFile => _reader.optionalPath('out_file');
 
   set outFile(Uri? value) {
     json.setOrRemove('out_file', value?.toFilePath());
     json.sortOnKey();
   }
 
-  String get packageName => json.get<String>('package_name');
+  String get packageName => _reader.get<String>('package_name');
 
   set packageName(String value) {
     json.setOrRemove('package_name', value);
     json.sortOnKey();
   }
 
-  Uri get packageRoot => json.path('package_root');
+  Uri get packageRoot => _reader.path$('package_root');
 
   set packageRoot(Uri value) {
     json['package_root'] = value.toFilePath();
     json.sortOnKey();
   }
 
-  String get version => json.get<String>('version');
+  String get version => _reader.get<String>('version');
 
   set version(String value) {
     json.setOrRemove('version', value);
@@ -263,14 +281,19 @@ class HookInput {
 class HookOutput {
   final Map<String, Object?> json;
 
-  HookOutput.fromJson(this.json);
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  HookOutput.fromJson(this.json, {this.path = const []});
 
   HookOutput({
     List<Asset>? assets,
     List<Uri>? dependencies,
     required String timestamp,
     required String version,
-  }) : json = {} {
+  }) : json = {},
+       path = const [] {
     this.assets = assets;
     this.dependencies = dependencies;
     this.timestamp = timestamp;
@@ -278,10 +301,16 @@ class HookOutput {
     json.sortOnKey();
   }
 
-  List<Asset>? get assets => json.optionalListParsed(
-    'assets',
-    (e) => Asset.fromJson(e as Map<String, Object?>),
-  );
+  List<Asset>? get assets {
+    var index = 0;
+    return _reader.optionalListParsed(
+      'assets',
+      (e) => Asset.fromJson(
+        e as Map<String, Object?>,
+        path: [...path, 'assets', index++],
+      ),
+    );
+  }
 
   set assets(List<Asset>? value) {
     if (value == null) {
@@ -292,21 +321,21 @@ class HookOutput {
     json.sortOnKey();
   }
 
-  List<Uri>? get dependencies => json.optionalPathList('dependencies');
+  List<Uri>? get dependencies => _reader.optionalPathList('dependencies');
 
   set dependencies(List<Uri>? value) {
     json.setOrRemove('dependencies', value?.toJson());
     json.sortOnKey();
   }
 
-  String get timestamp => json.get<String>('timestamp');
+  String get timestamp => _reader.get<String>('timestamp');
 
   set timestamp(String value) {
     json.setOrRemove('timestamp', value);
     json.sortOnKey();
   }
 
-  String get version => json.get<String>('version');
+  String get version => _reader.get<String>('version');
 
   set version(String value) {
     json.setOrRemove('version', value);
@@ -318,7 +347,7 @@ class HookOutput {
 }
 
 class LinkInput extends HookInput {
-  LinkInput.fromJson(super.json) : super.fromJson();
+  LinkInput.fromJson(super.json, {super.path}) : super.fromJson();
 
   LinkInput({
     List<Asset>? assets,
@@ -344,10 +373,16 @@ class LinkInput extends HookInput {
     json.sortOnKey();
   }
 
-  List<Asset>? get assets => json.optionalListParsed(
-    'assets',
-    (e) => Asset.fromJson(e as Map<String, Object?>),
-  );
+  List<Asset>? get assets {
+    var index = 0;
+    return _reader.optionalListParsed(
+      'assets',
+      (e) => Asset.fromJson(
+        e as Map<String, Object?>,
+        path: [...path, 'assets', index++],
+      ),
+    );
+  }
 
   set _assets(List<Asset>? value) {
     if (value == null) {
@@ -357,7 +392,7 @@ class LinkInput extends HookInput {
     }
   }
 
-  Uri? get resourceIdentifiers => json.optionalPath('resource_identifiers');
+  Uri? get resourceIdentifiers => _reader.optionalPath('resource_identifiers');
 
   set _resourceIdentifiers(Uri? value) {
     json.setOrRemove('resource_identifiers', value?.toFilePath());
@@ -368,7 +403,7 @@ class LinkInput extends HookInput {
 }
 
 class LinkOutput extends HookOutput {
-  LinkOutput.fromJson(super.json) : super.fromJson();
+  LinkOutput.fromJson(super.json, {super.path}) : super.fromJson();
 
   LinkOutput({
     super.assets,
@@ -381,17 +416,27 @@ class LinkOutput extends HookOutput {
   String toString() => 'LinkOutput($json)';
 }
 
-extension on Map<String, Object?> {
+class JsonReader {
+  /// The JSON Object this reader is reading.
+  final Map<String, Object?> json;
+
+  /// The path traversed by readers of the surrounding JSON.
+  ///
+  /// Contains [String] property keys and [int] indices.
+  ///
+  /// This is used to give more precise error messages.
+  final List<Object> path;
+
+  JsonReader(this.json, this.path);
+
   T get<T extends Object?>(String key) {
-    final value = this[key];
+    final value = json[key];
     if (value is T) return value;
+    final pathString = _jsonPathToString([key]);
     if (value == null) {
-      throw FormatException('No value was provided for required key: $key');
+      throw FormatException("No value was provided for '$pathString'.");
     }
-    throw FormatException(
-      'Unexpected value \'$value\' for key \'.$key\'. '
-      'Expected a $T.',
-    );
+    throwFormatException(value, T, [key]);
   }
 
   List<T> list<T extends Object?>(String key) =>
@@ -404,14 +449,13 @@ extension on Map<String, Object?> {
       };
 
   /// [List.cast] but with [FormatException]s.
-  static List<T> _castList<T extends Object?>(List<Object?> list, String key) {
+  List<T> _castList<T extends Object?>(List<Object?> list, String key) {
+    var index = 0;
     for (final value in list) {
       if (value is! T) {
-        throw FormatException(
-          'Unexpected value \'$list\' (${list.runtimeType}) for key \'.$key\'. '
-          'Expected a ${List<T>}.',
-        );
+        throwFormatException(value, T, [key, index]);
       }
+      index++;
     }
     return list.cast();
   }
@@ -435,16 +479,13 @@ extension on Map<String, Object?> {
       };
 
   /// [Map.cast] but with [FormatException]s.
-  static Map<String, T> _castMap<T extends Object?>(
+  Map<String, T> _castMap<T extends Object?>(
     Map<String, Object?> map_,
-    String key,
+    String parentKey,
   ) {
-    for (final value in map_.values) {
+    for (final MapEntry(:key, :value) in map_.entries) {
       if (value is! T) {
-        throw FormatException(
-          'Unexpected value \'$map_\' (${map_.runtimeType}) for key \'.$key\'.'
-          'Expected a ${Map<String, T>}.',
-        );
+        throwFormatException(value, T, [parentKey, key]);
       }
     }
     return map_.cast();
@@ -454,7 +495,7 @@ extension on Map<String, Object?> {
 
   List<String> stringList(String key) => list<String>(key);
 
-  Uri path(String key) => _fileSystemPathToUri(get<String>(key));
+  Uri path$(String key) => _fileSystemPathToUri(get<String>(key));
 
   Uri? optionalPath(String key) {
     final value = get<String?>(key);
@@ -477,6 +518,23 @@ extension on Map<String, Object?> {
     return Uri.file(path);
   }
 
+  String _jsonPathToString(List<Object> pathEnding) =>
+      [...path, ...pathEnding].join('.');
+
+  Never throwFormatException(
+    Object? value,
+    Type expectedType,
+    List<Object> pathExtension,
+  ) {
+    final pathString = _jsonPathToString(pathExtension);
+    throw FormatException(
+      "Unexpected value '$value' (${value.runtimeType}) for '$pathString'. "
+      'Expected a $expectedType.',
+    );
+  }
+}
+
+extension on Map<String, Object?> {
   void setOrRemove(String key, Object? value) {
     if (value == null) {
       remove(key);

@@ -72,7 +72,9 @@ class ClassGenerator {
     if (superclass != null) {
       buffer.writeln('''
 class $className extends $superclassName {
-  $className.fromJson(super.json) : super.fromJson();
+  $className.fromJson(super.json, {
+    super.path,
+  }) : super.fromJson();
 
   $className(${wrapBracesIfNotEmpty(constructorParams.join(', '))})
     : super(${superParams.join(',')}) 
@@ -102,9 +104,18 @@ class $className extends $superclassName {
 class $className {
   final Map<String, Object?> json;
 
-  $className.fromJson(this.json);
+  final List<Object> path;
 
-  $className(${wrapBracesIfNotEmpty(constructorParams.join(', '))}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  $className.fromJson(this.json, {
+    this.path = const [],
+  });
+
+  $className(${wrapBracesIfNotEmpty(constructorParams.join(', '))})
+  : json = {},
+    path = const []
+  {
     ${constructorSetterCalls.join('\n    ')}
   }
 

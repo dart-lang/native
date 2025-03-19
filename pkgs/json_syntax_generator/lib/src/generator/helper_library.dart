@@ -6,17 +6,27 @@
 ///
 /// This simplifies the code generator.
 const helperLib = r'''
-extension on Map<String, Object?> {
+class JsonReader {
+  /// The JSON Object this reader is reading.
+  final Map<String, Object?> json;
+
+  /// The path traversed by readers of the surrounding JSON.
+  ///
+  /// Contains [String] property keys and [int] indices.
+  ///
+  /// This is used to give more precise error messages.
+  final List<Object> path;
+
+  JsonReader(this.json, this.path);
+
   T get<T extends Object?>(String key) {
-    final value = this[key];
+    final value = json[key];
     if (value is T) return value;
+    final pathString = _jsonPathToString([key]);
     if (value == null) {
-      throw FormatException('No value was provided for required key: $key');
+      throw FormatException("No value was provided for '$pathString'.");
     }
-    throw FormatException(
-      'Unexpected value \'$value\' for key \'.$key\'. '
-      'Expected a $T.',
-    );
+    throwFormatException(value, T, [key]);
   }
 
   List<T> list<T extends Object?>(String key) =>
@@ -29,14 +39,13 @@ extension on Map<String, Object?> {
       };
 
   /// [List.cast] but with [FormatException]s.
-  static List<T> _castList<T extends Object?>(List<Object?> list, String key) {
+  List<T> _castList<T extends Object?>(List<Object?> list, String key) {
+    var index = 0;
     for (final value in list) {
       if (value is! T) {
-        throw FormatException(
-          'Unexpected value \'$list\' (${list.runtimeType}) for key \'.$key\'. '
-          'Expected a ${List<T>}.',
-        );
+        throwFormatException(value, T, [key, index]);
       }
+      index++;
     }
     return list.cast();
   }
@@ -60,16 +69,13 @@ extension on Map<String, Object?> {
       };
 
   /// [Map.cast] but with [FormatException]s.
-  static Map<String, T> _castMap<T extends Object?>(
+  Map<String, T> _castMap<T extends Object?>(
     Map<String, Object?> map_,
-    String key,
+    String parentKey,
   ) {
-    for (final value in map_.values) {
+    for (final MapEntry(:key, :value) in map_.entries) {
       if (value is! T) {
-        throw FormatException(
-          'Unexpected value \'$map_\' (${map_.runtimeType}) for key \'.$key\'.'
-          'Expected a ${Map<String, T>}.',
-        );
+        throwFormatException(value, T, [parentKey, key]);
       }
     }
     return map_.cast();
@@ -79,7 +85,7 @@ extension on Map<String, Object?> {
 
   List<String> stringList(String key) => list<String>(key);
 
-  Uri path(String key) => _fileSystemPathToUri(get<String>(key));
+  Uri path$(String key) => _fileSystemPathToUri(get<String>(key));
 
   Uri? optionalPath(String key) {
     final value = get<String?>(key);
@@ -102,6 +108,23 @@ extension on Map<String, Object?> {
     return Uri.file(path);
   }
 
+  String _jsonPathToString(List<Object> pathEnding) =>
+      [...path, ...pathEnding].join('.');
+
+  Never throwFormatException(
+    Object? value,
+    Type expectedType,
+    List<Object> pathExtension,
+  ) {
+    final pathString = _jsonPathToString(pathExtension);
+    throw FormatException(
+      "Unexpected value '$value' (${value.runtimeType}) for '$pathString'. "
+      'Expected a $expectedType.',
+    );
+  }
+}
+
+extension on Map<String, Object?> {
   void setOrRemove(String key, Object? value) {
     if (value == null) {
       remove(key);

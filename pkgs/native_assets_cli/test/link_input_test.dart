@@ -16,6 +16,7 @@ void main() async {
   late String packageName;
   late Uri packageRootUri;
   late List<EncodedAsset> assets;
+  late Map<String, Object?> inputJson;
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
@@ -28,6 +29,19 @@ void main() async {
       for (int i = 0; i < 3; i++)
         EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
     ];
+
+    inputJson = {
+      'assets': [for (final asset in assets) asset.toJson()],
+      'config': {
+        'build_asset_types': ['asset-type-1', 'asset-type-2'],
+      },
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_dir': outDirUri.toFilePath(),
+      'out_file': outFile.toFilePath(),
+      'package_name': packageName,
+      'package_root': packageRootUri.toFilePath(),
+      'version': latestVersion.toString(),
+    };
   });
 
   test('LinkInputBuilder->JSON->LinkInput', () {
@@ -46,20 +60,8 @@ void main() async {
           ..setupLink(assets: assets, recordedUsesFile: null);
     final input = LinkInput(inputBuilder.json);
 
-    final expectedInputJson = {
-      'assets': [for (final asset in assets) asset.toJson()],
-      'config': {
-        'build_asset_types': ['asset-type-1', 'asset-type-2'],
-      },
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
-      'out_file': outFile.toFilePath(),
-      'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
-      'version': latestVersion.toString(),
-    };
-    expect(input.json, expectedInputJson);
-    expect(json.decode(input.toString()), expectedInputJson);
+    expect(input.json, inputJson);
+    expect(json.decode(input.toString()), inputJson);
 
     expect(input.outputDirectory, outDirUri);
     expect(input.outputDirectoryShared, outputDirectoryShared);
@@ -73,15 +75,8 @@ void main() async {
   group('LinkInput FormatExceptions', () {
     for (final version in ['9001.0.0', '0.0.1']) {
       test('LinkInput version $version', () {
-        final outDir = outDirUri;
-        final input = {
-          'out_dir': outDir.toFilePath(),
-          'out_dir_shared': outputDirectoryShared.toFilePath(),
-          'out_file': outFile.toFilePath(),
-          'package_root': packageRootUri.toFilePath(),
-          'version': version,
-          'package_name': packageName,
-        };
+        final input = inputJson;
+        input['version'] = version;
         expect(
           () => LinkInput(input),
           throwsA(
@@ -95,50 +90,33 @@ void main() async {
         );
       });
     }
+
+    test('LinkInput FormatException out_dir', () {
+      final input = inputJson;
+      input.remove('out_dir');
+      expect(
+        () => LinkInput(input),
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
+                e.message.contains("No value was provided for 'out_dir'."),
+          ),
+        ),
+      );
+    });
+
     test('LinkInput FormatExceptions', () {
+      final input = inputJson;
+      input['assets'] = 'astring';
       expect(
-        () => LinkInput({}),
-        throwsA(
-          predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains('No value was provided for required key: '),
-          ),
-        ),
-      );
-      expect(
-        () => LinkInput({
-          'version': latestVersion.toString(),
-          'package_name': packageName,
-          'package_root': packageRootUri.toFilePath(),
-          'assets': <String>[],
-        }),
+        () => LinkInput(input),
         throwsA(
           predicate(
             (e) =>
                 e is FormatException &&
                 e.message.contains(
-                  'No value was provided for required key: out_dir',
-                ),
-          ),
-        ),
-      );
-      expect(
-        () => LinkInput({
-          'version': latestVersion.toString(),
-          'out_dir': outDirUri.toFilePath(),
-          'out_dir_shared': outputDirectoryShared.toFilePath(),
-          'out_file': outFile.toFilePath(),
-          'package_name': packageName,
-          'package_root': packageRootUri.toFilePath(),
-          'assets': 'astring',
-        }),
-        throwsA(
-          predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(
-                  "Unexpected value 'astring' for key '.assets'. "
+                  "Unexpected value 'astring' (String) for 'assets'. "
                   'Expected a List<Object?>?.',
                 ),
           ),

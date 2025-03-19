@@ -202,3 +202,20 @@ Logger _createTestLogger({
 final dartExecutable = File(Platform.resolvedExecutable).uri;
 
 int defaultMacOSVersion = 13;
+
+T traverseJson<T extends Object?>(Object json, List<Object> path) {
+  while (path.isNotEmpty) {
+    final key = path.removeAt(0);
+    switch (key) {
+      case final int i:
+        json = (json as List)[i] as Object;
+        break;
+      case final String s:
+        json = (json as Map)[s] as Object;
+        break;
+      default:
+        throw UnsupportedError(key.toString());
+    }
+  }
+  return json as T;
+}

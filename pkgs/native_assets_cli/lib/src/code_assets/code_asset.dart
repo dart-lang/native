@@ -107,7 +107,10 @@ final class CodeAsset {
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.type == CodeAsset.type);
     final jsonMap = asset.encoding;
-    final syntaxNode = syntax.NativeCodeAsset.fromJson(jsonMap);
+    final syntaxNode = syntax.NativeCodeAsset.fromJson(
+      jsonMap,
+      path: asset.jsonPath ?? [],
+    );
     return CodeAsset._(
       id: syntaxNode.id,
       os: OSSyntax.fromSyntax(syntaxNode.os),

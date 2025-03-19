@@ -15,15 +15,23 @@ final class EncodedAsset {
   /// The json encoding of the asset.
   final Map<String, Object?> encoding;
 
-  EncodedAsset(this.type, this.encoding);
+  /// The path of this object in a larger JSON.
+  ///
+  /// If provided, used for more precise error messages.
+  final List<Object>? jsonPath;
+
+  EncodedAsset(this.type, this.encoding, {this.jsonPath});
 
   /// Decode an [EncodedAsset] from json.
-  factory EncodedAsset.fromJson(Map<String, Object?> json) {
+  factory EncodedAsset.fromJson(
+    Map<String, Object?> json, [
+    List<Object>? path,
+  ]) {
     final syntax_ = syntax.Asset.fromJson(json);
     return EncodedAsset(syntax_.type, {
       for (final key in json.keys)
         if (key != _typeKey) key: json[key],
-    });
+    }, jsonPath: path);
   }
 
   /// Encode this [EncodedAsset] tojson.

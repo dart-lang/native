@@ -11,6 +11,8 @@ import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
+import 'helpers.dart';
+
 void main() async {
   late Uri outFile;
   late Uri outDirUri;
@@ -18,6 +20,7 @@ void main() async {
   late String packageName;
   late Uri packageRootUri;
   late Map<String, Metadata> metadata;
+  late Map<String, Object?> inputJson;
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
@@ -33,24 +36,8 @@ void main() async {
       }),
       'foo': const Metadata({'key': 321}),
     };
-  });
 
-  test('BuildInputBuilder->JSON->BuildInput', () {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
-          ..config.setupBuild(linkingEnabled: false)
-          ..setupBuildInput(metadata: metadata);
-    final input = BuildInput(inputBuilder.json);
-
-    final expectedInputJson = {
+    inputJson = {
       'config': {
         'build_asset_types': ['my-asset-type'],
         'linking_enabled': false,
@@ -69,9 +56,25 @@ void main() async {
       'package_root': packageRootUri.toFilePath(),
       'version': latestVersion.toString(),
     };
+  });
 
-    expect(input.json, expectedInputJson);
-    expect(json.decode(input.toString()), expectedInputJson);
+  test('BuildInputBuilder->JSON->BuildInput', () {
+    final inputBuilder =
+        BuildInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: packageRootUri,
+            outputFile: outFile,
+            outputDirectory: outDirUri,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
+          ..config.setupBuild(linkingEnabled: false)
+          ..setupBuildInput(metadata: metadata);
+    final input = BuildInput(inputBuilder.json);
+
+    expect(input.json, inputJson);
+    expect(json.decode(input.toString()), inputJson);
 
     expect(input.outputDirectory, outDirUri);
     expect(input.outputDirectoryShared, outputDirectoryShared);
@@ -87,21 +90,8 @@ void main() async {
   group('BuildInput format issues', () {
     for (final version in ['9001.0.0', '0.0.1']) {
       test('BuildInput version $version', () {
-        final outDir = outDirUri;
-        final input = {
-          'config': {
-            'build_asset_types': ['my-asset-type'],
-            'linking_enabled': false,
-            'target_os': 'linux',
-            'link_mode_preference': 'prefer-static',
-          },
-          'out_dir': outDir.toFilePath(),
-          'out_dir_shared': outputDirectoryShared.toFilePath(),
-          'out_file': outFile.toFilePath(),
-          'package_root': packageRootUri.toFilePath(),
-          'version': version,
-          'package_name': packageName,
-        };
+        final input = inputJson;
+        input['version'] = version;
         expect(
           () => BuildInput(input),
           throwsA(
@@ -116,59 +106,55 @@ void main() async {
       });
     }
 
-    test('BuildInput FormatExceptions', () {
+    test('BuildInput FormatException out_dir', () {
+      final input = inputJson;
+      input.remove('out_dir');
       expect(
-        () => BuildInput({}),
+        () => BuildInput(input),
         throwsA(
           predicate(
             (e) =>
                 e is FormatException &&
-                e.message.contains('No value was provided for required key: '),
+                e.message.contains("No value was provided for 'out_dir'."),
           ),
         ),
       );
+    });
+
+    test('BuildInput FormatException dependency_metadata', () {
+      final input = inputJson;
+      input['dependency_metadata'] = {
+        'bar': {'key': 'value'},
+        'foo': <int>[],
+      };
       expect(
-        () => BuildInput({
-          'version': latestVersion.toString(),
-          'package_name': packageName,
-          'package_root': packageRootUri.toFilePath(),
-          'target_os': 'android',
-        }),
-        throwsA(
-          predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(
-                  'No value was provided for required key: out_dir',
-                ),
-          ),
-        ),
-      );
-      expect(
-        () => BuildInput({
-          'config': {
-            'build_asset_types': ['my-asset-type'],
-            'linking_enabled': false,
-          },
-          'version': latestVersion.toString(),
-          'out_dir': outDirUri.toFilePath(),
-          'out_dir_shared': outputDirectoryShared.toFilePath(),
-          'out_file': outFile.toFilePath(),
-          'package_name': packageName,
-          'package_root': packageRootUri.toFilePath(),
-          'target_os': 'android',
-          'dependency_metadata': {
-            'bar': {'key': 'value'},
-            'foo': <int>[],
-          },
-        }),
+        () => BuildInput(input),
         throwsA(
           predicate(
             (e) =>
                 e is FormatException &&
                 e.message.contains('Unexpected value') &&
+                e.message.contains('dependency_metadata.foo') &&
+                e.message.contains('Expected a Map<String, Object?>'),
+          ),
+        ),
+      );
+    });
+
+    test('BuildInput FormatException config.build_asset_types', () {
+      final input = inputJson;
+      traverseJson<Map<String, Object?>>(input, [
+        'config',
+      ]).remove('build_asset_types');
+      expect(
+        () => BuildInput(input).config.buildAssetTypes,
+        throwsA(
+          predicate(
+            (e) =>
+                e is FormatException &&
                 e.message.contains(
-                  'Expected a Map<String, Map<String, Object?>>',
+                  'No value was provided for '
+                  "'config.build_asset_types'.",
                 ),
           ),
         ),
