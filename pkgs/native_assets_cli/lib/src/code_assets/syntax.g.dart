@@ -21,11 +21,7 @@ class AndroidCodeConfig {
   int? get targetNdkApi => json.get<int?>('target_ndk_api');
 
   set _targetNdkApi(int? value) {
-    if (value == null) {
-      json.remove('target_ndk_api');
-    } else {
-      json['target_ndk_api'] = value;
-    }
+    json.setOrRemove('target_ndk_api', value);
   }
 
   @override
@@ -91,11 +87,7 @@ class Asset {
   String? get type => json.get<String?>('type');
 
   set _type(String? value) {
-    if (value == null) {
-      json.remove('type');
-    } else {
-      json['type'] = value;
-    }
+    json.setOrRemove('type', value);
   }
 
   @override
@@ -138,40 +130,40 @@ class NativeCodeAsset extends Asset {
   }
 
   Architecture? get architecture {
-    final string = json.get<String?>('architecture');
-    if (string == null) return null;
-    return Architecture.fromJson(string);
+    final jsonValue = json.get<String?>('architecture');
+    if (jsonValue == null) return null;
+    return Architecture.fromJson(jsonValue);
   }
 
   set _architecture(Architecture? value) {
-    if (value == null) {
-      json.remove('architecture');
-    } else {
-      json['architecture'] = value.name;
-    }
+    json.setOrRemove('architecture', value?.name);
   }
 
   Uri? get file => json.optionalPath('file');
 
   set _file(Uri? value) {
-    if (value == null) {
-      json.remove('file');
-    } else {
-      json['file'] = value.toFilePath();
-    }
+    json.setOrRemove('file', value?.toFilePath());
   }
 
   String get id => json.get<String>('id');
 
   set _id(String value) {
-    json['id'] = value;
+    json.setOrRemove('id', value);
   }
 
-  LinkMode get linkMode => LinkMode.fromJson(json.map$('link_mode'));
+  LinkMode get linkMode {
+    final jsonValue = json.map$('link_mode');
+    return LinkMode.fromJson(jsonValue);
+  }
 
-  set _linkMode(LinkMode value) => json['link_mode'] = value.json;
+  set _linkMode(LinkMode value) {
+    json['link_mode'] = value.json;
+  }
 
-  OS get os => OS.fromJson(json.get<String>('os'));
+  OS get os {
+    final jsonValue = json.get<String>('os');
+    return OS.fromJson(jsonValue);
+  }
 
   set _os(OS value) {
     json['os'] = value.name;
@@ -224,22 +216,14 @@ class CCompilerConfig {
   Uri? get envScript => json.optionalPath('env_script');
 
   set _envScript(Uri? value) {
-    if (value == null) {
-      json.remove('env_script');
-    } else {
-      json['env_script'] = value.toFilePath();
-    }
+    json.setOrRemove('env_script', value?.toFilePath());
   }
 
   List<String>? get envScriptArguments =>
       json.optionalStringList('env_script_arguments');
 
   set _envScriptArguments(List<String>? value) {
-    if (value == null) {
-      json.remove('env_script_arguments');
-    } else {
-      json['env_script_arguments'] = value;
-    }
+    json.setOrRemove('env_script_arguments', value);
   }
 
   Uri get ld => json.path('ld');
@@ -249,19 +233,13 @@ class CCompilerConfig {
   }
 
   Windows? get windows {
-    final map_ = json.optionalMap('windows');
-    if (map_ == null) {
-      return null;
-    }
-    return Windows.fromJson(map_);
+    final jsonValue = json.optionalMap('windows');
+    if (jsonValue == null) return null;
+    return Windows.fromJson(jsonValue);
   }
 
   set _windows(Windows? value) {
-    if (value == null) {
-      json.remove('windows');
-    } else {
-      json['windows'] = value.json;
-    }
+    json.setOrRemove('windows', value?.json);
   }
 
   @override
@@ -279,19 +257,13 @@ class Windows {
   }
 
   DeveloperCommandPrompt? get developerCommandPrompt {
-    final map_ = json.optionalMap('developer_command_prompt');
-    if (map_ == null) {
-      return null;
-    }
-    return DeveloperCommandPrompt.fromJson(map_);
+    final jsonValue = json.optionalMap('developer_command_prompt');
+    if (jsonValue == null) return null;
+    return DeveloperCommandPrompt.fromJson(jsonValue);
   }
 
   set _developerCommandPrompt(DeveloperCommandPrompt? value) {
-    if (value == null) {
-      json.remove('developer_command_prompt');
-    } else {
-      json['developer_command_prompt'] = value.json;
-    }
+    json.setOrRemove('developer_command_prompt', value?.json);
   }
 
   @override
@@ -351,84 +323,67 @@ class CodeConfig {
   }
 
   AndroidCodeConfig? get android {
-    final map_ = json.optionalMap('android');
-    if (map_ == null) {
-      return null;
-    }
-    return AndroidCodeConfig.fromJson(map_);
+    final jsonValue = json.optionalMap('android');
+    if (jsonValue == null) return null;
+    return AndroidCodeConfig.fromJson(jsonValue);
   }
 
   set _android(AndroidCodeConfig? value) {
-    if (value == null) {
-      json.remove('android');
-    } else {
-      json['android'] = value.json;
-    }
+    json.setOrRemove('android', value?.json);
   }
 
   CCompilerConfig? get cCompiler {
-    final map_ = json.optionalMap('c_compiler');
-    if (map_ == null) {
-      return null;
-    }
-    return CCompilerConfig.fromJson(map_);
+    final jsonValue = json.optionalMap('c_compiler');
+    if (jsonValue == null) return null;
+    return CCompilerConfig.fromJson(jsonValue);
   }
 
   set _cCompiler(CCompilerConfig? value) {
-    if (value == null) {
-      json.remove('c_compiler');
-    } else {
-      json['c_compiler'] = value.json;
-    }
+    json.setOrRemove('c_compiler', value?.json);
   }
 
   IOSCodeConfig? get iOS {
-    final map_ = json.optionalMap('ios');
-    if (map_ == null) {
-      return null;
-    }
-    return IOSCodeConfig.fromJson(map_);
+    final jsonValue = json.optionalMap('ios');
+    if (jsonValue == null) return null;
+    return IOSCodeConfig.fromJson(jsonValue);
   }
 
   set _iOS(IOSCodeConfig? value) {
-    if (value == null) {
-      json.remove('ios');
-    } else {
-      json['ios'] = value.json;
-    }
+    json.setOrRemove('ios', value?.json);
   }
 
-  LinkModePreference get linkModePreference =>
-      LinkModePreference.fromJson(json.get<String>('link_mode_preference'));
+  LinkModePreference get linkModePreference {
+    final jsonValue = json.get<String>('link_mode_preference');
+    return LinkModePreference.fromJson(jsonValue);
+  }
 
   set _linkModePreference(LinkModePreference value) {
     json['link_mode_preference'] = value.name;
   }
 
   MacOSCodeConfig? get macOS {
-    final map_ = json.optionalMap('macos');
-    if (map_ == null) {
-      return null;
-    }
-    return MacOSCodeConfig.fromJson(map_);
+    final jsonValue = json.optionalMap('macos');
+    if (jsonValue == null) return null;
+    return MacOSCodeConfig.fromJson(jsonValue);
   }
 
   set _macOS(MacOSCodeConfig? value) {
-    if (value == null) {
-      json.remove('macos');
-    } else {
-      json['macos'] = value.json;
-    }
+    json.setOrRemove('macos', value?.json);
   }
 
-  Architecture get targetArchitecture =>
-      Architecture.fromJson(json.get<String>('target_architecture'));
+  Architecture get targetArchitecture {
+    final jsonValue = json.get<String>('target_architecture');
+    return Architecture.fromJson(jsonValue);
+  }
 
   set _targetArchitecture(Architecture value) {
     json['target_architecture'] = value.name;
   }
 
-  OS get targetOs => OS.fromJson(json.get<String>('target_os'));
+  OS get targetOs {
+    final jsonValue = json.get<String>('target_os');
+    return OS.fromJson(jsonValue);
+  }
 
   set _targetOs(OS value) {
     json['target_os'] = value.name;
@@ -449,19 +404,13 @@ class Config {
   }
 
   CodeConfig? get code {
-    final map_ = json.optionalMap('code');
-    if (map_ == null) {
-      return null;
-    }
-    return CodeConfig.fromJson(map_);
+    final jsonValue = json.optionalMap('code');
+    if (jsonValue == null) return null;
+    return CodeConfig.fromJson(jsonValue);
   }
 
   set code(CodeConfig? value) {
-    if (value == null) {
-      json.remove('code');
-    } else {
-      json['code'] = value.json;
-    }
+    json.setOrRemove('code', value?.json);
     json.sortOnKey();
   }
 
@@ -483,21 +432,13 @@ class IOSCodeConfig {
   String? get targetSdk => json.get<String?>('target_sdk');
 
   set _targetSdk(String? value) {
-    if (value == null) {
-      json.remove('target_sdk');
-    } else {
-      json['target_sdk'] = value;
-    }
+    json.setOrRemove('target_sdk', value);
   }
 
   int? get targetVersion => json.get<int?>('target_version');
 
   set _targetVersion(int? value) {
-    if (value == null) {
-      json.remove('target_version');
-    } else {
-      json['target_version'] = value;
-    }
+    json.setOrRemove('target_version', value);
   }
 
   @override
@@ -517,7 +458,7 @@ class LinkMode {
   String get type => json.get<String>('type');
 
   set _type(String value) {
-    json['type'] = value;
+    json.setOrRemove('type', value);
   }
 
   @override
@@ -675,11 +616,7 @@ class MacOSCodeConfig {
   int? get targetVersion => json.get<int?>('target_version');
 
   set _targetVersion(int? value) {
-    if (value == null) {
-      json.remove('target_version');
-    } else {
-      json['target_version'] = value;
-    }
+    json.setOrRemove('target_version', value);
   }
 
   @override
@@ -758,6 +695,15 @@ extension on Map<String, Object?> {
     return list.cast();
   }
 
+  List<T>? optionalListParsed<T extends Object?>(
+    String key,
+    T Function(Object?) elementParser,
+  ) {
+    final jsonValue = optionalList(key);
+    if (jsonValue == null) return null;
+    return [for (final element in jsonValue) elementParser(element)];
+  }
+
   Map<String, T> map$<T extends Object?>(String key) =>
       _castMap<T>(get<Map<String, Object?>>(key), key);
 
@@ -808,6 +754,14 @@ extension on Map<String, Object?> {
       return Uri.directory(path);
     }
     return Uri.file(path);
+  }
+
+  void setOrRemove(String key, Object? value) {
+    if (value == null) {
+      remove(key);
+    } else {
+      this[key] = value;
+    }
   }
 }
 

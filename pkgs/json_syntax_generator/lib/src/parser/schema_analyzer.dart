@@ -221,9 +221,9 @@ class SchemaAnalyzer {
     final DartType dartType;
     switch (type) {
       case SchemaType.boolean:
-        dartType = SimpleDartType(typeName: 'bool', isNullable: !required);
+        dartType = BoolDartType(isNullable: !required);
       case SchemaType.integer:
-        dartType = SimpleDartType(typeName: 'int', isNullable: !required);
+        dartType = IntDartType(isNullable: !required);
       case SchemaType.string:
         if (schemas.generateUri) {
           dartType = UriDartType(isNullable: !required);
@@ -232,7 +232,7 @@ class SchemaAnalyzer {
           final classInfo = _classes[schemas.className]!;
           dartType = ClassDartType(classInfo: classInfo, isNullable: !required);
         } else {
-          dartType = SimpleDartType(typeName: 'String', isNullable: !required);
+          dartType = StringDartType(isNullable: !required);
         }
       case SchemaType.object:
         final additionalPropertiesSchema = schemas.additionalPropertiesSchemas;
@@ -268,11 +268,8 @@ class SchemaAnalyzer {
                 );
               }
               dartType = MapDartType(
-                valueType: MapDartType(
-                  valueType: const SimpleDartType(
-                    typeName: 'Object',
-                    isNullable: true,
-                  ),
+                valueType: const MapDartType(
+                  valueType: ObjectDartType(isNullable: true),
                   isNullable: false,
                 ),
                 isNullable: !required,
@@ -284,10 +281,7 @@ class SchemaAnalyzer {
                 );
               }
               dartType = MapDartType(
-                valueType: const SimpleDartType(
-                  typeName: 'Object',
-                  isNullable: true,
-                ),
+                valueType: const ObjectDartType(isNullable: true),
                 isNullable: !required,
               );
             default:
@@ -307,15 +301,12 @@ class SchemaAnalyzer {
           case SchemaType.string:
             if (items.patterns.isNotEmpty) {
               dartType = ListDartType(
-                itemType: UriDartType(isNullable: false),
+                itemType: const UriDartType(isNullable: false),
                 isNullable: !required,
               );
             } else {
               dartType = ListDartType(
-                itemType: const SimpleDartType(
-                  typeName: 'String',
-                  isNullable: false,
-                ),
+                itemType: const StringDartType(isNullable: false),
                 isNullable: !required,
               );
             }
