@@ -5,8 +5,9 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/code_assets_builder.dart';
-import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
+
+import '../helpers.dart';
 
 void main() async {
   late Uri outDirUri;
@@ -49,7 +50,7 @@ void main() async {
   // check the nested key.
   Map<String, Object> inputJson({
     String hookType = 'build',
-    bool includeDeprecated = true,
+    bool includeDeprecated = false,
     OS targetOS = OS.android,
   }) => {
     if (hookType == 'link')
@@ -148,15 +149,13 @@ void main() async {
             ),
           );
     final input = BuildInput(inputBuilder.json);
-    expect(input.json, inputJson());
+    expect(input.json, inputJson(includeDeprecated: true));
     expectCorrectCodeConfig(input.config.code);
   });
 
   test('BuildInput from json without deprecated keys', () {
     for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
-      final input = BuildInput(
-        inputJson(includeDeprecated: false, targetOS: targetOS),
-      );
+      final input = BuildInput(inputJson(targetOS: targetOS));
       expect(input.packageName, packageName);
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectory, outDirUri);
@@ -197,7 +196,7 @@ void main() async {
             ),
           );
     final input = LinkInput(inputBuilder.json);
-    expect(input.json, inputJson(hookType: 'link'));
+    expect(input.json, inputJson(hookType: 'link', includeDeprecated: true));
     expectCorrectCodeConfig(input.config.code);
     expect(input.assets.encodedAssets, assets);
   });
@@ -221,23 +220,12 @@ void main() async {
   });
 
   test('BuildInput.config.code: invalid architecture', () {
-    final input = {
-      'config': {
-        'code': {
-          'link_mode_preference': 'prefer-static',
-          'android': {'target_ndk_api': 30},
-          'target_architecture': 'invalid_architecture',
-          'target_os': 'android',
-        },
-        'linking_enabled': false,
-      },
-      'out_dir': outDirUri.toFilePath(),
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_file': outFile.toFilePath(),
-      'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
-      'version': latestVersion.toString(),
-    };
+    final input = inputJson();
+    traverseJson<Map<String, Object?>>(input, [
+          'config',
+          'code',
+        ])['target_architecture'] =
+        'invalid_architecture';
     expect(
       () => BuildInput(input).config.code.targetArchitecture,
       throwsFormatException,
@@ -245,22 +233,67 @@ void main() async {
   });
 
   test('LinkInput.config.code: invalid os', () {
-    final input = {
-      'config': {
-        'code': {
-          'link_mode_preference': 'prefer-static',
-          'android': {'target_ndk_api': 30},
-          'target_architecture': 'x64',
-          'target_os': 'invalid_os',
-        },
-      },
-      'out_dir': outDirUri.toFilePath(),
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_file': outFile.toFilePath(),
-      'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
-      'version': latestVersion.toString(),
-    };
+    final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, ['config', 'code'])['target_os'] =
+        'invalid_os';
     expect(() => LinkInput(input).config.code.targetOS, throwsFormatException);
+  });
+
+  test('LinkInput.config.code.target_os invalid type', () {
+    final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, ['config', 'code'])['target_os'] =
+        123;
+    expect(
+      () => LinkInput(input).config.code.targetOS,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(
+                "Unexpected value '123' (int) for 'config.code.target_os'. "
+                'Expected a String.',
+              ),
+        ),
+      ),
+    );
+  });
+
+  test('LinkInput.config.code.link_mode_preference missing', () {
+    final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, [
+      'config',
+      'code',
+    ]).remove('link_mode_preference');
+    expect(
+      () => LinkInput(input).config.code.linkModePreference,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(
+                "No value was provided for 'config.code.link_mode_preference'.",
+              ),
+        ),
+      ),
+    );
+  });
+  test('LinkInput.assets.0.link_mode missing', () {
+    final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, [
+      'assets',
+      0,
+    ]).remove('link_mode');
+    expect(
+      () => LinkInput(input).assets.code.first.linkMode,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(
+                "No value was provided for 'assets.0.link_mode'.",
+              ),
+        ),
+      ),
+    );
   });
 }

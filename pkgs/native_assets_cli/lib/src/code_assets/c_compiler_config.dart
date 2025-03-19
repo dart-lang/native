@@ -37,19 +37,6 @@ final class CCompilerConfig {
     WindowsCCompilerConfig? windows,
   }) : _windows = windows;
 
-  /// Constructs a [CCompilerConfig] from the given [json].
-  ///
-  /// The json is expected to be valid encoding obtained via
-  /// [CCompilerConfig.toJson].
-  factory CCompilerConfig.fromJson(Map<String, Object?> json) =>
-      CCompilerConfigSyntax.fromSyntax(syntax.CCompilerConfig.fromJson(json));
-
-  /// The json representation of this [CCompilerConfig].
-  ///
-  /// The returned json can be used in [CCompilerConfig.fromJson] to
-  /// obtain a [CCompilerConfig] again.
-  Map<String, Object?> toJson() => toSyntax().json;
-
   @override
   bool operator ==(Object other) {
     if (other is! CCompilerConfig) {

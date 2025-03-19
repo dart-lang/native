@@ -11,14 +11,18 @@ import 'dart:io';
 class AndroidCodeConfig {
   final Map<String, Object?> json;
 
-  AndroidCodeConfig.fromJson(this.json);
+  final List<Object> path;
 
-  AndroidCodeConfig({int? targetNdkApi}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  AndroidCodeConfig.fromJson(this.json, {this.path = const []});
+
+  AndroidCodeConfig({int? targetNdkApi}) : json = {}, path = const [] {
     _targetNdkApi = targetNdkApi;
     json.sortOnKey();
   }
 
-  int? get targetNdkApi => json.get<int?>('target_ndk_api');
+  int? get targetNdkApi => _reader.get<int?>('target_ndk_api');
 
   set _targetNdkApi(int? value) {
     json.setOrRemove('target_ndk_api', value);
@@ -77,14 +81,18 @@ class Architecture {
 class Asset {
   final Map<String, Object?> json;
 
-  Asset.fromJson(this.json);
+  final List<Object> path;
 
-  Asset({String? type}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  Asset.fromJson(this.json, {this.path = const []});
+
+  Asset({String? type}) : json = {}, path = const [] {
     _type = type;
     json.sortOnKey();
   }
 
-  String? get type => json.get<String?>('type');
+  String? get type => _reader.get<String?>('type');
 
   set _type(String? value) {
     json.setOrRemove('type', value);
@@ -95,7 +103,7 @@ class Asset {
 }
 
 class NativeCodeAsset extends Asset {
-  NativeCodeAsset.fromJson(super.json) : super.fromJson();
+  NativeCodeAsset.fromJson(super.json, {super.path}) : super.fromJson();
 
   NativeCodeAsset({
     Architecture? architecture,
@@ -130,7 +138,7 @@ class NativeCodeAsset extends Asset {
   }
 
   Architecture? get architecture {
-    final jsonValue = json.get<String?>('architecture');
+    final jsonValue = _reader.get<String?>('architecture');
     if (jsonValue == null) return null;
     return Architecture.fromJson(jsonValue);
   }
@@ -139,21 +147,21 @@ class NativeCodeAsset extends Asset {
     json.setOrRemove('architecture', value?.name);
   }
 
-  Uri? get file => json.optionalPath('file');
+  Uri? get file => _reader.optionalPath('file');
 
   set _file(Uri? value) {
     json.setOrRemove('file', value?.toFilePath());
   }
 
-  String get id => json.get<String>('id');
+  String get id => _reader.get<String>('id');
 
   set _id(String value) {
     json.setOrRemove('id', value);
   }
 
   LinkMode get linkMode {
-    final jsonValue = json.map$('link_mode');
-    return LinkMode.fromJson(jsonValue);
+    final jsonValue = _reader.map$('link_mode');
+    return LinkMode.fromJson(jsonValue, path: [...path, 'link_mode']);
   }
 
   set _linkMode(LinkMode value) {
@@ -161,7 +169,7 @@ class NativeCodeAsset extends Asset {
   }
 
   OS get os {
-    final jsonValue = json.get<String>('os');
+    final jsonValue = _reader.get<String>('os');
     return OS.fromJson(jsonValue);
   }
 
@@ -182,7 +190,11 @@ extension NativeCodeAssetExtension on Asset {
 class CCompilerConfig {
   final Map<String, Object?> json;
 
-  CCompilerConfig.fromJson(this.json);
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  CCompilerConfig.fromJson(this.json, {this.path = const []});
 
   CCompilerConfig({
     required Uri ar,
@@ -191,7 +203,8 @@ class CCompilerConfig {
     List<String>? envScriptArguments,
     required Uri ld,
     Windows? windows,
-  }) : json = {} {
+  }) : json = {},
+       path = const [] {
     _ar = ar;
     _cc = cc;
     _envScript = envScript;
@@ -201,41 +214,41 @@ class CCompilerConfig {
     json.sortOnKey();
   }
 
-  Uri get ar => json.path('ar');
+  Uri get ar => _reader.path$('ar');
 
   set _ar(Uri value) {
     json['ar'] = value.toFilePath();
   }
 
-  Uri get cc => json.path('cc');
+  Uri get cc => _reader.path$('cc');
 
   set _cc(Uri value) {
     json['cc'] = value.toFilePath();
   }
 
-  Uri? get envScript => json.optionalPath('env_script');
+  Uri? get envScript => _reader.optionalPath('env_script');
 
   set _envScript(Uri? value) {
     json.setOrRemove('env_script', value?.toFilePath());
   }
 
   List<String>? get envScriptArguments =>
-      json.optionalStringList('env_script_arguments');
+      _reader.optionalStringList('env_script_arguments');
 
   set _envScriptArguments(List<String>? value) {
     json.setOrRemove('env_script_arguments', value);
   }
 
-  Uri get ld => json.path('ld');
+  Uri get ld => _reader.path$('ld');
 
   set _ld(Uri value) {
     json['ld'] = value.toFilePath();
   }
 
   Windows? get windows {
-    final jsonValue = json.optionalMap('windows');
+    final jsonValue = _reader.optionalMap('windows');
     if (jsonValue == null) return null;
-    return Windows.fromJson(jsonValue);
+    return Windows.fromJson(jsonValue, path: [...path, 'windows']);
   }
 
   set _windows(Windows? value) {
@@ -249,17 +262,26 @@ class CCompilerConfig {
 class Windows {
   final Map<String, Object?> json;
 
-  Windows.fromJson(this.json);
+  final List<Object> path;
 
-  Windows({DeveloperCommandPrompt? developerCommandPrompt}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  Windows.fromJson(this.json, {this.path = const []});
+
+  Windows({DeveloperCommandPrompt? developerCommandPrompt})
+    : json = {},
+      path = const [] {
     _developerCommandPrompt = developerCommandPrompt;
     json.sortOnKey();
   }
 
   DeveloperCommandPrompt? get developerCommandPrompt {
-    final jsonValue = json.optionalMap('developer_command_prompt');
+    final jsonValue = _reader.optionalMap('developer_command_prompt');
     if (jsonValue == null) return null;
-    return DeveloperCommandPrompt.fromJson(jsonValue);
+    return DeveloperCommandPrompt.fromJson(
+      jsonValue,
+      path: [...path, 'developer_command_prompt'],
+    );
   }
 
   set _developerCommandPrompt(DeveloperCommandPrompt? value) {
@@ -273,22 +295,27 @@ class Windows {
 class DeveloperCommandPrompt {
   final Map<String, Object?> json;
 
-  DeveloperCommandPrompt.fromJson(this.json);
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  DeveloperCommandPrompt.fromJson(this.json, {this.path = const []});
 
   DeveloperCommandPrompt({required List<String> arguments, required Uri script})
-    : json = {} {
+    : json = {},
+      path = const [] {
     _arguments = arguments;
     _script = script;
     json.sortOnKey();
   }
 
-  List<String> get arguments => json.stringList('arguments');
+  List<String> get arguments => _reader.stringList('arguments');
 
   set _arguments(List<String> value) {
     json['arguments'] = value;
   }
 
-  Uri get script => json.path('script');
+  Uri get script => _reader.path$('script');
 
   set _script(Uri value) {
     json['script'] = value.toFilePath();
@@ -301,7 +328,11 @@ class DeveloperCommandPrompt {
 class CodeConfig {
   final Map<String, Object?> json;
 
-  CodeConfig.fromJson(this.json);
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  CodeConfig.fromJson(this.json, {this.path = const []});
 
   CodeConfig({
     AndroidCodeConfig? android,
@@ -311,7 +342,8 @@ class CodeConfig {
     MacOSCodeConfig? macOS,
     required Architecture targetArchitecture,
     required OS targetOs,
-  }) : json = {} {
+  }) : json = {},
+       path = const [] {
     _android = android;
     _cCompiler = cCompiler;
     _iOS = iOS;
@@ -323,9 +355,9 @@ class CodeConfig {
   }
 
   AndroidCodeConfig? get android {
-    final jsonValue = json.optionalMap('android');
+    final jsonValue = _reader.optionalMap('android');
     if (jsonValue == null) return null;
-    return AndroidCodeConfig.fromJson(jsonValue);
+    return AndroidCodeConfig.fromJson(jsonValue, path: [...path, 'android']);
   }
 
   set _android(AndroidCodeConfig? value) {
@@ -333,9 +365,9 @@ class CodeConfig {
   }
 
   CCompilerConfig? get cCompiler {
-    final jsonValue = json.optionalMap('c_compiler');
+    final jsonValue = _reader.optionalMap('c_compiler');
     if (jsonValue == null) return null;
-    return CCompilerConfig.fromJson(jsonValue);
+    return CCompilerConfig.fromJson(jsonValue, path: [...path, 'c_compiler']);
   }
 
   set _cCompiler(CCompilerConfig? value) {
@@ -343,9 +375,9 @@ class CodeConfig {
   }
 
   IOSCodeConfig? get iOS {
-    final jsonValue = json.optionalMap('ios');
+    final jsonValue = _reader.optionalMap('ios');
     if (jsonValue == null) return null;
-    return IOSCodeConfig.fromJson(jsonValue);
+    return IOSCodeConfig.fromJson(jsonValue, path: [...path, 'ios']);
   }
 
   set _iOS(IOSCodeConfig? value) {
@@ -353,7 +385,7 @@ class CodeConfig {
   }
 
   LinkModePreference get linkModePreference {
-    final jsonValue = json.get<String>('link_mode_preference');
+    final jsonValue = _reader.get<String>('link_mode_preference');
     return LinkModePreference.fromJson(jsonValue);
   }
 
@@ -362,9 +394,9 @@ class CodeConfig {
   }
 
   MacOSCodeConfig? get macOS {
-    final jsonValue = json.optionalMap('macos');
+    final jsonValue = _reader.optionalMap('macos');
     if (jsonValue == null) return null;
-    return MacOSCodeConfig.fromJson(jsonValue);
+    return MacOSCodeConfig.fromJson(jsonValue, path: [...path, 'macos']);
   }
 
   set _macOS(MacOSCodeConfig? value) {
@@ -372,7 +404,7 @@ class CodeConfig {
   }
 
   Architecture get targetArchitecture {
-    final jsonValue = json.get<String>('target_architecture');
+    final jsonValue = _reader.get<String>('target_architecture');
     return Architecture.fromJson(jsonValue);
   }
 
@@ -381,7 +413,7 @@ class CodeConfig {
   }
 
   OS get targetOs {
-    final jsonValue = json.get<String>('target_os');
+    final jsonValue = _reader.get<String>('target_os');
     return OS.fromJson(jsonValue);
   }
 
@@ -396,17 +428,21 @@ class CodeConfig {
 class Config {
   final Map<String, Object?> json;
 
-  Config.fromJson(this.json);
+  final List<Object> path;
 
-  Config({CodeConfig? code}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  Config.fromJson(this.json, {this.path = const []});
+
+  Config({CodeConfig? code}) : json = {}, path = const [] {
     this.code = code;
     json.sortOnKey();
   }
 
   CodeConfig? get code {
-    final jsonValue = json.optionalMap('code');
+    final jsonValue = _reader.optionalMap('code');
     if (jsonValue == null) return null;
-    return CodeConfig.fromJson(jsonValue);
+    return CodeConfig.fromJson(jsonValue, path: [...path, 'code']);
   }
 
   set code(CodeConfig? value) {
@@ -421,21 +457,27 @@ class Config {
 class IOSCodeConfig {
   final Map<String, Object?> json;
 
-  IOSCodeConfig.fromJson(this.json);
+  final List<Object> path;
 
-  IOSCodeConfig({String? targetSdk, int? targetVersion}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  IOSCodeConfig.fromJson(this.json, {this.path = const []});
+
+  IOSCodeConfig({String? targetSdk, int? targetVersion})
+    : json = {},
+      path = const [] {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
 
-  String? get targetSdk => json.get<String?>('target_sdk');
+  String? get targetSdk => _reader.get<String?>('target_sdk');
 
   set _targetSdk(String? value) {
     json.setOrRemove('target_sdk', value);
   }
 
-  int? get targetVersion => json.get<int?>('target_version');
+  int? get targetVersion => _reader.get<int?>('target_version');
 
   set _targetVersion(int? value) {
     json.setOrRemove('target_version', value);
@@ -448,14 +490,18 @@ class IOSCodeConfig {
 class LinkMode {
   final Map<String, Object?> json;
 
-  LinkMode.fromJson(this.json);
+  final List<Object> path;
 
-  LinkMode({required String type}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  LinkMode.fromJson(this.json, {this.path = const []});
+
+  LinkMode({required String type}) : json = {}, path = const [] {
     _type = type;
     json.sortOnKey();
   }
 
-  String get type => json.get<String>('type');
+  String get type => _reader.get<String>('type');
 
   set _type(String value) {
     json.setOrRemove('type', value);
@@ -466,7 +512,8 @@ class LinkMode {
 }
 
 class DynamicLoadingBundleLinkMode extends LinkMode {
-  DynamicLoadingBundleLinkMode.fromJson(super.json) : super.fromJson();
+  DynamicLoadingBundleLinkMode.fromJson(super.json, {super.path})
+    : super.fromJson();
 
   DynamicLoadingBundleLinkMode() : super(type: 'dynamic_loading_bundle');
 
@@ -482,7 +529,8 @@ extension DynamicLoadingBundleLinkModeExtension on LinkMode {
 }
 
 class DynamicLoadingExecutableLinkMode extends LinkMode {
-  DynamicLoadingExecutableLinkMode.fromJson(super.json) : super.fromJson();
+  DynamicLoadingExecutableLinkMode.fromJson(super.json, {super.path})
+    : super.fromJson();
 
   DynamicLoadingExecutableLinkMode()
     : super(type: 'dynamic_loading_executable');
@@ -500,7 +548,8 @@ extension DynamicLoadingExecutableLinkModeExtension on LinkMode {
 }
 
 class DynamicLoadingProcessLinkMode extends LinkMode {
-  DynamicLoadingProcessLinkMode.fromJson(super.json) : super.fromJson();
+  DynamicLoadingProcessLinkMode.fromJson(super.json, {super.path})
+    : super.fromJson();
 
   DynamicLoadingProcessLinkMode() : super(type: 'dynamic_loading_process');
 
@@ -516,7 +565,8 @@ extension DynamicLoadingProcessLinkModeExtension on LinkMode {
 }
 
 class DynamicLoadingSystemLinkMode extends LinkMode {
-  DynamicLoadingSystemLinkMode.fromJson(super.json) : super.fromJson();
+  DynamicLoadingSystemLinkMode.fromJson(super.json, {super.path})
+    : super.fromJson();
 
   DynamicLoadingSystemLinkMode({required Uri uri})
     : super(type: 'dynamic_loading_system') {
@@ -531,7 +581,7 @@ class DynamicLoadingSystemLinkMode extends LinkMode {
     json.sortOnKey();
   }
 
-  Uri get uri => json.path('uri');
+  Uri get uri => _reader.path$('uri');
 
   set _uri(Uri value) {
     json['uri'] = value.toFilePath();
@@ -549,7 +599,7 @@ extension DynamicLoadingSystemLinkModeExtension on LinkMode {
 }
 
 class StaticLinkMode extends LinkMode {
-  StaticLinkMode.fromJson(super.json) : super.fromJson();
+  StaticLinkMode.fromJson(super.json, {super.path}) : super.fromJson();
 
   StaticLinkMode() : super(type: 'static');
 
@@ -606,14 +656,18 @@ class LinkModePreference {
 class MacOSCodeConfig {
   final Map<String, Object?> json;
 
-  MacOSCodeConfig.fromJson(this.json);
+  final List<Object> path;
 
-  MacOSCodeConfig({int? targetVersion}) : json = {} {
+  JsonReader get _reader => JsonReader(json, path);
+
+  MacOSCodeConfig.fromJson(this.json, {this.path = const []});
+
+  MacOSCodeConfig({int? targetVersion}) : json = {}, path = const [] {
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
 
-  int? get targetVersion => json.get<int?>('target_version');
+  int? get targetVersion => _reader.get<int?>('target_version');
 
   set _targetVersion(int? value) {
     json.setOrRemove('target_version', value);
@@ -660,17 +714,27 @@ class OS {
   String toString() => name;
 }
 
-extension on Map<String, Object?> {
+class JsonReader {
+  /// The JSON Object this reader is reading.
+  final Map<String, Object?> json;
+
+  /// The path traversed by readers of the surrounding JSON.
+  ///
+  /// Contains [String] property keys and [int] indices.
+  ///
+  /// This is used to give more precise error messages.
+  final List<Object> path;
+
+  JsonReader(this.json, this.path);
+
   T get<T extends Object?>(String key) {
-    final value = this[key];
+    final value = json[key];
     if (value is T) return value;
+    final pathString = _jsonPathToString([key]);
     if (value == null) {
-      throw FormatException('No value was provided for required key: $key');
+      throw FormatException("No value was provided for '$pathString'.");
     }
-    throw FormatException(
-      'Unexpected value \'$value\' for key \'.$key\'. '
-      'Expected a $T.',
-    );
+    throwFormatException(value, T, [key]);
   }
 
   List<T> list<T extends Object?>(String key) =>
@@ -683,14 +747,13 @@ extension on Map<String, Object?> {
       };
 
   /// [List.cast] but with [FormatException]s.
-  static List<T> _castList<T extends Object?>(List<Object?> list, String key) {
+  List<T> _castList<T extends Object?>(List<Object?> list, String key) {
+    var index = 0;
     for (final value in list) {
       if (value is! T) {
-        throw FormatException(
-          'Unexpected value \'$list\' (${list.runtimeType}) for key \'.$key\'. '
-          'Expected a ${List<T>}.',
-        );
+        throwFormatException(value, T, [key, index]);
       }
+      index++;
     }
     return list.cast();
   }
@@ -714,16 +777,13 @@ extension on Map<String, Object?> {
       };
 
   /// [Map.cast] but with [FormatException]s.
-  static Map<String, T> _castMap<T extends Object?>(
+  Map<String, T> _castMap<T extends Object?>(
     Map<String, Object?> map_,
-    String key,
+    String parentKey,
   ) {
-    for (final value in map_.values) {
+    for (final MapEntry(:key, :value) in map_.entries) {
       if (value is! T) {
-        throw FormatException(
-          'Unexpected value \'$map_\' (${map_.runtimeType}) for key \'.$key\'.'
-          'Expected a ${Map<String, T>}.',
-        );
+        throwFormatException(value, T, [parentKey, key]);
       }
     }
     return map_.cast();
@@ -733,7 +793,7 @@ extension on Map<String, Object?> {
 
   List<String> stringList(String key) => list<String>(key);
 
-  Uri path(String key) => _fileSystemPathToUri(get<String>(key));
+  Uri path$(String key) => _fileSystemPathToUri(get<String>(key));
 
   Uri? optionalPath(String key) {
     final value = get<String?>(key);
@@ -756,6 +816,23 @@ extension on Map<String, Object?> {
     return Uri.file(path);
   }
 
+  String _jsonPathToString(List<Object> pathEnding) =>
+      [...path, ...pathEnding].join('.');
+
+  Never throwFormatException(
+    Object? value,
+    Type expectedType,
+    List<Object> pathExtension,
+  ) {
+    final pathString = _jsonPathToString(pathExtension);
+    throw FormatException(
+      "Unexpected value '$value' (${value.runtimeType}) for '$pathString'. "
+      'Expected a $expectedType.',
+    );
+  }
+}
+
+extension on Map<String, Object?> {
   void setOrRemove(String key, Object? value) {
     if (value == null) {
       remove(key);

@@ -95,7 +95,7 @@ class PropertyGenerator {
 
         buffer.writeln('''
 $dartType get $fieldName {
-  final jsonValue = json.get<$dartStringType>('$jsonKey'); $earlyReturn
+  final jsonValue = _reader.get<$dartStringType>('$jsonKey'); $earlyReturn
   return $classType.fromJson(jsonValue);
 }
 ''');
@@ -115,8 +115,8 @@ set $setterName($dartType value) {
         final jsonRead = required ? 'map\$' : 'optionalMap';
         buffer.writeln('''
 $dartType get $fieldName {
-  final jsonValue = json.$jsonRead('$jsonKey'); $earlyReturn
-  return $classType.fromJson(jsonValue);
+  final jsonValue = _reader.$jsonRead('$jsonKey'); $earlyReturn
+  return $classType.fromJson(jsonValue, path: [...path, '$jsonKey']);
 }
 ''');
         if (!property.isOverride) {
@@ -142,7 +142,7 @@ set $setterName($dartType value) {
     final fieldName = property.name;
 
     buffer.writeln('''
-$dartType get $fieldName => json.get<$dartType>('$jsonKey');
+$dartType get $fieldName => _reader.get<$dartType>('$jsonKey');
 
 set $setterName($dartType value) {
   json.setOrRemove('$jsonKey', value);
@@ -169,7 +169,7 @@ set $setterName($dartType value) {
       case MapDartType():
         buffer.writeln('''
 $dartType get $fieldName =>
-  json.optionalMap<${dartType.valueType}>('$jsonKey');
+  _reader.optionalMap<${dartType.valueType}>('$jsonKey');
 
 set $setterName($dartType value) {
   json.setOrRemove('$jsonKey', value);
@@ -181,17 +181,22 @@ set $setterName($dartType value) {
         final typeName = itemType.toString();
         buffer.writeln('''
 $dartType get $fieldName {
-  final map_ = json.optionalMap('$jsonKey');
-  if(map_ == null){
+  final jsonValue = _reader.optionalMap('$jsonKey');
+  if (jsonValue == null) {
     return null;
   }
-  return {
-    for (final MapEntry(:key, :value) in map_.entries)
-      key : [
-        for (final item in value as List<Object?>)
-          $typeName.fromJson(item as $jsonObjectDartType)
-      ],
-  };
+  final result = <String, List<Asset>>{};
+  for (final MapEntry(:key, :value) in jsonValue.entries) {
+    var index = 0;
+    result[key] = [
+      for (final item in value as List<Object?>)
+        $typeName.fromJson(
+          item as $jsonObjectDartType,
+          path: [...path, key, index++],
+        ),
+    ];
+  }
+  return result;
 }
 
 set $setterName($dartType value) {
@@ -214,7 +219,7 @@ set $setterName($dartType value) {
           case 'Object':
             if (valueType.isNullable) {
               buffer.writeln('''
-$dartType get $fieldName => json.optionalMap('$jsonKey');
+$dartType get $fieldName => _reader.optionalMap('$jsonKey');
 
 set $setterName($dartType value) {
   json.setOrRemove('$jsonKey', value);
@@ -251,8 +256,16 @@ set $setterName($dartType value) {
           throw UnimplementedError('Expected an optional property.');
         }
         buffer.writeln('''
-$dartType get $fieldName =>
-    json.optionalListParsed('$jsonKey', (e) => $typeName.fromJson(e as Map<String, Object?>));
+$dartType get $fieldName {
+  var index = 0;
+  return _reader.optionalListParsed(
+    '$jsonKey',
+    (e) => $typeName.fromJson(
+      e as Map<String, Object?>,
+      path: [...path, '$jsonKey', index++],
+    ),
+  );
+}
 
 set $setterName($dartType value) {
   if (value == null) {
@@ -273,7 +286,7 @@ set $setterName($dartType value) {
             final jsonRead = required ? 'stringList' : 'optionalStringList';
             final setter = setOrRemove(dartType, jsonKey);
             buffer.writeln('''
-$dartType get $fieldName => json.$jsonRead('$jsonKey');
+$dartType get $fieldName => _reader.$jsonRead('$jsonKey');
 
 set $setterName($dartType value) {
   $setter
@@ -288,7 +301,7 @@ set $setterName($dartType value) {
         final jsonRead = required ? 'pathList' : 'optionalPathList';
         final setter = setOrRemove(dartType, jsonKey, '.toJson()');
         buffer.writeln('''
-$dartType get $fieldName => json.$jsonRead('$jsonKey');
+$dartType get $fieldName => _reader.$jsonRead('$jsonKey');
 
 set $setterName($dartType value) {
   $setter
@@ -310,10 +323,10 @@ set $setterName($dartType value) {
   ) {
     final fieldName = property.name;
     final required = property.isRequired;
-    final jsonRead = required ? 'path' : 'optionalPath';
+    final jsonRead = required ? r'path$' : 'optionalPath';
     final setter = setOrRemove(dartType, jsonKey, '.toFilePath()');
     buffer.writeln('''
-$dartType get $fieldName => json.$jsonRead('$jsonKey');
+$dartType get $fieldName => _reader.$jsonRead('$jsonKey');
 
 set $setterName($dartType value) {
   $setter

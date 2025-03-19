@@ -8,6 +8,8 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/src/code_assets/validation.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
+
 void main() {
   late Uri tempUri;
   late Uri outDirUri;
@@ -325,21 +327,4 @@ void main() {
       );
     });
   });
-}
-
-T traverseJson<T extends Object?>(Object json, List<Object> path) {
-  while (path.isNotEmpty) {
-    final key = path.removeAt(0);
-    switch (key) {
-      case final int i:
-        json = (json as List)[i] as Object;
-        break;
-      case final String s:
-        json = (json as Map)[s] as Object;
-        break;
-      default:
-        throw UnsupportedError(key.toString());
-    }
-  }
-  return json as T;
 }

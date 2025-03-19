@@ -245,7 +245,10 @@ final class LinkInputBuilder extends HookInputBuilder {
 List<EncodedAsset> _parseAssets(List<syntax.Asset>? assets) =>
     assets == null
         ? []
-        : [for (final asset in assets) EncodedAsset.fromJson(asset.json)];
+        : [
+          for (final asset in assets)
+            EncodedAsset.fromJson(asset.json, asset.path),
+        ];
 
 sealed class HookOutput {
   /// The underlying json configuration of this [HookOutput].
@@ -587,6 +590,8 @@ final latestParsableVersion = Version(1, 7, 0);
 final class HookConfig {
   Map<String, Object?> get json => _syntax.json;
 
+  List<Object> get path => _syntax.path;
+
   final syntax.Config _syntax;
 
   /// The asset types that should be built by an invocation of a hook.
@@ -617,6 +622,9 @@ final class BuildConfig extends HookConfig {
   bool get linkingEnabled => _syntax.linkingEnabled;
 
   BuildConfig._(super.input)
-    : _syntax = syntax.BuildConfig.fromJson(input._syntax.config.json),
+    : _syntax = syntax.BuildConfig.fromJson(
+        input._syntax.config.json,
+        path: input._syntax.config.path,
+      ),
       super._();
 }
