@@ -33,6 +33,12 @@
           "const": "x64"
         },
         {
+          "const": "js"
+        },
+        {
+          "const": "wasm"
+        },
+        {
           "type": "string"
         }
       ]
@@ -369,6 +375,9 @@
         },
         {
           "const": "windows"
+        },
+        {
+          "const": "web"
         },
         {
           "type": "string"

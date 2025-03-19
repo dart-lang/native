@@ -35,6 +35,14 @@ final class Architecture {
   /// The [x86-64](https://en.wikipedia.org/wiki/X86-64) architecture.
   static const Architecture x64 = Architecture._('x64');
 
+  /// The artificial [JavaScript](https://en.wikipedia.org/wiki/JavaScript)
+  /// architecture.
+  static const Architecture js = Architecture._('js');
+
+  /// The artificial [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly)
+  /// architecture.
+  static const Architecture wasm = Architecture._('wasm');
+
   /// Known values for [Architecture].
   static const List<Architecture> values = [
     arm,

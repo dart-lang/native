@@ -43,9 +43,13 @@ class Architecture {
 
   static const ia32 = Architecture._('ia32');
 
+  static const js = Architecture._('js');
+
   static const riscv32 = Architecture._('riscv32');
 
   static const riscv64 = Architecture._('riscv64');
+
+  static const wasm = Architecture._('wasm');
 
   static const x64 = Architecture._('x64');
 
@@ -53,8 +57,10 @@ class Architecture {
     arm,
     arm64,
     ia32,
+    js,
     riscv32,
     riscv64,
+    wasm,
     x64,
   ];
 
@@ -699,9 +705,11 @@ class OS {
 
   static const macOS = OS._('macos');
 
+  static const web = OS._('web');
+
   static const windows = OS._('windows');
 
-  static const List<OS> values = [android, iOS, linux, macOS, windows];
+  static const List<OS> values = [android, iOS, linux, macOS, web, windows];
 
   static final Map<String, OS> _byName = {
     for (final value in values) value.name: value,
