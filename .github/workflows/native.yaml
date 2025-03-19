@@ -184,10 +184,13 @@ jobs:
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
         if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
       
-      # TODO(https://github.com/dart-lang/native/issues/1879): Enable this when the fix has rolled into Dart.
-      # - run: dart --enable-experiment=native-assets test
-      #   working-directory: pkgs/${{ matrix.package }}/example/build/system_library/
-      #   if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+      - run: dart --enable-experiment=native-assets test
+        working-directory: pkgs/${{ matrix.package }}/example/build/download_asset/
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+
+      - run: dart --enable-experiment=native-assets test
+        working-directory: pkgs/${{ matrix.package }}/example/build/system_library/
+        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - name: Install coverage
         run: dart pub global activate coverage
