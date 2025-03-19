@@ -15,7 +15,7 @@ void main() async {
   test('native_add build', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('native_add/');
+      final packageUri = tempUri.resolve('simple_data_asset/');
 
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: packageUri, logger: logger);
