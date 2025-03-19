@@ -46,7 +46,7 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: axel-op/googlejavaformat-action@0dc4ef525e7ed73d8dff50b1b062a4d441d014b5
+      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
         name: 'Check Java formatting with google-java-format'
         with:
           version: 'v1.24.0'
@@ -137,7 +137,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: axel-op/googlejavaformat-action@0dc4ef525e7ed73d8dff50b1b062a4d441d014b5
+      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
         name: 'Check Java formatting with google-java-format'
         with:
           version: 'v1.24.0'
