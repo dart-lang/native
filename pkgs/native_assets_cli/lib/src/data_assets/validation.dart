@@ -23,11 +23,11 @@ Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
 Future<ValidationErrors> validateDataAssetBuildOutput(
   BuildInput input,
   BuildOutput output,
-) => _validateDataAssetBuildOrLinkOutput(
-  input,
-  output.assets.encodedAssets,
-  true,
-);
+) => _validateDataAssetBuildOrLinkOutput(input, [
+  ...output.assets.encodedAssets,
+  for (final assetList in output.assets.encodedAssetsForLinking.values)
+    ...assetList,
+], true);
 
 Future<ValidationErrors> validateDataAssetLinkOutput(
   LinkInput input,

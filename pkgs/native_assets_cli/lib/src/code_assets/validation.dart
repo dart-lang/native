@@ -80,7 +80,11 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
 ) => _validateCodeAssetBuildOrLinkOutput(
   input,
   input.config.code,
-  output.assets.encodedAssets,
+  [
+    ...output.assets.encodedAssets,
+    for (final assetList in output.assets.encodedAssetsForLinking.values)
+      ...assetList,
+  ],
   output,
   true,
 );
