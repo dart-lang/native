@@ -88,8 +88,8 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
 ) => _validateCodeAssetBuildOrLinkOutput(
   input,
   input.config.code,
+  output.assets.encodedAssets,
   [
-    ...output.assets.encodedAssets,
     for (final assetList in output.assets.encodedAssetsForLinking.values)
       ...assetList,
   ],
@@ -104,6 +104,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
+  [],
   output,
   false,
 );
@@ -133,6 +134,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookInput input,
   CodeConfig codeConfig,
   List<EncodedAsset> encodedAssets,
+  List<EncodedAsset> encodedAssetsForLinking,
   HookOutput output,
   bool isBuild,
 ) async {
@@ -149,10 +151,24 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       errors,
       ids,
       isBuild,
+      true,
     );
     _groupCodeAssetsByFilename(
       CodeAsset.fromEncoded(asset),
       fileNameToEncodedAssetId,
+    );
+  }
+
+  for (final asset in encodedAssetsForLinking) {
+    if (asset.type != CodeAsset.type) continue;
+    _validateCodeAsset(
+      input,
+      codeConfig,
+      CodeAsset.fromEncoded(asset),
+      errors,
+      ids,
+      isBuild,
+      false,
     );
   }
   _validateNoDuplicateDylibNames(errors, fileNameToEncodedAssetId);
@@ -165,26 +181,31 @@ void _validateCodeAsset(
   CodeAsset codeAsset,
   List<String> errors,
   Set<String> ids,
-  bool isBuild,
+  bool validateAssetId,
+  bool validateLinkMode,
 ) {
   final id = codeAsset.id;
   final prefix = 'package:${input.packageName}/';
-  if (isBuild && !id.startsWith(prefix)) {
+  if (validateAssetId && !id.startsWith(prefix)) {
     errors.add('Code asset "$id" does not start with "$prefix".');
   }
   if (!ids.add(id)) {
     errors.add('More than one code asset with same "$id" id.');
   }
 
-  final preference = codeConfig.linkModePreference;
-  final linkMode = codeAsset.linkMode;
-  if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
-      (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
-    errors.add(
-      'CodeAsset "$id" has a link mode "$linkMode", which '
-      'is not allowed by by the input link mode preference '
-      '"$preference".',
-    );
+  if (validateLinkMode) {
+    final preference = codeConfig.linkModePreference;
+    final linkMode = codeAsset.linkMode;
+    if ((linkMode is DynamicLoading &&
+            preference == LinkModePreference.static) ||
+        (linkMode is StaticLinking &&
+            preference == LinkModePreference.dynamic)) {
+      errors.add(
+        'CodeAsset "$id" has a link mode "$linkMode", which '
+        'is not allowed by by the input link mode preference '
+        '"$preference".',
+      );
+    }
   }
 
   final os = codeAsset.os;
