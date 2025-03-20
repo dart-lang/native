@@ -85,6 +85,7 @@ class PropertyGenerator {
     final classInfo = dartType.classInfo;
     final classType = classInfo.name;
     final fieldName = property.name;
+    final validateName = property.validateName;
     final required = property.isRequired;
 
     switch (classInfo) {
@@ -106,6 +107,8 @@ set $setterName($dartType value) {
   $setter
   $sortOnKey
 }
+
+List<String> $validateName() => _reader.validate<$dartStringType>('$jsonKey');
 ''');
         }
 
@@ -127,6 +130,27 @@ set $setterName($dartType value) {
   $sortOnKey
 }
 ''');
+          if (required) {
+            buffer.writeln('''
+List<String> $validateName() {
+  final mapErrors = _reader.validate<Map<String, Object?>>('$jsonKey');
+  if (mapErrors.isNotEmpty) {
+    return mapErrors;
+  }
+  return $fieldName.validate();
+}
+''');
+          } else {
+            buffer.writeln('''
+List<String> $validateName() {
+  final mapErrors = _reader.validate<Map<String, Object?>?>('$jsonKey');
+  if (mapErrors.isNotEmpty) {
+    return mapErrors;
+  }
+  return $fieldName?.validate() ?? [];
+}
+''');
+          }
         }
     }
   }
@@ -140,6 +164,7 @@ set $setterName($dartType value) {
     String sortOnKey,
   ) {
     final fieldName = property.name;
+    final validateName = property.validateName;
 
     buffer.writeln('''
 $dartType get $fieldName => _reader.get<$dartType>('$jsonKey');
@@ -148,6 +173,8 @@ set $setterName($dartType value) {
   json.setOrRemove('$jsonKey', value);
   $sortOnKey
 }
+
+List<String> $validateName() => _reader.validate<$dartType>('$jsonKey');
 ''');
   }
 
@@ -163,6 +190,7 @@ set $setterName($dartType value) {
       throw UnimplementedError('Expected an optional property.');
     }
     final fieldName = property.name;
+    final validateName = property.validateName;
     final valueType = dartType.valueType;
 
     switch (valueType) {
@@ -175,6 +203,9 @@ set $setterName($dartType value) {
   json.setOrRemove('$jsonKey', value);
   $sortOnKey
 }
+
+List<String> $validateName() =>
+  _reader.validateOptionalMap<${dartType.valueType}>('$jsonKey');
 ''');
       case ListDartType():
         final itemType = valueType.itemType;
@@ -213,6 +244,26 @@ set $setterName($dartType value) {
   }
   $sortOnKey
 }
+
+List<String> $validateName() {
+  final mapErrors = _reader.validateOptionalMap('$jsonKey');
+  if (mapErrors.isNotEmpty) {
+    return mapErrors;
+  }
+  final jsonValue = _reader.optionalMap(
+    '$jsonKey',
+  );
+  if (jsonValue == null) {
+    return [];
+  }
+  final result = <String>[];
+  for (final list in $fieldName!.values) {
+    for (final element in list) {
+      result.addAll(element.validate());
+    }
+  }
+  return result;
+}
 ''');
       case SimpleDartType():
         switch (valueType.typeName) {
@@ -225,6 +276,8 @@ set $setterName($dartType value) {
   json.setOrRemove('$jsonKey', value);
   $sortOnKey
 }
+
+List<String> $validateName() => _reader.validateOptionalMap('$jsonKey');
 ''');
             } else {
               throw UnimplementedError(valueType.toString());
@@ -246,6 +299,7 @@ set $setterName($dartType value) {
     String sortOnKey,
   ) {
     final fieldName = property.name;
+    final validateName = property.validateName;
     final itemType = dartType.itemType;
     final typeName = itemType.toString();
     final required = property.isRequired;
@@ -279,11 +333,27 @@ set $setterName($dartType value) {
   }
   $sortOnKey
 }
+
+List<String> $validateName() {
+  final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+    '$jsonKey',
+  );
+  if (listErrors.isNotEmpty) {
+    return listErrors;
+  }
+  final elements = $fieldName;
+  if (elements == null) {
+    return [];
+  }
+  return [for (final element in elements) ...element.validate()];
+}
 ''');
       case SimpleDartType():
         switch (itemType.typeName) {
           case 'String':
             final jsonRead = required ? 'stringList' : 'optionalStringList';
+            final jsonValidate =
+                required ? 'validateStringList' : 'validateOptionalStringList';
             final setter = setOrRemove(dartType, jsonKey);
             buffer.writeln('''
 $dartType get $fieldName => _reader.$jsonRead('$jsonKey');
@@ -292,6 +362,8 @@ set $setterName($dartType value) {
   $setter
   $sortOnKey
 }
+
+List<String> $validateName() => _reader.$jsonValidate('$jsonKey');
 ''');
 
           default:
@@ -299,6 +371,8 @@ set $setterName($dartType value) {
         }
       case UriDartType():
         final jsonRead = required ? 'pathList' : 'optionalPathList';
+        final jsonValidate =
+            required ? 'validatePathList' : 'validateOptionalPathList';
         final setter = setOrRemove(dartType, jsonKey, '.toJson()');
         buffer.writeln('''
 $dartType get $fieldName => _reader.$jsonRead('$jsonKey');
@@ -307,6 +381,8 @@ set $setterName($dartType value) {
   $setter
   $sortOnKey
 }
+
+List<String> $validateName() => _reader.$jsonValidate('$jsonKey');
 ''');
       default:
         throw UnimplementedError(itemType.toString());
@@ -322,8 +398,10 @@ set $setterName($dartType value) {
     String sortOnKey,
   ) {
     final fieldName = property.name;
+    final validateName = property.validateName;
     final required = property.isRequired;
     final jsonRead = required ? r'path$' : 'optionalPath';
+    final jsonValidate = required ? r'validatePath' : 'validateOptionalPath';
     final setter = setOrRemove(dartType, jsonKey, '.toFilePath()');
     buffer.writeln('''
 $dartType get $fieldName => _reader.$jsonRead('$jsonKey');
@@ -332,6 +410,8 @@ set $setterName($dartType value) {
   $setter
   $sortOnKey
 }
+
+List<String> $validateName() => _reader.$jsonValidate('$jsonKey');
 ''');
   }
 

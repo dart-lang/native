@@ -28,6 +28,11 @@ class AndroidCodeConfig {
     json.setOrRemove('target_ndk_api', value);
   }
 
+  List<String> _validateTargetNdkApi() =>
+      _reader.validate<int?>('target_ndk_api');
+
+  List<String> validate() => [..._validateTargetNdkApi()];
+
   @override
   String toString() => 'AndroidCodeConfig($json)';
 }
@@ -98,6 +103,10 @@ class Asset {
     json.setOrRemove('type', value);
   }
 
+  List<String> _validateType() => _reader.validate<String?>('type');
+
+  List<String> validate() => [..._validateType()];
+
   @override
   String toString() => 'Asset($json)';
 }
@@ -147,17 +156,24 @@ class NativeCodeAsset extends Asset {
     json.setOrRemove('architecture', value?.name);
   }
 
+  List<String> _validateArchitecture() =>
+      _reader.validate<String?>('architecture');
+
   Uri? get file => _reader.optionalPath('file');
 
   set _file(Uri? value) {
     json.setOrRemove('file', value?.toFilePath());
   }
 
+  List<String> _validateFile() => _reader.validateOptionalPath('file');
+
   String get id => _reader.get<String>('id');
 
   set _id(String value) {
     json.setOrRemove('id', value);
   }
+
+  List<String> _validateId() => _reader.validate<String>('id');
 
   LinkMode get linkMode {
     final jsonValue = _reader.map$('link_mode');
@@ -166,6 +182,14 @@ class NativeCodeAsset extends Asset {
 
   set _linkMode(LinkMode value) {
     json['link_mode'] = value.json;
+  }
+
+  List<String> _validateLinkMode() {
+    final mapErrors = _reader.validate<Map<String, Object?>>('link_mode');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return linkMode.validate();
   }
 
   OS get os {
@@ -177,6 +201,18 @@ class NativeCodeAsset extends Asset {
     json['os'] = value.name;
   }
 
+  List<String> _validateOs() => _reader.validate<String>('os');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateArchitecture(),
+    ..._validateFile(),
+    ..._validateId(),
+    ..._validateLinkMode(),
+    ..._validateOs(),
+  ];
+
   @override
   String toString() => 'NativeCodeAsset($json)';
 }
@@ -184,7 +220,8 @@ class NativeCodeAsset extends Asset {
 extension NativeCodeAssetExtension on Asset {
   bool get isNativeCodeAsset => type == 'native_code';
 
-  NativeCodeAsset get asNativeCodeAsset => NativeCodeAsset.fromJson(json);
+  NativeCodeAsset get asNativeCodeAsset =>
+      NativeCodeAsset.fromJson(json, path: path);
 }
 
 class CCompilerConfig {
@@ -220,17 +257,24 @@ class CCompilerConfig {
     json['ar'] = value.toFilePath();
   }
 
+  List<String> _validateAr() => _reader.validatePath('ar');
+
   Uri get cc => _reader.path$('cc');
 
   set _cc(Uri value) {
     json['cc'] = value.toFilePath();
   }
 
+  List<String> _validateCc() => _reader.validatePath('cc');
+
   Uri? get envScript => _reader.optionalPath('env_script');
 
   set _envScript(Uri? value) {
     json.setOrRemove('env_script', value?.toFilePath());
   }
+
+  List<String> _validateEnvScript() =>
+      _reader.validateOptionalPath('env_script');
 
   List<String>? get envScriptArguments =>
       _reader.optionalStringList('env_script_arguments');
@@ -239,11 +283,16 @@ class CCompilerConfig {
     json.setOrRemove('env_script_arguments', value);
   }
 
+  List<String> _validateEnvScriptArguments() =>
+      _reader.validateOptionalStringList('env_script_arguments');
+
   Uri get ld => _reader.path$('ld');
 
   set _ld(Uri value) {
     json['ld'] = value.toFilePath();
   }
+
+  List<String> _validateLd() => _reader.validatePath('ld');
 
   Windows? get windows {
     final jsonValue = _reader.optionalMap('windows');
@@ -254,6 +303,23 @@ class CCompilerConfig {
   set _windows(Windows? value) {
     json.setOrRemove('windows', value?.json);
   }
+
+  List<String> _validateWindows() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('windows');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return windows?.validate() ?? [];
+  }
+
+  List<String> validate() => [
+    ..._validateAr(),
+    ..._validateCc(),
+    ..._validateEnvScript(),
+    ..._validateEnvScriptArguments(),
+    ..._validateLd(),
+    ..._validateWindows(),
+  ];
 
   @override
   String toString() => 'CCompilerConfig($json)';
@@ -288,6 +354,18 @@ class Windows {
     json.setOrRemove('developer_command_prompt', value?.json);
   }
 
+  List<String> _validateDeveloperCommandPrompt() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'developer_command_prompt',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return developerCommandPrompt?.validate() ?? [];
+  }
+
+  List<String> validate() => [..._validateDeveloperCommandPrompt()];
+
   @override
   String toString() => 'Windows($json)';
 }
@@ -315,11 +393,17 @@ class DeveloperCommandPrompt {
     json['arguments'] = value;
   }
 
+  List<String> _validateArguments() => _reader.validateStringList('arguments');
+
   Uri get script => _reader.path$('script');
 
   set _script(Uri value) {
     json['script'] = value.toFilePath();
   }
+
+  List<String> _validateScript() => _reader.validatePath('script');
+
+  List<String> validate() => [..._validateArguments(), ..._validateScript()];
 
   @override
   String toString() => 'DeveloperCommandPrompt($json)';
@@ -364,6 +448,14 @@ class CodeConfig {
     json.setOrRemove('android', value?.json);
   }
 
+  List<String> _validateAndroid() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('android');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return android?.validate() ?? [];
+  }
+
   CCompilerConfig? get cCompiler {
     final jsonValue = _reader.optionalMap('c_compiler');
     if (jsonValue == null) return null;
@@ -372,6 +464,14 @@ class CodeConfig {
 
   set _cCompiler(CCompilerConfig? value) {
     json.setOrRemove('c_compiler', value?.json);
+  }
+
+  List<String> _validateCCompiler() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('c_compiler');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return cCompiler?.validate() ?? [];
   }
 
   IOSCodeConfig? get iOS {
@@ -384,6 +484,14 @@ class CodeConfig {
     json.setOrRemove('ios', value?.json);
   }
 
+  List<String> _validateIOS() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('ios');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return iOS?.validate() ?? [];
+  }
+
   LinkModePreference get linkModePreference {
     final jsonValue = _reader.get<String>('link_mode_preference');
     return LinkModePreference.fromJson(jsonValue);
@@ -392,6 +500,9 @@ class CodeConfig {
   set _linkModePreference(LinkModePreference value) {
     json['link_mode_preference'] = value.name;
   }
+
+  List<String> _validateLinkModePreference() =>
+      _reader.validate<String>('link_mode_preference');
 
   MacOSCodeConfig? get macOS {
     final jsonValue = _reader.optionalMap('macos');
@@ -403,6 +514,14 @@ class CodeConfig {
     json.setOrRemove('macos', value?.json);
   }
 
+  List<String> _validateMacOS() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('macos');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return macOS?.validate() ?? [];
+  }
+
   Architecture get targetArchitecture {
     final jsonValue = _reader.get<String>('target_architecture');
     return Architecture.fromJson(jsonValue);
@@ -412,6 +531,9 @@ class CodeConfig {
     json['target_architecture'] = value.name;
   }
 
+  List<String> _validateTargetArchitecture() =>
+      _reader.validate<String>('target_architecture');
+
   OS get targetOs {
     final jsonValue = _reader.get<String>('target_os');
     return OS.fromJson(jsonValue);
@@ -420,6 +542,18 @@ class CodeConfig {
   set _targetOs(OS value) {
     json['target_os'] = value.name;
   }
+
+  List<String> _validateTargetOs() => _reader.validate<String>('target_os');
+
+  List<String> validate() => [
+    ..._validateAndroid(),
+    ..._validateCCompiler(),
+    ..._validateIOS(),
+    ..._validateLinkModePreference(),
+    ..._validateMacOS(),
+    ..._validateTargetArchitecture(),
+    ..._validateTargetOs(),
+  ];
 
   @override
   String toString() => 'CodeConfig($json)';
@@ -450,6 +584,16 @@ class Config {
     json.sortOnKey();
   }
 
+  List<String> _validateCode() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('code');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return code?.validate() ?? [];
+  }
+
+  List<String> validate() => [..._validateCode()];
+
   @override
   String toString() => 'Config($json)';
 }
@@ -477,11 +621,21 @@ class IOSCodeConfig {
     json.setOrRemove('target_sdk', value);
   }
 
+  List<String> _validateTargetSdk() => _reader.validate<String?>('target_sdk');
+
   int? get targetVersion => _reader.get<int?>('target_version');
 
   set _targetVersion(int? value) {
     json.setOrRemove('target_version', value);
   }
+
+  List<String> _validateTargetVersion() =>
+      _reader.validate<int?>('target_version');
+
+  List<String> validate() => [
+    ..._validateTargetSdk(),
+    ..._validateTargetVersion(),
+  ];
 
   @override
   String toString() => 'IOSCodeConfig($json)';
@@ -507,6 +661,10 @@ class LinkMode {
     json.setOrRemove('type', value);
   }
 
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  List<String> validate() => [..._validateType()];
+
   @override
   String toString() => 'LinkMode($json)';
 }
@@ -518,6 +676,9 @@ class DynamicLoadingBundleLinkMode extends LinkMode {
   DynamicLoadingBundleLinkMode() : super(type: 'dynamic_loading_bundle');
 
   @override
+  List<String> validate() => [...super.validate()];
+
+  @override
   String toString() => 'DynamicLoadingBundleLinkMode($json)';
 }
 
@@ -525,7 +686,7 @@ extension DynamicLoadingBundleLinkModeExtension on LinkMode {
   bool get isDynamicLoadingBundleLinkMode => type == 'dynamic_loading_bundle';
 
   DynamicLoadingBundleLinkMode get asDynamicLoadingBundleLinkMode =>
-      DynamicLoadingBundleLinkMode.fromJson(json);
+      DynamicLoadingBundleLinkMode.fromJson(json, path: path);
 }
 
 class DynamicLoadingExecutableLinkMode extends LinkMode {
@@ -536,6 +697,9 @@ class DynamicLoadingExecutableLinkMode extends LinkMode {
     : super(type: 'dynamic_loading_executable');
 
   @override
+  List<String> validate() => [...super.validate()];
+
+  @override
   String toString() => 'DynamicLoadingExecutableLinkMode($json)';
 }
 
@@ -544,7 +708,7 @@ extension DynamicLoadingExecutableLinkModeExtension on LinkMode {
       type == 'dynamic_loading_executable';
 
   DynamicLoadingExecutableLinkMode get asDynamicLoadingExecutableLinkMode =>
-      DynamicLoadingExecutableLinkMode.fromJson(json);
+      DynamicLoadingExecutableLinkMode.fromJson(json, path: path);
 }
 
 class DynamicLoadingProcessLinkMode extends LinkMode {
@@ -554,6 +718,9 @@ class DynamicLoadingProcessLinkMode extends LinkMode {
   DynamicLoadingProcessLinkMode() : super(type: 'dynamic_loading_process');
 
   @override
+  List<String> validate() => [...super.validate()];
+
+  @override
   String toString() => 'DynamicLoadingProcessLinkMode($json)';
 }
 
@@ -561,7 +728,7 @@ extension DynamicLoadingProcessLinkModeExtension on LinkMode {
   bool get isDynamicLoadingProcessLinkMode => type == 'dynamic_loading_process';
 
   DynamicLoadingProcessLinkMode get asDynamicLoadingProcessLinkMode =>
-      DynamicLoadingProcessLinkMode.fromJson(json);
+      DynamicLoadingProcessLinkMode.fromJson(json, path: path);
 }
 
 class DynamicLoadingSystemLinkMode extends LinkMode {
@@ -587,6 +754,11 @@ class DynamicLoadingSystemLinkMode extends LinkMode {
     json['uri'] = value.toFilePath();
   }
 
+  List<String> _validateUri() => _reader.validatePath('uri');
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateUri()];
+
   @override
   String toString() => 'DynamicLoadingSystemLinkMode($json)';
 }
@@ -595,7 +767,7 @@ extension DynamicLoadingSystemLinkModeExtension on LinkMode {
   bool get isDynamicLoadingSystemLinkMode => type == 'dynamic_loading_system';
 
   DynamicLoadingSystemLinkMode get asDynamicLoadingSystemLinkMode =>
-      DynamicLoadingSystemLinkMode.fromJson(json);
+      DynamicLoadingSystemLinkMode.fromJson(json, path: path);
 }
 
 class StaticLinkMode extends LinkMode {
@@ -604,13 +776,17 @@ class StaticLinkMode extends LinkMode {
   StaticLinkMode() : super(type: 'static');
 
   @override
+  List<String> validate() => [...super.validate()];
+
+  @override
   String toString() => 'StaticLinkMode($json)';
 }
 
 extension StaticLinkModeExtension on LinkMode {
   bool get isStaticLinkMode => type == 'static';
 
-  StaticLinkMode get asStaticLinkMode => StaticLinkMode.fromJson(json);
+  StaticLinkMode get asStaticLinkMode =>
+      StaticLinkMode.fromJson(json, path: path);
 }
 
 class LinkModePreference {
@@ -673,6 +849,11 @@ class MacOSCodeConfig {
     json.setOrRemove('target_version', value);
   }
 
+  List<String> _validateTargetVersion() =>
+      _reader.validate<int?>('target_version');
+
+  List<String> validate() => [..._validateTargetVersion()];
+
   @override
   String toString() => 'MacOSCodeConfig($json)';
 }
@@ -730,21 +911,45 @@ class JsonReader {
   T get<T extends Object?>(String key) {
     final value = json[key];
     if (value is T) return value;
-    final pathString = _jsonPathToString([key]);
-    if (value == null) {
-      throw FormatException("No value was provided for '$pathString'.");
-    }
     throwFormatException(value, T, [key]);
+  }
+
+  List<String> validate<T extends Object?>(String key) {
+    final value = json[key];
+    if (value is T) return [];
+    return [
+      errorString(value, T, [key]),
+    ];
   }
 
   List<T> list<T extends Object?>(String key) =>
       _castList<T>(get<List<Object?>>(key), key);
+
+  List<String> validateList<T extends Object?>(String key) {
+    final listErrors = validate<List<Object?>>(key);
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    return _validateListElements(get<List<Object?>>(key), key);
+  }
 
   List<T>? optionalList<T extends Object?>(String key) =>
       switch (get<List<Object?>?>(key)?.cast<T>()) {
         null => null,
         final l => _castList<T>(l, key),
       };
+
+  List<String> validateOptionalList<T extends Object?>(String key) {
+    final listErrors = validate<List<Object?>?>(key);
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final list = get<List<Object?>?>(key);
+    if (list == null) {
+      return [];
+    }
+    return _validateListElements(list, key);
+  }
 
   /// [List.cast] but with [FormatException]s.
   List<T> _castList<T extends Object?>(List<Object?> list, String key) {
@@ -756,6 +961,21 @@ class JsonReader {
       index++;
     }
     return list.cast();
+  }
+
+  List<String> _validateListElements<T extends Object?>(
+    List<Object?> list,
+    String key,
+  ) {
+    var index = 0;
+    final result = <String>[];
+    for (final value in list) {
+      if (value is! T) {
+        result.add(errorString(value, T, [key, index]));
+      }
+      index++;
+    }
+    return result;
   }
 
   List<T>? optionalListParsed<T extends Object?>(
@@ -770,11 +990,31 @@ class JsonReader {
   Map<String, T> map$<T extends Object?>(String key) =>
       _castMap<T>(get<Map<String, Object?>>(key), key);
 
+  List<String> validateMap<T extends Object?>(String key) {
+    final mapErrors = validate<Map<String, Object?>>(key);
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return _validateMapElements<T>(get<Map<String, Object?>>(key), key);
+  }
+
   Map<String, T>? optionalMap<T extends Object?>(String key) =>
       switch (get<Map<String, Object?>?>(key)) {
         null => null,
         final m => _castMap<T>(m, key),
       };
+
+  List<String> validateOptionalMap<T extends Object?>(String key) {
+    final mapErrors = validate<Map<String, Object?>?>(key);
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    final map = get<Map<String, Object?>?>(key);
+    if (map == null) {
+      return [];
+    }
+    return _validateMapElements<T>(map, key);
+  }
 
   /// [Map.cast] but with [FormatException]s.
   Map<String, T> _castMap<T extends Object?>(
@@ -789,17 +1029,39 @@ class JsonReader {
     return map_.cast();
   }
 
+  List<String> _validateMapElements<T extends Object?>(
+    Map<String, Object?> map_,
+    String parentKey,
+  ) {
+    final result = <String>[];
+    for (final MapEntry(:key, :value) in map_.entries) {
+      if (value is! T) {
+        result.add(errorString(value, T, [parentKey, key]));
+      }
+    }
+    return result;
+  }
+
   List<String>? optionalStringList(String key) => optionalList<String>(key);
+
+  List<String> validateOptionalStringList(String key) =>
+      validateOptionalList<String>(key);
 
   List<String> stringList(String key) => list<String>(key);
 
+  List<String> validateStringList(String key) => validateList<String>(key);
+
   Uri path$(String key) => _fileSystemPathToUri(get<String>(key));
+
+  List<String> validatePath(String key) => validate<String>(key);
 
   Uri? optionalPath(String key) {
     final value = get<String?>(key);
     if (value == null) return null;
     return _fileSystemPathToUri(value);
   }
+
+  List<String> validateOptionalPath(String key) => validate<String?>(key);
 
   List<Uri>? optionalPathList(String key) {
     final strings = optionalStringList(key);
@@ -808,6 +1070,9 @@ class JsonReader {
     }
     return [for (final string in strings) _fileSystemPathToUri(string)];
   }
+
+  List<String> validateOptionalPathList(String key) =>
+      validateOptionalStringList(key);
 
   static Uri _fileSystemPathToUri(String path) {
     if (path.endsWith(Platform.pathSeparator)) {
@@ -824,11 +1089,21 @@ class JsonReader {
     Type expectedType,
     List<Object> pathExtension,
   ) {
+    throw FormatException(errorString(value, expectedType, pathExtension));
+  }
+
+  String errorString(
+    Object? value,
+    Type expectedType,
+    List<Object> pathExtension,
+  ) {
     final pathString = _jsonPathToString(pathExtension);
-    throw FormatException(
-      "Unexpected value '$value' (${value.runtimeType}) for '$pathString'. "
-      'Expected a $expectedType.',
-    );
+    if (value == null) {
+      return "No value was provided for '$pathString'."
+          ' Expected a $expectedType.';
+    }
+    return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
+        ' Expected a $expectedType.';
   }
 }
 

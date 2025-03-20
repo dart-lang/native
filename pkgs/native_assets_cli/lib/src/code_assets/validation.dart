@@ -7,16 +7,23 @@ import 'dart:io';
 import '../../code_assets_builder.dart';
 import 'config.dart';
 import 'link_mode.dart';
+import 'syntax.g.dart' as syntax;
 
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
-    _validateCodeConfig('BuildInput.config.code', input.config.code);
+    _validateConfig('BuildInput.config.code', input.config);
 
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async => [
-  ..._validateCodeConfig('LinkInput.config.code', input.config.code),
+  ..._validateConfig('LinkInput.config.code', input.config),
   ...await _validateCodeAssetLinkInput(input.assets.encodedAssets),
 ];
 
-ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
+ValidationErrors _validateConfig(String inputName, HookConfig config) {
+  final syntaxErrors = _validateConfigSyntax(config);
+  if (syntaxErrors.isNotEmpty) {
+    return syntaxErrors;
+  }
+
+  final code = config.code;
   final errors = <String>[];
   final targetOS = code.targetOS;
   switch (targetOS) {
@@ -71,13 +78,30 @@ ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
   return errors;
 }
 
+List<String> _validateConfigSyntax(HookConfig config) {
+  final syntaxNode = syntax.Config.fromJson(config.json, path: config.path);
+  final syntaxErrors = syntaxNode.validate();
+  if (syntaxErrors.isEmpty) {
+    return [];
+  }
+  return [...syntaxErrors, _semanticValidationSkippedMessage(syntaxNode.path)];
+}
+
 Future<ValidationErrors> _validateCodeAssetLinkInput(
   List<EncodedAsset> encodedAssets,
-) async => [
-  for (final asset in encodedAssets)
-    if (asset.type == CodeAsset.type)
-      ..._validateCodeAssetFile(CodeAsset.fromEncoded(asset)),
-];
+) async {
+  final errors = <String>[];
+  for (final asset in encodedAssets) {
+    if (asset.type != CodeAsset.type) continue;
+    final syntaxErrors = _validateCodeAssetSyntax(asset);
+    if (syntaxErrors.isNotEmpty) {
+      errors.addAll(syntaxErrors);
+      continue;
+    }
+    errors.addAll(_validateCodeAssetFile(CodeAsset.fromEncoded(asset)));
+  }
+  return errors;
+}
 
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
@@ -141,6 +165,11 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
   for (final asset in encodedAssets) {
     if (asset.type != CodeAsset.type) continue;
+    final syntaxErrors = _validateCodeAssetSyntax(asset);
+    if (syntaxErrors.isNotEmpty) {
+      errors.addAll(syntaxErrors);
+      continue;
+    }
     _validateCodeAsset(
       input,
       codeConfig,
@@ -158,6 +187,11 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
   for (final asset in encodedAssetsForLinking) {
     if (asset.type != CodeAsset.type) continue;
+    final syntaxErrors = _validateCodeAssetSyntax(asset);
+    if (syntaxErrors.isNotEmpty) {
+      errors.addAll(syntaxErrors);
+      continue;
+    }
     _validateCodeAsset(
       input,
       codeConfig,
@@ -170,6 +204,26 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   }
   _validateNoDuplicateDylibNames(errors, fileNameToEncodedAssetId);
   return errors;
+}
+
+List<String> _validateCodeAssetSyntax(EncodedAsset encodedAsset) {
+  final syntaxNode = syntax.Asset.fromJson(
+    encodedAsset.toJson(),
+    path: encodedAsset.jsonPath ?? [],
+  );
+  if (!syntaxNode.isNativeCodeAsset) {
+    return [];
+  }
+  final syntaxErrors = syntaxNode.asNativeCodeAsset.validate();
+  if (syntaxErrors.isEmpty) {
+    return [];
+  }
+  return [...syntaxErrors, _semanticValidationSkippedMessage(syntaxNode.path)];
+}
+
+String _semanticValidationSkippedMessage(List<Object> jsonPath) {
+  final pathString = jsonPath.join('.');
+  return "Syntax errors in '$pathString'. Semantic validation skipped.";
 }
 
 void _validateCodeAsset(

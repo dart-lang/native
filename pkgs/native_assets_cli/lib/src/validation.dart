@@ -5,13 +5,25 @@
 import 'dart:io';
 
 import '../native_assets_cli_builder.dart';
+import 'hook/syntax.g.dart' as syntax;
 
 typedef ValidationErrors = List<String>;
 
-Future<ValidationErrors> validateBuildInput(BuildInput input) async =>
-    _validateHookInput('BuildInput', input);
+Future<ValidationErrors> validateBuildInput(BuildInput input) async {
+  final syntaxErrors = syntax.BuildInput.fromJson(input.json).validate();
+  if (syntaxErrors.isNotEmpty) {
+    return [...syntaxErrors, _semanticValidationSkippedMessage];
+  }
+
+  return _validateHookInput('BuildInput', input);
+}
 
 Future<ValidationErrors> validateLinkInput(LinkInput input) async {
+  final syntaxErrors = syntax.LinkInput.fromJson(input.json).validate();
+  if (syntaxErrors.isNotEmpty) {
+    return [...syntaxErrors, _semanticValidationSkippedMessage];
+  }
+
   final recordUses = input.recordedUsagesFile;
   return <String>[
     ..._validateHookInput('LinkInput', input),
@@ -61,6 +73,11 @@ Future<ValidationErrors> validateBuildOutput(
   BuildInput input,
   BuildOutput output,
 ) async {
+  final syntaxErrors = syntax.BuildOutput.fromJson(output.json).validate();
+  if (syntaxErrors.isNotEmpty) {
+    return [...syntaxErrors, _semanticValidationSkippedMessage];
+  }
+
   final errors = [
     ..._validateAssetsForLinking(input, output),
     ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
@@ -78,6 +95,11 @@ Future<ValidationErrors> validateLinkOutput(
   LinkInput input,
   LinkOutput output,
 ) async {
+  final syntaxErrors = syntax.LinkOutput.fromJson(output.json).validate();
+  if (syntaxErrors.isNotEmpty) {
+    return [...syntaxErrors, _semanticValidationSkippedMessage];
+  }
+
   final errors = [
     ..._validateOutputAssetTypes(input, output.assets.encodedAssets),
   ];
@@ -120,6 +142,9 @@ List<String> _validateAssetsForLinking(BuildInput input, BuildOutput output) {
   }
   return errors;
 }
+
+const _semanticValidationSkippedMessage =
+    'Syntax errors. Semantic validation skipped.';
 
 class ValidationFailure implements Exception {
   final String? message;
