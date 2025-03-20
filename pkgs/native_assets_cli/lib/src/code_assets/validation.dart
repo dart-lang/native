@@ -73,14 +73,11 @@ ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
 
 Future<ValidationErrors> _validateCodeAssetLinkInput(
   List<EncodedAsset> encodedAssets,
-) async {
-  final errors = <String>[];
-  for (final asset in encodedAssets) {
-    if (asset.type != CodeAsset.type) continue;
-    _validateCodeAssetFile(CodeAsset.fromEncoded(asset), errors);
-  }
-  return errors;
-}
+) async => [
+  for (final asset in encodedAssets)
+    if (asset.type == CodeAsset.type)
+      ..._validateCodeAssetFile(CodeAsset.fromEncoded(asset)),
+];
 
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
@@ -227,18 +224,17 @@ void _validateCodeAsset(
     );
   }
 
-  _validateCodeAssetFile(codeAsset, errors);
+  errors.addAll(_validateCodeAssetFile(codeAsset));
 }
 
-void _validateCodeAssetFile(CodeAsset codeAsset, List<String> errors) {
+List<String> _validateCodeAssetFile(CodeAsset codeAsset) {
   final id = codeAsset.id;
   final file = codeAsset.file;
-  if (file == null && _mustHaveFile(codeAsset.linkMode)) {
-    errors.add('CodeAsset "$id" has no file.');
-  }
-  if (file != null) {
-    errors.addAll(_validateFile('Code asset "$id" file', file));
-  }
+  return [
+    if (file == null && _mustHaveFile(codeAsset.linkMode))
+      'CodeAsset "$id" has no file.',
+    if (file != null) ..._validateFile('Code asset "$id" file', file),
+  ];
 }
 
 bool _mustHaveFile(LinkMode linkMode) => switch (linkMode) {
