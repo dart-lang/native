@@ -1,6 +1,7 @@
-## 0.12.0-wip
+## 0.12.0
 
-- Nothing yet.
+- Organized the `ProtocolExtension`s in a class.
+- Bump `package:native_assets_cli` to 0.12.0.
 
 ## 0.11.1
 
