@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import '../../code_assets_builder.dart';
-import 'config.dart';
 import 'link_mode.dart';
 import 'syntax.g.dart' as syntax;
 
@@ -25,39 +24,6 @@ ValidationErrors _validateConfig(String inputName, HookConfig config) {
 
   final code = config.code;
   final errors = <String>[];
-  final targetOS = code.targetOS;
-  switch (targetOS) {
-    case OS.macOS:
-      if (code.macOS.targetVersionSyntactic == null) {
-        errors.add(
-          '$inputName.targetOS is OS.macOS but '
-          '$inputName.macOS.targetVersion was missing',
-        );
-      }
-      break;
-    case OS.iOS:
-      if (code.iOS.targetSdkSyntactic == null) {
-        errors.add(
-          '$inputName.targetOS is OS.iOS but '
-          '$inputName.iOS.targetSdk was missing',
-        );
-      }
-      if (code.iOS.targetVersionSyntactic == null) {
-        errors.add(
-          '$inputName.targetOS is OS.iOS but '
-          '$inputName.iOS.targetVersion was missing',
-        );
-      }
-      break;
-    case OS.android:
-      if (code.android.targetNdkApiSyntactic == null) {
-        errors.add(
-          '$inputName.targetOS is OS.android but '
-          '$inputName.android.targetNdkApi was missing',
-        );
-      }
-      break;
-  }
   final cCompiler = code.cCompiler;
   if (cCompiler != null) {
     errors.addAll([
@@ -269,9 +235,7 @@ void _validateCodeAsset(
 
   final architecture = codeAsset.architecture;
 
-  if (architecture == null) {
-    errors.add('CodeAsset "$id" has no architecture.');
-  } else if (architecture != codeConfig.targetArchitecture) {
+  if (architecture != codeConfig.targetArchitecture) {
     errors.add(
       'CodeAsset "$id" has an architecture "$architecture", which '
       'is not the target architecture "${codeConfig.targetArchitecture}".',

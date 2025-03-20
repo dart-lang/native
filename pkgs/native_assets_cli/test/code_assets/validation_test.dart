@@ -145,13 +145,26 @@ void main() {
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: input.config.code.targetOS,
+        architecture: Architecture.x64,
       ),
     );
+    traverseJson<Map<String, Object?>>(outputBuilder.json, [
+      'assets',
+      0,
+    ]).remove('architecture');
     final errors = await validateCodeAssetBuildOutput(
       input,
       BuildOutput(outputBuilder.json),
     );
-    expect(errors, contains(contains('has no architecture')));
+    expect(
+      errors,
+      contains(
+        contains(
+          'No value was provided for \'assets.0.architecture\'.'
+          ' Expected a String.',
+        ),
+      ),
+    );
   });
 
   test('native code asset wrong os', () async {
@@ -208,10 +221,7 @@ void main() {
   });
 
   group('BuildInput.config.code validation', () {
-    for (final (propertyKey, name) in [
-      ('target_version', 'targetVersion'),
-      ('target_sdk', 'targetSdk'),
-    ]) {
+    for (final propertyKey in ['target_version', 'target_sdk']) {
       test('Missing targetIOSVersion', () async {
         final builder =
             makeBuildInputBuilder()
@@ -235,7 +245,12 @@ void main() {
         );
         expect(
           errors,
-          contains(contains('BuildInput.config.code.iOS.$name was missing')),
+          contains(
+            contains(
+              'No value was provided for '
+              '\'config.code.ios.$propertyKey\'.',
+            ),
+          ),
         );
       });
     }
@@ -258,7 +273,10 @@ void main() {
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
-          contains('BuildInput.config.code.android.targetNdkApi was missing'),
+          contains(
+            'No value was provided for \'config.code.android.target_ndk_api\'.'
+            ' Expected a int.',
+          ),
         ),
       );
     });
@@ -282,8 +300,8 @@ void main() {
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
           contains(
-            'BuildInput.config.code.macOS.targetVersion'
-            ' was missing',
+            'No value was provided for \'config.code.macos.target_version\'.'
+            ' Expected a int.',
           ),
         ),
       );

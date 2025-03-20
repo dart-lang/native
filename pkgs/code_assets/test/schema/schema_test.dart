@@ -88,8 +88,7 @@ FieldsFunction _codeFields(AllTestData allTestData) {
     required Party party,
   }) {
     const requiredCodeAssetFields = [
-      // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-      // ['architecture'],
+      ['architecture'],
       ['os'],
       ['id'],
       ['link_mode'],
@@ -105,32 +104,22 @@ FieldsFunction _codeFields(AllTestData allTestData) {
         (['config', 'code', 'macos'], expectRequiredFieldMissing),
         (
           ['config', 'code', 'macos', 'target_version'],
-          // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-          expectOptionalFieldMissing,
+          expectRequiredFieldMissing,
         ),
         if (hook == Hook.link) ...[
           for (final field in requiredCodeAssetFields)
             (['assets', 0, ...field], expectRequiredFieldMissing),
-          // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-          (['assets', 0, 'architecture'], expectOptionalFieldMissing),
         ],
       ],
       if (inputOrOutput == InputOrOutput.output) ...[
         for (final field in requiredCodeAssetFields)
           (['assets', 0, ...field], expectRequiredFieldMissing),
-        // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-        (['assets', 0, 'architecture'], expectOptionalFieldMissing),
         if (hook == Hook.build) ...[
           for (final field in requiredCodeAssetFields)
             (
               ['assetsForLinking', 'package_with_linker', 0, ...field],
               expectRequiredFieldMissing,
             ),
-          // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-          (
-            ['assetsForLinking', 'package_with_linker', 0, 'architecture'],
-            expectOptionalFieldMissing,
-          ),
         ],
         (['assets', staticIndex, 'file'], expectRequiredFieldMissing),
         (
@@ -200,16 +189,8 @@ List<(List<Object>, void Function(ValidationResults result))> _codeFieldsIOS({
 }) => <(List<Object>, void Function(ValidationResults result))>[
   if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
     (['config', 'code', 'ios'], expectRequiredFieldMissing),
-    (
-      ['config', 'code', 'ios', 'target_sdk'],
-      // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-      expectOptionalFieldMissing,
-    ),
-    (
-      ['config', 'code', 'ios', 'target_version'],
-      // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-      expectOptionalFieldMissing,
-    ),
+    (['config', 'code', 'ios', 'target_sdk'], expectRequiredFieldMissing),
+    (['config', 'code', 'ios', 'target_version'], expectRequiredFieldMissing),
   ],
 ];
 
@@ -223,8 +204,7 @@ _codeFieldsAndroid({
     (['config', 'code', 'android'], expectRequiredFieldMissing),
     (
       ['config', 'code', 'android', 'target_ndk_api'],
-      // TODO(https://github.com/dart-lang/native/issues/2039): Make required.
-      expectOptionalFieldMissing,
+      expectRequiredFieldMissing,
     ),
   ],
 ];

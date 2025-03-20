@@ -58,7 +58,7 @@ final class CodeAsset {
   final OS os;
 
   /// The architecture this asset can run on.
-  final Architecture? architecture;
+  final Architecture architecture;
 
   /// The link mode for this native code.
   ///
@@ -87,7 +87,7 @@ final class CodeAsset {
     required LinkMode linkMode,
     required OS os,
     Uri? file,
-    Architecture? architecture,
+    required Architecture architecture,
   }) : this._(
          id: 'package:$package/$name',
          linkMode: linkMode,
@@ -114,10 +114,7 @@ final class CodeAsset {
     return CodeAsset._(
       id: syntaxNode.id,
       os: OSSyntax.fromSyntax(syntaxNode.os),
-      architecture: switch (syntaxNode.architecture) {
-        null => null,
-        final a => ArchitectureSyntax.fromSyntax(a),
-      },
+      architecture: ArchitectureSyntax.fromSyntax(syntaxNode.architecture),
       linkMode: LinkModeSyntax.fromSyntax(syntaxNode.linkMode),
       file: syntaxNode.file,
     );
@@ -155,7 +152,7 @@ final class CodeAsset {
   EncodedAsset encode() {
     final nativeCodeAsset = syntax.NativeCodeAsset.fromJson({});
     nativeCodeAsset.setup(
-      architecture: architecture?.toSyntax(),
+      architecture: architecture.toSyntax(),
       file: file,
       id: id,
       linkMode: linkMode.toSyntax(),
