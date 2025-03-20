@@ -12,7 +12,9 @@ import 'normal_class_generator.dart';
 class SyntaxGenerator {
   final SchemaInfo schemaInfo;
 
-  SyntaxGenerator(this.schemaInfo);
+  final String header;
+
+  SyntaxGenerator(this.schemaInfo, {this.header = ''});
 
   String generate() {
     final buffer = StringBuffer();
@@ -22,7 +24,7 @@ class SyntaxGenerator {
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// This file is generated, do not edit.
+$header
 
 // ignore_for_file: unused_element
 
