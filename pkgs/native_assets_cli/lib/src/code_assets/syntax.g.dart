@@ -94,7 +94,7 @@ class Asset {
 
   Asset.fromJson(this.json, {this.path = const []});
 
-  Asset({String? type}) : json = {}, path = const [] {
+  Asset({required String? type}) : json = {}, path = const [] {
     _type = type;
     json.sortOnKey();
   }
@@ -118,7 +118,7 @@ class NativeCodeAsset extends Asset {
 
   NativeCodeAsset({
     required Architecture architecture,
-    Uri? file,
+    required Uri? file,
     required String id,
     required LinkMode linkMode,
     required OS os,
@@ -135,7 +135,7 @@ class NativeCodeAsset extends Asset {
   /// [Asset].
   void setup({
     required Architecture architecture,
-    Uri? file,
+    required Uri? file,
     required String id,
     required LinkMode linkMode,
     required OS os,
@@ -237,10 +237,10 @@ class CCompilerConfig {
   CCompilerConfig({
     required Uri ar,
     required Uri cc,
-    Uri? envScript,
-    List<String>? envScriptArguments,
+    required Uri? envScript,
+    required List<String>? envScriptArguments,
     required Uri ld,
-    Windows? windows,
+    required Windows? windows,
   }) : json = {},
        path = const [] {
     _ar = ar;
@@ -335,7 +335,7 @@ class Windows {
 
   Windows.fromJson(this.json, {this.path = const []});
 
-  Windows({DeveloperCommandPrompt? developerCommandPrompt})
+  Windows({required DeveloperCommandPrompt? developerCommandPrompt})
     : json = {},
       path = const [] {
     _developerCommandPrompt = developerCommandPrompt;
@@ -420,11 +420,11 @@ class CodeConfig {
   CodeConfig.fromJson(this.json, {this.path = const []});
 
   CodeConfig({
-    AndroidCodeConfig? android,
-    CCompilerConfig? cCompiler,
-    IOSCodeConfig? iOS,
+    required AndroidCodeConfig? android,
+    required CCompilerConfig? cCompiler,
+    required IOSCodeConfig? iOS,
     required LinkModePreference linkModePreference,
-    MacOSCodeConfig? macOS,
+    required MacOSCodeConfig? macOS,
     required Architecture targetArchitecture,
     required OS targetOs,
   }) : json = {},
@@ -569,7 +569,7 @@ class Config {
 
   Config.fromJson(this.json, {this.path = const []});
 
-  Config({CodeConfig? code}) : json = {}, path = const [] {
+  Config({required CodeConfig? code}) : json = {}, path = const [] {
     this.code = code;
     json.sortOnKey();
   }

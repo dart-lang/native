@@ -19,7 +19,7 @@ class Asset {
 
   Asset.fromJson(this.json, {this.path = const []});
 
-  Asset({String? type}) : json = {}, path = const [] {
+  Asset({required String? type}) : json = {}, path = const [] {
     _type = type;
     json.sortOnKey();
   }
