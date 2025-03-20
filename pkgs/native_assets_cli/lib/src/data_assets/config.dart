@@ -36,6 +36,7 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
 
       if (await directory.exists()) {
         try {
+          addDependency(directory.uri);
           await for (final entity in directory.list(
             recursive: recursive,
             followLinks: false,
