@@ -96,24 +96,16 @@ class IOSCodeConfig {
   IOSCodeConfig._(this._syntax);
 
   /// Whether to target device or simulator.
-  IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk!);
+  IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
 
   /// The lowest iOS version that the compiled code will be compatible with.
-  int get targetVersion => _syntax.targetVersion!;
+  int get targetVersion => _syntax.targetVersion;
 
   IOSCodeConfig({required IOSSdk targetSdk, required int targetVersion})
     : _syntax = syntax.IOSCodeConfig(
         targetSdk: targetSdk.type,
         targetVersion: targetVersion,
       );
-}
-
-extension IOSConfigSyntactic on IOSCodeConfig {
-  IOSSdk? get targetSdkSyntactic => switch (_syntax.targetSdk) {
-    null => null,
-    final s => IOSSdk.fromString(s),
-  };
-  int? get targetVersionSyntactic => _syntax.targetVersion;
 }
 
 /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
@@ -124,14 +116,10 @@ class AndroidCodeConfig {
 
   /// The minimum Android SDK API version to that the compiled code will be
   /// compatible with.
-  int get targetNdkApi => _syntax.targetNdkApi!;
+  int get targetNdkApi => _syntax.targetNdkApi;
 
   AndroidCodeConfig({required int targetNdkApi})
     : _syntax = syntax.AndroidCodeConfig(targetNdkApi: targetNdkApi);
-}
-
-extension AndroidConfigSyntactic on AndroidCodeConfig {
-  int? get targetNdkApiSyntactic => _syntax.targetNdkApi;
 }
 
 //// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
@@ -141,14 +129,10 @@ class MacOSCodeConfig {
   MacOSCodeConfig._(this._syntax);
 
   /// The lowest MacOS version that the compiled code will be compatible with.
-  int get targetVersion => _syntax.targetVersion!;
+  int get targetVersion => _syntax.targetVersion;
 
   MacOSCodeConfig({required int targetVersion})
     : _syntax = syntax.MacOSCodeConfig(targetVersion: targetVersion);
-}
-
-extension MacOSConfigSyntactic on MacOSCodeConfig {
-  int? get targetVersionSyntactic => _syntax.targetVersion;
 }
 
 /// Extension to the [BuildOutputBuilder] providing access to emitting code

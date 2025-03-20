@@ -9,7 +9,9 @@
           "type": "integer"
         }
       },
-      "required": []
+      "required": [
+        "target_ndk_api"
+      ]
     },
     "Architecture": {
       "type": "string",
@@ -82,6 +84,7 @@
           }
         },
         "required": [
+          "architecture",
           "id",
           "link_mode",
           "os"
@@ -273,7 +276,10 @@
           "type": "integer"
         }
       },
-      "required": []
+      "required": [
+        "target_sdk",
+        "target_version"
+      ]
     },
     "LinkMode": {
       "type": "object",
@@ -350,7 +356,9 @@
           "type": "integer"
         }
       },
-      "required": []
+      "required": [
+        "target_version"
+      ]
     },
     "OS": {
       "type": "string",

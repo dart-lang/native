@@ -17,19 +17,19 @@ class AndroidCodeConfig {
 
   AndroidCodeConfig.fromJson(this.json, {this.path = const []});
 
-  AndroidCodeConfig({int? targetNdkApi}) : json = {}, path = const [] {
+  AndroidCodeConfig({required int targetNdkApi}) : json = {}, path = const [] {
     _targetNdkApi = targetNdkApi;
     json.sortOnKey();
   }
 
-  int? get targetNdkApi => _reader.get<int?>('target_ndk_api');
+  int get targetNdkApi => _reader.get<int>('target_ndk_api');
 
-  set _targetNdkApi(int? value) {
+  set _targetNdkApi(int value) {
     json.setOrRemove('target_ndk_api', value);
   }
 
   List<String> _validateTargetNdkApi() =>
-      _reader.validate<int?>('target_ndk_api');
+      _reader.validate<int>('target_ndk_api');
 
   List<String> validate() => [..._validateTargetNdkApi()];
 
@@ -115,7 +115,7 @@ class NativeCodeAsset extends Asset {
   NativeCodeAsset.fromJson(super.json, {super.path}) : super.fromJson();
 
   NativeCodeAsset({
-    Architecture? architecture,
+    required Architecture architecture,
     Uri? file,
     required String id,
     required LinkMode linkMode,
@@ -132,7 +132,7 @@ class NativeCodeAsset extends Asset {
   /// Setup all fields for [NativeCodeAsset] that are not in
   /// [Asset].
   void setup({
-    Architecture? architecture,
+    required Architecture architecture,
     Uri? file,
     required String id,
     required LinkMode linkMode,
@@ -146,18 +146,17 @@ class NativeCodeAsset extends Asset {
     json.sortOnKey();
   }
 
-  Architecture? get architecture {
-    final jsonValue = _reader.get<String?>('architecture');
-    if (jsonValue == null) return null;
+  Architecture get architecture {
+    final jsonValue = _reader.get<String>('architecture');
     return Architecture.fromJson(jsonValue);
   }
 
-  set _architecture(Architecture? value) {
-    json.setOrRemove('architecture', value?.name);
+  set _architecture(Architecture value) {
+    json['architecture'] = value.name;
   }
 
   List<String> _validateArchitecture() =>
-      _reader.validate<String?>('architecture');
+      _reader.validate<String>('architecture');
 
   Uri? get file => _reader.optionalPath('file');
 
@@ -607,7 +606,7 @@ class IOSCodeConfig {
 
   IOSCodeConfig.fromJson(this.json, {this.path = const []});
 
-  IOSCodeConfig({String? targetSdk, int? targetVersion})
+  IOSCodeConfig({required String targetSdk, required int targetVersion})
     : json = {},
       path = const [] {
     _targetSdk = targetSdk;
@@ -615,22 +614,22 @@ class IOSCodeConfig {
     json.sortOnKey();
   }
 
-  String? get targetSdk => _reader.get<String?>('target_sdk');
+  String get targetSdk => _reader.get<String>('target_sdk');
 
-  set _targetSdk(String? value) {
+  set _targetSdk(String value) {
     json.setOrRemove('target_sdk', value);
   }
 
-  List<String> _validateTargetSdk() => _reader.validate<String?>('target_sdk');
+  List<String> _validateTargetSdk() => _reader.validate<String>('target_sdk');
 
-  int? get targetVersion => _reader.get<int?>('target_version');
+  int get targetVersion => _reader.get<int>('target_version');
 
-  set _targetVersion(int? value) {
+  set _targetVersion(int value) {
     json.setOrRemove('target_version', value);
   }
 
   List<String> _validateTargetVersion() =>
-      _reader.validate<int?>('target_version');
+      _reader.validate<int>('target_version');
 
   List<String> validate() => [
     ..._validateTargetSdk(),
@@ -838,19 +837,19 @@ class MacOSCodeConfig {
 
   MacOSCodeConfig.fromJson(this.json, {this.path = const []});
 
-  MacOSCodeConfig({int? targetVersion}) : json = {}, path = const [] {
+  MacOSCodeConfig({required int targetVersion}) : json = {}, path = const [] {
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
 
-  int? get targetVersion => _reader.get<int?>('target_version');
+  int get targetVersion => _reader.get<int>('target_version');
 
-  set _targetVersion(int? value) {
+  set _targetVersion(int value) {
     json.setOrRemove('target_version', value);
   }
 
   List<String> _validateTargetVersion() =>
-      _reader.validate<int?>('target_version');
+      _reader.validate<int>('target_version');
 
   List<String> validate() => [..._validateTargetVersion()];
 
