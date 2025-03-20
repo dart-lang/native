@@ -430,7 +430,7 @@ ${e.message}
     'TEMP', // Needed for temp dirs in Dart process.
     'TMP', // Needed for temp dirs in Dart process.
     'TMPDIR', // Needed for temp dirs in Dart process.
-    'USER_PROFILE', // Needed to find tools in default install locations.
+    'USERPROFILE', // Needed to find tools in default install locations.
     'WINDIR', // Needed for CMake.
   };
 
