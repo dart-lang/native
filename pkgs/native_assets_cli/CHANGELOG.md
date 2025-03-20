@@ -1,8 +1,10 @@
-## 0.12.0-wip
+## 0.12.0
 
 - Added validation that all URLs in the `Input` and `Output` of hooks are
   absolute.
 - Added `addDataAssetDirectories` extension method on `BuildOutputBuilder`.
+- Replaced JSON serialization/deserialization logic with code generated from
+  the JSON schemas documenting the protocol.
 
 ## 0.11.0
 
