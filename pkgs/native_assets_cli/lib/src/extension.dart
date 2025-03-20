@@ -14,7 +14,7 @@ typedef ValidationErrors = List<String>;
 ///
 /// The extension contains callbacks to
 /// 1. setup the input, and
-/// 2. validate semantic constraints.
+/// 2. validate syntactic and semantic constraints.
 abstract interface class ProtocolExtension {
   /// The [HookConfig.buildAssetTypes] this extension adds.
   List<String> get buildAssetTypes;
@@ -25,19 +25,19 @@ abstract interface class ProtocolExtension {
   /// Setup the [HookConfig] for this extension.
   void setupLinkInput(LinkInputBuilder input);
 
-  /// Reports semantic errors from this extension on the [BuildInput].
+  /// Reports errors from this extension on the [BuildInput].
   Future<ValidationErrors> validateBuildInput(BuildInput input);
 
-  /// Reports semantic errors from this extension on the [LinkInput].
+  /// Reports errors from this extension on the [LinkInput].
   Future<ValidationErrors> validateBuildOutput(
     BuildInput input,
     BuildOutput output,
   );
 
-  /// Reports semantic errors from this extension on the [LinkInput].
+  /// Reports errors from this extension on the [LinkInput].
   Future<ValidationErrors> validateLinkInput(LinkInput input);
 
-  /// Reports semantic errors from this extension on the [LinkOutput].
+  /// Reports errors from this extension on the [LinkOutput].
   Future<ValidationErrors> validateLinkOutput(
     LinkInput input,
     LinkOutput output,

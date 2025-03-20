@@ -28,6 +28,10 @@ class Asset {
     json.setOrRemove('type', value);
   }
 
+  List<String> _validateType() => _reader.validate<String?>('type');
+
+  List<String> validate() => [..._validateType()];
+
   @override
   String toString() => 'Asset($json)';
 }
@@ -62,17 +66,31 @@ class DataAsset extends Asset {
     json['file'] = value.toFilePath();
   }
 
+  List<String> _validateFile() => _reader.validatePath('file');
+
   String get name => _reader.get<String>('name');
 
   set _name(String value) {
     json.setOrRemove('name', value);
   }
 
+  List<String> _validateName() => _reader.validate<String>('name');
+
   String get package => _reader.get<String>('package');
 
   set _package(String value) {
     json.setOrRemove('package', value);
   }
+
+  List<String> _validatePackage() => _reader.validate<String>('package');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateFile(),
+    ..._validateName(),
+    ..._validatePackage(),
+  ];
 
   @override
   String toString() => 'DataAsset($json)';
@@ -81,7 +99,7 @@ class DataAsset extends Asset {
 extension DataAssetExtension on Asset {
   bool get isDataAsset => type == 'data';
 
-  DataAsset get asDataAsset => DataAsset.fromJson(json);
+  DataAsset get asDataAsset => DataAsset.fromJson(json, path: path);
 }
 
 class JsonReader {
@@ -100,15 +118,27 @@ class JsonReader {
   T get<T extends Object?>(String key) {
     final value = json[key];
     if (value is T) return value;
-    final pathString = _jsonPathToString([key]);
-    if (value == null) {
-      throw FormatException("No value was provided for '$pathString'.");
-    }
     throwFormatException(value, T, [key]);
+  }
+
+  List<String> validate<T extends Object?>(String key) {
+    final value = json[key];
+    if (value is T) return [];
+    return [
+      errorString(value, T, [key]),
+    ];
   }
 
   List<T> list<T extends Object?>(String key) =>
       _castList<T>(get<List<Object?>>(key), key);
+
+  List<String> validateList<T extends Object?>(String key) {
+    final listErrors = validate<List<Object?>>(key);
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    return _validateListElements(get<List<Object?>>(key), key);
+  }
 
   List<T>? optionalList<T extends Object?>(String key) =>
       switch (get<List<Object?>?>(key)?.cast<T>()) {
@@ -116,35 +146,69 @@ class JsonReader {
         final l => _castList<T>(l, key),
       };
 
+  List<String> validateOptionalList<T extends Object?>(String key) {
+    final listErrors = validate<List<Object?>?>(key);
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final list = get<List<Object?>?>(key);
+    if (list == null) {
+      return [];
+    }
+    return _validateListElements(list, key);
+  }
+
   /// [List.cast] but with [FormatException]s.
   List<T> _castList<T extends Object?>(List<Object?> list, String key) {
-    var index = 0;
-    for (final value in list) {
+    for (final (index, value) in list.indexed) {
       if (value is! T) {
         throwFormatException(value, T, [key, index]);
       }
-      index++;
     }
     return list.cast();
   }
 
-  List<T>? optionalListParsed<T extends Object?>(
+  List<String> _validateListElements<T extends Object?>(
+    List<Object?> list,
     String key,
-    T Function(Object?) elementParser,
   ) {
-    final jsonValue = optionalList(key);
-    if (jsonValue == null) return null;
-    return [for (final element in jsonValue) elementParser(element)];
+    final result = <String>[];
+    for (final (index, value) in list.indexed) {
+      if (value is! T) {
+        result.add(errorString(value, T, [key, index]));
+      }
+    }
+    return result;
   }
 
   Map<String, T> map$<T extends Object?>(String key) =>
       _castMap<T>(get<Map<String, Object?>>(key), key);
+
+  List<String> validateMap<T extends Object?>(String key) {
+    final mapErrors = validate<Map<String, Object?>>(key);
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return _validateMapElements<T>(get<Map<String, Object?>>(key), key);
+  }
 
   Map<String, T>? optionalMap<T extends Object?>(String key) =>
       switch (get<Map<String, Object?>?>(key)) {
         null => null,
         final m => _castMap<T>(m, key),
       };
+
+  List<String> validateOptionalMap<T extends Object?>(String key) {
+    final mapErrors = validate<Map<String, Object?>?>(key);
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    final map = get<Map<String, Object?>?>(key);
+    if (map == null) {
+      return [];
+    }
+    return _validateMapElements<T>(map, key);
+  }
 
   /// [Map.cast] but with [FormatException]s.
   Map<String, T> _castMap<T extends Object?>(
@@ -159,17 +223,39 @@ class JsonReader {
     return map_.cast();
   }
 
+  List<String> _validateMapElements<T extends Object?>(
+    Map<String, Object?> map_,
+    String parentKey,
+  ) {
+    final result = <String>[];
+    for (final MapEntry(:key, :value) in map_.entries) {
+      if (value is! T) {
+        result.add(errorString(value, T, [parentKey, key]));
+      }
+    }
+    return result;
+  }
+
   List<String>? optionalStringList(String key) => optionalList<String>(key);
+
+  List<String> validateOptionalStringList(String key) =>
+      validateOptionalList<String>(key);
 
   List<String> stringList(String key) => list<String>(key);
 
+  List<String> validateStringList(String key) => validateList<String>(key);
+
   Uri path$(String key) => _fileSystemPathToUri(get<String>(key));
+
+  List<String> validatePath(String key) => validate<String>(key);
 
   Uri? optionalPath(String key) {
     final value = get<String?>(key);
     if (value == null) return null;
     return _fileSystemPathToUri(value);
   }
+
+  List<String> validateOptionalPath(String key) => validate<String?>(key);
 
   List<Uri>? optionalPathList(String key) {
     final strings = optionalStringList(key);
@@ -178,6 +264,9 @@ class JsonReader {
     }
     return [for (final string in strings) _fileSystemPathToUri(string)];
   }
+
+  List<String> validateOptionalPathList(String key) =>
+      validateOptionalStringList(key);
 
   static Uri _fileSystemPathToUri(String path) {
     if (path.endsWith(Platform.pathSeparator)) {
@@ -194,11 +283,21 @@ class JsonReader {
     Type expectedType,
     List<Object> pathExtension,
   ) {
+    throw FormatException(errorString(value, expectedType, pathExtension));
+  }
+
+  String errorString(
+    Object? value,
+    Type expectedType,
+    List<Object> pathExtension,
+  ) {
     final pathString = _jsonPathToString(pathExtension);
-    throw FormatException(
-      "Unexpected value '$value' (${value.runtimeType}) for '$pathString'. "
-      'Expected a $expectedType.',
-    );
+    if (value == null) {
+      return "No value was provided for '$pathString'."
+          ' Expected a $expectedType.';
+    }
+    return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
+        ' Expected a $expectedType.';
   }
 }
 

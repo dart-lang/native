@@ -9,6 +9,9 @@ class PropertyInfo {
   /// The Dart getter and setter name.
   final String name;
 
+  /// The Dart validate method name.
+  String get validateName => '_validate${_ucFirst(name)}';
+
   /// The key in the json object for this property.
   final String jsonKey;
 
@@ -52,4 +55,11 @@ PropertyInfo(
   setterPrivate: $setterPrivate,
   isRequired: $isRequired
 )''';
+}
+
+String _ucFirst(String str) {
+  if (str.isEmpty) {
+    return '';
+  }
+  return str[0].toUpperCase() + str.substring(1);
 }

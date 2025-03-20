@@ -28,6 +28,10 @@ class Asset {
     json.setOrRemove('type', value);
   }
 
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  List<String> validate() => [..._validateType()];
+
   @override
   String toString() => 'Asset($json)';
 }
@@ -53,6 +57,15 @@ class BuildConfig extends Config {
   set _linkingEnabled(bool value) {
     json.setOrRemove('linking_enabled', value);
   }
+
+  List<String> _validateLinkingEnabled() =>
+      _reader.validate<bool>('linking_enabled');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateLinkingEnabled(),
+  ];
 
   @override
   String toString() => 'BuildConfig($json)';
@@ -95,6 +108,16 @@ class BuildInput extends HookInput {
     json.setOrRemove('dependency_metadata', value);
   }
 
+  List<String> _validateDependencyMetadata() =>
+      _reader.validateOptionalMap<Map<String, Object?>>('dependency_metadata');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateConfig(),
+    ..._validateDependencyMetadata(),
+  ];
+
   @override
   String toString() => 'BuildInput($json)';
 }
@@ -133,12 +156,11 @@ class BuildOutput extends HookOutput {
     }
     final result = <String, List<Asset>>{};
     for (final MapEntry(:key, :value) in jsonValue.entries) {
-      var index = 0;
       result[key] = [
-        for (final item in value as List<Object?>)
+        for (final (index, item) in (value as List<Object?>).indexed)
           Asset.fromJson(
             item as Map<String, Object?>,
-            path: [...path, key, index++],
+            path: [...path, key, index],
           ),
       ];
     }
@@ -157,12 +179,39 @@ class BuildOutput extends HookOutput {
     json.sortOnKey();
   }
 
+  List<String> _validateAssetsForLinking() {
+    final mapErrors = _reader.validateOptionalMap('assetsForLinking');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    final jsonValue = _reader.optionalMap('assetsForLinking');
+    if (jsonValue == null) {
+      return [];
+    }
+    final result = <String>[];
+    for (final list in assetsForLinking!.values) {
+      for (final element in list) {
+        result.addAll(element.validate());
+      }
+    }
+    return result;
+  }
+
   Map<String, Object?>? get metadata => _reader.optionalMap('metadata');
 
   set metadata(Map<String, Object?>? value) {
     json.setOrRemove('metadata', value);
     json.sortOnKey();
   }
+
+  List<String> _validateMetadata() => _reader.validateOptionalMap('metadata');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateAssetsForLinking(),
+    ..._validateMetadata(),
+  ];
 
   @override
   String toString() => 'BuildOutput($json)';
@@ -188,6 +237,11 @@ class Config {
     json['build_asset_types'] = value;
     json.sortOnKey();
   }
+
+  List<String> _validateBuildAssetTypes() =>
+      _reader.validateStringList('build_asset_types');
+
+  List<String> validate() => [..._validateBuildAssetTypes()];
 
   @override
   String toString() => 'Config($json)';
@@ -232,12 +286,22 @@ class HookInput {
     json.sortOnKey();
   }
 
+  List<String> _validateConfig() {
+    final mapErrors = _reader.validate<Map<String, Object?>>('config');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return config.validate();
+  }
+
   Uri get outDir => _reader.path$('out_dir');
 
   set outDir(Uri value) {
     json['out_dir'] = value.toFilePath();
     json.sortOnKey();
   }
+
+  List<String> _validateOutDir() => _reader.validatePath('out_dir');
 
   Uri get outDirShared => _reader.path$('out_dir_shared');
 
@@ -246,12 +310,17 @@ class HookInput {
     json.sortOnKey();
   }
 
+  List<String> _validateOutDirShared() =>
+      _reader.validatePath('out_dir_shared');
+
   Uri? get outFile => _reader.optionalPath('out_file');
 
   set outFile(Uri? value) {
     json.setOrRemove('out_file', value?.toFilePath());
     json.sortOnKey();
   }
+
+  List<String> _validateOutFile() => _reader.validateOptionalPath('out_file');
 
   String get packageName => _reader.get<String>('package_name');
 
@@ -260,6 +329,9 @@ class HookInput {
     json.sortOnKey();
   }
 
+  List<String> _validatePackageName() =>
+      _reader.validate<String>('package_name');
+
   Uri get packageRoot => _reader.path$('package_root');
 
   set packageRoot(Uri value) {
@@ -267,12 +339,26 @@ class HookInput {
     json.sortOnKey();
   }
 
+  List<String> _validatePackageRoot() => _reader.validatePath('package_root');
+
   String get version => _reader.get<String>('version');
 
   set version(String value) {
     json.setOrRemove('version', value);
     json.sortOnKey();
   }
+
+  List<String> _validateVersion() => _reader.validate<String>('version');
+
+  List<String> validate() => [
+    ..._validateConfig(),
+    ..._validateOutDir(),
+    ..._validateOutDirShared(),
+    ..._validateOutFile(),
+    ..._validatePackageName(),
+    ..._validatePackageRoot(),
+    ..._validateVersion(),
+  ];
 
   @override
   String toString() => 'HookInput($json)';
@@ -302,14 +388,15 @@ class HookOutput {
   }
 
   List<Asset>? get assets {
-    var index = 0;
-    return _reader.optionalListParsed(
-      'assets',
-      (e) => Asset.fromJson(
-        e as Map<String, Object?>,
-        path: [...path, 'assets', index++],
-      ),
-    );
+    final jsonValue = _reader.optionalList('assets');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        Asset.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'assets', index],
+        ),
+    ];
   }
 
   set assets(List<Asset>? value) {
@@ -321,12 +408,29 @@ class HookOutput {
     json.sortOnKey();
   }
 
+  List<String> _validateAssets() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'assets',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = assets;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
   List<Uri>? get dependencies => _reader.optionalPathList('dependencies');
 
   set dependencies(List<Uri>? value) {
     json.setOrRemove('dependencies', value?.toJson());
     json.sortOnKey();
   }
+
+  List<String> _validateDependencies() =>
+      _reader.validateOptionalPathList('dependencies');
 
   String get timestamp => _reader.get<String>('timestamp');
 
@@ -335,12 +439,23 @@ class HookOutput {
     json.sortOnKey();
   }
 
+  List<String> _validateTimestamp() => _reader.validate<String>('timestamp');
+
   String get version => _reader.get<String>('version');
 
   set version(String value) {
     json.setOrRemove('version', value);
     json.sortOnKey();
   }
+
+  List<String> _validateVersion() => _reader.validate<String>('version');
+
+  List<String> validate() => [
+    ..._validateAssets(),
+    ..._validateDependencies(),
+    ..._validateTimestamp(),
+    ..._validateVersion(),
+  ];
 
   @override
   String toString() => 'HookOutput($json)';
@@ -374,14 +489,15 @@ class LinkInput extends HookInput {
   }
 
   List<Asset>? get assets {
-    var index = 0;
-    return _reader.optionalListParsed(
-      'assets',
-      (e) => Asset.fromJson(
-        e as Map<String, Object?>,
-        path: [...path, 'assets', index++],
-      ),
-    );
+    final jsonValue = _reader.optionalList('assets');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        Asset.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'assets', index],
+        ),
+    ];
   }
 
   set _assets(List<Asset>? value) {
@@ -392,11 +508,35 @@ class LinkInput extends HookInput {
     }
   }
 
+  List<String> _validateAssets() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'assets',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = assets;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
   Uri? get resourceIdentifiers => _reader.optionalPath('resource_identifiers');
 
   set _resourceIdentifiers(Uri? value) {
     json.setOrRemove('resource_identifiers', value?.toFilePath());
   }
+
+  List<String> _validateResourceIdentifiers() =>
+      _reader.validateOptionalPath('resource_identifiers');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateAssets(),
+    ..._validateResourceIdentifiers(),
+  ];
 
   @override
   String toString() => 'LinkInput($json)';
@@ -411,6 +551,9 @@ class LinkOutput extends HookOutput {
     required super.timestamp,
     required super.version,
   }) : super();
+
+  @override
+  List<String> validate() => [...super.validate()];
 
   @override
   String toString() => 'LinkOutput($json)';
@@ -432,15 +575,27 @@ class JsonReader {
   T get<T extends Object?>(String key) {
     final value = json[key];
     if (value is T) return value;
-    final pathString = _jsonPathToString([key]);
-    if (value == null) {
-      throw FormatException("No value was provided for '$pathString'.");
-    }
     throwFormatException(value, T, [key]);
+  }
+
+  List<String> validate<T extends Object?>(String key) {
+    final value = json[key];
+    if (value is T) return [];
+    return [
+      errorString(value, T, [key]),
+    ];
   }
 
   List<T> list<T extends Object?>(String key) =>
       _castList<T>(get<List<Object?>>(key), key);
+
+  List<String> validateList<T extends Object?>(String key) {
+    final listErrors = validate<List<Object?>>(key);
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    return _validateListElements(get<List<Object?>>(key), key);
+  }
 
   List<T>? optionalList<T extends Object?>(String key) =>
       switch (get<List<Object?>?>(key)?.cast<T>()) {
@@ -448,35 +603,69 @@ class JsonReader {
         final l => _castList<T>(l, key),
       };
 
+  List<String> validateOptionalList<T extends Object?>(String key) {
+    final listErrors = validate<List<Object?>?>(key);
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final list = get<List<Object?>?>(key);
+    if (list == null) {
+      return [];
+    }
+    return _validateListElements(list, key);
+  }
+
   /// [List.cast] but with [FormatException]s.
   List<T> _castList<T extends Object?>(List<Object?> list, String key) {
-    var index = 0;
-    for (final value in list) {
+    for (final (index, value) in list.indexed) {
       if (value is! T) {
         throwFormatException(value, T, [key, index]);
       }
-      index++;
     }
     return list.cast();
   }
 
-  List<T>? optionalListParsed<T extends Object?>(
+  List<String> _validateListElements<T extends Object?>(
+    List<Object?> list,
     String key,
-    T Function(Object?) elementParser,
   ) {
-    final jsonValue = optionalList(key);
-    if (jsonValue == null) return null;
-    return [for (final element in jsonValue) elementParser(element)];
+    final result = <String>[];
+    for (final (index, value) in list.indexed) {
+      if (value is! T) {
+        result.add(errorString(value, T, [key, index]));
+      }
+    }
+    return result;
   }
 
   Map<String, T> map$<T extends Object?>(String key) =>
       _castMap<T>(get<Map<String, Object?>>(key), key);
+
+  List<String> validateMap<T extends Object?>(String key) {
+    final mapErrors = validate<Map<String, Object?>>(key);
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return _validateMapElements<T>(get<Map<String, Object?>>(key), key);
+  }
 
   Map<String, T>? optionalMap<T extends Object?>(String key) =>
       switch (get<Map<String, Object?>?>(key)) {
         null => null,
         final m => _castMap<T>(m, key),
       };
+
+  List<String> validateOptionalMap<T extends Object?>(String key) {
+    final mapErrors = validate<Map<String, Object?>?>(key);
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    final map = get<Map<String, Object?>?>(key);
+    if (map == null) {
+      return [];
+    }
+    return _validateMapElements<T>(map, key);
+  }
 
   /// [Map.cast] but with [FormatException]s.
   Map<String, T> _castMap<T extends Object?>(
@@ -491,17 +680,39 @@ class JsonReader {
     return map_.cast();
   }
 
+  List<String> _validateMapElements<T extends Object?>(
+    Map<String, Object?> map_,
+    String parentKey,
+  ) {
+    final result = <String>[];
+    for (final MapEntry(:key, :value) in map_.entries) {
+      if (value is! T) {
+        result.add(errorString(value, T, [parentKey, key]));
+      }
+    }
+    return result;
+  }
+
   List<String>? optionalStringList(String key) => optionalList<String>(key);
+
+  List<String> validateOptionalStringList(String key) =>
+      validateOptionalList<String>(key);
 
   List<String> stringList(String key) => list<String>(key);
 
+  List<String> validateStringList(String key) => validateList<String>(key);
+
   Uri path$(String key) => _fileSystemPathToUri(get<String>(key));
+
+  List<String> validatePath(String key) => validate<String>(key);
 
   Uri? optionalPath(String key) {
     final value = get<String?>(key);
     if (value == null) return null;
     return _fileSystemPathToUri(value);
   }
+
+  List<String> validateOptionalPath(String key) => validate<String?>(key);
 
   List<Uri>? optionalPathList(String key) {
     final strings = optionalStringList(key);
@@ -510,6 +721,9 @@ class JsonReader {
     }
     return [for (final string in strings) _fileSystemPathToUri(string)];
   }
+
+  List<String> validateOptionalPathList(String key) =>
+      validateOptionalStringList(key);
 
   static Uri _fileSystemPathToUri(String path) {
     if (path.endsWith(Platform.pathSeparator)) {
@@ -526,11 +740,21 @@ class JsonReader {
     Type expectedType,
     List<Object> pathExtension,
   ) {
+    throw FormatException(errorString(value, expectedType, pathExtension));
+  }
+
+  String errorString(
+    Object? value,
+    Type expectedType,
+    List<Object> pathExtension,
+  ) {
     final pathString = _jsonPathToString(pathExtension);
-    throw FormatException(
-      "Unexpected value '$value' (${value.runtimeType}) for '$pathString'. "
-      'Expected a $expectedType.',
-    );
+    if (value == null) {
+      return "No value was provided for '$pathString'."
+          ' Expected a $expectedType.';
+    }
+    return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
+        ' Expected a $expectedType.';
   }
 }
 

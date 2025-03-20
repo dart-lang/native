@@ -5,18 +5,28 @@
 import 'dart:io';
 
 import '../../data_assets_builder.dart';
+import 'syntax.g.dart' as syntax;
 
 Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
     const [];
 
 Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
-  final errors = <String>[
-    for (final asset in input.assets.data)
-      ..._validateFile(
-        'LinkInput.assets.data asset "${asset.id}" file',
-        asset.file,
+  final errors = <String>[];
+  for (final asset in input.assets.encodedAssets) {
+    final syntaxErrors = _validateDataAssetSyntax(asset);
+    if (asset.type != DataAsset.type) continue;
+    if (syntaxErrors.isNotEmpty) {
+      errors.addAll(syntaxErrors);
+      continue;
+    }
+    final dataAsset = DataAsset.fromEncoded(asset);
+    errors.addAll(
+      _validateFile(
+        'LinkInput.assets.data asset "${dataAsset.id}" file',
+        dataAsset.file,
       ),
-  ];
+    );
+  }
   return errors;
 }
 
@@ -48,6 +58,11 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
 
   for (final asset in encodedAssets) {
     if (asset.type != DataAsset.type) continue;
+    final syntaxErrors = _validateDataAssetSyntax(asset);
+    if (syntaxErrors.isNotEmpty) {
+      errors.addAll(syntaxErrors);
+      continue;
+    }
     _validateDataAsset(
       input,
       DataAsset.fromEncoded(asset),
@@ -62,7 +77,7 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
 void _validateDataAsset(
   HookInput input,
   DataAsset dataAsset,
-  List<String> errors,
+  ValidationErrors errors,
   Set<String> ids,
   bool isBuild,
 ) {
@@ -74,6 +89,26 @@ void _validateDataAsset(
   }
   final file = dataAsset.file;
   errors.addAll(_validateFile('Data asset ${dataAsset.name} file', file));
+}
+
+ValidationErrors _validateDataAssetSyntax(EncodedAsset encodedAsset) {
+  final syntaxNode = syntax.Asset.fromJson(
+    encodedAsset.toJson(),
+    path: encodedAsset.jsonPath ?? [],
+  );
+  if (!syntaxNode.isDataAsset) {
+    return [];
+  }
+  final syntaxErrors = syntaxNode.asDataAsset.validate();
+  if (syntaxErrors.isEmpty) {
+    return [];
+  }
+  return [...syntaxErrors, semanticValidationSkippedMessage(syntaxNode.path)];
+}
+
+String semanticValidationSkippedMessage(List<Object> jsonPath) {
+  final pathString = jsonPath.join('.');
+  return "Syntax errors in '$pathString'. Semantic validation skipped.";
 }
 
 ValidationErrors _validateFile(

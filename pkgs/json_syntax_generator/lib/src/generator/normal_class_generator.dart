@@ -24,6 +24,7 @@ class ClassGenerator {
     final constructorSetterCalls = <String>[];
     final accessors = <String>[];
     final superParams = <String>[];
+    final validateCalls = <String>[];
 
     final propertyNames =
         {
@@ -62,6 +63,7 @@ class ClassGenerator {
       }
       if (thisClassProperty != null) {
         accessors.add(PropertyGenerator(thisClassProperty).generate());
+        validateCalls.add('...${property.validateName}()');
       }
     }
 
@@ -96,6 +98,12 @@ class $className extends $superclassName {
   ${accessors.join('\n')}
 
   @override
+  List<String> validate() => [
+    ...super.validate(),
+    ${validateCalls.join(',\n')}
+  ];
+
+  @override
   String toString() => '$className(\$json)';
 }
 ''');
@@ -121,6 +129,10 @@ class $className {
 
   ${accessors.join('\n')}
 
+  List<String> validate() => [
+    ${validateCalls.join(',\n')}
+  ];
+
   @override
   String toString() => '$className(\$json)';
 }
@@ -132,7 +144,7 @@ class $className {
 extension ${className}Extension on $superclassName {
   bool get is$className => type == '$identifyingSubtype';
 
-  $className get as$className => $className.fromJson(json);
+  $className get as$className => $className.fromJson(json, path: path);
 }
 ''');
     }
