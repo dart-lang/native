@@ -77,7 +77,7 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
 void _validateDataAsset(
   HookInput input,
   DataAsset dataAsset,
-  List<String> errors,
+  ValidationErrors errors,
   Set<String> ids,
   bool isBuild,
 ) {
@@ -91,7 +91,7 @@ void _validateDataAsset(
   errors.addAll(_validateFile('Data asset ${dataAsset.name} file', file));
 }
 
-List<String> _validateDataAssetSyntax(EncodedAsset encodedAsset) {
+ValidationErrors _validateDataAssetSyntax(EncodedAsset encodedAsset) {
   final syntaxNode = syntax.Asset.fromJson(
     encodedAsset.toJson(),
     path: encodedAsset.jsonPath ?? [],

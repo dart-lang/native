@@ -218,12 +218,11 @@ $dartType get $fieldName {
   }
   final result = <String, List<Asset>>{};
   for (final MapEntry(:key, :value) in jsonValue.entries) {
-    var index = 0;
     result[key] = [
-      for (final item in value as List<Object?>)
+      for (final (index, item) in (value as List<Object?>).indexed)
         $typeName.fromJson(
           item as $jsonObjectDartType,
-          path: [...path, key, index++],
+          path: [...path, key, index],
         ),
     ];
   }
@@ -311,14 +310,15 @@ List<String> $validateName() => _reader.validateOptionalMap('$jsonKey');
         }
         buffer.writeln('''
 $dartType get $fieldName {
-  var index = 0;
-  return _reader.optionalListParsed(
-    '$jsonKey',
-    (e) => $typeName.fromJson(
-      e as Map<String, Object?>,
-      path: [...path, '$jsonKey', index++],
-    ),
-  );
+  final jsonValue = _reader.optionalList('$jsonKey');
+  if (jsonValue == null) return null;
+  return [
+    for (final (index, element) in jsonValue.indexed)
+      $typeName.fromJson(
+        element as Map<String, Object?>,
+        path: [...path, '$jsonKey', index],
+      ),
+  ];
 }
 
 set $setterName($dartType value) {

@@ -107,7 +107,7 @@ Future<ValidationErrors> validateLinkOutput(
 }
 
 /// Only output asset types that are supported by the embedder.
-List<String> _validateOutputAssetTypes(
+ValidationErrors _validateOutputAssetTypes(
   HookInput input,
   Iterable<EncodedAsset> assets,
 ) {
@@ -130,7 +130,10 @@ List<String> _validateOutputAssetTypes(
 }
 
 /// EncodedAssetsForLinking should be empty if linking is not supported.
-List<String> _validateAssetsForLinking(BuildInput input, BuildOutput output) {
+ValidationErrors _validateAssetsForLinking(
+  BuildInput input,
+  BuildOutput output,
+) {
   final errors = <String>[];
   if (!input.config.linkingEnabled) {
     if (output.assets.encodedAssetsForLinking.isNotEmpty) {

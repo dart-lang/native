@@ -160,12 +160,10 @@ class JsonReader {
 
   /// [List.cast] but with [FormatException]s.
   List<T> _castList<T extends Object?>(List<Object?> list, String key) {
-    var index = 0;
-    for (final value in list) {
+    for (final (index, value) in list.indexed) {
       if (value is! T) {
         throwFormatException(value, T, [key, index]);
       }
-      index++;
     }
     return list.cast();
   }
@@ -174,24 +172,13 @@ class JsonReader {
     List<Object?> list,
     String key,
   ) {
-    var index = 0;
     final result = <String>[];
-    for (final value in list) {
+    for (final (index, value) in list.indexed) {
       if (value is! T) {
         result.add(errorString(value, T, [key, index]));
       }
-      index++;
     }
     return result;
-  }
-
-  List<T>? optionalListParsed<T extends Object?>(
-    String key,
-    T Function(Object?) elementParser,
-  ) {
-    final jsonValue = optionalList(key);
-    if (jsonValue == null) return null;
-    return [for (final element in jsonValue) elementParser(element)];
   }
 
   Map<String, T> map$<T extends Object?>(String key) =>

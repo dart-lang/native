@@ -156,12 +156,11 @@ class BuildOutput extends HookOutput {
     }
     final result = <String, List<Asset>>{};
     for (final MapEntry(:key, :value) in jsonValue.entries) {
-      var index = 0;
       result[key] = [
-        for (final item in value as List<Object?>)
+        for (final (index, item) in (value as List<Object?>).indexed)
           Asset.fromJson(
             item as Map<String, Object?>,
-            path: [...path, key, index++],
+            path: [...path, key, index],
           ),
       ];
     }
@@ -389,14 +388,15 @@ class HookOutput {
   }
 
   List<Asset>? get assets {
-    var index = 0;
-    return _reader.optionalListParsed(
-      'assets',
-      (e) => Asset.fromJson(
-        e as Map<String, Object?>,
-        path: [...path, 'assets', index++],
-      ),
-    );
+    final jsonValue = _reader.optionalList('assets');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        Asset.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'assets', index],
+        ),
+    ];
   }
 
   set assets(List<Asset>? value) {
@@ -489,14 +489,15 @@ class LinkInput extends HookInput {
   }
 
   List<Asset>? get assets {
-    var index = 0;
-    return _reader.optionalListParsed(
-      'assets',
-      (e) => Asset.fromJson(
-        e as Map<String, Object?>,
-        path: [...path, 'assets', index++],
-      ),
-    );
+    final jsonValue = _reader.optionalList('assets');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        Asset.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'assets', index],
+        ),
+    ];
   }
 
   set _assets(List<Asset>? value) {
@@ -616,12 +617,10 @@ class JsonReader {
 
   /// [List.cast] but with [FormatException]s.
   List<T> _castList<T extends Object?>(List<Object?> list, String key) {
-    var index = 0;
-    for (final value in list) {
+    for (final (index, value) in list.indexed) {
       if (value is! T) {
         throwFormatException(value, T, [key, index]);
       }
-      index++;
     }
     return list.cast();
   }
@@ -630,24 +629,13 @@ class JsonReader {
     List<Object?> list,
     String key,
   ) {
-    var index = 0;
     final result = <String>[];
-    for (final value in list) {
+    for (final (index, value) in list.indexed) {
       if (value is! T) {
         result.add(errorString(value, T, [key, index]));
       }
-      index++;
     }
     return result;
-  }
-
-  List<T>? optionalListParsed<T extends Object?>(
-    String key,
-    T Function(Object?) elementParser,
-  ) {
-    final jsonValue = optionalList(key);
-    if (jsonValue == null) return null;
-    return [for (final element in jsonValue) elementParser(element)];
   }
 
   Map<String, T> map$<T extends Object?>(String key) =>

@@ -78,7 +78,7 @@ ValidationErrors _validateConfig(String inputName, HookConfig config) {
   return errors;
 }
 
-List<String> _validateConfigSyntax(HookConfig config) {
+ValidationErrors _validateConfigSyntax(HookConfig config) {
   final syntaxNode = syntax.Config.fromJson(config.json, path: config.path);
   final syntaxErrors = syntaxNode.validate();
   if (syntaxErrors.isEmpty) {
@@ -206,7 +206,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   return errors;
 }
 
-List<String> _validateCodeAssetSyntax(EncodedAsset encodedAsset) {
+ValidationErrors _validateCodeAssetSyntax(EncodedAsset encodedAsset) {
   final syntaxNode = syntax.Asset.fromJson(
     encodedAsset.toJson(),
     path: encodedAsset.jsonPath ?? [],
@@ -230,7 +230,7 @@ void _validateCodeAsset(
   HookInput input,
   CodeConfig codeConfig,
   CodeAsset codeAsset,
-  List<String> errors,
+  ValidationErrors errors,
   Set<String> ids,
   bool validateAssetId,
   bool validateLinkMode,
@@ -281,7 +281,7 @@ void _validateCodeAsset(
   errors.addAll(_validateCodeAssetFile(codeAsset));
 }
 
-List<String> _validateCodeAssetFile(CodeAsset codeAsset) {
+ValidationErrors _validateCodeAssetFile(CodeAsset codeAsset) {
   final id = codeAsset.id;
   final file = codeAsset.file;
   return [
@@ -313,7 +313,7 @@ void _groupCodeAssetsByFilename(
 }
 
 void _validateNoDuplicateDylibNames(
-  List<String> errors,
+  ValidationErrors errors,
   Map<String, Set<String>> fileNameToEncodedAssetId,
 ) {
   for (final fileName in fileNameToEncodedAssetId.keys) {
