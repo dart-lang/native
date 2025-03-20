@@ -1,6 +1,8 @@
-## 0.9.0-wip
+## 0.9.0
 
-- Nothing yet.
+- Added support for forced includes to `CBuilder`.
+- Toolchain recognizing fixes.
+- Bump `package:native_assets_cli` to 0.12.0.
 
 ## 0.8.0
 
