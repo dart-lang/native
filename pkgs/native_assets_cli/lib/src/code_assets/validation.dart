@@ -9,15 +9,12 @@ import 'config.dart';
 import 'link_mode.dart';
 
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
-    _validateCodeConfig(
-      'BuildInput.config.code',
+    _validateCodeConfig('BuildInput.config.code', input.config.code);
 
-      // ignore: deprecated_member_use_from_same_package
-      input.config.code,
-    );
-
-Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
-    _validateCodeConfig('LinkInput.config.code', input.config.code);
+Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async => [
+  ..._validateCodeConfig('LinkInput.config.code', input.config.code),
+  ...await _validateCodeAssetLinkInput(input.assets.encodedAssets),
+];
 
 ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
   final errors = <String>[];
@@ -70,6 +67,17 @@ ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
         ),
       ]);
     }
+  }
+  return errors;
+}
+
+Future<ValidationErrors> _validateCodeAssetLinkInput(
+  List<EncodedAsset> encodedAssets,
+) async {
+  final errors = <String>[];
+  for (final asset in encodedAssets) {
+    if (asset.type != CodeAsset.type) continue;
+    _validateCodeAssetFile(CodeAsset.fromEncoded(asset), errors);
   }
   return errors;
 }
@@ -134,7 +142,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
   for (final asset in encodedAssets) {
     if (asset.type != CodeAsset.type) continue;
-    _validateCodeAssets(
+    _validateCodeAsset(
       input,
       codeConfig,
       CodeAsset.fromEncoded(asset),
@@ -151,7 +159,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   return errors;
 }
 
-void _validateCodeAssets(
+void _validateCodeAsset(
   HookInput input,
   CodeConfig codeConfig,
   CodeAsset codeAsset,
@@ -198,6 +206,11 @@ void _validateCodeAssets(
     );
   }
 
+  _validateCodeAssetFile(codeAsset, errors);
+}
+
+void _validateCodeAssetFile(CodeAsset codeAsset, List<String> errors) {
+  final id = codeAsset.id;
   final file = codeAsset.file;
   if (file == null && _mustHaveFile(codeAsset.linkMode)) {
     errors.add('CodeAsset "$id" has no file.');
