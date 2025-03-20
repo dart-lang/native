@@ -9,15 +9,12 @@ import 'config.dart';
 import 'link_mode.dart';
 
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
-    _validateCodeConfig(
-      'BuildInput.config.code',
+    _validateCodeConfig('BuildInput.config.code', input.config.code);
 
-      // ignore: deprecated_member_use_from_same_package
-      input.config.code,
-    );
-
-Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async =>
-    _validateCodeConfig('LinkInput.config.code', input.config.code);
+Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async => [
+  ..._validateCodeConfig('LinkInput.config.code', input.config.code),
+  ...await _validateCodeAssetLinkInput(input.assets.encodedAssets),
+];
 
 ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
   final errors = <String>[];
@@ -74,6 +71,14 @@ ValidationErrors _validateCodeConfig(String inputName, CodeConfig code) {
   return errors;
 }
 
+Future<ValidationErrors> _validateCodeAssetLinkInput(
+  List<EncodedAsset> encodedAssets,
+) async => [
+  for (final asset in encodedAssets)
+    if (asset.type == CodeAsset.type)
+      ..._validateCodeAssetFile(CodeAsset.fromEncoded(asset)),
+];
+
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
   BuildOutput output,
@@ -81,6 +86,10 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
+  [
+    for (final assetList in output.assets.encodedAssetsForLinking.values)
+      ...assetList,
+  ],
   output,
   true,
 );
@@ -92,6 +101,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
+  [],
   output,
   false,
 );
@@ -121,6 +131,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookInput input,
   CodeConfig codeConfig,
   List<EncodedAsset> encodedAssets,
+  List<EncodedAsset> encodedAssetsForLinking,
   HookOutput output,
   bool isBuild,
 ) async {
@@ -130,49 +141,68 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 
   for (final asset in encodedAssets) {
     if (asset.type != CodeAsset.type) continue;
-    _validateCodeAssets(
+    _validateCodeAsset(
       input,
       codeConfig,
       CodeAsset.fromEncoded(asset),
       errors,
       ids,
       isBuild,
+      true,
     );
     _groupCodeAssetsByFilename(
       CodeAsset.fromEncoded(asset),
       fileNameToEncodedAssetId,
     );
   }
+
+  for (final asset in encodedAssetsForLinking) {
+    if (asset.type != CodeAsset.type) continue;
+    _validateCodeAsset(
+      input,
+      codeConfig,
+      CodeAsset.fromEncoded(asset),
+      errors,
+      ids,
+      isBuild,
+      false,
+    );
+  }
   _validateNoDuplicateDylibNames(errors, fileNameToEncodedAssetId);
   return errors;
 }
 
-void _validateCodeAssets(
+void _validateCodeAsset(
   HookInput input,
   CodeConfig codeConfig,
   CodeAsset codeAsset,
   List<String> errors,
   Set<String> ids,
-  bool isBuild,
+  bool validateAssetId,
+  bool validateLinkMode,
 ) {
   final id = codeAsset.id;
   final prefix = 'package:${input.packageName}/';
-  if (isBuild && !id.startsWith(prefix)) {
+  if (validateAssetId && !id.startsWith(prefix)) {
     errors.add('Code asset "$id" does not start with "$prefix".');
   }
   if (!ids.add(id)) {
     errors.add('More than one code asset with same "$id" id.');
   }
 
-  final preference = codeConfig.linkModePreference;
-  final linkMode = codeAsset.linkMode;
-  if ((linkMode is DynamicLoading && preference == LinkModePreference.static) ||
-      (linkMode is StaticLinking && preference == LinkModePreference.dynamic)) {
-    errors.add(
-      'CodeAsset "$id" has a link mode "$linkMode", which '
-      'is not allowed by by the input link mode preference '
-      '"$preference".',
-    );
+  if (validateLinkMode) {
+    final preference = codeConfig.linkModePreference;
+    final linkMode = codeAsset.linkMode;
+    if ((linkMode is DynamicLoading &&
+            preference == LinkModePreference.static) ||
+        (linkMode is StaticLinking &&
+            preference == LinkModePreference.dynamic)) {
+      errors.add(
+        'CodeAsset "$id" has a link mode "$linkMode", which '
+        'is not allowed by by the input link mode preference '
+        '"$preference".',
+      );
+    }
   }
 
   final os = codeAsset.os;
@@ -194,13 +224,17 @@ void _validateCodeAssets(
     );
   }
 
+  errors.addAll(_validateCodeAssetFile(codeAsset));
+}
+
+List<String> _validateCodeAssetFile(CodeAsset codeAsset) {
+  final id = codeAsset.id;
   final file = codeAsset.file;
-  if (file == null && _mustHaveFile(codeAsset.linkMode)) {
-    errors.add('CodeAsset "$id" has no file.');
-  }
-  if (file != null) {
-    errors.addAll(_validateFile('Code asset "$id" file', file));
-  }
+  return [
+    if (file == null && _mustHaveFile(codeAsset.linkMode))
+      'CodeAsset "$id" has no file.',
+    if (file != null) ..._validateFile('Code asset "$id" file', file),
+  ];
 }
 
 bool _mustHaveFile(LinkMode linkMode) => switch (linkMode) {
