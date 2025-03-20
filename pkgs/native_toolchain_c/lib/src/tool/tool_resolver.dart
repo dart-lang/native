@@ -208,12 +208,11 @@ class InstallLocationResolver implements ToolResolver {
   Future<List<Uri>> tryResolvePath(String path) async {
     if (path.startsWith(home)) {
       final homeDir_ = homeDir;
-      if (homeDir_ != null) {
-        path = path.replaceAll(
-          '$home/',
-          homeDir!.toFilePath().replaceAll('\\', '/'),
-        );
-      }
+      if (homeDir_ == null) return [];
+      path = path.replaceAll(
+        '$home/',
+        homeDir!.toFilePath().replaceAll('\\', '/'),
+      );
     }
 
     final result = <Uri>[];
