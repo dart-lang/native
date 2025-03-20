@@ -78,10 +78,10 @@ class BuildInput extends HookInput {
 
   BuildInput({
     required super.config,
-    Map<String, Map<String, Object?>>? dependencyMetadata,
+    required Map<String, Map<String, Object?>>? dependencyMetadata,
     required super.outDir,
     required super.outDirShared,
-    super.outFile,
+    required super.outFile,
     required super.packageName,
     required super.packageRoot,
     required super.version,
@@ -92,7 +92,7 @@ class BuildInput extends HookInput {
 
   /// Setup all fields for [BuildInput] that are not in
   /// [HookInput].
-  void setup({Map<String, Map<String, Object?>>? dependencyMetadata}) {
+  void setup({required Map<String, Map<String, Object?>>? dependencyMetadata}) {
     _dependencyMetadata = dependencyMetadata;
     json.sortOnKey();
   }
@@ -128,10 +128,10 @@ class BuildOutput extends HookOutput {
   BuildOutput.fromJson(super.json, {super.path}) : super.fromJson();
 
   BuildOutput({
-    super.assets,
-    Map<String, List<Asset>>? assetsForLinking,
-    super.dependencies,
-    Map<String, Object?>? metadata,
+    required super.assets,
+    required Map<String, List<Asset>>? assetsForLinking,
+    required super.dependencies,
+    required Map<String, Object?>? metadata,
     required super.timestamp,
     required super.version,
   }) : super() {
@@ -143,8 +143,8 @@ class BuildOutput extends HookOutput {
   /// Setup all fields for [BuildOutput] that are not in
   /// [HookOutput].
   void setup({
-    Map<String, List<Asset>>? assetsForLinking,
-    Map<String, Object?>? metadata,
+    required Map<String, List<Asset>>? assetsForLinking,
+    required Map<String, Object?>? metadata,
   }) {
     this.assetsForLinking = assetsForLinking;
     this.metadata = metadata;
@@ -262,7 +262,7 @@ class HookInput {
     required Config config,
     required Uri outDir,
     required Uri outDirShared,
-    Uri? outFile,
+    required Uri? outFile,
     required String packageName,
     required Uri packageRoot,
     required String version,
@@ -376,8 +376,8 @@ class HookOutput {
   HookOutput.fromJson(this.json, {this.path = const []});
 
   HookOutput({
-    List<Asset>? assets,
-    List<Uri>? dependencies,
+    required List<Asset>? assets,
+    required List<Uri>? dependencies,
     required String timestamp,
     required String version,
   }) : json = {},
@@ -467,14 +467,14 @@ class LinkInput extends HookInput {
   LinkInput.fromJson(super.json, {super.path}) : super.fromJson();
 
   LinkInput({
-    List<Asset>? assets,
+    required List<Asset>? assets,
     required super.config,
     required super.outDir,
     required super.outDirShared,
-    super.outFile,
+    required super.outFile,
     required super.packageName,
     required super.packageRoot,
-    Uri? resourceIdentifiers,
+    required Uri? resourceIdentifiers,
     required super.version,
   }) : super() {
     _assets = assets;
@@ -484,7 +484,10 @@ class LinkInput extends HookInput {
 
   /// Setup all fields for [LinkInput] that are not in
   /// [HookInput].
-  void setup({List<Asset>? assets, Uri? resourceIdentifiers}) {
+  void setup({
+    required List<Asset>? assets,
+    required Uri? resourceIdentifiers,
+  }) {
     _assets = assets;
     _resourceIdentifiers = resourceIdentifiers;
     json.sortOnKey();
@@ -548,8 +551,8 @@ class LinkOutput extends HookOutput {
   LinkOutput.fromJson(super.json, {super.path}) : super.fromJson();
 
   LinkOutput({
-    super.assets,
-    super.dependencies,
+    required super.assets,
+    required super.dependencies,
     required super.timestamp,
     required super.version,
   }) : super();

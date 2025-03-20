@@ -298,6 +298,8 @@ sealed class HookOutputBuilder {
   final _syntax = syntax.HookOutput(
     timestamp: DateTime.now().roundDownToSeconds().toString(),
     version: latestVersion.toString(),
+    assets: null,
+    dependencies: null,
   );
 
   Map<String, Object?> get json => _syntax.json;

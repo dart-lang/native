@@ -39,20 +39,14 @@ class ClassGenerator {
       final property = superClassProperty ?? thisClassProperty!;
       if (superClassProperty != null) {
         if (identifyingSubtype == null) {
-          constructorParams.add(
-            '${property.isRequired ? 'required ' : ''}super.${property.name}',
-          );
+          constructorParams.add('required super.${property.name}');
         } else {
           superParams.add("type: '$identifyingSubtype'");
         }
       } else {
         final dartType = property.type;
-        constructorParams.add(
-          '${property.isRequired ? 'required ' : ''}$dartType ${property.name}',
-        );
-        setupParams.add(
-          '${property.isRequired ? 'required' : ''} $dartType ${property.name}',
-        );
+        constructorParams.add('required $dartType ${property.name}');
+        setupParams.add('required $dartType ${property.name}');
         if (property.setterPrivate) {
           constructorSetterCalls.add('_${property.name} = ${property.name};');
         } else {
