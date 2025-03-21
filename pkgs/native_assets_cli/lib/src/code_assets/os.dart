@@ -36,8 +36,19 @@ final class OS {
   /// operating system.
   static const OS windows = OS._('windows');
 
+  /// The [web](https://en.wikipedia.org/wiki/Web) "operating system".
+  static const OS web = OS._('web');
+
   /// Known values for [OS].
-  static const List<OS> values = [android, fuchsia, iOS, linux, macOS, windows];
+  static const List<OS> values = [
+    android,
+    fuchsia,
+    iOS,
+    linux,
+    macOS,
+    windows,
+    web,
+  ];
 
   /// Typical cross compilation between OSes.
   static const osCrossCompilationDefault = {
