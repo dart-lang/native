@@ -18,7 +18,7 @@ final rootSchemas = loadSchemas([
   packageUri.resolve('../data_assets/doc/schema/'),
 ]);
 
-void main() {
+void main(List<String> args) {
   for (final packageName in generateFor) {
     const schemaName = 'shared';
     final schemaUri = packageUri.resolve(
@@ -66,6 +66,16 @@ void main() {
                   ]
                   : null,
         ).analyze();
+    final textDumpFile = File.fromUri(
+      packageUri.resolve(
+        '../native_assets_cli/lib/src/$packageName/syntax.g.txt',
+      ),
+    );
+    if (args.contains('-d')) {
+      textDumpFile.writeAsStringSync(analyzedSchema.toString());
+    } else if (textDumpFile.existsSync()) {
+      textDumpFile.deleteSync();
+    }
     final output =
         SyntaxGenerator(
           analyzedSchema,

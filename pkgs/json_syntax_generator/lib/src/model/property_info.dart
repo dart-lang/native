@@ -53,7 +53,7 @@ PropertyInfo(
   type: $type,
   isOverride: $isOverride,
   setterPrivate: $setterPrivate,
-  isRequired: $isRequired
+  isRequired: $isRequired,
 )''';
 }
 
