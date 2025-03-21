@@ -92,7 +92,18 @@ class Asset {
 
   JsonReader get _reader => JsonReader(json, path);
 
-  Asset.fromJson(this.json, {this.path = const []});
+  factory Asset.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = Asset._fromJson(json, path: path);
+    if (result.isNativeCodeAsset) {
+      return result.asNativeCodeAsset;
+    }
+    return result;
+  }
+
+  Asset._fromJson(this.json, {this.path = const []});
 
   Asset({required String? type}) : json = {}, path = const [] {
     _type = type;
@@ -114,7 +125,7 @@ class Asset {
 }
 
 class NativeCodeAsset extends Asset {
-  NativeCodeAsset.fromJson(super.json, {super.path}) : super.fromJson();
+  NativeCodeAsset.fromJson(super.json, {super.path}) : super._fromJson();
 
   NativeCodeAsset({
     required Architecture architecture,
@@ -649,7 +660,30 @@ class LinkMode {
 
   JsonReader get _reader => JsonReader(json, path);
 
-  LinkMode.fromJson(this.json, {this.path = const []});
+  factory LinkMode.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = LinkMode._fromJson(json, path: path);
+    if (result.isDynamicLoadingBundleLinkMode) {
+      return result.asDynamicLoadingBundleLinkMode;
+    }
+    if (result.isDynamicLoadingExecutableLinkMode) {
+      return result.asDynamicLoadingExecutableLinkMode;
+    }
+    if (result.isDynamicLoadingProcessLinkMode) {
+      return result.asDynamicLoadingProcessLinkMode;
+    }
+    if (result.isDynamicLoadingSystemLinkMode) {
+      return result.asDynamicLoadingSystemLinkMode;
+    }
+    if (result.isStaticLinkMode) {
+      return result.asStaticLinkMode;
+    }
+    return result;
+  }
+
+  LinkMode._fromJson(this.json, {this.path = const []});
 
   LinkMode({required String type}) : json = {}, path = const [] {
     _type = type;
@@ -672,7 +706,7 @@ class LinkMode {
 
 class DynamicLoadingBundleLinkMode extends LinkMode {
   DynamicLoadingBundleLinkMode.fromJson(super.json, {super.path})
-    : super.fromJson();
+    : super._fromJson();
 
   DynamicLoadingBundleLinkMode() : super(type: 'dynamic_loading_bundle');
 
@@ -692,7 +726,7 @@ extension DynamicLoadingBundleLinkModeExtension on LinkMode {
 
 class DynamicLoadingExecutableLinkMode extends LinkMode {
   DynamicLoadingExecutableLinkMode.fromJson(super.json, {super.path})
-    : super.fromJson();
+    : super._fromJson();
 
   DynamicLoadingExecutableLinkMode()
     : super(type: 'dynamic_loading_executable');
@@ -714,7 +748,7 @@ extension DynamicLoadingExecutableLinkModeExtension on LinkMode {
 
 class DynamicLoadingProcessLinkMode extends LinkMode {
   DynamicLoadingProcessLinkMode.fromJson(super.json, {super.path})
-    : super.fromJson();
+    : super._fromJson();
 
   DynamicLoadingProcessLinkMode() : super(type: 'dynamic_loading_process');
 
@@ -734,7 +768,7 @@ extension DynamicLoadingProcessLinkModeExtension on LinkMode {
 
 class DynamicLoadingSystemLinkMode extends LinkMode {
   DynamicLoadingSystemLinkMode.fromJson(super.json, {super.path})
-    : super.fromJson();
+    : super._fromJson();
 
   DynamicLoadingSystemLinkMode({required Uri uri})
     : super(type: 'dynamic_loading_system') {
@@ -772,7 +806,7 @@ extension DynamicLoadingSystemLinkModeExtension on LinkMode {
 }
 
 class StaticLinkMode extends LinkMode {
-  StaticLinkMode.fromJson(super.json, {super.path}) : super.fromJson();
+  StaticLinkMode.fromJson(super.json, {super.path}) : super._fromJson();
 
   StaticLinkMode() : super(type: 'static');
 

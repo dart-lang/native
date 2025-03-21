@@ -17,7 +17,18 @@ class Asset {
 
   JsonReader get _reader => JsonReader(json, path);
 
-  Asset.fromJson(this.json, {this.path = const []});
+  factory Asset.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = Asset._fromJson(json, path: path);
+    if (result.isDataAsset) {
+      return result.asDataAsset;
+    }
+    return result;
+  }
+
+  Asset._fromJson(this.json, {this.path = const []});
 
   Asset({required String? type}) : json = {}, path = const [] {
     _type = type;
@@ -39,7 +50,7 @@ class Asset {
 }
 
 class DataAsset extends Asset {
-  DataAsset.fromJson(super.json, {super.path}) : super.fromJson();
+  DataAsset.fromJson(super.json, {super.path}) : super._fromJson();
 
   DataAsset({required Uri file, required String name, required String package})
     : super(type: 'data') {

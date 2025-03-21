@@ -145,8 +145,15 @@ void main() {
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
         os: input.config.code.targetOS,
-        architecture: Architecture.x64,
+        architecture: Architecture.arm64,
       ),
+    );
+    expect(
+      await validateCodeAssetBuildOutput(
+        input,
+        BuildOutput(outputBuilder.json),
+      ),
+      isEmpty,
     );
     traverseJson<Map<String, Object?>>(outputBuilder.json, [
       'assets',
@@ -161,6 +168,50 @@ void main() {
       contains(
         contains(
           'No value was provided for \'assets.0.architecture\'.'
+          ' Expected a String.',
+        ),
+      ),
+    );
+  });
+
+  test('dynamic_loading_system uri missing', () async {
+    final input = makeCodeBuildInput();
+    final outputBuilder = BuildOutputBuilder();
+    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
+    await assetFile.writeAsBytes([1, 2, 3]);
+    outputBuilder.assets.code.add(
+      CodeAsset(
+        package: input.packageName,
+        name: 'src/sqlite_bindings.dart',
+        file: assetFile.uri,
+        linkMode: DynamicLoadingSystem(
+          Uri.parse(input.config.code.targetOS.dylibFileName('sqlite')),
+        ),
+        os: input.config.code.targetOS,
+        architecture: Architecture.arm64,
+      ),
+    );
+    expect(
+      await validateCodeAssetBuildOutput(
+        input,
+        BuildOutput(outputBuilder.json),
+      ),
+      isEmpty,
+    );
+    traverseJson<Map<String, Object?>>(outputBuilder.json, [
+      'assets',
+      0,
+      'link_mode',
+    ]).remove('uri');
+    final errors = await validateCodeAssetBuildOutput(
+      input,
+      BuildOutput(outputBuilder.json),
+    );
+    expect(
+      errors,
+      contains(
+        contains(
+          'No value was provided for \'assets.0.link_mode.uri\'.'
           ' Expected a String.',
         ),
       ),

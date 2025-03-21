@@ -9,13 +9,17 @@ sealed class ClassInfo {
   /// The Dart class name.
   final String name;
 
+  ClassInfo({required this.name});
+}
+
+class NormalClassInfo extends ClassInfo {
   /// Reference to the super class.
-  final ClassInfo? superclass;
+  final NormalClassInfo? superclass;
 
   /// References to all subclasses.
   ///
   /// Constructed lazily on instantiating sub classes.
-  final List<ClassInfo> subclasses = [];
+  final List<NormalClassInfo> subclasses = [];
 
   /// The properties of this class.
   ///
@@ -23,23 +27,34 @@ sealed class ClassInfo {
   /// include properties not overridden in the super class.
   final List<PropertyInfo> properties;
 
-  ClassInfo({required this.name, this.superclass, required this.properties}) {
-    superclass?.subclasses.add(this);
-  }
-
   PropertyInfo? getProperty(String name) =>
       properties.where((e) => e.name == name).firstOrNull;
-}
 
-class NormalClassInfo extends ClassInfo {
-  final String? taggedUnionKey;
+  /// The Dart property identifying a tagged union.
+  ///
+  /// Only set in the parent class.
+  final String? taggedUnionProperty;
+
+  /// The String value identifying the subtype in a tagged union.
+  ///
+  /// Only set in the sub classes.
+  final String? taggedUnionValue;
+
+  bool get isTaggedUnion =>
+      taggedUnionProperty != null || taggedUnionValue != null;
 
   NormalClassInfo({
     required super.name,
-    super.superclass,
-    required super.properties,
-    required this.taggedUnionKey,
-  }) : super();
+    this.superclass,
+    required this.properties,
+    this.taggedUnionProperty,
+    this.taggedUnionValue,
+  }) : super() {
+    superclass?.subclasses.add(this);
+    if (taggedUnionValue != null) {
+      assert(superclass != null);
+    }
+  }
 
   @override
   String toString() {
@@ -50,11 +65,12 @@ class NormalClassInfo extends ClassInfo {
 $runtimeType(
   name: $name,
   superclassName: ${superclass?.name},
-  subclassNames: [ ${subclasses.map((e) => e.name).join(', ')} ]
+  subclassNames: [ ${subclasses.map((e) => e.name).join(', ')} ],
   properties: [
 $propertiesString
   ],
-  taggedUnionKey: $taggedUnionKey
+  taggedUnionProperty: $taggedUnionProperty,
+  taggedUnionValue: $taggedUnionValue,
 )''';
   }
 }
@@ -67,7 +83,7 @@ class EnumClassInfo extends ClassInfo {
     required super.name,
     required this.enumValues,
     required this.isOpen,
-  }) : super(properties: const []);
+  }) : super();
 
   @override
   String toString() {

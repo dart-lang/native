@@ -102,8 +102,8 @@ class SchemaAnalyzer {
   void _analyzeClass(
     JsonSchemas schemas, {
     String? name,
-    ClassInfo? superclass,
-    String? identifyingSubtype,
+    NormalClassInfo? superclass,
+    String? taggedUnionValue,
   }) {
     var typeName = schemas.className;
     if (_classes[typeName] != null) return; // Already analyzed.
@@ -118,7 +118,7 @@ class SchemaAnalyzer {
       }
       final superClassName = schemas.superClassName;
       if (superClassName != null) {
-        superclass = _classes[superClassName]!;
+        superclass = _classes[superClassName] as NormalClassInfo;
       }
     }
     final superSchemas = schemas.superClassSchemas;
@@ -160,7 +160,9 @@ class SchemaAnalyzer {
       name: typeName,
       superclass: superclass,
       properties: properties,
-      taggedUnionKey: identifyingSubtype,
+      taggedUnionValue: taggedUnionValue,
+      taggedUnionProperty:
+          schemas.generateSubClasses ? properties.single.name : null,
     );
     _classes[typeName] = classInfo;
     if (schemas.generateSubClasses) {
@@ -172,7 +174,7 @@ class SchemaAnalyzer {
   void _analyzeSubClasses(
     JsonSchemas schemas, {
     String? name,
-    ClassInfo? superclass,
+    NormalClassInfo? superclass,
   }) {
     final typeName = schemas.className;
 
@@ -197,7 +199,7 @@ class SchemaAnalyzer {
           subtypeSchema,
           name: subTypeName,
           superclass: superclass,
-          identifyingSubtype: subType,
+          taggedUnionValue: subType,
         );
       } else {
         // This is a tagged union without any defined properties.
@@ -205,7 +207,7 @@ class SchemaAnalyzer {
           name: subTypeName,
           superclass: superclass,
           properties: [],
-          taggedUnionKey: subType,
+          taggedUnionValue: subType,
         );
       }
     }

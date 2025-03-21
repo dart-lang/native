@@ -13,136 +13,293 @@ class ClassGenerator {
 
   String generate() {
     final buffer = StringBuffer();
-    final className = classInfo.name;
-    final superclass = classInfo.superclass;
-    final superclassName = superclass?.name;
-    final properties = classInfo.properties;
-    final identifyingSubtype = classInfo.taggedUnionKey;
-
-    final constructorParams = <String>[];
-    final setupParams = <String>[];
-    final constructorSetterCalls = <String>[];
-    final accessors = <String>[];
-    final superParams = <String>[];
-    final validateCalls = <String>[];
-
-    final propertyNames =
-        {
-            for (final property in properties) property.name,
-            if (superclass != null)
-              for (final property in superclass.properties) property.name,
-          }.toList()
-          ..sort();
-    for (final propertyName in propertyNames) {
-      final superClassProperty = superclass?.getProperty(propertyName);
-      final thisClassProperty = classInfo.getProperty(propertyName);
-      final property = superClassProperty ?? thisClassProperty!;
-      if (superClassProperty != null) {
-        if (identifyingSubtype == null) {
-          constructorParams.add('required super.${property.name}');
-        } else {
-          superParams.add("type: '$identifyingSubtype'");
-        }
-      } else {
-        final dartType = property.type;
-        constructorParams.add('required $dartType ${property.name}');
-        setupParams.add('required $dartType ${property.name}');
-        if (property.setterPrivate) {
-          constructorSetterCalls.add('_${property.name} = ${property.name};');
-        } else {
-          constructorSetterCalls.add(
-            'this.${property.name} = ${property.name};',
-          );
-        }
-      }
-      if (thisClassProperty != null) {
-        accessors.add(PropertyGenerator(thisClassProperty).generate());
-        validateCalls.add('...${property.validateName}()');
-      }
-    }
-
-    if (constructorSetterCalls.isNotEmpty) {
-      constructorSetterCalls.add('json.sortOnKey();');
-    }
-
-    if (superclass != null) {
-      buffer.writeln('''
-class $className extends $superclassName {
-  $className.fromJson(super.json, {
-    super.path,
-  }) : super.fromJson();
-
-  $className(${wrapBracesIfNotEmpty(constructorParams.join(', '))})
-    : super(${superParams.join(',')}) 
-    ${wrapInBracesOrSemicolon(constructorSetterCalls.join('\n    '))}
-''');
-      if (setupParams.isNotEmpty) {
-        buffer.writeln('''
-  /// Setup all fields for [$className] that are not in
-  /// [$superclassName].
-  void setup (
-    ${wrapBracesIfNotEmpty(setupParams.join(','))}
-  ) {
-    ${constructorSetterCalls.join('\n')}
+    _generateClass(buffer);
+    _generateTaggedUnionExtension(buffer);
+    return buffer.toString();
   }
+
+  void _generateClass(StringBuffer buffer) {
+    final className = classInfo.name;
+    final superclassName = classInfo.superclass?.name;
+
+    final extendsString =
+        superclassName != null ? 'extends $superclassName' : '';
+    buffer.writeln('''
+class $className $extendsString {
 ''');
-      }
-
-      buffer.writeln('''
-  ${accessors.join('\n')}
-
-  @override
-  List<String> validate() => [
-    ...super.validate(),
-    ${validateCalls.join(',\n')}
-  ];
-
-  @override
-  String toString() => '$className(\$json)';
+    buffer.writeln(_generateFields());
+    buffer.writeln(_generateJsonFactory());
+    buffer.writeln(_generateJsonConstructor());
+    buffer.writeln(_generateDefaultConstructor());
+    buffer.writeln(_generateSetupMethod());
+    buffer.writeln(_generateAccessors());
+    buffer.writeln(_generateValidateMethod());
+    buffer.writeln(_generateToString());
+    buffer.writeln('''
 }
 ''');
-    } else {
-      buffer.writeln('''
-class $className {
+  }
+
+  String _generateFields() {
+    if (classInfo.superclass != null) {
+      // The super class already has the required fields.
+      return '';
+    }
+
+    return '''
   final Map<String, Object?> json;
 
   final List<Object> path;
 
   JsonReader get _reader => JsonReader(json, path);
-
-  $className.fromJson(this.json, {
-    this.path = const [],
-  });
-
-  $className(${wrapBracesIfNotEmpty(constructorParams.join(', '))})
-  : json = {},
-    path = const []
-  {
-    ${constructorSetterCalls.join('\n    ')}
+''';
   }
 
-  ${accessors.join('\n')}
-
-  List<String> validate() => [
-    ${validateCalls.join(',\n')}
-  ];
-
-  @override
-  String toString() => '$className(\$json)';
-}
-''');
+  /// If this is the parent class in a tagged union, generate a factory that
+  /// branches to invoke subclass constructors.
+  String _generateJsonFactory() {
+    if (!classInfo.isTaggedUnion || classInfo.superclass != null) {
+      // Not a tagged union, no need to generate a factory.
+      return '';
     }
 
-    if (identifyingSubtype != null) {
-      buffer.writeln('''
+    final className = classInfo.name;
+    final factorySubclassReturns = <String>[];
+    for (final subclass in classInfo.subclasses) {
+      if (subclass.taggedUnionValue != null) {
+        factorySubclassReturns.add('''
+        if (result.is${subclass.name}) {
+          return result.as${subclass.name};
+        }''');
+      }
+    }
+    final factorySubclassReturnsString = factorySubclassReturns.join('\n');
+
+    return '''
+  factory $className.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = $className._fromJson(json, path: path);
+    $factorySubclassReturnsString
+    return result;
+  }
+''';
+  }
+
+  String _generateJsonConstructor() {
+    final className = classInfo.name;
+
+    if (classInfo.superclass == null) {
+      final constructorName =
+          classInfo.isTaggedUnion ? '_fromJson' : 'fromJson';
+      return '''
+  $className.$constructorName(this.json, {
+    this.path = const [],
+  });
+''';
+    }
+
+    final superConstructorName =
+        classInfo.isTaggedUnion ? '_fromJson' : 'fromJson';
+    return '''
+  $className.fromJson(super.json, {
+    super.path,
+  }) : super.$superConstructorName();
+''';
+  }
+
+  String _generateDefaultConstructor() {
+    final parameters = _generateDefaultConstructorParameters();
+    final superArguments = _generateDefaultConstructorSuperArguments();
+    final setterCalls = _generateSetterCalls();
+    final className = classInfo.name;
+    final parametersString = wrapBracesIfNotEmpty(parameters.join(', '));
+    final superArgumentsString = superArguments.join(',');
+    final body = wrapInBracesOrSemicolon(setterCalls.join('\n    '));
+
+    if (classInfo.superclass == null) {
+      return '''
+  $className($parametersString)
+  : json = {},
+    path = const []
+    $body
+''';
+    }
+
+    return '''
+  $className($parametersString)
+    : super($superArgumentsString) 
+    $body
+''';
+  }
+
+  /// Generates a list of named parameters.
+  ///
+  /// Alphabetically sorted through this and super parameters.
+  ///
+  /// Omits the tagged value property for tagged union sub classes.
+  List<String> _generateDefaultConstructorParameters() {
+    final result = <String>[];
+    final superclass = classInfo.superclass;
+
+    final propertyNames = _getAllPropertyNames();
+    for (final propertyName in propertyNames) {
+      final superClassProperty = superclass?.getProperty(propertyName);
+      final thisClassProperty = classInfo.getProperty(propertyName);
+
+      if (superClassProperty != null) {
+        if (!classInfo.isTaggedUnion) {
+          final propertyName = superClassProperty.name;
+          result.add('required super.$propertyName');
+        }
+      } else {
+        final dartType = thisClassProperty!.type;
+        final propertyName = thisClassProperty.name;
+        result.add('required $dartType $propertyName');
+      }
+    }
+    return result;
+  }
+
+  /// The only super constructor call parameter is for tagged unions.
+  ///
+  /// All other parameters are already set by `super.paramName`.
+  List<String> _generateDefaultConstructorSuperArguments() {
+    if (!classInfo.isTaggedUnion || classInfo.superclass == null) return [];
+
+    final taggedUnionProperty = classInfo.superclass!.taggedUnionProperty;
+    final taggedUnionValue = classInfo.taggedUnionValue;
+    return ["$taggedUnionProperty: '$taggedUnionValue'"];
+  }
+
+  /// Generates the setter calls for both [_generateDefaultConstructor] and
+  /// [_generateSetupMethod].
+  List<String> _generateSetterCalls() {
+    final result = <String>[];
+    final superclass = classInfo.superclass;
+    for (final property in classInfo.properties) {
+      final superClassProperty = superclass?.getProperty(property.name);
+      if (superClassProperty != null) {
+        // This property will be already set in the super constructor.
+        // TODO: The parameter in the constructor currently has the super class
+        // property type.
+        continue;
+      }
+      if (property.setterPrivate) {
+        result.add('_${property.name} = ${property.name};');
+      } else {
+        result.add('this.${property.name} = ${property.name};');
+      }
+    }
+    if (result.isNotEmpty) {
+      result.add('json.sortOnKey();');
+    }
+    return result;
+  }
+
+  String _generateSetupMethod() {
+    if (classInfo.superclass == null || classInfo.properties.isEmpty) {
+      return '';
+    }
+
+    final parameters = _generateSetupParameters();
+    final setterCalls = _generateSetterCalls();
+    final className = classInfo.name;
+    final superclassName = classInfo.superclass!.name;
+    final parametersString = wrapBracesIfNotEmpty(parameters.join(', '));
+    final setterCallsString = setterCalls.join('\n    ');
+    return '''
+  /// Setup all fields for [$className] that are not in
+  /// [$superclassName].
+  void setup ($parametersString) {
+    $setterCallsString
+  }
+''';
+  }
+
+  List<String> _generateSetupParameters() {
+    final result = <String>[];
+    final superclass = classInfo.superclass;
+
+    for (final property in classInfo.properties) {
+      final superClassProperty = superclass?.getProperty(property.name);
+      if (superClassProperty != null) {
+        continue;
+      }
+      if (superClassProperty == null) {
+        final dartType = property.type;
+        result.add('required $dartType ${property.name}');
+      }
+    }
+    return result;
+  }
+
+  String _generateAccessors() => [
+    for (final property in classInfo.properties)
+      PropertyGenerator(property).generate(),
+  ].join('\n');
+
+  String _generateValidateMethod() {
+    final validateCalls = [
+      for (final property in classInfo.properties)
+        '...${property.validateName}()',
+    ];
+    final validateCallsString = validateCalls.join(',\n');
+
+    if (classInfo.superclass == null) {
+      return '''
+  List<String> validate() => [
+    $validateCallsString
+  ];
+''';
+    }
+
+    return '''
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    $validateCallsString
+  ];
+''';
+  }
+
+  String _generateToString() {
+    final className = classInfo.name;
+    return '''
+  @override
+  String toString() => '$className(\$json)';
+''';
+  }
+
+  void _generateTaggedUnionExtension(StringBuffer buffer) {
+    if (!classInfo.isTaggedUnion || classInfo.superclass == null) return;
+
+    final className = classInfo.name;
+    final superclassName = classInfo.superclass!.name;
+    final taggedUnionValue = classInfo.taggedUnionValue;
+    final taggedUnionProperty = classInfo.superclass!.taggedUnionProperty;
+
+    buffer.writeln('''
 extension ${className}Extension on $superclassName {
-  bool get is$className => type == '$identifyingSubtype';
+  bool get is$className => $taggedUnionProperty == '$taggedUnionValue';
 
   $className get as$className => $className.fromJson(json, path: path);
 }
 ''');
-    }
+  }
 
-    return buffer.toString();
+  /// Get all property names of this class, including from the super classes.
+  ///
+  /// Alphabetically sorted.
+  List<String> _getAllPropertyNames() {
+    final properties = classInfo.properties;
+    final superclass = classInfo.superclass;
+    return {
+        for (final property in properties) property.name,
+        if (superclass != null)
+          for (final property in superclass.properties) property.name,
+      }.toList()
+      ..sort();
   }
 }
