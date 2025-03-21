@@ -32,7 +32,7 @@ jobs:
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-    - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+    - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
       with:
         sdk: stable
 
@@ -80,7 +80,7 @@ jobs:
         dart tool/build.dart -owindows -ax64
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
       with:
         name: ${{ matrix.os }}-host
         path: |
@@ -103,7 +103,7 @@ jobs:
           submodules: true
 
       - name: Download assets
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        uses: actions/download-artifact@b14cf4c92620c250e1c074ab0a5800e37df86765
         with:
           merge-multiple: true
           path: pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/
