@@ -35,6 +35,10 @@ class ParsedRelation {
 }
 
 enum ParsedRelationKind {
+  requirementOf,
+  defaultImplementationOf,
+  optionalRequirementOf,
+  conformsTo,
   memberOf;
 
   static final _supportedRelationKindsMap = {
