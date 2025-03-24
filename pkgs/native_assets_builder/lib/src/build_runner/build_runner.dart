@@ -152,6 +152,8 @@ class NativeAssetsBuildRunner {
             ),
         ],
         null,
+        buildDirUri,
+        outDirUri,
       );
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
@@ -253,6 +255,8 @@ class NativeAssetsBuildRunner {
             ),
         ],
         resourceIdentifiers,
+        buildDirUri,
+        outDirUri,
       );
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
@@ -295,7 +299,7 @@ class NativeAssetsBuildRunner {
       await outDir.create(recursive: true);
     }
     final outDirSharedUri = packageLayout.dartToolNativeAssetsBuilder.resolve(
-      'shared/${package.name}/$hook/',
+      'shared/${package.name}/${hook.name}/',
     );
     final outDirShared = _fileSystem.directory(outDirSharedUri);
     if (!await outDirShared.exists()) {
@@ -310,111 +314,112 @@ class NativeAssetsBuildRunner {
     HookInput input,
     _HookValidator validator,
     Uri? resources,
-  ) async {
-    final outDir = input.outputDirectory;
-    return await runUnderDirectoriesLock(
-      _fileSystem,
-      [
-        _fileSystem.directory(input.outputDirectoryShared).parent.uri,
-        _fileSystem.directory(input.outputDirectory).parent.uri,
-      ],
-      timeout: singleHookTimeout,
-      logger: logger,
-      () async {
-        final hookCompileResult = await _compileHookForPackageCached(
-          input.packageName,
-          input.outputDirectory,
-          input.packageRoot.resolve('hook/${hook.scriptName}'),
-        );
-        if (hookCompileResult == null) {
-          return null;
-        }
-        final (hookKernelFile, hookHashes) = hookCompileResult;
+    Uri buildDirUri,
+    Uri outputDirectory,
+  ) async => await runUnderDirectoriesLock(
+    _fileSystem,
+    [
+      _fileSystem.directory(input.outputDirectoryShared).parent.uri,
+      _fileSystem.directory(outputDirectory).parent.uri,
+    ],
+    timeout: singleHookTimeout,
+    logger: logger,
+    () async {
+      final hookCompileResult = await _compileHookForPackageCached(
+        input.packageName,
+        buildDirUri,
+        input.packageRoot.resolve('hook/${hook.scriptName}'),
+      );
+      if (hookCompileResult == null) {
+        return null;
+      }
+      final (hookKernelFile, hookHashes) = hookCompileResult;
 
-        final buildOutputFile = _fileSystem.file(input.outputFile);
-        final buildOutputFileDeprecated = _fileSystem
-        // ignore: deprecated_member_use
-        .file(input.outputDirectory.resolve(hook.outputNameDeprecated));
+      final buildOutputFile = _fileSystem.file(input.outputFile);
+      final buildOutputFileDeprecated = _fileSystem
+      // ignore: deprecated_member_use
+      .file(outputDirectory.resolve(hook.outputNameDeprecated));
 
-        final dependenciesHashFile = input.outputDirectory.resolve(
-          '../dependencies.dependencies_hash_file.json',
-        );
-        final dependenciesHashes = DependenciesHashFile(
-          _fileSystem,
-          fileUri: dependenciesHashFile,
-        );
-        final lastModifiedCutoffTime = DateTime.now();
-        if ((buildOutputFile.existsSync() ||
-                buildOutputFileDeprecated.existsSync()) &&
-            await dependenciesHashes.exists()) {
-          late final HookOutput output;
-          try {
-            output = _readHookOutputFromUri(
-              hook,
-              buildOutputFile,
-              buildOutputFileDeprecated,
-            );
-          } on FormatException catch (e) {
-            logger.severe('''
+      final dependenciesHashFile = buildDirUri.resolve(
+        'dependencies.dependencies_hash_file.json',
+      );
+      final dependenciesHashes = DependenciesHashFile(
+        _fileSystem,
+        fileUri: dependenciesHashFile,
+      );
+      final lastModifiedCutoffTime = DateTime.now();
+      if ((buildOutputFile.existsSync() ||
+              buildOutputFileDeprecated.existsSync()) &&
+          await dependenciesHashes.exists()) {
+        late final HookOutput output;
+        try {
+          output = _readHookOutputFromUri(
+            hook,
+            buildOutputFile,
+            buildOutputFileDeprecated,
+          );
+        } on FormatException catch (e) {
+          logger.severe('''
 Building assets for package:${input.packageName} failed.
 ${input.outputFile.toFilePath()} contained a format error.
 
 Contents: ${buildOutputFile.readAsStringSync()}.
 ${e.message}
         ''');
-            return null;
-          }
-
-          final outdatedDependency = await dependenciesHashes
-              .findOutdatedDependency(hookEnvironment);
-          if (outdatedDependency == null) {
-            logger.info(
-              'Skipping ${hook.name} for ${input.packageName}'
-              ' in ${outDir.toFilePath()}.'
-              ' Last build on ${output.timestamp}.',
-            );
-            // All build flags go into [outDir]. Therefore we do not have to
-            // check here whether the input is equal.
-            return (output, hookHashes.fileSystemEntities);
-          }
-          logger.info(
-            'Rerunning ${hook.name} for ${input.packageName}'
-            ' in ${outDir.toFilePath()}. $outdatedDependency',
-          );
+          return null;
         }
 
-        final result = await _runHookForPackage(
-          hook,
-          input,
-          validator,
-          resources,
-          hookKernelFile,
+        final outdatedDependency = await dependenciesHashes
+            .findOutdatedDependency(hookEnvironment);
+        if (outdatedDependency == null) {
+          logger.info(
+            'Skipping ${hook.name} for ${input.packageName}'
+            ' in ${buildDirUri.toFilePath()}.'
+            ' Last build on ${output.timestamp}.',
+          );
+          // All build flags go into [outDir]. Therefore we do not have to
+          // check here whether the input is equal.
+          return (output, hookHashes.fileSystemEntities);
+        }
+        logger.info(
+          'Rerunning ${hook.name} for ${input.packageName}'
+          ' in ${buildDirUri.toFilePath()}. $outdatedDependency',
+        );
+      }
+
+      final result = await _runHookForPackage(
+        hook,
+        input,
+        validator,
+        resources,
+        hookKernelFile,
+        hookEnvironment,
+        buildDirUri,
+        outputDirectory,
+      );
+      if (result == null) {
+        if (await dependenciesHashes.exists()) {
+          await dependenciesHashes.delete();
+        }
+        return null;
+      } else {
+        final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+          [
+            ...result.dependencies,
+            // Also depend on the compiled hook. Don't depend on the sources,
+            // if only whitespace changes, we don't need to rerun the hook.
+            hookKernelFile.uri,
+          ],
+          lastModifiedCutoffTime,
           hookEnvironment,
         );
-        if (result == null) {
-          if (await dependenciesHashes.exists()) {
-            await dependenciesHashes.delete();
-          }
-          return null;
-        } else {
-          final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
-            [
-              ...result.dependencies,
-              // Also depend on the compiled hook. Don't depend on the sources,
-              // if only whitespace changes, we don't need to rerun the hook.
-              hookKernelFile.uri,
-            ],
-            lastModifiedCutoffTime,
-            hookEnvironment,
-          );
-          if (modifiedDuringBuild != null) {
-            logger.severe('File modified during build. Build must be rerun.');
-          }
+        if (modifiedDuringBuild != null) {
+          logger.severe('File modified during build. Build must be rerun.');
         }
-        return (result, hookHashes.fileSystemEntities);
-      },
-    );
-  }
+      }
+      return (result, hookHashes.fileSystemEntities);
+    },
+  );
 
   /// The list of environment variables used if [hookEnvironment] is not passed
   /// in.
@@ -441,8 +446,10 @@ ${e.message}
     Uri? resources,
     File hookKernelFile,
     Map<String, String> environment,
+    Uri buildDirUri,
+    Uri outputDirectory,
   ) async {
-    final inputFile = input.outputDirectory.resolve('../input.json');
+    final inputFile = buildDirUri.resolve('input.json');
     final inputFileContents = const JsonEncoder.withIndent(
       ' ',
     ).convert(input.json);
@@ -456,7 +463,7 @@ ${e.message}
     }
     final hookOutputUriDeprecated =
     // ignore: deprecated_member_use
-    input.outputDirectory.resolve(hook.outputNameDeprecated);
+    outputDirectory.resolve(hook.outputNameDeprecated);
     final hookOutputFileDeprecated = _fileSystem.file(hookOutputUriDeprecated);
     if (await hookOutputFileDeprecated.exists()) {
       // Ensure we'll never read outdated build results.
@@ -469,7 +476,7 @@ ${e.message}
       '--config=${inputFile.toFilePath()}',
       if (resources != null) resources.toFilePath(),
     ];
-    final wrappedLogger = await _createFileStreamingLogger(input);
+    final wrappedLogger = await _createFileStreamingLogger(buildDirUri);
     final workingDirectory = input.packageRoot;
     final result = await runProcess(
       filesystem: _fileSystem,
@@ -539,14 +546,10 @@ ${e.message}
     }
   }
 
-  Future<Logger> _createFileStreamingLogger(HookInput input) async {
-    final stdoutFile = _fileSystem.file(
-      input.outputDirectory.resolve('../stdout.txt'),
-    );
+  Future<Logger> _createFileStreamingLogger(Uri buildDirUri) async {
+    final stdoutFile = _fileSystem.file(buildDirUri.resolve('stdout.txt'));
     await stdoutFile.writeAsString('');
-    final stderrFile = _fileSystem.file(
-      input.outputDirectory.resolve('../stderr.txt'),
-    );
+    final stderrFile = _fileSystem.file(buildDirUri.resolve('stderr.txt'));
     await stderrFile.writeAsString('');
     final wrappedLogger =
         Logger.detached('')
@@ -590,21 +593,19 @@ ${e.message}
   Future<(File kernelFile, DependenciesHashFile cacheFile)?>
   _compileHookForPackageCached(
     String packageName,
-    Uri outputDirectory,
+    Uri buildDirUri,
     Uri scriptUri,
   ) async {
     // Don't invalidate cache with environment changes.
     final environmentForCaching = <String, String>{};
-    final packageConfigHashable = outputDirectory.resolve(
-      '../package_config_hashable.json',
+    final packageConfigHashable = buildDirUri.resolve(
+      'package_config_hashable.json',
     );
     await _makeHashablePackageConfig(packageConfigHashable);
-    final kernelFile = _fileSystem.file(
-      outputDirectory.resolve('../hook.dill'),
-    );
-    final depFile = _fileSystem.file(outputDirectory.resolve('../hook.dill.d'));
-    final dependenciesHashFile = outputDirectory.resolve(
-      '../hook.dependencies_hash_file.json',
+    final kernelFile = _fileSystem.file(buildDirUri.resolve('hook.dill'));
+    final depFile = _fileSystem.file(buildDirUri.resolve('hook.dill.d'));
+    final dependenciesHashFile = buildDirUri.resolve(
+      'hook.dependencies_hash_file.json',
     );
     final dependenciesHashes = DependenciesHashFile(
       _fileSystem,

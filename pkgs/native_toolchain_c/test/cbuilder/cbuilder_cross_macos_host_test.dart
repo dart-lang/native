@@ -93,7 +93,7 @@ void main() {
               logger: logger,
             );
 
-            final libUri = tempUri.resolve(
+            final libUri = buildInput.outputDirectory.resolve(
               OS.macOS.libraryFileName(name, linkMode),
             );
             final result = await runProcess(
@@ -190,6 +190,8 @@ Future<Uri> buildLib(
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-  final libUri = tempUri.resolve(OS.iOS.libraryFileName(name, linkMode));
+  final libUri = buildInput.outputDirectory.resolve(
+    OS.iOS.libraryFileName(name, linkMode),
+  );
   return libUri;
 }

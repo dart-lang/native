@@ -20,7 +20,7 @@ void main() async {
     'native_dynamic_linking build',
     () => inTempDir((tempUri) async {
       final buildOutputUri = tempUri.resolve('build_output.json');
-      final outputDirectory = tempUri.resolve('out/');
+      var outputDirectory = tempUri.resolve('out/');
       await Directory.fromUri(outputDirectory).create();
       final outputDirectoryShared = tempUri.resolve('out_shared/');
       await Directory.fromUri(outputDirectoryShared).create();
@@ -56,6 +56,7 @@ void main() async {
       File.fromUri(
         buildInputUri,
       ).writeAsStringSync(jsonEncode(inputBuilder.json));
+      outputDirectory = BuildInput(inputBuilder.json).outputDirectory;
 
       await runPubGet(workingDirectory: testPackageUri, logger: logger);
 

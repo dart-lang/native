@@ -84,7 +84,7 @@ void main() {
           logger: logger,
         );
 
-        final executableUri = tempUri.resolve(
+        final executableUri = buildInput.outputDirectory.resolve(
           OS.current.executableFileName(name),
         );
         expect(await File.fromUri(executableUri).exists(), true);
@@ -170,7 +170,9 @@ void main() {
           logger: logger,
         );
 
-        final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
+        final dylibUri = buildInput.outputDirectory.resolve(
+          OS.current.dylibFileName(name),
+        );
         expect(await File.fromUri(dylibUri).exists(), equals(buildCodeAssets));
         if (buildCodeAssets) {
           final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
@@ -277,7 +279,9 @@ void main() {
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
+    final executableUri = buildInput.outputDirectory.resolve(
+      OS.current.executableFileName(name),
+    );
     expect(await File.fromUri(executableUri).exists(), true);
     final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
@@ -344,7 +348,9 @@ void main() {
     final buildOutput = BuildOutput(buildOutputBuilder.json);
     expect(buildOutput.dependencies, contains(includesHUri));
 
-    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
+    final dylibUri = buildInput.outputDirectory.resolve(
+      OS.current.dylibFileName(name),
+    );
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
     final x = dylib.lookup<Int>('x');
     expect(x.value, 42);
@@ -398,7 +404,9 @@ void main() {
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
+    final dylibUri = buildInput.outputDirectory.resolve(
+      OS.current.dylibFileName(name),
+    );
 
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
     final add = dylib
@@ -465,7 +473,9 @@ void main() {
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
+    final executableUri = buildInput.outputDirectory.resolve(
+      OS.current.executableFileName(name),
+    );
     expect(await File.fromUri(executableUri).exists(), true);
     final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
@@ -540,7 +550,7 @@ void main() {
         logger: logger,
       );
 
-      final executableUri = tempUri.resolve(
+      final executableUri = buildInput.outputDirectory.resolve(
         OS.current.executableFileName(name),
       );
       expect(await File.fromUri(executableUri).exists(), true);
@@ -617,10 +627,12 @@ void main() {
     );
 
     final debugLibraryFile = File.fromUri(
-      tempUri.resolve(OS.current.dylibFileName('debug')),
+      buildInput.outputDirectory.resolve(OS.current.dylibFileName('debug')),
     );
     final nestedDebugLibraryFile = File.fromUri(
-      tempUri.resolve('debug/').resolve(OS.current.dylibFileName('debug')),
+      buildInput.outputDirectory
+          .resolve('debug/')
+          .resolve(OS.current.dylibFileName('debug')),
     );
     await nestedDebugLibraryFile.parent.create(recursive: true);
     await debugLibraryFile.rename(nestedDebugLibraryFile.path);
@@ -655,7 +667,9 @@ void main() {
       logger: logger,
     );
 
-    final executableUri = tempUri.resolve(OS.current.executableFileName(name));
+    final executableUri = buildInput.outputDirectory.resolve(
+      OS.current.executableFileName(name),
+    );
     expect(await File.fromUri(executableUri).exists(), true);
     final result = await runProcess(executable: executableUri, logger: logger);
     expect(result.exitCode, 0);
@@ -718,7 +732,9 @@ Future<void> testDefines({
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-  final executableUri = tempUri.resolve(OS.current.executableFileName(name));
+  final executableUri = buildInput.outputDirectory.resolve(
+    OS.current.executableFileName(name),
+  );
   expect(await File.fromUri(executableUri).exists(), true);
   final result = await runProcess(executable: executableUri, logger: logger);
   expect(result.exitCode, 0);

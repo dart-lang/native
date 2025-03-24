@@ -68,7 +68,9 @@ void main() {
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
+    final dylibUri = buildInput.outputDirectory.resolve(
+      OS.current.dylibFileName(name),
+    );
     expect(await File.fromUri(dylibUri).exists(), true);
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
     final add = dylib

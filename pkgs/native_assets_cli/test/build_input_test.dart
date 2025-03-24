@@ -76,7 +76,10 @@ void main() async {
     expect(input.json, inputJson);
     expect(json.decode(input.toString()), inputJson);
 
-    expect(input.outputDirectory, outDirUri);
+    // The output_directory is deprecated, the hook makes a directory inside the
+    // shared output directory.
+    expect(input.outputDirectory, isNot(outDirUri));
+
     expect(input.outputDirectoryShared, outputDirectoryShared);
 
     expect(input.packageName, packageName);
@@ -105,21 +108,6 @@ void main() async {
         );
       });
     }
-
-    test('BuildInput FormatException out_dir', () {
-      final input = inputJson;
-      input.remove('out_dir');
-      expect(
-        () => BuildInput(input),
-        throwsA(
-          predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains("No value was provided for 'out_dir'."),
-          ),
-        ),
-      );
-    });
 
     test('BuildInput FormatException dependency_metadata', () {
       final input = inputJson;

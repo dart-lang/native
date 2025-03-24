@@ -177,6 +177,8 @@ Future<Uri> buildLib(
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-  final libUri = tempUri.resolve(OS.android.libraryFileName(name, linkMode));
+  final libUri = buildInput.outputDirectory.resolve(
+    OS.android.libraryFileName(name, linkMode),
+  );
   return libUri;
 }

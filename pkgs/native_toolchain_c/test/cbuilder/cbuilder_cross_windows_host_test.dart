@@ -122,7 +122,7 @@ void main() async {
             logger: logger,
           );
 
-          final libUri = tempUri.resolve(
+          final libUri = buildInput.outputDirectory.resolve(
             OS.windows.libraryFileName(name, linkMode),
           );
           expect(await File.fromUri(libUri).exists(), true);

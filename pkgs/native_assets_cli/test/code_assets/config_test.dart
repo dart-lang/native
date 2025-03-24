@@ -158,7 +158,6 @@ void main() async {
       final input = BuildInput(inputJson(targetOS: targetOS));
       expect(input.packageName, packageName);
       expect(input.packageRoot, packageRootUri);
-      expect(input.outputDirectory, outDirUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
       expect(input.config.linkingEnabled, false);
       expect(input.config.buildAssetTypes, [CodeAsset.type]);
@@ -212,7 +211,6 @@ void main() async {
       );
       expect(input.packageName, packageName);
       expect(input.packageRoot, packageRootUri);
-      expect(input.outputDirectory, outDirUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
       expect(input.config.buildAssetTypes, [CodeAsset.type]);
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
