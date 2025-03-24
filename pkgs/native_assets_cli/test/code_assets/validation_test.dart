@@ -76,7 +76,10 @@ void main() {
       input,
       BuildOutput(outputBuilder.json),
     );
-    expect(errors, contains(contains('has no file')));
+    expect(
+      errors,
+      contains(contains("No value was provided for 'assets.0.file'.")),
+    );
   });
 
   for (final (linkModePreference, linkMode) in [
@@ -331,7 +334,8 @@ void main() {
         ),
       );
     });
-    test('Missing targetMacOSVersion', () async {
+
+    test('Missing config.code.macos', () async {
       final builder =
           makeBuildInputBuilder()
             ..config.setupShared(buildAssetTypes: [CodeAsset.type])
@@ -356,8 +360,18 @@ void main() {
           ),
         ),
       );
+
+      traverseJson<Map<String, Object?>>(builder.json, [
+        'config',
+        'code',
+      ]).remove('macos');
+      expect(
+        await validateCodeAssetBuildInput(BuildInput(builder.json)),
+        contains(contains('No value was provided for \'config.code.macos\'.')),
+      );
     });
-    test('Nonexisting compiler/archiver/linker/envScript', () async {
+
+    test('CCompilerConfig validation', () async {
       final nonExistent = outDirUri.resolve('foo baz');
       final builder =
           makeBuildInputBuilder()
@@ -393,6 +407,44 @@ void main() {
       expect(
         errors.any((e) => matches(e, 'windows.developerCommandPrompt.script')),
         true,
+      );
+
+      // If developer command prompt is present, it must contain the script.
+      traverseJson<Map<String, Object?>>(builder.json, [
+        'config',
+        'code',
+        'c_compiler',
+        'windows',
+        'developer_command_prompt',
+      ]).remove('script');
+      expect(
+        await validateCodeAssetBuildInput(BuildInput(builder.json)),
+        contains(
+          contains(
+            'No value was provided for '
+            "'config.code.c_compiler.windows.developer_command_prompt.script'.",
+          ),
+        ),
+      );
+
+      // `developer_command_prompt` is optional for the case where clang is
+      // used on Windows. So no syntax error is expected.
+
+      // If target OS is Windows, CCompilerConfig if present must contain
+      // the Windows config.
+      traverseJson<Map<String, Object?>>(builder.json, [
+        'config',
+        'code',
+        'c_compiler',
+      ]).remove('windows');
+      expect(
+        await validateCodeAssetBuildInput(BuildInput(builder.json)),
+        contains(
+          contains(
+            'No value was provided for '
+            "'config.code.c_compiler.windows'.",
+          ),
+        ),
       );
     });
   });

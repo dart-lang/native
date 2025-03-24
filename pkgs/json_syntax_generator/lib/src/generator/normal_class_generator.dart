@@ -34,6 +34,7 @@ class $className $extendsString {
     buffer.writeln(_generateSetupMethod());
     buffer.writeln(_generateAccessors());
     buffer.writeln(_generateValidateMethod());
+    buffer.writeln(_generateExtraValidationMethod());
     buffer.writeln(_generateToString());
     buffer.writeln('''
 }
@@ -244,6 +245,7 @@ class $className $extendsString {
     final validateCalls = [
       for (final property in classInfo.properties)
         '...${property.validateName}()',
+      if (classInfo.extraValidation.isNotEmpty) '..._validateExtraRules()',
     ];
     final validateCallsString = validateCalls.join(',\n');
 
@@ -262,6 +264,65 @@ class $className $extendsString {
     $validateCallsString
   ];
 ''';
+  }
+
+  String _generateExtraValidationMethod() {
+    if (classInfo.extraValidation.isEmpty) return '';
+    final statements =
+        classInfo.extraValidation
+            .map(_generateExtraValidationStatements)
+            .join()
+            .trim();
+    return '''
+  List<String> _validateExtraRules() {
+    final result = <String>[];
+    $statements
+    return result;
+  }
+''';
+  }
+
+  String _generateExtraValidationStatements(
+    ConditionallyRequired extraValidationRule,
+  ) {
+    final path = extraValidationRule.conditionPath;
+    final values = extraValidationRule.conditionValues;
+    final requiredPath = extraValidationRule.requiredPath;
+    final pathString = path.map((e) => "'$e'").join(',');
+    final traverseExpression = '_reader.tryTraverse([$pathString])';
+    final String conditionExpression;
+    if (values.length == 1) {
+      conditionExpression = "$traverseExpression == '${values.single}'";
+    } else {
+      final valuesString = values.map((e) => "'$e'").join(',');
+      conditionExpression = '[$valuesString].contains($traverseExpression)';
+    }
+    if (requiredPath.length == 1) {
+      final jsonKey = requiredPath.single;
+      return """
+    if ($conditionExpression) {
+      result.addAll(_reader.validate<Object>('$jsonKey'));
+    }
+""";
+    } else if (requiredPath.length == 2) {
+      final jsonKey0 = requiredPath[0];
+      final jsonKey1 = requiredPath[1];
+      return """
+    if ($conditionExpression) {
+      final objectErrors = _reader.validate<Map<String, Object?>?>('$jsonKey0');
+      result.addAll(objectErrors);
+      if (objectErrors.isEmpty) {
+        final jsonValue = _reader.get<Map<String, Object?>?>('$jsonKey0');
+        if (jsonValue != null) {
+          final reader = JsonReader(jsonValue, [...path, '$jsonKey0']);
+          result.addAll(reader.validate<Object>('$jsonKey1'));
+        }
+      }
+    }
+""";
+    } else {
+      throw UnimplementedError('Different path lengths not implemented yet.');
+    }
   }
 
   String _generateToString() {

@@ -124,6 +124,7 @@ class SchemaAnalyzer {
     final superSchemas = schemas.superClassSchemas;
     final propertyKeys = schemas.propertyKeys;
     final settersPrivate = !publicSetters.contains(typeName);
+
     for (final propertyKey in propertyKeys) {
       if (propertyKey == r'$schema') continue;
       final propertySchemas = schemas.property(propertyKey);
@@ -156,6 +157,8 @@ class SchemaAnalyzer {
       }
     }
 
+    final extraValidation = _extractExtraValidation(schemas.ifThenSchemas);
+
     final classInfo = NormalClassInfo(
       name: typeName,
       superclass: superclass,
@@ -163,12 +166,72 @@ class SchemaAnalyzer {
       taggedUnionValue: taggedUnionValue,
       taggedUnionProperty:
           schemas.generateSubClasses ? properties.single.name : null,
+      extraValidation: extraValidation,
     );
     _classes[typeName] = classInfo;
     if (schemas.generateSubClasses) {
       _analyzeSubClasses(schemas, name: name, superclass: classInfo);
       return;
     }
+  }
+
+  List<ConditionallyRequired> _extractExtraValidation(
+    List<(JsonSchemas, JsonSchemas)> ifThenSchemas,
+  ) {
+    final result = <ConditionallyRequired>[];
+    for (final (ifSchema, thenSchema) in ifThenSchemas) {
+      // Extract required path.
+
+      final requiredPath = <String>[];
+      var thenSchemaTraversed = thenSchema;
+      while (thenSchemaTraversed.propertyKeys.length == 1) {
+        final propertyKey = thenSchemaTraversed.propertyKeys.single;
+        requiredPath.add(propertyKey);
+        thenSchemaTraversed = thenSchemaTraversed.property(propertyKey);
+      }
+      final requiredProperties = thenSchemaTraversed.requiredProperties;
+      if (requiredProperties.length == 1) {
+        requiredPath.add(requiredProperties.single);
+      } else {
+        continue;
+      }
+
+      // Extract condition path.
+      final path = <String>[];
+      var ifSchemaTraversed = ifSchema;
+      while (ifSchemaTraversed.propertyKeys.length == 1) {
+        final propertyKey = ifSchemaTraversed.propertyKeys.single;
+        path.add(propertyKey);
+        ifSchemaTraversed = ifSchemaTraversed.property(propertyKey);
+      }
+
+      // Extract condition values.
+      final values = <String>[];
+      final singleConstValue = ifSchemaTraversed.constValue;
+      if (singleConstValue != null) {
+        values.add(singleConstValue as String);
+      } else {
+        final anyOfs = ifSchemaTraversed.anyOfs.single;
+        for (final anyOf in anyOfs) {
+          final constValue = anyOf.constValue;
+          if (constValue != null) {
+            values.add(constValue as String);
+          }
+        }
+      }
+
+      if (values.isEmpty) {
+        continue;
+      }
+      result.add(
+        ConditionallyRequired(
+          conditionPath: path,
+          conditionValues: values,
+          requiredPath: requiredPath,
+        ),
+      );
+    }
+    return result;
   }
 
   void _analyzeSubClasses(
@@ -403,6 +466,12 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
 
   bool propertyRequired(String? property) =>
       _schemas.any((e) => e.propertyRequired(property));
+
+  List<String> get requiredProperties =>
+      <String>{
+          for (final schema in _schemas) ...schema.requiredProperties ?? [],
+        }.toList()
+        ..sort();
 
   SchemaType? get type {
     final types = <SchemaType>{};

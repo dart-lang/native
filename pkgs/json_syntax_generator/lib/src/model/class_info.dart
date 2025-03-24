@@ -43,12 +43,15 @@ class NormalClassInfo extends ClassInfo {
   bool get isTaggedUnion =>
       taggedUnionProperty != null || taggedUnionValue != null;
 
+  final List<ConditionallyRequired> extraValidation;
+
   NormalClassInfo({
     required super.name,
     this.superclass,
     required this.properties,
     this.taggedUnionProperty,
     this.taggedUnionValue,
+    this.extraValidation = const [],
   }) : super() {
     superclass?.subclasses.add(this);
     if (taggedUnionValue != null) {
@@ -61,6 +64,9 @@ class NormalClassInfo extends ClassInfo {
     final propertiesString = properties
         .map((p) => indentLines(p.toString(), level: 2))
         .join(',\n');
+    final extraValidationString = extraValidation
+        .map((p) => indentLines(p.toString(), level: 2))
+        .join('\n');
     return '''
 $runtimeType(
   name: $name,
@@ -71,8 +77,37 @@ $propertiesString
   ],
   taggedUnionProperty: $taggedUnionProperty,
   taggedUnionValue: $taggedUnionValue,
+  extraValidation: [
+$extraValidationString
+  ],
 )''';
   }
+}
+
+/// The property [requiredPath] is required if some [conditionPath] has a value
+/// in [conditionValues].
+///
+/// This class is special cased to cover the uses cases seen so far. If
+/// different types of conditionals are needed, this class should probably be
+/// extended to cover some arbitrary expression.
+class ConditionallyRequired {
+  final List<String> conditionPath;
+  final List<String> conditionValues;
+  final List<String> requiredPath;
+
+  const ConditionallyRequired({
+    required this.conditionPath,
+    required this.conditionValues,
+    required this.requiredPath,
+  });
+
+  @override
+  String toString() => '''
+ConditionallyRequired(
+  path: $conditionPath,
+  values: $conditionValues,
+  required: $requiredPath,
+)''';
 }
 
 class EnumClassInfo extends ClassInfo {

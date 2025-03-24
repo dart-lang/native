@@ -761,6 +761,19 @@ class JsonReader {
     return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
         ' Expected a $expectedType.';
   }
+
+  /// Traverses a JSON path, returns `null` if the path cannot be traversed.
+  Object? tryTraverse(List<String> path) {
+    Object? json = this.json;
+    while (path.isNotEmpty) {
+      final key = path.removeAt(0);
+      if (json is! Map<String, Object?>) {
+        return null;
+      }
+      json = json[key];
+    }
+    return json;
+  }
 }
 
 extension on Map<String, Object?> {
