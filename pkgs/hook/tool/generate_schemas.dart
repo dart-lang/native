@@ -43,6 +43,15 @@ void generateSharedDefinitions() {
           },
         },
       },
+      'assets_for_linking': {
+        'type': 'object',
+        'additionalProperties': {
+          'type': 'array',
+          'items': {
+            r'$ref': 'shared_definitions.schema.json#/definitions/Asset',
+          },
+        },
+      },
     },
   };
   const linkInputAssetOverride = {

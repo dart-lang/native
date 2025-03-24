@@ -116,10 +116,14 @@ FieldsFunction _codeFields(AllTestData allTestData) {
           (['assets', 0, ...field], expectRequiredFieldMissing),
         if (hook == Hook.build) ...[
           for (final field in requiredCodeAssetFields)
-            (
-              ['assetsForLinking', 'package_with_linker', 0, ...field],
-              expectRequiredFieldMissing,
-            ),
+            for (final assetsForLinking in [
+              'assetsForLinking',
+              'assets_for_linking',
+            ])
+              (
+                [assetsForLinking, 'package_with_linker', 0, ...field],
+                expectRequiredFieldMissing,
+              ),
         ],
         (['assets', staticIndex, 'file'], expectRequiredFieldMissing),
         (

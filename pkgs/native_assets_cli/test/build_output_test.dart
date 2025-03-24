@@ -65,6 +65,12 @@ void main() {
         ],
         'package:linker2': <Object?>[],
       },
+      'assets_for_linking': {
+        'package:linker1': [
+          {'a-1': 'v-1', 'type': 'my-asset-type'},
+        ],
+        'package:linker2': <Object?>[],
+      },
     }.forEach((k, v) {
       expect(input.json[k], equals(v));
     });

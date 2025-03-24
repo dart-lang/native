@@ -50,10 +50,14 @@ List<(List<Object>, void Function(ValidationResults result))> _dataFields({
       (['assets', 0, field], expectRequiredFieldMissing),
     if (hook == Hook.build) ...[
       for (final field in _dataAssetFields)
-        (
-          ['assetsForLinking', 'package_with_linker', 0, field],
-          expectRequiredFieldMissing,
-        ),
+        for (final assetsForLinking in [
+          'assetsForLinking',
+          'assets_for_linking',
+        ])
+          (
+            [assetsForLinking, 'package_with_linker', 0, field],
+            expectRequiredFieldMissing,
+          ),
     ],
   ],
 ];
