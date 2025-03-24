@@ -17,22 +17,14 @@
       "type": "string",
       "anyOf": [
         {
-          "const": "arm"
-        },
-        {
-          "const": "arm64"
-        },
-        {
-          "const": "ia32"
-        },
-        {
-          "const": "riscv32"
-        },
-        {
-          "const": "riscv64"
-        },
-        {
-          "const": "x64"
+          "enum": [
+            "arm",
+            "arm64",
+            "ia32",
+            "riscv32",
+            "riscv64",
+            "x64"
+          ]
         },
         {
           "type": "string"
@@ -288,19 +280,13 @@
           "type": "string",
           "anyOf": [
             {
-              "const": "dynamic_loading_bundle"
-            },
-            {
-              "const": "dynamic_loading_executable"
-            },
-            {
-              "const": "dynamic_loading_process"
-            },
-            {
-              "const": "dynamic_loading_system"
-            },
-            {
-              "const": "static"
+              "enum": [
+                "dynamic_loading_bundle",
+                "dynamic_loading_executable",
+                "dynamic_loading_process",
+                "dynamic_loading_system",
+                "static"
+              ]
             },
             {
               "type": "string"
@@ -333,22 +319,14 @@
       "type": "string",
       "anyOf": [
         {
-          "const": "dynamic"
-        },
-        {
-          "const": "prefer_dynamic"
-        },
-        {
-          "const": "prefer_static"
-        },
-        {
-          "const": "prefer-dynamic"
-        },
-        {
-          "const": "prefer-static"
-        },
-        {
-          "const": "static"
+          "enum": [
+            "dynamic",
+            "prefer_dynamic",
+            "prefer-dynamic",
+            "prefer_static",
+            "prefer-static",
+            "static"
+          ]
         },
         {
           "type": "string"
@@ -370,19 +348,13 @@
       "type": "string",
       "anyOf": [
         {
-          "const": "android"
-        },
-        {
-          "const": "ios"
-        },
-        {
-          "const": "linux"
-        },
-        {
-          "const": "macos"
-        },
-        {
-          "const": "windows"
+          "enum": [
+            "android",
+            "ios",
+            "linux",
+            "macos",
+            "windows"
+          ]
         },
         {
           "type": "string"

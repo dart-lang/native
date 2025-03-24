@@ -86,9 +86,7 @@ class SchemaAnalyzer {
     typeName ??= _ucFirst(_snakeToCamelCase(name!));
     if (_classes[typeName] != null) return; // Already analyzed.
 
-    final anyOf = schemas.anyOfs.single;
-    final values =
-        anyOf.map((e) => e.constValue).whereType<String>().toList()..sort();
+    final values = schemas.enumOrTaggedUnionValues;
     _classes[typeName] = EnumClassInfo(
       name: typeName,
       enumValues: [
@@ -243,9 +241,7 @@ class SchemaAnalyzer {
 
     final propertyKey = schemas.propertyKeys.single;
     final typeProperty = schemas.property(propertyKey);
-    final anyOf = typeProperty.anyOfs.single;
-    final subTypes =
-        anyOf.map((e) => e.constValue).whereType<String>().toList();
+    final subTypes = typeProperty.enumOrTaggedUnionValues;
     for (final subType in subTypes) {
       final ifThenSchemas = schemas.ifThenSchemas;
       final subTypeNameShort = _ucFirst(_snakeToCamelCase(subType));
@@ -591,6 +587,12 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
     return result.singleOrNull;
   }
 
+  List<String> get enum_ => [
+    for (final schema in _schemas)
+      for (final value in schema.enumValues ?? [])
+        if (value is String) value,
+  ];
+
   List<Uri> get refs {
     final result = <Uri>[];
     for (final schema in _schemas) {
@@ -695,6 +697,14 @@ extension on JsonSchemas {
     }
     throw StateError('No super class schema found for $parentClassName.');
   }
+
+  List<String> get enumOrTaggedUnionValues => [
+    for (final schema in _schemas)
+      for (final s in schema.anyOf) ...[
+        if (s.constValue is String) s.constValue as String,
+        ...s.enumValues?.whereType<String>() ?? [],
+      ],
+  ]..sort();
 }
 
 extension on String {
