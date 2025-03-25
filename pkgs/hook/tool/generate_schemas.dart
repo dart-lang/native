@@ -114,7 +114,7 @@ void generateSharedDefinitions() {
                       r'$ref':
                           '../shared/shared_definitions${package == 'hook' ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
                     },
-                  if (package == 'hook' && party != Party.shared)
+                  if (package != 'data_assets' && party != Party.shared)
                     {
                       r'$ref':
                           'shared_definitions.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',

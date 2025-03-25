@@ -17,6 +17,21 @@
       "target_architecture": "arm",
       "target_os": "android"
     },
+    "extensions": {
+      "code_assets": {
+        "android": {
+          "target_ndk_api": 21
+        },
+        "c_compiler": {
+          "ar": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar",
+          "cc": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+          "ld": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
+        },
+        "link_mode_preference": "dynamic",
+        "target_architecture": "arm",
+        "target_os": "android"
+      }
+    },
     "linking_enabled": true
   },
   "out_dir": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/out/",

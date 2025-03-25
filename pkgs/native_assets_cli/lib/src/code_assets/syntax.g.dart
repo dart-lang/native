@@ -620,8 +620,11 @@ class Config {
 
   Config.fromJson(this.json, {this.path = const []});
 
-  Config({required CodeConfig? code}) : json = {}, path = const [] {
+  Config({required CodeConfig? code, required ConfigExtensions? extensions})
+    : json = {},
+      path = const [] {
     this.code = code;
+    this.extensions = extensions;
     json.sortOnKey();
   }
 
@@ -644,10 +647,70 @@ class Config {
     return code?.validate() ?? [];
   }
 
-  List<String> validate() => [..._validateCode()];
+  ConfigExtensions? get extensions {
+    final jsonValue = _reader.optionalMap('extensions');
+    if (jsonValue == null) return null;
+    return ConfigExtensions.fromJson(jsonValue, path: [...path, 'extensions']);
+  }
+
+  set extensions(ConfigExtensions? value) {
+    json.setOrRemove('extensions', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateExtensions() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('extensions');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return extensions?.validate() ?? [];
+  }
+
+  List<String> validate() => [..._validateCode(), ..._validateExtensions()];
 
   @override
   String toString() => 'Config($json)';
+}
+
+class ConfigExtensions {
+  final Map<String, Object?> json;
+
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  ConfigExtensions.fromJson(this.json, {this.path = const []});
+
+  ConfigExtensions({required CodeConfig? codeAssets})
+    : json = {},
+      path = const [] {
+    this.codeAssets = codeAssets;
+    json.sortOnKey();
+  }
+
+  CodeConfig? get codeAssets {
+    final jsonValue = _reader.optionalMap('code_assets');
+    if (jsonValue == null) return null;
+    return CodeConfig.fromJson(jsonValue, path: [...path, 'code_assets']);
+  }
+
+  set codeAssets(CodeConfig? value) {
+    json.setOrRemove('code_assets', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateCodeAssets() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('code_assets');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return codeAssets?.validate() ?? [];
+  }
+
+  List<String> validate() => [..._validateCodeAssets()];
+
+  @override
+  String toString() => 'ConfigExtensions($json)';
 }
 
 class IOSCodeConfig {

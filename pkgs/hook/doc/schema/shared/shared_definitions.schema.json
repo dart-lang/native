@@ -89,11 +89,18 @@
           "items": {
             "type": "string"
           }
+        },
+        "extensions": {
+          "$ref": "#/definitions/ConfigExtensions"
         }
       },
       "required": [
         "build_asset_types"
       ]
+    },
+    "ConfigExtensions": {
+      "type": "object",
+      "additionalProperties": true
     },
     "HookInput": {
       "type": "object",

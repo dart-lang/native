@@ -255,6 +255,17 @@
       "properties": {
         "code": {
           "$ref": "#/definitions/CodeConfig"
+        },
+        "extensions": {
+          "$ref": "#/definitions/ConfigExtensions"
+        }
+      }
+    },
+    "ConfigExtensions": {
+      "type": "object",
+      "properties": {
+        "code_assets": {
+          "$ref": "#/definitions/CodeConfig"
         }
       }
     },
