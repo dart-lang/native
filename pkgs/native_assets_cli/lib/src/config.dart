@@ -151,7 +151,7 @@ String _jsonChecksum(Map<String, Object?> json) {
 final class BuildInput extends HookInput {
   Map<String, Metadata> get metadata => {
     for (final entry in (_syntaxBuildInput.dependencyMetadata ?? {}).entries)
-      entry.key: Metadata.fromJson(entry.value),
+      entry.key: Metadata(entry.value),
   };
 
   @override

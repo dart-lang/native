@@ -13,14 +13,21 @@ final class EncodedAsset {
   final String type;
 
   /// The json encoding of the asset.
-  final Map<String, Object?> encoding;
+  final UnmodifiableMapView<String, Object?> encoding;
 
   /// The path of this object in a larger JSON.
   ///
   /// If provided, used for more precise error messages.
   final List<Object>? jsonPath;
 
-  EncodedAsset(this.type, this.encoding, {this.jsonPath});
+  EncodedAsset._(this.type, this.encoding, {this.jsonPath});
+
+  EncodedAsset(this.type, Map<String, Object?> encoding, {this.jsonPath})
+    : encoding = UnmodifiableMapView(
+        // It would be better if `encoding` would be deep copied.
+        // https://github.com/dart-lang/native/issues/2045
+        Map.of(encoding),
+      );
 
   /// Decode an [EncodedAsset] from json.
   factory EncodedAsset.fromJson(
@@ -28,10 +35,14 @@ final class EncodedAsset {
     List<Object>? path,
   ]) {
     final syntax_ = syntax.Asset.fromJson(json);
-    return EncodedAsset(syntax_.type, {
-      for (final key in json.keys)
-        if (key != _typeKey) key: json[key],
-    }, jsonPath: path);
+    return EncodedAsset._(
+      syntax_.type,
+      UnmodifiableMapView({
+        for (final key in json.keys)
+          if (key != _typeKey) key: json[key],
+      }),
+      jsonPath: path,
+    );
   }
 
   /// Encode this [EncodedAsset] tojson.
@@ -42,7 +53,6 @@ final class EncodedAsset {
   @override
   String toString() => 'EncodedAsset($type, $encoding)';
 
-  // TODO(https://github.com/dart-lang/native/issues/2045): Fix this.
   @override
   int get hashCode => Object.hash(type, const DeepCollectionEquality().hash);
 

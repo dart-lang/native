@@ -30,11 +30,11 @@ void main() async {
     packageName = 'my_package';
     packageRootUri = tempUri.resolve('$packageName/');
     metadata = {
-      'bar': const Metadata({
+      'bar': Metadata({
         'key': 'value',
         'foo': ['asdf', 'fdsa'],
       }),
-      'foo': const Metadata({'key': 321}),
+      'foo': Metadata({'key': 321}),
     };
 
     inputJson = {
