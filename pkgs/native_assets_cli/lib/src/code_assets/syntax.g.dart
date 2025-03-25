@@ -124,130 +124,6 @@ class Asset {
   String toString() => 'Asset($json)';
 }
 
-class NativeCodeAsset extends Asset {
-  NativeCodeAsset.fromJson(super.json, {super.path}) : super._fromJson();
-
-  NativeCodeAsset({
-    required Architecture architecture,
-    required Uri? file,
-    required String id,
-    required LinkMode linkMode,
-    required OS os,
-  }) : super(type: 'native_code') {
-    _architecture = architecture;
-    _file = file;
-    _id = id;
-    _linkMode = linkMode;
-    _os = os;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [NativeCodeAsset] that are not in
-  /// [Asset].
-  void setup({
-    required Architecture architecture,
-    required Uri? file,
-    required String id,
-    required LinkMode linkMode,
-    required OS os,
-  }) {
-    _architecture = architecture;
-    _file = file;
-    _id = id;
-    _linkMode = linkMode;
-    _os = os;
-    json.sortOnKey();
-  }
-
-  Architecture get architecture {
-    final jsonValue = _reader.get<String>('architecture');
-    return Architecture.fromJson(jsonValue);
-  }
-
-  set _architecture(Architecture value) {
-    json['architecture'] = value.name;
-  }
-
-  List<String> _validateArchitecture() =>
-      _reader.validate<String>('architecture');
-
-  Uri? get file => _reader.optionalPath('file');
-
-  set _file(Uri? value) {
-    json.setOrRemove('file', value?.toFilePath());
-  }
-
-  List<String> _validateFile() => _reader.validateOptionalPath('file');
-
-  String get id => _reader.get<String>('id');
-
-  set _id(String value) {
-    json.setOrRemove('id', value);
-  }
-
-  List<String> _validateId() => _reader.validate<String>('id');
-
-  LinkMode get linkMode {
-    final jsonValue = _reader.map$('link_mode');
-    return LinkMode.fromJson(jsonValue, path: [...path, 'link_mode']);
-  }
-
-  set _linkMode(LinkMode value) {
-    json['link_mode'] = value.json;
-  }
-
-  List<String> _validateLinkMode() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('link_mode');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return linkMode.validate();
-  }
-
-  OS get os {
-    final jsonValue = _reader.get<String>('os');
-    return OS.fromJson(jsonValue);
-  }
-
-  set _os(OS value) {
-    json['os'] = value.name;
-  }
-
-  List<String> _validateOs() => _reader.validate<String>('os');
-
-  @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateArchitecture(),
-    ..._validateFile(),
-    ..._validateId(),
-    ..._validateLinkMode(),
-    ..._validateOs(),
-    ..._validateExtraRules(),
-  ];
-
-  List<String> _validateExtraRules() {
-    final result = <String>[];
-    if ([
-      'dynamic_loading_bundle',
-      'static',
-    ].contains(_reader.tryTraverse(['link_mode', 'type']))) {
-      result.addAll(_reader.validate<Object>('file'));
-    }
-    return result;
-  }
-
-  @override
-  String toString() => 'NativeCodeAsset($json)';
-}
-
-extension NativeCodeAssetExtension on Asset {
-  bool get isNativeCodeAsset => type == 'native_code';
-
-  NativeCodeAsset get asNativeCodeAsset =>
-      NativeCodeAsset.fromJson(json, path: path);
-}
-
 class CCompilerConfig {
   final Map<String, Object?> json;
 
@@ -347,90 +223,6 @@ class CCompilerConfig {
 
   @override
   String toString() => 'CCompilerConfig($json)';
-}
-
-class Windows {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  Windows.fromJson(this.json, {this.path = const []});
-
-  Windows({required DeveloperCommandPrompt? developerCommandPrompt})
-    : json = {},
-      path = const [] {
-    _developerCommandPrompt = developerCommandPrompt;
-    json.sortOnKey();
-  }
-
-  DeveloperCommandPrompt? get developerCommandPrompt {
-    final jsonValue = _reader.optionalMap('developer_command_prompt');
-    if (jsonValue == null) return null;
-    return DeveloperCommandPrompt.fromJson(
-      jsonValue,
-      path: [...path, 'developer_command_prompt'],
-    );
-  }
-
-  set _developerCommandPrompt(DeveloperCommandPrompt? value) {
-    json.setOrRemove('developer_command_prompt', value?.json);
-  }
-
-  List<String> _validateDeveloperCommandPrompt() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>(
-      'developer_command_prompt',
-    );
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return developerCommandPrompt?.validate() ?? [];
-  }
-
-  List<String> validate() => [..._validateDeveloperCommandPrompt()];
-
-  @override
-  String toString() => 'Windows($json)';
-}
-
-class DeveloperCommandPrompt {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  DeveloperCommandPrompt.fromJson(this.json, {this.path = const []});
-
-  DeveloperCommandPrompt({required List<String> arguments, required Uri script})
-    : json = {},
-      path = const [] {
-    _arguments = arguments;
-    _script = script;
-    json.sortOnKey();
-  }
-
-  List<String> get arguments => _reader.stringList('arguments');
-
-  set _arguments(List<String> value) {
-    json['arguments'] = value;
-  }
-
-  List<String> _validateArguments() => _reader.validateStringList('arguments');
-
-  Uri get script => _reader.path$('script');
-
-  set _script(Uri value) {
-    json['script'] = value.toFilePath();
-  }
-
-  List<String> _validateScript() => _reader.validatePath('script');
-
-  List<String> validate() => [..._validateArguments(), ..._validateScript()];
-
-  @override
-  String toString() => 'DeveloperCommandPrompt($json)';
 }
 
 class CodeConfig {
@@ -713,98 +505,43 @@ class ConfigExtensions {
   String toString() => 'ConfigExtensions($json)';
 }
 
-class IOSCodeConfig {
+class DeveloperCommandPrompt {
   final Map<String, Object?> json;
 
   final List<Object> path;
 
   JsonReader get _reader => JsonReader(json, path);
 
-  IOSCodeConfig.fromJson(this.json, {this.path = const []});
+  DeveloperCommandPrompt.fromJson(this.json, {this.path = const []});
 
-  IOSCodeConfig({required String targetSdk, required int targetVersion})
+  DeveloperCommandPrompt({required List<String> arguments, required Uri script})
     : json = {},
       path = const [] {
-    _targetSdk = targetSdk;
-    _targetVersion = targetVersion;
+    _arguments = arguments;
+    _script = script;
     json.sortOnKey();
   }
 
-  String get targetSdk => _reader.get<String>('target_sdk');
+  List<String> get arguments => _reader.stringList('arguments');
 
-  set _targetSdk(String value) {
-    json.setOrRemove('target_sdk', value);
+  set _arguments(List<String> value) {
+    json['arguments'] = value;
   }
 
-  List<String> _validateTargetSdk() => _reader.validate<String>('target_sdk');
+  List<String> _validateArguments() => _reader.validateStringList('arguments');
 
-  int get targetVersion => _reader.get<int>('target_version');
+  Uri get script => _reader.path$('script');
 
-  set _targetVersion(int value) {
-    json.setOrRemove('target_version', value);
+  set _script(Uri value) {
+    json['script'] = value.toFilePath();
   }
 
-  List<String> _validateTargetVersion() =>
-      _reader.validate<int>('target_version');
+  List<String> _validateScript() => _reader.validatePath('script');
 
-  List<String> validate() => [
-    ..._validateTargetSdk(),
-    ..._validateTargetVersion(),
-  ];
+  List<String> validate() => [..._validateArguments(), ..._validateScript()];
 
   @override
-  String toString() => 'IOSCodeConfig($json)';
-}
-
-class LinkMode {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  factory LinkMode.fromJson(
-    Map<String, Object?> json, {
-    List<Object> path = const [],
-  }) {
-    final result = LinkMode._fromJson(json, path: path);
-    if (result.isDynamicLoadingBundleLinkMode) {
-      return result.asDynamicLoadingBundleLinkMode;
-    }
-    if (result.isDynamicLoadingExecutableLinkMode) {
-      return result.asDynamicLoadingExecutableLinkMode;
-    }
-    if (result.isDynamicLoadingProcessLinkMode) {
-      return result.asDynamicLoadingProcessLinkMode;
-    }
-    if (result.isDynamicLoadingSystemLinkMode) {
-      return result.asDynamicLoadingSystemLinkMode;
-    }
-    if (result.isStaticLinkMode) {
-      return result.asStaticLinkMode;
-    }
-    return result;
-  }
-
-  LinkMode._fromJson(this.json, {this.path = const []});
-
-  LinkMode({required String type}) : json = {}, path = const [] {
-    _type = type;
-    json.sortOnKey();
-  }
-
-  String get type => _reader.get<String>('type');
-
-  set _type(String value) {
-    json.setOrRemove('type', value);
-  }
-
-  List<String> _validateType() => _reader.validate<String>('type');
-
-  List<String> validate() => [..._validateType()];
-
-  @override
-  String toString() => 'LinkMode($json)';
+  String toString() => 'DeveloperCommandPrompt($json)';
 }
 
 class DynamicLoadingBundleLinkMode extends LinkMode {
@@ -908,23 +645,98 @@ extension DynamicLoadingSystemLinkModeExtension on LinkMode {
       DynamicLoadingSystemLinkMode.fromJson(json, path: path);
 }
 
-class StaticLinkMode extends LinkMode {
-  StaticLinkMode.fromJson(super.json, {super.path}) : super._fromJson();
+class IOSCodeConfig {
+  final Map<String, Object?> json;
 
-  StaticLinkMode() : super(type: 'static');
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  IOSCodeConfig.fromJson(this.json, {this.path = const []});
+
+  IOSCodeConfig({required String targetSdk, required int targetVersion})
+    : json = {},
+      path = const [] {
+    _targetSdk = targetSdk;
+    _targetVersion = targetVersion;
+    json.sortOnKey();
+  }
+
+  String get targetSdk => _reader.get<String>('target_sdk');
+
+  set _targetSdk(String value) {
+    json.setOrRemove('target_sdk', value);
+  }
+
+  List<String> _validateTargetSdk() => _reader.validate<String>('target_sdk');
+
+  int get targetVersion => _reader.get<int>('target_version');
+
+  set _targetVersion(int value) {
+    json.setOrRemove('target_version', value);
+  }
+
+  List<String> _validateTargetVersion() =>
+      _reader.validate<int>('target_version');
+
+  List<String> validate() => [
+    ..._validateTargetSdk(),
+    ..._validateTargetVersion(),
+  ];
 
   @override
-  List<String> validate() => [...super.validate()];
-
-  @override
-  String toString() => 'StaticLinkMode($json)';
+  String toString() => 'IOSCodeConfig($json)';
 }
 
-extension StaticLinkModeExtension on LinkMode {
-  bool get isStaticLinkMode => type == 'static';
+class LinkMode {
+  final Map<String, Object?> json;
 
-  StaticLinkMode get asStaticLinkMode =>
-      StaticLinkMode.fromJson(json, path: path);
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  factory LinkMode.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = LinkMode._fromJson(json, path: path);
+    if (result.isDynamicLoadingBundleLinkMode) {
+      return result.asDynamicLoadingBundleLinkMode;
+    }
+    if (result.isDynamicLoadingExecutableLinkMode) {
+      return result.asDynamicLoadingExecutableLinkMode;
+    }
+    if (result.isDynamicLoadingProcessLinkMode) {
+      return result.asDynamicLoadingProcessLinkMode;
+    }
+    if (result.isDynamicLoadingSystemLinkMode) {
+      return result.asDynamicLoadingSystemLinkMode;
+    }
+    if (result.isStaticLinkMode) {
+      return result.asStaticLinkMode;
+    }
+    return result;
+  }
+
+  LinkMode._fromJson(this.json, {this.path = const []});
+
+  LinkMode({required String type}) : json = {}, path = const [] {
+    _type = type;
+    json.sortOnKey();
+  }
+
+  String get type => _reader.get<String>('type');
+
+  set _type(String value) {
+    json.setOrRemove('type', value);
+  }
+
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  List<String> validate() => [..._validateType()];
+
+  @override
+  String toString() => 'LinkMode($json)';
 }
 
 class LinkModePreference {
@@ -1002,6 +814,130 @@ class MacOSCodeConfig {
   String toString() => 'MacOSCodeConfig($json)';
 }
 
+class NativeCodeAsset extends Asset {
+  NativeCodeAsset.fromJson(super.json, {super.path}) : super._fromJson();
+
+  NativeCodeAsset({
+    required Architecture architecture,
+    required Uri? file,
+    required String id,
+    required LinkMode linkMode,
+    required OS os,
+  }) : super(type: 'native_code') {
+    _architecture = architecture;
+    _file = file;
+    _id = id;
+    _linkMode = linkMode;
+    _os = os;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [NativeCodeAsset] that are not in
+  /// [Asset].
+  void setup({
+    required Architecture architecture,
+    required Uri? file,
+    required String id,
+    required LinkMode linkMode,
+    required OS os,
+  }) {
+    _architecture = architecture;
+    _file = file;
+    _id = id;
+    _linkMode = linkMode;
+    _os = os;
+    json.sortOnKey();
+  }
+
+  Architecture get architecture {
+    final jsonValue = _reader.get<String>('architecture');
+    return Architecture.fromJson(jsonValue);
+  }
+
+  set _architecture(Architecture value) {
+    json['architecture'] = value.name;
+  }
+
+  List<String> _validateArchitecture() =>
+      _reader.validate<String>('architecture');
+
+  Uri? get file => _reader.optionalPath('file');
+
+  set _file(Uri? value) {
+    json.setOrRemove('file', value?.toFilePath());
+  }
+
+  List<String> _validateFile() => _reader.validateOptionalPath('file');
+
+  String get id => _reader.get<String>('id');
+
+  set _id(String value) {
+    json.setOrRemove('id', value);
+  }
+
+  List<String> _validateId() => _reader.validate<String>('id');
+
+  LinkMode get linkMode {
+    final jsonValue = _reader.map$('link_mode');
+    return LinkMode.fromJson(jsonValue, path: [...path, 'link_mode']);
+  }
+
+  set _linkMode(LinkMode value) {
+    json['link_mode'] = value.json;
+  }
+
+  List<String> _validateLinkMode() {
+    final mapErrors = _reader.validate<Map<String, Object?>>('link_mode');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return linkMode.validate();
+  }
+
+  OS get os {
+    final jsonValue = _reader.get<String>('os');
+    return OS.fromJson(jsonValue);
+  }
+
+  set _os(OS value) {
+    json['os'] = value.name;
+  }
+
+  List<String> _validateOs() => _reader.validate<String>('os');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateArchitecture(),
+    ..._validateFile(),
+    ..._validateId(),
+    ..._validateLinkMode(),
+    ..._validateOs(),
+    ..._validateExtraRules(),
+  ];
+
+  List<String> _validateExtraRules() {
+    final result = <String>[];
+    if ([
+      'dynamic_loading_bundle',
+      'static',
+    ].contains(_reader.tryTraverse(['link_mode', 'type']))) {
+      result.addAll(_reader.validate<Object>('file'));
+    }
+    return result;
+  }
+
+  @override
+  String toString() => 'NativeCodeAsset($json)';
+}
+
+extension NativeCodeAssetExtension on Asset {
+  bool get isNativeCodeAsset => type == 'native_code';
+
+  NativeCodeAsset get asNativeCodeAsset =>
+      NativeCodeAsset.fromJson(json, path: path);
+}
+
 class OS {
   final String name;
 
@@ -1037,6 +973,70 @@ class OS {
 
   @override
   String toString() => name;
+}
+
+class StaticLinkMode extends LinkMode {
+  StaticLinkMode.fromJson(super.json, {super.path}) : super._fromJson();
+
+  StaticLinkMode() : super(type: 'static');
+
+  @override
+  List<String> validate() => [...super.validate()];
+
+  @override
+  String toString() => 'StaticLinkMode($json)';
+}
+
+extension StaticLinkModeExtension on LinkMode {
+  bool get isStaticLinkMode => type == 'static';
+
+  StaticLinkMode get asStaticLinkMode =>
+      StaticLinkMode.fromJson(json, path: path);
+}
+
+class Windows {
+  final Map<String, Object?> json;
+
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  Windows.fromJson(this.json, {this.path = const []});
+
+  Windows({required DeveloperCommandPrompt? developerCommandPrompt})
+    : json = {},
+      path = const [] {
+    _developerCommandPrompt = developerCommandPrompt;
+    json.sortOnKey();
+  }
+
+  DeveloperCommandPrompt? get developerCommandPrompt {
+    final jsonValue = _reader.optionalMap('developer_command_prompt');
+    if (jsonValue == null) return null;
+    return DeveloperCommandPrompt.fromJson(
+      jsonValue,
+      path: [...path, 'developer_command_prompt'],
+    );
+  }
+
+  set _developerCommandPrompt(DeveloperCommandPrompt? value) {
+    json.setOrRemove('developer_command_prompt', value?.json);
+  }
+
+  List<String> _validateDeveloperCommandPrompt() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'developer_command_prompt',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return developerCommandPrompt?.validate() ?? [];
+  }
+
+  List<String> validate() => [..._validateDeveloperCommandPrompt()];
+
+  @override
+  String toString() => 'Windows($json)';
 }
 
 class JsonReader {
