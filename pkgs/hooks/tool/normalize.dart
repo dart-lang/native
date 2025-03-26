@@ -9,7 +9,7 @@ import 'package:path/path.dart' as p;
 import '../test/schema/helpers.dart' show findPackageRoot;
 
 void main() {
-  final packageUri = findPackageRoot('hook');
+  final packageUri = findPackageRoot('hooks');
 
   final directories = [
     Directory.fromUri(packageUri),

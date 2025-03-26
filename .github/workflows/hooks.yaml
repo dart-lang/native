@@ -10,14 +10,14 @@ on:
     # No `branches:` to enable stacked PRs on GitHub.
     paths:
       - ".github/workflows/hook.yaml"
-      - "pkgs/hook/**"
+      - "pkgs/hooks/**"
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
   push:
     branches: [main]
     paths:
       - ".github/workflows/native.yaml"
-      - "pkgs/hook/**"
+      - "pkgs/hooks/**"
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
   schedule:
@@ -30,7 +30,7 @@ jobs:
       matrix:
         os: [ubuntu, windows]
         sdk: [dev]
-        package: [hook, code_assets, data_assets]
+        package: [hooks, code_assets, data_assets]
 
     runs-on: ${{ matrix.os }}-latest
 

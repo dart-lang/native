@@ -4,7 +4,7 @@
 
 import 'package:collection/collection.dart';
 
-import 'hook/syntax.g.dart' as syntax;
+import 'hooks/syntax.g.dart' as syntax;
 import 'utils/json.dart';
 
 /// An encoding of a particular asset type.

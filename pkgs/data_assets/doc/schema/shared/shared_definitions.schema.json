@@ -27,7 +27,7 @@
       "then": {
         "properties": {
           "file": {
-            "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+            "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
           },
           "name": {
             "type": "string"

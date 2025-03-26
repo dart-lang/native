@@ -6,7 +6,7 @@ import 'helpers.dart';
 
 void main() {
   final schemasUri = packageUri.resolve('doc/schema/');
-  final hookSchemasUri = packageUri.resolve('../hook/doc/schema/');
+  final hookSchemasUri = packageUri.resolve('../hooks/doc/schema/');
   final allSchemas = loadSchemas([schemasUri, hookSchemasUri]);
 
   final testDataUri = packageUri.resolve('test/data/');
@@ -21,4 +21,4 @@ void main() {
   );
 }
 
-Uri packageUri = findPackageRoot('hook');
+Uri packageUri = findPackageRoot('hooks');

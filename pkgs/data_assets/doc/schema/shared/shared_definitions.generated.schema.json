@@ -9,7 +9,7 @@
           "$ref": "#/definitions/HookInput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildInput"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildInput"
         }
       ]
     },
@@ -19,7 +19,7 @@
           "$ref": "#/definitions/HookOutput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildOutput"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildOutput"
         },
         {
           "properties": {
@@ -48,14 +48,14 @@
     "HookInput": {
       "allOf": [
         {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/HookInput"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/HookInput"
         }
       ]
     },
     "HookOutput": {
       "allOf": [
         {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/HookOutput"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/HookOutput"
         },
         {
           "properties": {
@@ -75,7 +75,7 @@
           "$ref": "#/definitions/HookInput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkInput"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkInput"
         },
         {
           "properties": {
@@ -95,7 +95,7 @@
           "$ref": "#/definitions/HookOutput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkOutput"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/LinkOutput"
         }
       ]
     }

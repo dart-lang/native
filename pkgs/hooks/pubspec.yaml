@@ -1,6 +1,6 @@
-name: hook
+name: hooks
 version: 0.1.0-wip
-repository: https://github.com/dart-lang/native/tree/main/pkgs/hook
+repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks
 
 publish_to: none
 

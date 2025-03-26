@@ -8,8 +8,8 @@ environment:
   sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
-  hook:
-    path: ../hook/
+  hooks:
+    path: ../hooks/
 
 dev_dependencies:
   dart_flutter_team_lints: ^2.1.1
