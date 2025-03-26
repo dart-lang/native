@@ -45,31 +45,6 @@ void main(List<String> args) {
             'HookOutput',
             'LinkOutput',
           ],
-          classSorting:
-              packageName == 'code_assets'
-                  ? [
-                    'AndroidCodeConfig',
-                    'Architecture',
-                    'Asset',
-                    'NativeCodeAsset',
-                    'CCompilerConfig',
-                    'Windows',
-                    'DeveloperCommandPrompt',
-                    'CodeConfig',
-                    'Config',
-                    'ConfigExtensions',
-                    'IOSCodeConfig',
-                    'LinkMode',
-                    'DynamicLoadingBundleLinkMode',
-                    'DynamicLoadingExecutableLinkMode',
-                    'DynamicLoadingProcessLinkMode',
-                    'DynamicLoadingSystemLinkMode',
-                    'StaticLinkMode',
-                    'LinkModePreference',
-                    'MacOSCodeConfig',
-                    'OS',
-                  ]
-                  : null,
         ).analyze();
     final textDumpFile = File.fromUri(
       packageUri.resolve(
