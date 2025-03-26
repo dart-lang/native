@@ -22,6 +22,18 @@
       }
     ]
   },
+  "assets_for_linking": {
+    "package_with_linker": [
+      {
+        "some_key": "some_value",
+        "type": "some_asset_type"
+      },
+      {
+        "some_other_key": "some_value",
+        "type": "some_other_asset_type"
+      }
+    ]
+  },
   "dependencies": [
     "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json",
     "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json"

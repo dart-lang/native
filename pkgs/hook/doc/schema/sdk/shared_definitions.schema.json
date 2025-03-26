@@ -6,7 +6,16 @@
       "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildInput",
       "unevaluatedProperties": false
     },
-    "BuildOutput": {},
+    "BuildOutput": {
+      "properties": {
+        "assetsForLinking": {
+          "deprecated": true
+        },
+        "assets_for_linking": {
+          "$comment": "Older hooks will still emit 'assetsForLinking', so it must be read."
+        }
+      }
+    },
     "HookInput": {
       "properties": {
         "out_file": {

@@ -33,6 +33,9 @@ void main(List<String> args) {
             'Ios': 'IOS',
             'macos': 'macOS',
             'Macos': 'MacOS',
+            'prefer-dynamic': 'preferDynamicOld',
+            'prefer-static': 'preferStaticOld',
+            'assetsForLinking': 'assetsForLinkingOld',
           },
           publicSetters: [
             'BuildOutput',

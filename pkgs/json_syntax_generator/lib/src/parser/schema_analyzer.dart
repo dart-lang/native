@@ -398,7 +398,7 @@ class SchemaAnalyzer {
       return '';
     }
 
-    final parts = string.replaceAll('-', '_').split('_');
+    final parts = string.split('_');
 
     String remapCapitalization(String input) =>
         capitalizationOverrides[input] ?? input;

@@ -340,19 +340,23 @@ FieldsReturn _hookFields({
       (['assets'], expectOptionalFieldMissing),
       (['assets', 0], expectOptionalFieldMissing),
       (['assets', 0, 'type'], expectRequiredFieldMissing),
-      if (hook == Hook.build) ...[
-        (['metadata'], expectOptionalFieldMissing),
-        (['assetsForLinking'], expectOptionalFieldMissing),
-        (
-          ['assetsForLinking', 'package_with_linker', 0],
-          expectOptionalFieldMissing,
-        ),
-        (['assetsForLinking'], expectOptionalFieldMissing),
-        (
-          ['assetsForLinking', 'package_with_linker', 0, 'type'],
-          expectRequiredFieldMissing,
-        ),
-      ],
+      if (hook == Hook.build)
+        for (final assetsForLinking in [
+          'assetsForLinking',
+          'assets_for_linking',
+        ]) ...[
+          (['metadata'], expectOptionalFieldMissing),
+          ([assetsForLinking], expectOptionalFieldMissing),
+          (
+            [assetsForLinking, 'package_with_linker', 0],
+            expectOptionalFieldMissing,
+          ),
+          ([assetsForLinking], expectOptionalFieldMissing),
+          (
+            [assetsForLinking, 'package_with_linker', 0, 'type'],
+            expectRequiredFieldMissing,
+          ),
+        ],
     ],
   ];
 }

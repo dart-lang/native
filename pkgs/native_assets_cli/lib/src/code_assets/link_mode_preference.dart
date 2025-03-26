@@ -34,14 +34,14 @@ final class LinkModePreference {
   /// Provide native assets as dynamic libraries, if possible.
   ///
   /// Otherwise, build native assets as static libraries
-  static const preferDynamic = LinkModePreference('prefer-dynamic');
+  static const preferDynamic = LinkModePreference('prefer_dynamic');
 
   /// Provide native assets as static libraries, if possible.
   ///
   /// Otherwise, build native assets as dynamic libraries. Preferred for AOT
   /// compilation, if there are any native assets which can only be provided as
   /// dynamic libraries.
-  static const preferStatic = LinkModePreference('prefer-static');
+  static const preferStatic = LinkModePreference('prefer_static');
 
   static const values = [dynamic, static, preferDynamic, preferStatic];
 
@@ -50,13 +50,21 @@ final class LinkModePreference {
 }
 
 extension LinkModePreferenceSyntax on LinkModePreference {
-  static final _toSyntax = {
-    for (final item in LinkModePreference.values)
-      item: syntax.LinkModePreference.fromJson(item.name),
+  static const _toSyntax = {
+    LinkModePreference.dynamic: syntax.LinkModePreference.dynamic,
+    LinkModePreference.preferDynamic: syntax.LinkModePreference.preferDynamic,
+    LinkModePreference.preferStatic: syntax.LinkModePreference.preferStatic,
+    LinkModePreference.static: syntax.LinkModePreference.static,
   };
 
-  static final _fromSyntax = {
-    for (var entry in _toSyntax.entries) entry.value: entry.key,
+  static const _fromSyntax = {
+    syntax.LinkModePreference.dynamic: LinkModePreference.dynamic,
+    syntax.LinkModePreference.preferDynamic: LinkModePreference.preferDynamic,
+    syntax.LinkModePreference.preferDynamicOld:
+        LinkModePreference.preferDynamic,
+    syntax.LinkModePreference.preferStatic: LinkModePreference.preferStatic,
+    syntax.LinkModePreference.preferStaticOld: LinkModePreference.preferStatic,
+    syntax.LinkModePreference.static: LinkModePreference.static,
   };
 
   syntax.LinkModePreference toSyntax() => _toSyntax[this]!;

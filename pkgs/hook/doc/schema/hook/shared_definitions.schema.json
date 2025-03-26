@@ -5,6 +5,11 @@
     "BuildInput": {},
     "BuildOutput": {
       "$ref": "../shared/shared_definitions.schema.json#/definitions/BuildOutput",
+      "properties": {
+        "assets_for_linking": {
+          "$comment": "Older SDKs will only read 'assetsForLinking', so it must be emitted as well."
+        }
+      },
       "unevaluatedProperties": false
     },
     "HookInput": {

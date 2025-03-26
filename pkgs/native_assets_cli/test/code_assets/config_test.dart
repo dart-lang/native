@@ -70,7 +70,7 @@ void main() async {
       'code': {
         'target_architecture': 'arm64',
         'target_os': targetOS.name,
-        'link_mode_preference': 'prefer-static',
+        'link_mode_preference': 'prefer_static',
         'c_compiler': {
           'ar': fakeAr.toFilePath(),
           'ld': fakeLd.toFilePath(),
