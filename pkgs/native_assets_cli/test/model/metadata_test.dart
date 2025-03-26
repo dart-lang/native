@@ -6,7 +6,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const metadata = Metadata({
+  final metadata = Metadata({
     'key': 'value',
     'my_list': [1, 2, 3],
     'my_map': {3: 4, 'foo': 'bar'},

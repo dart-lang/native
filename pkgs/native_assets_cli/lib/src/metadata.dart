@@ -5,12 +5,14 @@
 import 'package:collection/collection.dart';
 
 class Metadata {
-  final Map<String, Object?> metadata;
+  final UnmodifiableMapView<String, Object?> metadata;
 
-  const Metadata(this.metadata);
-
-  factory Metadata.fromJson(Map<String, Object?>? jsonMap) =>
-      Metadata(jsonMap ?? {});
+  Metadata(Map<String, Object?> metadata)
+    : metadata = UnmodifiableMapView(
+        // It would be better if `jsonMap` would be deep copied.
+        // https://github.com/dart-lang/native/issues/2045
+        Map.of(metadata),
+      );
 
   Map<String, Object?> toJson() => metadata;
 
