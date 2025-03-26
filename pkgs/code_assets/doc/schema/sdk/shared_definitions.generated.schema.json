@@ -13,6 +13,9 @@
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/BuildInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/BuildInput"
         }
       ]
     },
@@ -26,6 +29,9 @@
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/BuildOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/BuildOutput"
         }
       ]
     },
@@ -36,6 +42,9 @@
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/HookInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/HookInput"
         }
       ]
     },
@@ -46,6 +55,9 @@
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/HookOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/HookOutput"
         }
       ]
     },
@@ -59,6 +71,9 @@
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/LinkInput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/LinkInput"
         }
       ]
     },
@@ -72,6 +87,9 @@
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/LinkOutput"
+        },
+        {
+          "$ref": "shared_definitions.schema.json#/definitions/LinkOutput"
         }
       ]
     }

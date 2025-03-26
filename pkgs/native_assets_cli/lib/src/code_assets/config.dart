@@ -42,7 +42,9 @@ class CodeConfig {
   final syntax.CodeConfig _syntax;
 
   CodeConfig._fromJson(Map<String, Object?> json, List<Object> path)
-    : _syntax = syntax.Config.fromJson(json, path: path).code!;
+    : _syntax =
+          syntax.Config.fromJson(json, path: path).extensions?.codeAssets ??
+          syntax.Config.fromJson(json, path: path).code!;
 
   /// The architecture the code code asset should be built for.
   ///
@@ -191,9 +193,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     IOSCodeConfig? iOS,
     MacOSCodeConfig? macOS,
   }) {
-    syntax.Config.fromJson(
-      hook_syntax.HookInput.fromJson(builder.json).config.json,
-    ).code = syntax.CodeConfig(
+    final codeConfig = syntax.CodeConfig(
       linkModePreference: linkModePreference.toSyntax(),
       targetArchitecture: targetArchitecture.toSyntax(),
       targetOs: targetOS.toSyntax(),
@@ -202,6 +202,11 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
       iOS: iOS?.toSyntax(),
       macOS: macOS?.toSyntax(),
     );
+    final baseHookConfig = hook_syntax.HookInput.fromJson(builder.json).config;
+    baseHookConfig.extensions ??= {};
+    final hookConfig = syntax.Config.fromJson(baseHookConfig.json);
+    hookConfig.extensions!.codeAssets = codeConfig;
+    hookConfig.code = codeConfig; // old location
   }
 }
 

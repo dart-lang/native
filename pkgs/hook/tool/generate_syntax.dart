@@ -40,6 +40,7 @@ void main(List<String> args) {
           publicSetters: [
             'BuildOutput',
             'Config',
+            'ConfigExtensions',
             'HookInput',
             'HookOutput',
             'LinkOutput',
@@ -56,6 +57,7 @@ void main(List<String> args) {
                     'DeveloperCommandPrompt',
                     'CodeConfig',
                     'Config',
+                    'ConfigExtensions',
                     'IOSCodeConfig',
                     'LinkMode',
                     'DynamicLoadingBundleLinkMode',

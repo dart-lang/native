@@ -22,6 +22,26 @@
       "target_architecture": "x64",
       "target_os": "windows"
     },
+    "extensions": {
+      "code_assets": {
+        "c_compiler": {
+          "ar": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\lib.exe",
+          "cc": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
+          "env_script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
+          "env_script_arguments": [],
+          "ld": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\link.exe",
+          "windows": {
+            "developer_command_prompt": {
+              "arguments": [],
+              "script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
+            }
+          }
+        },
+        "link_mode_preference": "dynamic",
+        "target_architecture": "x64",
+        "target_os": "windows"
+      }
+    },
     "linking_enabled": false
   },
   "out_dir": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\out\\",

@@ -52,51 +52,55 @@ void main() async {
     String hookType = 'build',
     bool includeDeprecated = false,
     OS targetOS = OS.android,
-  }) => {
-    if (hookType == 'link')
-      'assets': [
-        {
-          'architecture': 'riscv64',
-          'file': 'not there',
-          'id': 'package:my_package/name',
-          'link_mode': {'type': 'dynamic_loading_bundle'},
-          'os': 'android',
-          'type': 'native_code',
-        },
-      ],
-    'config': {
-      'build_asset_types': ['native_code'],
-      if (hookType == 'build') 'linking_enabled': false,
-      'code': {
-        'target_architecture': 'arm64',
-        'target_os': targetOS.name,
-        'link_mode_preference': 'prefer_static',
-        'c_compiler': {
-          'ar': fakeAr.toFilePath(),
-          'ld': fakeLd.toFilePath(),
-          'cc': fakeClang.toFilePath(),
-          if (includeDeprecated) 'env_script': fakeVcVars.toFilePath(),
-          if (includeDeprecated) 'env_script_arguments': ['arg0', 'arg1'],
-          'windows': {
-            'developer_command_prompt': {
-              'arguments': ['arg0', 'arg1'],
-              'script': fakeVcVars.toFilePath(),
-            },
+  }) {
+    final codeConfig = {
+      'target_architecture': 'arm64',
+      'target_os': targetOS.name,
+      'link_mode_preference': 'prefer_static',
+      'c_compiler': {
+        'ar': fakeAr.toFilePath(),
+        'ld': fakeLd.toFilePath(),
+        'cc': fakeClang.toFilePath(),
+        if (includeDeprecated) 'env_script': fakeVcVars.toFilePath(),
+        if (includeDeprecated) 'env_script_arguments': ['arg0', 'arg1'],
+        'windows': {
+          'developer_command_prompt': {
+            'arguments': ['arg0', 'arg1'],
+            'script': fakeVcVars.toFilePath(),
           },
         },
-        if (targetOS == OS.android) 'android': {'target_ndk_api': 30},
-        if (targetOS == OS.macOS) 'macos': {'target_version': 13},
-        if (targetOS == OS.iOS)
-          'ios': {'target_sdk': 'iphoneos', 'target_version': 13},
       },
-    },
-    'out_dir_shared': outputDirectoryShared.toFilePath(),
-    'out_dir': outDirUri.toFilePath(),
-    'out_file': outFile.toFilePath(),
-    'package_name': packageName,
-    'package_root': packageRootUri.toFilePath(),
-    'version': '1.9.0',
-  };
+      if (targetOS == OS.android) 'android': {'target_ndk_api': 30},
+      if (targetOS == OS.macOS) 'macos': {'target_version': 13},
+      if (targetOS == OS.iOS)
+        'ios': {'target_sdk': 'iphoneos', 'target_version': 13},
+    };
+    return {
+      if (hookType == 'link')
+        'assets': [
+          {
+            'architecture': 'riscv64',
+            'file': 'not there',
+            'id': 'package:my_package/name',
+            'link_mode': {'type': 'dynamic_loading_bundle'},
+            'os': 'android',
+            'type': 'native_code',
+          },
+        ],
+      'config': {
+        'code': codeConfig,
+        'build_asset_types': ['native_code'],
+        'extensions': {'code_assets': codeConfig},
+        if (hookType == 'build') 'linking_enabled': false,
+      },
+      'out_dir_shared': outputDirectoryShared.toFilePath(),
+      'out_dir': outDirUri.toFilePath(),
+      'out_file': outFile.toFilePath(),
+      'package_name': packageName,
+      'package_root': packageRootUri.toFilePath(),
+      'version': '1.9.0',
+    };
+  }
 
   void expectCorrectCodeConfig(
     CodeConfig codeCondig, {
@@ -239,6 +243,28 @@ void main() async {
 
   test('LinkInput.config.code.target_os invalid type', () {
     final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, [
+          'config',
+          'extensions',
+          'code_assets',
+        ])['target_os'] =
+        123;
+    expect(
+      () => LinkInput(input).config.code.targetOS,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(
+                "Unexpected value '123' (int) for "
+                "'config.extensions.code_assets.target_os'. "
+                'Expected a String.',
+              ),
+        ),
+      ),
+    );
+
+    traverseJson<Map<String, Object?>>(input, ['config']).remove('extensions');
     traverseJson<Map<String, Object?>>(input, ['config', 'code'])['target_os'] =
         123;
     expect(
@@ -258,6 +284,26 @@ void main() async {
 
   test('LinkInput.config.code.link_mode_preference missing', () {
     final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, [
+      'config',
+      'extensions',
+      'code_assets',
+    ]).remove('link_mode_preference');
+    expect(
+      () => LinkInput(input).config.code.linkModePreference,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(
+                'No value was provided for '
+                "'config.extensions.code_assets.link_mode_preference'.",
+              ),
+        ),
+      ),
+    );
+
+    traverseJson<Map<String, Object?>>(input, ['config']).remove('extensions');
     traverseJson<Map<String, Object?>>(input, [
       'config',
       'code',

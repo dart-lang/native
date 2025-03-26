@@ -41,8 +41,11 @@ class Asset {
 class BuildConfig extends Config {
   BuildConfig.fromJson(super.json, {super.path}) : super.fromJson();
 
-  BuildConfig({required super.buildAssetTypes, required bool linkingEnabled})
-    : super() {
+  BuildConfig({
+    required super.buildAssetTypes,
+    required super.extensions,
+    required bool linkingEnabled,
+  }) : super() {
     _linkingEnabled = linkingEnabled;
     json.sortOnKey();
   }
@@ -281,8 +284,13 @@ class Config {
 
   Config.fromJson(this.json, {this.path = const []});
 
-  Config({required List<String> buildAssetTypes}) : json = {}, path = const [] {
+  Config({
+    required List<String> buildAssetTypes,
+    required Map<String, Object?>? extensions,
+  }) : json = {},
+       path = const [] {
     this.buildAssetTypes = buildAssetTypes;
+    this.extensions = extensions;
     json.sortOnKey();
   }
 
@@ -296,7 +304,20 @@ class Config {
   List<String> _validateBuildAssetTypes() =>
       _reader.validateStringList('build_asset_types');
 
-  List<String> validate() => [..._validateBuildAssetTypes()];
+  Map<String, Object?>? get extensions => _reader.optionalMap('extensions');
+
+  set extensions(Map<String, Object?>? value) {
+    json.setOrRemove('extensions', value);
+    json.sortOnKey();
+  }
+
+  List<String> _validateExtensions() =>
+      _reader.validateOptionalMap('extensions');
+
+  List<String> validate() => [
+    ..._validateBuildAssetTypes(),
+    ..._validateExtensions(),
+  ];
 
   @override
   String toString() => 'Config($json)';
