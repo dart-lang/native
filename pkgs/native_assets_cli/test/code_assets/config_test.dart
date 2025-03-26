@@ -85,6 +85,13 @@ void main() async {
             'link_mode': {'type': 'dynamic_loading_bundle'},
             'os': 'android',
             'type': 'native_code',
+            'encoding': {
+              'architecture': 'riscv64',
+              'file': 'not there',
+              'id': 'package:my_package/name',
+              'link_mode': {'type': 'dynamic_loading_bundle'},
+              'os': 'android',
+            },
           },
         ],
       'config': {
@@ -326,6 +333,7 @@ void main() async {
     traverseJson<Map<String, Object?>>(input, [
       'assets',
       0,
+      'encoding',
     ]).remove('link_mode');
     expect(
       () => LinkInput(input).assets.code.first.linkMode,
@@ -334,7 +342,7 @@ void main() async {
           (e) =>
               e is FormatException &&
               e.message.contains(
-                "No value was provided for 'assets.0.link_mode'.",
+                "No value was provided for 'assets.0.encoding.link_mode'.",
               ),
         ),
       ),

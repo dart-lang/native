@@ -7,6 +7,10 @@
       "properties": {
         "type": {
           "type": "string"
+        },
+        "encoding": {
+          "type": "object",
+          "additionalProperties": true
         }
       },
       "required": [

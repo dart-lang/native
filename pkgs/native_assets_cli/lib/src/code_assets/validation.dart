@@ -173,14 +173,14 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 }
 
 ValidationErrors _validateCodeAssetSyntax(EncodedAsset encodedAsset) {
-  final syntaxNode = syntax.Asset.fromJson(
-    encodedAsset.toJson(),
-    path: encodedAsset.jsonPath ?? [],
-  );
-  if (!syntaxNode.isNativeCodeAsset) {
+  if (encodedAsset.type != CodeAsset.type) {
     return [];
   }
-  final syntaxErrors = syntaxNode.asNativeCodeAsset.validate();
+  final syntaxNode = syntax.NativeCodeAssetEncoding.fromJson(
+    encodedAsset.encoding,
+    path: encodedAsset.jsonPath ?? [],
+  );
+  final syntaxErrors = syntaxNode.validate();
   if (syntaxErrors.isEmpty) {
     return [];
   }

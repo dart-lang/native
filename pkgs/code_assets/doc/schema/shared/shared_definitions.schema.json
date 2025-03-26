@@ -55,55 +55,16 @@
       },
       "then": {
         "properties": {
-          "architecture": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/Architecture"
-              }
-            ]
-          },
-          "file": {
-            "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
-          },
-          "id": {
-            "type": "string"
-          },
-          "link_mode": {
-            "$ref": "#/definitions/LinkMode"
-          },
-          "os": {
-            "$ref": "#/definitions/OS"
+          "encoding": {
+            "$ref": "#/definitions/NativeCodeAssetEncoding"
           }
         },
-        "required": [
-          "architecture",
-          "id",
-          "link_mode",
-          "os"
-        ],
-        "if": {
-          "properties": {
-            "link_mode": {
-              "properties": {
-                "type": {
-                  "anyOf": [
-                    {
-                      "const": "dynamic_loading_bundle"
-                    },
-                    {
-                      "const": "static"
-                    }
-                  ]
-                }
-              }
-            }
+        "allOf": [
+          {
+            "$comment": "Also include the fields parent object for backwards compatibility.",
+            "$ref": "#/definitions/NativeCodeAssetEncoding"
           }
-        },
-        "then": {
-          "required": [
-            "file"
-          ]
-        }
+        ]
       }
     },
     "CCompilerConfig": {
@@ -192,13 +153,13 @@
           "if": {
             "properties": {
               "target_os": {
-                "const": "macos"
+                "const": "android"
               }
             }
           },
           "then": {
             "required": [
-              "macos"
+              "android"
             ]
           }
         },
@@ -220,13 +181,13 @@
           "if": {
             "properties": {
               "target_os": {
-                "const": "android"
+                "const": "macos"
               }
             }
           },
           "then": {
             "required": [
-              "android"
+              "macos"
             ]
           }
         },
@@ -332,10 +293,10 @@
         {
           "enum": [
             "dynamic",
-            "prefer_dynamic",
             "prefer-dynamic",
-            "prefer_static",
             "prefer-static",
+            "prefer_dynamic",
+            "prefer_static",
             "static"
           ]
         },
@@ -354,6 +315,59 @@
       "required": [
         "target_version"
       ]
+    },
+    "NativeCodeAssetEncoding": {
+      "type": "object",
+      "properties": {
+        "architecture": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Architecture"
+            }
+          ]
+        },
+        "file": {
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+        },
+        "id": {
+          "type": "string"
+        },
+        "link_mode": {
+          "$ref": "#/definitions/LinkMode"
+        },
+        "os": {
+          "$ref": "#/definitions/OS"
+        }
+      },
+      "required": [
+        "architecture",
+        "id",
+        "link_mode",
+        "os"
+      ],
+      "if": {
+        "properties": {
+          "link_mode": {
+            "properties": {
+              "type": {
+                "anyOf": [
+                  {
+                    "const": "dynamic_loading_bundle"
+                  },
+                  {
+                    "const": "static"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "file"
+        ]
+      }
     },
     "OS": {
       "type": "string",

@@ -339,6 +339,7 @@ FieldsReturn _hookFields({
       (['dependencies', 0], expectOptionalFieldMissing),
       (['assets'], expectOptionalFieldMissing),
       (['assets', 0], expectOptionalFieldMissing),
+      (['assets', 0, 'encoding'], expectOptionalFieldMissing),
       (['assets', 0, 'type'], expectRequiredFieldMissing),
       if (hook == Hook.build)
         for (final assetsForLinking in [

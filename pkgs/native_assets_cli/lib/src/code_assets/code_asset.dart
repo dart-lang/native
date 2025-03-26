@@ -106,9 +106,8 @@ final class CodeAsset {
 
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.type == CodeAsset.type);
-    final jsonMap = asset.encoding;
-    final syntaxNode = syntax.NativeCodeAsset.fromJson(
-      jsonMap,
+    final syntaxNode = syntax.NativeCodeAssetEncoding.fromJson(
+      asset.encoding,
       path: asset.jsonPath ?? [],
     );
     return CodeAsset._(
@@ -150,16 +149,14 @@ final class CodeAsset {
   int get hashCode => Object.hash(id, linkMode, architecture, os, file);
 
   EncodedAsset encode() {
-    final nativeCodeAsset = syntax.NativeCodeAsset.fromJson({});
-    nativeCodeAsset.setup(
+    final encoding = syntax.NativeCodeAssetEncoding(
       architecture: architecture.toSyntax(),
       file: file,
       id: id,
       linkMode: linkMode.toSyntax(),
       os: os.toSyntax(),
     );
-    final json = nativeCodeAsset.json;
-    return EncodedAsset(CodeAsset.type, json);
+    return EncodedAsset(CodeAsset.type, encoding.json);
   }
 
   static const String type = 'native_code';

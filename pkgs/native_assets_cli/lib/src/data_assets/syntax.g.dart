@@ -52,8 +52,13 @@ class Asset {
 class DataAsset extends Asset {
   DataAsset.fromJson(super.json, {super.path}) : super._fromJson();
 
-  DataAsset({required Uri file, required String name, required String package})
-    : super(type: 'data') {
+  DataAsset({
+    required DataAssetEncoding? encoding,
+    required Uri file,
+    required String name,
+    required String package,
+  }) : super(type: 'data') {
+    _encoding = encoding;
     _file = file;
     _name = name;
     _package = package;
@@ -63,10 +68,94 @@ class DataAsset extends Asset {
   /// Setup all fields for [DataAsset] that are not in
   /// [Asset].
   void setup({
+    required DataAssetEncoding? encoding,
     required Uri file,
     required String name,
     required String package,
   }) {
+    _encoding = encoding;
+    _file = file;
+    _name = name;
+    _package = package;
+    json.sortOnKey();
+  }
+
+  DataAssetEncoding? get encoding {
+    final jsonValue = _reader.optionalMap('encoding');
+    if (jsonValue == null) return null;
+    return DataAssetEncoding.fromJson(jsonValue, path: [...path, 'encoding']);
+  }
+
+  set _encoding(DataAssetEncoding? value) {
+    json.setOrRemove('encoding', value?.json);
+  }
+
+  List<String> _validateEncoding() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('encoding');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return encoding?.validate() ?? [];
+  }
+
+  Uri get file => _reader.path$('file');
+
+  set _file(Uri value) {
+    json['file'] = value.toFilePath();
+  }
+
+  List<String> _validateFile() => _reader.validatePath('file');
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  String get package => _reader.get<String>('package');
+
+  set _package(String value) {
+    json.setOrRemove('package', value);
+  }
+
+  List<String> _validatePackage() => _reader.validate<String>('package');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateEncoding(),
+    ..._validateFile(),
+    ..._validateName(),
+    ..._validatePackage(),
+  ];
+
+  @override
+  String toString() => 'DataAsset($json)';
+}
+
+extension DataAssetExtension on Asset {
+  bool get isDataAsset => type == 'data';
+
+  DataAsset get asDataAsset => DataAsset.fromJson(json, path: path);
+}
+
+class DataAssetEncoding {
+  final Map<String, Object?> json;
+
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  DataAssetEncoding.fromJson(this.json, {this.path = const []});
+
+  DataAssetEncoding({
+    required Uri file,
+    required String name,
+    required String package,
+  }) : json = {},
+       path = const [] {
     _file = file;
     _name = name;
     _package = package;
@@ -97,22 +186,14 @@ class DataAsset extends Asset {
 
   List<String> _validatePackage() => _reader.validate<String>('package');
 
-  @override
   List<String> validate() => [
-    ...super.validate(),
     ..._validateFile(),
     ..._validateName(),
     ..._validatePackage(),
   ];
 
   @override
-  String toString() => 'DataAsset($json)';
-}
-
-extension DataAssetExtension on Asset {
-  bool get isDataAsset => type == 'data';
-
-  DataAsset get asDataAsset => DataAsset.fromJson(json, path: path);
+  String toString() => 'DataAssetEncoding($json)';
 }
 
 class JsonReader {

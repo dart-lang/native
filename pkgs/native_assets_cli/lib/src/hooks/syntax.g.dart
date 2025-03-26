@@ -19,10 +19,21 @@ class Asset {
 
   Asset.fromJson(this.json, {this.path = const []});
 
-  Asset({required String type}) : json = {}, path = const [] {
+  Asset({required Map<String, Object?>? encoding, required String type})
+    : json = {},
+      path = const [] {
+    _encoding = encoding;
     _type = type;
     json.sortOnKey();
   }
+
+  Map<String, Object?>? get encoding => _reader.optionalMap('encoding');
+
+  set _encoding(Map<String, Object?>? value) {
+    json.setOrRemove('encoding', value);
+  }
+
+  List<String> _validateEncoding() => _reader.validateOptionalMap('encoding');
 
   String get type => _reader.get<String>('type');
 
@@ -32,7 +43,7 @@ class Asset {
 
   List<String> _validateType() => _reader.validate<String>('type');
 
-  List<String> validate() => [..._validateType()];
+  List<String> validate() => [..._validateEncoding(), ..._validateType()];
 
   @override
   String toString() => 'Asset($json)';

@@ -43,8 +43,10 @@ final class DataAsset {
   /// Constructs a [DataAsset] from an [EncodedAsset].
   factory DataAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.type == DataAsset.type);
-    final jsonMap = asset.encoding;
-    final syntaxNode = syntax.DataAsset.fromJson(jsonMap);
+    final syntaxNode = syntax.DataAssetEncoding.fromJson(
+      asset.encoding,
+      path: asset.jsonPath ?? [],
+    );
     return DataAsset(
       file: syntaxNode.file,
       name: syntaxNode.name,
@@ -66,10 +68,12 @@ final class DataAsset {
   int get hashCode => Object.hash(package, name, file.toFilePath());
 
   EncodedAsset encode() {
-    final dataAsset = syntax.DataAsset.fromJson({});
-    dataAsset.setup(file: file, name: name, package: package);
-    final json = dataAsset.json;
-    return EncodedAsset(DataAsset.type, json);
+    final encoding = syntax.DataAssetEncoding(
+      file: file,
+      name: name,
+      package: package,
+    );
+    return EncodedAsset(DataAsset.type, encoding.json);
   }
 
   @override

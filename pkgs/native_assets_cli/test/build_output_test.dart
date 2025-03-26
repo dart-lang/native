@@ -56,18 +56,34 @@ void main() {
         'meta1': 'meta1-value',
       },
       'assets': [
-        {'a-0': 'v-0', 'type': 'my-asset-type'},
-        {'a-2': 'v-2', 'type': 'my-asset-type'},
+        {
+          'a-0': 'v-0',
+          'encoding': {'a-0': 'v-0'},
+          'type': 'my-asset-type',
+        },
+        {
+          'a-2': 'v-2',
+          'encoding': {'a-2': 'v-2'},
+          'type': 'my-asset-type',
+        },
       ],
       'assetsForLinking': {
         'package:linker1': [
-          {'a-1': 'v-1', 'type': 'my-asset-type'},
+          {
+            'a-1': 'v-1',
+            'encoding': {'a-1': 'v-1'},
+            'type': 'my-asset-type',
+          },
         ],
         'package:linker2': <Object?>[],
       },
       'assets_for_linking': {
         'package:linker1': [
-          {'a-1': 'v-1', 'type': 'my-asset-type'},
+          {
+            'a-1': 'v-1',
+            'encoding': {'a-1': 'v-1'},
+            'type': 'my-asset-type',
+          },
         ],
         'package:linker2': <Object?>[],
       },

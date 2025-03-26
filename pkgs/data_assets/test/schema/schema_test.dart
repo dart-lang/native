@@ -33,6 +33,10 @@ void main() {
 Uri packageUri = findPackageRoot('data_assets');
 
 const _dataAssetFields = ['package', 'name', 'file'];
+const _encoding = [
+  <String>[],
+  ['encoding'],
+];
 
 List<(List<Object>, void Function(ValidationResults result))> _dataFields({
   required InputOrOutput inputOrOutput,
@@ -42,7 +46,8 @@ List<(List<Object>, void Function(ValidationResults result))> _dataFields({
   if (inputOrOutput == InputOrOutput.input) ...[
     if (hook == Hook.link) ...[
       for (final field in _dataAssetFields)
-        (['assets', 0, field], expectRequiredFieldMissing),
+        for (final encoding in _encoding)
+          (['assets', 0, ...encoding, field], expectRequiredFieldMissing),
     ],
   ],
   if (inputOrOutput == InputOrOutput.output) ...[
@@ -50,14 +55,15 @@ List<(List<Object>, void Function(ValidationResults result))> _dataFields({
       (['assets', 0, field], expectRequiredFieldMissing),
     if (hook == Hook.build) ...[
       for (final field in _dataAssetFields)
-        for (final assetsForLinking in [
-          'assetsForLinking',
-          'assets_for_linking',
-        ])
-          (
-            [assetsForLinking, 'package_with_linker', 0, field],
-            expectRequiredFieldMissing,
-          ),
+        for (final encoding in _encoding)
+          for (final assetsForLinking in [
+            'assetsForLinking',
+            'assets_for_linking',
+          ])
+            (
+              [assetsForLinking, 'package_with_linker', 0, ...encoding, field],
+              expectRequiredFieldMissing,
+            ),
     ],
   ],
 ];

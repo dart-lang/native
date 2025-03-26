@@ -112,22 +112,34 @@ FieldsFunction _codeFields(AllTestData allTestData) {
           ),
           if (hook == Hook.link) ...[
             for (final field in requiredCodeAssetFields)
-              (['assets', 0, ...field], expectRequiredFieldMissing),
+              for (final encoding in _encoding)
+                (
+                  ['assets', 0, ...encoding, ...field],
+                  expectRequiredFieldMissing,
+                ),
           ],
         ],
       if (inputOrOutput == InputOrOutput.output) ...[
         for (final field in requiredCodeAssetFields)
-          (['assets', 0, ...field], expectRequiredFieldMissing),
+          for (final encoding in _encoding)
+            (['assets', 0, ...encoding, ...field], expectRequiredFieldMissing),
         if (hook == Hook.build) ...[
           for (final field in requiredCodeAssetFields)
-            for (final assetsForLinking in [
-              'assetsForLinking',
-              'assets_for_linking',
-            ])
-              (
-                [assetsForLinking, 'package_with_linker', 0, ...field],
-                expectRequiredFieldMissing,
-              ),
+            for (final encoding in _encoding)
+              for (final assetsForLinking in [
+                'assetsForLinking',
+                'assets_for_linking',
+              ])
+                (
+                  [
+                    assetsForLinking,
+                    'package_with_linker',
+                    0,
+                    ...encoding,
+                    ...field,
+                  ],
+                  expectRequiredFieldMissing,
+                ),
         ],
         (['assets', staticIndex, 'file'], expectRequiredFieldMissing),
         (
@@ -238,4 +250,9 @@ _codeFieldsAndroid({
         expectRequiredFieldMissing,
       ),
     ],
+];
+
+const _encoding = [
+  <String>[],
+  ['encoding'],
 ];

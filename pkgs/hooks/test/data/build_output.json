@@ -2,10 +2,16 @@
   "$schema": "../../doc/schema/hook/build_output.generated.schema.json",
   "assets": [
     {
+      "encoding": {
+        "some_key": "some_value"
+      },
       "some_key": "some_value",
       "type": "some_asset_type"
     },
     {
+      "encoding": {
+        "some_other_key": "some_value"
+      },
       "some_other_key": "some_value",
       "type": "some_other_asset_type"
     }
@@ -13,10 +19,16 @@
   "assetsForLinking": {
     "package_with_linker": [
       {
+        "encoding": {
+          "some_key": "some_value"
+        },
         "some_key": "some_value",
         "type": "some_asset_type"
       },
       {
+        "encoding": {
+          "some_other_key": "some_value"
+        },
         "some_other_key": "some_value",
         "type": "some_other_asset_type"
       }
@@ -25,10 +37,16 @@
   "assets_for_linking": {
     "package_with_linker": [
       {
+        "encoding": {
+          "some_key": "some_value"
+        },
         "some_key": "some_value",
         "type": "some_asset_type"
       },
       {
+        "encoding": {
+          "some_other_key": "some_value"
+        },
         "some_other_key": "some_value",
         "type": "some_other_asset_type"
       }
