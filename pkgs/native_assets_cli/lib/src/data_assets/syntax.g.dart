@@ -316,8 +316,7 @@ class JsonReader {
   /// Traverses a JSON path, returns `null` if the path cannot be traversed.
   Object? tryTraverse(List<String> path) {
     Object? json = this.json;
-    while (path.isNotEmpty) {
-      final key = path.removeAt(0);
+    for (final key in path) {
       if (json is! Map<String, Object?>) {
         return null;
       }
