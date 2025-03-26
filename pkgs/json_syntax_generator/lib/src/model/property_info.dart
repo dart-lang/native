@@ -35,8 +35,6 @@ class PropertyInfo {
   /// meal. See [SchemaAnalyzer.publicSetters].
   final bool setterPrivate;
 
-  bool get isRequired => !type.isNullable;
-
   PropertyInfo({
     required this.name,
     required this.jsonKey,
@@ -53,7 +51,6 @@ PropertyInfo(
   type: $type,
   isOverride: $isOverride,
   setterPrivate: $setterPrivate,
-  isRequired: $isRequired,
 )''';
 }
 

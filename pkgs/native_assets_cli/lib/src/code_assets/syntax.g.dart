@@ -223,7 +223,19 @@ class NativeCodeAsset extends Asset {
     ..._validateId(),
     ..._validateLinkMode(),
     ..._validateOs(),
+    ..._validateExtraRules(),
   ];
+
+  List<String> _validateExtraRules() {
+    final result = <String>[];
+    if ([
+      'dynamic_loading_bundle',
+      'static',
+    ].contains(_reader.tryTraverse(['link_mode', 'type']))) {
+      result.addAll(_reader.validate<Object>('file'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'NativeCodeAsset($json)';
@@ -565,7 +577,35 @@ class CodeConfig {
     ..._validateMacOS(),
     ..._validateTargetArchitecture(),
     ..._validateTargetOs(),
+    ..._validateExtraRules(),
   ];
+
+  List<String> _validateExtraRules() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['target_os']) == 'macos') {
+      result.addAll(_reader.validate<Object>('macos'));
+    }
+    if (_reader.tryTraverse(['target_os']) == 'ios') {
+      result.addAll(_reader.validate<Object>('ios'));
+    }
+    if (_reader.tryTraverse(['target_os']) == 'android') {
+      result.addAll(_reader.validate<Object>('android'));
+    }
+    if (_reader.tryTraverse(['target_os']) == 'windows') {
+      final objectErrors = _reader.validate<Map<String, Object?>?>(
+        'c_compiler',
+      );
+      result.addAll(objectErrors);
+      if (objectErrors.isEmpty) {
+        final jsonValue = _reader.get<Map<String, Object?>?>('c_compiler');
+        if (jsonValue != null) {
+          final reader = JsonReader(jsonValue, [...path, 'c_compiler']);
+          result.addAll(reader.validate<Object>('windows'));
+        }
+      }
+    }
+    return result;
+  }
 
   @override
   String toString() => 'CodeConfig($json)';
@@ -1126,6 +1166,18 @@ class JsonReader {
     }
     return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
         ' Expected a $expectedType.';
+  }
+
+  /// Traverses a JSON path, returns `null` if the path cannot be traversed.
+  Object? tryTraverse(List<String> path) {
+    Object? json = this.json;
+    for (final key in path) {
+      if (json is! Map<String, Object?>) {
+        return null;
+      }
+      json = json[key];
+    }
+    return json;
   }
 }
 
