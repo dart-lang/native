@@ -110,6 +110,11 @@ sealed class HookInputBuilder {
   void setupShared({
     required Uri packageRoot,
     required String packageName,
+    @Deprecated(
+      'This parameter is not read in `HookInput`. '
+      'It must still be provided to accommodate `HookInput`s in hooks using an '
+      'older version of this package.',
+    )
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
     required Uri outputFile,
