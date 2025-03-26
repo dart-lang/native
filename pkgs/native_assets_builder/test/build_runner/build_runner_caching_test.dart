@@ -213,25 +213,30 @@ void main() async {
         await runPubGet(workingDirectory: packageUri, logger: logger);
         logMessages.clear();
 
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              buildAssetTypes: [CodeAsset.type],
-              hookEnvironment:
-                  modifiedEnvKey == 'PATH'
-                      ? null
-                      : filteredEnvironment(
-                        NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
-                      ),
-            ))!;
+        (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [CodeAsset.type],
+          hookEnvironment:
+              modifiedEnvKey == 'PATH'
+                  ? null
+                  : filteredEnvironment(
+                    NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
+                  ),
+        ))!;
         logMessages.clear();
 
         // Simulate that the environment variables changed by augmenting the
         // persisted environment from the last invocation.
         final dependenciesHashFile = File.fromUri(
-          CodeAsset.fromEncoded(result.encodedAssets.single).file!.parent.parent
+          (Directory.fromUri(
+                    packageUri.resolve(
+                      '.dart_tool/native_assets_builder/native_add/',
+                    ),
+                  ).listSync().single
+                  as Directory)
+              .uri
               .resolve('dependencies.dependencies_hash_file.json'),
         );
         expect(await dependenciesHashFile.exists(), true);

@@ -14,6 +14,10 @@
     },
     "HookInput": {
       "properties": {
+        "out_dir": {
+          "$comment": "Future SDKs will no longer provide 'out_dir'. Use a unique subdirectory of 'out_dir_shared' instead.",
+          "deprecated": true
+        },
         "out_file": {
           "$comment": "'out_file' is not provided by older SDKs. Then, it must be $out_dir/output.json."
         },

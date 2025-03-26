@@ -114,7 +114,7 @@ void main() {
                   logger: logger,
                 );
 
-                final libUri = tempUri.resolve(libName);
+                final libUri = buildInput.outputDirectory.resolve(libName);
                 final objdumpResult = await runProcess(
                   executable: Uri.file('objdump'),
                   arguments: ['-t', libUri.path],
@@ -157,9 +157,8 @@ void main() {
                   );
                   if (installName == null) {
                     // If no install path is passed, we have an absolute path.
-                    final tempName = tempUri.pathSegments.lastWhere(
-                      (e) => e != '',
-                    );
+                    final tempName = buildInput.outputDirectory.pathSegments
+                        .lastWhere((e) => e != '');
                     final pathEnding =
                         Uri.directory(tempName).resolve(libName).toFilePath();
                     expect(Uri.file(libInstallName).isAbsolute, true);
@@ -270,6 +269,8 @@ Future<Uri> buildLib(
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-  final libUri = tempUri.resolve(OS.iOS.libraryFileName(name, linkMode));
+  final libUri = buildInput.outputDirectory.resolve(
+    OS.iOS.libraryFileName(name, linkMode),
+  );
   return libUri;
 }

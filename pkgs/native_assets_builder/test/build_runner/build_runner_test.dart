@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:file_testing/file_testing.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -52,12 +53,13 @@ void main() async {
         final stderrFile = File.fromUri(
           buildDirectory.uri.resolve('stderr.txt'),
         );
-        expect(stdoutFile.existsSync(), true);
+
+        expect(stdoutFile, exists);
         expect(
           stdoutFile.readAsStringSync(encoding: systemEncoding),
           contains('Some stdout.'),
         );
-        expect(stderrFile.existsSync(), true);
+        expect(stderrFile, exists);
         expect(
           stderrFile.readAsStringSync(encoding: systemEncoding),
           contains('Some stderr.'),

@@ -36,7 +36,22 @@ sealed class HookInput {
   ///
   /// The invoker of the the hook will ensure concurrent invocations wait on
   /// each other.
-  Uri get outputDirectory => _syntax.outDir;
+  Uri get outputDirectory {
+    if (_cachedOutputDirectory != null) {
+      return _cachedOutputDirectory!.uri;
+    }
+    final checksum = config.computeChecksum();
+    final directory = Directory.fromUri(
+      outputDirectoryShared.resolve('$checksum/'),
+    );
+    if (!directory.existsSync()) {
+      directory.createSync(recursive: true);
+    }
+    _cachedOutputDirectory = directory;
+    return directory.uri;
+  }
+
+  Directory? _cachedOutputDirectory;
 
   /// The directory in which shared output and intermediate artifacts can be
   /// placed.
@@ -95,6 +110,11 @@ sealed class HookInputBuilder {
   void setupShared({
     required Uri packageRoot,
     required String packageName,
+    @Deprecated(
+      'This parameter is not read in `HookInput`. '
+      'It must still be provided to accommodate `HookInput`s in hooks using an '
+      'older version of this package.',
+    )
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
     required Uri outputFile,
@@ -110,21 +130,22 @@ sealed class HookInputBuilder {
   /// Constructs a checksum for a [BuildInput].
   ///
   /// This can be used to construct an output directory name specific to the
-  /// [BuildInput] being built with this [BuildInputBuilder]. It is therefore
-  /// assumed the output directory has not been set yet.
-  String computeChecksum() {
-    final config = _syntax.config.json;
-    final hash = sha256
-        .convert(const JsonEncoder().fuse(const Utf8Encoder()).convert(config))
-        .toString()
-        // 256 bit hashes lead to 64 hex character strings.
-        // To avoid overflowing file paths limits, only use 32.
-        // Using 16 hex characters would also be unlikely to have collisions.
-        .substring(0, 32);
-    return hash;
-  }
+  /// [HookConfig] being built with this builder. It is therefore assumed the
+  /// output directory has not been set yet.
+  String computeChecksum() => _jsonChecksum(_syntax.config.json);
 
   HookConfigBuilder get config => HookConfigBuilder._(this);
+}
+
+String _jsonChecksum(Map<String, Object?> json) {
+  final hash = sha256
+      .convert(const JsonEncoder().fuse(const Utf8Encoder()).convert(json))
+      .toString()
+      // 256 bit hashes lead to 64 hex character strings.
+      // To avoid overflowing file paths limits, only use 32.
+      // Using 16 hex characters would also be unlikely to have collisions.
+      .substring(0, 32);
+  return hash;
 }
 
 final class BuildInput extends HookInput {
@@ -618,6 +639,13 @@ final class HookConfig {
   List<String> get buildAssetTypes => _syntax.buildAssetTypes;
 
   HookConfig._(HookInput input) : _syntax = input._syntax.config;
+
+  /// Constructs a checksum for this hook config.
+  ///
+  /// This can be used to construct an output directory name specific to the
+  /// [HookConfig] being built with this builder. It is therefore assumed the
+  /// output directory has not been set yet.
+  String computeChecksum() => _jsonChecksum(_syntax.json);
 }
 
 final class BuildConfig extends HookConfig {
