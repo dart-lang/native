@@ -63,7 +63,7 @@
             ]
           },
           "file": {
-            "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+            "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
           },
           "id": {
             "type": "string"
@@ -110,13 +110,13 @@
       "type": "object",
       "properties": {
         "ar": {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
         "cc": {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
         "env_script": {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
         "env_script_arguments": {
           "type": "array",
@@ -125,7 +125,7 @@
           }
         },
         "ld": {
-          "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
         "windows": {
           "type": "object",
@@ -140,7 +140,7 @@
                   }
                 },
                 "script": {
-                  "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+                  "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
                 }
               },
               "required": [
@@ -318,7 +318,7 @@
       "then": {
         "properties": {
           "uri": {
-            "$ref": "../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/relativePath"
+            "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/relativePath"
           }
         },
         "required": [

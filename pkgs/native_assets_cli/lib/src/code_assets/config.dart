@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../config.dart';
-import '../hook/syntax.g.dart' as hook_syntax;
+import '../hooks/syntax.g.dart' as hook_syntax;
 import 'architecture.dart';
 import 'c_compiler_config.dart';
 import 'code_asset.dart';

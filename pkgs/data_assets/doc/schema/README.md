@@ -14,4 +14,4 @@ These schemas document the protocol for build and link hooks with data assets.
 
 These schemas are an extension of the base protocol:
 
-* [`package:hook`/doc/schema](../../../hook/doc/schema/)
+* [`package:hooks`/doc/schema](../../../hooks/doc/schema/)

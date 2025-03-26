@@ -9,7 +9,7 @@
           "$ref": "#/definitions/HookInput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/BuildInput"
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/BuildInput"
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/BuildInput"
@@ -25,7 +25,7 @@
           "$ref": "#/definitions/HookOutput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/BuildOutput"
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/BuildOutput"
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/BuildOutput"
@@ -38,7 +38,7 @@
     "HookInput": {
       "allOf": [
         {
-          "$ref": "../../../../hook/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/HookInput"
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/HookInput"
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/HookInput"
@@ -51,7 +51,7 @@
     "HookOutput": {
       "allOf": [
         {
-          "$ref": "../../../../hook/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/HookOutput"
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/HookOutput"
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/HookOutput"
@@ -67,7 +67,7 @@
           "$ref": "#/definitions/HookInput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/LinkInput"
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/LinkInput"
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/LinkInput"
@@ -83,7 +83,7 @@
           "$ref": "#/definitions/HookOutput"
         },
         {
-          "$ref": "../../../../hook/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/LinkOutput"
+          "$ref": "../../../../hooks/doc/schema/sdk/shared_definitions.generated.schema.json#/definitions/LinkOutput"
         },
         {
           "$ref": "../shared/shared_definitions.generated.schema.json#/definitions/LinkOutput"

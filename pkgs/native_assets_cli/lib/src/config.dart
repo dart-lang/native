@@ -10,7 +10,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
 import 'encoded_asset.dart';
-import 'hook/syntax.g.dart' as syntax;
+import 'hooks/syntax.g.dart' as syntax;
 import 'metadata.dart';
 import 'utils/datetime.dart';
 import 'utils/json.dart';

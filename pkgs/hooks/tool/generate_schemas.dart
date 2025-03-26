@@ -13,7 +13,7 @@ void main() {
   generateEntryPoints();
 }
 
-Uri packageUri = findPackageRoot('hook');
+Uri packageUri = findPackageRoot('hooks');
 
 const jsonEncoder = JsonEncoder.withIndent('  ');
 
@@ -21,7 +21,7 @@ enum Party { hook, shared, sdk }
 
 enum Hook { build, hook, link }
 
-const packages = ['hook', 'code_assets', 'data_assets'];
+const packages = ['hooks', 'code_assets', 'data_assets'];
 
 void generateSharedDefinitions() {
   const hookOutputAssetOverride = {
@@ -72,7 +72,7 @@ void generateSharedDefinitions() {
       'allOf': [
         {
           r'$ref':
-              '../../../../hook/doc/schema/shared/shared_definitions.schema.json#/definitions/Config',
+              '../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/Config',
         },
         {r'$ref': 'shared_definitions.schema.json#/definitions/Config'},
       ],
@@ -81,7 +81,7 @@ void generateSharedDefinitions() {
 
   for (final package in packages) {
     for (final party in Party.values) {
-      if (package == 'hook' && party == Party.shared) continue;
+      if (package == 'hooks' && party == Party.shared) continue;
       final schemaUri = packageUri.resolve(
         '../$package/doc/schema/${party.name}/'
         'shared_definitions.generated.schema.json',
@@ -104,15 +104,15 @@ void generateSharedDefinitions() {
                       r'$ref':
                           '#/definitions/${definitionName(Hook.hook, inputOrOutput)}',
                     },
-                  if (package != 'hook')
+                  if (package != 'hooks')
                     {
                       r'$ref':
-                          '../../../../hook/doc/schema/${party.name}/shared_definitions${party == Party.shared ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
+                          '../../../../hooks/doc/schema/${party.name}/shared_definitions${party == Party.shared ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
                     },
                   if (party != Party.shared)
                     {
                       r'$ref':
-                          '../shared/shared_definitions${package == 'hook' ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
+                          '../shared/shared_definitions${package == 'hooks' ? '' : '.generated'}.schema.json#/definitions/${definitionName(hook, inputOrOutput)}',
                     },
                   if (package != 'data_assets' && party != Party.shared)
                     {

@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import '../native_assets_cli_builder.dart';
-import 'hook/syntax.g.dart' as syntax;
+import 'hooks/syntax.g.dart' as syntax;
 
 typedef ValidationErrors = List<String>;
 

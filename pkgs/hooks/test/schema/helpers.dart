@@ -83,11 +83,11 @@ AllSchemas loadSchemas(List<Uri> directories) {
         if (ref.startsWith('/')) {
           ref = ref.substring(1);
         }
-        if (ref.startsWith('hook/doc/schema/')) {
+        if (ref.startsWith('hooks/doc/schema/')) {
           ref = '../../../../$ref';
         } else if (ref.startsWith('shared/')) {
           ref = '../$ref';
-        } else if (ref.startsWith('../../../hook/doc/schema/')) {
+        } else if (ref.startsWith('../../../hooks/doc/schema/')) {
           ref = '../$ref';
         }
         final x = entry.key.resolve(ref);

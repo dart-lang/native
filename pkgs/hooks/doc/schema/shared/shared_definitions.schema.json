@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "title": "package:hook party:shared shared definitions",
+  "title": "package:hooks party:shared shared definitions",
   "definitions": {
     "Asset": {
       "type": "object",
