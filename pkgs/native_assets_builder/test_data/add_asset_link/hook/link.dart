@@ -13,8 +13,8 @@ void main(List<String> arguments) async {
               package: 'add_asset_link',
               name: 'dylib_add_link',
               linkMode: builtDylib.linkMode,
-              os: builtDylib.os,
-              architecture: builtDylib.architecture,
+              os: input.config.code.targetOS,
+              architecture: input.config.code.targetArchitecture,
               file: builtDylib.file,
             ),
           )
