@@ -5,6 +5,7 @@
 import '../config.dart';
 import '../encoded_asset.dart';
 import 'architecture.dart';
+import 'config.dart';
 import 'link_mode.dart';
 import 'os.dart';
 import 'syntax.g.dart' as syntax;
@@ -34,31 +35,30 @@ import 'syntax.g.dart' as syntax;
 /// * Assets which designate symbols present in the target system
 ///   ([DynamicLoadingSystem]), process ([LookupInProcess]), or executable
 ///   ([LookupInExecutable]). These assets do not have a [file].
-/// * Dynamic libraries bundled into the application
-///   ([DynamicLoadingBundled]). These assets must provide a [file] to be
-///   bundled.
+/// * Dynamic libraries bundled into the application ([DynamicLoadingBundled]).
+///   These assets must provide a [file] to be bundled.
 ///
-/// An application is compiled to run on a specific target [os] and
-/// [architecture]. Different targets require different assets, so the package
-/// developer must specify which asset to bundle for which target.
+/// An application is compiled to run on a specific target [CodeConfig.targetOS]
+/// and [CodeConfig.targetArchitecture]. Different targets require different
+/// assets, so the package developer must specify which asset to bundle for
+/// which target.
 ///
 /// An asset has different ways of being accessible in the final application. It
 /// is either brought in "manually" by having the package developer specify a
 /// [file] path of the asset on the current system, it can be part of the Dart
 /// or Flutter SDK ([LookupInProcess]), or it can be already present in the
-/// target system ([DynamicLoadingSystem]). If the asset is bundled
-/// "manually", the Dart or Flutter SDK will take care of copying the asset
-/// [file] from its specified location on the current system into the
-/// application bundle.
+/// target system ([DynamicLoadingSystem]). If the asset is bundled "manually",
+/// the Dart or Flutter SDK will take care of copying the asset [file] from its
+/// specified location on the current system into the application bundle.
 final class CodeAsset {
   /// The id of this code asset.
   final String id;
 
   /// The operating system this asset can run on.
-  final OS os;
+  final OS _os;
 
   /// The architecture this asset can run on.
-  final Architecture architecture;
+  final Architecture _architecture;
 
   /// The link mode for this native code.
   ///
@@ -99,10 +99,11 @@ final class CodeAsset {
   CodeAsset._({
     required this.id,
     required this.linkMode,
-    required this.os,
+    required OS os,
     required this.file,
-    required this.architecture,
-  });
+    required Architecture architecture,
+  }) : _architecture = architecture,
+       _os = os;
 
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.type == CodeAsset.type);
@@ -128,8 +129,8 @@ final class CodeAsset {
   }) => CodeAsset._(
     id: id ?? this.id,
     linkMode: linkMode ?? this.linkMode,
-    os: os ?? this.os,
-    architecture: architecture ?? this.architecture,
+    os: os ?? _os,
+    architecture: architecture ?? _architecture,
     file: file ?? this.file,
   );
 
@@ -140,26 +141,34 @@ final class CodeAsset {
     }
     return other.id == id &&
         other.linkMode == linkMode &&
-        other.architecture == architecture &&
-        other.os == os &&
+        other._architecture == _architecture &&
+        other._os == _os &&
         other.file == file;
   }
 
   @override
-  int get hashCode => Object.hash(id, linkMode, architecture, os, file);
+  int get hashCode => Object.hash(id, linkMode, _architecture, _os, file);
 
   EncodedAsset encode() {
     final encoding = syntax.NativeCodeAssetEncoding(
-      architecture: architecture.toSyntax(),
+      architecture: _architecture.toSyntax(),
       file: file,
       id: id,
       linkMode: linkMode.toSyntax(),
-      os: os.toSyntax(),
+
+      os: _os.toSyntax(),
     );
     return EncodedAsset(CodeAsset.type, encoding.json);
   }
 
   static const String type = 'native_code';
+}
+
+// These field will be removed in the future, prevent anyone from reading them.
+extension ForValidationOnly on CodeAsset {
+  OS get os => _os;
+
+  Architecture get architecture => _architecture;
 }
 
 extension OSLibraryNaming on OS {

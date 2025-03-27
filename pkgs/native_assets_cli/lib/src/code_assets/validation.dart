@@ -4,8 +4,14 @@
 
 import 'dart:io';
 
-import '../../code_assets_builder.dart';
+import '../config.dart';
+import '../encoded_asset.dart';
+import '../validation.dart';
+import 'code_asset.dart';
+import 'config.dart';
 import 'link_mode.dart';
+import 'link_mode_preference.dart';
+import 'os.dart';
 import 'syntax.g.dart' as syntax;
 
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
