@@ -171,7 +171,7 @@ extension CodeAssetType on CodeAsset {
   // TODO(https://github.com/dart-lang/native/issues/2132): Change to be
   // namespaced by package name. (We'll temporarily need to support both the
   // old a new type.)
-  static const String type = 'native_code';
+  static const String type = syntax.NativeCodeAsset.typeValue;
 }
 
 extension EncodedCodeAsset on EncodedAsset {

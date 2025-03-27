@@ -45,6 +45,7 @@ void main(List<String> args) {
             'HookOutput',
             'LinkOutput',
           ],
+          visbleUnionTagValues: ['Asset'],
         ).analyze();
     final textDumpFile = File.fromUri(
       packageUri.resolve(

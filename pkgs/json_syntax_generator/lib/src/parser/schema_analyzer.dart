@@ -44,11 +44,15 @@ class SchemaAnalyzer {
   /// Generate public setters for these class names.
   final List<String> publicSetters;
 
+  /// For subtypes of these classes, the union tag values are exposed.
+  final List<String> visbleUnionTagValues;
+
   SchemaAnalyzer(
     this.schema, {
     this.capitalizationOverrides = const {},
     this.classSorting,
     this.publicSetters = const [],
+    this.visbleUnionTagValues = const [],
   });
 
   /// Accumulator for all classes during the analysis.
@@ -164,6 +168,7 @@ class SchemaAnalyzer {
       taggedUnionValue: taggedUnionValue,
       taggedUnionProperty:
           schemas.generateSubClasses ? properties.single.name : null,
+      visibleTaggedUnion: visbleUnionTagValues.contains(typeName),
       extraValidation: extraValidation,
     );
     _classes[typeName] = classInfo;

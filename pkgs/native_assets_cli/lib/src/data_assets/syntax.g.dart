@@ -50,6 +50,8 @@ class Asset {
 }
 
 class DataAsset extends Asset {
+  static const typeValue = 'data';
+
   DataAsset.fromJson(super.json, {super.path}) : super._fromJson();
 
   DataAsset({
