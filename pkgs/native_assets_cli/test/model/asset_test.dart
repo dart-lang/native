@@ -78,6 +78,13 @@ void main() {
       'link_mode': {'type': 'dynamic_loading_bundle'},
       'os': 'android',
       'type': 'native_code',
+      'encoding': {
+        'architecture': 'x64',
+        'file': fooUri.toFilePath(),
+        'id': 'package:my_package/foo',
+        'link_mode': {'type': 'dynamic_loading_bundle'},
+        'os': 'android',
+      },
     },
     {
       'architecture': 'x64',
@@ -88,6 +95,15 @@ void main() {
       },
       'os': 'android',
       'type': 'native_code',
+      'encoding': {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo3',
+        'link_mode': {
+          'type': 'dynamic_loading_system',
+          'uri': foo3Uri.toFilePath(),
+        },
+        'os': 'android',
+      },
     },
     {
       'architecture': 'x64',
@@ -95,6 +111,12 @@ void main() {
       'link_mode': {'type': 'dynamic_loading_executable'},
       'os': 'android',
       'type': 'native_code',
+      'encoding': {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo4',
+        'link_mode': {'type': 'dynamic_loading_executable'},
+        'os': 'android',
+      },
     },
     {
       'architecture': 'x64',
@@ -102,6 +124,12 @@ void main() {
       'link_mode': {'type': 'dynamic_loading_process'},
       'os': 'android',
       'type': 'native_code',
+      'encoding': {
+        'architecture': 'x64',
+        'id': 'package:my_package/foo5',
+        'link_mode': {'type': 'dynamic_loading_process'},
+        'os': 'android',
+      },
     },
     {
       'architecture': 'arm64',
@@ -110,6 +138,13 @@ void main() {
       'link_mode': {'type': 'static'},
       'os': 'linux',
       'type': 'native_code',
+      'encoding': {
+        'architecture': 'arm64',
+        'file': barUri.toFilePath(),
+        'id': 'package:my_package/bar',
+        'link_mode': {'type': 'static'},
+        'os': 'linux',
+      },
     },
     {
       'architecture': 'x64',
@@ -118,18 +153,35 @@ void main() {
       'link_mode': {'type': 'dynamic_loading_bundle'},
       'os': 'windows',
       'type': 'native_code',
+      'encoding': {
+        'architecture': 'x64',
+        'file': blaUri.toFilePath(),
+        'id': 'package:my_package/bla',
+        'link_mode': {'type': 'dynamic_loading_bundle'},
+        'os': 'windows',
+      },
     },
     {
       'name': 'my_data_asset',
       'package': 'my_package',
       'file': Uri.file('path/to/data.txt').toFilePath(),
       'type': 'data',
+      'encoding': {
+        'name': 'my_data_asset',
+        'package': 'my_package',
+        'file': Uri.file('path/to/data.txt').toFilePath(),
+      },
     },
     {
       'name': 'my_data_asset2',
       'package': 'my_package',
       'file': Uri.file('path/to/data.json').toFilePath(),
       'type': 'data',
+      'encoding': {
+        'name': 'my_data_asset2',
+        'package': 'my_package',
+        'file': Uri.file('path/to/data.json').toFilePath(),
+      },
     },
   ];
 

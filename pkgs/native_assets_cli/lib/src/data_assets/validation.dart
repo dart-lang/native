@@ -92,14 +92,14 @@ void _validateDataAsset(
 }
 
 ValidationErrors _validateDataAssetSyntax(EncodedAsset encodedAsset) {
-  final syntaxNode = syntax.Asset.fromJson(
-    encodedAsset.toJson(),
-    path: encodedAsset.jsonPath ?? [],
-  );
-  if (!syntaxNode.isDataAsset) {
+  if (encodedAsset.type != DataAsset.type) {
     return [];
   }
-  final syntaxErrors = syntaxNode.asDataAsset.validate();
+  final syntaxNode = syntax.DataAssetEncoding.fromJson(
+    encodedAsset.encoding,
+    path: encodedAsset.jsonPath ?? [],
+  );
+  final syntaxErrors = syntaxNode.validate();
   if (syntaxErrors.isEmpty) {
     return [];
   }

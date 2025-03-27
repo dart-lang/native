@@ -33,20 +33,16 @@ void processDirectory(Directory directory) {
 }
 
 void processFile(File file) {
-  try {
-    final contents = file.readAsStringSync();
-    final dynamic decoded = json.decode(contents);
+  final contents = file.readAsStringSync();
+  final dynamic decoded = json.decode(contents);
 
-    final sorted = sortJson(decoded, file.path);
+  final sorted = sortJson(decoded, file.path);
 
-    const encoder = JsonEncoder.withIndent('  ');
-    final sortedJson = encoder.convert(sorted);
+  const encoder = JsonEncoder.withIndent('  ');
+  final sortedJson = encoder.convert(sorted);
 
-    file.writeAsStringSync('$sortedJson\n');
-    print('Normalized: ${file.path}');
-  } catch (e) {
-    print('Error processing ${file.path}: $e');
-  }
+  file.writeAsStringSync('$sortedJson\n');
+  print('Normalized: ${file.path}');
 }
 
 const List<String> _orderedKeysInSchemas = [
@@ -171,29 +167,7 @@ dynamic sortJson(dynamic data, String filePath) {
   if (data is List) {
     return data.map((item) => sortJson(item, filePath)).toList()..sort((a, b) {
       if (a is Map && b is Map) {
-        final aKeys = a.keys.toList();
-        final bKeys = b.keys.toList();
-        for (var i = 0; i < aKeys.length && i < bKeys.length; i++) {
-          final comparison = aKeys[i].toString().compareTo(bKeys[i].toString());
-          if (comparison != 0) {
-            return comparison;
-          }
-          final aValue = a[aKeys[i]];
-          final bValue = b[bKeys[i]];
-          if (aValue is String && bValue is String) {
-            final valueComparison = aValue.compareTo(bValue);
-            if (valueComparison != 0) {
-              return valueComparison;
-            }
-          }
-          if (aValue == bValue) {
-            continue;
-          }
-          throw UnimplementedError(
-            'Not implemented to compare $aValue and $bValue.',
-          );
-        }
-        return 0;
+        return compareMaps(a, b);
       }
       if (a is String && b is String) {
         return a.compareTo(b);
@@ -202,4 +176,34 @@ dynamic sortJson(dynamic data, String filePath) {
     });
   }
   return data;
+}
+
+int compareMaps(Map<dynamic, dynamic> a, Map<dynamic, dynamic> b) {
+  final aKeys = a.keys.toList();
+  final bKeys = b.keys.toList();
+  for (var i = 0; i < aKeys.length && i < bKeys.length; i++) {
+    final comparison = aKeys[i].toString().compareTo(bKeys[i].toString());
+    if (comparison != 0) {
+      return comparison;
+    }
+    final aValue = a[aKeys[i]];
+    final bValue = b[bKeys[i]];
+    if (aValue is String && bValue is String) {
+      final valueComparison = aValue.compareTo(bValue);
+      if (valueComparison != 0) {
+        return valueComparison;
+      }
+    }
+    if (aValue is Map && bValue is Map) {
+      final valueComparison = compareMaps(aValue, bValue);
+      if (valueComparison != 0) {
+        return valueComparison;
+      }
+    }
+    if (aValue == bValue) {
+      continue;
+    }
+    throw UnimplementedError('Not implemented to compare $aValue and $bValue.');
+  }
+  return 0;
 }

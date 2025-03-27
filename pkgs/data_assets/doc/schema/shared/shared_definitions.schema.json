@@ -26,22 +26,35 @@
       },
       "then": {
         "properties": {
-          "file": {
-            "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
-          },
-          "name": {
-            "type": "string"
-          },
-          "package": {
-            "type": "string"
+          "encoding": {
+            "$ref": "#/definitions/DataAssetEncoding"
           }
         },
-        "required": [
-          "file",
-          "name",
-          "package"
+        "allOf": [
+          {
+            "$ref": "#/definitions/DataAssetEncoding"
+          }
         ]
       }
+    },
+    "DataAssetEncoding": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
+        },
+        "name": {
+          "type": "string"
+        },
+        "package": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "file",
+        "name",
+        "package"
+      ]
     }
   }
 }

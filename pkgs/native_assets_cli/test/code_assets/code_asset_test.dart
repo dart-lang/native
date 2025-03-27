@@ -23,6 +23,13 @@ void main() async {
         'link_mode': {'type': 'dynamic_loading_bundle'},
         'os': 'android',
         'type': 'native_code',
+        'encoding': {
+          'architecture': 'riscv64',
+          'file': 'not there',
+          'id': 'package:my_package/name',
+          'link_mode': {'type': 'dynamic_loading_bundle'},
+          'os': 'android',
+        },
       },
     );
   });

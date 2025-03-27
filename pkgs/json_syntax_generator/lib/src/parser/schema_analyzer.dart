@@ -103,10 +103,10 @@ class SchemaAnalyzer {
     NormalClassInfo? superclass,
     String? taggedUnionValue,
   }) {
-    var typeName = schemas.className;
+    final typeName =
+        name != null ? _ucFirst(_snakeToCamelCase(name)) : schemas.className!;
     if (_classes[typeName] != null) return; // Already analyzed.
 
-    typeName ??= _ucFirst(_snakeToCamelCase(name!));
     final properties = <PropertyInfo>[];
 
     if (superclass == null) {

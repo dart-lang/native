@@ -18,6 +18,11 @@ void main() async {
         'package': 'my_package',
         'name': 'name',
         'type': 'data',
+        'encoding': {
+          'file': 'not there',
+          'name': 'name',
+          'package': 'my_package',
+        },
       },
     );
   });
