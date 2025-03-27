@@ -232,7 +232,7 @@ void _validateCodeAsset(
   }
 
   final os = codeAsset.os;
-  if (codeConfig.targetOS != os) {
+  if (os != null && codeConfig.targetOS != os) {
     final error =
         'CodeAsset "$id" has a os "$os", which '
         'is not the target os "${codeConfig.targetOS}".';
@@ -240,8 +240,7 @@ void _validateCodeAsset(
   }
 
   final architecture = codeAsset.architecture;
-
-  if (architecture != codeConfig.targetArchitecture) {
+  if (architecture != null && architecture != codeConfig.targetArchitecture) {
     errors.add(
       'CodeAsset "$id" has an architecture "$architecture", which '
       'is not the target architecture "${codeConfig.targetArchitecture}".',

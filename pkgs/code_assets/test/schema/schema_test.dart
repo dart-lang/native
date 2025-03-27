@@ -87,13 +87,15 @@ FieldsFunction _codeFields(AllTestData allTestData) {
     required Hook hook,
     required Party party,
   }) {
-    const requiredCodeAssetFields = [
-      ['architecture'],
-      ['os'],
-      ['id'],
-      ['link_mode'],
-      ['link_mode', 'type'],
-    ];
+    // (expectFunction, path)
+    const codeAssetFields =
+        <(List<Object>, void Function(ValidationResults result))>[
+          (['architecture'], expectOptionalFieldMissing),
+          (['os'], expectOptionalFieldMissing),
+          (['id'], expectRequiredFieldMissing),
+          (['link_mode'], expectRequiredFieldMissing),
+          (['link_mode', 'type'], expectRequiredFieldMissing),
+        ];
 
     return <(List<Object>, void Function(ValidationResults result))>[
       for (final codeConfigPath in [
@@ -111,20 +113,17 @@ FieldsFunction _codeFields(AllTestData allTestData) {
             expectRequiredFieldMissing,
           ),
           if (hook == Hook.link) ...[
-            for (final field in requiredCodeAssetFields)
+            for (final (field, expect) in codeAssetFields)
               for (final encoding in _encoding)
-                (
-                  ['assets', 0, ...encoding, ...field],
-                  expectRequiredFieldMissing,
-                ),
+                (['assets', 0, ...encoding, ...field], expect),
           ],
         ],
       if (inputOrOutput == InputOrOutput.output) ...[
-        for (final field in requiredCodeAssetFields)
+        for (final (field, expect) in codeAssetFields)
           for (final encoding in _encoding)
-            (['assets', 0, ...encoding, ...field], expectRequiredFieldMissing),
+            (['assets', 0, ...encoding, ...field], expect),
         if (hook == Hook.build) ...[
-          for (final field in requiredCodeAssetFields)
+          for (final (field, expect) in codeAssetFields)
             for (final encoding in _encoding)
               for (final assetsForLinking in [
                 'assetsForLinking',
@@ -138,7 +137,7 @@ FieldsFunction _codeFields(AllTestData allTestData) {
                     ...encoding,
                     ...field,
                   ],
-                  expectRequiredFieldMissing,
+                  expect,
                 ),
         ],
         (['assets', staticIndex, 'file'], expectRequiredFieldMissing),

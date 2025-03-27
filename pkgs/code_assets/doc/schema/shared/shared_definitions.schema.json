@@ -340,10 +340,8 @@
         }
       },
       "required": [
-        "architecture",
         "id",
-        "link_mode",
-        "os"
+        "link_mode"
       ],
       "if": {
         "properties": {

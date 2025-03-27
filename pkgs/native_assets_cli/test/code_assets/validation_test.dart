@@ -158,45 +158,6 @@ void main() {
       ),
       isEmpty,
     );
-
-    traverseJson<Map<String, Object?>>(outputBuilder.json, [
-      'assets',
-      0,
-      'encoding',
-    ]).remove('architecture');
-    expect(
-      await validateCodeAssetBuildOutput(
-        input,
-        BuildOutput(outputBuilder.json),
-      ),
-      contains(
-        contains(
-          'No value was provided for \'assets.0.encoding.architecture\'.'
-          ' Expected a String.',
-        ),
-      ),
-    );
-
-    traverseJson<Map<String, Object?>>(outputBuilder.json, [
-      'assets',
-      0,
-    ]).remove('encoding');
-    traverseJson<Map<String, Object?>>(outputBuilder.json, [
-      'assets',
-      0,
-    ]).remove('architecture');
-    expect(
-      await validateCodeAssetBuildOutput(
-        input,
-        BuildOutput(outputBuilder.json),
-      ),
-      contains(
-        contains(
-          'No value was provided for \'assets.0.architecture\'.'
-          ' Expected a String.',
-        ),
-      ),
-    );
   });
 
   test('dynamic_loading_system uri missing', () async {
