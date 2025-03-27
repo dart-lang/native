@@ -350,7 +350,7 @@ class HookInput {
     required Uri? outFile,
     required String packageName,
     required Uri packageRoot,
-    required String version,
+    required String? version,
   }) : json = {},
        path = const [] {
     this.config = config;
@@ -428,14 +428,14 @@ class HookInput {
 
   List<String> _validatePackageRoot() => _reader.validatePath('package_root');
 
-  String get version => _reader.get<String>('version');
+  String? get version => _reader.get<String?>('version');
 
-  set version(String value) {
+  set version(String? value) {
     json.setOrRemove('version', value);
     json.sortOnKey();
   }
 
-  List<String> _validateVersion() => _reader.validate<String>('version');
+  List<String> _validateVersion() => _reader.validate<String?>('version');
 
   List<String> validate() => [
     ..._validateConfig(),
@@ -464,7 +464,7 @@ class HookOutput {
     required List<Asset>? assets,
     required List<Uri>? dependencies,
     required String timestamp,
-    required String version,
+    required String? version,
   }) : json = {},
        path = const [] {
     this.assets = assets;
@@ -528,14 +528,14 @@ class HookOutput {
 
   List<String> _validateTimestamp() => _reader.validate<String>('timestamp');
 
-  String get version => _reader.get<String>('version');
+  String? get version => _reader.get<String?>('version');
 
-  set version(String value) {
+  set version(String? value) {
     json.setOrRemove('version', value);
     json.sortOnKey();
   }
 
-  List<String> _validateVersion() => _reader.validate<String>('version');
+  List<String> _validateVersion() => _reader.validate<String?>('version');
 
   List<String> validate() => [
     ..._validateAssets(),

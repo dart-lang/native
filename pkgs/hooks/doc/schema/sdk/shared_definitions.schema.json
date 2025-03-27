@@ -36,10 +36,6 @@
     "HookOutput": {},
     "LinkInput": {
       "$ref": "../shared/shared_definitions.schema.json#/definitions/LinkInput",
-      "required": [
-        "out_file",
-        "version"
-      ],
       "unevaluatedProperties": false
     },
     "LinkOutput": {}
