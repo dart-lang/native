@@ -198,9 +198,17 @@
     },
     "absolutePath": {
       "type": "string",
-      "pattern": "^(\\/|[A-Za-z]:)"
+      "anyOf": [
+        {
+          "format": "uri"
+        },
+        {
+          "pattern": "^(\\/|[A-Za-z]:)"
+        }
+      ]
     },
     "relativePath": {
+      "$comment": "Dart Uris with a relative path serialize to a path with without a schema. format:uri must have a schema, so we can't use it here.",
       "type": "string",
       "pattern": "^([A-Za-z])"
     }

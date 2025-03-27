@@ -16,10 +16,10 @@
       "some_other_asset_type"
     ]
   },
-  "out_dir": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/out/",
-  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/link/",
-  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/output.json",
+  "out_dir": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/out/",
+  "out_dir_shared": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/link/",
+  "out_file": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/output.json",
   "package_name": "my_package",
-  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+  "package_root": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/",
   "version": "1.9.0"
 }

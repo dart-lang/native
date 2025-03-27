@@ -17,7 +17,7 @@
     }
   ],
   "dependencies": [
-    "C:\\src\\dacoharkes\\playground\\my_package\\src\\my_package.c"
+    "file:///C:/src/dacoharkes/playground/my_package/src/my_package.c"
   ],
   "timestamp": "2025-02-17 09:57:36.000",
   "version": "1.9.0"

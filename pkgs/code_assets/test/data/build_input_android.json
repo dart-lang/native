@@ -2,6 +2,7 @@
   "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
   "config": {
     "build_asset_types": [
+      "code_assets/code",
       "native_code"
     ],
     "code": {
@@ -9,9 +10,9 @@
         "target_ndk_api": 21
       },
       "c_compiler": {
-        "ar": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar",
-        "cc": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
-        "ld": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
+        "ar": "file:///Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar",
+        "cc": "file:///Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+        "ld": "file:///Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
       },
       "link_mode_preference": "dynamic",
       "target_architecture": "arm",
@@ -23,9 +24,9 @@
           "target_ndk_api": 21
         },
         "c_compiler": {
-          "ar": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar",
-          "cc": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
-          "ld": "/Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
+          "ar": "file:///Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ar",
+          "cc": "file:///Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+          "ld": "file:///Users/dacoharkes/Library/Android/sdk/ndk/28.0.12674087/toolchains/llvm/prebuilt/darwin-x86_64/bin/ld.lld"
         },
         "link_mode_preference": "dynamic",
         "target_architecture": "arm",
@@ -34,10 +35,10 @@
     },
     "linking_enabled": true
   },
-  "out_dir": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/out/",
-  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/Hook.build/",
-  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/output.json",
+  "out_dir": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/out/",
+  "out_dir_shared": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/Hook.build/",
+  "out_file": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/output.json",
   "package_name": "my_package",
-  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+  "package_root": "file:///Users/dacoharkes/src/dacoharkes/playground/my_package/",
   "version": "1.9.0"
 }

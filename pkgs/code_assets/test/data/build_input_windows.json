@@ -2,19 +2,20 @@
   "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
   "config": {
     "build_asset_types": [
+      "code_assets/code",
       "native_code"
     ],
     "code": {
       "c_compiler": {
-        "ar": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\lib.exe",
-        "cc": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
-        "env_script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
+        "ar": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/lib.exe",
+        "cc": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/cl.exe",
+        "env_script": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Auxiliary/Build/vcvars64.bat",
         "env_script_arguments": [],
-        "ld": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\link.exe",
+        "ld": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/link.exe",
         "windows": {
           "developer_command_prompt": {
             "arguments": [],
-            "script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
+            "script": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Auxiliary/Build/vcvars64.bat"
           }
         }
       },
@@ -25,15 +26,15 @@
     "extensions": {
       "code_assets": {
         "c_compiler": {
-          "ar": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\lib.exe",
-          "cc": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe",
-          "env_script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
+          "ar": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/lib.exe",
+          "cc": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/cl.exe",
+          "env_script": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Auxiliary/Build/vcvars64.bat",
           "env_script_arguments": [],
-          "ld": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\link.exe",
+          "ld": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Tools/MSVC/14.35.32215/bin/Hostx64/x64/link.exe",
           "windows": {
             "developer_command_prompt": {
               "arguments": [],
-              "script": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
+              "script": "file:///C:/Program%20Files/Microsoft%20Visual%20Studio/2022/Community/VC/Auxiliary/Build/vcvars64.bat"
             }
           }
         },
@@ -44,10 +45,10 @@
     },
     "linking_enabled": false
   },
-  "out_dir": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\out\\",
-  "out_dir_shared": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\shared\\my_package\\Hook.build\\",
-  "out_file": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\output.json",
-  "package_name": "my_package",
-  "package_root": "C:\\src\\dacoharkes\\playground\\my_package\\",
+  "out_dir": "file:///C:/Users/dacoharkes/AppData/Local/Temp/d43a3493/native_add/.dart_tool/native_assets_builder/native_add/24578518e9a9f646fab867f3b485cd31/out/",
+  "out_dir_shared": "file:///C:/Users/dacoharkes/AppData/Local/Temp/d43a3493/native_add/.dart_tool/native_assets_builder/shared/native_add/build/",
+  "out_file": "file:///C:/Users/dacoharkes/AppData/Local/Temp/d43a3493/native_add/.dart_tool/native_assets_builder/native_add/24578518e9a9f646fab867f3b485cd31/output.json",
+  "package_name": "native_add",
+  "package_root": "file:///C:/Users/dacoharkes/AppData/Local/Temp/d43a3493/native_add/",
   "version": "1.9.0"
 }

@@ -8,12 +8,12 @@ import 'package:native_assets_cli/data_assets.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final fooUri = Uri.file('path/to/libfoo.so');
-  final foo3Uri = Uri(path: 'libfoo3.so');
-  final barUri = Uri(path: 'path/to/libbar.a');
-  final blaUri = Uri(path: 'path/with spaces/bla.dll');
-  final dataUri = Uri.file('path/to/data.txt');
-  final data2Uri = Uri.file('path/to/data.json');
+  final fooUri = Uri.file('/path/to/libfoo.so');
+  final foo3Uri = Uri.file('libfoo3.so');
+  final barUri = Uri.file('/path/to/libbar.a');
+  final blaUri = Uri.file('/path/with spaces/bla.dll');
+  final dataUri = Uri.file('/path/to/data.txt');
+  final data2Uri = Uri.file('/path/to/data.json');
   final nativeCodeAssets = [
     CodeAsset(
       package: 'my_package',
@@ -70,17 +70,19 @@ void main() {
     for (final asset in dataAssets) asset.encode(),
   ];
 
-  final assetsJsonEncoding = [
+  List<Map<String, Object>> assetsJsonEncoding(
+    String Function(Uri) uriSerialization,
+  ) => [
     {
       'architecture': 'x64',
-      'file': fooUri.toFilePath(),
+      'file': uriSerialization(fooUri),
       'id': 'package:my_package/foo',
       'link_mode': {'type': 'dynamic_loading_bundle'},
       'os': 'android',
       'type': 'native_code',
       'encoding': {
         'architecture': 'x64',
-        'file': fooUri.toFilePath(),
+        'file': uriSerialization(fooUri),
         'id': 'package:my_package/foo',
         'link_mode': {'type': 'dynamic_loading_bundle'},
         'os': 'android',
@@ -91,7 +93,7 @@ void main() {
       'id': 'package:my_package/foo3',
       'link_mode': {
         'type': 'dynamic_loading_system',
-        'uri': foo3Uri.toFilePath(),
+        'uri': uriSerialization(foo3Uri),
       },
       'os': 'android',
       'type': 'native_code',
@@ -100,7 +102,7 @@ void main() {
         'id': 'package:my_package/foo3',
         'link_mode': {
           'type': 'dynamic_loading_system',
-          'uri': foo3Uri.toFilePath(),
+          'uri': uriSerialization(foo3Uri),
         },
         'os': 'android',
       },
@@ -133,14 +135,14 @@ void main() {
     },
     {
       'architecture': 'arm64',
-      'file': barUri.toFilePath(),
+      'file': uriSerialization(barUri),
       'id': 'package:my_package/bar',
       'link_mode': {'type': 'static'},
       'os': 'linux',
       'type': 'native_code',
       'encoding': {
         'architecture': 'arm64',
-        'file': barUri.toFilePath(),
+        'file': uriSerialization(barUri),
         'id': 'package:my_package/bar',
         'link_mode': {'type': 'static'},
         'os': 'linux',
@@ -148,14 +150,14 @@ void main() {
     },
     {
       'architecture': 'x64',
-      'file': blaUri.toFilePath(),
+      'file': uriSerialization(blaUri),
       'id': 'package:my_package/bla',
       'link_mode': {'type': 'dynamic_loading_bundle'},
       'os': 'windows',
       'type': 'native_code',
       'encoding': {
         'architecture': 'x64',
-        'file': blaUri.toFilePath(),
+        'file': uriSerialization(blaUri),
         'id': 'package:my_package/bla',
         'link_mode': {'type': 'dynamic_loading_bundle'},
         'os': 'windows',
@@ -164,30 +166,38 @@ void main() {
     {
       'name': 'my_data_asset',
       'package': 'my_package',
-      'file': Uri.file('path/to/data.txt').toFilePath(),
+      'file': uriSerialization(dataUri),
       'type': 'data',
       'encoding': {
         'name': 'my_data_asset',
         'package': 'my_package',
-        'file': Uri.file('path/to/data.txt').toFilePath(),
+        'file': uriSerialization(dataUri),
       },
     },
     {
       'name': 'my_data_asset2',
       'package': 'my_package',
-      'file': Uri.file('path/to/data.json').toFilePath(),
+      'file': uriSerialization(data2Uri),
       'type': 'data',
       'encoding': {
         'name': 'my_data_asset2',
         'package': 'my_package',
-        'file': Uri.file('path/to/data.json').toFilePath(),
+        'file': uriSerialization(data2Uri),
       },
     },
   ];
 
   test('asset json', () {
+    expect(fooUri.isAbsolute, isTrue);
+    expect(foo3Uri.isAbsolute, isFalse);
+    expect(barUri.isAbsolute, isTrue);
+    expect(blaUri.isAbsolute, isTrue);
+    expect(dataUri.isAbsolute, isTrue);
+    expect(data2Uri.isAbsolute, isTrue);
     final json = [for (final item in assets) item.toJson()];
-    expect(json, assetsJsonEncoding);
+    // TODO(https://github.com/dart-lang/native/issues/2040): Change to
+    // toString if we change to json schema format uri.
+    expect(json, assetsJsonEncoding((u) => u.toFilePath()));
     final assets2 = [for (final e in json) EncodedAsset.fromJson(e)];
     expect(assets, assets2);
   });

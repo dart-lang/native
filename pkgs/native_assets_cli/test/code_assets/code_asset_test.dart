@@ -6,6 +6,10 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:test/test.dart';
 
 void main() async {
+  final fileUri = Uri.file('/not there.txt');
+  // TODO(https://github.com/dart-lang/native/issues/2040): Change to
+  // toString if we change to json schema format uri.
+  final fileUriSerialized = fileUri.toFilePath();
   test('CodeAsset toJson', () {
     expect(
       CodeAsset(
@@ -13,19 +17,19 @@ void main() async {
         name: 'name',
         linkMode: DynamicLoadingBundled(),
         os: OS.android,
-        file: Uri.file('not there'),
+        file: fileUri,
         architecture: Architecture.riscv64,
       ).encode().toJson(),
       {
         'architecture': 'riscv64',
-        'file': 'not there',
+        'file': fileUriSerialized,
         'id': 'package:my_package/name',
         'link_mode': {'type': 'dynamic_loading_bundle'},
         'os': 'android',
         'type': 'native_code',
         'encoding': {
           'architecture': 'riscv64',
-          'file': 'not there',
+          'file': fileUriSerialized,
           'id': 'package:my_package/name',
           'link_mode': {'type': 'dynamic_loading_bundle'},
           'os': 'android',
@@ -41,7 +45,7 @@ void main() async {
           'type': assetType,
           if (!nestInEncoding) ...{
             'architecture': 'riscv64',
-            'file': 'not there',
+            'file': fileUriSerialized,
             'id': 'package:my_package/name',
             'link_mode': {'type': 'dynamic_loading_bundle'},
             'os': 'android',
@@ -49,7 +53,7 @@ void main() async {
           if (nestInEncoding)
             'encoding': {
               'architecture': 'riscv64',
-              'file': 'not there',
+              'file': fileUriSerialized,
               'id': 'package:my_package/name',
               'link_mode': {'type': 'dynamic_loading_bundle'},
               'os': 'android',
@@ -63,7 +67,7 @@ void main() async {
             name: 'name',
             linkMode: DynamicLoadingBundled(),
             os: OS.android,
-            file: Uri.file('not there'),
+            file: fileUri,
             architecture: Architecture.riscv64,
           ),
         );

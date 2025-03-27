@@ -37,6 +37,10 @@ void main() async {
       'foo': Metadata({'key': 321}),
     };
 
+    // TODO(https://github.com/dart-lang/native/issues/2040): Change to
+    // toString if we change to json schema format uri.
+    String uriSerializer(Uri u) => u.toFilePath();
+
     inputJson = {
       'config': {
         'build_asset_types': ['my-asset-type'],
@@ -49,11 +53,11 @@ void main() async {
         },
         'foo': {'key': 321},
       },
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
-      'out_file': outFile.toFilePath(),
+      'out_dir_shared': uriSerializer(outputDirectoryShared),
+      'out_dir': uriSerializer(outDirUri),
+      'out_file': uriSerializer(outFile),
       'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
+      'package_root': uriSerializer(packageRootUri),
       'version': latestVersion.toString(),
     };
   });

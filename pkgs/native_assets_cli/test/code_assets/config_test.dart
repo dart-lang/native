@@ -21,6 +21,7 @@ void main() async {
   late Uri fakeAr;
   late List<EncodedAsset> assets;
   late Uri fakeVcVars;
+  late Uri fileUri;
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
@@ -33,6 +34,7 @@ void main() async {
     fakeLd = tempUri.resolve('fake_ld');
     fakeAr = tempUri.resolve('fake_ar');
     fakeVcVars = tempUri.resolve('vcvarsall.bat');
+    fileUri = Uri.file('/not there.txt');
 
     assets = [
       CodeAsset(
@@ -40,7 +42,7 @@ void main() async {
         name: 'name',
         linkMode: DynamicLoadingBundled(),
         os: OS.android,
-        file: Uri.file('not there'),
+        file: fileUri,
         architecture: Architecture.riscv64,
       ).encode(),
     ];
@@ -54,20 +56,24 @@ void main() async {
     bool includeDeprecated = false,
     OS targetOS = OS.android,
   }) {
+    // TODO(https://github.com/dart-lang/native/issues/2040): Change to
+    // toString if we change to json schema format uri.
+    String uriSerializer(Uri u) => u.toFilePath();
+
     final codeConfig = {
       'target_architecture': 'arm64',
       'target_os': targetOS.name,
       'link_mode_preference': 'prefer_static',
       'c_compiler': {
-        'ar': fakeAr.toFilePath(),
-        'ld': fakeLd.toFilePath(),
-        'cc': fakeClang.toFilePath(),
-        if (includeDeprecated) 'env_script': fakeVcVars.toFilePath(),
+        'ar': uriSerializer(fakeAr),
+        'ld': uriSerializer(fakeLd),
+        'cc': uriSerializer(fakeClang),
+        if (includeDeprecated) 'env_script': uriSerializer(fakeVcVars),
         if (includeDeprecated) 'env_script_arguments': ['arg0', 'arg1'],
         'windows': {
           'developer_command_prompt': {
             'arguments': ['arg0', 'arg1'],
-            'script': fakeVcVars.toFilePath(),
+            'script': uriSerializer(fakeVcVars),
           },
         },
       },
@@ -81,14 +87,14 @@ void main() async {
         'assets': [
           {
             'architecture': 'riscv64',
-            'file': 'not there',
+            'file': uriSerializer(fileUri),
             'id': 'package:my_package/name',
             'link_mode': {'type': 'dynamic_loading_bundle'},
             'os': 'android',
             'type': 'native_code',
             'encoding': {
               'architecture': 'riscv64',
-              'file': 'not there',
+              'file': uriSerializer(fileUri),
               'id': 'package:my_package/name',
               'link_mode': {'type': 'dynamic_loading_bundle'},
               'os': 'android',
@@ -101,11 +107,11 @@ void main() async {
         'extensions': {'code_assets': codeConfig},
         if (hookType == 'build') 'linking_enabled': false,
       },
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
-      'out_file': outFile.toFilePath(),
+      'out_dir_shared': uriSerializer(outputDirectoryShared),
+      'out_dir': uriSerializer(outDirUri),
+      'out_file': uriSerializer(outFile),
       'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
+      'package_root': uriSerializer(packageRootUri),
       'version': '1.9.0',
     };
   }

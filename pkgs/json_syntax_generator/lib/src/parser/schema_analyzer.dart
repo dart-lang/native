@@ -384,7 +384,7 @@ class SchemaAnalyzer {
         final itemType = items.type;
         switch (itemType) {
           case SchemaType.string:
-            if (items.patterns.isNotEmpty) {
+            if (items.generateUri) {
               dartType = ListDartType(
                 itemType: const UriDartType(isNullable: false),
                 isNullable: !required,
@@ -517,6 +517,20 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
       }
     }
     return patterns.toList();
+  }
+
+  String? get format {
+    final formats = <String>{};
+    for (final schema in _schemas) {
+      final format = schema.format;
+      if (format != null) {
+        formats.add(format);
+      }
+    }
+    if (formats.length > 1) {
+      throw StateError('Multiple formats found');
+    }
+    return formats.singleOrNull;
   }
 
   JsonSchemas get items {
@@ -664,7 +678,26 @@ extension on JsonSchemas {
   bool get generateClass => type == SchemaType.object && !generateMapOf;
 
   /// Generate getters/setters as `Uri`.
-  bool get generateUri => type == SchemaType.string && patterns.isNotEmpty;
+  bool get generateUri {
+    if (type != SchemaType.string) {
+      return false;
+    }
+    if (patterns.isNotEmpty) {
+      return true;
+    }
+    if (format == 'uri') {
+      return true;
+    }
+    if (anyOfs.isNotEmpty) {
+      for (final anyOf in anyOfs.single) {
+        if (anyOf.patterns.isEmpty && anyOf.format != 'uri') {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
 
   static String? _pathToClassName(String path) {
     if (path.contains('#/definitions/')) {

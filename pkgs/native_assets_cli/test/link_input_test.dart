@@ -30,16 +30,20 @@ void main() async {
         EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
     ];
 
+    // TODO(https://github.com/dart-lang/native/issues/2040): Change to
+    // toString if we change to json schema format uri.
+    String uriSerializer(Uri u) => u.toFilePath();
+
     inputJson = {
       'assets': [for (final asset in assets) asset.toJson()],
       'config': {
         'build_asset_types': ['asset-type-1', 'asset-type-2'],
       },
-      'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
-      'out_file': outFile.toFilePath(),
+      'out_dir_shared': uriSerializer(outputDirectoryShared),
+      'out_dir': uriSerializer(outDirUri),
+      'out_file': uriSerializer(outFile),
       'package_name': packageName,
-      'package_root': packageRootUri.toFilePath(),
+      'package_root': uriSerializer(packageRootUri),
       'version': latestVersion.toString(),
     };
   });

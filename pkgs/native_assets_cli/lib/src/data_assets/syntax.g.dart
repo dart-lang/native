@@ -417,6 +417,9 @@ class JsonReader {
       validateOptionalStringList(key);
 
   static Uri _fileSystemPathToUri(String path) {
+    if (path.startsWith('file:///')) {
+      return Uri.parse(path);
+    }
     if (path.endsWith(Platform.pathSeparator)) {
       return Uri.directory(path);
     }

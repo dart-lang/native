@@ -5,14 +5,14 @@
       "architecture": "x64",
       "encoding": {
         "architecture": "x64",
-        "file": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/out/libmy_package.so",
+        "file": "file:///usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/out/libmy_package.so",
         "id": "package:my_package/my_package_bindings_generated.dart",
         "link_mode": {
           "type": "dynamic_loading_bundle"
         },
         "os": "linux"
       },
-      "file": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/out/libmy_package.so",
+      "file": "file:///usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/out/libmy_package.so",
       "id": "package:my_package/my_package_bindings_generated.dart",
       "link_mode": {
         "type": "dynamic_loading_bundle"
@@ -22,7 +22,7 @@
     }
   ],
   "dependencies": [
-    "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/src/my_package.c"
+    "file:///usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/src/my_package.c"
   ],
   "timestamp": "2025-02-17 17:36:39.000",
   "version": "1.9.0"

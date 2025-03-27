@@ -2,13 +2,14 @@
   "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
   "config": {
     "build_asset_types": [
+      "code_assets/code",
       "native_code"
     ],
     "code": {
       "c_compiler": {
-        "ar": "/usr/lib/llvm-16/bin/llvm-ar",
-        "cc": "/usr/lib/llvm-16/bin/clang",
-        "ld": "/usr/lib/llvm-16/bin/ld.lld"
+        "ar": "file:///usr/lib/llvm-16/bin/llvm-ar",
+        "cc": "file:///usr/lib/llvm-16/bin/clang",
+        "ld": "file:///usr/lib/llvm-16/bin/ld.lld"
       },
       "link_mode_preference": "dynamic",
       "target_architecture": "x64",
@@ -17,9 +18,9 @@
     "extensions": {
       "code_assets": {
         "c_compiler": {
-          "ar": "/usr/lib/llvm-16/bin/llvm-ar",
-          "cc": "/usr/lib/llvm-16/bin/clang",
-          "ld": "/usr/lib/llvm-16/bin/ld.lld"
+          "ar": "file:///usr/lib/llvm-16/bin/llvm-ar",
+          "cc": "file:///usr/lib/llvm-16/bin/clang",
+          "ld": "file:///usr/lib/llvm-16/bin/ld.lld"
         },
         "link_mode_preference": "dynamic",
         "target_architecture": "x64",
@@ -28,10 +29,10 @@
     },
     "linking_enabled": false
   },
-  "out_dir": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/out/",
-  "out_dir_shared": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/Hook.build/",
-  "out_file": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/output.json",
+  "out_dir": "file:///usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/out/",
+  "out_dir_shared": "file:///usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/Hook.build/",
+  "out_file": "file:///usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/output.json",
   "package_name": "my_package",
-  "package_root": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/",
+  "package_root": "file:///usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/",
   "version": "1.9.0"
 }

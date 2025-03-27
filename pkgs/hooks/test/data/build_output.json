@@ -53,8 +53,8 @@
     ]
   },
   "dependencies": [
-    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json",
-    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json"
+    "file:///private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json",
+    "file:///private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json"
   ],
   "metadata": {
     "baz": 1,
