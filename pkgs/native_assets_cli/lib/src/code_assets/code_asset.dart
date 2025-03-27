@@ -55,10 +55,10 @@ final class CodeAsset {
   final String id;
 
   /// The operating system this asset can run on.
-  final OS _os;
+  final OS? _os;
 
   /// The architecture this asset can run on.
-  final Architecture _architecture;
+  final Architecture? _architecture;
 
   /// The link mode for this native code.
   ///
@@ -99,9 +99,9 @@ final class CodeAsset {
   CodeAsset._({
     required this.id,
     required this.linkMode,
-    required OS os,
+    required OS? os,
     required this.file,
-    required Architecture architecture,
+    required Architecture? architecture,
   }) : _architecture = architecture,
        _os = os;
 
@@ -113,8 +113,14 @@ final class CodeAsset {
     );
     return CodeAsset._(
       id: syntaxNode.id,
-      os: OSSyntax.fromSyntax(syntaxNode.os),
-      architecture: ArchitectureSyntax.fromSyntax(syntaxNode.architecture),
+      os: switch (syntaxNode.os) {
+        null => null,
+        final s => OSSyntax.fromSyntax(s),
+      },
+      architecture: switch (syntaxNode.architecture) {
+        null => null,
+        final s => ArchitectureSyntax.fromSyntax(s),
+      },
       linkMode: LinkModeSyntax.fromSyntax(syntaxNode.linkMode),
       file: syntaxNode.file,
     );
@@ -151,12 +157,11 @@ final class CodeAsset {
 
   EncodedAsset encode() {
     final encoding = syntax.NativeCodeAssetEncoding(
-      architecture: _architecture.toSyntax(),
+      architecture: _architecture?.toSyntax(),
       file: file,
       id: id,
       linkMode: linkMode.toSyntax(),
-
-      os: _os.toSyntax(),
+      os: _os?.toSyntax(),
     );
     return EncodedAsset(CodeAsset.type, encoding.json);
   }
@@ -166,9 +171,9 @@ final class CodeAsset {
 
 // These field will be removed in the future, prevent anyone from reading them.
 extension ForValidationOnly on CodeAsset {
-  OS get os => _os;
+  OS? get os => _os;
 
-  Architecture get architecture => _architecture;
+  Architecture? get architecture => _architecture;
 }
 
 extension OSLibraryNaming on OS {
