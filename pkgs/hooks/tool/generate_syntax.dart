@@ -28,7 +28,7 @@ void main(List<String> args) {
     final analyzedSchema =
         SchemaAnalyzer(
           schema,
-          capitalizationOverrides: {
+          nameOverrides: {
             'ios': 'iOS',
             'Ios': 'IOS',
             'macos': 'macOS',
@@ -36,6 +36,8 @@ void main(List<String> args) {
             'prefer-dynamic': 'preferDynamicOld',
             'prefer-static': 'preferStaticOld',
             'assetsForLinking': 'assetsForLinkingOld',
+            'CodeAssetsCodeAsset': 'NativeCodeAssetNew',
+            'DataAssetsDataAsset': 'DataAssetNew',
           },
           publicSetters: [
             'BuildOutput',

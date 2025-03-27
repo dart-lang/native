@@ -27,14 +27,19 @@ import '../model/schema_info.dart';
 /// * Naming according to "effective Dart". This class expects a JSON schema
 ///   with snake-cased keys and produces [SchemaInfo] with camel-cased Dart
 ///   names and types.
-/// * Renaming with [capitalizationOverrides].
+/// * Renaming with [nameOverrides].
 /// * Whether setters are public or not with [publicSetters].
 /// * Output sorting alphabetically or with [classSorting].
 class SchemaAnalyzer {
   final JsonSchema schema;
 
-  /// Overriding configuration for capitalization of camel cased strings.
-  final Map<String, String> capitalizationOverrides;
+  /// Overriding for names.
+  ///
+  /// Useful for
+  /// * capitalization overrides (`macos` -> `macOS`),
+  /// * naming conflicts (to prevent `myName` and `my_name` clasing), and
+  /// * renames as preferred.
+  final Map<String, String> nameOverrides;
 
   /// Optional custom ordering for the output classes.
   ///
@@ -63,7 +68,7 @@ class SchemaAnalyzer {
 
   SchemaAnalyzer(
     this.schema, {
-    this.capitalizationOverrides = const {},
+    this.nameOverrides = const {},
     this.classSorting,
     this.publicSetters = const [],
     this.visbleUnionTagValues = const [],
@@ -413,10 +418,9 @@ class SchemaAnalyzer {
       return '';
     }
 
-    final parts = string.split('_');
+    final parts = string.replaceAll('/', '_').split('_');
 
-    String remapCapitalization(String input) =>
-        capitalizationOverrides[input] ?? input;
+    String remapCapitalization(String input) => nameOverrides[input] ?? input;
 
     var result = StringBuffer();
     result += remapCapitalization(parts[0]);

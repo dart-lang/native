@@ -34,8 +34,6 @@ final class CodeAssetExtension implements ProtocolExtension {
     this.macOS,
   });
 
-  static const List<String> _buildAssetTypes = [CodeAssetType.type];
-
   @override
   void setupBuildInput(BuildInputBuilder input) {
     _setupConfig(input);
@@ -47,7 +45,7 @@ final class CodeAssetExtension implements ProtocolExtension {
   }
 
   void _setupConfig(HookInputBuilder input) {
-    input.config.addBuildAssetTypes(_buildAssetTypes);
+    input.config.addBuildAssetTypes(CodeAssetType.typesForBuildAssetTypes);
     // ignore: deprecated_member_use_from_same_package
     input.config.setupCode(
       targetArchitecture: targetArchitecture,
