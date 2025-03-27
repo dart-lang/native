@@ -13,8 +13,6 @@ import 'validation.dart';
 final class DataAssetsExtension implements ProtocolExtension {
   DataAssetsExtension();
 
-  static const List<String> _buildAssetTypes = [DataAssetType.type];
-
   @override
   void setupBuildInput(BuildInputBuilder input) {
     _setupConfig(input);
@@ -26,7 +24,7 @@ final class DataAssetsExtension implements ProtocolExtension {
   }
 
   void _setupConfig(HookInputBuilder input) {
-    input.config.addBuildAssetTypes(_buildAssetTypes);
+    input.config.addBuildAssetTypes(DataAssetType.typesForBuildAssetTypes);
   }
 
   @override

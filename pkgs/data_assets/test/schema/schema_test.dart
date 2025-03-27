@@ -45,9 +45,11 @@ List<(List<Object>, void Function(ValidationResults result))> _dataFields({
 }) => <(List<Object>, void Function(ValidationResults result))>[
   if (inputOrOutput == InputOrOutput.input) ...[
     if (hook == Hook.link) ...[
-      for (final field in _dataAssetFields)
+      for (final field in _dataAssetFields) ...[
         for (final encoding in _encoding)
           (['assets', 0, ...encoding, field], expectRequiredFieldMissing),
+        (['assets', 1, 'encoding', field], expectRequiredFieldMissing),
+      ],
     ],
   ],
   if (inputOrOutput == InputOrOutput.output) ...[

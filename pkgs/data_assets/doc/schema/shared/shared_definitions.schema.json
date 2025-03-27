@@ -12,30 +12,53 @@
               "const": "data"
             },
             {
+              "const": "data_assets/data"
+            },
+            {
               "type": "string"
             }
           ]
         }
       },
-      "if": {
-        "properties": {
-          "type": {
-            "const": "data"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "encoding": {
-            "$ref": "#/definitions/DataAssetEncoding"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "data"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "encoding": {
+                "$ref": "#/definitions/DataAssetEncoding"
+              }
+            },
+            "allOf": [
+              {
+                "$ref": "#/definitions/DataAssetEncoding"
+              }
+            ]
           }
         },
-        "allOf": [
-          {
-            "$ref": "#/definitions/DataAssetEncoding"
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "data_assets/data"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "encoding": {
+                "$ref": "#/definitions/DataAssetEncoding"
+              }
+            }
           }
-        ]
-      }
+        }
+      ]
     },
     "DataAssetEncoding": {
       "type": "object",
