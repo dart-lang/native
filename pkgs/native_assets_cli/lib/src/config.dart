@@ -10,6 +10,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'api/deprecation_messages.dart';
 import 'encoded_asset.dart';
+import 'extension.dart';
 import 'hooks/syntax.g.dart' as syntax;
 import 'metadata.dart';
 import 'utils/datetime.dart';
@@ -103,7 +104,7 @@ sealed class HookInputBuilder {
   final _syntax =
       syntax.HookInput.fromJson({})
         ..version = latestVersion.toString()
-        ..config = syntax.Config.fromJson({});
+        ..config = syntax.Config(buildAssetTypes: [], extensions: null);
 
   Map<String, Object?> get json => _syntax.json;
 
@@ -135,6 +136,12 @@ sealed class HookInputBuilder {
   String computeChecksum() => _jsonChecksum(_syntax.config.json);
 
   HookConfigBuilder get config => HookConfigBuilder._(this);
+
+  /// Adds the protocol extension to this hook input.
+  ///
+  /// This will [HookConfigBuilder.addBuildAssetTypes] and add the extensions'
+  /// config to [config].
+  void addExtension(ProtocolExtension extension);
 }
 
 String _jsonChecksum(Map<String, Object?> json) {
@@ -191,6 +198,10 @@ final class BuildInputBuilder extends HookInputBuilder {
 
   @override
   BuildConfigBuilder get config => BuildConfigBuilder._(this);
+
+  @override
+  void addExtension(ProtocolExtension extension) =>
+      extension.setupBuildInput(this);
 }
 
 final class HookConfigBuilder {
@@ -200,8 +211,8 @@ final class HookConfigBuilder {
 
   syntax.Config get _syntax => builder._syntax.config;
 
-  void setupShared({required List<String> buildAssetTypes}) {
-    _syntax.buildAssetTypes = buildAssetTypes;
+  void addBuildAssetTypes(Iterable<String> assetTypes) {
+    _syntax.buildAssetTypes.addAll(assetTypes);
   }
 }
 
@@ -261,6 +272,10 @@ final class LinkInputBuilder extends HookInputBuilder {
       resourceIdentifiers: recordedUsesFile,
     );
   }
+
+  @override
+  void addExtension(ProtocolExtension extension) =>
+      extension.setupLinkInput(this);
 }
 
 List<EncodedAsset> _parseAssets(List<syntax.Asset>? assets) =>

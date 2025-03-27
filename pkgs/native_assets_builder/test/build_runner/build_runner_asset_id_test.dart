@@ -24,7 +24,7 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
-          buildAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [BuildAssetType.code],
         );
         final fullLog = logMessages.join('\n');
         expect(result, isNull);
@@ -52,7 +52,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [BuildAssetType.code],
         );
         expect(result, isNotNull);
       }

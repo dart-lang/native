@@ -18,7 +18,7 @@ extension CodeAssetHookConfig on HookConfig {
   /// Code asset specific configuration.
   CodeConfig get code => CodeConfig._fromJson(json, path);
 
-  bool get buildCodeAssets => buildAssetTypes.contains(CodeAsset.type);
+  bool get buildCodeAssets => buildAssetTypes.contains(CodeAssetType.type);
 }
 
 /// Extension to the [LinkInput] providing access to configuration specific to
@@ -32,9 +32,8 @@ extension CodeAssetLinkInput on LinkInputAssets {
   // linker script has to add those files as dependencies via
   // [LinkOutput.addDependency] to ensure the linker script will be re-run if
   // the content of the files changes.
-  Iterable<CodeAsset> get code => encodedAssets
-      .where((e) => e.type == CodeAsset.type)
-      .map(CodeAsset.fromEncoded);
+  Iterable<CodeAsset> get code =>
+      encodedAssets.where((e) => e.isCodeAsset).map(CodeAsset.fromEncoded);
 }
 
 /// Configuration for hook writers if code assets are supported.
@@ -184,6 +183,7 @@ extension type CodeAssetLinkOutputBuilderAdd._(
 
 /// Extension to initialize code specific configuration on link/build inputs.
 extension CodeAssetBuildInputBuilder on HookConfigBuilder {
+  @Deprecated('Prefer using input.addExtension(CodeExtension(...)).')
   void setupCode({
     required Architecture targetArchitecture,
     required OS targetOS,
@@ -215,7 +215,7 @@ extension CodeAssetBuildOutput on BuildOutputAssets {
   /// The code assets emitted by the build hook.
   List<CodeAsset> get code =>
       encodedAssets
-          .where((asset) => asset.type == CodeAsset.type)
+          .where((asset) => asset.isCodeAsset)
           .map(CodeAsset.fromEncoded)
           .toList();
 }
@@ -225,7 +225,7 @@ extension CodeAssetLinkOutput on LinkOutputAssets {
   /// The code assets emitted by the link hook.
   List<CodeAsset> get code =>
       encodedAssets
-          .where((asset) => asset.type == CodeAsset.type)
+          .where((asset) => asset.isCodeAsset)
           .map(CodeAsset.fromEncoded)
           .toList();
 }

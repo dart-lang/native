@@ -30,12 +30,13 @@ Future<void> main() async {
               outputDirectory: tempUri,
             )
             ..setupLink(assets: [], recordedUsesFile: null)
-            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-            ..config.setupCode(
-              targetOS: os,
-              targetArchitecture: Architecture.x64,
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
+            ..addExtension(
+              CodeAssetExtension(
+                targetOS: os,
+                targetArchitecture: Architecture.x64,
+                linkModePreference: LinkModePreference.dynamic,
+                cCompiler: cCompiler,
+              ),
             );
 
       final linkHookInput = LinkInput(linkInputBuilder.json);

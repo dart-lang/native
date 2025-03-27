@@ -38,7 +38,7 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         resourceIdentifiers: resourcesUri,
-        buildAssetTypes: [DataAsset.type],
+        buildAssetTypes: [BuildAssetType.data],
       );
       expect(buildFiles(), anyElement(endsWith('resources.json')));
     });

@@ -95,15 +95,16 @@ void main() async {
                   outputDirectoryShared: tempUri2,
                 )
                 ..config.setupBuild(linkingEnabled: false)
-                ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-                ..config.setupCode(
-                  targetOS: OS.windows,
-                  targetArchitecture: target,
-                  linkModePreference:
-                      linkMode == DynamicLoadingBundled()
-                          ? LinkModePreference.dynamic
-                          : LinkModePreference.static,
-                  cCompiler: await (compilers[compiler]!)(),
+                ..addExtension(
+                  CodeAssetExtension(
+                    targetOS: OS.windows,
+                    targetArchitecture: target,
+                    linkModePreference:
+                        linkMode == DynamicLoadingBundled()
+                            ? LinkModePreference.dynamic
+                            : LinkModePreference.static,
+                    cCompiler: await (compilers[compiler]!)(),
+                  ),
                 );
 
           final buildInput = BuildInput(buildInputBuilder.json);

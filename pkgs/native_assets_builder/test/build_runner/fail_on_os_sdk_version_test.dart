@@ -73,7 +73,7 @@ void main() async {
                   packageUri,
                   createCapturingLogger(logMessages, level: Level.SEVERE),
                   dartExecutable,
-                  buildAssetTypes: [CodeAsset.type, DataAsset.type],
+                  buildAssetTypes: [BuildAssetType.code, BuildAssetType.data],
                 );
                 final fullLog = logMessages.join('\n');
                 if (hook == 'build') {

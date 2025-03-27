@@ -50,13 +50,13 @@ void main() {
     LinkModePreference linkModePreference = LinkModePreference.dynamic,
   }) {
     final builder =
-        makeBuildInputBuilder()
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
+        makeBuildInputBuilder()..addExtension(
+          CodeAssetExtension(
             targetOS: OS.linux,
             targetArchitecture: Architecture.arm64,
             linkModePreference: linkModePreference,
-          );
+          ),
+        );
     return BuildInput(builder.json);
   }
 
@@ -262,9 +262,8 @@ void main() {
     for (final propertyKey in ['target_version', 'target_sdk']) {
       test('Missing targetIOSVersion', () async {
         final builder =
-            makeBuildInputBuilder()
-              ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-              ..config.setupCode(
+            makeBuildInputBuilder()..addExtension(
+              CodeAssetExtension(
                 targetOS: OS.iOS,
                 targetArchitecture: Architecture.arm64,
                 linkModePreference: LinkModePreference.dynamic,
@@ -272,7 +271,8 @@ void main() {
                   targetSdk: IOSSdk.iPhoneOS,
                   targetVersion: 123,
                 ),
-              );
+              ),
+            );
         traverseJson<Map<String, Object?>>(builder.json, [
           'config',
           'code',
@@ -295,14 +295,14 @@ void main() {
 
     test('Missing targetAndroidNdkApi', () async {
       final builder =
-          makeBuildInputBuilder()
-            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-            ..config.setupCode(
+          makeBuildInputBuilder()..addExtension(
+            CodeAssetExtension(
               targetOS: OS.android,
               targetArchitecture: Architecture.arm64,
               linkModePreference: LinkModePreference.dynamic,
               android: AndroidCodeConfig(targetNdkApi: 123),
-            );
+            ),
+          );
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
         'code',
@@ -321,14 +321,14 @@ void main() {
 
     test('Missing config.code.macos', () async {
       final builder =
-          makeBuildInputBuilder()
-            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-            ..config.setupCode(
+          makeBuildInputBuilder()..addExtension(
+            CodeAssetExtension(
               targetOS: OS.macOS,
               targetArchitecture: Architecture.arm64,
               linkModePreference: LinkModePreference.dynamic,
               macOS: MacOSCodeConfig(targetVersion: 123),
-            );
+            ),
+          );
 
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
@@ -358,9 +358,8 @@ void main() {
     test('CCompilerConfig validation', () async {
       final nonExistent = outDirUri.resolve('foo baz');
       final builder =
-          makeBuildInputBuilder()
-            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-            ..config.setupCode(
+          makeBuildInputBuilder()..addExtension(
+            CodeAssetExtension(
               targetOS: OS.windows,
               targetArchitecture: Architecture.x64,
               linkModePreference: LinkModePreference.dynamic,
@@ -375,7 +374,8 @@ void main() {
                   ),
                 ),
               ),
-            );
+            ),
+          );
       final errors = await validateCodeAssetBuildInput(
         BuildInput(builder.json),
       );

@@ -53,28 +53,29 @@ void main() {
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS:
-                targetOS == OS.macOS
-                    ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                    : null,
-            targetArchitecture: Architecture.current,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: CCompilerConfig(
-              archiver: ar,
-              compiler: cc,
-              linker: ld,
-              windows:
-                  targetOS == OS.windows
-                      ? WindowsCCompilerConfig(
-                        developerCommandPrompt: DeveloperCommandPrompt(
-                          script: envScript!,
-                          arguments: [],
-                        ),
-                      )
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS:
+                  targetOS == OS.macOS
+                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
                       : null,
+              targetArchitecture: Architecture.current,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: CCompilerConfig(
+                archiver: ar,
+                compiler: cc,
+                linker: ld,
+                windows:
+                    targetOS == OS.windows
+                        ? WindowsCCompilerConfig(
+                          developerCommandPrompt: DeveloperCommandPrompt(
+                            script: envScript!,
+                            arguments: [],
+                          ),
+                        )
+                        : null,
+              ),
             ),
           );
     final buildInput = BuildInput(buildInputBuilder.json);
@@ -107,12 +108,13 @@ void main() {
             outputDirectory: tempUri,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: OS.windows,
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.windows,
+              targetArchitecture: Architecture.arm64,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
 
     final buildInput = BuildInput(buildInputBuilder.json);

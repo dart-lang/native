@@ -106,9 +106,7 @@ class NativeAssetsBuildRunner {
       )?.forEach((key, value) => metadata[key] = value);
 
       final inputBuilder = BuildInputBuilder();
-      inputBuilder.config.setupShared(
-        buildAssetTypes: [for (final e in extensions) ...e.buildAssetTypes],
-      );
+
       for (final e in extensions) {
         e.setupBuildInput(inputBuilder);
       }
@@ -199,9 +197,6 @@ class NativeAssetsBuildRunner {
     var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
     for (final package in buildPlan) {
       final inputBuilder = LinkInputBuilder();
-      inputBuilder.config.setupShared(
-        buildAssetTypes: [for (final e in extensions) ...e.buildAssetTypes],
-      );
       for (final e in extensions) {
         e.setupLinkInput(inputBuilder);
       }

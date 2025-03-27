@@ -80,8 +80,8 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
 
 /// Extension to the [HookConfig] providing access to configuration specific
 /// to data assets.
-extension CodeAssetHookConfig on HookConfig {
-  bool get buildDataAssets => buildAssetTypes.contains(DataAsset.type);
+extension DataAssetHookConfig on HookConfig {
+  bool get buildDataAssets => buildAssetTypes.contains(DataAssetType.type);
 }
 
 /// Extension to initialize data specific configuration on link/build inputs.
@@ -96,9 +96,8 @@ extension DataAssetLinkInput on LinkInputAssets {
   // then the linker script has to add those files as dependencies via
   // [LinkOutput.addDependency] to ensure the linker script will be re-run if
   // the content of the files changes.
-  Iterable<DataAsset> get data => encodedAssets
-      .where((e) => e.type == DataAsset.type)
-      .map(DataAsset.fromEncoded);
+  Iterable<DataAsset> get data =>
+      encodedAssets.where((e) => e.isDataAsset).map(DataAsset.fromEncoded);
 }
 
 /// Build output extension for data assets.
@@ -148,7 +147,7 @@ extension type DataAssetLinkOutputBuilderAdd(
 extension DataAssetBuildOutput on BuildOutputAssets {
   List<DataAsset> get data =>
       encodedAssets
-          .where((asset) => asset.type == DataAsset.type)
+          .where((asset) => asset.isDataAsset)
           .map<DataAsset>(DataAsset.fromEncoded)
           .toList();
 }
@@ -157,7 +156,7 @@ extension DataAssetBuildOutput on BuildOutputAssets {
 extension DataAssetLinkOutput on LinkOutputAssets {
   List<DataAsset> get data =>
       encodedAssets
-          .where((asset) => asset.type == DataAsset.type)
+          .where((asset) => asset.isDataAsset)
           .map<DataAsset>(DataAsset.fromEncoded)
           .toList();
 }

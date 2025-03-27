@@ -41,7 +41,7 @@ void main() {
             outputDirectoryShared: outDirSharedUri,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [DataAsset.type]);
+          ..addExtension(DataAssetsExtension());
     return BuildInput(inputBuilder.json);
   }
 

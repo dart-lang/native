@@ -54,9 +54,7 @@ void main() async {
             outputDirectory: outDirUri,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..config.setupShared(
-            buildAssetTypes: ['asset-type-1', 'asset-type-2'],
-          )
+          ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])
           ..setupLink(assets: assets, recordedUsesFile: null);
     final input = LinkInput(inputBuilder.json);
 

@@ -39,7 +39,6 @@ void main() {
             outputDirectory: outDirUri,
             outputDirectoryShared: outDirSharedUri,
           )
-          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
           ..config.setupBuild(linkingEnabled: false);
     return BuildInput(inputBuilder.json);
   }

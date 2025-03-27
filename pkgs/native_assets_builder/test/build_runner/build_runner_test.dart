@@ -30,7 +30,7 @@ void main() async {
               logger,
               dartExecutable,
               capturedLogs: logMessages,
-              buildAssetTypes: [CodeAsset.type],
+              buildAssetTypes: [BuildAssetType.code],
             ))!;
         expect(
           logMessages.join('\n'),
@@ -74,7 +74,7 @@ void main() async {
             logger,
             dartExecutable,
             capturedLogs: logMessages,
-            buildAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [BuildAssetType.code],
           ))!;
       expect(
         false,

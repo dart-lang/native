@@ -24,7 +24,7 @@ void main() async {
             logger,
             dartExecutable,
             linkModePreference: LinkModePreference.dynamic,
-            buildAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [BuildAssetType.code],
           ))!;
 
       final resultPreferDynamic =
@@ -33,7 +33,7 @@ void main() async {
             logger,
             dartExecutable,
             linkModePreference: LinkModePreference.preferDynamic,
-            buildAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [BuildAssetType.code],
           ))!;
 
       final resultStatic =
@@ -42,7 +42,7 @@ void main() async {
             logger,
             dartExecutable,
             linkModePreference: LinkModePreference.static,
-            buildAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [BuildAssetType.code],
           ))!;
 
       final resultPreferStatic =
@@ -51,7 +51,7 @@ void main() async {
             logger,
             dartExecutable,
             linkModePreference: LinkModePreference.preferStatic,
-            buildAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [BuildAssetType.code],
           ))!;
 
       // This package honors preferences.

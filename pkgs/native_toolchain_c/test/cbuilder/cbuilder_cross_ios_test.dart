@@ -81,19 +81,20 @@ void main() {
                         outputDirectoryShared: tempUri2,
                       )
                       ..config.setupBuild(linkingEnabled: false)
-                      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-                      ..config.setupCode(
-                        targetOS: OS.iOS,
-                        targetArchitecture: target,
-                        linkModePreference:
-                            linkMode == DynamicLoadingBundled()
-                                ? LinkModePreference.dynamic
-                                : LinkModePreference.static,
-                        iOS: IOSCodeConfig(
-                          targetSdk: targetIOSSdk,
-                          targetVersion: flutteriOSHighestBestEffort,
+                      ..addExtension(
+                        CodeAssetExtension(
+                          targetOS: OS.iOS,
+                          targetArchitecture: target,
+                          linkModePreference:
+                              linkMode == DynamicLoadingBundled()
+                                  ? LinkModePreference.dynamic
+                                  : LinkModePreference.static,
+                          iOS: IOSCodeConfig(
+                            targetSdk: targetIOSSdk,
+                            targetVersion: flutteriOSHighestBestEffort,
+                          ),
+                          cCompiler: cCompiler,
                         ),
-                        cCompiler: cCompiler,
                       );
 
                 final buildInput = BuildInput(buildInputBuilder.json);
@@ -243,19 +244,20 @@ Future<Uri> buildLib(
           outputDirectoryShared: tempUri2,
         )
         ..config.setupBuild(linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: OS.iOS,
-          targetArchitecture: targetArchitecture,
-          linkModePreference:
-              linkMode == DynamicLoadingBundled()
-                  ? LinkModePreference.dynamic
-                  : LinkModePreference.static,
-          iOS: IOSCodeConfig(
-            targetSdk: IOSSdk.iPhoneOS,
-            targetVersion: targetIOSVersion,
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: OS.iOS,
+            targetArchitecture: targetArchitecture,
+            linkModePreference:
+                linkMode == DynamicLoadingBundled()
+                    ? LinkModePreference.dynamic
+                    : LinkModePreference.static,
+            iOS: IOSCodeConfig(
+              targetSdk: IOSSdk.iPhoneOS,
+              targetVersion: targetIOSVersion,
+            ),
+            cCompiler: cCompiler,
           ),
-          cCompiler: cCompiler,
         );
 
   final buildInput = BuildInput(buildInputBuilder.json);

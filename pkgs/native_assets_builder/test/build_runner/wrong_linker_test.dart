@@ -24,7 +24,7 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
-          buildAssetTypes: [CodeAsset.type],
+          buildAssetTypes: [BuildAssetType.code],
 
           linkingEnabled: true,
         );

@@ -40,16 +40,17 @@ void main() async {
               outputDirectoryShared: outputDirectoryShared,
             )
             ..config.setupBuild(linkingEnabled: false)
-            ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-            ..config.setupCode(
-              targetArchitecture: Architecture.current,
-              targetOS: targetOS,
-              macOS:
-                  targetOS == OS.macOS
-                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                      : null,
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
+            ..addExtension(
+              CodeAssetExtension(
+                targetArchitecture: Architecture.current,
+                targetOS: targetOS,
+                macOS:
+                    targetOS == OS.macOS
+                        ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                        : null,
+                linkModePreference: LinkModePreference.dynamic,
+                cCompiler: cCompiler,
+              ),
             );
 
       final buildInputUri = testTempUri.resolve('build_input.json');
@@ -88,7 +89,7 @@ void main() async {
 
       final addLibraryPath =
           assets
-              .where((e) => e.type == CodeAsset.type)
+              .where((e) => e.isCodeAsset)
               .map(CodeAsset.fromEncoded)
               .firstWhere((asset) => asset.id.endsWith('add.dart'))
               .file!

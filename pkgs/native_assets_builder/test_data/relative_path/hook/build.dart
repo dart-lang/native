@@ -8,7 +8,7 @@ import 'package:native_assets_cli/data_assets.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    if (input.config.buildAssetTypes.contains(DataAsset.type)) {
+    if (input.config.buildDataAssets) {
       output.assets.data.add(
         DataAsset(
           package: input.packageName,

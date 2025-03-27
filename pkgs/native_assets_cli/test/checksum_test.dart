@@ -18,18 +18,18 @@ void main() {
     for (final hook in ['build', 'link']) {
       for (final linking in [true, if (hook == 'build') false]) {
         for (final assetTypes in [
-          [CodeAsset.type],
-          [CodeAsset.type, DataAsset.type],
-          [DataAsset.type],
+          [BuildAssetType.code],
+          [BuildAssetType.code, BuildAssetType.data],
+          [BuildAssetType.data],
         ]) {
           for (final os in [
             OS.android,
-            if (assetTypes.contains(CodeAsset.type)) OS.iOS,
-            if (assetTypes.contains(CodeAsset.type)) OS.macOS,
+            if (assetTypes.contains(BuildAssetType.code)) OS.iOS,
+            if (assetTypes.contains(BuildAssetType.code)) OS.macOS,
           ]) {
             for (final architecture in [
               Architecture.arm64,
-              if (assetTypes.contains(CodeAsset.type)) Architecture.x64,
+              if (assetTypes.contains(BuildAssetType.code)) Architecture.x64,
             ]) {
               for (final targetVersion in [
                 if (os == OS.android) 30,
@@ -44,33 +44,34 @@ void main() {
                 ]) {
                   final builder = BuildInputBuilder();
                   if (hook == 'build') {
-                    builder.config.setupBuild(
-                      // no embedders will pass true anymore
-                      linkingEnabled: linking,
+                    builder.config.setupBuild(linkingEnabled: linking);
+                  }
+                  if (assetTypes.contains(BuildAssetType.code)) {
+                    builder.addExtension(
+                      CodeAssetExtension(
+                        targetArchitecture: architecture,
+                        targetOS: os,
+                        android:
+                            os == OS.android
+                                ? AndroidCodeConfig(targetNdkApi: targetVersion)
+                                : null,
+                        macOS:
+                            os == OS.macOS
+                                ? MacOSCodeConfig(targetVersion: targetVersion)
+                                : null,
+                        iOS:
+                            os == OS.iOS
+                                ? IOSCodeConfig(
+                                  targetVersion: targetVersion,
+                                  targetSdk: iOSSdk,
+                                )
+                                : null,
+                        linkModePreference: LinkModePreference.dynamic,
+                      ),
                     );
                   }
-                  builder.config.setupShared(buildAssetTypes: assetTypes);
-                  if (assetTypes.contains(CodeAsset.type)) {
-                    builder.config.setupCode(
-                      targetArchitecture: architecture,
-                      targetOS: os,
-                      android:
-                          os == OS.android
-                              ? AndroidCodeConfig(targetNdkApi: targetVersion)
-                              : null,
-                      macOS:
-                          os == OS.macOS
-                              ? MacOSCodeConfig(targetVersion: targetVersion)
-                              : null,
-                      iOS:
-                          os == OS.iOS
-                              ? IOSCodeConfig(
-                                targetVersion: targetVersion,
-                                targetSdk: iOSSdk,
-                              )
-                              : null,
-                      linkModePreference: LinkModePreference.dynamic,
-                    );
+                  if (assetTypes.contains(BuildAssetType.data)) {
+                    builder.addExtension(DataAssetsExtension());
                   }
                   final checksum = builder.computeChecksum();
                   checksums.add(checksum);
@@ -170,3 +171,5 @@ void main() {
 
 const flutteriOSHighestBestEffort = 16;
 const flutteriOSHighestSupported = 17;
+
+enum BuildAssetType { code, data }

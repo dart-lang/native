@@ -7,7 +7,6 @@ import 'dart:async';
 import '../../code_assets_builder.dart';
 import '../../test.dart';
 import '../validation.dart';
-import 'validation.dart';
 
 /// Validate a code build hook; this will throw an exception on validation
 /// errors.
@@ -35,34 +34,34 @@ Future<void> testCodeBuildHook({
   LinkModePreference? linkModePreference,
   bool? linkingEnabled,
 }) async {
+  final extension = CodeAssetExtension(
+    linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
+    cCompiler: cCompiler,
+    targetArchitecture: targetArchitecture ?? Architecture.current,
+    targetOS: targetOS ?? OS.current,
+    iOS:
+        targetOS == OS.iOS
+            ? IOSCodeConfig(
+              targetSdk: targetIOSSdk!,
+              targetVersion: targetIOSVersion!,
+            )
+            : null,
+    macOS:
+        targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: targetMacOSVersion!)
+            : null,
+    android:
+        targetOS == OS.android
+            ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+            : null,
+  );
   await testBuildHook(
     mainMethod: mainMethod,
     extraInputSetup: (input) {
-      input.config.setupShared(buildAssetTypes: [CodeAsset.type]);
-      input.config.setupCode(
-        linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
-        cCompiler: cCompiler,
-        targetArchitecture: targetArchitecture ?? Architecture.current,
-        targetOS: targetOS ?? OS.current,
-        iOS:
-            targetOS == OS.iOS
-                ? IOSCodeConfig(
-                  targetSdk: targetIOSSdk!,
-                  targetVersion: targetIOSVersion!,
-                )
-                : null,
-        macOS:
-            targetOS == OS.macOS
-                ? MacOSCodeConfig(targetVersion: targetMacOSVersion!)
-                : null,
-        android:
-            targetOS == OS.android
-                ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
-                : null,
-      );
+      input.addExtension(extension);
     },
     check: (input, output) async {
-      final validationErrors = await validateCodeAssetBuildOutput(
+      final validationErrors = await extension.validateBuildOutput(
         input,
         output,
       );

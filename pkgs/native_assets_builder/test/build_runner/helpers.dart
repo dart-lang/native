@@ -39,7 +39,7 @@ Future<BuildResult?> buildDataAssets(
   logger,
   dartExecutable,
   capturedLogs: capturedLogs,
-  buildAssetTypes: [DataAsset.type],
+  buildAssetTypes: [BuildAssetType.data],
   runPackageName: runPackageName,
   linkingEnabled: linkingEnabled,
 );
@@ -53,9 +53,11 @@ Future<BuildResult?> buildCodeAssets(
   logger,
   dartExecutable,
   capturedLogs: capturedLogs,
-  buildAssetTypes: [CodeAsset.type],
+  buildAssetTypes: [BuildAssetType.code],
   runPackageName: runPackageName,
 );
+
+enum BuildAssetType { code, data }
 
 Future<BuildResult?> build(
   Uri packageUri,
@@ -71,7 +73,7 @@ Future<BuildResult?> build(
   int? targetAndroidNdkApi,
   Target? target,
   bool linkingEnabled = false,
-  required List<String> buildAssetTypes,
+  required List<BuildAssetType> buildAssetTypes,
   Map<String, String>? hookEnvironment,
 }) async {
   final targetOS = target?.os ?? OS.current;
@@ -91,7 +93,7 @@ Future<BuildResult?> build(
       packageLayout: packageLayout,
     ).build(
       extensions: [
-        if (buildAssetTypes.contains(CodeAsset.type))
+        if (buildAssetTypes.contains(BuildAssetType.code))
           CodeAssetExtension(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: targetOS,
@@ -115,7 +117,8 @@ Future<BuildResult?> build(
                     ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                     : null,
           ),
-        if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+        if (buildAssetTypes.contains(BuildAssetType.data))
+          DataAssetsExtension(),
       ],
       linkingEnabled: linkingEnabled,
     );
@@ -147,7 +150,7 @@ Future<LinkResult?> link(
   int? targetMacOSVersion,
   int? targetAndroidNdkApi,
   Target? target,
-  required List<String> buildAssetTypes,
+  required List<BuildAssetType> buildAssetTypes,
 }) async {
   final targetOS = target?.os ?? OS.current;
   final runPackageName_ =
@@ -165,7 +168,7 @@ Future<LinkResult?> link(
       packageLayout: packageLayout,
     ).link(
       extensions: [
-        if (buildAssetTypes.contains(CodeAsset.type))
+        if (buildAssetTypes.contains(BuildAssetType.code))
           CodeAssetExtension(
             targetArchitecture: target?.architecture ?? Architecture.current,
             targetOS: target?.os ?? OS.current,
@@ -189,7 +192,8 @@ Future<LinkResult?> link(
                     ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                     : null,
           ),
-        if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+        if (buildAssetTypes.contains(BuildAssetType.data))
+          DataAssetsExtension(),
       ],
       buildResult: buildResult,
       resourceIdentifiers: resourceIdentifiers,
@@ -218,7 +222,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   int? targetAndroidNdkApi,
   Target? target,
   Uri? resourceIdentifiers,
-  required List<String> buildAssetTypes,
+  required List<BuildAssetType> buildAssetTypes,
 }) async => await runWithLog(capturedLogs, () async {
   final runPackageName_ =
       runPackageName ?? packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
@@ -236,7 +240,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
   final targetOS = target?.os ?? OS.current;
   final buildResult = await buildRunner.build(
     extensions: [
-      if (buildAssetTypes.contains(CodeAsset.type))
+      if (buildAssetTypes.contains(BuildAssetType.code))
         CodeAssetExtension(
           targetArchitecture: target?.architecture ?? Architecture.current,
           targetOS: target?.os ?? OS.current,
@@ -260,7 +264,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
                   ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
         ),
-      if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+      if (buildAssetTypes.contains(BuildAssetType.data)) DataAssetsExtension(),
     ],
     linkingEnabled: true,
   );
@@ -277,7 +281,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
 
   final linkResult = await buildRunner.link(
     extensions: [
-      if (buildAssetTypes.contains(CodeAsset.type))
+      if (buildAssetTypes.contains(BuildAssetType.code))
         CodeAssetExtension(
           targetArchitecture: target?.architecture ?? Architecture.current,
           targetOS: target?.os ?? OS.current,
@@ -301,7 +305,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
                   ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                   : null,
         ),
-      if (buildAssetTypes.contains(DataAsset.type)) DataAssetsExtension(),
+      if (buildAssetTypes.contains(BuildAssetType.data)) DataAssetsExtension(),
     ],
     buildResult: buildResult,
     resourceIdentifiers: resourceIdentifiers,

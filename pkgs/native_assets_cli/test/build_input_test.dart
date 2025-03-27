@@ -68,7 +68,7 @@ void main() async {
             outputDirectory: outDirUri,
             outputDirectoryShared: outputDirectoryShared,
           )
-          ..config.setupShared(buildAssetTypes: ['my-asset-type'])
+          ..config.addBuildAssetTypes(['my-asset-type'])
           ..config.setupBuild(linkingEnabled: false)
           ..setupBuildInput(metadata: metadata);
     final input = BuildInput(inputBuilder.json);
