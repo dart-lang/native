@@ -33,6 +33,7 @@ Declaration? transformProperty(
     originalProperty,
     globalNamer,
     transformationMap,
+    property: true,
     wrapperPropertyName: originalProperty.name,
     variableReferenceExpression: '$propertySource.${originalProperty.name}',
   );
@@ -60,6 +61,7 @@ Declaration _transformVariable(
   VariableDeclaration originalVariable,
   UniqueNamer globalNamer,
   TransformationMap transformationMap, {
+  bool property = false,
   required String wrapperPropertyName,
   required String variableReferenceExpression,
 }) {
