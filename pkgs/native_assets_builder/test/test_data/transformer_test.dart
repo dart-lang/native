@@ -51,17 +51,17 @@ void main() async {
                 outputDirectoryShared: outputDirectoryShared,
               )
               ..config.setupBuild(linkingEnabled: false)
-              ..config.setupShared(
-                buildAssetTypes: [CodeAsset.type, DataAsset.type],
-              )
-              ..config.setupCode(
-                targetArchitecture: architecture,
-                targetOS: targetOS,
-                macOS:
-                    targetOS == OS.macOS
-                        ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                        : null,
-                linkModePreference: LinkModePreference.dynamic,
+              ..addExtension(DataAssetsExtension())
+              ..addExtension(
+                CodeAssetExtension(
+                  targetArchitecture: architecture,
+                  targetOS: targetOS,
+                  macOS:
+                      targetOS == OS.macOS
+                          ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                          : null,
+                  linkModePreference: LinkModePreference.dynamic,
+                ),
               );
 
         final buildInputUri = testTempUri.resolve('build_input.json');

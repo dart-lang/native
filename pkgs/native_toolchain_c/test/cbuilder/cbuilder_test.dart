@@ -59,14 +59,15 @@ void main() {
                 outputDirectoryShared: tempUri2,
               )
               ..config.setupBuild(linkingEnabled: false)
-              ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-              ..config.setupCode(
-                targetOS: targetOS,
-                macOS: macOSConfig,
-                targetArchitecture: Architecture.current,
-                // Ignored by executables.
-                linkModePreference: LinkModePreference.dynamic,
-                cCompiler: cCompiler,
+              ..addExtension(
+                CodeAssetExtension(
+                  targetOS: targetOS,
+                  macOS: macOSConfig,
+                  targetArchitecture: Architecture.current,
+                  // Ignored by executables.
+                  linkModePreference: LinkModePreference.dynamic,
+                  cCompiler: cCompiler,
+                ),
               );
 
         final buildInput = BuildInput(buildInputBuilder.json);
@@ -141,16 +142,15 @@ void main() {
                 outputDirectoryShared: tempUri2,
               )
               ..config.setupBuild(linkingEnabled: false);
-        buildInputBuilder.config.setupShared(
-          buildAssetTypes: [if (buildCodeAssets) CodeAsset.type],
-        );
         if (buildCodeAssets) {
-          buildInputBuilder.config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          buildInputBuilder.addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
         }
 
@@ -253,14 +253,15 @@ void main() {
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              // Ignored by executables.
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -319,14 +320,15 @@ void main() {
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              // Ignored by executables.
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
 
     final buildInput = BuildInput(buildInputBuilder.json);
@@ -377,14 +379,15 @@ void main() {
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              // Ignored by executables.
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
 
     final buildInput = BuildInput(buildInputBuilder.json);
@@ -446,14 +449,15 @@ void main() {
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              // Ignored by executables.
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -514,14 +518,15 @@ void main() {
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              // Ignored by executables.
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -600,14 +605,15 @@ void main() {
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: targetOS,
-            macOS: macOSConfig,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              // Ignored by executables.
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
           );
     final buildInput = BuildInput(buildInputBuilder.json);
     final buildOutput = BuildOutputBuilder();
@@ -703,17 +709,18 @@ Future<void> testDefines({
           outputDirectoryShared: tempUri2,
         )
         ..config.setupBuild(linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: targetOS,
-          macOS:
-              targetOS == OS.macOS
-                  ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                  : null,
-          targetArchitecture: Architecture.current,
-          // Ignored by executables.
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: cCompiler,
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: targetOS,
+            macOS:
+                targetOS == OS.macOS
+                    ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                    : null,
+            targetArchitecture: Architecture.current,
+            // Ignored by executables.
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          ),
         );
 
   final buildInput = BuildInput(buildInputBuilder.json);

@@ -42,7 +42,7 @@ void main() async {
               logger,
               dartExecutable,
               buildResult: buildResult,
-              buildAssetTypes: [DataAsset.type],
+              buildAssetTypes: [BuildAssetType.data],
               capturedLogs: logMessages,
             ))!;
       }

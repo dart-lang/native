@@ -30,7 +30,7 @@ void main() async {
             logger,
             dartExecutable,
             buildResult: buildResult,
-            buildAssetTypes: [DataAsset.type],
+            buildAssetTypes: [BuildAssetType.data],
           ))!;
       expect(linkResult.encodedAssets.length, 2);
 
@@ -84,7 +84,7 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        buildAssetTypes: [DataAsset.type],
+        buildAssetTypes: [BuildAssetType.data],
       );
       expect(linkResult, isNotNull);
 
@@ -116,7 +116,7 @@ void main() async {
             dartExecutable,
             buildResult: buildResult,
             capturedLogs: logMessages,
-            buildAssetTypes: [DataAsset.type],
+            buildAssetTypes: [BuildAssetType.data],
           ))!;
       expect(linkResult.encodedAssets.length, 0);
       expect(
@@ -148,7 +148,7 @@ void main() async {
             logger,
             dartExecutable,
             linkingEnabled: true,
-            buildAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [BuildAssetType.code],
           ))!;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 1);
@@ -161,14 +161,13 @@ void main() async {
             dartExecutable,
             buildResult: buildResult,
             capturedLogs: logMessages,
-            buildAssetTypes: [CodeAsset.type],
+            buildAssetTypes: [BuildAssetType.code],
           ))!;
       expect(linkResult.encodedAssets.length, 1);
-      expect(linkResult.encodedAssets.first.type, CodeAsset.type);
+      expect(linkResult.encodedAssets.first.isCodeAsset, isTrue);
     });
   });
 }
 
-Iterable<String> _getNames(List<EncodedAsset> assets) => assets
-    .where((e) => e.type == DataAsset.type)
-    .map((e) => DataAsset.fromEncoded(e).name);
+Iterable<String> _getNames(List<EncodedAsset> assets) =>
+    assets.where((e) => e.isDataAsset).map((e) => e.asDataAsset.name);

@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/src/code_assets/code_asset.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -141,20 +142,21 @@ void main() async {
             outputDirectoryShared: outputDirectoryShared,
           )
           ..config.setupBuild(linkingEnabled: false)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: OS.android,
-            targetArchitecture: Architecture.arm64,
-            android: AndroidCodeConfig(targetNdkApi: 30),
-            linkModePreference: LinkModePreference.preferStatic,
-            cCompiler: CCompilerConfig(
-              compiler: fakeClang,
-              linker: fakeLd,
-              archiver: fakeAr,
-              windows: WindowsCCompilerConfig(
-                developerCommandPrompt: DeveloperCommandPrompt(
-                  script: fakeVcVars,
-                  arguments: ['arg0', 'arg1'],
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.android,
+              targetArchitecture: Architecture.arm64,
+              android: AndroidCodeConfig(targetNdkApi: 30),
+              linkModePreference: LinkModePreference.preferStatic,
+              cCompiler: CCompilerConfig(
+                compiler: fakeClang,
+                linker: fakeLd,
+                archiver: fakeAr,
+                windows: WindowsCCompilerConfig(
+                  developerCommandPrompt: DeveloperCommandPrompt(
+                    script: fakeVcVars,
+                    arguments: ['arg0', 'arg1'],
+                  ),
                 ),
               ),
             ),
@@ -171,7 +173,7 @@ void main() async {
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
       expect(input.config.linkingEnabled, false);
-      expect(input.config.buildAssetTypes, [CodeAsset.type]);
+      expect(input.config.buildAssetTypes, [CodeAssetType.type]);
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
   });
@@ -187,20 +189,21 @@ void main() async {
             outputDirectoryShared: outputDirectoryShared,
           )
           ..setupLink(assets: assets, recordedUsesFile: null)
-          ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-          ..config.setupCode(
-            targetOS: OS.android,
-            targetArchitecture: Architecture.arm64,
-            android: AndroidCodeConfig(targetNdkApi: 30),
-            linkModePreference: LinkModePreference.preferStatic,
-            cCompiler: CCompilerConfig(
-              compiler: fakeClang,
-              linker: fakeLd,
-              archiver: fakeAr,
-              windows: WindowsCCompilerConfig(
-                developerCommandPrompt: DeveloperCommandPrompt(
-                  script: fakeVcVars,
-                  arguments: ['arg0', 'arg1'],
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.android,
+              targetArchitecture: Architecture.arm64,
+              android: AndroidCodeConfig(targetNdkApi: 30),
+              linkModePreference: LinkModePreference.preferStatic,
+              cCompiler: CCompilerConfig(
+                compiler: fakeClang,
+                linker: fakeLd,
+                archiver: fakeAr,
+                windows: WindowsCCompilerConfig(
+                  developerCommandPrompt: DeveloperCommandPrompt(
+                    script: fakeVcVars,
+                    arguments: ['arg0', 'arg1'],
+                  ),
                 ),
               ),
             ),
@@ -223,7 +226,7 @@ void main() async {
       expect(input.packageName, packageName);
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
-      expect(input.config.buildAssetTypes, [CodeAsset.type]);
+      expect(input.config.buildAssetTypes, [CodeAssetType.type]);
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
   });

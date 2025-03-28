@@ -36,12 +36,13 @@ Future<Uri> buildTestArchive(
           outputDirectoryShared: tempUri2,
         )
         ..config.setupBuild(linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: os,
-          targetArchitecture: architecture,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: cCompiler,
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: os,
+            targetArchitecture: architecture,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          ),
         );
 
   final buildInput = BuildInput(buildInputBuilder.json);

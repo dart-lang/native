@@ -73,12 +73,13 @@ Future<void> runTests(List<Architecture> architectures) async {
                   outputDirectoryShared: tempUri2,
                 )
                 ..setupLink(assets: [], recordedUsesFile: null)
-                ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-                ..config.setupCode(
-                  targetOS: os,
-                  targetArchitecture: architecture,
-                  linkModePreference: LinkModePreference.dynamic,
-                  cCompiler: cCompiler,
+                ..addExtension(
+                  CodeAssetExtension(
+                    targetOS: os,
+                    targetArchitecture: architecture,
+                    linkModePreference: LinkModePreference.dynamic,
+                    cCompiler: cCompiler,
+                  ),
                 );
 
           final linkInput = LinkInput(linkInputBuilder.json);

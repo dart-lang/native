@@ -42,7 +42,7 @@ final class DataAsset {
 
   /// Constructs a [DataAsset] from an [EncodedAsset].
   factory DataAsset.fromEncoded(EncodedAsset asset) {
-    assert(asset.type == DataAsset.type);
+    assert(asset.isDataAsset);
     final syntaxNode = syntax.DataAssetEncoding.fromJson(
       asset.encoding,
       path: asset.jsonPath ?? [],
@@ -73,11 +73,21 @@ final class DataAsset {
       name: name,
       package: package,
     );
-    return EncodedAsset(DataAsset.type, encoding.json);
+    return EncodedAsset(DataAssetType.type, encoding.json);
   }
 
   @override
   String toString() => 'DataAsset(${encode().encoding})';
+}
 
+extension DataAssetType on DataAsset {
+  // TODO(https://github.com/dart-lang/native/issues/2132): Change to be
+  // namespaced by package name. (We'll temporarily need to support both the
+  // old a new type.)
   static const String type = 'data';
+}
+
+extension EncodedDataAsset on EncodedAsset {
+  bool get isDataAsset => type == DataAssetType.type;
+  DataAsset get asDataAsset => DataAsset.fromEncoded(this);
 }

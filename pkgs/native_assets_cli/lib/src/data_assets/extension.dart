@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../data_assets_builder.dart';
+import '../config.dart';
+import '../encoded_asset.dart';
+import '../extension.dart';
+import 'data_asset.dart';
 import 'validation.dart';
 
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
@@ -10,14 +13,21 @@ import 'validation.dart';
 final class DataAssetsExtension implements ProtocolExtension {
   DataAssetsExtension();
 
-  @override
-  List<String> get buildAssetTypes => [DataAsset.type];
+  static const List<String> _buildAssetTypes = [DataAssetType.type];
 
   @override
-  void setupBuildInput(BuildInputBuilder input) {}
+  void setupBuildInput(BuildInputBuilder input) {
+    _setupConfig(input);
+  }
 
   @override
-  void setupLinkInput(LinkInputBuilder input) {}
+  void setupLinkInput(LinkInputBuilder input) {
+    _setupConfig(input);
+  }
+
+  void _setupConfig(HookInputBuilder input) {
+    input.config.addBuildAssetTypes(_buildAssetTypes);
+  }
 
   @override
   Future<ValidationErrors> validateBuildInput(BuildInput input) =>

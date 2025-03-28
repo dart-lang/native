@@ -39,7 +39,6 @@ void main() async {
         outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..config.setupShared(buildAssetTypes: ['foo'])
       ..config.setupBuild(linkingEnabled: false);
     input = BuildInput(inputBuilder.json);
 

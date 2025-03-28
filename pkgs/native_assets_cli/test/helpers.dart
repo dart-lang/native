@@ -144,13 +144,13 @@ extension on String {
 extension AssetIterable on Iterable<EncodedAsset> {
   Future<bool> allExist() async {
     for (final encodedAsset in this) {
-      if (encodedAsset.type == DataAsset.type) {
-        final dataAsset = DataAsset.fromEncoded(encodedAsset);
+      if (encodedAsset.isDataAsset) {
+        final dataAsset = encodedAsset.asDataAsset;
         if (!await dataAsset.file.fileSystemEntity.exists()) {
           return false;
         }
-      } else if (encodedAsset.type == CodeAsset.type) {
-        final codeAsset = CodeAsset.fromEncoded(encodedAsset);
+      } else if (encodedAsset.isCodeAsset) {
+        final codeAsset = encodedAsset.asCodeAsset;
         if (!await (codeAsset.file?.fileSystemEntity.exists() ?? true)) {
           return false;
         }

@@ -64,7 +64,7 @@ Future<ValidationErrors> _validateCodeAssetLinkInput(
 ) async {
   final errors = <String>[];
   for (final asset in encodedAssets) {
-    if (asset.type != CodeAsset.type) continue;
+    if (!asset.isCodeAsset) continue;
     final syntaxErrors = _validateCodeAssetSyntax(asset);
     if (syntaxErrors.isNotEmpty) {
       errors.addAll(syntaxErrors);
@@ -112,7 +112,7 @@ Future<ValidationErrors> validateCodeAssetInApplication(
 ) async {
   final fileNameToEncodedAssetId = <String, Set<String>>{};
   for (final asset in assets) {
-    if (asset.type != CodeAsset.type) continue;
+    if (!asset.isCodeAsset) continue;
     _groupCodeAssetsByFilename(
       CodeAsset.fromEncoded(asset),
       fileNameToEncodedAssetId,
@@ -136,7 +136,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   final fileNameToEncodedAssetId = <String, Set<String>>{};
 
   for (final asset in encodedAssets) {
-    if (asset.type != CodeAsset.type) continue;
+    if (!asset.isCodeAsset) continue;
     final syntaxErrors = _validateCodeAssetSyntax(asset);
     if (syntaxErrors.isNotEmpty) {
       errors.addAll(syntaxErrors);
@@ -158,7 +158,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   }
 
   for (final asset in encodedAssetsForLinking) {
-    if (asset.type != CodeAsset.type) continue;
+    if (!asset.isCodeAsset) continue;
     final syntaxErrors = _validateCodeAssetSyntax(asset);
     if (syntaxErrors.isNotEmpty) {
       errors.addAll(syntaxErrors);
@@ -179,7 +179,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
 }
 
 ValidationErrors _validateCodeAssetSyntax(EncodedAsset encodedAsset) {
-  if (encodedAsset.type != CodeAsset.type) {
+  if (!encodedAsset.isCodeAsset) {
     return [];
   }
   final syntaxNode = syntax.NativeCodeAssetEncoding.fromJson(

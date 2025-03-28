@@ -15,7 +15,8 @@ export 'src/data_assets/config.dart'
         AddDataAssetsDirectory,
         DataAssetBuildOutputBuilder,
         DataAssetBuildOutputBuilderAdd,
+        DataAssetHookConfig,
         DataAssetLinkInput,
         DataAssetLinkOutputBuilder,
         DataAssetLinkOutputBuilderAdd;
-export 'src/data_assets/data_asset.dart' show DataAsset;
+export 'src/data_assets/data_asset.dart' show DataAsset, EncodedDataAsset;

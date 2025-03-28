@@ -14,7 +14,7 @@ Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
   final errors = <String>[];
   for (final asset in input.assets.encodedAssets) {
     final syntaxErrors = _validateDataAssetSyntax(asset);
-    if (asset.type != DataAsset.type) continue;
+    if (!asset.isDataAsset) continue;
     if (syntaxErrors.isNotEmpty) {
       errors.addAll(syntaxErrors);
       continue;
@@ -57,7 +57,7 @@ Future<ValidationErrors> _validateDataAssetBuildOrLinkOutput(
   final ids = <String>{};
 
   for (final asset in encodedAssets) {
-    if (asset.type != DataAsset.type) continue;
+    if (!asset.isDataAsset) continue;
     final syntaxErrors = _validateDataAssetSyntax(asset);
     if (syntaxErrors.isNotEmpty) {
       errors.addAll(syntaxErrors);
@@ -92,7 +92,7 @@ void _validateDataAsset(
 }
 
 ValidationErrors _validateDataAssetSyntax(EncodedAsset encodedAsset) {
-  if (encodedAsset.type != DataAsset.type) {
+  if (!encodedAsset.isDataAsset) {
     return [];
   }
   final syntaxNode = syntax.DataAssetEncoding.fromJson(

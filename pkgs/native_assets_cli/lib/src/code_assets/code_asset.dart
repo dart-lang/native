@@ -106,7 +106,7 @@ final class CodeAsset {
        _os = os;
 
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
-    assert(asset.type == CodeAsset.type);
+    assert(asset.isCodeAsset);
     final syntaxNode = syntax.NativeCodeAssetEncoding.fromJson(
       asset.encoding,
       path: asset.jsonPath ?? [],
@@ -163,10 +163,20 @@ final class CodeAsset {
       linkMode: linkMode.toSyntax(),
       os: _os?.toSyntax(),
     );
-    return EncodedAsset(CodeAsset.type, encoding.json);
+    return EncodedAsset(CodeAssetType.type, encoding.json);
   }
+}
 
+extension CodeAssetType on CodeAsset {
+  // TODO(https://github.com/dart-lang/native/issues/2132): Change to be
+  // namespaced by package name. (We'll temporarily need to support both the
+  // old a new type.)
   static const String type = 'native_code';
+}
+
+extension EncodedCodeAsset on EncodedAsset {
+  bool get isCodeAsset => type == CodeAssetType.type;
+  CodeAsset get asCodeAsset => CodeAsset.fromEncoded(this);
 }
 
 // These field will be removed in the future, prevent anyone from reading them.

@@ -82,24 +82,25 @@ BuildInput createBuildInput(
           outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
         ..config.setupBuild(linkingEnabled: false)
-        ..config.setupCode(
-          targetArchitecture: Architecture.fromString(architecture),
-          targetOS: os,
-          linkModePreference: LinkModePreference.dynamic,
-          android:
-              os != OS.android
-                  ? null
-                  : AndroidCodeConfig(targetNdkApi: androidTargetNdkApi),
-          iOS:
-              os != OS.iOS
-                  ? null
-                  : IOSCodeConfig(
-                    targetSdk: IOSSdk.fromString(iOSSdk!),
-                    targetVersion: iOSTargetVersion,
-                  ),
-          macOS: MacOSCodeConfig(targetVersion: macOSTargetVersion),
+        ..addExtension(
+          CodeAssetExtension(
+            targetArchitecture: Architecture.fromString(architecture),
+            targetOS: os,
+            linkModePreference: LinkModePreference.dynamic,
+            android:
+                os != OS.android
+                    ? null
+                    : AndroidCodeConfig(targetNdkApi: androidTargetNdkApi),
+            iOS:
+                os != OS.iOS
+                    ? null
+                    : IOSCodeConfig(
+                      targetSdk: IOSSdk.fromString(iOSSdk!),
+                      targetVersion: iOSTargetVersion,
+                    ),
+            macOS: MacOSCodeConfig(targetVersion: macOSTargetVersion),
+          ),
         );
   return BuildInput(inputBuilder.json);
 }

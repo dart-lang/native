@@ -2,7 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../code_assets_builder.dart';
+import '../config.dart';
+import '../encoded_asset.dart';
+import '../extension.dart';
+import 'architecture.dart';
+import 'c_compiler_config.dart';
+import 'code_asset.dart';
+import 'config.dart';
+import 'link_mode_preference.dart';
+import 'os.dart';
 import 'validation.dart';
 
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
@@ -26,8 +34,7 @@ final class CodeAssetExtension implements ProtocolExtension {
     this.macOS,
   });
 
-  @override
-  List<String> get buildAssetTypes => [CodeAsset.type];
+  static const List<String> _buildAssetTypes = [CodeAssetType.type];
 
   @override
   void setupBuildInput(BuildInputBuilder input) {
@@ -40,6 +47,8 @@ final class CodeAssetExtension implements ProtocolExtension {
   }
 
   void _setupConfig(HookInputBuilder input) {
+    input.config.addBuildAssetTypes(_buildAssetTypes);
+    // ignore: deprecated_member_use_from_same_package
     input.config.setupCode(
       targetArchitecture: targetArchitecture,
       targetOS: targetOS,

@@ -153,16 +153,17 @@ Future<Uri> buildLib(
           outputDirectoryShared: tempUriShared,
         )
         ..config.setupBuild(linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: OS.android,
-          targetArchitecture: targetArchitecture,
-          cCompiler: cCompiler,
-          android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
-          linkModePreference:
-              linkMode == DynamicLoadingBundled()
-                  ? LinkModePreference.dynamic
-                  : LinkModePreference.static,
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: OS.android,
+            targetArchitecture: targetArchitecture,
+            cCompiler: cCompiler,
+            android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
+            linkModePreference:
+                linkMode == DynamicLoadingBundled()
+                    ? LinkModePreference.dynamic
+                    : LinkModePreference.static,
+          ),
         );
 
   final buildInput = BuildInput(buildInputBuilder.json);

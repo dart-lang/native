@@ -4,4 +4,4 @@
 
 import 'package:native_assets_cli/code_assets.dart';
 
-String get useSomeNativeAssetsCli => CodeAsset.type;
+String get useSomeNativeAssetsCli => OS.android.name;

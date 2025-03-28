@@ -17,7 +17,7 @@ typedef ValidationErrors = List<String>;
 /// 2. validate syntactic and semantic constraints.
 abstract interface class ProtocolExtension {
   /// The [HookConfig.buildAssetTypes] this extension adds.
-  List<String> get buildAssetTypes;
+  // List<String> get buildAssetTypes;
 
   /// Setup the [BuildConfig] for this extension.
   void setupBuildInput(BuildInputBuilder input);
