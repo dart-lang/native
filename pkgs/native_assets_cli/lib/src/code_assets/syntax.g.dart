@@ -815,6 +815,8 @@ class MacOSCodeConfig {
 }
 
 class NativeCodeAsset extends Asset {
+  static const typeValue = 'native_code';
+
   NativeCodeAsset.fromJson(super.json, {super.path}) : super._fromJson();
 
   NativeCodeAsset({

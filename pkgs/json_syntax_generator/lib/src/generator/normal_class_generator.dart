@@ -27,6 +27,7 @@ class ClassGenerator {
     buffer.writeln('''
 class $className $extendsString {
 ''');
+    buffer.writeln(_generateTag());
     buffer.writeln(_generateFields());
     buffer.writeln(_generateJsonFactory());
     buffer.writeln(_generateJsonConstructor());
@@ -39,6 +40,16 @@ class $className $extendsString {
     buffer.writeln('''
 }
 ''');
+  }
+
+  /// If this is a tagged union value, expose the tag.
+  String _generateTag() {
+    if (classInfo.superclass?.visibleTaggedUnion != true) return '';
+    final tagProperty = classInfo.superclass!.taggedUnionProperty;
+    final tagValue = classInfo.taggedUnionValue;
+    return '''
+static const ${tagProperty}Value = '$tagValue';
+''';
   }
 
   String _generateFields() {

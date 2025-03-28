@@ -40,6 +40,11 @@ class NormalClassInfo extends ClassInfo {
   /// Only set in the sub classes.
   final String? taggedUnionValue;
 
+  /// If the tagged union tags are available in the generated API.
+  ///
+  /// Only set in the parent class.
+  final bool visibleTaggedUnion;
+
   bool get isTaggedUnion =>
       taggedUnionProperty != null || taggedUnionValue != null;
 
@@ -52,6 +57,7 @@ class NormalClassInfo extends ClassInfo {
     this.taggedUnionProperty,
     this.taggedUnionValue,
     this.extraValidation = const [],
+    this.visibleTaggedUnion = false,
   }) : super() {
     superclass?.subclasses.add(this);
     if (taggedUnionValue != null) {
@@ -77,6 +83,7 @@ $propertiesString
   ],
   taggedUnionProperty: $taggedUnionProperty,
   taggedUnionValue: $taggedUnionValue,
+  visibleTaggedUnion: $visibleTaggedUnion,
   extraValidation: [
 $extraValidationString
   ],
