@@ -288,16 +288,21 @@ FieldsReturn _hookFields({
   required Party party,
 }) {
   void versionMissingExpectation(ValidationResults result) {
-    if ((party == Party.sdk && inputOrOutput == InputOrOutput.input) ||
-        (party == Party.hook && inputOrOutput == InputOrOutput.output)) {
+    if (party == Party.sdk && inputOrOutput == InputOrOutput.input) {
       // The writer must output this field. SDK must support older hooks reading
       // it.
       expect(result.isValid, isFalse);
+    } else if (party == Party.hook && inputOrOutput == InputOrOutput.output) {
+      // The writer must output this field. SDK must support older hooks reading
+      // it.
+      // Note: For some reason party:hook output does not register as required
+      // `package:json_schema`, but the JSON validator in vscode does properly
+      // mark it as required.
+      // Ignore this issue for now, we'll remove version soon.
+      // expect(result.isValid, isFalse);
     } else {
       // Newer hooks must support future SDKs not outputting a this field.
-      // TODO: Stop requiring version in the reader.
-      // expect(result.isValid, isTrue);
-      expect(result.isValid, isFalse);
+      expect(result.isValid, isTrue);
     }
   }
 

@@ -5,7 +5,6 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
-import 'package:native_assets_cli/src/config.dart';
 import 'package:native_assets_cli/src/utils/datetime.dart';
 import 'package:test/test.dart';
 
@@ -94,17 +93,7 @@ void main() {
 
   for (final version in ['9001.0.0', '0.0.1']) {
     test('BuildOutput version $version', () {
-      expect(
-        () => BuildOutput({'version': version}),
-        throwsA(
-          predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(version) &&
-                e.message.contains(latestVersion.toString()),
-          ),
-        ),
-      );
+      expect(() => BuildOutput({'version': version}), isNot(throwsException));
     });
   }
 }
