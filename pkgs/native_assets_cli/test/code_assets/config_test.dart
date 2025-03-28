@@ -97,7 +97,7 @@ void main() async {
         ],
       'config': {
         'code': codeConfig,
-        'build_asset_types': ['native_code'],
+        'build_asset_types': ['code_assets/code', 'native_code'],
         'extensions': {'code_assets': codeConfig},
         if (hookType == 'build') 'linking_enabled': false,
       },
@@ -173,7 +173,10 @@ void main() async {
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
       expect(input.config.linkingEnabled, false);
-      expect(input.config.buildAssetTypes, [CodeAssetType.type]);
+      expect(
+        input.config.buildAssetTypes,
+        CodeAssetType.typesForBuildAssetTypes,
+      );
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
   });
@@ -226,7 +229,10 @@ void main() async {
       expect(input.packageName, packageName);
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
-      expect(input.config.buildAssetTypes, [CodeAssetType.type]);
+      expect(
+        input.config.buildAssetTypes,
+        CodeAssetType.typesForBuildAssetTypes,
+      );
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
   });

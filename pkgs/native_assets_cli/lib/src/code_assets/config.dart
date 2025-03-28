@@ -18,7 +18,10 @@ extension CodeAssetHookConfig on HookConfig {
   /// Code asset specific configuration.
   CodeConfig get code => CodeConfig._fromJson(json, path);
 
-  bool get buildCodeAssets => buildAssetTypes.contains(CodeAssetType.type);
+  bool get buildCodeAssets =>
+      buildAssetTypes
+          .where((e) => CodeAssetType.typesForBuildAssetTypes.contains(e))
+          .isNotEmpty;
 }
 
 /// Extension to the [LinkInput] providing access to configuration specific to

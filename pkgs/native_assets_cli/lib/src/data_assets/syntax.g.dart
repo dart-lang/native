@@ -25,6 +25,9 @@ class Asset {
     if (result.isDataAsset) {
       return result.asDataAsset;
     }
+    if (result.isDataAssetNew) {
+      return result.asDataAssetNew;
+    }
     return result;
   }
 
@@ -196,6 +199,55 @@ class DataAssetEncoding {
 
   @override
   String toString() => 'DataAssetEncoding($json)';
+}
+
+class DataAssetNew extends Asset {
+  static const typeValue = 'data_assets/data';
+
+  DataAssetNew.fromJson(super.json, {super.path}) : super._fromJson();
+
+  DataAssetNew({required DataAssetEncoding? encoding})
+    : super(type: 'data_assets/data') {
+    _encoding = encoding;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [DataAssetNew] that are not in
+  /// [Asset].
+  void setup({required DataAssetEncoding? encoding}) {
+    _encoding = encoding;
+    json.sortOnKey();
+  }
+
+  DataAssetEncoding? get encoding {
+    final jsonValue = _reader.optionalMap('encoding');
+    if (jsonValue == null) return null;
+    return DataAssetEncoding.fromJson(jsonValue, path: [...path, 'encoding']);
+  }
+
+  set _encoding(DataAssetEncoding? value) {
+    json.setOrRemove('encoding', value?.json);
+  }
+
+  List<String> _validateEncoding() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('encoding');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return encoding?.validate() ?? [];
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateEncoding()];
+
+  @override
+  String toString() => 'DataAssetNew($json)';
+}
+
+extension DataAssetNewExtension on Asset {
+  bool get isDataAssetNew => type == 'data_assets/data';
+
+  DataAssetNew get asDataAssetNew => DataAssetNew.fromJson(json, path: path);
 }
 
 class JsonReader {

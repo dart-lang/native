@@ -113,9 +113,11 @@ FieldsFunction _codeFields(AllTestData allTestData) {
             expectRequiredFieldMissing,
           ),
           if (hook == Hook.link) ...[
-            for (final (field, expect) in codeAssetFields)
+            for (final (field, expect) in codeAssetFields) ...[
               for (final encoding in _encoding)
                 (['assets', 0, ...encoding, ...field], expect),
+              (['assets', 1, 'encoding', ...field], expect),
+            ],
           ],
         ],
       if (inputOrOutput == InputOrOutput.output) ...[

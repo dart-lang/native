@@ -41,31 +41,54 @@
               "const": "native_code"
             },
             {
+              "const": "code_assets/code"
+            },
+            {
               "type": "string"
             }
           ]
         }
       },
-      "if": {
-        "properties": {
-          "type": {
-            "const": "native_code"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "encoding": {
-            "$ref": "#/definitions/NativeCodeAssetEncoding"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "native_code"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "encoding": {
+                "$ref": "#/definitions/NativeCodeAssetEncoding"
+              }
+            },
+            "allOf": [
+              {
+                "$comment": "Also include the fields parent object for backwards compatibility.",
+                "$ref": "#/definitions/NativeCodeAssetEncoding"
+              }
+            ]
           }
         },
-        "allOf": [
-          {
-            "$comment": "Also include the fields parent object for backwards compatibility.",
-            "$ref": "#/definitions/NativeCodeAssetEncoding"
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "code_assets/code"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "encoding": {
+                "$ref": "#/definitions/NativeCodeAssetEncoding"
+              }
+            }
           }
-        ]
-      }
+        }
+      ]
     },
     "CCompilerConfig": {
       "type": "object",

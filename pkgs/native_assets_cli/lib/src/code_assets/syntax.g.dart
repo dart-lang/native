@@ -97,6 +97,9 @@ class Asset {
     List<Object> path = const [],
   }) {
     final result = Asset._fromJson(json, path: path);
+    if (result.isNativeCodeAssetNew) {
+      return result.asNativeCodeAssetNew;
+    }
     if (result.isNativeCodeAsset) {
       return result.asNativeCodeAsset;
     }
@@ -1073,6 +1076,59 @@ class NativeCodeAssetEncoding {
 
   @override
   String toString() => 'NativeCodeAssetEncoding($json)';
+}
+
+class NativeCodeAssetNew extends Asset {
+  static const typeValue = 'code_assets/code';
+
+  NativeCodeAssetNew.fromJson(super.json, {super.path}) : super._fromJson();
+
+  NativeCodeAssetNew({required NativeCodeAssetEncoding? encoding})
+    : super(type: 'code_assets/code') {
+    _encoding = encoding;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [NativeCodeAssetNew] that are not in
+  /// [Asset].
+  void setup({required NativeCodeAssetEncoding? encoding}) {
+    _encoding = encoding;
+    json.sortOnKey();
+  }
+
+  NativeCodeAssetEncoding? get encoding {
+    final jsonValue = _reader.optionalMap('encoding');
+    if (jsonValue == null) return null;
+    return NativeCodeAssetEncoding.fromJson(
+      jsonValue,
+      path: [...path, 'encoding'],
+    );
+  }
+
+  set _encoding(NativeCodeAssetEncoding? value) {
+    json.setOrRemove('encoding', value?.json);
+  }
+
+  List<String> _validateEncoding() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('encoding');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return encoding?.validate() ?? [];
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateEncoding()];
+
+  @override
+  String toString() => 'NativeCodeAssetNew($json)';
+}
+
+extension NativeCodeAssetNewExtension on Asset {
+  bool get isNativeCodeAssetNew => type == 'code_assets/code';
+
+  NativeCodeAssetNew get asNativeCodeAssetNew =>
+      NativeCodeAssetNew.fromJson(json, path: path);
 }
 
 class OS {

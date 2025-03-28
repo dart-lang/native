@@ -81,7 +81,10 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
 /// Extension to the [HookConfig] providing access to configuration specific
 /// to data assets.
 extension DataAssetHookConfig on HookConfig {
-  bool get buildDataAssets => buildAssetTypes.contains(DataAssetType.type);
+  bool get buildDataAssets =>
+      buildAssetTypes
+          .where((e) => DataAssetType.typesForBuildAssetTypes.contains(e))
+          .isNotEmpty;
 }
 
 /// Extension to initialize data specific configuration on link/build inputs.
