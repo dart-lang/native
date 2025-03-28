@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
-import 'package:native_assets_cli/src/config.dart';
 import 'package:native_assets_cli/src/utils/datetime.dart';
 import 'package:test/test.dart';
 
@@ -60,17 +59,7 @@ void main() {
 
   for (final version in ['9001.0.0', '0.0.1']) {
     test('LinkOutput version $version', () {
-      expect(
-        () => LinkOutput({'version': version}),
-        throwsA(
-          predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains(version) &&
-                e.message.contains(latestVersion.toString()),
-          ),
-        ),
-      );
+      expect(() => LinkOutput({'version': version}), isNot(throwsException));
     });
   }
 }

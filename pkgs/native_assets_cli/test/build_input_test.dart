@@ -95,17 +95,7 @@ void main() async {
       test('BuildInput version $version', () {
         final input = inputJson;
         input['version'] = version;
-        expect(
-          () => BuildInput(input),
-          throwsA(
-            predicate(
-              (e) =>
-                  e is FormatException &&
-                  e.message.contains(version) &&
-                  e.message.contains(latestVersion.toString()),
-            ),
-          ),
-        );
+        expect(() => BuildInput(input), isNot(throwsException));
       });
     }
 

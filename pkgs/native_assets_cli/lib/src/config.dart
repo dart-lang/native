@@ -24,9 +24,6 @@ sealed class HookInput {
   /// The underlying json configuration of this [HookInput].
   Map<String, Object?> get json => _syntax.json;
 
-  /// The version of the [HookInput].
-  Version get version => Version.parse(_syntax.version);
-
   /// The directory in which output and intermediate artifacts that are unique
   /// to the [config] can be placed.
   ///
@@ -82,13 +79,6 @@ sealed class HookInput {
 
   HookInput(Map<String, Object?> json)
     : _syntax = syntax.HookInput.fromJson(json) {
-    if (version.major != latestVersion.major ||
-        version < latestParsableVersion) {
-      throw FormatException(
-        'Only compatible versions with $latestVersion are supported '
-        '(was: $version).',
-      );
-    }
     // Trigger validation, remove with cleanup.
     outputDirectory;
     outputDirectoryShared;
@@ -290,9 +280,6 @@ sealed class HookOutput {
   /// The underlying json configuration of this [HookOutput].
   Map<String, Object?> get json => _syntax.json;
 
-  /// The version of the [HookInput].
-  Version get version => Version.parse(_syntax.version);
-
   /// Start time for the build of this output.
   ///
   /// The [timestamp] is rounded down to whole seconds, because
@@ -316,15 +303,7 @@ sealed class HookOutput {
 
   syntax.HookOutput get _syntax;
 
-  HookOutput._(Map<String, Object?> json) {
-    if (version.major != latestVersion.major ||
-        version < latestParsableVersion) {
-      throw FormatException(
-        'Only compatible versions with $latestVersion are supported '
-        '(was: $version).',
-      );
-    }
-  }
+  HookOutput._(Map<String, Object?> json);
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
@@ -607,26 +586,8 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
       syntax.LinkOutput.fromJson(_builder._syntax.json);
 }
 
-/// The latest supported input version.
-///
-/// We'll never bump the major version. Removing old keys from the input and
-/// output is done via modifying [latestParsableVersion].
+// Deprecated, still emitted for backwards compatibility purposes.
 final latestVersion = Version(1, 9, 0);
-
-/// The parser can deal with inputs and outputs down to this version.
-///
-/// This version can be bumped when:
-///
-/// 1. The stable version of Dart / Flutter uses a newer version _and_ the SDK
-///    constraint is bumped in the pubspec of this package to that stable
-///    version. (This prevents input parsing from failing.)
-/// 2. A stable version of this package is published uses a newer version, _and_
-///    most users have migrated to it. (This prevents the output parsing from
-///    failing.)
-///
-/// When updating this number, update the version_skew_test.dart. (This test
-/// catches issues with 2.)
-final latestParsableVersion = Version(1, 7, 0);
 
 /// The configuration for a build or link hook invocation.
 final class HookConfig {

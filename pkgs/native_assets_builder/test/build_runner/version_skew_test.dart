@@ -53,12 +53,7 @@ void main() async {
         expect(result, isNull);
         expect(
           logMessages.join('\n'),
-          stringContainsInOrder([
-            'The protocol version of ',
-            'native_assets_cli',
-            ' is 1.3.0, which is no longer supported.',
-            'Please update your dependencies.',
-          ]),
+          stringContainsInOrder(['Unhandled exception']),
         );
       });
     },

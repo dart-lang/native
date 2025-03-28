@@ -139,8 +139,7 @@
         "out_dir",
         "out_dir_shared",
         "package_name",
-        "package_root",
-        "version"
+        "package_root"
       ]
     },
     "HookOutput": {
@@ -169,8 +168,7 @@
         }
       },
       "required": [
-        "timestamp",
-        "version"
+        "timestamp"
       ]
     },
     "LinkInput": {
