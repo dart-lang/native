@@ -44,11 +44,29 @@ class SchemaAnalyzer {
   /// Generate public setters for these class names.
   final List<String> publicSetters;
 
+  /// For subtypes of these classes, the union tag values are exposed.
+  ///
+  /// For example, if `Asset.type` is `NativeCodeAsset.typeValue`, then the
+  /// asset is a native code asset. Listing `Asset` in [visbleUnionTagValues]
+  /// will add `static const typeValue = 'native_code';`:
+  ///
+  /// ```dart
+  /// class NativeCodeAsset extends Asset {
+  ///   static const typeValue = 'native_code';
+  /// }
+  ///
+  /// class Asset {
+  ///   String? get type => _reader.get<String?>('type');
+  /// }
+  /// ```
+  final List<String> visbleUnionTagValues;
+
   SchemaAnalyzer(
     this.schema, {
     this.capitalizationOverrides = const {},
     this.classSorting,
     this.publicSetters = const [],
+    this.visbleUnionTagValues = const [],
   });
 
   /// Accumulator for all classes during the analysis.
@@ -164,6 +182,7 @@ class SchemaAnalyzer {
       taggedUnionValue: taggedUnionValue,
       taggedUnionProperty:
           schemas.generateSubClasses ? properties.single.name : null,
+      visibleTaggedUnion: visbleUnionTagValues.contains(typeName),
       extraValidation: extraValidation,
     );
     _classes[typeName] = classInfo;
