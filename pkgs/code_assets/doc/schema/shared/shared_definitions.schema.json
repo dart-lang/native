@@ -27,6 +27,12 @@
           ]
         },
         {
+          "const": "js"
+        },
+        {
+          "const": "wasm"
+        },
+        {
           "type": "string"
         }
       ]
@@ -401,6 +407,9 @@
             "macos",
             "windows"
           ]
+        },
+        {
+          "const": "web"
         },
         {
           "type": "string"
