@@ -1,6 +1,7 @@
-## 0.13.0-wip
+## 0.13.0
 
-- Nothing yet.
+- Bump `package:native_assets_cli` to 0.13.0 and required fixes.
+- Stop reading `HookInput` and `HookOutput` `version`.
 
 ## 0.12.0
 
