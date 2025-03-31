@@ -1,6 +1,6 @@
-## 0.10.0-wip
+## 0.10.0
 
-- Nothing yet.
+- Bump `package:native_assets_cli` to 0.13.0 and required fixes.
 
 ## 0.9.0
 
