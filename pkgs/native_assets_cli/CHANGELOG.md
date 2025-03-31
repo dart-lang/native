@@ -1,6 +1,14 @@
-## 0.13.0-wip
+## 0.13.0
 
-- Nothing yet.
+- **Breaking change** Removed `CodeAsset.type`, use `EncodedAsset.isCodeAsset`
+  instead.
+- **Breaking change**: Removed `CodeAsset.os` and `CodeAsset.architecture`. Use
+  `CodeConfig.targetOS` and `CodeConfig.targetArchitecture` instead.
+- `HookInput.outputDirectory` is now based on `HookInput.outputDirectoryShared`.
+  The `outputDirectory` now creates its own subdirectory inside
+  `outputDirectoryShared`.
+- Another overhaul of the JSON encoding. (Old encoding still read and emitted for
+  the time being).
 
 ## 0.12.0
 
