@@ -80,7 +80,7 @@ jobs:
         dart tool/build.dart -owindows -ax64
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: ${{ matrix.os }}-host
         path: |
@@ -103,7 +103,7 @@ jobs:
           submodules: true
 
       - name: Download assets
-        uses: actions/download-artifact@b14cf4c92620c250e1c074ab0a5800e37df86765
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
         with:
           merge-multiple: true
           path: pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/
