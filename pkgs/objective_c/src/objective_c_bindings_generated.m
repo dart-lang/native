@@ -9,6 +9,9 @@
 #error "This file must be compiled with ARC enabled"
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 typedef struct {
   int64_t version;
   void* (*newWaiter)(void);
@@ -283,3 +286,5 @@ id  _ObjectiveCBindings_protocolTrampoline_c7gk2u(id target, void * sel, struct 
   return ((ProtocolTrampoline_16)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
 }
 #undef BLOCKING_BLOCK_IMPL
+
+#pragma clang diagnostic pop

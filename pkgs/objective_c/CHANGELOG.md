@@ -1,3 +1,7 @@
+## 7.1.0-wip
+
+- Use ffigen 18.1.0
+
 ## 7.0.0
 
 - Use ffigen 18.0.0
