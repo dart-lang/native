@@ -10,6 +10,7 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/protocol_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
@@ -31,17 +32,31 @@ ClassDeclaration transformCompound(
     type: originalCompound.asDeclaredType,
   );
 
+  final superClass = originalCompound is ClassDeclaration
+      ? (originalCompound.superClass == null
+          ? null
+          : transformationMap.findByOriginalId(originalCompound.superClass!.id))
+      : null;
+
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
     hasObjCAnnotation: true,
-    superClass: objectType,
+    superClass: superClass?.asDeclaredType ?? objectType,
     isWrapper: true,
     wrappedInstance: wrappedCompoundInstance,
     wrapperInitializer: buildWrapperInitializer(wrappedCompoundInstance),
   );
 
-  transformationMap[originalCompound] = transformedCompound;
+  transformedCompound.conformedProtocols.addAll(
+    originalCompound.conformedProtocols.map((p) {
+     return (
+      transformDeclaration(p.declaration, compoundNamer, transformationMap) 
+        as ProtocolDeclaration
+      )
+        .asDeclaredType;
+    })
+  );
 
   transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
       .map((nested) => transformDeclaration(
@@ -85,6 +100,8 @@ ClassDeclaration transformCompound(
       .whereType<PropertyDeclaration>()
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+
+  transformationMap[originalCompound] = transformedCompound;
 
   transformedCompound.initializers = transformedInitializers
       .whereType<InitializerDeclaration>()
