@@ -1,0 +1,13 @@
+android_sdk_config:
+  add_gradle_deps: true
+
+output:
+  dart:
+    path: lib/android_build.dart
+    structure: single_file
+
+classes:
+  - 'android.os.Build' # from gradle's compile classpath
+exclude:
+  fields:
+    - 'android.os.Build\$VERSION_CODES#UPSIDE_DOWN_CAKE'
