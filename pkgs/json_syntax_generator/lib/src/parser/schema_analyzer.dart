@@ -142,7 +142,6 @@ class SchemaAnalyzer {
         superclass = _classes[superClassName] as NormalClassInfo;
       }
     }
-    final superSchemas = schemas.superClassSchemas;
     final propertyKeys = schemas.propertyKeys;
     final settersPrivate = !publicSetters.contains(typeName);
 
@@ -151,7 +150,6 @@ class SchemaAnalyzer {
       final propertySchemas = schemas.property(propertyKey);
       final required = schemas.propertyRequired(propertyKey);
       final allowEnum = !schemas.generateSubClasses;
-      final parentPropertySchemas = superSchemas?.property(propertyKey);
       final dartType = _analyzeDartType(
         propertyKey,
         propertySchemas,
@@ -159,13 +157,9 @@ class SchemaAnalyzer {
         allowEnum: allowEnum,
       );
       final fieldName = _snakeToCamelCase(propertyKey);
-      final isOverride =
-          parentPropertySchemas != null &&
-          (parentPropertySchemas?.type != null ||
-              propertySchemas.className != null);
-      if (parentPropertySchemas == null ||
-          parentPropertySchemas.className != propertySchemas.className ||
-          propertySchemas.type != parentPropertySchemas.type) {
+      final parentDartType = superclass?.getProperty(fieldName)?.type;
+      final isOverride = parentDartType != null;
+      if (parentDartType == null || parentDartType != dartType) {
         properties.add(
           PropertyInfo(
             name: fieldName,
