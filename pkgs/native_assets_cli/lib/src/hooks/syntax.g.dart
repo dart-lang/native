@@ -10,30 +10,32 @@
 
 import 'dart:io';
 
-class Asset {
-  final Map<String, Object?> json;
+class Asset extends JsonObject {
+  Asset.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  Asset.fromJson(this.json, {this.path = const []});
-
-  Asset({required Map<String, Object?>? encoding, required String type})
-    : json = {},
-      path = const [] {
+  Asset({required JsonObject? encoding, required String type}) : super() {
     _encoding = encoding;
     _type = type;
     json.sortOnKey();
   }
 
-  Map<String, Object?>? get encoding => _reader.optionalMap('encoding');
-
-  set _encoding(Map<String, Object?>? value) {
-    json.setOrRemove('encoding', value);
+  JsonObject? get encoding {
+    final jsonValue = _reader.optionalMap('encoding');
+    if (jsonValue == null) return null;
+    return JsonObject.fromJson(jsonValue, path: [...path, 'encoding']);
   }
 
-  List<String> _validateEncoding() => _reader.validateOptionalMap('encoding');
+  set _encoding(JsonObject? value) {
+    json.setOrRemove('encoding', value?.json);
+  }
+
+  List<String> _validateEncoding() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('encoding');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return encoding?.validate() ?? [];
+  }
 
   String get type => _reader.get<String>('type');
 
@@ -43,7 +45,12 @@ class Asset {
 
   List<String> _validateType() => _reader.validate<String>('type');
 
-  List<String> validate() => [..._validateEncoding(), ..._validateType()];
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateEncoding(),
+    ..._validateType(),
+  ];
 
   @override
   String toString() => 'Asset($json)';
@@ -146,7 +153,7 @@ class BuildOutput extends HookOutput {
     required Map<String, List<Asset>>? assetsForLinking,
     required Map<String, List<Asset>>? assetsForLinkingOld,
     required super.dependencies,
-    required Map<String, Object?>? metadata,
+    required JsonObject? metadata,
     required super.timestamp,
     required super.version,
   }) : super() {
@@ -161,7 +168,7 @@ class BuildOutput extends HookOutput {
   void setup({
     required Map<String, List<Asset>>? assetsForLinkingOld,
     required Map<String, List<Asset>>? assetsForLinking,
-    required Map<String, Object?>? metadata,
+    required JsonObject? metadata,
   }) {
     this.assetsForLinkingOld = assetsForLinkingOld;
     this.assetsForLinking = assetsForLinking;
@@ -265,14 +272,24 @@ class BuildOutput extends HookOutput {
     return result;
   }
 
-  Map<String, Object?>? get metadata => _reader.optionalMap('metadata');
+  JsonObject? get metadata {
+    final jsonValue = _reader.optionalMap('metadata');
+    if (jsonValue == null) return null;
+    return JsonObject.fromJson(jsonValue, path: [...path, 'metadata']);
+  }
 
-  set metadata(Map<String, Object?>? value) {
-    json.setOrRemove('metadata', value);
+  set metadata(JsonObject? value) {
+    json.setOrRemove('metadata', value?.json);
     json.sortOnKey();
   }
 
-  List<String> _validateMetadata() => _reader.validateOptionalMap('metadata');
+  List<String> _validateMetadata() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('metadata');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return metadata?.validate() ?? [];
+  }
 
   @override
   List<String> validate() => [
@@ -286,20 +303,13 @@ class BuildOutput extends HookOutput {
   String toString() => 'BuildOutput($json)';
 }
 
-class Config {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  Config.fromJson(this.json, {this.path = const []});
+class Config extends JsonObject {
+  Config.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   Config({
     required List<String> buildAssetTypes,
-    required Map<String, Object?>? extensions,
-  }) : json = {},
-       path = const [] {
+    required JsonObject? extensions,
+  }) : super() {
     this.buildAssetTypes = buildAssetTypes;
     this.extensions = extensions;
     json.sortOnKey();
@@ -315,17 +325,28 @@ class Config {
   List<String> _validateBuildAssetTypes() =>
       _reader.validateStringList('build_asset_types');
 
-  Map<String, Object?>? get extensions => _reader.optionalMap('extensions');
+  JsonObject? get extensions {
+    final jsonValue = _reader.optionalMap('extensions');
+    if (jsonValue == null) return null;
+    return JsonObject.fromJson(jsonValue, path: [...path, 'extensions']);
+  }
 
-  set extensions(Map<String, Object?>? value) {
-    json.setOrRemove('extensions', value);
+  set extensions(JsonObject? value) {
+    json.setOrRemove('extensions', value?.json);
     json.sortOnKey();
   }
 
-  List<String> _validateExtensions() =>
-      _reader.validateOptionalMap('extensions');
+  List<String> _validateExtensions() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('extensions');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return extensions?.validate() ?? [];
+  }
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateBuildAssetTypes(),
     ..._validateExtensions(),
   ];
@@ -334,14 +355,8 @@ class Config {
   String toString() => 'Config($json)';
 }
 
-class HookInput {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  HookInput.fromJson(this.json, {this.path = const []});
+class HookInput extends JsonObject {
+  HookInput.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   HookInput({
     required Config config,
@@ -351,8 +366,7 @@ class HookInput {
     required String packageName,
     required Uri packageRoot,
     required String? version,
-  }) : json = {},
-       path = const [] {
+  }) : super() {
     this.config = config;
     this.outDir = outDir;
     this.outDirShared = outDirShared;
@@ -437,7 +451,9 @@ class HookInput {
 
   List<String> _validateVersion() => _reader.validate<String?>('version');
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateConfig(),
     ..._validateOutDir(),
     ..._validateOutDirShared(),
@@ -451,22 +467,15 @@ class HookInput {
   String toString() => 'HookInput($json)';
 }
 
-class HookOutput {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  HookOutput.fromJson(this.json, {this.path = const []});
+class HookOutput extends JsonObject {
+  HookOutput.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   HookOutput({
     required List<Asset>? assets,
     required List<Uri>? dependencies,
     required String timestamp,
     required String? version,
-  }) : json = {},
-       path = const [] {
+  }) : super() {
     this.assets = assets;
     this.dependencies = dependencies;
     this.timestamp = timestamp;
@@ -537,7 +546,9 @@ class HookOutput {
 
   List<String> _validateVersion() => _reader.validate<String?>('version');
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateAssets(),
     ..._validateDependencies(),
     ..._validateTimestamp(),
@@ -647,6 +658,20 @@ class LinkOutput extends HookOutput {
 
   @override
   String toString() => 'LinkOutput($json)';
+}
+
+class JsonObject {
+  final Map<String, Object?> json;
+
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  JsonObject() : json = {}, path = const [];
+
+  JsonObject.fromJson(this.json, {this.path = const []});
+
+  List<String> validate() => [];
 }
 
 class JsonReader {

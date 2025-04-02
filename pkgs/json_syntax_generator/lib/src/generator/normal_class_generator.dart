@@ -20,15 +20,12 @@ class ClassGenerator {
 
   void _generateClass(StringBuffer buffer) {
     final className = classInfo.name;
-    final superclassName = classInfo.superclass?.name;
+    final superclassName = classInfo.superclass?.name ?? 'JsonObject';
 
-    final extendsString =
-        superclassName != null ? 'extends $superclassName' : '';
     buffer.writeln('''
-class $className $extendsString {
+class $className extends $superclassName {
 ''');
     buffer.writeln(_generateTag());
-    buffer.writeln(_generateFields());
     buffer.writeln(_generateJsonFactory());
     buffer.writeln(_generateJsonConstructor());
     buffer.writeln(_generateDefaultConstructor());
@@ -49,21 +46,6 @@ class $className $extendsString {
     final tagValue = classInfo.taggedUnionValue;
     return '''
 static const ${tagProperty}Value = '$tagValue';
-''';
-  }
-
-  String _generateFields() {
-    if (classInfo.superclass != null) {
-      // The super class already has the required fields.
-      return '';
-    }
-
-    return '''
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
 ''';
   }
 
@@ -106,9 +88,9 @@ static const ${tagProperty}Value = '$tagValue';
       final constructorName =
           classInfo.isTaggedUnion ? '_fromJson' : 'fromJson';
       return '''
-  $className.$constructorName(this.json, {
-    this.path = const [],
-  });
+  $className.$constructorName(super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 ''';
     }
 
@@ -133,8 +115,7 @@ static const ${tagProperty}Value = '$tagValue';
     if (classInfo.superclass == null) {
       return '''
   $className($parametersString)
-  : json = {},
-    path = const []
+  : super()
     $body
 ''';
     }
@@ -259,14 +240,6 @@ static const ${tagProperty}Value = '$tagValue';
       if (classInfo.extraValidation.isNotEmpty) '..._validateExtraRules()',
     ];
     final validateCallsString = validateCalls.join(',\n');
-
-    if (classInfo.superclass == null) {
-      return '''
-  List<String> validate() => [
-    $validateCallsString
-  ];
-''';
-    }
 
     return '''
   @override

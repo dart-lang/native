@@ -356,7 +356,7 @@ class BuildOutput extends HookOutput {
   };
 
   /// Metadata passed to dependent build hook invocations.
-  Metadata get metadata => Metadata(_syntax.metadata ?? {});
+  Metadata get metadata => Metadata(_syntax.metadata?.json ?? {});
 
   @override
   final syntax.BuildOutput _syntax;
@@ -401,20 +401,20 @@ class BuildOutputBuilder extends HookOutputBuilder {
   /// packages.
   @Deprecated(metadataDeprecation)
   void addMetadatum(String key, Object value) {
-    final metadata = _syntax.metadata ?? {};
+    final metadata = _syntax.metadata?.json ?? {};
     metadata[key] = value;
     metadata.sortOnKey();
-    _syntax.metadata = metadata;
+    _syntax.metadata = syntax.JsonObject.fromJson(metadata);
   }
 
   /// Adds metadata to be passed to build hook invocations of dependent
   /// packages.
   @Deprecated(metadataDeprecation)
   void addMetadata(Map<String, Object> metadata) {
-    final value = _syntax.metadata ?? {};
+    final value = _syntax.metadata?.json ?? {};
     value.addAll(metadata);
     value.sortOnKey();
-    _syntax.metadata = value;
+    _syntax.metadata = syntax.JsonObject.fromJson(value);
   }
 
   EncodedAssetBuildOutputBuilder get assets =>
