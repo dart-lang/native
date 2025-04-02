@@ -105,17 +105,6 @@ void main() async {
           '1',
           '2',
         ],
-        environment: {
-          // Add the directory containing the linked dynamic libraries to
-          // the PATH so that the dynamic linker can find them.
-          // TODO(https://github.com/dart-lang/sdk/issues/56551): We could
-          // skip this if Dart would implicitly add dylib containing
-          // directories to the PATH.
-          if (Platform.isWindows)
-            'PATH':
-                '${outputDirectory.toFilePath()};'
-                '${Platform.environment['PATH']}',
-        },
         throwOnUnexpectedExitCode: true,
         logger: logger,
       );
