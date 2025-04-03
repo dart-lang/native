@@ -27,7 +27,9 @@ void main(List<String> args) async {
 
       output.assets.data.add(
         DataAsset(package: packageName, name: name, file: dataAsset.uri),
-        linkInPackage: input.config.linkingEnabled ? packageName : null,
+        routing: input.config.linkingEnabled
+            ? ToLinker(packageName)
+            : const BundleInApp(),
       );
       // TODO(https://github.com/dart-lang/native/issues/1208): Report
       // dependency on asset.

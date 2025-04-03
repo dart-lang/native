@@ -27,7 +27,7 @@ void main(List<String> arguments) async {
       input: input,
       output: output,
       logger: logger,
-      linkInPackage: 'add_asset_link',
+      routing: const [ToLinker('add_asset_link')],
     );
   });
 }

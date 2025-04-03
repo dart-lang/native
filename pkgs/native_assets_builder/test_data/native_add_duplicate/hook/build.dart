@@ -32,7 +32,10 @@ void main(List<String> arguments) async {
     output.assets.code.add(
       tempBuildOutput.assets.code.single,
       // Send dylib to linking if linking is enabled.
-      linkInPackage: input.config.linkingEnabled ? packageName : null,
+      routing:
+          input.config.linkingEnabled
+              ? ToLinker(packageName)
+              : const BundleInApp(),
     );
     output.addDependencies(tempBuildOutput.dependencies);
   });

@@ -114,16 +114,17 @@ extension DataAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
 extension type DataAssetBuildOutputBuilderAdd._(
   EncodedAssetBuildOutputBuilder _output
 ) {
-  /// Adds the given [asset] to the hook output (or send to [linkInPackage]
-  /// for linking if provided).
-  void add(DataAsset asset, {String? linkInPackage}) =>
-      _output.addEncodedAsset(asset.encode(), linkInPackage: linkInPackage);
+  /// Adds the given [asset] to the hook output with [routing].
+  void add(DataAsset asset, {AssetRouting routing = const BundleInApp()}) =>
+      _output.addEncodedAsset(asset.encode(), routing: routing);
 
-  /// Adds the given [assets] to the hook output (or send to [linkInPackage]
-  /// for linking if provided).
-  void addAll(Iterable<DataAsset> assets, {String? linkInPackage}) {
+  /// Adds the given [assets] to the hook output with [routing].
+  void addAll(
+    Iterable<DataAsset> assets, {
+    AssetRouting routing = const BundleInApp(),
+  }) {
     for (final asset in assets) {
-      add(asset, linkInPackage: linkInPackage);
+      add(asset, routing: routing);
     }
   }
 }

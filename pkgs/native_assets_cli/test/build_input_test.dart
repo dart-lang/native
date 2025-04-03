@@ -20,6 +20,7 @@ void main() async {
   late String packageName;
   late Uri packageRootUri;
   late Map<String, Metadata> metadata;
+  late Map<String, List<EncodedAsset>> assets;
   late Map<String, Object?> inputJson;
 
   setUp(() async {
@@ -36,8 +37,33 @@ void main() async {
       }),
       'foo': Metadata({'key': 321}),
     };
+    assets = {
+      'my_package': [
+        for (int i = 0; i < 3; i++)
+          EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
+      ],
+    };
 
     inputJson = {
+      'assets': {
+        'my_package': [
+          {
+            'a-0': 'v-0',
+            'encoding': {'a-0': 'v-0'},
+            'type': 'my-asset-type',
+          },
+          {
+            'a-1': 'v-1',
+            'encoding': {'a-1': 'v-1'},
+            'type': 'my-asset-type',
+          },
+          {
+            'a-2': 'v-2',
+            'encoding': {'a-2': 'v-2'},
+            'type': 'my-asset-type',
+          },
+        ],
+      },
       'config': {
         'build_asset_types': ['my-asset-type'],
         'linking_enabled': false,
@@ -70,7 +96,7 @@ void main() async {
           )
           ..config.addBuildAssetTypes(['my-asset-type'])
           ..config.setupBuild(linkingEnabled: false)
-          ..setupBuildInput(metadata: metadata);
+          ..setupBuildInput(metadata: metadata, assets: assets);
     final input = BuildInput(inputBuilder.json);
 
     expect(input.json, inputJson);
@@ -87,7 +113,8 @@ void main() async {
     expect(input.config.buildAssetTypes, ['my-asset-type']);
 
     expect(input.config.linkingEnabled, false);
-    expect(input.metadata, metadata);
+    expect(input.metadataOld, metadata);
+    expect(input.assets.encodedAssets, assets);
   });
 
   group('BuildInput format issues', () {

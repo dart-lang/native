@@ -8,11 +8,18 @@ import '../../data_assets_builder.dart';
 import 'syntax.g.dart' as syntax;
 
 Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
-    const [];
+    [
+      ..._validateHookInput([
+        for (final assets in input.assets.encodedAssets.values) ...assets,
+      ]),
+    ];
 
-Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async {
+Future<ValidationErrors> validateDataAssetLinkInput(LinkInput input) async =>
+    _validateHookInput(input.assets.encodedAssets);
+
+List<String> _validateHookInput(List<EncodedAsset> assets) {
   final errors = <String>[];
-  for (final asset in input.assets.encodedAssets) {
+  for (final asset in assets) {
     final syntaxErrors = _validateDataAssetSyntax(asset);
     if (!asset.isDataAsset) continue;
     if (syntaxErrors.isNotEmpty) {
@@ -35,6 +42,7 @@ Future<ValidationErrors> validateDataAssetBuildOutput(
   BuildOutput output,
 ) => _validateDataAssetBuildOrLinkOutput(input, [
   ...output.assets.encodedAssets,
+  ...output.assets.encodedAssetsForBuild,
   for (final assetList in output.assets.encodedAssetsForLinking.values)
     ...assetList,
 ], true);
