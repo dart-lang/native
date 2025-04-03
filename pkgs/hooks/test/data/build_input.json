@@ -1,5 +1,20 @@
 {
   "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
+  "assets": {
+    "some_package": [
+      {
+        "encoding": {
+          "key": "foo",
+          "value": "bar"
+        },
+        "type": "hooks/metadata"
+      },
+      {
+        "some_key": "some_value",
+        "type": "some_asset_type"
+      }
+    ]
+  },
   "config": {
     "build_asset_types": [
       "my_asset_type"
