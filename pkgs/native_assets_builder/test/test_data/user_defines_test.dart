@@ -32,6 +32,10 @@ void main() async {
                 ).readAsStringSync(),
               ).contents
               as YamlMap;
+      expect(
+        NativeAssetsBuildRunner.validateHooksUserDefinesFromPubspec(pubspec),
+        isEmpty,
+      );
       final userDefines =
           NativeAssetsBuildRunner.readHooksUserDefinesFromPubspec(pubspec);
 
