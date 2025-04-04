@@ -644,7 +644,7 @@ extension on JsonSchemas {
   bool get generateOpenEnum =>
       generateEnum && anyOfs.single.any((e) => e.type != null);
 
-  /// Generate getters/setters as `Map<String, ...>.
+  /// Generate getters/setters as `Map<String, ...>`.
   bool get generateMapOf =>
       type == SchemaType.object &&
       (additionalPropertiesSchemas.isNotEmpty ||
