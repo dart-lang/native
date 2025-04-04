@@ -23,7 +23,7 @@ void main(List<String> arguments) async {
         os: OS.current,
         architecture: Architecture.current,
       ),
-      linkInPackage: 'a_package_that_does_not_exist',
+      routing: const ToLinkHook('a_package_that_does_not_exist'),
     );
   });
 }

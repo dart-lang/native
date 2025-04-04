@@ -117,7 +117,7 @@ class CBuilder extends CTool implements Builder {
     required BuildInput input,
     required BuildOutputBuilder output,
     required Logger? logger,
-    String? linkInPackage,
+    List<AssetRouting> routing = const [ToAppBundle()],
   }) async {
     if (!input.config.buildCodeAssets) {
       logger?.info(
@@ -127,8 +127,8 @@ class CBuilder extends CTool implements Builder {
       return;
     }
     assert(
-      input.config.linkingEnabled || linkInPackage == null,
-      'linkInPackage can only be provided if input.config.linkingEnabled'
+      input.config.linkingEnabled || routing.whereType<ToLinkHook>().isEmpty,
+      'ToLinker can only be provided if input.config.linkingEnabled'
       ' is true.',
     );
     final outDir = input.outputDirectory;
@@ -200,17 +200,19 @@ class CBuilder extends CTool implements Builder {
     await task.run();
 
     if (assetName != null) {
-      output.assets.code.add(
-        CodeAsset(
-          package: input.packageName,
-          name: assetName!,
-          file: libUri,
-          linkMode: linkMode,
-          os: input.config.code.targetOS,
-          architecture: input.config.code.targetArchitecture,
-        ),
-        linkInPackage: linkInPackage,
-      );
+      for (final route in routing) {
+        output.assets.code.add(
+          CodeAsset(
+            package: input.packageName,
+            name: assetName!,
+            file: libUri,
+            linkMode: linkMode,
+            os: input.config.code.targetOS,
+            architecture: input.config.code.targetArchitecture,
+          ),
+          routing: route,
+        );
+      }
     }
 
     final includeFiles =

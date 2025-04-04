@@ -12,6 +12,7 @@ export 'src/api/link.dart' show link;
 export 'src/api/linker.dart' show Linker;
 export 'src/config.dart'
     show
+        AssetRouting,
         BuildConfig,
         BuildConfigBuilder,
         BuildInput,
@@ -22,6 +23,9 @@ export 'src/config.dart'
         HookConfigBuilder,
         HookInput,
         LinkInput,
-        LinkOutputBuilder;
+        LinkOutputBuilder,
+        ToAppBundle,
+        ToBuildHooks,
+        ToLinkHook;
 export 'src/encoded_asset.dart' show EncodedAsset;
-export 'src/metadata.dart';
+export 'src/metadata.dart' show Metadata;

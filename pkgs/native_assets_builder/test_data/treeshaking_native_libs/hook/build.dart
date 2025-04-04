@@ -20,7 +20,10 @@ void main(List<String> arguments) async {
     await cbuilder.run(
       input: input,
       output: output,
-      linkInPackage: input.config.linkingEnabled ? input.packageName : null,
+      routing:
+          input.config.linkingEnabled
+              ? [ToLinkHook(input.packageName)]
+              : [const ToAppBundle()],
       logger:
           Logger('')
             ..level = Level.ALL

@@ -5,6 +5,7 @@
 import 'dart:convert' hide json;
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
@@ -146,7 +147,8 @@ String _jsonChecksum(Map<String, Object?> json) {
 }
 
 final class BuildInput extends HookInput {
-  Map<String, Metadata> get metadata => {
+  @Deprecated('Use metadata backed by MetadataAsset instead.')
+  Map<String, Metadata> get metadataOld => {
     for (final entry in (_syntaxBuildInput.dependencyMetadata ?? {}).entries)
       entry.key: Metadata(entry.value),
   };
@@ -160,14 +162,49 @@ final class BuildInput extends HookInput {
   BuildInput(super.json)
     : _syntaxBuildInput = syntax.BuildInput.fromJson(json) {
     // Run validation.
-    metadata;
+    // ignore: deprecated_member_use_from_same_package
+    metadataOld;
   }
 
+  @Deprecated('Use metadata backed by MetadataAsset instead.')
   Object? metadatum(String packageName, String key) =>
-      metadata[packageName]?.metadata[key];
+      metadataOld[packageName]?.metadata[key];
 
   @override
   BuildConfig get config => BuildConfig._(this);
+
+  BuildInputAssets get assets => BuildInputAssets._(this);
+
+  BuildInputMetadata get metadata => BuildInputMetadata._(this);
+}
+
+extension type BuildInputMetadata._(BuildInput _input) {
+  PackageMetadata operator [](String packageName) => PackageMetadata(
+    (_input.assets.encodedAssets[packageName] ?? [])
+        .where((e) => e.isMetadataAsset)
+        .map((e) => e.asMetadataAsset)
+        .toList(),
+  );
+}
+
+class PackageMetadata {
+  PackageMetadata(this._metadata);
+
+  final List<MetadataAsset> _metadata;
+
+  Object? operator [](String key) =>
+      _metadata.firstWhereOrNull((e) => e.key == key)?.value;
+}
+
+extension type BuildInputAssets._(BuildInput _input) {
+  Map<String, List<EncodedAsset>> get encodedAssets => {
+    for (final MapEntry(:key, :value)
+        in (_input._syntaxBuildInput.assets ?? {}).entries)
+      key: _parseAssets(value),
+  };
+
+  List<EncodedAsset> operator [](String packageName) =>
+      encodedAssets[packageName] ?? [];
 }
 
 final class BuildInputBuilder extends HookInputBuilder {
@@ -175,7 +212,10 @@ final class BuildInputBuilder extends HookInputBuilder {
   syntax.BuildInput get _syntax =>
       syntax.BuildInput.fromJson(super._syntax.json);
 
-  void setupBuildInput({Map<String, Metadata> metadata = const {}}) {
+  void setupBuildInput({
+    Map<String, Metadata> metadata = const {},
+    Map<String, List<EncodedAsset>>? assets,
+  }) {
     if (metadata.isEmpty) {
       return;
     }
@@ -183,7 +223,16 @@ final class BuildInputBuilder extends HookInputBuilder {
       dependencyMetadata: {
         for (final key in metadata.keys) key: metadata[key]!.toJson(),
       },
-      assets: null, // TODO: Implement this.
+      assets:
+          assets == null
+              ? null
+              : {
+                for (final MapEntry(:key, :value) in assets.entries)
+                  key: [
+                    for (final asset in value)
+                      syntax.Asset.fromJson(asset.toJson()),
+                  ],
+              },
     );
   }
 
@@ -356,6 +405,9 @@ class BuildOutput extends HookOutput {
       key: _parseAssets(value),
   };
 
+  List<EncodedAsset> get _encodedAssetsForBuild =>
+      _parseAssets(_syntax.assetsForBuild ?? []);
+
   /// Metadata passed to dependent build hook invocations.
   Metadata get metadata => Metadata(_syntax.metadata?.json ?? {});
 
@@ -381,6 +433,9 @@ extension type BuildOutputAssets._(BuildOutput _output) {
   /// specified in the key, which can decide if they are bundled or not.
   Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
       _output._encodedAssetsForLinking;
+
+  List<EncodedAsset> get encodedAssetsForBuild =>
+      _output._encodedAssetsForBuild;
 }
 
 /// Builder to produce the output of a build hook.
@@ -418,6 +473,8 @@ class BuildOutputBuilder extends HookOutputBuilder {
     _syntax.metadata = syntax.JsonObject.fromJson(value);
   }
 
+  MetadataOutputBuilder get metadata => MetadataOutputBuilder._(this);
+
   EncodedAssetBuildOutputBuilder get assets =>
       EncodedAssetBuildOutputBuilder._(this);
 
@@ -426,12 +483,68 @@ class BuildOutputBuilder extends HookOutputBuilder {
       syntax.BuildOutput.fromJson(super._syntax.json);
 }
 
+extension type MetadataOutputBuilder._(BuildOutputBuilder _output) {
+  void operator []=(String key, Object value) {
+    _output.assets.addEncodedAsset(
+      MetadataAsset(key: key, value: value).encode(),
+      routing: const ToBuildHooks(),
+    );
+  }
+
+  void addAll(Map<String, Object> metadata) {
+    for (final MapEntry(:key, :value) in metadata.entries) {
+      this[key] = value;
+    }
+  }
+}
+
+/// The destination for assets output in a build hook.
+sealed class AssetRouting {
+  const AssetRouting();
+}
+
+/// Assets with this routing will be sent to the SDK to be bundled with the app.
+final class ToAppBundle extends AssetRouting {
+  const ToAppBundle();
+}
+
+/// Assets with this routing will be sent to build hooks.
+///
+/// The assets are only available for build hooks of packages that have a direct
+/// dependency on the package emitting the asset with this routing.
+///
+/// The assets will not be bundled in the final application unless also added
+/// with [ToAppBundle]. Prefer bundling the asset in the sending hook, otherwise
+/// multiple receivers might try to bundle the asset leading to duplicate assets
+/// in the app bundle.
+///
+/// The receiver will know about sender package (it must be a direct
+/// dependency), the sender does not know about the receiver. Hence this routing
+/// is a broadcast with 0-N receivers.
+final class ToBuildHooks extends AssetRouting {
+  const ToBuildHooks();
+}
+
+/// Assets with this routing will be sent to the link hook of [packageName].
+///
+/// The assets are only available to the link hook of [packageName].
+///
+/// The assets will not be bundled in the final application unless added with
+/// [ToAppBundle] in the link hook of [packageName].
+///
+/// The receiver will not know about the sender package. The sender knows about
+/// the receiver package. Hence, the receiver must be specified and there is
+/// exactly one receiver.
+final class ToLinkHook extends AssetRouting {
+  final String packageName;
+
+  const ToLinkHook(this.packageName);
+}
+
 extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
   /// Adds [EncodedAsset]s produced by this build.
   ///
-  /// If the [linkInPackage] argument is specified, the asset will not be
-  /// bundled during the build step, but sent as input to the link hook of the
-  /// specified package, where it can be further processed and possibly bundled.
+  /// The asset is routed according to [routing].
   ///
   /// Note to hook writers. Prefer using the `.add` method on the extension for
   /// the specific asset type being added:
@@ -444,28 +557,34 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
   ///   });
   /// }
   /// ```
-  void addEncodedAsset(EncodedAsset asset, {String? linkInPackage}) {
-    if (linkInPackage != null) {
-      final assetsForLinking = _syntax.assetsForLinking ?? {};
-      assetsForLinking[linkInPackage] ??= [];
-      assetsForLinking[linkInPackage]!.add(
-        syntax.Asset.fromJson(asset.toJson()),
-      );
-      _syntax.assetsForLinking = assetsForLinking;
-      _syntax.assetsForLinkingOld = assetsForLinking;
-    } else {
-      final assets = _syntax.assets ?? [];
-      assets.add(syntax.Asset.fromJson(asset.toJson()));
-      _syntax.assets = assets;
+  void addEncodedAsset(
+    EncodedAsset asset, {
+    AssetRouting routing = const ToAppBundle(),
+  }) {
+    switch (routing) {
+      case ToAppBundle():
+        final assets = _syntax.assets ?? [];
+        assets.add(syntax.Asset.fromJson(asset.toJson()));
+        _syntax.assets = assets;
+      case ToBuildHooks():
+        final assets = _syntax.assetsForBuild ?? [];
+        assets.add(syntax.Asset.fromJson(asset.toJson()));
+        _syntax.assetsForBuild = assets;
+      case ToLinkHook():
+        final packageName = routing.packageName;
+        final assetsForLinking = _syntax.assetsForLinking ?? {};
+        assetsForLinking[packageName] ??= [];
+        assetsForLinking[packageName]!.add(
+          syntax.Asset.fromJson(asset.toJson()),
+        );
+        _syntax.assetsForLinking = assetsForLinking;
+        _syntax.assetsForLinkingOld = assetsForLinking;
     }
   }
 
   /// Adds [EncodedAsset]s produced by this build.
   ///
-  /// If the [linkInPackage] argument is specified, the assets will not be
-  /// bundled during the build step, but sent as input to the link hook of the
-  /// specified package, where they can be further processed and possibly
-  /// bundled.
+  /// The asset is routed according to [routing].
   ///
   /// Note to hook writers. Prefer using the `.addAll` method on the extension
   /// for the specific asset type being added:
@@ -480,23 +599,31 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
   /// ```
   void addEncodedAssets(
     Iterable<EncodedAsset> assets, {
-    String? linkInPackage,
+    AssetRouting routing = const ToAppBundle(),
   }) {
-    if (linkInPackage != null) {
-      final assetsForLinking =
-          _syntax.assetsForLinking ?? _syntax.assetsForLinkingOld ?? {};
-      final list = assetsForLinking[linkInPackage] ??= [];
-      for (final asset in assets) {
-        list.add(syntax.Asset.fromJson(asset.toJson()));
-      }
-      _syntax.assetsForLinking = assetsForLinking;
-      _syntax.assetsForLinkingOld = assetsForLinking;
-    } else {
-      final list = _syntax.assets ?? [];
-      for (final asset in assets) {
-        list.add(syntax.Asset.fromJson(asset.toJson()));
-      }
-      _syntax.assets = list;
+    switch (routing) {
+      case ToAppBundle():
+        final list = _syntax.assets ?? [];
+        for (final asset in assets) {
+          list.add(syntax.Asset.fromJson(asset.toJson()));
+        }
+        _syntax.assets = list;
+      case ToBuildHooks():
+        final list = _syntax.assetsForBuild ?? [];
+        for (final asset in assets) {
+          list.add(syntax.Asset.fromJson(asset.toJson()));
+        }
+        _syntax.assetsForBuild = list;
+      case ToLinkHook():
+        final linkInPackage = routing.packageName;
+        final assetsForLinking =
+            _syntax.assetsForLinking ?? _syntax.assetsForLinkingOld ?? {};
+        final list = assetsForLinking[linkInPackage] ??= [];
+        for (final asset in assets) {
+          list.add(syntax.Asset.fromJson(asset.toJson()));
+        }
+        _syntax.assetsForLinking = assetsForLinking;
+        _syntax.assetsForLinkingOld = assetsForLinking;
     }
   }
 

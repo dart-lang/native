@@ -1,6 +1,7 @@
-## 0.13.1-wip
+## 0.14.0-wip
 
-- Nothing yet.
+- Added support for sending assets between build hooks via the `ToBuild`
+  `Routing`. This replaces the deprecated `Metadata`.
 
 ## 0.13.0
 

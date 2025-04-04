@@ -28,8 +28,10 @@ void main(List<String> args) async {
       final forLinking = name.contains('2') || name.contains('3');
       output.assets.data.add(
         DataAsset(package: packageName, name: name, file: dataAsset.uri),
-        linkInPackage:
-            forLinking && input.config.linkingEnabled ? 'complex_link' : null,
+        routing:
+            forLinking && input.config.linkingEnabled
+                ? const ToLinkHook('complex_link')
+                : const ToAppBundle(),
       );
       // TODO(https://github.com/dart-lang/native/issues/1208): Report
       // dependency on asset.
