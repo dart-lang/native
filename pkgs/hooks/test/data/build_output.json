@@ -20,35 +20,51 @@
     "package_with_linker": [
       {
         "encoding": {
-          "some_key": "some_value"
+          "a_key": "some_value"
         },
         "some_key": "some_value",
         "type": "some_asset_type"
       },
       {
         "encoding": {
-          "some_other_key": "some_value"
+          "key": "foo",
+          "value": "bar"
         },
-        "some_other_key": "some_value",
-        "type": "some_other_asset_type"
+        "type": "hooks/metadata"
       }
     ]
   },
+  "assets_for_build": [
+    {
+      "encoding": {
+        "a_key": "some_value"
+      },
+      "some_key": "some_value",
+      "type": "some_asset_type"
+    },
+    {
+      "encoding": {
+        "key": "foo",
+        "value": "bar"
+      },
+      "type": "hooks/metadata"
+    }
+  ],
   "assets_for_linking": {
     "package_with_linker": [
       {
         "encoding": {
-          "some_key": "some_value"
+          "a_key": "some_value"
         },
         "some_key": "some_value",
         "type": "some_asset_type"
       },
       {
         "encoding": {
-          "some_other_key": "some_value"
+          "key": "foo",
+          "value": "bar"
         },
-        "some_other_key": "some_value",
-        "type": "some_other_asset_type"
+        "type": "hooks/metadata"
       }
     ]
   },

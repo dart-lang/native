@@ -180,13 +180,18 @@ class SchemaAnalyzer {
       properties: properties,
       taggedUnionValue: taggedUnionValue,
       taggedUnionProperty:
-          schemas.generateSubClasses ? properties.single.name : null,
+          schemas.generateSubClasses ? schemas.generateSubClassesKey! : null,
       visibleTaggedUnion: visbleUnionTagValues.contains(typeName),
       extraValidation: extraValidation,
     );
     _classes[typeName] = classInfo;
     if (schemas.generateSubClasses) {
-      _analyzeSubClasses(schemas, name: name, superclass: classInfo);
+      _analyzeSubClasses(
+        schemas,
+        schemas.generateSubClassesKey!,
+        name: name,
+        superclass: classInfo,
+      );
       return;
     }
   }
@@ -251,13 +256,13 @@ class SchemaAnalyzer {
   }
 
   void _analyzeSubClasses(
-    JsonSchemas schemas, {
+    JsonSchemas schemas,
+    String propertyKey, {
     String? name,
     NormalClassInfo? superclass,
   }) {
     final typeName = schemas.className;
 
-    final propertyKey = schemas.propertyKeys.single;
     final typeProperty = schemas.property(propertyKey);
     final subTypes = typeProperty.enumOrTaggedUnionValues;
     for (final subType in subTypes) {
@@ -299,6 +304,8 @@ class SchemaAnalyzer {
     final type = schemas.type;
     final DartType dartType;
     switch (type) {
+      case null:
+        dartType = ObjectDartType(isNullable: !required);
       case SchemaType.boolean:
         dartType = BoolDartType(isNullable: !required);
       case SchemaType.integer:
@@ -650,10 +657,21 @@ extension on JsonSchemas {
       (additionalPropertiesSchemas.isNotEmpty ||
           additionalPropertiesBool == true);
 
-  bool get generateSubClasses =>
-      type == SchemaType.object &&
-      propertyKeys.length == 1 &&
-      property(propertyKeys.single).anyOfs.isNotEmpty;
+  bool get generateSubClasses => generateSubClassesKey != null;
+
+  String? get generateSubClassesKey {
+    if (type != SchemaType.object) return null;
+    // A tagged union either has only a key, or a key and an encoding.
+    // Classes with more than 2 properties have their a property that has
+    // predefined values generated as an enum class.
+    if (propertyKeys.length > 2) return null;
+    for (final p in propertyKeys) {
+      if (property(p).anyOfs.isNotEmpty) {
+        return p;
+      }
+    }
+    return null;
+  }
 
   bool get generateClass => type == SchemaType.object && !generateMapOf;
 

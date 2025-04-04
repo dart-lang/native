@@ -11,7 +11,18 @@
 import 'dart:io';
 
 class Asset extends JsonObject {
-  Asset.fromJson(super.json, {super.path = const []}) : super.fromJson();
+  factory Asset.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = Asset._fromJson(json, path: path);
+    if (result.isHooksMetadataAsset) {
+      return result.asHooksMetadataAsset;
+    }
+    return result;
+  }
+
+  Asset._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   Asset({required JsonObject? encoding, required String type}) : super() {
     _encoding = encoding;
@@ -50,7 +61,24 @@ class Asset extends JsonObject {
     ...super.validate(),
     ..._validateEncoding(),
     ..._validateType(),
+    ..._validateExtraRules(),
   ];
+
+  List<String> _validateExtraRules() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'hooks/metadata') {
+      final objectErrors = _reader.validate<Map<String, Object?>?>('encoding');
+      result.addAll(objectErrors);
+      if (objectErrors.isEmpty) {
+        final jsonValue = _reader.get<Map<String, Object?>?>('encoding');
+        if (jsonValue != null) {
+          final reader = JsonReader(jsonValue, [...path, 'encoding']);
+          result.addAll(reader.validate<Object>('key'));
+        }
+      }
+    }
+    return result;
+  }
 
   @override
   String toString() => 'Asset($json)';
@@ -98,6 +126,7 @@ class BuildInput extends HookInput {
   BuildInput.fromJson(super.json, {super.path}) : super.fromJson();
 
   BuildInput({
+    required Map<String, List<Asset>>? assets,
     required BuildConfig config,
     required Map<String, Map<String, Object?>>? dependencyMetadata,
     required super.outDir,
@@ -107,15 +136,67 @@ class BuildInput extends HookInput {
     required super.packageRoot,
     required super.version,
   }) : super(config: config) {
+    _assets = assets;
     _dependencyMetadata = dependencyMetadata;
     json.sortOnKey();
   }
 
   /// Setup all fields for [BuildInput] that are not in
   /// [HookInput].
-  void setup({required Map<String, Map<String, Object?>>? dependencyMetadata}) {
+  void setup({
+    required Map<String, List<Asset>>? assets,
+    required Map<String, Map<String, Object?>>? dependencyMetadata,
+  }) {
+    _assets = assets;
     _dependencyMetadata = dependencyMetadata;
     json.sortOnKey();
+  }
+
+  Map<String, List<Asset>>? get assets {
+    final jsonValue = _reader.optionalMap('assets');
+    if (jsonValue == null) {
+      return null;
+    }
+    final result = <String, List<Asset>>{};
+    for (final MapEntry(:key, :value) in jsonValue.entries) {
+      result[key] = [
+        for (final (index, item) in (value as List<Object?>).indexed)
+          Asset.fromJson(
+            item as Map<String, Object?>,
+            path: [...path, key, index],
+          ),
+      ];
+    }
+    return result;
+  }
+
+  set _assets(Map<String, List<Asset>>? value) {
+    if (value == null) {
+      json.remove('assets');
+    } else {
+      json['assets'] = {
+        for (final MapEntry(:key, :value) in value.entries)
+          key: [for (final item in value) item.json],
+      };
+    }
+  }
+
+  List<String> _validateAssets() {
+    final mapErrors = _reader.validateOptionalMap('assets');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    final jsonValue = _reader.optionalMap('assets');
+    if (jsonValue == null) {
+      return [];
+    }
+    final result = <String>[];
+    for (final list in assets!.values) {
+      for (final element in list) {
+        result.addAll(element.validate());
+      }
+    }
+    return result;
   }
 
   @override
@@ -137,6 +218,7 @@ class BuildInput extends HookInput {
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateAssets(),
     ..._validateConfig(),
     ..._validateDependencyMetadata(),
   ];
@@ -150,6 +232,7 @@ class BuildOutput extends HookOutput {
 
   BuildOutput({
     required super.assets,
+    required List<Asset>? assetsForBuild,
     required Map<String, List<Asset>>? assetsForLinking,
     required Map<String, List<Asset>>? assetsForLinkingOld,
     required super.dependencies,
@@ -158,6 +241,7 @@ class BuildOutput extends HookOutput {
     required super.version,
   }) : super() {
     this.assetsForLinkingOld = assetsForLinkingOld;
+    this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
     this.metadata = metadata;
     json.sortOnKey();
@@ -167,10 +251,12 @@ class BuildOutput extends HookOutput {
   /// [HookOutput].
   void setup({
     required Map<String, List<Asset>>? assetsForLinkingOld,
+    required List<Asset>? assetsForBuild,
     required Map<String, List<Asset>>? assetsForLinking,
     required JsonObject? metadata,
   }) {
     this.assetsForLinkingOld = assetsForLinkingOld;
+    this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
     this.metadata = metadata;
     json.sortOnKey();
@@ -222,6 +308,41 @@ class BuildOutput extends HookOutput {
       }
     }
     return result;
+  }
+
+  List<Asset>? get assetsForBuild {
+    final jsonValue = _reader.optionalList('assets_for_build');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        Asset.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'assets_for_build', index],
+        ),
+    ];
+  }
+
+  set assetsForBuild(List<Asset>? value) {
+    if (value == null) {
+      json.remove('assets_for_build');
+    } else {
+      json['assets_for_build'] = [for (final item in value) item.json];
+    }
+    json.sortOnKey();
+  }
+
+  List<String> _validateAssetsForBuild() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'assets_for_build',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = assetsForBuild;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
   }
 
   Map<String, List<Asset>>? get assetsForLinking {
@@ -295,6 +416,7 @@ class BuildOutput extends HookOutput {
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssetsForLinkingOld(),
+    ..._validateAssetsForBuild(),
     ..._validateAssetsForLinking(),
     ..._validateMetadata(),
   ];
@@ -559,6 +681,41 @@ class HookOutput extends JsonObject {
   String toString() => 'HookOutput($json)';
 }
 
+class HooksMetadataAsset extends Asset {
+  static const typeValue = 'hooks/metadata';
+
+  HooksMetadataAsset.fromJson(super.json, {super.path}) : super._fromJson();
+
+  HooksMetadataAsset({required MetadataAssetEncoding encoding})
+    : super(type: 'hooks/metadata', encoding: encoding);
+
+  /// Setup all fields for [HooksMetadataAsset] that are not in
+  /// [Asset].
+  void setup() {}
+
+  @override
+  MetadataAssetEncoding get encoding {
+    final jsonValue = _reader.map$('encoding');
+    return MetadataAssetEncoding.fromJson(
+      jsonValue,
+      path: [...path, 'encoding'],
+    );
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateEncoding()];
+
+  @override
+  String toString() => 'HooksMetadataAsset($json)';
+}
+
+extension HooksMetadataAssetExtension on Asset {
+  bool get isHooksMetadataAsset => type == 'hooks/metadata';
+
+  HooksMetadataAsset get asHooksMetadataAsset =>
+      HooksMetadataAsset.fromJson(json, path: path);
+}
+
 class LinkInput extends HookInput {
   LinkInput.fromJson(super.json, {super.path}) : super.fromJson();
 
@@ -658,6 +815,44 @@ class LinkOutput extends HookOutput {
 
   @override
   String toString() => 'LinkOutput($json)';
+}
+
+class MetadataAssetEncoding extends JsonObject {
+  MetadataAssetEncoding.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  MetadataAssetEncoding({required String key, required Object? value})
+    : super() {
+    _key = key;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  String get key => _reader.get<String>('key');
+
+  set _key(String value) {
+    json.setOrRemove('key', value);
+  }
+
+  List<String> _validateKey() => _reader.validate<String>('key');
+
+  Object? get value => _reader.get<Object?>('value');
+
+  set _value(Object? value) {
+    json.setOrRemove('value', value);
+  }
+
+  List<String> _validateValue() => _reader.validate<Object?>('value');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateKey(),
+    ..._validateValue(),
+  ];
+
+  @override
+  String toString() => 'MetadataAssetEncoding($json)';
 }
 
 class JsonObject {

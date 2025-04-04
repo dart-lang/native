@@ -2,12 +2,15 @@
   "$schema": "../../doc/schema/sdk/link_input.generated.schema.json",
   "assets": [
     {
-      "some_key": "some_value",
+      "a_key": "some_value",
       "type": "some_asset_type"
     },
     {
-      "some_other_key": "some_value",
-      "type": "some_other_asset_type"
+      "encoding": {
+        "key": "foo",
+        "value": "bar"
+      },
+      "type": "hooks/metadata"
     }
   ],
   "config": {
