@@ -8,5 +8,5 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(symbol: 'add')
+@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>()
 external int add(int a, int b);

@@ -8,20 +8,16 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(symbol: 'add')
+@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>()
 external int add(int a, int b);
 
-@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(symbol: 'InitDartApiDL')
+@ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>()
 external int InitDartApiDL(ffi.Pointer<ffi.Void> data);
 
-@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Handle)>(
-  symbol: 'NewPersistentHandle',
-)
+@ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Handle)>()
 external ffi.Pointer<ffi.Void> NewPersistentHandle(
   Object non_persistent_handle,
 );
 
-@ffi.Native<ffi.Handle Function(ffi.Pointer<ffi.Void>)>(
-  symbol: 'HandleFromPersistent',
-)
+@ffi.Native<ffi.Handle Function(ffi.Pointer<ffi.Void>)>()
 external Object HandleFromPersistent(ffi.Pointer<ffi.Void> persistent_handle);
