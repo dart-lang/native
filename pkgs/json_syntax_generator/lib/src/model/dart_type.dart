@@ -15,6 +15,14 @@ sealed class DartType {
     return isNullable ? '$typeString?' : typeString;
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DartType && isNullable == other.isNullable;
+
+  @override
+  int get hashCode => isNullable.hashCode;
+
   String toNonNullableString();
 }
 
@@ -28,22 +36,53 @@ sealed class SimpleDartType extends DartType {
 
   @override
   String toNonNullableString() => typeName;
+
+  @override
+  bool operator ==(Object other) =>
+      super == other && other is SimpleDartType && typeName == other.typeName;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, typeName);
 }
 
 class StringDartType extends SimpleDartType {
   const StringDartType({required super.isNullable}) : super(typeName: 'String');
+
+  @override
+  bool operator ==(Object other) => super == other && other is StringDartType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, 'String');
 }
 
 class IntDartType extends SimpleDartType {
   const IntDartType({required super.isNullable}) : super(typeName: 'int');
+
+  @override
+  bool operator ==(Object other) => super == other && other is IntDartType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, 'int');
 }
 
 class BoolDartType extends SimpleDartType {
   const BoolDartType({required super.isNullable}) : super(typeName: 'bool');
+
+  @override
+  bool operator ==(Object other) => super == other && other is BoolDartType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, 'bool');
 }
 
 class ObjectDartType extends SimpleDartType {
   const ObjectDartType({required super.isNullable}) : super(typeName: 'Object');
+
+  @override
+  bool operator ==(Object other) => super == other && other is ObjectDartType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, 'Object');
 }
 
 class ClassDartType extends DartType {
@@ -53,6 +92,13 @@ class ClassDartType extends DartType {
 
   @override
   String toNonNullableString() => classInfo.name;
+
+  @override
+  bool operator ==(Object other) =>
+      super == other && other is ClassDartType && classInfo == other.classInfo;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, classInfo);
 }
 
 /// The [ClassInfo] for the `JsonObject` base class.
@@ -65,6 +111,13 @@ class ListDartType extends DartType {
 
   @override
   String toNonNullableString() => 'List<$itemType>';
+
+  @override
+  bool operator ==(Object other) =>
+      super == other && other is ListDartType && itemType == other.itemType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, itemType);
 }
 
 class MapDartType extends DartType {
@@ -79,6 +132,16 @@ class MapDartType extends DartType {
 
   @override
   String toNonNullableString() => 'Map<$keyType, $valueType>';
+
+  @override
+  bool operator ==(Object other) =>
+      super == other &&
+      other is MapDartType &&
+      keyType == other.keyType &&
+      valueType == other.valueType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, keyType, valueType);
 }
 
 class UriDartType extends DartType {
@@ -86,4 +149,10 @@ class UriDartType extends DartType {
 
   @override
   String toNonNullableString() => 'Uri';
+
+  @override
+  bool operator ==(Object other) => super == other && other is UriDartType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, 'Uri');
 }
