@@ -1,3 +1,7 @@
+## 18.1.0-wip
+
+- Fix a clang warning in ObjC protocol generated bindings.
+
 ## 18.0.0
 
 - Add variable substitutions that can be used in the `headers.entry-points` to
