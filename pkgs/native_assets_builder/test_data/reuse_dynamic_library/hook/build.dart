@@ -29,7 +29,7 @@ void main(List<String> args) async {
       input: input,
       output: output,
       logger: logger,
-      routing: const [BundleInApp()],
+      routing: const [ToAppBundle()],
     );
   });
 }

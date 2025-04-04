@@ -16,8 +16,8 @@ void main(List<String> arguments) async {
           });
     final routing =
         input.config.linkingEnabled
-            ? [ToLinker(input.packageName)]
-            : [const BundleInApp()];
+            ? [ToLinkHook(input.packageName)]
+            : [const ToAppBundle()];
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',

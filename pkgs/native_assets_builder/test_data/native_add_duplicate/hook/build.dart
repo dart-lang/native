@@ -34,8 +34,8 @@ void main(List<String> arguments) async {
       // Send dylib to linking if linking is enabled.
       routing:
           input.config.linkingEnabled
-              ? ToLinker(packageName)
-              : const BundleInApp(),
+              ? ToLinkHook(packageName)
+              : const ToAppBundle(),
     );
     output.addDependencies(tempBuildOutput.dependencies);
   });

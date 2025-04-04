@@ -117,7 +117,7 @@ class CBuilder extends CTool implements Builder {
     required BuildInput input,
     required BuildOutputBuilder output,
     required Logger? logger,
-    List<AssetRouting> routing = const [BundleInApp()],
+    List<AssetRouting> routing = const [ToAppBundle()],
   }) async {
     if (!input.config.buildCodeAssets) {
       logger?.info(
@@ -127,7 +127,7 @@ class CBuilder extends CTool implements Builder {
       return;
     }
     assert(
-      input.config.linkingEnabled || routing.whereType<ToLinker>().isEmpty,
+      input.config.linkingEnabled || routing.whereType<ToLinkHook>().isEmpty,
       'ToLinker can only be provided if input.config.linkingEnabled'
       ' is true.',
     );

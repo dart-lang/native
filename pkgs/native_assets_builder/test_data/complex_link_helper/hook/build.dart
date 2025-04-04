@@ -30,8 +30,8 @@ void main(List<String> args) async {
         DataAsset(package: packageName, name: name, file: dataAsset.uri),
         routing:
             forLinking && input.config.linkingEnabled
-                ? const ToLinker('complex_link')
-                : const BundleInApp(),
+                ? const ToLinkHook('complex_link')
+                : const ToAppBundle(),
       );
       // TODO(https://github.com/dart-lang/native/issues/1208): Report
       // dependency on asset.

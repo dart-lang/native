@@ -115,13 +115,13 @@ extension type DataAssetBuildOutputBuilderAdd._(
   EncodedAssetBuildOutputBuilder _output
 ) {
   /// Adds the given [asset] to the hook output with [routing].
-  void add(DataAsset asset, {AssetRouting routing = const BundleInApp()}) =>
+  void add(DataAsset asset, {AssetRouting routing = const ToAppBundle()}) =>
       _output.addEncodedAsset(asset.encode(), routing: routing);
 
   /// Adds the given [assets] to the hook output with [routing].
   void addAll(
     Iterable<DataAsset> assets, {
-    AssetRouting routing = const BundleInApp(),
+    AssetRouting routing = const ToAppBundle(),
   }) {
     for (final asset in assets) {
       add(asset, routing: routing);

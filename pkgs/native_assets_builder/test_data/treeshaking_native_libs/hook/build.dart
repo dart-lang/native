@@ -22,8 +22,8 @@ void main(List<String> arguments) async {
       output: output,
       routing:
           input.config.linkingEnabled
-              ? [ToLinker(input.packageName)]
-              : [const BundleInApp()],
+              ? [ToLinkHook(input.packageName)]
+              : [const ToAppBundle()],
       logger:
           Logger('')
             ..level = Level.ALL

@@ -26,7 +26,7 @@ void main(List<String> args) async {
       logger: logger,
       routing: const [
         // Bundle the dylib in the app, someone might use it.
-        BundleInApp(),
+        ToAppBundle(),
         // Enable other packages to link to the dylib.
         ToBuildHooks(),
       ],

@@ -14,8 +14,8 @@ void main(List<String> arguments) async {
       ),
       routing:
           input.config.linkingEnabled
-              ? const ToLinker('fail_on_os_sdk_version_linker')
-              : const BundleInApp(),
+              ? const ToLinkHook('fail_on_os_sdk_version_linker')
+              : const ToAppBundle(),
     );
   });
 }

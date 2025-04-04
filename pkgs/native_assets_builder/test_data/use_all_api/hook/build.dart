@@ -50,8 +50,8 @@ void main(List<String> args) async {
       ),
       routing:
           input.config.linkingEnabled
-              ? const ToLinker('foo')
-              : const BundleInApp(),
+              ? const ToLinkHook('foo')
+              : const ToAppBundle(),
     );
     output.addDependency(input.packageRoot.resolve('x.txt'));
   });

@@ -50,7 +50,7 @@ void main() {
     await assetFile.writeAsBytes([1, 2, 3]);
     outputBuilder.assets.addEncodedAsset(
       EncodedAsset('my-asset-type', {}),
-      routing: const ToLinker('bar'),
+      routing: const ToLinkHook('bar'),
     );
     final errors = await validateBuildOutput(
       input,

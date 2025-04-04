@@ -503,32 +503,42 @@ sealed class AssetRouting {
   const AssetRouting();
 }
 
-/// Assets with this routing will be bundled in the final application.
-final class BundleInApp extends AssetRouting {
-  const BundleInApp();
+/// Assets with this routing will be sent to the SDK to be bundled with the app.
+final class ToAppBundle extends AssetRouting {
+  const ToAppBundle();
 }
 
-/// Assets will be send to build hooks.
+/// Assets with this routing will be sent to build hooks.
 ///
 /// The assets are only available for build hooks of packages that have a direct
 /// dependency on the package emitting the asset with this routing.
 ///
-/// The assets will not be bundled in the final application unless added with
-/// [BundleInApp] in another hook.
+/// The assets will not be bundled in the final application unless also added
+/// with [ToAppBundle]. Prefer bundling the asset in the sending hook, otherwise
+/// multiple receivers might try to bundle the asset leading to duplicate assets
+/// in the app bundle.
+///
+/// The receiver will know about sender package (it must be a direct
+/// dependency), the sender does not know about the receiver. Hence this routing
+/// is a broadcast with 0-N receivers.
 final class ToBuildHooks extends AssetRouting {
   const ToBuildHooks();
 }
 
-/// Assets will be send to the link hook of [packageName].
+/// Assets with this routing will be sent to the link hook of [packageName].
 ///
 /// The assets are only available to the link hook of [packageName].
 ///
 /// The assets will not be bundled in the final application unless added with
-/// [BundleInApp] in the link hook of [packageName].
-final class ToLinker extends AssetRouting {
+/// [ToAppBundle] in the link hook of [packageName].
+///
+/// The receiver will not know about the sender package. The sender knows about
+/// the receiver package. Hence, the receiver must be specified and there is
+/// exactly one receiver.
+final class ToLinkHook extends AssetRouting {
   final String packageName;
 
-  const ToLinker(this.packageName);
+  const ToLinkHook(this.packageName);
 }
 
 extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
@@ -549,10 +559,10 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
   /// ```
   void addEncodedAsset(
     EncodedAsset asset, {
-    AssetRouting routing = const BundleInApp(),
+    AssetRouting routing = const ToAppBundle(),
   }) {
     switch (routing) {
-      case BundleInApp():
+      case ToAppBundle():
         final assets = _syntax.assets ?? [];
         assets.add(syntax.Asset.fromJson(asset.toJson()));
         _syntax.assets = assets;
@@ -560,7 +570,7 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
         final assets = _syntax.assetsForBuild ?? [];
         assets.add(syntax.Asset.fromJson(asset.toJson()));
         _syntax.assetsForBuild = assets;
-      case ToLinker():
+      case ToLinkHook():
         final packageName = routing.packageName;
         final assetsForLinking = _syntax.assetsForLinking ?? {};
         assetsForLinking[packageName] ??= [];
@@ -589,10 +599,10 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
   /// ```
   void addEncodedAssets(
     Iterable<EncodedAsset> assets, {
-    AssetRouting routing = const BundleInApp(),
+    AssetRouting routing = const ToAppBundle(),
   }) {
     switch (routing) {
-      case BundleInApp():
+      case ToAppBundle():
         final list = _syntax.assets ?? [];
         for (final asset in assets) {
           list.add(syntax.Asset.fromJson(asset.toJson()));
@@ -604,7 +614,7 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
           list.add(syntax.Asset.fromJson(asset.toJson()));
         }
         _syntax.assetsForBuild = list;
-      case ToLinker():
+      case ToLinkHook():
         final linkInPackage = routing.packageName;
         final assetsForLinking =
             _syntax.assetsForLinking ?? _syntax.assetsForLinkingOld ?? {};

@@ -33,7 +33,7 @@ void main() {
     );
     builder.assets.addEncodedAsset(
       assets.skip(1).first,
-      routing: const ToLinker('package:linker1'),
+      routing: const ToLinkHook('package:linker1'),
     );
     builder.assets.addEncodedAssets(assets.skip(2).take(2).toList());
     builder.assets.addEncodedAssets(
@@ -42,7 +42,7 @@ void main() {
     );
     builder.assets.addEncodedAssets(
       assets.skip(4).toList(),
-      routing: const ToLinker('package:linker2'),
+      routing: const ToLinkHook('package:linker2'),
     );
 
     final input = BuildOutput(builder.json);
