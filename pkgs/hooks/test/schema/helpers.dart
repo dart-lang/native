@@ -323,6 +323,7 @@ FieldsReturn _hookFields({
     ([r'$schema'], expectOptionalFieldMissing),
     (['version'], versionMissingExpectation),
     if (inputOrOutput == InputOrOutput.input) ...[
+      (['user_defines'], expectOptionalFieldMissing),
       (['out_dir_shared'], expectRequiredFieldMissing),
       (['out_dir'], expectRequiredFieldMissing),
       (['package_name'], expectRequiredFieldMissing),

@@ -134,6 +134,7 @@ class BuildInput extends HookInput {
     required super.outFile,
     required super.packageName,
     required super.packageRoot,
+    required super.userDefines,
     required super.version,
   }) : super(config: config) {
     _assets = assets;
@@ -487,6 +488,7 @@ class HookInput extends JsonObject {
     required Uri? outFile,
     required String packageName,
     required Uri packageRoot,
+    required JsonObject? userDefines,
     required String? version,
   }) : super() {
     this.config = config;
@@ -495,6 +497,7 @@ class HookInput extends JsonObject {
     this.outFile = outFile;
     this.packageName = packageName;
     this.packageRoot = packageRoot;
+    this.userDefines = userDefines;
     this.version = version;
     json.sortOnKey();
   }
@@ -564,6 +567,25 @@ class HookInput extends JsonObject {
 
   List<String> _validatePackageRoot() => _reader.validatePath('package_root');
 
+  JsonObject? get userDefines {
+    final jsonValue = _reader.optionalMap('user_defines');
+    if (jsonValue == null) return null;
+    return JsonObject.fromJson(jsonValue, path: [...path, 'user_defines']);
+  }
+
+  set userDefines(JsonObject? value) {
+    json.setOrRemove('user_defines', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateUserDefines() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('user_defines');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return userDefines?.validate() ?? [];
+  }
+
   String? get version => _reader.get<String?>('version');
 
   set version(String? value) {
@@ -582,6 +604,7 @@ class HookInput extends JsonObject {
     ..._validateOutFile(),
     ..._validatePackageName(),
     ..._validatePackageRoot(),
+    ..._validateUserDefines(),
     ..._validateVersion(),
   ];
 
@@ -728,6 +751,7 @@ class LinkInput extends HookInput {
     required super.packageName,
     required super.packageRoot,
     required Uri? resourceIdentifiers,
+    required super.userDefines,
     required super.version,
   }) : super() {
     _assets = assets;

@@ -114,6 +114,9 @@ jobs:
       - run: dart pub get -C test_data/reuse_dynamic_library/
         if: ${{ matrix.package == 'native_assets_builder' }}
 
+      - run: dart pub get -C test_data/user_defines/
+        if: ${{ matrix.package == 'native_assets_builder' }}
+
       - run: dart pub get -C test_data/no_hook/
         if: ${{ matrix.package == 'native_assets_builder' }}
 

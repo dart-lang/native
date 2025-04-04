@@ -89,6 +89,14 @@ sealed class HookInput {
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 
   HookConfig get config => HookConfig._(this);
+
+  /// The user-defines for this [packageName].
+  HookInputUserDefines get userDefines => HookInputUserDefines._(this);
+}
+
+extension type HookInputUserDefines._(HookInput _input) {
+  /// The value for the user-define for [key] for this package.
+  Object? operator [](String key) => _input._syntax.userDefines?.json[key];
 }
 
 sealed class HookInputBuilder {
@@ -110,6 +118,7 @@ sealed class HookInputBuilder {
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
     required Uri outputFile,
+    Map<String, Object?>? userDefines,
   }) {
     _syntax.version = latestVersion.toString();
     _syntax.packageRoot = packageRoot;
@@ -117,6 +126,8 @@ sealed class HookInputBuilder {
     _syntax.outDir = outputDirectory;
     _syntax.outDirShared = outputDirectoryShared;
     _syntax.outFile = outputFile;
+    _syntax.userDefines =
+        userDefines == null ? null : syntax.JsonObject.fromJson(userDefines);
   }
 
   /// Constructs a checksum for a [BuildInput].
