@@ -91,15 +91,20 @@ class NativeAssetsBuildRunner {
     if (buildPlan == null) return null;
 
     var hookResult = HookResult();
+
+    /// Key is packageName.
     final globalMetadata = <String, Metadata>{};
+
+    /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
     for (final package in buildPlan) {
-      final metadata = <String, Metadata>{};
-      _metadataForPackage(
-        packageGraph: packageGraph!,
-        packageName: package.name,
-        targetMetadata: globalMetadata,
-      )?.forEach((key, value) => metadata[key] = value);
+      final metadata =
+          _metadataForPackage(
+            packageGraph: packageGraph!,
+            packageName: package.name,
+            targetMetadata: globalMetadata,
+          ) ??
+          {};
       final assetsForBuild = _assetsForBuildForPackage(
         packageGraph: packageGraph,
         packageName: package.name,
@@ -740,6 +745,8 @@ ${compileResult.stdout}
     };
   }
 
+  /// Returns only the assets output as assetForBuild by the packages that are
+  /// the direct dependencies of [packageName].
   Map<String, List<EncodedAsset>>? _assetsForBuildForPackage({
     required PackageGraph packageGraph,
     required String packageName,

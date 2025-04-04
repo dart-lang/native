@@ -1,5 +1,5 @@
-An example library that builds 3 native libraries, 2 of which are dynamically
-linked to each other.
+An example of a native library which is dynamically linked against a dynamic
+library from another package.
 
 ## Usage
 

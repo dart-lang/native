@@ -115,6 +115,7 @@
 - reusable_dynamic_library/ffigen.yaml
 - reusable_dynamic_library/hook/build.dart
 - reusable_dynamic_library/lib/add.dart
+- reusable_dynamic_library/lib/hook.dart
 - reusable_dynamic_library/pubspec.yaml
 - reusable_dynamic_library/src/add.c
 - reusable_dynamic_library/src/add.h
