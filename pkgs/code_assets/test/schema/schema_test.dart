@@ -127,20 +127,12 @@ FieldsFunction _codeFields(AllTestData allTestData) {
         if (hook == Hook.build) ...[
           for (final (field, expect) in codeAssetFields)
             for (final encoding in _encoding)
-              for (final assetsForLinking in [
-                'assetsForLinking',
-                'assets_for_linking',
+              for (final path in [
+                ['assets_for_build'],
+                ['assetsForLinking', 'package_with_linker'],
+                ['assets_for_linking', 'package_with_linker'],
               ])
-                (
-                  [
-                    assetsForLinking,
-                    'package_with_linker',
-                    0,
-                    ...encoding,
-                    ...field,
-                  ],
-                  expect,
-                ),
+                ([...path, 0, ...encoding, ...field], expect),
         ],
         (['assets', staticIndex, 'file'], expectRequiredFieldMissing),
         (

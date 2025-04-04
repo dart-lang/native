@@ -52,6 +52,23 @@ void generateSharedDefinitions() {
           },
         },
       },
+      'assets_for_build': {
+        'type': 'array',
+        'items': {r'$ref': 'shared_definitions.schema.json#/definitions/Asset'},
+      },
+    },
+  };
+  const buildInputAssetOverride = {
+    'properties': {
+      'assets': {
+        'type': 'object',
+        'additionalProperties': {
+          'type': 'array',
+          'items': {
+            r'$ref': 'shared_definitions.schema.json#/definitions/Asset',
+          },
+        },
+      },
     },
   };
   const linkInputAssetOverride = {
@@ -128,6 +145,10 @@ void generateSharedDefinitions() {
                       hook == Hook.hook &&
                       inputOrOutput == InputOrOutput.output)
                     hookOutputAssetOverride,
+                  if (party == Party.shared &&
+                      hook == Hook.build &&
+                      inputOrOutput == InputOrOutput.input)
+                    buildInputAssetOverride,
                   if (party == Party.shared &&
                       hook == Hook.link &&
                       inputOrOutput == InputOrOutput.input)

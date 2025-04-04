@@ -159,13 +159,14 @@ void testAllTestData(AllSchemas allSchemas, AllTestData allTestData) {
 /// [missingExpectations].
 void testField({
   required Uri schemaUri,
+  required Uri dataUri,
   required JsonSchema schema,
   required String data,
   required List<Object> field,
   required void Function(ValidationResults result) missingExpectations,
 }) {
   final fieldPath = field.join('.');
-  test('$schemaUri $fieldPath missing', () {
+  test('$schemaUri $dataUri $fieldPath missing', () {
     final dataDecoded = jsonDecode(data);
     final dataToModify = _traverseJson(
       dataDecoded,
@@ -254,6 +255,7 @@ void testFields({
             field: field,
             schemaUri: schemaUri,
             schema: schema,
+            dataUri: dataUri,
             data: data,
             missingExpectations: missingExpectations,
           );
@@ -342,27 +344,34 @@ FieldsReturn _hookFields({
       (['timestamp'], expectRequiredFieldMissing),
       (['dependencies'], expectOptionalFieldMissing),
       (['dependencies', 0], expectOptionalFieldMissing),
-      (['assets'], expectOptionalFieldMissing),
-      (['assets', 0], expectOptionalFieldMissing),
-      (['assets', 0, 'encoding'], expectOptionalFieldMissing),
-      (['assets', 0, 'type'], expectRequiredFieldMissing),
-      if (hook == Hook.build)
-        for (final assetsForLinking in [
-          'assetsForLinking',
-          'assets_for_linking',
+
+      if (hook == Hook.build) ...[
+        (['metadata'], expectOptionalFieldMissing),
+        for (final path in [
+          ['assets_for_build'],
+          ['assetsForLinking', 'package_with_linker'],
+          ['assets_for_linking', 'package_with_linker'],
         ]) ...[
-          (['metadata'], expectOptionalFieldMissing),
-          ([assetsForLinking], expectOptionalFieldMissing),
-          (
-            [assetsForLinking, 'package_with_linker', 0],
-            expectOptionalFieldMissing,
-          ),
-          ([assetsForLinking], expectOptionalFieldMissing),
-          (
-            [assetsForLinking, 'package_with_linker', 0, 'type'],
-            expectRequiredFieldMissing,
-          ),
+          ([...path], expectOptionalFieldMissing),
+          ([...path, 0], expectOptionalFieldMissing),
+          ([...path, 0, 'type'], expectRequiredFieldMissing),
+          ([...path, 0, 'encoding'], expectOptionalFieldMissing),
         ],
+      ],
+    ],
+    for (final path in [
+      if (inputOrOutput == InputOrOutput.output || hook == Hook.link)
+        ['assets'],
+      if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
+        ['assets_for_build'],
+        ['assetsForLinking', 'package_with_linker'],
+        ['assets_for_linking', 'package_with_linker'],
+      ],
+    ]) ...[
+      ([...path], expectOptionalFieldMissing),
+      ([...path, 0], expectOptionalFieldMissing),
+      ([...path, 0, 'type'], expectRequiredFieldMissing),
+      ([...path, 0, 'encoding'], expectOptionalFieldMissing),
     ],
   ];
 }

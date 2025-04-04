@@ -38,10 +38,10 @@
           "type": "string",
           "anyOf": [
             {
-              "const": "native_code"
+              "const": "code_assets/code"
             },
             {
-              "const": "code_assets/code"
+              "const": "native_code"
             },
             {
               "type": "string"
@@ -50,6 +50,22 @@
         }
       },
       "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "code_assets/code"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "encoding": {
+                "$ref": "#/definitions/NativeCodeAssetEncoding"
+              }
+            }
+          }
+        },
         {
           "if": {
             "properties": {
@@ -70,22 +86,6 @@
                 "$ref": "#/definitions/NativeCodeAssetEncoding"
               }
             ]
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "code_assets/code"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "encoding": {
-                "$ref": "#/definitions/NativeCodeAssetEncoding"
-              }
-            }
           }
         }
       ]

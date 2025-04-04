@@ -1,5 +1,31 @@
 {
   "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
+  "assets": {
+    "some_package": [
+      {
+        "encoding": {
+          "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+          "name": "assets/data_0.json",
+          "package": "simple_link"
+        },
+        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+        "name": "assets/data_0.json",
+        "package": "simple_link",
+        "type": "data"
+      },
+      {
+        "encoding": {
+          "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
+          "name": "assets/data_1.json",
+          "package": "simple_link"
+        },
+        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
+        "name": "assets/data_1.json",
+        "package": "simple_link",
+        "type": "data"
+      }
+    ]
+  },
   "config": {
     "build_asset_types": [
       "data"

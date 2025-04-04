@@ -6,7 +6,15 @@
       "type": "object",
       "properties": {
         "type": {
-          "type": "string"
+          "type": "string",
+          "anyOf": [
+            {
+              "const": "hooks/metadata"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "encoding": {
           "type": "object",
@@ -15,6 +23,27 @@
       },
       "required": [
         "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "hooks/metadata"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "encoding": {
+                "$ref": "#/definitions/MetadataAssetEncoding"
+              }
+            },
+            "required": [
+              "encoding"
+            ]
+          }
+        }
       ]
     },
     "BuildConfig": {
@@ -36,6 +65,15 @@
     },
     "BuildInput": {
       "properties": {
+        "assets": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        },
         "config": {
           "$ref": "#/definitions/BuildConfig"
         },
@@ -63,6 +101,12 @@
             "items": {
               "$ref": "#/definitions/Asset"
             }
+          }
+        },
+        "assets_for_build": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
           }
         },
         "assets_for_linking": {
@@ -194,6 +238,18 @@
         {
           "$ref": "#/definitions/HookOutput"
         }
+      ]
+    },
+    "MetadataAssetEncoding": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "key"
       ]
     },
     "absolutePath": {

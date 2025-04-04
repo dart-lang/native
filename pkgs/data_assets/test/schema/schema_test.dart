@@ -58,14 +58,12 @@ List<(List<Object>, void Function(ValidationResults result))> _dataFields({
     if (hook == Hook.build) ...[
       for (final field in _dataAssetFields)
         for (final encoding in _encoding)
-          for (final assetsForLinking in [
-            'assetsForLinking',
-            'assets_for_linking',
+          for (final path in [
+            ['assets_for_build'],
+            ['assetsForLinking', 'package_with_linker'],
+            ['assets_for_linking', 'package_with_linker'],
           ])
-            (
-              [assetsForLinking, 'package_with_linker', 0, ...encoding, field],
-              expectRequiredFieldMissing,
-            ),
+            ([...path, 0, ...encoding, field], expectRequiredFieldMissing),
     ],
   ],
 ];

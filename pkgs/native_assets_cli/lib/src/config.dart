@@ -183,6 +183,7 @@ final class BuildInputBuilder extends HookInputBuilder {
       dependencyMetadata: {
         for (final key in metadata.keys) key: metadata[key]!.toJson(),
       },
+      assets: null, // TODO: Implement this.
     );
   }
 

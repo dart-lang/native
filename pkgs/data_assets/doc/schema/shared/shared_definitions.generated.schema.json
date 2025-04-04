@@ -10,6 +10,19 @@
         },
         {
           "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/BuildInput"
+        },
+        {
+          "properties": {
+            "assets": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "$ref": "shared_definitions.schema.json#/definitions/Asset"
+                }
+              }
+            }
+          }
         }
       ]
     },
@@ -30,6 +43,12 @@
                 "items": {
                   "$ref": "shared_definitions.schema.json#/definitions/Asset"
                 }
+              }
+            },
+            "assets_for_build": {
+              "type": "array",
+              "items": {
+                "$ref": "shared_definitions.schema.json#/definitions/Asset"
               }
             },
             "assets_for_linking": {
