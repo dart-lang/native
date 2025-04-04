@@ -10,13 +10,7 @@
 
 import 'dart:io';
 
-class Asset {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
+class Asset extends JsonObject {
   factory Asset.fromJson(
     Map<String, Object?> json, {
     List<Object> path = const [],
@@ -31,9 +25,9 @@ class Asset {
     return result;
   }
 
-  Asset._fromJson(this.json, {this.path = const []});
+  Asset._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Asset({required String? type}) : json = {}, path = const [] {
+  Asset({required String? type}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -46,7 +40,8 @@ class Asset {
 
   List<String> _validateType() => _reader.validate<String?>('type');
 
-  List<String> validate() => [..._validateType()];
+  @override
+  List<String> validate() => [...super.validate(), ..._validateType()];
 
   @override
   String toString() => 'Asset($json)';
@@ -146,21 +141,15 @@ extension DataAssetExtension on Asset {
   DataAsset get asDataAsset => DataAsset.fromJson(json, path: path);
 }
 
-class DataAssetEncoding {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  DataAssetEncoding.fromJson(this.json, {this.path = const []});
+class DataAssetEncoding extends JsonObject {
+  DataAssetEncoding.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
   DataAssetEncoding({
     required Uri file,
     required String name,
     required String package,
-  }) : json = {},
-       path = const [] {
+  }) : super() {
     _file = file;
     _name = name;
     _package = package;
@@ -191,7 +180,9 @@ class DataAssetEncoding {
 
   List<String> _validatePackage() => _reader.validate<String>('package');
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateFile(),
     ..._validateName(),
     ..._validatePackage(),
@@ -248,6 +239,20 @@ extension DataAssetNewExtension on Asset {
   bool get isDataAssetNew => type == 'data_assets/data';
 
   DataAssetNew get asDataAssetNew => DataAssetNew.fromJson(json, path: path);
+}
+
+class JsonObject {
+  final Map<String, Object?> json;
+
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  JsonObject() : json = {}, path = const [];
+
+  JsonObject.fromJson(this.json, {this.path = const []});
+
+  List<String> validate() => [];
 }
 
 class JsonReader {

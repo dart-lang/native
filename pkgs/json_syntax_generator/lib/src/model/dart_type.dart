@@ -55,6 +55,9 @@ class ClassDartType extends DartType {
   String toNonNullableString() => classInfo.name;
 }
 
+/// The [ClassInfo] for the `JsonObject` base class.
+final jsonObjectClassInfo = NormalClassInfo(name: 'JsonObject', properties: []);
+
 class ListDartType extends DartType {
   final DartType itemType;
 

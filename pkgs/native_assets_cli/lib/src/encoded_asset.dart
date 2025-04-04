@@ -39,7 +39,7 @@ final class EncodedAsset {
     final encoding =
         encodingSyntax != null
             // If 'encoding' is provided, copy that.
-            ? Map.of(encodingSyntax)
+            ? Map.of(encodingSyntax.json)
             // Otherwise, fall back to copying the keys except for 'type'.
             : {
               for (final key in json.keys)

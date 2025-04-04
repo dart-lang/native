@@ -10,16 +10,11 @@
 
 import 'dart:io';
 
-class AndroidCodeConfig {
-  final Map<String, Object?> json;
+class AndroidCodeConfig extends JsonObject {
+  AndroidCodeConfig.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  AndroidCodeConfig.fromJson(this.json, {this.path = const []});
-
-  AndroidCodeConfig({required int targetNdkApi}) : json = {}, path = const [] {
+  AndroidCodeConfig({required int targetNdkApi}) : super() {
     _targetNdkApi = targetNdkApi;
     json.sortOnKey();
   }
@@ -33,7 +28,8 @@ class AndroidCodeConfig {
   List<String> _validateTargetNdkApi() =>
       _reader.validate<int>('target_ndk_api');
 
-  List<String> validate() => [..._validateTargetNdkApi()];
+  @override
+  List<String> validate() => [...super.validate(), ..._validateTargetNdkApi()];
 
   @override
   String toString() => 'AndroidCodeConfig($json)';
@@ -85,13 +81,7 @@ class Architecture {
   String toString() => name;
 }
 
-class Asset {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
+class Asset extends JsonObject {
   factory Asset.fromJson(
     Map<String, Object?> json, {
     List<Object> path = const [],
@@ -106,9 +96,9 @@ class Asset {
     return result;
   }
 
-  Asset._fromJson(this.json, {this.path = const []});
+  Asset._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Asset({required String? type}) : json = {}, path = const [] {
+  Asset({required String? type}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -121,20 +111,16 @@ class Asset {
 
   List<String> _validateType() => _reader.validate<String?>('type');
 
-  List<String> validate() => [..._validateType()];
+  @override
+  List<String> validate() => [...super.validate(), ..._validateType()];
 
   @override
   String toString() => 'Asset($json)';
 }
 
-class CCompilerConfig {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  CCompilerConfig.fromJson(this.json, {this.path = const []});
+class CCompilerConfig extends JsonObject {
+  CCompilerConfig.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
   CCompilerConfig({
     required Uri ar,
@@ -143,8 +129,7 @@ class CCompilerConfig {
     required List<String>? envScriptArguments,
     required Uri ld,
     required Windows? windows,
-  }) : json = {},
-       path = const [] {
+  }) : super() {
     _ar = ar;
     _cc = cc;
     _envScript = envScript;
@@ -215,7 +200,9 @@ class CCompilerConfig {
     return windows?.validate() ?? [];
   }
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateAr(),
     ..._validateCc(),
     ..._validateEnvScript(),
@@ -228,14 +215,8 @@ class CCompilerConfig {
   String toString() => 'CCompilerConfig($json)';
 }
 
-class CodeConfig {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  CodeConfig.fromJson(this.json, {this.path = const []});
+class CodeConfig extends JsonObject {
+  CodeConfig.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   CodeConfig({
     required AndroidCodeConfig? android,
@@ -245,8 +226,7 @@ class CodeConfig {
     required MacOSCodeConfig? macOS,
     required Architecture targetArchitecture,
     required OS targetOs,
-  }) : json = {},
-       path = const [] {
+  }) : super() {
     _android = android;
     _cCompiler = cCompiler;
     _iOS = iOS;
@@ -364,7 +344,9 @@ class CodeConfig {
 
   List<String> _validateTargetOs() => _reader.validate<String>('target_os');
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateAndroid(),
     ..._validateCCompiler(),
     ..._validateIOS(),
@@ -406,18 +388,11 @@ class CodeConfig {
   String toString() => 'CodeConfig($json)';
 }
 
-class Config {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  Config.fromJson(this.json, {this.path = const []});
+class Config extends JsonObject {
+  Config.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   Config({required CodeConfig? code, required ConfigExtensions? extensions})
-    : json = {},
-      path = const [] {
+    : super() {
     this.code = code;
     this.extensions = extensions;
     json.sortOnKey();
@@ -461,24 +436,22 @@ class Config {
     return extensions?.validate() ?? [];
   }
 
-  List<String> validate() => [..._validateCode(), ..._validateExtensions()];
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateCode(),
+    ..._validateExtensions(),
+  ];
 
   @override
   String toString() => 'Config($json)';
 }
 
-class ConfigExtensions {
-  final Map<String, Object?> json;
+class ConfigExtensions extends JsonObject {
+  ConfigExtensions.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  ConfigExtensions.fromJson(this.json, {this.path = const []});
-
-  ConfigExtensions({required CodeConfig? codeAssets})
-    : json = {},
-      path = const [] {
+  ConfigExtensions({required CodeConfig? codeAssets}) : super() {
     this.codeAssets = codeAssets;
     json.sortOnKey();
   }
@@ -502,24 +475,19 @@ class ConfigExtensions {
     return codeAssets?.validate() ?? [];
   }
 
-  List<String> validate() => [..._validateCodeAssets()];
+  @override
+  List<String> validate() => [...super.validate(), ..._validateCodeAssets()];
 
   @override
   String toString() => 'ConfigExtensions($json)';
 }
 
-class DeveloperCommandPrompt {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  DeveloperCommandPrompt.fromJson(this.json, {this.path = const []});
+class DeveloperCommandPrompt extends JsonObject {
+  DeveloperCommandPrompt.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
   DeveloperCommandPrompt({required List<String> arguments, required Uri script})
-    : json = {},
-      path = const [] {
+    : super() {
     _arguments = arguments;
     _script = script;
     json.sortOnKey();
@@ -541,7 +509,12 @@ class DeveloperCommandPrompt {
 
   List<String> _validateScript() => _reader.validatePath('script');
 
-  List<String> validate() => [..._validateArguments(), ..._validateScript()];
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateArguments(),
+    ..._validateScript(),
+  ];
 
   @override
   String toString() => 'DeveloperCommandPrompt($json)';
@@ -648,18 +621,12 @@ extension DynamicLoadingSystemLinkModeExtension on LinkMode {
       DynamicLoadingSystemLinkMode.fromJson(json, path: path);
 }
 
-class IOSCodeConfig {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  IOSCodeConfig.fromJson(this.json, {this.path = const []});
+class IOSCodeConfig extends JsonObject {
+  IOSCodeConfig.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
   IOSCodeConfig({required String targetSdk, required int targetVersion})
-    : json = {},
-      path = const [] {
+    : super() {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
     json.sortOnKey();
@@ -682,7 +649,9 @@ class IOSCodeConfig {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateTargetSdk(),
     ..._validateTargetVersion(),
   ];
@@ -691,13 +660,7 @@ class IOSCodeConfig {
   String toString() => 'IOSCodeConfig($json)';
 }
 
-class LinkMode {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
+class LinkMode extends JsonObject {
   factory LinkMode.fromJson(
     Map<String, Object?> json, {
     List<Object> path = const [],
@@ -721,9 +684,9 @@ class LinkMode {
     return result;
   }
 
-  LinkMode._fromJson(this.json, {this.path = const []});
+  LinkMode._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  LinkMode({required String type}) : json = {}, path = const [] {
+  LinkMode({required String type}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -736,7 +699,8 @@ class LinkMode {
 
   List<String> _validateType() => _reader.validate<String>('type');
 
-  List<String> validate() => [..._validateType()];
+  @override
+  List<String> validate() => [...super.validate(), ..._validateType()];
 
   @override
   String toString() => 'LinkMode($json)';
@@ -788,16 +752,11 @@ class LinkModePreference {
   String toString() => name;
 }
 
-class MacOSCodeConfig {
-  final Map<String, Object?> json;
+class MacOSCodeConfig extends JsonObject {
+  MacOSCodeConfig.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  MacOSCodeConfig.fromJson(this.json, {this.path = const []});
-
-  MacOSCodeConfig({required int targetVersion}) : json = {}, path = const [] {
+  MacOSCodeConfig({required int targetVersion}) : super() {
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
@@ -811,7 +770,8 @@ class MacOSCodeConfig {
   List<String> _validateTargetVersion() =>
       _reader.validate<int>('target_version');
 
-  List<String> validate() => [..._validateTargetVersion()];
+  @override
+  List<String> validate() => [...super.validate(), ..._validateTargetVersion()];
 
   @override
   String toString() => 'MacOSCodeConfig($json)';
@@ -971,14 +931,9 @@ extension NativeCodeAssetExtension on Asset {
       NativeCodeAsset.fromJson(json, path: path);
 }
 
-class NativeCodeAssetEncoding {
-  final Map<String, Object?> json;
-
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  NativeCodeAssetEncoding.fromJson(this.json, {this.path = const []});
+class NativeCodeAssetEncoding extends JsonObject {
+  NativeCodeAssetEncoding.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
   NativeCodeAssetEncoding({
     required Architecture? architecture,
@@ -986,8 +941,7 @@ class NativeCodeAssetEncoding {
     required String id,
     required LinkMode linkMode,
     required OS? os,
-  }) : json = {},
-       path = const [] {
+  }) : super() {
     _architecture = architecture;
     _file = file;
     _id = id;
@@ -1054,7 +1008,9 @@ class NativeCodeAssetEncoding {
 
   List<String> _validateOs() => _reader.validate<String?>('os');
 
+  @override
   List<String> validate() => [
+    ...super.validate(),
     ..._validateArchitecture(),
     ..._validateFile(),
     ..._validateId(),
@@ -1187,18 +1143,10 @@ extension StaticLinkModeExtension on LinkMode {
       StaticLinkMode.fromJson(json, path: path);
 }
 
-class Windows {
-  final Map<String, Object?> json;
+class Windows extends JsonObject {
+  Windows.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  final List<Object> path;
-
-  JsonReader get _reader => JsonReader(json, path);
-
-  Windows.fromJson(this.json, {this.path = const []});
-
-  Windows({required DeveloperCommandPrompt? developerCommandPrompt})
-    : json = {},
-      path = const [] {
+  Windows({required DeveloperCommandPrompt? developerCommandPrompt}) : super() {
     _developerCommandPrompt = developerCommandPrompt;
     json.sortOnKey();
   }
@@ -1226,10 +1174,28 @@ class Windows {
     return developerCommandPrompt?.validate() ?? [];
   }
 
-  List<String> validate() => [..._validateDeveloperCommandPrompt()];
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDeveloperCommandPrompt(),
+  ];
 
   @override
   String toString() => 'Windows($json)';
+}
+
+class JsonObject {
+  final Map<String, Object?> json;
+
+  final List<Object> path;
+
+  JsonReader get _reader => JsonReader(json, path);
+
+  JsonObject() : json = {}, path = const [];
+
+  JsonObject.fromJson(this.json, {this.path = const []});
+
+  List<String> validate() => [];
 }
 
 class JsonReader {

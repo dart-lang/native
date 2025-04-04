@@ -365,8 +365,8 @@ class SchemaAnalyzer {
                   'Expected an object with arbitrary properties.',
                 );
               }
-              dartType = MapDartType(
-                valueType: const ObjectDartType(isNullable: true),
+              dartType = ClassDartType(
+                classInfo: jsonObjectClassInfo,
                 isNullable: !required,
               );
             default:

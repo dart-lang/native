@@ -206,7 +206,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
       macOS: macOS?.toSyntax(),
     );
     final baseHookConfig = hook_syntax.HookInput.fromJson(builder.json).config;
-    baseHookConfig.extensions ??= {};
+    baseHookConfig.extensions ??= hook_syntax.JsonObject.fromJson({});
     final hookConfig = syntax.Config.fromJson(baseHookConfig.json);
     hookConfig.extensions!.codeAssets = codeConfig;
     hookConfig.code = codeConfig; // old location
