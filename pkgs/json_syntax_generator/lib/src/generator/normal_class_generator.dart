@@ -142,9 +142,19 @@ static const ${tagProperty}Value = '$tagValue';
       final thisClassProperty = classInfo.getProperty(propertyName);
 
       if (superClassProperty != null) {
-        if (!classInfo.isTaggedUnion) {
-          final propertyName = superClassProperty.name;
-          result.add('required super.$propertyName');
+        if (propertyName != classInfo.superclass?.taggedUnionProperty) {
+          if (thisClassProperty != null &&
+              superClassProperty.type != thisClassProperty.type) {
+            // More specific type on this class so emit normal parameter.
+            // Must be passed to super constructor call.
+            final dartType = thisClassProperty.type;
+            final propertyName = thisClassProperty.name;
+            result.add('required $dartType $propertyName');
+          } else {
+            // Same type on this class, emit super parameter.
+            final propertyName = superClassProperty.name;
+            result.add('required super.$propertyName');
+          }
         }
       } else {
         final dartType = thisClassProperty!.type;
@@ -155,15 +165,40 @@ static const ${tagProperty}Value = '$tagValue';
     return result;
   }
 
-  /// The only super constructor call parameter is for tagged unions.
+  /// Generates super constructor calls.
+  ///
+  /// * For tagged unions, the tagged union value.
+  /// * For parameters that have a more specific type in the subclass a simple
+  ///   forwarding.
   ///
   /// All other parameters are already set by `super.paramName`.
   List<String> _generateDefaultConstructorSuperArguments() {
-    if (!classInfo.isTaggedUnion || classInfo.superclass == null) return [];
+    final superclass = classInfo.superclass;
+    if (superclass == null) return [];
 
-    final taggedUnionProperty = classInfo.superclass!.taggedUnionProperty;
+    final result = <String>[];
+
+    final taggedUnionProperty = superclass.taggedUnionProperty;
     final taggedUnionValue = classInfo.taggedUnionValue;
-    return ["$taggedUnionProperty: '$taggedUnionValue'"];
+    if (taggedUnionValue != null && taggedUnionProperty != null) {
+      result.add("$taggedUnionProperty: '$taggedUnionValue'");
+    }
+
+    final propertyNames = _getAllPropertyNames();
+    for (final propertyName in propertyNames) {
+      final superClassProperty = superclass.getProperty(propertyName);
+      final thisClassProperty = classInfo.getProperty(propertyName);
+
+      if (propertyName != classInfo.superclass?.taggedUnionProperty) {
+        if (thisClassProperty != null &&
+            superClassProperty != null &&
+            superClassProperty.type != thisClassProperty.type) {
+          final propertyName = thisClassProperty.name;
+          result.add('$propertyName: $propertyName');
+        }
+      }
+    }
+    return result;
   }
 
   /// Generates the setter calls for both [_generateDefaultConstructor] and

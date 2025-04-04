@@ -98,7 +98,7 @@ class BuildInput extends HookInput {
   BuildInput.fromJson(super.json, {super.path}) : super.fromJson();
 
   BuildInput({
-    required super.config,
+    required BuildConfig config,
     required Map<String, Map<String, Object?>>? dependencyMetadata,
     required super.outDir,
     required super.outDirShared,
@@ -106,7 +106,7 @@ class BuildInput extends HookInput {
     required super.packageName,
     required super.packageRoot,
     required super.version,
-  }) : super() {
+  }) : super(config: config) {
     _dependencyMetadata = dependencyMetadata;
     json.sortOnKey();
   }
