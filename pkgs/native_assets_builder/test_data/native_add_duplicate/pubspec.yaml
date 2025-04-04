@@ -19,7 +19,7 @@ dependencies:
     path: ../../../native_toolchain_c/
 
 dev_dependencies:
-  ffigen: ^8.0.2
+  ffigen: ^18.0.0
   lints: ^5.1.1
   some_dev_dep:
     path: ../some_dev_dep/
