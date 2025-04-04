@@ -8,7 +8,7 @@ environment:
   sdk: '>=3.7.0 <4.0.0'
 
 dev_dependencies:
-  dart_flutter_team_lints: ^2.1.1
+  dart_flutter_team_lints: ^3.5.1
   json_schema: ^5.2.0
   json_syntax_generator:
     path: ../json_syntax_generator/

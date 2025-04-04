@@ -25,7 +25,7 @@ dependencies:
   yaml: ^3.1.2 # Used for reading pubspec.yaml to obtain the package name
 
 dev_dependencies:
-  dart_flutter_team_lints: ^2.1.1
+  dart_flutter_team_lints: ^3.5.1
   file_testing: ^3.0.0
   glob: any
   test: ^1.25.7
