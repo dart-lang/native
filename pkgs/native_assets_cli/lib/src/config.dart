@@ -96,6 +96,9 @@ sealed class HookInput {
 
 extension type HookInputUserDefines._(HookInput _input) {
   /// The value for the user-define for [key] for this package.
+  ///
+  /// This can be arbitrary JSON/YAML if provided from the SDK from such source.
+  /// If it's provided from command-line arguments, it's likely a string.
   Object? operator [](String key) => _input._syntax.userDefines?.json[key];
 }
 
