@@ -17,7 +17,6 @@ export 'src/config.dart'
         BuildConfigBuilder,
         BuildInput,
         BuildOutputBuilder,
-        ToAppBundle,
         EncodedAssetBuildOutputBuilder,
         EncodedAssetLinkOutputBuilder,
         HookConfig,
@@ -25,6 +24,7 @@ export 'src/config.dart'
         HookInput,
         LinkInput,
         LinkOutputBuilder,
+        ToAppBundle,
         ToBuildHooks,
         ToLinkHook;
 export 'src/encoded_asset.dart' show EncodedAsset;
