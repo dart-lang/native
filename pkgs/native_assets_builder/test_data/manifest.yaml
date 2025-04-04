@@ -179,6 +179,8 @@
 - use_all_api/hook/build.dart
 - use_all_api/hook/link.dart
 - use_all_api/pubspec.yaml
+- user_defines/hook/build.dart
+- user_defines/pubspec.yaml
 - wrong_build_output/hook/build.dart
 - wrong_build_output/pubspec.yaml
 - wrong_build_output_2/hook/build.dart

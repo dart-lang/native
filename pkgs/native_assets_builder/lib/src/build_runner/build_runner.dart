@@ -46,6 +46,7 @@ class NativeAssetsBuildRunner {
   final Uri dartExecutable;
   final Duration singleHookTimeout;
   final Map<String, String> hookEnvironment;
+  final Map<String, Map<String, Object?>?> userDefines;
   final PackageLayout packageLayout;
 
   NativeAssetsBuildRunner({
@@ -55,6 +56,7 @@ class NativeAssetsBuildRunner {
     required this.packageLayout,
     Duration? singleHookTimeout,
     Map<String, String>? hookEnvironment,
+    this.userDefines = const {},
   }) : _fileSystem = fileSystem,
        singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5),
        hookEnvironment =
@@ -131,6 +133,7 @@ class NativeAssetsBuildRunner {
         outputFile: buildDirUri.resolve('output.json'),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
+        userDefines: userDefines[package.name],
       );
 
       final input = BuildInput(inputBuilder.json);
@@ -228,6 +231,7 @@ class NativeAssetsBuildRunner {
         outputFile: buildDirUri.resolve('output.json'),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
+        userDefines: userDefines[package.name],
       );
       inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
@@ -860,6 +864,80 @@ ${compileResult.stdout}
     return hook == Hook.build
         ? BuildOutput(hookOutputJson)
         : LinkOutput(hookOutputJson);
+  }
+
+  /// Returns a list of errors for [readHooksUserDefinesFromPubspec].
+  static List<String> validateHooksUserDefinesFromPubspec(
+    Map<Object?, Object?> pubspec,
+  ) {
+    final hooks = pubspec['hooks'];
+    if (hooks == null) return [];
+    if (hooks is! Map) {
+      return ["Expected 'hooks' to be a map. Found: '$hooks'"];
+    }
+    final userDefines = hooks['user_defines'];
+    if (userDefines == null) return [];
+    if (userDefines is! Map) {
+      return [
+        "Expected 'hooks.user_defines' to be a map. Found: '$userDefines'",
+      ];
+    }
+
+    final errors = <String>[];
+    for (final MapEntry(:key, :value) in userDefines.entries) {
+      if (key is! String) {
+        errors.add(
+          "Expected 'hooks.user_defines' to be a map with string keys."
+          " Found key: '$key'.",
+        );
+      }
+      if (value is! Map) {
+        errors.add(
+          "Expected 'hooks.user_defines.$key' to be a map. Found: '$value'",
+        );
+        continue;
+      }
+      for (final childKey in value.keys) {
+        if (childKey is! String) {
+          errors.add(
+            "Expected 'hooks.user_defines.$key' to be a "
+            "map with string keys. Found key: '$childKey'.",
+          );
+        }
+      }
+    }
+    return errors;
+  }
+
+  /// Reads the user-defines from a pubspec.yaml in the suggested location.
+  ///
+  /// SDKs do not have to follow this, they might support user-defines in a
+  /// different way.
+  ///
+  /// The [pubspec] is expected to be the decoded yaml, a Map.
+  ///
+  /// Before invoking, check errors with [validateHooksUserDefinesFromPubspec].
+  static Map<String, Map<String, Object?>> readHooksUserDefinesFromPubspec(
+    Map<Object?, Object?> pubspec,
+  ) {
+    assert(validateHooksUserDefinesFromPubspec(pubspec).isEmpty);
+    final hooks = pubspec['hooks'];
+    if (hooks is! Map) {
+      return {};
+    }
+    final userDefines = hooks['user_defines'];
+    if (userDefines is! Map) {
+      return {};
+    }
+    return {
+      for (final MapEntry(:key, :value) in userDefines.entries)
+        if (key is String)
+          key: {
+            if (value is Map)
+              for (final MapEntry(:key, :value) in value.entries)
+                if (key is String) key: value,
+          },
+    };
   }
 }
 
