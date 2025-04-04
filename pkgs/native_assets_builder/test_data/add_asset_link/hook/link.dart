@@ -9,15 +9,15 @@ void main(List<String> arguments) async {
     final builtDylib = input.assets.code.first;
     output
       ..assets.code.add(
-            CodeAsset(
-              package: 'add_asset_link',
-              name: 'dylib_add_link',
-              linkMode: builtDylib.linkMode,
-              os: input.config.code.targetOS,
-              architecture: input.config.code.targetArchitecture,
-              file: builtDylib.file,
-            ),
-          )
+        CodeAsset(
+          package: 'add_asset_link',
+          name: 'dylib_add_link',
+          linkMode: builtDylib.linkMode,
+          os: input.config.code.targetOS,
+          architecture: input.config.code.targetArchitecture,
+          file: builtDylib.file,
+        ),
+      )
       ..addDependency(input.packageRoot.resolve('hook/link.dart'));
   });
 }

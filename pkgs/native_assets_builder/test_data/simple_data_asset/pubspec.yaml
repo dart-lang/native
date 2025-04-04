@@ -1,6 +1,6 @@
 name: simple_data_asset
 description: Add and retrieve a data asset.
-version: 1.0.0
+version: 0.1.0
 
 publish_to: none
 
