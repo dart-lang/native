@@ -189,7 +189,7 @@ class NativeAssetsBuildRunner {
     );
     if (buildPlan == null) return null;
 
-    var hookResult = HookResult(encodedAssets: buildResult.encodedAssets);
+    var linkResult = HookResult();
     for (final package in buildPlan) {
       final inputBuilder = LinkInputBuilder();
       for (final e in extensions) {
@@ -250,14 +250,17 @@ class NativeAssetsBuildRunner {
       );
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
-      hookResult = hookResult.copyAdd(hookOutput, hookDeps);
+      linkResult = linkResult.copyAdd(hookOutput, hookDeps);
     }
 
     final errors = [
       for (final e in extensions)
-        ...await e.validateApplicationAssets(hookResult.encodedAssets),
+        ...await e.validateApplicationAssets([
+          ...buildResult.encodedAssets,
+          ...linkResult.encodedAssets,
+        ]),
     ];
-    if (errors.isEmpty) return hookResult;
+    if (errors.isEmpty) return linkResult;
 
     _printErrors('Application asset verification failed', errors);
     return null;

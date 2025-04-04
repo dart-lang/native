@@ -89,8 +89,12 @@ void main() async {
       expect(linkResult, isNotNull);
 
       expect(
+        _getNames(buildResult.encodedAssets),
+        unorderedEquals(builtHelperAssets),
+      );
+      expect(
         _getNames(linkResult!.encodedAssets),
-        unorderedEquals([...builtHelperAssets, ...linkedAssets]),
+        unorderedEquals(linkedAssets),
       );
     });
   });
