@@ -15,11 +15,16 @@ import 'os.dart';
 import 'syntax.g.dart' as syntax;
 
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
-    _validateConfig('BuildInput.config.code', input.config);
+    [
+      ..._validateConfig('BuildInput.config.code', input.config),
+      ...await _validateCodeAssetHookInput([
+        for (final assets in input.assets.encodedAssets.values) ...assets,
+      ]),
+    ];
 
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async => [
   ..._validateConfig('LinkInput.config.code', input.config),
-  ...await _validateCodeAssetLinkInput(input.assets.encodedAssets),
+  ...await _validateCodeAssetHookInput(input.assets.encodedAssets),
 ];
 
 ValidationErrors _validateConfig(String inputName, HookConfig config) {
@@ -59,7 +64,7 @@ ValidationErrors _validateConfigSyntax(HookConfig config) {
   return [...syntaxErrors, _semanticValidationSkippedMessage(syntaxNode.path)];
 }
 
-Future<ValidationErrors> _validateCodeAssetLinkInput(
+Future<ValidationErrors> _validateCodeAssetHookInput(
   List<EncodedAsset> encodedAssets,
 ) async {
   final errors = <String>[];
@@ -83,6 +88,7 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   input.config.code,
   output.assets.encodedAssets,
   [
+    ...output.assets.encodedAssetsForBuild,
     for (final assetList in output.assets.encodedAssetsForLinking.values)
       ...assetList,
   ],
@@ -126,16 +132,16 @@ Future<ValidationErrors> validateCodeAssetInApplication(
 Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookInput input,
   CodeConfig codeConfig,
-  List<EncodedAsset> encodedAssets,
-  List<EncodedAsset> encodedAssetsForLinking,
+  List<EncodedAsset> encodedAssetsBundled,
+  List<EncodedAsset> encodedAssetsNotBundled,
   HookOutput output,
   bool isBuild,
 ) async {
   final errors = <String>[];
-  final ids = <String>{};
+  final idsBundled = <String>{};
   final fileNameToEncodedAssetId = <String, Set<String>>{};
 
-  for (final asset in encodedAssets) {
+  for (final asset in encodedAssetsBundled) {
     if (!asset.isCodeAsset) continue;
     final syntaxErrors = _validateCodeAssetSyntax(asset);
     if (syntaxErrors.isNotEmpty) {
@@ -147,7 +153,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       codeConfig,
       CodeAsset.fromEncoded(asset),
       errors,
-      ids,
+      idsBundled,
       isBuild,
       true,
     );
@@ -157,7 +163,8 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
     );
   }
 
-  for (final asset in encodedAssetsForLinking) {
+  final idsNotBundled = <String>{};
+  for (final asset in encodedAssetsNotBundled) {
     if (!asset.isCodeAsset) continue;
     final syntaxErrors = _validateCodeAssetSyntax(asset);
     if (syntaxErrors.isNotEmpty) {
@@ -169,7 +176,7 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       codeConfig,
       CodeAsset.fromEncoded(asset),
       errors,
-      ids,
+      idsNotBundled,
       isBuild,
       false,
     );

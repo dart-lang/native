@@ -21,20 +21,28 @@ void main() {
     final builder = BuildOutputBuilder();
     final after = DateTime.now().roundDownToSeconds();
 
-    builder.addDependency(uris.take(1).single);
+    builder.addDependency(uris.first);
     builder.addDependencies(uris.skip(1).toList());
     builder.addMetadatum(metadata0.keys.single, metadata0.values.single);
     builder.addMetadata(metadata1);
 
-    builder.assets.addEncodedAsset(assets.take(1).single);
+    builder.assets.addEncodedAsset(assets.first);
+    builder.assets.addEncodedAsset(
+      assets.skip(2).first,
+      routing: const ToBuildHooks(),
+    );
     builder.assets.addEncodedAsset(
       assets.skip(1).first,
-      linkInPackage: 'package:linker1',
+      routing: const ToLinker('package:linker1'),
     );
     builder.assets.addEncodedAssets(assets.skip(2).take(2).toList());
     builder.assets.addEncodedAssets(
+      assets.take(2),
+      routing: const ToBuildHooks(),
+    );
+    builder.assets.addEncodedAssets(
       assets.skip(4).toList(),
-      linkInPackage: 'package:linker2',
+      routing: const ToLinker('package:linker2'),
     );
 
     final input = BuildOutput(builder.json);
@@ -46,7 +54,7 @@ void main() {
     );
 
     // The JSON format of the build output.
-    <String, Object?>{
+    final expectedJson = <String, Object?>{
       'version': '1.9.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'metadata': {
@@ -63,6 +71,23 @@ void main() {
         {
           'a-2': 'v-2',
           'encoding': {'a-2': 'v-2'},
+          'type': 'my-asset-type',
+        },
+      ],
+      'assets_for_build': [
+        {
+          'a-2': 'v-2',
+          'encoding': {'a-2': 'v-2'},
+          'type': 'my-asset-type',
+        },
+        {
+          'a-0': 'v-0',
+          'encoding': {'a-0': 'v-0'},
+          'type': 'my-asset-type',
+        },
+        {
+          'a-1': 'v-1',
+          'encoding': {'a-1': 'v-1'},
           'type': 'my-asset-type',
         },
       ],
@@ -86,9 +111,10 @@ void main() {
         ],
         'package:linker2': <Object?>[],
       },
-    }.forEach((k, v) {
-      expect(input.json[k], equals(v));
-    });
+      'timestamp': input.timestamp.toString(),
+    };
+
+    expect(input.json, equals(expectedJson));
   });
 
   for (final version in ['9001.0.0', '0.0.1']) {

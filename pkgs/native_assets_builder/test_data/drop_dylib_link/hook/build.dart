@@ -14,30 +14,22 @@ void main(List<String> arguments) async {
           ..onRecord.listen((record) {
             print('${record.level.name}: ${record.time}: ${record.message}');
           });
-    final linkInPackage =
-        input.config.linkingEnabled ? input.packageName : null;
+    final routing =
+        input.config.linkingEnabled
+            ? [ToLinker(input.packageName)]
+            : [const BundleInApp()];
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',
       sources: ['src/native_add.c'],
       linkModePreference: LinkModePreference.dynamic,
-    ).run(
-      input: input,
-      output: output,
-      logger: logger,
-      linkInPackage: linkInPackage,
-    );
+    ).run(input: input, output: output, logger: logger, routing: routing);
 
     await CBuilder.library(
       name: 'multiply',
       assetName: 'dylib_multiply',
       sources: ['src/native_multiply.c'],
       linkModePreference: LinkModePreference.dynamic,
-    ).run(
-      input: input,
-      output: output,
-      logger: logger,
-      linkInPackage: linkInPackage,
-    );
+    ).run(input: input, output: output, logger: logger, routing: routing);
   });
 }

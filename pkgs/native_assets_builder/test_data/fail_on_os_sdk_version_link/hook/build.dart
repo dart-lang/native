@@ -12,8 +12,10 @@ void main(List<String> arguments) async {
         file: input.packageRoot.resolve('assets/data.json'),
         package: input.packageName,
       ),
-      linkInPackage:
-          input.config.linkingEnabled ? 'fail_on_os_sdk_version_linker' : null,
+      routing:
+          input.config.linkingEnabled
+              ? const ToLinker('fail_on_os_sdk_version_linker')
+              : const BundleInApp(),
     );
   });
 }
