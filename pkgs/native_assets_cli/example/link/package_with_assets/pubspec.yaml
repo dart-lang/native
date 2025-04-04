@@ -1,12 +1,11 @@
-publish_to: none
-
 name: package_with_assets
 description: An example of using a package with assets.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+version: 0.1.0
+
+publish_to: none
 
 environment:
-  sdk: ^3.0.0
+  sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
   logging: ^1.1.1

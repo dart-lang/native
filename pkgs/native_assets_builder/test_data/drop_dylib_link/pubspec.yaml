@@ -1,11 +1,11 @@
 name: drop_dylib_link
 description: Generate two dylibs, remove one in linking.
-version: 1.0.0
+version: 0.1.0
 
 publish_to: none
 
 environment:
-  sdk: ^3.0.0
+  sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
   logging: ^1.1.1

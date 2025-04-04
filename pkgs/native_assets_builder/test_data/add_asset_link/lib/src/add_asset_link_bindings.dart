@@ -5,8 +5,6 @@
 import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>(
-    assetId: 'package:add_asset_link/dylib_add_link')
-external int add(
-  int a,
-  int b,
-);
+  assetId: 'package:add_asset_link/dylib_add_link',
+)
+external int add(int a, int b);
