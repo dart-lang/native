@@ -278,10 +278,12 @@ Future<void> copyTestProjects({Uri? sourceUri, required Uri targetUri}) async {
     final sourceFile = File.fromUri(sourceUri.resolveUri(pathToModify));
     final targetFileUri = targetUri.resolveUri(pathToModify);
     final sourceString = await sourceFile.readAsString();
-    final modifiedString = sourceString.replaceAll(
-      'path: ../../',
-      'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
-    );
+    final modifiedString = sourceString
+        .replaceAll(
+          'path: ../../',
+          'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
+        )
+        .replaceAll('resolution: workspace', '');
     await File.fromUri(
       targetFileUri,
     ).writeAsString(modifiedString, flush: true);
