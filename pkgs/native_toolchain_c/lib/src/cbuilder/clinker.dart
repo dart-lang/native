@@ -43,6 +43,8 @@ class CLinker extends CTool implements Linker {
     super.optimizationLevel = OptimizationLevel.o3,
   }) : super(type: OutputType.library);
 
+  static const _supportedLinkingOSs = [OS.linux];
+
   /// Runs the C Linker with on this C build spec.
   ///
   /// Completes with an error if the linking fails.
@@ -52,9 +54,10 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux || input.config.code.targetOS != OS.linux) {
+    if (!_supportedLinkingOSs.contains(OS.current) ||
+        !_supportedLinkingOSs.contains(input.config.code.targetOS)) {
       throw UnsupportedError(
-        'Currently, only linux is supported for this '
+        'Currently, only $_supportedLinkingOSs are supported for this '
         'feature. See also https://github.com/dart-lang/native/issues/1376',
       );
     }
