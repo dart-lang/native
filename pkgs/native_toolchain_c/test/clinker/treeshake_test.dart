@@ -4,7 +4,7 @@
 
 //TODO(mosuem): Enable for windows and mac.
 // See https://github.com/dart-lang/native/issues/1376.
-@TestOn('linux')
+@TestOn('linux || mac-os')
 library;
 
 import 'dart:io';
@@ -15,7 +15,7 @@ import 'package:test/test.dart';
 import 'treeshake_helper.dart';
 
 Future<void> main() async {
-  if (!Platform.isLinux) {
+  if (!(Platform.isLinux || Platform.isMacOS)) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }

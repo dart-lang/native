@@ -117,7 +117,7 @@ extension LinkerOptionsExt on LinkerOptions {
     Iterable<String> sourceFiles,
   ) => _toLinkerSyntax(linker, [
     ..._linkerFlags,
-    if (gcSections) '--gc-sections',
+    if (gcSections) OS.current == OS.macOS ? '-dead_strip' : '--gc-sections',
     if (linkerScript != null) '--version-script=${linkerScript!.toFilePath()}',
     if ((sourceFiles.any((source) => source.endsWith('.a')) ||
             _includeAllSymbols) &&

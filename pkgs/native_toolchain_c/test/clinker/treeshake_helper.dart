@@ -41,7 +41,7 @@ Future<void> runTests(List<Architecture> architectures) async {
     linkerOptions: LinkerOptions.treeshake(symbols: null),
   );
 
-  const os = OS.linux;
+  final os = OS.current;
 
   late Map<String, int> sizes;
   sizes = <String, int>{};
@@ -79,6 +79,12 @@ Future<void> runTests(List<Architecture> architectures) async {
                     targetArchitecture: architecture,
                     linkModePreference: LinkModePreference.dynamic,
                     cCompiler: cCompiler,
+                    macOS:
+                        os == OS.macOS
+                            ? MacOSCodeConfig(
+                              targetVersion: defaultMacOSVersion,
+                            )
+                            : null,
                   ),
                 );
 
