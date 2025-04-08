@@ -20,6 +20,10 @@ const denyList = [
 ];
 
 /// These just modify other test projects.
+///
+/// Don't add pubspecs to manifests, they contain a different name due to all
+/// being part of a big workspace. They have a pubspec to enable analysis of
+/// the Dart code in them.
 const partialProjects = [
   'native_add_add_source',
   'native_add_add_symbol',
@@ -42,9 +46,13 @@ void updateManifest(Directory directory, bool allowPartialProjects) {
             for (final denyString in [
               ...denyList,
               if (!allowPartialProjects) ...partialProjects,
+              for (final partialProject in partialProjects) ...[
+                '$partialProject/pubspec.yaml',
+              ],
             ]) {
               if (f.path.contains(denyString)) return false;
             }
+
             return true;
           })
           .map((e) => e.path.replaceFirst(dirPath, ''))

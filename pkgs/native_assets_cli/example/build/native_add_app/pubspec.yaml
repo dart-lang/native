@@ -5,6 +5,8 @@ description: Invokes a package with native assets.
 version: 0.1.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli/example/build/native_add_app
 
+resolution: workspace
+
 environment:
   sdk: '>=3.7.0 <4.0.0'
 

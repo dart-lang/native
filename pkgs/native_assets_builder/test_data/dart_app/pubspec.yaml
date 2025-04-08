@@ -2,6 +2,8 @@ name: dart_app
 
 publish_to: none
 
+resolution: workspace
+
 environment:
   sdk: '>=3.7.0 <4.0.0'
 
