@@ -232,7 +232,11 @@ extension AssetIterable on Iterable<EncodedAsset> {
   }
 }
 
-Future<void> copyTestProjects({Uri? sourceUri, required Uri targetUri}) async {
+Future<void> copyTestProjects({
+  Uri? sourceUri,
+  required Uri targetUri,
+  bool addDependencyOverrides = true,
+}) async {
   sourceUri ??= testDataUri;
   final manifestUri = sourceUri.resolve('manifest.yaml');
   final manifestFile = File.fromUri(manifestUri);
@@ -277,13 +281,23 @@ Future<void> copyTestProjects({Uri? sourceUri, required Uri targetUri}) async {
   for (final pathToModify in filesToModify) {
     final sourceFile = File.fromUri(sourceUri.resolveUri(pathToModify));
     final targetFileUri = targetUri.resolveUri(pathToModify);
-    final sourceString = await sourceFile.readAsString();
-    final modifiedString = sourceString
-        .replaceAll(
-          'path: ../../',
-          'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
-        )
-        .replaceAll('resolution: workspace', '');
+    var sourceString = await sourceFile.readAsString();
+    if (addDependencyOverrides &&
+        !pathToModify.path.contains('native_add_version_skew')) {
+      sourceString += '''
+
+dependency_overrides:
+''';
+      const packagesToOverride = ['native_assets_cli', 'native_toolchain_c'];
+      for (final package in packagesToOverride) {
+        sourceString += '''
+  $package:
+    path: ${pkgNativeAssetsBuilderUri.resolve('../$package/').toFilePath()}
+''';
+      }
+    }
+
+    final modifiedString = sourceString.replaceAll('resolution: workspace', '');
     await File.fromUri(
       targetFileUri,
     ).writeAsString(modifiedString, flush: true);
