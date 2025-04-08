@@ -100,24 +100,27 @@ task $_gradleGetClasspathTaskName(type: Copy) {
   static const _gradleGetClasspathStubKt = '''
 // Gradle stub for listing dependencies in jnigen. If found in
 // android/build.gradle.kts, please delete the following function.
-tasks.register<Copy>($_gradleGetClasspathTaskName) {
-    project.afterEvaluate {
+tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
+    doLast {
         try {
             val app = project(":app")
-            val android = app.extensions.getByType<com.android.build.gradle.LibraryExtension>()
-            val cp = mutableListOf(android.bootClasspath[0])
-            android.applicationVariants.all { variant ->
+            val android = app.android
+            val classPaths = mutableListOf(android.bootClasspath.first()) // Access the first element directly
+            for (variant in android.applicationVariants) {
                 if (variant.name == "release") {
-                    variant.javaCompileProvider.get().classpath.files.forEach { cp.add(it) }
+                    val javaCompile = variant.javaCompileProvider.get()
+                    classPaths.addAll(javaCompile.classpath.files)
                 }
             }
-            cp.forEach { println(it) }
+            for (classPath in classPaths) {
+                println(classPath)
+            }
         } catch (e: Exception) {
-            System.err.println($_gradleCannotFindJars)
-            System.err.println($_leftOverStubWarning)
+            System.err.println("$_gradleCannotFindJars")
             throw e
         }
     }
+    System.err.println("$_leftOverStubWarning")
 }
 ''';
 
@@ -158,34 +161,37 @@ task $_gradleGetSourcesTaskName(type: Copy) {
   static const _gradleGetSourcesStubKt = '''
 // Gradle stub for fetching source dependencies in jnigen. If found in
 // android/build.gradle.kts, please delete the following function.
-val SourcesArtifact = org.gradle.api.attributes.Attribute.of(String::class.java, "artifactType")
 
-tasks.register<org.gradle.api.tasks.Copy>($_gradleGetSourcesTaskName) {
-    project.afterEvaluate {
+tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
+    doLast {
         val app = project(":app")
         val releaseCompileClasspath = app.configurations.getByName("releaseCompileClasspath")
 
-        val componentIds = releaseCompileClasspath.incoming.resolutionResult.allDependencies.map { it.target.selected.id }
+        val componentIds =
+            releaseCompileClasspath.incoming.resolutionResult.allDependencies.map { it.from.id }
 
         val result = dependencies.createArtifactResolutionQuery()
             .forComponents(componentIds)
-            .withArtifacts(org.gradle.api.artifacts.type.JvmLibrary::class.java, SourcesArtifact.name)
+            .withArtifacts(JvmLibrary::class, SourcesArtifact::class)
             .execute()
 
         val sourceArtifacts = mutableListOf<File>()
 
-        result.resolvedComponents.forEach { component ->
-            val sourcesArtifactsResult = component.getArtifacts(SourcesArtifact.name)
-            sourcesArtifactsResult.forEach { artifactResult ->
+        for (component in result.resolvedComponents) {
+            val sourcesArtifactsResult = component.getArtifacts(SourcesArtifact::class)
+            for (artifactResult in sourcesArtifactsResult) {
                 if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
                     sourceArtifacts.add(artifactResult.file)
                 }
             }
         }
-        sourceArtifacts.forEach { println(it) }
+        for (sourceArtifact in sourceArtifacts) {
+            println(sourceArtifact)
+        }
     }
-    System.err.println($_leftOverStubWarning)
+    System.err.println("$_leftOverStubWarning")
 }
+
 ''';
 
   /// Get release compile classpath used by Gradle for android build.
@@ -237,7 +243,9 @@ tasks.register<org.gradle.api.tasks.Copy>($_gradleGetSourcesTaskName) {
     var buildGradle = join(android, 'build.gradle');
     final usesKotlinScript = !File.fromUri(Uri.file(buildGradle)).existsSync();
     if (usesKotlinScript) {
-      buildGradle += '.kts';
+      // The Kotlin version of the script is injected to `app/build.gradle.kts`
+      // instead of `build.gradle`.
+      buildGradle = join(android, 'app', 'build.gradle.kts');
     }
     final String stubCode;
     if (isSource) {
