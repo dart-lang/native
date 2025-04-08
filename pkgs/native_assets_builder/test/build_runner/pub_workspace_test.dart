@@ -15,7 +15,7 @@ void main() async {
   late Uri tempUri;
   setUp(() async {
     tempUri = await tempDirForTest();
-    await copyTestProjects(targetUri: tempUri);
+    await copyTestProjects(targetUri: tempUri, addDependencyOverrides: false);
   });
 
   Future<void> makePubWorkspace(List<String> packages) async {
@@ -44,6 +44,20 @@ workspace:
   - $package/
 ''';
     }
+    workspacePubSpec += '''
+
+dependency_overrides:
+''';
+    const packagesToOverride = ['native_assets_cli', 'native_toolchain_c'];
+    for (final package in packagesToOverride) {
+      workspacePubSpec += '''
+  $package:
+    path: ${pkgNativeAssetsBuilderUri.resolve('../$package/').toFilePath()}
+''';
+    }
+
+    printOnFailure(workspacePubSpecUri.toString());
+    printOnFailure(workspacePubSpec);
     await File.fromUri(workspacePubSpecUri).writeAsString(workspacePubSpec);
 
     await runPubGet(workingDirectory: tempUri, logger: logger);

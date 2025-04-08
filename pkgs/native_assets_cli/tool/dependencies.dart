@@ -14,18 +14,14 @@ const packages = [
   'native_assets_builder',
 ];
 
-const pathDependencies = 'path-dependencies';
-
 const publishedDependency = 'published-dependency';
 
-const commands = [pathDependencies, publishedDependency];
+const commands = [publishedDependency];
 
 // Print all command-line arguments that are Dart files.
 void main(List<String> arguments) async {
   final command = arguments.firstOrNull;
   switch (command) {
-    case pathDependencies:
-      return await switchAllToPathDependencies();
     case publishedDependency:
       if (arguments.length != 3) {
         print('Usage: $publishedDependency <package-name> <new-version>');
@@ -44,44 +40,6 @@ void main(List<String> arguments) async {
         print(' - $command');
       }
   }
-}
-
-/// Switches the pubspecs to path dependencies.
-///
-/// Does not add `publish_to: none` back in.
-///
-/// Does not bump the version number and add `-wip`.
-Future<void> switchAllToPathDependencies() async {
-  await Future.wait(allPubspecs.map(switchToPathDependencies2));
-  print('Did not add `publish_to: none` back in.');
-  print('Did not bump the version number and add `-wip`.');
-}
-
-Future<void> switchToPathDependencies2(File pubspecFile) async {
-  final newPubspec = switchToPathDependencies(await pubspecFile.readAsString());
-  await pubspecFile.writeAsString(newPubspec);
-}
-
-String switchToPathDependencies(String pubspec) {
-  for (final packageName in packages) {
-    pubspec = switchToPathDependency(pubspec, packageName);
-  }
-  return pubspec;
-}
-
-String switchToPathDependency(String pubspec, String packageName) {
-  final regex = RegExp('''  $packageName: \\^([0-9.]+)
-  # $packageName:
-  #   path: ([./]*)$packageName/''');
-  final match = regex.firstMatch(pubspec);
-  if (match == null) {
-    return pubspec;
-  }
-
-  final replacement = '''  # $packageName: ^${match.group(1)}
-  $packageName:
-    path: ${match.group(2)}$packageName/''';
-  return pubspec.replaceFirst(match.group(0)!, replacement);
 }
 
 /// Switches the pubspecs to to published dependency for a specific package.
@@ -121,7 +79,7 @@ String switchToPublishedDependency(
   String packageName,
   String newVersion,
 ) {
-  final regex = RegExp('''  (# )?$packageName: \\^([0-9.]+)
+  final regex = RegExp('''  (# )?$packageName: \\^([0-9.]+)(-wip)?
   (# )?$packageName:
   (# )?  path: ([./]*)$packageName/''');
   final match = regex.firstMatch(pubspec);
@@ -129,9 +87,7 @@ String switchToPublishedDependency(
     return pubspec;
   }
 
-  final replacement = '''  $packageName: ^$newVersion
-  # $packageName:
-  #   path: ${match.group(5)}$packageName/''';
+  final replacement = '  $packageName: ^$newVersion';
   return pubspec.replaceFirst(match.group(0)!, replacement);
 }
 
