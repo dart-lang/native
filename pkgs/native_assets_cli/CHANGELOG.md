@@ -1,7 +1,8 @@
-## 0.14.0-wip
+## 0.14.0
 
 - Added support for sending assets between build hooks via the `ToBuild`
   `Routing`. This replaces the deprecated `Metadata`.
+- Added support for user-defines.
 
 ## 0.13.0
 
