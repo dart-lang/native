@@ -297,12 +297,7 @@ dependency_overrides:
       }
     }
 
-    final modifiedString = sourceString
-        .replaceAll(
-          'path: ../../',
-          'path: ${pkgNativeAssetsBuilderUri.toFilePath().unescape()}',
-        )
-        .replaceAll('resolution: workspace', '');
+    final modifiedString = sourceString.replaceAll('resolution: workspace', '');
     await File.fromUri(
       targetFileUri,
     ).writeAsString(modifiedString, flush: true);
