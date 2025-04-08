@@ -13,7 +13,7 @@ environment:
 
 dependencies:
   logging: ^1.1.1
-  native_assets_cli: ^0.14.0-wip
+  native_assets_cli: ^0.14.0
   native_toolchain_c: ^0.11.0-wip
 
 dev_dependencies:
