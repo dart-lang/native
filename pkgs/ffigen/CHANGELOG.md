@@ -1,4 +1,4 @@
-## 18.1.0-wip
+## 18.1.0
 
 - Fix a clang warning in ObjC protocol generated bindings.
 
