@@ -2,6 +2,7 @@
 
 - Bump `package:native_assets_cli` to 0.14.0.
 - Route assets from build hook to build hook with `ToBuild` `Routing`.
+- Support user-defines.
 
 ## 0.13.0
 
