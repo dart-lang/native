@@ -197,7 +197,7 @@ class CBuilder extends CTool implements Builder {
       cppLinkStdLib: cppLinkStdLib,
       optimizationLevel: optimizationLevel,
     );
-    await task.run();
+    await task.runCompiler();
 
     if (assetName != null) {
       for (final route in routing) {

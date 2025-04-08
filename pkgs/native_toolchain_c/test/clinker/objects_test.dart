@@ -4,7 +4,7 @@
 
 //TODO(mosuem): Enable for windows and mac.
 // See https://github.com/dart-lang/native/issues/1376.
-@TestOn('linux')
+@TestOn('linux || mac-os')
 library;
 
 import 'dart:io';
@@ -16,13 +16,13 @@ import '../helpers.dart';
 import 'build_testfiles.dart';
 
 Future<void> main() async {
-  if (!Platform.isLinux) {
+  if (!(Platform.isLinux || Platform.isMacOS)) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
   final architecture = Architecture.current;
-  const os = OS.linux;
+  final os = OS.current;
   const name = 'mylibname';
 
   test('link two objects', () async {
@@ -47,6 +47,10 @@ Future<void> main() async {
               targetArchitecture: architecture,
               linkModePreference: LinkModePreference.dynamic,
               cCompiler: cCompiler,
+              macOS:
+                  os == OS.macOS
+                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                      : null,
             ),
           );
 
@@ -58,7 +62,10 @@ Future<void> main() async {
     await CLinker.library(
       name: name,
       assetName: '',
-      linkerOptions: LinkerOptions.manual(gcSections: false),
+      linkerOptions: LinkerOptions.manual(
+        gcSections: false,
+        flags: os == OS.macOS ? ['-lSystem'] : null,
+      ),
       sources: [uri.toFilePath()],
     ).run(input: linkInput, output: linkOutput, logger: logger);
 

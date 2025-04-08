@@ -42,6 +42,10 @@ Future<Uri> buildTestArchive(
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
+            macOS:
+                os == OS.macOS
+                    ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                    : null,
           ),
         );
 

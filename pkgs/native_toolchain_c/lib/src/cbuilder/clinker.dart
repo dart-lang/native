@@ -45,7 +45,7 @@ class CLinker extends CTool implements Linker {
 
   //TODO(mosuem): Remove this field once all OSs are supported.
   @visibleForTesting
-  static const supportedLinkingOSs = [OS.linux];
+  static const supportedLinkingOSs = [OS.linux, OS.macOS];
 
   /// Runs the C Linker with on this C build spec.
   ///
@@ -106,7 +106,7 @@ class CLinker extends CTool implements Linker {
       cppLinkStdLib: cppLinkStdLib,
       optimizationLevel: optimizationLevel,
     );
-    await task.run();
+    await task.runLinker();
 
     if (assetName != null) {
       output.assets.code.add(

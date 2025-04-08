@@ -117,15 +117,28 @@ class RunCBuilder {
   Uri androidSysroot(ToolInstance compiler) =>
       compiler.uri.resolve('../sysroot/');
 
-  Future<void> run() async {
+  Future<void> runCompiler() async {
+    assert(linkerOptions == null);
     final toolInstance_ =
         linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
-    if (tool.isClangLike || tool.isLdLike) {
+    if (tool.isClangLike) {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
       await runCl(tool: toolInstance_);
+    } else {
+      throw UnimplementedError('This package does not know how to run $tool.');
+    }
+  }
+
+  Future<void> runLinker() async {
+    assert(linkerOptions != null);
+    final toolInstance_ = await linker();
+    final tool = toolInstance_.tool;
+    if (tool.isClangLike || tool.isLdLike) {
+      await linkClangLike(tool: toolInstance_);
+      return;
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
     }
@@ -141,12 +154,8 @@ class RunCBuilder {
       archiver_ = await archiver();
     }
 
-    final IOSSdk? targetIosSdk;
-    if (codeConfig.targetOS == OS.iOS) {
-      targetIosSdk = codeConfig.iOS.targetSdk;
-    } else {
-      targetIosSdk = null;
-    }
+    final targetIosSdk =
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetSdk : null;
 
     // The Android Gradle plugin does not honor API level 19 and 20 when
     // invoking clang. Mimic that behavior here.
@@ -209,6 +218,45 @@ class RunCBuilder {
         environment,
       );
     }
+  }
+
+  Future<void> linkClangLike({required ToolInstance tool}) async {
+    // Clang for Windows requires the MSVC Developer Environment.
+    final environment = await _resolver.resolveEnvironment(tool);
+
+    assert(staticLibrary == null);
+
+    final targetIosSdk =
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetSdk : null;
+
+    // The Android Gradle plugin does not honor API level 19 and 20 when
+    // invoking clang. Mimic that behavior here.
+    // See https://github.com/dart-lang/native/issues/171.
+    final int? targetAndroidNdkApi;
+    if (codeConfig.targetOS == OS.android) {
+      final minimumApi =
+          codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      targetAndroidNdkApi = max(codeConfig.android.targetNdkApi, minimumApi);
+    } else {
+      targetAndroidNdkApi = null;
+    }
+
+    final targetIOSVersion =
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetVersion : null;
+    final targetMacOSVersion =
+        codeConfig.targetOS == OS.macOS ? codeConfig.macOS.targetVersion : null;
+
+    await _linkClangLike(
+      tool,
+      codeConfig.targetArchitecture,
+      targetAndroidNdkApi,
+      targetIosSdk,
+      targetIOSVersion,
+      targetMacOSVersion,
+      sources.map((e) => e.toFilePath()).toList(),
+      dynamicLibrary != null ? outDir.resolveUri(dynamicLibrary!) : null,
+      environment,
+    );
   }
 
   /// [toolInstance] is either a compiler or a linker.
@@ -305,7 +353,9 @@ class RunCBuilder {
         for (final include in includes) '-I${include.toFilePath()}',
         for (final forcedInclude in forcedIncludes)
           '-include${forcedInclude.toFilePath()}',
-        ...sourceFiles,
+        ...(linkerOptions != null
+            ? linkerOptions!.transformSources(toolInstance.tool, sourceFiles)
+            : sourceFiles),
         if (language == Language.objectiveC) ...[
           for (final framework in frameworks) ...['-framework', framework],
         ],
@@ -314,6 +364,120 @@ class RunCBuilder {
           outDir.resolveUri(executable!).toFilePath(),
         ] else if (dynamicLibrary != null) ...[
           '--shared',
+          '-o',
+          outFile!.toFilePath(),
+        ] else if (staticLibrary != null) ...[
+          '-c',
+          '-o',
+          outFile!.toFilePath(),
+        ],
+        ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
+            [],
+        if (executable != null || dynamicLibrary != null) ...[
+          if (codeConfig.targetOS case OS.android || OS.linux)
+            // During bundling code assets are all placed in the same directory.
+            // Setting this rpath allows the binary to find other code assets
+            // it is linked against.
+            if (linkerOptions != null)
+              '-rpath=\$ORIGIN'
+            else
+              '-Wl,-rpath=\$ORIGIN',
+          for (final directory in libraryDirectories)
+            '-L${directory.toFilePath()}',
+          for (final library in libraries) '-l$library',
+        ],
+      ],
+      logger: logger,
+      captureOutput: false,
+      throwOnUnexpectedExitCode: true,
+    );
+  }
+
+  /// [toolInstance] is either a compiler or a linker.
+  Future<void> _linkClangLike(
+    ToolInstance toolInstance,
+    Architecture? architecture,
+    int? targetAndroidNdkApi,
+    IOSSdk? targetIosSdk,
+    int? targetIOSVersion,
+    int? targetMacOSVersion,
+    Iterable<String> sourceFiles,
+    Uri? outFile,
+    Map<String, String> environment,
+  ) async {
+    await runProcess(
+      executable: toolInstance.uri,
+      environment: environment,
+      arguments: [
+        if (installName != null) ...[
+          '-install_name',
+          installName!.toFilePath(),
+        ],
+        if (targetMacOSVersion != null) ...[
+          '-macos_version_min',
+          '$targetMacOSVersion',
+        ],
+        '-dylib',
+        ...['-arch', 'arm64'],
+        if (pic != null)
+          if (toolInstance.tool.isClangLike &&
+              codeConfig.targetOS != OS.windows) ...[
+            if (pic!) ...[
+              if (dynamicLibrary != null) '-fPIC',
+              if (executable != null) ...[
+                // Generate position-independent code for executables.
+                '-fPIE',
+                // Tell the linker to generate a position-independent
+                // executable.
+                '-pie',
+              ],
+            ] else ...[
+              // Disable generation of any kind of position-independent code.
+              '-fno-PIC',
+              '-fno-PIE',
+              // Tell the linker to generate a position-dependent executable.
+              if (executable != null) '-no-pie',
+            ],
+          ] else if (toolInstance.tool.isLdLike) ...[
+            if (pic!) ...[
+              if (executable != null) '--pie',
+            ] else ...[
+              if (executable != null) '--no-pie',
+            ],
+          ],
+        if (std != null) '-std=$std',
+        if (language == Language.cpp) ...[
+          '-x',
+          'c++',
+          '-l',
+          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
+        ],
+        if (codeConfig.targetOS == OS.macOS) ...[
+          '-syslibroot',
+          (await macosSdk(logger: logger)).toFilePath(),
+        ],
+        if (optimizationLevel != OptimizationLevel.unspecified)
+          optimizationLevel.clangFlag(),
+        ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
+        // Support Android 15 page size by default, can be overridden by
+        // passing [flags].
+        if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
+        ...flags,
+        for (final MapEntry(key: name, :value) in defines.entries)
+          if (value == null) '-D$name' else '-D$name=$value',
+        for (final include in includes) '-I${include.toFilePath()}',
+        for (final forcedInclude in forcedIncludes)
+          '-include${forcedInclude.toFilePath()}',
+        ...(linkerOptions != null
+            ? linkerOptions!.transformSources(toolInstance.tool, sourceFiles)
+            : sourceFiles),
+        if (language == Language.objectiveC) ...[
+          for (final framework in frameworks) ...['-framework', framework],
+        ],
+        if (executable != null) ...[
+          '-o',
+          outDir.resolveUri(executable!).toFilePath(),
+        ] else if (dynamicLibrary != null) ...[
           '-o',
           outFile!.toFilePath(),
         ] else if (staticLibrary != null) ...[

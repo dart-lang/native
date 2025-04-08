@@ -10,49 +10,47 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 Future<void> main() async {
-  for (final os in OS.values) {
-    if (Platform.isLinux) {
-      // Is implemented.
-      continue;
-    }
-
-    test('throws on some platforms', () async {
-      final tempUri = await tempDirForTest();
-      final tempUri2 = await tempDirForTest();
-
-      final linkInputBuilder =
-          LinkInputBuilder()
-            ..setupShared(
-              packageName: 'testpackage',
-              packageRoot: tempUri,
-              outputFile: tempUri.resolve('output.json'),
-              outputDirectoryShared: tempUri2,
-              outputDirectory: tempUri,
-            )
-            ..setupLink(assets: [], recordedUsesFile: null)
-            ..addExtension(
-              CodeAssetExtension(
-                targetOS: os,
-                targetArchitecture: Architecture.x64,
-                linkModePreference: LinkModePreference.dynamic,
-                cCompiler: cCompiler,
-              ),
-            );
-
-      final linkHookInput = LinkInput(linkInputBuilder.json);
-
-      final cLinker = CLinker.library(
-        name: 'mylibname',
-        linkerOptions: LinkerOptions.manual(),
-      );
-      await expectLater(
-        () => cLinker.run(
-          input: linkHookInput,
-          output: LinkOutputBuilder(),
-          logger: logger,
-        ),
-        throwsUnsupportedError,
-      );
-    });
+  if (Platform.isLinux || Platform.isMacOS) {
+    // Is implemented.
+    return;
   }
+
+  test('throws on some platforms', () async {
+    final tempUri = await tempDirForTest();
+    final tempUri2 = await tempDirForTest();
+
+    final linkInputBuilder =
+        LinkInputBuilder()
+          ..setupShared(
+            packageName: 'testpackage',
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+            outputDirectory: tempUri,
+          )
+          ..setupLink(assets: [], recordedUsesFile: null)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.current,
+              targetArchitecture: Architecture.x64,
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
+          );
+
+    final linkHookInput = LinkInput(linkInputBuilder.json);
+
+    final cLinker = CLinker.library(
+      name: 'mylibname',
+      linkerOptions: LinkerOptions.manual(),
+    );
+    await expectLater(
+      () => cLinker.run(
+        input: linkHookInput,
+        output: LinkOutputBuilder(),
+        logger: logger,
+      ),
+      throwsUnsupportedError,
+    );
+  });
 }

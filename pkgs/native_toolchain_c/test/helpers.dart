@@ -248,7 +248,7 @@ Future<String> nmReadSymbols(CodeAsset asset) async {
   final assetUri = asset.file!;
   final result = await runProcess(
     executable: Uri(path: 'nm'),
-    arguments: ['-D', assetUri.toFilePath()],
+    arguments: [assetUri.toFilePath()],
     logger: logger,
   );
 
@@ -260,7 +260,7 @@ Future<void> expectSymbols({
   required CodeAsset asset,
   required List<String> symbols,
 }) async {
-  if (Platform.isLinux) {
+  if (Platform.isLinux || Platform.isMacOS) {
     final nmOutput = await nmReadSymbols(asset);
 
     expect(nmOutput, stringContainsInOrder(symbols));

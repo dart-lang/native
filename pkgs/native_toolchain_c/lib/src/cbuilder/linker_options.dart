@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
+
 import '../native_toolchain/tool_likeness.dart';
 import '../tool/tool.dart';
 
@@ -31,7 +33,7 @@ class LinkerOptions {
   ///
   /// This is achieved by setting the `whole-archive` flag before passing the
   /// sources, and the `no-whole-archive` flag after.
-  final bool _wholeArchiveSandwich;
+  final bool _includeAllSymbols;
 
   /// Create linking options manually for fine-grained control.
   LinkerOptions.manual({
@@ -40,7 +42,7 @@ class LinkerOptions {
     this.linkerScript,
   }) : _linkerFlags = flags ?? [],
        gcSections = gcSections ?? true,
-       _wholeArchiveSandwich = false;
+       _includeAllSymbols = false;
 
   /// Create linking options to tree-shake symbols from the input files.
   ///
@@ -55,7 +57,7 @@ class LinkerOptions {
              if (symbols != null) ...symbols.expand((e) => ['-u', e]),
            ].toList(),
        gcSections = true,
-       _wholeArchiveSandwich = symbols == null,
+       _includeAllSymbols = symbols == null,
        linkerScript = _createLinkerScript(symbols);
 
   Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
@@ -96,8 +98,9 @@ extension LinkerOptionsExt on LinkerOptions {
   Iterable<String> preSourcesFlags(Tool linker, Iterable<String> sourceFiles) =>
       _toLinkerSyntax(
         linker,
-        sourceFiles.any((source) => source.endsWith('.a')) ||
-                _wholeArchiveSandwich
+        (sourceFiles.any((source) => source.endsWith('.a')) ||
+                    _includeAllSymbols) &&
+                OS.current == OS.linux
             ? ['--whole-archive']
             : [],
       );
@@ -116,8 +119,26 @@ extension LinkerOptionsExt on LinkerOptions {
     ..._linkerFlags,
     if (gcSections) '--gc-sections',
     if (linkerScript != null) '--version-script=${linkerScript!.toFilePath()}',
-    if (sourceFiles.any((source) => source.endsWith('.a')) ||
-        _wholeArchiveSandwich)
+    if ((sourceFiles.any((source) => source.endsWith('.a')) ||
+            _includeAllSymbols) &&
+        OS.current == OS.linux)
       '--no-whole-archive',
   ]);
+
+  Iterable<String> transformSources(
+    Tool linker,
+    Iterable<String> sourceFiles,
+  ) => switch (OS.current) {
+    OS.linux => sourceFiles,
+    OS.macOS => sourceFiles.expand(
+      (source) =>
+          source.endsWith('.a')
+              ? [
+                _toLinkerSyntax(linker, ['-force_load']).first,
+                source,
+              ]
+              : [source],
+    ),
+    OS() => sourceFiles,
+  };
 }
