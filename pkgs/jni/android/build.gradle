@@ -49,12 +49,7 @@ android {
     // to bump the version in their app.
     compileSdkVersion 31
 
-    // Bumping the plugin ndkVersion requires all clients of this plugin to bump
-    // the version in their app and to download a newer version of the NDK.
-    // Note(MaheshH) - Flutter seems to download minimum NDK of flutter when
-    // below line is commented out.
-    // How about leaving it?
-    // ndkVersion "21.1.6352462"
+    ndkVersion flutter.ndkVersion
 
     // Invoke the shared CMake build with the Android Gradle Plugin.
     externalNativeBuild {

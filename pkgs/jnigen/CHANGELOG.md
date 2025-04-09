@@ -5,6 +5,8 @@
   package bindings will need to delete them once for it to start working.
 - Added the ability to generate classes in Java SDK (`java.core`) module without
   providing the class path.
+- Added gradle support for new Flutter projects that use `build.gradle.kts`
+  instead of `build.gradle`.
 
 ## 0.14.1
 
