@@ -62,10 +62,7 @@ Future<void> main() async {
     await CLinker.library(
       name: name,
       assetName: '',
-      linkerOptions: LinkerOptions.manual(
-        gcSections: false,
-        flags: os == OS.macOS ? ['-lSystem'] : null,
-      ),
+      linkerOptions: LinkerOptions.manual(gcSections: false),
       sources: [uri.toFilePath()],
     ).run(input: linkInput, output: linkOutput, logger: logger);
 

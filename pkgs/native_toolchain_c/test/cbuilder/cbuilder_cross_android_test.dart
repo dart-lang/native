@@ -19,14 +19,6 @@ void main() {
     Architecture.riscv64,
   ];
 
-  const objdumpFileFormat = {
-    Architecture.arm: 'elf32-littlearm',
-    Architecture.arm64: 'elf64-littleaarch64',
-    Architecture.ia32: 'elf32-i386',
-    Architecture.x64: 'elf64-x86-64',
-    Architecture.riscv64: 'elf64-littleriscv',
-  };
-
   /// From https://docs.flutter.dev/reference/supported-platforms.
   const flutterAndroidNdkVersionLowestBestEffort = 19;
 
@@ -60,21 +52,7 @@ void main() {
             linkMode,
             optimizationLevel: optimizationLevel,
           );
-          if (Platform.isLinux) {
-            final machine = await readelfMachine(libUri.path);
-            expect(machine, contains(readElfMachine[target]));
-          } else if (Platform.isMacOS) {
-            final result = await runProcess(
-              executable: Uri.file('objdump'),
-              arguments: ['-T', libUri.path],
-              logger: logger,
-            );
-            expect(result.exitCode, 0);
-            final machine = result.stdout
-                .split('\n')
-                .firstWhere((e) => e.contains('file format'));
-            expect(machine, contains(objdumpFileFormat[target]));
-          }
+          await checkArchitecture(libUri.path, target);
           if (linkMode == DynamicLoadingBundled()) {
             await expectPageSize(libUri, 16 * 1024);
           }
@@ -182,4 +160,37 @@ Future<Uri> buildLib(
     OS.android.libraryFileName(name, linkMode),
   );
   return libUri;
+}
+
+Future<void> checkArchitecture(String libUri, Architecture target) async {
+  if (Platform.isLinux) {
+    final readElfMachine = switch (target) {
+      Architecture.arm => 'ARM',
+      Architecture.arm64 => 'AArch64',
+      Architecture.ia32 => 'Intel 80386',
+      Architecture.x64 => 'Advanced Micro Devices X86-64',
+      Architecture.riscv64 => 'RISC-V',
+      Architecture() =>
+        throw UnimplementedError('No readelf output for $target yet.'),
+    };
+    final machine = await readelfMachine(libUri);
+    expect(machine, contains(readElfMachine));
+  } else if (Platform.isMacOS) {
+    final objdumpFileFormat = switch (target) {
+      Architecture.arm64 => 'mach-o arm64',
+      Architecture.x64 => 'mach-o 64-bit x86-64',
+      Architecture() =>
+        throw UnimplementedError('No objdump output for $target yet.'),
+    };
+    final result = await runProcess(
+      executable: Uri.file('objdump'),
+      arguments: ['-T', libUri],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final machine = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('file format'));
+    expect(machine, contains(objdumpFileFormat));
+  }
 }

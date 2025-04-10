@@ -4,7 +4,7 @@
 
 //TODO(mosuem): Enable for windows and mac.
 // See https://github.com/dart-lang/native/issues/1376.
-@TestOn('linux')
+@TestOn('linux || mac-os')
 library;
 
 import 'dart:io';
@@ -15,18 +15,22 @@ import 'package:test/test.dart';
 import 'treeshake_helper.dart';
 
 Future<void> main() async {
-  if (!Platform.isLinux) {
+  if (!(Platform.isLinux || Platform.isMacOS)) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
-  final architectures = [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  ]..remove(Architecture.current);
+  final architectures = switch (OS.current) {
+    OS.linux => [
+      Architecture.arm,
+      Architecture.arm64,
+      Architecture.ia32,
+      Architecture.x64,
+      Architecture.riscv64,
+    ],
+    OS.macOS => [Architecture.arm64, Architecture.x64],
+    OS() => throw UnsupportedError('No support for ${OS.current}'),
+  }..remove(Architecture.current);
 
   await runTests(architectures);
 }

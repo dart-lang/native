@@ -225,14 +225,6 @@ Future<String> readelfMachine(String path) async {
   return result.split('\n').firstWhere((e) => e.contains('Machine:'));
 }
 
-const readElfMachine = {
-  Architecture.arm: 'ARM',
-  Architecture.arm64: 'AArch64',
-  Architecture.ia32: 'Intel 80386',
-  Architecture.x64: 'Advanced Micro Devices X86-64',
-  Architecture.riscv64: 'RISC-V',
-};
-
 Future<String> readelf(String filePath, String flags) async {
   final result = await runProcess(
     executable: Uri.file('readelf'),

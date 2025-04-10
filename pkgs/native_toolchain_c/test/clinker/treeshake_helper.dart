@@ -12,6 +12,7 @@ import 'dart:io';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
+import '../cbuilder/cbuilder_cross_android_test.dart' show checkArchitecture;
 import '../helpers.dart';
 import 'build_testfiles.dart';
 
@@ -21,11 +22,12 @@ Future<void> runTests(List<Architecture> architectures) async {
     assetName: '',
     sources: sources,
     linkerOptions: LinkerOptions.manual(
-      flags: ['--strip-debug', '-u', 'my_other_func'],
+      flags: ['-u', '${OS.current == OS.macOS ? '_' : ''}my_other_func'],
       gcSections: true,
       linkerScript: packageUri.resolve(
         'test/clinker/testfiles/linker/symbols.lds',
       ),
+      includeAllSymbols: false,
     ),
   );
   CLinker linkerAuto(List<String> sources) => CLinker.library(
@@ -101,8 +103,7 @@ Future<void> runTests(List<Architecture> architectures) async {
           final asset = linkOutput.assets.code.first;
           final filePath = asset.file!.toFilePath();
 
-          final machine = await readelfMachine(filePath);
-          expect(machine, contains(readElfMachine[architecture]));
+          await checkArchitecture(filePath, architecture);
 
           final symbols = await nmReadSymbols(asset);
           if (clinker.linker != linkerAutoEmpty) {
@@ -113,7 +114,8 @@ Future<void> runTests(List<Architecture> architectures) async {
             expect(symbols, contains('my_func'));
           }
 
-          final du = Process.runSync('du', ['-sb', filePath]).stdout as String;
+          final du =
+              Process.runSync('stat', ['-f%z', filePath]).stdout as String;
           final sizeInBytes = int.parse(du.split('\t')[0]);
           sizes[clinker.name] = sizeInBytes;
         },

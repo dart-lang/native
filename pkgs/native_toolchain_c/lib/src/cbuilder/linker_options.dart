@@ -17,7 +17,7 @@ import '../tool/tool.dart';
 class LinkerOptions {
   /// The flags to be passed to the linker. As they depend on the linker being
   /// invoked, the actual usage is via the [postSourcesFlags] method.
-  final List<String> _linkerFlags;
+  final List<String> linkerFlags;
 
   /// Enable garbage collection of unused input sections.
   ///
@@ -33,16 +33,22 @@ class LinkerOptions {
   ///
   /// This is achieved by setting the `whole-archive` flag before passing the
   /// sources, and the `no-whole-archive` flag after.
-  final bool _includeAllSymbols;
+  final bool includeAllSymbols;
+
+  final bool linkStandardLibraries;
+
+  final bool stripDebug;
 
   /// Create linking options manually for fine-grained control.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
     this.linkerScript,
-  }) : _linkerFlags = flags ?? [],
-       gcSections = gcSections ?? true,
-       _includeAllSymbols = false;
+    this.linkStandardLibraries = true,
+    this.includeAllSymbols = true,
+    this.stripDebug = true,
+  }) : linkerFlags = flags ?? [],
+       gcSections = gcSections ?? true;
 
   /// Create linking options to tree-shake symbols from the input files.
   ///
@@ -50,17 +56,21 @@ class LinkerOptions {
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
-  }) : _linkerFlags =
+    this.linkStandardLibraries = true,
+    this.stripDebug = true,
+  }) : linkerFlags =
            <String>[
              ...flags ?? [],
-             '--strip-debug',
-             if (symbols != null) ...symbols.expand((e) => ['-u', e]),
+             if (symbols != null)
+               ...symbols.expand(
+                 (e) => ['-u', (OS.current == OS.macOS ? '_' : '') + e],
+               ),
            ].toList(),
        gcSections = true,
-       _includeAllSymbols = symbols == null,
+       includeAllSymbols = symbols == null,
        linkerScript = _createLinkerScript(symbols);
 
-  Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
+  Iterable<String> toLinkerSyntax(Tool linker, List<String> flagList) {
     if (linker.isClangLike) {
       return flagList.map((e) => '-Wl,$e');
     } else if (linker.isLdLike) {
@@ -85,60 +95,4 @@ class LinkerOptions {
 ''');
     return symbolsFileUri;
   }
-}
-
-extension LinkerOptionsExt on LinkerOptions {
-  /// The flags for the specified [linker], which are inserted _before_ the
-  /// sources.
-  ///
-  /// This is mainly used for the whole-archive ... no-whole-archive
-  /// trick, which includes all symbols when linking object files.
-  ///
-  /// Throws if the [linker] is not supported.
-  Iterable<String> preSourcesFlags(Tool linker, Iterable<String> sourceFiles) =>
-      _toLinkerSyntax(
-        linker,
-        (sourceFiles.any((source) => source.endsWith('.a')) ||
-                    _includeAllSymbols) &&
-                OS.current == OS.linux
-            ? ['--whole-archive']
-            : [],
-      );
-
-  /// The flags for the specified [linker], which are inserted _after_ the
-  /// sources.
-  ///
-  /// This is mainly used for the whole-archive ... no-whole-archive
-  /// trick, which includes all symbols when linking object files.
-  ///
-  /// Throws if the [linker] is not supported.
-  Iterable<String> postSourcesFlags(
-    Tool linker,
-    Iterable<String> sourceFiles,
-  ) => _toLinkerSyntax(linker, [
-    ..._linkerFlags,
-    if (gcSections) OS.current == OS.macOS ? '-dead_strip' : '--gc-sections',
-    if (linkerScript != null) '--version-script=${linkerScript!.toFilePath()}',
-    if ((sourceFiles.any((source) => source.endsWith('.a')) ||
-            _includeAllSymbols) &&
-        OS.current == OS.linux)
-      '--no-whole-archive',
-  ]);
-
-  Iterable<String> transformSources(
-    Tool linker,
-    Iterable<String> sourceFiles,
-  ) => switch (OS.current) {
-    OS.linux => sourceFiles,
-    OS.macOS => sourceFiles.expand(
-      (source) =>
-          source.endsWith('.a')
-              ? [
-                _toLinkerSyntax(linker, ['-force_load']).first,
-                source,
-              ]
-              : [source],
-    ),
-    OS() => sourceFiles,
-  };
 }
