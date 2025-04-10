@@ -267,8 +267,8 @@ void registerCommonTests(Classes classes) {
     final selfBoundType = selfBound as DeclaredType;
     expect(selfBoundType.params, hasLength(2));
     expect(selfBoundType.params.map((e) => e.name), ['S', 'K']);
-    expect(selfBoundType.params[0], isA<TypeVar>);
-    expect(selfBoundType.params[1], isA<TypeVar>);
+    expect(selfBoundType.params[0], isA<TypeVar>());
+    expect(selfBoundType.params[1], isA<TypeVar>());
   });
 }
 
