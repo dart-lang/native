@@ -25,7 +25,7 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
-  assert(os == OS.linux); // Setup code input for other OSes.
+  assert(CLinker.supportedLinkingOSs.contains(os));
   final buildInputBuilder =
       BuildInputBuilder()
         ..setupShared(
@@ -42,6 +42,10 @@ Future<Uri> buildTestArchive(
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
+            macOS:
+                os == OS.macOS
+                    ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                    : null,
           ),
         );
 
