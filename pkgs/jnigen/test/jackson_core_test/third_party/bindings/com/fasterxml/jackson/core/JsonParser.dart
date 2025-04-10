@@ -79,7 +79,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature AUTO_CLOSE_SOURCE`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature AUTO_CLOSE_SOURCE`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether parser will automatically
@@ -100,7 +100,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_COMMENTS`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_COMMENTS`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether parser will allow use
@@ -124,7 +124,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_YAML_COMMENTS`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_YAML_COMMENTS`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether parser will allow use
@@ -148,7 +148,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_UNQUOTED_FIELD_NAMES`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_UNQUOTED_FIELD_NAMES`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether parser will allow use
@@ -170,7 +170,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_SINGLE_QUOTES`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_SINGLE_QUOTES`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether parser will allow use
@@ -193,7 +193,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_UNQUOTED_CONTROL_CHARS`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_UNQUOTED_CONTROL_CHARS`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether parser will allow
@@ -216,7 +216,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that can be enabled to accept quoting of all character
@@ -236,7 +236,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_NUMERIC_LEADING_ZEROS`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_NUMERIC_LEADING_ZEROS`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether parser will allow
@@ -258,7 +258,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// @deprecated Use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS instead
@@ -271,7 +271,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_NON_NUMERIC_NUMBERS`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_NON_NUMERIC_NUMBERS`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that allows parser to recognize set of
@@ -300,7 +300,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_MISSING_VALUES`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_MISSING_VALUES`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature allows the support for "missing" values in a JSON array: missing
@@ -325,7 +325,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature ALLOW_TRAILING_COMMA`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature ALLOW_TRAILING_COMMA`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether JsonParser will allow for a single trailing
@@ -355,7 +355,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature STRICT_DUPLICATE_DETECTION`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature STRICT_DUPLICATE_DETECTION`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether JsonParser will explicitly
@@ -380,7 +380,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature IGNORE_UNDEFINED`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature IGNORE_UNDEFINED`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines what to do if the underlying data format requires knowledge
@@ -410,7 +410,7 @@ class JsonParser$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.Feature INCLUDE_SOURCE_IN_LOCATION`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$Feature INCLUDE_SOURCE_IN_LOCATION`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether JsonLocation instances should be constructed
@@ -450,7 +450,7 @@ class JsonParser$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature[] values()`
+  /// from: `static public com.fasterxml.jackson.core.JsonParser$Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonParser$Feature?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
@@ -475,7 +475,7 @@ class JsonParser$Feature extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.fasterxml.jackson.core.JsonParser.Feature valueOf(java.lang.String name)`
+  /// from: `static public com.fasterxml.jackson.core.JsonParser$Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$Feature? valueOf(
     jni$_.JString? name,
@@ -690,7 +690,7 @@ class JsonParser$NumberType extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.NumberType INT`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType INT`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get INT =>
       _id_INT.get(_class, const $JsonParser$NumberType$Type());
@@ -700,7 +700,7 @@ class JsonParser$NumberType extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.NumberType LONG`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType LONG`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get LONG =>
       _id_LONG.get(_class, const $JsonParser$NumberType$Type());
@@ -710,7 +710,7 @@ class JsonParser$NumberType extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.NumberType BIG_INTEGER`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType BIG_INTEGER`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get BIG_INTEGER =>
       _id_BIG_INTEGER.get(_class, const $JsonParser$NumberType$Type());
@@ -720,7 +720,7 @@ class JsonParser$NumberType extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.NumberType FLOAT`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType FLOAT`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get FLOAT =>
       _id_FLOAT.get(_class, const $JsonParser$NumberType$Type());
@@ -730,7 +730,7 @@ class JsonParser$NumberType extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.NumberType DOUBLE`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType DOUBLE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get DOUBLE =>
       _id_DOUBLE.get(_class, const $JsonParser$NumberType$Type());
@@ -740,7 +740,7 @@ class JsonParser$NumberType extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonParser.NumberType BIG_DECIMAL`
+  /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType BIG_DECIMAL`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get BIG_DECIMAL =>
       _id_BIG_DECIMAL.get(_class, const $JsonParser$NumberType$Type());
@@ -762,7 +762,7 @@ class JsonParser$NumberType extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType[] values()`
+  /// from: `static public com.fasterxml.jackson.core.JsonParser$NumberType[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonParser$NumberType?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
@@ -787,7 +787,7 @@ class JsonParser$NumberType extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.fasterxml.jackson.core.JsonParser.NumberType valueOf(java.lang.String name)`
+  /// from: `static public com.fasterxml.jackson.core.JsonParser$NumberType valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType? valueOf(
     jni$_.JString? name,
@@ -1823,7 +1823,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonParser enable(com.fasterxml.jackson.core.JsonParser.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonParser enable(com.fasterxml.jackson.core.JsonParser$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
@@ -1855,7 +1855,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonParser disable(com.fasterxml.jackson.core.JsonParser.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonParser disable(com.fasterxml.jackson.core.JsonParser$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified  feature
@@ -1888,7 +1888,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)`
+  /// from: `public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser$Feature f, boolean state)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified feature
@@ -1922,7 +1922,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)`
+  /// from: `public boolean isEnabled(com.fasterxml.jackson.core.JsonParser$Feature f)`
   ///
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
@@ -3401,7 +3401,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract com.fasterxml.jackson.core.JsonParser.NumberType getNumberType()`
+  /// from: `public abstract com.fasterxml.jackson.core.JsonParser$NumberType getNumberType()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// If current token is of type

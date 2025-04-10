@@ -92,7 +92,7 @@ class Example extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)`
+  /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation<?> continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> thinkBeforeAnswering() async {
     final $p = jni$_.ReceivePort();

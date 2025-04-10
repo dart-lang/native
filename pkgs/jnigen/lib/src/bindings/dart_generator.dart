@@ -67,12 +67,12 @@ extension on String {
 
 extension on DeclaredType {
   List<T> mapTypeParameters<T>(
-    T Function(bool isNullable, TypeUsage definedType) mapper,
+    T Function(bool isNullable, ReferredType definedType) mapper,
   ) {
     final result = <T>[];
     final offset = classDecl.allTypeParams.length - params.length;
     for (var i = 0; i < classDecl.allTypeParams.length; ++i) {
-      final param = i >= offset ? params[i - offset] : TypeUsage.object;
+      final param = i >= offset ? params[i - offset] : DeclaredType.object;
       result.add(mapper(classDecl.allTypeParams[i].isNullable, param));
     }
     return result;
@@ -387,7 +387,7 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     final ctorTypeClassesDef = typeParams
         .map((typeParam) => 'this.$typeParam,')
         .join(_newLine(depth: 2));
-    final superClass = node.classDecl.superclass!.type as DeclaredType;
+    final superClass = node.classDecl.superclass! as DeclaredType;
     final superTypeClassesCall = superClass.classDecl.isObject
         ? ''
         : superClass.params
@@ -666,16 +666,12 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
               annotations: [Annotation.nullable],
               params: node.allTypeParams
                   .map(
-                    (typeParam) => TypeUsage(
-                      shorthand: '',
-                      kind: Kind.typeVariable,
-                      typeJson: {},
-                    )..type = (TypeVar(name: typeParam.name)
+                    (typeParam) => TypeVar(name: typeParam.name)
                       ..origin = TypeParam(
                         name: typeParam.name,
                         annotations: [Annotation.nonNull],
                         bounds: typeParam.bounds,
-                      )),
+                      ),
                   )
                   .toList(),
             )..classDecl = node)
@@ -818,7 +814,7 @@ class _TypeGenerator extends TypeVisitor<String> {
       arrayType: true,
       isTopTypeNullable: true,
     );
-    if (innerType.kind == Kind.primitive) {
+    if (innerType is PrimitiveType) {
       return '$_jni.J${innerType.accept(typeGenerator)}Array$nullable';
     }
     return '$_jArray<${innerType.accept(typeGenerator)}>$nullable';
@@ -973,7 +969,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final type = includeNullability && node.isNullable && isTopTypeNullable
         ? 'NullableType'
         : 'Type';
-    if (node.elementType.kind == Kind.primitive) {
+    if (node.elementType is PrimitiveType) {
       return _TypeClass(
         '$ifConst$_jni.J${innerType}Array$type()',
         innerTypeClass.canBeConst,
@@ -1222,9 +1218,9 @@ ${modifier}final _id_$name =
   }
 
   void writeDocs(Field node, {required bool writeReleaseInstructions}) {
-    final originalDecl = '${node.type.shorthand} ${node.name}';
+    final originalDecl = '${node.type.name} ${node.name}';
     s.writeln('  /// from: `${node.modifiers.join(' ')} $originalDecl`');
-    if (node.type.kind != Kind.primitive && writeReleaseInstructions) {
+    if (node.type is! PrimitiveType && writeReleaseInstructions) {
       s.writeln(_releaseInstruction);
     }
     node.javadoc?.accept(_DocGenerator(s, depth: 1));
@@ -1369,10 +1365,10 @@ ${modifier}final _$name = $_protectedExtension
     // Docs
     s.write('  /// from: `');
     s.writeAll(node.modifiers.map((m) => '$m '));
-    s.write('${node.returnType.shorthand} ${node.name}(');
-    s.writeAll(node.params.map((p) => '${p.type.shorthand} ${p.name}'), ', ');
+    s.write('${node.returnType.name} ${node.name}(');
+    s.writeAll(node.params.map((p) => '${p.type.name} ${p.name}'), ', ');
     s.writeln(')`');
-    if (node.returnType.kind != Kind.primitive || node.isConstructor) {
+    if (node.returnType is! PrimitiveType || node.isConstructor) {
       s.writeln(_releaseInstruction);
     }
     node.javadoc?.accept(_DocGenerator(s, depth: 1));
@@ -1584,7 +1580,7 @@ class _ParamReference extends Visitor<Param, String> {
 
   @override
   String visit(Param node) {
-    if (node.type.kind == Kind.primitive) {
+    if (node.type is PrimitiveType) {
       return '';
     }
     final nullable = node.isNullable ? '?' : '';
@@ -1606,7 +1602,7 @@ class _ParamCall extends Visitor<Param, String> {
   @override
   String visit(Param node) {
     final nativeSuffix = node.type.accept(const _ToNativeSuffix());
-    final nonPrimitive = node.type.kind == Kind.primitive ? '' : r'_$';
+    final nonPrimitive = node.type is PrimitiveType ? '' : r'_$';
     final paramCall = '$nonPrimitive${node.finalName}$nativeSuffix';
     return paramCall;
   }
@@ -1945,12 +1941,11 @@ class _InterfaceParamCast extends Visitor<Param, void> {
           ),
         )
         .name;
-    final nullable =
-        node.isNullable && node.type.kind != Kind.primitive ? '?' : '!';
+    final nullable = node.isNullable && node.type is! PrimitiveType ? '?' : '!';
     s.write('\$a![$paramIndex]$nullable.as($typeClass, releaseOriginal: true)');
-    if (node.type.kind == Kind.primitive) {
+    if (node.type is PrimitiveType) {
       // Convert to Dart type.
-      final name = (node.type.type as PrimitiveType).name;
+      final name = node.type.name;
       s.write('.${name}Value(releaseOriginal: true)');
     }
     s.writeln(',');
@@ -2000,8 +1995,8 @@ class _CallMethodName extends Visitor<Method, String> {
       return 'globalEnv_NewObject';
     }
     final String type;
-    if (node.returnType.kind == Kind.primitive) {
-      type = (node.returnType.type as PrimitiveType).name.capitalize();
+    if (node.returnType is PrimitiveType) {
+      type = node.returnType.name.capitalize();
     } else {
       type = 'Object';
     }

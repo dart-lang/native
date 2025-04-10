@@ -80,7 +80,7 @@ class JsonFactory$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature INTERN_FIELD_NAMES`
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory$Feature INTERN_FIELD_NAMES`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether JSON object field names are
@@ -104,7 +104,7 @@ class JsonFactory$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature CANONICALIZE_FIELD_NAMES`
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory$Feature CANONICALIZE_FIELD_NAMES`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether JSON object field names are
@@ -122,7 +122,7 @@ class JsonFactory$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature FAIL_ON_SYMBOL_HASH_OVERFLOW`
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory$Feature FAIL_ON_SYMBOL_HASH_OVERFLOW`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines what happens if we encounter a case in symbol
@@ -145,7 +145,7 @@ class JsonFactory$Feature extends jni$_.JObject {
     r'Lcom/fasterxml/jackson/core/JsonFactory$Feature;',
   );
 
-  /// from: `static public final com.fasterxml.jackson.core.JsonFactory.Feature USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING`
+  /// from: `static public final com.fasterxml.jackson.core.JsonFactory$Feature USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Feature that determines whether we will use BufferRecycler with
@@ -181,7 +181,7 @@ class JsonFactory$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public com.fasterxml.jackson.core.JsonFactory.Feature[] values()`
+  /// from: `static public com.fasterxml.jackson.core.JsonFactory$Feature[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonFactory$Feature?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
@@ -206,7 +206,7 @@ class JsonFactory$Feature extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.fasterxml.jackson.core.JsonFactory.Feature valueOf(java.lang.String name)`
+  /// from: `static public com.fasterxml.jackson.core.JsonFactory$Feature valueOf(java.lang.String name)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonFactory$Feature? valueOf(
     jni$_.JString? name,
@@ -566,7 +566,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public com.fasterxml.jackson.core.TSFBuilder<?,?> rebuild()`
+  /// from: `public com.fasterxml.jackson.core.TSFBuilder<?, ?> rebuild()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method that allows construction of differently configured factory, starting
@@ -595,7 +595,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public com.fasterxml.jackson.core.TSFBuilder<?,?> builder()`
+  /// from: `static public com.fasterxml.jackson.core.TSFBuilder<?, ?> builder()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Main factory method to use for constructing JsonFactory instances with
@@ -808,7 +808,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatReadFeatureType()`
+  /// from: `public java.lang.Class<?> getFormatReadFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? getFormatReadFeatureType() {
     return _getFormatReadFeatureType(reference.pointer,
@@ -833,7 +833,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.lang.Class<? extends com.fasterxml.jackson.core.FormatFeature> getFormatWriteFeatureType()`
+  /// from: `public java.lang.Class<?> getFormatWriteFeatureType()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? getFormatWriteFeatureType() {
     return _getFormatWriteFeatureType(reference.pointer,
@@ -1011,7 +1011,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonFactory.Feature f, boolean state)`
+  /// from: `public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonFactory$Feature f, boolean state)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified parser feature
@@ -1046,7 +1046,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonFactory.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonFactory$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
@@ -1079,7 +1079,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonFactory.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonFactory$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified parser features
@@ -1112,7 +1112,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonFactory.Feature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonFactory$Feature f)`
   ///
   /// Checked whether specified parser feature is enabled.
   ///@param f Feature to check
@@ -1240,7 +1240,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonParser.Feature f, boolean state)`
+  /// from: `public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonParser$Feature f, boolean state)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified parser feature
@@ -1274,7 +1274,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonParser.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonParser$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified parser feature
@@ -1306,7 +1306,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonParser.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonParser$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified parser features
@@ -1338,7 +1338,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonParser.Feature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonParser$Feature f)`
   ///
   /// Method for checking if the specified parser feature is enabled.
   ///@param f Feature to check
@@ -1461,7 +1461,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonGenerator.Feature f, boolean state)`
+  /// from: `public final com.fasterxml.jackson.core.JsonFactory configure(com.fasterxml.jackson.core.JsonGenerator$Feature f, boolean state)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling or disabling specified generator feature
@@ -1495,7 +1495,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonGenerator.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonFactory enable(com.fasterxml.jackson.core.JsonGenerator$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for enabling specified generator features
@@ -1527,7 +1527,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonGenerator.Feature f)`
+  /// from: `public com.fasterxml.jackson.core.JsonFactory disable(com.fasterxml.jackson.core.JsonGenerator$Feature f)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for disabling specified generator feature
@@ -1559,7 +1559,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonGenerator.Feature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonGenerator$Feature f)`
   ///
   /// Check whether specified generator feature is enabled.
   ///@param f Feature to check

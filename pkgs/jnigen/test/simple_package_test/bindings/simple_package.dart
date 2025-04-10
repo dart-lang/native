@@ -1174,7 +1174,7 @@ class Example extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List getList()`
+  /// from: `public java.util.List<java.lang.String> getList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? getList() {
     return _getList(reference.pointer, _id_getList as jni$_.JMethodIDPtr)
@@ -1205,7 +1205,7 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.lang.String joinStrings(java.util.List list, java.lang.String string)`
+  /// from: `public java.lang.String joinStrings(java.util.List<java.lang.String> list, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? joinStrings(
     jni$_.JList<jni$_.JString?>? list,
@@ -1251,7 +1251,7 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void methodWithSeveralParams(char c, java.lang.String string, java.lang.Object[] is, T charSequence, java.util.List list, java.util.Map map)`
+  /// from: `public void methodWithSeveralParams(char c, java.lang.String string, int[] is, T charSequence, java.util.List<T> list, java.util.Map<java.lang.String, ?> map)`
   void methodWithSeveralParams<$T extends jni$_.JObject?>(
     int c,
     jni$_.JString? string,
@@ -1669,7 +1669,7 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void overloaded(java.util.List list, java.lang.String string)`
+  /// from: `public void overloaded(java.util.List<java.lang.Integer> list, java.lang.String string)`
   void overloaded$3(
     jni$_.JList<jni$_.JInteger?>? list,
     jni$_.JString? string,
@@ -1697,7 +1697,7 @@ class Example extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void overloaded(java.util.List list)`
+  /// from: `public void overloaded(java.util.List<java.lang.Integer> list)`
   void overloaded$4(
     jni$_.JList<jni$_.JInteger?>? list,
   ) {
@@ -3677,7 +3677,7 @@ class GrandParent$Parent$Child<
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent $outerClass, U object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent<T, S> $outerClass, U object)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$Parent$Child(
     GrandParent$Parent<$T?, $S?> $outerClass,
@@ -3927,7 +3927,7 @@ class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent $outerClass, S object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent<T> $outerClass, S object)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$Parent(
     GrandParent<$T?> $outerClass,
@@ -4153,7 +4153,7 @@ class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent $outerClass, S object, U object1)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<S> $outerClass, S object, U object1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$StaticParent$Child(
     GrandParent$StaticParent<$S?> $outerClass,
@@ -4559,7 +4559,7 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent.Parent stringParent()`
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent$Parent<T, java.lang.String> stringParent()`
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent$Parent<$T?, jni$_.JString?>? stringParent() {
     return _stringParent(
@@ -4585,7 +4585,7 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent.Parent varParent(S object)`
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent$Parent<T, S> varParent(S object)`
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent$Parent<$T?, $S?>? varParent<$S extends jni$_.JObject?>(
     $S? object, {
@@ -4616,7 +4616,7 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent stringStaticParent()`
+  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<java.lang.String> stringStaticParent()`
   /// The returned object must be released after use, by calling the [release] method.
   static GrandParent$StaticParent<jni$_.JString?>? stringStaticParent() {
     return _stringStaticParent(_class.reference.pointer,
@@ -4642,7 +4642,7 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent varStaticParent(S object)`
+  /// from: `static public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<S> varStaticParent(S object)`
   /// The returned object must be released after use, by calling the [release] method.
   static GrandParent$StaticParent<$S?>?
       varStaticParent<$S extends jni$_.JObject?>(
@@ -4673,7 +4673,7 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent staticParentWithSameType()`
+  /// from: `public com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<T> staticParentWithSameType()`
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent$StaticParent<$T?>? staticParentWithSameType() {
     return _staticParentWithSameType(reference.pointer,
@@ -4869,7 +4869,7 @@ class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap $outerClass, K object, V object1)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap<K, V> $outerClass, K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyMap$MyEntry(
     MyMap<$K?, $V?> $outerClass,
@@ -5156,7 +5156,7 @@ class MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public com.github.dart_lang.jnigen.generics.MyStack entryStack()`
+  /// from: `public com.github.dart_lang.jnigen.generics.MyStack<com.github.dart_lang.jnigen.generics.MyMap$MyEntry<K, V>> entryStack()`
   /// The returned object must be released after use, by calling the [release] method.
   MyStack<MyMap$MyEntry<$K?, $V?>?>? entryStack() {
     return _entryStack(reference.pointer, _id_entryStack as jni$_.JMethodIDPtr)
@@ -5348,7 +5348,7 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack fromArray(java.lang.Object[] objects)`
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> fromArray(T[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T?>? fromArray<$T extends jni$_.JObject?>(
     jni$_.JArray<$T?>? objects, {
@@ -5377,7 +5377,7 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack fromArrayOfArrayOfGrandParents(java.lang.Object[] grandParents)`
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<S> fromArrayOfArrayOfGrandParents(com.github.dart_lang.jnigen.generics.GrandParent<S>[][] grandParents)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$S?>?
       fromArrayOfArrayOfGrandParents<$S extends jni$_.JObject?>(
@@ -5409,7 +5409,7 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack of()`
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T?>? of<$T extends jni$_.JObject?>({
     required jni$_.JObjType<$T> T,
@@ -5434,7 +5434,7 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack of(T object)`
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T object)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T?>? of$1<$T extends jni$_.JObject?>(
     $T? object, {
@@ -5468,7 +5468,7 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack of(T object, T object1)`
+  /// from: `static public com.github.dart_lang.jnigen.generics.MyStack<T> of(T object, T object1)`
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T?>? of$2<$T extends jni$_.JObject?>(
     $T? object,
@@ -6259,7 +6259,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract java.lang.Object[] genericArrayOf(U object)`
+  /// from: `public abstract U[] genericArrayOf(U object)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<$U?>? genericArrayOf<$U extends jni$_.JObject?>(
     $U? object, {
@@ -6288,7 +6288,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract java.lang.Object[] arrayOf(T object)`
+  /// from: `public abstract T[] arrayOf(T object)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<$T?>? arrayOf(
     $T? object,
@@ -6322,7 +6322,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract java.util.Map mapOf(T object, U object1)`
+  /// from: `public abstract java.util.Map<T, U> mapOf(T object, U object1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JMap<$T?, $U?>? mapOf<$U extends jni$_.JObject?>(
     $T? object,
@@ -6353,7 +6353,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract U firstOfGenericArray(java.lang.Object[] objects)`
+  /// from: `public abstract U firstOfGenericArray(U[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
   $U? firstOfGenericArray<$U extends jni$_.JObject?>(
     jni$_.JArray<$U?>? objects, {
@@ -6381,7 +6381,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract T firstOfArray(java.lang.Object[] objects)`
+  /// from: `public abstract T firstOfArray(T[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstOfArray(
     jni$_.JArray<$T?>? objects,
@@ -6408,7 +6408,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract T firstKeyOf(java.util.Map map)`
+  /// from: `public abstract T firstKeyOf(java.util.Map<T, U> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOf<$U extends jni$_.JObject?>(
     jni$_.JMap<$T?, $U?>? map, {
@@ -6436,7 +6436,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract U firstValueOf(java.util.Map map)`
+  /// from: `public abstract U firstValueOf(java.util.Map<T, U> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $U? firstValueOf<$U extends jni$_.JObject?>(
     jni$_.JMap<$T?, $U?>? map, {
@@ -7891,7 +7891,7 @@ class MyInterfaceConsumer extends jni$_.JObject {
               double,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public void consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.MyInterface myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
+  /// from: `static public void consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
   static void consumeOnAnotherThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
@@ -7950,7 +7950,7 @@ class MyInterfaceConsumer extends jni$_.JObject {
               double,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public void consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.MyInterface myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
+  /// from: `static public void consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
   static void consumeOnSameThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
@@ -8933,7 +8933,7 @@ class StringConverterConsumer extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public java.util.concurrent.Future consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String string)`
+  /// from: `static public java.util.concurrent.Future<java.lang.Integer> consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.StringConverter stringConverter, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? consumeOnAnotherThread(
     StringConverter? stringConverter,
@@ -10285,7 +10285,7 @@ class Annotated$Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated $outerClass, V object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated<T, U, W> $outerClass, V object)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Annotated$Nested(
     Annotated<$T?, $U, $W> $outerClass,
@@ -10858,7 +10858,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List list()`
+  /// from: `public java.util.List<java.lang.String> list()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString> list() {
     return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
@@ -10883,7 +10883,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List listOfNullable()`
+  /// from: `public java.util.List<java.lang.String> listOfNullable()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?> listOfNullable() {
     return _listOfNullable(
@@ -10907,7 +10907,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public java.util.List nullableList(boolean z)`
+  /// from: `public java.util.List<java.lang.String> nullableList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString>? nullableList(
     bool z,
@@ -10933,7 +10933,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public java.util.List nullableListOfNullable(boolean z)`
+  /// from: `public java.util.List<java.lang.String> nullableListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? nullableListOfNullable(
     bool z,
@@ -11275,7 +11275,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List classGenericList()`
+  /// from: `public java.util.List<T> classGenericList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T> classGenericList() {
     return _classGenericList(
@@ -11301,7 +11301,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `public java.util.List classGenericListOfNullable()`
+  /// from: `public java.util.List<T> classGenericListOfNullable()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T?> classGenericListOfNullable() {
     return _classGenericListOfNullable(reference.pointer,
@@ -11324,7 +11324,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public java.util.List nullableClassGenericList(boolean z)`
+  /// from: `public java.util.List<T> nullableClassGenericList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T>? nullableClassGenericList(
     bool z,
@@ -11349,7 +11349,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public java.util.List nullableClassGenericListOfNullable(boolean z)`
+  /// from: `public java.util.List<T> nullableClassGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T?>? nullableClassGenericListOfNullable(
     bool z,
@@ -11378,7 +11378,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.util.List methodGenericList(V object)`
+  /// from: `public java.util.List<V> methodGenericList(V object)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericList<$V extends jni$_.JObject?>(
     $V object, {
@@ -11408,7 +11408,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `public java.util.List methodGenericListOfNullable()`
+  /// from: `public java.util.List<V> methodGenericListOfNullable()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V?> methodGenericListOfNullable<$V extends jni$_.JObject?>({
     required jni$_.JObjType<$V> V,
@@ -11435,7 +11435,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public java.util.List nullableMethodGenericList(V object, boolean z)`
+  /// from: `public java.util.List<V> nullableMethodGenericList(V object, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V>? nullableMethodGenericList<$V extends jni$_.JObject?>(
     $V object,
@@ -11467,7 +11467,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public java.util.List nullableMethodGenericListOfNullable(boolean z)`
+  /// from: `public java.util.List<V> nullableMethodGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V?>?
       nullableMethodGenericListOfNullable<$V extends jni$_.JObject?>(
@@ -11498,7 +11498,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstOfClassGenericList(java.util.List list)`
+  /// from: `public T firstOfClassGenericList(java.util.List<T> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstOfClassGenericList(
     jni$_.JList<$T> list,
@@ -11526,7 +11526,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstOfClassGenericNullableList(java.util.List list)`
+  /// from: `public T firstOfClassGenericNullableList(java.util.List<T> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstOfClassGenericNullableList(
     jni$_.JList<$T>? list,
@@ -11556,7 +11556,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstOfClassGenericListOfNullable(java.util.List list)`
+  /// from: `public T firstOfClassGenericListOfNullable(java.util.List<T> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstOfClassGenericListOfNullable(
     jni$_.JList<$T?> list,
@@ -11587,7 +11587,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstOfClassGenericNullableListOfNullable(java.util.List list)`
+  /// from: `public T firstOfClassGenericNullableListOfNullable(java.util.List<T> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstOfClassGenericNullableListOfNullable(
     jni$_.JList<$T?>? list,
@@ -11616,7 +11616,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstOfMethodGenericList(java.util.List list)`
+  /// from: `public V firstOfMethodGenericList(java.util.List<V> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstOfMethodGenericList<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list, {
@@ -11648,7 +11648,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstOfMethodGenericNullableList(java.util.List list)`
+  /// from: `public V firstOfMethodGenericNullableList(java.util.List<V> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstOfMethodGenericNullableList<$V extends jni$_.JObject?>(
     jni$_.JList<$V>? list, {
@@ -11679,7 +11679,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstOfMethodGenericListOfNullable(java.util.List list)`
+  /// from: `public V firstOfMethodGenericListOfNullable(java.util.List<V> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstOfMethodGenericListOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V?> list, {
@@ -11714,7 +11714,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstOfMethodGenericNullableListOfNullable(java.util.List list)`
+  /// from: `public V firstOfMethodGenericNullableListOfNullable(java.util.List<V> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstOfMethodGenericNullableListOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V?>? list, {
@@ -11745,7 +11745,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstKeyOfComboMap(java.util.Map map)`
+  /// from: `public T firstKeyOfComboMap(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOfComboMap<$V extends jni$_.JObject?>(
     jni$_.JMap<$T, $V> map, {
@@ -11776,7 +11776,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstValueOfComboMap(java.util.Map map)`
+  /// from: `public V firstValueOfComboMap(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstValueOfComboMap<$V extends jni$_.JObject?>(
     jni$_.JMap<$T, $V> map, {
@@ -11808,7 +11808,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstKeyOfComboMapNullableKey(java.util.Map map)`
+  /// from: `public T firstKeyOfComboMapNullableKey(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOfComboMapNullableKey<$V extends jni$_.JObject?>(
     jni$_.JMap<$T?, $V> map, {
@@ -11842,7 +11842,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstValueOfComboMapNullableKey(java.util.Map map)`
+  /// from: `public V firstValueOfComboMapNullableKey(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstValueOfComboMapNullableKey<$V extends jni$_.JObject?>(
     jni$_.JMap<$T?, $V> map, {
@@ -11876,7 +11876,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstKeyOfComboMapNullableValue(java.util.Map map)`
+  /// from: `public T firstKeyOfComboMapNullableValue(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOfComboMapNullableValue<$V extends jni$_.JObject?>(
     jni$_.JMap<$T, $V?> map, {
@@ -11910,7 +11910,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstValueOfComboMapNullableValue(java.util.Map map)`
+  /// from: `public V firstValueOfComboMapNullableValue(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstValueOfComboMapNullableValue<$V extends jni$_.JObject?>(
     jni$_.JMap<$T, $V?> map, {
@@ -11945,7 +11945,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T firstKeyOfComboMapNullableKeyAndValue(java.util.Map map)`
+  /// from: `public T firstKeyOfComboMapNullableKeyAndValue(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOfComboMapNullableKeyAndValue<$V extends jni$_.JObject?>(
     jni$_.JMap<$T?, $V?> map, {
@@ -11980,7 +11980,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V firstValueOfComboMapNullableKeyAndValue(java.util.Map map)`
+  /// from: `public V firstValueOfComboMapNullableKeyAndValue(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstValueOfComboMapNullableKeyAndValue<$V extends jni$_.JObject?>(
     jni$_.JMap<$T?, $V?> map, {
@@ -12013,7 +12013,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.util.Map$Entry firstEntryOfComboMap(java.util.Map map)`
+  /// from: `public java.util.Map$Entry<T, V> firstEntryOfComboMap(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? firstEntryOfComboMap<$V extends jni$_.JObject?>(
     jni$_.JMap<$T, $V> map, {
@@ -12094,7 +12094,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List list3dOfT()`
+  /// from: `public java.util.List<java.util.List<java.util.List<T>>> list3dOfT()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$T?>>> list3dOfT() {
     return _list3dOfT(reference.pointer, _id_list3dOfT as jni$_.JMethodIDPtr)
@@ -12121,7 +12121,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List list3dOfU()`
+  /// from: `public java.util.List<java.util.List<java.util.List<U>>> list3dOfU()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$U>>> list3dOfU() {
     return _list3dOfU(reference.pointer, _id_list3dOfU as jni$_.JMethodIDPtr)
@@ -12147,7 +12147,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List list3dOfW()`
+  /// from: `public java.util.List<java.util.List<java.util.List<W>>> list3dOfW()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$W>>> list3dOfW() {
     return _list3dOfW(reference.pointer, _id_list3dOfW as jni$_.JMethodIDPtr)
@@ -12171,7 +12171,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public java.util.List list3dOfNullableU(boolean z)`
+  /// from: `public java.util.List<java.util.List<java.util.List<U>>> list3dOfNullableU(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$U?>>> list3dOfNullableU(
     bool z,
@@ -12199,7 +12199,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public java.util.List list3dOfNullableW(boolean z)`
+  /// from: `public java.util.List<java.util.List<java.util.List<W>>> list3dOfNullableW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$W?>>> list3dOfNullableW(
     bool z,
@@ -12229,7 +12229,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public com.github.dart_lang.jnigen.annotations.Annotated.Nested nested()`
+  /// from: `public com.github.dart_lang.jnigen.annotations.Annotated$Nested<T, U, W, java.lang.Integer> nested()`
   /// The returned object must be released after use, by calling the [release] method.
   Annotated$Nested<$T?, $U, $W, jni$_.JInteger>? nested() {
     return _nested(reference.pointer, _id_nested as jni$_.JMethodIDPtr)
@@ -12255,7 +12255,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.List intList()`
+  /// from: `public java.util.List<?> intList()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JInteger> intList() {
     return _intList(reference.pointer, _id_intList as jni$_.JMethodIDPtr)

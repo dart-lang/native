@@ -64,7 +64,7 @@ class _ParamPrinter extends Visitor<Param, void> {
   @override
   void visit(Param node) {
     print('        <${node.finalName}>');
-    node.type.type.accept(_TypePrinter(10));
+    node.type.accept(_TypePrinter(10));
     print('        </${node.finalName}>');
   }
 }
