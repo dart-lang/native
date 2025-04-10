@@ -94,7 +94,7 @@ class PDDocument extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
@@ -120,7 +120,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
+  /// from: `public Instance of 'PrimitiveType' <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Creates an empty PDF document.
@@ -151,7 +151,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc)`
+  /// from: `public Instance of 'PrimitiveType' <init>(org.apache.pdfbox.cos.COSDocument doc)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
@@ -186,7 +186,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)`
+  /// from: `public Instance of 'PrimitiveType' <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
@@ -226,7 +226,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)`
+  /// from: `public Instance of 'PrimitiveType' <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
@@ -266,7 +266,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void addPage(org.apache.pdfbox.pdmodel.PDPage page)`
+  /// from: `public Instance of 'PrimitiveType' addPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
   /// hierarchy and set the parent of the page to the root.
@@ -296,7 +296,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)`
+  /// from: `public Instance of 'PrimitiveType' addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)`
   ///
   /// Add parameters of signature to be created externally using default signature options. See
   /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
@@ -339,7 +339,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
+  /// from: `public Instance of 'PrimitiveType' addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// Add parameters of signature to be created externally. See
   /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
@@ -385,7 +385,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)`
+  /// from: `public Instance of 'PrimitiveType' addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)`
   ///
   /// Add a signature to be created using the instance of given interface.
   ///
@@ -433,7 +433,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
+  /// from: `public Instance of 'PrimitiveType' addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// This will add a signature to the document. If the 0-based page number in the options
   /// parameter is smaller than 0 or larger than max, the nearest valid page number will be used
@@ -490,7 +490,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void addSignatureField(java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
+  /// from: `public Instance of 'PrimitiveType' addSignatureField(java.util.List sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
   /// This will add a list of signature fields to the document.
   ///@param sigFields are the PDSignatureFields that should be added to the document
@@ -534,7 +534,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void removePage(org.apache.pdfbox.pdmodel.PDPage page)`
+  /// from: `public Instance of 'PrimitiveType' removePage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// Remove the page from the document.
   ///@param page The page to remove from the document.
@@ -562,7 +562,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void removePage(int pageNumber)`
+  /// from: `public Instance of 'PrimitiveType' removePage(int pageNumber)`
   ///
   /// Remove the page from the document.
   ///@param pageNumber 0 based index to page number.
@@ -702,7 +702,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)`
+  /// from: `public Instance of 'PrimitiveType' setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)`
   ///
   /// This will set the document information for this document.
   ///
@@ -764,7 +764,7 @@ class PDDocument extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public boolean isEncrypted()`
+  /// from: `public Instance of 'PrimitiveType' isEncrypted()`
   ///
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
@@ -821,7 +821,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)`
+  /// from: `public Instance of 'PrimitiveType' setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)`
   ///
   /// This will set the encryption dictionary for this document.
   ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
@@ -947,7 +947,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)`
+  /// from: `public Instance of 'PrimitiveType' registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)`
   ///
   /// For internal PDFBox use when creating PDF documents: register a TrueTypeFont to make sure it
   /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
@@ -1753,7 +1753,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void save(java.lang.String fileName)`
+  /// from: `public Instance of 'PrimitiveType' save(java.lang.String fileName)`
   ///
   /// Save the document to a file.
   ///
@@ -1786,7 +1786,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void save(java.io.File file)`
+  /// from: `public Instance of 'PrimitiveType' save(java.io.File file)`
   ///
   /// Save the document to a file.
   ///
@@ -1819,7 +1819,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void save(java.io.OutputStream output)`
+  /// from: `public Instance of 'PrimitiveType' save(java.io.OutputStream output)`
   ///
   /// This will save the document to an output stream.
   ///
@@ -1854,7 +1854,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void saveIncremental(java.io.OutputStream output)`
+  /// from: `public Instance of 'PrimitiveType' saveIncremental(java.io.OutputStream output)`
   ///
   /// Save the PDF as an incremental update. This is only possible if the PDF was loaded from a
   /// file or a stream, not if the document was created in PDFBox itself. There must be a path of
@@ -1900,7 +1900,7 @@ class PDDocument extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void saveIncremental(java.io.OutputStream output, java.util.Set<org.apache.pdfbox.cos.COSDictionary> objectsToWrite)`
+  /// from: `public Instance of 'PrimitiveType' saveIncremental(java.io.OutputStream output, java.util.Set objectsToWrite)`
   ///
   /// Save the PDF as an incremental update. This is only possible if the PDF was loaded from a
   /// file or a stream, not if the document was created in PDFBox itself. This allows to include
@@ -2079,7 +2079,7 @@ class PDDocument extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int getNumberOfPages()`
+  /// from: `public Instance of 'PrimitiveType' getNumberOfPages()`
   ///
   /// This will return the total page count of the PDF document.
   ///@return The total number of pages in the PDF document.
@@ -2106,7 +2106,7 @@ class PDDocument extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void close()`
+  /// from: `public Instance of 'PrimitiveType' close()`
   ///
   /// This will close the underlying COSDocument object.
   ///@throws IOException If there is an error releasing resources.
@@ -2130,7 +2130,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy policy)`
+  /// from: `public Instance of 'PrimitiveType' protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy policy)`
   ///
   /// Protects the document with a protection policy. The document content will be really
   /// encrypted when it will be saved. This method only marks the document for encryption. It also
@@ -2200,7 +2200,7 @@ class PDDocument extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public boolean isAllSecurityToBeRemoved()`
+  /// from: `public Instance of 'PrimitiveType' isAllSecurityToBeRemoved()`
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
@@ -2225,7 +2225,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void setAllSecurityToBeRemoved(boolean removeAllSecurity)`
+  /// from: `public Instance of 'PrimitiveType' setAllSecurityToBeRemoved(boolean removeAllSecurity)`
   ///
   /// Activates/Deactivates the removal of all security when writing the pdf.
   ///@param removeAllSecurity remove all security if set to true
@@ -2283,7 +2283,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setDocumentId(java.lang.Long docId)`
+  /// from: `public Instance of 'PrimitiveType' setDocumentId(java.lang.Long docId)`
   ///
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
@@ -2313,7 +2313,7 @@ class PDDocument extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getVersion()`
+  /// from: `public Instance of 'PrimitiveType' getVersion()`
   ///
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
@@ -2337,7 +2337,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
-  /// from: `public void setVersion(float newVersion)`
+  /// from: `public Instance of 'PrimitiveType' setVersion(float newVersion)`
   ///
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
@@ -2393,7 +2393,7 @@ class PDDocument extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setResourceCache(org.apache.pdfbox.pdmodel.ResourceCache resourceCache)`
+  /// from: `public Instance of 'PrimitiveType' setResourceCache(org.apache.pdfbox.pdmodel.ResourceCache resourceCache)`
   ///
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.

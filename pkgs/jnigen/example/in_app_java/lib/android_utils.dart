@@ -59,11 +59,11 @@ class R$drawable extends jni$_.JObject {
     r'I',
   );
 
-  /// from: `static public int launch_background`
+  /// from: `static public Instance of 'PrimitiveType' launch_background`
   static int get launch_background =>
       _id_launch_background.get(_class, const jni$_.jintType());
 
-  /// from: `static public int launch_background`
+  /// from: `static public Instance of 'PrimitiveType' launch_background`
   static set launch_background(int value) =>
       _id_launch_background.set(_class, const jni$_.jintType(), value);
 }
@@ -164,11 +164,11 @@ class R$mipmap extends jni$_.JObject {
     r'I',
   );
 
-  /// from: `static public int ic_launcher`
+  /// from: `static public Instance of 'PrimitiveType' ic_launcher`
   static int get ic_launcher =>
       _id_ic_launcher.get(_class, const jni$_.jintType());
 
-  /// from: `static public int ic_launcher`
+  /// from: `static public Instance of 'PrimitiveType' ic_launcher`
   static set ic_launcher(int value) =>
       _id_ic_launcher.set(_class, const jni$_.jintType(), value);
 }
@@ -267,11 +267,11 @@ class R$style extends jni$_.JObject {
     r'I',
   );
 
-  /// from: `static public int LaunchTheme`
+  /// from: `static public Instance of 'PrimitiveType' LaunchTheme`
   static int get LaunchTheme =>
       _id_LaunchTheme.get(_class, const jni$_.jintType());
 
-  /// from: `static public int LaunchTheme`
+  /// from: `static public Instance of 'PrimitiveType' LaunchTheme`
   static set LaunchTheme(int value) =>
       _id_LaunchTheme.set(_class, const jni$_.jintType(), value);
 
@@ -280,11 +280,11 @@ class R$style extends jni$_.JObject {
     r'I',
   );
 
-  /// from: `static public int NormalTheme`
+  /// from: `static public Instance of 'PrimitiveType' NormalTheme`
   static int get NormalTheme =>
       _id_NormalTheme.get(_class, const jni$_.jintType());
 
-  /// from: `static public int NormalTheme`
+  /// from: `static public Instance of 'PrimitiveType' NormalTheme`
   static set NormalTheme(int value) =>
       _id_NormalTheme.set(_class, const jni$_.jintType(), value);
 }
@@ -783,7 +783,7 @@ class EmojiCompat$Config extends jni$_.JObject {
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List<java.lang.Integer> list)`
+  /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setUseEmojiAsDefaultStyle$1(
     bool z,
@@ -1039,7 +1039,7 @@ class EmojiCompat$DefaultSpanFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat$DefaultSpanFactory() {
     return EmojiCompat$DefaultSpanFactory.fromReference(
@@ -1194,7 +1194,7 @@ class EmojiCompat$GlyphChecker extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
 
-  /// from: `public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int i, int i1, int i2)`
+  /// from: `public abstract Instance of 'PrimitiveType' hasGlyph(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   bool hasGlyph(
     jni$_.JObject charSequence,
     int i,
@@ -1429,7 +1429,7 @@ class EmojiCompat$InitCallback extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void onInitialized()`
+  /// from: `public Instance of 'PrimitiveType' onInitialized()`
   void onInitialized() {
     _onInitialized(reference.pointer, _id_onInitialized as jni$_.JMethodIDPtr)
         .check();
@@ -1451,7 +1451,7 @@ class EmojiCompat$InitCallback extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void onFailed(java.lang.Throwable throwable)`
+  /// from: `public Instance of 'PrimitiveType' onFailed(java.lang.Throwable throwable)`
   void onFailed(
     jni$_.JObject? throwable,
   ) {
@@ -1749,7 +1749,7 @@ class EmojiCompat$MetadataRepoLoader extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract void load(androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback)`
+  /// from: `public abstract Instance of 'PrimitiveType' load(androidx.emoji2.text.EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback)`
   void load(
     EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback,
   ) {
@@ -1987,7 +1987,7 @@ class EmojiCompat$MetadataRepoLoaderCallback extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract void onLoaded(androidx.emoji2.text.MetadataRepo metadataRepo)`
+  /// from: `public abstract Instance of 'PrimitiveType' onLoaded(androidx.emoji2.text.MetadataRepo metadataRepo)`
   void onLoaded(
     jni$_.JObject metadataRepo,
   ) {
@@ -2013,7 +2013,7 @@ class EmojiCompat$MetadataRepoLoaderCallback extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract void onFailed(java.lang.Throwable throwable)`
+  /// from: `public abstract Instance of 'PrimitiveType' onFailed(java.lang.Throwable throwable)`
   void onFailed(
     jni$_.JObject? throwable,
   ) {
@@ -2553,40 +2553,40 @@ class EmojiCompat extends jni$_.JObject {
       _id_EDITOR_INFO_REPLACE_ALL_KEY.get(
           _class, const jni$_.JStringNullableType());
 
-  /// from: `static public final int LOAD_STATE_DEFAULT`
+  /// from: `static public final Instance of 'PrimitiveType' LOAD_STATE_DEFAULT`
   static const LOAD_STATE_DEFAULT = 3;
 
-  /// from: `static public final int LOAD_STATE_LOADING`
+  /// from: `static public final Instance of 'PrimitiveType' LOAD_STATE_LOADING`
   static const LOAD_STATE_LOADING = 0;
 
-  /// from: `static public final int LOAD_STATE_SUCCEEDED`
+  /// from: `static public final Instance of 'PrimitiveType' LOAD_STATE_SUCCEEDED`
   static const LOAD_STATE_SUCCEEDED = 1;
 
-  /// from: `static public final int LOAD_STATE_FAILED`
+  /// from: `static public final Instance of 'PrimitiveType' LOAD_STATE_FAILED`
   static const LOAD_STATE_FAILED = 2;
 
-  /// from: `static public final int REPLACE_STRATEGY_DEFAULT`
+  /// from: `static public final Instance of 'PrimitiveType' REPLACE_STRATEGY_DEFAULT`
   static const REPLACE_STRATEGY_DEFAULT = 0;
 
-  /// from: `static public final int REPLACE_STRATEGY_ALL`
+  /// from: `static public final Instance of 'PrimitiveType' REPLACE_STRATEGY_ALL`
   static const REPLACE_STRATEGY_ALL = 1;
 
-  /// from: `static public final int REPLACE_STRATEGY_NON_EXISTENT`
+  /// from: `static public final Instance of 'PrimitiveType' REPLACE_STRATEGY_NON_EXISTENT`
   static const REPLACE_STRATEGY_NON_EXISTENT = 2;
 
-  /// from: `static public final int LOAD_STRATEGY_DEFAULT`
+  /// from: `static public final Instance of 'PrimitiveType' LOAD_STRATEGY_DEFAULT`
   static const LOAD_STRATEGY_DEFAULT = 0;
 
-  /// from: `static public final int LOAD_STRATEGY_MANUAL`
+  /// from: `static public final Instance of 'PrimitiveType' LOAD_STRATEGY_MANUAL`
   static const LOAD_STRATEGY_MANUAL = 1;
 
-  /// from: `static public final int EMOJI_UNSUPPORTED`
+  /// from: `static public final Instance of 'PrimitiveType' EMOJI_UNSUPPORTED`
   static const EMOJI_UNSUPPORTED = 0;
 
-  /// from: `static public final int EMOJI_SUPPORTED`
+  /// from: `static public final Instance of 'PrimitiveType' EMOJI_SUPPORTED`
   static const EMOJI_SUPPORTED = 1;
 
-  /// from: `static public final int EMOJI_FALLBACK`
+  /// from: `static public final Instance of 'PrimitiveType' EMOJI_FALLBACK`
   static const EMOJI_FALLBACK = 2;
   static final _id_init = _class.staticMethodId(
     r'init',
@@ -2696,7 +2696,7 @@ class EmojiCompat extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public boolean isConfigured()`
+  /// from: `static public Instance of 'PrimitiveType' isConfigured()`
   static bool isConfigured() {
     return _isConfigured(
             _class.reference.pointer, _id_isConfigured as jni$_.JMethodIDPtr)
@@ -2772,7 +2772,7 @@ class EmojiCompat extends jni$_.JObject {
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `static public void skipDefaultConfigurationLookup(boolean z)`
+  /// from: `static public Instance of 'PrimitiveType' skipDefaultConfigurationLookup(boolean z)`
   static void skipDefaultConfigurationLookup(
     bool z,
   ) {
@@ -2822,7 +2822,7 @@ class EmojiCompat extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void load()`
+  /// from: `public Instance of 'PrimitiveType' load()`
   void load() {
     _load(reference.pointer, _id_load as jni$_.JMethodIDPtr).check();
   }
@@ -2843,7 +2843,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void registerInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
+  /// from: `public Instance of 'PrimitiveType' registerInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   void registerInitCallback(
     EmojiCompat$InitCallback initCallback,
   ) {
@@ -2871,7 +2871,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void unregisterInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
+  /// from: `public Instance of 'PrimitiveType' unregisterInitCallback(androidx.emoji2.text.EmojiCompat$InitCallback initCallback)`
   void unregisterInitCallback(
     EmojiCompat$InitCallback initCallback,
   ) {
@@ -2900,7 +2900,7 @@ class EmojiCompat extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int getLoadState()`
+  /// from: `public Instance of 'PrimitiveType' getLoadState()`
   int getLoadState() {
     return _getLoadState(
             reference.pointer, _id_getLoadState as jni$_.JMethodIDPtr)
@@ -2925,7 +2925,7 @@ class EmojiCompat extends jni$_.JObject {
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `public boolean isEmojiSpanIndicatorEnabled()`
+  /// from: `public Instance of 'PrimitiveType' isEmojiSpanIndicatorEnabled()`
   bool isEmojiSpanIndicatorEnabled() {
     return _isEmojiSpanIndicatorEnabled(reference.pointer,
             _id_isEmojiSpanIndicatorEnabled as jni$_.JMethodIDPtr)
@@ -2950,7 +2950,7 @@ class EmojiCompat extends jni$_.JObject {
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `public int getEmojiSpanIndicatorColor()`
+  /// from: `public Instance of 'PrimitiveType' getEmojiSpanIndicatorColor()`
   int getEmojiSpanIndicatorColor() {
     return _getEmojiSpanIndicatorColor(reference.pointer,
             _id_getEmojiSpanIndicatorColor as jni$_.JMethodIDPtr)
@@ -2974,7 +2974,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public int getEmojiStart(java.lang.CharSequence charSequence, int i)`
+  /// from: `public Instance of 'PrimitiveType' getEmojiStart(java.lang.CharSequence charSequence, int i)`
   int getEmojiStart(
     jni$_.JObject charSequence,
     int i,
@@ -3002,7 +3002,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public int getEmojiEnd(java.lang.CharSequence charSequence, int i)`
+  /// from: `public Instance of 'PrimitiveType' getEmojiEnd(java.lang.CharSequence charSequence, int i)`
   int getEmojiEnd(
     jni$_.JObject charSequence,
     int i,
@@ -3037,7 +3037,7 @@ class EmojiCompat extends jni$_.JObject {
               int,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public boolean handleOnKeyDown(android.text.Editable editable, int i, android.view.KeyEvent keyEvent)`
+  /// from: `static public Instance of 'PrimitiveType' handleOnKeyDown(android.text.Editable editable, int i, android.view.KeyEvent keyEvent)`
   static bool handleOnKeyDown(
     jni$_.JObject editable,
     int i,
@@ -3083,7 +3083,7 @@ class EmojiCompat extends jni$_.JObject {
                   int,
                   int)>();
 
-  /// from: `static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int i, int i1, boolean z)`
+  /// from: `static public Instance of 'PrimitiveType' handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int i, int i1, boolean z)`
   static bool handleDeleteSurroundingText(
     jni$_.JObject inputConnection,
     jni$_.JObject editable,
@@ -3120,7 +3120,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence)`
+  /// from: `public Instance of 'PrimitiveType' hasEmojiGlyph(java.lang.CharSequence charSequence)`
   bool hasEmojiGlyph(
     jni$_.JObject charSequence,
   ) {
@@ -3147,7 +3147,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
+  /// from: `public Instance of 'PrimitiveType' hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
   bool hasEmojiGlyph$1(
     jni$_.JObject charSequence,
     int i,
@@ -3178,7 +3178,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
-  /// from: `public int getEmojiMatch(java.lang.CharSequence charSequence, int i)`
+  /// from: `public Instance of 'PrimitiveType' getEmojiMatch(java.lang.CharSequence charSequence, int i)`
   int getEmojiMatch(
     jni$_.JObject charSequence,
     int i,
@@ -3368,7 +3368,7 @@ class EmojiCompat extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void updateEditorInfo(android.view.inputmethod.EditorInfo editorInfo)`
+  /// from: `public Instance of 'PrimitiveType' updateEditorInfo(android.view.inputmethod.EditorInfo editorInfo)`
   void updateEditorInfo(
     jni$_.JObject editorInfo,
   ) {
@@ -3490,7 +3490,7 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper defaultEmojiCompatConfigHelper)`
+  /// from: `public Instance of 'PrimitiveType' <init>(androidx.emoji2.text.DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper defaultEmojiCompatConfigHelper)`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory(
     DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper?
@@ -3664,7 +3664,7 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper() {
     return DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
@@ -3916,7 +3916,7 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19() {
     return DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
@@ -4133,7 +4133,7 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28() {
     return DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28
@@ -4496,7 +4496,7 @@ class Build$Partition extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public long getBuildTimeMillis()`
+  /// from: `public Instance of 'PrimitiveType' getBuildTimeMillis()`
   int getBuildTimeMillis() {
     return _getBuildTimeMillis(
             reference.pointer, _id_getBuildTimeMillis as jni$_.JMethodIDPtr)
@@ -4519,7 +4519,7 @@ class Build$Partition extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean equals(java.lang.Object object)`
+  /// from: `public Instance of 'PrimitiveType' equals(java.lang.Object object)`
   bool equals(
     jni$_.JObject? object,
   ) {
@@ -4546,7 +4546,7 @@ class Build$Partition extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int hashCode()`
+  /// from: `public Instance of 'PrimitiveType' hashCode()`
   int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
         .integer;
@@ -4680,7 +4680,7 @@ class Build$VERSION extends jni$_.JObject {
     r'I',
   );
 
-  /// from: `static public final int MEDIA_PERFORMANCE_CLASS`
+  /// from: `static public final Instance of 'PrimitiveType' MEDIA_PERFORMANCE_CLASS`
   static int get MEDIA_PERFORMANCE_CLASS =>
       _id_MEDIA_PERFORMANCE_CLASS.get(_class, const jni$_.jintType());
 
@@ -4689,7 +4689,7 @@ class Build$VERSION extends jni$_.JObject {
     r'I',
   );
 
-  /// from: `static public final int PREVIEW_SDK_INT`
+  /// from: `static public final Instance of 'PrimitiveType' PREVIEW_SDK_INT`
   static int get PREVIEW_SDK_INT =>
       _id_PREVIEW_SDK_INT.get(_class, const jni$_.jintType());
 
@@ -4739,7 +4739,7 @@ class Build$VERSION extends jni$_.JObject {
     r'I',
   );
 
-  /// from: `static public final int SDK_INT`
+  /// from: `static public final Instance of 'PrimitiveType' SDK_INT`
   static int get SDK_INT => _id_SDK_INT.get(_class, const jni$_.jintType());
 
   static final _id_SECURITY_PATCH = _class.staticFieldId(
@@ -4768,7 +4768,7 @@ class Build$VERSION extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build$VERSION() {
     return Build$VERSION.fromReference(
@@ -4869,112 +4869,112 @@ class Build$VERSION_CODES extends jni$_.JObject {
   static const nullableType = $Build$VERSION_CODES$NullableType();
   static const type = $Build$VERSION_CODES$Type();
 
-  /// from: `static public final int BASE`
+  /// from: `static public final Instance of 'PrimitiveType' BASE`
   static const BASE = 1;
 
-  /// from: `static public final int BASE_1_1`
+  /// from: `static public final Instance of 'PrimitiveType' BASE_1_1`
   static const BASE_1_1 = 2;
 
-  /// from: `static public final int CUPCAKE`
+  /// from: `static public final Instance of 'PrimitiveType' CUPCAKE`
   static const CUPCAKE = 3;
 
-  /// from: `static public final int CUR_DEVELOPMENT`
+  /// from: `static public final Instance of 'PrimitiveType' CUR_DEVELOPMENT`
   static const CUR_DEVELOPMENT = 10000;
 
-  /// from: `static public final int DONUT`
+  /// from: `static public final Instance of 'PrimitiveType' DONUT`
   static const DONUT = 4;
 
-  /// from: `static public final int ECLAIR`
+  /// from: `static public final Instance of 'PrimitiveType' ECLAIR`
   static const ECLAIR = 5;
 
-  /// from: `static public final int ECLAIR_0_1`
+  /// from: `static public final Instance of 'PrimitiveType' ECLAIR_0_1`
   static const ECLAIR_0_1 = 6;
 
-  /// from: `static public final int ECLAIR_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' ECLAIR_MR1`
   static const ECLAIR_MR1 = 7;
 
-  /// from: `static public final int FROYO`
+  /// from: `static public final Instance of 'PrimitiveType' FROYO`
   static const FROYO = 8;
 
-  /// from: `static public final int GINGERBREAD`
+  /// from: `static public final Instance of 'PrimitiveType' GINGERBREAD`
   static const GINGERBREAD = 9;
 
-  /// from: `static public final int GINGERBREAD_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' GINGERBREAD_MR1`
   static const GINGERBREAD_MR1 = 10;
 
-  /// from: `static public final int HONEYCOMB`
+  /// from: `static public final Instance of 'PrimitiveType' HONEYCOMB`
   static const HONEYCOMB = 11;
 
-  /// from: `static public final int HONEYCOMB_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' HONEYCOMB_MR1`
   static const HONEYCOMB_MR1 = 12;
 
-  /// from: `static public final int HONEYCOMB_MR2`
+  /// from: `static public final Instance of 'PrimitiveType' HONEYCOMB_MR2`
   static const HONEYCOMB_MR2 = 13;
 
-  /// from: `static public final int ICE_CREAM_SANDWICH`
+  /// from: `static public final Instance of 'PrimitiveType' ICE_CREAM_SANDWICH`
   static const ICE_CREAM_SANDWICH = 14;
 
-  /// from: `static public final int ICE_CREAM_SANDWICH_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' ICE_CREAM_SANDWICH_MR1`
   static const ICE_CREAM_SANDWICH_MR1 = 15;
 
-  /// from: `static public final int JELLY_BEAN`
+  /// from: `static public final Instance of 'PrimitiveType' JELLY_BEAN`
   static const JELLY_BEAN = 16;
 
-  /// from: `static public final int JELLY_BEAN_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' JELLY_BEAN_MR1`
   static const JELLY_BEAN_MR1 = 17;
 
-  /// from: `static public final int JELLY_BEAN_MR2`
+  /// from: `static public final Instance of 'PrimitiveType' JELLY_BEAN_MR2`
   static const JELLY_BEAN_MR2 = 18;
 
-  /// from: `static public final int KITKAT`
+  /// from: `static public final Instance of 'PrimitiveType' KITKAT`
   static const KITKAT = 19;
 
-  /// from: `static public final int KITKAT_WATCH`
+  /// from: `static public final Instance of 'PrimitiveType' KITKAT_WATCH`
   static const KITKAT_WATCH = 20;
 
-  /// from: `static public final int LOLLIPOP`
+  /// from: `static public final Instance of 'PrimitiveType' LOLLIPOP`
   static const LOLLIPOP = 21;
 
-  /// from: `static public final int LOLLIPOP_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' LOLLIPOP_MR1`
   static const LOLLIPOP_MR1 = 22;
 
-  /// from: `static public final int M`
+  /// from: `static public final Instance of 'PrimitiveType' M`
   static const M = 23;
 
-  /// from: `static public final int N`
+  /// from: `static public final Instance of 'PrimitiveType' N`
   static const N = 24;
 
-  /// from: `static public final int N_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' N_MR1`
   static const N_MR1 = 25;
 
-  /// from: `static public final int O`
+  /// from: `static public final Instance of 'PrimitiveType' O`
   static const O = 26;
 
-  /// from: `static public final int O_MR1`
+  /// from: `static public final Instance of 'PrimitiveType' O_MR1`
   static const O_MR1 = 27;
 
-  /// from: `static public final int P`
+  /// from: `static public final Instance of 'PrimitiveType' P`
   static const P = 28;
 
-  /// from: `static public final int Q`
+  /// from: `static public final Instance of 'PrimitiveType' Q`
   static const Q = 29;
 
-  /// from: `static public final int R`
+  /// from: `static public final Instance of 'PrimitiveType' R`
   static const R = 30;
 
-  /// from: `static public final int S`
+  /// from: `static public final Instance of 'PrimitiveType' S`
   static const S = 31;
 
-  /// from: `static public final int S_V2`
+  /// from: `static public final Instance of 'PrimitiveType' S_V2`
   static const S_V2 = 32;
 
-  /// from: `static public final int TIRAMISU`
+  /// from: `static public final Instance of 'PrimitiveType' TIRAMISU`
   static const TIRAMISU = 33;
 
-  /// from: `static public final int UPSIDE_DOWN_CAKE`
+  /// from: `static public final Instance of 'PrimitiveType' UPSIDE_DOWN_CAKE`
   static const UPSIDE_DOWN_CAKE = 34;
 
-  /// from: `static public final int VANILLA_ICE_CREAM`
+  /// from: `static public final Instance of 'PrimitiveType' VANILLA_ICE_CREAM`
   static const VANILLA_ICE_CREAM = 35;
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -4992,7 +4992,7 @@ class Build$VERSION_CODES extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build$VERSION_CODES() {
     return Build$VERSION_CODES.fromReference(
@@ -5349,7 +5349,7 @@ class Build extends jni$_.JObject {
     r'J',
   );
 
-  /// from: `static public final long TIME`
+  /// from: `static public final Instance of 'PrimitiveType' TIME`
   static int get TIME => _id_TIME.get(_class, const jni$_.jlongType());
 
   static final _id_TYPE = _class.staticFieldId(
@@ -5398,7 +5398,7 @@ class Build extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build() {
     return Build.fromReference(
@@ -5617,7 +5617,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
 
-  /// from: `public void <init>(int i, float f)`
+  /// from: `public Instance of 'PrimitiveType' <init>(int i, float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap(
     int i,
@@ -5646,7 +5646,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void <init>(int i)`
+  /// from: `public Instance of 'PrimitiveType' <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$1(
     int i, {
@@ -5676,7 +5676,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$2({
     required jni$_.JObjType<$K> K,
@@ -5704,7 +5704,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(java.util.Map<?, ?> map)`
+  /// from: `public Instance of 'PrimitiveType' <init>(java.util.Map map)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$3(
     jni$_.JMap<$K?, $V?>? map, {
@@ -5737,7 +5737,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int size()`
+  /// from: `public Instance of 'PrimitiveType' size()`
   int size() {
     return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
   }
@@ -5759,7 +5759,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public boolean isEmpty()`
+  /// from: `public Instance of 'PrimitiveType' isEmpty()`
   bool isEmpty() {
     return _isEmpty(reference.pointer, _id_isEmpty as jni$_.JMethodIDPtr)
         .boolean;
@@ -5808,7 +5808,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean containsKey(java.lang.Object object)`
+  /// from: `public Instance of 'PrimitiveType' containsKey(java.lang.Object object)`
   bool containsKey(
     jni$_.JObject? object,
   ) {
@@ -5869,7 +5869,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void putAll(java.util.Map<?, ?> map)`
+  /// from: `public Instance of 'PrimitiveType' putAll(java.util.Map map)`
   void putAll(
     jni$_.JMap<$K?, $V?>? map,
   ) {
@@ -5922,7 +5922,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void clear()`
+  /// from: `public Instance of 'PrimitiveType' clear()`
   void clear() {
     _clear(reference.pointer, _id_clear as jni$_.JMethodIDPtr).check();
   }
@@ -5943,7 +5943,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean containsValue(java.lang.Object object)`
+  /// from: `public Instance of 'PrimitiveType' containsValue(java.lang.Object object)`
   bool containsValue(
     jni$_.JObject? object,
   ) {
@@ -6125,7 +6125,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
+  /// from: `public Instance of 'PrimitiveType' remove(java.lang.Object object, java.lang.Object object1)`
   bool remove$1(
     jni$_.JObject? object,
     jni$_.JObject? object1,
@@ -6161,7 +6161,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean replace(K object, V object1, V object2)`
+  /// from: `public Instance of 'PrimitiveType' replace(K object, V object1, V object2)`
   bool replace(
     $K? object,
     $V? object1,
@@ -6232,7 +6232,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V computeIfAbsent(K object, java.util.function.Function<?, ?> function)`
+  /// from: `public V computeIfAbsent(K object, java.util.function.Function function)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? computeIfAbsent(
     $K? object,
@@ -6270,7 +6270,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<?, ?, ?> biFunction)`
+  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? computeIfPresent(
     $K? object,
@@ -6308,7 +6308,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V compute(K object, java.util.function.BiFunction<?, ?, ?> biFunction)`
+  /// from: `public V compute(K object, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? compute(
     $K? object,
@@ -6345,7 +6345,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V merge(K object, V object1, java.util.function.BiFunction<?, ?, ?> biFunction)`
+  /// from: `public V merge(K object, V object1, java.util.function.BiFunction biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? merge(
     $K? object,
@@ -6376,7 +6376,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void forEach(java.util.function.BiConsumer<?, ?> biConsumer)`
+  /// from: `public Instance of 'PrimitiveType' forEach(java.util.function.BiConsumer biConsumer)`
   void forEach(
     jni$_.JObject? biConsumer,
   ) {
@@ -6402,7 +6402,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void replaceAll(java.util.function.BiFunction<?, ?, ?> biFunction)`
+  /// from: `public Instance of 'PrimitiveType' replaceAll(java.util.function.BiFunction biFunction)`
   void replaceAll(
     jni$_.JObject? biFunction,
   ) {
@@ -6609,7 +6609,7 @@ class AndroidUtils extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               int)>();
 
-  /// from: `static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)`
+  /// from: `static public Instance of 'PrimitiveType' showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)`
   static void showToast(
     jni$_.JObject? mainActivity,
     jni$_.JObject? text,

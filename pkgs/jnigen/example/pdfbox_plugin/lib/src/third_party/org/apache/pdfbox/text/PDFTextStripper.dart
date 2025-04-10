@@ -98,7 +98,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Instantiate a new PDFTextStripper object.
@@ -169,7 +169,7 @@ class PDFTextStripper extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void writeText(org.apache.pdfbox.pdmodel.PDDocument doc, java.io.Writer outputStream)`
+  /// from: `public Instance of 'PrimitiveType' writeText(org.apache.pdfbox.pdmodel.PDDocument doc, java.io.Writer outputStream)`
   ///
   /// This will take a PDDocument and write the text of that document to the print writer.
   ///@param doc The document to get the data from.
@@ -202,7 +202,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void processPage(org.apache.pdfbox.pdmodel.PDPage page)`
+  /// from: `public Instance of 'PrimitiveType' processPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// This will process the contents of a page.
   ///@param page The page to process.
@@ -233,7 +233,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int getStartPage()`
+  /// from: `public Instance of 'PrimitiveType' getStartPage()`
   ///
   /// This is the page that the text extraction will start on. The pages start at page 1. For example in a 5 page PDF
   /// document, if the start page is 1 then all pages will be extracted. If the start page is 4 then pages 4 and 5 will
@@ -260,7 +260,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void setStartPage(int startPageValue)`
+  /// from: `public Instance of 'PrimitiveType' setStartPage(int startPageValue)`
   ///
   /// This will set the first page to be extracted by this class.
   ///@param startPageValue New value of 1-based startPage property.
@@ -289,7 +289,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int getEndPage()`
+  /// from: `public Instance of 'PrimitiveType' getEndPage()`
   ///
   /// This will get the last page that will be extracted. This is inclusive, for example if a 5 page PDF an endPage
   /// value of 5 would extract the entire document, an end page of 2 would extract pages 1 and 2. This defaults to
@@ -315,7 +315,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void setEndPage(int endPageValue)`
+  /// from: `public Instance of 'PrimitiveType' setEndPage(int endPageValue)`
   ///
   /// This will set the last page to be extracted by this class.
   ///@param endPageValue New value of 1-based endPage property.
@@ -343,7 +343,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setLineSeparator(java.lang.String separator)`
+  /// from: `public Instance of 'PrimitiveType' setLineSeparator(java.lang.String separator)`
   ///
   /// Set the desired line separator for output text. The line.separator system property is used if the line separator
   /// preference is not set explicitly using this method.
@@ -429,7 +429,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setWordSeparator(java.lang.String separator)`
+  /// from: `public Instance of 'PrimitiveType' setWordSeparator(java.lang.String separator)`
   ///
   /// Set the desired word separator for output text. The PDFBox text extraction algorithm will output a space
   /// character if there is enough space between two words. By default a space character is used. If you need and
@@ -464,7 +464,7 @@ class PDFTextStripper extends jni$_.JObject {
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `public boolean getSuppressDuplicateOverlappingText()`
+  /// from: `public Instance of 'PrimitiveType' getSuppressDuplicateOverlappingText()`
   ///
   /// @return Returns the suppressDuplicateOverlappingText.
   bool getSuppressDuplicateOverlappingText() {
@@ -489,7 +489,7 @@ class PDFTextStripper extends jni$_.JObject {
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void setSuppressDuplicateOverlappingText(boolean suppressDuplicateOverlappingTextValue)`
+  /// from: `public Instance of 'PrimitiveType' setSuppressDuplicateOverlappingText(boolean suppressDuplicateOverlappingTextValue)`
   ///
   /// By default the text stripper will attempt to remove text that overlapps each other. Word paints the same
   /// character several times in order to make it look bold. By setting this to false all text will be extracted, which
@@ -522,7 +522,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public boolean getSeparateByBeads()`
+  /// from: `public Instance of 'PrimitiveType' getSeparateByBeads()`
   ///
   /// This will tell if the text stripper should separate by beads.
   ///@return If the text will be grouped by beads.
@@ -547,7 +547,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void setShouldSeparateByBeads(boolean aShouldSeparateByBeads)`
+  /// from: `public Instance of 'PrimitiveType' setShouldSeparateByBeads(boolean aShouldSeparateByBeads)`
   ///
   /// Set if the text stripper should group the text output by a list of beads. The default value is true!
   ///@param aShouldSeparateByBeads The new grouping of beads.
@@ -605,7 +605,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setEndBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aEndBookmark)`
+  /// from: `public Instance of 'PrimitiveType' setEndBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aEndBookmark)`
   ///
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
@@ -662,7 +662,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setStartBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aStartBookmark)`
+  /// from: `public Instance of 'PrimitiveType' setStartBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aStartBookmark)`
   ///
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
@@ -694,7 +694,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public boolean getAddMoreFormatting()`
+  /// from: `public Instance of 'PrimitiveType' getAddMoreFormatting()`
   ///
   /// This will tell if the text stripper should add some more text formatting.
   ///@return true if some more text formatting will be added
@@ -719,7 +719,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void setAddMoreFormatting(boolean newAddMoreFormatting)`
+  /// from: `public Instance of 'PrimitiveType' setAddMoreFormatting(boolean newAddMoreFormatting)`
   ///
   /// There will some additional text formatting be added if addMoreFormatting is set to true. Default is false.
   ///@param newAddMoreFormatting Tell PDFBox to add some more text formatting
@@ -750,7 +750,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public boolean getSortByPosition()`
+  /// from: `public Instance of 'PrimitiveType' getSortByPosition()`
   ///
   /// This will tell if the text stripper should sort the text tokens before writing to the stream.
   ///@return true If the text tokens will be sorted before being written.
@@ -775,7 +775,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void setSortByPosition(boolean newSortByPosition)`
+  /// from: `public Instance of 'PrimitiveType' setSortByPosition(boolean newSortByPosition)`
   ///
   /// The order of the text tokens in a PDF file may not be in the same as they appear visually on the screen. For
   /// example, a PDF writer may write out all text by font, so all bold or larger text, then make a second pass and
@@ -812,7 +812,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getSpacingTolerance()`
+  /// from: `public Instance of 'PrimitiveType' getSpacingTolerance()`
   ///
   /// Get the current space width-based tolerance value that is being used to estimate where spaces in text should be
   /// added. Note that the default value for this has been determined from trial and error.
@@ -838,7 +838,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
-  /// from: `public void setSpacingTolerance(float spacingToleranceValue)`
+  /// from: `public Instance of 'PrimitiveType' setSpacingTolerance(float spacingToleranceValue)`
   ///
   /// Set the space width-based tolerance value that is used to estimate where spaces in text should be added. Note
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
@@ -871,7 +871,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getAverageCharTolerance()`
+  /// from: `public Instance of 'PrimitiveType' getAverageCharTolerance()`
   ///
   /// Get the current character width-based tolerance value that is being used to estimate where spaces in text should
   /// be added. Note that the default value for this has been determined from trial and error.
@@ -897,7 +897,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
-  /// from: `public void setAverageCharTolerance(float averageCharToleranceValue)`
+  /// from: `public Instance of 'PrimitiveType' setAverageCharTolerance(float averageCharToleranceValue)`
   ///
   /// Set the character width-based tolerance value that is used to estimate where spaces in text should be added. Note
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
@@ -930,7 +930,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getIndentThreshold()`
+  /// from: `public Instance of 'PrimitiveType' getIndentThreshold()`
   ///
   /// returns the multiple of whitespace character widths for the current text which the current line start can be
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
@@ -956,7 +956,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
-  /// from: `public void setIndentThreshold(float indentThresholdValue)`
+  /// from: `public Instance of 'PrimitiveType' setIndentThreshold(float indentThresholdValue)`
   ///
   /// sets the multiple of whitespace character widths for the current text which the current line start can be
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
@@ -987,7 +987,7 @@ class PDFTextStripper extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getDropThreshold()`
+  /// from: `public Instance of 'PrimitiveType' getDropThreshold()`
   ///
   /// the minimum whitespace, as a multiple of the max height of the current characters beyond which the current line
   /// start is considered to be a paragraph start.
@@ -1013,7 +1013,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
-  /// from: `public void setDropThreshold(float dropThresholdValue)`
+  /// from: `public Instance of 'PrimitiveType' setDropThreshold(float dropThresholdValue)`
   ///
   /// sets the minimum whitespace, as a multiple of the max height of the current characters beyond which the current
   /// line start is considered to be a paragraph start. The default value is 2.5.
@@ -1071,7 +1071,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setParagraphStart(java.lang.String s)`
+  /// from: `public Instance of 'PrimitiveType' setParagraphStart(java.lang.String s)`
   ///
   /// Sets the string which will be used at the beginning of a paragraph.
   ///@param s the paragraph start string
@@ -1128,7 +1128,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setParagraphEnd(java.lang.String s)`
+  /// from: `public Instance of 'PrimitiveType' setParagraphEnd(java.lang.String s)`
   ///
   /// Sets the string which will be used at the end of a paragraph.
   ///@param s the paragraph end string
@@ -1185,7 +1185,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setPageStart(java.lang.String pageStartValue)`
+  /// from: `public Instance of 'PrimitiveType' setPageStart(java.lang.String pageStartValue)`
   ///
   /// Sets the string which will be used at the beginning of a page.
   ///@param pageStartValue the page start string
@@ -1241,7 +1241,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setPageEnd(java.lang.String pageEndValue)`
+  /// from: `public Instance of 'PrimitiveType' setPageEnd(java.lang.String pageEndValue)`
   ///
   /// Sets the string which will be used at the end of a page.
   ///@param pageEndValue the page end string
@@ -1298,7 +1298,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setArticleStart(java.lang.String articleStartValue)`
+  /// from: `public Instance of 'PrimitiveType' setArticleStart(java.lang.String articleStartValue)`
   ///
   /// Sets the string which will be used at the beginning of an article.
   ///@param articleStartValue the article start string
@@ -1358,7 +1358,7 @@ class PDFTextStripper extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void setArticleEnd(java.lang.String articleEndValue)`
+  /// from: `public Instance of 'PrimitiveType' setArticleEnd(java.lang.String articleEndValue)`
   ///
   /// Sets the string which will be used at the end of an article.
   ///@param articleEndValue the article end string

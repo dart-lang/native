@@ -407,9 +407,12 @@ class DeclaredType extends ReferredType {
   late ClassDecl classDecl;
 
   @override
-  String get name {
+  String get name => binaryName;
+
+  @override
+  String toString() {
     if (params.isEmpty) return binaryName;
-    return '$binaryName<${params.map((param) => param.name).join(', ')}>';
+    return '$binaryName<${params.join(', ')}>';
   }
 
   factory DeclaredType.fromJson(Map<String, dynamic> json) =>
@@ -449,6 +452,10 @@ class TypeVar extends ReferredType {
 
   @override
   String name;
+
+  @override
+  String toString() => name;
+
   @override
   List<Annotation>? annotations;
 
@@ -515,7 +522,19 @@ class Wildcard extends ReferredType {
       !(extendsBound?.hasNonNull ?? false);
 
   @override
-  String get name => '?';
+  String get name {
+    if (extendsBound != null) {
+      return '? extends ${extendsBound!.name}';
+    }
+    if (superBound != null) {
+      return '? super ${superBound!.name}';
+    }
+    return '?';
+  }
+
+  @override
+  String toString() => name;
+
   @override
   List<Annotation>? annotations;
 
@@ -537,8 +556,8 @@ class Wildcard extends ReferredType {
   Wildcard clone({GenerationStage until = GenerationStage.userVisitors}) {
     final cloned = Wildcard(
       annotations: [...?annotations],
-      extendsBound: extendsBound,
-      superBound: superBound,
+      extendsBound: extendsBound?.clone(until: until),
+      superBound: superBound?.clone(until: until),
     );
     if (GenerationStage.linker <= until) {
       cloned.descriptor = descriptor;
@@ -554,6 +573,10 @@ class ArrayType extends ReferredType {
 
   @override
   String get name => '${elementType.name}[]';
+
+  @override
+  String toString() => name;
+
   @override
   List<Annotation>? annotations;
 
@@ -572,7 +595,7 @@ class ArrayType extends ReferredType {
   @override
   ArrayType clone({GenerationStage until = GenerationStage.userVisitors}) {
     final cloned = ArrayType(
-      elementType: elementType,
+      elementType: elementType.clone(until: until),
       annotations: [...?annotations],
     );
     if (GenerationStage.linker <= until) {

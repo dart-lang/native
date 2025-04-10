@@ -93,7 +93,7 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getValue()`
+  /// from: `public Instance of 'PrimitiveType' getValue()`
   double getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .float;
@@ -139,7 +139,7 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final float convertValue(T measureUnit)`
+  /// from: `public final Instance of 'PrimitiveType' convertValue(T measureUnit)`
   double convertValue(
     $T measureUnit,
   ) {
@@ -298,7 +298,7 @@ class MeasureUnit extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract float getCoefficient()`
+  /// from: `public abstract Instance of 'PrimitiveType' getCoefficient()`
   double getCoefficient() {
     return _getCoefficient(
             reference.pointer, _id_getCoefficient as jni$_.JMethodIDPtr)
@@ -566,7 +566,7 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.Nullability<T, U> $outerClass)`
+  /// from: `public Instance of 'PrimitiveType' <init>(com.github.dart_lang.jnigen.Nullability $outerClass)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Nullability$InnerClass(
     Nullability<$T?, $U> $outerClass, {
@@ -616,7 +616,7 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final void f(T object, U object1, V object2)`
+  /// from: `public final Instance of 'PrimitiveType' f(T object, U object1, V object2)`
   void f(
     $T object,
     $U object1,
@@ -824,7 +824,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(T object, U object1, U object2)`
+  /// from: `public Instance of 'PrimitiveType' <init>(T object, U object1, U object2)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Nullability(
     $T object,
@@ -936,7 +936,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final void setNullableU(U object)`
+  /// from: `public final Instance of 'PrimitiveType' setNullableU(U object)`
   void setNullableU(
     $U? object,
   ) {
@@ -1179,7 +1179,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.String firstOf(java.util.List<java.lang.String> list)`
+  /// from: `public final java.lang.String firstOf(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString firstOf(
     jni$_.JList<jni$_.JString> list,
@@ -1206,7 +1206,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.String firstOfNullable(java.util.List<java.lang.String> list)`
+  /// from: `public final java.lang.String firstOfNullable(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? firstOfNullable(
     jni$_.JList<jni$_.JString?> list,
@@ -1233,7 +1233,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final U classGenericFirstOf(java.util.List<?> list)`
+  /// from: `public final U classGenericFirstOf(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
   $U classGenericFirstOf(
     jni$_.JList<$U> list,
@@ -1261,7 +1261,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final T classGenericFirstOfNullable(java.util.List<?> list)`
+  /// from: `public final T classGenericFirstOfNullable(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
   $T classGenericFirstOfNullable(
     jni$_.JList<$T> list,
@@ -1290,7 +1290,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final V methodGenericFirstOf(java.util.List<?> list)`
+  /// from: `public final V methodGenericFirstOf(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOf<$V extends jni$_.JObject>(
     jni$_.JList<$V> list, {
@@ -1322,7 +1322,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final V methodGenericFirstOfNullable(java.util.List<?> list)`
+  /// from: `public final V methodGenericFirstOfNullable(java.util.List list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list, {
@@ -1650,7 +1650,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public void <init>(int i)`
+  /// from: `public Instance of 'PrimitiveType' <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Operators(
     int i,
@@ -1677,7 +1677,7 @@ class Operators extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final int getValue()`
+  /// from: `public final Instance of 'PrimitiveType' getValue()`
   int getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .integer;
@@ -1698,7 +1698,7 @@ class Operators extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public final void setValue(int i)`
+  /// from: `public final Instance of 'PrimitiveType' setValue(int i)`
   void setValue(
     int i,
   ) {
@@ -1880,7 +1880,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public final boolean get(int i)`
+  /// from: `public final Instance of 'PrimitiveType' get(int i)`
   bool get(
     int i,
   ) {
@@ -1903,7 +1903,7 @@ class Operators extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
-  /// from: `public final void set(int i, boolean z)`
+  /// from: `public final Instance of 'PrimitiveType' set(int i, boolean z)`
   void set(
     int i,
     bool z,
@@ -1928,7 +1928,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final int compareTo(com.github.dart_lang.jnigen.Operators operators)`
+  /// from: `public final Instance of 'PrimitiveType' compareTo(com.github.dart_lang.jnigen.Operators operators)`
   int compareTo(
     Operators operators,
   ) {
@@ -2066,7 +2066,7 @@ class Speed extends Measure<SpeedUnit> {
   Speed.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
-        super.fromReference(const $SpeedUnit$NullableType(), reference);
+        super.fromReference(const $SpeedUnit$Type(), reference);
 
   static final _class =
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Speed');
@@ -2092,7 +2092,7 @@ class Speed extends Measure<SpeedUnit> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, double, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
+  /// from: `public Instance of 'PrimitiveType' <init>(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Speed(
     double f,
@@ -2121,7 +2121,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getValue()`
+  /// from: `public Instance of 'PrimitiveType' getValue()`
   double getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .float;
@@ -2192,7 +2192,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final float component1()`
+  /// from: `public final Instance of 'PrimitiveType' component1()`
   double component1() {
     return _component1(reference.pointer, _id_component1 as jni$_.JMethodIDPtr)
         .float;
@@ -2270,7 +2270,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int hashCode()`
+  /// from: `public Instance of 'PrimitiveType' hashCode()`
   int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
         .integer;
@@ -2292,7 +2292,7 @@ class Speed extends Measure<SpeedUnit> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean equals(java.lang.Object object)`
+  /// from: `public Instance of 'PrimitiveType' equals(java.lang.Object object)`
   bool equals(
     jni$_.JObject? object,
   ) {
@@ -2321,7 +2321,7 @@ final class $Speed$NullableType extends jni$_.JObjType<Speed?> {
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType =>
-      const $Measure$NullableType<SpeedUnit>($SpeedUnit$Type());
+      const $Measure$Type<SpeedUnit>($SpeedUnit$Type());
 
   @jni$_.internal
   @core$_.override
@@ -2357,7 +2357,7 @@ final class $Speed$Type extends jni$_.JObjType<Speed> {
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType =>
-      const $Measure$NullableType<SpeedUnit>($SpeedUnit$Type());
+      const $Measure$Type<SpeedUnit>($SpeedUnit$Type());
 
   @jni$_.internal
   @core$_.override
@@ -2455,7 +2455,7 @@ class SpeedUnit extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public float getCoefficient()`
+  /// from: `public Instance of 'PrimitiveType' getCoefficient()`
   double getCoefficient() {
     return _getCoefficient(
             reference.pointer, _id_getCoefficient as jni$_.JMethodIDPtr)
@@ -2533,7 +2533,7 @@ final class $SpeedUnit$NullableType extends jni$_.JObjType<SpeedUnit?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JObjType get superType => const jni$_.JObjectType();
 
   @jni$_.internal
   @core$_.override
@@ -2569,7 +2569,7 @@ final class $SpeedUnit$Type extends jni$_.JObjType<SpeedUnit> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JObjType get superType => const jni$_.JObjectType();
 
   @jni$_.internal
   @core$_.override
@@ -2623,7 +2623,7 @@ class SuspendFun extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public void <init>()`
+  /// from: `public Instance of 'PrimitiveType' <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
     return SuspendFun.fromReference(
@@ -2647,7 +2647,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object sayHelloWithoutDelay(kotlin.coroutines.Continuation<?> continuation)`
+  /// from: `public final java.lang.Object sayHelloWithoutDelay(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHelloWithoutDelay() async {
     final $p = jni$_.ReceivePort();
@@ -2692,7 +2692,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object failWithoutDelay(kotlin.coroutines.Continuation<?> continuation)`
+  /// from: `public final java.lang.Object failWithoutDelay(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> failWithoutDelay() async {
     final $p = jni$_.ReceivePort();
@@ -2735,7 +2735,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object fail(kotlin.coroutines.Continuation<?> continuation)`
+  /// from: `public final java.lang.Object fail(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> fail() async {
     final $p = jni$_.ReceivePort();
@@ -2778,7 +2778,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object sayHello(kotlin.coroutines.Continuation<?> continuation)`
+  /// from: `public final java.lang.Object sayHello(kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello() async {
     final $p = jni$_.ReceivePort();
@@ -2827,7 +2827,7 @@ class SuspendFun extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation<?> continuation)`
+  /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello$1(
     jni$_.JString string,
@@ -2953,7 +2953,7 @@ final _getTopLevelField = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `static public final int getTopLevelField()`
+/// from: `static public final Instance of 'PrimitiveType' getTopLevelField()`
 int getTopLevelField() {
   return _getTopLevelField(_TopLevelKtClass.reference.pointer,
           _id_getTopLevelField as jni$_.JMethodIDPtr)
@@ -2974,7 +2974,7 @@ final _setTopLevelField = jni$_.ProtectedJniExtensions.lookup<
         jni$_.JThrowablePtr Function(
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-/// from: `static public final void setTopLevelField(int i)`
+/// from: `static public final Instance of 'PrimitiveType' setTopLevelField(int i)`
 void setTopLevelField(
   int i,
 ) {
@@ -3000,7 +3000,7 @@ final _topLevel = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `static public final int topLevel()`
+/// from: `static public final Instance of 'PrimitiveType' topLevel()`
 int topLevel() {
   return _topLevel(_TopLevelKtClass.reference.pointer,
           _id_topLevel as jni$_.JMethodIDPtr)
@@ -3023,7 +3023,7 @@ final _topLevelSum = jni$_.ProtectedJniExtensions.lookup<
         jni$_.JniResult Function(
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
-/// from: `static public final int topLevelSum(int i, int i1)`
+/// from: `static public final Instance of 'PrimitiveType' topLevelSum(int i, int i1)`
 int topLevelSum(
   int i,
   int i1,
@@ -3053,7 +3053,7 @@ final _getTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `static public final int getTopLevelField()`
+/// from: `static public final Instance of 'PrimitiveType' getTopLevelField()`
 int getTopLevelField$1() {
   return _getTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
           _id_getTopLevelField$1 as jni$_.JMethodIDPtr)
@@ -3074,7 +3074,7 @@ final _setTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
         jni$_.JThrowablePtr Function(
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-/// from: `static public final void setTopLevelField(int i)`
+/// from: `static public final Instance of 'PrimitiveType' setTopLevelField(int i)`
 void setTopLevelField$1(
   int i,
 ) {
@@ -3100,7 +3100,7 @@ final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `static public final int topLevel()`
+/// from: `static public final Instance of 'PrimitiveType' topLevel()`
 int topLevel$1() {
   return _topLevel$1(_TopLevelKt$1Class.reference.pointer,
           _id_topLevel$1 as jni$_.JMethodIDPtr)

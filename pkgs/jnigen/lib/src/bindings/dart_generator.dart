@@ -1219,7 +1219,7 @@ ${modifier}final _id_$name =
   }
 
   void writeDocs(Field node, {required bool writeReleaseInstructions}) {
-    final originalDecl = '${node.type.name} ${node.name}';
+    final originalDecl = '${node.type} ${node.name}';
     s.writeln('  /// from: `${node.modifiers.join(' ')} $originalDecl`');
     if (node.type is! PrimitiveType && writeReleaseInstructions) {
       s.writeln(_releaseInstruction);
@@ -1366,7 +1366,7 @@ ${modifier}final _$name = $_protectedExtension
     // Docs
     s.write('  /// from: `');
     s.writeAll(node.modifiers.map((m) => '$m '));
-    s.write('${node.returnType.name} ${node.name}(');
+    s.write('${node.returnType} ${node.name}(');
     s.writeAll(node.params.map((p) => '${p.type.name} ${p.name}'), ', ');
     s.writeln(')`');
     if (node.returnType is! PrimitiveType || node.isConstructor) {
