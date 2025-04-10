@@ -14,7 +14,7 @@ import 'linker_options.dart';
 import 'linkmode.dart';
 import 'optimization_level.dart';
 import 'output_type.dart';
-import 'run_cbuilder.dart';
+import 'run_clinker.dart';
 
 /// Specification for linking an artifact with a C linker.
 //TODO(mosuem): This is currently only implemented for linux.
@@ -84,7 +84,7 @@ class CLinker extends CTool implements Linker {
       for (final directory in this.libraryDirectories)
         outDir.resolveUri(Uri.file(directory)),
     ];
-    final task = RunCBuilder(
+    final task = RunCLinker(
       input: input,
       codeConfig: input.config.code,
       linkerOptions: linkerOptions,
