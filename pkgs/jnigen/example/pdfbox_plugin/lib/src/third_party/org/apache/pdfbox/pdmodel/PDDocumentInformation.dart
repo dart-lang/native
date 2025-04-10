@@ -94,7 +94,7 @@ class PDDocumentInformation extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' <init>()`
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default Constructor.
@@ -119,7 +119,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' <init>(org.apache.pdfbox.cos.COSDictionary dic)`
+  /// from: `public void <init>(org.apache.pdfbox.cos.COSDictionary dic)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that is used for a preexisting dictionary.
@@ -242,7 +242,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setTitle(java.lang.String title)`
+  /// from: `public void setTitle(java.lang.String title)`
   ///
   /// This will set the title of the document.
   ///@param title The new title for the document.
@@ -298,7 +298,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setAuthor(java.lang.String author)`
+  /// from: `public void setAuthor(java.lang.String author)`
   ///
   /// This will set the author of the document.
   ///@param author The new author for the document.
@@ -354,7 +354,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setSubject(java.lang.String subject)`
+  /// from: `public void setSubject(java.lang.String subject)`
   ///
   /// This will set the subject of the document.
   ///@param subject The new subject for the document.
@@ -411,7 +411,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setKeywords(java.lang.String keywords)`
+  /// from: `public void setKeywords(java.lang.String keywords)`
   ///
   /// This will set the keywords of the document.
   ///@param keywords The new keywords for the document.
@@ -467,7 +467,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setCreator(java.lang.String creator)`
+  /// from: `public void setCreator(java.lang.String creator)`
   ///
   /// This will set the creator of the document.
   ///@param creator The new creator for the document.
@@ -524,7 +524,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setProducer(java.lang.String producer)`
+  /// from: `public void setProducer(java.lang.String producer)`
   ///
   /// This will set the producer of the document.
   ///@param producer The new producer for the document.
@@ -581,7 +581,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setCreationDate(java.util.Calendar date)`
+  /// from: `public void setCreationDate(java.util.Calendar date)`
   ///
   /// This will set the creation date of the document.
   ///@param date The new creation date for the document.
@@ -638,7 +638,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setModificationDate(java.util.Calendar date)`
+  /// from: `public void setModificationDate(java.util.Calendar date)`
   ///
   /// This will set the modification date of the document.
   ///@param date The new modification date for the document.
@@ -766,7 +766,7 @@ class PDDocumentInformation extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setCustomMetadataValue(java.lang.String fieldName, java.lang.String fieldValue)`
+  /// from: `public void setCustomMetadataValue(java.lang.String fieldName, java.lang.String fieldValue)`
   ///
   /// Set the custom metadata value.
   ///@param fieldName The name of the custom metadata field.
@@ -801,7 +801,7 @@ class PDDocumentInformation extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setTrapped(java.lang.String value)`
+  /// from: `public void setTrapped(java.lang.String value)`
   ///
   /// This will set the trapped of the document.  This will be
   /// 'True', 'False', or 'Unknown'.

@@ -353,6 +353,10 @@ class PrimitiveType extends ReferredType {
 
   @override
   final String name;
+
+  @override
+  String toString() => name;
+
   @override
   List<Annotation>? annotations;
 

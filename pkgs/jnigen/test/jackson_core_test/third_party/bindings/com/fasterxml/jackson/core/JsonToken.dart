@@ -332,7 +332,7 @@ class JsonToken extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' id()`
+  /// from: `public final int id()`
   int id() {
     return _id(reference.pointer, _id_id as jni$_.JMethodIDPtr).integer;
   }
@@ -428,7 +428,7 @@ class JsonToken extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' isNumeric()`
+  /// from: `public final boolean isNumeric()`
   ///
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
@@ -454,7 +454,7 @@ class JsonToken extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' isStructStart()`
+  /// from: `public final boolean isStructStart()`
   ///
   /// Accessor that is functionally equivalent to:
   /// <code>
@@ -486,7 +486,7 @@ class JsonToken extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' isStructEnd()`
+  /// from: `public final boolean isStructEnd()`
   ///
   /// Accessor that is functionally equivalent to:
   /// <code>
@@ -518,7 +518,7 @@ class JsonToken extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' isScalarValue()`
+  /// from: `public final boolean isScalarValue()`
   ///
   /// Method that can be used to check whether this token represents
   /// a valid non-structured value. This means all {@code VALUE_xxx} tokens;
@@ -549,7 +549,7 @@ class JsonToken extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' isBoolean()`
+  /// from: `public final boolean isBoolean()`
   ///
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise

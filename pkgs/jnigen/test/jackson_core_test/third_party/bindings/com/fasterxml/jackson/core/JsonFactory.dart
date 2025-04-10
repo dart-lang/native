@@ -236,7 +236,7 @@ class JsonFactory$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public Instance of 'PrimitiveType' collectDefaults()`
+  /// from: `static public int collectDefaults()`
   ///
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
@@ -264,7 +264,7 @@ class JsonFactory$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' enabledByDefault()`
+  /// from: `public boolean enabledByDefault()`
   bool enabledByDefault() {
     return _enabledByDefault(
             reference.pointer, _id_enabledByDefault as jni$_.JMethodIDPtr)
@@ -287,7 +287,7 @@ class JsonFactory$Feature extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public Instance of 'PrimitiveType' enabledIn(int flags)`
+  /// from: `public boolean enabledIn(int flags)`
   bool enabledIn(
     int flags,
   ) {
@@ -313,7 +313,7 @@ class JsonFactory$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getMask()`
+  /// from: `public int getMask()`
   int getMask() {
     return _getMask(reference.pointer, _id_getMask as jni$_.JMethodIDPtr)
         .integer;
@@ -457,7 +457,7 @@ class JsonFactory extends jni$_.JObject {
       _id_DEFAULT_ROOT_VALUE_SEPARATOR.get(
           _class, const jni$_.JObjectNullableType());
 
-  /// from: `static public final Instance of 'PrimitiveType' DEFAULT_QUOTE_CHAR`
+  /// from: `static public final char DEFAULT_QUOTE_CHAR`
   ///
   /// @since 2.10
   static const DEFAULT_QUOTE_CHAR = 34;
@@ -477,7 +477,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' <init>()`
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Default constructor used to create factory instances.
@@ -509,7 +509,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' <init>(com.fasterxml.jackson.core.ObjectCodec oc)`
+  /// from: `public void <init>(com.fasterxml.jackson.core.ObjectCodec oc)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JsonFactory.new$1(
     jni$_.JObject? oc,
@@ -535,7 +535,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' <init>(com.fasterxml.jackson.core.JsonFactoryBuilder b)`
+  /// from: `public void <init>(com.fasterxml.jackson.core.JsonFactoryBuilder b)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor used by JsonFactoryBuilder for instantiation.
@@ -666,7 +666,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' requiresPropertyOrdering()`
+  /// from: `public boolean requiresPropertyOrdering()`
   ///
   /// Introspection method that higher-level functionality may call
   /// to see whether underlying data format requires a stable ordering
@@ -705,7 +705,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' canHandleBinaryNatively()`
+  /// from: `public boolean canHandleBinaryNatively()`
   ///
   /// Introspection method that higher-level functionality may call
   /// to see whether underlying data format can read and write binary
@@ -741,7 +741,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' canUseCharArrays()`
+  /// from: `public boolean canUseCharArrays()`
   ///
   /// Introspection method that can be used by base factory to check
   /// whether access using <code>char[]</code> is something that actual
@@ -777,7 +777,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' canParseAsync()`
+  /// from: `public boolean canParseAsync()`
   ///
   /// Introspection method that can be used to check whether this
   /// factory can create non-blocking parsers: parsers that do not
@@ -858,7 +858,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
+  /// from: `public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
   /// Method that can be used to quickly check whether given schema
   /// is something that parsers and/or generators constructed by this
@@ -954,7 +954,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' requiresCustomCodec()`
+  /// from: `public boolean requiresCustomCodec()`
   ///
   /// Method that can be called to determine if a custom
   /// ObjectCodec is needed for binding data parsed
@@ -1113,7 +1113,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final Instance of 'PrimitiveType' isEnabled(com.fasterxml.jackson.core.JsonFactory$Feature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonFactory$Feature f)`
   ///
   /// Checked whether specified parser feature is enabled.
   ///@param f Feature to check
@@ -1144,7 +1144,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' getParserFeatures()`
+  /// from: `public final int getParserFeatures()`
   int getParserFeatures() {
     return _getParserFeatures(
             reference.pointer, _id_getParserFeatures as jni$_.JMethodIDPtr)
@@ -1168,7 +1168,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final Instance of 'PrimitiveType' getGeneratorFeatures()`
+  /// from: `public final int getGeneratorFeatures()`
   int getGeneratorFeatures() {
     return _getGeneratorFeatures(
             reference.pointer, _id_getGeneratorFeatures as jni$_.JMethodIDPtr)
@@ -1192,7 +1192,7 @@ class JsonFactory extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getFormatParserFeatures()`
+  /// from: `public int getFormatParserFeatures()`
   int getFormatParserFeatures() {
     return _getFormatParserFeatures(reference.pointer,
             _id_getFormatParserFeatures as jni$_.JMethodIDPtr)
@@ -1217,7 +1217,7 @@ class JsonFactory extends jni$_.JObject {
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `public Instance of 'PrimitiveType' getFormatGeneratorFeatures()`
+  /// from: `public int getFormatGeneratorFeatures()`
   int getFormatGeneratorFeatures() {
     return _getFormatGeneratorFeatures(reference.pointer,
             _id_getFormatGeneratorFeatures as jni$_.JMethodIDPtr)
@@ -1339,7 +1339,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final Instance of 'PrimitiveType' isEnabled(com.fasterxml.jackson.core.JsonParser$Feature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonParser$Feature f)`
   ///
   /// Method for checking if the specified parser feature is enabled.
   ///@param f Feature to check
@@ -1369,7 +1369,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final Instance of 'PrimitiveType' isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)`
   ///
   /// Method for checking if the specified stream read feature is enabled.
   ///@param f Feature to check
@@ -1560,7 +1560,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final Instance of 'PrimitiveType' isEnabled(com.fasterxml.jackson.core.JsonGenerator$Feature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.JsonGenerator$Feature f)`
   ///
   /// Check whether specified generator feature is enabled.
   ///@param f Feature to check
@@ -1590,7 +1590,7 @@ class JsonFactory extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final Instance of 'PrimitiveType' isEnabled(com.fasterxml.jackson.core.StreamWriteFeature f)`
+  /// from: `public final boolean isEnabled(com.fasterxml.jackson.core.StreamWriteFeature f)`
   ///
   /// Check whether specified stream write feature is enabled.
   ///@param f Feature to check

@@ -74,7 +74,7 @@ class Notifications extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' <init>()`
+  /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
     return Notifications.fromReference(
@@ -108,7 +108,7 @@ class Notifications extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public Instance of 'PrimitiveType' showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
+  /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
     jni$_.JObject? context,
     int notificationID,

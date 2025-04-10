@@ -504,7 +504,7 @@ class JsonParser$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `static public Instance of 'PrimitiveType' collectDefaults()`
+  /// from: `static public int collectDefaults()`
   ///
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
@@ -532,7 +532,7 @@ class JsonParser$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' enabledByDefault()`
+  /// from: `public boolean enabledByDefault()`
   bool enabledByDefault() {
     return _enabledByDefault(
             reference.pointer, _id_enabledByDefault as jni$_.JMethodIDPtr)
@@ -555,7 +555,7 @@ class JsonParser$Feature extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public Instance of 'PrimitiveType' enabledIn(int flags)`
+  /// from: `public boolean enabledIn(int flags)`
   bool enabledIn(
     int flags,
   ) {
@@ -581,7 +581,7 @@ class JsonParser$Feature extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getMask()`
+  /// from: `public int getMask()`
   int getMask() {
     return _getMask(reference.pointer, _id_getMask as jni$_.JMethodIDPtr)
         .integer;
@@ -946,7 +946,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' setCodec(com.fasterxml.jackson.core.ObjectCodec oc)`
+  /// from: `public abstract void setCodec(com.fasterxml.jackson.core.ObjectCodec oc)`
   ///
   /// Setter that allows defining ObjectCodec associated with this
   /// parser, if any. Codec is used by \#readValueAs(Class)
@@ -1017,7 +1017,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setRequestPayloadOnError(com.fasterxml.jackson.core.util.RequestPayload payload)`
+  /// from: `public void setRequestPayloadOnError(com.fasterxml.jackson.core.util.RequestPayload payload)`
   ///
   /// Sets the payload to be passed if JsonParseException is thrown.
   ///@param payload Payload to pass
@@ -1056,7 +1056,7 @@ class JsonParser extends jni$_.JObject {
                   jni$_.Pointer<jni$_.Void>,
                   jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setRequestPayloadOnError(byte[] payload, java.lang.String charset)`
+  /// from: `public void setRequestPayloadOnError(byte[] payload, java.lang.String charset)`
   ///
   /// Sets the byte[] request payload and the charset
   ///@param payload Payload to pass
@@ -1093,7 +1093,7 @@ class JsonParser extends jni$_.JObject {
               jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setRequestPayloadOnError(java.lang.String payload)`
+  /// from: `public void setRequestPayloadOnError(java.lang.String payload)`
   ///
   /// Sets the String request payload
   ///@param payload Payload to pass
@@ -1125,7 +1125,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setSchema(com.fasterxml.jackson.core.FormatSchema schema)`
+  /// from: `public void setSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
   /// Method to call to make this parser use specified schema. Method must
   /// be called before trying to parse any content, right after parser instance
@@ -1191,7 +1191,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
+  /// from: `public boolean canUseSchema(com.fasterxml.jackson.core.FormatSchema schema)`
   ///
   /// Method that can be used to verify that given schema can be used with
   /// this parser (using \#setSchema).
@@ -1223,7 +1223,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' requiresCustomCodec()`
+  /// from: `public boolean requiresCustomCodec()`
   ///
   /// Method that can be called to determine if a custom
   /// ObjectCodec is needed for binding data parsed
@@ -1256,7 +1256,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' canParseAsync()`
+  /// from: `public boolean canParseAsync()`
   ///
   /// Method that can be called to determine if this parser instance
   /// uses non-blocking ("asynchronous") input access for decoding or not.
@@ -1382,7 +1382,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' close()`
+  /// from: `public abstract void close()`
   ///
   /// Closes the parser so that no further iteration or data access
   /// can be made; will also close the underlying input source
@@ -1419,7 +1419,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' isClosed()`
+  /// from: `public abstract boolean isClosed()`
   ///
   /// Method that can be called to determine whether this parser
   /// is closed or not. If it is closed, no new tokens can be
@@ -1655,7 +1655,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' assignCurrentValue(java.lang.Object v)`
+  /// from: `public void assignCurrentValue(java.lang.Object v)`
   ///
   /// Helper method, usually equivalent to:
   ///<code>
@@ -1717,7 +1717,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' setCurrentValue(java.lang.Object v)`
+  /// from: `public void setCurrentValue(java.lang.Object v)`
   ///
   /// Alias for \#assignCurrentValue, to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
@@ -1747,7 +1747,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' releaseBuffered(java.io.OutputStream out)`
+  /// from: `public int releaseBuffered(java.io.OutputStream out)`
   ///
   /// Method that can be called to push back any content that
   /// has been read but not consumed by the parser. This is usually
@@ -1785,7 +1785,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' releaseBuffered(java.io.Writer w)`
+  /// from: `public int releaseBuffered(java.io.Writer w)`
   ///
   /// Method that can be called to push back any content that
   /// has been read but not consumed by the parser.
@@ -1923,7 +1923,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' isEnabled(com.fasterxml.jackson.core.JsonParser$Feature f)`
+  /// from: `public boolean isEnabled(com.fasterxml.jackson.core.JsonParser$Feature f)`
   ///
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
@@ -1953,7 +1953,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)`
+  /// from: `public boolean isEnabled(com.fasterxml.jackson.core.StreamReadFeature f)`
   ///
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
@@ -1985,7 +1985,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getFeatureMask()`
+  /// from: `public int getFeatureMask()`
   ///
   /// Bulk access method for getting state of all standard Features.
   ///@return Bit mask that defines current states of all standard Features.
@@ -2084,7 +2084,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getFormatFeatures()`
+  /// from: `public int getFormatFeatures()`
   ///
   /// Bulk access method for getting state of all FormatFeatures, format-specific
   /// on/off configuration settings.
@@ -2226,7 +2226,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' nextFieldName(com.fasterxml.jackson.core.SerializableString str)`
+  /// from: `public boolean nextFieldName(com.fasterxml.jackson.core.SerializableString str)`
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// verifies whether it is JsonToken\#FIELD_NAME with specified name
@@ -2340,7 +2340,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public Instance of 'PrimitiveType' nextIntValue(int defaultValue)`
+  /// from: `public int nextIntValue(int defaultValue)`
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// if it is JsonToken\#VALUE_NUMBER_INT returns 32-bit int value;
@@ -2382,7 +2382,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public Instance of 'PrimitiveType' nextLongValue(long defaultValue)`
+  /// from: `public long nextLongValue(long defaultValue)`
   ///
   /// Method that fetches next token (as if calling \#nextToken) and
   /// if it is JsonToken\#VALUE_NUMBER_INT returns 64-bit long value;
@@ -2509,7 +2509,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' finishToken()`
+  /// from: `public void finishToken()`
   ///
   /// Method that may be used to force full handling of the current token
   /// so that even if lazy processing is enabled, the whole contents are
@@ -2582,7 +2582,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' currentTokenId()`
+  /// from: `public int currentTokenId()`
   ///
   /// Method similar to \#getCurrentToken() but that returns an
   /// <code>int</code> instead of JsonToken (enum value).
@@ -2647,7 +2647,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' getCurrentTokenId()`
+  /// from: `public abstract int getCurrentTokenId()`
   ///
   /// Deprecated alias for \#currentTokenId().
   ///@return {@code int} matching one of constants from JsonTokenId.
@@ -2675,7 +2675,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' hasCurrentToken()`
+  /// from: `public abstract boolean hasCurrentToken()`
   ///
   /// Method for checking whether parser currently points to
   /// a token (and data for that token is available).
@@ -2707,7 +2707,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' hasTokenId(int id)`
+  /// from: `public abstract boolean hasTokenId(int id)`
   ///
   /// Method that is functionally equivalent to:
   ///<code>
@@ -2745,7 +2745,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' hasToken(com.fasterxml.jackson.core.JsonToken t)`
+  /// from: `public abstract boolean hasToken(com.fasterxml.jackson.core.JsonToken t)`
   ///
   /// Method that is functionally equivalent to:
   ///<code>
@@ -2785,7 +2785,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' isExpectedStartArrayToken()`
+  /// from: `public boolean isExpectedStartArrayToken()`
   ///
   /// Specialized accessor that can be used to verify that the current
   /// token indicates start array (usually meaning that current token
@@ -2827,7 +2827,7 @@ class JsonParser extends jni$_.JObject {
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `public Instance of 'PrimitiveType' isExpectedStartObjectToken()`
+  /// from: `public boolean isExpectedStartObjectToken()`
   ///
   /// Similar to \#isExpectedStartArrayToken(), but checks whether stream
   /// currently points to JsonToken\#START_OBJECT.
@@ -2858,7 +2858,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' isExpectedNumberIntToken()`
+  /// from: `public boolean isExpectedNumberIntToken()`
   ///
   /// Similar to \#isExpectedStartArrayToken(), but checks whether stream
   /// currently points to JsonToken\#VALUE_NUMBER_INT.
@@ -2892,7 +2892,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' isNaN()`
+  /// from: `public boolean isNaN()`
   ///
   /// Access for checking whether current token is a numeric value token, but
   /// one that is of "not-a-number" (NaN) variety (including both "NaN" AND
@@ -2927,7 +2927,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' clearCurrentToken()`
+  /// from: `public abstract void clearCurrentToken()`
   ///
   /// Method called to "consume" the current token by effectively
   /// removing it so that \#hasCurrentToken returns false, and
@@ -2994,7 +2994,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' overrideCurrentName(java.lang.String name)`
+  /// from: `public abstract void overrideCurrentName(java.lang.String name)`
   ///
   /// Method that can be used to change what is considered to be
   /// the current (field) name.
@@ -3127,7 +3127,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' getText(java.io.Writer writer)`
+  /// from: `public int getText(java.io.Writer writer)`
   ///
   /// Method to read the textual representation of the current token in chunks and
   /// pass it to the given Writer.
@@ -3223,7 +3223,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' getTextLength()`
+  /// from: `public abstract int getTextLength()`
   ///
   /// Accessor used with \#getTextCharacters, to know length
   /// of String stored in returned buffer.
@@ -3255,7 +3255,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' getTextOffset()`
+  /// from: `public abstract int getTextOffset()`
   ///
   /// Accessor used with \#getTextCharacters, to know offset
   /// of the first text content character within buffer.
@@ -3287,7 +3287,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' hasTextCharacters()`
+  /// from: `public abstract boolean hasTextCharacters()`
   ///
   /// Method that can be used to determine whether calling of
   /// \#getTextCharacters would be the most efficient
@@ -3436,7 +3436,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getByteValue()`
+  /// from: `public byte getByteValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -3482,7 +3482,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getShortValue()`
+  /// from: `public short getShortValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -3522,7 +3522,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' getIntValue()`
+  /// from: `public abstract int getIntValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -3562,7 +3562,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' getLongValue()`
+  /// from: `public abstract long getLongValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_INT and
@@ -3639,7 +3639,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' getFloatValue()`
+  /// from: `public abstract float getFloatValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_FLOAT and
@@ -3679,7 +3679,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract Instance of 'PrimitiveType' getDoubleValue()`
+  /// from: `public abstract double getDoubleValue()`
   ///
   /// Numeric accessor that can be called when the current
   /// token is of type JsonToken\#VALUE_NUMBER_FLOAT and
@@ -3753,7 +3753,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getBooleanValue()`
+  /// from: `public boolean getBooleanValue()`
   ///
   /// Convenience accessor that can be called when the current
   /// token is JsonToken\#VALUE_TRUE or
@@ -3908,7 +3908,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' readBinaryValue(java.io.OutputStream out)`
+  /// from: `public int readBinaryValue(java.io.OutputStream out)`
   ///
   /// Method that can be used as an alternative to \#getBigIntegerValue(),
   /// especially when value can be large. The main difference (beyond method
@@ -3952,7 +3952,7 @@ class JsonParser extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public Instance of 'PrimitiveType' readBinaryValue(com.fasterxml.jackson.core.Base64Variant bv, java.io.OutputStream out)`
+  /// from: `public int readBinaryValue(com.fasterxml.jackson.core.Base64Variant bv, java.io.OutputStream out)`
   ///
   /// Similar to \#readBinaryValue(OutputStream) but allows explicitly
   /// specifying base64 variant to use.
@@ -3993,7 +3993,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsInt()`
+  /// from: `public int getValueAsInt()`
   ///
   /// Method that will try to convert value of current token to a
   /// Java {@code int} value.
@@ -4029,7 +4029,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsInt(int def)`
+  /// from: `public int getValueAsInt(int def)`
   ///
   /// Method that will try to convert value of current token to a
   /// __int__.
@@ -4069,7 +4069,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsLong()`
+  /// from: `public long getValueAsLong()`
   ///
   /// Method that will try to convert value of current token to a
   /// __long__.
@@ -4105,7 +4105,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsLong(long def)`
+  /// from: `public long getValueAsLong(long def)`
   ///
   /// Method that will try to convert value of current token to a
   /// __long__.
@@ -4145,7 +4145,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsDouble()`
+  /// from: `public double getValueAsDouble()`
   ///
   /// Method that will try to convert value of current token to a Java
   /// __double__.
@@ -4182,7 +4182,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsDouble(double def)`
+  /// from: `public double getValueAsDouble(double def)`
   ///
   /// Method that will try to convert value of current token to a
   /// Java __double__.
@@ -4222,7 +4222,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsBoolean()`
+  /// from: `public boolean getValueAsBoolean()`
   ///
   /// Method that will try to convert value of current token to a
   /// __boolean__.
@@ -4259,7 +4259,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public Instance of 'PrimitiveType' getValueAsBoolean(boolean def)`
+  /// from: `public boolean getValueAsBoolean(boolean def)`
   ///
   /// Method that will try to convert value of current token to a
   /// __boolean__.
@@ -4376,7 +4376,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' canReadObjectId()`
+  /// from: `public boolean canReadObjectId()`
   ///
   /// Introspection method that may be called to see if the underlying
   /// data format supports some kind of Object Ids natively (many do not;
@@ -4412,7 +4412,7 @@ class JsonParser extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public Instance of 'PrimitiveType' canReadTypeId()`
+  /// from: `public boolean canReadTypeId()`
   ///
   /// Introspection method that may be called to see if the underlying
   /// data format supports some kind of Type Ids natively (many do not;
@@ -4524,7 +4524,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T readValueAs(java.lang.Class valueType)`
+  /// from: `public T readValueAs(java.lang.Class<T> valueType)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into a non-container
@@ -4578,7 +4578,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public T readValueAs(com.fasterxml.jackson.core.type.TypeReference valueTypeRef)`
+  /// from: `public T readValueAs(com.fasterxml.jackson.core.type.TypeReference<?> valueTypeRef)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method to deserialize JSON content into a Java type, reference
@@ -4629,7 +4629,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.util.Iterator<T> readValuesAs(java.lang.Class valueType)`
+  /// from: `public java.util.Iterator<T> readValuesAs(java.lang.Class<T> valueType)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
@@ -4667,7 +4667,7 @@ class JsonParser extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public java.util.Iterator<T> readValuesAs(com.fasterxml.jackson.core.type.TypeReference valueTypeRef)`
+  /// from: `public java.util.Iterator<T> readValuesAs(com.fasterxml.jackson.core.type.TypeReference<T> valueTypeRef)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Method for reading sequence of Objects from parser stream,
