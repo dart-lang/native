@@ -1,3 +1,7 @@
+## 0.12.0-wip
+
+- Bump `package:native_assets_cli` to 0.15.0.
+
 ## 0.11.0
 
 - Replace `linkInPackage` with `Routing`.

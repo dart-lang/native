@@ -24,6 +24,7 @@ export 'src/config.dart'
         HookInput,
         LinkInput,
         LinkOutputBuilder,
+        PackageMetadata,
         ToAppBundle,
         ToBuildHooks,
         ToLinkHook;

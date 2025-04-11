@@ -179,7 +179,7 @@ extension CodeAssetType on CodeAsset {
   /// Write the old type to prevent old hooks and SDKs from failing.
   // TODO(https://github.com/dart-lang/native/issues/2132): Change this to the
   // new value after it has rolled.
-  static const String typeForAsset = syntax.NativeCodeAsset.typeValue;
+  static const String typeForAsset = syntax.NativeCodeAssetNew.typeValue;
 }
 
 extension EncodedCodeAsset on EncodedAsset {
