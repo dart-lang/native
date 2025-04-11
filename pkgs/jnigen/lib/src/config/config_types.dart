@@ -433,20 +433,13 @@ class Config {
                   'of "$binaryName".',
                 );
               }
-              final boundKind = (e.value as String) == 'DECLARED'
-                  ? Kind.declared
-                  : Kind.typeVariable;
               final ReferredType type;
-              if (boundKind == Kind.declared) {
+              if ((e.value as String) == 'DECLARED') {
                 type = DeclaredType(binaryName: boundName);
               } else {
                 type = TypeVar(name: boundName);
               }
-              return TypeUsage(
-                shorthand: binaryName,
-                kind: boundKind,
-                typeJson: {},
-              )..type = type;
+              return type;
             }).toList();
             classDecl.allTypeParams.add(
               TypeParam(name: typeParamName, bounds: bounds),

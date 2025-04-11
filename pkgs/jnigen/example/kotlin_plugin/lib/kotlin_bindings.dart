@@ -5,6 +5,7 @@
 // ignore_for_file: camel_case_extensions
 // ignore_for_file: camel_case_types
 // ignore_for_file: constant_identifier_names
+// ignore_for_file: comment_references
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
 // ignore_for_file: inference_failure_on_untyped_parameter
@@ -92,7 +93,7 @@ class Example extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation continuation)`
+  /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> thinkBeforeAnswering() async {
     final $p = jni$_.ReceivePort();

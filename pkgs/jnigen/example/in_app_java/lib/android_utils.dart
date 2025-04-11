@@ -5,6 +5,7 @@
 // ignore_for_file: camel_case_extensions
 // ignore_for_file: camel_case_types
 // ignore_for_file: constant_identifier_names
+// ignore_for_file: comment_references
 // ignore_for_file: doc_directive_unknown
 // ignore_for_file: file_names
 // ignore_for_file: inference_failure_on_untyped_parameter
@@ -782,7 +783,7 @@ class EmojiCompat$Config extends jni$_.JObject {
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List list)`
+  /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List<java.lang.Integer> list)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setUseEmojiAsDefaultStyle$1(
     bool z,
@@ -3737,7 +3738,7 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper
                   jni$_.Pointer<jni$_.Void>,
                   int)>();
 
-  /// from: `public java.util.List queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
+  /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
     jni$_.JObject packageManager,
@@ -3949,7 +3950,7 @@ class DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19
                   jni$_.Pointer<jni$_.Void>,
                   int)>();
 
-  /// from: `public java.util.List queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
+  /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
     jni$_.JObject packageManager,
@@ -5448,7 +5449,7 @@ class Build extends jni$_.JObject {
                 jni$_.JMethodIDPtr,
               )>();
 
-  /// from: `static public java.util.List getFingerprintedPartitions()`
+  /// from: `static public java.util.List<android.os.Build$Partition> getFingerprintedPartitions()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JList<Build$Partition?>? getFingerprintedPartitions() {
     return _getFingerprintedPartitions(_class.reference.pointer,
@@ -5703,7 +5704,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(java.util.Map map)`
+  /// from: `public void <init>(java.util.Map<? extends K, ? extends V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$3(
     jni$_.JMap<$K?, $V?>? map, {
@@ -5868,7 +5869,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void putAll(java.util.Map map)`
+  /// from: `public void putAll(java.util.Map<? extends K, ? extends V> map)`
   void putAll(
     jni$_.JMap<$K?, $V?>? map,
   ) {
@@ -5969,7 +5970,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.Set keySet()`
+  /// from: `public java.util.Set<K> keySet()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JSet<$K?>? keySet() {
     return _keySet(reference.pointer, _id_keySet as jni$_.JMethodIDPtr)
@@ -5993,7 +5994,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.Collection values()`
+  /// from: `public java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? values() {
     return _values(reference.pointer, _id_values as jni$_.JMethodIDPtr)
@@ -6017,7 +6018,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.Set entrySet()`
+  /// from: `public java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JSet<jni$_.JObject?>? entrySet() {
     return _entrySet(reference.pointer, _id_entrySet as jni$_.JMethodIDPtr)
@@ -6231,7 +6232,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V computeIfAbsent(K object, java.util.function.Function function)`
+  /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? computeIfAbsent(
     $K? object,
@@ -6269,7 +6270,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction biFunction)`
+  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? computeIfPresent(
     $K? object,
@@ -6307,7 +6308,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V compute(K object, java.util.function.BiFunction biFunction)`
+  /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? compute(
     $K? object,
@@ -6344,7 +6345,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public V merge(K object, V object1, java.util.function.BiFunction biFunction)`
+  /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? merge(
     $K? object,
@@ -6375,7 +6376,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void forEach(java.util.function.BiConsumer biConsumer)`
+  /// from: `public void forEach(java.util.function.BiConsumer<? super K, ? super V> biConsumer)`
   void forEach(
     jni$_.JObject? biConsumer,
   ) {
@@ -6401,7 +6402,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void replaceAll(java.util.function.BiFunction biFunction)`
+  /// from: `public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   void replaceAll(
     jni$_.JObject? biFunction,
   ) {
@@ -6449,7 +6450,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `static public java.util.HashMap newHashMap(int i)`
+  /// from: `static public java.util.HashMap<K, V> newHashMap(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static HashMap<$K?, $V?>?
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(

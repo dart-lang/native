@@ -107,31 +107,31 @@ void main() {
       'Foo': ast.ClassDecl(
         binaryName: 'Foo',
         declKind: ast.DeclKind.classKind,
-        superclass: ast.TypeUsage.object,
+        superclass: ast.DeclaredType.object,
         methods: [
-          ast.Method(name: 'foo', returnType: ast.TypeUsage.object),
-          ast.Method(name: 'Bar', returnType: ast.TypeUsage.object),
-          ast.Method(name: 'foo1', returnType: ast.TypeUsage.object),
-          ast.Method(name: 'Bar', returnType: ast.TypeUsage.object),
+          ast.Method(name: 'foo', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'foo1', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
         ],
         fields: [
-          ast.Field(name: 'foo', type: ast.TypeUsage.object),
-          ast.Field(name: 'Bar', type: ast.TypeUsage.object),
-          ast.Field(name: 'foo1', type: ast.TypeUsage.object),
-          ast.Field(name: 'Bar', type: ast.TypeUsage.object),
+          ast.Field(name: 'foo', type: ast.DeclaredType.object),
+          ast.Field(name: 'Bar', type: ast.DeclaredType.object),
+          ast.Field(name: 'foo1', type: ast.DeclaredType.object),
+          ast.Field(name: 'Bar', type: ast.DeclaredType.object),
         ],
       ),
       'y.Foo': ast.ClassDecl(
           binaryName: 'y.Foo',
           declKind: ast.DeclKind.classKind,
-          superclass: ast.TypeUsage.object,
+          superclass: ast.DeclaredType.object,
           methods: [
-            ast.Method(name: 'foo', returnType: ast.TypeUsage.object),
-            ast.Method(name: 'Bar', returnType: ast.TypeUsage.object),
+            ast.Method(name: 'foo', returnType: ast.DeclaredType.object),
+            ast.Method(name: 'Bar', returnType: ast.DeclaredType.object),
           ],
           fields: [
-            ast.Field(name: 'foo', type: ast.TypeUsage.object),
-            ast.Field(name: 'Bar', type: ast.TypeUsage.object),
+            ast.Field(name: 'foo', type: ast.DeclaredType.object),
+            ast.Field(name: 'Bar', type: ast.DeclaredType.object),
           ]),
     });
 
@@ -153,30 +153,30 @@ void main() {
       'Foo': ast.ClassDecl(
         binaryName: 'Foo',
         declKind: ast.DeclKind.classKind,
-        superclass: ast.TypeUsage.object,
+        superclass: ast.DeclaredType.object,
         methods: [
-          ast.Method(name: 'Foo', returnType: ast.TypeUsage.object),
-          ast.Method(name: 'Foo', returnType: ast.TypeUsage.object),
-          ast.Method(name: 'Foo1', returnType: ast.TypeUsage.object),
-          ast.Method(name: 'Foo1', returnType: ast.TypeUsage.object),
+          ast.Method(name: 'Foo', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Foo', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Foo1', returnType: ast.DeclaredType.object),
+          ast.Method(name: 'Foo1', returnType: ast.DeclaredType.object),
         ],
         fields: [
-          ast.Field(name: 'Foo', type: ast.TypeUsage.object),
-          ast.Field(name: 'Foo', type: ast.TypeUsage.object),
-          ast.Field(name: 'Foo1', type: ast.TypeUsage.object),
-          ast.Field(name: 'Foo1', type: ast.TypeUsage.object),
+          ast.Field(name: 'Foo', type: ast.DeclaredType.object),
+          ast.Field(name: 'Foo', type: ast.DeclaredType.object),
+          ast.Field(name: 'Foo1', type: ast.DeclaredType.object),
+          ast.Field(name: 'Foo1', type: ast.DeclaredType.object),
         ],
       ),
       'y.Foo': ast.ClassDecl(
         binaryName: 'y.Foo',
         declKind: ast.DeclKind.classKind,
-        superclass: ast.TypeUsage.object,
+        superclass: ast.DeclaredType.object,
         methods: [
-          ast.Method(name: 'Foo', returnType: ast.TypeUsage.object, params: [
-            ast.Param(name: 'Foo', type: ast.TypeUsage.object),
-            ast.Param(name: 'Foo1', type: ast.TypeUsage.object),
+          ast.Method(name: 'Foo', returnType: ast.DeclaredType.object, params: [
+            ast.Param(name: 'Foo', type: ast.DeclaredType.object),
+            ast.Param(name: 'Foo1', type: ast.DeclaredType.object),
           ]),
-          ast.Method(name: '<init>', returnType: ast.TypeUsage.object)
+          ast.Method(name: '<init>', returnType: ast.DeclaredType.object)
         ],
       ),
     });

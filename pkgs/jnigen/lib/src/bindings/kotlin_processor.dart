@@ -147,23 +147,23 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
     if (function.isSuspend) {
       const kotlinContinutationType = 'kotlin.coroutines.Continuation';
       assert(node.params.isNotEmpty &&
-          node.params.last.type.kind == Kind.declared &&
+          node.params.last.type is DeclaredType &&
           node.params.last.type.name == kotlinContinutationType);
       var continuationType =
-          (node.params.last.type.type as DeclaredType).params.firstOrNull;
+          (node.params.last.type as DeclaredType).params.firstOrNull;
       if (continuationType != null &&
-          continuationType.kind == Kind.wildcard &&
-          (continuationType.type as Wildcard).superBound != null) {
-        continuationType = (continuationType.type as Wildcard).superBound!;
+          continuationType is Wildcard &&
+          continuationType.superBound != null) {
+        continuationType = continuationType.superBound!;
       }
       node.asyncReturnType = continuationType == null
-          ? TypeUsage.object
+          ? DeclaredType.object
           : continuationType.clone();
       node.asyncReturnType!.accept(_KotlinTypeProcessor(function.returnType));
 
       // The continuation object is always non-null.
-      node.returnType.type.annotations ??= [];
-      node.returnType.type.annotations!.add(Annotation.nonNull);
+      node.returnType.annotations ??= [];
+      node.returnType.annotations!.add(Annotation.nonNull);
     } else {
       node.returnType.accept(_KotlinTypeProcessor(function.returnType));
     }
