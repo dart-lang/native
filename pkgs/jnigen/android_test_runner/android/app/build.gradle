@@ -25,7 +25,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.github.dart_lang.jnigen.android_integration_test"
 
-    compileSdkVersion 35
+    compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
