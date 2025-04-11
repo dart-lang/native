@@ -36,15 +36,14 @@ final class EncodedAsset {
   ]) {
     final syntax_ = syntax.Asset.fromJson(json, path: path ?? []);
     final encodingSyntax = syntax_.encoding;
-    final encoding =
-        encodingSyntax != null
-            // If 'encoding' is provided, copy that.
-            ? Map.of(encodingSyntax.json)
-            // Otherwise, fall back to copying the keys except for 'type'.
-            : {
-              for (final key in json.keys)
-                if (key != _typeKey) key: json[key],
-            };
+    final encoding = encodingSyntax != null
+        // If 'encoding' is provided, copy that.
+        ? Map.of(encodingSyntax.json)
+        // Otherwise, fall back to copying the keys except for 'type'.
+        : {
+            for (final key in json.keys)
+              if (key != _typeKey) key: json[key],
+          };
     final path_ = encodingSyntax != null ? [...?path, 'encoding'] : path;
 
     return EncodedAsset._(

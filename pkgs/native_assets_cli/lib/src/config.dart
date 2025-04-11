@@ -103,10 +103,9 @@ extension type HookInputUserDefines._(HookInput _input) {
 }
 
 sealed class HookInputBuilder {
-  final _syntax =
-      syntax.HookInput.fromJson({})
-        ..version = latestVersion.toString()
-        ..config = syntax.Config(buildAssetTypes: [], extensions: null);
+  final _syntax = syntax.HookInput.fromJson({})
+    ..version = latestVersion.toString()
+    ..config = syntax.Config(buildAssetTypes: [], extensions: null);
 
   Map<String, Object?> get json => _syntax.json;
 
@@ -129,8 +128,9 @@ sealed class HookInputBuilder {
     _syntax.outDir = outputDirectory;
     _syntax.outDirShared = outputDirectoryShared;
     _syntax.outFile = outputFile;
-    _syntax.userDefines =
-        userDefines == null ? null : syntax.JsonObject.fromJson(userDefines);
+    _syntax.userDefines = userDefines == null
+        ? null
+        : syntax.JsonObject.fromJson(userDefines);
   }
 
   /// Constructs a checksum for a [BuildInput].
@@ -237,16 +237,15 @@ final class BuildInputBuilder extends HookInputBuilder {
       dependencyMetadata: {
         for (final key in metadata.keys) key: metadata[key]!.toJson(),
       },
-      assets:
-          assets == null
-              ? null
-              : {
-                for (final MapEntry(:key, :value) in assets.entries)
-                  key: [
-                    for (final asset in value)
-                      syntax.Asset.fromJson(asset.toJson()),
-                  ],
-              },
+      assets: assets == null
+          ? null
+          : {
+              for (final MapEntry(:key, :value) in assets.entries)
+                key: [
+                  for (final asset in value)
+                    syntax.Asset.fromJson(asset.toJson()),
+                ],
+            },
     );
   }
 
@@ -332,13 +331,12 @@ final class LinkInputBuilder extends HookInputBuilder {
       extension.setupLinkInput(this);
 }
 
-List<EncodedAsset> _parseAssets(List<syntax.Asset>? assets) =>
-    assets == null
-        ? []
-        : [
-          for (final asset in assets)
-            EncodedAsset.fromJson(asset.json, asset.path),
-        ];
+List<EncodedAsset> _parseAssets(List<syntax.Asset>? assets) => assets == null
+    ? []
+    : [
+        for (final asset in assets)
+          EncodedAsset.fromJson(asset.json, asset.path),
+      ];
 
 sealed class HookOutput {
   /// The underlying json configuration of this [HookOutput].

@@ -132,35 +132,34 @@ void main() async {
   }
 
   test('BuildInput.config.code', () {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.android,
-              targetArchitecture: Architecture.arm64,
-              android: AndroidCodeConfig(targetNdkApi: 30),
-              linkModePreference: LinkModePreference.preferStatic,
-              cCompiler: CCompilerConfig(
-                compiler: fakeClang,
-                linker: fakeLd,
-                archiver: fakeAr,
-                windows: WindowsCCompilerConfig(
-                  developerCommandPrompt: DeveloperCommandPrompt(
-                    script: fakeVcVars,
-                    arguments: ['arg0', 'arg1'],
-                  ),
-                ),
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.android,
+          targetArchitecture: Architecture.arm64,
+          android: AndroidCodeConfig(targetNdkApi: 30),
+          linkModePreference: LinkModePreference.preferStatic,
+          cCompiler: CCompilerConfig(
+            compiler: fakeClang,
+            linker: fakeLd,
+            archiver: fakeAr,
+            windows: WindowsCCompilerConfig(
+              developerCommandPrompt: DeveloperCommandPrompt(
+                script: fakeVcVars,
+                arguments: ['arg0', 'arg1'],
               ),
             ),
-          );
+          ),
+        ),
+      );
     final input = BuildInput(inputBuilder.json);
     expect(input.json, inputJson(includeDeprecated: true));
     expectCorrectCodeConfig(input.config.code);
@@ -182,35 +181,34 @@ void main() async {
   });
 
   test('LinkInput.{code,codeAssets}', () {
-    final inputBuilder =
-        LinkInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..setupLink(assets: assets, recordedUsesFile: null)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.android,
-              targetArchitecture: Architecture.arm64,
-              android: AndroidCodeConfig(targetNdkApi: 30),
-              linkModePreference: LinkModePreference.preferStatic,
-              cCompiler: CCompilerConfig(
-                compiler: fakeClang,
-                linker: fakeLd,
-                archiver: fakeAr,
-                windows: WindowsCCompilerConfig(
-                  developerCommandPrompt: DeveloperCommandPrompt(
-                    script: fakeVcVars,
-                    arguments: ['arg0', 'arg1'],
-                  ),
-                ),
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLink(assets: assets, recordedUsesFile: null)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.android,
+          targetArchitecture: Architecture.arm64,
+          android: AndroidCodeConfig(targetNdkApi: 30),
+          linkModePreference: LinkModePreference.preferStatic,
+          cCompiler: CCompilerConfig(
+            compiler: fakeClang,
+            linker: fakeLd,
+            archiver: fakeAr,
+            windows: WindowsCCompilerConfig(
+              developerCommandPrompt: DeveloperCommandPrompt(
+                script: fakeVcVars,
+                arguments: ['arg0', 'arg1'],
               ),
             ),
-          );
+          ),
+        ),
+      );
     final input = LinkInput(inputBuilder.json);
     expect(input.json, inputJson(hookType: 'link', includeDeprecated: true));
     expectCorrectCodeConfig(input.config.code);
@@ -240,10 +238,9 @@ void main() async {
   test('BuildInput.config.code: invalid architecture', () {
     final input = inputJson();
     traverseJson<Map<String, Object?>>(input, [
-          'config',
-          'code',
-        ])['target_architecture'] =
-        'invalid_architecture';
+      'config',
+      'code',
+    ])['target_architecture'] = 'invalid_architecture';
     expect(
       () => BuildInput(input).config.code.targetArchitecture,
       throwsFormatException,
@@ -260,11 +257,10 @@ void main() async {
   test('LinkInput.config.code.target_os invalid type', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
-          'config',
-          'extensions',
-          'code_assets',
-        ])['target_os'] =
-        123;
+      'config',
+      'extensions',
+      'code_assets',
+    ])['target_os'] = 123;
     expect(
       () => LinkInput(input).config.code.targetOS,
       throwsA(

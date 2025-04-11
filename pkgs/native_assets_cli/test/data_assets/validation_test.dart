@@ -31,17 +31,16 @@ void main() {
   });
 
   BuildInput makeDataBuildInput() {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: tempUri.resolve('$packageName/'),
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outDirSharedUri,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(DataAssetsExtension());
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: tempUri.resolve('$packageName/'),
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(DataAssetsExtension());
     return BuildInput(inputBuilder.json);
   }
 
