@@ -1,4 +1,4 @@
-## 0.15.0-wip
+## 0.15.0
 
 - **Breaking change** JSON encoding migration: change written asset type to the
   namespaced one. Still keep reading the old one. (Old build hooks will keep
