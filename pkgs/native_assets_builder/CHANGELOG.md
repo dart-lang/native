@@ -1,6 +1,7 @@
-## 0.15.0-wip
+## 0.15.0-0
 
-- Bump `package:native_assets_cli` to 0.15.0.
+- Bump `package:native_assets_cli` to 0.15.0-0.
+- Note: due to a Dart SDK dev release lowerbound, this is now a pre-release.
 
 ## 0.14.0
 
