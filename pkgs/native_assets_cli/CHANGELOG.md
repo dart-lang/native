@@ -5,6 +5,7 @@
   working with new SDKs.)
 - Bump SDK lower bound to version that understands namespaced asset types.
   (Version 3.8.0-260.0.dev)
+- Note: due to a Dart SDK dev release lowerbound, this is now a pre-release.
 
 ## 0.14.0
 
