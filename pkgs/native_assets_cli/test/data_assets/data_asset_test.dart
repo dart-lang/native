@@ -17,7 +17,7 @@ void main() async {
         'file': 'not there',
         'package': 'my_package',
         'name': 'name',
-        'type': 'data',
+        'type': 'data_assets/data',
         'encoding': {
           'file': 'not there',
           'name': 'name',

@@ -1,3 +1,11 @@
+## 0.15.0-0
+
+- **Breaking change** JSON encoding migration: change written asset type to the
+  namespaced one. Still keep reading the old one. (Old build hooks will keep
+  working with new SDKs.)
+- Bump SDK lower bound to version that understands namespaced asset types.
+  (Version 3.8.0-260.0.dev)
+
 ## 0.14.0
 
 - Added support for sending assets between build hooks via the `ToBuild`

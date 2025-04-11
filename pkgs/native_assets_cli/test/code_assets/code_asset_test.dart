@@ -22,7 +22,7 @@ void main() async {
         'id': 'package:my_package/name',
         'link_mode': {'type': 'dynamic_loading_bundle'},
         'os': 'android',
-        'type': 'native_code',
+        'type': 'code_assets/code',
         'encoding': {
           'architecture': 'riscv64',
           'file': 'not there',

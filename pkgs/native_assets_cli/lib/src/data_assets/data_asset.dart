@@ -92,7 +92,7 @@ extension DataAssetType on DataAsset {
   /// Write the old type to prevent old hooks and SDKs from failing.
   // TODO(https://github.com/dart-lang/native/issues/2132): Change this to the
   // new value after it has rolled.
-  static const String typeForAssets = syntax.DataAsset.typeValue;
+  static const String typeForAssets = syntax.DataAssetNew.typeValue;
 }
 
 extension EncodedDataAsset on EncodedAsset {
