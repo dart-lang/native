@@ -62,9 +62,9 @@ workspace:
 # Hook user-defines are specified in the pub workspace.
 hooks:
   user_defines:
-    user_defines:
+    user_defines: # package name
       user_define_key: user_define_value
       user_define_key2:
         foo: bar
-    some_other_package:
+    some_other_package: # package name
       user_define_key3: user_define_value3
