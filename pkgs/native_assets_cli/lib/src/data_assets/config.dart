@@ -81,10 +81,9 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
 /// Extension to the [HookConfig] providing access to configuration specific
 /// to data assets.
 extension DataAssetHookConfig on HookConfig {
-  bool get buildDataAssets =>
-      buildAssetTypes
-          .where((e) => DataAssetType.typesForBuildAssetTypes.contains(e))
-          .isNotEmpty;
+  bool get buildDataAssets => buildAssetTypes
+      .where((e) => DataAssetType.typesForBuildAssetTypes.contains(e))
+      .isNotEmpty;
 }
 
 /// Extension to initialize data specific configuration on link/build inputs.
@@ -149,18 +148,16 @@ extension type DataAssetLinkOutputBuilderAdd(
 
 /// Provides access to [DataAsset]s from a build hook output.
 extension DataAssetBuildOutput on BuildOutputAssets {
-  List<DataAsset> get data =>
-      encodedAssets
-          .where((asset) => asset.isDataAsset)
-          .map<DataAsset>(DataAsset.fromEncoded)
-          .toList();
+  List<DataAsset> get data => encodedAssets
+      .where((asset) => asset.isDataAsset)
+      .map<DataAsset>(DataAsset.fromEncoded)
+      .toList();
 }
 
 /// Provides access to [DataAsset]s from a link hook output.
 extension DataAssetLinkOutput on LinkOutputAssets {
-  List<DataAsset> get data =>
-      encodedAssets
-          .where((asset) => asset.isDataAsset)
-          .map<DataAsset>(DataAsset.fromEncoded)
-          .toList();
+  List<DataAsset> get data => encodedAssets
+      .where((asset) => asset.isDataAsset)
+      .map<DataAsset>(DataAsset.fromEncoded)
+      .toList();
 }

@@ -100,11 +100,11 @@ extension ArchitectureSyntax on Architecture {
 
   syntax.Architecture toSyntax() => _toSyntax[this]!;
 
-  static Architecture fromSyntax(
-    syntax.Architecture syntax,
-  ) => switch (_fromSyntax[syntax]) {
-    null =>
-      throw FormatException('The architecture "${syntax.name}" is not known'),
-    final arch => arch,
-  };
+  static Architecture fromSyntax(syntax.Architecture syntax) =>
+      switch (_fromSyntax[syntax]) {
+        null => throw FormatException(
+          'The architecture "${syntax.name}" is not known',
+        ),
+        final arch => arch,
+      };
 }

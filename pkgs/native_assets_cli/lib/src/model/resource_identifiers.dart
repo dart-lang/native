@@ -20,11 +20,10 @@ class ResourceIdentifiers {
   factory ResourceIdentifiers.fromFileContents(String fileContents) {
     final fileJson = (jsonDecode(fileContents) as Map)['identifiers'] as List;
     return ResourceIdentifiers(
-      identifiers:
-          fileJson
-              .map((e) => e as Map<String, Object?>)
-              .map(Identifier.fromJson)
-              .toList(),
+      identifiers: fileJson
+          .map((e) => e as Map<String, Object?>)
+          .map(Identifier.fromJson)
+          .toList(),
     );
   }
 
