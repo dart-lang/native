@@ -5,7 +5,18 @@
 // This file contains utils that are intended to be overridden by downstream
 // clones. They're gathered into one file to make it easy to swap them out.
 
+import 'dart:io';
+
 import 'package:path/path.dart' as p;
+
+// Replaces the path separators according to current platform.
+String _replaceSeparators(String path) {
+  if (Platform.isWindows) {
+    return path.replaceAll(p.posix.separator, p.windows.separator);
+  } else {
+    return path.replaceAll(p.windows.separator, p.posix.separator);
+  }
+}
 
 /// Replaces the path separators according to current platform, and normalizes .
 /// and .. in the path. If a relative path is passed in, it is resolved relative
@@ -18,9 +29,9 @@ String normalizePath(String path, String? configFilename) {
       : p.absolute(p.join(p.dirname(configFilename), path))));
 }
 
-/// This is the first location searched for the clang dylib. Downstream clones
-/// can use a non-null value for this path to search here first.
-final String? libclangOverridablePath = null;
+/// These locations are searched for clang dylibs before any others. Downstream
+/// clones can use a non-null value for this path to search here first.
+final List<String> libclangOverridePaths = const <String>[];
 
 /// Returns the root path of the package, for use during tests.
 ///

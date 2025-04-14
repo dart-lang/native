@@ -308,8 +308,10 @@ String? _findLibInConda() {
 /// Returns location of dynamic library by searching default locations. Logs
 /// error and throws an Exception if not found.
 String findDylibAtDefaultLocations() {
-  final overridableLib = findLibclangDylib(libclangOverridablePath);
-  if (overridableLib != null) return overridableLib;
+  for (final libclangPath in libclangOverridePaths) {
+    final overridableLib = findLibclangDylib(libclangPath);
+    if (overridableLib != null) return overridableLib;
+  }
 
   // Assume clang in conda has a higher priority.
   final condaLib = _findLibInConda();

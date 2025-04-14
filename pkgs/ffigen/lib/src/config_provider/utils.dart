@@ -4,18 +4,7 @@
 
 import 'dart:io';
 
-import 'package:path/path.dart' as p;
-
-export 'overridable_utils.dart';
-
-// Replaces the path separators according to current platform.
-String _replaceSeparators(String path) {
-  if (Platform.isWindows) {
-    return path.replaceAll(p.posix.separator, p.windows.separator);
-  } else {
-    return path.replaceAll(p.windows.separator, p.posix.separator);
-  }
-}
+export 'overrideable_utils.dart';
 
 /// Replaces any variable names in the path with the corresponding value.
 String substituteVars(String path) {
