@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+export 'overridable_utils.dart';
+
 // Replaces the path separators according to current platform.
 String _replaceSeparators(String path) {
   if (Platform.isWindows) {
@@ -13,17 +15,6 @@ String _replaceSeparators(String path) {
   } else {
     return path.replaceAll(p.windows.separator, p.posix.separator);
   }
-}
-
-/// Replaces the path separators according to current platform, and normalizes .
-/// and .. in the path. If a relative path is passed in, it is resolved relative
-/// to the config path, and the absolute path is returned.
-String normalizePath(String path, String? configFilename) {
-  final resolveInConfigDir =
-      (configFilename == null) || p.isAbsolute(path) || path.startsWith('**');
-  return _replaceSeparators(p.normalize(resolveInConfigDir
-      ? path
-      : p.absolute(p.join(p.dirname(configFilename), path))));
 }
 
 /// Replaces any variable names in the path with the corresponding value.

@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
@@ -91,7 +92,7 @@ void _matchFileWithExpected({
       fileWriter,
   String Function(String)? codeNormalizer,
 }) {
-  final expectedPath = path.joinAll(pathToExpected);
+  final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
   final file = File(
     path.join(strings.tmpDir, pathForActual),
   );
@@ -146,7 +147,8 @@ Config testConfig(String yamlBody, {String? filename}) {
     packageConfig: PackageConfig([
       Package(
         'shared_bindings',
-        Uri.file(path.join(path.current, 'example', 'shared_bindings', 'lib/')),
+        Uri.file(path.join(
+            packagePathForTests, 'example', 'shared_bindings', 'lib/')),
       ),
     ]),
   );
