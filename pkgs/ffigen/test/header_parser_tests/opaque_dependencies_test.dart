@@ -22,7 +22,7 @@ ${strings.description}: 'Opaque Dependencies Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/opaque_dependencies.h'
+    - '${absPath('test/header_parser_tests/opaque_dependencies.h')}'
 ${strings.structs}:
   ${strings.include}:
     - 'E'

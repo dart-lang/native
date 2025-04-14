@@ -23,7 +23,7 @@ ${strings.description}: 'Globals Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/globals.h'
+    - '${absPath('test/header_parser_tests/globals.h')}'
   ${strings.includeDirectives}:
     - '**globals.h'
 ${strings.globals}:

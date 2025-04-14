@@ -31,9 +31,9 @@ String normalizePath(String path, String? configFilename) {
 
 /// These locations are searched for clang dylibs before any others. Downstream
 /// clones can use a non-null value for this path to search here first.
-final List<String> libclangOverridePaths = const <String>[];
+final libclangOverridePaths = const <String>[];
 
 /// Returns the root path of the package, for use during tests.
 ///
 /// Note that `dart test` sets the current directory to the package root.
-final String packagePathForTests = p.current;
+final packagePathForTests = p.current;

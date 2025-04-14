@@ -22,7 +22,7 @@ ${strings.description}: 'Comment Markup Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/comment_markup.h'
+    - '${absPath('test/header_parser_tests/comment_markup.h')}'
 ${strings.comments}:
   ${strings.style}: ${strings.any}
   ${strings.length}: ${strings.full}

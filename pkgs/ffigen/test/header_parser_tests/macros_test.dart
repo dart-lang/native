@@ -24,7 +24,7 @@ ${strings.description}: 'Macros Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/macros.h'
+    - '${absPath('test/header_parser_tests/macros.h')}'
   ${strings.includeDirectives}:
     - '**macros.h'
         '''),

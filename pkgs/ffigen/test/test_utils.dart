@@ -81,6 +81,9 @@ void matchLibrarySymbolFileWithExpected(Library library, String pathForActual,
 
 const bool updateExpectations = false;
 
+/// Transforms a repo relative path to an absolute path.
+String absPath(String p) => path.join(packagePathForTests, p);
+
 /// Generates actual file using library and tests using [expect] with expected.
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
