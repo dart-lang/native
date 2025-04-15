@@ -45,17 +45,16 @@ void main() async {
   });
 
   test('LinkInputBuilder->JSON->LinkInput', () {
-    final inputBuilder =
-        LinkInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])
-          ..setupLink(assets: assets, recordedUsesFile: null);
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])
+      ..setupLink(assets: assets, recordedUsesFile: null);
     final input = LinkInput(inputBuilder.json);
 
     expect(input.json, inputJson);

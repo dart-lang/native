@@ -36,8 +36,9 @@ Future<void> testBuildHook({
 
   try {
     // Deal with Windows temp folder aliases.
-    final tempUri =
-        Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+    final tempUri = Directory(
+      await tempDir.resolveSymbolicLinks(),
+    ).uri.normalizePath();
     final outputDirectory = tempUri.resolve('output/');
     final outputDirectoryShared = tempUri.resolve('output_shared/');
     final outputFile = tempUri.resolve('output.json');

@@ -11,12 +11,9 @@ void main() {
   late Uri tempUri;
 
   setUp(
-    () async =>
-        tempUri =
-            Directory(
-              await (await Directory.systemTemp.createTemp())
-                  .resolveSymbolicLinks(),
-            ).uri,
+    () async => tempUri = Directory(
+      await (await Directory.systemTemp.createTemp()).resolveSymbolicLinks(),
+    ).uri,
   );
 
   tearDown(

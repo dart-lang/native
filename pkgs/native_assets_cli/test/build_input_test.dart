@@ -85,18 +85,17 @@ void main() async {
   });
 
   test('BuildInputBuilder->JSON->BuildInput', () {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..config.addBuildAssetTypes(['my-asset-type'])
-          ..config.setupBuild(linkingEnabled: false)
-          ..setupBuildInput(metadata: metadata, assets: assets);
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.addBuildAssetTypes(['my-asset-type'])
+      ..config.setupBuild(linkingEnabled: false)
+      ..setupBuildInput(metadata: metadata, assets: assets);
     final input = BuildInput(inputBuilder.json);
 
     expect(input.json, inputJson);

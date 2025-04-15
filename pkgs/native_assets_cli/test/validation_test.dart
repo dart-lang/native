@@ -30,16 +30,15 @@ void main() {
   });
 
   BuildInput makeBuildInput() {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectory: outDirUri,
-            outputDirectoryShared: outDirSharedUri,
-          )
-          ..config.setupBuild(linkingEnabled: false);
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectory: outDirUri,
+        outputDirectoryShared: outDirSharedUri,
+      )
+      ..config.setupBuild(linkingEnabled: false);
     return BuildInput(inputBuilder.json);
   }
 

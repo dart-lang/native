@@ -51,21 +51,18 @@ void main() {
                       CodeAssetExtension(
                         targetArchitecture: architecture,
                         targetOS: os,
-                        android:
-                            os == OS.android
-                                ? AndroidCodeConfig(targetNdkApi: targetVersion)
-                                : null,
-                        macOS:
-                            os == OS.macOS
-                                ? MacOSCodeConfig(targetVersion: targetVersion)
-                                : null,
-                        iOS:
-                            os == OS.iOS
-                                ? IOSCodeConfig(
-                                  targetVersion: targetVersion,
-                                  targetSdk: iOSSdk,
-                                )
-                                : null,
+                        android: os == OS.android
+                            ? AndroidCodeConfig(targetNdkApi: targetVersion)
+                            : null,
+                        macOS: os == OS.macOS
+                            ? MacOSCodeConfig(targetVersion: targetVersion)
+                            : null,
+                        iOS: os == OS.iOS
+                            ? IOSCodeConfig(
+                                targetVersion: targetVersion,
+                                targetSdk: iOSSdk,
+                              )
+                            : null,
                         linkModePreference: LinkModePreference.dynamic,
                       ),
                     );
