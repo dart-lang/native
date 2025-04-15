@@ -18,8 +18,9 @@ Future<void> inTempDir(
 }) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
-  final tempUri =
-      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+  final tempUri = Directory(
+    await tempDir.resolveSymbolicLinks(),
+  ).uri.normalizePath();
   try {
     await fun(tempUri);
   } finally {
@@ -87,27 +88,27 @@ extension on Uri {
 /// Archiver provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ar =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']?.asFileUri();
+final Uri? _ar = Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']
+    ?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _cc =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.asFileUri();
+final Uri? _cc = Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']
+    ?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ld =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']?.asFileUri();
+final Uri? _ld = Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']
+    ?.asFileUri();
 
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
-        ?.asFileUri();
+final Uri? _envScript = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+    ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
@@ -119,23 +120,21 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler =
-    (_cc == null || _ar == null || _ld == null)
-        ? null
-        : CCompilerConfig(
-          compiler: _cc!,
-          archiver: _ar!,
-          linker: _ld!,
-          windows: WindowsCCompilerConfig(
-            developerCommandPrompt:
-                _envScript == null
-                    ? null
-                    : DeveloperCommandPrompt(
-                      script: _envScript!,
-                      arguments: _envScriptArgs ?? [],
-                    ),
-          ),
-        );
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        windows: WindowsCCompilerConfig(
+          developerCommandPrompt: _envScript == null
+              ? null
+              : DeveloperCommandPrompt(
+                  script: _envScript!,
+                  arguments: _envScriptArgs ?? [],
+                ),
+        ),
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -176,28 +175,24 @@ extension UriExtension on Uri {
 }
 
 /// Logger that outputs the full trace when a test fails.
-Logger get logger =>
-    _logger ??= () {
-      // A new logger is lazily created for each test so that the messages
-      // captured by printOnFailure are scoped to the correct test.
-      addTearDown(() => _logger = null);
-      return _createTestLogger();
-    }();
+Logger get logger => _logger ??= () {
+  // A new logger is lazily created for each test so that the messages
+  // captured by printOnFailure are scoped to the correct test.
+  addTearDown(() => _logger = null);
+  return _createTestLogger();
+}();
 
 Logger? _logger;
 
 Logger _createTestLogger({
   List<String>? capturedMessages,
   Level level = Level.ALL,
-}) =>
-    Logger.detached('')
-      ..level = level
-      ..onRecord.listen((record) {
-        printOnFailure(
-          '${record.level.name}: ${record.time}: ${record.message}',
-        );
-        capturedMessages?.add(record.message);
-      });
+}) => Logger.detached('')
+  ..level = level
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    capturedMessages?.add(record.message);
+  });
 
 final dartExecutable = File(Platform.resolvedExecutable).uri;
 

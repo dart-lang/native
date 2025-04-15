@@ -22,10 +22,9 @@ final class CCompilerConfig {
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.windows].
   WindowsCCompilerConfig get windows => switch (_windows) {
-    null =>
-      throw StateError(
-        'Cannot access windows if CodeConfig.targetOS is not Windows',
-      ),
+    null => throw StateError(
+      'Cannot access windows if CodeConfig.targetOS is not Windows',
+    ),
     final c => c,
   };
 

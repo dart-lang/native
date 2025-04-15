@@ -18,10 +18,9 @@ extension CodeAssetHookConfig on HookConfig {
   /// Code asset specific configuration.
   CodeConfig get code => CodeConfig._fromJson(json, path);
 
-  bool get buildCodeAssets =>
-      buildAssetTypes
-          .where((e) => CodeAssetType.typesForBuildAssetTypes.contains(e))
-          .isNotEmpty;
+  bool get buildCodeAssets => buildAssetTypes
+      .where((e) => CodeAssetType.typesForBuildAssetTypes.contains(e))
+      .isNotEmpty;
 }
 
 /// Extension to the [LinkInput] providing access to configuration specific to
@@ -78,17 +77,17 @@ class CodeConfig {
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.android].
   AndroidCodeConfig get android => switch (_syntax.android) {
-    null =>
-      throw StateError(
-        'Cannot access androidConfig if targetOS is not android.',
-      ),
+    null => throw StateError(
+      'Cannot access androidConfig if targetOS is not android.',
+    ),
     final c => AndroidCodeConfig._(c),
   };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   MacOSCodeConfig get macOS => switch (_syntax.macOS) {
-    null =>
-      throw StateError('Cannot access macOSConfig if targetOS is not MacOS.'),
+    null => throw StateError(
+      'Cannot access macOSConfig if targetOS is not MacOS.',
+    ),
     final c => MacOSCodeConfig._(c),
   };
 }
@@ -217,21 +216,19 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
 /// Provides access to [CodeAsset]s from a build hook output.
 extension CodeAssetBuildOutput on BuildOutputAssets {
   /// The code assets emitted by the build hook.
-  List<CodeAsset> get code =>
-      encodedAssets
-          .where((asset) => asset.isCodeAsset)
-          .map(CodeAsset.fromEncoded)
-          .toList();
+  List<CodeAsset> get code => encodedAssets
+      .where((asset) => asset.isCodeAsset)
+      .map(CodeAsset.fromEncoded)
+      .toList();
 }
 
 /// Provides access to [CodeAsset]s from a link hook output.
 extension CodeAssetLinkOutput on LinkOutputAssets {
   /// The code assets emitted by the link hook.
-  List<CodeAsset> get code =>
-      encodedAssets
-          .where((asset) => asset.isCodeAsset)
-          .map(CodeAsset.fromEncoded)
-          .toList();
+  List<CodeAsset> get code => encodedAssets
+      .where((asset) => asset.isCodeAsset)
+      .map(CodeAsset.fromEncoded)
+      .toList();
 }
 
 extension MacOSCodeConfigSyntax on MacOSCodeConfig {
