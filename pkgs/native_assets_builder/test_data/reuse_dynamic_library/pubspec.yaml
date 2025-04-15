@@ -13,7 +13,7 @@ environment:
 dependencies:
   logging: ^1.1.1
   native_assets_cli: ^0.15.0
-  native_toolchain_c: ^0.12.0-0
+  native_toolchain_c: ^0.12.0
   reusable_dynamic_library:
     path: ../reusable_dynamic_library/
 
