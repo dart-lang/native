@@ -1,6 +1,6 @@
 package com.github.dart_lang.jnigen
 
-class Operators(var value: Int) {
+public class Operators(var value: Int) {
     operator fun plus(op: Operators): Operators {
         return Operators(value + op.value)
     }
