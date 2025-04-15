@@ -157,13 +157,14 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
         continuationType = continuationType.superBound!;
       }
       node.asyncReturnType = continuationType == null
-          ? DeclaredType.object
+          ? DeclaredType.object.clone()
           : continuationType.clone();
       node.asyncReturnType!.accept(_KotlinTypeProcessor(function.returnType));
 
-      // The continuation object is always non-null.
-      node.returnType.annotations ??= [];
-      node.returnType.annotations!.add(Annotation.nonNull);
+      if (!node.asyncReturnType!.isNullable) {
+        node.returnType.annotations ??= [];
+        node.returnType.annotations!.add(Annotation.nonNull);
+      }
     } else {
       node.returnType.accept(_KotlinTypeProcessor(function.returnType));
     }

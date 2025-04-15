@@ -24,6 +24,16 @@ void registerTests(String groupName, TestRunnerCallback test) {
         await expectLater(suspendFun.fail, throwsA(isA<JniException>()));
         await expectLater(
             suspendFun.failWithoutDelay, throwsA(isA<JniException>()));
+        final noDelayNullableHello =
+            await suspendFun.nullableHelloWithoutDelay(false);
+        expect(noDelayNullableHello!.toDartString(releaseOriginal: true),
+            'Hello!');
+        final nullableHello = await suspendFun.nullableHello(false);
+        expect(nullableHello!.toDartString(releaseOriginal: true), 'Hello!');
+        final noDelayNull = await suspendFun.nullableHelloWithoutDelay(true);
+        expect(noDelayNull, null);
+        final asyncNull = await suspendFun.nullableHello(true);
+        expect(asyncNull, null);
       });
     });
 

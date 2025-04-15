@@ -31,4 +31,19 @@ public class SuspendFun {
         delay(100L)
         return "Hello $name!"
     }
+
+    suspend fun nullableHello(returnNull: Boolean): String? {
+        delay(100L)
+        if (returnNull) {
+            return null
+        }
+        return "Hello!"
+    }
+
+    suspend fun nullableHelloWithoutDelay(returnNull: Boolean): String? {
+        if (returnNull) {
+            return null
+        }
+        return "Hello!"
+    }
 }

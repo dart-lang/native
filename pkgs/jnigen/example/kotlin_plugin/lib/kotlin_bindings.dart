@@ -108,8 +108,9 @@ class Example extends jni$_.JObject {
     final jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
+      final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
-          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first)));
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
@@ -119,7 +120,10 @@ class Example extends jni$_.JObject {
     } else {
       $o = $r;
     }
-    return $o.as(const jni$_.JStringType(), releaseOriginal: true);
+    return $o.as<jni$_.JString>(
+      const jni$_.JStringType(),
+      releaseOriginal: true,
+    );
   }
 }
 
