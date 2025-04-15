@@ -488,7 +488,7 @@ class HookInput extends JsonObject {
     required Uri? outFile,
     required String packageName,
     required Uri packageRoot,
-    required JsonObject? userDefines,
+    required UserDefines? userDefines,
     required String? version,
   }) : super() {
     this.config = config;
@@ -567,13 +567,13 @@ class HookInput extends JsonObject {
 
   List<String> _validatePackageRoot() => _reader.validatePath('package_root');
 
-  JsonObject? get userDefines {
+  UserDefines? get userDefines {
     final jsonValue = _reader.optionalMap('user_defines');
     if (jsonValue == null) return null;
-    return JsonObject.fromJson(jsonValue, path: [...path, 'user_defines']);
+    return UserDefines.fromJson(jsonValue, path: [...path, 'user_defines']);
   }
 
-  set userDefines(JsonObject? value) {
+  set userDefines(UserDefines? value) {
     json.setOrRemove('user_defines', value?.json);
     json.sortOnKey();
   }
@@ -877,6 +877,94 @@ class MetadataAssetEncoding extends JsonObject {
 
   @override
   String toString() => 'MetadataAssetEncoding($json)';
+}
+
+class UserDefines extends JsonObject {
+  UserDefines.fromJson(super.json, {super.path = const []}) : super.fromJson();
+
+  UserDefines({required UserDefinesSource? workspacePubspec}) : super() {
+    _workspacePubspec = workspacePubspec;
+    json.sortOnKey();
+  }
+
+  UserDefinesSource? get workspacePubspec {
+    final jsonValue = _reader.optionalMap('workspace_pubspec');
+    if (jsonValue == null) return null;
+    return UserDefinesSource.fromJson(
+      jsonValue,
+      path: [...path, 'workspace_pubspec'],
+    );
+  }
+
+  set _workspacePubspec(UserDefinesSource? value) {
+    json.setOrRemove('workspace_pubspec', value?.json);
+  }
+
+  List<String> _validateWorkspacePubspec() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'workspace_pubspec',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return workspacePubspec?.validate() ?? [];
+  }
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateWorkspacePubspec(),
+  ];
+
+  @override
+  String toString() => 'UserDefines($json)';
+}
+
+class UserDefinesSource extends JsonObject {
+  UserDefinesSource.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  UserDefinesSource({required Uri basePath, required JsonObject defines})
+    : super() {
+    _basePath = basePath;
+    _defines = defines;
+    json.sortOnKey();
+  }
+
+  Uri get basePath => _reader.path$('base_path');
+
+  set _basePath(Uri value) {
+    json['base_path'] = value.toFilePath();
+  }
+
+  List<String> _validateBasePath() => _reader.validatePath('base_path');
+
+  JsonObject get defines {
+    final jsonValue = _reader.map$('defines');
+    return JsonObject.fromJson(jsonValue, path: [...path, 'defines']);
+  }
+
+  set _defines(JsonObject value) {
+    json['defines'] = value.json;
+  }
+
+  List<String> _validateDefines() {
+    final mapErrors = _reader.validate<Map<String, Object?>>('defines');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return defines.validate();
+  }
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateBasePath(),
+    ..._validateDefines(),
+  ];
+
+  @override
+  String toString() => 'UserDefinesSource($json)';
 }
 
 class JsonObject {

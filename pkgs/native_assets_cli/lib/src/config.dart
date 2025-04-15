@@ -14,6 +14,7 @@ import 'encoded_asset.dart';
 import 'extension.dart';
 import 'hooks/syntax.g.dart' as syntax;
 import 'metadata.dart';
+import 'user_defines.dart';
 import 'utils/datetime.dart';
 import 'utils/json.dart';
 
@@ -99,7 +100,44 @@ extension type HookInputUserDefines._(HookInput _input) {
   ///
   /// This can be arbitrary JSON/YAML if provided from the SDK from such source.
   /// If it's provided from command-line arguments, it's likely a string.
-  Object? operator [](String key) => _input._syntax.userDefines?.json[key];
+  Object? operator [](String key) {
+    final syntaxNode = _input._syntax.userDefines;
+    if (syntaxNode == null) {
+      return null;
+    }
+    final packageUserDefines = PackageUserDefinesSyntax.fromSyntax(syntaxNode);
+    final pubspecSource = packageUserDefines.workspacePubspec;
+    return pubspecSource?.defines[key];
+  }
+
+  /// The absolute path for user-defines for [key] for this package.key
+  ///
+  /// The relative path passed as user-define is resolved against the base path.
+  /// For user-defines originating from a JSON/YAML, the base path is this
+  /// JSON/YAML. For user-defines originating from command-line aruments, the
+  /// base path is the working directory of the command-line invocation.
+  ///
+  /// If the user-define is `null` or not a [String], returns `null`.
+  Uri? path(String key) {
+    final syntaxNode = _input._syntax.userDefines;
+    if (syntaxNode == null) {
+      return null;
+    }
+    final packageUserDefines = PackageUserDefinesSyntax.fromSyntax(syntaxNode);
+    final pubspecSource = packageUserDefines.workspacePubspec;
+    final sources = <PackageUserDefinesSource>[];
+    if (pubspecSource != null) {
+      sources.add(pubspecSource);
+    }
+    // TODO: Add commandline arguments.
+    for (final source in sources) {
+      final relativepath = source.defines[key];
+      if (relativepath is String) {
+        return source.basePath.resolve(relativepath);
+      }
+    }
+    return null;
+  }
 }
 
 sealed class HookInputBuilder {
@@ -120,7 +158,7 @@ sealed class HookInputBuilder {
     required Uri outputDirectory,
     required Uri outputDirectoryShared,
     required Uri outputFile,
-    Map<String, Object?>? userDefines,
+    PackageUserDefines? userDefines,
   }) {
     _syntax.version = latestVersion.toString();
     _syntax.packageRoot = packageRoot;
@@ -128,9 +166,7 @@ sealed class HookInputBuilder {
     _syntax.outDir = outputDirectory;
     _syntax.outDirShared = outputDirectoryShared;
     _syntax.outFile = outputFile;
-    _syntax.userDefines = userDefines == null
-        ? null
-        : syntax.JsonObject.fromJson(userDefines);
+    _syntax.userDefines = userDefines?.toSyntax();
   }
 
   /// Constructs a checksum for a [BuildInput].

@@ -75,7 +75,7 @@ Future<BuildResult?> build(
   bool linkingEnabled = false,
   required List<BuildAssetType> buildAssetTypes,
   Map<String, String>? hookEnvironment,
-  Map<String, Map<String, Object?>?>? userDefines,
+  UserDefines? userDefines,
 }) async {
   final targetOS = target?.os ?? OS.current;
   final runPackageName_ =
@@ -92,7 +92,7 @@ Future<BuildResult?> build(
       fileSystem: const LocalFileSystem(),
       hookEnvironment: hookEnvironment,
       packageLayout: packageLayout,
-      userDefines: userDefines ?? {},
+      userDefines: userDefines,
     ).build(
       extensions: [
         if (buildAssetTypes.contains(BuildAssetType.code))

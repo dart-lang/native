@@ -7,9 +7,10 @@ library;
 
 import 'dart:io';
 
+import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
+import 'package:native_assets_builder/src/build_runner/build_runner.dart';
 import 'package:test/test.dart';
-import 'package:yaml/yaml.dart';
 
 import '../build_runner/helpers.dart';
 import '../helpers.dart';
@@ -25,21 +26,8 @@ void main() async {
 
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final pubspec =
-          loadYamlDocument(
-                File.fromUri(
-                  packageUri.resolve('pubspec.yaml'),
-                ).readAsStringSync(),
-              ).contents
-              as YamlMap;
-      expect(
-        NativeAssetsBuildRunner.validateHooksUserDefinesFromPubspec(pubspec),
-        isEmpty,
-      );
-      final userDefines =
-          NativeAssetsBuildRunner.readHooksUserDefinesFromPubspec(pubspec);
-
       final logMessages = <String>[];
+      final pubspecUri = packageUri.resolve('pubspec.yaml');
       final result =
           (await build(
             packageUri,
@@ -47,10 +35,19 @@ void main() async {
             dartExecutable,
             capturedLogs: logMessages,
             buildAssetTypes: [BuildAssetType.data],
-            userDefines: userDefines,
+            userDefines: UserDefines(workspacePubspec: pubspecUri),
           ))!;
 
-      expect(result.encodedAssets.length, 1);
+      final dataAssets =
+          result.encodedAssets.map((e) => e.asDataAsset).toList();
+      expect(dataAssets.length, 2);
+      for (final dataAsset in dataAssets) {
+        expect(File.fromUri(dataAsset.file), exists);
+      }
+
+      // The native assets build runner must be reinvoked if the pubspec
+      // changes, as the pubspec could contain user-defines.
+      expect(result.dependencies, contains(pubspecUri));
     }),
   );
 }

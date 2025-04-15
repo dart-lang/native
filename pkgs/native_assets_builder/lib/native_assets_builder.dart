@@ -3,7 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'package:native_assets_builder/src/build_runner/build_runner.dart'
-    show BuildInputCreator, LinkInputCreator, NativeAssetsBuildRunner;
+    show
+        BuildInputCreator,
+        LinkInputCreator,
+        NativeAssetsBuildRunner,
+        UserDefines;
 export 'package:native_assets_builder/src/model/build_result.dart'
     show BuildResult;
 export 'package:native_assets_builder/src/model/kernel_assets.dart';

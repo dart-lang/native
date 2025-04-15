@@ -107,9 +107,9 @@ Future<void> build(
   await builder(input, output);
   final errors = await validateBuildOutput(input, BuildOutput(output.json));
   if (errors.isEmpty) {
-    final jsonOutput = const JsonEncoder()
-        .fuse(const Utf8Encoder())
-        .convert(output.json);
+    final jsonOutput = const JsonEncoder.withIndent(
+      '  ',
+    ).fuse(const Utf8Encoder()).convert(output.json);
     await File.fromUri(input.outputFile).writeAsBytes(jsonOutput);
   } else {
     final message = [
