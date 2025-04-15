@@ -5,6 +5,10 @@
 // This file contains utils that are intended to be overridden by downstream
 // clones. They're gathered into one file to make it easy to swap them out.
 
+// This file is exclusively imported by utils.dart, so that there's only one
+// line we have to patch in the downstream clones.
+@Deprecated('Import config_provider/utils.dart instead') library;
+
 import 'dart:io';
 
 import 'package:path/path.dart' as p;

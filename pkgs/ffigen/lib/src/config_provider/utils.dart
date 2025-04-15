@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+// ignore: deprecated_member_use_from_same_package
 export 'overrideable_utils.dart';
 
 /// Replaces any variable names in the path with the corresponding value.
