@@ -742,7 +742,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // listener, it will work.
           runner.runOnAnotherThreadAndJoin();
           await completer.future;
-          expect(MyRunnable.$impls, hasLength(1));
+          expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
           runnable.release();
           runner.release();
           if (!Platform.isAndroid) {
@@ -762,7 +762,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(runnable != runnable, false);
         expect(runnable.hashCode, runnable.hashCode);
         expect(runnable.toString(), runnable.toString());
-        expect(MyRunnable.$impls, hasLength(1));
+        expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
         runnable.release();
         if (!Platform.isAndroid) {
           // Running garbage collection does not work on Android. Skipping
