@@ -147,6 +147,7 @@ jobs:
           api-level: 21
           arch: x86_64
           script: flutter test --timeout=1200s integration_test/
+          working-directory: ./pkgs/jnigen/android_test_runner
   analyze_jni:
     runs-on: ubuntu-latest
     defaults:
