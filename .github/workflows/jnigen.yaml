@@ -144,7 +144,7 @@ jobs:
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@62dbb605bba737720e10b196cb4220d374026a6d
         with:
-          api-level: 21
+          api-level: 26
           arch: x86_64
           script: flutter test --timeout=1200s integration_test/
           working-directory: ./pkgs/jnigen/android_test_runner
