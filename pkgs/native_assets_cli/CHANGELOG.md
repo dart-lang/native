@@ -1,6 +1,6 @@
-## 0.16.0-wip
+## 0.16.0
 
-- Pass the base path for the user-defines in the JSON.
+- Support relative paths in user-defines to be loaded as absolute paths.
 
 ## 0.15.0
 
