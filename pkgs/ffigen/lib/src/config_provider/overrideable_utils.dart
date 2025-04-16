@@ -42,3 +42,7 @@ final libclangOverridePaths = const <String>[];
 ///
 /// Note that `dart test` sets the current directory to the package root.
 final packagePathForTests = p.current;
+
+/// Returns a path to a config yaml in a unit test.
+String configPathForTest(String directory, String file) =>
+    p.join(directory, file);

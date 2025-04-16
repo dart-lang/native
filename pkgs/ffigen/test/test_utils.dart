@@ -84,6 +84,10 @@ const bool updateExpectations = false;
 /// Transforms a repo relative path to an absolute path.
 String absPath(String p) => path.join(packagePathForTests, p);
 
+/// Returns a path to a config yaml in a unit test.
+String configPath(String directory, String file) =>
+    absPath(configPathForTest(directory, file));
+
 /// Generates actual file using library and tests using [expect] with expected.
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
