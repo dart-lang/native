@@ -1,7 +1,7 @@
 ## 0.16.0-wip
 
-- Pass in path to pubspec to read user-defines (and read user-defines) in this
-  package rather than in the SDKs using this package.
+- Pass in path to pubspec (to read user-defines) in this package rather than in
+  the SDKs using this package.
 
 ## 0.15.0
 

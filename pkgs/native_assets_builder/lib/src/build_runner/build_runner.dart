@@ -74,6 +74,24 @@ class NativeAssetsBuildRunner {
     return packagesWithHook.map((e) => e.name).toList();
   }
 
+  Future<HookResult?> _checkUserDefines(
+    LoadedUserDefines? loadedUserDefines,
+  ) async {
+    if (loadedUserDefines?.pubspecErrors.isNotEmpty ?? false) {
+      logger.severe('pubspec.yaml contains errors');
+      for (final error in loadedUserDefines!.pubspecErrors) {
+        logger.severe(error);
+      }
+      return null;
+    }
+    return HookResult(
+      dependencies: switch (userDefines?.workspacePubspec) {
+        null => [],
+        final pubspec => [pubspec],
+      },
+    );
+  }
+
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
@@ -88,19 +106,11 @@ class NativeAssetsBuildRunner {
     required bool linkingEnabled,
   }) async {
     final loadedUserDefines = await _loadedUserDefines;
-    if (loadedUserDefines?.pubspecErrors.isNotEmpty ?? false) {
-      logger.severe('pubspec.yaml contains errors');
-      for (final error in loadedUserDefines!.pubspecErrors) {
-        logger.severe(error);
-      }
+    final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
+    if (hookResultUserDefines == null) {
       return null;
     }
-    var hookResult = HookResult(
-      dependencies: switch (userDefines?.workspacePubspec) {
-        null => [],
-        final pubspec => [pubspec],
-      },
-    );
+    var hookResult = hookResultUserDefines;
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
@@ -214,19 +224,11 @@ class NativeAssetsBuildRunner {
     required BuildResult buildResult,
   }) async {
     final loadedUserDefines = await _loadedUserDefines;
-    if (loadedUserDefines?.pubspecErrors.isNotEmpty ?? false) {
-      logger.severe('pubspec.yaml contains errors');
-      for (final error in loadedUserDefines!.pubspecErrors) {
-        logger.severe(error);
-      }
+    final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
+    if (hookResultUserDefines == null) {
       return null;
     }
-    var linkResult = HookResult(
-      dependencies: switch (userDefines?.workspacePubspec) {
-        null => [],
-        final pubspec => [pubspec],
-      },
-    );
+    var linkResult = hookResultUserDefines;
 
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
