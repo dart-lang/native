@@ -7,7 +7,8 @@
 
 // This file is exclusively imported by utils.dart, so that there's only one
 // line we have to patch in the downstream clones.
-@Deprecated('Import config_provider/utils.dart instead') library;
+@Deprecated('Import config_provider/utils.dart instead')
+library;
 
 import 'dart:io';
 

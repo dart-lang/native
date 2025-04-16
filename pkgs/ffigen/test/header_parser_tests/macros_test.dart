@@ -19,8 +19,8 @@ void main() {
       logWarnings(Level.WARNING);
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfigFromPath(absPath(path.join(
-            'test', 'header_parser_tests', 'macros_config.yaml'))),
+        testConfigFromPath(absPath(
+            path.join('test', 'header_parser_tests', 'macros_config.yaml'))),
       );
     });
     test('Total bindings count', () {
