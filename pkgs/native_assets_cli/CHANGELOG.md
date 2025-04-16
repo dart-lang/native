@@ -1,3 +1,7 @@
+## 0.16.0-wip
+
+- Pass the base path for the user-defines in the JSON.
+
 ## 0.15.0
 
 - **Breaking change** JSON encoding migration: change written asset type to the
