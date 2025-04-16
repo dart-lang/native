@@ -38,7 +38,9 @@ extension PackageUserDefinesSyntax on PackageUserDefines {
       workspacePubspec: workspacePubspec?.toSyntax(),
     );
     // Fallback behavior for old hooks: write user-defines here.
-    result.json.addAll(workspacePubspec!.defines);
+    if (workspacePubspec != null) {
+      result.json.addAll(workspacePubspec!.defines);
+    }
     return result;
   }
 }
