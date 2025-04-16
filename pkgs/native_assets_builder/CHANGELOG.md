@@ -1,7 +1,8 @@
-## 0.16.0-wip
+## 0.16.0
 
 - Pass in path to pubspec (to read user-defines) in this package rather than in
   the SDKs using this package.
+- Bump `package:native_assets_cli` to 0.16.0.
 
 ## 0.15.0
 
