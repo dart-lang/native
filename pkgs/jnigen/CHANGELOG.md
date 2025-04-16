@@ -7,6 +7,8 @@
   providing the class path.
 - Added gradle support for new Flutter projects that use `build.gradle.kts`
   instead of `build.gradle`.
+- Fixed a bug where Kotlin suspend functions that returned nullable values were
+  generated incorrectly.
 
 ## 0.14.1
 
