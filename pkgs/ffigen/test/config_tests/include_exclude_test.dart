@@ -49,7 +49,7 @@ ${strings.description}: 'include_exclude test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/config_tests/include_exclude.h'
+    - '${absPath('test/config_tests/include_exclude.h')}'
 ''';
   if (include != null || exclude != null) {
     templateString += '''

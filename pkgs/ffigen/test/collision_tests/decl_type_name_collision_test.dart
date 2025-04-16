@@ -22,7 +22,7 @@ ${strings.description}: 'Decl type name collision test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/collision_tests/decl_type_name_collision.h'
+    - '${absPath('test/collision_tests/decl_type_name_collision.h')}'
 ${strings.preamble}: |
     // ignore_for_file: non_constant_identifier_names, 
         '''),

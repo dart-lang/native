@@ -21,7 +21,7 @@ ${strings.description}: 'Warn for no cursor definition.'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/opaque_dependencies.h'
+    - '${absPath('test/header_parser_tests/opaque_dependencies.h')}'
 ${strings.structs}:
   ${strings.dependencyOnly}: ${strings.opaqueCompoundDependencies}
   ${strings.include}:

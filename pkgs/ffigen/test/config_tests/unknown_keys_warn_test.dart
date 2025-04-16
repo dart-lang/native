@@ -20,7 +20,7 @@ ${strings.description}: 'Warn for unknown keys.'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/packed_structs.h'
+    - '${absPath('test/header_parser_tests/packed_structs.h')}'
 'warn-1': 'warn'
 ${strings.typeMap}:
   'warn-2': 'warn'

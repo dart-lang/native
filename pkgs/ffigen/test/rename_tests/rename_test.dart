@@ -27,7 +27,7 @@ ${strings.output}: 'unused'
 
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/rename_tests/rename.h'
+    - '${absPath('test/rename_tests/rename.h')}'
 
 ${strings.functions}:
   ${strings.rename}:

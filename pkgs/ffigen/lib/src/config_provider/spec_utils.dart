@@ -308,13 +308,19 @@ String? _findLibInConda() {
 /// Returns location of dynamic library by searching default locations. Logs
 /// error and throws an Exception if not found.
 String findDylibAtDefaultLocations() {
+  for (final libclangPath in libclangOverridePaths) {
+    final overridableLib = findLibclangDylib(libclangPath);
+    if (overridableLib != null) return overridableLib;
+  }
+
   // Assume clang in conda has a higher priority.
-  var k = _findLibInConda();
-  if (k != null) return k;
+  final condaLib = _findLibInConda();
+  if (condaLib != null) return condaLib;
+
   if (Platform.isLinux) {
     for (final l in strings.linuxDylibLocations) {
-      k = findLibclangDylib(l);
-      if (k != null) return k;
+      final linuxLib = findLibclangDylib(l);
+      if (linuxLib != null) return linuxLib;
     }
     Process.runSync('ldconfig', ['-p']);
     final ldConfigResult = Process.runSync('ldconfig', ['-p']);
@@ -338,13 +344,13 @@ String findDylibAtDefaultLocations() {
           .add(p.join(userHome, 'scoop', 'apps', 'llvm', 'current', 'bin'));
     }
     for (final l in dylibLocations) {
-      k = findLibclangDylib(l);
-      if (k != null) return k;
+      final winLib = findLibclangDylib(l);
+      if (winLib != null) return winLib;
     }
   } else if (Platform.isMacOS) {
     for (final l in strings.macOsDylibLocations) {
-      k = findLibclangDylib(l);
-      if (k != null) return k;
+      final macLib = findLibclangDylib(l);
+      if (macLib != null) return macLib;
     }
     final findLibraryResult =
         Process.runSync('xcodebuild', ['-find-library', 'libclang.dylib']);

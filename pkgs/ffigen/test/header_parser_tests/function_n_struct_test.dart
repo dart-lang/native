@@ -25,7 +25,7 @@ ${strings.output}: 'unused'
 
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/function_n_struct.h'
+    - '${absPath('test/header_parser_tests/function_n_struct.h')}'
         '''),
       );
     });
