@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
+import 'package:path/path.dart' as path;
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
@@ -18,16 +19,8 @@ void main() {
       logWarnings(Level.WARNING);
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
-${strings.name}: 'NativeLibrary'
-${strings.description}: 'Macros Test'
-${strings.output}: 'unused'
-${strings.headers}:
-  ${strings.entryPoints}:
-    - '${absPath('test/header_parser_tests/macros.h')}'
-  ${strings.includeDirectives}:
-    - '**macros.h'
-        '''),
+        testConfigFromPath(absPath(path.join(
+            'test', 'header_parser_tests', 'macros_config.yaml'))),
       );
     });
     test('Total bindings count', () {

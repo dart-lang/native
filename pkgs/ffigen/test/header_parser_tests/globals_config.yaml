@@ -1,0 +1,18 @@
+name: 'NativeLibrary'
+description: 'Globals Test'
+output: 'unused'
+headers:
+  entry-points:
+    - globals.h
+  include-directives:
+    - '**globals.h'
+globals:
+  exclude:
+    - GlobalIgnore
+  symbol-address:
+    include:
+      - myInt
+      - pointerToLongDouble
+      - globalStruct
+compiler-opts: '-Wno-nullability-completeness'
+ignore-source-errors: true
