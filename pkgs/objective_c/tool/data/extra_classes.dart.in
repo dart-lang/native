@@ -1,0 +1,30 @@
+class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
+  final Iterable<objc.ObjCObjectBase> _iterable;
+  final int _length;
+  int _index;
+  objc.ObjCObjectBase? _current;
+
+  _NSArrayIterator(Iterable<objc.ObjCObjectBase> iterable)
+      : _iterable = iterable,
+        _length = iterable.length,
+        _index = 0;
+
+  @override
+  objc.ObjCObjectBase get current => _current!;
+
+  @override
+  @pragma('vm:prefer-inline')
+  bool moveNext() {
+    final length = _iterable.length;
+    if (_length != length) {
+      throw ConcurrentModificationError(_iterable);
+    }
+    if (_index >= length) {
+      _current = null;
+      return false;
+    }
+    _current = _iterable.elementAt(_index);
+    _index++;
+    return true;
+  }
+}
