@@ -137,7 +137,13 @@ class JObject {
     reference.release();
   }
 
-  /// Whether this object is of the given [type].
+  /// Whether this object is of the given [type] ignoring the type parameters.
+  ///
+  /// > [!WARNING]
+  /// > Because of Java generic type erasure, this method cannot distinguish
+  /// > between two classes `Foo<A>` and `Foo<B>` as they are both of type
+  /// > `Foo`. Therefore, `object.isA(Foo.type(A.type))` will return a
+  /// > false-positive `true` for objects of type `Foo<B>` as well.
   ///
   /// For example:
   ///
