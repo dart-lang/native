@@ -9,6 +9,8 @@
 // reuse of the old JVM with old classpath if we have separate tests with
 // different classpaths.
 
+// ignore_for_file: curly_braces_in_flow_control_structures, lines_longer_than_80_chars, prefer_const_declarations, omit_local_variable_types
+
 import 'dart:convert';
 import 'dart:io';
 
