@@ -11,6 +11,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import 'cbuilder_cross_android_test.dart';
 
 void main() {
   if (!Platform.isLinux) {
@@ -84,8 +85,7 @@ void main() {
         final libUri = buildInput.outputDirectory.resolve(
           OS.linux.libraryFileName(name, linkMode),
         );
-        final machine = await readelfMachine(libUri.path);
-        expect(machine, contains(readElfMachine[target]));
+        await checkArchitecture(libUri.path, target);
       });
     }
   }

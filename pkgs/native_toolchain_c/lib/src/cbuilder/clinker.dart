@@ -14,7 +14,7 @@ import 'linker_options.dart';
 import 'linkmode.dart';
 import 'optimization_level.dart';
 import 'output_type.dart';
-import 'run_cbuilder.dart';
+import 'run_clinker.dart';
 
 /// Specification for linking an artifact with a C linker.
 //TODO(mosuem): This is currently only implemented for linux.
@@ -43,6 +43,10 @@ class CLinker extends CTool implements Linker {
     super.optimizationLevel = OptimizationLevel.o3,
   }) : super(type: OutputType.library);
 
+  //TODO(mosuem): Remove this field once all OSs are supported.
+  @visibleForTesting
+  static const supportedLinkingOSs = [OS.linux, OS.macOS];
+
   /// Runs the C Linker with on this C build spec.
   ///
   /// Completes with an error if the linking fails.
@@ -52,9 +56,10 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux || input.config.code.targetOS != OS.linux) {
+    if (!supportedLinkingOSs.contains(OS.current) ||
+        !supportedLinkingOSs.contains(input.config.code.targetOS)) {
       throw UnsupportedError(
-        'Currently, only linux is supported for this '
+        'Currently, only $supportedLinkingOSs are supported for this '
         'feature. See also https://github.com/dart-lang/native/issues/1376',
       );
     }
@@ -79,7 +84,7 @@ class CLinker extends CTool implements Linker {
       for (final directory in this.libraryDirectories)
         outDir.resolveUri(Uri.file(directory)),
     ];
-    final task = RunCBuilder(
+    final task = RunCLinker(
       input: input,
       codeConfig: input.config.code,
       linkerOptions: linkerOptions,
@@ -101,7 +106,7 @@ class CLinker extends CTool implements Linker {
       cppLinkStdLib: cppLinkStdLib,
       optimizationLevel: optimizationLevel,
     );
-    await task.run();
+    await task.runLinker();
 
     if (assetName != null) {
       output.assets.code.add(

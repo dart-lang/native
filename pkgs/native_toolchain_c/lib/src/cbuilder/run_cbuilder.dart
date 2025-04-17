@@ -117,11 +117,12 @@ class RunCBuilder {
   Uri androidSysroot(ToolInstance compiler) =>
       compiler.uri.resolve('../sysroot/');
 
-  Future<void> run() async {
+  Future<void> runCompiler() async {
+    assert(linkerOptions == null);
     final toolInstance_ =
         linkerOptions != null ? await linker() : await compiler();
     final tool = toolInstance_.tool;
-    if (tool.isClangLike || tool.isLdLike) {
+    if (tool.isClangLike) {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
@@ -141,12 +142,8 @@ class RunCBuilder {
       archiver_ = await archiver();
     }
 
-    final IOSSdk? targetIosSdk;
-    if (codeConfig.targetOS == OS.iOS) {
-      targetIosSdk = codeConfig.iOS.targetSdk;
-    } else {
-      targetIosSdk = null;
-    }
+    final targetIosSdk =
+        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetSdk : null;
 
     // The Android Gradle plugin does not honor API level 19 and 20 when
     // invoking clang. Mimic that behavior here.
@@ -295,7 +292,6 @@ class RunCBuilder {
         ],
         if (optimizationLevel != OptimizationLevel.unspecified)
           optimizationLevel.clangFlag(),
-        ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
         if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
@@ -321,17 +317,12 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
-            [],
         if (executable != null || dynamicLibrary != null) ...[
           if (codeConfig.targetOS case OS.android || OS.linux)
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
             // it is linked against.
-            if (linkerOptions != null)
-              '-rpath=\$ORIGIN'
-            else
-              '-Wl,-rpath=\$ORIGIN',
+            '-Wl,-rpath=\$ORIGIN',
           for (final directory in libraryDirectories)
             '-L${directory.toFilePath()}',
           for (final library in libraries) '-l$library',
@@ -417,6 +408,11 @@ class RunCBuilder {
   static const appleClangMacosTargetFlags = {
     Architecture.arm64: 'arm64-apple-darwin',
     Architecture.x64: 'x86_64-apple-darwin',
+  };
+
+  static const appleLdArchs = {
+    Architecture.arm64: 'arm64',
+    Architecture.x64: 'x86_64',
   };
 
   static const appleClangIosTargetFlags = {
