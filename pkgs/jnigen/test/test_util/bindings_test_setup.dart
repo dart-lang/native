@@ -46,7 +46,7 @@ Future<void> bindingsTestSetup() async {
   ]);
 
   final jacksonJars = await getJarPaths(join(jacksonCoreTest, 'third_party'));
-
+  print('running mvn package:');
   await runCommand(
     'mvn',
     ['package'],
