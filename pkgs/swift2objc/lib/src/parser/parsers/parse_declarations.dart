@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
+import 'declaration_parsers/parse_associated_type_declaration.dart';
 import 'declaration_parsers/parse_compound_declaration.dart';
 import 'declaration_parsers/parse_function_declaration.dart';
 import 'declaration_parsers/parse_initializer_declaration.dart';
@@ -56,6 +57,9 @@ Declaration parseDeclaration(
     'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
     'swift.func' => parseGlobalFunctionDeclaration(symbolJson, symbolgraph),
     'swift.var' => parseGlobalVariableDeclaration(symbolJson, symbolgraph),
+    'swift.protocol' => parseProtocolDeclaration(parsedSymbol, symbolgraph),
+    'swift.associatedtype' =>
+      parseAssociatedTypeDeclaration(symbolJson, symbolgraph),
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
       ),
