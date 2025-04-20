@@ -14,6 +14,28 @@ import Foundation
 @objc public class MyClassWrapper: NSObject {
   var wrappedInstance: MyClass
 
+  @objc public lazy var lazyProperty: Int = {
+      wrappedInstance.lazyProperty
+  }();
+
+  @objc public weak var weakProperty: MyOtherClassWrapper? {
+    get {
+      wrappedInstance.weakProperty == nil ? nil : MyOtherClassWrapper(wrappedInstance.weakProperty!)
+    }
+    set {
+      wrappedInstance.weakProperty = newValue?.wrappedInstance
+    }
+  }
+
+  @objc public unowned var unownedProperty: MyOtherClassWrapper {
+    get {
+      MyOtherClassWrapper(wrappedInstance.unownedProperty)
+    }
+    set {
+      wrappedInstance.unownedProperty = newValue.wrappedInstance
+    }
+  }
+
   @objc public var customGetterProperty: MyOtherClassWrapper {
     get {
       MyOtherClassWrapper(wrappedInstance.customGetterProperty)

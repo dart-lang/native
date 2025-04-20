@@ -147,11 +147,26 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   final prefixes = [
     if (property.unowned) 'unowned',
     if (property.weak) 'weak',
-    if (property.lazy) 'lazy',
   ];
 
+  if (property.lazy) {
+    header.write(
+      'public ${prefixes.isEmpty ? '' : '${prefixes.join(' ')} '}lazy var ${property.name}: ${
+        property.type.swiftType
+      } = {');
+    final getterLines = [
+      ...(property.getter?.statements.indent() ?? <String>[]),
+    ];
+    return [
+      header.toString(),
+      ...getterLines.indent(),
+      '}();\n',
+    ];
+
+  } else {
+
   header.write(
-      'public ${prefixes.join(' ')} var ${property.name}: ${
+      'public ${prefixes.isEmpty ? '' : '${prefixes.join(' ')} '}var ${property.name}: ${
         property.type.swiftType
       } {');
 
@@ -173,6 +188,7 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
     if (property.hasSetter) ...setterLines.indent(),
     '}\n',
   ];
+  }
 }
 
 List<String> _generateNestedDeclarations(ClassDeclaration declaration) => [
