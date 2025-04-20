@@ -149,11 +149,12 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
     if (property.weak) 'weak',
   ];
 
+  var prefix = prefixes.isEmpty ? '' : '${prefixes.join(' ')} ';
+  var propSwiftType = property.type.swiftType;
+
   if (property.lazy) {
-    header.write(
-      'public ${prefixes.isEmpty ? '' : '${prefixes.join(' ')} '}lazy var ${property.name}: ${
-        property.type.swiftType
-      } = {');
+    header
+        .write('public ${prefix}lazy var ${property.name}: $propSwiftType = {');
     final getterLines = [
       ...(property.getter?.statements.indent() ?? <String>[]),
     ];
@@ -162,32 +163,27 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
       ...getterLines.indent(),
       '}();\n',
     ];
-
   } else {
+    header.write('public ${prefix}var ${property.name}: $propSwiftType {');
 
-  header.write(
-      'public ${prefixes.isEmpty ? '' : '${prefixes.join(' ')} '}var ${property.name}: ${
-        property.type.swiftType
-      } {');
+    final getterLines = [
+      'get ${generateAnnotations(property)}{',
+      ...(property.getter?.statements.indent() ?? <String>[]),
+      '}'
+    ];
 
-  final getterLines = [
-    'get ${generateAnnotations(property)}{',
-    ...(property.getter?.statements.indent() ?? <String>[]),
-    '}'
-  ];
+    final setterLines = [
+      'set {',
+      ...(property.setter?.statements.indent() ?? <String>[]),
+      '}'
+    ];
 
-  final setterLines = [
-    'set {',
-    ...(property.setter?.statements.indent() ?? <String>[]),
-    '}'
-  ];
-
-  return [
-    header.toString(),
-    ...getterLines.indent(),
-    if (property.hasSetter) ...setterLines.indent(),
-    '}\n',
-  ];
+    return [
+      header.toString(),
+      ...getterLines.indent(),
+      if (property.hasSetter) ...setterLines.indent(),
+      '}\n',
+    ];
   }
 }
 

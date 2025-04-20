@@ -1,21 +1,10 @@
 import 'dart:convert';
 
-import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
-import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
-import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
-import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
-import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_function_declaration.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_variable_declaration.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final parsedSymbols = {
-    for (final decl in builtInDeclarations)
-      decl.id: ParsedSymbol(json: Json(null), declaration: decl)
-  };
-  final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
-
   group('Variable Valid json', () {
     test('Weak Variable', () {
       final json = Json(jsonDecode('''[
