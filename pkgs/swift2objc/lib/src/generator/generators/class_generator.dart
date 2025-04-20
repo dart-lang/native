@@ -144,8 +144,16 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   if (property.isStatic) {
     header.write('static ');
   }
+  final prefixes = [
+    if (property.unowned) 'unowned',
+    if (property.weak) 'weak',
+    if (property.lazy) 'lazy',
+  ];
 
-  header.write('public var ${property.name}: ${property.type.swiftType} {');
+  header.write(
+      'public ${prefixes.join(' ')} var ${property.name}: ${
+        property.type.swiftType
+      } {');
 
   final getterLines = [
     'get ${generateAnnotations(property)}{',

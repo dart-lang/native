@@ -17,7 +17,6 @@ void main() {
   final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
 
   group('Variable Valid json', () {
-    
     test('Weak Variable', () {
       final json = Json(jsonDecode('''[
                 {
@@ -54,8 +53,8 @@ void main() {
                     "spelling": "?"
                 }
             ]'''));
-      
-      final info  = parsePropertyInfo(json);
+
+      final info = parsePropertyInfo(json);
 
       expect(info.weak, isTrue);
       expect(info.constant, isFalse);
@@ -94,7 +93,7 @@ void main() {
                 }
             ]'''));
 
-      final info  = parsePropertyInfo(json);
+      final info = parsePropertyInfo(json);
 
       expect(info.unowned, isTrue);
       expect(info.constant, isFalse);
@@ -132,8 +131,8 @@ void main() {
                     "preciseIdentifier": "s:24funcs_symbolgraph_module6SchoolC"
                 }
             ]'''));
-      
-      final info  = parsePropertyInfo(json);
+
+      final info = parsePropertyInfo(json);
 
       expect(info.unowned, isTrue);
       expect(info.constant, isTrue);
@@ -191,8 +190,8 @@ void main() {
                     "spelling": " }"
                 }
             ]'''));
-      
-      final info  = parsePropertyInfo(json);
+
+      final info = parsePropertyInfo(json);
 
       expect(info.lazy, isTrue);
       expect(info.constant, isFalse);

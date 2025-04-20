@@ -109,6 +109,13 @@ Declaration _transformVariable(
     isConstant: originalVariable.isConstant,
     throws: originalVariable.throws,
     async: originalVariable.async,
+    unowned: originalVariable is PropertyDeclaration
+        ? originalVariable.unowned
+        : false,
+    lazy:
+        originalVariable is PropertyDeclaration ? originalVariable.lazy : false,
+    weak:
+        originalVariable is PropertyDeclaration ? originalVariable.weak : false,
   );
 
   final getterStatements = _generateGetterStatements(
