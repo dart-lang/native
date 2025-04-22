@@ -120,27 +120,16 @@ final class CodeAsset {
       id: id,
       linkMode: linkMode.toSyntax(),
     );
-    return EncodedAsset(CodeAssetType.typeForAsset, encoding.json);
+    return EncodedAsset(CodeAssetType.type, encoding.json);
   }
 }
 
 extension CodeAssetType on CodeAsset {
-  /// Recognize both new and old type.
-  ///
-  /// And add both types to builtAssetTypes.
-  static const typesForBuildAssetTypes = [
-    syntax.NativeCodeAssetNew.typeValue,
-    syntax.NativeCodeAsset.typeValue,
-  ];
-
-  /// Write the old type to prevent old hooks and SDKs from failing.
-  // TODO(https://github.com/dart-lang/native/issues/2132): Change this to the
-  // new value after it has rolled.
-  static const String typeForAsset = syntax.NativeCodeAssetNew.typeValue;
+  static const String type = syntax.NativeCodeAssetNew.typeValue;
 }
 
 extension EncodedCodeAsset on EncodedAsset {
-  bool get isCodeAsset => CodeAssetType.typesForBuildAssetTypes.contains(type);
+  bool get isCodeAsset => type == CodeAssetType.type;
   CodeAsset get asCodeAsset => CodeAsset.fromEncoded(this);
 }
 

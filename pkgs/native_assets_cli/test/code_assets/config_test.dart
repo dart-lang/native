@@ -78,9 +78,6 @@ void main() async {
       if (hookType == 'link')
         'assets': [
           {
-            'file': 'not there',
-            'id': 'package:my_package/name',
-            'link_mode': {'type': 'dynamic_loading_bundle'},
             'type': 'code_assets/code',
             'encoding': {
               'file': 'not there',
@@ -91,7 +88,7 @@ void main() async {
         ],
       'config': {
         'code': codeConfig,
-        'build_asset_types': ['code_assets/code', 'native_code'],
+        'build_asset_types': ['code_assets/code'],
         'extensions': {'code_assets': codeConfig},
         if (hookType == 'build') 'linking_enabled': false,
       },
@@ -166,10 +163,7 @@ void main() async {
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
       expect(input.config.linkingEnabled, false);
-      expect(
-        input.config.buildAssetTypes,
-        CodeAssetType.typesForBuildAssetTypes,
-      );
+      expect(input.config.buildAssetTypes, [CodeAssetType.type]);
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
   });
@@ -221,10 +215,7 @@ void main() async {
       expect(input.packageName, packageName);
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);
-      expect(
-        input.config.buildAssetTypes,
-        CodeAssetType.typesForBuildAssetTypes,
-      );
+      expect(input.config.buildAssetTypes, [CodeAssetType.type]);
       expectCorrectCodeConfig(input.config.code, targetOS: targetOS);
     }
   });

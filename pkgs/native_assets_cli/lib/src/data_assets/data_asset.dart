@@ -73,7 +73,7 @@ final class DataAsset {
       name: name,
       package: package,
     );
-    return EncodedAsset(DataAssetType.typeForAssets, encoding.json);
+    return EncodedAsset(DataAssetType.type, encoding.json);
   }
 
   @override
@@ -81,21 +81,10 @@ final class DataAsset {
 }
 
 extension DataAssetType on DataAsset {
-  /// Recognize both new and old type.
-  ///
-  /// And add both types to builtAssetTypes.
-  static const typesForBuildAssetTypes = [
-    syntax.DataAssetNew.typeValue,
-    syntax.DataAsset.typeValue,
-  ];
-
-  /// Write the old type to prevent old hooks and SDKs from failing.
-  // TODO(https://github.com/dart-lang/native/issues/2132): Change this to the
-  // new value after it has rolled.
-  static const String typeForAssets = syntax.DataAssetNew.typeValue;
+  static const String type = syntax.DataAssetNew.typeValue;
 }
 
 extension EncodedDataAsset on EncodedAsset {
-  bool get isDataAsset => DataAssetType.typesForBuildAssetTypes.contains(type);
+  bool get isDataAsset => type == DataAssetType.type;
   DataAsset get asDataAsset => DataAsset.fromEncoded(this);
 }

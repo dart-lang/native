@@ -45,7 +45,7 @@ final class CodeAssetExtension implements ProtocolExtension {
   }
 
   void _setupConfig(HookInputBuilder input) {
-    input.config.addBuildAssetTypes(CodeAssetType.typesForBuildAssetTypes);
+    input.config.addBuildAssetTypes([CodeAssetType.type]);
     // ignore: deprecated_member_use_from_same_package
     input.config.setupCode(
       targetArchitecture: targetArchitecture,

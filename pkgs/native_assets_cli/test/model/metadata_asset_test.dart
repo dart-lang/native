@@ -12,9 +12,7 @@ void main() async {
       'key': 'some_key',
       'value': {'foo': 'bar'},
     },
-    'key': 'some_key',
     'type': 'hooks/metadata',
-    'value': {'foo': 'bar'},
   };
   final metadataAsset = MetadataAsset(key: 'some_key', value: {'foo': 'bar'});
 

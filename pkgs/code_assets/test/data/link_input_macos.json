@@ -9,12 +9,7 @@
           "type": "static"
         }
       },
-      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/iv6i0d/native_add/.dart_tool/native_assets_builder/native_add/c6b312c90c95d2d98ffb6760a738fb36/out/libnative_add.a",
-      "id": "package:native_add/src/native_add_bindings_generated.dart",
-      "link_mode": {
-        "type": "static"
-      },
-      "type": "native_code"
+      "type": "code_assets/code"
     },
     {
       "encoding": {
@@ -29,7 +24,7 @@
   ],
   "config": {
     "build_asset_types": [
-      "native_code"
+      "code_assets/code"
     ],
     "code": {
       "c_compiler": {

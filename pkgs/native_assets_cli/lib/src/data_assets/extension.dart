@@ -24,7 +24,7 @@ final class DataAssetsExtension implements ProtocolExtension {
   }
 
   void _setupConfig(HookInputBuilder input) {
-    input.config.addBuildAssetTypes(DataAssetType.typesForBuildAssetTypes);
+    input.config.addBuildAssetTypes([DataAssetType.type]);
   }
 
   @override

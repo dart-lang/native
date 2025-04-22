@@ -9,12 +9,7 @@
           "type": "dynamic_loading_bundle"
         }
       },
-      "file": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/out/libmy_package.so",
-      "id": "package:my_package/my_package_bindings_generated.dart",
-      "link_mode": {
-        "type": "dynamic_loading_bundle"
-      },
-      "type": "native_code"
+      "type": "code_assets/code"
     }
   ],
   "dependencies": [

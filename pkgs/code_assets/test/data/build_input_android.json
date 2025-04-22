@@ -2,7 +2,7 @@
   "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
   "config": {
     "build_asset_types": [
-      "native_code"
+      "code_assets/code"
     ],
     "code": {
       "android": {
