@@ -14,36 +14,27 @@ void main() {
         name: 'foo',
         file: Uri.file('path/to/libfoo.so'),
         linkMode: DynamicLoadingBundled(),
-        os: OS.android,
-        architecture: Architecture.x64,
       ),
       CodeAsset(
         package: 'my_package',
         name: 'foo3',
         linkMode: DynamicLoadingSystem(Uri(path: 'libfoo3.so')),
-        os: OS.android,
-        architecture: Architecture.x64,
       ),
       CodeAsset(
         package: 'my_package',
         name: 'foo4',
         linkMode: LookupInExecutable(),
-        os: OS.android,
-        architecture: Architecture.x64,
       ),
       CodeAsset(
         package: 'my_package',
         name: 'foo5',
         linkMode: LookupInProcess(),
-        os: OS.android,
-        architecture: Architecture.x64,
       ),
       CodeAsset(
         package: 'my_package',
         name: 'bar',
         file: Uri(path: 'path/to/libbar.a'),
-        os: OS.linux,
-        architecture: Architecture.arm64,
+
         linkMode: StaticLinking(),
       ),
       CodeAsset(
@@ -51,8 +42,6 @@ void main() {
         name: 'bla',
         file: Uri(path: 'path/with spaces/bla.dll'),
         linkMode: DynamicLoadingBundled(),
-        os: OS.windows,
-        architecture: Architecture.x64,
       ),
       DataAsset(
         package: 'my_package',

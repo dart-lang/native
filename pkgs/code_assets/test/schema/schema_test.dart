@@ -90,8 +90,6 @@ FieldsFunction _codeFields(AllTestData allTestData) {
     // (expectFunction, path)
     const codeAssetFields =
         <(List<Object>, void Function(ValidationResults result))>[
-          (['architecture'], expectOptionalFieldMissing),
-          (['os'], expectOptionalFieldMissing),
           (['id'], expectRequiredFieldMissing),
           (['link_mode'], expectRequiredFieldMissing),
           (['link_mode', 'type'], expectRequiredFieldMissing),

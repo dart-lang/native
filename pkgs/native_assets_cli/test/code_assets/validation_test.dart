@@ -66,8 +66,6 @@ void main() {
       CodeAsset(
         package: input.packageName,
         name: 'foo.dylib',
-        architecture: input.config.code.targetArchitecture,
-        os: input.config.code.targetOS,
         linkMode: DynamicLoadingBundled(),
       ),
     );
@@ -96,8 +94,6 @@ void main() {
           name: 'foo.dart',
           file: assetFile.uri,
           linkMode: linkMode,
-          os: input.config.code.targetOS,
-          architecture: input.config.code.targetArchitecture,
         ),
       );
       final errors = await validateCodeAssetBuildOutput(
@@ -113,52 +109,6 @@ void main() {
     });
   }
 
-  test('native code wrong architecture', () async {
-    final input = makeCodeBuildInput();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: 'foo.dart',
-        file: assetFile.uri,
-        linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: Architecture.x64,
-      ),
-    );
-    final errors = await validateCodeAssetBuildOutput(
-      input,
-      BuildOutput(outputBuilder.json),
-    );
-    expect(errors, contains(contains('which is not the target architecture')));
-  });
-
-  test('native code no architecture', () async {
-    final input = makeCodeBuildInput();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: 'foo.dart',
-        file: assetFile.uri,
-        linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: Architecture.arm64,
-      ),
-    );
-    expect(
-      await validateCodeAssetBuildOutput(
-        input,
-        BuildOutput(outputBuilder.json),
-      ),
-      isEmpty,
-    );
-  });
-
   test('dynamic_loading_system uri missing', () async {
     final input = makeCodeBuildInput();
     final outputBuilder = BuildOutputBuilder();
@@ -172,8 +122,6 @@ void main() {
         linkMode: DynamicLoadingSystem(
           Uri.parse(input.config.code.targetOS.dylibFileName('sqlite')),
         ),
-        os: input.config.code.targetOS,
-        architecture: Architecture.arm64,
       ),
     );
     expect(
@@ -204,28 +152,6 @@ void main() {
     );
   });
 
-  test('native code asset wrong os', () async {
-    final input = makeCodeBuildInput();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: 'foo.dart',
-        file: assetFile.uri,
-        linkMode: DynamicLoadingBundled(),
-        os: OS.windows,
-        architecture: input.config.code.targetArchitecture,
-      ),
-    );
-    final errors = await validateCodeAssetBuildOutput(
-      input,
-      BuildOutput(outputBuilder.json),
-    );
-    expect(errors, contains(contains('which is not the target os')));
-  });
-
   test('duplicate dylib name', () async {
     final input = makeCodeBuildInput();
     final outputBuilder = BuildOutputBuilder();
@@ -238,16 +164,12 @@ void main() {
         name: 'src/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: input.config.code.targetArchitecture,
       ),
       CodeAsset(
         package: input.packageName,
         name: 'src/bar.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: input.config.code.targetArchitecture,
       ),
     ]);
     final errors = await validateCodeAssetBuildOutput(

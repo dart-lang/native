@@ -2,22 +2,18 @@
   "$schema": "../../doc/schema/hook/build_output.generated.schema.json",
   "assets": [
     {
-      "architecture": "arm",
       "encoding": {
-        "architecture": "arm",
         "file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/out/libmy_package.so",
         "id": "package:my_package/my_package_bindings_generated.dart",
         "link_mode": {
           "type": "dynamic_loading_bundle"
-        },
-        "os": "android"
+        }
       },
       "file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/out/libmy_package.so",
       "id": "package:my_package/my_package_bindings_generated.dart",
       "link_mode": {
         "type": "dynamic_loading_bundle"
       },
-      "os": "android",
       "type": "native_code"
     }
   ],
