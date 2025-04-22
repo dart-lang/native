@@ -87,7 +87,6 @@ void main() async {
           },
         ],
       'config': {
-        'code': codeConfig,
         'build_asset_types': ['code_assets/code'],
         'extensions': {'code_assets': codeConfig},
         if (hookType == 'build') 'linking_enabled': false,
@@ -224,7 +223,8 @@ void main() async {
     final input = inputJson();
     traverseJson<Map<String, Object?>>(input, [
       'config',
-      'code',
+      'extensions',
+      'code_assets',
     ])['target_architecture'] = 'invalid_architecture';
     expect(
       () => BuildInput(input).config.code.targetArchitecture,
@@ -234,8 +234,11 @@ void main() async {
 
   test('LinkInput.config.code: invalid os', () {
     final input = inputJson(hookType: 'link');
-    traverseJson<Map<String, Object?>>(input, ['config', 'code'])['target_os'] =
-        'invalid_os';
+    traverseJson<Map<String, Object?>>(input, [
+      'config',
+      'extensions',
+      'code_assets',
+    ])['target_os'] = 'invalid_os';
     expect(() => LinkInput(input).config.code.targetOS, throwsFormatException);
   });
 
@@ -255,23 +258,6 @@ void main() async {
               e.message.contains(
                 "Unexpected value '123' (int) for "
                 "'config.extensions.code_assets.target_os'. "
-                'Expected a String.',
-              ),
-        ),
-      ),
-    );
-
-    traverseJson<Map<String, Object?>>(input, ['config']).remove('extensions');
-    traverseJson<Map<String, Object?>>(input, ['config', 'code'])['target_os'] =
-        123;
-    expect(
-      () => LinkInput(input).config.code.targetOS,
-      throwsA(
-        predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                "Unexpected value '123' (int) for 'config.code.target_os'. "
                 'Expected a String.',
               ),
         ),
@@ -299,25 +285,8 @@ void main() async {
         ),
       ),
     );
-
-    traverseJson<Map<String, Object?>>(input, ['config']).remove('extensions');
-    traverseJson<Map<String, Object?>>(input, [
-      'config',
-      'code',
-    ]).remove('link_mode_preference');
-    expect(
-      () => LinkInput(input).config.code.linkModePreference,
-      throwsA(
-        predicate(
-          (e) =>
-              e is FormatException &&
-              e.message.contains(
-                "No value was provided for 'config.code.link_mode_preference'.",
-              ),
-        ),
-      ),
-    );
   });
+
   test('LinkInput.assets.0.link_mode missing', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [

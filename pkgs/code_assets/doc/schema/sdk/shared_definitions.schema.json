@@ -4,17 +4,7 @@
   "definitions": {
     "BuildInput": {},
     "BuildOutput": {},
-    "HookInput": {
-      "properties": {
-        "config": {
-          "properties": {
-            "code": {
-              "$comment": "Old hooks still read 'code' so provide both 'code' and 'extensions.code_config'."
-            }
-          }
-        }
-      }
-    },
+    "HookInput": {},
     "HookOutput": {},
     "LinkInput": {},
     "LinkOutput": {}

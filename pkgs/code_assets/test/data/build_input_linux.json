@@ -4,16 +4,6 @@
     "build_asset_types": [
       "code_assets/code"
     ],
-    "code": {
-      "c_compiler": {
-        "ar": "/usr/lib/llvm-16/bin/llvm-ar",
-        "cc": "/usr/lib/llvm-16/bin/clang",
-        "ld": "/usr/lib/llvm-16/bin/ld.lld"
-      },
-      "link_mode_preference": "dynamic",
-      "target_architecture": "x64",
-      "target_os": "linux"
-    },
     "extensions": {
       "code_assets": {
         "c_compiler": {

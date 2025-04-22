@@ -388,30 +388,9 @@ class CodeConfig extends JsonObject {
 class Config extends JsonObject {
   Config.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Config({required CodeConfig? code, required ConfigExtensions? extensions})
-    : super() {
-    this.code = code;
+  Config({required ConfigExtensions? extensions}) : super() {
     this.extensions = extensions;
     json.sortOnKey();
-  }
-
-  CodeConfig? get code {
-    final jsonValue = _reader.optionalMap('code');
-    if (jsonValue == null) return null;
-    return CodeConfig.fromJson(jsonValue, path: [...path, 'code']);
-  }
-
-  set code(CodeConfig? value) {
-    json.setOrRemove('code', value?.json);
-    json.sortOnKey();
-  }
-
-  List<String> _validateCode() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('code');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return code?.validate() ?? [];
   }
 
   ConfigExtensions? get extensions {
@@ -434,11 +413,7 @@ class Config extends JsonObject {
   }
 
   @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateCode(),
-    ..._validateExtensions(),
-  ];
+  List<String> validate() => [...super.validate(), ..._validateExtensions()];
 
   @override
   String toString() => 'Config($json)';

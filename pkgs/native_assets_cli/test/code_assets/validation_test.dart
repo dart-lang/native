@@ -196,7 +196,8 @@ void main() {
           );
         traverseJson<Map<String, Object?>>(builder.json, [
           'config',
-          'code',
+          'extensions',
+          'code_assets',
           'ios',
         ]).remove(propertyKey);
         final errors = await validateCodeAssetBuildInput(
@@ -207,7 +208,7 @@ void main() {
           contains(
             contains(
               'No value was provided for '
-              '\'config.code.ios.$propertyKey\'.',
+              '\'config.extensions.code_assets.ios.$propertyKey\'.',
             ),
           ),
         );
@@ -226,14 +227,16 @@ void main() {
         );
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'android',
       ]).remove('target_ndk_api');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
           contains(
-            'No value was provided for \'config.code.android.target_ndk_api\'.'
+            'No value was provided for '
+            '\'config.extensions.code_assets.android.target_ndk_api\'.'
             ' Expected a int.',
           ),
         ),
@@ -253,14 +256,16 @@ void main() {
 
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'macos',
       ]).remove('target_version');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
           contains(
-            'No value was provided for \'config.code.macos.target_version\'.'
+            'No value was provided for '
+            '\'config.extensions.code_assets.macos.target_version\'.'
             ' Expected a int.',
           ),
         ),
@@ -268,11 +273,17 @@ void main() {
 
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
       ]).remove('macos');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
-        contains(contains('No value was provided for \'config.code.macos\'.')),
+        contains(
+          contains(
+            'No value was provided for '
+            '\'config.extensions.code_assets.macos\'.',
+          ),
+        ),
       );
     });
 
@@ -317,7 +328,8 @@ void main() {
       // If developer command prompt is present, it must contain the script.
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'c_compiler',
         'windows',
         'developer_command_prompt',
@@ -327,7 +339,8 @@ void main() {
         contains(
           contains(
             'No value was provided for '
-            "'config.code.c_compiler.windows.developer_command_prompt.script'.",
+            "'config.extensions.code_assets.c_compiler."
+            "windows.developer_command_prompt.script'.",
           ),
         ),
       );
@@ -339,7 +352,8 @@ void main() {
       // the Windows config.
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'c_compiler',
       ]).remove('windows');
       expect(
@@ -347,7 +361,7 @@ void main() {
         contains(
           contains(
             'No value was provided for '
-            "'config.code.c_compiler.windows'.",
+            "'config.extensions.code_assets.c_compiler.windows'.",
           ),
         ),
       );

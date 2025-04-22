@@ -1,21 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "title": "package:code_assets party:sdk shared definitions",
+  "title": "package:code_assets party:hook shared definitions",
   "definitions": {
     "BuildInput": {},
     "BuildOutput": {},
-    "HookInput": {
-      "properties": {
-        "config": {
-          "properties": {
-            "code": {
-              "$comment": "Future SDKs will no longer provide 'code', 'extensions.code_config' instead.",
-              "deprecated": true
-            }
-          }
-        }
-      }
-    },
+    "HookInput": {},
     "HookOutput": {},
     "LinkInput": {},
     "LinkOutput": {}
