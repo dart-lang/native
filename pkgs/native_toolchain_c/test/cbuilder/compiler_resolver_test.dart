@@ -49,7 +49,6 @@ void main() {
             packageName: 'dummy',
             packageRoot: tempUri,
             outputFile: tempUri.resolve('output.json'),
-            outputDirectory: tempUri,
             outputDirectoryShared: tempUri2,
           )
           ..config.setupBuild(linkingEnabled: false)
@@ -105,7 +104,6 @@ void main() {
             packageRoot: tempUri,
             outputFile: tempUri.resolve('output.json'),
             outputDirectoryShared: tempUri2,
-            outputDirectory: tempUri,
           )
           ..config.setupBuild(linkingEnabled: false)
           ..addExtension(

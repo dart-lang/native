@@ -69,7 +69,6 @@ Future<void> runTests(List<Architecture> architectures) async {
                   packageName: 'testpackage',
                   packageRoot: tempUri,
                   outputFile: tempUri.resolve('output.json'),
-                  outputDirectory: tempUri,
                   outputDirectoryShared: tempUri2,
                 )
                 ..setupLink(assets: [], recordedUsesFile: null)

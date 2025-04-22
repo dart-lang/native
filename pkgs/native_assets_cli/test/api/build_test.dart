@@ -36,7 +36,6 @@ void main() async {
         packageRoot: tempUri,
         packageName: packageName,
         outputFile: outFile,
-        outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.setupBuild(linkingEnabled: false);

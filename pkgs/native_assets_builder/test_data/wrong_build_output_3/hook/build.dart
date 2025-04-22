@@ -21,6 +21,5 @@ const _rightContents = '''{
   "timestamp": "2023-07-28 14:22:45.000",
   "encodedAssets": [],
   "dependencies": [],
-  "metadata": {},
-  "version": "1.9.0"
+  "metadata": {}
 }''';

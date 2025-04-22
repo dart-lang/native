@@ -155,7 +155,6 @@ class NativeAssetsBuildRunner {
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputFile: buildDirUri.resolve('output.json'),
-        outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
         userDefines: loadedUserDefines?[package.name],
       );
@@ -259,7 +258,6 @@ class NativeAssetsBuildRunner {
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         outputFile: buildDirUri.resolve('output.json'),
-        outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
         userDefines: loadedUserDefines?[package.name],
       );

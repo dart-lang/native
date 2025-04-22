@@ -145,7 +145,6 @@ Future<Uri> buildLib(
           packageName: name,
           packageRoot: tempUri,
           outputFile: tempUri.resolve('output.json'),
-          outputDirectory: tempUri,
           outputDirectoryShared: tempUriShared,
         )
         ..config.setupBuild(linkingEnabled: false)
