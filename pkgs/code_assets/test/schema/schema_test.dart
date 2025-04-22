@@ -72,7 +72,7 @@ FieldsFunction _codeFields(AllTestData allTestData) {
   late int dynamicLoadingBundledIndex, dynamicLoadingSystemIndex, staticIndex;
   for (var i = 0; i < assets.length; i++) {
     final asset = assets[i];
-    switch (asset['link_mode']['type']) {
+    switch (asset['encoding']['link_mode']['type']) {
       case 'dynamic_loading_bundle':
         dynamicLoadingBundledIndex = i;
       case 'dynamic_loading_system':
@@ -112,33 +112,33 @@ FieldsFunction _codeFields(AllTestData allTestData) {
           ),
           if (hook == Hook.link) ...[
             for (final (field, expect) in codeAssetFields) ...[
-              for (final encoding in _encoding)
-                (['assets', 0, ...encoding, ...field], expect),
+              (['assets', 0, 'encoding', ...field], expect),
               (['assets', 1, 'encoding', ...field], expect),
             ],
           ],
         ],
       if (inputOrOutput == InputOrOutput.output) ...[
         for (final (field, expect) in codeAssetFields)
-          for (final encoding in _encoding)
-            (['assets', 0, ...encoding, ...field], expect),
+          (['assets', 0, 'encoding', ...field], expect),
         if (hook == Hook.build) ...[
           for (final (field, expect) in codeAssetFields)
-            for (final encoding in _encoding)
-              for (final path in [
-                ['assets_for_build'],
-                ['assetsForLinking', 'package_with_linker'],
-                ['assets_for_linking', 'package_with_linker'],
-              ])
-                ([...path, 0, ...encoding, ...field], expect),
+            for (final path in [
+              ['assets_for_build'],
+              ['assetsForLinking', 'package_with_linker'],
+              ['assets_for_linking', 'package_with_linker'],
+            ])
+              ([...path, 0, 'encoding', ...field], expect),
         ],
-        (['assets', staticIndex, 'file'], expectRequiredFieldMissing),
         (
-          ['assets', dynamicLoadingBundledIndex, 'file'],
+          ['assets', staticIndex, 'encoding', 'file'],
           expectRequiredFieldMissing,
         ),
         (
-          ['assets', dynamicLoadingSystemIndex, 'link_mode', 'uri'],
+          ['assets', dynamicLoadingBundledIndex, 'encoding', 'file'],
+          expectRequiredFieldMissing,
+        ),
+        (
+          ['assets', dynamicLoadingSystemIndex, 'encoding', 'link_mode', 'uri'],
           expectRequiredFieldMissing,
         ),
       ],
@@ -241,9 +241,4 @@ _codeFieldsAndroid({
         expectRequiredFieldMissing,
       ),
     ],
-];
-
-const _encoding = [
-  <String>[],
-  ['encoding'],
 ];

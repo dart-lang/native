@@ -7,10 +7,7 @@
         "name": "assets/data_0.json",
         "package": "simple_link"
       },
-      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
-      "name": "assets/data_0.json",
-      "package": "simple_link",
-      "type": "data"
+      "type": "data_assets/data"
     },
     {
       "encoding": {
@@ -18,10 +15,7 @@
         "name": "assets/data_1.json",
         "package": "simple_link"
       },
-      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
-      "name": "assets/data_1.json",
-      "package": "simple_link",
-      "type": "data"
+      "type": "data_assets/data"
     }
   ],
   "assetsForLinking": {
@@ -32,10 +26,7 @@
           "name": "assets/data_0.json",
           "package": "simple_link"
         },
-        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
-        "name": "assets/data_0.json",
-        "package": "simple_link",
-        "type": "data"
+        "type": "data_assets/data"
       },
       {
         "encoding": {
@@ -43,10 +34,7 @@
           "name": "assets/data_1.json",
           "package": "simple_link"
         },
-        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
-        "name": "assets/data_1.json",
-        "package": "simple_link",
-        "type": "data"
+        "type": "data_assets/data"
       }
     ]
   },
@@ -57,10 +45,7 @@
         "name": "assets/data_0.json",
         "package": "simple_link"
       },
-      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
-      "name": "assets/data_0.json",
-      "package": "simple_link",
-      "type": "data"
+      "type": "data_assets/data"
     },
     {
       "encoding": {
@@ -68,10 +53,7 @@
         "name": "assets/data_1.json",
         "package": "simple_link"
       },
-      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
-      "name": "assets/data_1.json",
-      "package": "simple_link",
-      "type": "data"
+      "type": "data_assets/data"
     }
   ],
   "assets_for_linking": {
@@ -82,10 +64,7 @@
           "name": "assets/data_0.json",
           "package": "simple_link"
         },
-        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
-        "name": "assets/data_0.json",
-        "package": "simple_link",
-        "type": "data"
+        "type": "data_assets/data"
       },
       {
         "encoding": {
@@ -93,10 +72,7 @@
           "name": "assets/data_1.json",
           "package": "simple_link"
         },
-        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
-        "name": "assets/data_1.json",
-        "package": "simple_link",
-        "type": "data"
+        "type": "data_assets/data"
       }
     ]
   },

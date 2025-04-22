@@ -37,17 +37,14 @@ void main() {
       'dependencies': ['path0', 'path1', 'path2'],
       'assets': [
         {
-          'a-0': 'v-0',
           'encoding': {'a-0': 'v-0'},
           'type': 'my-asset-type',
         },
         {
-          'a-1': 'v-1',
           'encoding': {'a-1': 'v-1'},
           'type': 'my-asset-type',
         },
         {
-          'a-2': 'v-2',
           'encoding': {'a-2': 'v-2'},
           'type': 'my-asset-type',
         },

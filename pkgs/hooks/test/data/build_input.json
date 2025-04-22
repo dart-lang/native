@@ -10,7 +10,9 @@
         "type": "hooks/metadata"
       },
       {
-        "some_key": "some_value",
+        "encoding": {
+          "some_key": "some_value"
+        },
         "type": "some_asset_type"
       }
     ]

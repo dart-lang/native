@@ -56,9 +56,6 @@ void main() {
 
   final assetsJsonEncoding = [
     {
-      'file': fooUri.toFilePath(),
-      'id': 'package:my_package/foo',
-      'link_mode': {'type': 'dynamic_loading_bundle'},
       'type': 'code_assets/code',
       'encoding': {
         'file': fooUri.toFilePath(),
@@ -67,11 +64,6 @@ void main() {
       },
     },
     {
-      'id': 'package:my_package/foo3',
-      'link_mode': {
-        'type': 'dynamic_loading_system',
-        'uri': foo3Uri.toFilePath(),
-      },
       'type': 'code_assets/code',
       'encoding': {
         'id': 'package:my_package/foo3',
@@ -82,8 +74,6 @@ void main() {
       },
     },
     {
-      'id': 'package:my_package/foo4',
-      'link_mode': {'type': 'dynamic_loading_executable'},
       'type': 'code_assets/code',
       'encoding': {
         'id': 'package:my_package/foo4',
@@ -91,8 +81,6 @@ void main() {
       },
     },
     {
-      'id': 'package:my_package/foo5',
-      'link_mode': {'type': 'dynamic_loading_process'},
       'type': 'code_assets/code',
       'encoding': {
         'id': 'package:my_package/foo5',
@@ -100,9 +88,6 @@ void main() {
       },
     },
     {
-      'file': barUri.toFilePath(),
-      'id': 'package:my_package/bar',
-      'link_mode': {'type': 'static'},
       'type': 'code_assets/code',
       'encoding': {
         'file': barUri.toFilePath(),
@@ -111,9 +96,6 @@ void main() {
       },
     },
     {
-      'file': blaUri.toFilePath(),
-      'id': 'package:my_package/bla',
-      'link_mode': {'type': 'dynamic_loading_bundle'},
       'type': 'code_assets/code',
       'encoding': {
         'file': blaUri.toFilePath(),
@@ -122,9 +104,6 @@ void main() {
       },
     },
     {
-      'name': 'my_data_asset',
-      'package': 'my_package',
-      'file': Uri.file('path/to/data.txt').toFilePath(),
       'type': 'data_assets/data',
       'encoding': {
         'name': 'my_data_asset',
@@ -133,9 +112,6 @@ void main() {
       },
     },
     {
-      'name': 'my_data_asset2',
-      'package': 'my_package',
-      'file': Uri.file('path/to/data.json').toFilePath(),
       'type': 'data_assets/data',
       'encoding': {
         'name': 'my_data_asset2',

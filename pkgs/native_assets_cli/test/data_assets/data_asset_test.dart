@@ -14,9 +14,6 @@ void main() async {
         file: Uri.file('not there'),
       ).encode().toJson(),
       {
-        'file': 'not there',
-        'package': 'my_package',
-        'name': 'name',
         'type': 'data_assets/data',
         'encoding': {
           'file': 'not there',
@@ -27,33 +24,23 @@ void main() async {
     );
   });
 
-  for (final assetType in ['data', 'data_assets/data']) {
-    for (final nestInEncoding in [true, false]) {
-      test('DataAsset fromJson', () {
-        final encodedAsset = EncodedAsset.fromJson({
-          'type': assetType,
-          if (!nestInEncoding) ...{
-            'file': 'not there',
-            'name': 'name',
-            'package': 'my_package',
-          },
-          if (nestInEncoding)
-            'encoding': {
-              'file': 'not there',
-              'name': 'name',
-              'package': 'my_package',
-            },
-        });
-        expect(encodedAsset.isDataAsset, isTrue);
-        expect(
-          DataAsset.fromEncoded(encodedAsset),
-          DataAsset(
-            package: 'my_package',
-            name: 'name',
-            file: Uri.file('not there'),
-          ),
-        );
-      });
-    }
-  }
+  test('DataAsset fromJson', () {
+    final encodedAsset = EncodedAsset.fromJson({
+      'type': 'data_assets/data',
+      'encoding': {
+        'file': 'not there',
+        'name': 'name',
+        'package': 'my_package',
+      },
+    });
+    expect(encodedAsset.isDataAsset, isTrue);
+    expect(
+      DataAsset.fromEncoded(encodedAsset),
+      DataAsset(
+        package: 'my_package',
+        name: 'name',
+        file: Uri.file('not there'),
+      ),
+    );
+  });
 }

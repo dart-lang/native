@@ -15,9 +15,6 @@ void main() async {
         file: Uri.file('not there'),
       ).encode().toJson(),
       {
-        'file': 'not there',
-        'id': 'package:my_package/name',
-        'link_mode': {'type': 'dynamic_loading_bundle'},
         'type': 'code_assets/code',
         'encoding': {
           'file': 'not there',
@@ -28,34 +25,24 @@ void main() async {
     );
   });
 
-  for (final assetType in ['native_code', 'code_assets/code']) {
-    for (final nestInEncoding in [true, false]) {
-      test('CodeAsset fromJson', () {
-        final encodedAsset = EncodedAsset.fromJson({
-          'type': assetType,
-          if (!nestInEncoding) ...{
-            'file': 'not there',
-            'id': 'package:my_package/name',
-            'link_mode': {'type': 'dynamic_loading_bundle'},
-          },
-          if (nestInEncoding)
-            'encoding': {
-              'file': 'not there',
-              'id': 'package:my_package/name',
-              'link_mode': {'type': 'dynamic_loading_bundle'},
-            },
-        });
-        expect(encodedAsset.isCodeAsset, isTrue);
-        expect(
-          CodeAsset.fromEncoded(encodedAsset),
-          CodeAsset(
-            package: 'my_package',
-            name: 'name',
-            linkMode: DynamicLoadingBundled(),
-            file: Uri.file('not there'),
-          ),
-        );
-      });
-    }
-  }
+  test('CodeAsset fromJson', () {
+    final encodedAsset = EncodedAsset.fromJson({
+      'type': 'code_assets/code',
+      'encoding': {
+        'file': 'not there',
+        'id': 'package:my_package/name',
+        'link_mode': {'type': 'dynamic_loading_bundle'},
+      },
+    });
+    expect(encodedAsset.isCodeAsset, isTrue);
+    expect(
+      CodeAsset.fromEncoded(encodedAsset),
+      CodeAsset(
+        package: 'my_package',
+        name: 'name',
+        linkMode: DynamicLoadingBundled(),
+        file: Uri.file('not there'),
+      ),
+    );
+  });
 }

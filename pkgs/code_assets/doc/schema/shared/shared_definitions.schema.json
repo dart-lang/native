@@ -41,9 +41,6 @@
               "const": "code_assets/code"
             },
             {
-              "const": "native_code"
-            },
-            {
               "type": "string"
             }
           ]
@@ -64,28 +61,6 @@
                 "$ref": "#/definitions/NativeCodeAssetEncoding"
               }
             }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "native_code"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "encoding": {
-                "$ref": "#/definitions/NativeCodeAssetEncoding"
-              }
-            },
-            "allOf": [
-              {
-                "$comment": "Also include the fields parent object for backwards compatibility.",
-                "$ref": "#/definitions/NativeCodeAssetEncoding"
-              }
-            ]
           }
         }
       ]
