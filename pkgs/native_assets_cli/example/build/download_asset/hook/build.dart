@@ -51,7 +51,6 @@ void main(List<String> args) async {
           package: input.packageName,
           name: 'native_add.dart',
           linkMode: DynamicLoadingBundled(),
-
           file: file.uri,
         ),
       );

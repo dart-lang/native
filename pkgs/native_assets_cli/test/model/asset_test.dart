@@ -36,7 +36,6 @@ void main() {
       package: 'my_package',
       name: 'bar',
       file: barUri,
-
       linkMode: StaticLinking(),
     ),
     CodeAsset(
@@ -60,7 +59,6 @@ void main() {
       'file': fooUri.toFilePath(),
       'id': 'package:my_package/foo',
       'link_mode': {'type': 'dynamic_loading_bundle'},
-
       'type': 'code_assets/code',
       'encoding': {
         'file': fooUri.toFilePath(),
@@ -86,7 +84,6 @@ void main() {
     {
       'id': 'package:my_package/foo4',
       'link_mode': {'type': 'dynamic_loading_executable'},
-
       'type': 'code_assets/code',
       'encoding': {
         'id': 'package:my_package/foo4',
@@ -96,7 +93,6 @@ void main() {
     {
       'id': 'package:my_package/foo5',
       'link_mode': {'type': 'dynamic_loading_process'},
-
       'type': 'code_assets/code',
       'encoding': {
         'id': 'package:my_package/foo5',

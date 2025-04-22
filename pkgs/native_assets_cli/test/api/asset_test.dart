@@ -34,7 +34,6 @@ void main() {
         package: 'my_package',
         name: 'bar',
         file: Uri(path: 'path/to/libbar.a'),
-
         linkMode: StaticLinking(),
       ),
       CodeAsset(
