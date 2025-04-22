@@ -342,13 +342,6 @@
     "NativeCodeAssetEncoding": {
       "type": "object",
       "properties": {
-        "architecture": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Architecture"
-            }
-          ]
-        },
         "file": {
           "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
@@ -357,9 +350,6 @@
         },
         "link_mode": {
           "$ref": "#/definitions/LinkMode"
-        },
-        "os": {
-          "$ref": "#/definitions/OS"
         }
       },
       "required": [

@@ -37,8 +37,6 @@ void main(List<String> args) async {
         package: 'package',
         name: 'name',
         linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: input.config.code.targetArchitecture,
         file: input.outputDirectory.resolve('foo'),
       ),
     );

@@ -20,8 +20,6 @@ void main(List<String> arguments) async {
         name: 'foo',
         file: assetUri,
         linkMode: DynamicLoadingBundled(),
-        os: OS.current,
-        architecture: Architecture.current,
       ),
       routing: const ToLinkHook('a_package_that_does_not_exist'),
     );

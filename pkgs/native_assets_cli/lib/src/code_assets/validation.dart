@@ -238,22 +238,6 @@ void _validateCodeAsset(
     }
   }
 
-  final os = codeAsset.os;
-  if (os != null && codeConfig.targetOS != os) {
-    final error =
-        'CodeAsset "$id" has a os "$os", which '
-        'is not the target os "${codeConfig.targetOS}".';
-    errors.add(error);
-  }
-
-  final architecture = codeAsset.architecture;
-  if (architecture != null && architecture != codeConfig.targetArchitecture) {
-    errors.add(
-      'CodeAsset "$id" has an architecture "$architecture", which '
-      'is not the target architecture "${codeConfig.targetArchitecture}".',
-    );
-  }
-
   errors.addAll(_validateCodeAssetFile(codeAsset));
 }
 

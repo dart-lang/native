@@ -39,9 +39,7 @@ void main() async {
         package: packageName,
         name: 'name',
         linkMode: DynamicLoadingBundled(),
-        os: OS.android,
         file: Uri.file('not there'),
-        architecture: Architecture.riscv64,
       ).encode(),
     ];
   });
@@ -80,18 +78,14 @@ void main() async {
       if (hookType == 'link')
         'assets': [
           {
-            'architecture': 'riscv64',
             'file': 'not there',
             'id': 'package:my_package/name',
             'link_mode': {'type': 'dynamic_loading_bundle'},
-            'os': 'android',
             'type': 'code_assets/code',
             'encoding': {
-              'architecture': 'riscv64',
               'file': 'not there',
               'id': 'package:my_package/name',
               'link_mode': {'type': 'dynamic_loading_bundle'},
-              'os': 'android',
             },
           },
         ],

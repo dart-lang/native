@@ -7,7 +7,6 @@ import 'package:native_assets_cli/code_assets.dart';
 void main(List<String> arguments) async {
   await build(arguments, (input, output) async {
     final targetOS = input.config.code.targetOS;
-    final targetArchitecture = input.config.code.targetArchitecture;
     output.assets.code.addAll([
       CodeAsset(
         package: input.packageName,
@@ -22,22 +21,16 @@ void main(List<String> arguments) async {
             _ => throw UnsupportedError('Unknown operating system: $targetOS'),
           }),
         ),
-        os: targetOS,
-        architecture: targetArchitecture,
       ),
       CodeAsset(
         package: input.packageName,
         name: 'memory_executable.dart',
         linkMode: LookupInExecutable(),
-        os: targetOS,
-        architecture: targetArchitecture,
       ),
       CodeAsset(
         package: input.packageName,
         name: 'memory_process.dart',
         linkMode: LookupInProcess(),
-        os: targetOS,
-        architecture: targetArchitecture,
       ),
     ]);
   });

@@ -345,7 +345,6 @@ FieldsReturn _hookFields({
       (['timestamp'], expectRequiredFieldMissing),
       (['dependencies'], expectOptionalFieldMissing),
       (['dependencies', 0], expectOptionalFieldMissing),
-
       if (hook == Hook.build) ...[
         (['metadata'], expectOptionalFieldMissing),
         for (final path in [
