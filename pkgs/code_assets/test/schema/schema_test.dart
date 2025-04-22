@@ -63,6 +63,8 @@ void main() {
 
 Uri packageUri = findPackageRoot('code_assets');
 
+const _codeConfigPath = ['config', 'extensions', 'code_assets'];
+
 FieldsFunction _codeFields(AllTestData allTestData) {
   final dataUri = packageUri.resolve('test/data/build_output_macos.json');
   final assets =
@@ -96,27 +98,23 @@ FieldsFunction _codeFields(AllTestData allTestData) {
         ];
 
     return <(List<Object>, void Function(ValidationResults result))>[
-      for (final codeConfigPath in [
-        ['config', 'code'],
-        ['config', 'extensions', 'code_assets'],
-      ])
-        if (inputOrOutput == InputOrOutput.input) ...[
-          ([...codeConfigPath, 'c_compiler'], expectOptionalFieldMissing),
-          ([...codeConfigPath, 'c_compiler', 'ar'], expectRequiredFieldMissing),
-          ([...codeConfigPath, 'c_compiler', 'cc'], expectRequiredFieldMissing),
-          ([...codeConfigPath, 'c_compiler', 'ld'], expectRequiredFieldMissing),
-          ([...codeConfigPath, 'macos'], expectRequiredFieldMissing),
-          (
-            [...codeConfigPath, 'macos', 'target_version'],
-            expectRequiredFieldMissing,
-          ),
-          if (hook == Hook.link) ...[
-            for (final (field, expect) in codeAssetFields) ...[
-              (['assets', 0, 'encoding', ...field], expect),
-              (['assets', 1, 'encoding', ...field], expect),
-            ],
+      if (inputOrOutput == InputOrOutput.input) ...[
+        ([..._codeConfigPath, 'c_compiler'], expectOptionalFieldMissing),
+        ([..._codeConfigPath, 'c_compiler', 'ar'], expectRequiredFieldMissing),
+        ([..._codeConfigPath, 'c_compiler', 'cc'], expectRequiredFieldMissing),
+        ([..._codeConfigPath, 'c_compiler', 'ld'], expectRequiredFieldMissing),
+        ([..._codeConfigPath, 'macos'], expectRequiredFieldMissing),
+        (
+          [..._codeConfigPath, 'macos', 'target_version'],
+          expectRequiredFieldMissing,
+        ),
+        if (hook == Hook.link) ...[
+          for (final (field, expect) in codeAssetFields) ...[
+            (['assets', 0, 'encoding', ...field], expect),
+            (['assets', 1, 'encoding', ...field], expect),
           ],
         ],
+      ],
       if (inputOrOutput == InputOrOutput.output) ...[
         for (final (field, expect) in codeAssetFields)
           (['assets', 0, 'encoding', ...field], expect),
@@ -154,55 +152,45 @@ _codeFieldsWindows({
   required Hook hook,
   required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
-  if (inputOrOutput == InputOrOutput.input && hook == Hook.build)
-    for (final codeConfigPath in [
-      ['config', 'code'],
-      ['config', 'extensions', 'code_assets'],
-    ]) ...[
-      (
-        [...codeConfigPath, 'c_compiler', 'env_script'],
-        expectOptionalFieldMissing,
-      ),
-      (
-        [...codeConfigPath, 'c_compiler', 'env_script_arguments'],
-        expectOptionalFieldMissing,
-      ),
-      (
-        [...codeConfigPath, 'c_compiler', 'windows'],
-        expectRequiredFieldMissing,
-      ),
-      (
-        [
-          ...codeConfigPath,
-          'c_compiler',
-          'windows',
-          'developer_command_prompt',
-        ],
-        expectOptionalFieldMissing,
-      ),
-      (
-        [
-          'config',
-          'code',
-          'c_compiler',
-          'windows',
-          'developer_command_prompt',
-          'script',
-        ],
-        expectRequiredFieldMissing,
-      ),
-      (
-        [
-          'config',
-          'code',
-          'c_compiler',
-          'windows',
-          'developer_command_prompt',
-          'arguments',
-        ],
-        expectRequiredFieldMissing,
-      ),
-    ],
+  if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
+    (
+      [..._codeConfigPath, 'c_compiler', 'env_script'],
+      expectOptionalFieldMissing,
+    ),
+    (
+      [..._codeConfigPath, 'c_compiler', 'env_script_arguments'],
+      expectOptionalFieldMissing,
+    ),
+    ([..._codeConfigPath, 'c_compiler', 'windows'], expectRequiredFieldMissing),
+    (
+      [..._codeConfigPath, 'c_compiler', 'windows', 'developer_command_prompt'],
+      expectOptionalFieldMissing,
+    ),
+    (
+      [
+        'config',
+        'extensions',
+        'code_assets',
+        'c_compiler',
+        'windows',
+        'developer_command_prompt',
+        'script',
+      ],
+      expectRequiredFieldMissing,
+    ),
+    (
+      [
+        'config',
+        'extensions',
+        'code_assets',
+        'c_compiler',
+        'windows',
+        'developer_command_prompt',
+        'arguments',
+      ],
+      expectRequiredFieldMissing,
+    ),
+  ],
 ];
 
 List<(List<Object>, void Function(ValidationResults result))> _codeFieldsIOS({
@@ -210,18 +198,11 @@ List<(List<Object>, void Function(ValidationResults result))> _codeFieldsIOS({
   required Hook hook,
   required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
-  if (inputOrOutput == InputOrOutput.input && hook == Hook.build)
-    for (final codeConfigPath in [
-      ['config', 'code'],
-      ['config', 'extensions', 'code_assets'],
-    ]) ...[
-      ([...codeConfigPath, 'ios'], expectRequiredFieldMissing),
-      ([...codeConfigPath, 'ios', 'target_sdk'], expectRequiredFieldMissing),
-      (
-        [...codeConfigPath, 'ios', 'target_version'],
-        expectRequiredFieldMissing,
-      ),
-    ],
+  if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
+    ([..._codeConfigPath, 'ios'], expectRequiredFieldMissing),
+    ([..._codeConfigPath, 'ios', 'target_sdk'], expectRequiredFieldMissing),
+    ([..._codeConfigPath, 'ios', 'target_version'], expectRequiredFieldMissing),
+  ],
 ];
 
 List<(List<Object>, void Function(ValidationResults result))>
@@ -230,15 +211,11 @@ _codeFieldsAndroid({
   required Hook hook,
   required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
-  if (inputOrOutput == InputOrOutput.input && hook == Hook.build)
-    for (final codeConfigPath in [
-      ['config', 'code'],
-      ['config', 'extensions', 'code_assets'],
-    ]) ...[
-      ([...codeConfigPath, 'android'], expectRequiredFieldMissing),
-      (
-        [...codeConfigPath, 'android', 'target_ndk_api'],
-        expectRequiredFieldMissing,
-      ),
-    ],
+  if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
+    ([..._codeConfigPath, 'android'], expectRequiredFieldMissing),
+    (
+      [..._codeConfigPath, 'android', 'target_ndk_api'],
+      expectRequiredFieldMissing,
+    ),
+  ],
 ];

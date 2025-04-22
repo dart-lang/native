@@ -212,9 +212,6 @@
     "Config": {
       "type": "object",
       "properties": {
-        "code": {
-          "$ref": "#/definitions/CodeConfig"
-        },
         "extensions": {
           "$ref": "#/definitions/ConfigExtensions"
         }

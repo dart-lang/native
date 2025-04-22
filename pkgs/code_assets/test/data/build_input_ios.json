@@ -4,20 +4,6 @@
     "build_asset_types": [
       "code_assets/code"
     ],
-    "code": {
-      "c_compiler": {
-        "ar": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar",
-        "cc": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
-        "ld": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
-      },
-      "ios": {
-        "target_sdk": "iphonesimulator",
-        "target_version": 12
-      },
-      "link_mode_preference": "dynamic",
-      "target_architecture": "arm64",
-      "target_os": "ios"
-    },
     "extensions": {
       "code_assets": {
         "c_compiler": {

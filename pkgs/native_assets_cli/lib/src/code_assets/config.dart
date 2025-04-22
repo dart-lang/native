@@ -41,9 +41,10 @@ class CodeConfig {
   final syntax.CodeConfig _syntax;
 
   CodeConfig._fromJson(Map<String, Object?> json, List<Object> path)
-    : _syntax =
-          syntax.Config.fromJson(json, path: path).extensions?.codeAssets ??
-          syntax.Config.fromJson(json, path: path).code!;
+    : _syntax = syntax.Config.fromJson(
+        json,
+        path: path,
+      ).extensions!.codeAssets!;
 
   /// The architecture the code code asset should be built for.
   ///
@@ -207,7 +208,6 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     baseHookConfig.extensions ??= hook_syntax.JsonObject.fromJson({});
     final hookConfig = syntax.Config.fromJson(baseHookConfig.json);
     hookConfig.extensions!.codeAssets = codeConfig;
-    hookConfig.code = codeConfig; // old location
   }
 }
 
