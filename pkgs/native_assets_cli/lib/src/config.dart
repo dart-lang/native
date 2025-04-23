@@ -441,8 +441,7 @@ class BuildOutput extends HookOutput {
   /// specified in the key, which can decide if they are bundled or not.
   Map<String, List<EncodedAsset>> get _encodedAssetsForLinking => {
     for (final MapEntry(:key, :value)
-        in (_syntax.assetsForLinking ?? _syntax.assetsForLinkingOld ?? {})
-            .entries)
+        in (_syntax.assetsForLinking ?? {}).entries)
       key: _parseAssets(value),
   };
 
@@ -619,7 +618,6 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
           syntax.Asset.fromJson(asset.toJson()),
         );
         _syntax.assetsForLinking = assetsForLinking;
-        _syntax.assetsForLinkingOld = assetsForLinking;
     }
   }
 
@@ -657,14 +655,12 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
         _syntax.assetsForBuild = list;
       case ToLinkHook():
         final linkInPackage = routing.packageName;
-        final assetsForLinking =
-            _syntax.assetsForLinking ?? _syntax.assetsForLinkingOld ?? {};
+        final assetsForLinking = _syntax.assetsForLinking ?? {};
         final list = assetsForLinking[linkInPackage] ??= [];
         for (final asset in assets) {
           list.add(syntax.Asset.fromJson(asset.toJson()));
         }
         _syntax.assetsForLinking = assetsForLinking;
-        _syntax.assetsForLinkingOld = assetsForLinking;
     }
   }
 

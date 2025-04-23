@@ -14,23 +14,6 @@
       "type": "some_other_asset_type"
     }
   ],
-  "assetsForLinking": {
-    "package_with_linker": [
-      {
-        "encoding": {
-          "a_key": "some_value"
-        },
-        "type": "some_asset_type"
-      },
-      {
-        "encoding": {
-          "key": "foo",
-          "value": "bar"
-        },
-        "type": "hooks/metadata"
-      }
-    ]
-  },
   "assets_for_build": [
     {
       "encoding": {
