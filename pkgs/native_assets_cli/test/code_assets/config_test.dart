@@ -11,7 +11,6 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() async {
-  late Uri outDirUri;
   late Uri outputDirectoryShared;
   late Uri outFile;
   late String packageName;
@@ -24,7 +23,6 @@ void main() async {
 
   setUp(() async {
     final tempUri = Directory.systemTemp.uri;
-    outDirUri = tempUri.resolve('out1/');
     outFile = tempUri.resolve('output.json');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';
@@ -92,11 +90,9 @@ void main() async {
         if (hookType == 'build') 'linking_enabled': false,
       },
       'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'version': '1.9.0',
     };
   }
 
@@ -127,7 +123,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         outputFile: outFile,
-        outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.setupBuild(linkingEnabled: false)
@@ -173,7 +168,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         outputFile: outFile,
-        outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
       ..setupLink(assets: assets, recordedUsesFile: null)

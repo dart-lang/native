@@ -49,7 +49,6 @@ void main() {
                 packageName: name,
                 packageRoot: tempUri,
                 outputFile: tempUri.resolve('output.json'),
-                outputDirectory: tempUri,
                 outputDirectoryShared: tempUri2,
               )
               ..config.setupBuild(linkingEnabled: false)

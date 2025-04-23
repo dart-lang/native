@@ -288,93 +288,58 @@ FieldsReturn _hookFields({
   required InputOrOutput inputOrOutput,
   required Hook hook,
   required Party party,
-}) {
-  void versionMissingExpectation(ValidationResults result) {
-    if (party == Party.sdk && inputOrOutput == InputOrOutput.input) {
-      // The writer must output this field. SDK must support older hooks reading
-      // it.
-      expect(result.isValid, isFalse);
-    } else if (party == Party.hook && inputOrOutput == InputOrOutput.output) {
-      // The writer must output this field. SDK must support older hooks reading
-      // it.
-      // Note: For some reason party:hook output does not register as required
-      // `package:json_schema`, but the JSON validator in vscode does properly
-      // mark it as required.
-      // Ignore this issue for now, we'll remove version soon.
-      // expect(result.isValid, isFalse);
-    } else {
-      // Newer hooks must support future SDKs not outputting a this field.
-      expect(result.isValid, isTrue);
-    }
-  }
-
-  void outFileMissingExpectation(ValidationResults result) {
-    if (party == Party.sdk) {
-      // It's a new field, newer hooks will try to use it. SDKs must write it.
-      expect(result.isValid, isFalse);
-    } else {
-      // Older SDKs don't output the field. So, the reader must be okay not
-      // reading it.
-      expect(result.isValid, isTrue);
-    }
-  }
-
-  return <(List<Object>, void Function(ValidationResults result))>[
-    ([r'$schema'], expectOptionalFieldMissing),
-    (['version'], versionMissingExpectation),
-    if (inputOrOutput == InputOrOutput.input) ...[
-      (['user_defines'], expectOptionalFieldMissing),
-      (['out_dir_shared'], expectRequiredFieldMissing),
-      (['out_dir'], expectRequiredFieldMissing),
-      (['package_name'], expectRequiredFieldMissing),
-      (['package_root'], expectRequiredFieldMissing),
-      (['config', 'build_asset_types'], expectRequiredFieldMissing),
-      if (hook == Hook.build) ...[
-        (['config', 'linking_enabled'], expectRequiredFieldMissing),
-        (['dependency_metadata'], expectOptionalFieldMissing),
-        (['dependency_metadata', 'some_package'], expectOptionalFieldMissing),
-      ],
-      if (hook == Hook.link) ...[
-        (['assets'], expectOptionalFieldMissing),
-        (['assets', 0], expectOptionalFieldMissing),
-        (['assets', 0, 'type'], expectRequiredFieldMissing),
-      ],
-      (['out_file'], outFileMissingExpectation),
+}) => <(List<Object>, void Function(ValidationResults result))>[
+  ([r'$schema'], expectOptionalFieldMissing),
+  if (inputOrOutput == InputOrOutput.input) ...[
+    (['user_defines'], expectOptionalFieldMissing),
+    (['out_dir_shared'], expectRequiredFieldMissing),
+    (['package_name'], expectRequiredFieldMissing),
+    (['package_root'], expectRequiredFieldMissing),
+    (['config', 'build_asset_types'], expectRequiredFieldMissing),
+    if (hook == Hook.build) ...[
+      (['config', 'linking_enabled'], expectRequiredFieldMissing),
+      (['dependency_metadata'], expectOptionalFieldMissing),
+      (['dependency_metadata', 'some_package'], expectOptionalFieldMissing),
     ],
-    if (inputOrOutput == InputOrOutput.output) ...[
-      (['timestamp'], expectRequiredFieldMissing),
-      (['dependencies'], expectOptionalFieldMissing),
-      (['dependencies', 0], expectOptionalFieldMissing),
-      if (hook == Hook.build) ...[
-        (['metadata'], expectOptionalFieldMissing),
-        for (final path in [
-          ['assets_for_build'],
-          ['assetsForLinking', 'package_with_linker'],
-          ['assets_for_linking', 'package_with_linker'],
-        ]) ...[
-          ([...path], expectOptionalFieldMissing),
-          ([...path, 0], expectOptionalFieldMissing),
-          ([...path, 0, 'type'], expectRequiredFieldMissing),
-          ([...path, 0, 'encoding'], expectOptionalFieldMissing),
-        ],
-      ],
+    if (hook == Hook.link) ...[
+      (['assets'], expectOptionalFieldMissing),
+      (['assets', 0], expectOptionalFieldMissing),
+      (['assets', 0, 'type'], expectRequiredFieldMissing),
     ],
-    for (final path in [
-      if (inputOrOutput == InputOrOutput.output || hook == Hook.link)
-        ['assets'],
-      if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
+    (['out_file'], expectRequiredFieldMissing),
+  ],
+  if (inputOrOutput == InputOrOutput.output) ...[
+    (['timestamp'], expectRequiredFieldMissing),
+    (['dependencies'], expectOptionalFieldMissing),
+    (['dependencies', 0], expectOptionalFieldMissing),
+    if (hook == Hook.build) ...[
+      (['metadata'], expectOptionalFieldMissing),
+      for (final path in [
         ['assets_for_build'],
         ['assetsForLinking', 'package_with_linker'],
         ['assets_for_linking', 'package_with_linker'],
+      ]) ...[
+        ([...path], expectOptionalFieldMissing),
+        ([...path, 0], expectOptionalFieldMissing),
+        ([...path, 0, 'type'], expectRequiredFieldMissing),
+        ([...path, 0, 'encoding'], expectOptionalFieldMissing),
       ],
-    ]) ...[
-      ([...path], expectOptionalFieldMissing),
-      ([...path, 0], expectOptionalFieldMissing),
-      ([...path, 0, 'type'], expectRequiredFieldMissing),
-      ([...path, 0, 'encoding'], expectOptionalFieldMissing),
     ],
-  ];
-}
+  ],
+  for (final path in [
+    if (inputOrOutput == InputOrOutput.output || hook == Hook.link) ['assets'],
+    if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
+      ['assets_for_build'],
+      ['assetsForLinking', 'package_with_linker'],
+      ['assets_for_linking', 'package_with_linker'],
+    ],
+  ]) ...[
+    ([...path], expectOptionalFieldMissing),
+    ([...path, 0], expectOptionalFieldMissing),
+    ([...path, 0, 'type'], expectRequiredFieldMissing),
+    ([...path, 0, 'encoding'], expectOptionalFieldMissing),
+  ],
+];
 
 dynamic _traverseJson(dynamic json, List<Object> path) {
   while (path.isNotEmpty) {

@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
-import 'package:native_assets_cli/src/config.dart' show latestVersion;
 import 'package:test/test.dart';
 
 void main() async {
@@ -36,11 +35,9 @@ void main() async {
         'build_asset_types': ['asset-type-1', 'asset-type-2'],
       },
       'out_dir_shared': outputDirectoryShared.toFilePath(),
-      'out_dir': outDirUri.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
-      'version': latestVersion.toString(),
     };
   });
 
@@ -50,7 +47,6 @@ void main() async {
         packageName: packageName,
         packageRoot: packageRootUri,
         outputFile: outFile,
-        outputDirectory: outDirUri,
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])

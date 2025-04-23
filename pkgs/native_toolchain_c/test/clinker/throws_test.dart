@@ -27,7 +27,6 @@ Future<void> main() async {
               packageRoot: tempUri,
               outputFile: tempUri.resolve('output.json'),
               outputDirectoryShared: tempUri2,
-              outputDirectory: tempUri,
             )
             ..setupLink(assets: [], recordedUsesFile: null)
             ..addExtension(

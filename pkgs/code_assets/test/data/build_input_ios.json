@@ -22,10 +22,8 @@
     },
     "linking_enabled": false
   },
-  "out_dir": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/51d66b45a7c440edc44bf124509a5dda/out/",
   "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/build/",
   "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/51d66b45a7c440edc44bf124509a5dda/output.json",
   "package_name": "my_package",
-  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
-  "version": "1.9.0"
+  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/"
 }

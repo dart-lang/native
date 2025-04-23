@@ -61,10 +61,6 @@ BuildInput createBuildInput(
   String? iOSSdk,
 ) {
   final packageRoot = Platform.script.resolve('..');
-  final targetName = createTargetName(osString, architecture, iOSSdk);
-  final outputDirectory = packageRoot.resolve(
-    '.dart_tool/download_asset/$targetName/',
-  );
   final outputDirectoryShared = packageRoot.resolve(
     '.dart_tool/download_asset/shared/',
   );
@@ -79,7 +75,6 @@ BuildInput createBuildInput(
           packageRoot: packageRoot,
           packageName: 'download_asset',
           outputFile: outputFile,
-          outputDirectory: outputDirectory,
           outputDirectoryShared: outputDirectoryShared,
         )
         ..config.setupBuild(linkingEnabled: false)

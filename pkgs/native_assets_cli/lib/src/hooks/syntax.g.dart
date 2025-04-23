@@ -129,13 +129,11 @@ class BuildInput extends HookInput {
     required Map<String, List<Asset>>? assets,
     required BuildConfig config,
     required Map<String, Map<String, Object?>>? dependencyMetadata,
-    required super.outDir,
     required super.outDirShared,
     required super.outFile,
     required super.packageName,
     required super.packageRoot,
     required super.userDefines,
-    required super.version,
   }) : super(config: config) {
     _assets = assets;
     _dependencyMetadata = dependencyMetadata;
@@ -239,7 +237,6 @@ class BuildOutput extends HookOutput {
     required super.dependencies,
     required JsonObject? metadata,
     required super.timestamp,
-    required super.version,
   }) : super() {
     this.assetsForLinkingOld = assetsForLinkingOld;
     this.assetsForBuild = assetsForBuild;
@@ -483,22 +480,18 @@ class HookInput extends JsonObject {
 
   HookInput({
     required Config config,
-    required Uri outDir,
     required Uri outDirShared,
-    required Uri? outFile,
+    required Uri outFile,
     required String packageName,
     required Uri packageRoot,
     required UserDefines? userDefines,
-    required String? version,
   }) : super() {
     this.config = config;
-    this.outDir = outDir;
     this.outDirShared = outDirShared;
     this.outFile = outFile;
     this.packageName = packageName;
     this.packageRoot = packageRoot;
     this.userDefines = userDefines;
-    this.version = version;
     json.sortOnKey();
   }
 
@@ -520,15 +513,6 @@ class HookInput extends JsonObject {
     return config.validate();
   }
 
-  Uri get outDir => _reader.path$('out_dir');
-
-  set outDir(Uri value) {
-    json['out_dir'] = value.toFilePath();
-    json.sortOnKey();
-  }
-
-  List<String> _validateOutDir() => _reader.validatePath('out_dir');
-
   Uri get outDirShared => _reader.path$('out_dir_shared');
 
   set outDirShared(Uri value) {
@@ -539,14 +523,14 @@ class HookInput extends JsonObject {
   List<String> _validateOutDirShared() =>
       _reader.validatePath('out_dir_shared');
 
-  Uri? get outFile => _reader.optionalPath('out_file');
+  Uri get outFile => _reader.path$('out_file');
 
-  set outFile(Uri? value) {
-    json.setOrRemove('out_file', value?.toFilePath());
+  set outFile(Uri value) {
+    json['out_file'] = value.toFilePath();
     json.sortOnKey();
   }
 
-  List<String> _validateOutFile() => _reader.validateOptionalPath('out_file');
+  List<String> _validateOutFile() => _reader.validatePath('out_file');
 
   String get packageName => _reader.get<String>('package_name');
 
@@ -586,26 +570,15 @@ class HookInput extends JsonObject {
     return userDefines?.validate() ?? [];
   }
 
-  String? get version => _reader.get<String?>('version');
-
-  set version(String? value) {
-    json.setOrRemove('version', value);
-    json.sortOnKey();
-  }
-
-  List<String> _validateVersion() => _reader.validate<String?>('version');
-
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateConfig(),
-    ..._validateOutDir(),
     ..._validateOutDirShared(),
     ..._validateOutFile(),
     ..._validatePackageName(),
     ..._validatePackageRoot(),
     ..._validateUserDefines(),
-    ..._validateVersion(),
   ];
 
   @override
@@ -619,12 +592,10 @@ class HookOutput extends JsonObject {
     required List<Asset>? assets,
     required List<Uri>? dependencies,
     required String timestamp,
-    required String? version,
   }) : super() {
     this.assets = assets;
     this.dependencies = dependencies;
     this.timestamp = timestamp;
-    this.version = version;
     json.sortOnKey();
   }
 
@@ -682,22 +653,12 @@ class HookOutput extends JsonObject {
 
   List<String> _validateTimestamp() => _reader.validate<String>('timestamp');
 
-  String? get version => _reader.get<String?>('version');
-
-  set version(String? value) {
-    json.setOrRemove('version', value);
-    json.sortOnKey();
-  }
-
-  List<String> _validateVersion() => _reader.validate<String?>('version');
-
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssets(),
     ..._validateDependencies(),
     ..._validateTimestamp(),
-    ..._validateVersion(),
   ];
 
   @override
@@ -745,14 +706,12 @@ class LinkInput extends HookInput {
   LinkInput({
     required List<Asset>? assets,
     required super.config,
-    required super.outDir,
     required super.outDirShared,
     required super.outFile,
     required super.packageName,
     required super.packageRoot,
     required Uri? resourceIdentifiers,
     required super.userDefines,
-    required super.version,
   }) : super() {
     _assets = assets;
     _resourceIdentifiers = resourceIdentifiers;
@@ -831,7 +790,6 @@ class LinkOutput extends HookOutput {
     required super.assets,
     required super.dependencies,
     required super.timestamp,
-    required super.version,
   }) : super();
 
   @override

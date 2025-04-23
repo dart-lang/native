@@ -46,7 +46,6 @@ void main() async {
         packageRoot: testPackageUri,
         packageName: name,
         outputFile: buildOutputUri,
-        outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.setupBuild(linkingEnabled: false)

@@ -159,9 +159,6 @@
         "config": {
           "$ref": "#/definitions/Config"
         },
-        "out_dir": {
-          "$ref": "#/definitions/absolutePath"
-        },
         "out_dir_shared": {
           "$ref": "#/definitions/absolutePath"
         },
@@ -181,15 +178,12 @@
               "$ref": "#/definitions/UserDefinesSource"
             }
           }
-        },
-        "version": {
-          "type": "string"
         }
       },
       "required": [
         "config",
-        "out_dir",
         "out_dir_shared",
+        "out_file",
         "package_name",
         "package_root"
       ]
@@ -213,9 +207,6 @@
           }
         },
         "timestamp": {
-          "type": "string"
-        },
-        "version": {
           "type": "string"
         }
       },

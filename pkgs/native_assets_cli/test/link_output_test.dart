@@ -33,7 +33,6 @@ void main() {
 
     // The JSON format of the link output.
     <String, Object?>{
-      'version': '1.9.0',
       'dependencies': ['path0', 'path1', 'path2'],
       'assets': [
         {
@@ -53,10 +52,4 @@ void main() {
       expect(input.json[k], equals(v));
     });
   });
-
-  for (final version in ['9001.0.0', '0.0.1']) {
-    test('LinkOutput version $version', () {
-      expect(() => LinkOutput({'version': version}), isNot(throwsException));
-    });
-  }
 }

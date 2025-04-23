@@ -142,7 +142,6 @@ extension type HookInputUserDefines._(HookInput _input) {
 
 sealed class HookInputBuilder {
   final _syntax = syntax.HookInput.fromJson({})
-    ..version = latestVersion.toString()
     ..config = syntax.Config(buildAssetTypes: [], extensions: null);
 
   Map<String, Object?> get json => _syntax.json;
@@ -155,15 +154,12 @@ sealed class HookInputBuilder {
       'It must still be provided to accommodate `HookInput`s in hooks using an '
       'older version of this package.',
     )
-    required Uri outputDirectory,
     required Uri outputDirectoryShared,
     required Uri outputFile,
     PackageUserDefines? userDefines,
   }) {
-    _syntax.version = latestVersion.toString();
     _syntax.packageRoot = packageRoot;
     _syntax.packageName = packageName;
-    _syntax.outDir = outputDirectory;
     _syntax.outDirShared = outputDirectoryShared;
     _syntax.outFile = outputFile;
     _syntax.userDefines = userDefines?.toSyntax();
@@ -204,8 +200,7 @@ final class BuildInput extends HookInput {
   };
 
   @override
-  Uri get outputFile =>
-      _syntax.outFile ?? _syntax.outDir.resolve('build_output.json');
+  Uri get outputFile => _syntax.outFile;
 
   final syntax.BuildInput _syntaxBuildInput;
 
@@ -329,8 +324,7 @@ final class LinkInput extends HookInput {
   Uri? get recordedUsagesFile => _syntaxLinkInput.resourceIdentifiers;
 
   @override
-  Uri get outputFile =>
-      _syntax.outFile ?? _syntax.outDir.resolve('link_output.json');
+  Uri get outputFile => _syntax.outFile;
 
   final syntax.LinkInput _syntaxLinkInput;
 
@@ -410,7 +404,6 @@ sealed class HookOutput {
 sealed class HookOutputBuilder {
   final _syntax = syntax.HookOutput(
     timestamp: DateTime.now().roundDownToSeconds().toString(),
-    version: latestVersion.toString(),
     assets: null,
     dependencies: null,
   );

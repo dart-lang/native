@@ -52,7 +52,6 @@ Future<void> testBuildHook({
         packageRoot: Directory.current.uri,
         packageName: _readPackageNameFromPubspec(),
         outputFile: outputFile,
-        outputDirectory: outputDirectory,
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.setupBuild(linkingEnabled: true);
