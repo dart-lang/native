@@ -31,7 +31,7 @@ void dartCmd(List<String> args) {
 }
 
 typedef ClassInfo = ({
-  String cls,
+  String name,
   String? ext,
   List<String> mix,
   List<String> impl,
@@ -42,33 +42,29 @@ ClassInfo? parseClassDecl(String line) {
   final match = _clsDecl.firstMatch(line);
   if (match == null) return null;
   return (
-    cls: match[1]!,
+    name: match[1]!,
     ext: match[2],
     mix: match[3]?.split(', ') ?? [],
     impl: match[4]?.split(', ') ?? []
   );
 }
 
-typedef ExtraMethods = ({List<String> impl, List<String> mix, String methods});
+typedef ExtraMethods = ({ClassInfo cls, String methods});
 Map<String, ExtraMethods> parseExtraMethods(String filename) {
   final extraMethods = <String, ExtraMethods>{};
-  String? currentClass;
-  late List<String> impl;
-  late List<String> mix;
+  ClassInfo? currentClass;
   late StringBuffer methods;
   for (final line in File(filename).readAsLinesSync()) {
     if (currentClass == null) {
-      final match = parseClassDecl(line);
-      if (match != null) {
-        currentClass = match.cls;
-        impl = match.impl;
-        mix = match.mix;
+      final cls = parseClassDecl(line);
+      if (cls != null) {
+        currentClass = cls;
         methods = StringBuffer();
       }
     } else {
       if (line == '}') {
-        extraMethods[currentClass] =
-            (impl: impl, mix: mix, methods: methods.toString());
+        extraMethods[currentClass.name] =
+            (cls: currentClass, methods: methods.toString());
         currentClass = null;
       } else {
         methods.writeln(line);
@@ -78,26 +74,45 @@ Map<String, ExtraMethods> parseExtraMethods(String filename) {
   return extraMethods;
 }
 
-void mergeExtras(String filename, Map<String, ExtraMethods> extraMethods,
-    String extraClasses) {
+String classDecl(
+        String name, String? ext, List<String> mix, List<String> impl) =>
+    [
+      'class $name',
+      if (ext != null) 'extends $ext',
+      if (mix.isNotEmpty) 'with ${mix.join(', ')}',
+      if (impl.isNotEmpty) 'implements ${impl.join(', ')}',
+      '{',
+    ].join(' ');
+
+void mergeExtraMethods(
+    String filename, Map<String, ExtraMethods> extraMethods) {
   final out = StringBuffer();
   for (final line in File(filename).readAsLinesSync()) {
-    final match = parseClassDecl(line);
-    final extra = match == null ? null : extraMethods[match.cls];
-    if (match == null || extra == null) {
+    final cls = parseClassDecl(line);
+    final extra = cls == null ? null : extraMethods[cls.name];
+    if (cls == null || extra == null) {
       out.writeln(line);
     } else {
-      out.write('class ${match.cls}');
-      if (match.ext != null) out.write(' extends ${match.ext}');
-      final mix = [...match.mix, ...extra.mix];
-      if (mix.isNotEmpty) out.write(' with ${mix.join(', ')}');
-      final impl = [...match.impl, ...extra.impl];
-      if (impl.isNotEmpty) out.write(' implements ${impl.join(', ')}');
-      out.writeln(' {');
+      out.writeln(classDecl(
+          cls.name,
+          extra.cls.ext ?? cls.ext,
+          [...cls.mix, ...extra.cls.mix],
+          [...cls.impl, ...extra.cls.impl]));
       out.writeln(extra.methods);
+      extraMethods.remove(cls.name);
     }
   }
-  out.writeln(extraClasses);
+
+  // Matching classes have been removed from extraMethods. Write all the
+  // remaining classes separately.
+  for (final extra in extraMethods.values) {
+    out.writeln('\n');
+    out.writeln(classDecl(
+        extra.cls.name, extra.cls.ext, extra.cls.mix, extra.cls.impl));
+    out.writeln(extra.methods);
+    out.writeln('}');
+  }
+
   File(filename).writeAsStringSync(out.toString());
 }
 
@@ -116,8 +131,7 @@ Future<void> run(List<String> args) async {
 
   print('Generating ObjC bindings...');
   await ffigen.main(['--no-format', '-v', 'severe', '--config', objcConfig]);
-  mergeExtras(objcBindings, parseExtraMethods(extraMethodsFile),
-      File(extraClassesFile).readAsStringSync());
+  mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
 
   if (argResults.flag('format')) {
     print('Formatting bindings...');
