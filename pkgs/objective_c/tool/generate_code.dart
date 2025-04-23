@@ -101,16 +101,7 @@ void mergeExtras(String filename, Map<String, ExtraMethods> extraMethods,
   File(filename).writeAsStringSync(out.toString());
 }
 
-Future<void> run(List<String> args) async {
-  final argResults = (ArgParser()
-        ..addFlag(
-          'format',
-          help: 'Format the generated code.',
-          defaultsTo: true,
-          negatable: true,
-        ))
-      .parse(args);
-
+Future<void> run({required bool format}) async {
   print('Generating C bindings...');
   await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
 
@@ -119,7 +110,7 @@ Future<void> run(List<String> args) async {
   mergeExtras(objcBindings, parseExtraMethods(extraMethodsFile),
       File(extraClassesFile).readAsStringSync());
 
-  if (argResults.flag('format')) {
+  if (format) {
     print('Formatting bindings...');
     dartCmd(['format', cBindings, objcBindings]);
   }
@@ -127,5 +118,13 @@ Future<void> run(List<String> args) async {
 
 Future<void> main(List<String> args) async {
   Directory.current = Platform.script.resolve('..').path;
-  await run(args);
+  final argResults = (ArgParser()
+        ..addFlag(
+          'format',
+          help: 'Format the generated code.',
+          defaultsTo: true,
+          negatable: true,
+        ))
+      .parse(args);
+  await run(format: argResults.flag('format'));
 }
