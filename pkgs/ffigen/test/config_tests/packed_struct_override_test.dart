@@ -12,12 +12,12 @@ import '../test_utils.dart';
 void main() {
   group('packed_struct_override_test', () {
     test('Invalid Packed Config values', () {
-      const baseYaml = '''${strings.name}: 'NativeLibrary'
+      final baseYaml = '''${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Packed Struct Override Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/packed_structs.h'
+    - '${absPath('test/header_parser_tests/packed_structs.h')}'
 ${strings.structs}:
   ${strings.structPack}:
     ''';
@@ -35,7 +35,7 @@ ${strings.description}: 'Packed Struct Override Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/packed_structs.h'
+    - '${absPath('test/header_parser_tests/packed_structs.h')}'
 ${strings.structs}:
   ${strings.structPack}:
     'Normal.*': 1

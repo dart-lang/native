@@ -4,7 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
-import 'package:ffigen/src/strings.dart' as strings;
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -17,26 +17,8 @@ void main() {
       logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
-${strings.name}: 'NativeLibrary'
-${strings.description}: 'Globals Test'
-${strings.output}: 'unused'
-${strings.headers}:
-  ${strings.entryPoints}:
-    - 'test/header_parser_tests/globals.h'
-  ${strings.includeDirectives}:
-    - '**globals.h'
-${strings.globals}:
-  ${strings.exclude}:
-    - GlobalIgnore
-  ${strings.symbolAddress}:
-    ${strings.include}:
-      - myInt
-      - pointerToLongDouble
-      - globalStruct
-${strings.compilerOpts}: '-Wno-nullability-completeness'
-${strings.ignoreSourceErrors}: true
-        '''),
+        testConfigFromPath(configPath(
+            path.join('test', 'header_parser_tests'), 'globals_config.yaml')),
       );
     });
 

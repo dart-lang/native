@@ -53,11 +53,11 @@ class SchemaAnalyzer {
   ///
   /// For example, if `Asset.type` is `NativeCodeAsset.typeValue`, then the
   /// asset is a native code asset. Listing `Asset` in [visbleUnionTagValues]
-  /// will add `static const typeValue = 'native_code';`:
+  /// will add `static const typeValue = 'code_assets/code';`:
   ///
   /// ```dart
   /// class NativeCodeAsset extends Asset {
-  ///   static const typeValue = 'native_code';
+  ///   static const typeValue = 'code_assets/code';
   /// }
   ///
   /// class Asset {

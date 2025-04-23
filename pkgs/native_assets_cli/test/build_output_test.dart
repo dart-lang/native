@@ -64,29 +64,24 @@ void main() {
       },
       'assets': [
         {
-          'a-0': 'v-0',
           'encoding': {'a-0': 'v-0'},
           'type': 'my-asset-type',
         },
         {
-          'a-2': 'v-2',
           'encoding': {'a-2': 'v-2'},
           'type': 'my-asset-type',
         },
       ],
       'assets_for_build': [
         {
-          'a-2': 'v-2',
           'encoding': {'a-2': 'v-2'},
           'type': 'my-asset-type',
         },
         {
-          'a-0': 'v-0',
           'encoding': {'a-0': 'v-0'},
           'type': 'my-asset-type',
         },
         {
-          'a-1': 'v-1',
           'encoding': {'a-1': 'v-1'},
           'type': 'my-asset-type',
         },
@@ -94,7 +89,6 @@ void main() {
       'assetsForLinking': {
         'package:linker1': [
           {
-            'a-1': 'v-1',
             'encoding': {'a-1': 'v-1'},
             'type': 'my-asset-type',
           },
@@ -104,7 +98,6 @@ void main() {
       'assets_for_linking': {
         'package:linker1': [
           {
-            'a-1': 'v-1',
             'encoding': {'a-1': 'v-1'},
             'type': 'my-asset-type',
           },

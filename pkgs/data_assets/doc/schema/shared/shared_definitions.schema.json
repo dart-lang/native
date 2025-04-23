@@ -9,9 +9,6 @@
           "type": "string",
           "anyOf": [
             {
-              "const": "data"
-            },
-            {
               "const": "data_assets/data"
             },
             {
@@ -21,27 +18,6 @@
         }
       },
       "allOf": [
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "data"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "encoding": {
-                "$ref": "#/definitions/DataAssetEncoding"
-              }
-            },
-            "allOf": [
-              {
-                "$ref": "#/definitions/DataAssetEncoding"
-              }
-            ]
-          }
-        },
         {
           "if": {
             "properties": {

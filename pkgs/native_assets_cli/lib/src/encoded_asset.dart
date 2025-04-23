@@ -35,16 +35,8 @@ final class EncodedAsset {
     List<Object>? path,
   ]) {
     final syntax_ = syntax.Asset.fromJson(json, path: path ?? []);
-    final encodingSyntax = syntax_.encoding;
-    final encoding = encodingSyntax != null
-        // If 'encoding' is provided, copy that.
-        ? Map.of(encodingSyntax.json)
-        // Otherwise, fall back to copying the keys except for 'type'.
-        : {
-            for (final key in json.keys)
-              if (key != _typeKey) key: json[key],
-          };
-    final path_ = encodingSyntax != null ? [...?path, 'encoding'] : path;
+    final encoding = Map<String, Object?>.of(syntax_.encoding?.json ?? {});
+    final path_ = syntax_.encoding != null ? [...?path, 'encoding'] : path;
 
     return EncodedAsset._(
       syntax_.type,
@@ -54,16 +46,8 @@ final class EncodedAsset {
   }
 
   /// Encode this [EncodedAsset] tojson.
-  Map<String, Object?> toJson() {
-    final encodingJson = Map.of(encoding)..sortOnKey();
-    return {
-      // New encoding: nest in `encoding`.
-      'encoding': encodingJson,
-      // Old encoding: all keys in object directly.
-      ...encodingJson,
-      _typeKey: type,
-    }..sortOnKey();
-  }
+  Map<String, Object?> toJson() =>
+      {'encoding': Map.of(encoding)..sortOnKey(), _typeKey: type}..sortOnKey();
 
   @override
   String toString() => 'EncodedAsset($type, $encoding)';

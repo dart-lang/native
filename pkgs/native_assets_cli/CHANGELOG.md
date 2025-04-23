@@ -1,3 +1,13 @@
+## 0.17.0-wip
+
+- **Breaking change** Removed support for old JSONs. Newer SDKs will not work
+  with older hooks, and the lower bound of this package is bumped.
+  [#2199](https://github.com/dart-lang/native/issues/2199)
+
+## 0.16.0
+
+- Support relative paths in user-defines to be loaded as absolute paths.
+
 ## 0.15.0
 
 - **Breaking change** JSON encoding migration: change written asset type to the

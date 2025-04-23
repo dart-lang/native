@@ -41,9 +41,6 @@
               "const": "code_assets/code"
             },
             {
-              "const": "native_code"
-            },
-            {
               "type": "string"
             }
           ]
@@ -64,28 +61,6 @@
                 "$ref": "#/definitions/NativeCodeAssetEncoding"
               }
             }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "native_code"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "encoding": {
-                "$ref": "#/definitions/NativeCodeAssetEncoding"
-              }
-            },
-            "allOf": [
-              {
-                "$comment": "Also include the fields parent object for backwards compatibility.",
-                "$ref": "#/definitions/NativeCodeAssetEncoding"
-              }
-            ]
           }
         }
       ]
@@ -237,9 +212,6 @@
     "Config": {
       "type": "object",
       "properties": {
-        "code": {
-          "$ref": "#/definitions/CodeConfig"
-        },
         "extensions": {
           "$ref": "#/definitions/ConfigExtensions"
         }
@@ -342,13 +314,6 @@
     "NativeCodeAssetEncoding": {
       "type": "object",
       "properties": {
-        "architecture": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Architecture"
-            }
-          ]
-        },
         "file": {
           "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
@@ -357,9 +322,6 @@
         },
         "link_mode": {
           "$ref": "#/definitions/LinkMode"
-        },
-        "os": {
-          "$ref": "#/definitions/OS"
         }
       },
       "required": [

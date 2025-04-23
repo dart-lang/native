@@ -7,10 +7,7 @@
         "name": "assets/data_0.json",
         "package": "simple_link"
       },
-      "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
-      "name": "assets/data_0.json",
-      "package": "simple_link",
-      "type": "data"
+      "type": "data_assets/data"
     },
     {
       "encoding": {
@@ -23,7 +20,7 @@
   ],
   "config": {
     "build_asset_types": [
-      "data"
+      "data_assets/data"
     ],
     "linking_enabled": false
   },

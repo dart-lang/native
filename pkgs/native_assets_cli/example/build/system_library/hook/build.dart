@@ -21,8 +21,6 @@ void main(List<String> arguments) async {
             _ => throw UnsupportedError('Unknown operating system: $targetOS'),
           }),
         ),
-        os: targetOS,
-        architecture: input.config.code.targetArchitecture,
       ),
     );
   });

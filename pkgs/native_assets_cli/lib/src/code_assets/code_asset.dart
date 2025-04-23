@@ -4,7 +4,6 @@
 
 import '../config.dart';
 import '../encoded_asset.dart';
-import 'architecture.dart';
 import 'config.dart';
 import 'link_mode.dart';
 import 'os.dart';
@@ -54,12 +53,6 @@ final class CodeAsset {
   /// The id of this code asset.
   final String id;
 
-  /// The operating system this asset can run on.
-  final OS? _os;
-
-  /// The architecture this asset can run on.
-  final Architecture? _architecture;
-
   /// The link mode for this native code.
   ///
   /// Either dynamic loading or static linking.
@@ -85,25 +78,10 @@ final class CodeAsset {
     required String package,
     required String name,
     required LinkMode linkMode,
-    required OS os,
     Uri? file,
-    required Architecture architecture,
-  }) : this._(
-         id: 'package:$package/$name',
-         linkMode: linkMode,
-         os: os,
-         file: file,
-         architecture: architecture,
-       );
+  }) : this._(id: 'package:$package/$name', linkMode: linkMode, file: file);
 
-  CodeAsset._({
-    required this.id,
-    required this.linkMode,
-    required OS? os,
-    required this.file,
-    required Architecture? architecture,
-  }) : _architecture = architecture,
-       _os = os;
+  CodeAsset._({required this.id, required this.linkMode, required this.file});
 
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.isCodeAsset);
@@ -113,85 +91,46 @@ final class CodeAsset {
     );
     return CodeAsset._(
       id: syntaxNode.id,
-      os: switch (syntaxNode.os) {
-        null => null,
-        final s => OSSyntax.fromSyntax(s),
-      },
-      architecture: switch (syntaxNode.architecture) {
-        null => null,
-        final s => ArchitectureSyntax.fromSyntax(s),
-      },
       linkMode: LinkModeSyntax.fromSyntax(syntaxNode.linkMode),
       file: syntaxNode.file,
     );
   }
 
-  CodeAsset copyWith({
-    LinkMode? linkMode,
-    String? id,
-    OS? os,
-    Architecture? architecture,
-    Uri? file,
-  }) => CodeAsset._(
-    id: id ?? this.id,
-    linkMode: linkMode ?? this.linkMode,
-    os: os ?? _os,
-    architecture: architecture ?? _architecture,
-    file: file ?? this.file,
-  );
+  CodeAsset copyWith({LinkMode? linkMode, String? id, Uri? file}) =>
+      CodeAsset._(
+        id: id ?? this.id,
+        linkMode: linkMode ?? this.linkMode,
+        file: file ?? this.file,
+      );
 
   @override
   bool operator ==(Object other) {
     if (other is! CodeAsset) {
       return false;
     }
-    return other.id == id &&
-        other.linkMode == linkMode &&
-        other._architecture == _architecture &&
-        other._os == _os &&
-        other.file == file;
+    return other.id == id && other.linkMode == linkMode && other.file == file;
   }
 
   @override
-  int get hashCode => Object.hash(id, linkMode, _architecture, _os, file);
+  int get hashCode => Object.hash(id, linkMode, file);
 
   EncodedAsset encode() {
     final encoding = syntax.NativeCodeAssetEncoding(
-      architecture: _architecture?.toSyntax(),
       file: file,
       id: id,
       linkMode: linkMode.toSyntax(),
-      os: _os?.toSyntax(),
     );
-    return EncodedAsset(CodeAssetType.typeForAsset, encoding.json);
+    return EncodedAsset(CodeAssetType.type, encoding.json);
   }
 }
 
 extension CodeAssetType on CodeAsset {
-  /// Recognize both new and old type.
-  ///
-  /// And add both types to builtAssetTypes.
-  static const typesForBuildAssetTypes = [
-    syntax.NativeCodeAssetNew.typeValue,
-    syntax.NativeCodeAsset.typeValue,
-  ];
-
-  /// Write the old type to prevent old hooks and SDKs from failing.
-  // TODO(https://github.com/dart-lang/native/issues/2132): Change this to the
-  // new value after it has rolled.
-  static const String typeForAsset = syntax.NativeCodeAssetNew.typeValue;
+  static const String type = syntax.NativeCodeAssetNew.typeValue;
 }
 
 extension EncodedCodeAsset on EncodedAsset {
-  bool get isCodeAsset => CodeAssetType.typesForBuildAssetTypes.contains(type);
+  bool get isCodeAsset => type == CodeAssetType.type;
   CodeAsset get asCodeAsset => CodeAsset.fromEncoded(this);
-}
-
-// These field will be removed in the future, prevent anyone from reading them.
-extension ForValidationOnly on CodeAsset {
-  OS? get os => _os;
-
-  Architecture? get architecture => _architecture;
 }
 
 extension OSLibraryNaming on OS {

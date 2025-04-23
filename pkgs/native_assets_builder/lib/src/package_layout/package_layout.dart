@@ -22,7 +22,7 @@ import '../../native_assets_builder.dart';
 /// convention for caching:
 /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
 class PackageLayout {
-  /// Package config containing the information of where to foot the root [Uri]s
+  /// Package config containing the information of where to find the root [Uri]s
   /// of other packages.
   ///
   /// Can be `null` to enable quick construction of a

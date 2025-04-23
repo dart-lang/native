@@ -19,7 +19,7 @@ ${strings.output}: 'unused'
 ${strings.excludeAllByDefault}: false
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/config_tests/exclude_all_by_default.h'
+    - '${absPath('test/config_tests/exclude_all_by_default.h')}'
 ''');
 
       final library = parse(config);
@@ -40,7 +40,7 @@ ${strings.output}: 'unused'
 ${strings.excludeAllByDefault}: true
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/config_tests/exclude_all_by_default.h'
+    - '${absPath('test/config_tests/exclude_all_by_default.h')}'
 ''');
 
       final library = parse(config);

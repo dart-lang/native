@@ -176,7 +176,11 @@
         },
         "user_defines": {
           "type": "object",
-          "additionalProperties": true
+          "properties": {
+            "workspace_pubspec": {
+              "$ref": "#/definitions/UserDefinesSource"
+            }
+          }
         },
         "version": {
           "type": "string"
@@ -254,6 +258,22 @@
       },
       "required": [
         "key"
+      ]
+    },
+    "UserDefinesSource": {
+      "type": "object",
+      "properties": {
+        "base_path": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "defines": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "base_path",
+        "defines"
       ]
     },
     "absolutePath": {

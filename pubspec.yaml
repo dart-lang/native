@@ -66,5 +66,6 @@ hooks:
       user_define_key: user_define_value
       user_define_key2:
         foo: bar
+      some_file: pkgs/native_assets_builder/test_data/user_defines/assets/data.json
     some_other_package: # package name
       user_define_key3: user_define_value3

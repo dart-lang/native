@@ -3,43 +3,21 @@
   "assets": {
     "some_package": [
       {
-        "architecture": "arm64",
         "encoding": {
-          "architecture": "arm64",
           "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/iv6i0d/native_add/.dart_tool/native_assets_builder/native_add/c6b312c90c95d2d98ffb6760a738fb36/out/libnative_add.a",
           "id": "package:native_add/src/native_add_bindings_generated.dart",
           "link_mode": {
             "type": "static"
-          },
-          "os": "macos"
+          }
         },
-        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/iv6i0d/native_add/.dart_tool/native_assets_builder/native_add/c6b312c90c95d2d98ffb6760a738fb36/out/libnative_add.a",
-        "id": "package:native_add/src/native_add_bindings_generated.dart",
-        "link_mode": {
-          "type": "static"
-        },
-        "os": "macos",
-        "type": "native_code"
+        "type": "code_assets/code"
       }
     ]
   },
   "config": {
     "build_asset_types": [
-      "native_code"
+      "code_assets/code"
     ],
-    "code": {
-      "c_compiler": {
-        "ar": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar",
-        "cc": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
-        "ld": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
-      },
-      "link_mode_preference": "dynamic",
-      "macos": {
-        "target_version": 13
-      },
-      "target_architecture": "arm64",
-      "target_os": "macos"
-    },
     "extensions": {
       "code_assets": {
         "c_compiler": {

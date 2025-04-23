@@ -1,3 +1,7 @@
+## 18.1.1-wip
+
+- Make it easier for a downstream clone to change behavior of certain utils.
+
 ## 18.1.0
 
 - Fix a clang warning in ObjC protocol generated bindings.

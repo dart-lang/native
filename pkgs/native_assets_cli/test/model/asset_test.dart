@@ -20,36 +20,22 @@ void main() {
       name: 'foo',
       file: fooUri,
       linkMode: DynamicLoadingBundled(),
-      os: OS.android,
-      architecture: Architecture.x64,
     ),
     CodeAsset(
       package: 'my_package',
       name: 'foo3',
       linkMode: DynamicLoadingSystem(foo3Uri),
-      os: OS.android,
-      architecture: Architecture.x64,
     ),
     CodeAsset(
       package: 'my_package',
       name: 'foo4',
       linkMode: LookupInExecutable(),
-      os: OS.android,
-      architecture: Architecture.x64,
     ),
-    CodeAsset(
-      package: 'my_package',
-      name: 'foo5',
-      linkMode: LookupInProcess(),
-      os: OS.android,
-      architecture: Architecture.x64,
-    ),
+    CodeAsset(package: 'my_package', name: 'foo5', linkMode: LookupInProcess()),
     CodeAsset(
       package: 'my_package',
       name: 'bar',
       file: barUri,
-      os: OS.linux,
-      architecture: Architecture.arm64,
       linkMode: StaticLinking(),
     ),
     CodeAsset(
@@ -57,8 +43,6 @@ void main() {
       name: 'bla',
       file: blaUri,
       linkMode: DynamicLoadingBundled(),
-      os: OS.windows,
-      architecture: Architecture.x64,
     ),
   ];
   final dataAssets = [
@@ -72,99 +56,54 @@ void main() {
 
   final assetsJsonEncoding = [
     {
-      'architecture': 'x64',
-      'file': fooUri.toFilePath(),
-      'id': 'package:my_package/foo',
-      'link_mode': {'type': 'dynamic_loading_bundle'},
-      'os': 'android',
       'type': 'code_assets/code',
       'encoding': {
-        'architecture': 'x64',
         'file': fooUri.toFilePath(),
         'id': 'package:my_package/foo',
         'link_mode': {'type': 'dynamic_loading_bundle'},
-        'os': 'android',
       },
     },
     {
-      'architecture': 'x64',
-      'id': 'package:my_package/foo3',
-      'link_mode': {
-        'type': 'dynamic_loading_system',
-        'uri': foo3Uri.toFilePath(),
-      },
-      'os': 'android',
       'type': 'code_assets/code',
       'encoding': {
-        'architecture': 'x64',
         'id': 'package:my_package/foo3',
         'link_mode': {
           'type': 'dynamic_loading_system',
           'uri': foo3Uri.toFilePath(),
         },
-        'os': 'android',
       },
     },
     {
-      'architecture': 'x64',
-      'id': 'package:my_package/foo4',
-      'link_mode': {'type': 'dynamic_loading_executable'},
-      'os': 'android',
       'type': 'code_assets/code',
       'encoding': {
-        'architecture': 'x64',
         'id': 'package:my_package/foo4',
         'link_mode': {'type': 'dynamic_loading_executable'},
-        'os': 'android',
       },
     },
     {
-      'architecture': 'x64',
-      'id': 'package:my_package/foo5',
-      'link_mode': {'type': 'dynamic_loading_process'},
-      'os': 'android',
       'type': 'code_assets/code',
       'encoding': {
-        'architecture': 'x64',
         'id': 'package:my_package/foo5',
         'link_mode': {'type': 'dynamic_loading_process'},
-        'os': 'android',
       },
     },
     {
-      'architecture': 'arm64',
-      'file': barUri.toFilePath(),
-      'id': 'package:my_package/bar',
-      'link_mode': {'type': 'static'},
-      'os': 'linux',
       'type': 'code_assets/code',
       'encoding': {
-        'architecture': 'arm64',
         'file': barUri.toFilePath(),
         'id': 'package:my_package/bar',
         'link_mode': {'type': 'static'},
-        'os': 'linux',
       },
     },
     {
-      'architecture': 'x64',
-      'file': blaUri.toFilePath(),
-      'id': 'package:my_package/bla',
-      'link_mode': {'type': 'dynamic_loading_bundle'},
-      'os': 'windows',
       'type': 'code_assets/code',
       'encoding': {
-        'architecture': 'x64',
         'file': blaUri.toFilePath(),
         'id': 'package:my_package/bla',
         'link_mode': {'type': 'dynamic_loading_bundle'},
-        'os': 'windows',
       },
     },
     {
-      'name': 'my_data_asset',
-      'package': 'my_package',
-      'file': Uri.file('path/to/data.txt').toFilePath(),
       'type': 'data_assets/data',
       'encoding': {
         'name': 'my_data_asset',
@@ -173,9 +112,6 @@ void main() {
       },
     },
     {
-      'name': 'my_data_asset2',
-      'package': 'my_package',
-      'file': Uri.file('path/to/data.json').toFilePath(),
       'type': 'data_assets/data',
       'encoding': {
         'name': 'my_data_asset2',

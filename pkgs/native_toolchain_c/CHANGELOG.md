@@ -1,3 +1,11 @@
+## 0.14.0-wip
+
+- Bump `package:native_assets_cli` to 0.17.0.
+
+## 0.13.0
+
+- Bump `package:native_assets_cli` to 0.16.0.
+
 ## 0.12.0
 
 - Bump `package:native_assets_cli` to 0.15.0.

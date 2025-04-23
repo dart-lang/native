@@ -21,7 +21,7 @@ ${strings.ffiNative}:
     assetId: 'myasset'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/comment_markup.h'
+    - '${absPath('test/header_parser_tests/comment_markup.h')}'
 ''');
     parse(config);
 

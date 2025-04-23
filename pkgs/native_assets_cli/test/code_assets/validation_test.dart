@@ -66,8 +66,6 @@ void main() {
       CodeAsset(
         package: input.packageName,
         name: 'foo.dylib',
-        architecture: input.config.code.targetArchitecture,
-        os: input.config.code.targetOS,
         linkMode: DynamicLoadingBundled(),
       ),
     );
@@ -96,8 +94,6 @@ void main() {
           name: 'foo.dart',
           file: assetFile.uri,
           linkMode: linkMode,
-          os: input.config.code.targetOS,
-          architecture: input.config.code.targetArchitecture,
         ),
       );
       final errors = await validateCodeAssetBuildOutput(
@@ -113,52 +109,6 @@ void main() {
     });
   }
 
-  test('native code wrong architecture', () async {
-    final input = makeCodeBuildInput();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: 'foo.dart',
-        file: assetFile.uri,
-        linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: Architecture.x64,
-      ),
-    );
-    final errors = await validateCodeAssetBuildOutput(
-      input,
-      BuildOutput(outputBuilder.json),
-    );
-    expect(errors, contains(contains('which is not the target architecture')));
-  });
-
-  test('native code no architecture', () async {
-    final input = makeCodeBuildInput();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: 'foo.dart',
-        file: assetFile.uri,
-        linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: Architecture.arm64,
-      ),
-    );
-    expect(
-      await validateCodeAssetBuildOutput(
-        input,
-        BuildOutput(outputBuilder.json),
-      ),
-      isEmpty,
-    );
-  });
-
   test('dynamic_loading_system uri missing', () async {
     final input = makeCodeBuildInput();
     final outputBuilder = BuildOutputBuilder();
@@ -172,8 +122,6 @@ void main() {
         linkMode: DynamicLoadingSystem(
           Uri.parse(input.config.code.targetOS.dylibFileName('sqlite')),
         ),
-        os: input.config.code.targetOS,
-        architecture: Architecture.arm64,
       ),
     );
     expect(
@@ -204,28 +152,6 @@ void main() {
     );
   });
 
-  test('native code asset wrong os', () async {
-    final input = makeCodeBuildInput();
-    final outputBuilder = BuildOutputBuilder();
-    final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
-    await assetFile.writeAsBytes([1, 2, 3]);
-    outputBuilder.assets.code.add(
-      CodeAsset(
-        package: input.packageName,
-        name: 'foo.dart',
-        file: assetFile.uri,
-        linkMode: DynamicLoadingBundled(),
-        os: OS.windows,
-        architecture: input.config.code.targetArchitecture,
-      ),
-    );
-    final errors = await validateCodeAssetBuildOutput(
-      input,
-      BuildOutput(outputBuilder.json),
-    );
-    expect(errors, contains(contains('which is not the target os')));
-  });
-
   test('duplicate dylib name', () async {
     final input = makeCodeBuildInput();
     final outputBuilder = BuildOutputBuilder();
@@ -238,16 +164,12 @@ void main() {
         name: 'src/foo.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: input.config.code.targetArchitecture,
       ),
       CodeAsset(
         package: input.packageName,
         name: 'src/bar.dart',
         file: assetFile.uri,
         linkMode: DynamicLoadingBundled(),
-        os: input.config.code.targetOS,
-        architecture: input.config.code.targetArchitecture,
       ),
     ]);
     final errors = await validateCodeAssetBuildOutput(
@@ -274,7 +196,8 @@ void main() {
           );
         traverseJson<Map<String, Object?>>(builder.json, [
           'config',
-          'code',
+          'extensions',
+          'code_assets',
           'ios',
         ]).remove(propertyKey);
         final errors = await validateCodeAssetBuildInput(
@@ -285,7 +208,7 @@ void main() {
           contains(
             contains(
               'No value was provided for '
-              '\'config.code.ios.$propertyKey\'.',
+              '\'config.extensions.code_assets.ios.$propertyKey\'.',
             ),
           ),
         );
@@ -304,14 +227,16 @@ void main() {
         );
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'android',
       ]).remove('target_ndk_api');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
           contains(
-            'No value was provided for \'config.code.android.target_ndk_api\'.'
+            'No value was provided for '
+            '\'config.extensions.code_assets.android.target_ndk_api\'.'
             ' Expected a int.',
           ),
         ),
@@ -331,14 +256,16 @@ void main() {
 
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'macos',
       ]).remove('target_version');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
         contains(
           contains(
-            'No value was provided for \'config.code.macos.target_version\'.'
+            'No value was provided for '
+            '\'config.extensions.code_assets.macos.target_version\'.'
             ' Expected a int.',
           ),
         ),
@@ -346,11 +273,17 @@ void main() {
 
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
       ]).remove('macos');
       expect(
         await validateCodeAssetBuildInput(BuildInput(builder.json)),
-        contains(contains('No value was provided for \'config.code.macos\'.')),
+        contains(
+          contains(
+            'No value was provided for '
+            '\'config.extensions.code_assets.macos\'.',
+          ),
+        ),
       );
     });
 
@@ -395,7 +328,8 @@ void main() {
       // If developer command prompt is present, it must contain the script.
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'c_compiler',
         'windows',
         'developer_command_prompt',
@@ -405,7 +339,8 @@ void main() {
         contains(
           contains(
             'No value was provided for '
-            "'config.code.c_compiler.windows.developer_command_prompt.script'.",
+            "'config.extensions.code_assets.c_compiler."
+            "windows.developer_command_prompt.script'.",
           ),
         ),
       );
@@ -417,7 +352,8 @@ void main() {
       // the Windows config.
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
-        'code',
+        'extensions',
+        'code_assets',
         'c_compiler',
       ]).remove('windows');
       expect(
@@ -425,7 +361,7 @@ void main() {
         contains(
           contains(
             'No value was provided for '
-            "'config.code.c_compiler.windows'.",
+            "'config.extensions.code_assets.c_compiler.windows'.",
           ),
         ),
       );

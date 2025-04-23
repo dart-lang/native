@@ -207,8 +207,6 @@ class CBuilder extends CTool implements Builder {
             name: assetName!,
             file: libUri,
             linkMode: linkMode,
-            os: input.config.code.targetOS,
-            architecture: input.config.code.targetArchitecture,
           ),
           routing: route,
         );

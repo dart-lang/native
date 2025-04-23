@@ -1465,7 +1465,10 @@ ${modifier}final _$name = $_protectedExtension
     final callExpr = methodCall(node);
     if (isSuspendFun(node)) {
       final returningType =
+          node.asyncReturnType!.accept(_TypeGenerator(resolver));
+      final returningTypeClass =
           node.asyncReturnType!.accept(_TypeClassGenerator(resolver)).name;
+      final isNullable = node.asyncReturnType!.isNullable;
       final continuation = node.params.last.finalName;
       s.write('''async {
     $typeInference
@@ -1474,12 +1477,13 @@ ${modifier}final _$name = $_protectedExtension
     ${localReferences.join(_newLine(depth: 2))}
     final \$r = $callExpr;
     _\$$continuation.release();
-    final $_jObject \$o;
-    if (\$r.isInstanceOf($_jni.coroutineSingletonsClass)) {
+    final $_jObject${isNullable ? '?' : ''} \$o;
+    if (${isNullable ? '\$r != null && ' : ''}\$r.isInstanceOf($_jni.coroutineSingletonsClass)) {
       \$r.release();
-      \$o = $_jObject.fromReference(
-          $_jGlobalReference($_jPointer.fromAddress(await \$p.first)));
-      if (\$o.isInstanceOf($_jni.result\$FailureClass)) {
+      final \$a = await \$p.first;
+      \$o = ${isNullable ? '\$a == 0 ? null :' : ''}$_jObject.fromReference(
+          $_jGlobalReference($_jPointer.fromAddress(\$a)));
+      if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$FailureClass)) {
         final \$e =
             $_jni.failureExceptionField.get(\$o, const ${_jObject}Type());
         \$o.release();
@@ -1488,7 +1492,10 @@ ${modifier}final _$name = $_protectedExtension
     } else {
       \$o = \$r;
     }
-    return \$o.as($returningType, releaseOriginal: true);
+    return \$o${isNullable ? '?' : ''}.as<$returningType>(
+      $returningTypeClass,
+      releaseOriginal: true,
+    );
   }
 
 ''');

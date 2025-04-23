@@ -90,9 +90,6 @@ class Asset extends JsonObject {
     if (result.isNativeCodeAssetNew) {
       return result.asNativeCodeAssetNew;
     }
-    if (result.isNativeCodeAsset) {
-      return result.asNativeCodeAsset;
-    }
     return result;
   }
 
@@ -391,30 +388,9 @@ class CodeConfig extends JsonObject {
 class Config extends JsonObject {
   Config.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Config({required CodeConfig? code, required ConfigExtensions? extensions})
-    : super() {
-    this.code = code;
+  Config({required ConfigExtensions? extensions}) : super() {
     this.extensions = extensions;
     json.sortOnKey();
-  }
-
-  CodeConfig? get code {
-    final jsonValue = _reader.optionalMap('code');
-    if (jsonValue == null) return null;
-    return CodeConfig.fromJson(jsonValue, path: [...path, 'code']);
-  }
-
-  set code(CodeConfig? value) {
-    json.setOrRemove('code', value?.json);
-    json.sortOnKey();
-  }
-
-  List<String> _validateCode() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('code');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return code?.validate() ?? [];
   }
 
   ConfigExtensions? get extensions {
@@ -437,11 +413,7 @@ class Config extends JsonObject {
   }
 
   @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateCode(),
-    ..._validateExtensions(),
-  ];
+  List<String> validate() => [...super.validate(), ..._validateExtensions()];
 
   @override
   String toString() => 'Config($json)';
@@ -777,191 +749,20 @@ class MacOSCodeConfig extends JsonObject {
   String toString() => 'MacOSCodeConfig($json)';
 }
 
-class NativeCodeAsset extends Asset {
-  static const typeValue = 'native_code';
-
-  NativeCodeAsset.fromJson(super.json, {super.path}) : super._fromJson();
-
-  NativeCodeAsset({
-    required Architecture? architecture,
-    required NativeCodeAssetEncoding? encoding,
-    required Uri? file,
-    required String id,
-    required LinkMode linkMode,
-    required OS? os,
-  }) : super(type: 'native_code') {
-    _architecture = architecture;
-    _encoding = encoding;
-    _file = file;
-    _id = id;
-    _linkMode = linkMode;
-    _os = os;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [NativeCodeAsset] that are not in
-  /// [Asset].
-  void setup({
-    required Architecture? architecture,
-    required NativeCodeAssetEncoding? encoding,
-    required Uri? file,
-    required String id,
-    required LinkMode linkMode,
-    required OS? os,
-  }) {
-    _architecture = architecture;
-    _encoding = encoding;
-    _file = file;
-    _id = id;
-    _linkMode = linkMode;
-    _os = os;
-    json.sortOnKey();
-  }
-
-  Architecture? get architecture {
-    final jsonValue = _reader.get<String?>('architecture');
-    if (jsonValue == null) return null;
-    return Architecture.fromJson(jsonValue);
-  }
-
-  set _architecture(Architecture? value) {
-    json.setOrRemove('architecture', value?.name);
-  }
-
-  List<String> _validateArchitecture() =>
-      _reader.validate<String?>('architecture');
-
-  NativeCodeAssetEncoding? get encoding {
-    final jsonValue = _reader.optionalMap('encoding');
-    if (jsonValue == null) return null;
-    return NativeCodeAssetEncoding.fromJson(
-      jsonValue,
-      path: [...path, 'encoding'],
-    );
-  }
-
-  set _encoding(NativeCodeAssetEncoding? value) {
-    json.setOrRemove('encoding', value?.json);
-  }
-
-  List<String> _validateEncoding() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('encoding');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return encoding?.validate() ?? [];
-  }
-
-  Uri? get file => _reader.optionalPath('file');
-
-  set _file(Uri? value) {
-    json.setOrRemove('file', value?.toFilePath());
-  }
-
-  List<String> _validateFile() => _reader.validateOptionalPath('file');
-
-  String get id => _reader.get<String>('id');
-
-  set _id(String value) {
-    json.setOrRemove('id', value);
-  }
-
-  List<String> _validateId() => _reader.validate<String>('id');
-
-  LinkMode get linkMode {
-    final jsonValue = _reader.map$('link_mode');
-    return LinkMode.fromJson(jsonValue, path: [...path, 'link_mode']);
-  }
-
-  set _linkMode(LinkMode value) {
-    json['link_mode'] = value.json;
-  }
-
-  List<String> _validateLinkMode() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('link_mode');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return linkMode.validate();
-  }
-
-  OS? get os {
-    final jsonValue = _reader.get<String?>('os');
-    if (jsonValue == null) return null;
-    return OS.fromJson(jsonValue);
-  }
-
-  set _os(OS? value) {
-    json.setOrRemove('os', value?.name);
-  }
-
-  List<String> _validateOs() => _reader.validate<String?>('os');
-
-  @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateArchitecture(),
-    ..._validateEncoding(),
-    ..._validateFile(),
-    ..._validateId(),
-    ..._validateLinkMode(),
-    ..._validateOs(),
-    ..._validateExtraRules(),
-  ];
-
-  List<String> _validateExtraRules() {
-    final result = <String>[];
-    if ([
-      'dynamic_loading_bundle',
-      'static',
-    ].contains(_reader.tryTraverse(['link_mode', 'type']))) {
-      result.addAll(_reader.validate<Object>('file'));
-    }
-    return result;
-  }
-
-  @override
-  String toString() => 'NativeCodeAsset($json)';
-}
-
-extension NativeCodeAssetExtension on Asset {
-  bool get isNativeCodeAsset => type == 'native_code';
-
-  NativeCodeAsset get asNativeCodeAsset =>
-      NativeCodeAsset.fromJson(json, path: path);
-}
-
 class NativeCodeAssetEncoding extends JsonObject {
   NativeCodeAssetEncoding.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
   NativeCodeAssetEncoding({
-    required Architecture? architecture,
     required Uri? file,
     required String id,
     required LinkMode linkMode,
-    required OS? os,
   }) : super() {
-    _architecture = architecture;
     _file = file;
     _id = id;
     _linkMode = linkMode;
-    _os = os;
     json.sortOnKey();
   }
-
-  Architecture? get architecture {
-    final jsonValue = _reader.get<String?>('architecture');
-    if (jsonValue == null) return null;
-    return Architecture.fromJson(jsonValue);
-  }
-
-  set _architecture(Architecture? value) {
-    json.setOrRemove('architecture', value?.name);
-  }
-
-  List<String> _validateArchitecture() =>
-      _reader.validate<String?>('architecture');
 
   Uri? get file => _reader.optionalPath('file');
 
@@ -996,26 +797,12 @@ class NativeCodeAssetEncoding extends JsonObject {
     return linkMode.validate();
   }
 
-  OS? get os {
-    final jsonValue = _reader.get<String?>('os');
-    if (jsonValue == null) return null;
-    return OS.fromJson(jsonValue);
-  }
-
-  set _os(OS? value) {
-    json.setOrRemove('os', value?.name);
-  }
-
-  List<String> _validateOs() => _reader.validate<String?>('os');
-
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateArchitecture(),
     ..._validateFile(),
     ..._validateId(),
     ..._validateLinkMode(),
-    ..._validateOs(),
     ..._validateExtraRules(),
   ];
 

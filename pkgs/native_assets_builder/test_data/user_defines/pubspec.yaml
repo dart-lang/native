@@ -10,7 +10,7 @@ environment:
   sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
-  native_assets_cli: ^0.15.0
+  native_assets_cli: ^0.17.0-wip
 
 dev_dependencies:
   lints: ^5.1.1
@@ -25,5 +25,6 @@ hooks:
       user_define_key: user_define_value
       user_define_key2:
         foo: bar
+      some_file: assets/data.json
     some_other_package: # package name
       user_define_key3: user_define_value3

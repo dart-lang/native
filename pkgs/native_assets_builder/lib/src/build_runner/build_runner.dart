@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
+import 'package:yaml/yaml.dart';
 
 import '../dependencies_hash_file/dependencies_hash_file.dart';
 import '../locking/locking.dart';
@@ -46,7 +47,7 @@ class NativeAssetsBuildRunner {
   final Uri dartExecutable;
   final Duration singleHookTimeout;
   final Map<String, String> hookEnvironment;
-  final Map<String, Map<String, Object?>?> userDefines;
+  final UserDefines? userDefines;
   final PackageLayout packageLayout;
 
   NativeAssetsBuildRunner({
@@ -56,7 +57,7 @@ class NativeAssetsBuildRunner {
     required this.packageLayout,
     Duration? singleHookTimeout,
     Map<String, String>? hookEnvironment,
-    this.userDefines = const {},
+    this.userDefines,
   }) : _fileSystem = fileSystem,
        singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5),
        hookEnvironment =
@@ -73,6 +74,24 @@ class NativeAssetsBuildRunner {
     return packagesWithHook.map((e) => e.name).toList();
   }
 
+  Future<HookResult?> _checkUserDefines(
+    LoadedUserDefines? loadedUserDefines,
+  ) async {
+    if (loadedUserDefines?.pubspecErrors.isNotEmpty ?? false) {
+      logger.severe('pubspec.yaml contains errors');
+      for (final error in loadedUserDefines!.pubspecErrors) {
+        logger.severe(error);
+      }
+      return null;
+    }
+    return HookResult(
+      dependencies: switch (userDefines?.workspacePubspec) {
+        null => [],
+        final pubspec => [pubspec],
+      },
+    );
+  }
+
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
   ///
@@ -86,13 +105,18 @@ class NativeAssetsBuildRunner {
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
   }) async {
+    final loadedUserDefines = await _loadedUserDefines;
+    final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
+    if (hookResultUserDefines == null) {
+      return null;
+    }
+    var hookResult = hookResultUserDefines;
+
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.build,
       buildResult: null,
     );
     if (buildPlan == null) return null;
-
-    var hookResult = HookResult();
 
     /// Key is packageName.
     final globalMetadata = <String, Metadata>{};
@@ -133,7 +157,7 @@ class NativeAssetsBuildRunner {
         outputFile: buildDirUri.resolve('output.json'),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
-        userDefines: userDefines[package.name],
+        userDefines: loadedUserDefines?[package.name],
       );
 
       final input = BuildInput(inputBuilder.json);
@@ -199,13 +223,19 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     required BuildResult buildResult,
   }) async {
+    final loadedUserDefines = await _loadedUserDefines;
+    final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
+    if (hookResultUserDefines == null) {
+      return null;
+    }
+    var linkResult = hookResultUserDefines;
+
     final (buildPlan, packageGraph) = await _makePlan(
       hook: Hook.link,
       buildResult: buildResult,
     );
     if (buildPlan == null) return null;
 
-    var linkResult = HookResult();
     for (final package in buildPlan) {
       final inputBuilder = LinkInputBuilder();
       for (final e in extensions) {
@@ -231,7 +261,7 @@ class NativeAssetsBuildRunner {
         outputFile: buildDirUri.resolve('output.json'),
         outputDirectory: outDirUri,
         outputDirectoryShared: outDirSharedUri,
-        userDefines: userDefines[package.name],
+        userDefines: loadedUserDefines?[package.name],
       );
       inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
@@ -461,9 +491,9 @@ ${e.message}
   ) async {
     final inputFile = buildDirUri.resolve('input.json');
     final inputFileContents = const JsonEncoder.withIndent(
-      ' ',
+      '  ',
     ).convert(input.json);
-    logger.info('input.json contents: $inputFileContents');
+    logger.info('input.json contents:\n$inputFileContents');
     await _fileSystem.file(inputFile).writeAsString(inputFileContents);
     final hookOutputUri = input.outputFile;
     final hookOutputFile = _fileSystem.file(hookOutputUri);
@@ -856,18 +886,18 @@ ${compileResult.stdout}
     // TODO(dcharkes): Remove when hooks with 1.7.0 are no longer supported.
     File hookOutputFileDeprecated,
   ) {
-    final decode = const Utf8Decoder().fuse(const JsonDecoder()).convert;
     final file =
         hookOutputFile.existsSync() ? hookOutputFile : hookOutputFileDeprecated;
-    final hookOutputJson =
-        decode(file.readAsBytesSync()) as Map<String, Object?>;
+    final fileContents = file.readAsStringSync();
+    logger.info('output.json contents:\n$fileContents');
+    final hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
     return hook == Hook.build
         ? BuildOutput(hookOutputJson)
         : LinkOutput(hookOutputJson);
   }
 
-  /// Returns a list of errors for [readHooksUserDefinesFromPubspec].
-  static List<String> validateHooksUserDefinesFromPubspec(
+  /// Returns a list of errors for [_readHooksUserDefinesFromPubspec].
+  static List<String> _validateHooksUserDefinesFromPubspec(
     Map<Object?, Object?> pubspec,
   ) {
     final hooks = pubspec['hooks'];
@@ -916,11 +946,11 @@ ${compileResult.stdout}
   ///
   /// The [pubspec] is expected to be the decoded yaml, a Map.
   ///
-  /// Before invoking, check errors with [validateHooksUserDefinesFromPubspec].
-  static Map<String, Map<String, Object?>> readHooksUserDefinesFromPubspec(
+  /// Before invoking, check errors with [_validateHooksUserDefinesFromPubspec].
+  static Map<String, Map<String, Object?>> _readHooksUserDefinesFromPubspec(
     Map<Object?, Object?> pubspec,
   ) {
-    assert(validateHooksUserDefinesFromPubspec(pubspec).isEmpty);
+    assert(_validateHooksUserDefinesFromPubspec(pubspec).isEmpty);
     final hooks = pubspec['hooks'];
     if (hooks is! Map) {
       return {};
@@ -939,6 +969,61 @@ ${compileResult.stdout}
           },
     };
   }
+
+  late final Future<LoadedUserDefines?> _loadedUserDefines = () async {
+    final pubspec = userDefines?.workspacePubspec;
+    if (pubspec == null) {
+      return null;
+    }
+    final contents = await _fileSystem.file(pubspec).readAsString();
+    final decoded = loadYaml(contents) as Map<Object?, Object?>;
+    final errors = _validateHooksUserDefinesFromPubspec(decoded);
+    final defines = _readHooksUserDefinesFromPubspec(decoded);
+    return LoadedUserDefines(
+      pubspecErrors: errors,
+      pubspecDefines: defines,
+      pubspecBasePath: pubspec,
+    );
+  }();
+}
+
+/// The user-defines information passed from the SDK to the
+/// [NativeAssetsBuildRunner].
+///
+/// Currently only holds [workspacePubspec]. (In the future this class will also
+/// take command-line arguments and a working directory for the command-line
+/// argument paths to be resolved against.)
+class UserDefines {
+  /// The pubspec.yaml of the pub workspace.
+  ///
+  /// User-defines are read from this file.
+  final Uri? workspacePubspec;
+
+  UserDefines({required this.workspacePubspec});
+}
+
+class LoadedUserDefines {
+  final List<String> pubspecErrors;
+
+  final Map<String, Map<String, Object?>> pubspecDefines;
+
+  final Uri pubspecBasePath;
+
+  LoadedUserDefines({
+    required this.pubspecErrors,
+    required this.pubspecDefines,
+    required this.pubspecBasePath,
+  });
+
+  PackageUserDefines operator [](String packageName) => PackageUserDefines(
+    workspacePubspec: switch (pubspecDefines[packageName]) {
+      null => null,
+      final defines => PackageUserDefinesSource(
+        defines: defines,
+        basePath: pubspecBasePath,
+      ),
+    },
+  );
 }
 
 /// Parses depfile contents.
