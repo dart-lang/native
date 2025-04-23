@@ -9,6 +9,7 @@
 
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:ffigen/src/executables/ffigen.dart' as ffigen;
 
 const cConfig = 'ffigen_c.yaml';
@@ -28,19 +29,42 @@ void dartCmd(List<String> args) {
   }
 }
 
-Map<String, String> parseExtraMethods(String filename) {
-  final extraMethods = <String, String>{};
-  String? currentClass;
-  var methods = StringBuffer();
+typedef ClassInfo = ({
+  String name,
+  String? ext,
+  List<String> mix,
+  List<String> impl,
+});
+final _clsDecl = RegExp(
+    r'^class (.*?)(?: extends (.*?))?(?: with (.*?))?(?: implements (.*?))? {');
+ClassInfo? parseClassDecl(String line) {
+  final match = _clsDecl.firstMatch(line);
+  if (match == null) return null;
+  return (
+    name: match[1]!,
+    ext: match[2],
+    mix: match[3]?.split(', ') ?? [],
+    impl: match[4]?.split(', ') ?? []
+  );
+}
+
+typedef ExtraMethods = ({ClassInfo cls, String methods});
+Map<String, ExtraMethods> parseExtraMethods(String filename) {
+  final extraMethods = <String, ExtraMethods>{};
+  ClassInfo? currentClass;
+  late StringBuffer methods;
   for (final line in File(filename).readAsLinesSync()) {
     if (currentClass == null) {
-      if (line.startsWith('class ')) {
-        currentClass = line;
+      final cls = parseClassDecl(line);
+      if (cls != null) {
+        currentClass = cls;
         methods = StringBuffer();
       }
     } else {
       if (line == '}') {
-        extraMethods[currentClass] = methods.toString();
+        extraMethods[currentClass.name] =
+            (cls: currentClass, methods: methods.toString());
+        currentClass = null;
       } else {
         methods.writeln(line);
       }
@@ -49,19 +73,46 @@ Map<String, String> parseExtraMethods(String filename) {
   return extraMethods;
 }
 
-void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
+String classDecl(
+        String name, String? ext, List<String> mix, List<String> impl) =>
+    [
+      'class $name',
+      if (ext != null) 'extends $ext',
+      if (mix.isNotEmpty) 'with ${mix.join(', ')}',
+      if (impl.isNotEmpty) 'implements ${impl.join(', ')}',
+      '{',
+    ].join(' ');
+
+void mergeExtraMethods(
+    String filename, Map<String, ExtraMethods> extraMethods) {
   final out = StringBuffer();
   for (final line in File(filename).readAsLinesSync()) {
-    out.writeln(line);
-    final methods = extraMethods[line];
-    if (methods != null) {
-      out.writeln(methods);
+    final cls = parseClassDecl(line);
+    final extra = cls == null ? null : extraMethods[cls.name];
+    if (cls == null || extra == null) {
+      out.writeln(line);
+    } else {
+      out.writeln(classDecl(cls.name, extra.cls.ext ?? cls.ext,
+          [...cls.mix, ...extra.cls.mix], [...cls.impl, ...extra.cls.impl]));
+      out.writeln(extra.methods);
+      extraMethods.remove(cls.name);
     }
   }
+
+  // Matching classes have been removed from extraMethods. Write all the
+  // remaining classes separately.
+  for (final extra in extraMethods.values) {
+    out.writeln('\n');
+    out.writeln(classDecl(
+        extra.cls.name, extra.cls.ext, extra.cls.mix, extra.cls.impl));
+    out.writeln(extra.methods);
+    out.writeln('}');
+  }
+
   File(filename).writeAsStringSync(out.toString());
 }
 
-Future<void> run() async {
+Future<void> run({required bool format}) async {
   print('Generating C bindings...');
   await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
 
@@ -69,11 +120,21 @@ Future<void> run() async {
   await ffigen.main(['--no-format', '-v', 'severe', '--config', objcConfig]);
   mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
 
-  print('Formatting bindings...');
-  dartCmd(['format', cBindings, objcBindings]);
+  if (format) {
+    print('Formatting bindings...');
+    dartCmd(['format', cBindings, objcBindings]);
+  }
 }
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
   Directory.current = Platform.script.resolve('..').path;
-  await run();
+  final argResults = (ArgParser()
+        ..addFlag(
+          'format',
+          help: 'Format the generated code.',
+          defaultsTo: true,
+          negatable: true,
+        ))
+      .parse(args);
+  await run(format: argResults.flag('format'));
 }

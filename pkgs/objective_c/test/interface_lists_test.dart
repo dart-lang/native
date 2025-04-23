@@ -121,7 +121,7 @@ void main() {
     });
 
     test('All code genned interfaces are included in the list', () {
-      final classNameRegExp = RegExp(r'^class (\w+) ');
+      final classNameRegExp = RegExp(r'^class ([^_]\w*) ');
       final allClassNames = <String>[];
       for (final line in File('lib/src/objective_c_bindings_generated.dart')
           .readAsLinesSync()) {

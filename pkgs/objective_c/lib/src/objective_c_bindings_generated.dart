@@ -12,6 +12,7 @@
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // coverage:ignore-file
+import 'dart:collection';
 
 // AUTO GENERATED FILE, DO NOT EDIT.
 //
@@ -652,7 +653,29 @@ class DartProtocolBuilder extends NSObject {
 
 /// NSArray
 class NSArray extends NSObject
+    with Iterable<objc.ObjCObjectBase>
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
+  /// Creates a [NSArray] of the given length with [fill] at each position.
+  ///
+  /// The [length] must be a non-negative integer.
+  static NSArray filled(int length, objc.ObjCObjectBase fill) =>
+      NSMutableArray.filled(length, fill);
+
+  /// Creates a [NSArray] from [elements].
+  static NSArray of(Iterable<objc.ObjCObjectBase> elements) =>
+      NSMutableArray.of(elements);
+
+  @override
+  int get length => count;
+
+  @override
+  objc.ObjCObjectBase elementAt(int index) => objectAtIndex_(index);
+
+  @override
+  Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
+
+  objc.ObjCObjectBase operator [](int index) => objectAtIndex_(index);
+
   NSArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -4671,7 +4694,40 @@ class NSMethodSignature extends NSObject {
 }
 
 /// NSMutableArray
-class NSMutableArray extends NSArray {
+class NSMutableArray extends NSArray with ListMixin<objc.ObjCObjectBase> {
+  /// Creates a [NSMutableArray] of the given length with [fill] at each
+  /// position.
+  ///
+  /// The [length] must be a non-negative integer.
+  static NSMutableArray filled(int length, objc.ObjCObjectBase fill) {
+    final a = arrayWithCapacity_(length);
+    for (var i = 0; i < length; ++i) a.add(fill);
+    return a;
+  }
+
+  /// Creates a [NSMutableArray] from [elements].
+  static NSMutableArray of(Iterable<objc.ObjCObjectBase> elements) =>
+      arrayWithCapacity_(elements.length)..addAll(elements);
+
+  @override
+  set length(int newLength) {
+    var len = length;
+    RangeError.checkValueInInterval(newLength, 0, len);
+    for (; len > newLength; --len) removeLastObject();
+  }
+
+  @override
+  void operator []=(int index, objc.ObjCObjectBase value) =>
+      replaceObjectAtIndex_withObject_(index, value);
+
+  @override
+  void add(objc.ObjCObjectBase value) => addObject_(value);
+
+  @override
+  void addAll(Iterable<objc.ObjCObjectBase> iterable) {
+    for (final value in iterable) add(value);
+  }
+
   NSMutableArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -18413,3 +18469,34 @@ late final _sel_write_maxLength_ = objc.registerName("write:maxLength:");
 late final _sel_zone = objc.registerName("zone");
 typedef instancetype = ffi.Pointer<objc.ObjCObject>;
 typedef Dartinstancetype = objc.ObjCObjectBase;
+
+class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
+  final Iterable<objc.ObjCObjectBase> _iterable;
+  final int _length;
+  int _index;
+  objc.ObjCObjectBase? _current;
+
+  _NSArrayIterator(Iterable<objc.ObjCObjectBase> iterable)
+      : _iterable = iterable,
+        _length = iterable.length,
+        _index = 0;
+
+  @override
+  objc.ObjCObjectBase get current => _current!;
+
+  @override
+  @pragma('vm:prefer-inline')
+  bool moveNext() {
+    final length = _iterable.length;
+    if (_length != length) {
+      throw ConcurrentModificationError(_iterable);
+    }
+    if (_index >= length) {
+      _current = null;
+      return false;
+    }
+    _current = _iterable.elementAt(_index);
+    _index++;
+    return true;
+  }
+}
