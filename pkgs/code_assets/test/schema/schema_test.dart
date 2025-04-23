@@ -152,14 +152,6 @@ _codeFieldsWindows({
   required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
   if (inputOrOutput == InputOrOutput.input && hook == Hook.build) ...[
-    (
-      [..._codeConfigPath, 'c_compiler', 'env_script'],
-      expectOptionalFieldMissing,
-    ),
-    (
-      [..._codeConfigPath, 'c_compiler', 'env_script_arguments'],
-      expectOptionalFieldMissing,
-    ),
     ([..._codeConfigPath, 'c_compiler', 'windows'], expectRequiredFieldMissing),
     (
       [..._codeConfigPath, 'c_compiler', 'windows', 'developer_command_prompt'],

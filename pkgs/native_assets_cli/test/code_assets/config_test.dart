@@ -47,7 +47,6 @@ void main() async {
   // check the nested key.
   Map<String, Object> inputJson({
     String hookType = 'build',
-    bool includeDeprecated = false,
     OS targetOS = OS.android,
   }) {
     final codeConfig = {
@@ -58,8 +57,6 @@ void main() async {
         'ar': fakeAr.toFilePath(),
         'ld': fakeLd.toFilePath(),
         'cc': fakeClang.toFilePath(),
-        if (includeDeprecated) 'env_script': fakeVcVars.toFilePath(),
-        if (includeDeprecated) 'env_script_arguments': ['arg0', 'arg1'],
         'windows': {
           'developer_command_prompt': {
             'arguments': ['arg0', 'arg1'],
@@ -146,11 +143,11 @@ void main() async {
         ),
       );
     final input = BuildInput(inputBuilder.json);
-    expect(input.json, inputJson(includeDeprecated: true));
+    expect(input.json, inputJson());
     expectCorrectCodeConfig(input.config.code);
   });
 
-  test('BuildInput from json without deprecated keys', () {
+  test('BuildInput from json ', () {
     for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
       final input = BuildInput(inputJson(targetOS: targetOS));
       expect(input.packageName, packageName);
@@ -191,20 +188,14 @@ void main() async {
         ),
       );
     final input = LinkInput(inputBuilder.json);
-    expect(input.json, inputJson(hookType: 'link', includeDeprecated: true));
+    expect(input.json, inputJson(hookType: 'link'));
     expectCorrectCodeConfig(input.config.code);
     expect(input.assets.encodedAssets, assets);
   });
 
-  test('LinkInput from json without deprecated keys', () {
+  test('LinkInput from json', () {
     for (final targetOS in [OS.android, OS.iOS, OS.macOS]) {
-      final input = LinkInput(
-        inputJson(
-          includeDeprecated: false,
-          targetOS: targetOS,
-          hookType: 'link',
-        ),
-      );
+      final input = LinkInput(inputJson(targetOS: targetOS, hookType: 'link'));
       expect(input.packageName, packageName);
       expect(input.packageRoot, packageRootUri);
       expect(input.outputDirectoryShared, outputDirectoryShared);

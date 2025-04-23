@@ -112,8 +112,6 @@ extension CCompilerConfigSyntax on CCompilerConfig {
     ar: archiver,
     cc: compiler,
     ld: linker,
-    envScript: _windows?.developerCommandPrompt?.script,
-    envScriptArguments: _windows?.developerCommandPrompt?.arguments,
     windows: _windows?.toSyntax(),
   );
 
