@@ -1,4 +1,4 @@
-## 0.17.0-wip
+## 0.17.0
 
 - **Breaking change** Removed support for old JSONs. Newer SDKs will not work
   with older hooks, and the lower bound of this package is bumped.
