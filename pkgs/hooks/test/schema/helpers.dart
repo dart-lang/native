@@ -292,6 +292,15 @@ FieldsReturn _hookFields({
   ([r'$schema'], expectOptionalFieldMissing),
   if (inputOrOutput == InputOrOutput.input) ...[
     (['user_defines'], expectOptionalFieldMissing),
+    (['user_defines', 'workspace_pubspec'], expectOptionalFieldMissing),
+    (
+      ['user_defines', 'workspace_pubspec', 'base_path'],
+      expectRequiredFieldMissing,
+    ),
+    (
+      ['user_defines', 'workspace_pubspec', 'defines'],
+      expectRequiredFieldMissing,
+    ),
     (['out_dir_shared'], expectRequiredFieldMissing),
     (['package_name'], expectRequiredFieldMissing),
     (['package_root'], expectRequiredFieldMissing),
