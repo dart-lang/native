@@ -122,15 +122,11 @@ class CCompilerConfig extends JsonObject {
   CCompilerConfig({
     required Uri ar,
     required Uri cc,
-    required Uri? envScript,
-    required List<String>? envScriptArguments,
     required Uri ld,
     required Windows? windows,
   }) : super() {
     _ar = ar;
     _cc = cc;
-    _envScript = envScript;
-    _envScriptArguments = envScriptArguments;
     _ld = ld;
     _windows = windows;
     json.sortOnKey();
@@ -151,25 +147,6 @@ class CCompilerConfig extends JsonObject {
   }
 
   List<String> _validateCc() => _reader.validatePath('cc');
-
-  Uri? get envScript => _reader.optionalPath('env_script');
-
-  set _envScript(Uri? value) {
-    json.setOrRemove('env_script', value?.toFilePath());
-  }
-
-  List<String> _validateEnvScript() =>
-      _reader.validateOptionalPath('env_script');
-
-  List<String>? get envScriptArguments =>
-      _reader.optionalStringList('env_script_arguments');
-
-  set _envScriptArguments(List<String>? value) {
-    json.setOrRemove('env_script_arguments', value);
-  }
-
-  List<String> _validateEnvScriptArguments() =>
-      _reader.validateOptionalStringList('env_script_arguments');
 
   Uri get ld => _reader.path$('ld');
 
@@ -202,8 +179,6 @@ class CCompilerConfig extends JsonObject {
     ...super.validate(),
     ..._validateAr(),
     ..._validateCc(),
-    ..._validateEnvScript(),
-    ..._validateEnvScriptArguments(),
     ..._validateLd(),
     ..._validateWindows(),
   ];

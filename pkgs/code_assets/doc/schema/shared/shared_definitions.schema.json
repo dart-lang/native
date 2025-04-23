@@ -74,15 +74,6 @@
         "cc": {
           "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
-        "env_script": {
-          "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
-        },
-        "env_script_arguments": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "ld": {
           "$ref": "../../../../hooks/doc/schema/shared/shared_definitions.schema.json#/definitions/absolutePath"
         },
