@@ -74,11 +74,6 @@ class NativeAssetsBuildPlanner {
   ///
   /// Whether a package has native assets is defined by whether it contains
   /// a `hook/build.dart` or `hook/link.dart`.
-  ///
-  /// For backwards compatibility, a toplevel `build.dart` is also supported.
-  // TODO(https://github.com/dart-lang/native/issues/823): Remove fallback when
-  // everyone has migrated. (Probably once we stop backwards compatibility of
-  // the protocol version pre 1.2.0 on some future version.)
   Future<List<Package>> packagesWithHook(Hook hook) async => switch (hook) {
     Hook.build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
     Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
@@ -97,11 +92,8 @@ class NativeAssetsBuildPlanner {
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
         if (await fileSystem
-                .file(packageRoot.resolve('hook/').resolve(hook.scriptName))
-                .exists() ||
-            await fileSystem
-                .file(packageRoot.resolve(hook.scriptName))
-                .exists()) {
+            .file(packageRoot.resolve('hook/').resolve(hook.scriptName))
+            .exists()) {
           result.add(package);
         }
       }

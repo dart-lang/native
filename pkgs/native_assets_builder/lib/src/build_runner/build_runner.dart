@@ -363,9 +363,6 @@ class NativeAssetsBuildRunner {
       final (hookKernelFile, hookHashes) = hookCompileResult;
 
       final buildOutputFile = _fileSystem.file(input.outputFile);
-      final buildOutputFileDeprecated = _fileSystem
-      // ignore: deprecated_member_use
-      .file(outputDirectory.resolve(hook.outputNameDeprecated));
 
       final dependenciesHashFile = buildDirUri.resolve(
         'dependencies.dependencies_hash_file.json',
@@ -375,16 +372,10 @@ class NativeAssetsBuildRunner {
         fileUri: dependenciesHashFile,
       );
       final lastModifiedCutoffTime = DateTime.now();
-      if ((buildOutputFile.existsSync() ||
-              buildOutputFileDeprecated.existsSync()) &&
-          await dependenciesHashes.exists()) {
+      if ((buildOutputFile.existsSync()) && await dependenciesHashes.exists()) {
         late final HookOutput output;
         try {
-          output = _readHookOutputFromUri(
-            hook,
-            buildOutputFile,
-            buildOutputFileDeprecated,
-          );
+          output = _readHookOutputFromUri(hook, buildOutputFile);
         } on FormatException catch (e) {
           logger.severe('''
 Building assets for package:${input.packageName} failed.
@@ -488,14 +479,6 @@ ${e.message}
       // Ensure we'll never read outdated build results.
       await hookOutputFile.delete();
     }
-    final hookOutputUriDeprecated =
-    // ignore: deprecated_member_use
-    outputDirectory.resolve(hook.outputNameDeprecated);
-    final hookOutputFileDeprecated = _fileSystem.file(hookOutputUriDeprecated);
-    if (await hookOutputFileDeprecated.exists()) {
-      // Ensure we'll never read outdated build results.
-      await hookOutputFileDeprecated.delete();
-    }
 
     final arguments = [
       '--packages=${packageLayout.packageConfigUri.toFilePath()}',
@@ -540,11 +523,7 @@ ${e.message}
         return null;
       }
 
-      final output = _readHookOutputFromUri(
-        hook,
-        hookOutputFile,
-        hookOutputFileDeprecated,
-      );
+      final output = _readHookOutputFromUri(hook, hookOutputFile);
       final errors = await _validate(input, output, validator);
       if (errors.isNotEmpty) {
         _printErrors(
@@ -852,14 +831,8 @@ ${compileResult.stdout}
     return (buildPlan, packageGraph);
   }
 
-  HookOutput _readHookOutputFromUri(
-    Hook hook,
-    File hookOutputFile,
-    // TODO(dcharkes): Remove when hooks with 1.7.0 are no longer supported.
-    File hookOutputFileDeprecated,
-  ) {
-    final file =
-        hookOutputFile.existsSync() ? hookOutputFile : hookOutputFileDeprecated;
+  HookOutput _readHookOutputFromUri(Hook hook, File hookOutputFile) {
+    final file = hookOutputFile;
     final fileContents = file.readAsStringSync();
     logger.info('output.json contents:\n$fileContents');
     final hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
