@@ -11,12 +11,8 @@ import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
-  // TODO(https://github.com/dart-lang/native/issues/39): Use user-defines to
-  // control this instead.
-  const localBuild = false;
-
   await build(args, (input, output) async {
-    // ignore: dead_code
+    final localBuild = input.userDefines['local_build'] as bool? ?? false;
     if (localBuild) {
       await runBuild(input, output);
     } else {

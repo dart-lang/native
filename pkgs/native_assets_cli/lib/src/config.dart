@@ -127,7 +127,8 @@ extension type HookInputUserDefines._(HookInput _input) {
     if (pubspecSource != null) {
       sources.add(pubspecSource);
     }
-    // TODO: Add commandline arguments.
+    // TODO(https://github.com/dart-lang/native/issues/2215): Add commandline
+    // arguments.
     for (final source in sources) {
       final relativepath = source.defines[key];
       if (relativepath is String) {
