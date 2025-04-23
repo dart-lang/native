@@ -102,12 +102,14 @@ void mergeExtras(String filename, Map<String, ExtraMethods> extraMethods,
 }
 
 Future<void> run(List<String> args) async {
-  final argResults = (ArgParser()..addFlag(
-    'format',
-    help: 'Format the generated code.',
-    defaultsTo: true,
-    negatable: true,
-  )).parse(args);
+  final argResults = (ArgParser()
+        ..addFlag(
+          'format',
+          help: 'Format the generated code.',
+          defaultsTo: true,
+          negatable: true,
+        ))
+      .parse(args);
 
   print('Generating C bindings...');
   await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);

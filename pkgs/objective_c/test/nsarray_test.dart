@@ -44,8 +44,10 @@ void main() {
 
       expect(array.length, 5);
 
-      final actual = [];
-      for (final value in array) actual.add(value);
+      final actual = <ObjCObjectBase>[];
+      for (final value in array) {
+        actual.add(value);
+      }
       expect(actual, expected);
     });
 

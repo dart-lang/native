@@ -19,7 +19,7 @@ void main() {
       // coverage info for the parts of ffigen that are gated by
       // generate-for-package-objective-c. The github workflow that runs this
       // test also uses it to verify that there are no git-diffs in the output.
-      await expectLater(generate_code.run(), completes);
+      await expectLater(generate_code.run([]), completes);
 
       // Sanity check the generated code.
       final cBindings =

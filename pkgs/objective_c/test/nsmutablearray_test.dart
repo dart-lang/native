@@ -44,13 +44,15 @@ void main() {
 
       expect(array.length, 5);
 
-      final actual = [];
-      for (final value in array) actual.add(value);
+      final actual = <ObjCObjectBase>[];
+      for (final value in array) {
+        actual.add(value);
+      }
       expect(actual, expected);
     });
 
     test('length setter', () {
-      final array = NSMutableArray.filled(3,  NSObject());
+      final array = NSMutableArray.filled(3, NSObject());
       expect(array.length, 3);
       expect(() => array.length = 4, throwsA(isA<RangeError>()));
       expect(() => array.length = -1, throwsA(isA<RangeError>()));
