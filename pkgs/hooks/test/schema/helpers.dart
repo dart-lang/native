@@ -316,7 +316,6 @@ FieldsReturn _hookFields({
       (['metadata'], expectOptionalFieldMissing),
       for (final path in [
         ['assets_for_build'],
-        ['assetsForLinking', 'package_with_linker'],
         ['assets_for_linking', 'package_with_linker'],
       ]) ...[
         ([...path], expectOptionalFieldMissing),
@@ -330,7 +329,6 @@ FieldsReturn _hookFields({
     if (inputOrOutput == InputOrOutput.output || hook == Hook.link) ['assets'],
     if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
       ['assets_for_build'],
-      ['assetsForLinking', 'package_with_linker'],
       ['assets_for_linking', 'package_with_linker'],
     ],
   ]) ...[

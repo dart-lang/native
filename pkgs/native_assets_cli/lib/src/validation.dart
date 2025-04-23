@@ -138,7 +138,7 @@ ValidationErrors _validateAssetsForLinking(
   if (!input.config.linkingEnabled) {
     if (output.assets.encodedAssetsForLinking.isNotEmpty) {
       const error =
-          'BuildOutput.assetsForLinking is not empty while '
+          'BuildOutput.assets_for_linking is not empty while '
           'BuildInput.config.linkingEnabled is false';
       errors.add(error);
     }

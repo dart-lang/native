@@ -35,7 +35,6 @@ void main(List<String> args) {
             'Macos': 'MacOS',
             'prefer-dynamic': 'preferDynamicOld',
             'prefer-static': 'preferStaticOld',
-            'assetsForLinking': 'assetsForLinkingOld',
             'CodeAssetsCodeAsset': 'NativeCodeAssetNew',
             'DataAssetsDataAsset': 'DataAssetNew',
           },

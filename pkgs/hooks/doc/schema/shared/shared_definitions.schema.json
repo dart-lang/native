@@ -94,15 +94,6 @@
     "BuildOutput": {
       "type": "object",
       "properties": {
-        "assetsForLinking": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Asset"
-            }
-          }
-        },
         "assets_for_build": {
           "type": "array",
           "items": {

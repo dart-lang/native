@@ -85,15 +85,6 @@ void main() {
           'type': 'my-asset-type',
         },
       ],
-      'assetsForLinking': {
-        'package:linker1': [
-          {
-            'encoding': {'a-1': 'v-1'},
-            'type': 'my-asset-type',
-          },
-        ],
-        'package:linker2': <Object?>[],
-      },
       'assets_for_linking': {
         'package:linker1': [
           {

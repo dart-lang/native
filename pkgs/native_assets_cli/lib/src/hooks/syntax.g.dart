@@ -233,12 +233,10 @@ class BuildOutput extends HookOutput {
     required super.assets,
     required List<Asset>? assetsForBuild,
     required Map<String, List<Asset>>? assetsForLinking,
-    required Map<String, List<Asset>>? assetsForLinkingOld,
     required super.dependencies,
     required JsonObject? metadata,
     required super.timestamp,
   }) : super() {
-    this.assetsForLinkingOld = assetsForLinkingOld;
     this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
     this.metadata = metadata;
@@ -248,64 +246,14 @@ class BuildOutput extends HookOutput {
   /// Setup all fields for [BuildOutput] that are not in
   /// [HookOutput].
   void setup({
-    required Map<String, List<Asset>>? assetsForLinkingOld,
     required List<Asset>? assetsForBuild,
     required Map<String, List<Asset>>? assetsForLinking,
     required JsonObject? metadata,
   }) {
-    this.assetsForLinkingOld = assetsForLinkingOld;
     this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
     this.metadata = metadata;
     json.sortOnKey();
-  }
-
-  Map<String, List<Asset>>? get assetsForLinkingOld {
-    final jsonValue = _reader.optionalMap('assetsForLinking');
-    if (jsonValue == null) {
-      return null;
-    }
-    final result = <String, List<Asset>>{};
-    for (final MapEntry(:key, :value) in jsonValue.entries) {
-      result[key] = [
-        for (final (index, item) in (value as List<Object?>).indexed)
-          Asset.fromJson(
-            item as Map<String, Object?>,
-            path: [...path, key, index],
-          ),
-      ];
-    }
-    return result;
-  }
-
-  set assetsForLinkingOld(Map<String, List<Asset>>? value) {
-    if (value == null) {
-      json.remove('assetsForLinking');
-    } else {
-      json['assetsForLinking'] = {
-        for (final MapEntry(:key, :value) in value.entries)
-          key: [for (final item in value) item.json],
-      };
-    }
-    json.sortOnKey();
-  }
-
-  List<String> _validateAssetsForLinkingOld() {
-    final mapErrors = _reader.validateOptionalMap('assetsForLinking');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    final jsonValue = _reader.optionalMap('assetsForLinking');
-    if (jsonValue == null) {
-      return [];
-    }
-    final result = <String>[];
-    for (final list in assetsForLinkingOld!.values) {
-      for (final element in list) {
-        result.addAll(element.validate());
-      }
-    }
-    return result;
   }
 
   List<Asset>? get assetsForBuild {
@@ -413,7 +361,6 @@ class BuildOutput extends HookOutput {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAssetsForLinkingOld(),
     ..._validateAssetsForBuild(),
     ..._validateAssetsForLinking(),
     ..._validateMetadata(),
