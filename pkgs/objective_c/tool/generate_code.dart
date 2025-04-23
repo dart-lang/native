@@ -17,7 +17,6 @@ const objcConfig = 'ffigen_objc.yaml';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
 const extraMethodsFile = 'tool/data/extra_methods.dart.in';
-const extraClassesFile = 'tool/data/extra_classes.dart.in';
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;
