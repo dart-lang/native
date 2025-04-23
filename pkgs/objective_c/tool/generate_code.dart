@@ -116,7 +116,22 @@ void mergeExtraMethods(
   File(filename).writeAsStringSync(out.toString());
 }
 
-Future<void> run(List<String> args) async {
+Future<void> run({required bool format}) async {
+  print('Generating C bindings...');
+  await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
+
+  print('Generating ObjC bindings...');
+  await ffigen.main(['--no-format', '-v', 'severe', '--config', objcConfig]);
+  mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
+
+  if (format) {
+    print('Formatting bindings...');
+    dartCmd(['format', cBindings, objcBindings]);
+  }
+}
+
+Future<void> main(List<String> args) async {
+  Directory.current = Platform.script.resolve('..').path;
   final argResults = (ArgParser()
         ..addFlag(
           'format',
@@ -125,21 +140,5 @@ Future<void> run(List<String> args) async {
           negatable: true,
         ))
       .parse(args);
-
-  print('Generating C bindings...');
-  await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
-
-  print('Generating ObjC bindings...');
-  await ffigen.main(['--no-format', '-v', 'severe', '--config', objcConfig]);
-  mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
-
-  if (argResults.flag('format')) {
-    print('Formatting bindings...');
-    dartCmd(['format', cBindings, objcBindings]);
-  }
-}
-
-Future<void> main(List<String> args) async {
-  Directory.current = Platform.script.resolve('..').path;
-  await run(args);
+  await run(format: argResults.flag('format'));
 }
