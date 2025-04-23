@@ -92,11 +92,8 @@ void mergeExtraMethods(
     if (cls == null || extra == null) {
       out.writeln(line);
     } else {
-      out.writeln(classDecl(
-          cls.name,
-          extra.cls.ext ?? cls.ext,
-          [...cls.mix, ...extra.cls.mix],
-          [...cls.impl, ...extra.cls.impl]));
+      out.writeln(classDecl(cls.name, extra.cls.ext ?? cls.ext,
+          [...cls.mix, ...extra.cls.mix], [...cls.impl, ...extra.cls.impl]));
       out.writeln(extra.methods);
       extraMethods.remove(cls.name);
     }
