@@ -76,13 +76,6 @@
         },
         "config": {
           "$ref": "#/definitions/BuildConfig"
-        },
-        "dependency_metadata": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "additionalProperties": true
-          }
         }
       },
       "allOf": [
@@ -108,10 +101,6 @@
               "$ref": "#/definitions/Asset"
             }
           }
-        },
-        "metadata": {
-          "type": "object",
-          "additionalProperties": true
         }
       },
       "allOf": [

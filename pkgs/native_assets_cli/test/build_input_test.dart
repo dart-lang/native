@@ -18,7 +18,6 @@ void main() async {
   late Uri outputDirectoryShared;
   late String packageName;
   late Uri packageRootUri;
-  late Map<String, Metadata> metadata;
   late Map<String, List<EncodedAsset>> assets;
   late Map<String, Object?> inputJson;
 
@@ -29,13 +28,6 @@ void main() async {
     outputDirectoryShared = tempUri.resolve('out_shared1/');
     packageName = 'my_package';
     packageRootUri = tempUri.resolve('$packageName/');
-    metadata = {
-      'bar': Metadata({
-        'key': 'value',
-        'foo': ['asdf', 'fdsa'],
-      }),
-      'foo': Metadata({'key': 321}),
-    };
     assets = {
       'my_package': [
         for (int i = 0; i < 3; i++)
@@ -64,13 +56,6 @@ void main() async {
         'build_asset_types': ['my-asset-type'],
         'linking_enabled': false,
       },
-      'dependency_metadata': {
-        'bar': {
-          'key': 'value',
-          'foo': ['asdf', 'fdsa'],
-        },
-        'foo': {'key': 321},
-      },
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
@@ -88,7 +73,7 @@ void main() async {
       )
       ..config.addBuildAssetTypes(['my-asset-type'])
       ..config.setupBuild(linkingEnabled: false)
-      ..setupBuildInput(metadata: metadata, assets: assets);
+      ..setupBuildInput(assets: assets);
     final input = BuildInput(inputBuilder.json);
 
     expect(input.json, inputJson);
@@ -105,7 +90,6 @@ void main() async {
     expect(input.config.buildAssetTypes, ['my-asset-type']);
 
     expect(input.config.linkingEnabled, false);
-    expect(input.metadataOld, metadata);
     expect(input.assets.encodedAssets, assets);
   });
 
@@ -117,26 +101,6 @@ void main() async {
         expect(() => BuildInput(input), isNot(throwsException));
       });
     }
-
-    test('BuildInput FormatException dependency_metadata', () {
-      final input = inputJson;
-      input['dependency_metadata'] = {
-        'bar': {'key': 'value'},
-        'foo': <int>[],
-      };
-      expect(
-        () => BuildInput(input),
-        throwsA(
-          predicate(
-            (e) =>
-                e is FormatException &&
-                e.message.contains('Unexpected value') &&
-                e.message.contains('dependency_metadata.foo') &&
-                e.message.contains('Expected a Map<String, Object?>'),
-          ),
-        ),
-      );
-    });
 
     test('BuildInput FormatException config.build_asset_types', () {
       final input = inputJson;

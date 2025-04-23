@@ -128,7 +128,6 @@ class BuildInput extends HookInput {
   BuildInput({
     required Map<String, List<Asset>>? assets,
     required BuildConfig config,
-    required Map<String, Map<String, Object?>>? dependencyMetadata,
     required super.outDirShared,
     required super.outFile,
     required super.packageName,
@@ -136,18 +135,13 @@ class BuildInput extends HookInput {
     required super.userDefines,
   }) : super(config: config) {
     _assets = assets;
-    _dependencyMetadata = dependencyMetadata;
     json.sortOnKey();
   }
 
   /// Setup all fields for [BuildInput] that are not in
   /// [HookInput].
-  void setup({
-    required Map<String, List<Asset>>? assets,
-    required Map<String, Map<String, Object?>>? dependencyMetadata,
-  }) {
+  void setup({required Map<String, List<Asset>>? assets}) {
     _assets = assets;
-    _dependencyMetadata = dependencyMetadata;
     json.sortOnKey();
   }
 
@@ -204,22 +198,11 @@ class BuildInput extends HookInput {
     return BuildConfig.fromJson(jsonValue, path: [...path, 'config']);
   }
 
-  Map<String, Map<String, Object?>>? get dependencyMetadata =>
-      _reader.optionalMap<Map<String, Object?>>('dependency_metadata');
-
-  set _dependencyMetadata(Map<String, Map<String, Object?>>? value) {
-    json.setOrRemove('dependency_metadata', value);
-  }
-
-  List<String> _validateDependencyMetadata() =>
-      _reader.validateOptionalMap<Map<String, Object?>>('dependency_metadata');
-
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssets(),
     ..._validateConfig(),
-    ..._validateDependencyMetadata(),
   ];
 
   @override
@@ -234,12 +217,10 @@ class BuildOutput extends HookOutput {
     required List<Asset>? assetsForBuild,
     required Map<String, List<Asset>>? assetsForLinking,
     required super.dependencies,
-    required JsonObject? metadata,
     required super.timestamp,
   }) : super() {
     this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
-    this.metadata = metadata;
     json.sortOnKey();
   }
 
@@ -248,11 +229,9 @@ class BuildOutput extends HookOutput {
   void setup({
     required List<Asset>? assetsForBuild,
     required Map<String, List<Asset>>? assetsForLinking,
-    required JsonObject? metadata,
   }) {
     this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
-    this.metadata = metadata;
     json.sortOnKey();
   }
 
@@ -339,31 +318,11 @@ class BuildOutput extends HookOutput {
     return result;
   }
 
-  JsonObject? get metadata {
-    final jsonValue = _reader.optionalMap('metadata');
-    if (jsonValue == null) return null;
-    return JsonObject.fromJson(jsonValue, path: [...path, 'metadata']);
-  }
-
-  set metadata(JsonObject? value) {
-    json.setOrRemove('metadata', value?.json);
-    json.sortOnKey();
-  }
-
-  List<String> _validateMetadata() {
-    final mapErrors = _reader.validate<Map<String, Object?>?>('metadata');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return metadata?.validate() ?? [];
-  }
-
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssetsForBuild(),
     ..._validateAssetsForLinking(),
-    ..._validateMetadata(),
   ];
 
   @override
