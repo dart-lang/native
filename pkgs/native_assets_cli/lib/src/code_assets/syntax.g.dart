@@ -685,10 +685,6 @@ class LinkModePreference {
 
   static const dynamic = LinkModePreference._('dynamic');
 
-  static const preferDynamicOld = LinkModePreference._('prefer-dynamic');
-
-  static const preferStaticOld = LinkModePreference._('prefer-static');
-
   static const preferDynamic = LinkModePreference._('prefer_dynamic');
 
   static const preferStatic = LinkModePreference._('prefer_static');
@@ -697,8 +693,6 @@ class LinkModePreference {
 
   static const List<LinkModePreference> values = [
     dynamic,
-    preferDynamicOld,
-    preferStaticOld,
     preferDynamic,
     preferStatic,
     static,

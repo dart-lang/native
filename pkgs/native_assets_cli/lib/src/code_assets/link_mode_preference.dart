@@ -60,10 +60,7 @@ extension LinkModePreferenceSyntax on LinkModePreference {
   static const _fromSyntax = {
     syntax.LinkModePreference.dynamic: LinkModePreference.dynamic,
     syntax.LinkModePreference.preferDynamic: LinkModePreference.preferDynamic,
-    syntax.LinkModePreference.preferDynamicOld:
-        LinkModePreference.preferDynamic,
     syntax.LinkModePreference.preferStatic: LinkModePreference.preferStatic,
-    syntax.LinkModePreference.preferStaticOld: LinkModePreference.preferStatic,
     syntax.LinkModePreference.static: LinkModePreference.static,
   };
 

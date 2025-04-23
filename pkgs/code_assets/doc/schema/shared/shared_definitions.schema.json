@@ -288,8 +288,6 @@
         {
           "enum": [
             "dynamic",
-            "prefer-dynamic",
-            "prefer-static",
             "prefer_dynamic",
             "prefer_static",
             "static"
