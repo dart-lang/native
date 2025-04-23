@@ -32,8 +32,6 @@ void main(List<String> args) async {
                 ? ToLinkHook(packageName)
                 : const ToAppBundle(),
       );
-      // TODO(https://github.com/dart-lang/native/issues/1208): Report
-      // dependency on asset.
       output.addDependency(dataAsset.uri);
     }
   });

@@ -62,6 +62,8 @@ workspace:
 # Hook user-defines are specified in the pub workspace.
 hooks:
   user_defines:
+    download_asset:
+      local_build: false
     user_defines: # package name
       user_define_key: user_define_value
       user_define_key2:

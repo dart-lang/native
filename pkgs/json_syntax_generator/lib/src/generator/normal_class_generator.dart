@@ -210,8 +210,6 @@ static const ${tagProperty}Value = '$tagValue';
       final superClassProperty = superclass?.getProperty(property.name);
       if (superClassProperty != null) {
         // This property will be already set in the super constructor.
-        // TODO: The parameter in the constructor currently has the super class
-        // property type.
         continue;
       }
       if (property.setterPrivate) {
