@@ -29,6 +29,11 @@
   "package_name": "my_package",
   "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
   "user_defines": {
-    "some_key": "some_value"
+    "workspace_pubspec": {
+      "base_path": "/Users/dacoharkes/src/dacoharkes/playground/my_package/pubspec.yaml",
+      "defines": {
+        "some_key": "some_value"
+      }
+    }
   }
 }

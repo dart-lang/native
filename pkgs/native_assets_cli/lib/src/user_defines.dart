@@ -23,12 +23,7 @@ extension PackageUserDefinesSyntax on PackageUserDefines {
   static PackageUserDefines fromSyntax(syntax.UserDefines syntaxNode) =>
       PackageUserDefines(
         workspacePubspec: switch (syntaxNode.workspacePubspec) {
-          null => PackageUserDefinesSource(
-            // Fallback behavior for old SDKs: read object as user-defines.
-            defines: syntaxNode.json,
-            // No known base path.
-            basePath: Uri.directory('/unknown/'),
-          ),
+          null => null,
           final o => PackageUserDefinesSourceSyntax.fromSyntax(o),
         },
       );
@@ -37,10 +32,7 @@ extension PackageUserDefinesSyntax on PackageUserDefines {
     final result = syntax.UserDefines(
       workspacePubspec: workspacePubspec?.toSyntax(),
     );
-    // Fallback behavior for old hooks: write user-defines here.
-    if (workspacePubspec != null) {
-      result.json.addAll(workspacePubspec!.defines);
-    }
+
     return result;
   }
 }
