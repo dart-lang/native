@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// Runs the ffigen configs, then merges tool/data/extra_methods.dart.in and
-// tool/data/extra_methods.dart.in into the Objective C bindings.
+// Runs the ffigen configs, then merges tool/data/extra_methods.dart.in into the
+// Objective C bindings.
 
 // ignore_for_file: avoid_print
 
