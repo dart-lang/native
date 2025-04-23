@@ -119,20 +119,10 @@ class NativeAssetsBuildRunner {
     if (buildPlan == null) return null;
 
     /// Key is packageName.
-    final globalMetadata = <String, Metadata>{};
-
-    /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
     for (final package in buildPlan) {
-      final metadata =
-          _metadataForPackage(
-            packageGraph: packageGraph!,
-            packageName: package.name,
-            targetMetadata: globalMetadata,
-          ) ??
-          {};
       final assetsForBuild = _assetsForBuildForPackage(
-        packageGraph: packageGraph,
+        packageGraph: packageGraph!,
         packageName: package.name,
         globalAssetsForBuild: globalAssetsForBuild,
       );
@@ -143,7 +133,7 @@ class NativeAssetsBuildRunner {
         e.setupBuildInput(inputBuilder);
       }
       inputBuilder.config.setupBuild(linkingEnabled: linkingEnabled);
-      inputBuilder.setupBuildInput(metadata: metadata, assets: assetsForBuild);
+      inputBuilder.setupBuildInput(assets: assetsForBuild);
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
         Hook.build,
@@ -188,9 +178,8 @@ class NativeAssetsBuildRunner {
       if (result == null) return null;
       final (hookOutput, hookDeps) = result;
       hookResult = hookResult.copyAdd(hookOutput, hookDeps);
-      globalMetadata[package.name] = (hookOutput as BuildOutput).metadata;
       globalAssetsForBuild[package.name] =
-          hookOutput.assets.encodedAssetsForBuild;
+          (hookOutput as BuildOutput).assets.encodedAssetsForBuild;
     }
 
     // We only perform application wide validation in the final result of
@@ -760,21 +749,6 @@ ${compileResult.stdout}
       }
     }
     return success;
-  }
-
-  DependencyMetadata? _metadataForPackage({
-    required PackageGraph packageGraph,
-    required String packageName,
-    DependencyMetadata? targetMetadata,
-  }) {
-    if (targetMetadata == null) {
-      return null;
-    }
-    final dependencies = packageGraph.neighborsOf(packageName).toSet();
-    return {
-      for (final entry in targetMetadata.entries)
-        if (dependencies.contains(entry.key)) entry.key: entry.value,
-    };
   }
 
   /// Returns only the assets output as assetForBuild by the packages that are

@@ -9,14 +9,12 @@ import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:pub_semver/pub_semver.dart';
 
-import 'api/deprecation_messages.dart';
 import 'encoded_asset.dart';
 import 'extension.dart';
 import 'hooks/syntax.g.dart' as syntax;
 import 'metadata.dart';
 import 'user_defines.dart';
 import 'utils/datetime.dart';
-import 'utils/json.dart';
 
 /// The shared properties of a [LinkInput] and a [BuildInput].
 ///
@@ -193,27 +191,12 @@ String _jsonChecksum(Map<String, Object?> json) {
 }
 
 final class BuildInput extends HookInput {
-  @Deprecated('Use metadata backed by MetadataAsset instead.')
-  Map<String, Metadata> get metadataOld => {
-    for (final entry in (_syntaxBuildInput.dependencyMetadata ?? {}).entries)
-      entry.key: Metadata(entry.value),
-  };
-
   @override
   Uri get outputFile => _syntax.outFile;
 
   final syntax.BuildInput _syntaxBuildInput;
 
-  BuildInput(super.json)
-    : _syntaxBuildInput = syntax.BuildInput.fromJson(json) {
-    // Run validation.
-    // ignore: deprecated_member_use_from_same_package
-    metadataOld;
-  }
-
-  @Deprecated('Use metadata backed by MetadataAsset instead.')
-  Object? metadatum(String packageName, String key) =>
-      metadataOld[packageName]?.metadata[key];
+  BuildInput(super.json) : _syntaxBuildInput = syntax.BuildInput.fromJson(json);
 
   @override
   BuildConfig get config => BuildConfig._(this);
@@ -257,17 +240,8 @@ final class BuildInputBuilder extends HookInputBuilder {
   syntax.BuildInput get _syntax =>
       syntax.BuildInput.fromJson(super._syntax.json);
 
-  void setupBuildInput({
-    Map<String, Metadata> metadata = const {},
-    Map<String, List<EncodedAsset>>? assets,
-  }) {
-    if (metadata.isEmpty) {
-      return;
-    }
+  void setupBuildInput({Map<String, List<EncodedAsset>>? assets}) {
     _syntax.setup(
-      dependencyMetadata: {
-        for (final key in metadata.keys) key: metadata[key]!.toJson(),
-      },
       assets: assets == null
           ? null
           : {
@@ -448,9 +422,6 @@ class BuildOutput extends HookOutput {
   List<EncodedAsset> get _encodedAssetsForBuild =>
       _parseAssets(_syntax.assetsForBuild ?? []);
 
-  /// Metadata passed to dependent build hook invocations.
-  Metadata get metadata => Metadata(_syntax.metadata?.json ?? {});
-
   @override
   final syntax.BuildOutput _syntax;
 
@@ -493,26 +464,6 @@ extension type BuildOutputAssets._(BuildOutput _output) {
 /// }
 /// ```
 class BuildOutputBuilder extends HookOutputBuilder {
-  /// Adds metadata to be passed to build hook invocations of dependent
-  /// packages.
-  @Deprecated(metadataDeprecation)
-  void addMetadatum(String key, Object value) {
-    final metadata = _syntax.metadata?.json ?? {};
-    metadata[key] = value;
-    metadata.sortOnKey();
-    _syntax.metadata = syntax.JsonObject.fromJson(metadata);
-  }
-
-  /// Adds metadata to be passed to build hook invocations of dependent
-  /// packages.
-  @Deprecated(metadataDeprecation)
-  void addMetadata(Map<String, Object> metadata) {
-    final value = _syntax.metadata?.json ?? {};
-    value.addAll(metadata);
-    value.sortOnKey();
-    _syntax.metadata = syntax.JsonObject.fromJson(value);
-  }
-
   MetadataOutputBuilder get metadata => MetadataOutputBuilder._(this);
 
   EncodedAssetBuildOutputBuilder get assets =>

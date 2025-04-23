@@ -298,8 +298,6 @@ FieldsReturn _hookFields({
     (['config', 'build_asset_types'], expectRequiredFieldMissing),
     if (hook == Hook.build) ...[
       (['config', 'linking_enabled'], expectRequiredFieldMissing),
-      (['dependency_metadata'], expectOptionalFieldMissing),
-      (['dependency_metadata', 'some_package'], expectOptionalFieldMissing),
     ],
     if (hook == Hook.link) ...[
       (['assets'], expectOptionalFieldMissing),
@@ -313,7 +311,6 @@ FieldsReturn _hookFields({
     (['dependencies'], expectOptionalFieldMissing),
     (['dependencies', 0], expectOptionalFieldMissing),
     if (hook == Hook.build) ...[
-      (['metadata'], expectOptionalFieldMissing),
       for (final path in [
         ['assets_for_build'],
         ['assets_for_linking', 'package_with_linker'],

@@ -15,16 +15,12 @@ void main() {
         EncodedAsset('my-asset-type', {'a-$i': 'v-$i'}),
     ];
     final uris = [for (int i = 0; i < 3; ++i) Uri.file('path$i')];
-    final metadata0 = {'meta-a': 'meta-b'};
-    final metadata1 = {for (int i = 0; i < 2; ++i) 'meta$i': 'meta$i-value'};
     final before = DateTime.now().roundDownToSeconds();
     final builder = BuildOutputBuilder();
     final after = DateTime.now().roundDownToSeconds();
 
     builder.addDependency(uris.first);
     builder.addDependencies(uris.skip(1).toList());
-    builder.addMetadatum(metadata0.keys.single, metadata0.values.single);
-    builder.addMetadata(metadata1);
 
     builder.assets.addEncodedAsset(assets.first);
     builder.assets.addEncodedAsset(
@@ -56,11 +52,6 @@ void main() {
     // The JSON format of the build output.
     final expectedJson = <String, Object?>{
       'dependencies': ['path0', 'path1', 'path2'],
-      'metadata': {
-        'meta-a': 'meta-b',
-        'meta0': 'meta0-value',
-        'meta1': 'meta1-value',
-      },
       'assets': [
         {
           'encoding': {'a-0': 'v-0'},

@@ -11,12 +11,5 @@ void main(List<String> args) async {
     final someInt = input.metadata['package_with_metadata']['some_int'];
     assert(someInt != null);
     print({'some_int': someInt, 'some_key': someValue});
-
-    // ignore: deprecated_member_use
-    final someValueOld = input.metadatum('package_with_metadata', 'some_key');
-    assert(someValueOld != null);
-    // ignore: deprecated_member_use
-    final someIntOld = input.metadatum('package_with_metadata', 'some_int');
-    assert(someIntOld != null);
   });
 }
