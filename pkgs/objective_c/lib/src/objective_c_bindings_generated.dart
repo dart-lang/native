@@ -2022,7 +2022,38 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
 
 /// NSDictionary
 class NSDictionary extends NSObject
+    with MapBase<NSCopying, objc.ObjCObjectBase>
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
+  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+      NSMutableDictionary.of(other);
+
+  @override
+  int get length => count;
+
+  @override
+  objc.ObjCObjectBase? operator [](Object? key) =>
+      key is NSCopying ? objectForKey_(key) : null;
+
+  @override
+  Iterable<NSCopying> get keys => _NSDictionaryKeyIterable(this);
+
+  @override
+  Iterable<objc.ObjCObjectBase> get values => _NSDictionaryValueIterable(this);
+
+  @override
+  bool containsKey(Object? key) => this[key] != null;
+
+  @override
+  void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
+      throw UnsupportedError("Cannot modify NSDictionary");
+
+  @override
+  void clear() => throw UnsupportedError("Cannot modify NSDictionary");
+
+  @override
+  objc.ObjCObjectBase? remove(Object? key) =>
+      throw UnsupportedError("Cannot modify NSDictionary");
+
   NSDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -2228,7 +2259,20 @@ enum NSEnumerationOptions {
 }
 
 /// NSEnumerator
-class NSEnumerator extends NSObject implements NSFastEnumeration {
+class NSEnumerator extends NSObject
+    implements NSFastEnumeration, Iterator<objc.ObjCObjectBase> {
+  objc.ObjCObjectBase? _current;
+
+  @override
+  objc.ObjCObjectBase get current => _current!;
+
+  @override
+  @pragma('vm:prefer-inline')
+  bool moveNext() {
+    _current = nextObject();
+    return _current != null;
+  }
+
   NSEnumerator._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -4694,7 +4738,7 @@ class NSMethodSignature extends NSObject {
 }
 
 /// NSMutableArray
-class NSMutableArray extends NSArray with ListMixin<objc.ObjCObjectBase> {
+class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///
@@ -4710,11 +4754,22 @@ class NSMutableArray extends NSArray with ListMixin<objc.ObjCObjectBase> {
       arrayWithCapacity_(elements.length)..addAll(elements);
 
   @override
+  int get length => count;
+
+  @override
   set length(int newLength) {
     var len = length;
     RangeError.checkValueInInterval(newLength, 0, len);
     for (; len > newLength; --len) removeLastObject();
   }
+
+  @override
+  objc.ObjCObjectBase elementAt(int index) => objectAtIndex_(index);
+
+  @override
+  Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
+
+  objc.ObjCObjectBase operator [](int index) => objectAtIndex_(index);
 
   @override
   void operator []=(int index, objc.ObjCObjectBase value) =>
@@ -5338,7 +5393,42 @@ class NSMutableData extends NSData {
 }
 
 /// NSMutableDictionary
-class NSMutableDictionary extends NSDictionary {
+class NSMutableDictionary extends NSDictionary
+    with MapBase<NSCopying, objc.ObjCObjectBase> {
+  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+      NSMutableDictionary.new$()..addAll(other);
+
+  @override
+  int get length => count;
+
+  @override
+  void clear() => removeAllObjects();
+
+  @override
+  objc.ObjCObjectBase? remove(Object? key) {
+    if (key is! NSCopying) return null;
+    final old = this[key];
+    removeObjectForKey_(key);
+    return old;
+  }
+
+  @override
+  objc.ObjCObjectBase? operator [](Object? key) =>
+      key is NSCopying ? objectForKey_(key) : null;
+
+  @override
+  void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
+      setObject_forKey_(value, NSCopying.castFrom(key));
+
+  @override
+  Iterable<NSCopying> get keys => _NSDictionaryKeyIterable(this);
+
+  @override
+  Iterable<objc.ObjCObjectBase> get values => _NSDictionaryValueIterable(this);
+
+  @override
+  bool containsKey(Object? key) => this[key] != null;
+
   NSMutableDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -18499,4 +18589,44 @@ class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
     _index++;
     return true;
   }
+}
+
+class _NSDictionaryKeyIterable with Iterable<NSCopying> {
+  NSDictionary _dictionary;
+
+  _NSDictionaryKeyIterable(this._dictionary);
+
+  @override
+  int get length => _dictionary.length;
+
+  @override
+  Iterator<NSCopying> get iterator =>
+      _NSDictionaryKeyIterator(_dictionary.keyEnumerator());
+
+  @override
+  bool contains(Object? key) => _dictionary.containsKey(key);
+}
+
+class _NSDictionaryValueIterable with Iterable<objc.ObjCObjectBase> {
+  NSDictionary _dictionary;
+
+  _NSDictionaryValueIterable(this._dictionary);
+
+  @override
+  int get length => _dictionary.length;
+
+  @override
+  Iterator<objc.ObjCObjectBase> get iterator => _dictionary.objectEnumerator();
+}
+
+class _NSDictionaryKeyIterator implements Iterator<NSCopying> {
+  final Iterator<objc.ObjCObjectBase> _iterator;
+  _NSDictionaryKeyIterator(this._iterator);
+
+  @override
+  NSCopying get current => NSCopying.castFrom(_iterator.current);
+
+  @override
+  @pragma('vm:prefer-inline')
+  bool moveNext() => _iterator.moveNext();
 }
