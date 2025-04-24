@@ -5,11 +5,6 @@
 /// Code asset support for hook authors.
 library;
 
-export 'native_assets_cli.dart'
-    hide
-        EncodedAsset,
-        EncodedAssetBuildOutputBuilder,
-        EncodedAssetLinkOutputBuilder;
 export 'src/code_assets/architecture.dart' show Architecture;
 export 'src/code_assets/c_compiler_config.dart'
     show CCompilerConfig, DeveloperCommandPrompt, WindowsCCompilerConfig;

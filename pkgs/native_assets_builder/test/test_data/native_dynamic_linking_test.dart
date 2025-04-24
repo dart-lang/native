@@ -8,6 +8,10 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:test/test.dart';
 
 import '../build_runner/helpers.dart';

@@ -7,7 +7,10 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:download_asset/src/hook_helpers/c_build.dart';
 import 'package:download_asset/src/hook_helpers/target_versions.dart';
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 
 void main(List<String> args) async {
   final (os: os, architecture: architecture, iOSSdk: iOSSdk) = parseArguments(

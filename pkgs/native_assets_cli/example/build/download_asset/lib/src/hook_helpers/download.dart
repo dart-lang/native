@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 import 'c_build.dart';
 import 'version.dart';

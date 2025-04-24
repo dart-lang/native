@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_builder/native_assets_builder.dart';
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
+import 'package:native_assets_cli/data_assets.dart';
 import 'package:test/test.dart';
 
 import '../build_runner/helpers.dart';

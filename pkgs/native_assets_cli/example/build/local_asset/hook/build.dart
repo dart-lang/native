@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 const assetName = 'asset.txt';
 final packageAssetPath = Uri.file('assets/$assetName');

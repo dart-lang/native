@@ -8,10 +8,9 @@ import 'dart:io';
 
 import 'package:yaml/yaml.dart';
 
+import 'native_assets_cli.dart';
 import 'native_assets_cli_builder.dart';
 import 'src/validation.dart';
-
-export 'native_assets_cli_builder.dart';
 
 /// Validate a build hook; this will throw an exception on validation errors.
 ///
