@@ -4,6 +4,9 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/data_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart' hide build, link;
 import 'package:test/test.dart';
 
 import '../helpers.dart';

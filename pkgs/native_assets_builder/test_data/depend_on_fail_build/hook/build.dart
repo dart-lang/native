@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:fail_build/fail_build.dart';
-import 'package:native_assets_cli/data_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (input, output) async {

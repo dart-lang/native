@@ -5,9 +5,6 @@
 /// Code asset support for hook invokers (e.g. building / bundling tools).
 library;
 
-export 'code_assets.dart' hide build, link;
-export 'native_assets_cli_builder.dart'
-    hide EncodedAssetBuildOutputBuilder, EncodedAssetLinkOutputBuilder;
 export 'src/code_assets/config.dart'
     show CodeAssetBuildInputBuilder, CodeAssetBuildOutput, CodeAssetLinkOutput;
 export 'src/code_assets/extension.dart';

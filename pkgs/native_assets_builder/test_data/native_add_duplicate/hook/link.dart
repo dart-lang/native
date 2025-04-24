@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {
   await link(args, (input, output) async {

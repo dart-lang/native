@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

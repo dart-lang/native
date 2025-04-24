@@ -6,6 +6,10 @@
 library;
 
 import 'package:collection/collection.dart';
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';

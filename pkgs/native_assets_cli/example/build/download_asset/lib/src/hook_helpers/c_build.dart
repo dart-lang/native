@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 Future<void> runBuild(BuildInput input, BuildOutputBuilder output) async {

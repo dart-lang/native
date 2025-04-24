@@ -1,6 +1,7 @@
 ## 0.18.0-wip
 
-- Nothing yet.
+- **Breaking change** Reorganized the libraries structure. Classes are no longer
+  exported multiple times.
 
 ## 0.17.0
 

@@ -9,6 +9,7 @@ import 'dart:io' show Platform;
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart';

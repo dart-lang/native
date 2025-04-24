@@ -4,7 +4,10 @@
 
 import 'dart:async';
 
+import '../../code_assets.dart';
 import '../../code_assets_builder.dart';
+import '../../native_assets_cli.dart';
+import '../../native_assets_cli_builder.dart';
 import '../../test.dart';
 import '../validation.dart';
 

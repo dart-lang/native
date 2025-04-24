@@ -5,11 +5,6 @@
 /// Data asset support for hook authors.
 library;
 
-export 'native_assets_cli.dart'
-    hide
-        EncodedAsset,
-        EncodedAssetBuildOutputBuilder,
-        EncodedAssetLinkOutputBuilder;
 export 'src/data_assets/config.dart'
     show
         AddDataAssetsDirectory,
