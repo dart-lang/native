@@ -1,6 +1,8 @@
 ## 7.2.0-wip
 
 - NSArray is now a Dart Iterable and NSMutableArray is now a Dart List.
+- NSDictionary and NSMutableDictionary are now Dart Maps.
+- NSSet and NSMutableSet are now Dart Sets.
 
 ## 7.1.0
 
