@@ -2024,6 +2024,7 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
 class NSDictionary extends NSObject
     with MapBase<NSCopying, objc.ObjCObjectBase>
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
+  /// Creates a [NSDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.of(other);
 
@@ -5395,8 +5396,9 @@ class NSMutableData extends NSData {
 /// NSMutableDictionary
 class NSMutableDictionary extends NSDictionary
     with MapBase<NSCopying, objc.ObjCObjectBase> {
+  /// Creates a [NSMutableDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
-      NSMutableDictionary.new$()..addAll(other);
+      NSMutableDictionary.dictionaryWithCapacity_(other.length)..addAll(other);
 
   @override
   int get length => count;
@@ -6173,7 +6175,46 @@ class NSMutableOrderedSet extends NSOrderedSet {
 }
 
 /// NSMutableSet
-class NSMutableSet extends NSSet {
+class NSMutableSet extends NSSet with SetBase<objc.ObjCObjectBase> {
+  /// Creates a [NSMutableSet] from [elements].
+  static NSMutableSet of(Iterable<objc.ObjCObjectBase> elements) =>
+      setWithCapacity_(elements.length)..addAll(elements);
+
+  @override
+  int get length => count;
+
+  @override
+  bool contains(Object? element) =>
+      element is objc.ObjCObjectBase ? containsObject_(element) : false;
+
+  @override
+  objc.ObjCObjectBase? lookup(Object? element) =>
+      element is objc.ObjCObjectBase ? member_(element) : null;
+
+  @override
+  Iterator<objc.ObjCObjectBase> get iterator => objectEnumerator();
+
+  @override
+  Set<objc.ObjCObjectBase> toSet() => {...this};
+
+  @override
+  bool add(objc.ObjCObjectBase value) {
+    final alreadyContains = contains(value);
+    addObject_(value);
+    return !alreadyContains;
+  }
+
+  @override
+  bool remove(Object? value) {
+    if (value is! objc.ObjCObjectBase) return false;
+    final alreadyContains = contains(value);
+    removeObject_(value);
+    return alreadyContains;
+  }
+
+  @override
+  void clear() => removeAllObjects();
+
   NSMutableSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
@@ -9471,7 +9512,39 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
 
 /// NSSet
 class NSSet extends NSObject
+    with SetBase<objc.ObjCObjectBase>
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
+  /// Creates a [NSSet] from [elements].
+  static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
+      NSMutableSet.of(elements);
+
+  @override
+  int get length => count;
+
+  @override
+  bool contains(Object? element) =>
+      element is objc.ObjCObjectBase ? containsObject_(element) : false;
+
+  @override
+  objc.ObjCObjectBase? lookup(Object? element) =>
+      element is objc.ObjCObjectBase ? member_(element) : null;
+
+  @override
+  Iterator<objc.ObjCObjectBase> get iterator => objectEnumerator();
+
+  @override
+  Set<objc.ObjCObjectBase> toSet() => {...this};
+
+  @override
+  bool add(objc.ObjCObjectBase value) =>
+      throw UnsupportedError("Cannot modify NSSet");
+
+  @override
+  bool remove(Object? value) => throw UnsupportedError("Cannot modify NSSet");
+
+  @override
+  void clear() => throw UnsupportedError("Cannot modify NSSet");
+
   NSSet._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
       : super.castFromPointer(pointer, retain: retain, release: release);
