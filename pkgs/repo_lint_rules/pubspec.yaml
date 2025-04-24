@@ -2,6 +2,8 @@ name: repo_lint_rules
 description: Custom lints for this repository
 version: 0.1.0-wip
 
+publish_to: none
+
 resolution: workspace
 
 environment:
