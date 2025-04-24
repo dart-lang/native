@@ -175,6 +175,8 @@ void run({required TestRunnerCallback testRunner}) {
       });
     });
     expect(randomInt, lessThan(15));
+    final JObject? nullableJObject = null;
+    expect(nullableJObject.use(() => 'foo'),equals('foo));
   });
 
   // The JObject and JClass have NativeFinalizer. However, it's possible to
