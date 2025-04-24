@@ -5,7 +5,7 @@
 import 'package:file/file.dart';
 import 'package:package_config/package_config.dart';
 
-import '../../native_assets_builder.dart';
+import '../build_runner/build_runner.dart';
 
 /// Directory layout for dealing with native assets.
 ///

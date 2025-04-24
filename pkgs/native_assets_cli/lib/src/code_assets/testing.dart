@@ -4,12 +4,16 @@
 
 import 'dart:async';
 
-import '../../code_assets.dart';
-import '../../code_assets_builder.dart';
-import '../../native_assets_cli.dart';
-import '../../native_assets_cli_builder.dart';
-import '../../test.dart';
+import '../config.dart';
+import '../test.dart';
 import '../validation.dart';
+import 'architecture.dart';
+import 'c_compiler_config.dart';
+import 'config.dart';
+import 'extension.dart';
+import 'ios_sdk.dart';
+import 'link_mode_preference.dart';
+import 'os.dart';
 
 /// Validate a code build hook; this will throw an exception on validation
 /// errors.

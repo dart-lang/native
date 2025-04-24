@@ -1,0 +1,14 @@
+name: repo_lint_rules
+description: Custom lints for this repository
+version: 0.1.0-wip
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  analyzer: ^7.3.0
+  custom_lint_builder: ^0.7.5
+  lints: ^5.1.1
+  path: ^1.9.1

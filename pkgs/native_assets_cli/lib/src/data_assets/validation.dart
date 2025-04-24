@@ -4,9 +4,10 @@
 
 import 'dart:io';
 
-import '../../data_assets.dart';
-import '../../native_assets_cli.dart';
-import '../../native_assets_cli_builder.dart';
+import '../config.dart';
+import '../encoded_asset.dart';
+import '../extension.dart';
+import 'data_asset.dart';
 import 'syntax.g.dart' as syntax;
 
 Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>

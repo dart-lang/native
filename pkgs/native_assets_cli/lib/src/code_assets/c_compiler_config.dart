@@ -4,7 +4,8 @@
 
 import 'package:collection/collection.dart';
 
-import '../../code_assets.dart';
+import 'config.dart';
+import 'os.dart';
 import 'syntax.g.dart' as syntax;
 
 /// The configuration for a C toolchain.
