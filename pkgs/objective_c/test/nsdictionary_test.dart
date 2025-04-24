@@ -70,7 +70,7 @@ void main() {
       }));
 
       expect(() => dict[obj3] = obj1, throwsUnsupportedError);
-      expect(() => dict.clear(), throwsUnsupportedError);
+      expect(dict.clear, throwsUnsupportedError);
       expect(() => dict.remove(obj1), throwsUnsupportedError);
     });
 

@@ -31,12 +31,12 @@ void main() {
 
       expect(s.contains(obj3), isTrue);
       expect(s.contains(NSObject()), isFalse);
-      expect(s.contains(123), isFalse);
+      expect((s as Set).contains(123), isFalse);
       expect(s.contains(null), isFalse);
 
       expect(s.lookup(obj3), obj3);
       expect(s.lookup(NSObject()), null);
-      expect(s.lookup(123), null);
+      expect((s as Set).lookup(123), null);
       expect(s.lookup(null), null);
 
       final actual = <ObjCObjectBase>[];
@@ -61,8 +61,8 @@ void main() {
       final s = NSSet.setWithSet_(NSSet.of({obj1, obj2, obj3, obj4, obj5}));
 
       expect(() => s.add(NSObject()), throwsUnsupportedError);
-      expect(() => s.remove(null), throwsUnsupportedError);
-      expect(() => s.clear(), throwsUnsupportedError);
+      expect(() => s.remove(obj3), throwsUnsupportedError);
+      expect(s.clear, throwsUnsupportedError);
     });
 
     test('SetBase mixin', () {

@@ -74,7 +74,7 @@ void main() {
       });
 
       expect(dict.remove(null), null);
-      expect(dict.remove(123), null);
+      expect((dict as Map).remove(123), null);
       expect(dict.remove(obj1), obj2);
       expect(dict, {
         obj3: obj1,
@@ -82,7 +82,7 @@ void main() {
       });
 
       dict.clear();
-      expect(dict, {});
+      expect(dict, <NSString, NSString>{});
     });
 
     test('MapBase mixin', () {

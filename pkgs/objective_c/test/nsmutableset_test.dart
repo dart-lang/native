@@ -31,12 +31,12 @@ void main() {
 
       expect(s.contains(obj3), isTrue);
       expect(s.contains(NSObject()), isFalse);
-      expect(s.contains(123), isFalse);
+      expect((s as Set).contains(123), isFalse);
       expect(s.contains(null), isFalse);
 
       expect(s.lookup(obj3), obj3);
       expect(s.lookup(NSObject()), null);
-      expect(s.lookup(123), null);
+      expect((s as Set).lookup(123), null);
       expect(s.lookup(null), null);
 
       final actual = <ObjCObjectBase>[];
@@ -64,7 +64,7 @@ void main() {
 
       final obj7 = NSObject();
       expect(s.remove(obj7), isFalse);
-      expect(s.remove(123), isFalse);
+      expect((s as Set).remove(123), isFalse);
       expect(s.remove(null), isFalse);
       expect(s.remove(obj3), isTrue);
       expect(s, {obj1, obj2, obj4, obj5, obj6});
