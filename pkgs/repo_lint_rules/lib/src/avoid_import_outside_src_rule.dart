@@ -5,8 +5,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-class DontImportOutsideSrcRule extends DartLintRule {
-  DontImportOutsideSrcRule() : super(code: _code);
+class AvoidImportOutsideSrcRule extends DartLintRule {
+  AvoidImportOutsideSrcRule() : super(code: _code);
 
   static const _code = LintCode(
     name: 'avoid_import_outside_src',

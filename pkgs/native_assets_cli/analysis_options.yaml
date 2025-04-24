@@ -20,4 +20,4 @@ linter:
 
 custom_lint:
   rules:
-    - dont_import_outside_src
+    - avoid_import_outside_src
