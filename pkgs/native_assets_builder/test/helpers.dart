@@ -17,7 +17,7 @@ import 'package:yaml/yaml.dart';
 
 export 'package:native_assets_cli/code_assets_builder.dart';
 export 'package:native_assets_cli/data_assets_builder.dart';
-export 'package:native_assets_cli/native_assets_cli_internal.dart';
+export 'package:native_assets_cli/native_assets_cli_builder.dart';
 
 extension UriExtension on Uri {
   String get name => pathSegments.where((e) => e != '').last;
