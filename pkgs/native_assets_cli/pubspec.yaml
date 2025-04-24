@@ -30,6 +30,5 @@ dev_dependencies:
   file_testing: ^3.0.2
   glob: any
   repo_lint_rules:
-    path:
-      ../repo_lint_rules/
+    path: ../repo_lint_rules/
   test: ^1.25.15

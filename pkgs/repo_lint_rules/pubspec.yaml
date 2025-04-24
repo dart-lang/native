@@ -14,3 +14,6 @@ dependencies:
   custom_lint_builder: ^0.7.5
   lints: ^5.1.1
   path: ^1.9.1
+
+dev_dependencies: 
+  custom_lint: ^0.7.5
