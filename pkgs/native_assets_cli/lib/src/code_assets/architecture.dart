@@ -4,7 +4,7 @@
 
 import 'dart:ffi' show Abi;
 
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 /// A hardware architecture which the Dart VM can run on.
 final class Architecture {
@@ -82,25 +82,25 @@ final class Architecture {
   /// The name can be obtained from [Architecture.name] or
   /// [Architecture.toString].
   factory Architecture.fromString(String name) =>
-      ArchitectureSyntax.fromSyntax(syntax.Architecture.fromJson(name));
+      ArchitectureSyntaxExtension.fromSyntax(ArchitectureSyntax.fromJson(name));
 
   /// The current [Architecture].
   static final Architecture current = _abiToArch[Abi.current()]!;
 }
 
-extension ArchitectureSyntax on Architecture {
+extension ArchitectureSyntaxExtension on Architecture {
   static final _toSyntax = {
     for (final item in Architecture.values)
-      item: syntax.Architecture.fromJson(item.name),
+      item: ArchitectureSyntax.fromJson(item.name),
   };
 
   static final _fromSyntax = {
     for (var entry in _toSyntax.entries) entry.value: entry.key,
   };
 
-  syntax.Architecture toSyntax() => _toSyntax[this]!;
+  ArchitectureSyntax toSyntax() => _toSyntax[this]!;
 
-  static Architecture fromSyntax(syntax.Architecture syntax) =>
+  static Architecture fromSyntax(ArchitectureSyntax syntax) =>
       switch (_fromSyntax[syntax]) {
         null => throw FormatException(
           'The architecture "${syntax.name}" is not known',

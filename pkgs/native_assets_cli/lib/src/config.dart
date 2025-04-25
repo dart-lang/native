@@ -11,7 +11,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'encoded_asset.dart';
 import 'extension.dart';
-import 'hooks/syntax.g.dart' as syntax;
+import 'hooks/syntax.g.dart';
 import 'metadata.dart';
 import 'user_defines.dart';
 import 'utils/datetime.dart';
@@ -75,10 +75,10 @@ sealed class HookInput {
   /// another. For this it is convenient to know the packageRoot.
   Uri get packageRoot => _syntax.packageRoot;
 
-  final syntax.HookInput _syntax;
+  final HookInputSyntax _syntax;
 
   HookInput(Map<String, Object?> json)
-    : _syntax = syntax.HookInput.fromJson(json) {
+    : _syntax = HookInputSyntax.fromJson(json) {
     // Trigger validation, remove with cleanup.
     outputDirectory;
     outputDirectoryShared;
@@ -103,7 +103,9 @@ extension type HookInputUserDefines._(HookInput _input) {
     if (syntaxNode == null) {
       return null;
     }
-    final packageUserDefines = PackageUserDefinesSyntax.fromSyntax(syntaxNode);
+    final packageUserDefines = PackageUserDefinesSyntaxExtension.fromSyntax(
+      syntaxNode,
+    );
     final pubspecSource = packageUserDefines.workspacePubspec;
     return pubspecSource?.defines[key];
   }
@@ -121,7 +123,9 @@ extension type HookInputUserDefines._(HookInput _input) {
     if (syntaxNode == null) {
       return null;
     }
-    final packageUserDefines = PackageUserDefinesSyntax.fromSyntax(syntaxNode);
+    final packageUserDefines = PackageUserDefinesSyntaxExtension.fromSyntax(
+      syntaxNode,
+    );
     final pubspecSource = packageUserDefines.workspacePubspec;
     final sources = <PackageUserDefinesSource>[];
     if (pubspecSource != null) {
@@ -140,8 +144,8 @@ extension type HookInputUserDefines._(HookInput _input) {
 }
 
 sealed class HookInputBuilder {
-  final _syntax = syntax.HookInput.fromJson({})
-    ..config = syntax.Config(buildAssetTypes: [], extensions: null);
+  final _syntax = HookInputSyntax.fromJson({})
+    ..config = ConfigSyntax(buildAssetTypes: [], extensions: null);
 
   Map<String, Object?> get json => _syntax.json;
 
@@ -195,9 +199,9 @@ final class BuildInput extends HookInput {
   @override
   Uri get outputFile => _syntax.outFile;
 
-  final syntax.BuildInput _syntaxBuildInput;
+  final BuildInputSyntax _syntaxBuildInput;
 
-  BuildInput(super.json) : _syntaxBuildInput = syntax.BuildInput.fromJson(json);
+  BuildInput(super.json) : _syntaxBuildInput = BuildInputSyntax.fromJson(json);
 
   @override
   BuildConfig get config => BuildConfig._(this);
@@ -238,8 +242,7 @@ extension type BuildInputAssets._(BuildInput _input) {
 
 final class BuildInputBuilder extends HookInputBuilder {
   @override
-  syntax.BuildInput get _syntax =>
-      syntax.BuildInput.fromJson(super._syntax.json);
+  BuildInputSyntax get _syntax => BuildInputSyntax.fromJson(super._syntax.json);
 
   void setupBuildInput({Map<String, List<EncodedAsset>>? assets}) {
     _syntax.setup(
@@ -249,7 +252,7 @@ final class BuildInputBuilder extends HookInputBuilder {
               for (final MapEntry(:key, :value) in assets.entries)
                 key: [
                   for (final asset in value)
-                    syntax.Asset.fromJson(asset.toJson()),
+                    AssetSyntax.fromJson(asset.toJson()),
                 ],
             },
     );
@@ -268,7 +271,7 @@ final class HookConfigBuilder {
 
   HookConfigBuilder._(this.builder);
 
-  syntax.Config get _syntax => builder._syntax.config;
+  ConfigSyntax get _syntax => builder._syntax.config;
 
   void addBuildAssetTypes(Iterable<String> assetTypes) {
     _syntax.buildAssetTypes.addAll(assetTypes);
@@ -277,7 +280,7 @@ final class HookConfigBuilder {
 
 final class BuildConfigBuilder extends HookConfigBuilder {
   @override
-  late final syntax.BuildConfig _syntax = syntax.BuildConfig.fromJson(
+  late final BuildConfigSyntax _syntax = BuildConfigSyntax.fromJson(
     super._syntax.json,
   );
 
@@ -301,9 +304,9 @@ final class LinkInput extends HookInput {
   @override
   Uri get outputFile => _syntax.outFile;
 
-  final syntax.LinkInput _syntaxLinkInput;
+  final LinkInputSyntax _syntaxLinkInput;
 
-  LinkInput(super.json) : _syntaxLinkInput = syntax.LinkInput.fromJson(json) {
+  LinkInput(super.json) : _syntaxLinkInput = LinkInputSyntax.fromJson(json) {
     // Run validation.
     _encodedAssets;
   }
@@ -317,7 +320,7 @@ extension type LinkInputAssets._(LinkInput _input) {
 
 final class LinkInputBuilder extends HookInputBuilder {
   @override
-  syntax.LinkInput get _syntax => syntax.LinkInput.fromJson(super._syntax.json);
+  LinkInputSyntax get _syntax => LinkInputSyntax.fromJson(super._syntax.json);
 
   void setupLink({
     required List<EncodedAsset> assets,
@@ -325,7 +328,7 @@ final class LinkInputBuilder extends HookInputBuilder {
   }) {
     _syntax.setup(
       assets: [
-        for (final asset in assets) syntax.Asset.fromJson(asset.toJson()),
+        for (final asset in assets) AssetSyntax.fromJson(asset.toJson()),
       ],
       resourceIdentifiers: recordedUsesFile,
     );
@@ -336,7 +339,7 @@ final class LinkInputBuilder extends HookInputBuilder {
       extension.setupLinkInput(this);
 }
 
-List<EncodedAsset> _parseAssets(List<syntax.Asset>? assets) => assets == null
+List<EncodedAsset> _parseAssets(List<AssetSyntax>? assets) => assets == null
     ? []
     : [
         for (final asset in assets)
@@ -368,7 +371,7 @@ sealed class HookOutput {
   /// The assets produced by this build.
   List<EncodedAsset> get _encodedAssets => _parseAssets(_syntax.assets);
 
-  syntax.HookOutput get _syntax;
+  HookOutputSyntax get _syntax;
 
   HookOutput._(Map<String, Object?> json);
 
@@ -377,7 +380,7 @@ sealed class HookOutput {
 }
 
 sealed class HookOutputBuilder {
-  final _syntax = syntax.HookOutput(
+  final _syntax = HookOutputSyntax(
     timestamp: DateTime.now().roundDownToSeconds().toString(),
     assets: null,
     dependencies: null,
@@ -424,11 +427,11 @@ class BuildOutput extends HookOutput {
       _parseAssets(_syntax.assetsForBuild ?? []);
 
   @override
-  final syntax.BuildOutput _syntax;
+  final BuildOutputSyntax _syntax;
 
   /// Creates a [BuildOutput] from the given [json].
   BuildOutput(super.json)
-    : _syntax = syntax.BuildOutput.fromJson(json),
+    : _syntax = BuildOutputSyntax.fromJson(json),
       super._();
 
   BuildOutputAssets get assets => BuildOutputAssets._(this);
@@ -471,8 +474,8 @@ class BuildOutputBuilder extends HookOutputBuilder {
       EncodedAssetBuildOutputBuilder._(this);
 
   @override
-  syntax.BuildOutput get _syntax =>
-      syntax.BuildOutput.fromJson(super._syntax.json);
+  BuildOutputSyntax get _syntax =>
+      BuildOutputSyntax.fromJson(super._syntax.json);
 }
 
 extension type MetadataOutputBuilder._(BuildOutputBuilder _output) {
@@ -556,18 +559,18 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
     switch (routing) {
       case ToAppBundle():
         final assets = _syntax.assets ?? [];
-        assets.add(syntax.Asset.fromJson(asset.toJson()));
+        assets.add(AssetSyntax.fromJson(asset.toJson()));
         _syntax.assets = assets;
       case ToBuildHooks():
         final assets = _syntax.assetsForBuild ?? [];
-        assets.add(syntax.Asset.fromJson(asset.toJson()));
+        assets.add(AssetSyntax.fromJson(asset.toJson()));
         _syntax.assetsForBuild = assets;
       case ToLinkHook():
         final packageName = routing.packageName;
         final assetsForLinking = _syntax.assetsForLinking ?? {};
         assetsForLinking[packageName] ??= [];
         assetsForLinking[packageName]!.add(
-          syntax.Asset.fromJson(asset.toJson()),
+          AssetSyntax.fromJson(asset.toJson()),
         );
         _syntax.assetsForLinking = assetsForLinking;
     }
@@ -596,13 +599,13 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
       case ToAppBundle():
         final list = _syntax.assets ?? [];
         for (final asset in assets) {
-          list.add(syntax.Asset.fromJson(asset.toJson()));
+          list.add(AssetSyntax.fromJson(asset.toJson()));
         }
         _syntax.assets = list;
       case ToBuildHooks():
         final list = _syntax.assetsForBuild ?? [];
         for (final asset in assets) {
-          list.add(syntax.Asset.fromJson(asset.toJson()));
+          list.add(AssetSyntax.fromJson(asset.toJson()));
         }
         _syntax.assetsForBuild = list;
       case ToLinkHook():
@@ -610,26 +613,24 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
         final assetsForLinking = _syntax.assetsForLinking ?? {};
         final list = assetsForLinking[linkInPackage] ??= [];
         for (final asset in assets) {
-          list.add(syntax.Asset.fromJson(asset.toJson()));
+          list.add(AssetSyntax.fromJson(asset.toJson()));
         }
         _syntax.assetsForLinking = assetsForLinking;
     }
   }
 
-  syntax.BuildOutput get _syntax =>
-      syntax.BuildOutput.fromJson(_output._syntax.json);
+  BuildOutputSyntax get _syntax =>
+      BuildOutputSyntax.fromJson(_output._syntax.json);
 }
 
 class LinkOutput extends HookOutput {
   /// Creates a [BuildOutput] from the given [json].
-  LinkOutput(super.json)
-    : _syntax = syntax.LinkOutput.fromJson(json),
-      super._();
+  LinkOutput(super.json) : _syntax = LinkOutputSyntax.fromJson(json), super._();
 
   LinkOutputAssets get assets => LinkOutputAssets._(this);
 
   @override
-  final syntax.LinkOutput _syntax;
+  final LinkOutputSyntax _syntax;
 }
 
 extension type LinkOutputAssets._(LinkOutput _output) {
@@ -674,7 +675,7 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
   /// ```
   void addEncodedAsset(EncodedAsset asset) {
     final list = _syntax.assets ?? [];
-    list.add(syntax.Asset.fromJson(asset.toJson()));
+    list.add(AssetSyntax.fromJson(asset.toJson()));
     _syntax.assets = list;
   }
 
@@ -694,13 +695,13 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
   void addEncodedAssets(Iterable<EncodedAsset> assets) {
     final list = _syntax.assets ?? [];
     for (final asset in assets) {
-      list.add(syntax.Asset.fromJson(asset.toJson()));
+      list.add(AssetSyntax.fromJson(asset.toJson()));
     }
     _syntax.assets = list;
   }
 
-  syntax.LinkOutput get _syntax =>
-      syntax.LinkOutput.fromJson(_builder._syntax.json);
+  LinkOutputSyntax get _syntax =>
+      LinkOutputSyntax.fromJson(_builder._syntax.json);
 }
 
 // Deprecated, still emitted for backwards compatibility purposes.
@@ -712,7 +713,7 @@ final class HookConfig {
 
   List<Object> get path => _syntax.path;
 
-  final syntax.Config _syntax;
+  final ConfigSyntax _syntax;
 
   /// The asset types that should be built by an invocation of a hook.
   ///
@@ -744,12 +745,12 @@ final class HookConfig {
 final class BuildConfig extends HookConfig {
   @override
   // ignore: overridden_fields
-  final syntax.BuildConfig _syntax;
+  final BuildConfigSyntax _syntax;
 
   bool get linkingEnabled => _syntax.linkingEnabled;
 
   BuildConfig._(super.input)
-    : _syntax = syntax.BuildConfig.fromJson(
+    : _syntax = BuildConfigSyntax.fromJson(
         input._syntax.config.json,
         path: input._syntax.config.path,
       ),

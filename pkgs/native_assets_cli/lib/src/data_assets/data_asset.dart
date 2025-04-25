@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../encoded_asset.dart';
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 /// Data bundled with a Dart or Flutter application.
 ///
@@ -43,7 +43,7 @@ final class DataAsset {
   /// Constructs a [DataAsset] from an [EncodedAsset].
   factory DataAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.isDataAsset);
-    final syntaxNode = syntax.DataAssetEncoding.fromJson(
+    final syntaxNode = DataAssetEncodingSyntax.fromJson(
       asset.encoding,
       path: asset.jsonPath ?? [],
     );
@@ -68,7 +68,7 @@ final class DataAsset {
   int get hashCode => Object.hash(package, name, file.toFilePath());
 
   EncodedAsset encode() {
-    final encoding = syntax.DataAssetEncoding(
+    final encoding = DataAssetEncodingSyntax(
       file: file,
       name: name,
       package: package,
@@ -81,7 +81,7 @@ final class DataAsset {
 }
 
 extension DataAssetType on DataAsset {
-  static const String type = syntax.DataAssetNew.typeValue;
+  static const String type = DataAssetNewSyntax.typeValue;
 }
 
 extension EncodedDataAsset on EncodedAsset {

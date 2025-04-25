@@ -10,33 +10,34 @@
 
 import 'dart:io';
 
-class Asset extends JsonObject {
-  factory Asset.fromJson(
+class AssetSyntax extends JsonObjectSyntax {
+  factory AssetSyntax.fromJson(
     Map<String, Object?> json, {
     List<Object> path = const [],
   }) {
-    final result = Asset._fromJson(json, path: path);
+    final result = AssetSyntax._fromJson(json, path: path);
     if (result.isHooksMetadataAsset) {
       return result.asHooksMetadataAsset;
     }
     return result;
   }
 
-  Asset._fromJson(super.json, {super.path = const []}) : super.fromJson();
+  AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Asset({required JsonObject? encoding, required String type}) : super() {
+  AssetSyntax({required JsonObjectSyntax? encoding, required String type})
+    : super() {
     _encoding = encoding;
     _type = type;
     json.sortOnKey();
   }
 
-  JsonObject? get encoding {
+  JsonObjectSyntax? get encoding {
     final jsonValue = _reader.optionalMap('encoding');
     if (jsonValue == null) return null;
-    return JsonObject.fromJson(jsonValue, path: [...path, 'encoding']);
+    return JsonObjectSyntax.fromJson(jsonValue, path: [...path, 'encoding']);
   }
 
-  set _encoding(JsonObject? value) {
+  set _encoding(JsonObjectSyntax? value) {
     json.setOrRemove('encoding', value?.json);
   }
 
@@ -81,13 +82,13 @@ class Asset extends JsonObject {
   }
 
   @override
-  String toString() => 'Asset($json)';
+  String toString() => 'AssetSyntax($json)';
 }
 
-class BuildConfig extends Config {
-  BuildConfig.fromJson(super.json, {super.path}) : super.fromJson();
+class BuildConfigSyntax extends ConfigSyntax {
+  BuildConfigSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
-  BuildConfig({
+  BuildConfigSyntax({
     required super.buildAssetTypes,
     required super.extensions,
     required bool linkingEnabled,
@@ -96,8 +97,8 @@ class BuildConfig extends Config {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [BuildConfig] that are not in
-  /// [Config].
+  /// Setup all fields for [BuildConfigSyntax] that are not in
+  /// [ConfigSyntax].
   void setup({required bool linkingEnabled}) {
     _linkingEnabled = linkingEnabled;
     json.sortOnKey();
@@ -119,15 +120,15 @@ class BuildConfig extends Config {
   ];
 
   @override
-  String toString() => 'BuildConfig($json)';
+  String toString() => 'BuildConfigSyntax($json)';
 }
 
-class BuildInput extends HookInput {
-  BuildInput.fromJson(super.json, {super.path}) : super.fromJson();
+class BuildInputSyntax extends HookInputSyntax {
+  BuildInputSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
-  BuildInput({
-    required Map<String, List<Asset>>? assets,
-    required BuildConfig config,
+  BuildInputSyntax({
+    required Map<String, List<AssetSyntax>>? assets,
+    required BuildConfigSyntax config,
     required super.outDirShared,
     required super.outFile,
     required super.packageName,
@@ -138,23 +139,23 @@ class BuildInput extends HookInput {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [BuildInput] that are not in
-  /// [HookInput].
-  void setup({required Map<String, List<Asset>>? assets}) {
+  /// Setup all fields for [BuildInputSyntax] that are not in
+  /// [HookInputSyntax].
+  void setup({required Map<String, List<AssetSyntax>>? assets}) {
     _assets = assets;
     json.sortOnKey();
   }
 
-  Map<String, List<Asset>>? get assets {
+  Map<String, List<AssetSyntax>>? get assets {
     final jsonValue = _reader.optionalMap('assets');
     if (jsonValue == null) {
       return null;
     }
-    final result = <String, List<Asset>>{};
+    final result = <String, List<AssetSyntax>>{};
     for (final MapEntry(:key, :value) in jsonValue.entries) {
       result[key] = [
         for (final (index, item) in (value as List<Object?>).indexed)
-          Asset.fromJson(
+          AssetSyntax.fromJson(
             item as Map<String, Object?>,
             path: [...path, key, index],
           ),
@@ -163,7 +164,7 @@ class BuildInput extends HookInput {
     return result;
   }
 
-  set _assets(Map<String, List<Asset>>? value) {
+  set _assets(Map<String, List<AssetSyntax>>? value) {
     if (value == null) {
       json.remove('assets');
     } else {
@@ -193,9 +194,9 @@ class BuildInput extends HookInput {
   }
 
   @override
-  BuildConfig get config {
+  BuildConfigSyntax get config {
     final jsonValue = _reader.map$('config');
-    return BuildConfig.fromJson(jsonValue, path: [...path, 'config']);
+    return BuildConfigSyntax.fromJson(jsonValue, path: [...path, 'config']);
   }
 
   @override
@@ -206,16 +207,16 @@ class BuildInput extends HookInput {
   ];
 
   @override
-  String toString() => 'BuildInput($json)';
+  String toString() => 'BuildInputSyntax($json)';
 }
 
-class BuildOutput extends HookOutput {
-  BuildOutput.fromJson(super.json, {super.path}) : super.fromJson();
+class BuildOutputSyntax extends HookOutputSyntax {
+  BuildOutputSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
-  BuildOutput({
+  BuildOutputSyntax({
     required super.assets,
-    required List<Asset>? assetsForBuild,
-    required Map<String, List<Asset>>? assetsForLinking,
+    required List<AssetSyntax>? assetsForBuild,
+    required Map<String, List<AssetSyntax>>? assetsForLinking,
     required super.dependencies,
     required super.timestamp,
   }) : super() {
@@ -224,30 +225,30 @@ class BuildOutput extends HookOutput {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [BuildOutput] that are not in
-  /// [HookOutput].
+  /// Setup all fields for [BuildOutputSyntax] that are not in
+  /// [HookOutputSyntax].
   void setup({
-    required List<Asset>? assetsForBuild,
-    required Map<String, List<Asset>>? assetsForLinking,
+    required List<AssetSyntax>? assetsForBuild,
+    required Map<String, List<AssetSyntax>>? assetsForLinking,
   }) {
     this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
     json.sortOnKey();
   }
 
-  List<Asset>? get assetsForBuild {
+  List<AssetSyntax>? get assetsForBuild {
     final jsonValue = _reader.optionalList('assets_for_build');
     if (jsonValue == null) return null;
     return [
       for (final (index, element) in jsonValue.indexed)
-        Asset.fromJson(
+        AssetSyntax.fromJson(
           element as Map<String, Object?>,
           path: [...path, 'assets_for_build', index],
         ),
     ];
   }
 
-  set assetsForBuild(List<Asset>? value) {
+  set assetsForBuild(List<AssetSyntax>? value) {
     if (value == null) {
       json.remove('assets_for_build');
     } else {
@@ -270,16 +271,16 @@ class BuildOutput extends HookOutput {
     return [for (final element in elements) ...element.validate()];
   }
 
-  Map<String, List<Asset>>? get assetsForLinking {
+  Map<String, List<AssetSyntax>>? get assetsForLinking {
     final jsonValue = _reader.optionalMap('assets_for_linking');
     if (jsonValue == null) {
       return null;
     }
-    final result = <String, List<Asset>>{};
+    final result = <String, List<AssetSyntax>>{};
     for (final MapEntry(:key, :value) in jsonValue.entries) {
       result[key] = [
         for (final (index, item) in (value as List<Object?>).indexed)
-          Asset.fromJson(
+          AssetSyntax.fromJson(
             item as Map<String, Object?>,
             path: [...path, key, index],
           ),
@@ -288,7 +289,7 @@ class BuildOutput extends HookOutput {
     return result;
   }
 
-  set assetsForLinking(Map<String, List<Asset>>? value) {
+  set assetsForLinking(Map<String, List<AssetSyntax>>? value) {
     if (value == null) {
       json.remove('assets_for_linking');
     } else {
@@ -326,15 +327,15 @@ class BuildOutput extends HookOutput {
   ];
 
   @override
-  String toString() => 'BuildOutput($json)';
+  String toString() => 'BuildOutputSyntax($json)';
 }
 
-class Config extends JsonObject {
-  Config.fromJson(super.json, {super.path = const []}) : super.fromJson();
+class ConfigSyntax extends JsonObjectSyntax {
+  ConfigSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Config({
+  ConfigSyntax({
     required List<String> buildAssetTypes,
-    required JsonObject? extensions,
+    required JsonObjectSyntax? extensions,
   }) : super() {
     this.buildAssetTypes = buildAssetTypes;
     this.extensions = extensions;
@@ -351,13 +352,13 @@ class Config extends JsonObject {
   List<String> _validateBuildAssetTypes() =>
       _reader.validateStringList('build_asset_types');
 
-  JsonObject? get extensions {
+  JsonObjectSyntax? get extensions {
     final jsonValue = _reader.optionalMap('extensions');
     if (jsonValue == null) return null;
-    return JsonObject.fromJson(jsonValue, path: [...path, 'extensions']);
+    return JsonObjectSyntax.fromJson(jsonValue, path: [...path, 'extensions']);
   }
 
-  set extensions(JsonObject? value) {
+  set extensions(JsonObjectSyntax? value) {
     json.setOrRemove('extensions', value?.json);
     json.sortOnKey();
   }
@@ -378,19 +379,20 @@ class Config extends JsonObject {
   ];
 
   @override
-  String toString() => 'Config($json)';
+  String toString() => 'ConfigSyntax($json)';
 }
 
-class HookInput extends JsonObject {
-  HookInput.fromJson(super.json, {super.path = const []}) : super.fromJson();
+class HookInputSyntax extends JsonObjectSyntax {
+  HookInputSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  HookInput({
-    required Config config,
+  HookInputSyntax({
+    required ConfigSyntax config,
     required Uri outDirShared,
     required Uri outFile,
     required String packageName,
     required Uri packageRoot,
-    required UserDefines? userDefines,
+    required UserDefinesSyntax? userDefines,
   }) : super() {
     this.config = config;
     this.outDirShared = outDirShared;
@@ -401,12 +403,12 @@ class HookInput extends JsonObject {
     json.sortOnKey();
   }
 
-  Config get config {
+  ConfigSyntax get config {
     final jsonValue = _reader.map$('config');
-    return Config.fromJson(jsonValue, path: [...path, 'config']);
+    return ConfigSyntax.fromJson(jsonValue, path: [...path, 'config']);
   }
 
-  set config(Config value) {
+  set config(ConfigSyntax value) {
     json['config'] = value.json;
     json.sortOnKey();
   }
@@ -457,13 +459,16 @@ class HookInput extends JsonObject {
 
   List<String> _validatePackageRoot() => _reader.validatePath('package_root');
 
-  UserDefines? get userDefines {
+  UserDefinesSyntax? get userDefines {
     final jsonValue = _reader.optionalMap('user_defines');
     if (jsonValue == null) return null;
-    return UserDefines.fromJson(jsonValue, path: [...path, 'user_defines']);
+    return UserDefinesSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'user_defines'],
+    );
   }
 
-  set userDefines(UserDefines? value) {
+  set userDefines(UserDefinesSyntax? value) {
     json.setOrRemove('user_defines', value?.json);
     json.sortOnKey();
   }
@@ -488,14 +493,15 @@ class HookInput extends JsonObject {
   ];
 
   @override
-  String toString() => 'HookInput($json)';
+  String toString() => 'HookInputSyntax($json)';
 }
 
-class HookOutput extends JsonObject {
-  HookOutput.fromJson(super.json, {super.path = const []}) : super.fromJson();
+class HookOutputSyntax extends JsonObjectSyntax {
+  HookOutputSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  HookOutput({
-    required List<Asset>? assets,
+  HookOutputSyntax({
+    required List<AssetSyntax>? assets,
     required List<Uri>? dependencies,
     required String timestamp,
   }) : super() {
@@ -505,19 +511,19 @@ class HookOutput extends JsonObject {
     json.sortOnKey();
   }
 
-  List<Asset>? get assets {
+  List<AssetSyntax>? get assets {
     final jsonValue = _reader.optionalList('assets');
     if (jsonValue == null) return null;
     return [
       for (final (index, element) in jsonValue.indexed)
-        Asset.fromJson(
+        AssetSyntax.fromJson(
           element as Map<String, Object?>,
           path: [...path, 'assets', index],
         ),
     ];
   }
 
-  set assets(List<Asset>? value) {
+  set assets(List<AssetSyntax>? value) {
     if (value == null) {
       json.remove('assets');
     } else {
@@ -568,25 +574,26 @@ class HookOutput extends JsonObject {
   ];
 
   @override
-  String toString() => 'HookOutput($json)';
+  String toString() => 'HookOutputSyntax($json)';
 }
 
-class HooksMetadataAsset extends Asset {
+class HooksMetadataAssetSyntax extends AssetSyntax {
   static const typeValue = 'hooks/metadata';
 
-  HooksMetadataAsset.fromJson(super.json, {super.path}) : super._fromJson();
+  HooksMetadataAssetSyntax.fromJson(super.json, {super.path})
+    : super._fromJson();
 
-  HooksMetadataAsset({required MetadataAssetEncoding encoding})
+  HooksMetadataAssetSyntax({required MetadataAssetEncodingSyntax encoding})
     : super(type: 'hooks/metadata', encoding: encoding);
 
-  /// Setup all fields for [HooksMetadataAsset] that are not in
-  /// [Asset].
+  /// Setup all fields for [HooksMetadataAssetSyntax] that are not in
+  /// [AssetSyntax].
   void setup() {}
 
   @override
-  MetadataAssetEncoding get encoding {
+  MetadataAssetEncodingSyntax get encoding {
     final jsonValue = _reader.map$('encoding');
-    return MetadataAssetEncoding.fromJson(
+    return MetadataAssetEncodingSyntax.fromJson(
       jsonValue,
       path: [...path, 'encoding'],
     );
@@ -596,21 +603,21 @@ class HooksMetadataAsset extends Asset {
   List<String> validate() => [...super.validate(), ..._validateEncoding()];
 
   @override
-  String toString() => 'HooksMetadataAsset($json)';
+  String toString() => 'HooksMetadataAssetSyntax($json)';
 }
 
-extension HooksMetadataAssetExtension on Asset {
+extension HooksMetadataAssetSyntaxExtension on AssetSyntax {
   bool get isHooksMetadataAsset => type == 'hooks/metadata';
 
-  HooksMetadataAsset get asHooksMetadataAsset =>
-      HooksMetadataAsset.fromJson(json, path: path);
+  HooksMetadataAssetSyntax get asHooksMetadataAsset =>
+      HooksMetadataAssetSyntax.fromJson(json, path: path);
 }
 
-class LinkInput extends HookInput {
-  LinkInput.fromJson(super.json, {super.path}) : super.fromJson();
+class LinkInputSyntax extends HookInputSyntax {
+  LinkInputSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
-  LinkInput({
-    required List<Asset>? assets,
+  LinkInputSyntax({
+    required List<AssetSyntax>? assets,
     required super.config,
     required super.outDirShared,
     required super.outFile,
@@ -624,10 +631,10 @@ class LinkInput extends HookInput {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [LinkInput] that are not in
-  /// [HookInput].
+  /// Setup all fields for [LinkInputSyntax] that are not in
+  /// [HookInputSyntax].
   void setup({
-    required List<Asset>? assets,
+    required List<AssetSyntax>? assets,
     required Uri? resourceIdentifiers,
   }) {
     _assets = assets;
@@ -635,19 +642,19 @@ class LinkInput extends HookInput {
     json.sortOnKey();
   }
 
-  List<Asset>? get assets {
+  List<AssetSyntax>? get assets {
     final jsonValue = _reader.optionalList('assets');
     if (jsonValue == null) return null;
     return [
       for (final (index, element) in jsonValue.indexed)
-        Asset.fromJson(
+        AssetSyntax.fromJson(
           element as Map<String, Object?>,
           path: [...path, 'assets', index],
         ),
     ];
   }
 
-  set _assets(List<Asset>? value) {
+  set _assets(List<AssetSyntax>? value) {
     if (value == null) {
       json.remove('assets');
     } else {
@@ -686,13 +693,13 @@ class LinkInput extends HookInput {
   ];
 
   @override
-  String toString() => 'LinkInput($json)';
+  String toString() => 'LinkInputSyntax($json)';
 }
 
-class LinkOutput extends HookOutput {
-  LinkOutput.fromJson(super.json, {super.path}) : super.fromJson();
+class LinkOutputSyntax extends HookOutputSyntax {
+  LinkOutputSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
-  LinkOutput({
+  LinkOutputSyntax({
     required super.assets,
     required super.dependencies,
     required super.timestamp,
@@ -702,14 +709,14 @@ class LinkOutput extends HookOutput {
   List<String> validate() => [...super.validate()];
 
   @override
-  String toString() => 'LinkOutput($json)';
+  String toString() => 'LinkOutputSyntax($json)';
 }
 
-class MetadataAssetEncoding extends JsonObject {
-  MetadataAssetEncoding.fromJson(super.json, {super.path = const []})
+class MetadataAssetEncodingSyntax extends JsonObjectSyntax {
+  MetadataAssetEncodingSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  MetadataAssetEncoding({required String key, required Object? value})
+  MetadataAssetEncodingSyntax({required String key, required Object? value})
     : super() {
     _key = key;
     _value = value;
@@ -740,27 +747,29 @@ class MetadataAssetEncoding extends JsonObject {
   ];
 
   @override
-  String toString() => 'MetadataAssetEncoding($json)';
+  String toString() => 'MetadataAssetEncodingSyntax($json)';
 }
 
-class UserDefines extends JsonObject {
-  UserDefines.fromJson(super.json, {super.path = const []}) : super.fromJson();
+class UserDefinesSyntax extends JsonObjectSyntax {
+  UserDefinesSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  UserDefines({required UserDefinesSource? workspacePubspec}) : super() {
+  UserDefinesSyntax({required UserDefinesSourceSyntax? workspacePubspec})
+    : super() {
     _workspacePubspec = workspacePubspec;
     json.sortOnKey();
   }
 
-  UserDefinesSource? get workspacePubspec {
+  UserDefinesSourceSyntax? get workspacePubspec {
     final jsonValue = _reader.optionalMap('workspace_pubspec');
     if (jsonValue == null) return null;
-    return UserDefinesSource.fromJson(
+    return UserDefinesSourceSyntax.fromJson(
       jsonValue,
       path: [...path, 'workspace_pubspec'],
     );
   }
 
-  set _workspacePubspec(UserDefinesSource? value) {
+  set _workspacePubspec(UserDefinesSourceSyntax? value) {
     json.setOrRemove('workspace_pubspec', value?.json);
   }
 
@@ -781,15 +790,17 @@ class UserDefines extends JsonObject {
   ];
 
   @override
-  String toString() => 'UserDefines($json)';
+  String toString() => 'UserDefinesSyntax($json)';
 }
 
-class UserDefinesSource extends JsonObject {
-  UserDefinesSource.fromJson(super.json, {super.path = const []})
+class UserDefinesSourceSyntax extends JsonObjectSyntax {
+  UserDefinesSourceSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  UserDefinesSource({required Uri basePath, required JsonObject defines})
-    : super() {
+  UserDefinesSourceSyntax({
+    required Uri basePath,
+    required JsonObjectSyntax defines,
+  }) : super() {
     _basePath = basePath;
     _defines = defines;
     json.sortOnKey();
@@ -803,12 +814,12 @@ class UserDefinesSource extends JsonObject {
 
   List<String> _validateBasePath() => _reader.validatePath('base_path');
 
-  JsonObject get defines {
+  JsonObjectSyntax get defines {
     final jsonValue = _reader.map$('defines');
-    return JsonObject.fromJson(jsonValue, path: [...path, 'defines']);
+    return JsonObjectSyntax.fromJson(jsonValue, path: [...path, 'defines']);
   }
 
-  set _defines(JsonObject value) {
+  set _defines(JsonObjectSyntax value) {
     json['defines'] = value.json;
   }
 
@@ -828,19 +839,19 @@ class UserDefinesSource extends JsonObject {
   ];
 
   @override
-  String toString() => 'UserDefinesSource($json)';
+  String toString() => 'UserDefinesSourceSyntax($json)';
 }
 
-class JsonObject {
+class JsonObjectSyntax {
   final Map<String, Object?> json;
 
   final List<Object> path;
 
   JsonReader get _reader => JsonReader(json, path);
 
-  JsonObject() : json = {}, path = const [];
+  JsonObjectSyntax() : json = {}, path = const [];
 
-  JsonObject.fromJson(this.json, {this.path = const []});
+  JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 
   List<String> validate() => [];
 }

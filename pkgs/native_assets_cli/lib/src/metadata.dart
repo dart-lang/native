@@ -6,7 +6,7 @@ import 'package:collection/collection.dart';
 
 import 'config.dart';
 import 'encoded_asset.dart';
-import 'hooks/syntax.g.dart' as syntax;
+import 'hooks/syntax.g.dart';
 
 class Metadata {
   final UnmodifiableMapView<String, Object?> metadata;
@@ -50,7 +50,7 @@ final class MetadataAsset {
 
   factory MetadataAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.type == _type);
-    final syntaxNode = syntax.MetadataAssetEncoding.fromJson(
+    final syntaxNode = MetadataAssetEncodingSyntax.fromJson(
       asset.encoding,
       path: asset.jsonPath ?? [],
     );

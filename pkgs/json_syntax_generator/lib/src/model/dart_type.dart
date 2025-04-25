@@ -91,7 +91,7 @@ class ClassDartType extends DartType {
   const ClassDartType({required this.classInfo, required super.isNullable});
 
   @override
-  String toNonNullableString() => classInfo.name;
+  String toNonNullableString() => classInfo.className;
 
   @override
   bool operator ==(Object other) =>

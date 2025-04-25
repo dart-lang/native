@@ -4,7 +4,7 @@
 
 import 'package:collection/collection.dart';
 
-import 'hooks/syntax.g.dart' as syntax;
+import 'hooks/syntax.g.dart';
 import 'utils/json.dart';
 
 /// An encoding of a particular asset type.
@@ -34,7 +34,7 @@ final class EncodedAsset {
     Map<String, Object?> json, [
     List<Object>? path,
   ]) {
-    final syntax_ = syntax.Asset.fromJson(json, path: path ?? []);
+    final syntax_ = AssetSyntax.fromJson(json, path: path ?? []);
     final encoding = Map<String, Object?>.of(syntax_.encoding?.json ?? {});
     final path_ = syntax_.encoding != null ? [...?path, 'encoding'] : path;
 

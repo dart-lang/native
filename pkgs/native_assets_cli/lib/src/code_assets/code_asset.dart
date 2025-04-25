@@ -7,7 +7,7 @@ import '../encoded_asset.dart';
 import 'config.dart';
 import 'link_mode.dart';
 import 'os.dart';
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 /// A code asset which respects the native application binary interface (ABI).
 ///
@@ -85,13 +85,13 @@ final class CodeAsset {
 
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.isCodeAsset);
-    final syntaxNode = syntax.NativeCodeAssetEncoding.fromJson(
+    final syntaxNode = NativeCodeAssetEncodingSyntax.fromJson(
       asset.encoding,
       path: asset.jsonPath ?? [],
     );
     return CodeAsset._(
       id: syntaxNode.id,
-      linkMode: LinkModeSyntax.fromSyntax(syntaxNode.linkMode),
+      linkMode: LinkModeSyntaxExtension.fromSyntax(syntaxNode.linkMode),
       file: syntaxNode.file,
     );
   }
@@ -115,7 +115,7 @@ final class CodeAsset {
   int get hashCode => Object.hash(id, linkMode, file);
 
   EncodedAsset encode() {
-    final encoding = syntax.NativeCodeAssetEncoding(
+    final encoding = NativeCodeAssetEncodingSyntax(
       file: file,
       id: id,
       linkMode: linkMode.toSyntax(),
@@ -125,7 +125,7 @@ final class CodeAsset {
 }
 
 extension CodeAssetType on CodeAsset {
-  static const String type = syntax.NativeCodeAssetNew.typeValue;
+  static const String type = NativeCodeAssetNewSyntax.typeValue;
 }
 
 extension EncodedCodeAsset on EncodedAsset {

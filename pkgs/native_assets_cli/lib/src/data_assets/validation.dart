@@ -8,7 +8,7 @@ import '../config.dart';
 import '../encoded_asset.dart';
 import '../extension.dart';
 import 'data_asset.dart';
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 Future<ValidationErrors> validateDataAssetBuildInput(BuildInput input) async =>
     [
@@ -106,7 +106,7 @@ ValidationErrors _validateDataAssetSyntax(EncodedAsset encodedAsset) {
   if (!encodedAsset.isDataAsset) {
     return [];
   }
-  final syntaxNode = syntax.DataAssetEncoding.fromJson(
+  final syntaxNode = DataAssetEncodingSyntax.fromJson(
     encodedAsset.encoding,
     path: encodedAsset.jsonPath ?? [],
   );

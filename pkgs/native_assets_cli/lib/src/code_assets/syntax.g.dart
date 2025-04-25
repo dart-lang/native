@@ -10,11 +10,11 @@
 
 import 'dart:io';
 
-class AndroidCodeConfig extends JsonObject {
-  AndroidCodeConfig.fromJson(super.json, {super.path = const []})
+class AndroidCodeConfigSyntax extends JsonObjectSyntax {
+  AndroidCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  AndroidCodeConfig({required int targetNdkApi}) : super() {
+  AndroidCodeConfigSyntax({required int targetNdkApi}) : super() {
     _targetNdkApi = targetNdkApi;
     json.sortOnKey();
   }
@@ -32,27 +32,27 @@ class AndroidCodeConfig extends JsonObject {
   List<String> validate() => [...super.validate(), ..._validateTargetNdkApi()];
 
   @override
-  String toString() => 'AndroidCodeConfig($json)';
+  String toString() => 'AndroidCodeConfigSyntax($json)';
 }
 
-class Architecture {
+class ArchitectureSyntax {
   final String name;
 
-  const Architecture._(this.name);
+  const ArchitectureSyntax._(this.name);
 
-  static const arm = Architecture._('arm');
+  static const arm = ArchitectureSyntax._('arm');
 
-  static const arm64 = Architecture._('arm64');
+  static const arm64 = ArchitectureSyntax._('arm64');
 
-  static const ia32 = Architecture._('ia32');
+  static const ia32 = ArchitectureSyntax._('ia32');
 
-  static const riscv32 = Architecture._('riscv32');
+  static const riscv32 = ArchitectureSyntax._('riscv32');
 
-  static const riscv64 = Architecture._('riscv64');
+  static const riscv64 = ArchitectureSyntax._('riscv64');
 
-  static const x64 = Architecture._('x64');
+  static const x64 = ArchitectureSyntax._('x64');
 
-  static const List<Architecture> values = [
+  static const List<ArchitectureSyntax> values = [
     arm,
     arm64,
     ia32,
@@ -61,18 +61,18 @@ class Architecture {
     x64,
   ];
 
-  static final Map<String, Architecture> _byName = {
+  static final Map<String, ArchitectureSyntax> _byName = {
     for (final value in values) value.name: value,
   };
 
-  Architecture.unknown(this.name) : assert(!_byName.keys.contains(name));
+  ArchitectureSyntax.unknown(this.name) : assert(!_byName.keys.contains(name));
 
-  factory Architecture.fromJson(String name) {
+  factory ArchitectureSyntax.fromJson(String name) {
     final knownValue = _byName[name];
     if (knownValue != null) {
       return knownValue;
     }
-    return Architecture.unknown(name);
+    return ArchitectureSyntax.unknown(name);
   }
 
   bool get isKnown => _byName[name] != null;
@@ -81,21 +81,21 @@ class Architecture {
   String toString() => name;
 }
 
-class Asset extends JsonObject {
-  factory Asset.fromJson(
+class AssetSyntax extends JsonObjectSyntax {
+  factory AssetSyntax.fromJson(
     Map<String, Object?> json, {
     List<Object> path = const [],
   }) {
-    final result = Asset._fromJson(json, path: path);
+    final result = AssetSyntax._fromJson(json, path: path);
     if (result.isNativeCodeAssetNew) {
       return result.asNativeCodeAssetNew;
     }
     return result;
   }
 
-  Asset._fromJson(super.json, {super.path = const []}) : super.fromJson();
+  AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Asset({required String? type}) : super() {
+  AssetSyntax({required String? type}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -112,18 +112,18 @@ class Asset extends JsonObject {
   List<String> validate() => [...super.validate(), ..._validateType()];
 
   @override
-  String toString() => 'Asset($json)';
+  String toString() => 'AssetSyntax($json)';
 }
 
-class CCompilerConfig extends JsonObject {
-  CCompilerConfig.fromJson(super.json, {super.path = const []})
+class CCompilerConfigSyntax extends JsonObjectSyntax {
+  CCompilerConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  CCompilerConfig({
+  CCompilerConfigSyntax({
     required Uri ar,
     required Uri cc,
     required Uri ld,
-    required Windows? windows,
+    required WindowsSyntax? windows,
   }) : super() {
     _ar = ar;
     _cc = cc;
@@ -156,13 +156,13 @@ class CCompilerConfig extends JsonObject {
 
   List<String> _validateLd() => _reader.validatePath('ld');
 
-  Windows? get windows {
+  WindowsSyntax? get windows {
     final jsonValue = _reader.optionalMap('windows');
     if (jsonValue == null) return null;
-    return Windows.fromJson(jsonValue, path: [...path, 'windows']);
+    return WindowsSyntax.fromJson(jsonValue, path: [...path, 'windows']);
   }
 
-  set _windows(Windows? value) {
+  set _windows(WindowsSyntax? value) {
     json.setOrRemove('windows', value?.json);
   }
 
@@ -184,20 +184,21 @@ class CCompilerConfig extends JsonObject {
   ];
 
   @override
-  String toString() => 'CCompilerConfig($json)';
+  String toString() => 'CCompilerConfigSyntax($json)';
 }
 
-class CodeConfig extends JsonObject {
-  CodeConfig.fromJson(super.json, {super.path = const []}) : super.fromJson();
+class CodeConfigSyntax extends JsonObjectSyntax {
+  CodeConfigSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  CodeConfig({
-    required AndroidCodeConfig? android,
-    required CCompilerConfig? cCompiler,
-    required IOSCodeConfig? iOS,
-    required LinkModePreference linkModePreference,
-    required MacOSCodeConfig? macOS,
-    required Architecture targetArchitecture,
-    required OS targetOs,
+  CodeConfigSyntax({
+    required AndroidCodeConfigSyntax? android,
+    required CCompilerConfigSyntax? cCompiler,
+    required IOSCodeConfigSyntax? iOS,
+    required LinkModePreferenceSyntax linkModePreference,
+    required MacOSCodeConfigSyntax? macOS,
+    required ArchitectureSyntax targetArchitecture,
+    required OSSyntax targetOs,
   }) : super() {
     _android = android;
     _cCompiler = cCompiler;
@@ -209,13 +210,16 @@ class CodeConfig extends JsonObject {
     json.sortOnKey();
   }
 
-  AndroidCodeConfig? get android {
+  AndroidCodeConfigSyntax? get android {
     final jsonValue = _reader.optionalMap('android');
     if (jsonValue == null) return null;
-    return AndroidCodeConfig.fromJson(jsonValue, path: [...path, 'android']);
+    return AndroidCodeConfigSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'android'],
+    );
   }
 
-  set _android(AndroidCodeConfig? value) {
+  set _android(AndroidCodeConfigSyntax? value) {
     json.setOrRemove('android', value?.json);
   }
 
@@ -227,13 +231,16 @@ class CodeConfig extends JsonObject {
     return android?.validate() ?? [];
   }
 
-  CCompilerConfig? get cCompiler {
+  CCompilerConfigSyntax? get cCompiler {
     final jsonValue = _reader.optionalMap('c_compiler');
     if (jsonValue == null) return null;
-    return CCompilerConfig.fromJson(jsonValue, path: [...path, 'c_compiler']);
+    return CCompilerConfigSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'c_compiler'],
+    );
   }
 
-  set _cCompiler(CCompilerConfig? value) {
+  set _cCompiler(CCompilerConfigSyntax? value) {
     json.setOrRemove('c_compiler', value?.json);
   }
 
@@ -245,13 +252,13 @@ class CodeConfig extends JsonObject {
     return cCompiler?.validate() ?? [];
   }
 
-  IOSCodeConfig? get iOS {
+  IOSCodeConfigSyntax? get iOS {
     final jsonValue = _reader.optionalMap('ios');
     if (jsonValue == null) return null;
-    return IOSCodeConfig.fromJson(jsonValue, path: [...path, 'ios']);
+    return IOSCodeConfigSyntax.fromJson(jsonValue, path: [...path, 'ios']);
   }
 
-  set _iOS(IOSCodeConfig? value) {
+  set _iOS(IOSCodeConfigSyntax? value) {
     json.setOrRemove('ios', value?.json);
   }
 
@@ -263,25 +270,25 @@ class CodeConfig extends JsonObject {
     return iOS?.validate() ?? [];
   }
 
-  LinkModePreference get linkModePreference {
+  LinkModePreferenceSyntax get linkModePreference {
     final jsonValue = _reader.get<String>('link_mode_preference');
-    return LinkModePreference.fromJson(jsonValue);
+    return LinkModePreferenceSyntax.fromJson(jsonValue);
   }
 
-  set _linkModePreference(LinkModePreference value) {
+  set _linkModePreference(LinkModePreferenceSyntax value) {
     json['link_mode_preference'] = value.name;
   }
 
   List<String> _validateLinkModePreference() =>
       _reader.validate<String>('link_mode_preference');
 
-  MacOSCodeConfig? get macOS {
+  MacOSCodeConfigSyntax? get macOS {
     final jsonValue = _reader.optionalMap('macos');
     if (jsonValue == null) return null;
-    return MacOSCodeConfig.fromJson(jsonValue, path: [...path, 'macos']);
+    return MacOSCodeConfigSyntax.fromJson(jsonValue, path: [...path, 'macos']);
   }
 
-  set _macOS(MacOSCodeConfig? value) {
+  set _macOS(MacOSCodeConfigSyntax? value) {
     json.setOrRemove('macos', value?.json);
   }
 
@@ -293,24 +300,24 @@ class CodeConfig extends JsonObject {
     return macOS?.validate() ?? [];
   }
 
-  Architecture get targetArchitecture {
+  ArchitectureSyntax get targetArchitecture {
     final jsonValue = _reader.get<String>('target_architecture');
-    return Architecture.fromJson(jsonValue);
+    return ArchitectureSyntax.fromJson(jsonValue);
   }
 
-  set _targetArchitecture(Architecture value) {
+  set _targetArchitecture(ArchitectureSyntax value) {
     json['target_architecture'] = value.name;
   }
 
   List<String> _validateTargetArchitecture() =>
       _reader.validate<String>('target_architecture');
 
-  OS get targetOs {
+  OSSyntax get targetOs {
     final jsonValue = _reader.get<String>('target_os');
-    return OS.fromJson(jsonValue);
+    return OSSyntax.fromJson(jsonValue);
   }
 
-  set _targetOs(OS value) {
+  set _targetOs(OSSyntax value) {
     json['target_os'] = value.name;
   }
 
@@ -357,24 +364,27 @@ class CodeConfig extends JsonObject {
   }
 
   @override
-  String toString() => 'CodeConfig($json)';
+  String toString() => 'CodeConfigSyntax($json)';
 }
 
-class Config extends JsonObject {
-  Config.fromJson(super.json, {super.path = const []}) : super.fromJson();
+class ConfigSyntax extends JsonObjectSyntax {
+  ConfigSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Config({required ConfigExtensions? extensions}) : super() {
+  ConfigSyntax({required ConfigExtensionsSyntax? extensions}) : super() {
     this.extensions = extensions;
     json.sortOnKey();
   }
 
-  ConfigExtensions? get extensions {
+  ConfigExtensionsSyntax? get extensions {
     final jsonValue = _reader.optionalMap('extensions');
     if (jsonValue == null) return null;
-    return ConfigExtensions.fromJson(jsonValue, path: [...path, 'extensions']);
+    return ConfigExtensionsSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'extensions'],
+    );
   }
 
-  set extensions(ConfigExtensions? value) {
+  set extensions(ConfigExtensionsSyntax? value) {
     json.setOrRemove('extensions', value?.json);
     json.sortOnKey();
   }
@@ -391,25 +401,25 @@ class Config extends JsonObject {
   List<String> validate() => [...super.validate(), ..._validateExtensions()];
 
   @override
-  String toString() => 'Config($json)';
+  String toString() => 'ConfigSyntax($json)';
 }
 
-class ConfigExtensions extends JsonObject {
-  ConfigExtensions.fromJson(super.json, {super.path = const []})
+class ConfigExtensionsSyntax extends JsonObjectSyntax {
+  ConfigExtensionsSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  ConfigExtensions({required CodeConfig? codeAssets}) : super() {
+  ConfigExtensionsSyntax({required CodeConfigSyntax? codeAssets}) : super() {
     this.codeAssets = codeAssets;
     json.sortOnKey();
   }
 
-  CodeConfig? get codeAssets {
+  CodeConfigSyntax? get codeAssets {
     final jsonValue = _reader.optionalMap('code_assets');
     if (jsonValue == null) return null;
-    return CodeConfig.fromJson(jsonValue, path: [...path, 'code_assets']);
+    return CodeConfigSyntax.fromJson(jsonValue, path: [...path, 'code_assets']);
   }
 
-  set codeAssets(CodeConfig? value) {
+  set codeAssets(CodeConfigSyntax? value) {
     json.setOrRemove('code_assets', value?.json);
     json.sortOnKey();
   }
@@ -426,15 +436,17 @@ class ConfigExtensions extends JsonObject {
   List<String> validate() => [...super.validate(), ..._validateCodeAssets()];
 
   @override
-  String toString() => 'ConfigExtensions($json)';
+  String toString() => 'ConfigExtensionsSyntax($json)';
 }
 
-class DeveloperCommandPrompt extends JsonObject {
-  DeveloperCommandPrompt.fromJson(super.json, {super.path = const []})
+class DeveloperCommandPromptSyntax extends JsonObjectSyntax {
+  DeveloperCommandPromptSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  DeveloperCommandPrompt({required List<String> arguments, required Uri script})
-    : super() {
+  DeveloperCommandPromptSyntax({
+    required List<String> arguments,
+    required Uri script,
+  }) : super() {
     _arguments = arguments;
     _script = script;
     json.sortOnKey();
@@ -464,83 +476,85 @@ class DeveloperCommandPrompt extends JsonObject {
   ];
 
   @override
-  String toString() => 'DeveloperCommandPrompt($json)';
+  String toString() => 'DeveloperCommandPromptSyntax($json)';
 }
 
-class DynamicLoadingBundleLinkMode extends LinkMode {
-  DynamicLoadingBundleLinkMode.fromJson(super.json, {super.path})
+class DynamicLoadingBundleLinkModeSyntax extends LinkModeSyntax {
+  DynamicLoadingBundleLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingBundleLinkMode() : super(type: 'dynamic_loading_bundle');
+  DynamicLoadingBundleLinkModeSyntax() : super(type: 'dynamic_loading_bundle');
 
   @override
   List<String> validate() => [...super.validate()];
 
   @override
-  String toString() => 'DynamicLoadingBundleLinkMode($json)';
+  String toString() => 'DynamicLoadingBundleLinkModeSyntax($json)';
 }
 
-extension DynamicLoadingBundleLinkModeExtension on LinkMode {
+extension DynamicLoadingBundleLinkModeSyntaxExtension on LinkModeSyntax {
   bool get isDynamicLoadingBundleLinkMode => type == 'dynamic_loading_bundle';
 
-  DynamicLoadingBundleLinkMode get asDynamicLoadingBundleLinkMode =>
-      DynamicLoadingBundleLinkMode.fromJson(json, path: path);
+  DynamicLoadingBundleLinkModeSyntax get asDynamicLoadingBundleLinkMode =>
+      DynamicLoadingBundleLinkModeSyntax.fromJson(json, path: path);
 }
 
-class DynamicLoadingExecutableLinkMode extends LinkMode {
-  DynamicLoadingExecutableLinkMode.fromJson(super.json, {super.path})
+class DynamicLoadingExecutableLinkModeSyntax extends LinkModeSyntax {
+  DynamicLoadingExecutableLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingExecutableLinkMode()
+  DynamicLoadingExecutableLinkModeSyntax()
     : super(type: 'dynamic_loading_executable');
 
   @override
   List<String> validate() => [...super.validate()];
 
   @override
-  String toString() => 'DynamicLoadingExecutableLinkMode($json)';
+  String toString() => 'DynamicLoadingExecutableLinkModeSyntax($json)';
 }
 
-extension DynamicLoadingExecutableLinkModeExtension on LinkMode {
+extension DynamicLoadingExecutableLinkModeSyntaxExtension on LinkModeSyntax {
   bool get isDynamicLoadingExecutableLinkMode =>
       type == 'dynamic_loading_executable';
 
-  DynamicLoadingExecutableLinkMode get asDynamicLoadingExecutableLinkMode =>
-      DynamicLoadingExecutableLinkMode.fromJson(json, path: path);
+  DynamicLoadingExecutableLinkModeSyntax
+  get asDynamicLoadingExecutableLinkMode =>
+      DynamicLoadingExecutableLinkModeSyntax.fromJson(json, path: path);
 }
 
-class DynamicLoadingProcessLinkMode extends LinkMode {
-  DynamicLoadingProcessLinkMode.fromJson(super.json, {super.path})
+class DynamicLoadingProcessLinkModeSyntax extends LinkModeSyntax {
+  DynamicLoadingProcessLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingProcessLinkMode() : super(type: 'dynamic_loading_process');
+  DynamicLoadingProcessLinkModeSyntax()
+    : super(type: 'dynamic_loading_process');
 
   @override
   List<String> validate() => [...super.validate()];
 
   @override
-  String toString() => 'DynamicLoadingProcessLinkMode($json)';
+  String toString() => 'DynamicLoadingProcessLinkModeSyntax($json)';
 }
 
-extension DynamicLoadingProcessLinkModeExtension on LinkMode {
+extension DynamicLoadingProcessLinkModeSyntaxExtension on LinkModeSyntax {
   bool get isDynamicLoadingProcessLinkMode => type == 'dynamic_loading_process';
 
-  DynamicLoadingProcessLinkMode get asDynamicLoadingProcessLinkMode =>
-      DynamicLoadingProcessLinkMode.fromJson(json, path: path);
+  DynamicLoadingProcessLinkModeSyntax get asDynamicLoadingProcessLinkMode =>
+      DynamicLoadingProcessLinkModeSyntax.fromJson(json, path: path);
 }
 
-class DynamicLoadingSystemLinkMode extends LinkMode {
-  DynamicLoadingSystemLinkMode.fromJson(super.json, {super.path})
+class DynamicLoadingSystemLinkModeSyntax extends LinkModeSyntax {
+  DynamicLoadingSystemLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingSystemLinkMode({required Uri uri})
+  DynamicLoadingSystemLinkModeSyntax({required Uri uri})
     : super(type: 'dynamic_loading_system') {
     _uri = uri;
     json.sortOnKey();
   }
 
-  /// Setup all fields for [DynamicLoadingSystemLinkMode] that are not in
-  /// [LinkMode].
+  /// Setup all fields for [DynamicLoadingSystemLinkModeSyntax] that are not in
+  /// [LinkModeSyntax].
   void setup({required Uri uri}) {
     _uri = uri;
     json.sortOnKey();
@@ -558,21 +572,21 @@ class DynamicLoadingSystemLinkMode extends LinkMode {
   List<String> validate() => [...super.validate(), ..._validateUri()];
 
   @override
-  String toString() => 'DynamicLoadingSystemLinkMode($json)';
+  String toString() => 'DynamicLoadingSystemLinkModeSyntax($json)';
 }
 
-extension DynamicLoadingSystemLinkModeExtension on LinkMode {
+extension DynamicLoadingSystemLinkModeSyntaxExtension on LinkModeSyntax {
   bool get isDynamicLoadingSystemLinkMode => type == 'dynamic_loading_system';
 
-  DynamicLoadingSystemLinkMode get asDynamicLoadingSystemLinkMode =>
-      DynamicLoadingSystemLinkMode.fromJson(json, path: path);
+  DynamicLoadingSystemLinkModeSyntax get asDynamicLoadingSystemLinkMode =>
+      DynamicLoadingSystemLinkModeSyntax.fromJson(json, path: path);
 }
 
-class IOSCodeConfig extends JsonObject {
-  IOSCodeConfig.fromJson(super.json, {super.path = const []})
+class IOSCodeConfigSyntax extends JsonObjectSyntax {
+  IOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  IOSCodeConfig({required String targetSdk, required int targetVersion})
+  IOSCodeConfigSyntax({required String targetSdk, required int targetVersion})
     : super() {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
@@ -604,15 +618,15 @@ class IOSCodeConfig extends JsonObject {
   ];
 
   @override
-  String toString() => 'IOSCodeConfig($json)';
+  String toString() => 'IOSCodeConfigSyntax($json)';
 }
 
-class LinkMode extends JsonObject {
-  factory LinkMode.fromJson(
+class LinkModeSyntax extends JsonObjectSyntax {
+  factory LinkModeSyntax.fromJson(
     Map<String, Object?> json, {
     List<Object> path = const [],
   }) {
-    final result = LinkMode._fromJson(json, path: path);
+    final result = LinkModeSyntax._fromJson(json, path: path);
     if (result.isDynamicLoadingBundleLinkMode) {
       return result.asDynamicLoadingBundleLinkMode;
     }
@@ -631,9 +645,10 @@ class LinkMode extends JsonObject {
     return result;
   }
 
-  LinkMode._fromJson(super.json, {super.path = const []}) : super.fromJson();
+  LinkModeSyntax._fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  LinkMode({required String type}) : super() {
+  LinkModeSyntax({required String type}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -650,41 +665,42 @@ class LinkMode extends JsonObject {
   List<String> validate() => [...super.validate(), ..._validateType()];
 
   @override
-  String toString() => 'LinkMode($json)';
+  String toString() => 'LinkModeSyntax($json)';
 }
 
-class LinkModePreference {
+class LinkModePreferenceSyntax {
   final String name;
 
-  const LinkModePreference._(this.name);
+  const LinkModePreferenceSyntax._(this.name);
 
-  static const dynamic = LinkModePreference._('dynamic');
+  static const dynamic = LinkModePreferenceSyntax._('dynamic');
 
-  static const preferDynamic = LinkModePreference._('prefer_dynamic');
+  static const preferDynamic = LinkModePreferenceSyntax._('prefer_dynamic');
 
-  static const preferStatic = LinkModePreference._('prefer_static');
+  static const preferStatic = LinkModePreferenceSyntax._('prefer_static');
 
-  static const static = LinkModePreference._('static');
+  static const static = LinkModePreferenceSyntax._('static');
 
-  static const List<LinkModePreference> values = [
+  static const List<LinkModePreferenceSyntax> values = [
     dynamic,
     preferDynamic,
     preferStatic,
     static,
   ];
 
-  static final Map<String, LinkModePreference> _byName = {
+  static final Map<String, LinkModePreferenceSyntax> _byName = {
     for (final value in values) value.name: value,
   };
 
-  LinkModePreference.unknown(this.name) : assert(!_byName.keys.contains(name));
+  LinkModePreferenceSyntax.unknown(this.name)
+    : assert(!_byName.keys.contains(name));
 
-  factory LinkModePreference.fromJson(String name) {
+  factory LinkModePreferenceSyntax.fromJson(String name) {
     final knownValue = _byName[name];
     if (knownValue != null) {
       return knownValue;
     }
-    return LinkModePreference.unknown(name);
+    return LinkModePreferenceSyntax.unknown(name);
   }
 
   bool get isKnown => _byName[name] != null;
@@ -693,11 +709,11 @@ class LinkModePreference {
   String toString() => name;
 }
 
-class MacOSCodeConfig extends JsonObject {
-  MacOSCodeConfig.fromJson(super.json, {super.path = const []})
+class MacOSCodeConfigSyntax extends JsonObjectSyntax {
+  MacOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  MacOSCodeConfig({required int targetVersion}) : super() {
+  MacOSCodeConfigSyntax({required int targetVersion}) : super() {
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
@@ -715,17 +731,17 @@ class MacOSCodeConfig extends JsonObject {
   List<String> validate() => [...super.validate(), ..._validateTargetVersion()];
 
   @override
-  String toString() => 'MacOSCodeConfig($json)';
+  String toString() => 'MacOSCodeConfigSyntax($json)';
 }
 
-class NativeCodeAssetEncoding extends JsonObject {
-  NativeCodeAssetEncoding.fromJson(super.json, {super.path = const []})
+class NativeCodeAssetEncodingSyntax extends JsonObjectSyntax {
+  NativeCodeAssetEncodingSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  NativeCodeAssetEncoding({
+  NativeCodeAssetEncodingSyntax({
     required Uri? file,
     required String id,
-    required LinkMode linkMode,
+    required LinkModeSyntax linkMode,
   }) : super() {
     _file = file;
     _id = id;
@@ -749,12 +765,12 @@ class NativeCodeAssetEncoding extends JsonObject {
 
   List<String> _validateId() => _reader.validate<String>('id');
 
-  LinkMode get linkMode {
+  LinkModeSyntax get linkMode {
     final jsonValue = _reader.map$('link_mode');
-    return LinkMode.fromJson(jsonValue, path: [...path, 'link_mode']);
+    return LinkModeSyntax.fromJson(jsonValue, path: [...path, 'link_mode']);
   }
 
-  set _linkMode(LinkMode value) {
+  set _linkMode(LinkModeSyntax value) {
     json['link_mode'] = value.json;
   }
 
@@ -787,37 +803,38 @@ class NativeCodeAssetEncoding extends JsonObject {
   }
 
   @override
-  String toString() => 'NativeCodeAssetEncoding($json)';
+  String toString() => 'NativeCodeAssetEncodingSyntax($json)';
 }
 
-class NativeCodeAssetNew extends Asset {
+class NativeCodeAssetNewSyntax extends AssetSyntax {
   static const typeValue = 'code_assets/code';
 
-  NativeCodeAssetNew.fromJson(super.json, {super.path}) : super._fromJson();
+  NativeCodeAssetNewSyntax.fromJson(super.json, {super.path})
+    : super._fromJson();
 
-  NativeCodeAssetNew({required NativeCodeAssetEncoding? encoding})
+  NativeCodeAssetNewSyntax({required NativeCodeAssetEncodingSyntax? encoding})
     : super(type: 'code_assets/code') {
     _encoding = encoding;
     json.sortOnKey();
   }
 
-  /// Setup all fields for [NativeCodeAssetNew] that are not in
-  /// [Asset].
-  void setup({required NativeCodeAssetEncoding? encoding}) {
+  /// Setup all fields for [NativeCodeAssetNewSyntax] that are not in
+  /// [AssetSyntax].
+  void setup({required NativeCodeAssetEncodingSyntax? encoding}) {
     _encoding = encoding;
     json.sortOnKey();
   }
 
-  NativeCodeAssetEncoding? get encoding {
+  NativeCodeAssetEncodingSyntax? get encoding {
     final jsonValue = _reader.optionalMap('encoding');
     if (jsonValue == null) return null;
-    return NativeCodeAssetEncoding.fromJson(
+    return NativeCodeAssetEncodingSyntax.fromJson(
       jsonValue,
       path: [...path, 'encoding'],
     );
   }
 
-  set _encoding(NativeCodeAssetEncoding? value) {
+  set _encoding(NativeCodeAssetEncodingSyntax? value) {
     json.setOrRemove('encoding', value?.json);
   }
 
@@ -833,45 +850,45 @@ class NativeCodeAssetNew extends Asset {
   List<String> validate() => [...super.validate(), ..._validateEncoding()];
 
   @override
-  String toString() => 'NativeCodeAssetNew($json)';
+  String toString() => 'NativeCodeAssetNewSyntax($json)';
 }
 
-extension NativeCodeAssetNewExtension on Asset {
+extension NativeCodeAssetNewSyntaxExtension on AssetSyntax {
   bool get isNativeCodeAssetNew => type == 'code_assets/code';
 
-  NativeCodeAssetNew get asNativeCodeAssetNew =>
-      NativeCodeAssetNew.fromJson(json, path: path);
+  NativeCodeAssetNewSyntax get asNativeCodeAssetNew =>
+      NativeCodeAssetNewSyntax.fromJson(json, path: path);
 }
 
-class OS {
+class OSSyntax {
   final String name;
 
-  const OS._(this.name);
+  const OSSyntax._(this.name);
 
-  static const android = OS._('android');
+  static const android = OSSyntax._('android');
 
-  static const iOS = OS._('ios');
+  static const iOS = OSSyntax._('ios');
 
-  static const linux = OS._('linux');
+  static const linux = OSSyntax._('linux');
 
-  static const macOS = OS._('macos');
+  static const macOS = OSSyntax._('macos');
 
-  static const windows = OS._('windows');
+  static const windows = OSSyntax._('windows');
 
-  static const List<OS> values = [android, iOS, linux, macOS, windows];
+  static const List<OSSyntax> values = [android, iOS, linux, macOS, windows];
 
-  static final Map<String, OS> _byName = {
+  static final Map<String, OSSyntax> _byName = {
     for (final value in values) value.name: value,
   };
 
-  OS.unknown(this.name) : assert(!_byName.keys.contains(name));
+  OSSyntax.unknown(this.name) : assert(!_byName.keys.contains(name));
 
-  factory OS.fromJson(String name) {
+  factory OSSyntax.fromJson(String name) {
     final knownValue = _byName[name];
     if (knownValue != null) {
       return knownValue;
     }
-    return OS.unknown(name);
+    return OSSyntax.unknown(name);
   }
 
   bool get isKnown => _byName[name] != null;
@@ -880,43 +897,45 @@ class OS {
   String toString() => name;
 }
 
-class StaticLinkMode extends LinkMode {
-  StaticLinkMode.fromJson(super.json, {super.path}) : super._fromJson();
+class StaticLinkModeSyntax extends LinkModeSyntax {
+  StaticLinkModeSyntax.fromJson(super.json, {super.path}) : super._fromJson();
 
-  StaticLinkMode() : super(type: 'static');
+  StaticLinkModeSyntax() : super(type: 'static');
 
   @override
   List<String> validate() => [...super.validate()];
 
   @override
-  String toString() => 'StaticLinkMode($json)';
+  String toString() => 'StaticLinkModeSyntax($json)';
 }
 
-extension StaticLinkModeExtension on LinkMode {
+extension StaticLinkModeSyntaxExtension on LinkModeSyntax {
   bool get isStaticLinkMode => type == 'static';
 
-  StaticLinkMode get asStaticLinkMode =>
-      StaticLinkMode.fromJson(json, path: path);
+  StaticLinkModeSyntax get asStaticLinkMode =>
+      StaticLinkModeSyntax.fromJson(json, path: path);
 }
 
-class Windows extends JsonObject {
-  Windows.fromJson(super.json, {super.path = const []}) : super.fromJson();
+class WindowsSyntax extends JsonObjectSyntax {
+  WindowsSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
 
-  Windows({required DeveloperCommandPrompt? developerCommandPrompt}) : super() {
+  WindowsSyntax({required DeveloperCommandPromptSyntax? developerCommandPrompt})
+    : super() {
     _developerCommandPrompt = developerCommandPrompt;
     json.sortOnKey();
   }
 
-  DeveloperCommandPrompt? get developerCommandPrompt {
+  DeveloperCommandPromptSyntax? get developerCommandPrompt {
     final jsonValue = _reader.optionalMap('developer_command_prompt');
     if (jsonValue == null) return null;
-    return DeveloperCommandPrompt.fromJson(
+    return DeveloperCommandPromptSyntax.fromJson(
       jsonValue,
       path: [...path, 'developer_command_prompt'],
     );
   }
 
-  set _developerCommandPrompt(DeveloperCommandPrompt? value) {
+  set _developerCommandPrompt(DeveloperCommandPromptSyntax? value) {
     json.setOrRemove('developer_command_prompt', value?.json);
   }
 
@@ -937,19 +956,19 @@ class Windows extends JsonObject {
   ];
 
   @override
-  String toString() => 'Windows($json)';
+  String toString() => 'WindowsSyntax($json)';
 }
 
-class JsonObject {
+class JsonObjectSyntax {
   final Map<String, Object?> json;
 
   final List<Object> path;
 
   JsonReader get _reader => JsonReader(json, path);
 
-  JsonObject() : json = {}, path = const [];
+  JsonObjectSyntax() : json = {}, path = const [];
 
-  JsonObject.fromJson(this.json, {this.path = const []});
+  JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 
   List<String> validate() => [];
 }
