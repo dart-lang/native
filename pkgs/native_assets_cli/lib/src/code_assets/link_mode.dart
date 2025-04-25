@@ -4,7 +4,7 @@
 
 import 'code_asset.dart';
 
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 /// The link mode for a [CodeAsset].
 ///
@@ -25,7 +25,7 @@ abstract final class LinkMode {
   ///
   /// The json is expected to be valid encoding obtained via [LinkMode.toJson].
   factory LinkMode.fromJson(Map<String, Object?> json) =>
-      LinkModeSyntax.fromSyntax(syntax.LinkMode.fromJson(json));
+      LinkModeSyntaxExtension.fromSyntax(LinkModeSyntax.fromJson(json));
 
   /// The json representation of this [LinkMode].
   ///
@@ -34,19 +34,19 @@ abstract final class LinkMode {
   Map<String, Object?> toJson() => toSyntax().json;
 }
 
-extension LinkModeSyntax on LinkMode {
-  syntax.LinkMode toSyntax() => switch (this) {
-    StaticLinking() => syntax.StaticLinkMode(),
-    LookupInProcess() => syntax.DynamicLoadingProcessLinkMode(),
-    LookupInExecutable() => syntax.DynamicLoadingExecutableLinkMode(),
-    DynamicLoadingBundled() => syntax.DynamicLoadingBundleLinkMode(),
-    final DynamicLoadingSystem system => syntax.DynamicLoadingSystemLinkMode(
+extension LinkModeSyntaxExtension on LinkMode {
+  LinkModeSyntax toSyntax() => switch (this) {
+    StaticLinking() => StaticLinkModeSyntax(),
+    LookupInProcess() => DynamicLoadingProcessLinkModeSyntax(),
+    LookupInExecutable() => DynamicLoadingExecutableLinkModeSyntax(),
+    DynamicLoadingBundled() => DynamicLoadingBundleLinkModeSyntax(),
+    final DynamicLoadingSystem system => DynamicLoadingSystemLinkModeSyntax(
       uri: system.uri,
     ),
     _ => throw UnimplementedError('The link mode "$this" is not known'),
   };
 
-  static LinkMode fromSyntax(syntax.LinkMode linkMode) => switch (linkMode) {
+  static LinkMode fromSyntax(LinkModeSyntax linkMode) => switch (linkMode) {
     _ when linkMode.isStaticLinkMode => StaticLinking(),
     _ when linkMode.isDynamicLoadingProcessLinkMode => LookupInProcess(),
     _ when linkMode.isDynamicLoadingExecutableLinkMode => LookupInExecutable(),

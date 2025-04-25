@@ -10,7 +10,7 @@ import 'code_asset.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 /// Extension to the [HookConfig] providing access to configuration specific
 /// to code assets (only available if code assets are supported).
@@ -38,13 +38,10 @@ extension CodeAssetLinkInput on LinkInputAssets {
 
 /// Configuration for hook writers if code assets are supported.
 class CodeConfig {
-  final syntax.CodeConfig _syntax;
+  final CodeConfigSyntax _syntax;
 
   CodeConfig._fromJson(Map<String, Object?> json, List<Object> path)
-    : _syntax = syntax.Config.fromJson(
-        json,
-        path: path,
-      ).extensions!.codeAssets!;
+    : _syntax = ConfigSyntax.fromJson(json, path: path).extensions!.codeAssets!;
 
   /// The architecture the code code asset should be built for.
   ///
@@ -54,19 +51,19 @@ class CodeConfig {
   /// into a universal binary. So, the build and link hook implementations are
   /// not responsible for providing universal binaries.
   Architecture get targetArchitecture =>
-      ArchitectureSyntax.fromSyntax(_syntax.targetArchitecture);
+      ArchitectureSyntaxExtension.fromSyntax(_syntax.targetArchitecture);
 
   LinkModePreference get linkModePreference =>
-      LinkModePreferenceSyntax.fromSyntax(_syntax.linkModePreference);
+      LinkModePreferenceSyntaxExtension.fromSyntax(_syntax.linkModePreference);
 
   /// A compiler toolchain able to target [targetOS] with [targetArchitecture].
   CCompilerConfig? get cCompiler => switch (_syntax.cCompiler) {
     null => null,
-    final c => CCompilerConfigSyntax.fromSyntax(c),
+    final c => CCompilerConfigSyntaxExtension.fromSyntax(c),
   };
 
   /// The operating system being compiled for.
-  OS get targetOS => OSSyntax.fromSyntax(_syntax.targetOs);
+  OS get targetOS => OSSyntaxExtension.fromSyntax(_syntax.targetOs);
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   IOSCodeConfig get iOS => switch (_syntax.iOS) {
@@ -93,7 +90,7 @@ class CodeConfig {
 
 /// Configuration provided when [CodeConfig.targetOS] is [OS.iOS].
 class IOSCodeConfig {
-  final syntax.IOSCodeConfig _syntax;
+  final IOSCodeConfigSyntax _syntax;
 
   IOSCodeConfig._(this._syntax);
 
@@ -104,7 +101,7 @@ class IOSCodeConfig {
   int get targetVersion => _syntax.targetVersion;
 
   IOSCodeConfig({required IOSSdk targetSdk, required int targetVersion})
-    : _syntax = syntax.IOSCodeConfig(
+    : _syntax = IOSCodeConfigSyntax(
         targetSdk: targetSdk.type,
         targetVersion: targetVersion,
       );
@@ -112,7 +109,7 @@ class IOSCodeConfig {
 
 /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
 class AndroidCodeConfig {
-  final syntax.AndroidCodeConfig _syntax;
+  final AndroidCodeConfigSyntax _syntax;
 
   AndroidCodeConfig._(this._syntax);
 
@@ -121,12 +118,12 @@ class AndroidCodeConfig {
   int get targetNdkApi => _syntax.targetNdkApi;
 
   AndroidCodeConfig({required int targetNdkApi})
-    : _syntax = syntax.AndroidCodeConfig(targetNdkApi: targetNdkApi);
+    : _syntax = AndroidCodeConfigSyntax(targetNdkApi: targetNdkApi);
 }
 
 //// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
 class MacOSCodeConfig {
-  final syntax.MacOSCodeConfig _syntax;
+  final MacOSCodeConfigSyntax _syntax;
 
   MacOSCodeConfig._(this._syntax);
 
@@ -134,7 +131,7 @@ class MacOSCodeConfig {
   int get targetVersion => _syntax.targetVersion;
 
   MacOSCodeConfig({required int targetVersion})
-    : _syntax = syntax.MacOSCodeConfig(targetVersion: targetVersion);
+    : _syntax = MacOSCodeConfigSyntax(targetVersion: targetVersion);
 }
 
 /// Extension to the [BuildOutputBuilder] providing access to emitting code
@@ -195,7 +192,7 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
     IOSCodeConfig? iOS,
     MacOSCodeConfig? macOS,
   }) {
-    final codeConfig = syntax.CodeConfig(
+    final codeConfig = CodeConfigSyntax(
       linkModePreference: linkModePreference.toSyntax(),
       targetArchitecture: targetArchitecture.toSyntax(),
       targetOs: targetOS.toSyntax(),
@@ -204,9 +201,11 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
       iOS: iOS?.toSyntax(),
       macOS: macOS?.toSyntax(),
     );
-    final baseHookConfig = hook_syntax.HookInput.fromJson(builder.json).config;
-    baseHookConfig.extensions ??= hook_syntax.JsonObject.fromJson({});
-    final hookConfig = syntax.Config.fromJson(baseHookConfig.json);
+    final baseHookConfig = hook_syntax.HookInputSyntax.fromJson(
+      builder.json,
+    ).config;
+    baseHookConfig.extensions ??= hook_syntax.JsonObjectSyntax.fromJson({});
+    final hookConfig = ConfigSyntax.fromJson(baseHookConfig.json);
     hookConfig.extensions!.codeAssets = codeConfig;
   }
 }
@@ -229,19 +228,19 @@ extension CodeAssetLinkOutput on LinkOutputAssets {
       .toList();
 }
 
-extension MacOSCodeConfigSyntax on MacOSCodeConfig {
-  syntax.MacOSCodeConfig toSyntax() =>
-      syntax.MacOSCodeConfig(targetVersion: targetVersion);
+extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
+  MacOSCodeConfigSyntax toSyntax() =>
+      MacOSCodeConfigSyntax(targetVersion: targetVersion);
 }
 
-extension IOSCodeConfigSyntax on IOSCodeConfig {
-  syntax.IOSCodeConfig toSyntax() => syntax.IOSCodeConfig(
+extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
+  IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
     targetSdk: targetSdk.type,
     targetVersion: targetVersion,
   );
 }
 
-extension AndroidCodeConfigSyntax on AndroidCodeConfig {
-  syntax.AndroidCodeConfig toSyntax() =>
-      syntax.AndroidCodeConfig(targetNdkApi: targetNdkApi);
+extension AndroidCodeConfigSyntaxExtension on AndroidCodeConfig {
+  AndroidCodeConfigSyntax toSyntax() =>
+      AndroidCodeConfigSyntax(targetNdkApi: targetNdkApi);
 }

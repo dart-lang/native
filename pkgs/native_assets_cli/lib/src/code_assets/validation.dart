@@ -12,7 +12,7 @@ import 'config.dart';
 import 'link_mode.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
     [
@@ -56,7 +56,7 @@ ValidationErrors _validateConfig(String inputName, HookConfig config) {
 }
 
 ValidationErrors _validateConfigSyntax(HookConfig config) {
-  final syntaxNode = syntax.Config.fromJson(config.json, path: config.path);
+  final syntaxNode = ConfigSyntax.fromJson(config.json, path: config.path);
   final syntaxErrors = syntaxNode.validate();
   if (syntaxErrors.isEmpty) {
     return [];
@@ -189,7 +189,7 @@ ValidationErrors _validateCodeAssetSyntax(EncodedAsset encodedAsset) {
   if (!encodedAsset.isCodeAsset) {
     return [];
   }
-  final syntaxNode = syntax.NativeCodeAssetEncoding.fromJson(
+  final syntaxNode = NativeCodeAssetEncodingSyntax.fromJson(
     encodedAsset.encoding,
     path: encodedAsset.jsonPath ?? [],
   );

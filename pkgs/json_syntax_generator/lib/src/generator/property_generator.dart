@@ -83,7 +83,7 @@ class PropertyGenerator {
     String sortOnKey,
   ) {
     final classInfo = dartType.classInfo;
-    final classType = classInfo.name;
+    final classType = classInfo.className;
     final fieldName = property.name;
     final validateName = property.validateName;
     final isNullable = property.type.isNullable;

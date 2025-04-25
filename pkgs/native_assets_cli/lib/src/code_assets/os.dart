@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 /// An operating system the Dart VM runs on.
 final class OS {
@@ -57,7 +57,7 @@ final class OS {
   ///
   /// The name can be obtained from [OS.name] or [OS.toString].
   factory OS.fromString(String name) =>
-      OSSyntax.fromSyntax(syntax.OS.fromJson(name));
+      OSSyntaxExtension.fromSyntax(OSSyntax.fromJson(name));
 
   /// The current [OS].
   ///
@@ -65,18 +65,18 @@ final class OS {
   static final OS current = OS.fromString(Platform.operatingSystem);
 }
 
-extension OSSyntax on OS {
+extension OSSyntaxExtension on OS {
   static final _toSyntax = {
-    for (final item in OS.values) item: syntax.OS.fromJson(item.name),
+    for (final item in OS.values) item: OSSyntax.fromJson(item.name),
   };
 
   static final _fromSyntax = {
     for (var entry in _toSyntax.entries) entry.value: entry.key,
   };
 
-  syntax.OS toSyntax() => _toSyntax[this]!;
+  OSSyntax toSyntax() => _toSyntax[this]!;
 
-  static OS fromSyntax(syntax.OS syntax) => switch (_fromSyntax[syntax]) {
+  static OS fromSyntax(OSSyntax syntax) => switch (_fromSyntax[syntax]) {
     null => throw FormatException('The OS "${syntax.name}" is not known'),
     final e => e,
   };

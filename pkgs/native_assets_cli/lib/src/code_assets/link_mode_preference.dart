@@ -4,7 +4,7 @@
 
 import 'code_asset.dart';
 
-import 'syntax.g.dart' as syntax;
+import 'syntax.g.dart';
 
 /// The preferred linkMode method for [CodeAsset]s.
 final class LinkModePreference {
@@ -14,8 +14,8 @@ final class LinkModePreference {
   const LinkModePreference(this.name);
 
   factory LinkModePreference.fromString(String name) =>
-      LinkModePreferenceSyntax.fromSyntax(
-        syntax.LinkModePreference.fromJson(name),
+      LinkModePreferenceSyntaxExtension.fromSyntax(
+        LinkModePreferenceSyntax.fromJson(name),
       );
 
   /// Provide native assets as dynamic libraries.
@@ -49,23 +49,23 @@ final class LinkModePreference {
   String toString() => name;
 }
 
-extension LinkModePreferenceSyntax on LinkModePreference {
+extension LinkModePreferenceSyntaxExtension on LinkModePreference {
   static const _toSyntax = {
-    LinkModePreference.dynamic: syntax.LinkModePreference.dynamic,
-    LinkModePreference.preferDynamic: syntax.LinkModePreference.preferDynamic,
-    LinkModePreference.preferStatic: syntax.LinkModePreference.preferStatic,
-    LinkModePreference.static: syntax.LinkModePreference.static,
+    LinkModePreference.dynamic: LinkModePreferenceSyntax.dynamic,
+    LinkModePreference.preferDynamic: LinkModePreferenceSyntax.preferDynamic,
+    LinkModePreference.preferStatic: LinkModePreferenceSyntax.preferStatic,
+    LinkModePreference.static: LinkModePreferenceSyntax.static,
   };
 
   static const _fromSyntax = {
-    syntax.LinkModePreference.dynamic: LinkModePreference.dynamic,
-    syntax.LinkModePreference.preferDynamic: LinkModePreference.preferDynamic,
-    syntax.LinkModePreference.preferStatic: LinkModePreference.preferStatic,
-    syntax.LinkModePreference.static: LinkModePreference.static,
+    LinkModePreferenceSyntax.dynamic: LinkModePreference.dynamic,
+    LinkModePreferenceSyntax.preferDynamic: LinkModePreference.preferDynamic,
+    LinkModePreferenceSyntax.preferStatic: LinkModePreference.preferStatic,
+    LinkModePreferenceSyntax.static: LinkModePreference.static,
   };
 
-  syntax.LinkModePreference toSyntax() => _toSyntax[this]!;
+  LinkModePreferenceSyntax toSyntax() => _toSyntax[this]!;
 
-  static LinkModePreference fromSyntax(syntax.LinkModePreference syntax) =>
+  static LinkModePreference fromSyntax(LinkModePreferenceSyntax syntax) =>
       _fromSyntax[syntax]!;
 }

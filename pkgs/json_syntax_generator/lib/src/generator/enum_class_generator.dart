@@ -11,7 +11,7 @@ class EnumGenerator {
 
   String generate() {
     final buffer = StringBuffer();
-    final className = classInfo.name;
+    final className = classInfo.className;
     final enumValues = classInfo.enumValues;
 
     final staticFinals = <String>[];
