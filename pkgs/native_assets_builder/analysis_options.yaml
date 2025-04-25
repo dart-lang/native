@@ -7,6 +7,8 @@ analyzer:
     strict-casts: true
     strict-inference: true
     strict-raw-types: true
+  plugins:
+    - custom_lint
 
 linter:
   rules:
@@ -15,3 +17,8 @@ linter:
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
+
+custom_lint:
+  rules:
+    - avoid_import_outside_src
+
