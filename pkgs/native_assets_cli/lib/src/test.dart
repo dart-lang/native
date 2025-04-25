@@ -9,25 +9,39 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 import 'config.dart';
+import 'encoded_asset.dart';
+import 'extension.dart';
+import 'user_defines.dart';
 import 'validation.dart';
 
-/// Validate a build hook; this will throw an exception on validation errors.
+/// Validates a build hook.
+///
+/// This method will throw an exception on validation errors.
 ///
 /// This is intended to be used from tests, e.g.:
 ///
 /// ```
 /// test('test my build hook', () async {
-///   await testCodeBuildHook(
+///   await testBuildHook(
 ///     ...
 ///   );
 /// });
 /// ```
+///
+/// The hook is run in isolation. No user-defines are read from the pubspec,
+/// they must be provided via [userDefines]. No other hooks are run, if the hook
+/// requires assets from other build hooks, the must be provided in [assets].
 Future<void> testBuildHook({
-  required void Function(BuildInputBuilder) extraInputSetup,
   required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildInput input, BuildOutput output) check,
   bool? linkingEnabled,
+  required List<ProtocolExtension> extensions,
+  // TODO(https://github.com/dart-lang/native/issues/2241): Cleanup how the
+  // following parameters are passed in.
+  PackageUserDefines? userDefines,
+  Map<String, List<EncodedAsset>>? assets,
 }) async {
+  linkingEnabled ??= false;
   const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
   final tempDir = await Directory.systemTemp.createTemp();
@@ -37,11 +51,9 @@ Future<void> testBuildHook({
     final tempUri = Directory(
       await tempDir.resolveSymbolicLinks(),
     ).uri.normalizePath();
-    final outputDirectory = tempUri.resolve('output/');
     final outputDirectoryShared = tempUri.resolve('output_shared/');
     final outputFile = tempUri.resolve('output.json');
 
-    await Directory.fromUri(outputDirectory).create();
     await Directory.fromUri(outputDirectoryShared).create();
 
     final inputBuilder = BuildInputBuilder();
@@ -51,26 +63,45 @@ Future<void> testBuildHook({
         packageName: _readPackageNameFromPubspec(),
         outputFile: outputFile,
         outputDirectoryShared: outputDirectoryShared,
+        userDefines: userDefines,
       )
-      ..config.setupBuild(linkingEnabled: true);
-    extraInputSetup(inputBuilder);
+      ..setupBuildInput(assets: assets)
+      ..config.setupBuild(linkingEnabled: linkingEnabled);
+    for (final extension in extensions) {
+      extension.setupBuildInput(inputBuilder);
+    }
+    final input = inputBuilder.build();
 
-    final input = BuildInput(inputBuilder.json);
+    final inputErrors = [
+      for (final extension in extensions)
+        ...await extension.validateBuildInput(input),
+    ];
+    if (inputErrors.isNotEmpty) {
+      throw ValidationFailure(
+        'Encountered build input validation issues: $inputErrors',
+      );
+    }
 
     final inputUri = tempUri.resolve('input.json');
     _writeJsonTo(inputUri, input.json);
     await mainMethod(['--config=${inputUri.toFilePath()}']);
     final output = BuildOutput(_readJsonFrom(input.outputFile));
 
-    // Test conformance of protocol invariants.
-    final validationErrors = await validateBuildOutput(input, output);
-    if (validationErrors.isNotEmpty) {
+    final outputErrors = [
+      ...await validateBuildOutput(input, output),
+      for (final extension in extensions) ...[
+        ...await extension.validateBuildOutput(input, output),
+        ...await extension.validateApplicationAssets(
+          output.assets.encodedAssets,
+        ),
+      ],
+    ];
+    if (outputErrors.isNotEmpty) {
       throw ValidationFailure(
-        'encountered build output validation issues: $validationErrors',
+        'Encountered build output validation issues: $inputErrors',
       );
     }
 
-    // Run user-defined tests.
     await check(input, output);
   } finally {
     final keepTempDir = (Platform.environment[keepTempKey] ?? '').isNotEmpty;

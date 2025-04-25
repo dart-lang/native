@@ -152,11 +152,6 @@ sealed class HookInputBuilder {
   void setupShared({
     required Uri packageRoot,
     required String packageName,
-    @Deprecated(
-      'This parameter is not read in `HookInput`. '
-      'It must still be provided to accommodate `HookInput`s in hooks using an '
-      'older version of this package.',
-    )
     required Uri outputDirectoryShared,
     required Uri outputFile,
     PackageUserDefines? userDefines,
@@ -264,6 +259,8 @@ final class BuildInputBuilder extends HookInputBuilder {
   @override
   void addExtension(ProtocolExtension extension) =>
       extension.setupBuildInput(this);
+
+  BuildInput build() => BuildInput(json);
 }
 
 final class HookConfigBuilder {
@@ -337,6 +334,8 @@ final class LinkInputBuilder extends HookInputBuilder {
   @override
   void addExtension(ProtocolExtension extension) =>
       extension.setupLinkInput(this);
+
+  LinkInput build() => LinkInput(json);
 }
 
 List<EncodedAsset> _parseAssets(List<AssetSyntax>? assets) => assets == null
@@ -476,6 +475,8 @@ class BuildOutputBuilder extends HookOutputBuilder {
   @override
   BuildOutputSyntax get _syntax =>
       BuildOutputSyntax.fromJson(super._syntax.json);
+
+  BuildOutput build() => BuildOutput(json);
 }
 
 extension type MetadataOutputBuilder._(BuildOutputBuilder _output) {
@@ -655,6 +656,8 @@ extension type LinkOutputAssets._(LinkOutput _output) {
 class LinkOutputBuilder extends HookOutputBuilder {
   EncodedAssetLinkOutputBuilder get assets =>
       EncodedAssetLinkOutputBuilder._(this);
+
+  LinkOutput build() => LinkOutput(json);
 }
 
 /// Extension for the lower-level API to add [EncodedAsset]s to

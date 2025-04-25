@@ -145,7 +145,7 @@ void main() async {
           ),
         ),
       );
-    final input = BuildInput(inputBuilder.json);
+    final input = inputBuilder.build();
     expect(input.json, inputJson());
     expectCorrectCodeConfig(input.config.code);
   });
@@ -190,7 +190,7 @@ void main() async {
           ),
         ),
       );
-    final input = LinkInput(inputBuilder.json);
+    final input = inputBuilder.build();
     expect(input.json, inputJson(hookType: 'link'));
     expectCorrectCodeConfig(input.config.code);
     expect(input.assets.encodedAssets, assets);

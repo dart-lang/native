@@ -100,5 +100,5 @@ BuildInput createBuildInput(
             macOS: MacOSCodeConfig(targetVersion: macOSTargetVersion),
           ),
         );
-  return BuildInput(inputBuilder.json);
+  return inputBuilder.build();
 }

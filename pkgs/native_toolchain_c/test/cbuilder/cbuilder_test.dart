@@ -73,7 +73,7 @@ void main() {
                 ),
               );
 
-        final buildInput = BuildInput(buildInputBuilder.json);
+        final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.executable(
@@ -156,7 +156,7 @@ void main() {
           );
         }
 
-        final buildInput = BuildInput(buildInputBuilder.json);
+        final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.library(
@@ -264,7 +264,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final flag = switch (buildInput.config.code.targetOS) {
@@ -331,7 +331,7 @@ void main() {
             ),
           );
 
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutputBuilder = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
@@ -347,7 +347,7 @@ void main() {
       logger: logger,
     );
 
-    final buildOutput = BuildOutput(buildOutputBuilder.json);
+    final buildOutput = buildOutputBuilder.build();
     expect(buildOutput.dependencies, contains(includesHUri));
 
     final dylibUri = buildInput.outputDirectory.resolve(
@@ -389,7 +389,7 @@ void main() {
             ),
           );
 
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final stdFlag = switch (buildInput.config.code.targetOS) {
@@ -457,7 +457,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final defaultStdLibLinkFlag = switch (buildInput.config.code.targetOS) {
@@ -525,7 +525,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.executable(
@@ -611,7 +611,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final debugBuilder = CBuilder.library(
@@ -718,7 +718,7 @@ Future<void> testDefines({
           ),
         );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.executable(
