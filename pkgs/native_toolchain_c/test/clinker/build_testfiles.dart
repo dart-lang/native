@@ -48,7 +48,7 @@ Future<Uri> buildTestArchive(
           ),
         );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutputBuilder = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -64,6 +64,6 @@ Future<Uri> buildTestArchive(
     logger: logger,
   );
 
-  final buildOutput = BuildOutput(buildOutputBuilder.json);
+  final buildOutput = buildOutputBuilder.build();
   return buildOutput.assets.code.first.file!;
 }

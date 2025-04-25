@@ -182,7 +182,6 @@ extension type CodeAssetLinkOutputBuilderAdd._(
 
 /// Extension to initialize code specific configuration on link/build inputs.
 extension CodeAssetBuildInputBuilder on HookConfigBuilder {
-  @Deprecated('Prefer using input.addExtension(CodeExtension(...)).')
   void setupCode({
     required Architecture targetArchitecture,
     required OS targetOS,

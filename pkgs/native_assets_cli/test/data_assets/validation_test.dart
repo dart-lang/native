@@ -43,7 +43,7 @@ void main() {
       )
       ..config.setupBuild(linkingEnabled: false)
       ..addExtension(DataAssetsExtension());
-    return BuildInput(inputBuilder.json);
+    return inputBuilder.build();
   }
 
   test('file exists', () async {
@@ -59,7 +59,7 @@ void main() {
     );
     final errors = await validateDataAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(errors, contains(contains('does not exist')));
   });
@@ -78,7 +78,7 @@ void main() {
     );
     final errors = await validateDataAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(
       errors,
@@ -105,7 +105,7 @@ void main() {
     ]);
     final errors = await validateDataAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(errors, contains(contains('More than one')));
   });
@@ -132,7 +132,7 @@ void main() {
     final file2 = File.fromUri(file2Uri);
     await file2.writeAsString('Hello Dart');
 
-    final output = BuildOutput(outputBuilder.json);
+    final output = outputBuilder.build();
     await outputBuilder.addDataAssetDirectories([
       'assets1',
       'assets2',
@@ -156,7 +156,7 @@ void main() {
     final file = File.fromUri(fileUri)..createSync();
     await file.writeAsString('Test content');
 
-    final output = BuildOutput(outputBuilder.json);
+    final output = outputBuilder.build();
     await outputBuilder.addDataAssetDirectories([
       'single_assets/single_file.txt',
     ], input: input);
@@ -198,7 +198,7 @@ void main() {
     final nestedFile2 = File.fromUri(nestedFile2Uri);
     await nestedFile2.writeAsString('Nested file 2');
 
-    final output = BuildOutput(outputBuilder.json);
+    final output = outputBuilder.build();
     await outputBuilder.addDataAssetDirectories(
       ['assets3'],
       input: input,

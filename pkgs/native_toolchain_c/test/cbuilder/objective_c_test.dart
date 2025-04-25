@@ -60,7 +60,7 @@ void main() {
             ),
           );
 
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(

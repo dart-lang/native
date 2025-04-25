@@ -85,7 +85,7 @@ Future<void> runTests(List<Architecture> architectures) async {
                   ),
                 );
 
-          final linkInput = LinkInput(linkInputBuilder.json);
+          final linkInput = linkInputBuilder.build();
           final linkOutputBuilder = LinkOutputBuilder();
 
           printOnFailure(linkInput.config.code.cCompiler.toString());
@@ -94,7 +94,7 @@ Future<void> runTests(List<Architecture> architectures) async {
               .linker([testArchive.toFilePath()])
               .run(input: linkInput, output: linkOutputBuilder, logger: logger);
 
-          final linkOutput = LinkOutput(linkOutputBuilder.json);
+          final linkOutput = linkOutputBuilder.build();
           final asset = linkOutput.assets.code.first;
           final filePath = asset.file!.toFilePath();
 

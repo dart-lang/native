@@ -6,7 +6,6 @@ import 'package:logging/logging.dart';
 import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
@@ -30,7 +29,7 @@ void main(List<String> arguments) async {
               print('${record.level.name}: ${record.time}: ${record.message}');
             }),
     );
-    final tempBuildOutput = BuildOutput(outputBuilder.json);
+    final tempBuildOutput = outputBuilder.build();
     output.assets.code.add(
       tempBuildOutput.assets.code.single,
       // Send dylib to linking if linking is enabled.

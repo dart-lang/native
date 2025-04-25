@@ -73,7 +73,7 @@ void main() {
     );
     final errors = await validateCodeAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(
       errors,
@@ -100,7 +100,7 @@ void main() {
       );
       final errors = await validateCodeAssetBuildOutput(
         input,
-        BuildOutput(outputBuilder.json),
+        outputBuilder.build(),
       );
       expect(
         errors,
@@ -127,10 +127,7 @@ void main() {
       ),
     );
     expect(
-      await validateCodeAssetBuildOutput(
-        input,
-        BuildOutput(outputBuilder.json),
-      ),
+      await validateCodeAssetBuildOutput(input, outputBuilder.build()),
       isEmpty,
     );
     traverseJson<Map<String, Object?>>(outputBuilder.json, [
@@ -141,7 +138,7 @@ void main() {
     ]).remove('uri');
     final errors = await validateCodeAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(
       errors,
@@ -176,7 +173,7 @@ void main() {
     ]);
     final errors = await validateCodeAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(errors, contains(contains('Duplicate dynamic library file name')));
   });

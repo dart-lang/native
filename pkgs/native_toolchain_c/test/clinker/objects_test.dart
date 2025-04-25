@@ -53,7 +53,7 @@ Future<void> main() async {
             ),
           );
 
-    final linkInput = LinkInput(linkInputBuilder.json);
+    final linkInput = linkInputBuilder.build();
     final linkOutput = LinkOutputBuilder();
 
     printOnFailure(linkInput.config.code.cCompiler.toString());

@@ -39,7 +39,7 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.setupBuild(linkingEnabled: false);
-    input = BuildInput(inputBuilder.json);
+    input = inputBuilder.build();
 
     final inputJson = json.encode(input.json);
     buildInputUri = tempUri.resolve('input.json');

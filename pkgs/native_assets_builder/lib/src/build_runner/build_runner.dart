@@ -150,7 +150,7 @@ class NativeAssetsBuildRunner {
         userDefines: loadedUserDefines?[package.name],
       );
 
-      final input = BuildInput(inputBuilder.json);
+      final input = inputBuilder.build();
       final errors = [
         ...await validateBuildInput(input),
         for (final e in extensions) ...await e.validateBuildInput(input),
@@ -256,7 +256,7 @@ class NativeAssetsBuildRunner {
         recordedUsesFile: resourcesFile?.uri,
       );
 
-      final input = LinkInput(inputBuilder.json);
+      final input = inputBuilder.build();
       final errors = [
         ...await validateLinkInput(input),
         for (final e in extensions) ...await e.validateLinkInput(input),

@@ -42,7 +42,7 @@ Future<void> main() async {
               ),
             );
 
-      final linkHookInput = LinkInput(linkInputBuilder.json);
+      final linkHookInput = linkInputBuilder.build();
 
       final cLinker = CLinker.library(
         name: 'mylibname',

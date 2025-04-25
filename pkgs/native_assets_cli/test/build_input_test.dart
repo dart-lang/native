@@ -73,7 +73,7 @@ void main() async {
       ..config.addBuildAssetTypes(['my-asset-type'])
       ..config.setupBuild(linkingEnabled: false)
       ..setupBuildInput(assets: assets);
-    final input = BuildInput(inputBuilder.json);
+    final input = inputBuilder.build();
 
     expect(input.json, inputJson);
     expect(json.decode(input.toString()), inputJson);

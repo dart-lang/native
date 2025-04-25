@@ -6,5 +6,5 @@
 library;
 
 export 'src/code_assets/config.dart'
-    show CodeAssetBuildInputBuilder, CodeAssetBuildOutput, CodeAssetLinkOutput;
+    show CodeAssetBuildOutput, CodeAssetLinkOutput;
 export 'src/code_assets/extension.dart';

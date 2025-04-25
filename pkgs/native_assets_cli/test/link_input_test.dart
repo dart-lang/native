@@ -52,7 +52,7 @@ void main() async {
       )
       ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])
       ..setupLink(assets: assets, recordedUsesFile: null);
-    final input = LinkInput(inputBuilder.json);
+    final input = inputBuilder.build();
 
     expect(input.json, inputJson);
     expect(json.decode(input.toString()), inputJson);
