@@ -6,16 +6,16 @@
 ///
 /// This simplifies the code generator.
 const helperLib = r'''
-class JsonObject {
+class JsonObjectSyntax {
   final Map<String, Object?> json;
 
   final List<Object> path;
 
   JsonReader get _reader => JsonReader(json, path);
 
-  JsonObject() : json = {}, path = const [];
+  JsonObjectSyntax() : json = {}, path = const [];
 
-  JsonObject.fromJson(this.json, {this.path = const []});
+  JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 
   List<String> validate() => [];
 }

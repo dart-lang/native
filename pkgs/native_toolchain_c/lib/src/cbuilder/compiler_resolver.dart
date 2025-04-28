@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:native_assets_cli/code_assets.dart';
 
-import '../../native_toolchain_c.dart';
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
 import '../native_toolchain/clang.dart';
@@ -17,6 +16,7 @@ import '../native_toolchain/recognizer.dart';
 import '../tool/tool.dart';
 import '../tool/tool_error.dart';
 import '../tool/tool_instance.dart';
+import '../utils/env_from_bat.dart';
 
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.

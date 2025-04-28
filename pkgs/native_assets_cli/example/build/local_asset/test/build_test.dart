@@ -2,6 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:file_testing/file_testing.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_assets_cli/code_assets_testing.dart';
 import 'package:test/test.dart';
 
@@ -11,9 +15,15 @@ void main() async {
   test('test my build hook', () async {
     await testCodeBuildHook(
       mainMethod: build.main,
-      check: (_, output) {
+      check: (input, output) {
+        expect(output.assets.encodedAssets.length, equals(1));
         expect(output.assets.code, isNotEmpty);
         expect(output.assets.code.first.id, 'package:local_asset/asset.txt');
+        expect(File.fromUri(output.assets.code.first.file!), exists);
+        expect(
+          output.dependencies,
+          equals([input.packageRoot.resolve('assets/asset.txt')]),
+        );
       },
     );
   });

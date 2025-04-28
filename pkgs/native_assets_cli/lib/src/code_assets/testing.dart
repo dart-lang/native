@@ -4,12 +4,21 @@
 
 import 'dart:async';
 
-import '../../code_assets_builder.dart';
-import '../../test.dart';
-import '../validation.dart';
+import '../config.dart';
+import '../encoded_asset.dart';
+import '../test.dart';
+import '../user_defines.dart';
+import 'architecture.dart';
+import 'c_compiler_config.dart';
+import 'config.dart';
+import 'extension.dart';
+import 'ios_sdk.dart';
+import 'link_mode_preference.dart';
+import 'os.dart';
 
-/// Validate a code build hook; this will throw an exception on validation
-/// errors.
+/// Validates a code build hook.
+///
+/// This method will throw an exception on validation errors.
 ///
 /// This is intended to be used from tests, e.g.:
 ///
@@ -20,25 +29,33 @@ import '../validation.dart';
 ///   );
 /// });
 /// ```
+///
+/// The hook is run in isolation. No user-defines are read from the pubspec,
+/// they must be provided via [userDefines]. No other hooks are run, if the hook
+/// requires assets from other build hooks, the must be provided in [assets].
 Future<void> testCodeBuildHook({
-  // ignore: inference_failure_on_function_return_type
-  required Function(List<String> arguments) mainMethod,
+  required FutureOr<void> Function(List<String> arguments) mainMethod,
   required FutureOr<void> Function(BuildInput, BuildOutput) check,
+  bool? linkingEnabled,
   Architecture? targetArchitecture,
   OS? targetOS,
-  IOSSdk? targetIOSSdk,
-  int? targetIOSVersion,
-  int? targetMacOSVersion,
-  int? targetAndroidNdkApi,
+  IOSSdk? targetIOSSdk = IOSSdk.iPhoneOS,
+  int? targetIOSVersion = 17,
+  int? targetMacOSVersion = 13,
+  int? targetAndroidNdkApi = 30,
   CCompilerConfig? cCompiler,
-  LinkModePreference? linkModePreference,
-  bool? linkingEnabled,
+  LinkModePreference? linkModePreference = LinkModePreference.dynamic,
+  // TODO(https://github.com/dart-lang/native/issues/2241): Cleanup how the
+  // following parameters are passed in.
+  PackageUserDefines? userDefines,
+  Map<String, List<EncodedAsset>>? assets,
 }) async {
+  targetOS ??= OS.current;
   final extension = CodeAssetExtension(
-    linkModePreference: linkModePreference ?? LinkModePreference.dynamic,
+    linkModePreference: linkModePreference!,
     cCompiler: cCompiler,
     targetArchitecture: targetArchitecture ?? Architecture.current,
-    targetOS: targetOS ?? OS.current,
+    targetOS: targetOS,
     iOS: targetOS == OS.iOS
         ? IOSCodeConfig(
             targetSdk: targetIOSSdk!,
@@ -54,22 +71,10 @@ Future<void> testCodeBuildHook({
   );
   await testBuildHook(
     mainMethod: mainMethod,
-    extraInputSetup: (input) {
-      input.addExtension(extension);
-    },
-    check: (input, output) async {
-      final validationErrors = await extension.validateBuildOutput(
-        input,
-        output,
-      );
-      if (validationErrors.isNotEmpty) {
-        throw ValidationFailure(
-          'encountered build output validation issues: $validationErrors',
-        );
-      }
-
-      await check(input, output);
-    },
+    check: check,
     linkingEnabled: linkingEnabled,
+    userDefines: userDefines,
+    assets: assets,
+    extensions: [extension],
   );
 }

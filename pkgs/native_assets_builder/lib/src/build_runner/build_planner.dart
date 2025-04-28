@@ -9,7 +9,6 @@ import 'package:file/file.dart';
 import 'package:graphs/graphs.dart' as graphs;
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
 import 'package:package_config/package_config.dart';
 
 import '../package_layout/package_layout.dart';
@@ -208,4 +207,19 @@ class PackageGraph {
     buffer.writeln(')');
     return buffer.toString();
   }
+}
+
+/// The two types of scripts which are hooked into the compilation process.
+///
+/// The `build.dart` hook runs before, and the `link.dart` hook after
+/// compilation. This enum holds static information about these hooks.
+enum Hook {
+  link('link'),
+  build('build');
+
+  final String _scriptName;
+
+  const Hook(this._scriptName);
+
+  String get scriptName => '$_scriptName.dart';
 }

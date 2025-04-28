@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_testing/file_testing.dart';
-import 'package:native_assets_cli/native_assets_cli.dart' show build;
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:test/test.dart';
 
@@ -39,7 +39,7 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.setupBuild(linkingEnabled: false);
-    input = BuildInput(inputBuilder.json);
+    input = inputBuilder.build();
 
     final inputJson = json.encode(input.json);
     buildInputUri = tempUri.resolve('input.json');

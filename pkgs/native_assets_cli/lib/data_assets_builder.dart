@@ -5,9 +5,6 @@
 /// Data asset support for hook invokers (e.g. building / bundling tools).
 library;
 
-export 'data_assets.dart' hide build, link;
-export 'native_assets_cli_builder.dart'
-    hide EncodedAssetBuildOutputBuilder, EncodedAssetLinkOutputBuilder;
 export 'src/data_assets/config.dart'
     show DataAssetBuildInputBuilder, DataAssetBuildOutput, DataAssetLinkOutput;
 export 'src/data_assets/extension.dart';

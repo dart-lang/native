@@ -1,3 +1,8 @@
+## 0.18.0-wip
+
+- **Breaking change** Reorganized the libraries structure. Classes are no longer
+  exported multiple times.
+
 ## 0.17.0
 
 - **Breaking change** Removed support for old JSONs. Newer SDKs will not work

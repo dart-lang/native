@@ -8,6 +8,10 @@ library;
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -69,7 +73,7 @@ void main() {
                 ),
               );
 
-        final buildInput = BuildInput(buildInputBuilder.json);
+        final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.executable(
@@ -152,7 +156,7 @@ void main() {
           );
         }
 
-        final buildInput = BuildInput(buildInputBuilder.json);
+        final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.library(
@@ -260,7 +264,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final flag = switch (buildInput.config.code.targetOS) {
@@ -327,7 +331,7 @@ void main() {
             ),
           );
 
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutputBuilder = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
@@ -343,7 +347,7 @@ void main() {
       logger: logger,
     );
 
-    final buildOutput = BuildOutput(buildOutputBuilder.json);
+    final buildOutput = buildOutputBuilder.build();
     expect(buildOutput.dependencies, contains(includesHUri));
 
     final dylibUri = buildInput.outputDirectory.resolve(
@@ -385,7 +389,7 @@ void main() {
             ),
           );
 
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final stdFlag = switch (buildInput.config.code.targetOS) {
@@ -453,7 +457,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final defaultStdLibLinkFlag = switch (buildInput.config.code.targetOS) {
@@ -521,7 +525,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.executable(
@@ -607,7 +611,7 @@ void main() {
               cCompiler: cCompiler,
             ),
           );
-    final buildInput = BuildInput(buildInputBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final debugBuilder = CBuilder.library(
@@ -714,7 +718,7 @@ Future<void> testDefines({
           ),
         );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.executable(

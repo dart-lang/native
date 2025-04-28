@@ -9,7 +9,8 @@ import 'dart:io' show Platform;
 import 'package:file/file.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/native_assets_cli_internal.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart';
 
@@ -149,7 +150,7 @@ class NativeAssetsBuildRunner {
         userDefines: loadedUserDefines?[package.name],
       );
 
-      final input = BuildInput(inputBuilder.json);
+      final input = inputBuilder.build();
       final errors = [
         ...await validateBuildInput(input),
         for (final e in extensions) ...await e.validateBuildInput(input),
@@ -255,7 +256,7 @@ class NativeAssetsBuildRunner {
         recordedUsesFile: resourcesFile?.uri,
       );
 
-      final input = LinkInput(inputBuilder.json);
+      final input = inputBuilder.build();
       final errors = [
         ...await validateLinkInput(input),
         for (final e in extensions) ...await e.validateLinkInput(input),

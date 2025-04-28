@@ -3,7 +3,7 @@ description: >-
   A library that contains the argument and file formats for implementing a
   native assets CLI.
 
-version: 0.17.0
+version: 0.18.0-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/native_assets_cli
 
 topics:
@@ -25,7 +25,10 @@ dependencies:
   yaml: ^3.1.3 # Used for reading pubspec.yaml to obtain the package name
 
 dev_dependencies:
+  custom_lint: ^0.7.5
   dart_flutter_team_lints: ^3.5.1
   file_testing: ^3.0.2
   glob: any
+  repo_lint_rules:
+    path: ../repo_lint_rules/
   test: ^1.25.15

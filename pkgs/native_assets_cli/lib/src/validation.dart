@@ -4,13 +4,14 @@
 
 import 'dart:io';
 
-import '../native_assets_cli_builder.dart';
-import 'hooks/syntax.g.dart' as syntax;
+import 'config.dart';
+import 'encoded_asset.dart';
+import 'hooks/syntax.g.dart';
 
 typedef ValidationErrors = List<String>;
 
 Future<ValidationErrors> validateBuildInput(BuildInput input) async {
-  final syntaxErrors = syntax.BuildInput.fromJson(input.json).validate();
+  final syntaxErrors = BuildInputSyntax.fromJson(input.json).validate();
   if (syntaxErrors.isNotEmpty) {
     return [...syntaxErrors, _semanticValidationSkippedMessage];
   }
@@ -19,7 +20,7 @@ Future<ValidationErrors> validateBuildInput(BuildInput input) async {
 }
 
 Future<ValidationErrors> validateLinkInput(LinkInput input) async {
-  final syntaxErrors = syntax.LinkInput.fromJson(input.json).validate();
+  final syntaxErrors = LinkInputSyntax.fromJson(input.json).validate();
   if (syntaxErrors.isNotEmpty) {
     return [...syntaxErrors, _semanticValidationSkippedMessage];
   }
@@ -73,7 +74,7 @@ Future<ValidationErrors> validateBuildOutput(
   BuildInput input,
   BuildOutput output,
 ) async {
-  final syntaxErrors = syntax.BuildOutput.fromJson(output.json).validate();
+  final syntaxErrors = BuildOutputSyntax.fromJson(output.json).validate();
   if (syntaxErrors.isNotEmpty) {
     return [...syntaxErrors, _semanticValidationSkippedMessage];
   }
@@ -95,7 +96,7 @@ Future<ValidationErrors> validateLinkOutput(
   LinkInput input,
   LinkOutput output,
 ) async {
-  final syntaxErrors = syntax.LinkOutput.fromJson(output.json).validate();
+  final syntaxErrors = LinkOutputSyntax.fromJson(output.json).validate();
   if (syntaxErrors.isNotEmpty) {
     return [...syntaxErrors, _semanticValidationSkippedMessage];
   }

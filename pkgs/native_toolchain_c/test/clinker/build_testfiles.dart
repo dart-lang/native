@@ -4,6 +4,10 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
@@ -44,7 +48,7 @@ Future<Uri> buildTestArchive(
           ),
         );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutputBuilder = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -60,6 +64,6 @@ Future<Uri> buildTestArchive(
     logger: logger,
   );
 
-  final buildOutput = BuildOutput(buildOutputBuilder.json);
+  final buildOutput = buildOutputBuilder.build();
   return buildOutput.assets.code.first.file!;
 }

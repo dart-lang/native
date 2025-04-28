@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'hooks/syntax.g.dart' as syntax;
+import 'hooks/syntax.g.dart';
 
 /// The user-defines for a single build hokok invocation
 ///
@@ -19,17 +19,17 @@ class PackageUserDefines {
       'PackageUserDefines(workspacePubspec: $workspacePubspec)';
 }
 
-extension PackageUserDefinesSyntax on PackageUserDefines {
-  static PackageUserDefines fromSyntax(syntax.UserDefines syntaxNode) =>
+extension PackageUserDefinesSyntaxExtension on PackageUserDefines {
+  static PackageUserDefines fromSyntax(UserDefinesSyntax syntaxNode) =>
       PackageUserDefines(
         workspacePubspec: switch (syntaxNode.workspacePubspec) {
           null => null,
-          final o => PackageUserDefinesSourceSyntax.fromSyntax(o),
+          final o => PackageUserDefinesSourceSyntaxExtension.fromSyntax(o),
         },
       );
 
-  syntax.UserDefines toSyntax() {
-    final result = syntax.UserDefines(
+  UserDefinesSyntax toSyntax() {
+    final result = UserDefinesSyntax(
       workspacePubspec: workspacePubspec?.toSyntax(),
     );
 
@@ -50,16 +50,16 @@ class PackageUserDefinesSource {
       'PackageUserDefinesSource(defines: $defines, basePath: $basePath)';
 }
 
-extension PackageUserDefinesSourceSyntax on PackageUserDefinesSource {
+extension PackageUserDefinesSourceSyntaxExtension on PackageUserDefinesSource {
   static PackageUserDefinesSource fromSyntax(
-    syntax.UserDefinesSource syntaxNode,
+    UserDefinesSourceSyntax syntaxNode,
   ) => PackageUserDefinesSource(
     defines: syntaxNode.defines.json,
     basePath: syntaxNode.basePath,
   );
 
-  syntax.UserDefinesSource toSyntax() => syntax.UserDefinesSource(
+  UserDefinesSourceSyntax toSyntax() => UserDefinesSourceSyntax(
     basePath: basePath,
-    defines: syntax.JsonObject.fromJson(defines),
+    defines: JsonObjectSyntax.fromJson(defines),
   );
 }

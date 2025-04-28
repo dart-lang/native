@@ -4,6 +4,7 @@
 
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import 'cbuilder.dart';
 import 'clinker.dart';

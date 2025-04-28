@@ -9,6 +9,7 @@ library;
 import 'dart:io';
 
 import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 /// Helper class for populating a [CBuilder.library] call with the fields of

@@ -10,21 +10,21 @@
 
 import 'dart:io';
 
-class Asset extends JsonObject {
-  factory Asset.fromJson(
+class AssetSyntax extends JsonObjectSyntax {
+  factory AssetSyntax.fromJson(
     Map<String, Object?> json, {
     List<Object> path = const [],
   }) {
-    final result = Asset._fromJson(json, path: path);
+    final result = AssetSyntax._fromJson(json, path: path);
     if (result.isDataAssetNew) {
       return result.asDataAssetNew;
     }
     return result;
   }
 
-  Asset._fromJson(super.json, {super.path = const []}) : super.fromJson();
+  AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  Asset({required String? type}) : super() {
+  AssetSyntax({required String? type}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -41,14 +41,14 @@ class Asset extends JsonObject {
   List<String> validate() => [...super.validate(), ..._validateType()];
 
   @override
-  String toString() => 'Asset($json)';
+  String toString() => 'AssetSyntax($json)';
 }
 
-class DataAssetEncoding extends JsonObject {
-  DataAssetEncoding.fromJson(super.json, {super.path = const []})
+class DataAssetEncodingSyntax extends JsonObjectSyntax {
+  DataAssetEncodingSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  DataAssetEncoding({
+  DataAssetEncodingSyntax({
     required Uri file,
     required String name,
     required String package,
@@ -92,34 +92,37 @@ class DataAssetEncoding extends JsonObject {
   ];
 
   @override
-  String toString() => 'DataAssetEncoding($json)';
+  String toString() => 'DataAssetEncodingSyntax($json)';
 }
 
-class DataAssetNew extends Asset {
+class DataAssetNewSyntax extends AssetSyntax {
   static const typeValue = 'data_assets/data';
 
-  DataAssetNew.fromJson(super.json, {super.path}) : super._fromJson();
+  DataAssetNewSyntax.fromJson(super.json, {super.path}) : super._fromJson();
 
-  DataAssetNew({required DataAssetEncoding? encoding})
+  DataAssetNewSyntax({required DataAssetEncodingSyntax? encoding})
     : super(type: 'data_assets/data') {
     _encoding = encoding;
     json.sortOnKey();
   }
 
-  /// Setup all fields for [DataAssetNew] that are not in
-  /// [Asset].
-  void setup({required DataAssetEncoding? encoding}) {
+  /// Setup all fields for [DataAssetNewSyntax] that are not in
+  /// [AssetSyntax].
+  void setup({required DataAssetEncodingSyntax? encoding}) {
     _encoding = encoding;
     json.sortOnKey();
   }
 
-  DataAssetEncoding? get encoding {
+  DataAssetEncodingSyntax? get encoding {
     final jsonValue = _reader.optionalMap('encoding');
     if (jsonValue == null) return null;
-    return DataAssetEncoding.fromJson(jsonValue, path: [...path, 'encoding']);
+    return DataAssetEncodingSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'encoding'],
+    );
   }
 
-  set _encoding(DataAssetEncoding? value) {
+  set _encoding(DataAssetEncodingSyntax? value) {
     json.setOrRemove('encoding', value?.json);
   }
 
@@ -135,25 +138,26 @@ class DataAssetNew extends Asset {
   List<String> validate() => [...super.validate(), ..._validateEncoding()];
 
   @override
-  String toString() => 'DataAssetNew($json)';
+  String toString() => 'DataAssetNewSyntax($json)';
 }
 
-extension DataAssetNewExtension on Asset {
+extension DataAssetNewSyntaxExtension on AssetSyntax {
   bool get isDataAssetNew => type == 'data_assets/data';
 
-  DataAssetNew get asDataAssetNew => DataAssetNew.fromJson(json, path: path);
+  DataAssetNewSyntax get asDataAssetNew =>
+      DataAssetNewSyntax.fromJson(json, path: path);
 }
 
-class JsonObject {
+class JsonObjectSyntax {
   final Map<String, Object?> json;
 
   final List<Object> path;
 
   JsonReader get _reader => JsonReader(json, path);
 
-  JsonObject() : json = {}, path = const [];
+  JsonObjectSyntax() : json = {}, path = const [];
 
-  JsonObject.fromJson(this.json, {this.path = const []});
+  JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 
   List<String> validate() => [];
 }

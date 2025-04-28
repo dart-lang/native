@@ -9,6 +9,8 @@ sealed class ClassInfo {
   /// The Dart class name.
   final String name;
 
+  String get className => '${name}Syntax';
+
   ClassInfo({required this.name});
 }
 

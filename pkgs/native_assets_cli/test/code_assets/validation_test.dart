@@ -4,7 +4,10 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_assets_cli/src/code_assets/validation.dart';
 import 'package:test/test.dart';
 
@@ -70,7 +73,7 @@ void main() {
     );
     final errors = await validateCodeAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(
       errors,
@@ -97,7 +100,7 @@ void main() {
       );
       final errors = await validateCodeAssetBuildOutput(
         input,
-        BuildOutput(outputBuilder.json),
+        outputBuilder.build(),
       );
       expect(
         errors,
@@ -124,10 +127,7 @@ void main() {
       ),
     );
     expect(
-      await validateCodeAssetBuildOutput(
-        input,
-        BuildOutput(outputBuilder.json),
-      ),
+      await validateCodeAssetBuildOutput(input, outputBuilder.build()),
       isEmpty,
     );
     traverseJson<Map<String, Object?>>(outputBuilder.json, [
@@ -138,7 +138,7 @@ void main() {
     ]).remove('uri');
     final errors = await validateCodeAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(
       errors,
@@ -173,7 +173,7 @@ void main() {
     ]);
     final errors = await validateCodeAssetBuildOutput(
       input,
-      BuildOutput(outputBuilder.json),
+      outputBuilder.build(),
     );
     expect(errors, contains(contains('Duplicate dynamic library file name')));
   });

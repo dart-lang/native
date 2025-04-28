@@ -8,6 +8,10 @@ library;
 
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
+import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -78,7 +82,7 @@ void main() {
                       ),
                     ),
                   );
-            final buildInput = BuildInput(buildInputBuilder.json);
+            final buildInput = buildInputBuilder.build();
             final buildOutput = BuildOutputBuilder();
 
             final cbuilder = CBuilder.library(
@@ -181,7 +185,7 @@ Future<Uri> buildLib(
           ),
         );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(

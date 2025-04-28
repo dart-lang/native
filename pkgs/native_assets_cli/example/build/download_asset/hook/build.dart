@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:download_asset/src/hook_helpers/c_build.dart';
 import 'package:download_asset/src/hook_helpers/download.dart';
 import 'package:download_asset/src/hook_helpers/hashes.dart';
-import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) async {

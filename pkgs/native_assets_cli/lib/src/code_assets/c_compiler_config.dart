@@ -4,8 +4,9 @@
 
 import 'package:collection/collection.dart';
 
-import '../../code_assets.dart';
-import 'syntax.g.dart' as syntax;
+import 'config.dart';
+import 'os.dart';
+import 'syntax.g.dart';
 
 /// The configuration for a C toolchain.
 final class CCompilerConfig {
@@ -107,44 +108,45 @@ final class DeveloperCommandPrompt {
   DeveloperCommandPrompt({required this.script, required this.arguments});
 }
 
-extension CCompilerConfigSyntax on CCompilerConfig {
-  syntax.CCompilerConfig toSyntax() => syntax.CCompilerConfig(
+extension CCompilerConfigSyntaxExtension on CCompilerConfig {
+  CCompilerConfigSyntax toSyntax() => CCompilerConfigSyntax(
     ar: archiver,
     cc: compiler,
     ld: linker,
     windows: _windows?.toSyntax(),
   );
 
-  static CCompilerConfig fromSyntax(syntax.CCompilerConfig cCompiler) =>
+  static CCompilerConfig fromSyntax(CCompilerConfigSyntax cCompiler) =>
       CCompilerConfig(
         archiver: cCompiler.ar,
         compiler: cCompiler.cc,
         linker: cCompiler.ld,
         windows: switch (cCompiler.windows) {
           null => null,
-          final windows => WindowsCCompilerConfigSyntax.fromSyntax(windows),
+          final windows => WindowsCCompilerConfigSyntaxExtension.fromSyntax(
+            windows,
+          ),
         },
       );
 }
 
-extension WindowsCCompilerConfigSyntax on WindowsCCompilerConfig {
-  syntax.Windows toSyntax() => syntax.Windows(
-    developerCommandPrompt: developerCommandPrompt?.toSyntax(),
-  );
+extension WindowsCCompilerConfigSyntaxExtension on WindowsCCompilerConfig {
+  WindowsSyntax toSyntax() =>
+      WindowsSyntax(developerCommandPrompt: developerCommandPrompt?.toSyntax());
 
-  static WindowsCCompilerConfig fromSyntax(syntax.Windows windows) =>
+  static WindowsCCompilerConfig fromSyntax(WindowsSyntax windows) =>
       WindowsCCompilerConfig(
         developerCommandPrompt: switch (windows.developerCommandPrompt) {
           null => null,
-          final dcp => DeveloperCommandPromptSyntax.fromSyntax(dcp),
+          final dcp => DeveloperCommandPromptSyntaxExtension.fromSyntax(dcp),
         },
       );
 }
 
-extension DeveloperCommandPromptSyntax on DeveloperCommandPrompt {
-  syntax.DeveloperCommandPrompt toSyntax() =>
-      syntax.DeveloperCommandPrompt(script: script, arguments: arguments);
+extension DeveloperCommandPromptSyntaxExtension on DeveloperCommandPrompt {
+  DeveloperCommandPromptSyntax toSyntax() =>
+      DeveloperCommandPromptSyntax(script: script, arguments: arguments);
 
-  static DeveloperCommandPrompt fromSyntax(syntax.DeveloperCommandPrompt dcp) =>
+  static DeveloperCommandPrompt fromSyntax(DeveloperCommandPromptSyntax dcp) =>
       DeveloperCommandPrompt(script: dcp.script, arguments: dcp.arguments);
 }

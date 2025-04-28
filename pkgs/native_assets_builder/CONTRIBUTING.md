@@ -1,4 +1,4 @@
-`package:native_assets_builder` and `package:native_assets_cli/native_assets_cli_internal.dart` are used in [`package:dartdev`] and [`package:flutter_tools`].
+`package:native_assets_builder` is used in [`package:dartdev`] and [`package:flutter_tools`].
 
 Dartdev and Flutter Tools are the commandline interfaces for `dart ...` and `flutter ...` commands.
 

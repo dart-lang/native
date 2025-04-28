@@ -4,6 +4,7 @@
 
 import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_assets_cli/data_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (input, output) async {

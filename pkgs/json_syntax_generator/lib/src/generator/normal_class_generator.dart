@@ -19,8 +19,9 @@ class ClassGenerator {
   }
 
   void _generateClass(StringBuffer buffer) {
-    final className = classInfo.name;
-    final superclassName = classInfo.superclass?.name ?? 'JsonObject';
+    final className = classInfo.className;
+    final superclassName =
+        classInfo.superclass?.className ?? 'JsonObjectSyntax';
 
     buffer.writeln('''
 class $className extends $superclassName {
@@ -57,7 +58,7 @@ static const ${tagProperty}Value = '$tagValue';
       return '';
     }
 
-    final className = classInfo.name;
+    final className = classInfo.className;
     final factorySubclassReturns = <String>[];
     for (final subclass in classInfo.subclasses) {
       if (subclass.taggedUnionValue != null) {
@@ -82,7 +83,7 @@ static const ${tagProperty}Value = '$tagValue';
   }
 
   String _generateJsonConstructor() {
-    final className = classInfo.name;
+    final className = classInfo.className;
 
     if (classInfo.superclass == null) {
       final constructorName =
@@ -107,7 +108,7 @@ static const ${tagProperty}Value = '$tagValue';
     final parameters = _generateDefaultConstructorParameters();
     final superArguments = _generateDefaultConstructorSuperArguments();
     final setterCalls = _generateSetterCalls();
-    final className = classInfo.name;
+    final className = classInfo.className;
     final parametersString = wrapBracesIfNotEmpty(parameters.join(', '));
     final superArgumentsString = superArguments.join(',');
     final body = wrapInBracesOrSemicolon(setterCalls.join('\n    '));
@@ -231,8 +232,8 @@ static const ${tagProperty}Value = '$tagValue';
 
     final parameters = _generateSetupParameters();
     final setterCalls = _generateSetterCalls();
-    final className = classInfo.name;
-    final superclassName = classInfo.superclass!.name;
+    final className = classInfo.className;
+    final superclassName = classInfo.superclass!.className;
     final parametersString = wrapBracesIfNotEmpty(parameters.join(', '));
     final setterCallsString = setterCalls.join('\n    ');
     return '''
@@ -343,7 +344,7 @@ static const ${tagProperty}Value = '$tagValue';
   }
 
   String _generateToString() {
-    final className = classInfo.name;
+    final className = classInfo.className;
     return '''
   @override
   String toString() => '$className(\$json)';
@@ -353,16 +354,17 @@ static const ${tagProperty}Value = '$tagValue';
   void _generateTaggedUnionExtension(StringBuffer buffer) {
     if (!classInfo.isTaggedUnion || classInfo.superclass == null) return;
 
-    final className = classInfo.name;
-    final superclassName = classInfo.superclass!.name;
+    final name = classInfo.name;
+    final className = classInfo.className;
+    final superclassName = classInfo.superclass!.className;
     final taggedUnionValue = classInfo.taggedUnionValue;
     final taggedUnionProperty = classInfo.superclass!.taggedUnionProperty;
 
     buffer.writeln('''
 extension ${className}Extension on $superclassName {
-  bool get is$className => $taggedUnionProperty == '$taggedUnionValue';
+  bool get is$name => $taggedUnionProperty == '$taggedUnionValue';
 
-  $className get as$className => $className.fromJson(json, path: path);
+  $className get as$name => $className.fromJson(json, path: path);
 }
 ''');
   }

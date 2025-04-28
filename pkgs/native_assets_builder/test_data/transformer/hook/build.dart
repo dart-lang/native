@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:native_assets_cli/data_assets.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:transformer/src/transform.dart';
 
 void main(List<String> arguments) async {

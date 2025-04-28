@@ -4,7 +4,10 @@
 
 import 'dart:io';
 
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:native_assets_cli/src/code_assets/code_asset.dart';
 import 'package:test/test.dart';
 
@@ -142,7 +145,7 @@ void main() async {
           ),
         ),
       );
-    final input = BuildInput(inputBuilder.json);
+    final input = inputBuilder.build();
     expect(input.json, inputJson());
     expectCorrectCodeConfig(input.config.code);
   });
@@ -187,7 +190,7 @@ void main() async {
           ),
         ),
       );
-    final input = LinkInput(inputBuilder.json);
+    final input = inputBuilder.build();
     expect(input.json, inputJson(hookType: 'link'));
     expectCorrectCodeConfig(input.config.code);
     expect(input.assets.encodedAssets, assets);

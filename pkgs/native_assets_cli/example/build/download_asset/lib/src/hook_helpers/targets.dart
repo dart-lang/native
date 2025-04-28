@@ -7,7 +7,7 @@
 //    dart --enable-experiment=native-assets tool/generate_asset_hashes.dart
 //
 
-import 'package:native_assets_cli/code_assets_builder.dart';
+import 'package:native_assets_cli/code_assets.dart';
 
 const supportedTargets = [
   (OS.android, Architecture.arm, null),
