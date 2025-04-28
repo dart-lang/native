@@ -14,8 +14,10 @@ typedef ValidationErrors = List<String>;
 /// The base protocol for `hook/build.dart` and `hook/link.dart` which can be
 /// extended with [ProtocolExtension]s.
 ///
-/// This class currently contains the logic of the protocol which is similar to
-/// the protocol extensions: validation rules.
+/// This class contains the [HookInput] and [HookOutput] validation rules for
+/// the base protocol. (In contrast to [ProtocolExtension]s, it does not contain
+/// setup methods for the [HookInput], the base protocol knows how to setup
+/// itself.)
 class ProtocolBase {
   static Future<ValidationErrors> validateBuildInput(BuildInput input) async {
     final syntaxErrors = BuildInputSyntax.fromJson(input.json).validate();
