@@ -219,7 +219,7 @@ class JObject {
   void releasedBy(Arena arena) => arena.onReleaseAll(release);
 }
 
-extension JObjectUseExtension<T extends JObject> on T {
+extension JObjectUseExtension<T extends JObject?> on T {
   /// Applies [callback] on this object and then delete the underlying JNI
   /// reference, returning the result of [callback].
   R use<R>(R Function(T) callback) {
@@ -227,7 +227,7 @@ extension JObjectUseExtension<T extends JObject> on T {
       final result = callback(this);
       return result;
     } finally {
-      release();
+      this?.release();
     }
   }
 }
