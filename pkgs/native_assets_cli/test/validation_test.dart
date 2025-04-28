@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -51,7 +50,10 @@ void main() {
       EncodedAsset('my-asset-type', {}),
       routing: const ToLinkHook('bar'),
     );
-    final errors = await validateBuildOutput(input, outputBuilder.build());
+    final errors = await ProtocolBase.validateBuildOutput(
+      input,
+      outputBuilder.build(),
+    );
     expect(errors, contains(contains('linkingEnabled is false')));
   });
 
@@ -61,7 +63,10 @@ void main() {
     final assetFile = File.fromUri(outDirUri.resolve('foo.dylib'));
     await assetFile.writeAsBytes([1, 2, 3]);
     outputBuilder.assets.addEncodedAsset(EncodedAsset('baz', {}));
-    final errors = await validateBuildOutput(input, outputBuilder.build());
+    final errors = await ProtocolBase.validateBuildOutput(
+      input,
+      outputBuilder.build(),
+    );
     expect(errors, contains(contains('"baz" is not a supported asset type')));
   });
 }

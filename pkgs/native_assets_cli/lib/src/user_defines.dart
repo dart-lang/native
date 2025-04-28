@@ -2,14 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'config.dart';
 import 'hooks/syntax.g.dart';
 
-/// The user-defines for a single build hokok invocation
+/// The user-defines for [HookInputBuilder.setupShared].
 ///
 /// Currently only holds [workspacePubspec]. (In the future this class will also
 /// take command-line arguments and a working directory for the command-line
 /// argument paths to be resolved against.)
-class PackageUserDefines {
+final class PackageUserDefines {
   final PackageUserDefinesSource? workspacePubspec;
 
   PackageUserDefines({required this.workspacePubspec});
@@ -37,7 +38,8 @@ extension PackageUserDefinesSyntaxExtension on PackageUserDefines {
   }
 }
 
-class PackageUserDefinesSource {
+/// A source of user-defines in a [PackageUserDefines].
+final class PackageUserDefinesSource {
   final Map<String, Object?> defines;
 
   /// The base path for relative paths in [defines].

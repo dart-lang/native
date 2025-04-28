@@ -8,8 +8,11 @@ import '../config.dart';
 
 import 'data_asset.dart';
 
-extension AddDataAssetsDirectory on BuildOutputBuilder {
-  /// Extension on [BuildOutput] to handle data asset directories and files.
+/// Extension on [BuildOutputBuilder] to handle data asset directories and
+/// files.
+extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
+  /// Extension on [BuildOutputBuilder] to handle data asset directories and
+  /// files.
   ///
   /// This extension provides a convenient way for build hooks to add
   /// [DataAsset] dependencies from one or more directories or individual files.
@@ -80,15 +83,12 @@ extension AddDataAssetsDirectory on BuildOutputBuilder {
 
 /// Extension to the [HookConfig] providing access to configuration specific
 /// to data assets.
-extension DataAssetHookConfig on HookConfig {
+extension HookConfigDataConfig on HookConfig {
   bool get buildDataAssets => buildAssetTypes.contains(DataAssetType.type);
 }
 
-/// Extension to initialize data specific configuration on link/build inputs.
-extension DataAssetBuildInputBuilder on HookConfigBuilder {}
-
 /// Link output extension for data assets.
-extension DataAssetLinkInput on LinkInputAssets {
+extension LinkInputDataAssets on LinkInputAssets {
   // Returns the data assets that were sent to this linker.
   //
   // NOTE: If the linker implementation depends on the contents of the files of
@@ -100,17 +100,18 @@ extension DataAssetLinkInput on LinkInputAssets {
       encodedAssets.where((e) => e.isDataAsset).map(DataAsset.fromEncoded);
 }
 
-/// Build output extension for data assets.
-extension DataAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
+/// Extension on [BuildOutputBuilder] to add [DataAsset]s.
+extension BuildOutputAssetsBuilderData on BuildOutputAssetsBuilder {
   /// Provides access to emitting data assets.
-  DataAssetBuildOutputBuilderAdd get data =>
-      DataAssetBuildOutputBuilderAdd._(this);
+  BuildOutputDataAssetsBuilder get data => BuildOutputDataAssetsBuilder._(this);
 }
 
-/// Supports emitting code assets for build hooks.
-extension type DataAssetBuildOutputBuilderAdd._(
-  EncodedAssetBuildOutputBuilder _output
-) {
+/// Extension on [BuildOutputBuilder] to add [DataAsset]s.
+final class BuildOutputDataAssetsBuilder {
+  final BuildOutputAssetsBuilder _output;
+
+  BuildOutputDataAssetsBuilder._(this._output);
+
   /// Adds the given [asset] to the hook output with [routing].
   void add(DataAsset asset, {AssetRouting routing = const ToAppBundle()}) =>
       _output.addEncodedAsset(asset.encode(), routing: routing);
@@ -126,17 +127,18 @@ extension type DataAssetBuildOutputBuilderAdd._(
   }
 }
 
-/// Extension to the [LinkOutputBuilder] providing access to emitting data
-/// assets (only available if data assets are supported).
-extension DataAssetLinkOutputBuilder on EncodedAssetLinkOutputBuilder {
+/// Extension on [LinkOutputBuilder] to add [DataAsset]s.
+extension LinkOutputAssetsBuilderData on LinkOutputAssetsBuilder {
   /// Provides access to emitting data assets.
-  DataAssetLinkOutputBuilderAdd get data => DataAssetLinkOutputBuilderAdd(this);
+  LinkOutputDataAssetsBuilder get data => LinkOutputDataAssetsBuilder(this);
 }
 
-/// Extension on [LinkOutputBuilder] to emit data assets.
-extension type DataAssetLinkOutputBuilderAdd(
-  EncodedAssetLinkOutputBuilder _output
-) {
+/// Extension on [LinkOutputBuilder] to add [DataAsset]s.
+final class LinkOutputDataAssetsBuilder {
+  final LinkOutputAssetsBuilder _output;
+
+  LinkOutputDataAssetsBuilder(this._output);
+
   /// Adds the given [asset] to the link hook output.
   void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
 
@@ -145,7 +147,7 @@ extension type DataAssetLinkOutputBuilderAdd(
 }
 
 /// Provides access to [DataAsset]s from a build hook output.
-extension DataAssetBuildOutput on BuildOutputAssets {
+extension BuildOutputDataAssets on BuildOutputAssets {
   List<DataAsset> get data => encodedAssets
       .where((asset) => asset.isDataAsset)
       .map<DataAsset>(DataAsset.fromEncoded)
@@ -153,7 +155,7 @@ extension DataAssetBuildOutput on BuildOutputAssets {
 }
 
 /// Provides access to [DataAsset]s from a link hook output.
-extension DataAssetLinkOutput on LinkOutputAssets {
+extension LinkOutputDataAssets on LinkOutputAssets {
   List<DataAsset> get data => encodedAssets
       .where((asset) => asset.isDataAsset)
       .map<DataAsset>(DataAsset.fromEncoded)

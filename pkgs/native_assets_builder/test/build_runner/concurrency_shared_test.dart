@@ -4,9 +4,9 @@
 
 import 'dart:async';
 
+import 'package:native_assets_builder/src/model/target.dart';
 import 'package:native_assets_builder/src/utils/run_process.dart'
     show RunProcessResult;
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

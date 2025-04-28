@@ -9,7 +9,8 @@ import 'link_mode.dart';
 import 'os.dart';
 import 'syntax.g.dart';
 
-/// A code asset which respects the native application binary interface (ABI).
+/// An asset containing executable code which respects the native application
+/// binary interface (ABI).
 ///
 /// Typical languages which produce code assets that respect the native ABI
 /// include C, C++ (with `extern "C"`), Rust (with `extern "C"`), and a subset
@@ -128,6 +129,7 @@ extension CodeAssetType on CodeAsset {
   static const String type = NativeCodeAssetNewSyntax.typeValue;
 }
 
+/// Methods on [EncodedAsset] for [CodeAsset]s.
 extension EncodedCodeAsset on EncodedAsset {
   bool get isCodeAsset => type == CodeAssetType.type;
   CodeAsset get asCodeAsset => CodeAsset.fromEncoded(this);

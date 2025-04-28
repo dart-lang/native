@@ -1,6 +1,10 @@
-## 18.1.1-wip
+## 18.2.0-wip
 
+- Use package:objective_c 7.2.0.
 - Make it easier for a downstream clone to change behavior of certain utils.
+- Fix [a bug](https://github.com/dart-lang/native/issues/1268) where types could
+  occasionally show up as a generic ObjCObjectBase, when they were supposed to
+  be codegenned as a more specific interface types.
 
 ## 18.1.0
 
@@ -8,6 +12,7 @@
 
 ## 18.0.0
 
+- Use package:objective_c 7.0.0.
 - Add variable substitutions that can be used in the `headers.entry-points` to
   locate Apple APIs: `$XCODE`, `$IOS_SDK`, and `$MACOS_SDK`.
 - Add an empty constructor to all ObjC interfaces that have a `new` method,

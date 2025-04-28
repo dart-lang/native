@@ -5,8 +5,8 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:native_assets_builder/src/model/target.dart';
 import 'package:native_assets_cli/code_assets.dart';
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:test/test.dart';
 
 void main() {

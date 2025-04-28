@@ -10,7 +10,6 @@ import 'package:file/file.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart';
 
@@ -22,8 +21,6 @@ import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';
-
-typedef DependencyMetadata = Map<String, Metadata>;
 
 typedef InputCreator = HookInputBuilder Function();
 
@@ -152,7 +149,7 @@ class NativeAssetsBuildRunner {
 
       final input = inputBuilder.build();
       final errors = [
-        ...await validateBuildInput(input),
+        ...await ProtocolBase.validateBuildInput(input),
         for (final e in extensions) ...await e.validateBuildInput(input),
       ];
       if (errors.isNotEmpty) {
@@ -258,7 +255,7 @@ class NativeAssetsBuildRunner {
 
       final input = inputBuilder.build();
       final errors = [
-        ...await validateLinkInput(input),
+        ...await ProtocolBase.validateLinkInput(input),
         for (final e in extensions) ...await e.validateLinkInput(input),
       ];
       if (errors.isNotEmpty) {
@@ -755,8 +752,11 @@ ${compileResult.stdout}
   ) async {
     final errors =
         input is BuildInput
-            ? await validateBuildOutput(input, output as BuildOutput)
-            : await validateLinkOutput(
+            ? await ProtocolBase.validateBuildOutput(
+              input,
+              output as BuildOutput,
+            )
+            : await ProtocolBase.validateLinkOutput(
               input as LinkInput,
               output as LinkOutput,
             );

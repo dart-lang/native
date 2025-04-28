@@ -10,13 +10,14 @@ import '../test.dart';
 import '../user_defines.dart';
 import 'architecture.dart';
 import 'c_compiler_config.dart';
+import 'code_asset.dart';
 import 'config.dart';
 import 'extension.dart';
 import 'ios_sdk.dart';
 import 'link_mode_preference.dart';
 import 'os.dart';
 
-/// Validates a code build hook.
+/// Tests the main function of a `hook/build.dart` with [CodeAsset]s.
 ///
 /// This method will throw an exception on validation errors.
 ///

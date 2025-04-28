@@ -16,17 +16,37 @@ export 'src/config.dart'
         BuildConfig,
         BuildConfigBuilder,
         BuildInput,
+        BuildInputAssets,
+        BuildInputBuilder,
+        BuildInputMetadata,
+        BuildOutput,
+        BuildOutputAssets,
+        BuildOutputAssetsBuilder,
         BuildOutputBuilder,
-        EncodedAssetBuildOutputBuilder,
-        EncodedAssetLinkOutputBuilder,
+        BuildOutputMetadataBuilder,
         HookConfig,
         HookConfigBuilder,
         HookInput,
+        HookInputBuilder,
+        HookInputUserDefines,
+        HookOutput,
+        HookOutputBuilder,
+        LinkConfig,
+        LinkConfigBuilder,
         LinkInput,
+        LinkInputAssets,
+        LinkInputBuilder,
+        LinkOutput,
+        LinkOutputAssets,
+        LinkOutputAssetsBuilder,
         LinkOutputBuilder,
         PackageMetadata,
         ToAppBundle,
         ToBuildHooks,
         ToLinkHook;
 export 'src/encoded_asset.dart' show EncodedAsset;
-export 'src/metadata.dart' show Metadata;
+export 'src/extension.dart';
+export 'src/test.dart';
+export 'src/user_defines.dart'
+    show PackageUserDefines, PackageUserDefinesSource;
+export 'src/validation.dart' show ProtocolBase;

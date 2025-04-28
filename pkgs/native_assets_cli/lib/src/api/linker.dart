@@ -6,8 +6,9 @@ import 'package:logging/logging.dart';
 
 import '../config.dart';
 import 'builder.dart';
+import 'link.dart';
 
-/// A linker to be run during a link hook.
+/// A builder to be run in [link] in `hook/link.dart`.
 ///
 /// [Linker]s should be used to shrink or omit assets based on tree-shaking
 /// information. [Linker]s have access to tree-shaking information in some build

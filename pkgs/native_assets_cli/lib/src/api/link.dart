@@ -9,7 +9,7 @@ import '../args_parser.dart';
 import '../config.dart';
 import '../validation.dart';
 
-/// Runs a native assets link.
+/// Links assets in a `hook/link.dart`.
 ///
 /// Meant to be used in link hooks (`hook/link.dart`).
 ///
@@ -48,7 +48,10 @@ Future<void> link(
   final input = LinkInput(jsonInput);
   final output = LinkOutputBuilder();
   await linker(input, output);
-  final errors = await validateLinkOutput(input, LinkOutput(output.json));
+  final errors = await ProtocolBase.validateLinkOutput(
+    input,
+    LinkOutput(output.json),
+  );
   if (errors.isEmpty) {
     final jsonOutput = const JsonEncoder()
         .fuse(const Utf8Encoder())

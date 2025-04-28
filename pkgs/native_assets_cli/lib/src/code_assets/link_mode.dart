@@ -58,7 +58,7 @@ extension LinkModeSyntaxExtension on LinkMode {
   };
 }
 
-/// The [CodeAsset] will be loaded at runtime.
+/// [CodeAsset]s with this [LinkMode] will be loaded at runtime.
 ///
 /// Nothing happens at native code linking time.
 ///
@@ -71,14 +71,16 @@ abstract final class DynamicLoading extends LinkMode {
   DynamicLoading._() : super._();
 }
 
-/// The dynamic library is bundled by Dart/Flutter at build time.
+/// [CodeAsset]s with this [LinkMode] will be bundled as dynamic libraries by
+/// Dart/Flutter at build time.
 ///
 /// At runtime, the dynamic library will be loaded and the symbols will be
 /// looked up in this dynamic library.
 ///
-/// An asset with this dynamic loading method must provide a
-/// [CodeAsset.file]. The Dart and Flutter SDK will bundle this code in
-/// the final application.
+/// An asset with this link mode must provide a [CodeAsset.file] and it must be
+/// a dynamic library.
+///
+/// The Dart and Flutter SDK will bundle this code in the final application.
 final class DynamicLoadingBundled extends DynamicLoading {
   DynamicLoadingBundled._() : super._();
 
@@ -90,7 +92,8 @@ final class DynamicLoadingBundled extends DynamicLoading {
   String toString() => 'bundled';
 }
 
-/// The dynamic library is avaliable on the target system `PATH`.
+/// [CodeAsset]s with this [LinkMode] are expected to be available as dynamic
+/// library on the target system `PATH`.
 ///
 /// At buildtime, nothing happens.
 ///
@@ -115,8 +118,10 @@ final class DynamicLoadingSystem extends DynamicLoading {
   String toString() => _typeValue;
 }
 
-/// The native code is loaded in the process and symbols are available through
-/// `DynamicLibrary.process()`.
+/// [CodeAsset]s with this [LinkMode] are expected to have their symbols
+/// available through `DynamicLibrary.process()`.
+///
+/// At buildtime, nothing happens.
 final class LookupInProcess extends DynamicLoading {
   LookupInProcess._() : super._();
 
@@ -128,8 +133,10 @@ final class LookupInProcess extends DynamicLoading {
   String toString() => 'process';
 }
 
-/// The native code is embedded in executable and symbols are available through
-/// `DynamicLibrary.executable()`.
+/// [CodeAsset]s with this [LinkMode] are expected to have their symbols
+/// available through `DynamicLibrary.executable()`.
+///
+/// At buildtime, nothing happens.
 final class LookupInExecutable extends DynamicLoading {
   LookupInExecutable._() : super._();
 
@@ -141,7 +148,10 @@ final class LookupInExecutable extends DynamicLoading {
   String toString() => 'executable';
 }
 
-/// Static linking.
+/// [CodeAsset]s with this [LinkMode] are linked statically.
+///
+/// An asset with this link mode must provide a [CodeAsset.file] and it must be
+/// a static library.
 ///
 /// At native linking time, native function names will be resolved to static
 /// libraries.
