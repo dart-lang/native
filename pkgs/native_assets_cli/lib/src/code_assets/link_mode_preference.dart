@@ -4,9 +4,10 @@
 
 import 'code_asset.dart';
 
+import 'config.dart';
 import 'syntax.g.dart';
 
-/// The preferred linkMode method for [CodeAsset]s.
+/// The preferred link mode for [CodeAsset]s in [CodeConfig.linkModePreference].
 final class LinkModePreference {
   /// The name for this link mode.
   final String name;

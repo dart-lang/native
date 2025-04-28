@@ -100,14 +100,14 @@ extension DataAssetLinkInput on LinkInputAssets {
       encodedAssets.where((e) => e.isDataAsset).map(DataAsset.fromEncoded);
 }
 
-/// Build output extension for data assets.
+/// Extension on [BuildOutputBuilder] to add [DataAsset]s.
 extension DataAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
   /// Provides access to emitting data assets.
   DataAssetBuildOutputBuilderAdd get data =>
       DataAssetBuildOutputBuilderAdd._(this);
 }
 
-/// Supports emitting code assets for build hooks.
+/// Extension on [BuildOutputBuilder] to add [DataAsset]s.
 extension type DataAssetBuildOutputBuilderAdd._(
   EncodedAssetBuildOutputBuilder _output
 ) {
@@ -126,14 +126,13 @@ extension type DataAssetBuildOutputBuilderAdd._(
   }
 }
 
-/// Extension to the [LinkOutputBuilder] providing access to emitting data
-/// assets (only available if data assets are supported).
+/// Extension on [LinkOutputBuilder] to add [DataAsset]s.
 extension DataAssetLinkOutputBuilder on EncodedAssetLinkOutputBuilder {
   /// Provides access to emitting data assets.
   DataAssetLinkOutputBuilderAdd get data => DataAssetLinkOutputBuilderAdd(this);
 }
 
-/// Extension on [LinkOutputBuilder] to emit data assets.
+/// Extension on [LinkOutputBuilder] to add [DataAsset]s.
 extension type DataAssetLinkOutputBuilderAdd(
   EncodedAssetLinkOutputBuilder _output
 ) {

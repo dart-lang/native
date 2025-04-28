@@ -8,7 +8,7 @@ import 'config.dart';
 import 'os.dart';
 import 'syntax.g.dart';
 
-/// The configuration for a C toolchain.
+/// The configuration for a C toolchain inside [CodeConfig.cCompiler].
 final class CCompilerConfig {
   /// Path to a C compiler.
   final Uri compiler;
@@ -70,14 +70,16 @@ final class CCompilerConfig {
   );
 }
 
-/// Configuration provided when [CodeConfig.targetOS] is [OS.windows].
+/// The configuration provided in [CCompilerConfig.windows] when
+/// [CodeConfig.targetOS] is [OS.windows].
 final class WindowsCCompilerConfig {
   final DeveloperCommandPrompt? developerCommandPrompt;
 
   WindowsCCompilerConfig({this.developerCommandPrompt});
 }
 
-/// The Windows Developer Command Prompt.
+/// The configuration for the Windows Developer Command Prompt in
+/// [WindowsCCompilerConfig.developerCommandPrompt].
 ///
 /// Sets up the environment variables for [CCompilerConfig.compiler],
 /// [CCompilerConfig.linker], and [CCompilerConfig.archiver] on Windows.

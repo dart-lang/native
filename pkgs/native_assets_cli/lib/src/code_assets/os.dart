@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'syntax.g.dart';
 
-/// An operating system the Dart VM runs on.
+/// An operating system which the Dart VM can run on.
 final class OS {
   /// The name of this operating system.
   final String name;
