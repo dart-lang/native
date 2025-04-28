@@ -5,8 +5,7 @@
 import 'dart:io';
 
 import 'package:file_testing/file_testing.dart';
-import 'package:native_assets_cli/code_assets_builder.dart';
-import 'package:native_assets_cli/code_assets_testing.dart';
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:test/test.dart';
 
 import '../hook/build.dart' as build;

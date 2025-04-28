@@ -7,7 +7,6 @@ import 'dart:io';
 
 import 'package:file_testing/file_testing.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 import 'package:test/test.dart';
 
 void main() async {

@@ -4,7 +4,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 
 import '../build_runner/build_runner.dart';
 import 'build_result.dart';

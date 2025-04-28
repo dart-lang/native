@@ -6,7 +6,6 @@ import 'package:file/local.dart';
 import 'package:native_assets_builder/src/build_runner/build_runner.dart';
 import 'package:native_assets_builder/src/package_layout/package_layout.dart';
 import 'package:native_assets_cli/code_assets.dart';
-import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

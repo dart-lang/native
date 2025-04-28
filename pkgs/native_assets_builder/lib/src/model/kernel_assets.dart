@@ -14,7 +14,7 @@
 /// Dart SDK.
 library;
 
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
+import 'package:native_assets_cli/native_assets_cli.dart';
 
 import '../utils/yaml.dart';
 

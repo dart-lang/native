@@ -8,7 +8,6 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-import 'package:native_assets_cli/native_assets_cli_builder.dart';
 
 import 'build_mode.dart';
 import 'ctool.dart';

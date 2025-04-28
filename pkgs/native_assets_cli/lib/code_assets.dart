@@ -22,6 +22,9 @@ export 'src/code_assets/config.dart'
         CodeConfig,
         IOSCodeConfig,
         MacOSCodeConfig;
+export 'src/code_assets/config.dart'
+    show CodeAssetBuildOutput, CodeAssetLinkOutput;
+export 'src/code_assets/extension.dart';
 export 'src/code_assets/ios_sdk.dart' show IOSSdk;
 export 'src/code_assets/link_mode.dart'
     show
@@ -33,3 +36,4 @@ export 'src/code_assets/link_mode.dart'
         StaticLinking;
 export 'src/code_assets/link_mode_preference.dart' show LinkModePreference;
 export 'src/code_assets/os.dart' show OS;
+export 'src/code_assets/testing.dart' show testCodeBuildHook;
