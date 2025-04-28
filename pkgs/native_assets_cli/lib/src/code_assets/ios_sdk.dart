@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// For an iOS target, a build is either done for the device or the simulator.
+import 'config.dart';
+
+/// The iOS SDK (device or simulator) in [IOSCodeConfig.targetSdk].
 final class IOSSdk {
   final String type;
 

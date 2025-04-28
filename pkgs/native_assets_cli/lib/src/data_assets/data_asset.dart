@@ -5,7 +5,8 @@
 import '../encoded_asset.dart';
 import 'syntax.g.dart';
 
-/// Data bundled with a Dart or Flutter application.
+/// An asset bundled as data (String or bytes) with a Dart or Flutter
+/// application.
 ///
 /// A data asset is accessible in a Dart or Flutter application. To retrieve an
 /// asset at runtime, the [id] is used. This enables access to the asset
