@@ -13,17 +13,17 @@ export 'src/code_assets/code_asset.dart'
 export 'src/code_assets/config.dart'
     show
         AndroidCodeConfig,
-        CodeAssetBuildOutputBuilder,
-        CodeAssetBuildOutputBuilderAdd,
-        CodeAssetHookConfig,
-        CodeAssetLinkInput,
-        CodeAssetLinkOutputBuilder,
-        CodeAssetLinkOutputBuilderAdd,
+        BuildOutputAssetsBuilderCode,
+        BuildOutputCodeAssetBuilder,
+        BuildOutputCodeAssets,
         CodeConfig,
+        HookConfigCodeConfig,
         IOSCodeConfig,
+        LinkInputCodeAssets,
+        LinkOutputAssetsBuilderCode,
+        LinkOutputCodeAssetBuilder,
+        LinkOutputCodeAssets,
         MacOSCodeConfig;
-export 'src/code_assets/config.dart'
-    show CodeAssetBuildOutput, CodeAssetLinkOutput;
 export 'src/code_assets/extension.dart';
 export 'src/code_assets/ios_sdk.dart' show IOSSdk;
 export 'src/code_assets/link_mode.dart'

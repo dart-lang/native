@@ -7,14 +7,14 @@ library;
 
 export 'src/data_assets/config.dart'
     show
-        AddDataAssetsDirectory,
-        DataAssetBuildOutputBuilder,
-        DataAssetBuildOutputBuilderAdd,
-        DataAssetHookConfig,
-        DataAssetLinkInput,
-        DataAssetLinkOutputBuilder,
-        DataAssetLinkOutputBuilderAdd;
-export 'src/data_assets/config.dart'
-    show DataAssetBuildInputBuilder, DataAssetBuildOutput, DataAssetLinkOutput;
+        BuildOutputAssetsBuilderData,
+        BuildOutputBuilderAddDataAssetsDirectories,
+        BuildOutputDataAssets,
+        BuildOutputDataAssetsBuilder,
+        HookConfigDataConfig,
+        LinkInputDataAssets,
+        LinkOutputAssetsBuilderData,
+        LinkOutputDataAssets,
+        LinkOutputDataAssetsBuilder;
 export 'src/data_assets/data_asset.dart' show DataAsset, EncodedDataAsset;
 export 'src/data_assets/extension.dart';

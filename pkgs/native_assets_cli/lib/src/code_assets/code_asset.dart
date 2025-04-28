@@ -129,6 +129,7 @@ extension CodeAssetType on CodeAsset {
   static const String type = NativeCodeAssetNewSyntax.typeValue;
 }
 
+/// Methods on [EncodedAsset] for [CodeAsset]s.
 extension EncodedCodeAsset on EncodedAsset {
   bool get isCodeAsset => type == CodeAssetType.type;
   CodeAsset get asCodeAsset => CodeAsset.fromEncoded(this);

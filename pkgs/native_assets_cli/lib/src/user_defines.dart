@@ -5,7 +5,7 @@
 import 'config.dart';
 import 'hooks/syntax.g.dart';
 
-/// The user-defines for [HookInputBuilder].
+/// The user-defines for [HookInputBuilder.setupShared].
 ///
 /// Currently only holds [workspacePubspec]. (In the future this class will also
 /// take command-line arguments and a working directory for the command-line

@@ -85,6 +85,7 @@ extension DataAssetType on DataAsset {
   static const String type = DataAssetNewSyntax.typeValue;
 }
 
+/// Methods on [EncodedAsset] for [DataAsset]s.
 extension EncodedDataAsset on EncodedAsset {
   bool get isDataAsset => type == DataAssetType.type;
   DataAsset get asDataAsset => DataAsset.fromEncoded(this);
