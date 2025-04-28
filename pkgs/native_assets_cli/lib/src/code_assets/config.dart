@@ -14,7 +14,7 @@ import 'syntax.g.dart';
 
 /// Extension to the [HookConfig] providing access to configuration specific
 /// to code assets (only available if code assets are supported).
-extension CodeAssetHookConfig on HookConfig {
+extension HookConfigCodeConfig on HookConfig {
   /// Code asset specific configuration.
   CodeConfig get code => CodeConfig._fromJson(json, path);
 
@@ -24,7 +24,7 @@ extension CodeAssetHookConfig on HookConfig {
 /// Extension to the [LinkInput] providing access to configuration specific to
 /// code assets as well as code asset inputs to the linker (only available if
 /// code assets are supported).
-extension CodeAssetLinkInput on LinkInputAssets {
+extension LinkInputCodeAssets on LinkInputAssets {
   // Returns the code assets that were sent to this linker.
   //
   // NOTE: If the linker implementation depends on the contents of the files the
@@ -138,16 +138,17 @@ final class MacOSCodeConfig {
 }
 
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
-extension CodeAssetBuildOutputBuilder on EncodedAssetBuildOutputBuilder {
+extension BuildOutputAssetsBuilderCode on BuildOutputAssetsBuilder {
   /// Provides access to emitting code assets.
-  CodeAssetBuildOutputBuilderAdd get code =>
-      CodeAssetBuildOutputBuilderAdd._(this);
+  BuildOutputCodeAssetBuilder get code => BuildOutputCodeAssetBuilder._(this);
 }
 
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
-extension type CodeAssetBuildOutputBuilderAdd._(
-  EncodedAssetBuildOutputBuilder _output
-) {
+final class BuildOutputCodeAssetBuilder {
+  final BuildOutputAssetsBuilder _output;
+
+  BuildOutputCodeAssetBuilder._(this._output);
+
   /// Adds the given [asset] to the hook output with [routing].
   void add(CodeAsset asset, {AssetRouting routing = const ToAppBundle()}) =>
       _output.addEncodedAsset(asset.encode(), routing: routing);
@@ -164,16 +165,17 @@ extension type CodeAssetBuildOutputBuilderAdd._(
 }
 
 /// Extension on [LinkOutputBuilder] to add [CodeAsset]s.
-extension CodeAssetLinkOutputBuilder on EncodedAssetLinkOutputBuilder {
+extension LinkOutputAssetsBuilderCode on LinkOutputAssetsBuilder {
   /// Provides access to emitting code assets.
-  CodeAssetLinkOutputBuilderAdd get code =>
-      CodeAssetLinkOutputBuilderAdd._(this);
+  LinkOutputCodeAssetBuilder get code => LinkOutputCodeAssetBuilder._(this);
 }
 
 /// Extension on [LinkOutputBuilder] to add [CodeAsset]s.
-extension type CodeAssetLinkOutputBuilderAdd._(
-  EncodedAssetLinkOutputBuilder _output
-) {
+final class LinkOutputCodeAssetBuilder {
+  final LinkOutputAssetsBuilder _output;
+
+  LinkOutputCodeAssetBuilder._(this._output);
+
   /// Adds the given [asset] to the link hook output.
   void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
 
@@ -210,18 +212,19 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
   }
 }
 
-/// Provides access to [CodeAsset]s from a build hook output.
-extension CodeAssetBuildOutput on BuildOutputAssets {
-  /// The code assets emitted by the build hook.
+/// The [CodeAsset]s in [BuildOutputAssets.encodedAssets].
+// TODO: Add access to assetsForBuild or assetsForLinking.
+extension BuildOutputCodeAssets on BuildOutputAssets {
+  /// The [CodeAsset]s in this [BuildOutputAssets.encodedAssets].
   List<CodeAsset> get code => encodedAssets
       .where((asset) => asset.isCodeAsset)
       .map(CodeAsset.fromEncoded)
       .toList();
 }
 
-/// Provides access to [CodeAsset]s from a link hook output.
-extension CodeAssetLinkOutput on LinkOutputAssets {
-  /// The code assets emitted by the link hook.
+/// The [CodeAsset]s in [LinkOutputAssets.encodedAssets].
+extension LinkOutputCodeAssets on LinkOutputAssets {
+  /// The [CodeAsset]s in this [LinkOutputAssets.encodedAssets].
   List<CodeAsset> get code => encodedAssets
       .where((asset) => asset.isCodeAsset)
       .map(CodeAsset.fromEncoded)

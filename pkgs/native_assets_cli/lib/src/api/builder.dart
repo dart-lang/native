@@ -5,9 +5,10 @@
 import 'package:logging/logging.dart';
 
 import '../config.dart';
+import 'build.dart';
 import 'linker.dart';
 
-/// A builder to be run inside `hook/build.dart`.
+/// A builder to be run in [build] in `hook/build.dart`.
 ///
 /// [Builder]s should be used to build native code, download assets, and
 /// transform assets. A build hook is only rerun when its declared
