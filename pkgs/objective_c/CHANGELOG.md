@@ -1,5 +1,6 @@
 ## 7.2.0-wip
 
+- Use ffigen 18.2.0
 - NSArray is now a Dart Iterable and NSMutableArray is now a Dart List.
 
 ## 7.1.0

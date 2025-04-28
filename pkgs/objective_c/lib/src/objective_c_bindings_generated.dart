@@ -2333,7 +2333,7 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
 
   /// errorWithDomain:code:userInfo:
   static NSError errorWithDomain_code_userInfo_(
-      NSString domain, int code, objc.ObjCObjectBase? dict) {
+      NSString domain, int code, NSDictionary? dict) {
     final _ret = _objc_msgSend_rc4ypv(
         _class_NSError,
         _sel_errorWithDomain_code_userInfo_,
@@ -2399,7 +2399,7 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
 
   /// initWithDomain:code:userInfo:
   NSError initWithDomain_code_userInfo_(
-      NSString domain, int code, objc.ObjCObjectBase? dict) {
+      NSString domain, int code, NSDictionary? dict) {
     final _ret = _objc_msgSend_rc4ypv(
         this.ref.retainAndReturnPointer(),
         _sel_initWithDomain_code_userInfo_,
@@ -2462,9 +2462,9 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
   }
 
   /// userInfo
-  objc.ObjCObjectBase get userInfo {
+  NSDictionary get userInfo {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_userInfo);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// Returns a new instance of NSError constructed with the default `new` method.
@@ -2987,9 +2987,9 @@ extension NSExtendedDictionary on NSDictionary {
 /// NSExtendedEnumerator
 extension NSExtendedEnumerator on NSEnumerator {
   /// allObjects
-  objc.ObjCObjectBase get allObjects {
+  NSArray get allObjects {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_allObjects);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 }
 
@@ -3261,7 +3261,7 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
   }
 
   /// intersectSet:
-  void intersectSet_(objc.ObjCObjectBase other) {
+  void intersectSet_(NSSet other) {
     objc.checkOsVersionInternal('NSMutableOrderedSet.intersectSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_xtuoz7(
@@ -3277,7 +3277,7 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
   }
 
   /// minusSet:
-  void minusSet_(objc.ObjCObjectBase other) {
+  void minusSet_(NSSet other) {
     objc.checkOsVersionInternal('NSMutableOrderedSet.minusSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_xtuoz7(this.ref.pointer, _sel_minusSet_, other.ref.pointer);
@@ -3383,7 +3383,7 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
   }
 
   /// unionSet:
-  void unionSet_(objc.ObjCObjectBase other) {
+  void unionSet_(NSSet other) {
     objc.checkOsVersionInternal('NSMutableOrderedSet.unionSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_xtuoz7(this.ref.pointer, _sel_unionSet_, other.ref.pointer);
@@ -3501,7 +3501,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   }
 
   /// intersectsSet:
-  bool intersectsSet_(objc.ObjCObjectBase set) {
+  bool intersectsSet_(NSSet set) {
     objc.checkOsVersionInternal('NSOrderedSet.intersectsSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_19nvye5(
@@ -3525,7 +3525,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   }
 
   /// isSubsetOfSet:
-  bool isSubsetOfSet_(objc.ObjCObjectBase set) {
+  bool isSubsetOfSet_(NSSet set) {
     objc.checkOsVersionInternal('NSOrderedSet.isSubsetOfSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_19nvye5(
@@ -3587,11 +3587,11 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   }
 
   /// set
-  objc.ObjCObjectBase get set$ {
+  NSSet get set$ {
     objc.checkOsVersionInternal('NSOrderedSet.set',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_set);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return NSSet.castFromPointer(_ret, retain: true, release: true);
   }
 }
 
@@ -5853,7 +5853,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// orderedSetWithSet:
-  static NSMutableOrderedSet orderedSetWithSet_(objc.ObjCObjectBase set) {
+  static NSMutableOrderedSet orderedSetWithSet_(NSSet set) {
     objc.checkOsVersionInternal('NSMutableOrderedSet.orderedSetWithSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_1sotr3r(
@@ -5864,7 +5864,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
 
   /// orderedSetWithSet:copyItems:
   static NSMutableOrderedSet orderedSetWithSet_copyItems_(
-      objc.ObjCObjectBase set, bool flag) {
+      NSSet set, bool flag) {
     objc.checkOsVersionInternal(
         'NSMutableOrderedSet.orderedSetWithSet:copyItems:',
         iOS: (false, (5, 0, 0)),
@@ -6019,7 +6019,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// initWithSet:
-  NSMutableOrderedSet initWithSet_(objc.ObjCObjectBase set) {
+  NSMutableOrderedSet initWithSet_(NSSet set) {
     objc.checkOsVersionInternal('NSMutableOrderedSet.initWithSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_1sotr3r(
@@ -6029,8 +6029,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// initWithSet:copyItems:
-  NSMutableOrderedSet initWithSet_copyItems_(
-      objc.ObjCObjectBase set, bool flag) {
+  NSMutableOrderedSet initWithSet_copyItems_(NSSet set, bool flag) {
     objc.checkOsVersionInternal('NSMutableOrderedSet.initWithSet:copyItems:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_17amj0z(this.ref.retainAndReturnPointer(),
@@ -8616,7 +8615,7 @@ class NSOrderedCollectionDifference extends NSObject
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  NSOrderedCollectionDifference initWithChanges_(objc.ObjCObjectBase changes) {
+  NSOrderedCollectionDifference initWithChanges_(NSArray changes) {
     objc.checkOsVersionInternal(
         'NSOrderedCollectionDifference.initWithChanges:',
         iOS: (false, (13, 0, 0)),
@@ -8634,9 +8633,9 @@ class NSOrderedCollectionDifference extends NSObject
   NSOrderedCollectionDifference
       initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_(
           NSIndexSet inserts,
-          objc.ObjCObjectBase? insertedObjects,
+          NSArray? insertedObjects,
           NSIndexSet removes,
-          objc.ObjCObjectBase? removedObjects) {
+          NSArray? removedObjects) {
     objc.checkOsVersionInternal(
         'NSOrderedCollectionDifference.initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:',
         iOS: (false, (13, 0, 0)),
@@ -8659,10 +8658,10 @@ class NSOrderedCollectionDifference extends NSObject
   NSOrderedCollectionDifference
       initWithInsertIndexes_insertedObjects_removeIndexes_removedObjects_additionalChanges_(
           NSIndexSet inserts,
-          objc.ObjCObjectBase? insertedObjects,
+          NSArray? insertedObjects,
           NSIndexSet removes,
-          objc.ObjCObjectBase? removedObjects,
-          objc.ObjCObjectBase changes) {
+          NSArray? removedObjects,
+          NSArray changes) {
     objc.checkOsVersionInternal(
         'NSOrderedCollectionDifference.initWithInsertIndexes:insertedObjects:removeIndexes:removedObjects:additionalChanges:',
         iOS: (false, (13, 0, 0)),
@@ -8681,11 +8680,11 @@ class NSOrderedCollectionDifference extends NSObject
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  objc.ObjCObjectBase get insertions {
+  NSArray get insertions {
     objc.checkOsVersionInternal('NSOrderedCollectionDifference.insertions',
         iOS: (false, (13, 0, 0)), macOS: (false, (10, 15, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_insertions);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// inverseDifference
@@ -8705,11 +8704,11 @@ class NSOrderedCollectionDifference extends NSObject
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  objc.ObjCObjectBase get removals {
+  NSArray get removals {
     objc.checkOsVersionInternal('NSOrderedCollectionDifference.removals',
         iOS: (false, (13, 0, 0)), macOS: (false, (10, 15, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_removals);
-    return objc.ObjCObjectBase(_ret, retain: true, release: true);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// Returns a new instance of NSOrderedCollectionDifference constructed with the default `new` method.
@@ -8867,7 +8866,7 @@ class NSOrderedSet extends NSObject
   }
 
   /// orderedSetWithSet:
-  static NSOrderedSet orderedSetWithSet_(objc.ObjCObjectBase set) {
+  static NSOrderedSet orderedSetWithSet_(NSSet set) {
     objc.checkOsVersionInternal('NSOrderedSet.orderedSetWithSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_1sotr3r(
@@ -8876,8 +8875,7 @@ class NSOrderedSet extends NSObject
   }
 
   /// orderedSetWithSet:copyItems:
-  static NSOrderedSet orderedSetWithSet_copyItems_(
-      objc.ObjCObjectBase set, bool flag) {
+  static NSOrderedSet orderedSetWithSet_copyItems_(NSSet set, bool flag) {
     objc.checkOsVersionInternal('NSOrderedSet.orderedSetWithSet:copyItems:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_17amj0z(_class_NSOrderedSet,
@@ -9031,7 +9029,7 @@ class NSOrderedSet extends NSObject
   }
 
   /// initWithSet:
-  NSOrderedSet initWithSet_(objc.ObjCObjectBase set) {
+  NSOrderedSet initWithSet_(NSSet set) {
     objc.checkOsVersionInternal('NSOrderedSet.initWithSet:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_1sotr3r(
@@ -9040,7 +9038,7 @@ class NSOrderedSet extends NSObject
   }
 
   /// initWithSet:copyItems:
-  NSOrderedSet initWithSet_copyItems_(objc.ObjCObjectBase set, bool flag) {
+  NSOrderedSet initWithSet_copyItems_(NSSet set, bool flag) {
     objc.checkOsVersionInternal('NSOrderedSet.initWithSet:copyItems:',
         iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_17amj0z(this.ref.retainAndReturnPointer(),
@@ -11540,7 +11538,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// resourceValuesForKeys:fromBookmarkData:
-  static objc.ObjCObjectBase? resourceValuesForKeys_fromBookmarkData_(
+  static NSDictionary? resourceValuesForKeys_fromBookmarkData_(
       NSArray keys, NSData bookmarkData) {
     objc.checkOsVersionInternal('NSURL.resourceValuesForKeys:fromBookmarkData:',
         iOS: (false, (4, 0, 0)), macOS: (false, (10, 6, 0)));
@@ -11551,7 +11549,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
         bookmarkData.ref.pointer);
     return _ret.address == 0
         ? null
-        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// supportsSecureCoding
@@ -11976,7 +11974,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// resourceValuesForKeys:error:
-  objc.ObjCObjectBase? resourceValuesForKeys_error_(
+  NSDictionary? resourceValuesForKeys_error_(
       NSArray keys, ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     objc.checkOsVersionInternal('NSURL.resourceValuesForKeys:error:',
         iOS: (false, (4, 0, 0)), macOS: (false, (10, 6, 0)));
@@ -11984,7 +11982,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
         _sel_resourceValuesForKeys_error_, keys.ref.pointer, error);
     return _ret.address == 0
         ? null
-        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// scheme
@@ -12009,7 +12007,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// setResourceValues:error:
-  bool setResourceValues_error_(objc.ObjCObjectBase keyedValues,
+  bool setResourceValues_error_(NSDictionary keyedValues,
       ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
     objc.checkOsVersionInternal('NSURL.setResourceValues:error:',
         iOS: (false, (4, 0, 0)), macOS: (false, (10, 6, 0)));
