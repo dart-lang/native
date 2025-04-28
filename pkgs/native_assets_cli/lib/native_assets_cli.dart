@@ -43,9 +43,4 @@ export 'src/extension.dart';
 export 'src/test.dart';
 export 'src/user_defines.dart'
     show PackageUserDefines, PackageUserDefinesSource;
-export 'src/validation.dart'
-    show
-        validateBuildInput,
-        validateBuildOutput,
-        validateLinkInput,
-        validateLinkOutput;
+export 'src/validation.dart' show ProtocolBase;

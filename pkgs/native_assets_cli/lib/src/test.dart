@@ -14,7 +14,7 @@ import 'extension.dart';
 import 'user_defines.dart';
 import 'validation.dart';
 
-/// Validates a build hook.
+/// Tests the main function of a `hook/build.dart`.
 ///
 /// This method will throw an exception on validation errors.
 ///
@@ -88,7 +88,7 @@ Future<void> testBuildHook({
     final output = BuildOutput(_readJsonFrom(input.outputFile));
 
     final outputErrors = [
-      ...await validateBuildOutput(input, output),
+      ...await ProtocolBase.validateBuildOutput(input, output),
       for (final extension in extensions) ...[
         ...await extension.validateBuildOutput(input, output),
         ...await extension.validateApplicationAssets(
