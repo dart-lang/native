@@ -9,6 +9,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'property_bindings.dart';
@@ -50,7 +51,8 @@ void main() {
       });
     });
 
-    group('Regress #608', () {
+    group('Regress #209', () {
+      // Test for https://github.com/dart-lang/native/issues/209
       test('Structs', () {
         final inputPtr = calloc<Vec4>();
         final input = inputPtr.ref;
@@ -84,6 +86,13 @@ void main() {
       // Test for https://github.com/dart-lang/native/issues/1136
       expect(testInstance.instStaticSameName, 123);
       expect(PropertyInterface.getInstStaticSameName$1(), 456);
+    });
+
+    test('Regress #1268', () {
+      // Test for https://github.com/dart-lang/native/issues/1268
+      NSArray array = PropertyInterface.getRegressGH1268();
+      expect(array.length, 1);
+      expect(NSString.castFrom(array[0]).toDartString(), "hello");
     });
   });
 }
