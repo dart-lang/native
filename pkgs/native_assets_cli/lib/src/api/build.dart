@@ -9,7 +9,7 @@ import '../args_parser.dart';
 import '../config.dart';
 import '../validation.dart';
 
-/// Runs a native assets build.
+/// Builds assets in a `hook/build.dart`.
 ///
 /// Meant to be used in build hooks (`hook/build.dart`).
 ///
@@ -106,7 +106,10 @@ Future<void> build(
   final input = BuildInput(jsonInput);
   final output = BuildOutputBuilder();
   await builder(input, output);
-  final errors = await validateBuildOutput(input, BuildOutput(output.json));
+  final errors = await ProtocolBase.validateBuildOutput(
+    input,
+    BuildOutput(output.json),
+  );
   if (errors.isEmpty) {
     final jsonOutput = const JsonEncoder.withIndent(
       '  ',

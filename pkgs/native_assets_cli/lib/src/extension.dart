@@ -6,10 +6,11 @@ import 'dart:async';
 
 import 'config.dart';
 import 'encoded_asset.dart';
+import 'validation.dart';
 
 typedef ValidationErrors = List<String>;
 
-/// An extension to the base protocol for `hook/build.dart` and
+/// An extension to the [ProtocolBase] for `hook/build.dart` and
 /// `hook/link.dart`.
 ///
 /// The extension contains callbacks to

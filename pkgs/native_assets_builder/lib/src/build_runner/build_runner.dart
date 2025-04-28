@@ -149,7 +149,7 @@ class NativeAssetsBuildRunner {
 
       final input = inputBuilder.build();
       final errors = [
-        ...await validateBuildInput(input),
+        ...await ProtocolBase.validateBuildInput(input),
         for (final e in extensions) ...await e.validateBuildInput(input),
       ];
       if (errors.isNotEmpty) {
@@ -255,7 +255,7 @@ class NativeAssetsBuildRunner {
 
       final input = inputBuilder.build();
       final errors = [
-        ...await validateLinkInput(input),
+        ...await ProtocolBase.validateLinkInput(input),
         for (final e in extensions) ...await e.validateLinkInput(input),
       ];
       if (errors.isNotEmpty) {
@@ -752,8 +752,11 @@ ${compileResult.stdout}
   ) async {
     final errors =
         input is BuildInput
-            ? await validateBuildOutput(input, output as BuildOutput)
-            : await validateLinkOutput(
+            ? await ProtocolBase.validateBuildOutput(
+              input,
+              output as BuildOutput,
+            )
+            : await ProtocolBase.validateLinkOutput(
               input as LinkInput,
               output as LinkOutput,
             );
