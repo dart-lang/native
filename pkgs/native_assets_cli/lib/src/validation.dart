@@ -150,7 +150,13 @@ ValidationErrors _validateAssetsForLinking(
 const _semanticValidationSkippedMessage =
     'Syntax errors. Semantic validation skipped.';
 
-class ValidationFailure implements Exception {
+/// A test failure.
+///
+/// This cannot be `package:test`s `TestFailure` because we want to avoid
+/// having a dependency on `package:test`.
+///
+/// Not exported, because this is not meant to be caught.
+final class ValidationFailure implements Exception {
   final String? message;
 
   ValidationFailure(this.message);

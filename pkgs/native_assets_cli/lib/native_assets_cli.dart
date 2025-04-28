@@ -15,33 +15,31 @@ export 'src/config.dart'
         AssetRouting,
         BuildConfig,
         BuildConfigBuilder,
+        BuildConfigBuilderSetup,
         BuildInput,
+        BuildInputBuilder,
+        BuildOutput,
         BuildOutputBuilder,
         EncodedAssetBuildOutputBuilder,
         EncodedAssetLinkOutputBuilder,
         HookConfig,
         HookConfigBuilder,
         HookInput,
+        HookInputBuilder,
+        HookOutput,
+        HookOutputBuilder,
+        LinkConfig,
+        LinkConfigBuilder,
         LinkInput,
+        LinkInputBuilder,
+        LinkOutput,
         LinkOutputBuilder,
         PackageMetadata,
         ToAppBundle,
         ToBuildHooks,
         ToLinkHook;
-export 'src/config.dart'
-    show
-        BuildConfigBuilderSetup,
-        BuildInputBuilder,
-        BuildOutput,
-        HookInputBuilder,
-        HookOutput,
-        LinkInputBuilder,
-        LinkOutput;
 export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/extension.dart';
-export 'src/metadata.dart' show Metadata;
-export 'src/model/dependencies.dart';
-export 'src/target.dart' show Target;
 export 'src/test.dart';
 export 'src/user_defines.dart'
     show PackageUserDefines, PackageUserDefinesSource;
