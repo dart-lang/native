@@ -175,7 +175,7 @@ void run({required TestRunnerCallback testRunner}) {
       });
     });
     expect(randomInt, lessThan(15));
-    final JObject? nullableJObject = null;
+    const JObject? nullableJObject = null;
     expect(nullableJObject.use((_) => 'foo'), equals('foo'));
   });
 
