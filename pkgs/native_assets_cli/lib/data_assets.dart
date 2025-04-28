@@ -7,8 +7,8 @@ library;
 
 export 'src/data_assets/config.dart'
     show
-        BuildOutputBuilderAddDataAssetsDirectories,
         BuildOutputAssetsBuilderData,
+        BuildOutputBuilderAddDataAssetsDirectories,
         BuildOutputDataAssets,
         BuildOutputDataAssetsBuilder,
         HookConfigDataConfig,
