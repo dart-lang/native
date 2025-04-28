@@ -7,7 +7,10 @@ import 'package:collection/collection.dart';
 import 'hooks/syntax.g.dart';
 import 'utils/json.dart';
 
-/// An encoding of a particular asset type.
+/// An encoded asset.
+///
+/// Use a protocol extension such as `package:code_assets` or
+/// `package:data_assets` to encode and decode assets.
 final class EncodedAsset {
   /// The type of the asset (e.g. whether it's a code asset, data asset or ...)
   final String type;

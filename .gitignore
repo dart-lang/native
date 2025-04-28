@@ -74,6 +74,7 @@ gradlew.bat
 
 # Directory created by dartdoc.
 doc/api/
+**/doc/api/
 
 # Avoid committing generated Javascript files:
 *.dart.js

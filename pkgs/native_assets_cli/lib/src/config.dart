@@ -16,10 +16,11 @@ import 'metadata.dart';
 import 'user_defines.dart';
 import 'utils/datetime.dart';
 
-/// The shared properties of a [LinkInput] and a [BuildInput].
+/// The input for `hook/build.dart` or `hook/link.dart`.
 ///
-/// This abstraction makes it easier to design APIs intended for both kinds of
-/// build hooks, building and linking.
+/// The shared properties of a [LinkInput] and a [BuildInput]. This abstraction
+/// makes it easier to design APIs intended for both kinds of build hooks,
+/// building and linking.
 sealed class HookInput {
   /// The underlying json configuration of this [HookInput].
   Map<String, Object?> get json => _syntax.json;
@@ -143,6 +144,7 @@ extension type HookInputUserDefines._(HookInput _input) {
   }
 }
 
+/// A builder for [HookInput].
 sealed class HookInputBuilder {
   final _syntax = HookInputSyntax.fromJson({})
     ..config = ConfigSyntax(buildAssetTypes: [], extensions: null);
@@ -190,6 +192,7 @@ String _jsonChecksum(Map<String, Object?> json) {
   return hash;
 }
 
+/// The input for `hook/build.dart`.
 final class BuildInput extends HookInput {
   @override
   Uri get outputFile => _syntax.outFile;
@@ -203,10 +206,12 @@ final class BuildInput extends HookInput {
 
   BuildInputAssets get assets => BuildInputAssets._(this);
 
+  /// The metadata emitted by dependent build hooks.
   BuildInputMetadata get metadata => BuildInputMetadata._(this);
 }
 
 extension type BuildInputMetadata._(BuildInput _input) {
+  /// The metadata emitted by the build hook of package [packageName].
   PackageMetadata operator [](String packageName) => PackageMetadata(
     (_input.assets.encodedAssets[packageName] ?? [])
         .where((e) => e.isMetadataAsset)
@@ -215,7 +220,8 @@ extension type BuildInputMetadata._(BuildInput _input) {
   );
 }
 
-class PackageMetadata {
+/// The metadata from a specific package in [BuildInput].
+final class PackageMetadata {
   PackageMetadata(this._metadata);
 
   final List<MetadataAsset> _metadata;
@@ -235,6 +241,7 @@ extension type BuildInputAssets._(BuildInput _input) {
       encodedAssets[packageName] ?? [];
 }
 
+/// A builder for [BuildInput].
 final class BuildInputBuilder extends HookInputBuilder {
   @override
   BuildInputSyntax get _syntax => BuildInputSyntax.fromJson(super._syntax.json);
@@ -263,6 +270,7 @@ final class BuildInputBuilder extends HookInputBuilder {
   BuildInput build() => BuildInput(json);
 }
 
+/// A builder for a [HookConfig].
 final class HookConfigBuilder {
   final HookInputBuilder builder;
 
@@ -275,6 +283,7 @@ final class HookConfigBuilder {
   }
 }
 
+/// A builder for a [BuildConfig].
 final class BuildConfigBuilder extends HookConfigBuilder {
   @override
   late final BuildConfigSyntax _syntax = BuildConfigSyntax.fromJson(
@@ -290,6 +299,7 @@ extension BuildConfigBuilderSetup on BuildConfigBuilder {
   }
 }
 
+/// The input for a `hook/link.dart`.
 final class LinkInput extends HookInput {
   List<EncodedAsset> get _encodedAssets {
     final assets = _syntaxLinkInput.assets;
@@ -308,6 +318,9 @@ final class LinkInput extends HookInput {
     _encodedAssets;
   }
 
+  @override
+  LinkConfig get config => LinkConfig._(this);
+
   LinkInputAssets get assets => LinkInputAssets._(this);
 }
 
@@ -315,6 +328,7 @@ extension type LinkInputAssets._(LinkInput _input) {
   List<EncodedAsset> get encodedAssets => _input._encodedAssets;
 }
 
+/// A builder for [LinkInput].
 final class LinkInputBuilder extends HookInputBuilder {
   @override
   LinkInputSyntax get _syntax => LinkInputSyntax.fromJson(super._syntax.json);
@@ -335,7 +349,20 @@ final class LinkInputBuilder extends HookInputBuilder {
   void addExtension(ProtocolExtension extension) =>
       extension.setupLinkInput(this);
 
+  @override
+  LinkConfigBuilder get config => LinkConfigBuilder._(this);
+
   LinkInput build() => LinkInput(json);
+}
+
+/// A builder for a [BuildConfig].
+final class LinkConfigBuilder extends HookConfigBuilder {
+  @override
+  late final BuildConfigSyntax _syntax = BuildConfigSyntax.fromJson(
+    super._syntax.json,
+  );
+
+  LinkConfigBuilder._(super.builder) : super._();
 }
 
 List<EncodedAsset> _parseAssets(List<AssetSyntax>? assets) => assets == null
@@ -345,6 +372,11 @@ List<EncodedAsset> _parseAssets(List<AssetSyntax>? assets) => assets == null
           EncodedAsset.fromJson(asset.json, asset.path),
       ];
 
+/// The output from a `hook/build.dart` or `hook/link.dart`.
+///
+/// The shared properties of a [BuildOutput] and a [LinkOutput]. This
+/// abstraction makes it easier to design APIs intended for both kinds of build
+/// hooks, building and linking.
 sealed class HookOutput {
   /// The underlying json configuration of this [HookOutput].
   Map<String, Object?> get json => _syntax.json;
@@ -378,6 +410,7 @@ sealed class HookOutput {
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 }
 
+/// A builder for [HookOutput].
 sealed class HookOutputBuilder {
   final _syntax = HookOutputSyntax(
     timestamp: DateTime.now().roundDownToSeconds().toString(),
@@ -410,7 +443,8 @@ sealed class HookOutputBuilder {
   }
 }
 
-class BuildOutput extends HookOutput {
+/// The output from a `hook/build.dart`.
+final class BuildOutput extends HookOutput {
   /// The assets produced by this build which should be linked.
   ///
   /// Every key in the map is a package name. These assets in the values are not
@@ -452,7 +486,7 @@ extension type BuildOutputAssets._(BuildOutput _output) {
       _output._encodedAssetsForBuild;
 }
 
-/// Builder to produce the output of a build hook.
+/// A builder for [BuildOutput].
 ///
 /// There are various Dart extensions on this [BuildOutputBuilder] that allow
 /// adding specific asset types - which should be used by normal hook authors.
@@ -466,7 +500,7 @@ extension type BuildOutputAssets._(BuildOutput _output) {
 ///   });
 /// }
 /// ```
-class BuildOutputBuilder extends HookOutputBuilder {
+final class BuildOutputBuilder extends HookOutputBuilder {
   MetadataOutputBuilder get metadata => MetadataOutputBuilder._(this);
 
   EncodedAssetBuildOutputBuilder get assets =>
@@ -494,17 +528,24 @@ extension type MetadataOutputBuilder._(BuildOutputBuilder _output) {
   }
 }
 
-/// The destination for assets output in a build hook.
+/// The destination for assets in the [BuildOutput].
+///
+/// Currently supported routings:
+///  * [ToBuildHooks]: From build hook to all dependent builds hooks.
+///  * [ToLinkHook]: From build hook to a specific link hook.
+///  * [ToAppBundle]: From build or link hook to the application Bundle.
 sealed class AssetRouting {
   const AssetRouting();
 }
 
-/// Assets with this routing will be sent to the SDK to be bundled with the app.
+/// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the SDK
+/// to be bundled with the app.
 final class ToAppBundle extends AssetRouting {
   const ToAppBundle();
 }
 
-/// Assets with this routing will be sent to build hooks.
+/// Assets with this [AssetRouting] in the [BuildOutput] will be sent to build
+/// hooks.
 ///
 /// The assets are only available for build hooks of packages that have a direct
 /// dependency on the package emitting the asset with this routing.
@@ -521,7 +562,8 @@ final class ToBuildHooks extends AssetRouting {
   const ToBuildHooks();
 }
 
-/// Assets with this routing will be sent to the link hook of [packageName].
+/// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the
+/// link hook of [packageName].
 ///
 /// The assets are only available to the link hook of [packageName].
 ///
@@ -624,7 +666,8 @@ extension type EncodedAssetBuildOutputBuilder._(BuildOutputBuilder _output) {
       BuildOutputSyntax.fromJson(_output._syntax.json);
 }
 
-class LinkOutput extends HookOutput {
+/// The output for a `hook/link.dart`.
+final class LinkOutput extends HookOutput {
   /// Creates a [BuildOutput] from the given [json].
   LinkOutput(super.json) : _syntax = LinkOutputSyntax.fromJson(json), super._();
 
@@ -639,7 +682,7 @@ extension type LinkOutputAssets._(LinkOutput _output) {
   List<EncodedAsset> get encodedAssets => _output._encodedAssets;
 }
 
-/// Builder to produce the output of a link hook.
+/// A builder for [LinkOutput].
 ///
 /// There are various Dart extensions on this [LinkOutputBuilder] that allow
 /// adding specific asset types - which should be used by normal hook authors.
@@ -653,7 +696,7 @@ extension type LinkOutputAssets._(LinkOutput _output) {
 ///   });
 /// }
 /// ```
-class LinkOutputBuilder extends HookOutputBuilder {
+final class LinkOutputBuilder extends HookOutputBuilder {
   EncodedAssetLinkOutputBuilder get assets =>
       EncodedAssetLinkOutputBuilder._(this);
 
@@ -710,7 +753,7 @@ extension type EncodedAssetLinkOutputBuilder._(LinkOutputBuilder _builder) {
 // Deprecated, still emitted for backwards compatibility purposes.
 final latestVersion = Version(1, 9, 0);
 
-/// The configuration for a build or link hook invocation.
+/// The configuration in a [HookInput].
 final class HookConfig {
   Map<String, Object?> get json => _syntax.json;
 
@@ -745,6 +788,7 @@ final class HookConfig {
   String computeChecksum() => _jsonChecksum(_syntax.json);
 }
 
+/// The configuration in a [BuildInput].
 final class BuildConfig extends HookConfig {
   @override
   // ignore: overridden_fields
@@ -758,4 +802,9 @@ final class BuildConfig extends HookConfig {
         path: input._syntax.config.path,
       ),
       super._();
+}
+
+/// The configuration in a [LinkInput].
+final class LinkConfig extends HookConfig {
+  LinkConfig._(super.input) : super._();
 }

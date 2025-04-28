@@ -14,9 +14,8 @@
 /// Dart SDK.
 library;
 
-import 'package:native_assets_cli/native_assets_cli.dart';
-
 import '../utils/yaml.dart';
+import 'target.dart';
 
 class KernelAssets {
   final List<KernelAsset> _assets;
