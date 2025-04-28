@@ -118,7 +118,7 @@ class Arena implements Allocator {
 /// If the isolate is shut down, through `Isolate.kill()`, resources are _not_
 /// cleaned up.
 R using<R>(
-  R Function(Arena) computation, [
+  R Function(Arena arena) computation, [
   Allocator wrappedAllocator = calloc,
 ]) {
   final arena = Arena(wrappedAllocator);
