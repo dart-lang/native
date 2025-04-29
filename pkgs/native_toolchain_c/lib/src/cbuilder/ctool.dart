@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/code_assets.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
 
 import 'cbuilder.dart';
 import 'clinker.dart';

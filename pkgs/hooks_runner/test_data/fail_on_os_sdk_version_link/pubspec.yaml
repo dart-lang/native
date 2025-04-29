@@ -1,0 +1,21 @@
+name: fail_on_os_sdk_version_link
+description: Fails the build due to OS API levels.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  data_assets: ^0.19.0-wip
+  fail_on_os_sdk_version_linker:
+    path: ../fail_on_os_sdk_version_linker/
+  hooks: ^0.19.0-wip
+
+dev_dependencies:
+  ffigen: ^18.0.0
+  lints: ^5.1.1
+  test: ^1.25.15

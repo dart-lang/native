@@ -23,5 +23,5 @@ For bugs, please file an issue in the
 
 ## Example
 
-An example can be found in [../native_assets_cli/example/build/](
-../native_assets_cli/example/build/).
+An example can be found in [../hooks/example/build/](
+../hooks/example/build/).

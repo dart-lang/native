@@ -4,8 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
