@@ -13246,3 +13246,488 @@ final class $Nullable$Type extends jni$_.JObjType<Nullable> {
     return other.runtimeType == ($Nullable$Type) && other is $Nullable$Type;
   }
 }
+
+/// from: `com.github.dart_lang.jnigen.regressions.R2250$Child`
+class R2250$Child extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<R2250$Child> $type;
+
+  @jni$_.internal
+  R2250$Child.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/regressions/R2250$Child');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $R2250$Child$NullableType();
+  static const type = $R2250$Child$Type();
+  static final _id_foo = _class.instanceMethodId(
+    r'foo',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _foo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract void foo(java.lang.Object object)`
+  void foo(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    _foo(reference.pointer, _id_foo as jni$_.JMethodIDPtr, _$object.pointer)
+        .check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $R2250$Child> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'foo(Ljava/lang/Object;)V') {
+        _$impls[$p]!.foo(
+          $a![0]?.as(const jni$_.JObjectType(), releaseOriginal: true),
+        );
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $R2250$Child $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.regressions.R2250$Child',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.foo$async) r'foo(Ljava/lang/Object;)V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory R2250$Child.implement(
+    $R2250$Child $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return R2250$Child.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $R2250$Child {
+  factory $R2250$Child({
+    required void Function(jni$_.JObject? object) foo,
+    bool foo$async,
+  }) = _$R2250$Child;
+
+  void foo(jni$_.JObject? object);
+  bool get foo$async => false;
+}
+
+final class _$R2250$Child with $R2250$Child {
+  _$R2250$Child({
+    required void Function(jni$_.JObject? object) foo,
+    this.foo$async = false,
+  }) : _foo = foo;
+
+  final void Function(jni$_.JObject? object) _foo;
+  final bool foo$async;
+
+  void foo(jni$_.JObject? object) {
+    return _foo(object);
+  }
+}
+
+final class $R2250$Child$NullableType extends jni$_.JObjType<R2250$Child?> {
+  @jni$_.internal
+  const $R2250$Child$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/regressions/R2250$Child;';
+
+  @jni$_.internal
+  @core$_.override
+  R2250$Child? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : R2250$Child.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R2250$Child?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($R2250$Child$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R2250$Child$NullableType) &&
+        other is $R2250$Child$NullableType;
+  }
+}
+
+final class $R2250$Child$Type extends jni$_.JObjType<R2250$Child> {
+  @jni$_.internal
+  const $R2250$Child$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/regressions/R2250$Child;';
+
+  @jni$_.internal
+  @core$_.override
+  R2250$Child fromReference(jni$_.JReference reference) =>
+      R2250$Child.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R2250$Child?> get nullableType =>
+      const $R2250$Child$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($R2250$Child$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R2250$Child$Type) &&
+        other is $R2250$Child$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.regressions.R2250`
+class R2250<$T extends jni$_.JObject?> extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<R2250<$T>> $type;
+
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  R2250.fromReference(
+    this.T,
+    jni$_.JReference reference,
+  )   : $type = type<$T>(T),
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/regressions/R2250');
+
+  /// The type which includes information such as the signature of this class.
+  static $R2250$NullableType<$T> nullableType<$T extends jni$_.JObject?>(
+    jni$_.JObjType<$T> T,
+  ) {
+    return $R2250$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $R2250$Type<$T> type<$T extends jni$_.JObject?>(
+    jni$_.JObjType<$T> T,
+  ) {
+    return $R2250$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_foo = _class.instanceMethodId(
+    r'foo',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _foo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract void foo(T object)`
+  void foo(
+    $T? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    _foo(reference.pointer, _id_foo as jni$_.JMethodIDPtr, _$object.pointer)
+        .check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $R2250> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'foo(Ljava/lang/Object;)V') {
+        _$impls[$p]!.foo(
+          $a![0]?.as(_$impls[$p]!.T, releaseOriginal: true),
+        );
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn<$T extends jni$_.JObject?>(
+    jni$_.JImplementer implementer,
+    $R2250<$T> $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.regressions.R2250',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.foo$async) r'foo(Ljava/lang/Object;)V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory R2250.implement(
+    $R2250<$T> $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return R2250<$T>.fromReference(
+      $impl.T,
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $R2250<$T extends jni$_.JObject?> {
+  factory $R2250({
+    required jni$_.JObjType<$T> T,
+    required void Function($T? object) foo,
+    bool foo$async,
+  }) = _$R2250<$T>;
+
+  jni$_.JObjType<$T> get T;
+
+  void foo($T? object);
+  bool get foo$async => false;
+}
+
+final class _$R2250<$T extends jni$_.JObject?> with $R2250<$T> {
+  _$R2250({
+    required this.T,
+    required void Function($T? object) foo,
+    this.foo$async = false,
+  }) : _foo = foo;
+
+  @core$_.override
+  final jni$_.JObjType<$T> T;
+
+  final void Function($T? object) _foo;
+  final bool foo$async;
+
+  void foo($T? object) {
+    return _foo(object);
+  }
+}
+
+final class $R2250$NullableType<$T extends jni$_.JObject?>
+    extends jni$_.JObjType<R2250<$T>?> {
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  const $R2250$NullableType(
+    this.T,
+  );
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R2250;';
+
+  @jni$_.internal
+  @core$_.override
+  R2250<$T>? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : R2250<$T>.fromReference(
+          T,
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R2250<$T>?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => Object.hash($R2250$NullableType, T);
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R2250$NullableType<$T>) &&
+        other is $R2250$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $R2250$Type<$T extends jni$_.JObject?>
+    extends jni$_.JObjType<R2250<$T>> {
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  const $R2250$Type(
+    this.T,
+  );
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R2250;';
+
+  @jni$_.internal
+  @core$_.override
+  R2250<$T> fromReference(jni$_.JReference reference) =>
+      R2250<$T>.fromReference(
+        T,
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R2250<$T>?> get nullableType => $R2250$NullableType<$T>(T);
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => Object.hash($R2250$Type, T);
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R2250$Type<$T>) &&
+        other is $R2250$Type<$T> &&
+        T == other.T;
+  }
+}

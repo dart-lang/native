@@ -978,6 +978,23 @@ void registerTests(String groupName, TestRunnerCallback test) {
         );
       });
     });
+    test('Superinterface methods are available', () {
+      expect(
+        $R2250.new,
+        isA<
+            $R2250<$T> Function<$T extends JObject>(
+                // ignore: invalid_use_of_internal_member
+                {required JObjType<$T> T,
+                required void Function(JObject?) foo,
+                bool foo$async})>(),
+      );
+      expect(
+        $R2250$Child.new,
+        isA<
+            $R2250$Child Function(
+                {required void Function(JObject?) foo, bool foo$async})>(),
+      );
+    });
   });
 
   group('Nullablity annotations', () {
