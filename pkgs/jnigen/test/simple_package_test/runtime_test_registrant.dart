@@ -985,7 +985,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             $R2250<$T> Function<$T extends JObject>(
                 // ignore: invalid_use_of_internal_member
                 {required JObjType<$T> T,
-                required void Function(JObject?) foo,
+                required void Function($T?) foo,
                 bool foo$async})>(),
       );
       expect(
