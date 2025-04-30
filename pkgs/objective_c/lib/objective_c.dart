@@ -23,6 +23,7 @@ export 'src/internal.dart'
 export 'src/ns_data.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
+export 'src/ns_number.dart';
 export 'src/ns_string.dart';
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
