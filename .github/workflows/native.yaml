@@ -10,16 +10,20 @@ on:
     # No `branches:` to enable stacked PRs on GitHub.
     paths:
       - ".github/workflows/native.yaml"
-      - "pkgs/native_assets_builder/**"
-      - "pkgs/native_assets_cli/**"
+      - "pkgs/code_assets/**"
+      - "pkgs/data_assets/**"
+      - "pkgs/hooks_runner/**"
+      - "pkgs/hooks/**"
       - "pkgs/native_toolchain_c/**"
       - "tools/**"
   push:
     branches: [main]
     paths:
       - ".github/workflows/native.yaml"
-      - "pkgs/native_assets_builder/**"
-      - "pkgs/native_assets_cli/**"
+      - "pkgs/code_assets/**"
+      - "pkgs/data_assets/**"
+      - "pkgs/hooks_runner/**"
+      - "pkgs/hooks/**"
       - "pkgs/native_toolchain_c/**"
       - "tools/**"
   schedule:
@@ -32,8 +36,13 @@ jobs:
       matrix:
         os: [ubuntu, macos, windows]
         sdk: [dev]
-        package: [native_assets_builder, native_assets_cli, native_toolchain_c]
-        # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
+        package:
+          - code_assets
+          - data_assets
+          - hooks
+          - hooks_runner
+          - native_toolchain_c
+        # Breaking changes temporarily break the example run on the Dart SDK until hooks_runner is rolled into the Dart SDK dev build.
         breaking-change: [false]
 
     runs-on: ${{ matrix.os }}-latest
@@ -57,10 +66,10 @@ jobs:
       - run: dart pub get
 
       - run: dart pub get -C test_data/native_add_version_skew/
-        if: ${{ matrix.package == 'native_assets_builder' }}
+        if: ${{ matrix.package == 'hooks_runner' }}
 
       - run: dart pub get -C test_data/native_add_version_skew_2/
-        if: ${{ matrix.package == 'native_assets_builder' }}
+        if: ${{ matrix.package == 'hooks_runner' }}
 
       - run: dart analyze --fatal-infos
         # Run on dev to ensure we're not depending on deprecated SDK things.
@@ -75,35 +84,43 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/native_dynamic_linking/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
       
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets run
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: ./native_add_app.exe
         working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
 
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
       
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/download_asset/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
       
       - run: dart --enable-experiment=native-assets test
         working-directory: pkgs/${{ matrix.package }}/example/build/system_library/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+
+      - run: |
+          dart tool/generate_schemas.dart
+          dart tool/generate_syntax.dart
+          dart tool/normalize.dart
+          git diff --exit-code
+        working-directory: pkgs/${{ matrix.package }}
+        if: ${{ matrix.package == 'hook' && matrix.sdk == 'dev' }}
 
       - name: Install coverage
         run: dart pub global activate coverage

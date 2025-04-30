@@ -21,8 +21,8 @@
     },
     "linking_enabled": true
   },
-  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/Hook.build/",
-  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/c540d75d10834674921701cd6c3c7c15/output.json",
+  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/shared/my_package/Hook.build/",
+  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/my_package/c540d75d10834674921701cd6c3c7c15/output.json",
   "package_name": "my_package",
   "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/"
 }

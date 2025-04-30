@@ -210,7 +210,7 @@ $dartType get $fieldName {
   if (jsonValue == null) {
     return null;
   }
-  final result = <String, List<Asset>>{};
+  final result = <String, List<$typeName>>{};
   for (final MapEntry(:key, :value) in jsonValue.entries) {
     result[key] = [
       for (final (index, item) in (value as List<Object?>).indexed)

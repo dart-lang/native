@@ -4,10 +4,10 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/code_assets.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
 
 import 'build_mode.dart';
 import 'ctool.dart';
