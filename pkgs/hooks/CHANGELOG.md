@@ -1,4 +1,4 @@
-## 0.19.0-wip
+## 0.19.0
 
 - Split up `package:native_assets_cli` in `package:hooks`,
   `package:code_assets`, and `package:data_assets`.
@@ -19,7 +19,7 @@
 
 - Support relative paths in user-defines to be loaded as absolute paths.
 
-## 0.16.0-wip
+## 0.15.0
 
 - **Breaking change** JSON encoding migration: change written asset type to the
   namespaced one. Still keep reading the old one. (Old build hooks will keep

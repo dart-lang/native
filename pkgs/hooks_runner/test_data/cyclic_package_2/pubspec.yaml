@@ -12,7 +12,7 @@ environment:
 dependencies:
   cyclic_package_1:
     path: ../cyclic_package_1
-  hooks: ^0.19.0-wip
+  hooks: ^0.19.0
 
 dev_dependencies:
   lints: ^5.1.1

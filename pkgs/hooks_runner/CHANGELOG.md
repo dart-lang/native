@@ -1,4 +1,4 @@
-## 0.19.0-wip
+## 0.19.0
 
 - Renamed package from `native_assets_builder` to `hooks_runner`.
 - Depend on `package:code_assets`, `package:data_assets`, and `package:hooks`
@@ -18,9 +18,9 @@
   the SDKs using this package.
 - Bump `package:native_assets_cli` to 0.16.0.
 
-## 0.16.0-wip
+## 0.15.0
 
-- Bump `package:native_assets_cli` to 0.16.0-wip.
+- Bump `package:native_assets_cli` to 0.16.0.
 
 ## 0.14.0
 
