@@ -9,23 +9,27 @@ building and bundling.
 
 | Package | Description | Issues | Version |
 | --- | --- | --- | --- |
+| [code_assets](pkgs/code_assets/) | This package contains the Dart API for code assets in `hook/build.dart` and `hook/link.dart`.  | [![issues](https://img.shields.io/badge/package:code_assets-4774bc)][code_assets_issues] |  |
+| [data_assets](pkgs/data_assets/) | This package contains the Dart API for data assets in `hook/build.dart` and `hook/link.dart`.  | [![issues](https://img.shields.io/badge/package:data_assets-4774bc)][data_assets_issues] |  |
 | [ffi](pkgs/ffi/) | Utilities for working with Foreign Function Interface (FFI) code. | [![issues](https://img.shields.io/badge/package:ffi-4774bc)][ffi_issues] | [![pub package](https://img.shields.io/pub/v/ffi.svg)](https://pub.dev/packages/ffi) |
 | [ffigen](pkgs/ffigen/) | Generator for FFI bindings, using LibClang to parse C, Objective-C, and Swift files. | [![issues](https://img.shields.io/badge/package:ffigen-4774bc)][ffigen_issues] | [![pub package](https://img.shields.io/pub/v/ffigen.svg)](https://pub.dev/packages/ffigen) |
+| [hooks](pkgs/hooks/) | This package contains the API for `hook/build.dart` and `hook/link.dart`. | [![issues](https://img.shields.io/badge/package:hooks-4774bc)][hooks_issues] |  |
+| [hooks_runner](pkgs/hooks_runner/) | This package is the backend that invokes `hook/build.dart` and `hook/link.dart` from Dart and Flutter. | [![issues](https://img.shields.io/badge/package:hooks_runner-4774bc)][hooks_runner_issues] |  |
 | [jni](pkgs/jni/) | A library to access JNI from Dart and Flutter that acts as a support library for package:jnigen. | [![issues](https://img.shields.io/badge/package:jni-4774bc)][jni_issues] | [![pub package](https://img.shields.io/pub/v/jni.svg)](https://pub.dev/packages/jni) |
 | [jnigen](pkgs/jnigen/) | A Dart bindings generator for Java and Kotlin that uses JNI under the hood to interop with Java virtual machine. | [![issues](https://img.shields.io/badge/package:jnigen-4774bc)][jnigen_issues] | [![pub package](https://img.shields.io/pub/v/jnigen.svg)](https://pub.dev/packages/jnigen) |
-| [hooks_runner](pkgs/hooks_runner/) | This package is the backend that invokes build hooks. | [![issues](https://img.shields.io/badge/package:native__assets__builder-4774bc)][hooks_runner_issues] |  |
-| [hooks](pkgs/hooks/) | A library that contains the argument and file formats for implementing a native assets CLI. | [![issues](https://img.shields.io/badge/package:hooks-4774bc)][hooks_issues] |  |
 | [native_toolchain_c](pkgs/native_toolchain_c/) | A library to invoke the native C compiler installed on the host machine. | [![issues](https://img.shields.io/badge/package:native__toolchain__c-4774bc)][native_toolchain_c_issues] |  |
 | [objective_c](pkgs/objective_c/) | A library to access Objective C from Flutter that acts as a support library for package:ffigen. | [![issues](https://img.shields.io/badge/package:objective__c-4774bc)][objective_c_issues] | [![pub package](https://img.shields.io/pub/v/objective_c.svg)](https://pub.dev/packages/objective_c) |
 | [swift2objc](pkgs/swift2objc/) | A tool for generating bindings that allow interop between Dart and Swift code. | [![issues](https://img.shields.io/badge/package:swift2objc-4774bc)][swift2objc_issues] | [![pub package](https://img.shields.io/pub/v/swift2objc.svg)](https://pub.dev/packages/swift2objc) |
 | [swiftgen](pkgs/swiftgen/) | A tool for generating bindings that allow interop between Dart and Swift code. | [![issues](https://img.shields.io/badge/package:swiftgen-4774bc)][swiftgen_issues] | [![pub package](https://img.shields.io/pub/v/swiftgen.svg)](https://pub.dev/packages/swiftgen) |
 
+[code_assets_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Acode_assets
+[data_assets_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Adata_assets
 [ffi_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Affi
 [ffigen_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Affigen
+[hooks_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ahooks
+[hooks_runner_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ahooks_runner
 [jni_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni
 [jnigen_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajnigen
-[hooks_runner_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ahooks_runner
-[hooks_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ahooks
 [native_toolchain_c_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Anative_toolchain_c
 [objective_c_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aobjective_c
 [swift2objc_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aswift2objc
