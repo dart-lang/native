@@ -4755,9 +4755,6 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
       arrayWithCapacity_(elements.length)..addAll(elements);
 
   @override
-  int get length => count;
-
-  @override
   set length(int newLength) {
     var len = length;
     RangeError.checkValueInInterval(newLength, 0, len);
@@ -4765,11 +4762,9 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
   }
 
   @override
-  objc.ObjCObjectBase elementAt(int index) => objectAtIndex_(index);
-
-  @override
   Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
 
+  @override
   objc.ObjCObjectBase operator [](int index) => objectAtIndex_(index);
 
   @override
@@ -4778,11 +4773,6 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
 
   @override
   void add(objc.ObjCObjectBase value) => addObject_(value);
-
-  @override
-  void addAll(Iterable<objc.ObjCObjectBase> iterable) {
-    for (final value in iterable) add(value);
-  }
 
   NSMutableArray._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -5394,14 +5384,10 @@ class NSMutableData extends NSData {
 }
 
 /// NSMutableDictionary
-class NSMutableDictionary extends NSDictionary
-    with MapBase<NSCopying, objc.ObjCObjectBase> {
+class NSMutableDictionary extends NSDictionary {
   /// Creates a [NSMutableDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.dictionaryWithCapacity_(other.length)..addAll(other);
-
-  @override
-  int get length => count;
 
   @override
   void clear() => removeAllObjects();
@@ -5415,21 +5401,8 @@ class NSMutableDictionary extends NSDictionary
   }
 
   @override
-  objc.ObjCObjectBase? operator [](Object? key) =>
-      key is NSCopying ? objectForKey_(key) : null;
-
-  @override
   void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
       setObject_forKey_(value, NSCopying.castFrom(key));
-
-  @override
-  Iterable<NSCopying> get keys => _NSDictionaryKeyIterable(this);
-
-  @override
-  Iterable<objc.ObjCObjectBase> get values => _NSDictionaryValueIterable(this);
-
-  @override
-  bool containsKey(Object? key) => this[key] != null;
 
   NSMutableDictionary._(ffi.Pointer<objc.ObjCObject> pointer,
       {bool retain = false, bool release = false})
@@ -6174,27 +6147,10 @@ class NSMutableOrderedSet extends NSOrderedSet {
 }
 
 /// NSMutableSet
-class NSMutableSet extends NSSet with SetBase<objc.ObjCObjectBase> {
+class NSMutableSet extends NSSet {
   /// Creates a [NSMutableSet] from [elements].
   static NSMutableSet of(Iterable<objc.ObjCObjectBase> elements) =>
       setWithCapacity_(elements.length)..addAll(elements);
-
-  @override
-  int get length => count;
-
-  @override
-  bool contains(Object? element) =>
-      element is objc.ObjCObjectBase ? containsObject_(element) : false;
-
-  @override
-  objc.ObjCObjectBase? lookup(Object? element) =>
-      element is objc.ObjCObjectBase ? member_(element) : null;
-
-  @override
-  Iterator<objc.ObjCObjectBase> get iterator => objectEnumerator();
-
-  @override
-  Set<objc.ObjCObjectBase> toSet() => {...this};
 
   @override
   bool add(objc.ObjCObjectBase value) {
