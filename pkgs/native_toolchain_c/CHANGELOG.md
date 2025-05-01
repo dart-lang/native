@@ -1,4 +1,4 @@
-## 0.16.0-wip
+## 0.16.0
 
 - Depend on `package:code_assets` and `package:hooks` 0.19.0.
   (`package:native_assets_cli` was split up into these packages.)
@@ -17,7 +17,7 @@
 
 ## 0.12.0
 
-- Bump `package:native_assets_cli` to 0.16.0-wip.
+- Bump `package:native_assets_cli` to 0.16.0.
 
 ## 0.11.0
 
