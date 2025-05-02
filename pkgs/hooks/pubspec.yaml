@@ -38,6 +38,5 @@ dev_dependencies:
   json_syntax_generator:
     path: ../json_syntax_generator/
   path: ^1.9.1
-  repo_lint_rules:
-    path: ../repo_lint_rules/
+  repo_lint_rules: 0.1.0-wip
   test: ^1.25.15
