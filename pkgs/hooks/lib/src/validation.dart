@@ -164,8 +164,8 @@ Try instead:
 
 ```
 routing: input.config.linkingEnabled
-              ? ToAppBundle()
-              : ToLinkHook(input.packageName)
+              ? ToLinkHook(input.packageName)
+              : ToAppBundle(),
 ```
 ''';
         errors.add(error);
