@@ -98,7 +98,7 @@ void _validateDataAsset(
     errors.add('More than one data asset with same "${dataAsset.name}" name.');
   }
   final file = dataAsset.file;
-  errors.addAll(_validateFile('Data asset ${dataAsset.name} file', file));
+  errors.addAll(_validateFile('Data asset "${dataAsset.name}" file', file));
 }
 
 ValidationErrors _validateDataAssetSyntax(EncodedAsset encodedAsset) {
@@ -132,7 +132,7 @@ ValidationErrors _validateFile(
     errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
   }
   if (mustExist && !File.fromUri(uri).existsSync()) {
-    errors.add('$name (${uri.toFilePath()}) does not exist as a file.');
+    errors.add('$name at "${uri.toFilePath()}" does not exist.');
   }
   return errors;
 }

@@ -295,10 +295,10 @@ ValidationErrors _validateFile(
 }) {
   final errors = <String>[];
   if (mustBeAbsolute && !uri.isAbsolute) {
-    errors.add('$name (${uri.toFilePath()}) must be an absolute path.');
+    errors.add('$name at ${uri.toFilePath()} must be an absolute path.');
   }
   if (mustExist && !File.fromUri(uri).existsSync()) {
-    errors.add('$name (${uri.toFilePath()}) does not exist as a file.');
+    errors.add('$name at ${uri.toFilePath()} does not exist as a file.');
   }
   return errors;
 }
