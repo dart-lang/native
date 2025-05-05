@@ -2,7 +2,7 @@ name: hooks_runner
 description: >-
   This package is the backend that invokes build hooks.
 
-version: 0.19.0
+version: 0.19.1-wip
 
 repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks_runner
 
@@ -30,6 +30,5 @@ dev_dependencies:
   dart_flutter_team_lints: ^3.5.1
   data_assets: ^0.19.0 # Used in tests.
   file_testing: ^3.0.2
-  repo_lint_rules:
-    path: ../repo_lint_rules/
+  repo_lint_rules: 0.1.0-wip
   test: ^1.25.15

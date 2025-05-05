@@ -1,3 +1,7 @@
+## 0.19.1-wip
+
+- Remove `package_graph.json` fallback.
+
 ## 0.19.0
 
 - Renamed package from `native_assets_builder` to `hooks_runner`.

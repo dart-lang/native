@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
-import 'dart:io' show Process;
 
 import 'package:file/file.dart';
 import 'package:graphs/graphs.dart' as graphs;
@@ -39,21 +38,8 @@ class NativeAssetsBuildPlanner {
     final packageGraphJsonFile = fileSystem.file(
       packageConfigUri.resolve('package_graph.json'),
     );
-    final String packageGraphJson;
-    if (packageGraphJsonFile.existsSync()) {
-      packageGraphJson = await packageGraphJsonFile.readAsString();
-    } else {
-      // TODO: Either bump SDK constraint to dev release (but we can't while
-      // flutter_tools requires published stable packages). Or wait for Dart 3.8
-      // to be released to remove this fallback.
-      final workingDirectory = packageConfigUri.resolve('../');
-      final result = await Process.run(
-        dartExecutable.toFilePath(),
-        ['pub', 'deps', '--json'],
-        workingDirectory: workingDirectory.toFilePath(),
-      );
-      packageGraphJson = result.stdout as String;
-    }
+    assert(packageGraphJsonFile.existsSync());
+    final packageGraphJson = await packageGraphJsonFile.readAsString();
     final packageGraph = PackageGraph.fromPackageGraphJsonString(
       packageGraphJson,
     );
