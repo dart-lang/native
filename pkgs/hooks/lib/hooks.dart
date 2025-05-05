@@ -2,12 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// A library that contains the argument and file formats for implementing hooks.
+/// A library that contains the protocol for implementing hooks.
 ///
-/// The main entrypoint for build hooks, implemented in `hook/build.dart`, is
-/// [build]. The main entrypoint for link hooks, implemented in
-/// `hook/link.dart`, is [link].
+/// The main entrypoint for build hooks (`hook/build.dart`) is [build]. The main
+/// entrypoint for link hooks (`hook/link.dart`) is [link].
 library;
+
+import 'src/api/build.dart';
+import 'src/api/link.dart';
 
 export 'src/api/build.dart' show build;
 export 'src/api/builder.dart' show Builder;
