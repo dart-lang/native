@@ -4,8 +4,8 @@
 
 /// A library that contains the argument and file formats for implementing hooks.
 ///
-/// The main entrypoint for build hooks, implemented in `hook/build.dart`,
-/// is [build]. The main entrypoint for link hooks, implemented in
+/// The main entrypoint for build hooks, implemented in `hook/build.dart`, is
+/// [build]. The main entrypoint for link hooks, implemented in
 /// `hook/link.dart`, is [link].
 library;
 
