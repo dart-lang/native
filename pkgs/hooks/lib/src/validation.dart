@@ -151,9 +151,23 @@ class ProtocolBase {
     final errors = <String>[];
     if (!input.config.linkingEnabled) {
       if (output.assets.encodedAssetsForLinking.isNotEmpty) {
-        const error =
-            'BuildOutput.assets_for_linking is not empty while '
-            'BuildInput.config.linkingEnabled is false';
+        const error = '''
+`BuildOutput.assets_for_linking` is not empty while `BuildInput.config.linkingEnabled` is `false`.
+
+This might be caused by writing something like
+
+```
+routing: ToLinkHook(input.packageName),
+```
+
+Try instead:
+
+```
+routing: input.config.linkingEnabled
+              ? ToAppBundle()
+              : ToLinkHook(input.packageName)
+```
+''';
         errors.add(error);
       }
     }
