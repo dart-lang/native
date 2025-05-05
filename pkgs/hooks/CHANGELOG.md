@@ -1,3 +1,7 @@
+## 0.19.1-wip
+
+- Added links to the `build` and `link` methods as primary entry points.
+
 ## 0.19.0
 
 - Split up `package:native_assets_cli` in `package:hooks`,
