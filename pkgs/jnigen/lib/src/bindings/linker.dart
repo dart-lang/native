@@ -423,6 +423,9 @@ class _TypeMover extends TypeVisitor<void> {
       final index = fromType.classDecl.allTypeParams
           .indexWhere((typeParam) => typeParam.name == typeVar.name);
       if (index != -1) {
+        if (index >= fromType.params.length) {
+          return DeclaredType.object.clone();
+        }
         return fromType.params[index].clone(until: GenerationStage.linker);
       }
     }
