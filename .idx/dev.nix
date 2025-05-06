@@ -4,7 +4,7 @@
   channel = "stable-24.11";
   # Use https://search.nixos.org/packages to find packages.
   packages = [
-    pkgs.android-tools
+    # pkgs.android-tools # Not needed. The Flutter environment already has ~/.androidsdkroot/
     pkgs.clang
     pkgs.gcc
     pkgs.jdk17
