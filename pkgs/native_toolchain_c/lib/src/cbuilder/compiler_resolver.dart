@@ -51,7 +51,7 @@ class CompilerResolver {
     final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
+        "No compiler configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
@@ -141,7 +141,7 @@ class CompilerResolver {
     final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
+        "No archiver configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
@@ -259,7 +259,7 @@ class CompilerResolver {
     }
 
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
+        "No linker configured on host '${hostOS}_$hostArchitecture' with target "
         "'${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
@@ -288,6 +288,9 @@ class CompilerResolver {
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;
     if (targetOS == OS.android) return androidNdkLld;
     if (hostOS == OS.linux) {
+      if(Architecture.current == targetArchitecture){
+        return lld;
+      }
       switch (targetArchitecture) {
         case Architecture.arm:
           return armLinuxGnueabihfLd;
