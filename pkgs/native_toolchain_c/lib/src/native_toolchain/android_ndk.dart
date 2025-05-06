@@ -50,6 +50,7 @@ class _AndroidNdkResolver implements ToolResolver {
         toolName: 'Android NDK',
         paths: [
           if (Platform.isLinux) ...[
+            '\$HOME/.androidsdkroot/ndk/*/', // Firebase Studio
             '\$HOME/Android/Sdk/ndk/*/',
             '\$HOME/Android/Sdk/ndk-bundle/',
           ],
