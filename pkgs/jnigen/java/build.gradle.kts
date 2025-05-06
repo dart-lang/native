@@ -10,11 +10,11 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.com.fasterxml.jackson.core.jackson.databind)
-    implementation(libs.commons.cli.commons.cli)
-    implementation(libs.org.ow2.asm.asm.tree)
-    implementation(libs.org.jetbrains.kotlinx.kotlinx.metadata.jvm)
-    testImplementation(libs.junit.junit)
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+    implementation("commons-cli:commons-cli:1.5.0")
+    implementation("org.ow2.asm:asm-tree:9.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
+    testImplementation("junit:junit:4.13.2")
 }
 
 group = "com.github.dart_lang.jnigen"
