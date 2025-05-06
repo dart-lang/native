@@ -21,6 +21,7 @@ export 'src/c_bindings_generated.dart'
 export 'src/internal.dart'
     hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
 export 'src/ns_data.dart';
+export 'src/ns_date.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
 export 'src/ns_number.dart';

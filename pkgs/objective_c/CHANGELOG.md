@@ -5,6 +5,7 @@
 - `NSDictionary` and `NSMutableDictionary` are now Dart `Map`s.
 - `NSSet` and `NSMutableSet` are now Dart `Set`s.
 - Add `.toNSNumber()` extension method to `int`, `double`, and `num`.
+- Add `DateTime.toNSDate()` and `NSDate.toDateTime()` extension methods.
 
 ## 7.1.0
 
