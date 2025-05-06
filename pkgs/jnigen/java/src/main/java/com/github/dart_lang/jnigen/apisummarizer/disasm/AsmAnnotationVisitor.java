@@ -21,7 +21,11 @@ public class AsmAnnotationVisitor extends AnnotationVisitor {
 
   @Override
   public void visit(String name, Object value) {
-    annotation.properties.put(name, value);
+    if (value instanceof Number) {
+      annotation.properties.put(name, value);
+    } else {
+      annotation.properties.put(name, value.toString());
+    }
     super.visit(name, value);
   }
 
@@ -58,7 +62,11 @@ public class AsmAnnotationVisitor extends AnnotationVisitor {
 
     @Override
     public void visit(String unused, Object value) {
-      list.add(value);
+      if (value instanceof Number) {
+        list.add(value);
+      } else {
+        list.add(value.toString());
+      }
       super.visit(unused, value);
     }
 

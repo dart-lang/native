@@ -14,6 +14,7 @@ dependencies {
     implementation("commons-cli:commons-cli:1.5.0")
     implementation("org.ow2.asm:asm-tree:9.7")
     implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
+    implementation(kotlin("stdlib-jdk8"))
     testImplementation("junit:junit:4.13.2")
 }
 
