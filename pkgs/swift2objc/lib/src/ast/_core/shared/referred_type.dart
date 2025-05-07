@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../interfaces/compound_declaration.dart';
 import '../../ast_node.dart';
 import '../interfaces/declaration.dart';
 import '../interfaces/nestable_declaration.dart';
@@ -76,6 +77,9 @@ class GenericType extends AstNode implements ReferredType {
 
   final String name;
 
+  /// type constraints the generic type might have
+  final List<DeclaredType<CompoundDeclaration>> constraints;
+
   @override
   bool get isObjCRepresentable => false;
 
@@ -84,11 +88,9 @@ class GenericType extends AstNode implements ReferredType {
 
   @override
   bool sameAs(ReferredType other) => other is GenericType && other.id == id;
-
-  const GenericType({
-    required this.id,
-    required this.name,
-  });
+  
+  const GenericType(
+      {required this.id, required this.name, this.constraints = const []});
 
   @override
   String toString() => name;
