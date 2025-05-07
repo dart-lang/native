@@ -1,3 +1,8 @@
+## 0.16.1-wip
+
+- Firebase Studio NixOS support (default install locations for native
+  toolchains).
+
 ## 0.16.0
 
 - Depend on `package:code_assets` and `package:hooks` 0.19.0.

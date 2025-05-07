@@ -48,6 +48,10 @@ final Tool llvmAr = Tool(
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file(OS.current.executableFileName('llvm-ar')),
       ),
+      PathToolResolver(
+        toolName: 'LLVM archiver',
+        executableName: OS.current.executableFileName('llvm-ar'),
+      ),
     ]),
   ),
 );
@@ -63,6 +67,10 @@ final Tool lld = Tool(
         toolName: 'LLD',
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file(OS.current.executableFileName('ld.lld')),
+      ),
+      PathToolResolver(
+        toolName: 'LLD',
+        executableName: OS.current.executableFileName('ld.lld'),
       ),
     ]),
   ),
