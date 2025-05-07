@@ -120,7 +120,7 @@ jobs:
           dart tool/normalize.dart
           git diff --exit-code
         working-directory: pkgs/${{ matrix.package }}
-        if: ${{ matrix.package == 'hook' && matrix.sdk == 'dev' }}
+        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' }}
 
       - name: Install coverage
         run: dart pub global activate coverage

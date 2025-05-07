@@ -192,12 +192,16 @@ int compareMaps(Map<dynamic, dynamic> a, Map<dynamic, dynamic> b) {
       final valueComparison = aValue.compareTo(bValue);
       if (valueComparison != 0) {
         return valueComparison;
+      } else {
+        continue;
       }
     }
     if (aValue is Map && bValue is Map) {
       final valueComparison = compareMaps(aValue, bValue);
       if (valueComparison != 0) {
         return valueComparison;
+      } else {
+        continue;
       }
     }
     if (aValue == bValue) {
