@@ -113,7 +113,9 @@ void main(List<String> args) {
 
     final newOutputContent = outputFile.readAsStringSync();
 
-    if (newOutputContent != oldOutputContent) {
+    final newContentNormalized = newOutputContent.replaceAll('\r\n', '\n');
+    final oldContentNormalized = oldOutputContent.replaceAll('\r\n', '\n');
+    if (newContentNormalized != oldContentNormalized) {
       print('Generated $outputUri');
       changedCount += 1;
     }

@@ -137,6 +137,11 @@ Uri findPackageRoot(String packageName) {
     if (dirName == packageName) {
       return cwd;
     }
+    // Or the workspace root.
+    final candidate = cwd.resolve('pkgs/$packageName/');
+    if (Directory.fromUri(candidate).existsSync()) {
+      return candidate;
+    }
   }
   // Or the workspace root.
   final cwd = Directory.current.uri;

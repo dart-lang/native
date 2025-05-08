@@ -81,7 +81,9 @@ bool processFile(File file) {
   final sortedJson = encoder.convert(sorted); // Already has no trailing newline
   final newContents = '$sortedJson\n';
 
-  if (contents == newContents) {
+  final newContentNormalized = newContents.replaceAll('\r\n', '\n');
+  final oldContentNormalized = contents.replaceAll('\r\n', '\n');
+  if (newContentNormalized == oldContentNormalized) {
     return false;
   }
 
