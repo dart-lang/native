@@ -8,8 +8,9 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
+import 'runtime_bindings_generated.dart' as r;
 
-typedef ObjectPtr = Pointer<c.ObjCObject>;
+typedef ObjectPtr = Pointer<r.ObjCObject>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
 typedef VoidPtr = Pointer<Void>;
 
@@ -77,23 +78,25 @@ final class ObjCRuntimeError extends Error {
   String toString() => '$runtimeType: $message';
 }
 
-extension GetProtocolName on Pointer<c.ObjCProtocol> {
+extension GetProtocolName on Pointer<r.ObjCProtocol> {
   /// Returns the name of the protocol.
-  String get name => c.getProtocolName(this).cast<Utf8>().toDartString();
+  String get name => r.getProtocolName(this).cast<Utf8>().toDartString();
 }
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCSelector> registerName(String name) {
+Pointer<r.ObjCSelector> registerName(String name) {
+  _ensureDartAPI();
   final cstr = name.toNativeUtf8();
-  final sel = c.registerName(cstr.cast());
+  final sel = r.registerName(cstr.cast());
   calloc.free(cstr);
   return sel;
 }
 
 /// Only for use by ffigen bindings.
 ObjectPtr getClass(String name) {
+  _ensureDartAPI();
   final cstr = name.toNativeUtf8();
-  final clazz = c.getClass(cstr.cast());
+  final clazz = r.getClass(cstr.cast());
   calloc.free(cstr);
   if (clazz == nullptr) {
     throw FailedToLoadClassException(name);
@@ -102,9 +105,10 @@ ObjectPtr getClass(String name) {
 }
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCProtocol> getProtocol(String name) {
+Pointer<r.ObjCProtocol> getProtocol(String name) {
+  _ensureDartAPI();
   final cstr = name.toNativeUtf8();
-  final clazz = c.getProtocol(cstr.cast());
+  final clazz = r.getProtocol(cstr.cast());
   calloc.free(cstr);
   if (clazz == nullptr) {
     throw FailedToLoadProtocolException(name);
@@ -114,44 +118,45 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
 
 /// Only for use by ffigen bindings.
 Pointer<Char>? getProtocolMethodSignature(
-  Pointer<c.ObjCProtocol> protocol,
-  Pointer<c.ObjCSelector> sel, {
+  Pointer<r.ObjCProtocol> protocol,
+  Pointer<r.ObjCSelector> sel, {
   required bool isRequired,
   required bool isInstanceMethod,
 }) {
+  _ensureDartAPI();
   final sig =
-      c.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
+      r.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
   return sig == nullptr ? null : sig;
 }
 
 /// Only for use by ffigen bindings.
 final msgSendPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(c.msgSend);
+    Native.addressOf<NativeFunction<Void Function()>>(r.msgSend);
 
 /// Only for use by ffigen bindings.
 final msgSendFpretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(c.msgSendFpret);
+    Native.addressOf<NativeFunction<Void Function()>>(r.msgSendFpret);
 
 /// Only for use by ffigen bindings.
 final msgSendStretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(c.msgSendStret);
+    Native.addressOf<NativeFunction<Void Function()>>(r.msgSendStret);
 
 /// Only for use by ffigen bindings.
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
 /// Only for use by ffigen bindings.
-bool respondsToSelector(ObjectPtr obj, Pointer<c.ObjCSelector> sel) =>
+bool respondsToSelector(ObjectPtr obj, Pointer<r.ObjCSelector> sel) =>
     _objcMsgSendRespondsToSelector(obj, _selRespondsToSelector, sel);
 final _selRespondsToSelector = registerName('respondsToSelector:');
 final _objcMsgSendRespondsToSelector = msgSendPointer
     .cast<
         NativeFunction<
-            Bool Function(ObjectPtr, Pointer<c.ObjCSelector>,
-                Pointer<c.ObjCSelector> aSelector)>>()
+            Bool Function(ObjectPtr, Pointer<r.ObjCSelector>,
+                Pointer<r.ObjCSelector> aSelector)>>()
     .asFunction<
         bool Function(
-            ObjectPtr, Pointer<c.ObjCSelector>, Pointer<c.ObjCSelector>)>();
+            ObjectPtr, Pointer<r.ObjCSelector>, Pointer<r.ObjCSelector>)>();
 
 // _FinalizablePointer exists because we can't access `this` in the initializers
 // of _ObjCReference's constructor, and we have to have an owner to attach the
@@ -214,10 +219,10 @@ abstract final class _ObjCReference<T extends NativeType>
     _isReleased.value = true;
   }
 
-  void release() => _release(c.objectRelease);
+  void release() => _release(r.objectRelease);
 
   Pointer<T> autorelease() {
-    _release(c.objectAutorelease);
+    _release(r.objectAutorelease);
     return _finalizable.ptr;
   }
 
@@ -245,7 +250,7 @@ abstract final class _ObjCReference<T extends NativeType>
   Pointer<T> retainAndAutorelease() {
     final ptr = pointer;
     _retain(ptr);
-    c.objectAutorelease(ptr.cast());
+    r.objectAutorelease(ptr.cast());
     return ptr;
   }
 
@@ -269,19 +274,19 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 }
 
 @pragma('vm:deeply-immutable')
-final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
+final class ObjCObjectRef extends _ObjCReference<r.ObjCObject> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
       : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(ObjectPtr ptr) => c.objectRetain(ptr);
+  void _retain(ObjectPtr ptr) => r.objectRetain(ptr);
 
   @override
   bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);
 }
 
 /// Only for use by ffigen bindings.
-class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, ObjCObjectRef> {
+class ObjCObjectBase extends _ObjCRefHolder<r.ObjCObject, ObjCObjectRef> {
   ObjCObjectBase(ObjectPtr ptr, {required bool retain, required bool release})
       : super(ObjCObjectRef(ptr, retain: retain, release: release));
 }
@@ -290,7 +295,7 @@ class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, ObjCObjectRef> {
 // readable memory, or be null. May (rarely) return false positives.
 bool _isValidObject(ObjectPtr ptr) {
   if (ptr == nullptr) return false;
-  return _isValidClass(c.getObjectClass(ptr));
+  return _isValidClass(r.getObjectClass(ptr));
 }
 
 final _allClasses = <ObjectPtr>{};
@@ -305,7 +310,7 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
   // enabled, and only happens more than O(1) times if there are actually
   // invalid objects in use, which shouldn't happen in correct code.
   final countPtr = calloc<UnsignedInt>();
-  final classList = c.copyClassList(countPtr);
+  final classList = r.copyClassList(countPtr);
   final count = countPtr.value;
   calloc.free(countPtr);
   _allClasses.clear();
@@ -328,7 +333,7 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
       : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(BlockPtr ptr) => c.blockRetain(ptr.cast());
+  void _retain(BlockPtr ptr) => r.blockRetain(ptr.cast());
 
   @override
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
@@ -359,7 +364,7 @@ final _closureBlockDesc = _newBlockDesc(
 BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
   final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
-  b.ref.isa = Native.addressOf<Array<VoidPtr>>(c.NSConcreteGlobalBlock).cast();
+  b.ref.isa = Native.addressOf<Array<VoidPtr>>(r.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
@@ -367,10 +372,10 @@ BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
   assert(c.isValidBlock(b));
-  final copy = c.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
+  final copy = r.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
   assert(copy.ref.isa ==
-      Native.addressOf<Array<VoidPtr>>(c.NSConcreteMallocBlock).cast());
+      Native.addressOf<Array<VoidPtr>>(r.NSConcreteMallocBlock).cast());
   assert(c.isValidBlock(copy));
   return copy;
 }

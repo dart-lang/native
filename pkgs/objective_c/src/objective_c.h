@@ -9,6 +9,27 @@
 #include "include/dart_api_dl.h"
 #include "objective_c_runtime.h"
 
+// See https://clang.llvm.org/docs/Block-ABI-Apple.html
+typedef struct _ObjCBlockDesc {
+  unsigned long int reserved;
+  unsigned long int size;  // sizeof(ObjCBlockImpl)
+  void (*copy_helper)(void *dst, void *src);
+  void (*dispose_helper)(void *src);
+  const char *signature;
+} ObjCBlockDesc;
+
+typedef struct _ObjCBlockImpl {
+  void *isa;  // _NSConcreteGlobalBlock
+  int flags;
+  int reserved;
+  void *invoke;  // RET (*invoke)(ObjCBlockImpl *, ARGS...);
+  ObjCBlockDesc *descriptor;
+
+  // Captured variables follow. These are specific to our use case.
+  void *target;
+  Dart_Port dispose_port;
+} ObjCBlockImpl;
+
 // Initialize the Dart API.
 FFI_EXPORT intptr_t DOBJC_initializeApi(void *data);
 

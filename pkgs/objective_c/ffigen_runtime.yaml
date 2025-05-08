@@ -1,0 +1,63 @@
+# Generate bindings for the ObjC runtime headers.
+# Regenerate bindings with `dart run tool/generate_code.dart`.
+name: RuntimeBindings
+output: 'lib/src/runtime_bindings_generated.dart'
+headers:
+  entry-points:
+    - 'src/objective_c_runtime.h'
+ffi-native:
+exclude-all-by-default: true
+generate-for-package-objective-c: true
+sort: true
+functions:
+  include:
+    - 'objc_.*'
+    - 'object_getClass'
+    - 'sel_registerName'
+    - 'sel_getName'
+    - 'protocol_getMethodDescription'
+    - 'protocol_getName'
+  leaf:
+    include:
+      - '.*'
+    exclude:
+      - 'objc_msgSend.*'
+  rename:
+    'sel_registerName': 'registerName'
+    'sel_getName': 'getName'
+    'objc_getClass': 'getClass'
+    'objc_retain': 'objectRetain'
+    'objc_retainBlock': 'blockRetain'
+    'objc_release': 'objectRelease'
+    'objc_autorelease': 'objectAutorelease'
+    'objc_msgSend': 'msgSend'
+    'objc_msgSend_fpret': 'msgSendFpret'
+    'objc_msgSend_stret': 'msgSendStret'
+    'object_getClass': 'getObjectClass'
+    'objc_copyClassList': 'copyClassList'
+    'objc_getProtocol': 'getProtocol'
+    'protocol_getMethodDescription': 'getMethodDescription'
+    'protocol_getName': 'getProtocolName'
+globals:
+  include:
+    - '_NSConcrete.*Block'
+  rename:
+    '_(.*)': '$1'
+structs:
+  include:
+    - '_ObjC.*'
+  rename:
+    '_ObjC(.*)': 'ObjC$1'
+preamble: |
+  // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+
+  // Bindings for `src/objective_c_runtime.h`.
+  // Regenerate bindings with `dart run tool/generate_code.dart`.
+
+  // ignore_for_file: always_specify_types
+  // ignore_for_file: camel_case_types
+  // ignore_for_file: non_constant_identifier_names
+  // ignore_for_file: unused_element
+  // coverage:ignore-file

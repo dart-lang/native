@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('Selector', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     test('from String and back', () {
       expect('hello'.toSelector().toDartString(), 'hello');
       expect(''.toSelector().toDartString(), '');

@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('osVersion', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     test('getter', () {
       // macOS 11 was released in 2020 and isn't supported anymore.
       final oldVersion = Version(11, 0, 0);

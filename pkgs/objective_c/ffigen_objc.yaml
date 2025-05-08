@@ -11,6 +11,9 @@ headers:
     - 'src/input_stream_adapter.h'
     - 'src/protocol.h'
 ffi-native:
+  asset-id: 'package:objective_c/objective_c.dylib'
+library-imports:
+  collection: 'dart:collection'
 exclude-all-by-default: true
 include-transitive-objc-categories: false
 generate-for-package-objective-c: true
@@ -96,6 +99,9 @@ objc-categories:
     - NSExtendedSet
     - NSNumberCreation
     - NSStringExtensionMethods
+functions:
+  include:
+    - getLocalizedDescriptionKey
 structs:
   include:
     - _NSRange
@@ -130,9 +136,6 @@ enums:
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
-globals:
-  include:
-    - NSLocalizedDescriptionKey
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
@@ -148,4 +151,3 @@ preamble: |
   // ignore_for_file: unused_element
   // ignore_for_file: unused_field
   // coverage:ignore-file
-  import 'dart:collection';

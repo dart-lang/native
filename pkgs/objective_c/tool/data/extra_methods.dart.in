@@ -37,7 +37,7 @@ class NSArray with Iterable<objc.ObjCObjectBase> {
 }
 
 // Extra methods inserted into NSMutableArray by tool/generate_code.dart.
-class NSMutableArray with ListMixin<objc.ObjCObjectBase> {
+class NSMutableArray with collection.ListMixin<objc.ObjCObjectBase> {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///

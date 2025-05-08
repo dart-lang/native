@@ -10,13 +10,6 @@ export 'src/c_bindings_generated.dart'
         Dart_FinalizableHandle_,
         ObjCBlockDesc,
         ObjCBlockImpl,
-        ObjCMethodDesc,
-        ObjCObject,
-        ObjCProtocol,
-        ObjCSelector,
-        blockRetain,
-        objectRelease,
-        objectRetain,
         signalWaiter;
 export 'src/internal.dart'
     hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
@@ -118,4 +111,13 @@ export 'src/objective_c_bindings_generated.dart'
         Protocol;
 export 'src/os_version.dart';
 export 'src/protocol_builder.dart';
+export 'src/runtime_bindings_generated.dart'
+    show
+        ObjCMethodDesc,
+        ObjCObject,
+        ObjCProtocol,
+        ObjCSelector,
+        blockRetain,
+        objectRelease,
+        objectRetain;
 export 'src/selector.dart';

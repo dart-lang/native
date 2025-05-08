@@ -12,6 +12,7 @@ import 'c_bindings_generated.dart' as c;
 import 'internal.dart'
     show FailedToLoadProtocolMethodException, GetProtocolName, ObjCBlockBase;
 import 'objective_c_bindings_generated.dart' as objc;
+import 'runtime_bindings_generated.dart' as r;
 import 'selector.dart';
 
 /// Helper class for building Objective C objects that implement protocols.
@@ -30,7 +31,7 @@ class ObjCProtocolBuilder {
   /// implement methods on [ObjCProtocolMethod] and its subclasses.
   ///
   /// Note: You cannot call this method after you have called [build].
-  void implementMethod(Pointer<c.ObjCSelector> sel, Pointer<Char> signature,
+  void implementMethod(Pointer<r.ObjCSelector> sel, Pointer<Char> signature,
       Pointer<Void> trampoline, ObjCBlockBase block) {
     if (_built) {
       throw StateError('Protocol is already built');
@@ -82,8 +83,8 @@ class ObjCProtocolBuilder {
 /// want to implement. The generated bindings will include a
 /// [ObjCProtocolMethod] for each method of the protocol.
 class ObjCProtocolMethod<T extends Function> {
-  final Pointer<c.ObjCProtocol> _proto;
-  final Pointer<c.ObjCSelector> _sel;
+  final Pointer<r.ObjCProtocol> _proto;
+  final Pointer<r.ObjCSelector> _sel;
   final Pointer<Void> _trampoline;
   final Pointer<Char>? _signature;
   final ObjCBlockBase Function(T) _createBlock;
