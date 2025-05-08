@@ -29,6 +29,10 @@ public struct MyStruct {
 
     public let representableConstantProperty: Int
 
+    public var mutatingProperty: Int {
+        mutating get { 1 }
+    }
+
 
     init(
         customVariableProperty: MyOtherStruct, 
