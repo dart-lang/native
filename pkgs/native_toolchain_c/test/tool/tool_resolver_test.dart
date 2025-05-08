@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:native_assets_cli/code_assets.dart';
+import 'package:code_assets/code_assets.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';

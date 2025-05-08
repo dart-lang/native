@@ -6,11 +6,6 @@
 This library contains the hook protocol specification for bundling data assets
 with Dart packages.
 
-## This package is documentation only for the moment.
-
-For using this feature, please refer to `package:native_assets_cli` for now.
-In the future, we'll split up that package into here.
-
 ## Status: Experimental
 
 **NOTE**: This package is currently experimental and published under the

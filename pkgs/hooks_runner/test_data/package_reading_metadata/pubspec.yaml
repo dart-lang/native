@@ -1,0 +1,19 @@
+name: package_reading_metadata
+description: Reads some metadata in its hook/build.dart
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  code_assets: ^0.19.0
+  hooks: ^0.19.0
+  package_with_metadata:
+    path: ../package_with_metadata/
+
+dev_dependencies:
+  lints: ^5.1.1

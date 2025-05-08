@@ -1,0 +1,17 @@
+name: wrong_build_output_3
+description: Package that outputs a valid build_output.yaml but a non-zero exit code.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  code_assets: ^0.19.0
+  hooks: ^0.19.0
+
+dev_dependencies:
+  lints: ^5.1.1

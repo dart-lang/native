@@ -4,8 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
@@ -51,8 +51,8 @@ class CompilerResolver {
     final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No compiler configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
@@ -141,8 +141,8 @@ class CompilerResolver {
     final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No archiver configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
@@ -259,8 +259,8 @@ class CompilerResolver {
     }
 
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No linker configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
@@ -288,6 +288,9 @@ class CompilerResolver {
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;
     if (targetOS == OS.android) return androidNdkLld;
     if (hostOS == OS.linux) {
+      if (Architecture.current == targetArchitecture) {
+        return lld;
+      }
       switch (targetArchitecture) {
         case Architecture.arm:
           return armLinuxGnueabihfLd;

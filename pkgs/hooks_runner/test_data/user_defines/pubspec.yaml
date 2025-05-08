@@ -1,0 +1,31 @@
+name: user_defines
+description: Package with some user-define in the pubspec and reading it in the build hook.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  data_assets: ^0.19.0
+  hooks: ^0.19.0
+
+dev_dependencies:
+  lints: ^5.1.1
+  test: ^1.25.15
+
+# Note: If pub workspaces are in use, the user-defines must be in the workspace
+# pub file. These defines are only in effect if `resolution: workspace` above is
+# removed. (The tests copy this project and remove `resolution: workspace`.)
+hooks:
+  user_defines:
+    user_defines: # package name
+      user_define_key: user_define_value
+      user_define_key2:
+        foo: bar
+      some_file: assets/data.json
+    some_other_package: # package name
+      user_define_key3: user_define_value3

@@ -9,6 +9,11 @@
   instead of `build.gradle`.
 - Fixed a bug where Kotlin suspend functions that returned nullable values were
   generated incorrectly.
+- Fixed a [bug](https://github.com/dart-lang/native/issues/2250) where classes
+  that inherited a generic without specifying all type parameters were not
+  generated.
+- Added the ability to generate Kotlin stdlib classes without providing the
+  class path.
 
 ## 0.14.1
 

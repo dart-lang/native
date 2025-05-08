@@ -6,8 +6,8 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';

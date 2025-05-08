@@ -18,8 +18,8 @@
     },
     "linking_enabled": false
   },
-  "out_dir_shared": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/shared/my_package/Hook.build/",
-  "out_file": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/native_assets_builder/my_package/79cc7fbaec53b1465c3e388e6848234b/output.json",
+  "out_dir_shared": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/shared/my_package/Hook.build/",
+  "out_file": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/my_package/79cc7fbaec53b1465c3e388e6848234b/output.json",
   "package_name": "my_package",
   "package_root": "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/"
 }

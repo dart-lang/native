@@ -24,8 +24,8 @@
     },
     "linking_enabled": false
   },
-  "out_dir_shared": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\shared\\my_package\\Hook.build\\",
-  "out_file": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\native_assets_builder\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\output.json",
+  "out_dir_shared": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\hooks_runner\\shared\\my_package\\Hook.build\\",
+  "out_file": "C:\\src\\dacoharkes\\playground\\my_package\\example\\.dart_tool\\hooks_runner\\my_package\\190c04c47dc2f9eb26d2411b1968b2cf\\output.json",
   "package_name": "my_package",
   "package_root": "C:\\src\\dacoharkes\\playground\\my_package\\"
 }
