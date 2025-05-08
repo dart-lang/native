@@ -53,8 +53,8 @@ Future<void> inTempDir(
 Uri findPackageRoot(String packageName) {
   final script = Platform.script;
   final fileName = script.name;
-  if (fileName.endsWith('_test.dart')) {
-    // We're likely running from source.
+  if (fileName.endsWith('.dart')) {
+    // We're likely running from source in the package somewhere.
     var directory = script.resolve('.');
     while (true) {
       final dirName = directory.name;
@@ -66,11 +66,18 @@ Uri findPackageRoot(String packageName) {
       directory = parent;
     }
   } else if (fileName.endsWith('.dill')) {
+    // Probably from the package root.
     final cwd = Directory.current.uri;
     final dirName = cwd.name;
     if (dirName == packageName) {
       return cwd;
     }
+  }
+  // Or the workspace root.
+  final cwd = Directory.current.uri;
+  final candidate = cwd.resolve('pkgs/$packageName/');
+  if (Directory.fromUri(candidate).existsSync()) {
+    return candidate;
   }
   throw StateError(
     "Could not find package root for package '$packageName'. "
