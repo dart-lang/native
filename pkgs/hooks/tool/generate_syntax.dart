@@ -6,6 +6,7 @@
 
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:json_syntax_generator/json_syntax_generator.dart';
 
 import '../test/schema/helpers.dart';
@@ -19,6 +20,25 @@ final rootSchemas = loadSchemas([
 ]);
 
 void main(List<String> args) {
+  final stopwatch = Stopwatch()..start();
+  final parser = ArgParser()
+    ..addFlag(
+      'set-exit-if-changed',
+      negatable: false,
+      help: 'Return a non-zero exit code if any files were changed.',
+    )
+    ..addFlag(
+      'd',
+      negatable: false,
+      help: 'Dump analyzed schema to .g.txt file.',
+    );
+  final argResults = parser.parse(args);
+
+  final setExitIfChanged = argResults['set-exit-if-changed'] as bool;
+  final dumpAnalyzedSchema = argResults['d'] as bool;
+  var generatedCount = 0;
+  var changedCount = 0;
+
   for (final packageName in generateFor) {
     const schemaName = 'shared';
     final schemaUri = packageUri.resolve(
@@ -48,11 +68,25 @@ void main(List<String> args) {
     final textDumpFile = File.fromUri(
       packageUri.resolve('../$packageName/lib/src/$packageName/syntax.g.txt'),
     );
-    if (args.contains('-d')) {
-      textDumpFile.writeAsStringSync(analyzedSchema.toString());
+
+    final newTextDumpContent = analyzedSchema.toString();
+    if (dumpAnalyzedSchema) {
+      var oldTextDumpContent = '';
+      if (textDumpFile.existsSync()) {
+        oldTextDumpContent = textDumpFile.readAsStringSync();
+      }
+      if (oldTextDumpContent != newTextDumpContent) {
+        textDumpFile.writeAsStringSync(newTextDumpContent);
+        print('Generated ${textDumpFile.uri}');
+        changedCount += 1;
+      }
+      generatedCount += 1;
     } else if (textDumpFile.existsSync()) {
       textDumpFile.deleteSync();
+      print('Deleted ${textDumpFile.uri}');
+      changedCount += 1;
     }
+
     final output = SyntaxGenerator(
       analyzedSchema,
       header:
@@ -65,9 +99,35 @@ void main(List<String> args) {
     final outputUri = packageUri.resolve(
       '../$packageName/lib/src/$packageName/syntax.g.dart',
     );
-    File.fromUri(outputUri).writeAsStringSync(output);
+    final outputFile = File.fromUri(outputUri);
+    var oldOutputContent = '';
+    if (outputFile.existsSync()) {
+      oldOutputContent = outputFile.readAsStringSync();
+    }
+
+    if (oldOutputContent != output) {
+      outputFile.writeAsStringSync(output);
+    }
+
     Process.runSync(Platform.executable, ['format', outputUri.toFilePath()]);
-    print('Generated $outputUri');
+
+    final newOutputContent = outputFile.readAsStringSync();
+
+    if (newOutputContent != oldOutputContent) {
+      print('Generated $outputUri');
+      changedCount += 1;
+    }
+    generatedCount += 1;
+  }
+
+  stopwatch.stop();
+  final duration = stopwatch.elapsedMilliseconds / 1000.0;
+  print(
+    'Generated $generatedCount files ($changedCount changed) in '
+    '${duration.toStringAsFixed(2)} seconds.',
+  );
+  if (setExitIfChanged && changedCount > 0) {
+    exit(1);
   }
 }
 
