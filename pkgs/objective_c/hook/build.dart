@@ -99,7 +99,6 @@ class Builder {
     final relativeInput = input.substring(_rootDir.length);
     final output = '${_tempOutDir.resolve(relativeInput).path}.o';
     File(output).parent.createSync(recursive: true);
-    stderr.writeln(output);
     await _compile([
       ...flags,
       '-c',

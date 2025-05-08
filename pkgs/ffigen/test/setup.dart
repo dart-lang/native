@@ -33,10 +33,5 @@ Future<void> main(List<String> arguments) async {
   final args = parser.parse(arguments);
 
   await _run('native_test', 'build_test_dylib.dart', []);
-  if (Platform.isMacOS) {
-    await _run('native_objc_test', 'setup.dart', [
-      if (args.flag('main-thread-dispatcher')) '--main-thread-dispatcher',
-    ]);
-  }
   print('\nSuccess :)\n');
 }
