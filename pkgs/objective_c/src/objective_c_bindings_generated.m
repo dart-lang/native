@@ -3,6 +3,7 @@
 #import <objc/message.h>
 #import "foundation.h"
 #import "input_stream_adapter.h"
+#import "ns_number.h"
 #import "protocol.h"
 
 #if !__has_feature(objc_arc)

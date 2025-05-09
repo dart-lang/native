@@ -18,6 +18,7 @@ export 'src/c_bindings_generated.dart'
         objectRelease,
         objectRetain,
         signalWaiter;
+export 'src/converter.dart';
 export 'src/internal.dart'
     hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
 export 'src/ns_data.dart';

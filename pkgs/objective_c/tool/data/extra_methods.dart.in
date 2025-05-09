@@ -118,6 +118,11 @@ class NSDictionary with MapBase<NSCopying, objc.ObjCObjectBase> {
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.of(other);
 
+  /// Creates a [NSDictionary] from [entries].
+  static NSDictionary fromEntries(
+          Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries) =>
+      NSMutableDictionary.fromEntries(entries);
+
   @override
   int get length => count;
 
@@ -150,6 +155,12 @@ class NSMutableDictionary {
   /// Creates a [NSMutableDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.dictionaryWithCapacity_(other.length)..addAll(other);
+
+  /// Creates a [NSMutableDictionary] from [entries].
+  static NSMutableDictionary fromEntries(
+          Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries) =>
+      NSMutableDictionary.dictionaryWithCapacity_(entries.length)
+        ..addEntries(entries);
 
   @override
   void clear() => removeAllObjects();
@@ -241,7 +252,7 @@ class NSSet with SetBase<objc.ObjCObjectBase> {
   Iterator<objc.ObjCObjectBase> get iterator => objectEnumerator();
 
   @override
-  Set<objc.ObjCObjectBase> toSet() => { ...this };
+  Set<objc.ObjCObjectBase> toSet() => {...this};
 
   @override
   bool add(objc.ObjCObjectBase value) =>
