@@ -127,15 +127,16 @@ Future<BuildResult?> build(
       linkingEnabled: linkingEnabled,
     );
 
-    if (result != null) {
-      expect(await result.encodedAssets.allExist(), true);
-      for (final encodedAssetsForLinking
-          in result.encodedAssetsForLinking.values) {
-        expect(await encodedAssetsForLinking.allExist(), true);
-      }
+    if (result.isFailure) return null;
+    final buildResult = result.success;
+
+    expect(await buildResult.encodedAssets.allExist(), true);
+    for (final encodedAssetsForLinking
+        in buildResult.encodedAssetsForLinking.values) {
+      expect(await encodedAssetsForLinking.allExist(), true);
     }
 
-    return result;
+    return buildResult;
   });
 }
 
@@ -203,11 +204,11 @@ Future<LinkResult?> link(
       resourceIdentifiers: resourceIdentifiers,
     );
 
-    if (result != null) {
-      expect(await result.encodedAssets.allExist(), true);
-    }
+    if (result.isFailure) return null;
 
-    return result;
+    expect(await result.success.encodedAssets.allExist(), true);
+
+    return result.success;
   });
 }
 
@@ -273,13 +274,11 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
     linkingEnabled: true,
   );
 
-  if (buildResult == null) {
-    return (null, null);
-  }
+  if (buildResult.isFailure) return (null, null);
 
-  expect(await buildResult.encodedAssets.allExist(), true);
+  expect(await buildResult.success.encodedAssets.allExist(), true);
   for (final encodedAssetsForLinking
-      in buildResult.encodedAssetsForLinking.values) {
+      in buildResult.success.encodedAssetsForLinking.values) {
     expect(await encodedAssetsForLinking.allExist(), true);
   }
 
@@ -311,15 +310,15 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
         ),
       if (buildAssetTypes.contains(BuildAssetType.data)) DataAssetsExtension(),
     ],
-    buildResult: buildResult,
+    buildResult: buildResult.success,
     resourceIdentifiers: resourceIdentifiers,
   );
 
-  if (linkResult != null) {
-    expect(await linkResult.encodedAssets.allExist(), true);
-  }
+  if (linkResult.isFailure) return (buildResult.success, null);
 
-  return (buildResult, linkResult);
+  expect(await linkResult.success.encodedAssets.allExist(), true);
+
+  return (buildResult.success, linkResult.success);
 });
 
 Future<T> runWithLog<T>(
