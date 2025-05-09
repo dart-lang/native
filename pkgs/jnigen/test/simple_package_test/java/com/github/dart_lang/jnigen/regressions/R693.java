@@ -4,9 +4,15 @@
 
 package com.github.dart_lang.jnigen.regressions;
 
-// Regression test for https://github.com/dart-lang/native/issues/2250.
-public interface R2250<T> {
-  public void foo(T t);
+// Regression test for https://github.com/dart-lang/native/issues/693.
+public class R693<T extends R693<T>> {
+  T foo() {
+    return null;
+  }
 
-  public interface Child extends R2250 {}
+  public static class Child extends R693<Child> {
+    Child foo() {
+      return new Child();
+    }
+  }
 }

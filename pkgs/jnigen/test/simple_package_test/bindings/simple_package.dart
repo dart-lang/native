@@ -13731,3 +13731,275 @@ final class $R2250$Type<$T extends jni$_.JObject?>
         T == other.T;
   }
 }
+
+/// from: `com.github.dart_lang.jnigen.regressions.R693$Child`
+class R693$Child extends R693<R693$Child?> {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<R693$Child> $type;
+
+  @jni$_.internal
+  R693$Child.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(const $R693$Child$NullableType(), reference);
+
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/regressions/R693$Child');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $R693$Child$NullableType();
+  static const type = $R693$Child$Type();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory R693$Child() {
+    return R693$Child.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $R693$Child$NullableType extends jni$_.JObjType<R693$Child?> {
+  @jni$_.internal
+  const $R693$Child$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/regressions/R693$Child;';
+
+  @jni$_.internal
+  @core$_.override
+  R693$Child? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : R693$Child.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType =>
+      const $R693$NullableType<R693$Child?>($R693$Child$NullableType());
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R693$Child?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 2;
+
+  @core$_.override
+  int get hashCode => ($R693$Child$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R693$Child$NullableType) &&
+        other is $R693$Child$NullableType;
+  }
+}
+
+final class $R693$Child$Type extends jni$_.JObjType<R693$Child> {
+  @jni$_.internal
+  const $R693$Child$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/regressions/R693$Child;';
+
+  @jni$_.internal
+  @core$_.override
+  R693$Child fromReference(jni$_.JReference reference) =>
+      R693$Child.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType =>
+      const $R693$NullableType<R693$Child?>($R693$Child$NullableType());
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R693$Child?> get nullableType =>
+      const $R693$Child$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 2;
+
+  @core$_.override
+  int get hashCode => ($R693$Child$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R693$Child$Type) && other is $R693$Child$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.regressions.R693`
+class R693<$T extends jni$_.JObject?> extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<R693<$T>> $type;
+
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  R693.fromReference(
+    this.T,
+    jni$_.JReference reference,
+  )   : $type = type<$T>(T),
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/regressions/R693');
+
+  /// The type which includes information such as the signature of this class.
+  static $R693$NullableType<$T> nullableType<$T extends jni$_.JObject?>(
+    jni$_.JObjType<$T> T,
+  ) {
+    return $R693$NullableType<$T>(
+      T,
+    );
+  }
+
+  static $R693$Type<$T> type<$T extends jni$_.JObject?>(
+    jni$_.JObjType<$T> T,
+  ) {
+    return $R693$Type<$T>(
+      T,
+    );
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory R693({
+    required jni$_.JObjType<$T> T,
+  }) {
+    return R693<$T>.fromReference(
+        T,
+        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $R693$NullableType<$T extends jni$_.JObject?>
+    extends jni$_.JObjType<R693<$T>?> {
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  const $R693$NullableType(
+    this.T,
+  );
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R693;';
+
+  @jni$_.internal
+  @core$_.override
+  R693<$T>? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : R693<$T>.fromReference(
+          T,
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R693<$T>?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => Object.hash($R693$NullableType, T);
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R693$NullableType<$T>) &&
+        other is $R693$NullableType<$T> &&
+        T == other.T;
+  }
+}
+
+final class $R693$Type<$T extends jni$_.JObject?>
+    extends jni$_.JObjType<R693<$T>> {
+  @jni$_.internal
+  final jni$_.JObjType<$T> T;
+
+  @jni$_.internal
+  const $R693$Type(
+    this.T,
+  );
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/regressions/R693;';
+
+  @jni$_.internal
+  @core$_.override
+  R693<$T> fromReference(jni$_.JReference reference) => R693<$T>.fromReference(
+        T,
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<R693<$T>?> get nullableType => $R693$NullableType<$T>(T);
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => Object.hash($R693$Type, T);
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($R693$Type<$T>) &&
+        other is $R693$Type<$T> &&
+        T == other.T;
+  }
+}
