@@ -14,8 +14,10 @@ on:
       - "pkgs/data_assets/**"
       - "pkgs/hooks_runner/**"
       - "pkgs/hooks/**"
+      - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
-      - "tools/**"
+      - "pkgs/repo_lint_rules/**"
+      - "tool/**"
   push:
     branches: [main]
     paths:
@@ -24,8 +26,10 @@ on:
       - "pkgs/data_assets/**"
       - "pkgs/hooks_runner/**"
       - "pkgs/hooks/**"
+      - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
-      - "tools/**"
+      - "pkgs/repo_lint_rules/**"
+      - "tool/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
 
@@ -37,13 +41,12 @@ jobs:
         os: [ubuntu, macos, windows]
         sdk: [dev]
         package:
-          - code_assets
+          # TODO(https://github.com/dart-lang/tools/issues/2083): Remove running coverage per package.
+          - code_assets # currently dubs as place where all packages are run
           - data_assets
           - hooks
           - hooks_runner
           - native_toolchain_c
-        # Breaking changes temporarily break the example run on the Dart SDK until hooks_runner is rolled into the Dart SDK dev build.
-        breaking-change: [false]
 
     runs-on: ${{ matrix.os }}-latest
 
@@ -63,65 +66,18 @@ jobs:
           ndk-version: r27
         if: ${{ matrix.os != 'macos' }}
 
-      - run: dart pub get
-
-      - run: dart pub get -C test_data/native_add_version_skew/
-        if: ${{ matrix.package == 'hooks_runner' }}
-
-      - run: dart pub get -C test_data/native_add_version_skew_2/
-        if: ${{ matrix.package == 'hooks_runner' }}
-
-      - run: dart analyze --fatal-infos
-        # Run on dev to ensure we're not depending on deprecated SDK things.
-
-      - run: dart format --output=none --set-exit-if-changed .
-
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.os == 'ubuntu' }}
 
-      - run: dart test
+      - run: dart pub get
 
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_dynamic_linking/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-      
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+      - name: Run pub get, analysis, formatting, generators, tests, and examples.
+        run: dart tool/ci.dart --pub
+        working-directory: .
+        if: ${{ matrix.package == 'code_assets' }}
 
-      - run: dart --enable-experiment=native-assets run
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: ./native_add_app.exe
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-      
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/download_asset/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-      
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/system_library/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: |
-          dart tool/generate_schemas.dart
-          dart tool/generate_syntax.dart
-          dart tool/normalize.dart
-          git diff --exit-code
-        working-directory: pkgs/${{ matrix.package }}
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' }}
-
+      # TODO(https://github.com/dart-lang/tools/issues/2083): Remove running coverage per package.
       - name: Install coverage
         run: dart pub global activate coverage
 

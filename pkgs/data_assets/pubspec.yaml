@@ -23,5 +23,6 @@ dev_dependencies:
   custom_lint: ^0.7.5
   dart_flutter_team_lints: ^3.5.1
   json_schema: ^5.2.0
-  repo_lint_rules: 0.1.0-wip
+  repo_lint_rules:
+    path: ../repo_lint_rules/
   test: ^1.25.15

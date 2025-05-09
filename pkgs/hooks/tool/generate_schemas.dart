@@ -197,7 +197,9 @@ void generateSharedDefinitions(Counts counts) {
         oldContent = file.readAsStringSync();
       }
 
-      if (jsonString != oldContent) {
+      final newContentNormalized = jsonString.replaceAll('\r\n', '\n');
+      final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
+      if (newContentNormalized != oldContentNormalized) {
         file.writeAsStringSync(jsonString);
         print('Generated $schemaUri (content changed)');
         counts.changed++;
@@ -244,7 +246,9 @@ void generateEntryPoints(Counts counts) {
             oldContent = file.readAsStringSync();
           }
 
-          if (jsonString != oldContent) {
+          final newContentNormalized = jsonString.replaceAll('\r\n', '\n');
+          final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
+          if (newContentNormalized != oldContentNormalized) {
             file.writeAsStringSync(jsonString);
             print('Generated $schemaUri (content changed)');
             counts.changed++;
