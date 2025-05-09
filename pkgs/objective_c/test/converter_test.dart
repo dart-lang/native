@@ -32,8 +32,8 @@ void main() {
       expect(toDartObject(toObjCObject(1.23)), isA<double>());
       expect(toDartObject(toObjCObject(1.23)), 1.23);
 
-      expect(toObjCObject("hello"), isA<NSString>());
-      expect((toObjCObject("hello") as NSString).toDartString(), "hello");
+      expect(toObjCObject('hello'), isA<NSString>());
+      expect((toObjCObject('hello') as NSString).toDartString(), 'hello');
 
       expect(toObjCObject(DateTime(2025)), isA<NSDate>());
       expect((toObjCObject(DateTime(2025)) as NSDate).toDateTime(),
@@ -42,14 +42,14 @@ void main() {
 
     test('list', () {
       final obj = NSObject();
-      final dartList = [123, "abc", obj];
+      final dartList = [123, 'abc', obj];
 
       expect(toObjCObject(dartList), isA<NSArray>());
       final objCList = toObjCObject(dartList) as NSArray;
       expect(objCList.length, 3);
 
       expect(toDartObject(objCList[0]), 123);
-      expect(toDartObject(objCList[1]), "abc");
+      expect(toDartObject(objCList[1]), 'abc');
       expect(toDartObject(objCList[2]), obj);
 
       expect(toDartObject(objCList), dartList);
@@ -68,14 +68,14 @@ void main() {
 
     test('set', () {
       final obj = NSObject();
-      final dartSet = {123, "abc", obj};
+      final dartSet = {123, 'abc', obj};
 
       expect(toObjCObject(dartSet), isA<NSSet>());
       final objCSet = toObjCObject(dartSet) as NSSet;
       expect(objCSet.length, 3);
 
       expect(objCSet.contains(toObjCObject(123)), isTrue);
-      expect(objCSet.contains(toObjCObject("abc")), isTrue);
+      expect(objCSet.contains(toObjCObject('abc')), isTrue);
       expect(objCSet.contains(toObjCObject(obj)), isTrue);
 
       expect(toDartObject(objCSet), dartSet);
@@ -94,14 +94,14 @@ void main() {
 
     test('map', () {
       final obj = NSObject();
-      final dartMap = {123: "abc", "def": 456, 789: obj};
+      final dartMap = {123: 'abc', 'def': 456, 789: obj};
 
       expect(toObjCObject(dartMap), isA<NSDictionary>());
       final objCMap = toObjCObject(dartMap) as NSDictionary;
       expect(objCMap.length, 3);
 
-      expect(toDartObject(objCMap[toObjCObject(123)]!), "abc");
-      expect(toDartObject(objCMap[toObjCObject("def")]!), 456);
+      expect(toDartObject(objCMap[toObjCObject(123)]!), 'abc');
+      expect(toDartObject(objCMap[toObjCObject('def')]!), 456);
       expect(toDartObject(objCMap[toObjCObject(789)]!), obj);
 
       expect(toDartObject(objCMap), dartMap);
@@ -117,7 +117,7 @@ void main() {
     });
 
     test('unsupported type', () {
-      expect(() => toObjCObject(Future.value()),
+      expect(() => toObjCObject(Future<void>.value()),
           throwsA(isA<UnimplementedError>()));
 
       final obj = NSObject();
@@ -126,7 +126,7 @@ void main() {
     });
 
     test('custom converter in toObjCObject', () {
-      final future = Future.value();
+      final future = Future<void>.value();
       final obj = NSObject();
 
       ObjCObjectBase conv(Object _) => obj;
@@ -138,15 +138,15 @@ void main() {
     });
 
     test('custom converter in toDartObject', () {
-      final future = Future.value();
+      final future = Future<void>.value();
       final obj = NSObject();
 
       Object conv(ObjCObjectBase _) => future;
 
       expect(toDartObject(obj, convertOther: conv), future);
 
-      final list = toObjCObject(["abc", obj]);
-      expect(toDartObject(list, convertOther: conv), ["abc", future]);
+      final list = toObjCObject(['abc', obj]);
+      expect(toDartObject(list, convertOther: conv), ['abc', future]);
     });
   });
 }
