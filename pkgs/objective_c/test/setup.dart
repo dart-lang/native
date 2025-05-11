@@ -22,6 +22,7 @@ final cFiles = [
 final cMain = _resolve('test/main.c');
 final objCFiles = [
   'src/input_stream_adapter.m',
+  'src/ns_number.m',
   'src/objective_c.m',
   'src/objective_c_bindings_generated.m',
   'src/protocol.m',

@@ -9,6 +9,7 @@ headers:
   entry-points:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
+    - 'src/ns_number.h'
     - 'src/protocol.h'
 ffi-native:
 exclude-all-by-default: true
@@ -95,6 +96,7 @@ objc-categories:
     - NSExtendedOrderedSet
     - NSExtendedSet
     - NSNumberCreation
+    - NSNumberIsFloat
     - NSStringExtensionMethods
 structs:
   include:

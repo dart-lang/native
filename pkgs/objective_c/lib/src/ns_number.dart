@@ -21,3 +21,7 @@ extension NumToNSNumber on num {
     };
   }
 }
+
+extension NSNumberToNum on NSNumber {
+  num get numValue => isFloat ? doubleValue : longLongValue;
+}
