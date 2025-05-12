@@ -28,7 +28,7 @@ void main() async {
           linkingEnabled: true,
         );
         final fullLog = logMessages.join('\n');
-        expect(result, isNull);
+        expect(result.isFailure, isTrue);
         expect(fullLog, contains('but that package does not have a link hook'));
       }
     });

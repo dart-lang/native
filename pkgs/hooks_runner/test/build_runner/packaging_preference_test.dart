@@ -26,7 +26,7 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.dynamic,
             buildAssetTypes: [BuildAssetType.code],
-          ))!;
+          )).success;
 
       final resultPreferDynamic =
           (await build(
@@ -35,7 +35,7 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.preferDynamic,
             buildAssetTypes: [BuildAssetType.code],
-          ))!;
+          )).success;
 
       final resultStatic =
           (await build(
@@ -44,7 +44,7 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.static,
             buildAssetTypes: [BuildAssetType.code],
-          ))!;
+          )).success;
 
       final resultPreferStatic =
           (await build(
@@ -53,7 +53,7 @@ void main() async {
             dartExecutable,
             linkModePreference: LinkModePreference.preferStatic,
             buildAssetTypes: [BuildAssetType.code],
-          ))!;
+          )).success;
 
       // This package honors preferences.
       expect(

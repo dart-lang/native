@@ -31,7 +31,7 @@ Future<void> runPubGet({
   expect(result.exitCode, 0);
 }
 
-Future<BuildResult?> buildDataAssets(
+Future<Result<BuildResult, HooksRunnerFailure>> buildDataAssets(
   Uri packageUri, {
   String? runPackageName,
   List<String>? capturedLogs,
@@ -46,7 +46,7 @@ Future<BuildResult?> buildDataAssets(
   linkingEnabled: linkingEnabled,
 );
 
-Future<BuildResult?> buildCodeAssets(
+Future<Result<BuildResult, HooksRunnerFailure>> buildCodeAssets(
   Uri packageUri, {
   String? runPackageName,
   List<String>? capturedLogs,
@@ -61,7 +61,7 @@ Future<BuildResult?> buildCodeAssets(
 
 enum BuildAssetType { code, data }
 
-Future<BuildResult?> build(
+Future<Result<BuildResult, HooksRunnerFailure>> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -127,7 +127,7 @@ Future<BuildResult?> build(
       linkingEnabled: linkingEnabled,
     );
 
-    if (result.isFailure) return null;
+    if (result.isFailure) return result;
     final buildResult = result.success;
 
     expect(await buildResult.encodedAssets.allExist(), true);
@@ -136,11 +136,11 @@ Future<BuildResult?> build(
       expect(await encodedAssetsForLinking.allExist(), true);
     }
 
-    return buildResult;
+    return result;
   });
 }
 
-Future<LinkResult?> link(
+Future<Result<LinkResult, HooksRunnerFailure>> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -204,11 +204,11 @@ Future<LinkResult?> link(
       resourceIdentifiers: resourceIdentifiers,
     );
 
-    if (result.isFailure) return null;
+    if (result.isFailure) return result;
 
     expect(await result.success.encodedAssets.allExist(), true);
 
-    return result.success;
+    return result;
   });
 }
 

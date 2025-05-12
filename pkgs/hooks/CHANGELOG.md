@@ -1,6 +1,7 @@
 ## 0.19.1-wip
 
 - Added links to the `build` and `link` methods as primary entry points.
+- Added failure outputs and documented exit codes.
 
 ## 0.19.0
 

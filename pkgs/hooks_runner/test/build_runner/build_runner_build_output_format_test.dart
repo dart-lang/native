@@ -33,7 +33,7 @@ void main() async {
             buildAssetTypes: [],
           );
           final fullLog = logMessages.join('\n');
-          expect(result, isNull);
+          expect(result.isFailure, isTrue);
           if (package == 'wrong_build_output_3') {
             // Should re-execute the process on second run.
             expect(fullLog, contains('build.dart returned with exit code: 1.'));

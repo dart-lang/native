@@ -22,7 +22,7 @@ void main() async {
           capturedLogs: logMessages,
         );
         final fullLog = logMessages.join('\n');
-        expect(result, isNull);
+        expect(result.isFailure, isTrue);
         expect(fullLog, contains('must be an absolute path'));
       }
     });
