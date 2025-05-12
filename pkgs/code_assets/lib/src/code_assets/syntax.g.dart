@@ -333,10 +333,10 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     ..._validateMacOS(),
     ..._validateTargetArchitecture(),
     ..._validateTargetOs(),
-    ..._validateExtraRules(),
+    ..._validateExtraRulesCodeConfig(),
   ];
 
-  List<String> _validateExtraRules() {
+  List<String> _validateExtraRulesCodeConfig() {
     final result = <String>[];
     if (_reader.tryTraverse(['target_os']) == 'android') {
       result.addAll(_reader.validate<Object>('android'));
@@ -788,10 +788,10 @@ class NativeCodeAssetEncodingSyntax extends JsonObjectSyntax {
     ..._validateFile(),
     ..._validateId(),
     ..._validateLinkMode(),
-    ..._validateExtraRules(),
+    ..._validateExtraRulesNativeCodeAssetEncoding(),
   ];
 
-  List<String> _validateExtraRules() {
+  List<String> _validateExtraRulesNativeCodeAssetEncoding() {
     final result = <String>[];
     if ([
       'dynamic_loading_bundle',

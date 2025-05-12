@@ -62,10 +62,10 @@ class AssetSyntax extends JsonObjectSyntax {
     ...super.validate(),
     ..._validateEncoding(),
     ..._validateType(),
-    ..._validateExtraRules(),
+    ..._validateExtraRulesAsset(),
   ];
 
-  List<String> _validateExtraRules() {
+  List<String> _validateExtraRulesAsset() {
     final result = <String>[];
     if (_reader.tryTraverse(['type']) == 'hooks/metadata') {
       final objectErrors = _reader.validate<Map<String, Object?>?>('encoding');
