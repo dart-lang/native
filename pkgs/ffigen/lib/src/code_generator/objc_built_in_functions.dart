@@ -83,10 +83,13 @@ class ObjCBuiltInFunctions {
     'NSOrderedCollectionDifference',
     'NSOrderedSet',
     'NSOutputStream',
+    'NSPort',
+    'NSPortMessage',
     'NSRunLoop',
     'NSSet',
     'NSStream',
     'NSString',
+    'NSTimer',
     'NSURL',
     'NSURLHandle',
     'NSValue',
@@ -94,12 +97,20 @@ class ObjCBuiltInFunctions {
   };
   @visibleForTesting
   static const builtInCompounds = {
+    'AEDesc': 'AEDesc',
+    '__CFRunLoop': 'CFRunLoop',
+    'CGPoint': 'CGPoint',
+    'CGRect': 'CGRect',
+    'CGSize': 'CGSize',
+    'NSEdgeInsets': 'NSEdgeInsets',
     'NSFastEnumerationState': 'NSFastEnumerationState',
     '_NSRange': 'NSRange',
     '_NSZone': 'NSZone',
+    'OpaqueAEDataStorageType': 'OpaqueAEDataStorageType',
   };
   @visibleForTesting
   static const builtInEnums = {
+    'NSAppleEventSendOptions',
     'NSBinarySearchingOptions',
     'NSComparisonResult',
     'NSDataBase64DecodingOptions',
@@ -108,13 +119,18 @@ class ObjCBuiltInFunctions {
     'NSDataReadingOptions',
     'NSDataSearchOptions',
     'NSDataWritingOptions',
+    'NSDecodingFailurePolicy',
     'NSEnumerationOptions',
     'NSItemProviderFileOptions',
     'NSItemProviderRepresentationVisibility',
     'NSKeyValueChange',
     'NSKeyValueObservingOptions',
     'NSKeyValueSetMutationKind',
+    'NSLinguisticTaggerOptions',
+    'NSLocaleLanguageDirection',
     'NSOrderedCollectionDifferenceCalculationOptions',
+    'NSPropertyListFormat',
+    'NSQualityOfService',
     'NSSortOptions',
     'NSStreamEvent',
     'NSStreamStatus',
@@ -134,6 +150,7 @@ class ObjCBuiltInFunctions {
     'NSItemProviderWriting': 'NSItemProviderWriting',
     'NSMutableCopying': 'NSMutableCopying',
     'NSObject': 'NSObjectProtocol',
+    'NSPortDelegate': 'NSPortDelegate',
     'NSSecureCoding': 'NSSecureCoding',
     'NSStreamDelegate': 'NSStreamDelegate',
   };
@@ -153,6 +170,7 @@ class ObjCBuiltInFunctions {
     'NSExtendedOrderedSet',
     'NSExtendedSet',
     'NSNumberCreation',
+    'NSNumberIsFloat',
     'NSStringExtensionMethods',
   };
 

@@ -9,6 +9,7 @@ headers:
   entry-points:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
+    - 'src/ns_number.h'
     - 'src/protocol.h'
 ffi-native:
 exclude-all-by-default: true
@@ -54,10 +55,13 @@ objc-interfaces:
     - NSOutputStream
     - NSOrderedCollectionDifference
     - NSOrderedSet
+    - NSPort
+    - NSPortMessage
     - NSRunLoop
     - NSSet
     - NSStream
     - NSString
+    - NSTimer
     - NSURL
     - NSURLHandle
     - NSValue
@@ -75,6 +79,7 @@ objc-protocols:
     - NSItemProviderWriting
     - NSMutableCopying
     - NSObject
+    - NSPortDelegate
     - NSSecureCoding
     - NSStreamDelegate
   rename:
@@ -95,17 +100,27 @@ objc-categories:
     - NSExtendedOrderedSet
     - NSExtendedSet
     - NSNumberCreation
+    - NSNumberIsFloat
     - NSStringExtensionMethods
 structs:
   include:
+    - AEDesc
+    - __CFRunLoop
+    - CGPoint
+    - CGRect
+    - CGSize
+    - NSEdgeInsets
+    - NSFastEnumerationState
     - _NSRange
     - _NSZone
-    - NSFastEnumerationState
+    - OpaqueAEDataStorageType
   rename:
+    __CFRunLoop: CFRunLoop
     _NSRange: NSRange
     _NSZone: NSZone
 enums:
   include:
+    - NSAppleEventSendOptions
     - NSBinarySearchingOptions
     - NSComparisonResult
     - NSDataBase64DecodingOptions
@@ -114,13 +129,18 @@ enums:
     - NSDataReadingOptions
     - NSDataSearchOptions
     - NSDataWritingOptions
+    - NSDecodingFailurePolicy
     - NSEnumerationOptions
     - NSItemProviderFileOptions
     - NSItemProviderRepresentationVisibility
     - NSKeyValueChange
     - NSKeyValueObservingOptions
     - NSKeyValueSetMutationKind
+    - NSLinguisticTaggerOptions
+    - NSLocaleLanguageDirection
     - NSOrderedCollectionDifferenceCalculationOptions
+    - NSPropertyListFormat
+    - NSQualityOfService
     - NSSortOptions
     - NSStreamEvent
     - NSStreamStatus
