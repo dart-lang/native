@@ -98,6 +98,13 @@ class NativeAssetsBuildPlanner {
   /// [PackageLayout.runPackageName] provides the entry-point in the graph. The
   /// hooks of packages not in the transitive dependencies of
   /// [PackageLayout.runPackageName] will not be run.
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [BuildPlan], which is a list of
+  /// packages in the order their build hooks should be executed. On failure, if
+  /// a cyclic dependency is detected among packages with native asset build
+  /// hooks, the [Result] is a [Failure] containing a
+  /// [HooksRunnerFailure.projectConfig].
   Future<Result<BuildPlan, HooksRunnerFailure>> makeBuildHookPlan() async {
     if (_buildHookPlan != null) return Success(_buildHookPlan!);
     final packagesWithNativeAssets = await packagesWithHook(Hook.build);

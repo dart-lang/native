@@ -103,6 +103,12 @@ class NativeAssetsBuildRunner {
   ///
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [BuildResult], which encapsulates
+  /// the outputs of all successful build hook executions. On failure, the
+  /// [Result] is a [Failure] containing a [HooksRunnerFailure] indicating the
+  /// reason for the build failure.
   Future<Result<BuildResult, HooksRunnerFailure>> build({
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
@@ -208,6 +214,12 @@ class NativeAssetsBuildRunner {
   ///
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [LinkResult], which encapsulates
+  /// the outputs of all successful link hook executions. On failure, the
+  /// [Result] is a [Failure] containing a [HooksRunnerFailure] indicating the
+  /// reason for the failure.
   Future<Result<LinkResult, HooksRunnerFailure>> link({
     required List<ProtocolExtension> extensions,
     Uri? resourceIdentifiers,

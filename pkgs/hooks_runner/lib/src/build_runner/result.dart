@@ -2,41 +2,63 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// The outcome of an operation that can either succeed with a value of type [T]
+/// The outcome of an operation that can either succeed with a value of type [S]
 /// or fail with an error of type [E].
 ///
 /// This is a sealed class, meaning its implementations are fixed: [Success] and
 /// [Failure].
 ///
 /// Modeled after the Rust `Result` type.
-sealed class Result<T, E> {
+sealed class Result<S, E> {
   /// Private constructor to prevent direct instantiation.
   const Result._();
 
   /// Returns `true` if this is a [Success] instance.
-  bool get isSuccess => this is Success<T>;
+  ///
+  /// This getter can be used as an alternative to an `is Success` check with
+  /// the type argument spelled out. (The type arguments are not inferred.
+  /// https://github.com/dart-lang/language/issues/4366)
+  bool get isSuccess => this is Success<S>;
 
   /// Returns `true` if this is a [Failure] instance.
+  ///
+  /// This getter can be used as an alternative to an `is Failure` check with
+  /// the type argument spelled out. (The type arguments are not inferred.
+  /// https://github.com/dart-lang/language/issues/4366)
   bool get isFailure => this is Failure<E>;
 
   /// Returns this result as a [Success] instance.
   ///
   /// Throws if this is a [Failure].
-  Success<T> get asSuccess;
+  ///
+  /// This getter can be used as an alternative to an `as Success` cast with
+  /// the type argument spelled out.
+  Success<S> get asSuccess;
 
   /// Returns this result as a [Failure] instance.
   ///
   /// Throws if this is a [Success].
+  ///
+  /// This getter can be used as an alternative to an `as Failure` cast with
+  /// the type argument spelled out.
   Failure<E> get asFailure;
 
-  /// The success value if this is a [Success].
+  /// Retrieves the success value from a [Success] instance.
   ///
   /// Throws if this is a [Failure].
-  T get success;
+  ///
+  /// This getter can be used as an alternative to `(as Success).value`. (Flow
+  /// analysis does not take sealed types into account after a `if (is Failure)
+  /// return;` https://github.com/dart-lang/language/issues/4364)
+  S get success;
 
-  /// The failure value if this is a [Failure].
+  /// Retrieves the failure error from a [Failure] instance.
   ///
   /// Throws if this is a [Success].
+  ///
+  /// This getter can be used as an alternative to `(as Failure).value`. (Flow
+  /// analysis does not take sealed types into account after a `if (is Success)
+  /// return;` https://github.com/dart-lang/language/issues/4364)
   E get failure;
 }
 
