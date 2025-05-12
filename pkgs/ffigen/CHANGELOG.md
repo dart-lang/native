@@ -1,6 +1,6 @@
-## 18.2.0-wip
+## 19.0.0-wip
 
-- Use package:objective_c 7.2.0.
+- Use package:objective_c 8.0.0.
 - Make it easier for a downstream clone to change behavior of certain utils.
 - Fix [a bug](https://github.com/dart-lang/native/issues/1268) where types could
   occasionally show up as a generic ObjCObjectBase, when they were supposed to

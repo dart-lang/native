@@ -66,6 +66,8 @@ Protocol* _ObjectiveCBindings_NSMutableCopying(void) { return @protocol(NSMutabl
 
 Protocol* _ObjectiveCBindings_NSObject(void) { return @protocol(NSObject); }
 
+Protocol* _ObjectiveCBindings_NSPortDelegate(void) { return @protocol(NSPortDelegate); }
+
 Protocol* _ObjectiveCBindings_NSSecureCoding(void) { return @protocol(NSSecureCoding); }
 
 Protocol* _ObjectiveCBindings_NSStreamDelegate(void) { return @protocol(NSStreamDelegate); }
