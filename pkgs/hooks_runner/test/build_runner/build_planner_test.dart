@@ -37,8 +37,8 @@ void main() async {
             fileSystem: const LocalFileSystem(),
           );
       final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
-      expect(buildPlan!.length, 1);
-      expect(buildPlan.single.name, 'native_add');
+      expect(buildPlan.success.length, 1);
+      expect(buildPlan.success.single.name, 'native_add');
     });
   });
 
@@ -68,7 +68,7 @@ void main() async {
               fileSystem: const LocalFileSystem(),
             );
         final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
-        expect(buildPlan!.length, 0);
+        expect(buildPlan.success.length, 0);
       });
     });
   }

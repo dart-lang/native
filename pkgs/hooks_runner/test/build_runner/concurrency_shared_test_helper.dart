@@ -51,7 +51,7 @@ void main(List<String> args) async {
     ],
     linkingEnabled: false,
   );
-  if (result == null) {
+  if (result.isFailure) {
     throw Error();
   }
   print('done');

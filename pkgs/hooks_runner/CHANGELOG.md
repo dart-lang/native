@@ -1,5 +1,7 @@
-## 0.19.1-wip
+## 0.20.0-wip
 
+- **Breaking change** Refactored error handling to use a `Result` type for more
+  explicit success/failure states.
 - Remove `package_graph.json` fallback.
 
 ## 0.19.0

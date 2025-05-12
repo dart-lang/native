@@ -11,6 +11,11 @@ import 'package:meta/meta.dart';
 import 'package:package_config/package_config.dart';
 
 import '../package_layout/package_layout.dart';
+import 'failure.dart';
+import 'result.dart';
+
+/// The order in which packages' build hooks should be run.
+typedef BuildPlan = List<Package>;
 
 @internal
 class NativeAssetsBuildPlanner {
@@ -86,15 +91,22 @@ class NativeAssetsBuildPlanner {
     return result;
   }
 
-  List<Package>? _buildHookPlan;
+  BuildPlan? _buildHookPlan;
 
   /// Plans in what order to run build hooks.
   ///
   /// [PackageLayout.runPackageName] provides the entry-point in the graph. The
   /// hooks of packages not in the transitive dependencies of
   /// [PackageLayout.runPackageName] will not be run.
-  Future<List<Package>?> makeBuildHookPlan() async {
-    if (_buildHookPlan != null) return _buildHookPlan;
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [BuildPlan], which is a list of
+  /// packages in the order their build hooks should be executed. On failure, if
+  /// a cyclic dependency is detected among packages with native asset build
+  /// hooks, the [Result] is a [Failure] containing a
+  /// [HooksRunnerFailure.projectConfig].
+  Future<Result<BuildPlan, HooksRunnerFailure>> makeBuildHookPlan() async {
+    if (_buildHookPlan != null) return Success(_buildHookPlan!);
     final packagesWithNativeAssets = await packagesWithHook(Hook.build);
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package,
@@ -112,7 +124,7 @@ class NativeAssetsBuildPlanner {
           'Cyclic dependency for native asset builds in the following '
           'packages: $stronglyConnectedComponentWithNativeAssets.',
         );
-        return null;
+        return const Failure(HooksRunnerFailure.projectConfig);
       } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
         result.add(
           packageMap[stronglyConnectedComponentWithNativeAssets.single]!,
@@ -120,7 +132,7 @@ class NativeAssetsBuildPlanner {
       }
     }
     _buildHookPlan = result;
-    return result;
+    return Success(result);
   }
 }
 
