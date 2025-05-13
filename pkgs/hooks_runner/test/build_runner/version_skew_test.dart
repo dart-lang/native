@@ -22,13 +22,14 @@ void main() async {
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
         {
-          final result = await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildAssetTypes: [BuildAssetType.code],
-          );
-          expect(result?.encodedAssets.length, 1);
+          final result =
+              (await build(
+                packageUri,
+                logger,
+                dartExecutable,
+                buildAssetTypes: [BuildAssetType.code],
+              )).success;
+          expect(result.encodedAssets.length, 1);
         }
       });
     },
@@ -50,7 +51,7 @@ void main() async {
           packageUri,
           capturedLogs: logMessages,
         );
-        expect(result, isNull);
+        expect(result.isFailure, isTrue);
         expect(
           logMessages.join('\n'),
           stringContainsInOrder(['Unhandled exception']),

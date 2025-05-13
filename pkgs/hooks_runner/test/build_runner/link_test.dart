@@ -24,7 +24,7 @@ void main() async {
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
       final buildResult =
-          (await buildDataAssets(packageUri, linkingEnabled: true))!;
+          (await buildDataAssets(packageUri, linkingEnabled: true)).success;
       expect(buildResult.encodedAssets.length, 0);
 
       final linkResult =
@@ -34,11 +34,11 @@ void main() async {
             dartExecutable,
             buildResult: buildResult,
             buildAssetTypes: [BuildAssetType.data],
-          ))!;
+          )).success;
       expect(linkResult.encodedAssets.length, 2);
 
       final buildNoLinkResult =
-          (await buildDataAssets(packageUri, linkingEnabled: false))!;
+          (await buildDataAssets(packageUri, linkingEnabled: false)).success;
       expect(buildNoLinkResult.encodedAssets.length, 4);
     });
   });
@@ -68,13 +68,10 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final buildResult = await buildDataAssets(
-        packageUri,
-        linkingEnabled: true,
-      );
-      expect(buildResult, isNotNull);
+      final buildResult =
+          (await buildDataAssets(packageUri, linkingEnabled: true)).success;
       expect(
-        _getNames(buildResult!.encodedAssets),
+        _getNames(buildResult.encodedAssets),
         unorderedEquals(builtHelperAssets),
       );
       expect(
@@ -82,21 +79,21 @@ void main() async {
         unorderedEquals(encodedAssetsForLinking),
       );
 
-      final linkResult = await link(
-        packageUri,
-        logger,
-        dartExecutable,
-        buildResult: buildResult,
-        buildAssetTypes: [BuildAssetType.data],
-      );
-      expect(linkResult, isNotNull);
+      final linkResult =
+          (await link(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildResult: buildResult,
+            buildAssetTypes: [BuildAssetType.data],
+          )).success;
 
       expect(
         _getNames(buildResult.encodedAssets),
         unorderedEquals(builtHelperAssets),
       );
       expect(
-        _getNames(linkResult!.encodedAssets),
+        _getNames(linkResult.encodedAssets),
         unorderedEquals(linkedAssets),
       );
     });
@@ -111,7 +108,7 @@ void main() async {
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
       final buildResult =
-          (await buildDataAssets(packageUri, linkingEnabled: true))!;
+          (await buildDataAssets(packageUri, linkingEnabled: true)).success;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 0);
 
@@ -124,7 +121,7 @@ void main() async {
             buildResult: buildResult,
             capturedLogs: logMessages,
             buildAssetTypes: [BuildAssetType.data],
-          ))!;
+          )).success;
       expect(linkResult.encodedAssets.length, 0);
       expect(
         logMessages,
@@ -156,7 +153,7 @@ void main() async {
             dartExecutable,
             linkingEnabled: true,
             buildAssetTypes: [BuildAssetType.code],
-          ))!;
+          )).success;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 1);
 
@@ -169,7 +166,7 @@ void main() async {
             buildResult: buildResult,
             capturedLogs: logMessages,
             buildAssetTypes: [BuildAssetType.code],
-          ))!;
+          )).success;
       expect(linkResult.encodedAssets.length, 1);
       expect(linkResult.encodedAssets.first.isCodeAsset, isTrue);
     });

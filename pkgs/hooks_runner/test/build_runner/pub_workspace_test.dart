@@ -83,7 +83,7 @@ dependency_overrides:
       'cyclic_package_2',
     ]);
 
-    (await buildCodeAssets(packageUri, runPackageName: 'native_add'))!;
+    (await buildCodeAssets(packageUri, runPackageName: 'native_add')).success;
     final buildDirectory = tempUri.resolve('.dart_tool/hooks_runner/');
     final buildDirs =
         Directory.fromUri(buildDirectory)
@@ -97,7 +97,10 @@ dependency_overrides:
     expect(buildDirs, isNot(contains('native_subtract')));
 
     final logs = <String>[];
-    (await buildCodeAssets(tempUri.resolve('dart_app/'), capturedLogs: logs))!;
+    (await buildCodeAssets(
+      tempUri.resolve('dart_app/'),
+      capturedLogs: logs,
+    )).success;
     // Reuse hook results of other packages in the same workspace
     expect(logs.join('\n'), contains('Skipping build for native_add'));
   });

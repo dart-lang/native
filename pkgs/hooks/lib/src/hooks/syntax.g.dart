@@ -62,10 +62,10 @@ class AssetSyntax extends JsonObjectSyntax {
     ...super.validate(),
     ..._validateEncoding(),
     ..._validateType(),
-    ..._validateExtraRules(),
+    ..._validateExtraRulesAsset(),
   ];
 
-  List<String> _validateExtraRules() {
+  List<String> _validateExtraRulesAsset() {
     final result = <String>[];
     if (_reader.tryTraverse(['type']) == 'hooks/metadata') {
       final objectErrors = _reader.validate<Map<String, Object?>?>('encoding');
@@ -218,6 +218,8 @@ class BuildOutputSyntax extends HookOutputSyntax {
     required List<AssetSyntax>? assetsForBuild,
     required Map<String, List<AssetSyntax>>? assetsForLinking,
     required super.dependencies,
+    required super.failureDetails,
+    required super.status,
     required super.timestamp,
   }) : super() {
     this.assetsForBuild = assetsForBuild;
@@ -324,7 +326,16 @@ class BuildOutputSyntax extends HookOutputSyntax {
     ...super.validate(),
     ..._validateAssetsForBuild(),
     ..._validateAssetsForLinking(),
+    ..._validateExtraRulesBuildOutput(),
   ];
+
+  List<String> _validateExtraRulesBuildOutput() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['status']) == 'failure') {
+      result.addAll(_reader.validate<Object>('failure_details'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'BuildOutputSyntax($json)';
@@ -380,6 +391,66 @@ class ConfigSyntax extends JsonObjectSyntax {
 
   @override
   String toString() => 'ConfigSyntax($json)';
+}
+
+class FailureSyntax extends JsonObjectSyntax {
+  FailureSyntax.fromJson(super.json, {super.path = const []})
+    : super.fromJson();
+
+  FailureSyntax({required FailureTypeSyntax type}) : super() {
+    _type = type;
+    json.sortOnKey();
+  }
+
+  FailureTypeSyntax get type {
+    final jsonValue = _reader.get<String>('type');
+    return FailureTypeSyntax.fromJson(jsonValue);
+  }
+
+  set _type(FailureTypeSyntax value) {
+    json['type'] = value.name;
+  }
+
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateType()];
+
+  @override
+  String toString() => 'FailureSyntax($json)';
+}
+
+class FailureTypeSyntax {
+  final String name;
+
+  const FailureTypeSyntax._(this.name);
+
+  static const build = FailureTypeSyntax._('build');
+
+  static const infra = FailureTypeSyntax._('infra');
+
+  static const uncategorized = FailureTypeSyntax._('uncategorized');
+
+  static const List<FailureTypeSyntax> values = [build, infra, uncategorized];
+
+  static final Map<String, FailureTypeSyntax> _byName = {
+    for (final value in values) value.name: value,
+  };
+
+  FailureTypeSyntax.unknown(this.name) : assert(!_byName.keys.contains(name));
+
+  factory FailureTypeSyntax.fromJson(String name) {
+    final knownValue = _byName[name];
+    if (knownValue != null) {
+      return knownValue;
+    }
+    return FailureTypeSyntax.unknown(name);
+  }
+
+  bool get isKnown => _byName[name] != null;
+
+  @override
+  String toString() => name;
 }
 
 class HookInputSyntax extends JsonObjectSyntax {
@@ -503,10 +574,14 @@ class HookOutputSyntax extends JsonObjectSyntax {
   HookOutputSyntax({
     required List<AssetSyntax>? assets,
     required List<Uri>? dependencies,
+    required FailureSyntax? failureDetails,
+    required OutputStatusSyntax? status,
     required String timestamp,
   }) : super() {
     this.assets = assets;
     this.dependencies = dependencies;
+    this.failureDetails = failureDetails;
+    this.status = status;
     this.timestamp = timestamp;
     json.sortOnKey();
   }
@@ -556,6 +631,43 @@ class HookOutputSyntax extends JsonObjectSyntax {
   List<String> _validateDependencies() =>
       _reader.validateOptionalPathList('dependencies');
 
+  FailureSyntax? get failureDetails {
+    final jsonValue = _reader.optionalMap('failure_details');
+    if (jsonValue == null) return null;
+    return FailureSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'failure_details'],
+    );
+  }
+
+  set failureDetails(FailureSyntax? value) {
+    json.setOrRemove('failure_details', value?.json);
+    json.sortOnKey();
+  }
+
+  List<String> _validateFailureDetails() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>(
+      'failure_details',
+    );
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return failureDetails?.validate() ?? [];
+  }
+
+  OutputStatusSyntax? get status {
+    final jsonValue = _reader.get<String?>('status');
+    if (jsonValue == null) return null;
+    return OutputStatusSyntax.fromJson(jsonValue);
+  }
+
+  set status(OutputStatusSyntax? value) {
+    json.setOrRemove('status', value?.name);
+    json.sortOnKey();
+  }
+
+  List<String> _validateStatus() => _reader.validate<String?>('status');
+
   String get timestamp => _reader.get<String>('timestamp');
 
   set timestamp(String value) {
@@ -570,8 +682,19 @@ class HookOutputSyntax extends JsonObjectSyntax {
     ...super.validate(),
     ..._validateAssets(),
     ..._validateDependencies(),
+    ..._validateFailureDetails(),
+    ..._validateStatus(),
     ..._validateTimestamp(),
+    ..._validateExtraRulesHookOutput(),
   ];
+
+  List<String> _validateExtraRulesHookOutput() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['status']) == 'failure') {
+      result.addAll(_reader.validate<Object>('failure_details'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'HookOutputSyntax($json)';
@@ -702,11 +825,24 @@ class LinkOutputSyntax extends HookOutputSyntax {
   LinkOutputSyntax({
     required super.assets,
     required super.dependencies,
+    required super.failureDetails,
+    required super.status,
     required super.timestamp,
   }) : super();
 
   @override
-  List<String> validate() => [...super.validate()];
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateExtraRulesLinkOutput(),
+  ];
+
+  List<String> _validateExtraRulesLinkOutput() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['status']) == 'failure') {
+      result.addAll(_reader.validate<Object>('failure_details'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'LinkOutputSyntax($json)';
@@ -748,6 +884,37 @@ class MetadataAssetEncodingSyntax extends JsonObjectSyntax {
 
   @override
   String toString() => 'MetadataAssetEncodingSyntax($json)';
+}
+
+class OutputStatusSyntax {
+  final String name;
+
+  const OutputStatusSyntax._(this.name);
+
+  static const failure = OutputStatusSyntax._('failure');
+
+  static const success = OutputStatusSyntax._('success');
+
+  static const List<OutputStatusSyntax> values = [failure, success];
+
+  static final Map<String, OutputStatusSyntax> _byName = {
+    for (final value in values) value.name: value,
+  };
+
+  OutputStatusSyntax.unknown(this.name) : assert(!_byName.keys.contains(name));
+
+  factory OutputStatusSyntax.fromJson(String name) {
+    final knownValue = _byName[name];
+    if (knownValue != null) {
+      return knownValue;
+    }
+    return OutputStatusSyntax.unknown(name);
+  }
+
+  bool get isKnown => _byName[name] != null;
+
+  @override
+  String toString() => name;
 }
 
 class UserDefinesSyntax extends JsonObjectSyntax {

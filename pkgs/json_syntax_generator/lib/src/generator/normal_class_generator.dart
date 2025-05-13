@@ -271,7 +271,8 @@ static const ${tagProperty}Value = '$tagValue';
     final validateCalls = [
       for (final property in classInfo.properties)
         '...${property.validateName}()',
-      if (classInfo.extraValidation.isNotEmpty) '..._validateExtraRules()',
+      if (classInfo.extraValidation.isNotEmpty)
+        '..._validateExtraRules${classInfo.name}()',
     ];
     final validateCallsString = validateCalls.join(',\n');
 
@@ -292,7 +293,7 @@ static const ${tagProperty}Value = '$tagValue';
             .join()
             .trim();
     return '''
-  List<String> _validateExtraRules() {
+  List<String> _validateExtraRules${classInfo.name}() {
     final result = <String>[];
     $statements
     return result;

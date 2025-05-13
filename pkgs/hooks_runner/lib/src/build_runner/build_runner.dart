@@ -528,7 +528,17 @@ class NativeAssetsBuildRunner {
   ${result.stdout}
           ''');
         deleteOutputIfExists = true;
-        return const Failure(HooksRunnerFailure.hookRun);
+        if (result.exitCode > 2 && result.exitCode < 255) {
+          logger.warning(
+            'Hook exited with a reserved exit code: ${result.exitCode}. '
+            'Only 0, 1, 2, and 255 are in use.',
+          );
+        }
+        final failureType = switch (result.exitCode) {
+          2 => HooksRunnerFailure.infra,
+          _ => HooksRunnerFailure.hookRun,
+        };
+        return Failure(failureType);
       }
 
       final outputResult = _readHookOutputFromUri(
@@ -855,13 +865,9 @@ ${compileResult.stdout}
     final file = hookOutputFile;
     final fileContents = file.readAsStringSync();
     logger.info('output.json contents:\n$fileContents');
+    final Map<String, Object?> hookOutputJson;
     try {
-      final hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
-      final output = switch (hook) {
-        Hook.build => BuildOutput(hookOutputJson),
-        Hook.link => LinkOutput(hookOutputJson),
-      };
-      return Success(output);
+      hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
     } on FormatException catch (e) {
       logger.severe('''
 Building assets for package:$packageName failed.
@@ -870,6 +876,28 @@ ${hookOutputFile.uri.toFilePath()} contained a format error.
 Contents: $fileContents.
 ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
+    }
+    switch (hook) {
+      case Hook.build:
+        final output = BuildOutputMaybeFailure(hookOutputJson);
+        switch (output) {
+          case BuildOutput _:
+            return Success(output);
+          case BuildOutputFailure(type: FailureType.infra):
+            return const Failure(HooksRunnerFailure.infra);
+          case BuildOutputFailure _:
+            return const Failure(HooksRunnerFailure.hookRun);
+        }
+      case Hook.link:
+        final output = LinkOutputMaybeFailure(hookOutputJson);
+        switch (output) {
+          case LinkOutput _:
+            return Success(output);
+          case LinkOutputFailure(type: FailureType.infra):
+            return const Failure(HooksRunnerFailure.infra);
+          case LinkOutputFailure _:
+            return const Failure(HooksRunnerFailure.hookRun);
+        }
     }
   }
 

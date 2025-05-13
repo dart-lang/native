@@ -31,7 +31,7 @@ void main() async {
               dartExecutable,
               capturedLogs: logMessages,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         expect(
           logMessages.join('\n'),
           contains(
@@ -54,7 +54,7 @@ void main() async {
               dartExecutable,
               capturedLogs: logMessages,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         final hookUri = packageUri.resolve('hook/build.dart');
         expect(
           logMessages.join('\n'),
@@ -99,7 +99,7 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
           symbols: ['add'],
@@ -119,7 +119,7 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
 
         final cUri = packageUri.resolve('src/').resolve('native_add.c');
         expect(
@@ -155,7 +155,7 @@ void main() async {
             logger,
             dartExecutable,
             buildAssetTypes: [BuildAssetType.code],
-          ))!;
+          )).success;
       {
         final compiledHook =
             logMessages
@@ -185,7 +185,7 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
 
         final hookUri = packageUri.resolve('hook/build.dart');
         expect(
@@ -225,7 +225,7 @@ void main() async {
                   : filteredEnvironment(
                     NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
                   ),
-        ))!;
+        )).success;
         logMessages.clear();
 
         // Simulate that the environment variables changed by augmenting the
@@ -255,7 +255,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [BuildAssetType.code],
-        ))!;
+        )).success;
         expect(logMessages.join('\n'), contains('hook.dill'));
         expect(
           logMessages.join('\n'),

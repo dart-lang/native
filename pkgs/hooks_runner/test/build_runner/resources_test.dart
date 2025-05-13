@@ -24,7 +24,7 @@ void main() async {
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
       final buildResult =
-          (await buildDataAssets(packageUri, linkingEnabled: true))!;
+          (await buildDataAssets(packageUri, linkingEnabled: true)).success;
 
       Iterable<String> buildFiles() => Directory.fromUri(
         packageUri.resolve('.dart_tool/hooks_runner/'),

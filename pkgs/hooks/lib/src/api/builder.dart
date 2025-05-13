@@ -5,7 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../config.dart';
-import 'build.dart';
+import 'build_and_link.dart';
 import 'linker.dart';
 
 /// A builder to be run in [build] in `hook/build.dart`.
