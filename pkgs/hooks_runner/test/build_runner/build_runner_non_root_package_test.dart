@@ -29,7 +29,7 @@ void main() async {
               capturedLogs: logMessages,
               runPackageName: 'some_dev_dep',
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
       }
@@ -44,7 +44,7 @@ void main() async {
               capturedLogs: logMessages,
               runPackageName: 'native_add',
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         expect(result.encodedAssets, isNotEmpty);
         expect(
           result.dependencies,

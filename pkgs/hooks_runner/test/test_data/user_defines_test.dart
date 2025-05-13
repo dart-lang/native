@@ -37,7 +37,7 @@ void main() async {
             capturedLogs: logMessages,
             buildAssetTypes: [BuildAssetType.data],
             userDefines: UserDefines(workspacePubspec: pubspecUri),
-          ))!;
+          )).success;
 
       final dataAssets =
           result.encodedAssets.map((e) => e.asDataAsset).toList();

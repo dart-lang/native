@@ -83,6 +83,7 @@ void main() {
         ],
         'package:linker2': <Object?>[],
       },
+      'status': 'success',
       'timestamp': input.timestamp.toString(),
     };
 

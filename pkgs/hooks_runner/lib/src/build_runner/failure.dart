@@ -13,6 +13,11 @@ enum HooksRunnerFailure {
   /// dependencies/assets.
   hookRun,
 
+  /// A hook reported an infra failure.
+  ///
+  /// Typically fixed by investigating infra reliability.
+  infra,
+
   /// Issues related to the Dart project's configuration.
   ///
   /// Typically fixed by the end-user in the `pubspec.yaml`.

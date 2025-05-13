@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart' show sha256;
 
+import 'api/build_and_link.dart';
 import 'encoded_asset.dart';
 import 'extension.dart';
 import 'hooks/syntax.g.dart';
@@ -436,6 +437,8 @@ sealed class HookOutputBuilder {
     timestamp: DateTime.now().roundDownToSeconds().toString(),
     assets: null,
     dependencies: null,
+    status: OutputStatusSyntax.success,
+    failureDetails: null,
   );
 
   Map<String, Object?> get json => _syntax.json;
@@ -461,10 +464,24 @@ sealed class HookOutputBuilder {
     dependencies.addAll(uris);
     _syntax.dependencies = dependencies;
   }
+
+  void setFailure(FailureType value) {
+    _syntax.status = OutputStatusSyntax.failure;
+    _syntax.failureDetails = FailureSyntax(
+      type: switch (value) {
+        FailureType.build => FailureTypeSyntax.build,
+        FailureType.infra => FailureTypeSyntax.infra,
+        FailureType.uncategorized => FailureTypeSyntax.uncategorized,
+        _ => FailureTypeSyntax.uncategorized,
+      },
+    );
+  }
 }
 
-/// The output from a `hook/build.dart`.
-final class BuildOutput extends HookOutput {
+/// The output from a `hook/build.dart` on success.
+///
+/// See [BuildOutputFailure] for failure.
+final class BuildOutput extends HookOutput implements BuildOutputMaybeFailure {
   /// The assets produced by this build which should be linked.
   ///
   /// Every key in the map is a package name. These assets in the values are not
@@ -701,9 +718,11 @@ final class BuildOutputAssetsBuilder {
       BuildOutputSyntax.fromJson(_output._syntax.json);
 }
 
-/// The output for a `hook/link.dart`.
-final class LinkOutput extends HookOutput {
-  /// Creates a [BuildOutput] from the given [json].
+/// The output for a `hook/link.dart` on success.
+///
+/// See [LinkOutputFailure] for failure.
+final class LinkOutput extends HookOutput implements LinkOutputMaybeFailure {
+  /// Creates a [LinkOutput] from the given [json].
   LinkOutput(super.json) : _syntax = LinkOutputSyntax.fromJson(json), super._();
 
   LinkOutputAssets get assets => LinkOutputAssets._(this);
@@ -846,4 +865,170 @@ final class BuildConfig extends HookConfig {
 /// The configuration in [LinkInput.config].
 final class LinkConfig extends HookConfig {
   LinkConfig._(super.input) : super._();
+}
+
+/// A type of failure that occurred during a hook execution.
+class FailureType {
+  final String name;
+
+  const FailureType._(this.name);
+
+  /// A failure that occurred due to a problem in the build logic of the hook.
+  static const build = FailureType._('build');
+
+  /// A failure that occurred due to an infrastructure issue.
+  ///
+  /// For example, a network issue, or a tool not being available.
+  ///
+  /// Typically fixed by investigating infra reliability.
+  static const infra = FailureType._('infra');
+
+  /// A failure that is not categorized as [build] or [infra].
+  ///
+  /// Typically treated as [build].
+  static const uncategorized = FailureType._('uncategorized');
+
+  @override
+  String toString() => name;
+}
+
+/// The output of a hook that has failed.
+final class HookOutputFailure {
+  Map<String, Object?> get json => _syntax.json;
+
+  final HookOutputSyntax _syntax;
+
+  HookOutputFailure._(Map<String, Object?> json)
+    : _syntax = HookOutputSyntax.fromJson(json);
+
+  /// The type of failure.
+  ///
+  /// This helps in categorizing the error and determining the appropriate
+  /// response or fix.
+  FailureType get type => switch (_syntax.failureDetails?.type) {
+    FailureTypeSyntax.build => FailureType.build,
+    FailureTypeSyntax.infra => FailureType.infra,
+    FailureTypeSyntax.uncategorized => FailureType.uncategorized,
+    _ => FailureType.uncategorized,
+  };
+}
+
+/// The output from a `hook/build.dart` on failure.
+///
+/// See [BuildOutput] for success.
+final class BuildOutputFailure extends HookOutputFailure
+    implements BuildOutputMaybeFailure {
+  BuildOutputFailure._(super.json) : super._();
+}
+
+/// The output from a `hook/link.dart` on failure.
+///
+/// See [LinkOutput] for success.
+final class LinkOutputFailure extends HookOutputFailure
+    implements LinkOutputMaybeFailure {
+  LinkOutputFailure._(super.json) : super._();
+}
+
+/// Either a successful [BuildOutput] or a [BuildOutputFailure].
+sealed class BuildOutputMaybeFailure {
+  Map<String, Object?> get json;
+
+  factory BuildOutputMaybeFailure(Map<String, Object?> json) {
+    final syntax = HookOutputSyntax.fromJson(json);
+    final status = syntax.status;
+    switch (status) {
+      case null: // backwards compatibility.
+      case OutputStatusSyntax.success:
+        return BuildOutput(json);
+      case OutputStatusSyntax.failure:
+        return BuildOutputFailure._(json);
+    }
+    throw StateError('Unknown status: $status.');
+  }
+}
+
+/// Either a successful [LinkOutput] or a [LinkOutputFailure].
+sealed class LinkOutputMaybeFailure {
+  Map<String, Object?> get json;
+
+  factory LinkOutputMaybeFailure(Map<String, Object?> json) {
+    final syntax = HookOutputSyntax.fromJson(json);
+    final status = syntax.status;
+    switch (status) {
+      case null: // backwards compatibility.
+      case OutputStatusSyntax.success:
+        return LinkOutput(json);
+      case OutputStatusSyntax.failure:
+        return LinkOutputFailure._(json);
+    }
+    throw StateError('Unknown status: $status.');
+  }
+}
+
+/// Base class for errors that can be thrown during a [build] or [link]
+/// invocation.
+///
+/// Throwing these errors in [build] or [link] will automatically set the
+/// [HookOutputBuilder.setFailure] and exit the process with the exit code
+/// belonging to that error type.
+abstract class HookError extends Error {
+  final String message;
+
+  /// An optional underlying exception that caused this error.
+  final Object? wrappedException;
+
+  /// An optional stack trace associated with the [wrappedException].
+  final StackTrace? wrappedTrace;
+
+  HookError({required this.message, this.wrappedException, this.wrappedTrace});
+
+  /// The exit code that should be used if the process terminates due to this
+  /// error.
+  int get exitCode;
+
+  /// The [FailureType] associated with this error.
+  FailureType get failureType;
+}
+
+/// An error indicating a problem with the build logic within a hook.
+///
+/// Throwing this error in [build] or [link] will automatically set the
+/// [HookOutputBuilder.setFailure] and exit the process with [exitCode].
+///
+/// This typically means something went wrong during the asset generation or
+/// transformation process.
+final class BuildError extends HookError {
+  BuildError({
+    required super.message,
+    super.wrappedException,
+    super.wrappedTrace,
+  });
+
+  @override
+  int get exitCode => 1;
+
+  /// The failure type for build errors is [FailureType.build].
+  @override
+  FailureType get failureType => FailureType.build;
+}
+
+/// An error indicating an infrastructure-related problem during hook execution.
+///
+/// Throwing this error in [build] or [link] will automatically set the
+/// [HookOutputBuilder.setFailure] and exit the process with [exitCode].
+///
+/// This could be due to issues like network problems.
+final class InfraError extends HookError {
+  InfraError({
+    required super.message,
+    super.wrappedException,
+    super.wrappedTrace,
+  });
+
+  @override
+  int get exitCode => 2;
+
+  /// The failure type for infrastructure errors is [FailureType.infra].
+  @override
+  FailureType get failureType => FailureType.infra;
 }

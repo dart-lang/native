@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:hooks_runner/hooks_runner.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
@@ -28,7 +29,7 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -54,7 +55,8 @@ void main() async {
           buildAssetTypes: [BuildAssetType.code],
         );
         final fullLog = logMessages.join('\n');
-        expect(result, isNull);
+        expect(result.isFailure, isTrue);
+        expect(result.failure, HooksRunnerFailure.hookRun);
         expect(fullLog, contains('To reproduce run:'));
         final reproCommand =
             fullLog
@@ -82,7 +84,7 @@ void main() async {
               logger,
               dartExecutable,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -132,4 +134,22 @@ void main() async {
       });
     },
   );
+
+  test('infra error', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('infra_failure/');
+
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      final result = await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildAssetTypes: [BuildAssetType.code],
+      );
+      expect(result.isFailure, isTrue);
+      expect(result.failure, HooksRunnerFailure.infra);
+    });
+  });
 }

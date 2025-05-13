@@ -666,7 +666,13 @@ extension on JsonSchemas {
     // predefined values generated as an enum class.
     if (propertyKeys.length > 2) return null;
     for (final p in propertyKeys) {
-      if (property(p).anyOfs.isNotEmpty) {
+      final propertySchemas = property(p);
+      if (propertySchemas.anyOfs.isNotEmpty) {
+        if (propertySchemas.className != null) {
+          // This is an explicit enum field, don't make the surrounding class a
+          // tagged union.
+          return null;
+        }
         return p;
       }
     }

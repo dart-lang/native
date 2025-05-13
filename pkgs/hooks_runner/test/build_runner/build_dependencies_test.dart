@@ -30,7 +30,7 @@ void main() async {
               dartExecutable,
               capturedLogs: logMessages,
               buildAssetTypes: [BuildAssetType.code],
-            ))!;
+            )).success;
         expect(
           logMessages.join('\n'),
           stringContainsInOrder([

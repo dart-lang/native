@@ -31,7 +31,7 @@ void main() async {
               packageUri,
               linkingEnabled: true,
               capturedLogs: logMessages,
-            ))!;
+            )).success;
       }
 
       Future<void> runLink() async {
@@ -44,7 +44,7 @@ void main() async {
               buildResult: buildResult,
               buildAssetTypes: [BuildAssetType.data],
               capturedLogs: logMessages,
-            ))!;
+            )).success;
       }
 
       await runBuild();
