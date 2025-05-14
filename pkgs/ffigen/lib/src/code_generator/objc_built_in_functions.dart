@@ -99,6 +99,7 @@ class ObjCBuiltInFunctions {
   static const builtInCompounds = {
     'AEDesc': 'AEDesc',
     '__CFRunLoop': 'CFRunLoop',
+    '__CFString': 'CFString',
     'CGPoint': 'CGPoint',
     'CGRect': 'CGRect',
     'CGSize': 'CGSize',

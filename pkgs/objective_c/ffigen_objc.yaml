@@ -106,6 +106,7 @@ structs:
   include:
     - AEDesc
     - __CFRunLoop
+    - __CFString
     - CGPoint
     - CGRect
     - CGSize
@@ -116,6 +117,7 @@ structs:
     - OpaqueAEDataStorageType
   rename:
     __CFRunLoop: CFRunLoop
+    __CFString: CFString
     _NSRange: NSRange
     _NSZone: NSZone
 enums:
@@ -153,6 +155,9 @@ enums:
 globals:
   include:
     - NSLocalizedDescriptionKey
+typedefs:
+  include:
+    - 'CFStringRef'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

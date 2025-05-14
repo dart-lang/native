@@ -321,6 +321,10 @@ final class AEDesc extends ffi.Struct {
 
 final class CFRunLoop extends ffi.Opaque {}
 
+final class CFString extends ffi.Opaque {}
+
+typedef CFStringRef = ffi.Pointer<CFString>;
+
 final class CGPoint extends ffi.Struct {
   @ffi.Double()
   external double x;
