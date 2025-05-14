@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffi/ffi.dart';
-import 'objective_c_bindings_generated.dart';
 import 'ns_string.dart';
+import 'objective_c_bindings_generated.dart';
 
 extension CFStringRefConversions on CFStringRef {
   NSString toNSString() =>
