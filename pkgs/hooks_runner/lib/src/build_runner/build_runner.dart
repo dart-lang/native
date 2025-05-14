@@ -626,10 +626,6 @@ class NativeAssetsBuildRunner {
   ) async {
     // Don't invalidate cache with environment changes.
     final environmentForCaching = <String, String>{};
-    final packageConfigHashable = buildDirUri.resolve(
-      'package_config_hashable.json',
-    );
-    await _makeHashablePackageConfig(packageConfigHashable);
     final kernelFile = _fileSystem.file(buildDirUri.resolve('hook.dill'));
     final depFile = _fileSystem.file(buildDirUri.resolve('hook.dill.d'));
     final dependenciesHashFile = buildDirUri.resolve(
@@ -673,7 +669,7 @@ class NativeAssetsBuildRunner {
     final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
       [
         ...dartSources.where((e) => e != packageLayout.packageConfigUri),
-        packageConfigHashable,
+        packageLayout.packageConfigUri,
         // If the Dart version changed, recompile.
         dartExecutable.resolve('../version'),
       ],
@@ -684,17 +680,6 @@ class NativeAssetsBuildRunner {
       logger.severe('File modified during build. Build must be rerun.');
     }
     return Success((kernelFile, dependenciesHashes));
-  }
-
-  Future<void> _makeHashablePackageConfig(Uri uri) async {
-    final contents =
-        await _fileSystem.file(packageLayout.packageConfigUri).readAsString();
-    final jsonData = jsonDecode(contents) as Map<String, Object?>;
-    jsonData.remove('generated');
-    final contentsSanitized = const JsonEncoder.withIndent(
-      '  ',
-    ).convert(jsonData);
-    await _fileSystem.file(uri).writeAsString(contentsSanitized);
   }
 
   Future<Result<void, HooksRunnerFailure>> _compileHookForPackage(
