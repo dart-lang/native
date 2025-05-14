@@ -75,12 +75,15 @@ class NativeAssetsBuildPlanner {
   Future<List<Package>> _runPackagesWithHook(Hook hook) async {
     final packageNamesInDependencies = packageGraph.vertices.toSet();
     final result = <Package>[];
+    final watch = Stopwatch()..start();
+    var length = 0;
     for (final package in packageLayout.packageConfig.packages) {
       if (!packageNamesInDependencies.contains(package.name)) {
         continue;
       }
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
+        length++;
         if (await fileSystem
             .file(packageRoot.resolve('hook/').resolve(hook.scriptName))
             .exists()) {
@@ -88,6 +91,11 @@ class NativeAssetsBuildPlanner {
         }
       }
     }
+    watch.stop();
+    logger.finest(
+      'Checking $length packages for hook/${hook.scriptName} '
+      'took ${watch.elapsedMilliseconds} ms.',
+    );
     return result;
   }
 
