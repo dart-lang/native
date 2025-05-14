@@ -39,9 +39,31 @@ void main() async {
             '${Platform.pathSeparator}build.dart',
           ),
         );
+
+        // Dependencies reported in the hook should be in the result.
         expect(
           result.dependencies,
           contains(packageUri.resolve('src/native_add.c')),
+        );
+
+        final dependenciesAsPaths =
+            result.dependencies
+                .map((uri) => uri.toFilePath(windows: false))
+                .toList();
+
+        // The source of the hook should be in the result.
+        expect(
+          dependenciesAsPaths,
+          contains(contains('native_add/hook/build.dart')),
+        );
+
+        // `package:logging` sources should be from pub.dev and not in the
+        // result.
+        expect(
+          dependenciesAsPaths,
+          isNot(
+            contains(stringContainsInOrder(['logging-', 'lib/logging.dart'])),
+          ),
         );
       }
 

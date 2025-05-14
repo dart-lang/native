@@ -668,7 +668,9 @@ class NativeAssetsBuildRunner {
 
     final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
       [
-        ...dartSources.where((e) => e != packageLayout.packageConfigUri),
+        ...dartSources.where(
+          (e) => e != packageLayout.packageConfigUri && !_isImmutable(e),
+        ),
         packageLayout.packageConfigUri,
         // If the Dart version changed, recompile.
         dartExecutable.resolve('../version'),
@@ -681,6 +683,11 @@ class NativeAssetsBuildRunner {
     }
     return Success((kernelFile, dependenciesHashes));
   }
+
+  // TODO(https://github.com/dart-lang/pub/issues/4577): Use immutability bit
+  // when available.
+  static bool _isImmutable(Uri e) =>
+      e.toFilePath(windows: false).contains('/hosted/pub.dev/');
 
   Future<Result<void, HooksRunnerFailure>> _compileHookForPackage(
     String packageName,
