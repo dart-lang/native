@@ -18,6 +18,7 @@ export 'src/c_bindings_generated.dart'
         objectRelease,
         objectRetain,
         signalWaiter;
+export 'src/cf_string.dart';
 export 'src/converter.dart';
 export 'src/internal.dart'
     hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
@@ -32,6 +33,8 @@ export 'src/objective_c_bindings_generated.dart'
     show
         AEDesc,
         CFRunLoop,
+        CFString,
+        CFStringRef,
         CGPoint,
         CGRect,
         CGSize,
