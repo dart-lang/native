@@ -87,17 +87,3 @@ int64_t my_stat(const char *path, struct my_Stat *buf) {
   }
   return r;
 }
-
-int64_t my_get_UF_HIDDEN() {
-#ifdef UF_HIDDEN
-  return UF_HIDDEN;
-#endif
-  return my_UNDEFINED;
-}
-
-int64_t my_get_S_IFMT() {
-#ifdef S_IFMT
-  return S_IFMT;
-#endif
-  return my_UNDEFINED;
-}

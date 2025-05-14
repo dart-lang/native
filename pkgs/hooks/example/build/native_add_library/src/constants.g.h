@@ -1,0 +1,33 @@
+#include <stdint.h>
+
+#define my_UNDEFINED 9223372036854775807;
+int64_t my_get_S_IEXEC(void);
+int64_t my_get_S_IFBLK(void);
+int64_t my_get_S_IFCHR(void);
+int64_t my_get_S_IFDIR(void);
+int64_t my_get_S_IFIFO(void);
+int64_t my_get_S_IFLNK(void);
+int64_t my_get_S_IFMT(void);
+int64_t my_get_S_IFREG(void);
+int64_t my_get_S_IFSOCK(void);
+int64_t my_get_S_IFWHT(void);
+int64_t my_get_S_IREAD(void);
+int64_t my_get_S_IRGRP(void);
+int64_t my_get_S_IROTH(void);
+int64_t my_get_S_IRUSR(void);
+int64_t my_get_S_IRWXG(void);
+int64_t my_get_S_IRWXO(void);
+int64_t my_get_S_IRWXU(void);
+int64_t my_get_S_ISGID(void);
+int64_t my_get_S_ISTXT(void);
+int64_t my_get_S_ISUID(void);
+int64_t my_get_S_ISVTX(void);
+int64_t my_get_S_IWGRP(void);
+int64_t my_get_S_IWOTH(void);
+int64_t my_get_S_IWRITE(void);
+int64_t my_get_S_IWUSR(void);
+int64_t my_get_S_IXGRP(void);
+int64_t my_get_S_IXOTH(void);
+int64_t my_get_S_IXUSR(void);
+int64_t my_get_UF_APPEND(void);
+int64_t my_get_UF_HIDDEN(void);

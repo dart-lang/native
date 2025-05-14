@@ -49,6 +49,90 @@ external int get_UF_HIDDEN();
 @ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFMT')
 external int get_S_IFMT();
 
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IEXEC')
+external int get_S_IEXEC();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFBLK')
+external int get_S_IFBLK();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFCHR')
+external int get_S_IFCHR();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFDIR')
+external int get_S_IFDIR();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFIFO')
+external int get_S_IFIFO();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFLNK')
+external int get_S_IFLNK();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFREG')
+external int get_S_IFREG();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFSOCK')
+external int get_S_IFSOCK();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFWHT')
+external int get_S_IFWHT();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IREAD')
+external int get_S_IREAD();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IRGRP')
+external int get_S_IRGRP();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IROTH')
+external int get_S_IROTH();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IRUSR')
+external int get_S_IRUSR();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IRWXG')
+external int get_S_IRWXG();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IRWXO')
+external int get_S_IRWXO();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IRWXU')
+external int get_S_IRWXU();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_ISGID')
+external int get_S_ISGID();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_ISTXT')
+external int get_S_ISTXT();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_ISUID')
+external int get_S_ISUID();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_ISVTX')
+external int get_S_ISVTX();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IWGRP')
+external int get_S_IWGRP();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IWOTH')
+external int get_S_IWOTH();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IWRITE')
+external int get_S_IWRITE();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IWUSR')
+external int get_S_IWUSR();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IXGRP')
+external int get_S_IXGRP();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IXOTH')
+external int get_S_IXOTH();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IXUSR')
+external int get_S_IXUSR();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_UF_APPEND')
+external int get_UF_APPEND();
+
 final class dirent extends ffi.Struct {
   @ffi.Int64()
   external int d_ino;

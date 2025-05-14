@@ -12,7 +12,7 @@ void main(List<String> args) async {
     final cbuilder = CBuilder.library(
       name: packageName,
       assetName: '$packageName.dart',
-      sources: ['src/$packageName.c'],
+      sources: ['src/$packageName.c', 'src/constants.g.c'],
       flags: ['-Weverything'],
     );
     await cbuilder.run(
