@@ -13,6 +13,7 @@ void main(List<String> args) async {
       name: packageName,
       assetName: '$packageName.dart',
       sources: ['src/$packageName.c'],
+      flags: ['-Weverything'],
     );
     await cbuilder.run(
       input: input,

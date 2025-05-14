@@ -8,5 +8,95 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-@ffi.Native<ffi.Int32 Function(ffi.Int32, ffi.Int32)>()
-external int add(int a, int b);
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<ffi.Char>, ffi.Int64, ffi.Int64)>(
+    symbol: 'my_open')
+external int open(
+  ffi.Pointer<ffi.Char> pathname,
+  int flags,
+  int mode,
+);
+
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<DIR>)>(symbol: 'my_closedir')
+external int closedir(
+  ffi.Pointer<DIR> d,
+);
+
+@ffi.Native<ffi.Pointer<DIR> Function(ffi.Pointer<ffi.Char>)>(
+    symbol: 'my_opendir')
+external ffi.Pointer<DIR> opendir(
+  ffi.Pointer<ffi.Char> path,
+);
+
+@ffi.Native<ffi.Pointer<dirent> Function(ffi.Pointer<DIR>)>(
+    symbol: 'my_readdir')
+external ffi.Pointer<dirent> readdir(
+  ffi.Pointer<DIR> d,
+);
+
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<ffi.Char>, ffi.Pointer<Stat>)>(
+    symbol: 'my_stat')
+external int stat(
+  ffi.Pointer<ffi.Char> path,
+  ffi.Pointer<Stat> buf,
+);
+
+@ffi.Native<ffi.Int64>()
+external final int my_UNDEFINED;
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_UF_HIDDEN')
+external int get_UF_HIDDEN();
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFMT')
+external int get_S_IFMT();
+
+final class dirent extends ffi.Struct {
+  @ffi.Int64()
+  external int d_ino;
+
+  @ffi.Array.multi([512])
+  external ffi.Array<ffi.Char> d_name;
+}
+
+final class DIR extends ffi.Struct {
+  external dirent my_dirent;
+
+  external ffi.Pointer<ffi.Void> _dir;
+}
+
+final class timespec extends ffi.Struct {
+  @ffi.Int64()
+  external int tv_sec;
+
+  @ffi.Int64()
+  external int tv_nsec;
+}
+
+final class Stat extends ffi.Struct {
+  @ffi.Int64()
+  external int st_dev;
+
+  @ffi.Int64()
+  external int st_ino;
+
+  @ffi.Int64()
+  external int st_mode;
+
+  @ffi.Int64()
+  external int st_nlink;
+
+  @ffi.Int64()
+  external int std_uid;
+
+  external timespec st_atim;
+
+  external timespec st_mtim;
+
+  external timespec st_ctim;
+
+  /// Only valid on macOS/iOS
+  external timespec st_btime;
+
+  /// Only valid on macOS/iOS
+  @ffi.Int64()
+  external int st_flags;
+}

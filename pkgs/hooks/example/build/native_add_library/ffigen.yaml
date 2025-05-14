@@ -18,3 +18,13 @@ comments:
   style: any
   length: full
 ffi-native:
+
+structs:
+  rename:
+    'my_(.*)': '$1'
+functions:
+  rename:
+    'my_(.*)': '$1'
+typedefs:
+  rename:
+    'my_(.*)': '$1'
