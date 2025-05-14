@@ -6,7 +6,7 @@
 - `NSSet` and `NSMutableSet` are now Dart `Set`s.
 - Add `.toNSNumber()` extension method to `int`, `double`, and `num`.
 - Add `DateTime.toNSDate()` and `NSDate.toDateTime()` extension methods.
-- Add `CFStringRef.toDartString()`.
+- Add `CFStringRef.toDartString()` and `CFStringRef.toNSString()`.
 - Add `toObjCObject` and `toDartObject` that automatically convert between
   supported Objective C and Dart types.
 - Added various interfaces, protocols, categories etc to the built ins, such as
