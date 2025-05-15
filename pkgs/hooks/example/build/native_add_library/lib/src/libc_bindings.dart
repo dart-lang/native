@@ -8,12 +8,55 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
+/// <fcntl.h>
 @ffi.Native<ffi.Int64 Function(ffi.Pointer<ffi.Char>, ffi.Int64, ffi.Int64)>(
     symbol: 'my_open')
 external int open(
   ffi.Pointer<ffi.Char> pathname,
   int flags,
   int mode,
+);
+
+@ffi.Native<ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>(
+    symbol: 'my_rename')
+external int rename(
+  ffi.Pointer<ffi.Char> old,
+  ffi.Pointer<ffi.Char> new$,
+);
+
+/// <unistd.h>
+@ffi.Native<ffi.Int64 Function(ffi.Int64)>(symbol: 'my_close')
+external int close(
+  int fd,
+);
+
+@ffi.Native<ffi.Int64 Function(ffi.Int64, ffi.Pointer<ffi.Char>, ffi.Int64)>()
+external int unlinkat(
+  int dirfd,
+  ffi.Pointer<ffi.Char> pathname,
+  int flags,
+);
+
+/// <errno.h>
+@ffi.Native<ffi.Void Function(ffi.Int64)>(symbol: 'my_seterrno')
+external void seterrno(
+  int err,
+);
+
+@ffi.Native<ffi.Int64 Function()>(symbol: 'my_errno')
+external int errno();
+
+/// <stdlib.h>
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>(
+    symbol: 'my_getenv')
+external ffi.Pointer<ffi.Char> getenv(
+  ffi.Pointer<ffi.Char> name,
+);
+
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>(
+    symbol: 'my_mkdtemp')
+external ffi.Pointer<ffi.Char> mkdtemp(
+  ffi.Pointer<ffi.Char> template,
 );
 
 @ffi.Native<ffi.Int64 Function(ffi.Pointer<DIR>)>(symbol: 'my_closedir')
@@ -33,6 +76,13 @@ external ffi.Pointer<dirent> readdir(
   ffi.Pointer<DIR> d,
 );
 
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<ffi.Char>, ffi.Int64)>(
+    symbol: 'my_mkdir')
+external int mkdir(
+  ffi.Pointer<ffi.Char> pathname,
+  int mode,
+);
+
 @ffi.Native<ffi.Int64 Function(ffi.Pointer<ffi.Char>, ffi.Pointer<Stat>)>(
     symbol: 'my_stat')
 external int stat(
@@ -40,15 +90,21 @@ external int stat(
   ffi.Pointer<Stat> buf,
 );
 
-@ffi.Native<ffi.Int64>()
-external final int my_UNDEFINED;
+@ffi.Native<ffi.Int64 Function(ffi.Pointer<ffi.Char>, ffi.Pointer<Stat>)>(
+    symbol: 'my_lstat')
+external int lstat(
+  ffi.Pointer<ffi.Char> path,
+  ffi.Pointer<Stat> buf,
+);
 
-@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_UF_HIDDEN')
-external int get_UF_HIDDEN();
+@ffi.Native<ffi.Int64 Function(ffi.Int64, ffi.Pointer<Stat>)>(
+    symbol: 'my_fstat')
+external int fstat(
+  int fd,
+  ffi.Pointer<Stat> buf,
+);
 
-@ffi.Native<ffi.Int64 Function()>(symbol: 'my_get_S_IFMT')
-external int get_S_IFMT();
-
+/// <dirent.h>
 final class dirent extends ffi.Struct {
   @ffi.Int64()
   external int d_ino;
@@ -63,6 +119,7 @@ final class DIR extends ffi.Struct {
   external ffi.Pointer<ffi.Void> _dir;
 }
 
+/// <sys/stat.h>
 final class timespec extends ffi.Struct {
   @ffi.Int64()
   external int tv_sec;

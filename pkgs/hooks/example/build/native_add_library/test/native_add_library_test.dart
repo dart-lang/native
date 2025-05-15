@@ -26,6 +26,10 @@ void main() {
   test(
     'invoke native function',
     () => using((arena) {
+      final fd = open('foobarbaz'.toNativeUtf8(allocator: arena).cast(), 0, 0);
+      print('fd: $fd');
+      print('errno: $errno');
+
       final s = arena<Stat>();
       final r = stat('/'.toNativeUtf8(allocator: arena).cast(), s);
       print(r);
