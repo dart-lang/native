@@ -203,6 +203,7 @@ class ObjCMethod extends AstNode {
   final String originalName;
   String name;
   String? dartMethodName;
+  late final String protocolMethodName;
   final ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
@@ -246,6 +247,8 @@ class ObjCMethod extends AstNode {
 
   // Must be called after all params are added to the method.
   void finalizeParams() {
+    protocolMethodName = name.replaceAll(':', '_');
+
     // Split the name at the ':'. The first chunk is the name of the method, and
     // the rest of the chunks are named parameters. Eg NSString's
     //   - compare:options:range:
@@ -261,14 +264,21 @@ class ObjCMethod extends AstNode {
     //  - The correspondence between the chunks and the params is non-trivial:
     //    - The ObjC name always ends with a ':' unless there are no ':' at all.
     //    - The first param is an ordinary param, not a named param.
-    //  - So take the first chunk as the name, ignore the last chunk, and map
-    //    the rest to each of the params after the first.
-    assert(chunks.length == params.length + 1);
-    assert(chunks.length == 1 || chunks.last.isEmpty);
-
-    name = chunks[0];
-    for (var i = 1; i < params.length; ++i) {
-      params[i].name = chunks[i];
+    final correctNumParams = chunks.length == params.length + 1;
+    final lastChunkIsEmpty = chunks.length == 1 || chunks.last.isEmpty;
+    if (correctNumParams && lastChunkIsEmpty) {
+      // Take the first chunk as the name, ignore the last chunk, and map the
+      // rest to each of the params after the first.
+      name = chunks[0];
+      for (var i = 1; i < params.length; ++i) {
+        params[i].name = chunks[i];
+      }
+    } else {
+      // There are a few methods that don't obey these rules, eg due to variadic
+      // parameters. Most of these are omitted from the bindings as they're not
+      // supported yet. But as a fallback, just replace all the ':' in the name
+      // with '_', like we do for protocol methods.
+      name = protocolMethodName;
     }
   }
 
@@ -299,9 +309,11 @@ class ObjCMethod extends AstNode {
     )..fillProtocolTrampoline();
   }
 
-  String getDartMethodName(UniqueNamer uniqueNamer,
-      {bool usePropertyNaming = true}) {
-    if (property != null && usePropertyNaming) {
+  String getDartProtocolMethodName(UniqueNamer uniqueNamer) =>
+      uniqueNamer.makeUnique(protocolMethodName);
+
+  String getDartMethodName(UniqueNamer uniqueNamer) {
+    if (property != null) {
       // A getter and a setter are allowed to have the same name, so we can't
       // just run the name through uniqueNamer. Instead they need to share
       // the dartName, which is run through uniqueNamer.
@@ -384,7 +396,13 @@ class ObjCMethod extends AstNode {
 
   String generateBindings(
       Writer w, ObjCInterface target, UniqueNamer methodNamer) {
-    dartMethodName ??= getDartMethodName(methodNamer);
+    if (dartMethodName == null) {
+      dartMethodName = getDartMethodName(methodNamer);
+      final paramNamer = UniqueNamer(parent: methodNamer);
+      for (final p in params) {
+        p.name = paramNamer.makeUnique(p.name);
+      }
+    }
     final methodName = dartMethodName!;
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();

@@ -23,7 +23,7 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
         NSInputStream stream, int size) =>
     Isolate.run(() {
       final buffer = calloc<Uint8>(size);
-      final readSize = stream.read_maxLength_(buffer, size);
+      final readSize = stream.read(buffer, maxLength: size);
       final data =
           Uint8List.fromList(buffer.asTypedList(readSize == -1 ? 0 : readSize));
       calloc.free(buffer);
@@ -248,8 +248,8 @@ void main() {
 
       test('default delegate', () async {
         expect(inputStream.delegate, inputStream);
-        inputStream.stream_handleEvent_(
-            inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
+        inputStream.stream(
+            inputStream, handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
       });
 
       test('non-self delegate', () async {
@@ -257,8 +257,8 @@ void main() {
 
         inputStream.delegate = NSStreamDelegate.implement(
             stream_handleEvent_: (stream, event) => events.add(event));
-        inputStream.stream_handleEvent_(
-            inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
+        inputStream.stream(
+            inputStream, handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
         expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
       });
 

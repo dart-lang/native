@@ -26,12 +26,12 @@ void main() {
 
     test('responds to selector', () {
       final sel1 = 'addObserver:forKeyPath:options:context:'.toSelector();
-      expect(NSObject().respondsToSelector_(sel1), isTrue);
-      expect(NSObject().respondsToSelector_('foo'.toSelector()), isFalse);
+      expect(NSObject().respondsToSelector(sel1), isTrue);
+      expect(NSObject().respondsToSelector('foo'.toSelector()), isFalse);
 
       final sel2 = 'canBeConvertedToEncoding:'.toSelector();
-      expect(NSString('').respondsToSelector_(sel2), isTrue);
-      expect(NSString('').respondsToSelector_('bar'.toSelector()), isFalse);
+      expect(NSString('').respondsToSelector(sel2), isTrue);
+      expect(NSString('').respondsToSelector('bar'.toSelector()), isFalse);
     });
   });
 }

@@ -21,18 +21,18 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
 
     final port = ReceivePort();
     final inputStream =
-        DartInputStreamAdapter.inputStreamWithPort_(port.sendPort.nativePort);
+        DartInputStreamAdapter.inputStreamWithPort(port.sendPort.nativePort);
     late final StreamSubscription<dynamic> dataSubscription;
 
     dataSubscription = listen((data) {
-      if (inputStream.addData_(data.toNSData()) > maxReadAheadSize) {
+      if (inputStream.addData(data.toNSData()) > maxReadAheadSize) {
         dataSubscription.pause();
       }
     }, onError: (Object e) {
       final d = NSMutableDictionary();
-      d.setObject_forKey_(e.toString().toNSString(), NSLocalizedDescriptionKey);
-      inputStream.setError_(NSError.errorWithDomain_code_userInfo_(
-          'DartError'.toNSString(), 0, d));
+      d[NSLocalizedDescriptionKey] = e.toString().toNSString();
+      inputStream.setError(NSError.errorWithDomain(
+          'DartError'.toNSString(), code: 0, userInfo: d));
       port.close();
     }, onDone: () {
       inputStream.setDone();
