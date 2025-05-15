@@ -34,8 +34,8 @@ void main() {
       print(s.ref.st_mode);
       print(s.ref.st_btime.tv_sec);
 
-      print('UF_HIDDEN: ${get_UF_HIDDEN()}');
-      print('S_IFMT: ${get_S_IFMT()}');
+      print('UF_HIDDEN: $UF_HIDDEN');
+      print('S_IFMT: $S_IFMT');
 
       final d = opendir('/'.toNativeUtf8(allocator: arena).cast());
       if (d == nullptr) {
