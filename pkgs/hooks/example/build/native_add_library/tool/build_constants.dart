@@ -18,7 +18,7 @@ const _cHeaderTemplate = '''
 const _dartTemplate = '''
 // ignore_for_file: non_constant_identifier_names
 
-import 'native_add_library.dart';
+import 'libc_bindings.dart';
 ''';
 
 void addConstantToCSource(String constant, StringBuffer b) {
@@ -65,7 +65,7 @@ void main() {
     addConstantToCSource(constant, cSourceBuffer);
     addConstantToDart(constant, dartBuffer);
   }
-  File('lib/constants.g.dart').writeAsStringSync(dartBuffer.toString());
+  File('lib/src/constants.g.dart').writeAsStringSync(dartBuffer.toString());
   File('src/constants.g.c').writeAsStringSync(cSourceBuffer.toString());
   File('src/constants.g.h').writeAsStringSync(cHeaderBuffer.toString());
 }

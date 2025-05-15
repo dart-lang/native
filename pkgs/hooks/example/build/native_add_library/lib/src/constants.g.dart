@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'native_add_library.dart';
+import 'libc_bindings.dart';
+
 int get S_IEXEC {
   final v = get_S_IEXEC();
   if (v == my_UNDEFINED) {
@@ -270,4 +271,3 @@ int get UF_HIDDEN {
     return v;
   }
 }
-
