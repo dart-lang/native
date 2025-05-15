@@ -18,7 +18,7 @@ const _cHeaderTemplate = '''
 const _dartTemplate = '''
 // ignore_for_file: non_constant_identifier_names
 
-import 'libc_bindings.dart';
+import 'constant_bindings.dart';
 ''';
 
 void addConstantToCSource(String constant, StringBuffer b) {
