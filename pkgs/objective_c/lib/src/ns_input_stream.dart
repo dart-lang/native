@@ -11,10 +11,10 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// the [Stream].
   ///
   /// > [!IMPORTANT]
-  /// > [NSInputStream.read_maxLength_] must be called from a different thread
-  /// > or [Isolate] than the one that calls [toNSInputStream]. Otherwise,
-  /// > [NSInputStream.read_maxLength_] will deadlock waiting for data to be
-  /// > added from the [Stream].
+  /// > [NSInputStream.read] must be called from a different thread or [Isolate]
+  /// > than the one that calls [toNSInputStream]. Otherwise,
+  /// > [NSInputStream.read] will deadlock waiting for data to be added from the
+  /// > [Stream].
   NSInputStream toNSInputStream() {
     // Eagerly add data until `maxReadAheadSize` is buffered.
     const maxReadAheadSize = 4096;
