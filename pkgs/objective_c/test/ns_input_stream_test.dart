@@ -248,8 +248,8 @@ void main() {
 
       test('default delegate', () async {
         expect(inputStream.delegate, inputStream);
-        inputStream.stream(
-            inputStream, handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
+        inputStream.stream(inputStream,
+            handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
       });
 
       test('non-self delegate', () async {
@@ -257,8 +257,8 @@ void main() {
 
         inputStream.delegate = NSStreamDelegate.implement(
             stream_handleEvent_: (stream, event) => events.add(event));
-        inputStream.stream(
-            inputStream, handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
+        inputStream.stream(inputStream,
+            handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
         expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
       });
 

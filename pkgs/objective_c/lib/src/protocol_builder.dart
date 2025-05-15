@@ -36,8 +36,11 @@ class ObjCProtocolBuilder {
       throw StateError('Protocol is already built');
     }
     _builder.implementMethod(
-        sel, withBlock: block.ref.pointer.cast(),
-        withTrampoline: trampoline, withSignature: signature,);
+      sel,
+      withBlock: block.ref.pointer.cast(),
+      withTrampoline: trampoline,
+      withSignature: signature,
+    );
   }
 
   /// Builds the object.

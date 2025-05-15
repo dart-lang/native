@@ -31,8 +31,8 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
     }, onError: (Object e) {
       final d = NSMutableDictionary();
       d[NSLocalizedDescriptionKey] = e.toString().toNSString();
-      inputStream.setError(NSError.errorWithDomain(
-          'DartError'.toNSString(), code: 0, userInfo: d));
+      inputStream.setError(NSError.errorWithDomain('DartError'.toNSString(),
+          code: 0, userInfo: d));
       port.close();
     }, onDone: () {
       inputStream.setDone();
