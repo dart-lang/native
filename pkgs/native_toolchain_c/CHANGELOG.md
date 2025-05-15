@@ -1,4 +1,4 @@
-## 0.16.1-wip
+## 0.16.1
 
 - Firebase Studio NixOS support (default install locations for native
   toolchains).
