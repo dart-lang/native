@@ -113,18 +113,22 @@ class NativeAssetsBuildRunner {
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
   }) async {
+    final planResult = await _makePlan(hook: Hook.build, buildResult: null);
+    if (planResult.isFailure) {
+      return planResult.asFailure;
+    }
+    final (buildPlan, packageGraph) = planResult.success;
+    if (buildPlan.isEmpty) {
+      // Return eagerly if there are no build hooks at all.
+      return Success(HookResult());
+    }
+
     final loadedUserDefines = await _loadedUserDefines;
     final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
     if (hookResultUserDefines.isFailure) {
       return hookResultUserDefines;
     }
     var hookResult = hookResultUserDefines.success;
-
-    final planResult = await _makePlan(hook: Hook.build, buildResult: null);
-    if (planResult.isFailure) {
-      return planResult.asFailure;
-    }
-    final (buildPlan, packageGraph) = planResult.success;
 
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};

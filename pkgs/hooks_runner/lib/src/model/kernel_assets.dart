@@ -14,7 +14,8 @@
 /// Dart SDK.
 library;
 
-import '../utils/yaml.dart';
+import 'dart:convert';
+
 import 'target.dart';
 
 class KernelAssets {
@@ -40,7 +41,7 @@ class KernelAssets {
       },
     };
 
-    return yamlEncode(yamlContents);
+    return const JsonEncoder.withIndent('  ').convert(yamlContents);
   }
 }
 
