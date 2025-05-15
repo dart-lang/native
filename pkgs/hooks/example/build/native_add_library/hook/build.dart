@@ -11,7 +11,7 @@ void main(List<String> args) async {
     final packageName = input.packageName;
     final cbuilder = CBuilder.library(
       name: packageName,
-      assetName: '$packageName.dart',
+      assetName: 'src/libc_bindings.dart',
       sources: ['src/$packageName.c', 'src/constants.g.c'],
       flags: ['-Weverything'],
     );
