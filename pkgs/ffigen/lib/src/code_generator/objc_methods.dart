@@ -201,7 +201,7 @@ class ObjCMethod extends AstNode {
   final ObjCBuiltInFunctions builtInFunctions;
   final String? dartDoc;
   final String originalName;
-  final String name;
+  String name;
   String? dartMethodName;
   final ObjCProperty? property;
   Type returnType;
@@ -244,6 +244,34 @@ class ObjCMethod extends AstNode {
   })  : params = params_ ?? [],
         selObject = builtInFunctions.getSelObject(originalName);
 
+  // Must be called after all params are added to the method.
+  void finalizeParams() {
+    // Split the name at the ':'. The first chunk is the name of the method, and
+    // the rest of the chunks are named parameters. Eg NSString's
+    //   - compare:options:range:
+    // method becomes
+    //   NSComparisonResult compare(NSString string,
+    //       {required NSStringCompareOptions options, required NSRange range})
+    final chunks = name.split(':');
+
+    // Details:
+    //  - The first chunk is always the new Dart method name.
+    //  - The rest of the chunks correspond to the params, so there's always
+    //    one more chunk than the number of params.
+    //  - The correspondence between the chunks and the params is non-trivial:
+    //    - The ObjC name always ends with a ':' unless there are no ':' at all.
+    //    - The first param is an ordinary param, not a named param.
+    //  - So take the first chunk as the name, ignore the last chunk, and map
+    //    the rest to each of the params after the first.
+    assert(chunks.length == params.length + 1);
+    assert(chunks.length == 1 || chunks.last.isEmpty);
+
+    name = chunks[0];
+    for (var i = 1; i < params.length; ++i) {
+      params[i].name = chunks[i];
+    }
+  }
+
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
       kind == ObjCMethodKind.propertySetter;
@@ -282,12 +310,8 @@ class ObjCMethod extends AstNode {
       }
       return property!.dartName!;
     }
-    // Objective C methods can look like:
-    // foo
-    // foo:
-    // foo:someArgName:
-    // So replace all ':' with '_'.
-    return uniqueNamer.makeUnique(name.replaceAll(':', '_'));
+
+    return uniqueNamer.makeUnique(name);
   }
 
   bool sameAs(ObjCMethod other) {
@@ -345,6 +369,19 @@ class ObjCMethod extends AstNode {
     return returnType.getDartType(w);
   }
 
+  static String _paramToStr(Writer w, Parameter p) =>
+      '${p.isCovariant ? 'covariant ' : ''}${p.type.getDartType(w)} ${p.name}';
+
+  static String _paramToNamed(Writer w, Parameter p) =>
+      '${p.isNullable ? '' : 'required '}${_paramToStr(w, p)}';
+
+  static String _joinParamStr(Writer w, List<Parameter> params) {
+    if (params.isEmpty) return '';
+    if (params.length == 1) return _paramToStr(w, params.first);
+    final named = params.sublist(1).map((p) => _paramToNamed(w, p)).join(',');
+    return '${_paramToStr(w, params.first)}, {$named}';
+  }
+
   String generateBindings(
       Writer w, ObjCInterface target, UniqueNamer methodNamer) {
     dartMethodName ??= getDartMethodName(methodNamer);
@@ -354,11 +391,7 @@ class ObjCMethod extends AstNode {
 
     final targetType = target.getDartType(w);
     final returnTypeStr = _getConvertedReturnType(w, targetType);
-    final paramStr = <String>[
-      for (final p in params)
-        '${p.isCovariant ? 'covariant ' : ''}'
-            '${p.type.getDartType(w)} ${p.name}',
-    ].join(', ');
+    final paramStr = _joinParamStr(w, params);
 
     // The method declaration.
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
