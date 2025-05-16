@@ -14,7 +14,7 @@
 class NSString {
   factory NSString(String str) {
     final cstr = str.toNativeUtf16();
-    final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);
+    final nsstr = stringWithCharacters(cstr.cast(), length: str.length);
     pkg_ffi.calloc.free(cstr);
     return nsstr;
   }
@@ -35,12 +35,12 @@ class NSArray with Iterable<objc.ObjCObjectBase> {
   int get length => count;
 
   @override
-  objc.ObjCObjectBase elementAt(int index) => objectAtIndex_(index);
+  objc.ObjCObjectBase elementAt(int index) => objectAtIndex(index);
 
   @override
   Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
 
-  objc.ObjCObjectBase operator [](int index) => objectAtIndex_(index);
+  objc.ObjCObjectBase operator [](int index) => objectAtIndex(index);
 }
 
 class NSMutableArray with ListBase<objc.ObjCObjectBase> {
@@ -49,14 +49,14 @@ class NSMutableArray with ListBase<objc.ObjCObjectBase> {
   ///
   /// The [length] must be a non-negative integer.
   static NSMutableArray filled(int length, objc.ObjCObjectBase fill) {
-    final a = arrayWithCapacity_(length);
+    final a = arrayWithCapacity(length);
     for (var i = 0; i < length; ++i) a.add(fill);
     return a;
   }
 
   /// Creates a [NSMutableArray] from [elements].
   static NSMutableArray of(Iterable<objc.ObjCObjectBase> elements) =>
-      arrayWithCapacity_(elements.length)..addAll(elements);
+      arrayWithCapacity(elements.length)..addAll(elements);
 
   @override
   set length(int newLength) {
@@ -69,14 +69,14 @@ class NSMutableArray with ListBase<objc.ObjCObjectBase> {
   Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
 
   @override
-  objc.ObjCObjectBase operator [](int index) => objectAtIndex_(index);
+  objc.ObjCObjectBase operator [](int index) => objectAtIndex(index);
 
   @override
   void operator []=(int index, objc.ObjCObjectBase value) =>
-      replaceObjectAtIndex_withObject_(index, value);
+      replaceObjectAtIndex(index, withObject: value);
 
   @override
-  void add(objc.ObjCObjectBase value) => addObject_(value);
+  void add(objc.ObjCObjectBase value) => addObject(value);
 }
 
 class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
@@ -128,7 +128,7 @@ class NSDictionary with MapBase<NSCopying, objc.ObjCObjectBase> {
 
   @override
   objc.ObjCObjectBase? operator [](Object? key) =>
-      key is NSCopying ? objectForKey_(key) : null;
+      key is NSCopying ? objectForKey(key) : null;
 
   @override
   Iterable<NSCopying> get keys => _NSDictionaryKeyIterable(this);
@@ -154,12 +154,12 @@ class NSDictionary with MapBase<NSCopying, objc.ObjCObjectBase> {
 class NSMutableDictionary {
   /// Creates a [NSMutableDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
-      NSMutableDictionary.dictionaryWithCapacity_(other.length)..addAll(other);
+      NSMutableDictionary.dictionaryWithCapacity(other.length)..addAll(other);
 
   /// Creates a [NSMutableDictionary] from [entries].
   static NSMutableDictionary fromEntries(
           Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries) =>
-      NSMutableDictionary.dictionaryWithCapacity_(entries.length)
+      NSMutableDictionary.dictionaryWithCapacity(entries.length)
         ..addEntries(entries);
 
   @override
@@ -169,13 +169,13 @@ class NSMutableDictionary {
   objc.ObjCObjectBase? remove(Object? key) {
     if (key is! NSCopying) return null;
     final old = this[key];
-    removeObjectForKey_(key);
+    removeObjectForKey(key);
     return old;
   }
 
   @override
   void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
-      setObject_forKey_(value, NSCopying.castFrom(key));
+      setObject(value, forKey: NSCopying.castFrom(key));
 }
 
 class _NSDictionaryKeyIterable with Iterable<NSCopying> {
@@ -242,11 +242,11 @@ class NSSet with SetBase<objc.ObjCObjectBase> {
 
   @override
   bool contains(Object? element) =>
-      element is objc.ObjCObjectBase ? containsObject_(element) : false;
+      element is objc.ObjCObjectBase ? containsObject(element) : false;
 
   @override
   objc.ObjCObjectBase? lookup(Object? element) =>
-      element is objc.ObjCObjectBase ? member_(element) : null;
+      element is objc.ObjCObjectBase ? member(element) : null;
 
   @override
   Iterator<objc.ObjCObjectBase> get iterator => objectEnumerator();
@@ -268,12 +268,12 @@ class NSSet with SetBase<objc.ObjCObjectBase> {
 class NSMutableSet {
   /// Creates a [NSMutableSet] from [elements].
   static NSMutableSet of(Iterable<objc.ObjCObjectBase> elements) =>
-      setWithCapacity_(elements.length)..addAll(elements);
+      setWithCapacity(elements.length)..addAll(elements);
 
   @override
   bool add(objc.ObjCObjectBase value) {
     final alreadyContains = contains(value);
-    addObject_(value);
+    addObject(value);
     return !alreadyContains;
   }
 
@@ -281,7 +281,7 @@ class NSMutableSet {
   bool remove(Object? value) {
     if (value is! objc.ObjCObjectBase) return false;
     final alreadyContains = contains(value);
-    removeObject_(value);
+    removeObject(value);
     return alreadyContains;
   }
 

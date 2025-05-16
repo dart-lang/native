@@ -63,7 +63,7 @@ void main() {
       // NSDictionary.of actually returns a NSMutableDictionary, so our
       // immutability tests wouldn't actually work. So convert it to a real
       // NSDictionary using an ObjC constructor.
-      final dict = NSDictionary.dictionaryWithDictionary_(NSDictionary.of({
+      final dict = NSDictionary.dictionaryWithDictionary(NSDictionary.of({
         obj1: obj2,
         obj3: obj4,
         obj5: obj6,

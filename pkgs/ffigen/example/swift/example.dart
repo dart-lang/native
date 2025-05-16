@@ -14,7 +14,7 @@ void main() {
 
   // TODO(https://github.com/dart-lang/ffigen/issues/443): Add a test for this.
   DynamicLibrary.open('libswiftapi.dylib');
-  final object = SwiftClass.new1();
+  final object = SwiftClass();
   print(object.sayHello().toDartString());
   print('field = ${object.someField}');
   object.someField = 456;

@@ -259,4 +259,6 @@ class Parameter extends AstNode {
     super.visitChildren(visitor);
     visitor.visit(type);
   }
+
+  bool get isNullable => type.typealiasType is ObjCNullable;
 }

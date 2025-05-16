@@ -219,7 +219,7 @@ class SwiftClass extends objc.NSObject {
 
   /// init
   SwiftClass init() {
-    objc.checkOsVersion('SwiftClass.init',
+    objc.checkOsVersionInternal('SwiftClass.init',
         iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
     final _ret =
         _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
@@ -233,7 +233,7 @@ class SwiftClass extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static SwiftClass allocWithZone_(ffi.Pointer<objc.NSZone> zone) {
+  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
     final _ret =
         _objc_msgSend_1cwp428(_class_SwiftClass, _sel_allocWithZone_, zone);
     return SwiftClass.castFromPointer(_ret, retain: false, release: true);

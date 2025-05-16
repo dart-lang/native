@@ -49,7 +49,7 @@ void main() {
     test('Renamed method', () {
       final renamed = Renamed();
 
-      expect(renamed.fooBarBaz(123, 456), 579);
+      expect(renamed.fooBarBaz(123, y: 456), 579);
     });
 
     test('Renamed property', () {

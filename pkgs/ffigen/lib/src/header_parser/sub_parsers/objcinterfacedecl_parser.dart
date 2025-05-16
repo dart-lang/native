@@ -159,7 +159,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     returnType: fieldType,
     family: null,
     apiAvailability: apiAvailability,
-  );
+  )..finalizeParams();
 
   ObjCMethod? setter;
   if (!isReadOnly) {
@@ -181,6 +181,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     );
     setter.params
         .add(Parameter(name: 'value', type: fieldType, objCConsumed: false));
+    setter.finalizeParams();
   }
   return (getter, setter);
 }
@@ -244,6 +245,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
       default:
     }
   });
+  method.finalizeParams();
   return hasError ? null : method;
 }
 

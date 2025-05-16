@@ -41,7 +41,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(counter);
+      final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
       final pool = lib.objc_autoreleasePoolPush();
@@ -65,7 +65,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(counter);
+      final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
       final pool = lib.objc_autoreleasePoolPush();
@@ -132,7 +132,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(counter);
+      final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncReturnsRetainedArg(obj);
@@ -156,7 +156,7 @@ void main() {
         'Objects passed to static functions that consume them '
         'have correct ref counts', () {
       final counter = calloc<Int32>();
-      StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter_(counter);
+      StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter(counter);
       final obj1raw = obj1.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);

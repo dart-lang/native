@@ -56,7 +56,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSData.dataWithBytes_length_(bytes.cast(), 3);
+          final data = NSData.dataWithBytes(bytes.cast(), length: 3);
           expect(data.toList(), [1, 2, 3]);
         });
       });
@@ -70,7 +70,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSData.dataWithBytes_length_(bytes.cast(), 3);
+          final data = NSData.dataWithBytes(bytes.cast(), length: 3);
           expect(data[0], 1);
           expect(data[1], 2);
           expect(data[2], 3);
@@ -84,7 +84,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSData.dataWithBytes_length_(bytes.cast(), 3);
+          final data = NSData.dataWithBytes(bytes.cast(), length: 3);
           expect(() => data[3], throwsRangeError);
           expect(() => data[-1], throwsRangeError);
         });

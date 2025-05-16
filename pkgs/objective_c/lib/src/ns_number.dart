@@ -5,19 +5,19 @@
 import 'objective_c_bindings_generated.dart';
 
 extension IntToNSNumber on int {
-  NSNumber toNSNumber() => NSNumberCreation.numberWithLongLong_(this);
+  NSNumber toNSNumber() => NSNumberCreation.numberWithLongLong(this);
 }
 
 extension DoubleToNSNumber on double {
-  NSNumber toNSNumber() => NSNumberCreation.numberWithDouble_(this);
+  NSNumber toNSNumber() => NSNumberCreation.numberWithDouble(this);
 }
 
 extension NumToNSNumber on num {
   NSNumber toNSNumber() {
     final value = this;
     return switch (value) {
-      int() => NSNumberCreation.numberWithLongLong_(value),
-      double() => NSNumberCreation.numberWithDouble_(value),
+      int() => NSNumberCreation.numberWithLongLong(value),
+      double() => NSNumberCreation.numberWithDouble(value),
     };
   }
 }
