@@ -69,8 +69,7 @@ void main() {
 
       var parent = BadOverrideParent();
       expect(parent.covariantArg(square).toDartString(), 'Polygon: Square');
-      expect(
-          parent.covariantArg(triangle).toDartString(), 'Polygon: Triangle');
+      expect(parent.covariantArg(triangle).toDartString(), 'Polygon: Triangle');
 
       parent = BadOverrideChild();
       expect(parent.covariantArg(square).toDartString(), 'Rectangle: Square');

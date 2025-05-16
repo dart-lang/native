@@ -78,5 +78,22 @@ void main() {
       expect(
           NullableInterface.returnNullableAlias(false)?.toDartString(), "Hi");
     });
+
+    test('Multiple nullable args', () {
+      final x = NSObject();
+      final y = NSObject();
+      final z = NSObject();
+
+      expect(NullableInterface.multipleNullableArgs(x, y: y, z: z), x);
+      expect(NullableInterface.multipleNullableArgs(null, y: y, z: z), y);
+      expect(NullableInterface.multipleNullableArgs(null, y: null, z: z), z);
+      expect(
+          NullableInterface.multipleNullableArgs(null, y: null, z: null), null);
+
+      // Nullable named args are optional.
+      expect(NullableInterface.multipleNullableArgs(null, z: z), z);
+      expect(NullableInterface.multipleNullableArgs(null, y: y), y);
+      expect(NullableInterface.multipleNullableArgs(null), null);
+    });
   });
 }

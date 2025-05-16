@@ -482,8 +482,8 @@ void main() {
       final dtorOnMainThreadCounter = calloc<Int32>();
       final objects = <ArcDtorTestObject>[];
       for (var i = 0; i < numTestObjects; ++i) {
-        objects.add(ArcDtorTestObject.alloc().initWithCounters(
-            dtorCounter, onMainThread: dtorOnMainThreadCounter));
+        objects.add(ArcDtorTestObject.alloc().initWithCounters(dtorCounter,
+            onMainThread: dtorOnMainThreadCounter));
       }
       objects.clear();
 
