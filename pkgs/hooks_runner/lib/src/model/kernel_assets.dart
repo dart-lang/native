@@ -31,7 +31,7 @@ class KernelAssets {
       assetsPerTarget[asset.target] = assets;
     }
 
-    final yamlContents = {
+    final jsonContents = {
       'format-version': [1, 0, 0],
       'native-assets': {
         for (final entry in assetsPerTarget.entries)
@@ -41,7 +41,7 @@ class KernelAssets {
       },
     };
 
-    return const JsonEncoder.withIndent('  ').convert(yamlContents);
+    return const JsonEncoder.withIndent('  ').convert(jsonContents);
   }
 }
 
