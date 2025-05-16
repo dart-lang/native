@@ -6,8 +6,8 @@
   they're written in ObjC. For example, the `NSData` method
   `dataWithBytes:length:` used to be gnerated as
   `dataWithBytes_length_(Pointer<Void> bytes, int length)`, but is now generated
-  as `dataWithBytes(ffi.Pointer<ffi.Void> bytes, {required int length})`.
-  Protocol methods are not affected.
+  as `dataWithBytes(Pointer<Void> bytes, {required int length})`. Protocol
+  methods are not affected.
 - Make it easier for a downstream clone to change behavior of certain utils.
 - Fix [a bug](https://github.com/dart-lang/native/issues/1268) where types could
   occasionally show up as a generic ObjCObjectBase, when they were supposed to
