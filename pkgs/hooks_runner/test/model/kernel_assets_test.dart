@@ -52,37 +52,54 @@ void main() {
     ),
   ]);
 
-  final assetsDartEncoding = '''format-version:
-  - 1
-  - 0
-  - 0
-native-assets:
-  android_x64:
-    foo:
-      - absolute
-      - ${fooUri.toFilePath()}
-    foo2:
-      - relative
-      - ${foo2Uri.toFilePath()}
-    foo3:
-      - system
-      - ${foo3Uri.toFilePath()}
-    foo4:
-      - executable
-    foo5:
-      - process
-  linux_arm64:
-    bar:
-      - absolute
-      - ${barUri.toFilePath()}
-  windows_x64:
-    bla:
-      - absolute
-      - ${blaUri.toFilePath()}''';
+  final assetsDartEncoding = '''{
+  "format-version": [
+    1,
+    0,
+    0
+  ],
+  "native-assets": {
+    "android_x64": {
+      "foo": [
+        "absolute",
+        "${fooUri.toFilePath()}"
+      ],
+      "foo2": [
+        "relative",
+        "${foo2Uri.toFilePath()}"
+      ],
+      "foo3": [
+        "system",
+        "${foo3Uri.toFilePath()}"
+      ],
+      "foo4": [
+        "executable"
+      ],
+      "foo5": [
+        "process"
+      ]
+    },
+    "linux_arm64": {
+      "bar": [
+        "absolute",
+        "${barUri.toFilePath()}"
+      ]
+    },
+    "windows_x64": {
+      "bla": [
+        "absolute",
+        "${blaUri.toFilePath()}"
+      ]
+    }
+  }
+}''';
 
   test('asset yaml', () async {
     final fileContents = assets.toNativeAssetsFile();
-    expect(fileContents, assetsDartEncoding);
+    expect(
+      fileContents.replaceAll(r'\ ', ' ').replaceAll(r'\\', r'\'),
+      assetsDartEncoding,
+    );
   });
 
   test('path equality', () {

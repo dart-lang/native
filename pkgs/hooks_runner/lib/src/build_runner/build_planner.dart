@@ -116,6 +116,10 @@ class NativeAssetsBuildPlanner {
   Future<Result<BuildPlan, HooksRunnerFailure>> makeBuildHookPlan() async {
     if (_buildHookPlan != null) return Success(_buildHookPlan!);
     final packagesWithNativeAssets = await packagesWithHook(Hook.build);
+    if (packagesWithNativeAssets.isEmpty) {
+      // Avoid calculating the package graph if there are no hooks.
+      return const Success([]);
+    }
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package,
     };
