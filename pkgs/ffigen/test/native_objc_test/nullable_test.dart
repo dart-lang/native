@@ -43,40 +43,40 @@ void main() {
 
     group('Nullable return', () {
       test('Not null', () {
-        expect(NullableInterface.returnNil_(false), isA<NSObject>());
+        expect(NullableInterface.returnNil(false), isA<NSObject>());
       });
       test('Null', () {
-        expect(NullableInterface.returnNil_(true), null);
+        expect(NullableInterface.returnNil(true), null);
       });
     });
 
     group('Nullable arguments', () {
       test('Not null', () {
-        expect(NullableInterface.isNullWithNullableNSObjectArg_(obj), false);
+        expect(NullableInterface.isNullWithNullableNSObjectArg(obj), false);
       });
       test('Null', () {
-        expect(NullableInterface.isNullWithNullableNSObjectArg_(null), true);
+        expect(NullableInterface.isNullWithNullableNSObjectArg(null), true);
       });
     });
 
     group('Not-nullable arguments', () {
       test('Not null', () {
         expect(
-            NullableInterface.isNullWithNotNullableNSObjectPtrArg_(obj), false);
+            NullableInterface.isNullWithNotNullableNSObjectPtrArg(obj), false);
       });
 
       test('Explicit non null', () {
         expect(
-            NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg_(obj),
+            NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg(obj),
             false);
       });
     });
 
     test('Nullable typealias', () {
       // Regression test for https://github.com/dart-lang/native/issues/1701
-      expect(NullableInterface.returnNullableAlias_(true), isNull);
+      expect(NullableInterface.returnNullableAlias(true), isNull);
       expect(
-          NullableInterface.returnNullableAlias_(false)?.toDartString(), "Hi");
+          NullableInterface.returnNullableAlias(false)?.toDartString(), "Hi");
     });
   });
 }

@@ -1,4 +1,4 @@
-## 19.0.0-wip
+## 19.0.0
 
 - Use package:objective_c 8.0.0.
 - __Breaking change__: Major change to the way ObjC methods are code-genned.
