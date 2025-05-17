@@ -17,7 +17,7 @@ environment:
   sdk: '>=3.7.0 <4.0.0'
 
 dependencies:
-  hooks: ^0.19.0
+  hooks: ^0.19.1
 
 dev_dependencies:
   custom_lint: ^0.7.5
