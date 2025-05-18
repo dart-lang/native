@@ -34,17 +34,17 @@ void main() {
 
     group('Base', () {
       test('Nullable arguments', () {
-        expect(nullableBase.nullableArg_(obj), false);
-        expect(nullableBase.nullableArg_(null), true);
+        expect(nullableBase.nullableArg(obj), false);
+        expect(nullableBase.nullableArg(null), true);
       });
 
       test('Non-null arguments', () {
-        expect(nullableBase.nonNullArg_(obj), false);
+        expect(nullableBase.nonNullArg(obj), false);
       });
 
       test('Nullable return', () {
-        expect(nullableBase.nullableReturn_(false), isA<NSObject>());
-        expect(nullableBase.nullableReturn_(true), null);
+        expect(nullableBase.nullableReturn(false), isA<NSObject>());
+        expect(nullableBase.nullableReturn(true), null);
       });
 
       test('Non-null return', () {
@@ -54,16 +54,16 @@ void main() {
 
     group('Child', () {
       test('Nullable arguments, changed to non-null', () {
-        expect(nullableChild.nullableArg_(obj), false);
+        expect(nullableChild.nullableArg(obj), false);
       });
 
       test('Non-null arguments, changed to nullable', () {
-        expect(nullableChild.nonNullArg_(obj), false);
-        expect(nullableChild.nonNullArg_(null), true);
+        expect(nullableChild.nonNullArg(obj), false);
+        expect(nullableChild.nonNullArg(null), true);
       });
 
       test('Nullable return, changed to non-null', () {
-        expect(nullableChild.nullableReturn_(false), isA<NSObject>());
+        expect(nullableChild.nullableReturn(false), isA<NSObject>());
       });
 
       test('Non-null return, changed to nullable', () {

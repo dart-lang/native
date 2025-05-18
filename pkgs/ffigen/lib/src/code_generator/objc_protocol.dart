@@ -112,8 +112,7 @@ interface class $name extends $protocolBase $impls{
 
       var anyListeners = false;
       for (final method in methods) {
-        final methodName =
-            method.getDartMethodName(methodNamer, usePropertyNaming: false);
+        final methodName = method.getDartProtocolMethodName(methodNamer);
         final fieldName = methodName;
         final argName = methodName;
         final block = method.protocolBlock!;

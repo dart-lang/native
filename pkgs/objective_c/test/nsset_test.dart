@@ -58,7 +58,7 @@ void main() {
       // NSSet.of actually returns a NSMutableSet, so our immutability tests
       // wouldn't actually work. So convert it to a real NSSet using an ObjC
       // constructor.
-      final s = NSSet.setWithSet_(NSSet.of({obj1, obj2, obj3, obj4, obj5}));
+      final s = NSSet.setWithSet(NSSet.of({obj1, obj2, obj3, obj4, obj5}));
 
       expect(() => s.add(NSObject()), throwsUnsupportedError);
       expect(() => s.remove(obj3), throwsUnsupportedError);
