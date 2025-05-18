@@ -32,13 +32,13 @@ public void onClick() {
 This produces the following Dart equivalent code that uses JNI bindings:
 ```dart
 void onClick() {
-  final ImageCapture_OutputFileOptions outputFileOptions =
-      ImageCapture_OutputFileOptions_Builder(File("...".toJString())).build();
+  final ImageCapture$OutputFileOptions outputFileOptions =
+      ImageCapture$OutputFileOptions$Builder(File("...".toJString())).build();
 
   imageCapture.takePicture$1(outputFileOptions, cameraExecutor,
-      ImageCapture_OnImageSavedCallback.implement(
-          $ImageCapture_OnImageSavedCallback(
-        onImageSaved: (ImageCapture_OutputFileResults outputFileResults) {
+      ImageCapture$OnImageSavedCallback.implement(
+          $ImageCapture$OnImageSavedCallback(
+        onImageSaved: (ImageCapture$OutputFileResults outputFileResults) {
           // insert your code here.
         },
         onError: (ImageCaptureException error) {
