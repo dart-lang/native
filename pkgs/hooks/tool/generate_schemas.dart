@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-import '../test/schema/helpers.dart';
+import '../test/json_schema/helpers.dart';
 import 'normalize.dart';
 
 void main(List<String> args) {

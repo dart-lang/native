@@ -35,7 +35,7 @@ dev_dependencies:
   data_assets: ^0.19.0 # Used for running tests with real asset types.
   file_testing: ^3.0.2
   glob: any
-  json_schema: ^5.2.0
+  json_schema: ^5.2.0 # May only be used in tool/ and test/json_schema/.
   json_syntax_generator:
     path: ../json_syntax_generator/
   path: ^1.9.1

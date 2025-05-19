@@ -9,7 +9,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:json_syntax_generator/json_syntax_generator.dart';
 
-import '../test/schema/helpers.dart';
+import '../test/json_schema/helpers.dart';
 
 const generateFor = ['hooks', 'code_assets', 'data_assets'];
 
