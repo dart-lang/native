@@ -11,7 +11,8 @@ import '../validation.dart';
 
 /// Builds assets in a `hook/build.dart`.
 ///
-/// Meant to be used in build hooks (`hook/build.dart`).
+/// If a build hook is defined (`hook/build.dart`) then `build` must be called
+/// by that hook, even if the [builder] function has no work to do.
 ///
 /// Can build native assets which are not already available, or expose existing
 /// files. Each individual asset is assigned a unique asset ID.
