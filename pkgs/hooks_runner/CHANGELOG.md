@@ -1,4 +1,4 @@
-## 0.20.0-wip
+## 0.20.0
 
 - **Breaking change** Refactored error handling to use a `Result` type for more
   explicit success/failure states.
