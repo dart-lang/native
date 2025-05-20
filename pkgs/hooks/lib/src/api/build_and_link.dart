@@ -11,7 +11,9 @@ import '../validation.dart';
 
 /// Builds assets in a `hook/build.dart`.
 ///
-/// Meant to be used in build hooks (`hook/build.dart`).
+/// If a build hook is defined (`hook/build.dart`) then `build` must be called
+/// by that hook, to write the [BuildInput.outputFile], even if the [builder]
+/// function has no work to do.
 ///
 /// Can build native assets which are not already available, or expose existing
 /// files. Each individual asset is assigned a unique asset ID.
@@ -134,7 +136,9 @@ Future<void> build(
 
 /// Links assets in a `hook/link.dart`.
 ///
-/// Meant to be used in link hooks (`hook/link.dart`).
+/// If a link hook is defined (`hook/link.dart`) then `link` must be called
+/// by that hook, to write the [BuildInput.outputFile], even if the [linker]
+/// function has no work to do.
 ///
 /// Can link native assets which are not already available, or expose existing
 /// files. Each individual asset is assigned a unique asset ID.
