@@ -18,7 +18,7 @@ void main() {
       decl.id: ParsedSymbol(json: Json(null), declaration: decl)
   };
   final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
-  group('Valid json', () {
+  group('Function Valid json', () {
     void expectEqualParams(
       List<Parameter> actualParams,
       List<Parameter> expectedParams,

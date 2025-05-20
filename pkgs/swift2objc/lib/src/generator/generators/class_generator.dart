@@ -144,27 +144,47 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   if (property.isStatic) {
     header.write('static ');
   }
-
-  header.write('public var ${property.name}: ${property.type.swiftType} {');
-
-  final getterLines = [
-    'get ${generateAnnotations(property)}{',
-    ...(property.getter?.statements.indent() ?? <String>[]),
-    '}'
+  final prefixes = [
+    if (property.unowned) 'unowned',
+    if (property.weak) 'weak',
   ];
 
-  final setterLines = [
-    'set {',
-    ...(property.setter?.statements.indent() ?? <String>[]),
-    '}'
-  ];
+  var prefix = prefixes.isEmpty ? '' : '${prefixes.join(' ')} ';
+  var propSwiftType = property.type.swiftType;
 
-  return [
-    header.toString(),
-    ...getterLines.indent(),
-    if (property.hasSetter) ...setterLines.indent(),
-    '}\n',
-  ];
+  if (property.lazy) {
+    header
+        .write('public ${prefix}lazy var ${property.name}: $propSwiftType = {');
+    final getterLines = [
+      ...(property.getter?.statements.indent() ?? <String>[]),
+    ];
+    return [
+      header.toString(),
+      ...getterLines.indent(),
+      '}();\n',
+    ];
+  } else {
+    header.write('public ${prefix}var ${property.name}: $propSwiftType {');
+
+    final getterLines = [
+      'get ${generateAnnotations(property)}{',
+      ...(property.getter?.statements.indent() ?? <String>[]),
+      '}'
+    ];
+
+    final setterLines = [
+      'set {',
+      ...(property.setter?.statements.indent() ?? <String>[]),
+      '}'
+    ];
+
+    return [
+      header.toString(),
+      ...getterLines.indent(),
+      if (property.hasSetter) ...setterLines.indent(),
+      '}\n',
+    ];
+  }
 }
 
 List<String> _generateNestedDeclarations(ClassDeclaration declaration) => [

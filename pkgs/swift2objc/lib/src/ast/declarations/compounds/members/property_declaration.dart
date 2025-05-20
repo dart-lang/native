@@ -38,21 +38,30 @@ class PropertyDeclaration extends AstNode
   PropertyStatements? getter;
   PropertyStatements? setter;
 
+  bool unowned;
+
+  bool weak;
+
+  bool lazy;
+
   bool isStatic;
 
-  PropertyDeclaration({
-    required this.id,
-    required this.name,
-    required this.type,
-    this.hasSetter = false,
-    this.isConstant = false,
-    this.hasObjCAnnotation = false,
-    this.getter,
-    this.setter,
-    this.isStatic = false,
-    this.throws = false,
-    this.async = false,
-  })  : assert(!(isConstant && hasSetter)),
+  PropertyDeclaration(
+      {required this.id,
+      required this.name,
+      required this.type,
+      this.hasSetter = false,
+      this.isConstant = false,
+      this.hasObjCAnnotation = false,
+      this.getter,
+      this.setter,
+      this.isStatic = false,
+      this.throws = false,
+      this.async = false,
+      this.unowned = false,
+      this.weak = false,
+      this.lazy = false})
+      : assert(!(isConstant && hasSetter)),
         assert(!(hasSetter && throws));
 
   @override
