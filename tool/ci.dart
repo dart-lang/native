@@ -113,7 +113,7 @@ void main(List<String> arguments) async {
   if (argResults['coverage'] as bool) {
     final testUris = getTestUris(packages);
     final scopeOutputs = [
-      for (final testUri in testUris) testUri.split('/')[1],
+      for (final testUri in testUris) Uri.directory(testUri).pathSegments[1],
     ];
     if (argResults['pub'] as bool) {
       _runProcess('dart', ['pub', 'global', 'activate', 'coverage']);
@@ -130,23 +130,6 @@ void main(List<String> arguments) async {
       ...testUris,
     ]);
   }
-}
-
-List<String> getTestUris(List<String> packages) {
-  final testUris = <String>[];
-  for (final package in packages) {
-    final packageTestDirectory = Directory.fromUri(
-      repositoryRoot.resolve(package /*might end without slash*/),
-    ).uri.resolve('test/');
-    if (Directory.fromUri(packageTestDirectory).existsSync()) {
-      final relativePath = packageTestDirectory.toFilePath().replaceAll(
-        repositoryRoot.toFilePath(),
-        '',
-      );
-      testUris.add(relativePath);
-    }
-  }
-  return testUris;
 }
 
 ArgParser makeArgParser() {
@@ -214,6 +197,23 @@ List<String> loadPackagesFromPubspec() {
           )
           .toList();
   return packages;
+}
+
+List<String> getTestUris(List<String> packages) {
+  final testUris = <String>[];
+  for (final package in packages) {
+    final packageTestDirectory = Directory.fromUri(
+      repositoryRoot.resolve(package /*might end without slash*/),
+    ).uri.resolve('test/');
+    if (Directory.fromUri(packageTestDirectory).existsSync()) {
+      final relativePath = packageTestDirectory.toFilePath().replaceAll(
+        repositoryRoot.toFilePath(),
+        '',
+      );
+      testUris.add(relativePath);
+    }
+  }
+  return testUris;
 }
 
 void _runProcess(
