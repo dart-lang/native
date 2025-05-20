@@ -64,19 +64,7 @@ void main(List<String> arguments) async {
   }
 
   if (argResults['test'] as bool) {
-    final testUris = <String>[];
-    for (final package in packages) {
-      final packageTestDirectory = Directory.fromUri(
-        repositoryRoot.resolve(package /*might end without slash*/),
-      ).uri.resolve('test/');
-      if (Directory.fromUri(packageTestDirectory).existsSync()) {
-        final relativePath = packageTestDirectory.toFilePath().replaceAll(
-          repositoryRoot.toFilePath(),
-          '',
-        );
-        testUris.add(relativePath);
-      }
-    }
+    final testUris = getTestUris(packages);
     _runProcess('dart', ['test', ...testUris]);
   }
 
@@ -121,6 +109,27 @@ void main(List<String> arguments) async {
       [],
     );
   }
+
+  if (argResults['coverage'] as bool) {
+    final testUris = getTestUris(packages);
+    final scopeOutputs = [
+      for (final testUri in testUris) Uri.directory(testUri).pathSegments[1],
+    ];
+    if (argResults['pub'] as bool) {
+      _runProcess('dart', ['pub', 'global', 'activate', 'coverage']);
+    }
+    _runProcess('dart', [
+      'pub',
+      'global',
+      'run',
+      'coverage:test_with_coverage',
+      for (final scopeOutput in scopeOutputs) ...[
+        '--scope-output',
+        scopeOutput,
+      ],
+      ...testUris,
+    ]);
+  }
 }
 
 ArgParser makeArgParser() {
@@ -136,6 +145,11 @@ ArgParser makeArgParser() {
           'analyze',
           defaultsTo: true,
           help: 'Run `dart analyze` on the packages.',
+        )
+        ..addFlag(
+          'coverage',
+          defaultsTo: false,
+          help: 'Run `dart run coverage:test_with_coverage` on the packages.',
         )
         ..addFlag(
           'example',
@@ -155,7 +169,9 @@ ArgParser makeArgParser() {
         ..addFlag(
           'pub',
           defaultsTo: false,
-          help: 'Run `dart pub get` on the root and non-workspace packages.',
+          help:
+              'Run `dart pub get` on the root and non-workspace packages.\n'
+              'Run `dart pub global activate coverage`.',
         )
         ..addFlag(
           'test',
@@ -181,6 +197,23 @@ List<String> loadPackagesFromPubspec() {
           )
           .toList();
   return packages;
+}
+
+List<String> getTestUris(List<String> packages) {
+  final testUris = <String>[];
+  for (final package in packages) {
+    final packageTestDirectory = Directory.fromUri(
+      repositoryRoot.resolve(package /*might end without slash*/),
+    ).uri.resolve('test/');
+    if (Directory.fromUri(packageTestDirectory).existsSync()) {
+      final relativePath = packageTestDirectory.toFilePath().replaceAll(
+        repositoryRoot.toFilePath(),
+        '',
+      );
+      testUris.add(relativePath);
+    }
+  }
+  return testUris;
 }
 
 void _runProcess(
