@@ -148,7 +148,7 @@ ArgParser makeArgParser() {
         )
         ..addFlag(
           'coverage',
-          defaultsTo: true,
+          defaultsTo: false,
           help: 'Run `dart run coverage:test_with_coverage` on the packages.',
         )
         ..addFlag(
@@ -175,7 +175,7 @@ ArgParser makeArgParser() {
         )
         ..addFlag(
           'test',
-          defaultsTo: false,
+          defaultsTo: true,
           help: 'Run `dart test` on the packages.',
         );
   return parser;
