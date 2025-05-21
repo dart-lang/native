@@ -3,8 +3,8 @@
 [![pub package](https://img.shields.io/pub/v/data_assets.svg)](https://pub.dev/packages/data_assets)
 [![package publisher](https://img.shields.io/pub/publisher/data_assets.svg)](https://pub.dev/packages/data_assets/publisher)
 
-This library contains the hook protocol specification for bundling data assets
-with Dart packages.
+A library to use in build hooks (`hook/build.dart`) for building and bundling
+data assets.
 
 ## Status: Experimental
 

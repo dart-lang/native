@@ -1,3 +1,7 @@
+## 0.19.2
+
+* Mark this package as in preview.
+
 ## 0.19.1
 
 - Added links to the `build` and `link` methods as primary entry points.
