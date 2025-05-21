@@ -16,10 +16,9 @@ void main(List<String> args) async {
   final packageName = packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);
   final target = Target.fromString(args[1]);
 
-  final logger =
-      Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((event) => print(event.message));
+  final logger = Logger('')
+    ..level = Level.ALL
+    ..onRecord.listen((event) => print(event.message));
 
   final targetOS = target.os;
   final packageLayout = await PackageLayout.fromWorkingDirectory(
@@ -27,30 +26,31 @@ void main(List<String> args) async {
     packageUri,
     packageName,
   );
-  final result = await NativeAssetsBuildRunner(
-    logger: logger,
-    dartExecutable: dartExecutable,
-    fileSystem: const LocalFileSystem(),
-    packageLayout: packageLayout,
-  ).build(
-    // Set up the code input, so that the builds for different targets are
-    // in different directories.
-    extensions: [
-      CodeAssetExtension(
-        targetArchitecture: target.architecture,
-        targetOS: targetOS,
-        macOS:
-            targetOS == OS.macOS
+  final result =
+      await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+        fileSystem: const LocalFileSystem(),
+        packageLayout: packageLayout,
+      ).build(
+        // Set up the code input, so that the builds for different targets are
+        // in different directories.
+        extensions: [
+          CodeAssetExtension(
+            targetArchitecture: target.architecture,
+            targetOS: targetOS,
+            macOS: targetOS == OS.macOS
                 ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
                 : null,
-        android:
-            targetOS == OS.android ? AndroidCodeConfig(targetNdkApi: 30) : null,
-        linkModePreference: LinkModePreference.dynamic,
-      ),
-      DataAssetsExtension(),
-    ],
-    linkingEnabled: false,
-  );
+            android: targetOS == OS.android
+                ? AndroidCodeConfig(targetNdkApi: 30)
+                : null,
+            linkModePreference: LinkModePreference.dynamic,
+          ),
+          DataAssetsExtension(),
+        ],
+        linkingEnabled: false,
+      );
   if (result.isFailure) {
     throw Error();
   }

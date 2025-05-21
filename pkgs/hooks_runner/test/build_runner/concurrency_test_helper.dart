@@ -20,10 +20,9 @@ void main(List<String> args) async {
     timeout = Duration(milliseconds: int.parse(args[1]));
   }
 
-  final logger =
-      Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((event) => print(event.message));
+  final logger = Logger('')
+    ..level = Level.ALL
+    ..onRecord.listen((event) => print(event.message));
 
   final targetOS = OS.current;
   final packageLayout = await PackageLayout.fromWorkingDirectory(
@@ -31,28 +30,28 @@ void main(List<String> args) async {
     packageUri,
     packageName,
   );
-  final result = await NativeAssetsBuildRunner(
-    logger: logger,
-    dartExecutable: dartExecutable,
-    singleHookTimeout: timeout,
-    fileSystem: const LocalFileSystem(),
-    packageLayout: packageLayout,
-  ).build(
-    extensions: [
-      CodeAssetExtension(
-        targetArchitecture: Architecture.current,
-        targetOS: targetOS,
-        linkModePreference: LinkModePreference.dynamic,
-        cCompiler: dartCICompilerConfig,
-        macOS:
-            targetOS == OS.macOS
+  final result =
+      await NativeAssetsBuildRunner(
+        logger: logger,
+        dartExecutable: dartExecutable,
+        singleHookTimeout: timeout,
+        fileSystem: const LocalFileSystem(),
+        packageLayout: packageLayout,
+      ).build(
+        extensions: [
+          CodeAssetExtension(
+            targetArchitecture: Architecture.current,
+            targetOS: targetOS,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: dartCICompilerConfig,
+            macOS: targetOS == OS.macOS
                 ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
                 : null,
-      ),
-      DataAssetsExtension(),
-    ],
-    linkingEnabled: false,
-  );
+          ),
+          DataAssetsExtension(),
+        ],
+        linkingEnabled: false,
+      );
   if (result.isFailure) {
     throw Error();
   }

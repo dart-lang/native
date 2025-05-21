@@ -86,8 +86,9 @@ static const ${tagProperty}Value = '$tagValue';
     final className = classInfo.className;
 
     if (classInfo.superclass == null) {
-      final constructorName =
-          classInfo.isTaggedUnion ? '_fromJson' : 'fromJson';
+      final constructorName = classInfo.isTaggedUnion
+          ? '_fromJson'
+          : 'fromJson';
       return '''
   $className.$constructorName(super.json, {
     super.path = const [],
@@ -95,8 +96,9 @@ static const ${tagProperty}Value = '$tagValue';
 ''';
     }
 
-    final superConstructorName =
-        classInfo.isTaggedUnion ? '_fromJson' : 'fromJson';
+    final superConstructorName = classInfo.isTaggedUnion
+        ? '_fromJson'
+        : 'fromJson';
     return '''
   $className.fromJson(super.json, {
     super.path,
@@ -287,11 +289,10 @@ static const ${tagProperty}Value = '$tagValue';
 
   String _generateExtraValidationMethod() {
     if (classInfo.extraValidation.isEmpty) return '';
-    final statements =
-        classInfo.extraValidation
-            .map(_generateExtraValidationStatements)
-            .join()
-            .trim();
+    final statements = classInfo.extraValidation
+        .map(_generateExtraValidationStatements)
+        .join()
+        .trim();
     return '''
   List<String> _validateExtraRules${classInfo.name}() {
     final result = <String>[];
@@ -377,10 +378,9 @@ extension ${className}Extension on $superclassName {
     final properties = classInfo.properties;
     final superclass = classInfo.superclass;
     return {
-        for (final property in properties) property.name,
-        if (superclass != null)
-          for (final property in superclass.properties) property.name,
-      }.toList()
-      ..sort();
+      for (final property in properties) property.name,
+      if (superclass != null)
+        for (final property in superclass.properties) property.name,
+    }.toList()..sort();
   }
 }

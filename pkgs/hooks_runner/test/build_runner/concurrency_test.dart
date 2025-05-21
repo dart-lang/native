@@ -99,12 +99,11 @@ void main() async {
         if (killAfter != null) {
           timer = Timer(killAfter, process.kill);
         }
-        final (exitCode, _, _) =
-            await (
-              process.exitCode,
-              stdoutSub.asFuture<void>(),
-              stderrSub.asFuture<void>(),
-            ).wait;
+        final (exitCode, _, _) = await (
+          process.exitCode,
+          stdoutSub.asFuture<void>(),
+          stderrSub.asFuture<void>(),
+        ).wait;
         if (timer != null) {
           timer.cancel();
         }

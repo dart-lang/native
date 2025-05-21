@@ -22,23 +22,22 @@ Future<void> main() async {
       final tempUri = await tempDirForTest();
       final tempUri2 = await tempDirForTest();
 
-      final linkInputBuilder =
-          LinkInputBuilder()
-            ..setupShared(
-              packageName: 'testpackage',
-              packageRoot: tempUri,
-              outputFile: tempUri.resolve('output.json'),
-              outputDirectoryShared: tempUri2,
-            )
-            ..setupLink(assets: [], recordedUsesFile: null)
-            ..addExtension(
-              CodeAssetExtension(
-                targetOS: os,
-                targetArchitecture: Architecture.x64,
-                linkModePreference: LinkModePreference.dynamic,
-                cCompiler: cCompiler,
-              ),
-            );
+      final linkInputBuilder = LinkInputBuilder()
+        ..setupShared(
+          packageName: 'testpackage',
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+          outputDirectoryShared: tempUri2,
+        )
+        ..setupLink(assets: [], recordedUsesFile: null)
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: os,
+            targetArchitecture: Architecture.x64,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          ),
+        );
 
       final linkHookInput = linkInputBuilder.build();
 

@@ -48,12 +48,11 @@ class LinkerOptions {
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
-  }) : _linkerFlags =
-           <String>[
-             ...flags ?? [],
-             '--strip-debug',
-             if (symbols != null) ...symbols.expand((e) => ['-u', e]),
-           ].toList(),
+  }) : _linkerFlags = <String>[
+         ...flags ?? [],
+         '--strip-debug',
+         if (symbols != null) ...symbols.expand((e) => ['-u', e]),
+       ].toList(),
        gcSections = true,
        _wholeArchiveSandwich = symbols == null,
        linkerScript = _createLinkerScript(symbols);

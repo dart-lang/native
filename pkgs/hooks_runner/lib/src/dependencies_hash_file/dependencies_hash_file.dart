@@ -143,8 +143,8 @@ class DependenciesHashFile {
       return _hashNotExists;
     }
     final children = directory.listSync(followLinks: true, recursive: false);
-    final childrenNames =
-        children.map((e) => _pathBaseName(e.path)).toList()..sort();
+    final childrenNames = children.map((e) => _pathBaseName(e.path)).toList()
+      ..sort();
     return _md5int64(utf8.encode(childrenNames.join(';')));
   }
 

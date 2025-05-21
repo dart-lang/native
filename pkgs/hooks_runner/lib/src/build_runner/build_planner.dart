@@ -168,10 +168,9 @@ class PackageGraph {
     for (final package in packages) {
       final package_ = package as Map<dynamic, dynamic>;
       final name = package_['name'] as String;
-      final dependencies =
-          (package_['dependencies'] as List<dynamic>)
-              .whereType<String>()
-              .toList();
+      final dependencies = (package_['dependencies'] as List<dynamic>)
+          .whereType<String>()
+          .toList();
       result[name] = dependencies;
     }
     return PackageGraph(result);

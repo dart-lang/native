@@ -119,8 +119,9 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
-    final toolInstance_ =
-        linkerOptions != null ? await linker() : await compiler();
+    final toolInstance_ = linkerOptions != null
+        ? await linker()
+        : await compiler();
     final tool = toolInstance_.tool;
     if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
@@ -154,17 +155,20 @@ class RunCBuilder {
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
     if (codeConfig.targetOS == OS.android) {
-      final minimumApi =
-          codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      final minimumApi = codeConfig.targetArchitecture == Architecture.riscv64
+          ? 35
+          : 21;
       targetAndroidNdkApi = max(codeConfig.android.targetNdkApi, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
-    final targetIOSVersion =
-        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetVersion : null;
-    final targetMacOSVersion =
-        codeConfig.targetOS == OS.macOS ? codeConfig.macOS.targetVersion : null;
+    final targetIOSVersion = codeConfig.targetOS == OS.iOS
+        ? codeConfig.iOS.targetVersion
+        : null;
+    final targetMacOSVersion = codeConfig.targetOS == OS.macOS
+        ? codeConfig.macOS.targetVersion
+        : null;
 
     final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();

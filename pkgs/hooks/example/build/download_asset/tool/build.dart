@@ -22,26 +22,25 @@ void main(List<String> args) async {
 ({String architecture, String os, String? iOSSdk}) parseArguments(
   List<String> args,
 ) {
-  final parser =
-      ArgParser()
-        ..addOption(
-          'architecture',
-          abbr: 'a',
-          allowed: Architecture.values.map((a) => a.name),
-          mandatory: true,
-        )
-        ..addOption(
-          'os',
-          abbr: 'o',
-          allowed: OS.values.map((a) => a.name),
-          mandatory: true,
-        )
-        ..addOption(
-          'iossdk',
-          abbr: 'i',
-          allowed: IOSSdk.values.map((a) => a.type),
-          help: 'Required if OS is iOS.',
-        );
+  final parser = ArgParser()
+    ..addOption(
+      'architecture',
+      abbr: 'a',
+      allowed: Architecture.values.map((a) => a.name),
+      mandatory: true,
+    )
+    ..addOption(
+      'os',
+      abbr: 'o',
+      allowed: OS.values.map((a) => a.name),
+      mandatory: true,
+    )
+    ..addOption(
+      'iossdk',
+      abbr: 'i',
+      allowed: IOSSdk.values.map((a) => a.type),
+      help: 'Required if OS is iOS.',
+    );
   final argResults = parser.parse(args);
 
   final os = argResults.option('os');
@@ -70,33 +69,30 @@ BuildInput createBuildInput(
   );
 
   final os = OS.fromString(osString);
-  final inputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageRoot: packageRoot,
-          packageName: 'download_asset',
-          outputFile: outputFile,
-          outputDirectoryShared: outputDirectoryShared,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetArchitecture: Architecture.fromString(architecture),
-            targetOS: os,
-            linkModePreference: LinkModePreference.dynamic,
-            android:
-                os != OS.android
-                    ? null
-                    : AndroidCodeConfig(targetNdkApi: androidTargetNdkApi),
-            iOS:
-                os != OS.iOS
-                    ? null
-                    : IOSCodeConfig(
-                      targetSdk: IOSSdk.fromString(iOSSdk!),
-                      targetVersion: iOSTargetVersion,
-                    ),
-            macOS: MacOSCodeConfig(targetVersion: macOSTargetVersion),
-          ),
-        );
+  final inputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageRoot: packageRoot,
+      packageName: 'download_asset',
+      outputFile: outputFile,
+      outputDirectoryShared: outputDirectoryShared,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetArchitecture: Architecture.fromString(architecture),
+        targetOS: os,
+        linkModePreference: LinkModePreference.dynamic,
+        android: os != OS.android
+            ? null
+            : AndroidCodeConfig(targetNdkApi: androidTargetNdkApi),
+        iOS: os != OS.iOS
+            ? null
+            : IOSCodeConfig(
+                targetSdk: IOSSdk.fromString(iOSSdk!),
+                targetVersion: iOSTargetVersion,
+              ),
+        macOS: MacOSCodeConfig(targetVersion: macOSTargetVersion),
+      ),
+    );
   return inputBuilder.build();
 }

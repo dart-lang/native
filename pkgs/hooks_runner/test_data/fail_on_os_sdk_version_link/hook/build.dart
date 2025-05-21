@@ -13,10 +13,9 @@ void main(List<String> arguments) async {
         file: input.packageRoot.resolve('assets/data.json'),
         package: input.packageName,
       ),
-      routing:
-          input.config.linkingEnabled
-              ? const ToLinkHook('fail_on_os_sdk_version_linker')
-              : const ToAppBundle(),
+      routing: input.config.linkingEnabled
+          ? const ToLinkHook('fail_on_os_sdk_version_linker')
+          : const ToAppBundle(),
     );
   });
 }

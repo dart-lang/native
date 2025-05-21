@@ -75,12 +75,11 @@ void main() async {
             process.kill();
           });
         }
-        final (exitCode, _, _) =
-            await (
-              process.exitCode,
-              stdoutSub.asFuture<void>(),
-              stderrSub.asFuture<void>(),
-            ).wait;
+        final (exitCode, _, _) = await (
+          process.exitCode,
+          stdoutSub.asFuture<void>(),
+          stderrSub.asFuture<void>(),
+        ).wait;
         if (timer != null) {
           timer.cancel();
         }
@@ -127,12 +126,11 @@ void main() async {
             .transform(const LineSplitter())
             .listen(logger.severe);
 
-        final (exitCode, _, _) =
-            await (
-              process.exitCode,
-              stdoutSub.asFuture<void>(),
-              stderrSub.asFuture<void>(),
-            ).wait;
+        final (exitCode, _, _) = await (
+          process.exitCode,
+          stdoutSub.asFuture<void>(),
+          stderrSub.asFuture<void>(),
+        ).wait;
 
         if (expectTimeOut) {
           expect(exitCode, isNot(0));

@@ -29,18 +29,18 @@ void main() async {
 
       final logMessages = <String>[];
       final pubspecUri = packageUri.resolve('pubspec.yaml');
-      final result =
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            capturedLogs: logMessages,
-            buildAssetTypes: [BuildAssetType.data],
-            userDefines: UserDefines(workspacePubspec: pubspecUri),
-          )).success;
+      final result = (await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        capturedLogs: logMessages,
+        buildAssetTypes: [BuildAssetType.data],
+        userDefines: UserDefines(workspacePubspec: pubspecUri),
+      )).success;
 
-      final dataAssets =
-          result.encodedAssets.map((e) => e.asDataAsset).toList();
+      final dataAssets = result.encodedAssets
+          .map((e) => e.asDataAsset)
+          .toList();
       expect(dataAssets.length, 2);
       for (final dataAsset in dataAssets) {
         expect(File.fromUri(dataAsset.file), exists);

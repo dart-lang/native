@@ -87,8 +87,9 @@ class _AndroidNdkResolver implements ToolResolver {
     if (!prebuiltDir.existsSync()) {
       return [];
     }
-    final hostArchDirs =
-        (await prebuiltDir.list().toList()).whereType<Directory>().toList();
+    final hostArchDirs = (await prebuiltDir.list().toList())
+        .whereType<Directory>()
+        .toList();
     for (final hostArchDir in hostArchDirs) {
       final clangUri = hostArchDir.uri
           .resolve('bin/')

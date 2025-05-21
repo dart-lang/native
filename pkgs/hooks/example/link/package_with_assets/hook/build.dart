@@ -28,10 +28,9 @@ void main(List<String> args) async {
 
       output.assets.data.add(
         DataAsset(package: packageName, name: name, file: dataAsset.uri),
-        routing:
-            input.config.linkingEnabled
-                ? ToLinkHook(packageName)
-                : const ToAppBundle(),
+        routing: input.config.linkingEnabled
+            ? ToLinkHook(packageName)
+            : const ToAppBundle(),
       );
       output.addDependency(dataAsset.uri);
     }

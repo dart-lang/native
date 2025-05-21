@@ -28,16 +28,16 @@ void main() async {
     // Either provided to be MSVC or null which defaults to MSVC.
     msvc: () async => cCompiler,
     // Clang on Windows.
-    clang:
-        () async => CCompilerConfig(
-          archiver:
-              (await llvmAr.defaultResolver!.resolve(logger: logger)).first.uri,
-          compiler:
-              (await clang.defaultResolver!.resolve(logger: logger)).first.uri,
-          linker:
-              (await lld.defaultResolver!.resolve(logger: logger)).first.uri,
-          windows: WindowsCCompilerConfig(),
-        ),
+    clang: () async => CCompilerConfig(
+      archiver: (await llvmAr.defaultResolver!.resolve(
+        logger: logger,
+      )).first.uri,
+      compiler: (await clang.defaultResolver!.resolve(
+        logger: logger,
+      )).first.uri,
+      linker: (await lld.defaultResolver!.resolve(logger: logger)).first.uri,
+      windows: WindowsCCompilerConfig(),
+    ),
   };
 
   const targets = [
@@ -50,8 +50,9 @@ void main() async {
   late Uri dumpbinUri;
 
   setUp(() async {
-    dumpbinUri =
-        (await dumpbin.defaultResolver!.resolve(logger: logger)).first.uri;
+    dumpbinUri = (await dumpbin.defaultResolver!.resolve(
+      logger: logger,
+    )).first.uri;
   });
 
   const dumpbinMachine = {
@@ -87,26 +88,24 @@ void main() async {
           );
           const name = 'add';
 
-          final buildInputBuilder =
-              BuildInputBuilder()
-                ..setupShared(
-                  packageName: name,
-                  packageRoot: tempUri,
-                  outputFile: tempUri.resolve('output.json'),
-                  outputDirectoryShared: tempUri2,
-                )
-                ..config.setupBuild(linkingEnabled: false)
-                ..addExtension(
-                  CodeAssetExtension(
-                    targetOS: OS.windows,
-                    targetArchitecture: target,
-                    linkModePreference:
-                        linkMode == DynamicLoadingBundled()
-                            ? LinkModePreference.dynamic
-                            : LinkModePreference.static,
-                    cCompiler: await (compilers[compiler]!)(),
-                  ),
-                );
+          final buildInputBuilder = BuildInputBuilder()
+            ..setupShared(
+              packageName: name,
+              packageRoot: tempUri,
+              outputFile: tempUri.resolve('output.json'),
+              outputDirectoryShared: tempUri2,
+            )
+            ..config.setupBuild(linkingEnabled: false)
+            ..addExtension(
+              CodeAssetExtension(
+                targetOS: OS.windows,
+                targetArchitecture: target,
+                linkModePreference: linkMode == DynamicLoadingBundled()
+                    ? LinkModePreference.dynamic
+                    : LinkModePreference.static,
+                cCompiler: await (compilers[compiler]!)(),
+              ),
+            );
 
           final buildInput = buildInputBuilder.build();
           final buildOutput = BuildOutputBuilder();

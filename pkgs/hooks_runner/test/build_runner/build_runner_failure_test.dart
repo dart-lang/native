@@ -23,13 +23,12 @@ void main() async {
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
       {
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              buildAssetTypes: [BuildAssetType.code],
-            )).success;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -58,12 +57,11 @@ void main() async {
         expect(result.isFailure, isTrue);
         expect(result.failure, HooksRunnerFailure.hookRun);
         expect(fullLog, contains('To reproduce run:'));
-        final reproCommand =
-            fullLog
-                .split('\n')
-                .skipWhile((l) => !l.contains('To reproduce run:'))
-                .skip(1)
-                .first;
+        final reproCommand = fullLog
+            .split('\n')
+            .skipWhile((l) => !l.contains('To reproduce run:'))
+            .skip(1)
+            .first;
         final reproResult = await Process.run(
           reproCommand,
           [],
@@ -78,13 +76,12 @@ void main() async {
       );
 
       {
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              buildAssetTypes: [BuildAssetType.code],
-            )).success;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),

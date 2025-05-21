@@ -44,7 +44,12 @@ class PathToolResolver extends ToolResolver {
       logger?.fine('Did not find  $toolName on PATH.');
       return [];
     }
-    final toolInstances = [ToolInstance(tool: Tool(name: toolName), uri: uri)];
+    final toolInstances = [
+      ToolInstance(
+        tool: Tool(name: toolName),
+        uri: uri,
+      ),
+    ];
     logger?.fine('Found ${toolInstances.single}.');
     return toolInstances;
   }
@@ -195,7 +200,10 @@ class InstallLocationResolver implements ToolResolver {
     ];
     final toolInstances = [
       for (final uri in resolvedPaths)
-        ToolInstance(tool: Tool(name: toolName), uri: uri),
+        ToolInstance(
+          tool: Tool(name: toolName),
+          uri: uri,
+        ),
     ];
     if (toolInstances.isNotEmpty) {
       logger?.fine('Found $toolInstances.');
@@ -273,7 +281,10 @@ class RelativeToolResolver implements ToolResolver {
 
     final result = [
       for (final fileSystemEntity in fileSystemEntities)
-        ToolInstance(tool: Tool(name: toolName), uri: fileSystemEntity.uri),
+        ToolInstance(
+          tool: Tool(name: toolName),
+          uri: fileSystemEntity.uri,
+        ),
     ];
 
     if (result.isNotEmpty) {

@@ -44,7 +44,8 @@ class PropertyInfo {
   });
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 PropertyInfo(
   name: $name,
   jsonKey: $jsonKey,

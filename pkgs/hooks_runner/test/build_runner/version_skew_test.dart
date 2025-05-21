@@ -22,13 +22,12 @@ void main() async {
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
         {
-          final result =
-              (await build(
-                packageUri,
-                logger,
-                dartExecutable,
-                buildAssetTypes: [BuildAssetType.code],
-              )).success;
+          final result = (await build(
+            packageUri,
+            logger,
+            dartExecutable,
+            buildAssetTypes: [BuildAssetType.code],
+          )).success;
           expect(result.encodedAssets.length, 1);
         }
       });

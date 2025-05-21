@@ -91,8 +91,9 @@ class PropertyGenerator {
     switch (classInfo) {
       case EnumClassInfo():
         final dartStringType = StringDartType(isNullable: isNullable);
-        final earlyReturn =
-            isNullable ? 'if(jsonValue == null) return null;' : '';
+        final earlyReturn = isNullable
+            ? 'if(jsonValue == null) return null;'
+            : '';
 
         buffer.writeln('''
 $dartType get $fieldName {
@@ -113,8 +114,9 @@ List<String> $validateName() => _reader.validate<$dartStringType>('$jsonKey');
         }
 
       case NormalClassInfo():
-        final earlyReturn =
-            isNullable ? 'if(jsonValue == null) return null;' : '';
+        final earlyReturn = isNullable
+            ? 'if(jsonValue == null) return null;'
+            : '';
         final jsonRead = isNullable ? 'optionalMap' : r'map$';
         buffer.writeln('''
 $dartType get $fieldName {
@@ -346,10 +348,9 @@ List<String> $validateName() {
         switch (itemType.typeName) {
           case 'String':
             final jsonRead = isNullable ? 'optionalStringList' : 'stringList';
-            final jsonValidate =
-                isNullable
-                    ? 'validateOptionalStringList'
-                    : 'validateStringList';
+            final jsonValidate = isNullable
+                ? 'validateOptionalStringList'
+                : 'validateStringList';
             final setter = setOrRemove(dartType, jsonKey);
             buffer.writeln('''
 $dartType get $fieldName => _reader.$jsonRead('$jsonKey');
@@ -367,8 +368,9 @@ List<String> $validateName() => _reader.$jsonValidate('$jsonKey');
         }
       case UriDartType():
         final jsonRead = isNullable ? 'optionalPathList' : 'pathList';
-        final jsonValidate =
-            isNullable ? 'validateOptionalPathList' : 'validatePathList';
+        final jsonValidate = isNullable
+            ? 'validateOptionalPathList'
+            : 'validatePathList';
         final setter = setOrRemove(dartType, jsonKey, '.toJson()');
         buffer.writeln('''
 $dartType get $fieldName => _reader.$jsonRead('$jsonKey');

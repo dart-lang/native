@@ -75,11 +75,17 @@ void main() {
     );
     final resolvedBarInstances = await barResolver.resolve(logger: logger);
     expect(resolvedBarInstances, [
-      ToolInstance(tool: Tool(name: 'bar'), uri: barExeUri),
+      ToolInstance(
+        tool: Tool(name: 'bar'),
+        uri: barExeUri,
+      ),
     ]);
     final resolvedBazInstances = await bazResolver.resolve(logger: logger);
     expect(resolvedBazInstances, [
-      ToolInstance(tool: Tool(name: 'baz'), uri: bazExeUri),
+      ToolInstance(
+        tool: Tool(name: 'baz'),
+        uri: bazExeUri,
+      ),
     ]);
   });
 

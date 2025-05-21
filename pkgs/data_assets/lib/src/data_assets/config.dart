@@ -148,18 +148,16 @@ final class LinkOutputDataAssetsBuilder {
 
 /// Provides access to [DataAsset]s from a build hook output.
 extension BuildOutputDataAssets on BuildOutputAssets {
-  List<DataAsset> get data =>
-      encodedAssets
-          .where((asset) => asset.isDataAsset)
-          .map<DataAsset>(DataAsset.fromEncoded)
-          .toList();
+  List<DataAsset> get data => encodedAssets
+      .where((asset) => asset.isDataAsset)
+      .map<DataAsset>(DataAsset.fromEncoded)
+      .toList();
 }
 
 /// Provides access to [DataAsset]s from a link hook output.
 extension LinkOutputDataAssets on LinkOutputAssets {
-  List<DataAsset> get data =>
-      encodedAssets
-          .where((asset) => asset.isDataAsset)
-          .map<DataAsset>(DataAsset.fromEncoded)
-          .toList();
+  List<DataAsset> get data => encodedAssets
+      .where((asset) => asset.isDataAsset)
+      .map<DataAsset>(DataAsset.fromEncoded)
+      .toList();
 }

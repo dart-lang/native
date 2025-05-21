@@ -18,12 +18,11 @@ void main(List<String> arguments) async {
     await cbuilder.run(
       config: config,
       output: output,
-      logger:
-          Logger('')
-            ..level = Level.ALL
-            ..onRecord.listen((record) {
-              print('${record.level.name}: ${record.time}: ${record.message}');
-            }),
+      logger: Logger('')
+        ..level = Level.ALL
+        ..onRecord.listen((record) {
+          print('${record.level.name}: ${record.time}: ${record.message}');
+        }),
     );
   });
 }
