@@ -1,3 +1,8 @@
+## 0.20.1
+
+* Bump the SDK constraint to at least the one from `package:hooks` to fix
+  dartdoc generation on https://pub.dev.
+
 ## 0.20.0
 
 - **Breaking change** Refactored error handling to use a `Result` type for more

@@ -3,7 +3,7 @@ description: >-
   This library contains the hook protocol specification for bundling data assets
   with Dart packages.
 
-version: 0.19.0
+version: 0.19.1
 
 repository: https://github.com/dart-lang/native/tree/main/pkgs/data_assets
 
@@ -14,7 +14,7 @@ topics:
 resolution: workspace
 
 environment:
-  sdk: '>=3.8.0 <4.0.0'
+  sdk: '>=3.9.0-21.0.dev <4.0.0'
 
 dependencies:
   hooks: ^0.19.1
