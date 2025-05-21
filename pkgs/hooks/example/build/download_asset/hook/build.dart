@@ -18,8 +18,9 @@ void main(List<String> args) async {
     } else {
       final targetOS = input.config.code.targetOS;
       final targetArchitecture = input.config.code.targetArchitecture;
-      final iOSSdk =
-          targetOS == OS.iOS ? input.config.code.iOS.targetSdk : null;
+      final iOSSdk = targetOS == OS.iOS
+          ? input.config.code.iOS.targetSdk
+          : null;
       final outputDirectory = Directory.fromUri(input.outputDirectory);
       final file = await downloadAsset(
         targetOS,

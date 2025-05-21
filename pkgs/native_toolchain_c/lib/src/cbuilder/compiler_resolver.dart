@@ -116,11 +116,9 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadToolFromNativeToolchain(Tool tool) async {
-    final resolved =
-        (await tool.defaultResolver!.resolve(
-            logger: logger,
-          )).where((i) => i.tool == tool).toList()
-          ..sort();
+    final resolved = (await tool.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == tool).toList()..sort();
     return resolved.isEmpty ? null : resolved.first;
   }
 
@@ -232,8 +230,9 @@ class CompilerResolver {
       // installation, then Clang should be able to discover it as well.
       return {};
     }
-    final vcvarsScript =
-        (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
+    final vcvarsScript = (await vcvars(
+      compiler,
+    ).defaultResolver!.resolve(logger: logger)).first;
     return await environmentFromBatchFile(
       vcvarsScript.uri,
       arguments: [

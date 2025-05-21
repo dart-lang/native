@@ -21,30 +21,28 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              capturedLogs: logMessages,
-              runPackageName: 'some_dev_dep',
-              buildAssetTypes: [BuildAssetType.code],
-            )).success;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          runPackageName: 'some_dev_dep',
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
       }
 
       {
         final logMessages = <String>[];
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              capturedLogs: logMessages,
-              runPackageName: 'native_add',
-              buildAssetTypes: [BuildAssetType.code],
-            )).success;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          runPackageName: 'native_add',
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
         expect(result.encodedAssets, isNotEmpty);
         expect(
           result.dependencies,

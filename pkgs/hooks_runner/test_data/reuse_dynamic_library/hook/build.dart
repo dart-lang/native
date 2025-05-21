@@ -9,10 +9,9 @@ import 'package:reusable_dynamic_library/hook.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final logger =
-        Logger('')
-          ..level = Level.ALL
-          ..onRecord.listen((record) => print(record.message));
+    final logger = Logger('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) => print(record.message));
 
     final addLibrary = AddLibrary(input);
     final builder = CBuilder.library(

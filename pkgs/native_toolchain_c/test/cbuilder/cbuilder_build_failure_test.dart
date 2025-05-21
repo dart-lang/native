@@ -22,8 +22,9 @@ void main() {
       'test/cbuilder/testfiles/add/src/add.c',
     );
     final addCUri = tempUri.resolve('add.c');
-    final addCOriginalContents =
-        await File.fromUri(addCOriginalUri).readAsString();
+    final addCOriginalContents = await File.fromUri(
+      addCOriginalUri,
+    ).readAsString();
     final addCBrokenContents = addCOriginalContents.replaceAll(
       'int32_t a, int32_t b',
       'int64_t blabla',
@@ -32,27 +33,25 @@ void main() {
     const name = 'add';
 
     final targetOS = OS.current;
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS:
-                  targetOS == OS.macOS
-                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                      : null,
-              targetArchitecture: Architecture.current,
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
 
     final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();

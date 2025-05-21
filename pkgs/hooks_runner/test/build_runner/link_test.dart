@@ -23,22 +23,25 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final buildResult =
-          (await buildDataAssets(packageUri, linkingEnabled: true)).success;
+      final buildResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      )).success;
       expect(buildResult.encodedAssets.length, 0);
 
-      final linkResult =
-          (await link(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildResult: buildResult,
-            buildAssetTypes: [BuildAssetType.data],
-          )).success;
+      final linkResult = (await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        buildAssetTypes: [BuildAssetType.data],
+      )).success;
       expect(linkResult.encodedAssets.length, 2);
 
-      final buildNoLinkResult =
-          (await buildDataAssets(packageUri, linkingEnabled: false)).success;
+      final buildNoLinkResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: false,
+      )).success;
       expect(buildNoLinkResult.encodedAssets.length, 4);
     });
   });
@@ -68,8 +71,10 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final buildResult =
-          (await buildDataAssets(packageUri, linkingEnabled: true)).success;
+      final buildResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      )).success;
       expect(
         _getNames(buildResult.encodedAssets),
         unorderedEquals(builtHelperAssets),
@@ -79,14 +84,13 @@ void main() async {
         unorderedEquals(encodedAssetsForLinking),
       );
 
-      final linkResult =
-          (await link(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildResult: buildResult,
-            buildAssetTypes: [BuildAssetType.data],
-          )).success;
+      final linkResult = (await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        buildAssetTypes: [BuildAssetType.data],
+      )).success;
 
       expect(
         _getNames(buildResult.encodedAssets),
@@ -107,21 +111,22 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final buildResult =
-          (await buildDataAssets(packageUri, linkingEnabled: true)).success;
+      final buildResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      )).success;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 0);
 
       final logMessages = <String>[];
-      final linkResult =
-          (await link(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildResult: buildResult,
-            capturedLogs: logMessages,
-            buildAssetTypes: [BuildAssetType.data],
-          )).success;
+      final linkResult = (await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        capturedLogs: logMessages,
+        buildAssetTypes: [BuildAssetType.data],
+      )).success;
       expect(linkResult.encodedAssets.length, 0);
       expect(
         logMessages,
@@ -146,27 +151,25 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final buildResult =
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            linkingEnabled: true,
-            buildAssetTypes: [BuildAssetType.code],
-          )).success;
+      final buildResult = (await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        linkingEnabled: true,
+        buildAssetTypes: [BuildAssetType.code],
+      )).success;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 1);
 
       final logMessages = <String>[];
-      final linkResult =
-          (await link(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildResult: buildResult,
-            capturedLogs: logMessages,
-            buildAssetTypes: [BuildAssetType.code],
-          )).success;
+      final linkResult = (await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        capturedLogs: logMessages,
+        buildAssetTypes: [BuildAssetType.code],
+      )).success;
       expect(linkResult.encodedAssets.length, 1);
       expect(linkResult.encodedAssets.first.isCodeAsset, isTrue);
     });

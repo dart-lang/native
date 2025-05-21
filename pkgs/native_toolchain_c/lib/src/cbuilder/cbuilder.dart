@@ -177,12 +177,11 @@ class CBuilder extends CTool implements Builder {
       libraryDirectories: libraryDirectories,
       dynamicLibrary:
           type == OutputType.library && linkMode == DynamicLoadingBundled()
-              ? libUri
-              : null,
-      staticLibrary:
-          type == OutputType.library && linkMode == StaticLinking()
-              ? libUri
-              : null,
+          ? libUri
+          : null,
+      staticLibrary: type == OutputType.library && linkMode == StaticLinking()
+          ? libUri
+          : null,
       executable: type == OutputType.executable ? exeUri : null,
       // ignore: invalid_use_of_visible_for_testing_member
       installName: installName,
@@ -214,15 +213,14 @@ class CBuilder extends CTool implements Builder {
       }
     }
 
-    final includeFiles =
-        await Stream.fromIterable(includes)
-            .asyncExpand(
-              (include) => Directory(include.toFilePath())
-                  .list(recursive: true)
-                  .where((entry) => entry is File)
-                  .map((file) => file.uri),
-            )
-            .toList();
+    final includeFiles = await Stream.fromIterable(includes)
+        .asyncExpand(
+          (include) => Directory(include.toFilePath())
+              .list(recursive: true)
+              .where((entry) => entry is File)
+              .map((file) => file.uri),
+        )
+        .toList();
 
     output.addDependencies({
       // Note: We use a Set here to deduplicate the dependencies.

@@ -114,15 +114,14 @@ class CLinker extends CTool implements Linker {
         ),
       );
     }
-    final includeFiles =
-        await Stream.fromIterable(includes)
-            .asyncExpand(
-              (include) => Directory(include.toFilePath())
-                  .list(recursive: true)
-                  .where((entry) => entry is File)
-                  .map((file) => file.uri),
-            )
-            .toList();
+    final includeFiles = await Stream.fromIterable(includes)
+        .asyncExpand(
+          (include) => Directory(include.toFilePath())
+              .list(recursive: true)
+              .where((entry) => entry is File)
+              .map((file) => file.uri),
+        )
+        .toList();
 
     output.addDependencies({
       // Note: We use a Set here to deduplicate the dependencies.

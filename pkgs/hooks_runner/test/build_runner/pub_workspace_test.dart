@@ -35,12 +35,13 @@ resolution: workspace
 name: dart_lang_native_workspace
 
 environment:
-  sdk: '>=3.7.0 <4.0.0'
+  sdk: '>=3.8.0 <4.0.0'
 
 workspace:
 ''';
     for (final package in packages) {
-      workspacePubSpec += '''
+      workspacePubSpec +=
+          '''
   - $package/
 ''';
     }
@@ -55,7 +56,8 @@ dependency_overrides:
       'native_toolchain_c',
     ];
     for (final package in packagesToOverride) {
-      workspacePubSpec += '''
+      workspacePubSpec +=
+          '''
   $package:
     path: ${pkgNativeAssetsBuilderUri.resolve('../$package/').toFilePath()}
 ''';

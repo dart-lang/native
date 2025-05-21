@@ -578,23 +578,22 @@ class NativeAssetsBuildRunner {
     await stdoutFile.writeAsString('');
     final stderrFile = _fileSystem.file(buildDirUri.resolve('stderr.txt'));
     await stderrFile.writeAsString('');
-    final wrappedLogger =
-        Logger.detached('')
-          ..level = Level.ALL
-          ..onRecord.listen((record) async {
-            logger.log(record.level, record.message);
-            if (record.level <= Level.INFO) {
-              await stdoutFile.writeAsString(
-                '${record.message}\n',
-                mode: FileMode.append,
-              );
-            } else {
-              await stderrFile.writeAsString(
-                '${record.message}\n',
-                mode: FileMode.append,
-              );
-            }
-          });
+    final wrappedLogger = Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) async {
+        logger.log(record.level, record.message);
+        if (record.level <= Level.INFO) {
+          await stdoutFile.writeAsString(
+            '${record.message}\n',
+            mode: FileMode.append,
+          );
+        } else {
+          await stderrFile.writeAsString(
+            '${record.message}\n',
+            mode: FileMode.append,
+          );
+        }
+      });
     return wrappedLogger;
   }
 
@@ -768,16 +767,12 @@ ${compileResult.stdout}
     HookOutput output,
     _HookValidator validator,
   ) async {
-    final errors =
-        input is BuildInput
-            ? await ProtocolBase.validateBuildOutput(
-              input,
-              output as BuildOutput,
-            )
-            : await ProtocolBase.validateLinkOutput(
-              input as LinkInput,
-              output as LinkOutput,
-            );
+    final errors = input is BuildInput
+        ? await ProtocolBase.validateBuildOutput(input, output as BuildOutput)
+        : await ProtocolBase.validateLinkOutput(
+            input as LinkInput,
+            output as LinkOutput,
+          );
     errors.addAll(await validator(input, output));
 
     if (input is BuildInput) {

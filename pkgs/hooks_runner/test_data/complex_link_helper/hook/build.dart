@@ -29,10 +29,9 @@ void main(List<String> args) async {
       final forLinking = name.contains('2') || name.contains('3');
       output.assets.data.add(
         DataAsset(package: packageName, name: name, file: dataAsset.uri),
-        routing:
-            forLinking && input.config.linkingEnabled
-                ? const ToLinkHook('complex_link')
-                : const ToAppBundle(),
+        routing: forLinking && input.config.linkingEnabled
+            ? const ToLinkHook('complex_link')
+            : const ToAppBundle(),
       );
       output.addDependency(dataAsset.uri);
     }

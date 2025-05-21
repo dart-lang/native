@@ -19,41 +19,37 @@ void main() async {
       // First, run `pub get`, we need pub to resolve our dependencies.
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
-      final resultDynamic =
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            linkModePreference: LinkModePreference.dynamic,
-            buildAssetTypes: [BuildAssetType.code],
-          )).success;
+      final resultDynamic = (await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        linkModePreference: LinkModePreference.dynamic,
+        buildAssetTypes: [BuildAssetType.code],
+      )).success;
 
-      final resultPreferDynamic =
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            linkModePreference: LinkModePreference.preferDynamic,
-            buildAssetTypes: [BuildAssetType.code],
-          )).success;
+      final resultPreferDynamic = (await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        linkModePreference: LinkModePreference.preferDynamic,
+        buildAssetTypes: [BuildAssetType.code],
+      )).success;
 
-      final resultStatic =
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            linkModePreference: LinkModePreference.static,
-            buildAssetTypes: [BuildAssetType.code],
-          )).success;
+      final resultStatic = (await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        linkModePreference: LinkModePreference.static,
+        buildAssetTypes: [BuildAssetType.code],
+      )).success;
 
-      final resultPreferStatic =
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            linkModePreference: LinkModePreference.preferStatic,
-            buildAssetTypes: [BuildAssetType.code],
-          )).success;
+      final resultPreferStatic = (await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        linkModePreference: LinkModePreference.preferStatic,
+        buildAssetTypes: [BuildAssetType.code],
+      )).success;
 
       // This package honors preferences.
       expect(

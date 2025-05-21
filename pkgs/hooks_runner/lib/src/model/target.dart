@@ -113,30 +113,29 @@ final class Target implements Comparable<Target> {
 
   Architecture get architecture => Architecture.fromAbi(abi);
 
-  OS get os =>
-      {
-        Abi.androidArm: OS.android,
-        Abi.androidArm64: OS.android,
-        Abi.androidIA32: OS.android,
-        Abi.androidX64: OS.android,
-        Abi.androidRiscv64: OS.android,
-        Abi.fuchsiaArm64: OS.fuchsia,
-        Abi.fuchsiaX64: OS.fuchsia,
-        Abi.iosArm: OS.iOS,
-        Abi.iosArm64: OS.iOS,
-        Abi.iosX64: OS.iOS,
-        Abi.linuxArm: OS.linux,
-        Abi.linuxArm64: OS.linux,
-        Abi.linuxIA32: OS.linux,
-        Abi.linuxRiscv32: OS.linux,
-        Abi.linuxRiscv64: OS.linux,
-        Abi.linuxX64: OS.linux,
-        Abi.macosArm64: OS.macOS,
-        Abi.macosX64: OS.macOS,
-        Abi.windowsArm64: OS.windows,
-        Abi.windowsIA32: OS.windows,
-        Abi.windowsX64: OS.windows,
-      }[abi]!;
+  OS get os => {
+    Abi.androidArm: OS.android,
+    Abi.androidArm64: OS.android,
+    Abi.androidIA32: OS.android,
+    Abi.androidX64: OS.android,
+    Abi.androidRiscv64: OS.android,
+    Abi.fuchsiaArm64: OS.fuchsia,
+    Abi.fuchsiaX64: OS.fuchsia,
+    Abi.iosArm: OS.iOS,
+    Abi.iosArm64: OS.iOS,
+    Abi.iosX64: OS.iOS,
+    Abi.linuxArm: OS.linux,
+    Abi.linuxArm64: OS.linux,
+    Abi.linuxIA32: OS.linux,
+    Abi.linuxRiscv32: OS.linux,
+    Abi.linuxRiscv64: OS.linux,
+    Abi.linuxX64: OS.linux,
+    Abi.macosArm64: OS.macOS,
+    Abi.macosX64: OS.macOS,
+    Abi.windowsArm64: OS.windows,
+    Abi.windowsIA32: OS.windows,
+    Abi.windowsX64: OS.windows,
+  }[abi]!;
 
   @override
   String toString() => dartVMToString();
@@ -153,16 +152,15 @@ final class Target implements Comparable<Target> {
   /// A list of supported target [Target]s from this host [os].
   List<Target> supportedTargetTargets({
     Map<OS, List<OS>> osCrossCompilation = OS.osCrossCompilationDefault,
-  }) =>
-      Target.values
-          .where(
-            (target) =>
-                // Only valid cross compilation.
-                osCrossCompilation[os]!.contains(target.os) &&
-                // And no deprecated architectures.
-                target != Target.iOSArm,
-          )
-          .sorted;
+  }) => Target.values
+      .where(
+        (target) =>
+            // Only valid cross compilation.
+            osCrossCompilation[os]!.contains(target.os) &&
+            // And no deprecated architectures.
+            target != Target.iOSArm,
+      )
+      .sorted;
 }
 
 /// Common methods for manipulating iterables of [Target]s.

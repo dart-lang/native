@@ -43,14 +43,13 @@ void main() async {
 
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult =
-            (await build(
-              packageUri,
-              logger,
-              linkingEnabled: true,
-              dartExecutable,
-              buildAssetTypes: [BuildAssetType.code],
-            )).success;
+        final buildResult = (await build(
+          packageUri,
+          logger,
+          linkingEnabled: true,
+          dartExecutable,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
 
         final linkResult = await link(
           packageUri,

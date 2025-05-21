@@ -73,30 +73,28 @@ void main() {
                   Language() => throw UnimplementedError(),
                 };
 
-                final buildInputBuilder =
-                    BuildInputBuilder()
-                      ..setupShared(
-                        packageName: name,
-                        packageRoot: tempUri,
-                        outputFile: tempUri.resolve('output.json'),
-                        outputDirectoryShared: tempUri2,
-                      )
-                      ..config.setupBuild(linkingEnabled: false)
-                      ..addExtension(
-                        CodeAssetExtension(
-                          targetOS: OS.iOS,
-                          targetArchitecture: target,
-                          linkModePreference:
-                              linkMode == DynamicLoadingBundled()
-                                  ? LinkModePreference.dynamic
-                                  : LinkModePreference.static,
-                          iOS: IOSCodeConfig(
-                            targetSdk: targetIOSSdk,
-                            targetVersion: flutteriOSHighestBestEffort,
-                          ),
-                          cCompiler: cCompiler,
-                        ),
-                      );
+                final buildInputBuilder = BuildInputBuilder()
+                  ..setupShared(
+                    packageName: name,
+                    packageRoot: tempUri,
+                    outputFile: tempUri.resolve('output.json'),
+                    outputDirectoryShared: tempUri2,
+                  )
+                  ..config.setupBuild(linkingEnabled: false)
+                  ..addExtension(
+                    CodeAssetExtension(
+                      targetOS: OS.iOS,
+                      targetArchitecture: target,
+                      linkModePreference: linkMode == DynamicLoadingBundled()
+                          ? LinkModePreference.dynamic
+                          : LinkModePreference.static,
+                      iOS: IOSCodeConfig(
+                        targetSdk: targetIOSSdk,
+                        targetVersion: flutteriOSHighestBestEffort,
+                      ),
+                      cCompiler: cCompiler,
+                    ),
+                  );
 
                 final buildInput = buildInputBuilder.build();
                 final buildOutput = BuildOutputBuilder();
@@ -161,8 +159,9 @@ void main() {
                     // If no install path is passed, we have an absolute path.
                     final tempName = buildInput.outputDirectory.pathSegments
                         .lastWhere((e) => e != '');
-                    final pathEnding =
-                        Uri.directory(tempName).resolve(libName).toFilePath();
+                    final pathEnding = Uri.directory(
+                      tempName,
+                    ).resolve(libName).toFilePath();
                     expect(Uri.file(libInstallName).isAbsolute, true);
                     expect(libInstallName, contains(pathEnding));
                     final targetInstallName =
@@ -235,30 +234,28 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: OS.iOS,
-            targetArchitecture: targetArchitecture,
-            linkModePreference:
-                linkMode == DynamicLoadingBundled()
-                    ? LinkModePreference.dynamic
-                    : LinkModePreference.static,
-            iOS: IOSCodeConfig(
-              targetSdk: IOSSdk.iPhoneOS,
-              targetVersion: targetIOSVersion,
-            ),
-            cCompiler: cCompiler,
-          ),
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: OS.iOS,
+        targetArchitecture: targetArchitecture,
+        linkModePreference: linkMode == DynamicLoadingBundled()
+            ? LinkModePreference.dynamic
+            : LinkModePreference.static,
+        iOS: IOSCodeConfig(
+          targetSdk: IOSSdk.iPhoneOS,
+          targetVersion: targetIOSVersion,
+        ),
+        cCompiler: cCompiler,
+      ),
+    );
 
   final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();

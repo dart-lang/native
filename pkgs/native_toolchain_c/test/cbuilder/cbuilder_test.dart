@@ -23,10 +23,9 @@ void main() {
   });
 
   final targetOS = OS.current;
-  final macOSConfig =
-      targetOS == OS.macOS
-          ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-          : null;
+  final macOSConfig = targetOS == OS.macOS
+      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+      : null;
   for (final pic in [null, true, false]) {
     final picTag = switch (pic) {
       null => 'auto_pic',
@@ -51,25 +50,24 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildInputBuilder =
-            BuildInputBuilder()
-              ..setupShared(
-                packageName: name,
-                packageRoot: tempUri,
-                outputFile: tempUri.resolve('output.json'),
-                outputDirectoryShared: tempUri2,
-              )
-              ..config.setupBuild(linkingEnabled: false)
-              ..addExtension(
-                CodeAssetExtension(
-                  targetOS: targetOS,
-                  macOS: macOSConfig,
-                  targetArchitecture: Architecture.current,
-                  // Ignored by executables.
-                  linkModePreference: LinkModePreference.dynamic,
-                  cCompiler: cCompiler,
-                ),
-              );
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: targetOS,
+              macOS: macOSConfig,
+              targetArchitecture: Architecture.current,
+              // Ignored by executables.
+              linkModePreference: LinkModePreference.dynamic,
+              cCompiler: cCompiler,
+            ),
+          );
 
         final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
@@ -133,15 +131,14 @@ void main() {
         final logMessages = <String>[];
         final logger = createCapturingLogger(logMessages);
 
-        final buildInputBuilder =
-            BuildInputBuilder()
-              ..setupShared(
-                packageName: name,
-                packageRoot: tempUri,
-                outputFile: tempUri.resolve('output.json'),
-                outputDirectoryShared: tempUri2,
-              )
-              ..config.setupBuild(linkingEnabled: false);
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false);
         if (buildCodeAssets) {
           buildInputBuilder.addExtension(
             CodeAssetExtension(
@@ -176,10 +173,11 @@ void main() {
         expect(await File.fromUri(dylibUri).exists(), equals(buildCodeAssets));
         if (buildCodeAssets) {
           final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
-          final add = dylib.lookupFunction<
-            Int32 Function(Int32, Int32),
-            int Function(int, int)
-          >('add');
+          final add = dylib
+              .lookupFunction<
+                Int32 Function(Int32, Int32),
+                int Function(int, int)
+              >('add');
           expect(add(1, 2), 3);
 
           final compilerInvocation = logMessages.singleWhere(
@@ -243,25 +241,24 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS: macOSConfig,
-              targetArchitecture: Architecture.current,
-              // Ignored by executables.
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: macOSConfig,
+          targetArchitecture: Architecture.current,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
     final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
@@ -309,25 +306,24 @@ void main() {
     );
     const name = 'includes';
 
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS: macOSConfig,
-              targetArchitecture: Architecture.current,
-              // Ignored by executables.
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: macOSConfig,
+          targetArchitecture: Architecture.current,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
 
     final buildInput = buildInputBuilder.build();
     final buildOutputBuilder = BuildOutputBuilder();
@@ -367,25 +363,24 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS: macOSConfig,
-              targetArchitecture: Architecture.current,
-              // Ignored by executables.
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: macOSConfig,
+          targetArchitecture: Architecture.current,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
 
     final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
@@ -436,25 +431,24 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS: macOSConfig,
-              targetArchitecture: Architecture.current,
-              // Ignored by executables.
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: macOSConfig,
+          targetArchitecture: Architecture.current,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
     final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
@@ -504,25 +498,24 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS: macOSConfig,
-              targetArchitecture: Architecture.current,
-              // Ignored by executables.
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: macOSConfig,
+          targetArchitecture: Architecture.current,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
     final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
@@ -590,25 +583,24 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS: macOSConfig,
-              targetArchitecture: Architecture.current,
-              // Ignored by executables.
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: macOSConfig,
+          targetArchitecture: Architecture.current,
+          // Ignored by executables.
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
     final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
@@ -693,28 +685,26 @@ Future<void> testDefines({
   const name = 'defines';
 
   final targetOS = OS.current;
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: targetOS,
-            macOS:
-                targetOS == OS.macOS
-                    ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                    : null,
-            targetArchitecture: Architecture.current,
-            // Ignored by executables.
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
-          ),
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: targetOS,
+        macOS: targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+            : null,
+        targetArchitecture: Architecture.current,
+        // Ignored by executables.
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: cCompiler,
+      ),
+    );
 
   final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();

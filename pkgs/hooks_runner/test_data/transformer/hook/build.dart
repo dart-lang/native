@@ -22,11 +22,10 @@ void main(List<String> arguments) async {
     final hashesFile = File.fromUri(
       input.outputDirectoryShared.resolve('hashes.json'),
     );
-    final hashes =
-        await hashesFile.exists()
-            ? (json.decoder.convert(await hashesFile.readAsString()) as Map)
-                .cast<String, String>()
-            : <String, String>{};
+    final hashes = await hashesFile.exists()
+        ? (json.decoder.convert(await hashesFile.readAsString()) as Map)
+              .cast<String, String>()
+        : <String, String>{};
     final newHashes = <String, String>{};
 
     await for (final sourceFile in dataDirectory.list()) {

@@ -52,7 +52,8 @@ void main() {
     ),
   ]);
 
-  final assetsDartEncoding = '''{
+  final assetsDartEncoding =
+      '''{
   "format-version": [
     1,
     0,
