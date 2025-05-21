@@ -1,4 +1,4 @@
-## 0.19.2
+## 0.19.3
 
 * Mark this package as in preview.
 

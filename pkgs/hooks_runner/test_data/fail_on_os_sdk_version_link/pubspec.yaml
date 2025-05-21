@@ -13,7 +13,7 @@ dependencies:
   data_assets: ^0.19.1
   fail_on_os_sdk_version_linker:
     path: ../fail_on_os_sdk_version_linker/
-  hooks: ^0.19.2
+  hooks: ^0.19.3
 
 dev_dependencies:
   ffigen: ^18.0.0
