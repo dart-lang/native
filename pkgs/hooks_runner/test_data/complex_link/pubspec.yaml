@@ -14,7 +14,7 @@ dependencies:
   complex_link_helper:
     path: ../complex_link_helper/
   data_assets: ^0.19.1
-  hooks: ^0.19.1
+  hooks: ^0.19.2
   logging: ^1.3.0
 
 dev_dependencies:

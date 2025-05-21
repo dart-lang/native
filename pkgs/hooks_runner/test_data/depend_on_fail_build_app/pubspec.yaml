@@ -12,7 +12,7 @@ environment:
 dependencies:
   depend_on_fail_build:
     path: ../depend_on_fail_build/
-  hooks: ^0.19.1
+  hooks: ^0.19.2
 
 dev_dependencies:
   ffigen: ^18.0.0
