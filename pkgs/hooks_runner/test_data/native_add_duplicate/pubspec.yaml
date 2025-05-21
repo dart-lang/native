@@ -10,12 +10,12 @@ environment:
   sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
-  code_assets: ^0.19.0
+  code_assets: ^0.19.1
   hooks: ^0.19.1
   logging: ^1.3.0
   native_add:
     path: ../native_add/
-  native_toolchain_c: ^0.16.1
+  native_toolchain_c: ^0.16.2
 
 dev_dependencies:
   ffigen: ^18.0.0
