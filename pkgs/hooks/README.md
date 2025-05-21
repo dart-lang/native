@@ -5,7 +5,7 @@
 
 A library to use in build hooks (`hook/build.dart`).
 
-## Status: Experimental
+## Status: In Preview
 
 **NOTE**: This package is currently in preview and published under the
 [labs.dart.dev](https://dart.dev/dart-team-packages) pub publisher in order to
