@@ -28,6 +28,15 @@ void run({required TestRunnerCallback testRunner}) {
       ..releasedBy(arena);
   }
 
+  JSet<JString?> testNullableDataSet(Arena arena) {
+    return {
+      '1'.toJString()..releasedBy(arena),
+      '2'.toJString()..releasedBy(arena),
+      null,
+    }.toJSet(JString.nullableType)
+      ..releasedBy(arena);
+  }
+
   testRunner('length', () {
     using((arena) {
       final set = testDataSet(arena);
@@ -40,6 +49,17 @@ void run({required TestRunnerCallback testRunner}) {
       set.add('1'.toJString()..releasedBy(arena));
       expect(set.length, 3);
       set.add('4'.toJString()..releasedBy(arena));
+      expect(set.length, 4);
+    });
+  });
+  testRunner('nullable add', () {
+    using((arena) {
+      final set = testNullableDataSet(arena);
+      set.add('1'.toJString()..releasedBy(arena));
+      expect(set.length, 3);
+      set.add('4'.toJString()..releasedBy(arena));
+      expect(set.length, 4);
+      set.add(null);
       expect(set.length, 4);
     });
   });
@@ -71,6 +91,16 @@ void run({required TestRunnerCallback testRunner}) {
       // ignore: collection_methods_unrelated_type
       expect(set.contains(1), false);
       expect(set.contains('1'.toJString()..releasedBy(arena)), true);
+      expect(set.contains('4'.toJString()..releasedBy(arena)), false);
+    });
+  });
+  testRunner('nullable contains', () {
+    using((arena) {
+      final set = testNullableDataSet(arena);
+      // ignore: collection_methods_unrelated_type
+      expect(set.contains(1), false);
+      expect(set.contains('1'.toJString()..releasedBy(arena)), true);
+      expect(set.contains(null), true);
       expect(set.contains('4'.toJString()..releasedBy(arena)), false);
     });
   });
@@ -116,6 +146,17 @@ void run({required TestRunnerCallback testRunner}) {
       expect(set.remove('4'.toJString()..releasedBy(arena)), false);
       expect(set.length, 3);
       expect(set.remove('3'.toJString()..releasedBy(arena)), true);
+      expect(set.length, 2);
+    });
+  });
+  testRunner('nullable remove', () {
+    using((arena) {
+      final set = testNullableDataSet(arena);
+      // ignore: collection_methods_unrelated_type
+      expect(set.remove(1), false);
+      expect(set.remove('4'.toJString()..releasedBy(arena)), false);
+      expect(set.length, 3);
+      expect(set.remove(null), true);
       expect(set.length, 2);
     });
   });
