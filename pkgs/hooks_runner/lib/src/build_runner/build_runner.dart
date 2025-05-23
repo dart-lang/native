@@ -51,6 +51,10 @@ class NativeAssetsBuildRunner {
   final _task = TimelineTask();
 
   /// Traced by [_task], cannot be used for concurrent actions.
+  ///
+  /// Use [_fileSystemUntraced] for actions that must not be traced.
+  ///
+  /// This uses [_fileSystemUntraced] under the hood.
   late final TracingFileSystem _fileSystem;
 
   /// Not traced by [_task], can be used for concurrent actions.
