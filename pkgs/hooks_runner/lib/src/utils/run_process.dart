@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io'
     show Platform, Process, ProcessException, ProcessResult, systemEncoding;
 
@@ -26,6 +27,7 @@ Future<RunProcessResult> runProcess({
   bool captureOutput = true,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
+  TimelineTask? task,
 }) async {
   final printWorkingDir =
       workingDirectory != null &&
@@ -38,67 +40,80 @@ Future<RunProcessResult> runProcess({
     if (printWorkingDir) ')',
   ].join(' ');
   logger?.info('Running `$commandString`.');
-
-  final stdoutBuffer = StringBuffer();
-  final stderrBuffer = StringBuffer();
-  final process = await Process.start(
-    executable.toFilePath(),
-    arguments,
-    workingDirectory: workingDirectory?.toFilePath(),
-    environment: environment,
-    includeParentEnvironment: includeParentEnvironment,
-    runInShell:
-        Platform.isWindows &&
-        (!includeParentEnvironment || workingDirectory != null),
+  task?.start(
+    'Process.run',
+    arguments: {
+      'executable': executable.toFilePath(),
+      'arguments': arguments,
+      if (workingDirectory != null)
+        'workingDirectory': workingDirectory.toFilePath(),
+      if (environment != null) 'environment': environment,
+    },
   );
-
-  final stdoutSub = process.stdout.listen((List<int> data) {
-    try {
-      final decoded = systemEncoding.decode(data);
-      logger?.fine(decoded);
-      if (captureOutput) {
-        stdoutBuffer.write(decoded);
-      }
-    } catch (e) {
-      logger?.warning('Failed to decode stdout: $e');
-      stdoutBuffer.write('Failed to decode stdout: $e');
-    }
-  });
-  final stderrSub = process.stderr.listen((List<int> data) {
-    try {
-      final decoded = systemEncoding.decode(data);
-      logger?.severe(decoded);
-      if (captureOutput) {
-        stderrBuffer.write(decoded);
-      }
-    } catch (e) {
-      logger?.severe('Failed to decode stderr: $e');
-      stderrBuffer.write('Failed to decode stderr: $e');
-    }
-  });
-
-  final (exitCode, _, _) = await (
-    process.exitCode,
-    stdoutSub.asFuture<void>(),
-    stderrSub.asFuture<void>(),
-  ).wait;
-  final result = RunProcessResult(
-    pid: process.pid,
-    command: commandString,
-    exitCode: exitCode,
-    stdout: stdoutBuffer.toString(),
-    stderr: stderrBuffer.toString(),
-  );
-  if (throwOnUnexpectedExitCode && expectedExitCode != exitCode) {
-    throw ProcessException(
+  try {
+    final stdoutBuffer = StringBuffer();
+    final stderrBuffer = StringBuffer();
+    final process = await Process.start(
       executable.toFilePath(),
       arguments,
-      "Full command string: '$commandString'.\n"
-      "Exit code: '$exitCode'.\n"
-      'For the output of the process check the logger output.',
+      workingDirectory: workingDirectory?.toFilePath(),
+      environment: environment,
+      includeParentEnvironment: includeParentEnvironment,
+      runInShell:
+          Platform.isWindows &&
+          (!includeParentEnvironment || workingDirectory != null),
     );
+
+    final stdoutSub = process.stdout.listen((List<int> data) {
+      try {
+        final decoded = systemEncoding.decode(data);
+        logger?.fine(decoded);
+        if (captureOutput) {
+          stdoutBuffer.write(decoded);
+        }
+      } catch (e) {
+        logger?.warning('Failed to decode stdout: $e');
+        stdoutBuffer.write('Failed to decode stdout: $e');
+      }
+    });
+    final stderrSub = process.stderr.listen((List<int> data) {
+      try {
+        final decoded = systemEncoding.decode(data);
+        logger?.severe(decoded);
+        if (captureOutput) {
+          stderrBuffer.write(decoded);
+        }
+      } catch (e) {
+        logger?.severe('Failed to decode stderr: $e');
+        stderrBuffer.write('Failed to decode stderr: $e');
+      }
+    });
+
+    final (exitCode, _, _) = await (
+      process.exitCode,
+      stdoutSub.asFuture<void>(),
+      stderrSub.asFuture<void>(),
+    ).wait;
+    final result = RunProcessResult(
+      pid: process.pid,
+      command: commandString,
+      exitCode: exitCode,
+      stdout: stdoutBuffer.toString(),
+      stderr: stderrBuffer.toString(),
+    );
+    if (throwOnUnexpectedExitCode && expectedExitCode != exitCode) {
+      throw ProcessException(
+        executable.toFilePath(),
+        arguments,
+        "Full command string: '$commandString'.\n"
+        "Exit code: '$exitCode'.\n"
+        'For the output of the process check the logger output.',
+      );
+    }
+    return result;
+  } finally {
+    task?.finish();
   }
-  return result;
 }
 
 /// Drop in replacement of [ProcessResult].
