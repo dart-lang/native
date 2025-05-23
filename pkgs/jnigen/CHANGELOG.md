@@ -1,4 +1,4 @@
-## 0.14.2-wip
+## 0.14.2
 
 - The name `factory` can now also be used in a method name without renaming.
 - Throw when output folder contains non JNIgen files. Users with existing
