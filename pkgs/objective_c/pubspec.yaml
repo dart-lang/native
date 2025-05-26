@@ -7,6 +7,7 @@ description: 'A library to access Objective C from Flutter that acts as a suppor
 version: 8.0.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/objective_c
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aobjective_c
+resolution: workspace
 
 topics:
   - interop
@@ -15,7 +16,7 @@ topics:
   - codegen
 
 environment:
-  sdk: '>=3.4.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
   flutter: '>=3.22.0'
 
 dependencies:
@@ -27,9 +28,9 @@ dependencies:
 dev_dependencies:
   args: ^2.6.0
   coverage: ^1.11.0
-  dart_flutter_team_lints: ^2.0.0
+  dart_flutter_team_lints: ^3.5.1
   ffigen: ^19.0.0
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
   test: ^1.21.1
