@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('CFString', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {
       test('CFString conversions [$s]', () {
         final cfString =

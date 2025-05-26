@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('NSMutableSet', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     test('of', () {
       final obj1 = NSObject();
       final obj2 = NSObject();

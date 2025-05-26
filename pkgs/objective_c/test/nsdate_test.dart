@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('NSDate', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     test('from DateTime', () {
       final dartFirstAppeared = DateTime.utc(2011, 10, 10);
       final nsDate = dartFirstAppeared.toNSDate();

@@ -43,7 +43,7 @@ class NSArray with Iterable<objc.ObjCObjectBase> {
   objc.ObjCObjectBase operator [](int index) => objectAtIndex(index);
 }
 
-class NSMutableArray with ListBase<objc.ObjCObjectBase> {
+class NSMutableArray with collection.ListBase<objc.ObjCObjectBase> {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///
@@ -113,7 +113,7 @@ class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
 // Ideally we'd mixin UnmodifiableMapBase, but it's an ordinary class. So
 // instead we mixin MapBase and then throw in all the modifying methods (which
 // is essentially what UnmodifiableMapBase does anyway).
-class NSDictionary with MapBase<NSCopying, objc.ObjCObjectBase> {
+class NSDictionary with collection.MapBase<NSCopying, objc.ObjCObjectBase> {
   /// Creates a [NSDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.of(other);
@@ -232,7 +232,7 @@ class _NSDictionaryKeyIterator implements Iterator<NSCopying> {
   bool moveNext() => _iterator.moveNext();
 }
 
-class NSSet with SetBase<objc.ObjCObjectBase> {
+class NSSet with collection.SetBase<objc.ObjCObjectBase> {
   /// Creates a [NSSet] from [elements].
   static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
       NSMutableSet.of(elements);

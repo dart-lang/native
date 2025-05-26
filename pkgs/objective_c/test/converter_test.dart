@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('converter', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     test('basics', () {
       final obj = NSObject();
       expect(toObjCObject(obj), obj);
