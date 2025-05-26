@@ -467,7 +467,10 @@ class NativeAssetsBuildRunner {
             hookEnvironment,
           );
           if (modifiedDuringBuild != null) {
-            logger.severe('File modified during build. Build must be rerun.');
+            logger.severe(
+              'File ${modifiedDuringBuild.toFilePath()} modified '
+              'during build. Build must be rerun.',
+            );
           }
           return Success((success, hookHashes.fileSystemEntities));
         }
@@ -607,22 +610,23 @@ class NativeAssetsBuildRunner {
       buildDirUri.resolve('stderr.txt'),
     );
     await stderrFile.writeAsString('');
-    final wrappedLogger = Logger.detached('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) async {
-        logger.log(record.level, record.message);
-        if (record.level <= Level.INFO) {
-          await stdoutFile.writeAsString(
-            '${record.message}\n',
-            mode: FileMode.append,
-          );
-        } else {
-          await stderrFile.writeAsString(
-            '${record.message}\n',
-            mode: FileMode.append,
-          );
-        }
-      });
+    final wrappedLogger =
+        Logger.detached('')
+          ..level = Level.ALL
+          ..onRecord.listen((record) async {
+            logger.log(record.level, record.message);
+            if (record.level <= Level.INFO) {
+              await stdoutFile.writeAsString(
+                '${record.message}\n',
+                mode: FileMode.append,
+              );
+            } else {
+              await stderrFile.writeAsString(
+                '${record.message}\n',
+                mode: FileMode.append,
+              );
+            }
+          });
     return wrappedLogger;
   }
 
@@ -806,12 +810,16 @@ ${compileResult.stdout}
     HookOutput output,
     _HookValidator validator,
   ) async {
-    final errors = input is BuildInput
-        ? await ProtocolBase.validateBuildOutput(input, output as BuildOutput)
-        : await ProtocolBase.validateLinkOutput(
-            input as LinkInput,
-            output as LinkOutput,
-          );
+    final errors =
+        input is BuildInput
+            ? await ProtocolBase.validateBuildOutput(
+              input,
+              output as BuildOutput,
+            )
+            : await ProtocolBase.validateLinkOutput(
+              input as LinkInput,
+              output as LinkOutput,
+            );
     errors.addAll(await validator(input, output));
 
     if (input is BuildInput) {
