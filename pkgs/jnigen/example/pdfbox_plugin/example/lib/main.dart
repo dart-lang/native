@@ -67,7 +67,8 @@ class PDFInfoAppState extends State<PDFInfoApp> {
       final isDir = (await item.stat()).type == FileSystemEntityType.directory;
       if (item.path.endsWith('.pdf') && !isDir) {
         pdfs.add(item.path);
-      }
+      } else if (isDir) {
+        dirs.add(item.path);
     }
     setState(() {
       _isLoading = false;

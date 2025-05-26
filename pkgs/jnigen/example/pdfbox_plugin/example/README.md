@@ -10,7 +10,6 @@ On a Linux machine, following commands can be used to run the example applicatio
 cd .. ## From this folder
 dart run jnigen --config jnigen.yaml ## Downloads PDFBox JARs and generates bindings.
 cd example/
-dart run jni:setup
 flutter run --release ## Opens the files list from home directory
 ```
 
