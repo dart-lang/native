@@ -11,9 +11,12 @@ export 'src/c_bindings_generated.dart'
         ObjCBlockDesc,
         ObjCBlockImpl,
         signalWaiter;
+export 'src/cf_string.dart';
+export 'src/converter.dart';
 export 'src/internal.dart'
     hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
 export 'src/ns_data.dart';
+export 'src/ns_date.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
 export 'src/ns_number.dart';
@@ -21,8 +24,16 @@ export 'src/ns_string.dart';
 // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
 export 'src/objective_c_bindings_generated.dart'
     show
+        AEDesc,
+        CFRunLoop,
+        CFString,
+        CFStringRef,
+        CGPoint,
+        CGRect,
+        CGSize,
         DartProtocol,
         DartProtocolBuilder,
+        NSAppleEventSendOptions,
         NSArray,
         NSBinarySearchingOptions,
         NSCharacterSet,
@@ -39,7 +50,9 @@ export 'src/objective_c_bindings_generated.dart'
         NSDataSearchOptions,
         NSDataWritingOptions,
         NSDate,
+        NSDecodingFailurePolicy,
         NSDictionary,
+        NSEdgeInsets,
         NSEnumerationOptions,
         NSEnumerator,
         NSError,
@@ -68,7 +81,9 @@ export 'src/objective_c_bindings_generated.dart'
         NSKeyValueChange,
         NSKeyValueObservingOptions,
         NSKeyValueSetMutationKind,
+        NSLinguisticTaggerOptions,
         NSLocale,
+        NSLocaleLanguageDirection,
         NSMethodSignature,
         NSMutableArray,
         NSMutableCopying,
@@ -81,12 +96,18 @@ export 'src/objective_c_bindings_generated.dart'
         NSNotification,
         NSNumber,
         NSNumberCreation,
+        NSNumberIsFloat,
         NSObject,
         NSObjectProtocol,
         NSOrderedCollectionDifference,
         NSOrderedCollectionDifferenceCalculationOptions,
         NSOrderedSet,
         NSOutputStream,
+        NSPort,
+        NSPortDelegate,
+        NSPortMessage,
+        NSPropertyListFormat,
+        NSQualityOfService,
         NSRange,
         NSRunLoop,
         NSSecureCoding,
@@ -101,6 +122,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSStringEncodingConversionOptions,
         NSStringEnumerationOptions,
         NSStringExtensionMethods,
+        NSTimer,
         NSURL,
         NSURLBookmarkCreationOptions,
         NSURLBookmarkResolutionOptions,
@@ -108,6 +130,7 @@ export 'src/objective_c_bindings_generated.dart'
         NSURLHandleStatus,
         NSValue,
         NSZone,
+        OpaqueAEDataStorageType,
         Protocol;
 export 'src/os_version.dart';
 export 'src/protocol_builder.dart';

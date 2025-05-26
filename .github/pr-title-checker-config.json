@@ -10,6 +10,7 @@
             "[infra] ",
             "[jni] ",
             "[jnigen] ",
+            "[native_doc_dartifier] ",
             "[native_toolchain_c] ",
             "[objective_c] ",
             "[swift2objc] ",

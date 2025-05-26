@@ -3,11 +3,11 @@
 [![pub package](https://img.shields.io/pub/v/hooks.svg)](https://pub.dev/packages/hooks)
 [![package publisher](https://img.shields.io/pub/publisher/hooks.svg)](https://pub.dev/packages/hooks/publisher)
 
-A library to invoke the native C compiler installed on the host machine.
+A library to use in build hooks (`hook/build.dart`).
 
-## Status: Experimental
+## Status: In Preview
 
-**NOTE**: This package is currently experimental and published under the
+**NOTE**: This package is currently in preview and published under the
 [labs.dart.dev](https://dart.dev/dart-team-packages) pub publisher in order to
 solicit feedback. 
 

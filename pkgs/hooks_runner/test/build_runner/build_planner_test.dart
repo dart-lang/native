@@ -36,9 +36,13 @@ void main() async {
             packageLayout: packageLayout,
             fileSystem: const LocalFileSystem(),
           );
+      final packagesWithHook = await nativeAssetsBuildPlanner.packagesWithHook(
+        Hook.build,
+      );
+      expect(packagesWithHook.length, 1);
       final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
-      expect(buildPlan!.length, 1);
-      expect(buildPlan.single.name, 'native_add');
+      expect(buildPlan.success.length, 1);
+      expect(buildPlan.success.single.name, 'native_add');
     });
   });
 
@@ -68,7 +72,7 @@ void main() async {
               fileSystem: const LocalFileSystem(),
             );
         final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
-        expect(buildPlan!.length, 0);
+        expect(buildPlan.success.length, 0);
       });
     });
   }

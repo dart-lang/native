@@ -154,10 +154,10 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
       r'get', r'(Ljava/lang/Object;)Ljava/lang/Object;');
   @override
   $V? operator [](Object? key) {
-    if (key is! JObject) {
+    if (key is! JObject?) {
       return null;
     }
-    final keyRef = key.reference;
+    final keyRef = key?.reference ?? jNullReference;
     final value = _getId(this, V.nullableType, [keyRef.pointer]);
     return value;
   }
@@ -193,10 +193,10 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
       _class.instanceMethodId(r'containsKey', r'(Ljava/lang/Object;)Z');
   @override
   bool containsKey(Object? key) {
-    if (key is! JObject) {
+    if (key is! JObject?) {
       return false;
     }
-    final keyRef = key.reference;
+    final keyRef = key?.reference ?? jNullReference;
     return _containsKeyId(this, const jbooleanType(), [keyRef.pointer]);
   }
 
@@ -204,10 +204,10 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
       _class.instanceMethodId(r'containsValue', r'(Ljava/lang/Object;)Z');
   @override
   bool containsValue(Object? value) {
-    if (value is! JObject) {
+    if (value is! JObject?) {
       return false;
     }
-    final valueRef = value.reference;
+    final valueRef = value?.reference ?? jNullReference;
     return _containsValueId(this, const jbooleanType(), [valueRef.pointer]);
   }
 
@@ -231,10 +231,10 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
       r'remove', r'(Ljava/lang/Object;)Ljava/lang/Object;');
   @override
   $V? remove(Object? key) {
-    if (key is! JObject) {
+    if (key is! JObject?) {
       return null;
     }
-    final keyRef = key.reference;
+    final keyRef = key?.reference ?? jNullReference;
     final value = _removeId(this, V.nullableType, [keyRef.pointer]);
     return value;
   }

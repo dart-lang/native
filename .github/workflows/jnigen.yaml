@@ -102,7 +102,7 @@ jobs:
         run: flutter build apk --target-platform=android-arm64
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Run summarizer tests
-        run: mvn surefire:test
+        run: ./gradlew test
         working-directory: ./pkgs/jnigen/java
       - name: Build summarizer
         run: dart run jnigen:setup

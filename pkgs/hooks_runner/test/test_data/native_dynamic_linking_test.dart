@@ -32,27 +32,25 @@ void main() async {
       final dartUri = Uri.file(Platform.resolvedExecutable);
 
       final targetOS = OS.current;
-      final inputBuilder =
-          BuildInputBuilder()
-            ..setupShared(
-              packageName: name,
-              packageRoot: testPackageUri,
-              outputFile: buildOutputUri,
-              outputDirectoryShared: outputDirectoryShared,
-            )
-            ..config.setupBuild(linkingEnabled: false)
-            ..addExtension(
-              CodeAssetExtension(
-                targetArchitecture: Architecture.current,
-                targetOS: targetOS,
-                macOS:
-                    targetOS == OS.macOS
-                        ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                        : null,
-                linkModePreference: LinkModePreference.dynamic,
-                cCompiler: cCompiler,
-              ),
-            );
+      final inputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageName: name,
+          packageRoot: testPackageUri,
+          outputFile: buildOutputUri,
+          outputDirectoryShared: outputDirectoryShared,
+        )
+        ..config.setupBuild(linkingEnabled: false)
+        ..addExtension(
+          CodeAssetExtension(
+            targetArchitecture: Architecture.current,
+            targetOS: targetOS,
+            macOS: targetOS == OS.macOS
+                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                : null,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+          ),
+        );
 
       final buildInputUri = testTempUri.resolve('build_input.json');
       File.fromUri(
@@ -88,13 +86,12 @@ void main() async {
         testPackageUri.resolve('src/add.c'),
       ]);
 
-      final addLibraryPath =
-          assets
-              .where((e) => e.isCodeAsset)
-              .map(CodeAsset.fromEncoded)
-              .firstWhere((asset) => asset.id.endsWith('add.dart'))
-              .file!
-              .toFilePath();
+      final addLibraryPath = assets
+          .where((e) => e.isCodeAsset)
+          .map(CodeAsset.fromEncoded)
+          .firstWhere((asset) => asset.id.endsWith('add.dart'))
+          .file!
+          .toFilePath();
       final addResult = await runProcess(
         executable: dartExecutable,
         arguments: [

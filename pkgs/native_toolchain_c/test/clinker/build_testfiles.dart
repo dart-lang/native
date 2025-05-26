@@ -28,23 +28,22 @@ Future<Uri> buildTestArchive(
   final logger = createCapturingLogger(logMessages);
 
   assert(os == OS.linux); // Setup code input for other OSes.
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: os,
-            targetArchitecture: architecture,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompiler: cCompiler,
-          ),
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: os,
+        targetArchitecture: architecture,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: cCompiler,
+      ),
+    );
 
   final buildInput = buildInputBuilder.build();
   final buildOutputBuilder = BuildOutputBuilder();

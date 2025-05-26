@@ -55,6 +55,7 @@ final javaFiles = [
   join(javaPrefix, 'interfaces', 'StringConverterConsumer.java'),
   join(javaPrefix, 'pkg2', 'C2.java'),
   join(javaPrefix, 'pkg2', 'Example.java'),
+  join(javaPrefix, 'regressions', 'R693.java'),
   join(javaPrefix, 'regressions', 'R2250.java'),
   join(javaPrefix, 'simple_package', 'Example.java'),
   join(javaPrefix, 'simple_package', 'Exceptions.java'),

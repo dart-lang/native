@@ -73,17 +73,17 @@ final class CodeConfig {
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.android].
   AndroidCodeConfig get android => switch (_syntax.android) {
-    null =>
-      throw StateError(
-        'Cannot access androidConfig if targetOS is not android.',
-      ),
+    null => throw StateError(
+      'Cannot access androidConfig if targetOS is not android.',
+    ),
     final c => AndroidCodeConfig._(c),
   };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   MacOSCodeConfig get macOS => switch (_syntax.macOS) {
-    null =>
-      throw StateError('Cannot access macOSConfig if targetOS is not MacOS.'),
+    null => throw StateError(
+      'Cannot access macOSConfig if targetOS is not MacOS.',
+    ),
     final c => MacOSCodeConfig._(c),
   };
 }
@@ -214,21 +214,19 @@ extension CodeAssetBuildInputBuilder on HookConfigBuilder {
 // TODO: Add access to assetsForBuild or assetsForLinking.
 extension BuildOutputCodeAssets on BuildOutputAssets {
   /// The [CodeAsset]s in this [BuildOutputAssets.encodedAssets].
-  List<CodeAsset> get code =>
-      encodedAssets
-          .where((asset) => asset.isCodeAsset)
-          .map(CodeAsset.fromEncoded)
-          .toList();
+  List<CodeAsset> get code => encodedAssets
+      .where((asset) => asset.isCodeAsset)
+      .map(CodeAsset.fromEncoded)
+      .toList();
 }
 
 /// The [CodeAsset]s in [LinkOutputAssets.encodedAssets].
 extension LinkOutputCodeAssets on LinkOutputAssets {
   /// The [CodeAsset]s in this [LinkOutputAssets.encodedAssets].
-  List<CodeAsset> get code =>
-      encodedAssets
-          .where((asset) => asset.isCodeAsset)
-          .map(CodeAsset.fromEncoded)
-          .toList();
+  List<CodeAsset> get code => encodedAssets
+      .where((asset) => asset.isCodeAsset)
+      .map(CodeAsset.fromEncoded)
+      .toList();
 }
 
 extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {

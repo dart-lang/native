@@ -36,8 +36,12 @@ class ObjCProtocolBuilder {
     if (_built) {
       throw StateError('Protocol is already built');
     }
-    _builder.implementMethod_withBlock_withTrampoline_withSignature_(
-        sel, block.ref.pointer.cast(), trampoline, signature);
+    _builder.implementMethod(
+      sel,
+      withBlock: block.ref.pointer.cast(),
+      withTrampoline: trampoline,
+      withSignature: signature,
+    );
   }
 
   /// Builds the object.
@@ -56,7 +60,7 @@ class ObjCProtocolBuilder {
       keepAlivePort = RawReceivePort((_) => keepAlivePort.close());
       disposePort = keepAlivePort.sendPort.nativePort;
     }
-    return _builder.buildInstance_(disposePort);
+    return _builder.buildInstance(disposePort);
   }
 
   /// Add the [protocol] to this implementation.
@@ -64,13 +68,13 @@ class ObjCProtocolBuilder {
   /// This essentially declares that the implementation implements the protocol.
   /// There is no automatic check that ensures that the implementation actually
   /// implements all the methods of the protocol.
-  void addProtocol(objc.Protocol protocol) => _builder.addProtocol_(protocol);
+  void addProtocol(objc.Protocol protocol) => _builder.addProtocol(protocol);
 
   static final _rand = Random();
   static objc.DartProtocolBuilder _createBuilder(String debugName) {
     final name = '${debugName}_${_rand.nextInt(1 << 32)}'.toNativeUtf8();
     final builder =
-        objc.DartProtocolBuilder.alloc().initWithClassName_(name.cast());
+        objc.DartProtocolBuilder.alloc().initWithClassName(name.cast());
     calloc.free(name);
     return builder;
   }

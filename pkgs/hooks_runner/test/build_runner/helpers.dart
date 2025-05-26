@@ -31,7 +31,7 @@ Future<void> runPubGet({
   expect(result.exitCode, 0);
 }
 
-Future<BuildResult?> buildDataAssets(
+Future<Result<BuildResult, HooksRunnerFailure>> buildDataAssets(
   Uri packageUri, {
   String? runPackageName,
   List<String>? capturedLogs,
@@ -46,7 +46,7 @@ Future<BuildResult?> buildDataAssets(
   linkingEnabled: linkingEnabled,
 );
 
-Future<BuildResult?> buildCodeAssets(
+Future<Result<BuildResult, HooksRunnerFailure>> buildCodeAssets(
   Uri packageUri, {
   String? runPackageName,
   List<String>? capturedLogs,
@@ -61,7 +61,7 @@ Future<BuildResult?> buildCodeAssets(
 
 enum BuildAssetType { code, data }
 
-Future<BuildResult?> build(
+Future<Result<BuildResult, HooksRunnerFailure>> build(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -88,58 +88,59 @@ Future<BuildResult?> build(
     runPackageName_,
   );
   return await runWithLog(capturedLogs, () async {
-    final result = await NativeAssetsBuildRunner(
-      logger: logger,
-      dartExecutable: dartExecutable,
-      fileSystem: const LocalFileSystem(),
-      hookEnvironment: hookEnvironment,
-      packageLayout: packageLayout,
-      userDefines: userDefines,
-    ).build(
-      extensions: [
-        if (buildAssetTypes.contains(BuildAssetType.code))
-          CodeAssetExtension(
-            targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: targetOS,
-            linkModePreference: linkModePreference,
-            cCompiler: cCompiler ?? dartCICompilerConfig,
-            iOS:
-                targetOS == OS.iOS
+    final result =
+        await NativeAssetsBuildRunner(
+          logger: logger,
+          dartExecutable: dartExecutable,
+          fileSystem: const LocalFileSystem(),
+          hookEnvironment: hookEnvironment,
+          packageLayout: packageLayout,
+          userDefines: userDefines,
+        ).build(
+          extensions: [
+            if (buildAssetTypes.contains(BuildAssetType.code))
+              CodeAssetExtension(
+                targetArchitecture:
+                    target?.architecture ?? Architecture.current,
+                targetOS: targetOS,
+                linkModePreference: linkModePreference,
+                cCompiler: cCompiler ?? dartCICompilerConfig,
+                iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
-                      targetSdk: targetIOSSdk!,
-                      targetVersion: targetIOSVersion!,
-                    )
+                        targetSdk: targetIOSSdk!,
+                        targetVersion: targetIOSVersion!,
+                      )
                     : null,
-            macOS:
-                targetOS == OS.macOS
+                macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
-                    )
+                        targetVersion:
+                            targetMacOSVersion ?? defaultMacOSVersion,
+                      )
                     : null,
-            android:
-                targetOS == OS.android
+                android: targetOS == OS.android
                     ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                     : null,
-          ),
-        if (buildAssetTypes.contains(BuildAssetType.data))
-          DataAssetsExtension(),
-      ],
-      linkingEnabled: linkingEnabled,
-    );
+              ),
+            if (buildAssetTypes.contains(BuildAssetType.data))
+              DataAssetsExtension(),
+          ],
+          linkingEnabled: linkingEnabled,
+        );
 
-    if (result != null) {
-      expect(await result.encodedAssets.allExist(), true);
-      for (final encodedAssetsForLinking
-          in result.encodedAssetsForLinking.values) {
-        expect(await encodedAssetsForLinking.allExist(), true);
-      }
+    if (result.isFailure) return result;
+    final buildResult = result.success;
+
+    expect(await buildResult.encodedAssets.allExist(), true);
+    for (final encodedAssetsForLinking
+        in buildResult.encodedAssetsForLinking.values) {
+      expect(await encodedAssetsForLinking.allExist(), true);
     }
 
     return result;
   });
 }
 
-Future<LinkResult?> link(
+Future<Result<LinkResult, HooksRunnerFailure>> link(
   Uri packageUri,
   Logger logger,
   Uri dartExecutable, {
@@ -165,47 +166,47 @@ Future<LinkResult?> link(
     runPackageName_,
   );
   return await runWithLog(capturedLogs, () async {
-    final result = await NativeAssetsBuildRunner(
-      logger: logger,
-      dartExecutable: dartExecutable,
-      fileSystem: const LocalFileSystem(),
-      packageLayout: packageLayout,
-    ).link(
-      extensions: [
-        if (buildAssetTypes.contains(BuildAssetType.code))
-          CodeAssetExtension(
-            targetArchitecture: target?.architecture ?? Architecture.current,
-            targetOS: target?.os ?? OS.current,
-            linkModePreference: linkModePreference,
-            cCompiler: cCompiler ?? dartCICompilerConfig,
-            iOS:
-                targetOS == OS.iOS
+    final result =
+        await NativeAssetsBuildRunner(
+          logger: logger,
+          dartExecutable: dartExecutable,
+          fileSystem: const LocalFileSystem(),
+          packageLayout: packageLayout,
+        ).link(
+          extensions: [
+            if (buildAssetTypes.contains(BuildAssetType.code))
+              CodeAssetExtension(
+                targetArchitecture:
+                    target?.architecture ?? Architecture.current,
+                targetOS: target?.os ?? OS.current,
+                linkModePreference: linkModePreference,
+                cCompiler: cCompiler ?? dartCICompilerConfig,
+                iOS: targetOS == OS.iOS
                     ? IOSCodeConfig(
-                      targetSdk: targetIOSSdk!,
-                      targetVersion: targetIOSVersion!,
-                    )
+                        targetSdk: targetIOSSdk!,
+                        targetVersion: targetIOSVersion!,
+                      )
                     : null,
-            macOS:
-                targetOS == OS.macOS
+                macOS: targetOS == OS.macOS
                     ? MacOSCodeConfig(
-                      targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
-                    )
+                        targetVersion:
+                            targetMacOSVersion ?? defaultMacOSVersion,
+                      )
                     : null,
-            android:
-                targetOS == OS.android
+                android: targetOS == OS.android
                     ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
                     : null,
-          ),
-        if (buildAssetTypes.contains(BuildAssetType.data))
-          DataAssetsExtension(),
-      ],
-      buildResult: buildResult,
-      resourceIdentifiers: resourceIdentifiers,
-    );
+              ),
+            if (buildAssetTypes.contains(BuildAssetType.data))
+              DataAssetsExtension(),
+          ],
+          buildResult: buildResult,
+          resourceIdentifiers: resourceIdentifiers,
+        );
 
-    if (result != null) {
-      expect(await result.encodedAssets.allExist(), true);
-    }
+    if (result.isFailure) return result;
+
+    expect(await result.success.encodedAssets.allExist(), true);
 
     return result;
   });
@@ -250,36 +251,31 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           targetOS: target?.os ?? OS.current,
           linkModePreference: linkModePreference,
           cCompiler: cCompiler ?? dartCICompilerConfig,
-          iOS:
-              targetOS == OS.iOS
-                  ? IOSCodeConfig(
-                    targetSdk: targetIOSSdk!,
-                    targetVersion: targetIOSVersion!,
-                  )
-                  : null,
-          macOS:
-              targetOS == OS.macOS
-                  ? MacOSCodeConfig(
-                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
-                  )
-                  : null,
-          android:
-              targetOS == OS.android
-                  ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
-                  : null,
+          iOS: targetOS == OS.iOS
+              ? IOSCodeConfig(
+                  targetSdk: targetIOSSdk!,
+                  targetVersion: targetIOSVersion!,
+                )
+              : null,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(
+                  targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                )
+              : null,
+          android: targetOS == OS.android
+              ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+              : null,
         ),
       if (buildAssetTypes.contains(BuildAssetType.data)) DataAssetsExtension(),
     ],
     linkingEnabled: true,
   );
 
-  if (buildResult == null) {
-    return (null, null);
-  }
+  if (buildResult.isFailure) return (null, null);
 
-  expect(await buildResult.encodedAssets.allExist(), true);
+  expect(await buildResult.success.encodedAssets.allExist(), true);
   for (final encodedAssetsForLinking
-      in buildResult.encodedAssetsForLinking.values) {
+      in buildResult.success.encodedAssetsForLinking.values) {
     expect(await encodedAssetsForLinking.allExist(), true);
   }
 
@@ -291,35 +287,32 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
           targetOS: target?.os ?? OS.current,
           linkModePreference: linkModePreference,
           cCompiler: cCompiler ?? dartCICompilerConfig,
-          iOS:
-              targetOS == OS.iOS
-                  ? IOSCodeConfig(
-                    targetSdk: targetIOSSdk!,
-                    targetVersion: targetIOSVersion!,
-                  )
-                  : null,
-          macOS:
-              targetOS == OS.macOS
-                  ? MacOSCodeConfig(
-                    targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
-                  )
-                  : null,
-          android:
-              targetOS == OS.android
-                  ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
-                  : null,
+          iOS: targetOS == OS.iOS
+              ? IOSCodeConfig(
+                  targetSdk: targetIOSSdk!,
+                  targetVersion: targetIOSVersion!,
+                )
+              : null,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(
+                  targetVersion: targetMacOSVersion ?? defaultMacOSVersion,
+                )
+              : null,
+          android: targetOS == OS.android
+              ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
+              : null,
         ),
       if (buildAssetTypes.contains(BuildAssetType.data)) DataAssetsExtension(),
     ],
-    buildResult: buildResult,
+    buildResult: buildResult.success,
     resourceIdentifiers: resourceIdentifiers,
   );
 
-  if (linkResult != null) {
-    expect(await linkResult.encodedAssets.allExist(), true);
-  }
+  if (linkResult.isFailure) return (buildResult.success, null);
 
-  return (buildResult, linkResult);
+  expect(await linkResult.success.encodedAssets.allExist(), true);
+
+  return (buildResult.success, linkResult.success);
 });
 
 Future<T> runWithLog<T>(
@@ -358,39 +351,37 @@ Future<void> expectSymbols({
   }
 }
 
-final CCompilerConfig? dartCICompilerConfig =
-    (() {
-      // Specifically for running our tests on Dart CI with the test runner, we
-      // recognize specific variables to setup the C Compiler configuration.
-      final env = Platform.environment;
-      final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
-      final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
-      final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
-      final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
-      final envScriptArgs =
-          env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
-              ?.split(' ')
-              .map((arg) => arg.trim())
-              .where((arg) => arg.isNotEmpty)
-              .toList();
+final CCompilerConfig? dartCICompilerConfig = (() {
+  // Specifically for running our tests on Dart CI with the test runner, we
+  // recognize specific variables to setup the C Compiler configuration.
+  final env = Platform.environment;
+  final cc = env['DART_HOOK_TESTING_C_COMPILER__CC'];
+  final ar = env['DART_HOOK_TESTING_C_COMPILER__AR'];
+  final ld = env['DART_HOOK_TESTING_C_COMPILER__LD'];
+  final envScript = env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT'];
+  final envScriptArgs =
+      env['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT_ARGUMENTS']
+          ?.split(' ')
+          .map((arg) => arg.trim())
+          .where((arg) => arg.isNotEmpty)
+          .toList();
 
-      if (cc != null && ar != null && ld != null) {
-        return CCompilerConfig(
-          archiver: Uri.file(ar),
-          compiler: Uri.file(cc),
-          linker: Uri.file(ld),
-          windows: WindowsCCompilerConfig(
-            developerCommandPrompt:
-                envScript == null
-                    ? null
-                    : DeveloperCommandPrompt(
-                      script: Uri.file(envScript),
-                      arguments: envScriptArgs ?? [],
-                    ),
-          ),
-        );
-      }
-      return null;
-    })();
+  if (cc != null && ar != null && ld != null) {
+    return CCompilerConfig(
+      archiver: Uri.file(ar),
+      compiler: Uri.file(cc),
+      linker: Uri.file(ld),
+      windows: WindowsCCompilerConfig(
+        developerCommandPrompt: envScript == null
+            ? null
+            : DeveloperCommandPrompt(
+                script: Uri.file(envScript),
+                arguments: envScriptArgs ?? [],
+              ),
+      ),
+    );
+  }
+  return null;
+})();
 
 int defaultMacOSVersion = 13;

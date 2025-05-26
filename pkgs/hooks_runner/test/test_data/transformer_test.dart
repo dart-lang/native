@@ -44,27 +44,25 @@ void main() async {
 
       final targetOS = OS.current;
       Future<void> runBuild(Architecture architecture) async {
-        final inputBuilder =
-            BuildInputBuilder()
-              ..setupShared(
-                packageName: packageName,
-                packageRoot: packageUri,
-                outputFile: buildOutputUri,
-                outputDirectoryShared: outputDirectoryShared,
-              )
-              ..config.setupBuild(linkingEnabled: false)
-              ..addExtension(DataAssetsExtension())
-              ..addExtension(
-                CodeAssetExtension(
-                  targetArchitecture: architecture,
-                  targetOS: targetOS,
-                  macOS:
-                      targetOS == OS.macOS
-                          ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                          : null,
-                  linkModePreference: LinkModePreference.dynamic,
-                ),
-              );
+        final inputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: packageName,
+            packageRoot: packageUri,
+            outputFile: buildOutputUri,
+            outputDirectoryShared: outputDirectoryShared,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(DataAssetsExtension())
+          ..addExtension(
+            CodeAssetExtension(
+              targetArchitecture: architecture,
+              targetOS: targetOS,
+              macOS: targetOS == OS.macOS
+                  ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+                  : null,
+              linkModePreference: LinkModePreference.dynamic,
+            ),
+          );
 
         final buildInputUri = testTempUri.resolve('build_input.json');
         File.fromUri(

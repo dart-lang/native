@@ -42,7 +42,7 @@ void main() {
       final str1 = 'Hello'.toNSString();
       final str2 = 'World!'.toNSString();
 
-      final str3 = StringUtil.strConcat_with_(str1, str2);
+      final str3 = StringUtil.strConcat(str1, with$: str2);
       expect(str3.length, 11);
       expect(str3.toDartString(), "HelloWorld!");
     });

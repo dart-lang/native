@@ -141,27 +141,25 @@ Future<Uri> buildLib(
 
   final tempUriShared = tempUri.resolve('shared/');
   await Directory.fromUri(tempUriShared).create();
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUriShared,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: OS.android,
-            targetArchitecture: targetArchitecture,
-            cCompiler: cCompiler,
-            android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
-            linkModePreference:
-                linkMode == DynamicLoadingBundled()
-                    ? LinkModePreference.dynamic
-                    : LinkModePreference.static,
-          ),
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUriShared,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: OS.android,
+        targetArchitecture: targetArchitecture,
+        cCompiler: cCompiler,
+        android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
+        linkModePreference: linkMode == DynamicLoadingBundled()
+            ? LinkModePreference.dynamic
+            : LinkModePreference.static,
+      ),
+    );
 
   final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();

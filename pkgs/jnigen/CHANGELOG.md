@@ -1,4 +1,4 @@
-## 0.14.2-wip
+## 0.14.2
 
 - The name `factory` can now also be used in a method name without renaming.
 - Throw when output folder contains non JNIgen files. Users with existing
@@ -12,6 +12,8 @@
 - Fixed a [bug](https://github.com/dart-lang/native/issues/2250) where classes
   that inherited a generic without specifying all type parameters were not
   generated.
+- Added the ability to generate Kotlin stdlib classes without providing the
+  class path.
 
 ## 0.14.1
 

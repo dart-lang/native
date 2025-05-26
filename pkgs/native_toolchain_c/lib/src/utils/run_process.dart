@@ -68,12 +68,11 @@ Future<RunProcessResult> runProcess({
     }
   });
 
-  final (exitCode, _, _) =
-      await (
-        process.exitCode,
-        stdoutSub.asFuture<void>(),
-        stderrSub.asFuture<void>(),
-      ).wait;
+  final (exitCode, _, _) = await (
+    process.exitCode,
+    stdoutSub.asFuture<void>(),
+    stderrSub.asFuture<void>(),
+  ).wait;
   final result = RunProcessResult(
     pid: process.pid,
     command: commandString,
@@ -114,7 +113,8 @@ class RunProcessResult {
   });
 
   @override
-  String toString() => '''command: $command
+  String toString() =>
+      '''command: $command
 exitCode: $exitCode
 stdout: $stdout
 stderr: $stderr''';

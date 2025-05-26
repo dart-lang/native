@@ -1,3 +1,13 @@
+## 0.16.2
+
+* Bump the SDK constraint to at least the one from `package:hooks` to fix
+  dartdoc generation on https://pub.dev.
+
+## 0.16.1
+
+- Firebase Studio NixOS support (default install locations for native
+  toolchains).
+
 ## 0.16.0
 
 - Depend on `package:code_assets` and `package:hooks` 0.19.0.

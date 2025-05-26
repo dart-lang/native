@@ -5,12 +5,41 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../test/schema/helpers.dart';
+import 'package:args/args.dart';
+
+import '../test/json_schema/helpers.dart';
 import 'normalize.dart';
 
-void main() {
-  generateSharedDefinitions();
-  generateEntryPoints();
+void main(List<String> args) {
+  final stopwatch = Stopwatch()..start();
+  final parser = ArgParser()
+    ..addFlag(
+      'set-exit-if-changed',
+      negatable: false,
+      help: 'Return a non-zero exit code if any files were changed.',
+    );
+  final argResults = parser.parse(args);
+  final setExitIfChanged = argResults['set-exit-if-changed'] as bool;
+
+  final counts = Counts();
+
+  generateSharedDefinitions(counts);
+  generateEntryPoints(counts);
+
+  stopwatch.stop();
+  final duration = stopwatch.elapsedMilliseconds / 1000.0;
+  print(
+    'Generated ${counts.generated} files (${counts.changed} changed) in '
+    '${duration.toStringAsFixed(2)} seconds.',
+  );
+  if (setExitIfChanged && counts.changed > 0) {
+    exit(1);
+  }
+}
+
+class Counts {
+  int generated = 0;
+  int changed = 0;
 }
 
 Uri packageUri = findPackageRoot('hooks');
@@ -23,7 +52,7 @@ enum Hook { build, hook, link }
 
 const packages = ['hooks', 'code_assets', 'data_assets'];
 
-void generateSharedDefinitions() {
+void generateSharedDefinitions(Counts counts) {
   const hookOutputAssetOverride = {
     'properties': {
       'assets': {
@@ -159,16 +188,28 @@ void generateSharedDefinitions() {
             },
         },
       };
-      final jsonString = jsonEncoder.convert(
-        sortJson(contents, schemaUri.path),
-      );
-      File.fromUri(schemaUri).writeAsStringSync('$jsonString\n');
-      print('Generated: $schemaUri');
+      var jsonString = jsonEncoder.convert(sortJson(contents, schemaUri.path));
+      jsonString += '\n';
+      final file = File.fromUri(schemaUri);
+
+      var oldContent = '';
+      if (file.existsSync()) {
+        oldContent = file.readAsStringSync();
+      }
+
+      final newContentNormalized = jsonString.replaceAll('\r\n', '\n');
+      final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
+      if (newContentNormalized != oldContentNormalized) {
+        file.writeAsStringSync(jsonString);
+        print('Generated $schemaUri (content changed)');
+        counts.changed++;
+      }
+      counts.generated++;
     }
   }
 }
 
-void generateEntryPoints() {
+void generateEntryPoints(Counts counts) {
   for (final package in packages) {
     for (final hook in Hook.values) {
       if (hook == Hook.hook) continue;
@@ -193,9 +234,26 @@ void generateEntryPoints() {
               },
             ],
           };
-          final jsonString = jsonEncoder.convert(contents);
-          File.fromUri(schemaUri).writeAsStringSync('$jsonString\n');
-          print('Generated: $schemaUri');
+
+          var jsonString = jsonEncoder.convert(
+            sortJson(contents, schemaUri.path),
+          );
+          jsonString += '\n';
+          final file = File.fromUri(schemaUri);
+
+          var oldContent = '';
+          if (file.existsSync()) {
+            oldContent = file.readAsStringSync();
+          }
+
+          final newContentNormalized = jsonString.replaceAll('\r\n', '\n');
+          final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
+          if (newContentNormalized != oldContentNormalized) {
+            file.writeAsStringSync(jsonString);
+            print('Generated $schemaUri (content changed)');
+            counts.changed++;
+          }
+          counts.generated++;
         }
       }
     }

@@ -56,28 +56,28 @@ void main() {
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
-      // generateBindingsForCoverage('block');
+      generateBindingsForCoverage('block');
 
-      BlockTester.setup_(NativeApi.initializeApiDLData);
+      BlockTester.setup(NativeApi.initializeApiDLData);
     });
 
     test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
-      final blockTester = BlockTester.newFromMultiplier_(10);
-      expect(blockTester.call_(123), 1230);
+      final blockTester = BlockTester.newFromMultiplier(10);
+      expect(blockTester.call(123), 1230);
       final intBlock = blockTester.getBlock();
-      final blockTester2 = BlockTester.newFromBlock_(intBlock);
+      final blockTester2 = BlockTester.newFromBlock(intBlock);
       blockTester2.pokeBlock();
-      expect(blockTester2.call_(456), 4560);
+      expect(blockTester2.call(456), 4560);
     });
 
     test('Block from function pointer', () {
       final block =
           IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
-      final blockTester = BlockTester.newFromBlock_(block);
+      final blockTester = BlockTester.newFromBlock(block);
       blockTester.pokeBlock();
-      expect(blockTester.call_(123), 223);
+      expect(blockTester.call(123), 223);
       expect(block(123), 223);
     });
 
@@ -87,9 +87,9 @@ void main() {
 
     test('Block from function', () {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      final blockTester = BlockTester.newFromBlock_(block);
+      final blockTester = BlockTester.newFromBlock(block);
       blockTester.pokeBlock();
-      expect(blockTester.call_(123), 4123);
+      expect(blockTester.call(123), 4123);
       expect(block(123), 4123);
     });
 
@@ -101,7 +101,7 @@ void main() {
         hasRun.complete();
       });
 
-      BlockTester.callOnSameThread_(block);
+      BlockTester.callOnSameThread(block);
 
       await hasRun.future;
       expect(value, 123);
@@ -115,7 +115,7 @@ void main() {
         hasRun.complete();
       });
 
-      final thread = BlockTester.callOnNewThread_(block);
+      final thread = BlockTester.callOnNewThread(block);
       thread.start();
 
       await hasRun.future;
@@ -136,7 +136,7 @@ void main() {
         waitSync(Duration(milliseconds: 100));
         value = 123;
       });
-      BlockTester.callOnSameThread_(block);
+      BlockTester.callOnSameThread(block);
       expect(value, 123);
     });
 
@@ -149,7 +149,7 @@ void main() {
       final resultBlock = ResultBlock.listener((int result) {
         resultCompleter.complete(result);
       });
-      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      BlockTester.blockingBlockTest(block, resultBlock: resultBlock);
       expect(await resultCompleter.future, 123456);
     });
 
@@ -159,7 +159,7 @@ void main() {
         value = 123;
         throw "Hello";
       });
-      BlockTester.callOnSameThread_(block);
+      BlockTester.callOnSameThread(block);
       expect(value, 123);
     });
 
@@ -172,7 +172,7 @@ void main() {
       final resultBlock = ResultBlock.listener((int result) {
         resultCompleter.complete(result);
       });
-      BlockTester.blockingBlockTest_resultBlock_(block, resultBlock);
+      BlockTester.blockingBlockTest(block, resultBlock: resultBlock);
       expect(await resultCompleter.future, 123456);
     });
 
@@ -191,7 +191,7 @@ void main() {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
-      expect(BlockTester.callFloatBlock_(block), closeTo(5.79, 1e-6));
+      expect(BlockTester.callFloatBlock(block), closeTo(5.79, 1e-6));
     });
 
     test('Double block', () {
@@ -199,7 +199,7 @@ void main() {
         return x + 4.56;
       });
       expect(block(1.23), closeTo(5.79, 1e-6));
-      expect(BlockTester.callDoubleBlock_(block), closeTo(5.79, 1e-6));
+      expect(BlockTester.callDoubleBlock(block), closeTo(5.79, 1e-6));
     });
 
     test('Struct block', () {
@@ -228,7 +228,7 @@ void main() {
         expect(result1.z, 7.8);
         expect(result1.w, 1.2);
 
-        final result2 = BlockTester.callVec4Block_(block);
+        final result2 = BlockTester.callVec4Block(block);
         expect(result2.x, 3.4);
         expect(result2.y, 5.6);
         expect(result2.z, 7.8);
@@ -245,7 +245,7 @@ void main() {
       block('Hello'.toSelector());
       expect(sel, 'Hello');
 
-      BlockTester.callSelectorBlock_(block);
+      BlockTester.callSelectorBlock(block);
       expect(sel, 'Select');
     });
 
@@ -262,7 +262,7 @@ void main() {
       expect(isCalled, isTrue);
 
       isCalled = false;
-      final result2 = BlockTester.callObjectBlock_(block);
+      final result2 = BlockTester.callObjectBlock(block);
       expect(result2, isNot(obj));
       expect(result2.ref.pointer, isNot(nullptr));
       expect(isCalled, isTrue);
@@ -286,7 +286,7 @@ void main() {
       expect(isCalled, isTrue);
 
       isCalled = false;
-      final result3 = BlockTester.callNullableObjectBlock_(block);
+      final result3 = BlockTester.callNullableObjectBlock(block);
       expect(result3, isNull);
       expect(isCalled, isTrue);
     });
@@ -302,7 +302,7 @@ void main() {
       final result2 = block(null);
       expect(result2?.toDartString(), 'null Cat');
 
-      final result3 = BlockTester.callNullableStringBlock_(block);
+      final result3 = BlockTester.callNullableStringBlock(block);
       expect(result3?.toDartString(), 'Lizard Cat');
     });
 
@@ -313,7 +313,7 @@ void main() {
         hasRun.complete();
       });
 
-      BlockTester.callObjectListener_(block);
+      BlockTester.callObjectListener(block);
       await hasRun.future;
     });
 
@@ -324,7 +324,7 @@ void main() {
         hasRun.complete();
       });
 
-      BlockTester.callNullableListener_(block);
+      BlockTester.callNullableListener(block);
       await hasRun.future;
     });
 
@@ -345,7 +345,7 @@ void main() {
         hasRun.complete();
       });
 
-      BlockTester.callStructListener_(block);
+      BlockTester.callStructListener(block);
       await hasRun.future;
     });
 
@@ -356,7 +356,7 @@ void main() {
         hasRun.complete();
       });
 
-      BlockTester.callNSStringListener_x_(block, 123);
+      BlockTester.callNSStringListener(block, x: 123);
       await hasRun.future;
     });
 
@@ -376,7 +376,7 @@ void main() {
         hasRun.complete();
       });
 
-      BlockTester.callNoTrampolineListener_(block);
+      BlockTester.callNoTrampolineListener(block);
       await hasRun.future;
     });
 
@@ -394,12 +394,12 @@ void main() {
       final result1 = blockBlock(intBlock);
       expect(result1(1), 15);
 
-      final result2 = BlockTester.newBlock_withMult_(blockBlock, 2);
+      final result2 = BlockTester.newBlock(blockBlock, withMult: 2);
       expect(result2(1), 6);
     });
 
     test('Native block block', () {
-      final blockBlock = BlockTester.newBlockBlock_(7);
+      final blockBlock = BlockTester.newBlockBlock(7);
 
       final intBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -407,7 +407,7 @@ void main() {
       final result1 = blockBlock(intBlock);
       expect(result1(1), 35);
 
-      final result2 = BlockTester.newBlock_withMult_(blockBlock, 2);
+      final result2 = BlockTester.newBlock(blockBlock, withMult: 2);
       expect(result2(1), 14);
     });
 
@@ -543,7 +543,7 @@ void main() {
           return 3 * intBlock(x);
         });
       });
-      final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
+      final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       expect(outputBlock(1), 6);
       lib.objc_autoreleasePoolPop(pool);
       doGC();
@@ -589,7 +589,7 @@ void main() {
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock = BlockTester.newBlockBlock_(7);
+      final blockBlock = BlockTester.newBlockBlock(7);
       final outputBlock = blockBlock(inputBlock);
       expect(outputBlock(1), 35);
       lib.objc_autoreleasePoolPop(pool);
@@ -619,8 +619,8 @@ void main() {
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
         nativeBlockBlockObjCCallRefCountTest() {
-      final blockBlock = BlockTester.newBlockBlock_(7);
-      final outputBlock = BlockTester.newBlock_withMult_(blockBlock, 2);
+      final blockBlock = BlockTester.newBlockBlock(7);
+      final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       expect(outputBlock(1), 14);
       doGC();
 
@@ -644,10 +644,10 @@ void main() {
       outputCounter.value = 0;
 
       final block = ObjectBlock.fromFunction((DummyObject x) {
-        return DummyObject.newWithCounter_(outputCounter);
+        return DummyObject.newWithCounter(outputCounter);
       });
 
-      final inputObj = DummyObject.newWithCounter_(inputCounter);
+      final inputObj = DummyObject.newWithCounter(inputCounter);
       final outputObj = block(inputObj);
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
@@ -674,11 +674,11 @@ void main() {
       outputCounter.value = 0;
 
       final block = ObjectBlock.fromFunction((DummyObject x) {
-        x.setCounter_(inputCounter);
-        return DummyObject.newWithCounter_(outputCounter);
+        x.setCounter(inputCounter);
+        return DummyObject.newWithCounter(outputCounter);
       });
 
-      final outputObj = BlockTester.callObjectBlock_(block);
+      final outputObj = BlockTester.callObjectBlock(block);
       expect(inputCounter.value, 1);
       expect(outputCounter.value, 1);
 
@@ -712,7 +712,7 @@ void main() {
         hasRun.complete();
       });
 
-      final thread = BlockTester.callWithBlockOnNewThread_(blockBlock);
+      final thread = BlockTester.callWithBlockOnNewThread(blockBlock);
       thread.start();
 
       await hasRun.future;
@@ -748,7 +748,7 @@ void main() {
         expect(dummyObject, isNotNull);
       });
 
-      final tester = BlockTester.newFromListener_(block);
+      final tester = BlockTester.newFromListener(block);
       final rawBlock = block!.ref.pointer;
       expect(blockRetainCount(rawBlock), 2);
 
@@ -757,7 +757,7 @@ void main() {
 
       dummyObject = null;
       block = null;
-      tester.invokeAndReleaseListener_(null);
+      tester.invokeAndReleaseListener(null);
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       doGC();
@@ -780,7 +780,7 @@ void main() {
         completer.complete();
       });
 
-      final tester = BlockTester.newFromListener_(block);
+      final tester = BlockTester.newFromListener(block);
       final rawBlock = block!.ref.pointer;
       expect(blockRetainCount(rawBlock), 2);
 
@@ -841,7 +841,7 @@ void main() {
         completer.complete();
         expect(dummyObject, isNotNull);
       });
-      final tester = BlockTester.newFromListener_(block);
+      final tester = BlockTester.newFromListener(block);
       expect(blockRetainCount(block.ref.pointer), 2);
       expect(objectRetainCount(dummyObject.ref.pointer), 1);
       return (tester, block.ref.pointer, dummyObject.ref.pointer);
@@ -1068,7 +1068,7 @@ void main() {
         final block = VoidBlock.blocking(() {
           innerValue = 123;
         });
-        BlockTester.callOnSameThreadOutsideIsolate_(block);
+        BlockTester.callOnSameThreadOutsideIsolate(block);
         return innerValue;
       });
       expect(value, 123);

@@ -3,12 +3,12 @@
 [![pub package](https://img.shields.io/pub/v/code_assets.svg)](https://pub.dev/packages/code_assets)
 [![package publisher](https://img.shields.io/pub/publisher/code_assets.svg)](https://pub.dev/packages/code_assets/publisher)
 
-This library contains the hook protocol specification for bundling native code
-with Dart packages.
+A library to use in build hooks (`hook/build.dart`) for building and bundling
+code assets.
 
-## Status: Experimental
+## Status: In Preview
 
-**NOTE**: This package is currently experimental and published under the
+**NOTE**: This package is currently in preview and published under the
 [labs.dart.dev](https://dart.dev/dart-team-packages) pub publisher in order to
 solicit feedback. 
 

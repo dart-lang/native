@@ -3,6 +3,7 @@
 #import <objc/message.h>
 #import "foundation.h"
 #import "input_stream_adapter.h"
+#import "ns_number.h"
 #import "protocol.h"
 
 #if !__has_feature(objc_arc)
@@ -64,6 +65,8 @@ Protocol* _ObjectiveCBindings_NSItemProviderWriting(void) { return @protocol(NSI
 Protocol* _ObjectiveCBindings_NSMutableCopying(void) { return @protocol(NSMutableCopying); }
 
 Protocol* _ObjectiveCBindings_NSObject(void) { return @protocol(NSObject); }
+
+Protocol* _ObjectiveCBindings_NSPortDelegate(void) { return @protocol(NSPortDelegate); }
 
 Protocol* _ObjectiveCBindings_NSSecureCoding(void) { return @protocol(NSSecureCoding); }
 

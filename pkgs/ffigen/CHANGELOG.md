@@ -1,6 +1,14 @@
-## 18.2.0-wip
+## 19.0.0
 
-- Use package:objective_c 7.2.0.
+- Use package:objective_c 8.0.0.
+- __Breaking change__: Major change to the way ObjC methods are code-genned.
+  Methods now use named parameters, making them more readable and closer to how
+  they're written in ObjC. For example, the `NSData` method
+  `dataWithBytes:length:` used to be generated as
+  `dataWithBytes_length_(Pointer<Void> bytes, int length)`, but is now generated
+  as `dataWithBytes(Pointer<Void> bytes, {required int length})`. Protocol
+  methods are not affected.
+  - Migration tip: A quick way to find affected methods is to search for `_(`.
 - Make it easier for a downstream clone to change behavior of certain utils.
 - Fix [a bug](https://github.com/dart-lang/native/issues/1268) where types could
   occasionally show up as a generic ObjCObjectBase, when they were supposed to

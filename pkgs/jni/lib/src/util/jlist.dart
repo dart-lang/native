@@ -197,8 +197,8 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'contains', r'(Ljava/lang/Object;)Z');
   @override
   bool contains(Object? element) {
-    if (element is! JObject) return false;
-    final elementRef = element.reference;
+    if (element is! JObject?) return false;
+    final elementRef = element?.reference ?? jNullReference;
     return _containsId(this, const jbooleanType(), [elementRef.pointer])!;
   }
 
@@ -215,9 +215,9 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'indexOf', r'(Ljava/lang/Object;)I');
   @override
   int indexOf(Object? element, [int start = 0]) {
-    if (element is! JObject) return -1;
+    if (element is! JObject?) return -1;
     if (start < 0) start = 0;
-    final elementRef = element.reference;
+    final elementRef = element?.reference ?? jNullReference;
     if (start == 0) {
       return _indexOfId(this, const jintType(), [elementRef.pointer])!;
     }
@@ -270,13 +270,13 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'lastIndexOf', r'(Ljava/lang/Object;)I');
   @override
   int lastIndexOf(Object? element, [int? start]) {
-    if (element is! JObject) return -1;
+    if (element is! JObject?) return -1;
     if (start == null || start >= this.length) start = this.length - 1;
-    final elementRef = element.reference;
+    final elementRef = element?.reference ?? jNullReference;
     if (start == this.length - 1) {
       return _lastIndexOfId(this, const jintType(), [elementRef.pointer]);
     }
-    final range = getRange(start, length);
+    final range = getRange(0, start);
     final res = _lastIndexOfId(
       range,
       const jintType(),
@@ -290,8 +290,8 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'remove', r'(Ljava/lang/Object;)Z');
   @override
   bool remove(Object? element) {
-    if (element is! JObject) return false;
-    final elementRef = element.reference;
+    if (element is! JObject?) return false;
+    final elementRef = element?.reference ?? jNullReference;
     return _removeId(this, const jbooleanType(), [elementRef.pointer]);
   }
 

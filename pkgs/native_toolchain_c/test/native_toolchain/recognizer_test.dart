@@ -85,10 +85,9 @@ class RecognizerTest {
   RecognizerTest(this.tool, this.recognizer);
 
   Future<void> setUp() async {
-    toolInstance =
-        (await tool.defaultResolver!.resolve(
-          logger: null /* no printOnFailure support in setup. */,
-        )).where((element) => element.tool == tool).firstOrNull;
+    toolInstance = (await tool.defaultResolver!.resolve(
+      logger: null /* no printOnFailure support in setup. */,
+    )).where((element) => element.tool == tool).firstOrNull;
   }
 
   void addTest() {
@@ -101,8 +100,9 @@ class RecognizerTest {
 
     test('recognize ${tool.name}', () async {
       final recognizer_ = recognizer(toolInstance!.uri);
-      final toolInstanceAgain =
-          (await recognizer_.resolve(logger: logger)).first;
+      final toolInstanceAgain = (await recognizer_.resolve(
+        logger: logger,
+      )).first;
       expect(toolInstanceAgain, toolInstance);
     });
   }

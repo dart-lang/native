@@ -36,27 +36,25 @@ void main() {
     final logger = createCapturingLogger(logMessages);
 
     final targetOS = OS.current;
-    final buildInputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: targetOS,
-              macOS:
-                  targetOS == OS.macOS
-                      ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                      : null,
-              targetArchitecture: Architecture.current,
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: cCompiler,
-            ),
-          );
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: name,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
+      );
 
     final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();

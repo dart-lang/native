@@ -26,9 +26,9 @@ void main() {
 
     test('Category methods', () {
       final thing = Thing();
-      expect(thing.add_Y_(1000, 234), 1234);
-      expect(thing.sub_Y_(1234, 1000), 234);
-      expect(thing.mul_Y_(1234, 1000), 1234000);
+      expect(thing.add(1000, Y: 234), 1234);
+      expect(thing.sub(1234, Y: 1000), 234);
+      expect(thing.mul(1234, Y: 1000), 1234000);
       expect(thing.someProperty, 456);
       expect(thing.anonymousCategoryMethod(), 404);
       expect(Thing.anonymousCategoryStaticMethod(), 128);

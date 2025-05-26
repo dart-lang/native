@@ -4,6 +4,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io' show Platform;
 
 import 'package:file/file.dart';
@@ -21,6 +22,9 @@ import '../model/link_result.dart';
 import '../package_layout/package_layout.dart';
 import '../utils/run_process.dart';
 import 'build_planner.dart';
+import 'failure.dart';
+import 'result.dart';
+import 'tracing_file_system.dart';
 
 typedef InputCreator = HookInputBuilder Function();
 
@@ -40,7 +44,22 @@ typedef _HookValidator =
 /// [BuildInput] and [LinkInput]! For more info see:
 /// https://github.com/dart-lang/native/issues/1319
 class NativeAssetsBuildRunner {
-  final FileSystem _fileSystem;
+  /// The sequential parts of a build are reported on a single task.
+  ///
+  /// If we ever start doing concurrent hook invocations, we'll need to split
+  /// it up in multiple tasks.
+  final _task = TimelineTask();
+
+  /// Traced by [_task], cannot be used for concurrent actions.
+  ///
+  /// Use [_fileSystemUntraced] for actions that must not be traced.
+  ///
+  /// This uses [_fileSystemUntraced] under the hood.
+  late final TracingFileSystem _fileSystem;
+
+  /// Not traced by [_task], can be used for concurrent actions.
+  final FileSystem _fileSystemUntraced;
+
   final Logger logger;
   final Uri dartExecutable;
   final Duration singleHookTimeout;
@@ -56,11 +75,13 @@ class NativeAssetsBuildRunner {
     Duration? singleHookTimeout,
     Map<String, String>? hookEnvironment,
     this.userDefines,
-  }) : _fileSystem = fileSystem,
+  }) : _fileSystemUntraced = fileSystem,
        singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5),
        hookEnvironment =
            hookEnvironment ??
-           filteredEnvironment(hookEnvironmentVariablesFilter);
+           filteredEnvironment(hookEnvironmentVariablesFilter) {
+    _fileSystem = TracingFileSystem(fileSystem, _task);
+  }
 
   /// Checks whether any hooks need to be run.
   ///
@@ -72,23 +93,25 @@ class NativeAssetsBuildRunner {
     return packagesWithHook.map((e) => e.name).toList();
   }
 
-  Future<HookResult?> _checkUserDefines(
+  Future<Result<HookResult, HooksRunnerFailure>> _checkUserDefines(
     LoadedUserDefines? loadedUserDefines,
-  ) async {
+  ) async => _timeAsync('_checkUserDefines', () async {
     if (loadedUserDefines?.pubspecErrors.isNotEmpty ?? false) {
       logger.severe('pubspec.yaml contains errors');
       for (final error in loadedUserDefines!.pubspecErrors) {
         logger.severe(error);
       }
-      return null;
+      return const Failure(HooksRunnerFailure.projectConfig);
     }
-    return HookResult(
-      dependencies: switch (userDefines?.workspacePubspec) {
-        null => [],
-        final pubspec => [pubspec],
-      },
+    return Success(
+      HookResult(
+        dependencies: switch (userDefines?.workspacePubspec) {
+          null => [],
+          final pubspec => [pubspec],
+        },
+      ),
     );
-  }
+  });
 
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
@@ -99,22 +122,32 @@ class NativeAssetsBuildRunner {
   ///
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
-  Future<BuildResult?> build({
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [BuildResult], which encapsulates
+  /// the outputs of all successful build hook executions. On failure, the
+  /// [Result] is a [Failure] containing a [HooksRunnerFailure] indicating the
+  /// reason for the build failure.
+  Future<Result<BuildResult, HooksRunnerFailure>> build({
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
-  }) async {
+  }) async => _timeAsync('BuildRunner.build', () async {
+    final planResult = await _makePlan(hook: Hook.build, buildResult: null);
+    if (planResult.isFailure) {
+      return planResult.asFailure;
+    }
+    final (buildPlan, packageGraph) = planResult.success;
+    if (buildPlan.isEmpty) {
+      // Return eagerly if there are no build hooks at all.
+      return Success(HookResult());
+    }
+
     final loadedUserDefines = await _loadedUserDefines;
     final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
-    if (hookResultUserDefines == null) {
-      return null;
+    if (hookResultUserDefines.isFailure) {
+      return hookResultUserDefines;
     }
-    var hookResult = hookResultUserDefines;
-
-    final (buildPlan, packageGraph) = await _makePlan(
-      hook: Hook.build,
-      buildResult: null,
-    );
-    if (buildPlan == null) return null;
+    var hookResult = hookResultUserDefines.success;
 
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
@@ -153,10 +186,8 @@ class NativeAssetsBuildRunner {
         for (final e in extensions) ...await e.validateBuildInput(input),
       ];
       if (errors.isNotEmpty) {
-        return _printErrors(
-          'Build input for ${package.name} contains errors',
-          errors,
-        );
+        _printErrors('Build input for ${package.name} contains errors', errors);
+        return const Failure(HooksRunnerFailure.internal);
       }
 
       final result = await _runHookForPackageCached(
@@ -173,8 +204,10 @@ class NativeAssetsBuildRunner {
         buildDirUri,
         outDirUri,
       );
-      if (result == null) return null;
-      final (hookOutput, hookDeps) = result;
+      if (result.isFailure) {
+        return result.asFailure;
+      }
+      final (hookOutput, hookDeps) = result.success;
       hookResult = hookResult.copyAdd(hookOutput, hookDeps);
       globalAssetsForBuild[package.name] =
           (hookOutput as BuildOutput).assets.encodedAssetsForBuild;
@@ -183,17 +216,17 @@ class NativeAssetsBuildRunner {
     // We only perform application wide validation in the final result of
     // building all assets (i.e. in the build step if linking is not enabled or
     // in the link step if linking is enableD).
-    if (linkingEnabled) return hookResult;
+    if (linkingEnabled) return Success(hookResult);
 
     final errors = [
       for (final e in extensions)
         ...await e.validateApplicationAssets(hookResult.encodedAssets),
     ];
-    if (errors.isEmpty) return hookResult;
+    if (errors.isEmpty) return Success(hookResult);
 
     _printErrors('Application asset verification failed', errors);
-    return null;
-  }
+    return const Failure(HooksRunnerFailure.hookRun);
+  });
 
   /// This method is invoked by launchers such as dartdev (for `dart run`) and
   /// flutter_tools (for `flutter run` and `flutter build`).
@@ -204,23 +237,30 @@ class NativeAssetsBuildRunner {
   ///
   /// The base protocol can be extended with [extensions]. See
   /// [ProtocolExtension] for more documentation.
-  Future<LinkResult?> link({
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [LinkResult], which encapsulates
+  /// the outputs of all successful link hook executions. On failure, the
+  /// [Result] is a [Failure] containing a [HooksRunnerFailure] indicating the
+  /// reason for the failure.
+  Future<Result<LinkResult, HooksRunnerFailure>> link({
     required List<ProtocolExtension> extensions,
     Uri? resourceIdentifiers,
     required BuildResult buildResult,
-  }) async {
+  }) async => _timeAsync('BuildRunner.link', () async {
     final loadedUserDefines = await _loadedUserDefines;
     final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
-    if (hookResultUserDefines == null) {
-      return null;
+    if (hookResultUserDefines.isFailure) {
+      return hookResultUserDefines;
     }
-    var linkResult = hookResultUserDefines;
+    var linkResult = hookResultUserDefines.success;
 
-    final (buildPlan, packageGraph) = await _makePlan(
+    final planResult = await _makePlan(
       hook: Hook.link,
       buildResult: buildResult,
     );
-    if (buildPlan == null) return null;
+    if (planResult.isFailure) return planResult.asFailure;
+    final (buildPlan, packageGraph) = planResult.success;
 
     for (final package in buildPlan) {
       final inputBuilder = LinkInputBuilder();
@@ -260,10 +300,8 @@ class NativeAssetsBuildRunner {
       ];
       if (errors.isNotEmpty) {
         print(input.assets.encodedAssets);
-        return _printErrors(
-          'Link input for ${package.name} contains errors',
-          errors,
-        );
+        _printErrors('Link input for ${package.name} contains errors', errors);
+        return const Failure(HooksRunnerFailure.internal);
       }
 
       final result = await _runHookForPackageCached(
@@ -280,8 +318,8 @@ class NativeAssetsBuildRunner {
         buildDirUri,
         outDirUri,
       );
-      if (result == null) return null;
-      final (hookOutput, hookDeps) = result;
+      if (result.isFailure) return result.asFailure;
+      final (hookOutput, hookDeps) = result.success;
       linkResult = linkResult.copyAdd(hookOutput, hookDeps);
     }
 
@@ -292,26 +330,25 @@ class NativeAssetsBuildRunner {
           ...linkResult.encodedAssets,
         ]),
     ];
-    if (errors.isEmpty) return linkResult;
+    if (errors.isEmpty) return Success(linkResult);
 
     _printErrors('Application asset verification failed', errors);
-    return null;
-  }
+    return const Failure(HooksRunnerFailure.hookRun);
+  });
 
-  Null _printErrors(String message, ValidationErrors errors) {
+  void _printErrors(String message, ValidationErrors errors) {
     assert(errors.isNotEmpty);
     logger.severe(message);
     for (final error in errors) {
       logger.severe('- $error');
     }
-    return null;
   }
 
   Future<(Uri, Uri, Uri)> _setupDirectories(
     Hook hook,
     HookInputBuilder inputBuilder,
     Package package,
-  ) async {
+  ) => _timeAsync('_setupDirectories', () async {
     final buildDirName = inputBuilder.computeChecksum();
     final packageName = package.name;
     final buildDirUri = packageLayout.dartToolNativeAssetsBuilder.resolve(
@@ -332,109 +369,110 @@ class NativeAssetsBuildRunner {
       await outDirShared.create(recursive: true);
     }
     return (buildDirUri, outDirUri, outDirSharedUri);
-  }
+  });
 
-  Future<(HookOutput, List<Uri>)?> _runHookForPackageCached(
+  Future<Result<(HookOutput, List<Uri>), HooksRunnerFailure>>
+  _runHookForPackageCached(
     Hook hook,
     HookInput input,
     _HookValidator validator,
     Uri? resources,
     Uri buildDirUri,
     Uri outputDirectory,
-  ) async => await runUnderDirectoriesLock(
-    _fileSystem,
-    [
-      _fileSystem.directory(input.outputDirectoryShared).parent.uri,
-      _fileSystem.directory(outputDirectory).parent.uri,
-    ],
-    timeout: singleHookTimeout,
-    logger: logger,
-    () async {
-      final hookCompileResult = await _compileHookForPackageCached(
-        input.packageName,
-        buildDirUri,
-        input.packageRoot.resolve('hook/${hook.scriptName}'),
-      );
-      if (hookCompileResult == null) {
-        return null;
-      }
-      final (hookKernelFile, hookHashes) = hookCompileResult;
+  ) async => _timeAsync(
+    '_runHookForPackageCached',
+    arguments: {'hook': hook.name, 'package': input.packageName},
+    () async => await runUnderDirectoriesLock(
+      _fileSystem,
+      [
+        _fileSystem.directory(input.outputDirectoryShared).parent.uri,
+        _fileSystem.directory(outputDirectory).parent.uri,
+      ],
+      timeout: singleHookTimeout,
+      logger: logger,
+      () async {
+        final hookCompileResult = await _compileHookForPackageCached(
+          input.packageName,
+          buildDirUri,
+          input.packageRoot.resolve('hook/${hook.scriptName}'),
+        );
+        if (hookCompileResult.isFailure) return hookCompileResult.asFailure;
+        final (hookKernelFile, hookHashes, didRecompile) =
+            hookCompileResult.success;
 
-      final buildOutputFile = _fileSystem.file(input.outputFile);
+        final buildOutputFile = _fileSystem.file(input.outputFile);
 
-      final dependenciesHashFile = buildDirUri.resolve(
-        'dependencies.dependencies_hash_file.json',
-      );
-      final dependenciesHashes = DependenciesHashFile(
-        _fileSystem,
-        fileUri: dependenciesHashFile,
-      );
-      final lastModifiedCutoffTime = DateTime.now();
-      if ((buildOutputFile.existsSync()) && await dependenciesHashes.exists()) {
-        late final HookOutput output;
-        try {
-          output = _readHookOutputFromUri(hook, buildOutputFile);
-        } on FormatException catch (e) {
-          logger.severe('''
-Building assets for package:${input.packageName} failed.
-${input.outputFile.toFilePath()} contained a format error.
-
-Contents: ${buildOutputFile.readAsStringSync()}.
-${e.message}
-        ''');
-          return null;
-        }
-
-        final outdatedDependency = await dependenciesHashes
-            .findOutdatedDependency(hookEnvironment);
-        if (outdatedDependency == null) {
-          logger.info(
-            'Skipping ${hook.name} for ${input.packageName}'
-            ' in ${buildDirUri.toFilePath()}.'
-            ' Last build on ${output.timestamp}.',
+        final dependenciesHashFile = buildDirUri.resolve(
+          'dependencies.dependencies_hash_file.json',
+        );
+        final dependenciesHashes = DependenciesHashFile(
+          _fileSystem,
+          fileUri: dependenciesHashFile,
+          task: _task,
+        );
+        final lastModifiedCutoffTime = DateTime.now();
+        if (await buildOutputFile.exists() &&
+            await dependenciesHashes.exists()) {
+          final outputResult = await _readHookOutputFromUri(
+            hook,
+            buildOutputFile,
+            input.packageName,
           );
-          // All build flags go into [outDir]. Therefore we do not have to
-          // check here whether the input is equal.
-          return (output, hookHashes.fileSystemEntities);
-        }
-        logger.info(
-          'Rerunning ${hook.name} for ${input.packageName}'
-          ' in ${buildDirUri.toFilePath()}. $outdatedDependency',
-        );
-      }
+          if (outputResult.isFailure) {
+            return const Failure(HooksRunnerFailure.hookRun);
+          }
+          final output = outputResult.success;
 
-      final result = await _runHookForPackage(
-        hook,
-        input,
-        validator,
-        resources,
-        hookKernelFile,
-        hookEnvironment,
-        buildDirUri,
-        outputDirectory,
-      );
-      if (result == null) {
-        if (await dependenciesHashes.exists()) {
-          await dependenciesHashes.delete();
+          final outdatedDependency = await dependenciesHashes
+              .findOutdatedDependency(hookEnvironment);
+          if (outdatedDependency == null && !didRecompile) {
+            // Note, we can only rely on didRecompile as long as the hook
+            // compilations are not shared across different `BuildConfig`s.
+            logger.info(
+              'Skipping ${hook.name} for ${input.packageName}'
+              ' in ${buildDirUri.toFilePath()}.'
+              ' Last build on ${output.timestamp}.',
+            );
+            // All build flags go into [outDir]. Therefore we do not have to
+            // check here whether the input is equal.
+            return Success((output, hookHashes.fileSystemEntities));
+          }
+          logger.info(
+            'Rerunning ${hook.name} for ${input.packageName}'
+            ' in ${buildDirUri.toFilePath()}. '
+            '${outdatedDependency ?? hookKernelFile.uri}',
+          );
         }
-        return null;
-      } else {
-        final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
-          [
-            ...result.dependencies,
-            // Also depend on the compiled hook. Don't depend on the sources,
-            // if only whitespace changes, we don't need to rerun the hook.
-            hookKernelFile.uri,
-          ],
-          lastModifiedCutoffTime,
+
+        final result = await _runHookForPackage(
+          hook,
+          input,
+          validator,
+          resources,
+          hookKernelFile,
           hookEnvironment,
+          buildDirUri,
+          outputDirectory,
         );
-        if (modifiedDuringBuild != null) {
-          logger.severe('File modified during build. Build must be rerun.');
+        if (result.isFailure) {
+          if (await dependenciesHashes.exists()) {
+            await dependenciesHashes.delete();
+          }
+          return result.asFailure;
+        } else {
+          final success = result.success;
+          final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+            [...success.dependencies],
+            lastModifiedCutoffTime,
+            hookEnvironment,
+          );
+          if (modifiedDuringBuild != null) {
+            logger.severe('File modified during build. Build must be rerun.');
+          }
+          return Success((success, hookHashes.fileSystemEntities));
         }
-      }
-      return (result, hookHashes.fileSystemEntities);
-    },
+      },
+    ),
   );
 
   /// The list of environment variables used if [hookEnvironment] is not passed
@@ -455,7 +493,7 @@ ${e.message}
     'WINDIR', // Needed for CMake.
   };
 
-  Future<HookOutput?> _runHookForPackage(
+  Future<Result<HookOutput, HooksRunnerFailure>> _runHookForPackage(
     Hook hook,
     HookInput input,
     _HookValidator validator,
@@ -464,7 +502,7 @@ ${e.message}
     Map<String, String> environment,
     Uri buildDirUri,
     Uri outputDirectory,
-  ) async {
+  ) => _timeAsync('_runHookForPackage', () async {
     final inputFile = buildDirUri.resolve('input.json');
     final inputFileContents = const JsonEncoder.withIndent(
       '  ',
@@ -494,6 +532,7 @@ ${e.message}
       logger: wrappedLogger,
       includeParentEnvironment: false,
       environment: environment,
+      task: _task,
     );
 
     var deleteOutputIfExists = false;
@@ -518,10 +557,28 @@ ${e.message}
   ${result.stdout}
           ''');
         deleteOutputIfExists = true;
-        return null;
+        if (result.exitCode > 2 && result.exitCode < 255) {
+          logger.warning(
+            'Hook exited with a reserved exit code: ${result.exitCode}. '
+            'Only 0, 1, 2, and 255 are in use.',
+          );
+        }
+        final failureType = switch (result.exitCode) {
+          2 => HooksRunnerFailure.infra,
+          _ => HooksRunnerFailure.hookRun,
+        };
+        return Failure(failureType);
       }
 
-      final output = _readHookOutputFromUri(hook, hookOutputFile);
+      final outputResult = await _readHookOutputFromUri(
+        hook,
+        hookOutputFile,
+        input.packageName,
+      );
+      if (outputResult.isFailure) {
+        return outputResult.asFailure;
+      }
+      final output = outputResult.success;
       final errors = await _validate(input, output, validator);
       if (errors.isNotEmpty) {
         _printErrors(
@@ -529,18 +586,9 @@ ${e.message}
           errors,
         );
         deleteOutputIfExists = true;
-        return null;
+        return const Failure(HooksRunnerFailure.hookRun);
       }
-      return output;
-    } on FormatException catch (e) {
-      logger.severe('''
-Building assets for package:${input.packageName} failed.
-${input.outputFile.toFilePath()} contained a format error.
-
-Contents: ${hookOutputFile.readAsStringSync()}.
-${e.message}
-        ''');
-      return null;
+      return Success(output);
     } finally {
       if (deleteOutputIfExists) {
         if (await hookOutputFile.exists()) {
@@ -548,30 +596,33 @@ ${e.message}
         }
       }
     }
-  }
+  });
 
   Future<Logger> _createFileStreamingLogger(Uri buildDirUri) async {
-    final stdoutFile = _fileSystem.file(buildDirUri.resolve('stdout.txt'));
+    final stdoutFile = _fileSystemUntraced.file(
+      buildDirUri.resolve('stdout.txt'),
+    );
     await stdoutFile.writeAsString('');
-    final stderrFile = _fileSystem.file(buildDirUri.resolve('stderr.txt'));
+    final stderrFile = _fileSystemUntraced.file(
+      buildDirUri.resolve('stderr.txt'),
+    );
     await stderrFile.writeAsString('');
-    final wrappedLogger =
-        Logger.detached('')
-          ..level = Level.ALL
-          ..onRecord.listen((record) async {
-            logger.log(record.level, record.message);
-            if (record.level <= Level.INFO) {
-              await stdoutFile.writeAsString(
-                '${record.message}\n',
-                mode: FileMode.append,
-              );
-            } else {
-              await stderrFile.writeAsString(
-                '${record.message}\n',
-                mode: FileMode.append,
-              );
-            }
-          });
+    final wrappedLogger = Logger.detached('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) async {
+        logger.log(record.level, record.message);
+        if (record.level <= Level.INFO) {
+          await stdoutFile.writeAsString(
+            '${record.message}\n',
+            mode: FileMode.append,
+          );
+        } else {
+          await stderrFile.writeAsString(
+            '${record.message}\n',
+            mode: FileMode.append,
+          );
+        }
+      });
     return wrappedLogger;
   }
 
@@ -594,120 +645,124 @@ ${e.message}
   ///
   /// TODO(https://github.com/dart-lang/native/issues/1578): Compile only once
   /// instead of per input. This requires more locking.
-  Future<(File kernelFile, DependenciesHashFile cacheFile)?>
+  Future<
+    Result<
+      (File kernelFile, DependenciesHashFile cacheFile, bool didCompile),
+      HooksRunnerFailure
+    >
+  >
   _compileHookForPackageCached(
     String packageName,
     Uri buildDirUri,
     Uri scriptUri,
-  ) async {
-    // Don't invalidate cache with environment changes.
-    final environmentForCaching = <String, String>{};
-    final packageConfigHashable = buildDirUri.resolve(
-      'package_config_hashable.json',
-    );
-    await _makeHashablePackageConfig(packageConfigHashable);
-    final kernelFile = _fileSystem.file(buildDirUri.resolve('hook.dill'));
-    final depFile = _fileSystem.file(buildDirUri.resolve('hook.dill.d'));
-    final dependenciesHashFile = buildDirUri.resolve(
-      'hook.dependencies_hash_file.json',
-    );
-    final dependenciesHashes = DependenciesHashFile(
-      _fileSystem,
-      fileUri: dependenciesHashFile,
-    );
-    final lastModifiedCutoffTime = DateTime.now();
-    var mustCompile = false;
-    if (!await dependenciesHashes.exists()) {
-      mustCompile = true;
-    } else {
-      final outdatedDependency = await dependenciesHashes
-          .findOutdatedDependency(environmentForCaching);
-      if (outdatedDependency != null) {
+  ) => _timeAsync(
+    '_compileHookForPackageCached',
+    arguments: {'scriptUri': scriptUri.toFilePath(), 'package': packageName},
+    () async {
+      // Don't invalidate cache with environment changes.
+      final environmentForCaching = <String, String>{};
+      final kernelFile = _fileSystem.file(buildDirUri.resolve('hook.dill'));
+      final depFile = _fileSystem.file(buildDirUri.resolve('hook.dill.d'));
+      final dependenciesHashFile = buildDirUri.resolve(
+        'hook.dependencies_hash_file.json',
+      );
+      final dependenciesHashes = DependenciesHashFile(
+        _fileSystem,
+        fileUri: dependenciesHashFile,
+        task: _task,
+      );
+      final lastModifiedCutoffTime = DateTime.now();
+      var mustCompile = false;
+      if (!await dependenciesHashes.exists()) {
         mustCompile = true;
-        logger.info(
-          'Recompiling ${scriptUri.toFilePath()}. $outdatedDependency',
-        );
+      } else {
+        final outdatedDependency = await dependenciesHashes
+            .findOutdatedDependency(environmentForCaching);
+        if (outdatedDependency != null) {
+          mustCompile = true;
+          logger.info(
+            'Recompiling ${scriptUri.toFilePath()}. $outdatedDependency',
+          );
+        }
       }
-    }
 
-    if (!mustCompile) {
-      return (kernelFile, dependenciesHashes);
-    }
+      if (!mustCompile) {
+        return Success((kernelFile, dependenciesHashes, false));
+      }
 
-    final success = await _compileHookForPackage(
-      packageName,
-      scriptUri,
-      kernelFile,
-      depFile,
-    );
-    if (!success) {
-      return null;
-    }
+      final compileResult = await _compileHookForPackage(
+        packageName,
+        scriptUri,
+        kernelFile,
+        depFile,
+      );
+      if (compileResult.isFailure) {
+        return compileResult.asFailure;
+      }
 
-    final dartSources = await _readDepFile(depFile);
+      final dartSources = await _readDepFile(depFile);
 
-    final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
-      [
-        ...dartSources.where((e) => e != packageLayout.packageConfigUri),
-        packageConfigHashable,
-        // If the Dart version changed, recompile.
-        dartExecutable.resolve('../version'),
-      ],
-      lastModifiedCutoffTime,
-      environmentForCaching,
-    );
-    if (modifiedDuringBuild != null) {
-      logger.severe('File modified during build. Build must be rerun.');
-    }
+      final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
+        [
+          ...dartSources.where(
+            (e) => e != packageLayout.packageConfigUri && !_isImmutable(e),
+          ),
+          packageLayout.packageConfigUri,
+          // If the Dart version changed, recompile.
+          dartExecutable.resolve('../version'),
+        ],
+        lastModifiedCutoffTime,
+        environmentForCaching,
+      );
+      if (modifiedDuringBuild != null) {
+        logger.severe('File modified during build. Build must be rerun.');
+      }
+      return Success((kernelFile, dependenciesHashes, true));
+    },
+  );
 
-    return (kernelFile, dependenciesHashes);
-  }
+  // TODO(https://github.com/dart-lang/pub/issues/4577): Use immutability bit
+  // when available.
+  static bool _isImmutable(Uri e) =>
+      e.toFilePath(windows: false).contains('/hosted/pub.dev/');
 
-  Future<void> _makeHashablePackageConfig(Uri uri) async {
-    final contents =
-        await _fileSystem.file(packageLayout.packageConfigUri).readAsString();
-    final jsonData = jsonDecode(contents) as Map<String, Object?>;
-    jsonData.remove('generated');
-    final contentsSanitized = const JsonEncoder.withIndent(
-      '  ',
-    ).convert(jsonData);
-    await _fileSystem.file(uri).writeAsString(contentsSanitized);
-  }
-
-  Future<bool> _compileHookForPackage(
+  Future<Result<void, HooksRunnerFailure>> _compileHookForPackage(
     String packageName,
     Uri scriptUri,
     File kernelFile,
     File depFile,
-  ) async {
-    final compileArguments = [
-      'compile',
-      'kernel',
-      '--packages=${packageLayout.packageConfigUri.toFilePath()}',
-      '--output=${kernelFile.path}',
-      '--depfile=${depFile.path}',
-      scriptUri.toFilePath(),
-    ];
-    final workingDirectory = packageLayout.packageConfigUri.resolve('../');
-    final compileResult = await runProcess(
-      filesystem: _fileSystem,
-      workingDirectory: workingDirectory,
-      executable: dartExecutable,
-      arguments: compileArguments,
-      logger: logger,
-      includeParentEnvironment: true,
-    );
-    var success = true;
-    if (compileResult.exitCode != 0) {
-      final printWorkingDir =
-          workingDirectory != _fileSystem.currentDirectory.uri;
-      final commandString = [
-        if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
-        dartExecutable.toFilePath(),
-        ...compileArguments.map((a) => a.contains(' ') ? "'$a'" : a),
-        if (printWorkingDir) ')',
-      ].join(' ');
-      logger.severe('''
+  ) => _timeAsync(
+    '_compileHookForPackage',
+    arguments: {'package': packageName},
+    () async {
+      final compileArguments = [
+        'compile',
+        'kernel',
+        '--packages=${packageLayout.packageConfigUri.toFilePath()}',
+        '--output=${kernelFile.path}',
+        '--depfile=${depFile.path}',
+        scriptUri.toFilePath(),
+      ];
+      final workingDirectory = packageLayout.packageConfigUri.resolve('../');
+      final compileResult = await runProcess(
+        filesystem: _fileSystem,
+        workingDirectory: workingDirectory,
+        executable: dartExecutable,
+        arguments: compileArguments,
+        logger: logger,
+        includeParentEnvironment: true,
+        task: _task,
+      );
+      if (compileResult.exitCode != 0) {
+        final printWorkingDir =
+            workingDirectory != _fileSystem.currentDirectory.uri;
+        final commandString = [
+          if (printWorkingDir) '(cd ${workingDirectory.toFilePath()};',
+          dartExecutable.toFilePath(),
+          ...compileArguments.map((a) => a.contains(' ') ? "'$a'" : a),
+          if (printWorkingDir) ')',
+        ].join(' ');
+        logger.severe('''
 Building native assets for package:$packageName failed.
 Compilation of hook returned with exit code: ${compileResult.exitCode}.
 To reproduce run:
@@ -717,16 +772,17 @@ ${compileResult.stderr}
 stdout:
 ${compileResult.stdout}
         ''');
-      success = false;
-      if (await depFile.exists()) {
-        await depFile.delete();
+        if (await depFile.exists()) {
+          await depFile.delete();
+        }
+        if (await kernelFile.exists()) {
+          await kernelFile.delete();
+        }
+        return const Failure(HooksRunnerFailure.hookRun);
       }
-      if (await kernelFile.exists()) {
-        await kernelFile.delete();
-      }
-    }
-    return success;
-  }
+      return const Success(null);
+    },
+  );
 
   /// Returns only the assets output as assetForBuild by the packages that are
   /// the direct dependencies of [packageName].
@@ -750,16 +806,12 @@ ${compileResult.stdout}
     HookOutput output,
     _HookValidator validator,
   ) async {
-    final errors =
-        input is BuildInput
-            ? await ProtocolBase.validateBuildOutput(
-              input,
-              output as BuildOutput,
-            )
-            : await ProtocolBase.validateLinkOutput(
-              input as LinkInput,
-              output as LinkOutput,
-            );
+    final errors = input is BuildInput
+        ? await ProtocolBase.validateBuildOutput(input, output as BuildOutput)
+        : await ProtocolBase.validateLinkOutput(
+            input as LinkInput,
+            output as LinkOutput,
+          );
     errors.addAll(await validator(input, output));
 
     if (input is BuildInput) {
@@ -790,56 +842,93 @@ ${compileResult.stdout}
       logger: logger,
       packageLayout: packageLayout,
       fileSystem: _fileSystem,
+      task: _task,
     );
     return planner;
   }();
 
-  Future<(List<Package>? plan, PackageGraph? dependencyGraph)> _makePlan({
-    required Hook hook,
-    // TODO(dacoharkes): How to share these two? Make them extend each other?
-    BuildResult? buildResult,
-  }) async {
-    final List<Package> buildPlan;
-    final PackageGraph? packageGraph;
+  Future<
+    Result<(BuildPlan plan, PackageGraph? dependencyGraph), HooksRunnerFailure>
+  >
+  _makePlan({required Hook hook, BuildResult? buildResult}) async => _timeAsync(
+    '_makePlan',
+    () async {
+      switch (hook) {
+        case Hook.build:
+          final planner = await _planner;
+          final planResult = await planner.makeBuildHookPlan();
+          if (planResult.isFailure) {
+            return planResult.asFailure;
+          }
+          return Success((planResult.success, planner.packageGraph));
+        case Hook.link:
+          // Link hooks are not run in any particular order.
+          // Link hooks are skipped if no assets for linking are provided.
+          final buildPlan = <Package>[];
+          final skipped = <String>[];
+          final encodedAssetsForLinking = buildResult!.encodedAssetsForLinking;
+          final planner = await _planner;
+          final packagesWithHook = await planner.packagesWithHook(Hook.link);
+          for (final package in packagesWithHook) {
+            if (encodedAssetsForLinking[package.name]?.isNotEmpty ?? false) {
+              buildPlan.add(package);
+            } else {
+              skipped.add(package.name);
+            }
+          }
+          if (skipped.isNotEmpty) {
+            logger.info(
+              'Skipping link hooks from ${skipped.join(', ')}'
+              ' due to no assets provided to link for these link hooks.',
+            );
+          }
+          return Success((buildPlan, null));
+      }
+    },
+  );
+
+  Future<Result<HookOutput, HooksRunnerFailure>> _readHookOutputFromUri(
+    Hook hook,
+    File hookOutputFile,
+    String packageName,
+  ) async {
+    final file = hookOutputFile;
+    final fileContents = await file.readAsString();
+    logger.info('output.json contents:\n$fileContents');
+    final Map<String, Object?> hookOutputJson;
+    try {
+      hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
+    } on FormatException catch (e) {
+      logger.severe('''
+Building assets for package:$packageName failed.
+${hookOutputFile.uri.toFilePath()} contained a format error.
+
+Contents: $fileContents.
+${e.message}''');
+      return const Failure(HooksRunnerFailure.hookRun);
+    }
     switch (hook) {
       case Hook.build:
-        final planner = await _planner;
-        final plan = await planner.makeBuildHookPlan();
-        return (plan, planner.packageGraph);
+        final output = BuildOutputMaybeFailure(hookOutputJson);
+        switch (output) {
+          case BuildOutput _:
+            return Success(output);
+          case BuildOutputFailure(type: FailureType.infra):
+            return const Failure(HooksRunnerFailure.infra);
+          case BuildOutputFailure _:
+            return const Failure(HooksRunnerFailure.hookRun);
+        }
       case Hook.link:
-        // Link hooks are not run in any particular order.
-        // Link hooks are skipped if no assets for linking are provided.
-        buildPlan = [];
-        final skipped = <String>[];
-        final encodedAssetsForLinking = buildResult!.encodedAssetsForLinking;
-        final planner = await _planner;
-        final packagesWithHook = await planner.packagesWithHook(Hook.link);
-        for (final package in packagesWithHook) {
-          if (encodedAssetsForLinking[package.name]?.isNotEmpty ?? false) {
-            buildPlan.add(package);
-          } else {
-            skipped.add(package.name);
-          }
+        final output = LinkOutputMaybeFailure(hookOutputJson);
+        switch (output) {
+          case LinkOutput _:
+            return Success(output);
+          case LinkOutputFailure(type: FailureType.infra):
+            return const Failure(HooksRunnerFailure.infra);
+          case LinkOutputFailure _:
+            return const Failure(HooksRunnerFailure.hookRun);
         }
-        if (skipped.isNotEmpty) {
-          logger.info(
-            'Skipping link hooks from ${skipped.join(', ')}'
-            ' due to no assets provided to link for these link hooks.',
-          );
-        }
-        packageGraph = null;
     }
-    return (buildPlan, packageGraph);
-  }
-
-  HookOutput _readHookOutputFromUri(Hook hook, File hookOutputFile) {
-    final file = hookOutputFile;
-    final fileContents = file.readAsStringSync();
-    logger.info('output.json contents:\n$fileContents');
-    final hookOutputJson = jsonDecode(fileContents) as Map<String, Object?>;
-    return hook == Hook.build
-        ? BuildOutput(hookOutputJson)
-        : LinkOutput(hookOutputJson);
   }
 
   /// Returns a list of errors for [_readHooksUserDefinesFromPubspec].
@@ -916,21 +1005,43 @@ ${compileResult.stdout}
     };
   }
 
-  late final Future<LoadedUserDefines?> _loadedUserDefines = () async {
-    final pubspec = userDefines?.workspacePubspec;
-    if (pubspec == null) {
-      return null;
+  late final Future<LoadedUserDefines?> _loadedUserDefines = _loadUserDefines();
+
+  Future<LoadedUserDefines?> _loadUserDefines() async =>
+      _timeAsync('_loadUserDefines', () async {
+        final pubspec = userDefines?.workspacePubspec;
+        if (pubspec == null) {
+          return null;
+        }
+        final contents = await _timeAsync(
+          'read pubspec.yaml',
+          () async => await _fileSystem.file(pubspec).readAsString(),
+        );
+        final decoded = await _timeAsync(
+          'parse pubspec.yaml',
+          () async => loadYaml(contents) as Map<Object?, Object?>,
+        );
+        final errors = _validateHooksUserDefinesFromPubspec(decoded);
+        final defines = _readHooksUserDefinesFromPubspec(decoded);
+        return LoadedUserDefines(
+          pubspecErrors: errors,
+          pubspecDefines: defines,
+          pubspecBasePath: pubspec,
+        );
+      });
+
+  Future<T> _timeAsync<T>(
+    String name,
+    Future<T> Function() function, {
+    Map<String, Object>? arguments,
+  }) async {
+    _task.start(name, arguments: arguments);
+    try {
+      return await function();
+    } finally {
+      _task.finish();
     }
-    final contents = await _fileSystem.file(pubspec).readAsString();
-    final decoded = loadYaml(contents) as Map<Object?, Object?>;
-    final errors = _validateHooksUserDefinesFromPubspec(decoded);
-    final defines = _readHooksUserDefinesFromPubspec(decoded);
-    return LoadedUserDefines(
-      pubspecErrors: errors,
-      pubspecDefines: defines,
-      pubspecBasePath: pubspec,
-    );
-  }();
+  }
 }
 
 /// The user-defines information passed from the SDK to the

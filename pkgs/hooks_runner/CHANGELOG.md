@@ -1,5 +1,17 @@
-## 0.19.1-wip
+## 0.20.2
 
+* Add `dart:developer` `TimelineEvent`s to enable performance tracing for
+  hook invocations.
+
+## 0.20.1
+
+* Bump the SDK constraint to at least the one from `package:hooks` to fix
+  dartdoc generation on https://pub.dev.
+
+## 0.20.0
+
+- **Breaking change** Refactored error handling to use a `Result` type for more
+  explicit success/failure states.
 - Remove `package_graph.json` fallback.
 
 ## 0.19.0

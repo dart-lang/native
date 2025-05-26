@@ -27,7 +27,7 @@ void main() async {
           buildAssetTypes: [],
         );
         final fullLog = logMessages.join('\n');
-        expect(result, isNull);
+        expect(result.isFailure, isTrue);
         expect(
           fullLog,
           contains(

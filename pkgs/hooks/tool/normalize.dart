@@ -4,11 +4,25 @@
 
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 
-import '../test/schema/helpers.dart' show findPackageRoot;
+import '../test/json_schema/helpers.dart' show findPackageRoot;
 
-void main() {
+void main(List<String> arguments) {
+  final stopwatch = Stopwatch()..start();
+  final parser = ArgParser()
+    ..addFlag(
+      'set-exit-if-changed',
+      negatable: false,
+      help: 'Return a non-zero exit code if any files were changed.',
+    );
+  final argResults = parser.parse(arguments);
+
+  final setExitIfChanged = argResults['set-exit-if-changed'] as bool;
+  var processedCount = 0;
+  var changedCount = 0;
   final packageUri = findPackageRoot('hooks');
 
   final directories = [
@@ -17,32 +31,65 @@ void main() {
     Directory.fromUri(packageUri.resolve('../data_assets/')),
   ];
   for (final directory in directories) {
-    processDirectory(directory);
+    final result = processDirectory(directory);
+    processedCount += result.processedCount;
+    changedCount += result.changedCount;
+  }
+
+  stopwatch.stop();
+  final duration = stopwatch.elapsedMilliseconds / 1000.0;
+  print(
+    'Normalized $processedCount files ($changedCount changed) in '
+    '${duration.toStringAsFixed(2)} seconds.',
+  );
+
+  if (setExitIfChanged && changedCount > 0) {
+    exit(1);
   }
 }
 
-void processDirectory(Directory directory) {
+class ProcessDirectoryResult {
+  final int processedCount;
+  final int changedCount;
+
+  ProcessDirectoryResult(this.processedCount, this.changedCount);
+}
+
+ProcessDirectoryResult processDirectory(Directory directory) {
+  var processedCount = 0;
+  var changedCount = 0;
   final entities = directory.listSync(recursive: true);
   for (final entity in entities) {
     if (entity is File &&
         p.extension(entity.path) == '.json' &&
         !entity.path.contains('.dart_tool/')) {
-      processFile(entity);
+      processedCount++;
+      if (processFile(entity)) {
+        changedCount += 1;
+      }
     }
   }
+  return ProcessDirectoryResult(processedCount, changedCount);
 }
 
-void processFile(File file) {
+bool processFile(File file) {
   final contents = file.readAsStringSync();
   final dynamic decoded = json.decode(contents);
-
   final sorted = sortJson(decoded, file.path);
 
   const encoder = JsonEncoder.withIndent('  ');
-  final sortedJson = encoder.convert(sorted);
+  final sortedJson = encoder.convert(sorted); // Already has no trailing newline
+  final newContents = '$sortedJson\n';
 
-  file.writeAsStringSync('$sortedJson\n');
+  final newContentNormalized = newContents.replaceAll('\r\n', '\n');
+  final oldContentNormalized = contents.replaceAll('\r\n', '\n');
+  if (newContentNormalized == oldContentNormalized) {
+    return false;
+  }
+
+  file.writeAsStringSync(newContents);
   print('Normalized: ${file.path}');
+  return true;
 }
 
 const List<String> _orderedKeysInSchemas = [
@@ -192,12 +239,16 @@ int compareMaps(Map<dynamic, dynamic> a, Map<dynamic, dynamic> b) {
       final valueComparison = aValue.compareTo(bValue);
       if (valueComparison != 0) {
         return valueComparison;
+      } else {
+        continue;
       }
     }
     if (aValue is Map && bValue is Map) {
       final valueComparison = compareMaps(aValue, bValue);
       if (valueComparison != 0) {
         return valueComparison;
+      } else {
+        continue;
       }
     }
     if (aValue == bValue) {

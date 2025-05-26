@@ -50,8 +50,9 @@ void main() {
   });
 
   test('non-existing SDK', () async {
-    final xcrunInstance =
-        (await xcrun.defaultResolver!.resolve(logger: logger)).first;
+    final xcrunInstance = (await xcrun.defaultResolver!.resolve(
+      logger: logger,
+    )).first;
     final tool = Tool(name: 'non-tool');
     final result = await XCodeSdkResolver.tryResolveSdk(
       xcrunInstance: xcrunInstance,

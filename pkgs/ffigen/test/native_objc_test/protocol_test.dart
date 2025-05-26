@@ -44,20 +44,20 @@ void main() {
         final consumer = ProtocolConsumer();
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(asMyProtocol);
+        final result = consumer.callInstanceMethod(asMyProtocol);
         expect(
             result.toDartString(), 'ObjCProtocolImpl: Hello from ObjC: 3.14');
 
         // Optional instance method.
-        final intResult = consumer.callOptionalMethod_(asMyProtocol);
+        final intResult = consumer.callOptionalMethod(asMyProtocol);
         expect(intResult, 579);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
+        final otherIntResult = consumer.callOtherMethod(asSecondaryProtocol);
         expect(otherIntResult, 10);
 
         // Method using two protocols.
-        final twoMethodResult = consumer.callTwoMethods_(asMyProtocol);
+        final twoMethodResult = consumer.callTwoMethods(asMyProtocol);
         expect(twoMethodResult, 579);
       });
 
@@ -66,19 +66,19 @@ void main() {
 
         // Required instance method.
         final result =
-            protocolImpl.instanceMethod_withDouble_("abc".toNSString(), 123);
+            protocolImpl.instanceMethod("abc".toNSString(), withDouble: 123);
         expect(result.toDartString(), 'ObjCProtocolImpl: abc: 123.00');
 
         // Optional instance method.
         final structPtr = calloc<SomeStruct>();
         structPtr.ref.x = 12;
         structPtr.ref.y = 34;
-        final intResult = protocolImpl.optionalMethod_(structPtr.ref);
+        final intResult = protocolImpl.optionalMethod(structPtr.ref);
         expect(intResult, 46);
         calloc.free(structPtr);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = protocolImpl.otherMethod_b_c_d_(2, 4, 6, 8);
+        final otherIntResult = protocolImpl.otherMethod(2, b: 4, c: 6, d: 8);
         expect(otherIntResult, 20);
 
         // Method from a protocol that isn't included by the filters.
@@ -94,7 +94,7 @@ void main() {
         final consumer = ProtocolConsumer();
 
         // Optional instance method, not implemented.
-        final intResult = consumer.callOptionalMethod_(protocolImpl);
+        final intResult = consumer.callOptionalMethod(protocolImpl);
         expect(intResult, -999);
       });
 
@@ -105,7 +105,7 @@ void main() {
         final structPtr = calloc<SomeStruct>();
         structPtr.ref.x = 12;
         structPtr.ref.y = 34;
-        expect(() => protocolImpl.optionalMethod_(structPtr.ref),
+        expect(() => protocolImpl.optionalMethod(structPtr.ref),
             throwsA(isA<UnimplementedOptionalMethodException>()));
         calloc.free(structPtr);
 
@@ -131,11 +131,11 @@ void main() {
         expect(SecondaryProtocol.conformsTo(myProtocol), isFalse);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(myProtocol);
+        final result = consumer.callInstanceMethod(myProtocol);
         expect(result.toDartString(), 'MyProtocol: Hello from ObjC: 3.14');
 
         // Optional instance method.
-        final intResult = consumer.callOptionalMethod_(myProtocol);
+        final intResult = consumer.callOptionalMethod(myProtocol);
         expect(intResult, 333);
       });
 
@@ -165,15 +165,15 @@ void main() {
         expect(SecondaryProtocol.conformsTo(protocolImpl), isTrue);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(asMyProtocol);
+        final result = consumer.callInstanceMethod(asMyProtocol);
         expect(result.toDartString(), 'ProtocolBuilder: Hello from ObjC: 3.14');
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
+        final otherIntResult = consumer.callOtherMethod(asSecondaryProtocol);
         expect(otherIntResult, 24);
 
         // Method using two protocols.
-        final twoMethodResult = consumer.callTwoMethods_(asMyProtocol);
+        final twoMethodResult = consumer.callTwoMethods(asMyProtocol);
         expect(twoMethodResult, 222000);
       });
 
@@ -195,11 +195,11 @@ void main() {
             SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(asMyProtocol);
+        final result = consumer.callInstanceMethod(asMyProtocol);
         expect(result.toDartString(), 'ProtocolBuilder: Hello from ObjC: 3.14');
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
+        final otherIntResult = consumer.callOtherMethod(asSecondaryProtocol);
         expect(otherIntResult, 24);
       });
 
@@ -213,7 +213,7 @@ void main() {
         );
 
         // Optional instance method, not implemented.
-        final intResult = consumer.callOptionalMethod_(myProtocol);
+        final intResult = consumer.callOptionalMethod(myProtocol);
         expect(intResult, -999);
       });
 
@@ -234,15 +234,15 @@ void main() {
         );
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(myProtocol);
+        final result = consumer.callInstanceMethod(myProtocol);
         expect(result.toDartString(), 'MyProtocol: Hello from ObjC: 3.14');
 
         // Optional instance method.
-        final intResult = consumer.callOptionalMethod_(myProtocol);
+        final intResult = consumer.callOptionalMethod(myProtocol);
         expect(intResult, 333);
 
         // Listener method.
-        consumer.callMethodOnRandomThread_(myProtocol);
+        consumer.callMethodOnRandomThread(myProtocol);
         expect(await listenerCompleter.future, 123);
       });
 
@@ -270,15 +270,15 @@ void main() {
             SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(asMyProtocol);
+        final result = consumer.callInstanceMethod(asMyProtocol);
         expect(result.toDartString(), 'ProtocolBuilder: Hello from ObjC: 3.14');
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
+        final otherIntResult = consumer.callOtherMethod(asSecondaryProtocol);
         expect(otherIntResult, 24);
 
         // Listener method.
-        consumer.callMethodOnRandomThread_(asMyProtocol);
+        consumer.callMethodOnRandomThread(asMyProtocol);
         expect(await listenerCompleter.future, 123);
       });
 
@@ -308,7 +308,7 @@ void main() {
         );
 
         // Blocking method.
-        consumer.callBlockingMethodOnRandomThread_(myProtocol);
+        consumer.callBlockingMethodOnRandomThread(myProtocol);
         expect(await listenerCompleter.future, 123456);
       });
 
@@ -340,11 +340,11 @@ void main() {
             SecondaryProtocol.castFrom(protocolImpl);
 
         // Required instance method from secondary protocol.
-        final otherIntResult = consumer.callOtherMethod_(asSecondaryProtocol);
+        final otherIntResult = consumer.callOtherMethod(asSecondaryProtocol);
         expect(otherIntResult, 24);
 
         // Blocking method.
-        consumer.callBlockingMethodOnRandomThread_(asMyProtocol);
+        consumer.callBlockingMethodOnRandomThread(asMyProtocol);
         expect(await listenerCompleter.future, 98765);
       });
 
@@ -360,7 +360,7 @@ void main() {
         final myProtocol = MyProtocol.castFrom(builder.build());
 
         // Required instance method.
-        final result = consumer.callInstanceMethod_(myProtocol);
+        final result = consumer.callInstanceMethod(myProtocol);
         expect(result.toDartString(), 'DirectImpl: Hello from ObjC: 3.14');
       });
     });
@@ -436,7 +436,7 @@ void main() {
       final MyProtocol asMyProtocol = MyProtocol.castFrom(protocol);
 
       for (int i = 0; i < 1000; ++i) {
-        consumer.callMethodOnRandomThread_(asMyProtocol);
+        consumer.callMethodOnRandomThread(asMyProtocol);
       }
       await completer.future;
       expect(count, 1000);

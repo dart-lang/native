@@ -9,16 +9,14 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (input, output) async {
-    final logger =
-        Logger('')
-          ..level = Level.ALL
-          ..onRecord.listen((record) {
-            print('${record.level.name}: ${record.time}: ${record.message}');
-          });
-    final routing =
-        input.config.linkingEnabled
-            ? [ToLinkHook(input.packageName)]
-            : [const ToAppBundle()];
+    final logger = Logger('')
+      ..level = Level.ALL
+      ..onRecord.listen((record) {
+        print('${record.level.name}: ${record.time}: ${record.message}');
+      });
+    final routing = input.config.linkingEnabled
+        ? [ToLinkHook(input.packageName)]
+        : [const ToAppBundle()];
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add',

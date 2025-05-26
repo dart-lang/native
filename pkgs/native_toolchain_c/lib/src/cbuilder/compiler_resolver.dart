@@ -51,8 +51,8 @@ class CompilerResolver {
     final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No compiler configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
@@ -116,11 +116,9 @@ class CompilerResolver {
   }
 
   Future<ToolInstance?> _tryLoadToolFromNativeToolchain(Tool tool) async {
-    final resolved =
-        (await tool.defaultResolver!.resolve(
-            logger: logger,
-          )).where((i) => i.tool == tool).toList()
-          ..sort();
+    final resolved = (await tool.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == tool).toList()..sort();
     return resolved.isEmpty ? null : resolved.first;
   }
 
@@ -141,8 +139,8 @@ class CompilerResolver {
     final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No archiver configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
@@ -232,8 +230,9 @@ class CompilerResolver {
       // installation, then Clang should be able to discover it as well.
       return {};
     }
-    final vcvarsScript =
-        (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
+    final vcvarsScript = (await vcvars(
+      compiler,
+    ).defaultResolver!.resolve(logger: logger)).first;
     return await environmentFromBatchFile(
       vcvarsScript.uri,
       arguments: [
@@ -259,8 +258,8 @@ class CompilerResolver {
     }
 
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No linker configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
@@ -288,6 +287,9 @@ class CompilerResolver {
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;
     if (targetOS == OS.android) return androidNdkLld;
     if (hostOS == OS.linux) {
+      if (Architecture.current == targetArchitecture) {
+        return lld;
+      }
       switch (targetArchitecture) {
         case Architecture.arm:
           return armLinuxGnueabihfLd;

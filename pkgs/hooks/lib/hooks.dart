@@ -8,18 +8,17 @@
 /// entrypoint for link hooks (`hook/link.dart`) is [link].
 library;
 
-import 'src/api/build.dart';
-import 'src/api/link.dart';
+import 'src/api/build_and_link.dart';
 
-export 'src/api/build.dart' show build;
+export 'src/api/build_and_link.dart' show build, link;
 export 'src/api/builder.dart' show Builder;
-export 'src/api/link.dart' show link;
 export 'src/api/linker.dart' show Linker;
 export 'src/config.dart'
     show
         AssetRouting,
         BuildConfig,
         BuildConfigBuilder,
+        BuildError,
         BuildInput,
         BuildInputAssets,
         BuildInputBuilder,
@@ -28,14 +27,20 @@ export 'src/config.dart'
         BuildOutputAssets,
         BuildOutputAssetsBuilder,
         BuildOutputBuilder,
+        BuildOutputFailure,
+        BuildOutputMaybeFailure,
         BuildOutputMetadataBuilder,
+        FailureType,
         HookConfig,
         HookConfigBuilder,
+        HookError,
         HookInput,
         HookInputBuilder,
         HookInputUserDefines,
         HookOutput,
         HookOutputBuilder,
+        HookOutputFailure,
+        InfraError,
         LinkConfig,
         LinkConfigBuilder,
         LinkInput,
@@ -45,6 +50,8 @@ export 'src/config.dart'
         LinkOutputAssets,
         LinkOutputAssetsBuilder,
         LinkOutputBuilder,
+        LinkOutputFailure,
+        LinkOutputMaybeFailure,
         PackageMetadata,
         ToAppBundle,
         ToBuildHooks,

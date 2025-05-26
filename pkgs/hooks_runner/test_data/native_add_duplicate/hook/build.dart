@@ -21,21 +21,19 @@ void main(List<String> arguments) async {
     await cbuilder.run(
       input: input,
       output: outputBuilder,
-      logger:
-          Logger('')
-            ..level = Level.ALL
-            ..onRecord.listen((record) {
-              print('${record.level.name}: ${record.time}: ${record.message}');
-            }),
+      logger: Logger('')
+        ..level = Level.ALL
+        ..onRecord.listen((record) {
+          print('${record.level.name}: ${record.time}: ${record.message}');
+        }),
     );
     final tempBuildOutput = outputBuilder.build();
     output.assets.code.add(
       tempBuildOutput.assets.code.single,
       // Send dylib to linking if linking is enabled.
-      routing:
-          input.config.linkingEnabled
-              ? ToLinkHook(packageName)
-              : const ToAppBundle(),
+      routing: input.config.linkingEnabled
+          ? ToLinkHook(packageName)
+          : const ToAppBundle(),
     );
     output.addDependencies(tempBuildOutput.dependencies);
   });

@@ -26,25 +26,23 @@ void main() async {
       late LinkResult linkResult;
       Future<void> runBuild() async {
         logMessages.clear();
-        buildResult =
-            (await buildDataAssets(
-              packageUri,
-              linkingEnabled: true,
-              capturedLogs: logMessages,
-            ))!;
+        buildResult = (await buildDataAssets(
+          packageUri,
+          linkingEnabled: true,
+          capturedLogs: logMessages,
+        )).success;
       }
 
       Future<void> runLink() async {
         logMessages.clear();
-        linkResult =
-            (await link(
-              packageUri,
-              logger,
-              dartExecutable,
-              buildResult: buildResult,
-              buildAssetTypes: [BuildAssetType.data],
-              capturedLogs: logMessages,
-            ))!;
+        linkResult = (await link(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildResult: buildResult,
+          buildAssetTypes: [BuildAssetType.data],
+          capturedLogs: logMessages,
+        )).success;
       }
 
       await runBuild();

@@ -66,13 +66,12 @@ void main() {
       final triangle = Triangle();
 
       var parent = BadOverrideParent();
-      expect(parent.covariantArg_(square).toDartString(), 'Polygon: Square');
-      expect(
-          parent.covariantArg_(triangle).toDartString(), 'Polygon: Triangle');
+      expect(parent.covariantArg(square).toDartString(), 'Polygon: Square');
+      expect(parent.covariantArg(triangle).toDartString(), 'Polygon: Triangle');
 
       parent = BadOverrideChild();
-      expect(parent.covariantArg_(square).toDartString(), 'Rectangle: Square');
-      expect(() => parent.covariantArg_(triangle), throwsA(isA<TypeError>()));
+      expect(parent.covariantArg(square).toDartString(), 'Rectangle: Square');
+      expect(() => parent.covariantArg(triangle), throwsA(isA<TypeError>()));
     });
   });
 }

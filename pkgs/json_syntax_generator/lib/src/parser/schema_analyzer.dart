@@ -126,8 +126,9 @@ class SchemaAnalyzer {
     NormalClassInfo? superclass,
     String? taggedUnionValue,
   }) {
-    final typeName =
-        name != null ? _ucFirst(_snakeToCamelCase(name)) : schemas.className!;
+    final typeName = name != null
+        ? _ucFirst(_snakeToCamelCase(name))
+        : schemas.className!;
     if (_classes[typeName] != null) return; // Already analyzed.
 
     final properties = <PropertyInfo>[];
@@ -179,8 +180,9 @@ class SchemaAnalyzer {
       superclass: superclass,
       properties: properties,
       taggedUnionValue: taggedUnionValue,
-      taggedUnionProperty:
-          schemas.generateSubClasses ? schemas.generateSubClassesKey! : null,
+      taggedUnionProperty: schemas.generateSubClasses
+          ? schemas.generateSubClassesKey!
+          : null,
       visibleTaggedUnion: visbleUnionTagValues.contains(typeName),
       extraValidation: extraValidation,
     );
@@ -487,11 +489,9 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
   bool propertyRequired(String? property) =>
       _schemas.any((e) => e.propertyRequired(property));
 
-  List<String> get requiredProperties =>
-      <String>{
-          for (final schema in _schemas) ...schema.requiredProperties ?? [],
-        }.toList()
-        ..sort();
+  List<String> get requiredProperties => <String>{
+    for (final schema in _schemas) ...schema.requiredProperties ?? [],
+  }.toList()..sort();
 
   SchemaType? get type {
     final types = <SchemaType>{};
@@ -666,7 +666,13 @@ extension on JsonSchemas {
     // predefined values generated as an enum class.
     if (propertyKeys.length > 2) return null;
     for (final p in propertyKeys) {
-      if (property(p).anyOfs.isNotEmpty) {
+      final propertySchemas = property(p);
+      if (propertySchemas.anyOfs.isNotEmpty) {
+        if (propertySchemas.className != null) {
+          // This is an explicit enum field, don't make the surrounding class a
+          // tagged union.
+          return null;
+        }
         return p;
       }
     }

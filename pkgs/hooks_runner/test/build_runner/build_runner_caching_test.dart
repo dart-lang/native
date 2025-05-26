@@ -24,14 +24,13 @@ void main() async {
 
       {
         final logMessages = <String>[];
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              capturedLogs: logMessages,
-              buildAssetTypes: [BuildAssetType.code],
-            ))!;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
         expect(
           logMessages.join('\n'),
           contains(
@@ -39,22 +38,42 @@ void main() async {
             '${Platform.pathSeparator}build.dart',
           ),
         );
+
+        // Dependencies reported in the hook should be in the result.
         expect(
           result.dependencies,
           contains(packageUri.resolve('src/native_add.c')),
+        );
+
+        final dependenciesAsPaths = result.dependencies
+            .map((uri) => uri.toFilePath(windows: false))
+            .toList();
+
+        // The source of the hook should be in the result.
+        expect(
+          dependenciesAsPaths,
+          contains(contains('native_add/hook/build.dart')),
+        );
+
+        // `package:logging` sources should be from pub.dev and not in the
+        // result.
+        expect(
+          dependenciesAsPaths,
+          isNot(
+            contains(stringContainsInOrder(['logging-', 'lib/logging.dart'])),
+          ),
         );
       }
 
       {
         final logMessages = <String>[];
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              capturedLogs: logMessages,
-              buildAssetTypes: [BuildAssetType.code],
-            ))!;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
         final hookUri = packageUri.resolve('hook/build.dart');
         expect(
           logMessages.join('\n'),
@@ -93,13 +112,12 @@ void main() async {
       logMessages.clear();
 
       {
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              buildAssetTypes: [BuildAssetType.code],
-            ))!;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
           symbols: ['add'],
@@ -113,13 +131,12 @@ void main() async {
       );
 
       {
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              buildAssetTypes: [BuildAssetType.code],
-            ))!;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
 
         final cUri = packageUri.resolve('src/').resolve('native_add.c');
         expect(
@@ -149,22 +166,20 @@ void main() async {
       await runPubGet(workingDirectory: packageUri, logger: logger);
       logMessages.clear();
 
-      final result =
-          (await build(
-            packageUri,
-            logger,
-            dartExecutable,
-            buildAssetTypes: [BuildAssetType.code],
-          ))!;
+      final result = (await build(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildAssetTypes: [BuildAssetType.code],
+      )).success;
       {
-        final compiledHook =
-            logMessages
-                .where(
-                  (m) =>
-                      m.contains('dart compile kernel') ||
-                      m.contains('dart.exe compile kernel'),
-                )
-                .isNotEmpty;
+        final compiledHook = logMessages
+            .where(
+              (m) =>
+                  m.contains('dart compile kernel') ||
+                  m.contains('dart.exe compile kernel'),
+            )
+            .isNotEmpty;
         expect(compiledHook, isTrue);
       }
       logMessages.clear();
@@ -179,13 +194,12 @@ void main() async {
       );
 
       {
-        final result =
-            (await build(
-              packageUri,
-              logger,
-              dartExecutable,
-              buildAssetTypes: [BuildAssetType.code],
-            ))!;
+        final result = (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
 
         final hookUri = packageUri.resolve('hook/build.dart');
         expect(
@@ -219,13 +233,12 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [BuildAssetType.code],
-          hookEnvironment:
-              modifiedEnvKey == 'PATH'
-                  ? null
-                  : filteredEnvironment(
-                    NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
-                  ),
-        ))!;
+          hookEnvironment: modifiedEnvKey == 'PATH'
+              ? null
+              : filteredEnvironment(
+                  NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
+                ),
+        )).success;
         logMessages.clear();
 
         // Simulate that the environment variables changed by augmenting the
@@ -255,7 +268,7 @@ void main() async {
           logger,
           dartExecutable,
           buildAssetTypes: [BuildAssetType.code],
-        ))!;
+        )).success;
         expect(logMessages.join('\n'), contains('hook.dill'));
         expect(
           logMessages.join('\n'),

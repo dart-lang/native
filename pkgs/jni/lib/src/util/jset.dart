@@ -170,10 +170,10 @@ class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
 
   @override
   bool contains(Object? element) {
-    if (element is! JObject) {
+    if (element is! JObject?) {
       return false;
     }
-    final elementRef = element.reference;
+    final elementRef = element?.reference ?? jNullReference;
     return _containsId(this, const jbooleanType(), [elementRef.pointer]);
   }
 
@@ -212,7 +212,7 @@ class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
       _class.instanceMethodId(r'remove', r'(Ljava/lang/Object;)Z');
   @override
   bool remove(Object? value) {
-    if (value is! $E) {
+    if (value is! JObject?) {
       return false;
     }
     final valueRef = value?.reference ?? jNullReference;

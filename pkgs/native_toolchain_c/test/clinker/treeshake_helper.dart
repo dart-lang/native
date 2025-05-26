@@ -65,23 +65,22 @@ Future<void> runTests(List<Architecture> architectures) async {
             architecture,
           );
 
-          final linkInputBuilder =
-              LinkInputBuilder()
-                ..setupShared(
-                  packageName: 'testpackage',
-                  packageRoot: tempUri,
-                  outputFile: tempUri.resolve('output.json'),
-                  outputDirectoryShared: tempUri2,
-                )
-                ..setupLink(assets: [], recordedUsesFile: null)
-                ..addExtension(
-                  CodeAssetExtension(
-                    targetOS: os,
-                    targetArchitecture: architecture,
-                    linkModePreference: LinkModePreference.dynamic,
-                    cCompiler: cCompiler,
-                  ),
-                );
+          final linkInputBuilder = LinkInputBuilder()
+            ..setupShared(
+              packageName: 'testpackage',
+              packageRoot: tempUri,
+              outputFile: tempUri.resolve('output.json'),
+              outputDirectoryShared: tempUri2,
+            )
+            ..setupLink(assets: [], recordedUsesFile: null)
+            ..addExtension(
+              CodeAssetExtension(
+                targetOS: os,
+                targetArchitecture: architecture,
+                linkModePreference: LinkModePreference.dynamic,
+                cCompiler: cCompiler,
+              ),
+            );
 
           final linkInput = linkInputBuilder.build();
           final linkOutputBuilder = LinkOutputBuilder();

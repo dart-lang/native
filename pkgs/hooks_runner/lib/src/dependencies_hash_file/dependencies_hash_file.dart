@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io' show Platform;
 import 'dart:typed_data';
 
@@ -13,10 +14,15 @@ import '../utils/file.dart';
 import '../utils/uri.dart';
 
 class DependenciesHashFile {
-  DependenciesHashFile(this._fileSystem, {required this.fileUri});
+  DependenciesHashFile(
+    this._fileSystem, {
+    required this.fileUri,
+    TimelineTask? task,
+  }) : _task = task ?? TimelineTask();
 
   final FileSystem _fileSystem;
   final Uri fileUri;
+  final TimelineTask _task;
   FileSystemHashes _hashes = FileSystemHashes();
 
   List<Uri> get fileSystemEntities => _hashes.files.map((e) => e.path).toList();
@@ -49,7 +55,7 @@ class DependenciesHashFile {
     List<Uri> fileSystemEntities,
     DateTime fileSystemValidBeforeLastModified,
     Map<String, String> environment,
-  ) async {
+  ) => _timeAsync('DependenciesHashFile.hashDependencies', () async {
     _reset();
 
     Uri? modifiedAfterTimeStamp;
@@ -75,52 +81,51 @@ class DependenciesHashFile {
     }
     await _persist();
     return modifiedAfterTimeStamp;
-  }
+  });
 
   Future<void> _persist() =>
       _fileSystem.file(fileUri).writeAsString(json.encode(_hashes.toJson()));
 
   /// Reads the file with hashes and reports if there is an outdated file,
   /// directory or environment variable.
-  Future<String?> findOutdatedDependency(
-    Map<String, String> environment,
-  ) async {
-    await _readFile();
+  Future<String?> findOutdatedDependency(Map<String, String> environment) =>
+      _timeAsync('DependenciesHashFile.findOutdatedDependency', () async {
+        await _readFile();
 
-    for (final savedHash in _hashes.files) {
-      final uri = savedHash.path;
-      final savedHashValue = savedHash.hash;
-      if (_isDirectoryPath(uri.path)) {
-        final hashValue = await _hashDirectory(uri);
-        if (savedHashValue != hashValue) {
-          return 'Directory contents changed: ${uri.toFilePath()}.';
+        for (final savedHash in _hashes.files) {
+          final uri = savedHash.path;
+          final savedHashValue = savedHash.hash;
+          if (_isDirectoryPath(uri.path)) {
+            final hashValue = await _hashDirectory(uri);
+            if (savedHashValue != hashValue) {
+              return 'Directory contents changed: ${uri.toFilePath()}.';
+            }
+          } else {
+            final hashValue = await _hashFile(uri);
+            if (savedHashValue != hashValue) {
+              return 'File contents changed: ${uri.toFilePath()}.';
+            }
+          }
         }
-      } else {
-        final hashValue = await _hashFile(uri);
-        if (savedHashValue != hashValue) {
-          return 'File contents changed: ${uri.toFilePath()}.';
+
+        // Check if env vars changed or were removed.
+        for (final savedHash in _hashes.environment) {
+          final hashValue = _hashEnvironmentValue(environment[savedHash.key]);
+          if (savedHash.hash != hashValue) {
+            return 'Environment variable changed: ${savedHash.key}.';
+          }
         }
-      }
-    }
 
-    // Check if env vars changed or were removed.
-    for (final savedHash in _hashes.environment) {
-      final hashValue = _hashEnvironmentValue(environment[savedHash.key]);
-      if (savedHash.hash != hashValue) {
-        return 'Environment variable changed: ${savedHash.key}.';
-      }
-    }
+        // Check if env vars were added.
+        final savedEnvKeys = _hashes.environment.map((e) => e.key).toSet();
+        for (final envKey in environment.keys) {
+          if (!savedEnvKeys.contains(envKey)) {
+            return 'Environment variable changed: $envKey.';
+          }
+        }
 
-    // Check if env vars were added.
-    final savedEnvKeys = _hashes.environment.map((e) => e.key).toSet();
-    for (final envKey in environment.keys) {
-      if (!savedEnvKeys.contains(envKey)) {
-        return 'Environment variable changed: $envKey.';
-      }
-    }
-
-    return null;
-  }
+        return null;
+      });
 
   // A 64 bit hash from an md5 hash.
   int _md5int64(Uint8List bytes) {
@@ -129,13 +134,14 @@ class DependenciesHashFile {
     return md5ints[0];
   }
 
-  Future<int> _hashFile(Uri uri) async {
-    final file = _fileSystem.file(uri);
-    if (!await file.exists()) {
-      return _hashNotExists;
-    }
-    return _md5int64(await file.readAsBytes());
-  }
+  Future<int> _hashFile(Uri uri) async =>
+      _timeAsync('_hashFile', arguments: {'uri': uri.toFilePath()}, () async {
+        final file = _fileSystem.file(uri);
+        if (!await file.exists()) {
+          return _hashNotExists;
+        }
+        return _md5int64(await file.readAsBytes());
+      });
 
   Future<int> _hashDirectory(Uri uri) async {
     final directory = _fileSystem.directory(uri);
@@ -143,8 +149,8 @@ class DependenciesHashFile {
       return _hashNotExists;
     }
     final children = directory.listSync(followLinks: true, recursive: false);
-    final childrenNames =
-        children.map((e) => _pathBaseName(e.path)).toList()..sort();
+    final childrenNames = children.map((e) => _pathBaseName(e.path)).toList()
+      ..sort();
     return _md5int64(utf8.encode(childrenNames.join(';')));
   }
 
@@ -165,6 +171,19 @@ class DependenciesHashFile {
   /// There are two predefined hash values. The chance that a predefined hash
   /// collides with a real hash is 2/2^64.
   static const _hashLastModifiedAfterCutoff = 1;
+
+  Future<T> _timeAsync<T>(
+    String name,
+    Future<T> Function() function, {
+    Map<String, Object>? arguments,
+  }) async {
+    _task.start(name, arguments: arguments);
+    try {
+      return await function();
+    } finally {
+      _task.finish();
+    }
+  }
 }
 
 /// Storage format for file system entity hashes.

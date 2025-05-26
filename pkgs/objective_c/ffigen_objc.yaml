@@ -9,6 +9,7 @@ headers:
   entry-points:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
+    - 'src/ns_number.h'
     - 'src/protocol.h'
 ffi-native:
   asset-id: 'package:objective_c/objective_c.dylib'
@@ -57,10 +58,13 @@ objc-interfaces:
     - NSOutputStream
     - NSOrderedCollectionDifference
     - NSOrderedSet
+    - NSPort
+    - NSPortMessage
     - NSRunLoop
     - NSSet
     - NSStream
     - NSString
+    - NSTimer
     - NSURL
     - NSURLHandle
     - NSValue
@@ -78,6 +82,7 @@ objc-protocols:
     - NSItemProviderWriting
     - NSMutableCopying
     - NSObject
+    - NSPortDelegate
     - NSSecureCoding
     - NSStreamDelegate
   rename:
@@ -98,20 +103,32 @@ objc-categories:
     - NSExtendedOrderedSet
     - NSExtendedSet
     - NSNumberCreation
+    - NSNumberIsFloat
     - NSStringExtensionMethods
 functions:
   include:
     - getLocalizedDescriptionKey
 structs:
   include:
+    - AEDesc
+    - __CFRunLoop
+    - __CFString
+    - CGPoint
+    - CGRect
+    - CGSize
+    - NSEdgeInsets
+    - NSFastEnumerationState
     - _NSRange
     - _NSZone
-    - NSFastEnumerationState
+    - OpaqueAEDataStorageType
   rename:
+    __CFRunLoop: CFRunLoop
+    __CFString: CFString
     _NSRange: NSRange
     _NSZone: NSZone
 enums:
   include:
+    - NSAppleEventSendOptions
     - NSBinarySearchingOptions
     - NSComparisonResult
     - NSDataBase64DecodingOptions
@@ -120,13 +137,18 @@ enums:
     - NSDataReadingOptions
     - NSDataSearchOptions
     - NSDataWritingOptions
+    - NSDecodingFailurePolicy
     - NSEnumerationOptions
     - NSItemProviderFileOptions
     - NSItemProviderRepresentationVisibility
     - NSKeyValueChange
     - NSKeyValueObservingOptions
     - NSKeyValueSetMutationKind
+    - NSLinguisticTaggerOptions
+    - NSLocaleLanguageDirection
     - NSOrderedCollectionDifferenceCalculationOptions
+    - NSPropertyListFormat
+    - NSQualityOfService
     - NSSortOptions
     - NSStreamEvent
     - NSStreamStatus
@@ -136,6 +158,9 @@ enums:
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
+typedefs:
+  include:
+    - 'CFStringRef'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a

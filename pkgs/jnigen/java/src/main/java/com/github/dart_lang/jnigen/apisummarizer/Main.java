@@ -8,7 +8,7 @@ import com.github.dart_lang.jnigen.apisummarizer.disasm.AsmSummarizer;
 import com.github.dart_lang.jnigen.apisummarizer.doclet.SummarizerDoclet;
 import com.github.dart_lang.jnigen.apisummarizer.elements.ClassDecl;
 import com.github.dart_lang.jnigen.apisummarizer.util.ClassFinder;
-import com.github.dart_lang.jnigen.apisummarizer.util.JavaCoreClassFinder;
+import com.github.dart_lang.jnigen.apisummarizer.util.CoreClassFinder;
 import com.github.dart_lang.jnigen.apisummarizer.util.JsonWriter;
 import com.github.dart_lang.jnigen.apisummarizer.util.StreamUtil;
 import java.io.*;
@@ -101,7 +101,7 @@ public class Main {
       if (!foundBinary && !foundSource) {
         Map<String, InputStream> inputStreams = null;
         try {
-          inputStreams = JavaCoreClassFinder.findAll(qualifiedName);
+          inputStreams = CoreClassFinder.findAll(qualifiedName);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
