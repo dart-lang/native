@@ -50,6 +50,7 @@ typedef struct _ObjCBlockImpl {
   // Captured variables follow. These are specific to our use case.
   void *target;
   Dart_Port dispose_port;
+  void* trampoline;
 } ObjCBlockImpl;
 
 // https://opensource.apple.com/source/libclosure/libclosure-38/Block_private.h

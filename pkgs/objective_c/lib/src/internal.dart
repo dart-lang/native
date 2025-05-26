@@ -356,7 +356,7 @@ final _closureBlockDesc = _newBlockDesc(
     Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
         c.disposeObjCBlockWithClosure));
 
-BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
+BlockPtr _newBlock(VoidPtr invoke, VoidPtr target, VoidPtr trampoline,
     Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
   final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
   b.ref.isa = Native.addressOf<Array<VoidPtr>>(c.NSConcreteGlobalBlock).cast();
@@ -366,6 +366,7 @@ BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
   b.ref.target = target;
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
+  b.ref.trampoline = trampoline;
   assert(c.isValidBlock(b));
   final copy = c.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
@@ -378,9 +379,11 @@ BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
 const int _blockHasCopyDispose = 1 << 25;
 
 /// Only for use by ffigen bindings.
-BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
+BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive,
+  {VoidPtr? trampoline}) =>
     _newBlock(
         invoke,
+        trampoline ?? nullptr,
         _registerBlockClosure(fn, keepIsolateAlive),
         _closureBlockDesc,
         _blockClosureDisposer.sendPort.nativePort,
@@ -388,7 +391,7 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
 
 /// Only for use by ffigen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
-    _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
+    _newBlock(invoke, nullptr, target, _pointerBlockDesc, 0, 0);
 
 typedef _RegEntry = ({
   Function closure,

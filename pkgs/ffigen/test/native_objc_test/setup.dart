@@ -124,10 +124,10 @@ Future<void> build(List<String> testNames) async {
 
   // Ffigen comes next because it may generate an ObjC file that is compiled
   // into the dylib.
-  print('Generating Bindings for Objective C Native Tests...');
-  for (final name in testNames) {
-    await _generateBindings('${name}_config.yaml');
-  }
+  // print('Generating Bindings for Objective C Native Tests...');
+  // for (final name in testNames) {
+  //   await _generateBindings('${name}_config.yaml');
+  // }
 
   // Finally we build the dylib containing all the ObjC test code.
   print('Building Dynamic Library for Objective C Native Tests...');

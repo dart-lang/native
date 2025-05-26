@@ -2,4 +2,5 @@
 *_bindings.m
 *_bindings.dart.m
 *-Swift.h
+!block_bindings.*
 *.o
