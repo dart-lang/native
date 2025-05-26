@@ -28,10 +28,9 @@ Future<void> _run(String subdir, String script, List<String> flags) async {
 }
 
 Future<void> main(List<String> arguments) async {
-  final parser = ArgParser();
-  parser.addFlag('main-thread-dispatcher');
-  final args = parser.parse(arguments);
-
   await _run('native_test', 'build_test_dylib.dart', []);
+  if (Platform.isMacOS) {
+    await _run('native_objc_test', 'setup.dart', []);
+  }
   print('\nSuccess :)\n');
 }
