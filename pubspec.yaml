@@ -57,9 +57,6 @@ workspace:
   - pkgs/hooks/example/link/package_with_assets
   - pkgs/json_syntax_generator
   - pkgs/native_toolchain_c
-  - pkgs/objective_c
-  - pkgs/swift2objc
-  - pkgs/swiftgen
   - pkgs/repo_lint_rules
 
 # Hook user-defines are specified in the pub workspace.

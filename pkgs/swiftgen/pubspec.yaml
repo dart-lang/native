@@ -7,7 +7,6 @@ description: 'A tool for generating bindings that allow interop between Dart and
 version: 0.0.1-wip
 repository: https://github.com/dart-lang/native/tree/main/pkgs/swiftgen
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aswiftgen
-resolution: workspace
 
 topics:
   - interop
