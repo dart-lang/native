@@ -11,6 +11,7 @@
 library;
 
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:path/path.dart' as p;
 
@@ -41,7 +42,11 @@ final libclangOverridePaths = const <String>[];
 /// Returns the root path of the package, for use during tests.
 ///
 /// Note that `dart test` sets the current directory to the package root.
-final packagePathForTests = p.current;
+final packagePathForTests = p.normalize(p.join(
+    Isolate.resolvePackageUriSync(Uri.parse('package:ffigen/ffigen.dart'))!
+        .toFilePath(),
+    '..',
+    '..'));
 
 /// Returns a path to a config yaml in a unit test.
 String configPathForTest(String directory, String file) =>

@@ -39,8 +39,9 @@ void main([List<String>? args]) {
     for (final entity in Directory(thisDir).listSync()) {
       final filename = path.basename(entity.path);
       if (filename.endsWith(inputSuffix)) {
-        testNames
-            .add(filename.substring(0, filename.length - inputSuffix.length));
+        testNames.add(
+          filename.substring(0, filename.length - inputSuffix.length),
+        );
       }
     }
   }
@@ -61,14 +62,14 @@ void main([List<String>? args]) {
             ? expectedOutputFile
             : path.join(tempDir, '$name$outputSuffix');
 
-        await generateWrapper(Config(
-          input: FilesInputConfig(
-            files: [Uri.file(inputFile)],
+        await generateWrapper(
+          Config(
+            input: FilesInputConfig(files: [Uri.file(inputFile)]),
+            outputFile: Uri.file(actualOutputFile),
+            tempDir: Directory(tempDir).uri,
+            preamble: '// Test preamble text',
           ),
-          outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(tempDir).uri,
-          preamble: '// Test preamble text',
-        ));
+        );
 
         final actualOutput = await File(actualOutputFile).readAsString();
         final expectedOutput = File(expectedOutputFile).readAsStringSync();
@@ -80,10 +81,7 @@ void main([List<String>? args]) {
         // to make sure the result compiles. Input file must be included cause
         // it contains the definition of the entities the output code wraps.
         final symbolgraphCommand = FilesInputConfig(
-          files: [
-            Uri.file(inputFile),
-            Uri.file(actualOutputFile),
-          ],
+          files: [Uri.file(inputFile), Uri.file(actualOutputFile)],
           generatedModuleName: 'output_file_symbolgraph',
         ).symbolgraphCommand!;
 

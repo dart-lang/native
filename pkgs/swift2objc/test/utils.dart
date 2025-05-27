@@ -12,10 +12,13 @@ void expectString(String a, String b) {
   expect(trimmedA, trimmedB);
 }
 
-String testDir = p.normalize(p.join(
+String testDir = p.normalize(
+  p.join(
     Isolate.resolvePackageUriSync(
-            Uri.parse('package:swift2objc/swift2objc.dart'))!
-        .toFilePath(),
+      Uri.parse('package:swift2objc/swift2objc.dart'),
+    )!.toFilePath(),
     '..',
     '..',
-    'test'));
+    'test',
+  ),
+);

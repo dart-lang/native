@@ -10,8 +10,11 @@ import 'package:ffigen/src/strings.dart' as strings;
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:json_schema/json_schema.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
+
+import '../test_utils.dart';
 
 void main() {
   group('json_schema_test', () {
@@ -24,9 +27,10 @@ void main() {
         YamlConfig.getsRootConfigSpec()
             .generateJsonSchema(strings.ffigenJsonSchemaId),
       );
-      final expectedJsonSchema = File(strings.ffigenJsonSchemaFileName)
-          .readAsStringSync()
-          .replaceAll('\r\n', '\n');
+      final expectedJsonSchema = File(path.join(
+        packagePathForTests,
+        strings.ffigenJsonSchemaFileName,
+      )).readAsStringSync().replaceAll('\r\n', '\n');
       expect(actualJsonSchema, expectedJsonSchema);
     });
 
@@ -36,15 +40,23 @@ void main() {
     });
 
     // Find all ffigen config files in the repo.
-    final configYamlGlob = Glob('**config.yaml');
+    final configYamlGlob = Glob(path.join(
+      packagePathForTests,
+      '**config.yaml',
+    ));
     final configYamlFiles =
         configYamlGlob.listFileSystemSync(const LocalFileSystem());
     test('$configYamlGlob files not empty', () {
       expect(configYamlFiles.isNotEmpty, true);
     });
 
-    final sharedBindingsConfigYamlGlob =
-        Glob('example/shared_bindings/ffigen_configs/**.yaml');
+    final sharedBindingsConfigYamlGlob = Glob(path.join(
+      packagePathForTests,
+      'example',
+      'shared_bindings',
+      'ffigen_configs',
+      '**.yaml',
+    ));
     final sharedBindingsConfigYamlFiles = sharedBindingsConfigYamlGlob
         .listFileSystemSync(const LocalFileSystem());
     test('$sharedBindingsConfigYamlGlob files not emty', () {
