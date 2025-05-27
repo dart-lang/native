@@ -9,8 +9,8 @@ library;
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator/objc_built_in_functions.dart';
-import 'package:test/test.dart';
 import 'package:path/path.dart' as p;
+import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 import 'util.dart';

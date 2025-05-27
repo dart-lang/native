@@ -1,5 +1,4 @@
 import 'dart:isolate';
-import 'dart:io';
 
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
