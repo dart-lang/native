@@ -9,11 +9,11 @@ import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
-import '../utils/utils.dart';
+import '../utils.dart';
 
 void main() {
   group('Unit test for filter', () {
-    final thisDir = p.join(Directory.current.path, 'test/unit');
+    final thisDir = p.join(testDir, 'unit');
 
     final file = p.join(thisDir, 'filter_test_input.swift');
     test('A: Specific Files', () async {

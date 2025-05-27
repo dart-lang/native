@@ -20,11 +20,13 @@ import 'package:path/path.dart' as path;
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
+import '../utils.dart';
+
 void main([List<String>? args]) {
   const inputSuffix = '_input.swift';
   const outputSuffix = '_output.swift';
 
-  final thisDir = path.join(Directory.current.path, 'test/integration');
+  final thisDir = path.join(testDir, 'integration');
   final tempDir = path.join(thisDir, 'temp');
 
   var regen = false;

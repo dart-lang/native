@@ -8,11 +8,13 @@
 // ignore_for_file: avoid_catching_errors
 
 import 'dart:ffi';
+import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
     show isValidClass;
+import 'package:path/path.dart' as p;
 
 final _executeInternalCommand = () {
   try {
@@ -63,3 +65,13 @@ int objectRetainCount(Pointer<ObjCObject> object) {
   if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());
 }
+
+String pkgDir = p.normalize(p.join(
+    Isolate.resolvePackageUriSync(
+            Uri.parse('package:objective_c/objective_c.dart'))!
+        .toFilePath(),
+    '..',
+    '..'));
+
+// TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+String testDylib = p.join(pkgDir, 'test', 'objective_c.dylib');
