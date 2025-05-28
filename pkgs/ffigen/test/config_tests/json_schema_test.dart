@@ -40,25 +40,17 @@ void main() {
     });
 
     // Find all ffigen config files in the repo.
-    final configYamlGlob = Glob(path.join(
-      packagePathForTests,
-      '**config.yaml',
-    ));
-    final configYamlFiles =
-        configYamlGlob.listFileSystemSync(const LocalFileSystem());
+    final configYamlGlob = Glob('**config.yaml');
+    final configYamlFiles = configYamlGlob
+        .listFileSystemSync(const LocalFileSystem(), root: packagePathForTests);
     test('$configYamlGlob files not empty', () {
       expect(configYamlFiles.isNotEmpty, true);
     });
 
-    final sharedBindingsConfigYamlGlob = Glob(path.join(
-      packagePathForTests,
-      'example',
-      'shared_bindings',
-      'ffigen_configs',
-      '**.yaml',
-    ));
+    final sharedBindingsConfigYamlGlob =
+        Glob('example/shared_bindings/ffigen_configs/**.yaml');
     final sharedBindingsConfigYamlFiles = sharedBindingsConfigYamlGlob
-        .listFileSystemSync(const LocalFileSystem());
+        .listFileSystemSync(const LocalFileSystem(), root: packagePathForTests);
     test('$sharedBindingsConfigYamlGlob files not emty', () {
       expect(sharedBindingsConfigYamlFiles.isNotEmpty, true);
     });
