@@ -11,7 +11,6 @@
 library;
 
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:path/path.dart' as p;
 
