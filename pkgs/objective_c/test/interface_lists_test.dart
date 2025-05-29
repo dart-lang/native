@@ -11,8 +11,6 @@ import 'dart:io';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
-const privateObjectiveCClasses = ['DartInputStreamAdapter'];
-
 void main() {
   group('Verify interface lists', () {
     late List<String> yamlInterfaces;
@@ -133,8 +131,10 @@ void main() {
     test('No stubs', () {
       final stubRegExp = RegExp(r'\Wstub\W');
       final bindings = File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync().where(stubRegExp.hasMatch).toList();
-      expect(bindings, []);
+          .readAsLinesSync()
+          .where(stubRegExp.hasMatch)
+          .toList();
+      expect(bindings, <String>[]);
     });
   });
 }
