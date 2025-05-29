@@ -13,6 +13,7 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' show getProtocol;
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -30,8 +31,19 @@ void main() {
   group('protocol', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
       generateBindingsForCoverage('protocol');
@@ -372,8 +384,12 @@ void main() {
       // bindings, but there should only be stub bindings for the protocols
       // themselves, because they're not included by the config.
       // FilteredUnusedProtocol shouldn't appear at all.
-      final bindings = File('test/native_objc_test/protocol_bindings.dart')
-          .readAsStringSync();
+      final bindings = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'protocol_bindings.dart',
+      )).readAsStringSync();
 
       expect(bindings, contains('instanceMethod_withDouble_'));
       expect(bindings, contains('fooMethod'));

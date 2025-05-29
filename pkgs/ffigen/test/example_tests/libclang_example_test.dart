@@ -19,9 +19,12 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('libclang-example', () {
-      final configYaml =
-          File(path.join('example', 'libclang-example', 'config.yaml'))
-              .absolute;
+      final configYaml = File(path.join(
+        packagePathForTests,
+        'example',
+        'libclang-example',
+        'config.yaml',
+      )).absolute;
       late Config config;
       late Library library;
       withChDir(configYaml.path, () {

@@ -20,7 +20,12 @@ void main() {
       expected = expectedLibrary();
       actual = parser.parse(
         testConfigFromPath(configPath(
-            path.join('test', 'header_parser_tests'), 'macros_config.yaml')),
+            path.join(
+              packagePathForTests,
+              'test',
+              'header_parser_tests',
+            ),
+            'macros_config.yaml')),
       );
     });
     test('Total bindings count', () {

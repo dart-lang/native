@@ -37,13 +37,14 @@ void main() {
             '-o',
             'libswiftapi.dylib',
           ],
-          workingDirectory: path.join(Directory.current.path, 'example/swift'));
+          workingDirectory: path.join(packagePathForTests, 'example/swift'));
       unawaited(stdout.addStream(process.stdout));
       unawaited(stderr.addStream(process.stderr));
       final result = await process.exitCode;
       expect(result, 0);
 
       final config = testConfigFromPath(path.join(
+        packagePathForTests,
         'example',
         'swift',
         'config.yaml',

@@ -24,17 +24,25 @@ void main() {
       } else if (Platform.isWindows) {
         dylibName = r'test\native_test\native_test.dll';
       }
-      final dylib = File(dylibName);
+      final dylib = File(path.join(packagePathForTests, dylibName));
       verifySetupFile(dylib);
       bindings = NativeLibrary(DynamicLibrary.open(dylib.absolute.path));
     });
 
     test('generate_bindings', () {
-      final configFile =
-          File(path.join('test', 'native_test', 'config.yaml')).absolute;
+      final configFile = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_test',
+        'config.yaml',
+      )).absolute;
       final outFile = File(
         path.join(
-            'test', 'debug_generated', '_expected_native_test_bindings.dart'),
+          packagePathForTests,
+          'test',
+          'debug_generated',
+          '_expected_native_test_bindings.dart',
+        ),
       ).absolute;
 
       late Config config;

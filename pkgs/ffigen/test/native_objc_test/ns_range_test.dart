@@ -13,6 +13,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -25,14 +26,30 @@ void main() {
       final config = Config(
         wrapperName: 'NSRangeTestObjCLibrary',
         language: Language.objc,
-        output: Uri.file('test/native_objc_test/ns_range_bindings.dart'),
-        entryPoints: [Uri.file('test/native_objc_test/ns_range_test.m')],
+        output: Uri.file(path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'ns_range_bindings.dart',
+        )),
+        entryPoints: [
+          Uri.file(path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'ns_range_test.m',
+          ))
+        ],
         formatOutput: false,
         objcInterfaces: DeclarationFilters.include({'SFTranscriptionSegment'}),
       );
       FfiGen(logLevel: Level.SEVERE).run(config);
-      bindings = File('test/native_objc_test/ns_range_bindings.dart')
-          .readAsStringSync();
+      bindings = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'ns_range_bindings.dart',
+      )).readAsStringSync();
     });
 
     test('interfaces', () {

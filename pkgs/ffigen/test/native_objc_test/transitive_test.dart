@@ -13,6 +13,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -27,8 +28,20 @@ String generate({
     wrapperName: 'TransitiveTestObjCLibrary',
     wrapperDocComment: 'Tests transitive inclusion',
     language: Language.objc,
-    output: Uri.file('test/native_objc_test/transitive_bindings.dart'),
-    entryPoints: [Uri.file('test/native_objc_test/transitive_test.h')],
+    output: Uri.file(path.join(
+      packagePathForTests,
+      'test',
+      'native_objc_test',
+      'transitive_bindings.dart',
+    )),
+    entryPoints: [
+      Uri.file(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'transitive_test.h',
+      ))
+    ],
     formatOutput: false,
     objcInterfaces: DeclarationFilters.include({
       'DirectlyIncluded',
@@ -42,8 +55,12 @@ String generate({
     includeTransitiveObjCCategories: includeTransitiveObjCCategories,
   );
   FfiGen(logLevel: Level.SEVERE).run(config);
-  return File('test/native_objc_test/transitive_bindings.dart')
-      .readAsStringSync();
+  return File(path.join(
+    packagePathForTests,
+    'test',
+    'native_objc_test',
+    'transitive_bindings.dart',
+  )).readAsStringSync();
 }
 
 enum Inclusion { omitted, stubbed, included }

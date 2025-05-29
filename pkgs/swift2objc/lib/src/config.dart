@@ -41,7 +41,7 @@ class Config {
   /// Includes all declarations by default
   final bool Function(Declaration declaration) include;
 
-  static bool _defaultInclude(_) => true;
+  static bool _defaultInclude(Declaration _) => true;
 
   const Config(
       {required this.input,

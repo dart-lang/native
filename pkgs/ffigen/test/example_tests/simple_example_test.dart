@@ -17,6 +17,7 @@ void main() {
 
     test('simple', () {
       final config = testConfigFromPath(path.join(
+        packagePathForTests,
         'example',
         'simple',
         'config.yaml',

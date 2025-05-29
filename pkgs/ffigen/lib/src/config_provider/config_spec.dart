@@ -141,9 +141,9 @@ class ConfigValue<TE> {
   ) {
     ConfigValue<RE> returnValue;
     if (transform != null) {
-      returnValue = this.withValue(transform.call(this), rawValue);
+      returnValue = withValue(transform.call(this), rawValue);
     } else {
-      returnValue = this.withValue(this.value as RE, rawValue);
+      returnValue = withValue(value as RE, rawValue);
     }
     resultCallback?.call(returnValue);
     return returnValue;

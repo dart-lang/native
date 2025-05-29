@@ -13,6 +13,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -23,8 +24,20 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
     wrapperName: 'DeprecatedTestObjCLibrary',
     wrapperDocComment: 'Tests API deprecation',
     language: Language.objc,
-    output: Uri.file('test/native_objc_test/deprecated_bindings.dart'),
-    entryPoints: [Uri.file('test/native_objc_test/deprecated_test.m')],
+    output: Uri.file(path.join(
+      packagePathForTests,
+      'test',
+      'native_objc_test',
+      'deprecated_bindings.dart',
+    )),
+    entryPoints: [
+      Uri.file(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'deprecated_test.m',
+      ))
+    ],
     formatOutput: false,
     includeTransitiveObjCCategories: false,
     objcInterfaces: DeclarationFilters.include(
@@ -44,8 +57,12 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
     externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
   );
   FfiGen(logLevel: Level.SEVERE).run(config);
-  return File('test/native_objc_test/deprecated_bindings.dart')
-      .readAsStringSync();
+  return File(path.join(
+    packagePathForTests,
+    'test',
+    'native_objc_test',
+    'deprecated_bindings.dart',
+  )).readAsStringSync();
 }
 
 void main() {
