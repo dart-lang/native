@@ -20,3 +20,5 @@
 - (void)setDone;
 - (void)setError:(NSError *)error;
 @end
+
+NSErrorUserInfoKey getLocalizedDescriptionKey();

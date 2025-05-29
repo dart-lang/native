@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('NSMutableArray', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     test('filled', () {
       final obj = NSObject();
       final array = NSMutableArray.filled(3, obj);

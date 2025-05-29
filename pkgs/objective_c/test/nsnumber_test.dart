@@ -13,11 +13,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('NSNumber', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
-    });
-
     test('from double', () {
       final n = 1.23.toNSNumber();
 

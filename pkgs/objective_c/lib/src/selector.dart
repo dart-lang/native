@@ -6,7 +6,7 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'c_bindings_generated.dart' as c;
+import 'runtime_bindings_generated.dart' as r;
 import 'internal.dart';
 
 extension StringToSelector on String {
@@ -14,12 +14,12 @@ extension StringToSelector on String {
   ///
   /// This is equivalent to the Objective-C `@selector()` directive, or the
   /// `NSSelectorFromString` function.
-  Pointer<c.ObjCSelector> toSelector() => registerName(this);
+  Pointer<r.ObjCSelector> toSelector() => registerName(this);
 }
 
-extension SelectorToString on Pointer<c.ObjCSelector> {
+extension SelectorToString on Pointer<r.ObjCSelector> {
   /// Returns the string that this Objective-C selector represents.
   ///
   /// This is equivalent to the Objective-C `NSSelectorFromString` function.
-  String toDartString() => c.getName(this).cast<Utf8>().toDartString();
+  String toDartString() => r.getName(this).cast<Utf8>().toDartString();
 }

@@ -160,6 +160,7 @@ class Writer {
         ],
       );
     }
+    additionalImports.forEach(markImportUsed);
 
     /// [_lookupFuncIdentifier] should be unique in top level.
     _lookupFuncIdentifier = _resolveNameConflict(
