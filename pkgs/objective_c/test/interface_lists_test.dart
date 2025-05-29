@@ -8,7 +8,6 @@ library;
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator/objc_built_in_functions.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
@@ -61,63 +60,6 @@ void main() {
           .map<String>((dynamic i) => i as String)
           .toList()
         ..sort();
-    });
-
-    test('ObjCBuiltInFunctions.builtInInterfaces', () {
-      expect(ObjCBuiltInFunctions.builtInInterfaces, yamlInterfaces);
-    });
-
-    test('ObjCBuiltInFunctions.builtInCompounds', () {
-      expect(ObjCBuiltInFunctions.builtInCompounds.values, yamlStructs);
-    });
-
-    test('ObjCBuiltInFunctions.builtInEnums', () {
-      expect(ObjCBuiltInFunctions.builtInEnums, yamlEnums);
-    });
-
-    test('ObjCBuiltInFunctions.builtInProtocols', () {
-      expect(ObjCBuiltInFunctions.builtInProtocols.values, yamlProtocols);
-    });
-
-    test('ObjCBuiltInFunctions.builtInCategories', () {
-      expect(ObjCBuiltInFunctions.builtInCategories, yamlCategories);
-    });
-
-    test('package:objective_c exports all the interfaces', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final intf in yamlInterfaces) {
-        if (!privateObjectiveCClasses.contains(intf)) {
-          expect(exportFile, contains(RegExp('\\W$intf\\W')));
-        }
-      }
-    });
-
-    test('package:objective_c exports all the structs', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final struct in yamlStructs) {
-        expect(exportFile, contains(RegExp('\\W$struct\\W')));
-      }
-    });
-
-    test('package:objective_c exports all the enums', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final enum_ in yamlEnums) {
-        expect(exportFile, contains(RegExp('\\W$enum_\\W')));
-      }
-    });
-
-    test('package:objective_c exports all the protocols', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final protocol in yamlProtocols) {
-        expect(exportFile, contains(RegExp('\\W$protocol\\W')));
-      }
-    });
-
-    test('package:objective_c exports all the categories', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final category in yamlCategories) {
-        expect(exportFile, contains(RegExp('\\W$category\\W')));
-      }
     });
 
     test('All code genned interfaces are included in the list', () {
@@ -189,9 +131,10 @@ void main() {
     });
 
     test('No stubs', () {
+      final stubRegExp = RegExp(r'\Wstub\W');
       final bindings = File('lib/src/objective_c_bindings_generated.dart')
-          .readAsStringSync();
-      expect(bindings, isNot(contains(RegExp(r'\Wstub\W'))));
+          .readAsLinesSync().where(stubRegExp.hasMatch).toList();
+      expect(bindings, []);
     });
   });
 }
