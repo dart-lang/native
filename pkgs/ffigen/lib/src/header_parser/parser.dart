@@ -167,6 +167,12 @@ List<String> _findObjectiveCSysroot() => [
 
 @visibleForTesting
 List<Binding> transformBindings(Config config, List<Binding> bindings) {
+
+  bindings
+      .whereType<ObjCInterface>()
+      .where((o) => o.originalName == 'DOBJCObserver')
+      .single.methods.forEach(print);
+
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
   visit(FillMethodDependenciesVisitation(), bindings);

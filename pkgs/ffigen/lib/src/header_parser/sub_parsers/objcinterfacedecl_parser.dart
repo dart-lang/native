@@ -53,6 +53,8 @@ void fillObjCInterfaceMethodsIfNeeded(
   _logger.fine('++++ Filling ObjC interface: '
       'Name: ${itf.originalName}, ${cursor.completeStringRepr()}');
 
+  final debug = itf.originalName == 'DOBJCObserver';
+
   final itfDecl = Declaration(usr: itf.usr, originalName: itf.originalName);
   cursor.visitChildren((child) {
     switch (child.kind) {
@@ -71,10 +73,16 @@ void fillObjCInterfaceMethodsIfNeeded(
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        itf.addMethod(parseObjCMethod(child, itfDecl, config.objcInterfaces));
+        itf.addMethod(parseObjCMethod(child, itfDecl, config.objcInterfaces, debug: debug));
         break;
     }
   });
+
+  if (debug) {
+    print('\nQWER');
+    itf.methods.forEach(print);
+    print('\n');
+  }
 
   _logger.fine('++++ Finished ObjC interface: '
       'Name: ${itf.originalName}, ${cursor.completeStringRepr()}');
@@ -187,8 +195,12 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
 }
 
 ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
-    DeclarationFilters filters) {
+    DeclarationFilters filters, {bool debug = false}) {
   final methodName = cursor.spelling();
+  debug = debug && methodName == 'initForKeyPath:ofObject:withBlock:';
+  if (debug) {
+    cursor.printAst();
+  }
   final isClassMethod =
       cursor.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
@@ -197,6 +209,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     _logger.warning('Method "$methodName" in instance '
         '"${itfDecl.originalName}" has incomplete '
         'return type: $returnType.');
+    if (debug) print('ZXCV: 1');
     return null;
   }
 
@@ -204,6 +217,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
   if (apiAvailability.availability == Availability.none) {
     _logger
         .info('Omitting deprecated method ${itfDecl.originalName}.$methodName');
+    if (debug) print('ZXCV: 2');
     return null;
   }
 
@@ -246,6 +260,7 @@ ObjCMethod? parseObjCMethod(clang_types.CXCursor cursor, Declaration itfDecl,
     }
   });
   method.finalizeParams();
+  if (debug) print('ZXCV: 3 $hasError\n\t$method');
   return hasError ? null : method;
 }
 
