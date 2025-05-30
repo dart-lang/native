@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'objc_built_in_types.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -49,144 +48,18 @@ class ObjCBuiltInFunctions {
       ObjCImport('UnimplementedOptionalMethodException');
   static const checkOsVersion = ObjCImport('checkOsVersionInternal');
 
-  // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
-
-  @visibleForTesting
-  static const builtInInterfaces = {
-    'DartInputStreamAdapter',
-    'DartProtocol',
-    'DartProtocolBuilder',
-    'NSArray',
-    'NSCharacterSet',
-    'NSCoder',
-    'NSData',
-    'NSDate',
-    'NSDictionary',
-    'NSEnumerator',
-    'NSError',
-    'NSIndexSet',
-    'NSInputStream',
-    'NSInvocation',
-    'NSItemProvider',
-    'NSLocale',
-    'NSMethodSignature',
-    'NSMutableArray',
-    'NSMutableData',
-    'NSMutableDictionary',
-    'NSMutableIndexSet',
-    'NSMutableOrderedSet',
-    'NSMutableSet',
-    'NSMutableString',
-    'NSNotification',
-    'NSNumber',
-    'NSObject',
-    'NSOrderedCollectionDifference',
-    'NSOrderedSet',
-    'NSOutputStream',
-    'NSPort',
-    'NSPortMessage',
-    'NSRunLoop',
-    'NSSet',
-    'NSStream',
-    'NSString',
-    'NSTimer',
-    'NSURL',
-    'NSURLHandle',
-    'NSValue',
-    'Protocol',
-  };
-  @visibleForTesting
-  static const builtInCompounds = {
-    'AEDesc': 'AEDesc',
-    '__CFRunLoop': 'CFRunLoop',
-    '__CFString': 'CFString',
-    'CGPoint': 'CGPoint',
-    'CGRect': 'CGRect',
-    'CGSize': 'CGSize',
-    'NSEdgeInsets': 'NSEdgeInsets',
-    'NSFastEnumerationState': 'NSFastEnumerationState',
-    '_NSRange': 'NSRange',
-    '_NSZone': 'NSZone',
-    'OpaqueAEDataStorageType': 'OpaqueAEDataStorageType',
-  };
-  @visibleForTesting
-  static const builtInEnums = {
-    'NSAppleEventSendOptions',
-    'NSBinarySearchingOptions',
-    'NSComparisonResult',
-    'NSDataBase64DecodingOptions',
-    'NSDataBase64EncodingOptions',
-    'NSDataCompressionAlgorithm',
-    'NSDataReadingOptions',
-    'NSDataSearchOptions',
-    'NSDataWritingOptions',
-    'NSDecodingFailurePolicy',
-    'NSEnumerationOptions',
-    'NSItemProviderFileOptions',
-    'NSItemProviderRepresentationVisibility',
-    'NSKeyValueChange',
-    'NSKeyValueObservingOptions',
-    'NSKeyValueSetMutationKind',
-    'NSLinguisticTaggerOptions',
-    'NSLocaleLanguageDirection',
-    'NSOrderedCollectionDifferenceCalculationOptions',
-    'NSPropertyListFormat',
-    'NSQualityOfService',
-    'NSSortOptions',
-    'NSStreamEvent',
-    'NSStreamStatus',
-    'NSStringCompareOptions',
-    'NSStringEncodingConversionOptions',
-    'NSStringEnumerationOptions',
-    'NSURLBookmarkCreationOptions',
-    'NSURLBookmarkResolutionOptions',
-    'NSURLHandleStatus',
-  };
-  @visibleForTesting
-  static const builtInProtocols = {
-    'NSCoding': 'NSCoding',
-    'NSCopying': 'NSCopying',
-    'NSFastEnumeration': 'NSFastEnumeration',
-    'NSItemProviderReading': 'NSItemProviderReading',
-    'NSItemProviderWriting': 'NSItemProviderWriting',
-    'NSMutableCopying': 'NSMutableCopying',
-    'NSObject': 'NSObjectProtocol',
-    'NSPortDelegate': 'NSPortDelegate',
-    'NSSecureCoding': 'NSSecureCoding',
-    'NSStreamDelegate': 'NSStreamDelegate',
-  };
-  @visibleForTesting
-  static const builtInCategories = {
-    'NSDataCreation',
-    'NSExtendedArray',
-    'NSExtendedData',
-    'NSExtendedDate',
-    'NSExtendedDictionary',
-    'NSExtendedEnumerator',
-    'NSExtendedMutableArray',
-    'NSExtendedMutableData',
-    'NSExtendedMutableDictionary',
-    'NSExtendedMutableOrderedSet',
-    'NSExtendedMutableSet',
-    'NSExtendedOrderedSet',
-    'NSExtendedSet',
-    'NSNumberCreation',
-    'NSNumberIsFloat',
-    'NSStringExtensionMethods',
-  };
-
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
-  bool isBuiltInInterface(String name) =>
-      !generateForPackageObjectiveC && builtInInterfaces.contains(name);
+  String? getBuiltInInterfaceName(String name) =>
+      generateForPackageObjectiveC ? null : objCBuiltInInterfaces[name];
   String? getBuiltInCompoundName(String name) =>
-      generateForPackageObjectiveC ? null : builtInCompounds[name];
+      generateForPackageObjectiveC ? null : objCBuiltInCompounds[name];
   bool isBuiltInEnum(String name) =>
-      !generateForPackageObjectiveC && builtInEnums.contains(name);
+      !generateForPackageObjectiveC && objCBuiltInEnums.contains(name);
   String? getBuiltInProtocolName(String name) =>
-      generateForPackageObjectiveC ? null : builtInProtocols[name];
+      generateForPackageObjectiveC ? null : objCBuiltInProtocols[name];
   bool isBuiltInCategory(String name) =>
-      !generateForPackageObjectiveC && builtInCategories.contains(name);
+      !generateForPackageObjectiveC && objCBuiltInCategories.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
