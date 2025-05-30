@@ -30,14 +30,12 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
-    if (_shouldIncludeMethod(method)) {
-      final oldMethod = getSimilarMethod(method);
-      if (oldMethod != null) {
-        _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
-      } else {
-        _methods[method.key] = method;
-        _order.add(method.key);
-      }
+    final oldMethod = getSimilarMethod(method);
+    if (oldMethod != null) {
+      _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
+    } else {
+      _methods[method.key] = method;
+      _order.add(method.key);
     }
   }
 
@@ -88,20 +86,6 @@ mixin ObjCMethods {
 
     return newMethod;
   }
-
-  bool _shouldIncludeMethod(ObjCMethod method) =>
-      method.childTypes.every((Type t) {
-        t = t.typealiasType.baseType;
-
-        // Ignore methods with block args or rets when we're generating in
-        // package:objective_c.
-        // TODO(https://github.com/dart-lang/native/issues/1180): Remove this.
-        if (builtInFunctions.generateForPackageObjectiveC && t is ObjCBlock) {
-          return false;
-        }
-
-        return true;
-      });
 
   UniqueNamer createMethodRenamer(Writer w) =>
       UniqueNamer(parent: w.topLevelUniqueNamer)
