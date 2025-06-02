@@ -34,10 +34,14 @@ class PackageLayout {
   /// Only assets of transitive dependencies of [runPackageName] are built.
   final String runPackageName;
 
+  /// Include the dev dependencies of [runPackageName].
+  final bool includeDevDependencies;
+
   PackageLayout._(
     this.packageConfig,
     this.packageConfigUri,
     this.runPackageName,
+    this.includeDevDependencies,
   );
 
   factory PackageLayout.fromPackageConfig(
@@ -45,16 +49,23 @@ class PackageLayout {
     PackageConfig packageConfig,
     Uri packageConfigUri,
     String runPackageName,
+    bool includeDevDependencies,
   ) {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
-    return PackageLayout._(packageConfig, packageConfigUri, runPackageName);
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      runPackageName,
+      includeDevDependencies,
+    );
   }
 
   static Future<PackageLayout> fromWorkingDirectory(
     FileSystem fileSystem,
     Uri workingDirectory,
-    String runPackgeName,
+    String runPackageName,
+    bool includeDevDependencies,
   ) async {
     workingDirectory = workingDirectory.normalizePath();
     final packageConfigUri = await findPackageConfig(
@@ -63,7 +74,12 @@ class PackageLayout {
     );
     assert(await fileSystem.file(packageConfigUri).exists());
     final packageConfig = await loadPackageConfigUri(packageConfigUri!);
-    return PackageLayout._(packageConfig, packageConfigUri, runPackgeName);
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      runPackageName,
+      includeDevDependencies,
+    );
   }
 
   static Future<Uri?> findPackageConfig(

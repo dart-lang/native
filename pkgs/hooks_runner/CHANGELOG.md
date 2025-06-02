@@ -1,3 +1,8 @@
+## 0.21.0
+
+* Add `includeDevDependencies` param to `BuildLayout` to enable building the
+  assets for dev dependencies of the `runPackage`.
+
 ## 0.20.2
 
 * Add `dart:developer` `TimelineEvent`s to enable performance tracing for
