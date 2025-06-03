@@ -12,6 +12,7 @@ analyzer:
 
 linter:
   rules:
+    - avoid_positional_boolean_parameters
     - dangling_library_doc_comments
     - prefer_const_declarations
     - prefer_expression_function_bodies
