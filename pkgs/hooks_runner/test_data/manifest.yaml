@@ -34,6 +34,8 @@
 - depend_on_fail_build/pubspec.yaml
 - depend_on_fail_build_app/bin/depend_on_fail_build_app.dart
 - depend_on_fail_build_app/pubspec.yaml
+- dev_dependency_with_hook/pubspec.yaml
+- dev_dependency_with_hook/test/my_test.dart
 - drop_dylib_link/bin/drop_dylib_link.dart
 - drop_dylib_link/hook/build.dart
 - drop_dylib_link/hook/link.dart

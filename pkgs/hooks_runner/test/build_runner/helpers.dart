@@ -86,6 +86,7 @@ Future<Result<BuildResult, HooksRunnerFailure>> build(
     const LocalFileSystem(),
     packageUri,
     runPackageName_,
+    includeDevDependencies: false,
   );
   return await runWithLog(capturedLogs, () async {
     final result =
@@ -164,6 +165,7 @@ Future<Result<LinkResult, HooksRunnerFailure>> link(
     const LocalFileSystem(),
     packageUri,
     runPackageName_,
+    includeDevDependencies: false,
   );
   return await runWithLog(capturedLogs, () async {
     final result =
@@ -235,6 +237,7 @@ Future<(BuildResult?, LinkResult?)> buildAndLink(
     const LocalFileSystem(),
     packageUri,
     runPackageName_,
+    includeDevDependencies: false,
   );
   final buildRunner = NativeAssetsBuildRunner(
     logger: logger,

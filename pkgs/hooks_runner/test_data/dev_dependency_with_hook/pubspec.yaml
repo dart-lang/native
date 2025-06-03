@@ -1,0 +1,19 @@
+name: dev_dependency_with_hook
+description: Has a dev dependency with hook
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+
+dependencies: {}
+
+dev_dependencies:
+  ffigen: ^18.0.0
+  lints: ^5.1.1
+  native_add:
+    path: ../native_add/
+  test: ^1.25.15
