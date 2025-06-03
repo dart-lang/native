@@ -27,7 +27,7 @@ void main() async {
         const LocalFileSystem(),
         packageUri,
         packageName,
-        false,
+        includeDevDependencies: false,
       );
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,

@@ -53,7 +53,7 @@ class NativeAssetsBuildPlanner {
     final packageGraph = PackageGraph.fromPackageGraphJsonString(
       packageGraphJson,
       packageLayout.runPackageName,
-      packageLayout.includeDevDependencies,
+      includeDevDependencies: packageLayout.includeDevDependencies,
     );
     final packageGraphFromRunPackage = packageGraph.subGraph(
       packageLayout.runPackageName,
@@ -186,19 +186,19 @@ class PackageGraph {
 
   factory PackageGraph.fromPackageGraphJsonString(
     String json,
-    String runPackageName,
-    bool includeDevDependencies,
-  ) => PackageGraph.fromPackageGraphJson(
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) => PackageGraph.fromPackageGraphJson(
     jsonDecode(json) as Map<dynamic, dynamic>,
     runPackageName,
-    includeDevDependencies,
+    includeDevDependencies: includeDevDependencies,
   );
 
   factory PackageGraph.fromPackageGraphJson(
     Map<dynamic, dynamic> map,
-    String runPackageName,
-    bool includeDevDependencies,
-  ) {
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {

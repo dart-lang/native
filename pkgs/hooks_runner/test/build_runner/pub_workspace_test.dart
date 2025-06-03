@@ -126,7 +126,7 @@ dependency_overrides:
         fileSystem,
         packageUri,
         runPackageName,
-        false,
+        includeDevDependencies: false,
       );
       final builderNoHook = NativeAssetsBuildRunner(
         logger: logger,

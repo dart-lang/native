@@ -40,33 +40,33 @@ class PackageLayout {
   PackageLayout._(
     this.packageConfig,
     this.packageConfigUri,
-    this.runPackageName,
-    this.includeDevDependencies,
-  );
+    this.runPackageName, {
+    required this.includeDevDependencies,
+  });
 
   factory PackageLayout.fromPackageConfig(
     FileSystem fileSystem,
     PackageConfig packageConfig,
     Uri packageConfigUri,
-    String runPackageName,
-    bool includeDevDependencies,
-  ) {
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
     return PackageLayout._(
       packageConfig,
       packageConfigUri,
       runPackageName,
-      includeDevDependencies,
+      includeDevDependencies: includeDevDependencies,
     );
   }
 
   static Future<PackageLayout> fromWorkingDirectory(
     FileSystem fileSystem,
     Uri workingDirectory,
-    String runPackageName,
-    bool includeDevDependencies,
-  ) async {
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) async {
     workingDirectory = workingDirectory.normalizePath();
     final packageConfigUri = await findPackageConfig(
       fileSystem,
@@ -78,7 +78,7 @@ class PackageLayout {
       packageConfig,
       packageConfigUri,
       runPackageName,
-      includeDevDependencies,
+      includeDevDependencies: includeDevDependencies,
     );
   }
 

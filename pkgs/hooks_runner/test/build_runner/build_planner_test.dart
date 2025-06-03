@@ -25,7 +25,7 @@ void main() async {
         const LocalFileSystem(),
         nativeAddUri,
         'native_add',
-        false,
+        includeDevDependencies: false,
       );
       final nativeAssetsBuildPlanner =
           await NativeAssetsBuildPlanner.fromPackageConfigUri(
@@ -61,7 +61,7 @@ void main() async {
           const LocalFileSystem(),
           nativeAddUri,
           runPackageName,
-          false,
+          includeDevDependencies: false,
         );
         final nativeAssetsBuildPlanner =
             await NativeAssetsBuildPlanner.fromPackageConfigUri(
@@ -93,7 +93,7 @@ void main() async {
           const LocalFileSystem(),
           nativeAddUri,
           runPackageName,
-          includeDevDependencies,
+          includeDevDependencies: includeDevDependencies,
         );
         final nativeAssetsBuildPlanner =
             await NativeAssetsBuildPlanner.fromPackageConfigUri(

@@ -23,14 +23,14 @@ void main() async {
         fileSystem,
         nativeAddUri,
         'native_add',
-        false,
+        includeDevDependencies: false,
       );
       final packageLayout2 = PackageLayout.fromPackageConfig(
         fileSystem,
         packageLayout.packageConfig,
         packageLayout.packageConfigUri,
         'native_add',
-        false,
+        includeDevDependencies: false,
       );
       expect(packageLayout.packageConfigUri, packageLayout2.packageConfigUri);
     });
