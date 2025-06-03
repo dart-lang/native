@@ -16,6 +16,7 @@ import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
     show blockHasRegisteredClosure;
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -53,8 +54,19 @@ void main() {
   group('Blocks', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       lib = BlockTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
@@ -818,8 +830,12 @@ void main() {
     });
 
     test('Block trampoline args converted to id', () {
-      final objCBindings =
-          File('test/native_objc_test/block_bindings.m').readAsStringSync();
+      final objCBindings = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'block_bindings.m',
+      )).readAsStringSync();
 
       // Objects are converted to id.
       expect(objCBindings, isNot(contains('NSObject')));

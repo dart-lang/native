@@ -89,8 +89,10 @@ jobs:
           brew: clang-format
       - name: Build test dylib and bindings
         run: dart test/setup.dart
+      - name: Install coverage
+        run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
-        run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+        run: dart pub global run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
       - name: Generate package:jni bindings
         run: dart run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/

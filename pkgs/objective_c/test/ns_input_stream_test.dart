@@ -39,7 +39,7 @@ void main() {
   group('NSInputStream', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
+      DynamicLibrary.open(testDylib);
     });
 
     group('toNSInputStream', () {

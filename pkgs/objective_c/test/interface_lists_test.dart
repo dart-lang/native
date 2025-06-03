@@ -8,8 +8,11 @@ library;
 
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
+
+import 'util.dart';
 
 import '../../ffigen/lib/src/code_generator/objc_built_in_types.dart';
 
@@ -27,7 +30,8 @@ void main() {
   group('Verify interface lists', () {
     late final List<String> bindings;
     setUpAll(() {
-      bindings = File('lib/src/objective_c_bindings_generated.dart')
+      bindings = File(p.join(
+              pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'))
           .readAsLinesSync()
           .toList();
     });
