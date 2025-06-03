@@ -15,6 +15,8 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
+export 'package:ffigen/src/config_provider/utils.dart';
+
 extension LibraryTestExt on Library {
   /// Get a [Binding]'s generated string with a given name.
   String getBindingAsString(String name) =>

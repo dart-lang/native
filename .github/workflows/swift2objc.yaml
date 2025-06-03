@@ -55,8 +55,10 @@ jobs:
           sdk: stable
       - name: Install dependencies
         run: dart pub get
+      - name: Install coverage
+        run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
-        run: dart run coverage:test_with_coverage --scope-output=swift2objc
+        run: dart pub global run coverage:test_with_coverage --scope-output=swift2objc
       - name: Upload coverage
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:

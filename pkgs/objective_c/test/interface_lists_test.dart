@@ -9,8 +9,11 @@ library;
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator/objc_built_in_functions.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
+
+import 'util.dart';
 
 const privateObjectiveCClasses = ['DartInputStreamAdapter'];
 
@@ -21,10 +24,13 @@ void main() {
     late List<String> yamlEnums;
     late List<String> yamlProtocols;
     late List<String> yamlCategories;
+    late String exportFile;
+    late List<String> bindings;
 
     setUpAll(() {
       final yaml =
-          loadYaml(File('ffigen_objc.yaml').readAsStringSync()) as YamlMap;
+          loadYaml(File(p.join(pkgDir, 'ffigen_objc.yaml')).readAsStringSync())
+              as YamlMap;
 
       final interfaceRenames =
           (yaml['objc-interfaces'] as YamlMap)['rename'] as YamlMap;
@@ -61,6 +67,13 @@ void main() {
           .map<String>((dynamic i) => i as String)
           .toList()
         ..sort();
+
+      exportFile =
+          File(p.join(pkgDir, 'lib', 'objective_c.dart')).readAsStringSync();
+      bindings = File(p.join(
+              pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'))
+          .readAsLinesSync()
+          .toList();
     });
 
     test('ObjCBuiltInFunctions.builtInInterfaces', () {
@@ -84,7 +97,6 @@ void main() {
     });
 
     test('package:objective_c exports all the interfaces', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final intf in yamlInterfaces) {
         if (!privateObjectiveCClasses.contains(intf)) {
           expect(exportFile, contains(RegExp('\\W$intf\\W')));
@@ -93,28 +105,24 @@ void main() {
     });
 
     test('package:objective_c exports all the structs', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final struct in yamlStructs) {
         expect(exportFile, contains(RegExp('\\W$struct\\W')));
       }
     });
 
     test('package:objective_c exports all the enums', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final enum_ in yamlEnums) {
         expect(exportFile, contains(RegExp('\\W$enum_\\W')));
       }
     });
 
     test('package:objective_c exports all the protocols', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final protocol in yamlProtocols) {
         expect(exportFile, contains(RegExp('\\W$protocol\\W')));
       }
     });
 
     test('package:objective_c exports all the categories', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
       for (final category in yamlCategories) {
         expect(exportFile, contains(RegExp('\\W$category\\W')));
       }
@@ -123,8 +131,7 @@ void main() {
     test('All code genned interfaces are included in the list', () {
       final classNameRegExp = RegExp(r'^class ([^_]\w*) ');
       final allClassNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
+      for (final line in bindings) {
         final match = classNameRegExp.firstMatch(line);
         if (match != null) {
           allClassNames.add(match[1]!);
@@ -138,8 +145,7 @@ void main() {
       final structNameRegExp =
           RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)');
       final allStructNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
+      for (final line in bindings) {
         final match = structNameRegExp.firstMatch(line);
         if (match != null) {
           allStructNames.add(match[1]!);
@@ -152,8 +158,7 @@ void main() {
     test('All code genned enums are included in the list', () {
       final enumNameRegExp = RegExp(r'^enum (\w+) {');
       final allEnumNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
+      for (final line in bindings) {
         final match = enumNameRegExp.firstMatch(line);
         if (match != null) {
           allEnumNames.add(match[1]!);
@@ -165,8 +170,7 @@ void main() {
     test('All code genned protocols are included in the list', () {
       final protocolNameRegExp = RegExp(r'^interface class (\w+) ');
       final allProtocolNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
+      for (final line in bindings) {
         final match = protocolNameRegExp.firstMatch(line);
         if (match != null) {
           allProtocolNames.add(match[1]!);
@@ -178,8 +182,7 @@ void main() {
     test('All code genned categories are included in the list', () {
       final categoryNameRegExp = RegExp(r'^extension (\w+) on \w+ {');
       final allCategoryNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
+      for (final line in bindings) {
         final match = categoryNameRegExp.firstMatch(line);
         if (match != null) {
           allCategoryNames.add(match[1]!);
@@ -189,9 +192,7 @@ void main() {
     });
 
     test('No stubs', () {
-      final bindings = File('lib/src/objective_c_bindings_generated.dart')
-          .readAsStringSync();
-      expect(bindings, isNot(contains(RegExp(r'\Wstub\W'))));
+      expect(bindings.join('\n'), isNot(contains(RegExp(r'\Wstub\W'))));
     });
   });
 }

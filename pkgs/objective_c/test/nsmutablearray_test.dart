@@ -11,11 +11,13 @@ import 'dart:ffi';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
+import 'util.dart';
+
 void main() {
   group('NSMutableArray', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
+      DynamicLibrary.open(testDylib);
     });
 
     test('filled', () {

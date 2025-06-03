@@ -15,8 +15,12 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('c_json', () {
-      final config =
-          testConfigFromPath(path.join('example', 'c_json', 'config.yaml'));
+      final config = testConfigFromPath(path.join(
+        packagePathForTests,
+        'example',
+        'c_json',
+        'config.yaml',
+      ));
       final library = parse(config);
 
       matchLibraryWithExpected(

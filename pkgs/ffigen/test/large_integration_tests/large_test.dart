@@ -7,6 +7,7 @@ import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -23,13 +24,27 @@ void main() {
         output: Uri.file('unused'),
         compilerOpts: [
           ...defaultCompilerOpts(),
-          '-Ithird_party/libclang/include',
+          '-I${path.join(
+            packagePathForTests,
+            'third_party',
+            'libclang',
+            'include',
+          )}',
         ],
         commentType: CommentType(
           CommentStyle.doxygen,
           CommentLength.brief,
         ),
-        entryPoints: [Uri.file('third_party/libclang/include/clang-c/Index.h')],
+        entryPoints: [
+          Uri.file(path.join(
+            packagePathForTests,
+            'third_party',
+            'libclang',
+            'include',
+            'clang-c',
+            'Index.h',
+          ))
+        ],
         shouldIncludeHeaderFunc: (Uri header) => [
           'BuildSystem.h',
           'CXCompilationDatabase.h',
@@ -69,7 +84,14 @@ void main() {
         wrapperName: 'CJson',
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
-        entryPoints: [Uri.file('third_party/cjson_library/cJSON.h')],
+        entryPoints: [
+          Uri.file(path.join(
+            packagePathForTests,
+            'third_party',
+            'cjson_library',
+            'cJSON.h',
+          ))
+        ],
         shouldIncludeHeaderFunc: (Uri header) =>
             header.pathSegments.last == 'cJSON.h',
         functionDecl: DeclarationFilters.includeAll,
@@ -100,7 +122,14 @@ void main() {
           CommentStyle.any,
           CommentLength.full,
         ),
-        entryPoints: [Uri.file('third_party/sqlite/sqlite3.h')],
+        entryPoints: [
+          Uri.file(path.join(
+            packagePathForTests,
+            'third_party',
+            'sqlite',
+            'sqlite3.h',
+          ))
+        ],
         shouldIncludeHeaderFunc: (Uri header) =>
             header.pathSegments.last == 'sqlite3.h',
         functionDecl: DeclarationFilters(
