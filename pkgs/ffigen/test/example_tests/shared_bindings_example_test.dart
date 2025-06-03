@@ -17,6 +17,7 @@ void main() {
 
     test('a_shared_base bindings', () {
       final config = testConfigFromPath(path.join(
+        packagePathForTests,
         'example',
         'shared_bindings',
         'ffigen_configs',
@@ -33,6 +34,7 @@ void main() {
 
     test('base symbol file output', () {
       final config = testConfigFromPath(path.join(
+        packagePathForTests,
         'example',
         'shared_bindings',
         'ffigen_configs',

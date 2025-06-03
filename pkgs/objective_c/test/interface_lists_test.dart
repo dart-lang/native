@@ -8,10 +8,11 @@ library;
 
 import 'dart:io';
 
+import 'package:ffigen/src/code_generator/objc_built_in_types.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
-import 'package:yaml/yaml.dart';
 
-import '../../ffigen/lib/src/code_generator/objc_built_in_types.dart';
+import 'util.dart';
 
 // The default expect error message for sets isn't very useful. In the common
 // case where the sets are different lengths, the default matcher just says the
@@ -27,7 +28,8 @@ void main() {
   group('Verify interface lists', () {
     late final List<String> bindings;
     setUpAll(() {
-      bindings = File('lib/src/objective_c_bindings_generated.dart')
+      bindings = File(p.join(
+              pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'))
           .readAsLinesSync()
           .toList();
     });
