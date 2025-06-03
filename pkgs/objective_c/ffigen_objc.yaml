@@ -53,10 +53,12 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionChange
     - NSOrderedCollectionDifference
     - NSOrderedSet
     - NSPort
     - NSPortMessage
+    - NSProgress
     - NSRunLoop
     - NSSet
     - NSStream
@@ -124,6 +126,7 @@ enums:
   include:
     - NSAppleEventSendOptions
     - NSBinarySearchingOptions
+    - NSCollectionChangeType
     - NSComparisonResult
     - NSDataBase64DecodingOptions
     - NSDataBase64EncodingOptions
