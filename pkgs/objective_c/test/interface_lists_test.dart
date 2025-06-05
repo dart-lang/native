@@ -72,5 +72,15 @@ void main() {
       final stubRegExp = RegExp(r'\Wstub\W');
       expect(bindings.where(stubRegExp.hasMatch).toList(), <String>[]);
     });
+
+    test('No automatically renamed classes', () {
+      // All automatically renamed classes or enums should be given an explicit
+      // name. Note that we're not checking for renamed extensions, because ObjC
+      // allows categories with identical names (so we can't unambiguously
+      // rename them), and users don't need to refer to the extension by name
+      // anyway.
+      final renameRegExp = RegExp(r'(class|enum) .*\$');
+      expect(bindings.where(renameRegExp.hasMatch).toList(), <String>[]);
+    });
   });
 }

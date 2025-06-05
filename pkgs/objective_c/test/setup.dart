@@ -25,6 +25,7 @@ final objCFiles = [
   'src/ns_number.m',
   'src/objective_c.m',
   'src/objective_c_bindings_generated.m',
+  'src/observer.m',
   'src/protocol.m',
 ].map(_resolve);
 const objCFlags = [
