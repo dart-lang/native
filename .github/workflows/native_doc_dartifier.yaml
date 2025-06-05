@@ -16,7 +16,7 @@ env:
   PUB_ENVIRONMENT: bot.github
 
 jobs:
-  analyze and test:
+  analyze_and_test:
     runs-on: ubuntu-latest
     defaults:
       run:
