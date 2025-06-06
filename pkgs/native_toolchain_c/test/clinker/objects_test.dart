@@ -14,11 +14,11 @@ import 'package:test/test.dart';
 
 import 'objects_helper.dart';
 
-Future<void> main() async {
+void main() {
   if (!Platform.isLinux) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
-  await runObjectTests(OS.current, [Architecture.current]);
+  runObjectTests(OS.current, [Architecture.current]);
 }

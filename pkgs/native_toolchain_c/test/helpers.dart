@@ -303,6 +303,12 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
 
 int defaultMacOSVersion = 13;
 
+/// From https://docs.flutter.dev/reference/supported-platforms.
+const flutterAndroidNdkVersionLowestSupported = 21;
+
+/// From https://docs.flutter.dev/reference/supported-platforms.
+const flutterAndroidNdkVersionHighestSupported = 34;
+
 const objdumpFileFormat = {
   Architecture.arm: 'elf32-littlearm',
   Architecture.arm64: 'elf64-littleaarch64',

@@ -14,7 +14,7 @@ import 'package:test/test.dart';
 
 import 'objects_helper.dart';
 
-Future<void> main() async {
+void main() {
   if (!Platform.isLinux) {
     // Avoid needing status files on Dart SDK CI.
     return;
@@ -28,5 +28,5 @@ Future<void> main() async {
     Architecture.riscv64,
   ]..remove(Architecture.current);
 
-  await runObjectTests(OS.current, architectures);
+  runObjectTests(OS.current, architectures);
 }

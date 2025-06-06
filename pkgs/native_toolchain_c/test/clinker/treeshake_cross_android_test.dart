@@ -3,10 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_assets/code_assets.dart';
+import 'package:test/test.dart';
 
+import '../helpers.dart';
 import 'treeshake_helper.dart';
 
-Future<void> main() async {
+void main() {
   final architectures = [
     Architecture.arm,
     Architecture.arm64,
@@ -17,5 +19,12 @@ Future<void> main() async {
 
   const targetOS = OS.android;
 
-  await runTreeshakeTests(targetOS, architectures);
+  for (final apiLevel in [
+    flutterAndroidNdkVersionLowestSupported,
+    flutterAndroidNdkVersionHighestSupported,
+  ]) {
+    group('Android API$apiLevel', () {
+      runTreeshakeTests(targetOS, architectures, androidTargetNdkApi: apiLevel);
+    });
+  }
 }

@@ -13,9 +13,11 @@ import '../helpers.dart';
 Future<Uri> buildTestArchive(
   Uri tempUri,
   Uri tempUri2,
-  OS os,
-  Architecture architecture,
-) async {
+  OS targetOS,
+  Architecture architecture, {
+  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+}) async {
+  assert((targetOS != OS.android) == (androidTargetNdkApi == null));
   final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
   final test2Uri = packageUri.resolve('test/clinker/testfiles/linker/test2.c');
   if (!await File.fromUri(test1Uri).exists() ||
@@ -37,15 +39,12 @@ Future<Uri> buildTestArchive(
     ..config.setupBuild(linkingEnabled: false)
     ..addExtension(
       CodeAssetExtension(
-        targetOS: os,
+        targetOS: targetOS,
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,
         cCompiler: cCompiler,
-        android: os == OS.android
-            ? AndroidCodeConfig(
-                // TODO: figure out if we want to test different versions
-                targetNdkApi: 21,
-              )
+        android: androidTargetNdkApi != null
+            ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
             : null,
       ),
     );
