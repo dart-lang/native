@@ -250,9 +250,6 @@ A `*` denotes required configuration.
 | `summarizer:`          | (Subsection)  | Configuration specific to summarizer component, which builds API descriptions from Java sources or JAR files. |
 | `summarizer:` >> `backend` | `auto`, `doclet` or `asm` | Specifies the backend to use in API summary generation. `doclet` uses OpenJDK Doclet API to build summary from sources. `asm` uses ASM library to build summary from classes in `class_path` JARs. `auto` attempts to find the class in sources, and falls back to using ASM. |
 | `summarizer:` >> `extra_args` (DEV) | List of CLI arguments | Extra arguments to pass to summarizer JAR. |
-| `exclude:`             | (Subsection)  | Exclude methods or fields using regex filters. It's generally useful to exclude problematic fields or methods which, with current binding generation, can lead to syntax errors |
-| `exclude:` >> `methods`| List of methods in `classBinaryName#methodName` format where classBinaryName is same as qualified name, but `$` preceding a nested class instead of `.`. Example: `com.example.MyClass` or `com.example.MyClass$NestedClass` | Methods to exclude.
-| `exclude:` >> `fields` | List of fields in `classBinaryName#fieldName` format | Fields to exclude.
 
 It's possible to use the programmatic API instead of YAML.
 
