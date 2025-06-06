@@ -27,7 +27,6 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
-  assert(os == OS.linux); // Setup code input for other OSes.
   final buildInputBuilder = BuildInputBuilder()
     ..setupShared(
       packageName: name,
@@ -42,6 +41,12 @@ Future<Uri> buildTestArchive(
         targetArchitecture: architecture,
         linkModePreference: LinkModePreference.dynamic,
         cCompiler: cCompiler,
+        android: os == OS.android
+            ? AndroidCodeConfig(
+                // TODO: figure out if we want to test different versions
+                targetNdkApi: 21,
+              )
+            : null,
       ),
     );
 

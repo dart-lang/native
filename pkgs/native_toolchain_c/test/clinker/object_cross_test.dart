@@ -12,7 +12,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
 
-import 'treeshake_helper.dart';
+import 'objects_helper.dart';
 
 Future<void> main() async {
   if (!Platform.isLinux) {
@@ -28,5 +28,5 @@ Future<void> main() async {
     Architecture.riscv64,
   ]..remove(Architecture.current);
 
-  await runTreeshakeTests(OS.current, architectures);
+  await runObjectTests(OS.current, architectures);
 }

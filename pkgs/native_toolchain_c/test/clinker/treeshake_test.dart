@@ -20,5 +20,5 @@ Future<void> main() async {
     return;
   }
 
-  await runTests([Architecture.current]);
+  await runTreeshakeTests(OS.current, [Architecture.current]);
 }
