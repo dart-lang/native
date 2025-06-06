@@ -20,5 +20,5 @@ void main() {
     return;
   }
 
-  runObjectTests(OS.current, [Architecture.current]);
+  runObjectsTests(OS.current, [Architecture.current]);
 }

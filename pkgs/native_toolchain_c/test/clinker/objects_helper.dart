@@ -12,7 +12,7 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'build_testfiles.dart';
 
-void runObjectTests(
+void runObjectsTests(
   OS targetOS,
   List<Architecture> architectures, {
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
