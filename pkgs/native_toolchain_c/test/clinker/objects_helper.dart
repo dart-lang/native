@@ -66,7 +66,10 @@ Future<void> runObjectTests(
       expect(codeAssets, hasLength(1));
       final asset = codeAssets.first;
       expect(asset, isA<CodeAsset>());
-      await expectSymbols(asset: asset, symbols: ['my_func', 'my_other_func']);
+      expect(
+        await nmReadSymbols(asset),
+        stringContainsInOrder(['my_func', 'my_other_func']),
+      );
     });
   }
 }

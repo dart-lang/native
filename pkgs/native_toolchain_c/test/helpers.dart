@@ -257,19 +257,6 @@ Future<String> nmReadSymbols(CodeAsset asset) async {
   return result.stdout;
 }
 
-Future<void> expectSymbols({
-  required CodeAsset asset,
-  required List<String> symbols,
-}) async {
-  if (Platform.isLinux || Platform.isMacOS) {
-    final nmOutput = await nmReadSymbols(asset);
-
-    expect(nmOutput, stringContainsInOrder(symbols));
-  } else {
-    throw UnimplementedError();
-  }
-}
-
 Future<int> textSectionAddress(Uri dylib) async {
   if (Platform.isMacOS) {
     // Find the line in the objdump output that looks like:
