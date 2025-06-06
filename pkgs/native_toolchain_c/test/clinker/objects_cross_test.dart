@@ -28,5 +28,5 @@ void main() {
     Architecture.riscv64,
   ]..remove(Architecture.current);
 
-  runObjectTests(OS.current, architectures);
+  runObjectsTests(OS.current, architectures);
 }
