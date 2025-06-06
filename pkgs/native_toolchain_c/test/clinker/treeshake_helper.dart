@@ -21,7 +21,7 @@ Future<void> runTreeshakeTests(
     assetName: '',
     sources: sources,
     linkerOptions: LinkerOptions.manual(
-      flags: ['--strip-debug', '-u=my_other_func'],
+      flags: ['--strip-debug', '-u,my_other_func'],
       gcSections: true,
       linkerScript: packageUri.resolve(
         'test/clinker/testfiles/linker/symbols.lds',
