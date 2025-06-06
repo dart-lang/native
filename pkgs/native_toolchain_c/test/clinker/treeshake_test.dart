@@ -14,11 +14,11 @@ import 'package:test/test.dart';
 
 import 'treeshake_helper.dart';
 
-Future<void> main() async {
+void main() {
   if (!Platform.isLinux) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
-  await runTests([Architecture.current]);
+  runTreeshakeTests(OS.current, [Architecture.current]);
 }

@@ -20,5 +20,13 @@ void main() {
     return;
   }
 
-  runObjectsTests(OS.current, [Architecture.current]);
+  final architectures = [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  ]..remove(Architecture.current);
+
+  runObjectsTests(OS.current, architectures);
 }
