@@ -12,10 +12,12 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'build_testfiles.dart';
 
-Future<void> runTreeshakeTests(
+void runTreeshakeTests(
   OS targetOS,
-  List<Architecture> architectures,
-) async {
+  List<Architecture> architectures, {
+  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+}) {
+  assert((targetOS != OS.android) == (androidTargetNdkApi == null));
   CLinker linkerManual(List<String> sources) => CLinker.library(
     name: 'mylibname',
     assetName: '',
@@ -58,6 +60,7 @@ Future<void> runTreeshakeTests(
           tempUri2,
           targetOS,
           architecture,
+          androidTargetNdkApi: androidTargetNdkApi,
         );
 
         final linkInputBuilder = LinkInputBuilder()
@@ -74,8 +77,8 @@ Future<void> runTreeshakeTests(
               targetArchitecture: architecture,
               linkModePreference: LinkModePreference.dynamic,
               cCompiler: cCompiler,
-              android: targetOS == OS.android
-                  ? AndroidCodeConfig(targetNdkApi: 21)
+              android: androidTargetNdkApi != null
+                  ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
                   : null,
             ),
           );

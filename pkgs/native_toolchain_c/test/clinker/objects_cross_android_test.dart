@@ -3,10 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_assets/code_assets.dart';
+import 'package:test/test.dart';
 
+import '../helpers.dart';
 import 'objects_helper.dart';
 
-Future<void> main() async {
+void main() {
   final architectures = [
     Architecture.arm,
     Architecture.arm64,
@@ -17,5 +19,12 @@ Future<void> main() async {
 
   const targetOS = OS.android;
 
-  await runObjectTests(targetOS, architectures);
+  for (final apiLevel in [
+    flutterAndroidNdkVersionLowestSupported,
+    flutterAndroidNdkVersionHighestSupported,
+  ]) {
+    group('Android API$apiLevel', () {
+      runObjectTests(targetOS, architectures, androidTargetNdkApi: apiLevel);
+    });
+  }
 }

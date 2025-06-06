@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 
 import '../helpers.dart';
 
-Future<void> main() async {
+void main() {
   for (final targetOS in OS.values) {
     if (targetOS == OS.linux || targetOS == OS.android) {
       // Is implemented.

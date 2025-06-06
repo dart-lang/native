@@ -12,10 +12,12 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'build_testfiles.dart';
 
-Future<void> runObjectTests(
+void runObjectTests(
   OS targetOS,
-  List<Architecture> architectures,
-) async {
+  List<Architecture> architectures, {
+  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+}) {
+  assert((targetOS != OS.android) == (androidTargetNdkApi == null));
   const name = 'mylibname';
 
   for (final architecture in architectures) {
@@ -28,6 +30,7 @@ Future<void> runObjectTests(
         tempUri2,
         targetOS,
         architecture,
+        androidTargetNdkApi: androidTargetNdkApi,
       );
 
       final linkInputBuilder = LinkInputBuilder()
@@ -44,8 +47,8 @@ Future<void> runObjectTests(
             targetArchitecture: architecture,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
-            android: targetOS == OS.android
-                ? AndroidCodeConfig(targetNdkApi: 21)
+            android: androidTargetNdkApi != null
+                ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
                 : null,
           ),
         );
