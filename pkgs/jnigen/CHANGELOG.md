@@ -1,3 +1,7 @@
+## 0.15.0-wip
+
+- **Breaking Change**: Removed `exclude` from config.
+
 ## 0.14.2
 
 - The name `factory` can now also be used in a method name without renaming.

@@ -37,9 +37,7 @@ class Excluder extends Visitor<Classes, void> with TopLevelVisitor {
   @override
   void visit(Classes node) {
     node.decls.removeWhere((_, classDecl) {
-      final excluded = classDecl.isPrivate ||
-          classDecl.isExcluded ||
-          !(config.exclude?.classes?.included(classDecl) ?? true);
+      final excluded = classDecl.isPrivate || classDecl.isExcluded;
       if (excluded) {
         log.fine('Excluded class ${classDecl.binaryName}');
       }
@@ -69,13 +67,8 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       final isPrivate = method.isPrivate;
       final isAbstractCtor = method.isConstructor && node.isAbstract;
       final isBridgeMethod = method.isSynthetic && method.isBridge;
-      final isExcludedInConfig =
-          config.exclude?.methods?.included(node, method) ?? false;
-      final excluded = isPrivate ||
-          isAbstractCtor ||
-          isBridgeMethod ||
-          isExcludedInConfig ||
-          isExcluded;
+      final excluded =
+          isPrivate || isAbstractCtor || isBridgeMethod || isExcluded;
       if (excluded) {
         log.fine('Excluded method ${node.binaryName}#${method.name}');
       }
@@ -88,9 +81,7 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       return !excluded;
     }).toList();
     node.fields = node.fields.where((field) {
-      final excluded = field.isExcluded ||
-          (field.isPrivate &&
-              (config.exclude?.fields?.included(node, field) ?? true));
+      final excluded = field.isExcluded || field.isPrivate;
       if (excluded) {
         log.fine('Excluded field ${node.binaryName}#${field.name}');
       }

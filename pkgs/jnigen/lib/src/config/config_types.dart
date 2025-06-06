@@ -15,7 +15,6 @@ import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'config_exception.dart';
 import 'experiments.dart';
-import 'filters.dart';
 import 'yaml_reader.dart';
 
 /// Modify this when symbols file format changes according to pub_semver.
@@ -234,13 +233,6 @@ class OutputConfig {
   SymbolsOutputConfig? symbolsConfig;
 }
 
-class BindingExclusions {
-  BindingExclusions({this.methods, this.fields, this.classes});
-  MethodFilter? methods;
-  FieldFilter? fields;
-  ClassFilter? classes;
-}
-
 bool _isCapitalized(String s) {
   final firstLetter = s.substring(0, 1);
   return firstLetter == firstLetter.toUpperCase();
@@ -270,7 +262,6 @@ class Config {
       {required this.outputConfig,
       required this.classes,
       this.experiments,
-      this.exclude,
       this.sourcePath,
       this.classPath,
       this.preamble,
@@ -302,9 +293,6 @@ class Config {
   List<String> classes;
 
   Set<Experiment?>? experiments;
-
-  /// Methods and fields to be excluded from generated bindings.
-  final BindingExclusions? exclude;
 
   /// Paths to search for java source files.
   ///
@@ -483,24 +471,6 @@ class Config {
       return res;
     }
 
-    MemberFilter<T>? regexFilter<T extends ClassMember>(String property) {
-      final exclusions = prov.getStringList(property);
-      if (exclusions == null) return null;
-      final filters = <MemberFilter<T>>[];
-      for (var exclusion in exclusions) {
-        final split = exclusion.split('#');
-        if (split.length != 2) {
-          throw ConfigException('Error parsing exclusion: "$exclusion": '
-              'expected to be in binaryName#member format.');
-        }
-        filters.add(MemberNameFilter<T>.exclude(
-          RegExp(split[0]),
-          RegExp(split[1]),
-        ));
-      }
-      return CombinedMemberFilter<T>(filters);
-    }
-
     String? getSdkRoot() {
       final root = prov.getString(_Props.androidSdkRoot) ??
           Platform.environment['ANDROID_SDK_ROOT'];
@@ -528,10 +498,6 @@ class Config {
         extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
         backend: getSummarizerBackend(prov.getString(_Props.backend), null),
         workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
-      ),
-      exclude: BindingExclusions(
-        methods: regexFilter<Method>(_Props.excludeMethods),
-        fields: regexFilter<Field>(_Props.excludeFields),
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
@@ -620,9 +586,6 @@ class _Props {
   static const sourcePath = 'source_path';
   static const classPath = 'class_path';
   static const classes = 'classes';
-  static const exclude = 'exclude';
-  static const excludeMethods = '$exclude.methods';
-  static const excludeFields = '$exclude.fields';
 
   static const experiments = 'enable_experiment';
   static const import = 'import';
