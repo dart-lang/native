@@ -165,7 +165,7 @@ final class _FinalizablePointer<T extends NativeType> implements Finalizable {
 bool _dartAPIInitialized = false;
 void _ensureDartAPI() {
   if (!_dartAPIInitialized) {
-    final result = c.DOBJC_InitializeApi(NativeApi.initializeApiDLData);
+    final result = c.initializeApi(NativeApi.initializeApiDLData);
     assert(result == 0);
     _dartAPIInitialized = true;
   }
@@ -295,8 +295,8 @@ bool _isValidObject(ObjectPtr ptr) {
 
 final _allClasses = <ObjectPtr>{};
 
-bool _isValidClass(ObjectPtr clazz) {
-  if (_allClasses.contains(clazz)) return true;
+bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
+  if (!forceReloadClasses && _allClasses.contains(clazz)) return true;
 
   // If the class is missing from the list, it either means we haven't created
   // the set yet, or more classes have been loaded since we created the set, or
@@ -427,24 +427,14 @@ Function getBlockClosure(BlockPtr block) {
   return _blockClosureRegistry[id]!.closure;
 }
 
-typedef NewWaiterFn = NativeFunction<VoidPtr Function()>;
-typedef AwaitWaiterFn = NativeFunction<Void Function(VoidPtr)>;
-typedef NativeWrapperFn = BlockPtr Function(
-    BlockPtr, BlockPtr, Pointer<NewWaiterFn>, Pointer<AwaitWaiterFn>);
-
 /// Only for use by ffigen bindings.
-BlockPtr wrapBlockingBlock(
-        NativeWrapperFn nativeWrapper, BlockPtr raw, BlockPtr rawListener) =>
-    nativeWrapper(
-      raw,
-      rawListener,
-      Native.addressOf<NewWaiterFn>(c.newWaiter),
-      Native.addressOf<AwaitWaiterFn>(c.awaitWaiter),
-    );
+final Pointer<c.DOBJC_Context> objCContext =
+    c.fillContext(calloc<c.DOBJC_Context>());
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>
     _blockClosureRegistry.containsKey(block.ref.target.address);
 bool isValidBlock(BlockPtr block) => c.isValidBlock(block);
-bool isValidClass(ObjectPtr clazz) => _isValidClass(clazz);
+bool isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) =>
+    _isValidClass(clazz, forceReloadClasses: forceReloadClasses);
 bool isValidObject(ObjectPtr object) => _isValidObject(object);

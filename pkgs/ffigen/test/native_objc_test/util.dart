@@ -21,7 +21,12 @@ void generateBindingsForCoverage(String testName) {
   // that the ObjC related bits of ffigen are missed by test coverage. So this
   // function just regenerates those bindings. It doesn't test anything except
   // that the generation succeeded, by asserting the file exists.
-  final path = p.join('test', 'native_objc_test', '${testName}_config.yaml');
+  final path = p.join(
+    packagePathForTests,
+    'test',
+    'native_objc_test',
+    '${testName}_config.yaml',
+  );
   final config = testConfig(File(path).readAsStringSync(), filename: path);
   FfiGen(logLevel: Level.SEVERE).run(config);
 }
@@ -93,3 +98,6 @@ int objectRetainCount(Pointer<ObjCObject> object) {
   if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());
 }
+
+bool isValidClass(Pointer<Void> clazz) =>
+    internal_for_testing.isValidClass(clazz.cast(), forceReloadClasses: true);

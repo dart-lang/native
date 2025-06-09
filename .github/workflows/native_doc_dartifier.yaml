@@ -1,0 +1,44 @@
+name: native_doc_dartifier
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_doc_dartifier.yaml"
+      - "pkgs/native_doc_dartifier/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_doc_dartifier.yaml"
+      - "pkgs/native_doc_dartifier/**"
+
+env:
+  PUB_ENVIRONMENT: bot.github
+
+jobs:
+  analyze_and_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pkgs/native_doc_dartifier/
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [stable]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        with:
+          sdk: ${{ matrix.sdk }}
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+        if: always() && steps.install.outcome == 'success'
+      - name: Analyze code
+        run: dart analyze --fatal-infos
+        if: always() && steps.install.outcome == 'success'
+      - name: Run VM tests
+        run: dart test --platform vm
+        if: always() && steps.install.outcome == 'success'

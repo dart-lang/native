@@ -9,6 +9,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -21,8 +22,19 @@ void main() {
   group('Nullability', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       nullableInterface = NullableInterface();
@@ -43,40 +55,57 @@ void main() {
 
     group('Nullable return', () {
       test('Not null', () {
-        expect(NullableInterface.returnNil_(false), isA<NSObject>());
+        expect(NullableInterface.returnNil(false), isA<NSObject>());
       });
       test('Null', () {
-        expect(NullableInterface.returnNil_(true), null);
+        expect(NullableInterface.returnNil(true), null);
       });
     });
 
     group('Nullable arguments', () {
       test('Not null', () {
-        expect(NullableInterface.isNullWithNullableNSObjectArg_(obj), false);
+        expect(NullableInterface.isNullWithNullableNSObjectArg(obj), false);
       });
       test('Null', () {
-        expect(NullableInterface.isNullWithNullableNSObjectArg_(null), true);
+        expect(NullableInterface.isNullWithNullableNSObjectArg(null), true);
       });
     });
 
     group('Not-nullable arguments', () {
       test('Not null', () {
         expect(
-            NullableInterface.isNullWithNotNullableNSObjectPtrArg_(obj), false);
+            NullableInterface.isNullWithNotNullableNSObjectPtrArg(obj), false);
       });
 
       test('Explicit non null', () {
         expect(
-            NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg_(obj),
+            NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg(obj),
             false);
       });
     });
 
     test('Nullable typealias', () {
       // Regression test for https://github.com/dart-lang/native/issues/1701
-      expect(NullableInterface.returnNullableAlias_(true), isNull);
+      expect(NullableInterface.returnNullableAlias(true), isNull);
       expect(
-          NullableInterface.returnNullableAlias_(false)?.toDartString(), "Hi");
+          NullableInterface.returnNullableAlias(false)?.toDartString(), "Hi");
+    });
+
+    test('Multiple nullable args', () {
+      final x = NSObject();
+      final y = NSObject();
+      final z = NSObject();
+
+      expect(NullableInterface.multipleNullableArgs(x, y: y, z: z), x);
+      expect(NullableInterface.multipleNullableArgs(null, y: y, z: z), y);
+      expect(NullableInterface.multipleNullableArgs(null, y: null, z: z), z);
+      expect(
+          NullableInterface.multipleNullableArgs(null, y: null, z: null), null);
+
+      // Nullable named args are optional.
+      expect(NullableInterface.multipleNullableArgs(null, z: z), z);
+      expect(NullableInterface.multipleNullableArgs(null, y: y), y);
+      expect(NullableInterface.multipleNullableArgs(null), null);
     });
   });
 }

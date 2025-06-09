@@ -7,12 +7,31 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'c_bindings_generated.dart' as c;
 
+/// Returns the current MacOS/iOS version.
 Version get osVersion => _osVersion;
 
 Version _osVersion = () {
   final ver = c.getOsVesion();
   return Version(ver.major, ver.minor, ver.patch);
 }();
+
+/// Returns whether the current MacOS/iOS version is greater than or equal to
+/// the given version.
+///
+/// Designed to replace Objective-C's `@available` check.
+///
+/// The each platform's version is optional, and the function returns false if
+/// no version is provided for the current platform.
+bool checkOSVersion({Version? iOS, Version? macOS}) {
+  if (Platform.isIOS) return _checkOSVersionImpl(iOS);
+  if (Platform.isMacOS) return _checkOSVersionImpl(macOS);
+  throw UnsupportedError('Only supported on iOS and macOS');
+}
+
+bool _checkOSVersionImpl(Version? version) {
+  if (version == null) return false;
+  return osVersion >= version;
+}
 
 final class OsVersionError implements Exception {
   final String apiName;
@@ -26,16 +45,16 @@ final class OsVersionError implements Exception {
 typedef PlatformAvailability = (bool unavailable, (int, int, int)? introduced);
 
 /// Only for use by ffigen bindings.
-void checkOsVersion(
+void checkOsVersionInternal(
   String apiName, {
   PlatformAvailability? iOS,
   PlatformAvailability? macOS,
 }) {
-  if (Platform.isIOS) _checkOsVersionImpl(apiName, 'iOS', iOS);
-  if (Platform.isMacOS) _checkOsVersionImpl(apiName, 'macOS', macOS);
+  if (Platform.isIOS) _checkOsVersionInternalImpl(apiName, 'iOS', iOS);
+  if (Platform.isMacOS) _checkOsVersionInternalImpl(apiName, 'macOS', macOS);
 }
 
-void _checkOsVersionImpl(
+void _checkOsVersionInternalImpl(
     String apiName, String osName, PlatformAvailability? availability) {
   if (availability == null) return;
   final (bool unavailable, (int, int, int)? introduced) = availability;

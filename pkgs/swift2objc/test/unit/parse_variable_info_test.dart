@@ -6,16 +6,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('Variable Valid json', () {
-    test('Weak Variable', () {
+    test('Variable with getter', () {
       final json = Json(jsonDecode('''[
-                {
-                    "kind": "keyword",
-                    "spelling": "weak"
-                },
-                {
-                    "kind": "text",
-                    "spelling": " "
-                },
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -26,7 +18,7 @@ void main() {
                 },
                 {
                     "kind": "identifier",
-                    "spelling": "dorm"
+                    "spelling": "id"
                 },
                 {
                     "kind": "text",
@@ -34,31 +26,22 @@ void main() {
                 },
                 {
                     "kind": "typeIdentifier",
-                    "spelling": "Dorm",
-                    "preciseIdentifier": "s:24funcs_symbolgraph_module4DormC"
+                    "spelling": "Int",
+                    "preciseIdentifier": "s:Si"
                 },
                 {
                     "kind": "text",
-                    "spelling": "?"
+                    "spelling": " { get }"
                 }
             ]'''));
 
       final info = parsePropertyInfo(json);
 
-      expect(info.weak, isTrue);
-      expect(info.constant, isFalse);
+      expect(info.getter, isTrue);
     });
 
-    test('Unowned Variable', () {
+    test('Variable Computed', () {
       final json = Json(jsonDecode('''[
-                {
-                    "kind": "keyword",
-                    "spelling": "unowned"
-                },
-                {
-                    "kind": "text",
-                    "spelling": " "
-                },
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -69,7 +52,7 @@ void main() {
                 },
                 {
                     "kind": "identifier",
-                    "spelling": "school"
+                    "spelling": "computedProperty"
                 },
                 {
                     "kind": "text",
@@ -77,66 +60,30 @@ void main() {
                 },
                 {
                     "kind": "typeIdentifier",
-                    "spelling": "School",
-                    "preciseIdentifier": "s:24funcs_symbolgraph_module6SchoolC"
+                    "spelling": "Int",
+                    "preciseIdentifier": "s:Si"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
                 }
             ]'''));
 
       final info = parsePropertyInfo(json);
 
-      expect(info.unowned, isTrue);
-      expect(info.constant, isFalse);
+      expect(info.getter, isTrue);
     });
 
-    test('Unowned Constant variable', () {
+    test('Variable with getter and setter', () {
       final json = Json(jsonDecode('''[
-                {
-                    "kind": "keyword",
-                    "spelling": "unowned"
-                },
-                {
-                    "kind": "text",
-                    "spelling": " "
-                },
-                {
-                    "kind": "keyword",
-                    "spelling": "let"
-                },
-                {
-                    "kind": "text",
-                    "spelling": " "
-                },
-                {
-                    "kind": "identifier",
-                    "spelling": "almaMatter"
-                },
-                {
-                    "kind": "text",
-                    "spelling": ": "
-                },
-                {
-                    "kind": "typeIdentifier",
-                    "spelling": "School",
-                    "preciseIdentifier": "s:24funcs_symbolgraph_module6SchoolC"
-                }
-            ]'''));
-
-      final info = parsePropertyInfo(json);
-
-      expect(info.unowned, isTrue);
-      expect(info.constant, isTrue);
-    });
-
-    test('Lazy Variable', () {
-      final json = Json(jsonDecode('''[
-                {
-                    "kind": "keyword",
-                    "spelling": "lazy"
-                },
-                {
-                    "kind": "text",
-                    "spelling": " "
-                },
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -147,7 +94,7 @@ void main() {
                 },
                 {
                     "kind": "identifier",
-                    "spelling": "description"
+                    "spelling": "computedWithSet"
                 },
                 {
                     "kind": "text",
@@ -155,8 +102,8 @@ void main() {
                 },
                 {
                     "kind": "typeIdentifier",
-                    "spelling": "String",
-                    "preciseIdentifier": "s:SS"
+                    "spelling": "Int",
+                    "preciseIdentifier": "s:Si"
                 },
                 {
                     "kind": "text",
@@ -182,8 +129,181 @@ void main() {
 
       final info = parsePropertyInfo(json);
 
-      expect(info.lazy, isTrue);
-      expect(info.constant, isFalse);
+      expect(info.getter, isTrue);
+      expect(info.setter, isTrue);
+    });
+
+    test('Constant variable', () {});
+
+    test('Async Get Variable', () {
+      final json = Json(jsonDecode('''[
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "computedAsyncProperty"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "async"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ]'''));
+
+      final info = parsePropertyInfo(json);
+
+      expect(info.getter, isTrue);
+      expect(info.async, isTrue);
+    });
+
+    test('Mutating Variable', () {
+      final json = Json(jsonDecode('''[
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "computedWithSet"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Int",
+                    "preciseIdentifier": "s:Si"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "mutating"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "set"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ]'''));
+
+      final info = parsePropertyInfo(json);
+
+      expect(info.getter, isTrue);
+      expect(info.mutating, isTrue);
+      expect(info.setter, isTrue);
+    });
+
+    test('Async Throws Get Variable', () {
+      final json = Json(jsonDecode('''
+[
+                {
+                    "kind": "keyword",
+                    "spelling": "var"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "computedAsyncThrowProperty"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "String",
+                    "preciseIdentifier": "s:SS"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " { "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "get"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "async"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "throws"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " }"
+                }
+            ]'''));
+
+      final info = parsePropertyInfo(json);
+      expect(info.getter, isTrue);
+      expect(info.async, isTrue);
+      expect(info.throws, isTrue);
     });
   });
 }

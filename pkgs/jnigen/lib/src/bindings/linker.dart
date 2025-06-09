@@ -66,11 +66,10 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
     ClassDecl resolve(String? binaryName) {
       return config.importedClasses[binaryName] ??
           node.decls[binaryName] ??
-          resolve(TypeUsage.object.name);
+          resolve(DeclaredType.object.name);
     }
 
-    (TypeUsage.object.type as DeclaredType).classDecl =
-        resolve(TypeUsage.object.name);
+    DeclaredType.object.classDecl = resolve(DeclaredType.object.name);
     final classLinker = _ClassLinker(
       config,
       resolve,
@@ -117,9 +116,9 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     }
     final typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
-    node.superclass ??= TypeUsage.object;
-    node.superclass!.type.accept(typeLinker);
-    final superclass = (node.superclass!.type as DeclaredType).classDecl;
+    node.superclass ??= DeclaredType.object;
+    node.superclass!.accept(typeLinker);
+    final superclass = (node.superclass! as DeclaredType).classDecl;
     superclass.accept(this);
 
     final methodSignatures = <String>{};
@@ -136,7 +135,7 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
     }
     for (final interface in node.interfaces) {
       interface.accept(typeLinker);
-      if (interface.type case final DeclaredType interfaceType) {
+      if (interface case final DeclaredType interfaceType) {
         interfaceType.classDecl.accept(this);
         for (final interfaceMethod in interfaceType.classDecl.methods) {
           final clonedMethod =
@@ -189,10 +188,8 @@ class _MethodLinker extends Visitor<Method, void> {
       final outerClassTypeParams = [
         for (final typeParam
             in node.classDecl.allTypeParams.take(outerClassTypeParamCount)) ...[
-          TypeUsage(
-              shorthand: typeParam.name, kind: Kind.typeVariable, typeJson: {})
-            ..type = (TypeVar(name: typeParam.name)
-              ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull]),
+          TypeVar(name: typeParam.name)
+            ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull],
         ]
       ];
       final outerClassType = DeclaredType(
@@ -201,12 +198,7 @@ class _MethodLinker extends Visitor<Method, void> {
         // `$outerClass` parameter must not be null.
         annotations: [Annotation.nonNull],
       );
-      final outerClassTypeUsage = TypeUsage(
-        shorthand: outerClassType.binaryName,
-        kind: Kind.declared,
-        typeJson: {},
-      )..type = outerClassType;
-      final param = Param(name: '\$outerClass', type: outerClassTypeUsage);
+      final param = Param(name: '\$outerClass', type: outerClassType);
       final usedDoclet = node.descriptor == null;
       // For now the nullity of [node.descriptor] identifies if the doclet
       // backend was used and the method would potentially need "unnesting".
@@ -232,10 +224,10 @@ class _MethodLinker extends Visitor<Method, void> {
     // If the type itself does not have nullability annotations, use the
     // parent's nullability annotations. Some annotations such as
     // `androidx.annotation.NonNull` only get applied to elements but not types.
-    if (!node.returnType.type.hasNullabilityAnnotations &&
+    if (!node.returnType.hasNullabilityAnnotations &&
         node.hasNullabilityAnnotations) {
-      node.returnType.type.annotations = [
-        ...?node.returnType.type.annotations,
+      node.returnType.annotations = [
+        ...?node.returnType.annotations,
         ...?node.annotations,
       ];
     }
@@ -259,8 +251,8 @@ class _MethodLinker extends Visitor<Method, void> {
     }
     // Fill out compareTo method of the class used for comparison operators.
     if (node.name == 'compareTo' && node.params.length == 1) {
-      final returnType = node.returnType.type;
-      final parameterType = node.params.single.type.type;
+      final returnType = node.returnType;
+      final parameterType = node.params.single.type;
       if (parameterType is DeclaredType &&
           parameterType.binaryName == node.classDecl.binaryName &&
           returnType is PrimitiveType &&
@@ -287,8 +279,8 @@ class _TypeLinker extends TypeVisitor<void> {
 
   @override
   void visitWildcard(Wildcard node) {
-    node.superBound?.type.accept(this);
-    node.extendsBound?.type.accept(this);
+    node.superBound?.accept(this);
+    node.extendsBound?.accept(this);
   }
 
   @override
@@ -322,10 +314,10 @@ class _FieldLinker extends Visitor<Field, void> {
     // If the type itself does not have nullability annotations, use the
     // parent's nullability annotations. Some annotations such as
     // `androidx.annotation.NonNull` only get applied to elements but not types.
-    if (!node.type.type.hasNullabilityAnnotations &&
+    if (!node.type.hasNullabilityAnnotations &&
         node.hasNullabilityAnnotations) {
-      node.type.type.annotations = [
-        ...?node.type.type.annotations,
+      node.type.annotations = [
+        ...?node.type.annotations,
         ...?node.annotations,
       ];
     }
@@ -358,10 +350,10 @@ class _ParamLinker extends Visitor<Param, void> {
     // If the type itself does not have nullability annotations, use the
     // parent's nullability annotations. Some annotations such as
     // `androidx.annotation.NonNull` only get applied to elements but not types.
-    if (!node.type.type.hasNullabilityAnnotations &&
+    if (!node.type.hasNullabilityAnnotations &&
         node.hasNullabilityAnnotations) {
-      node.type.type.annotations = [
-        ...?node.type.type.annotations,
+      node.type.annotations = [
+        ...?node.type.annotations,
         ...?node.annotations,
       ];
     }
@@ -387,21 +379,21 @@ class _MethodMover extends Visitor<Method, void> {
   void visit(Method node) {
     node.classDecl = toClass;
     final typeMover = _TypeMover(fromType: fromType);
-    if (node.returnType.kind == Kind.typeVariable) {
-      node.returnType = typeMover.replaceTypeVar(node.returnType);
+    if (node.returnType is TypeVar) {
+      node.returnType = typeMover.replaceTypeVar(node.returnType as TypeVar);
     } else {
       node.returnType.accept(typeMover);
     }
     for (final param in node.params) {
-      if (param.type.kind == Kind.typeVariable) {
-        param.type = typeMover.replaceTypeVar(param.type);
+      if (param.type is TypeVar) {
+        param.type = typeMover.replaceTypeVar(param.type as TypeVar);
       } else {
         param.type.accept(typeMover);
       }
     }
     for (final typeParam in node.typeParams) {
       for (final (i, bound) in typeParam.bounds.indexed) {
-        if (bound.kind == Kind.typeVariable) {
+        if (bound is TypeVar) {
           typeParam.bounds[i] = typeMover.replaceTypeVar(bound);
         } else {
           bound.accept(typeMover);
@@ -426,33 +418,35 @@ class _TypeMover extends TypeVisitor<void> {
     // Do nothing.
   }
 
-  TypeUsage replaceTypeVar(TypeUsage typeUsage) {
-    final typeVar = typeUsage.type as TypeVar;
+  ReferredType replaceTypeVar(TypeVar typeVar) {
     if (typeVar.origin.parent == fromType.classDecl) {
       final index = fromType.classDecl.allTypeParams
           .indexWhere((typeParam) => typeParam.name == typeVar.name);
       if (index != -1) {
+        if (index >= fromType.params.length) {
+          return DeclaredType.object.clone();
+        }
         return fromType.params[index].clone(until: GenerationStage.linker);
       }
     }
-    return typeUsage;
+    return typeVar;
   }
 
   @override
   void visitDeclaredType(DeclaredType node) {
     for (final (i, typeParam) in node.params.indexed) {
-      if (typeParam.type is TypeVar) {
+      if (typeParam is TypeVar) {
         node.params[i] = replaceTypeVar(typeParam);
       } else {
-        typeParam.type.accept(this);
+        typeParam.accept(this);
       }
     }
   }
 
   @override
   void visitArrayType(ArrayType node) {
-    if (node.elementType.type is TypeVar) {
-      node.elementType = replaceTypeVar(node.elementType);
+    if (node.elementType is TypeVar) {
+      node.elementType = replaceTypeVar(node.elementType as TypeVar);
     } else {
       node.elementType.accept(this);
     }

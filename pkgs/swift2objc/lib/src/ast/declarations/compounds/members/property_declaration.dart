@@ -33,6 +33,8 @@ class PropertyDeclaration extends AstNode
   @override
   bool async;
 
+  bool mutating;
+
   bool hasSetter;
 
   PropertyStatements? getter;
@@ -61,6 +63,7 @@ class PropertyDeclaration extends AstNode
       this.unowned = false,
       this.weak = false,
       this.lazy = false})
+      this.mutating = false})
       : assert(!(isConstant && hasSetter)),
         assert(!(hasSetter && throws));
 

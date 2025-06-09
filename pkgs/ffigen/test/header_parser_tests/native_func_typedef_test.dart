@@ -22,7 +22,7 @@ ${strings.description}: 'Native Func Typedef Test.'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/native_func_typedef.h'
+    - '${absPath('test/header_parser_tests/native_func_typedef.h')}'
         '''),
       );
     });

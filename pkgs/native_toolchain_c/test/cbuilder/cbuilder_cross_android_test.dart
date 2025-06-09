@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -28,9 +30,6 @@ void main() {
   };
 
   /// From https://docs.flutter.dev/reference/supported-platforms.
-  const flutterAndroidNdkVersionLowestBestEffort = 19;
-
-  /// From https://docs.flutter.dev/reference/supported-platforms.
   const flutterAndroidNdkVersionLowestSupported = 21;
 
   /// From https://docs.flutter.dev/reference/supported-platforms.
@@ -42,7 +41,6 @@ void main() {
   for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       for (final apiLevel in [
-        flutterAndroidNdkVersionLowestBestEffort,
         flutterAndroidNdkVersionLowestSupported,
         flutterAndroidNdkVersionHighestSupported,
       ]) {
@@ -143,29 +141,27 @@ Future<Uri> buildLib(
 
   final tempUriShared = tempUri.resolve('shared/');
   await Directory.fromUri(tempUriShared).create();
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUriShared,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: OS.android,
-          targetArchitecture: targetArchitecture,
-          cCompiler: cCompiler,
-          android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
-          linkModePreference:
-              linkMode == DynamicLoadingBundled()
-                  ? LinkModePreference.dynamic
-                  : LinkModePreference.static,
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUriShared,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: OS.android,
+        targetArchitecture: targetArchitecture,
+        cCompiler: cCompiler,
+        android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
+        linkModePreference: linkMode == DynamicLoadingBundled()
+            ? LinkModePreference.dynamic
+            : LinkModePreference.static,
+      ),
+    );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -177,6 +173,8 @@ Future<Uri> buildLib(
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-  final libUri = tempUri.resolve(OS.android.libraryFileName(name, linkMode));
+  final libUri = buildInput.outputDirectory.resolve(
+    OS.android.libraryFileName(name, linkMode),
+  );
   return libUri;
 }

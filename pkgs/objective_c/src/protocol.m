@@ -7,57 +7,66 @@
 #import <Foundation/NSDictionary.h>
 #import <Foundation/NSInvocation.h>
 #import <Foundation/NSValue.h>
+#import <objc/runtime.h>
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
 #endif
 
 @implementation DOBJCDartProtocolBuilder {
-  NSMutableDictionary *methods;
+  @public NSMutableDictionary *methods;
+  Class clazz;
 }
 
-+ (instancetype)new {
-  return [[self alloc] init];
-}
-
-- (instancetype)init {
-  if (self) {
-    methods = [NSMutableDictionary new];
-  }
+- (instancetype)initWithClassName: (const char*)name {
+  methods = [NSMutableDictionary new];
+  clazz = objc_allocateClassPair([DOBJCDartProtocol class], name, 0);
   return self;
 }
 
-- (void)implement:(SEL)sel withBlock:(id)block {
+- (void)implementMethod:(SEL)sel withBlock:(void*)block
+    withTrampoline:(void*)trampoline withSignature:(char*)signature {
+  class_addMethod(clazz, sel, trampoline, signature);
+  NSValue* key = [NSValue valueWithPointer:sel];
   @synchronized(methods) {
-    [methods setObject:block forKey:[NSValue valueWithPointer:sel]];
+    [methods setObject:(__bridge id)block forKey:key];
   }
 }
 
-- (void)implementMethod:(SEL)sel withBlock:(void*)block {
-  [self implement:sel withBlock:(__bridge id)block];
+- (void)addProtocol:(Protocol*) protocol {
+  class_addProtocol(clazz, protocol);
 }
 
-- (NSDictionary*)copyMethods NS_RETURNS_RETAINED {
-  return [methods copy];
+- (void)registerClass {
+  objc_registerClassPair(clazz);
 }
+
+- (DOBJCDartProtocol*)buildInstance: (Dart_Port)port {
+  DOBJCDartProtocol* inst = [clazz alloc];
+  return [inst initDOBJCDartProtocolFromDartProtocolBuilder:self
+               withDisposePort:port];
+}
+
+- (void)dealloc {
+  objc_disposeClassPair(clazz);
+}
+
 @end
 
 @implementation DOBJCDartProtocol {
-  NSDictionary *methods;
+  DOBJCDartProtocolBuilder* builder;
   Dart_Port dispose_port;
 }
 
 - (id)getDOBJCDartProtocolMethodForSelector:(SEL)sel {
-  return [methods objectForKey:[NSValue valueWithPointer:sel]];
+  return [builder->methods objectForKey:[NSValue valueWithPointer:sel]];
 }
 
 - (instancetype)initDOBJCDartProtocolFromDartProtocolBuilder:
-    (DOBJCDartProtocolBuilder*)builder
+    (DOBJCDartProtocolBuilder*)builder_
     withDisposePort:(Dart_Port)port {
-  if (self) {
-    methods = [builder copyMethods];
-    dispose_port = port;
-  }
+  builder = builder_;
+  dispose_port = port;
   return self;
 }
 

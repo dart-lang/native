@@ -9,6 +9,8 @@ library;
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -63,25 +65,24 @@ Future<void> runTests(List<Architecture> architectures) async {
             architecture,
           );
 
-          final linkInputBuilder =
-              LinkInputBuilder()
-                ..setupShared(
-                  packageName: 'testpackage',
-                  packageRoot: tempUri,
-                  outputFile: tempUri.resolve('output.json'),
-                  outputDirectory: tempUri,
-                  outputDirectoryShared: tempUri2,
-                )
-                ..setupLink(assets: [], recordedUsesFile: null)
-                ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-                ..config.setupCode(
-                  targetOS: os,
-                  targetArchitecture: architecture,
-                  linkModePreference: LinkModePreference.dynamic,
-                  cCompiler: cCompiler,
-                );
+          final linkInputBuilder = LinkInputBuilder()
+            ..setupShared(
+              packageName: 'testpackage',
+              packageRoot: tempUri,
+              outputFile: tempUri.resolve('output.json'),
+              outputDirectoryShared: tempUri2,
+            )
+            ..setupLink(assets: [], recordedUsesFile: null)
+            ..addExtension(
+              CodeAssetExtension(
+                targetOS: os,
+                targetArchitecture: architecture,
+                linkModePreference: LinkModePreference.dynamic,
+                cCompiler: cCompiler,
+              ),
+            );
 
-          final linkInput = LinkInput(linkInputBuilder.json);
+          final linkInput = linkInputBuilder.build();
           final linkOutputBuilder = LinkOutputBuilder();
 
           printOnFailure(linkInput.config.code.cCompiler.toString());
@@ -90,7 +91,7 @@ Future<void> runTests(List<Architecture> architectures) async {
               .linker([testArchive.toFilePath()])
               .run(input: linkInput, output: linkOutputBuilder, logger: logger);
 
-          final linkOutput = LinkOutput(linkOutputBuilder.json);
+          final linkOutput = linkOutputBuilder.build();
           final asset = linkOutput.assets.code.first;
           final filePath = asset.file!.toFilePath();
 

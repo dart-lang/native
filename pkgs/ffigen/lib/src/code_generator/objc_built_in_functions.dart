@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'objc_built_in_types.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -34,7 +33,7 @@ class ObjCBuiltInFunctions {
   static const getProtocol = ObjCImport('getProtocol');
   static const objectRelease = ObjCImport('objectRelease');
   static const signalWaiter = ObjCImport('signalWaiter');
-  static const wrapBlockingBlock = ObjCImport('wrapBlockingBlock');
+  static const objCContext = ObjCImport('objCContext');
   static const objectBase = ObjCImport('ObjCObjectBase');
   static const protocolBase = ObjCImport('ObjCProtocolBase');
   static const blockType = ObjCImport('ObjCBlock');
@@ -43,130 +42,24 @@ class ObjCBuiltInFunctions {
   static const protocolMethod = ObjCImport('ObjCProtocolMethod');
   static const protocolListenableMethod =
       ObjCImport('ObjCProtocolListenableMethod');
+  static const protocolClass = ObjCImport('Protocol');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
   static const unimplementedOptionalMethodException =
       ObjCImport('UnimplementedOptionalMethodException');
-  static const checkOsVersion = ObjCImport('checkOsVersion');
-
-  // Keep in sync with pkgs/objective_c/ffigen_objc.yaml.
-
-  @visibleForTesting
-  static const builtInInterfaces = {
-    'DartInputStreamAdapter',
-    'DartProtocol',
-    'DartProtocolBuilder',
-    'NSArray',
-    'NSCharacterSet',
-    'NSCoder',
-    'NSData',
-    'NSDate',
-    'NSDictionary',
-    'NSEnumerator',
-    'NSError',
-    'NSIndexSet',
-    'NSInputStream',
-    'NSInvocation',
-    'NSItemProvider',
-    'NSLocale',
-    'NSMethodSignature',
-    'NSMutableArray',
-    'NSMutableData',
-    'NSMutableDictionary',
-    'NSMutableIndexSet',
-    'NSMutableOrderedSet',
-    'NSMutableSet',
-    'NSMutableString',
-    'NSNotification',
-    'NSNumber',
-    'NSObject',
-    'NSOrderedCollectionDifference',
-    'NSOrderedSet',
-    'NSOutputStream',
-    'NSRunLoop',
-    'NSSet',
-    'NSStream',
-    'NSString',
-    'NSURL',
-    'NSURLHandle',
-    'NSValue',
-    'Protocol',
-  };
-  @visibleForTesting
-  static const builtInCompounds = {
-    'NSFastEnumerationState': 'NSFastEnumerationState',
-    '_NSRange': 'NSRange',
-    '_NSZone': 'NSZone',
-  };
-  @visibleForTesting
-  static const builtInEnums = {
-    'NSBinarySearchingOptions',
-    'NSComparisonResult',
-    'NSDataBase64DecodingOptions',
-    'NSDataBase64EncodingOptions',
-    'NSDataCompressionAlgorithm',
-    'NSDataReadingOptions',
-    'NSDataSearchOptions',
-    'NSDataWritingOptions',
-    'NSEnumerationOptions',
-    'NSItemProviderFileOptions',
-    'NSItemProviderRepresentationVisibility',
-    'NSKeyValueChange',
-    'NSKeyValueObservingOptions',
-    'NSKeyValueSetMutationKind',
-    'NSOrderedCollectionDifferenceCalculationOptions',
-    'NSSortOptions',
-    'NSStreamEvent',
-    'NSStreamStatus',
-    'NSStringCompareOptions',
-    'NSStringEncodingConversionOptions',
-    'NSStringEnumerationOptions',
-    'NSURLBookmarkCreationOptions',
-    'NSURLBookmarkResolutionOptions',
-    'NSURLHandleStatus',
-  };
-  @visibleForTesting
-  static const builtInProtocols = {
-    'NSCoding': 'NSCoding',
-    'NSCopying': 'NSCopying',
-    'NSFastEnumeration': 'NSFastEnumeration',
-    'NSItemProviderReading': 'NSItemProviderReading',
-    'NSItemProviderWriting': 'NSItemProviderWriting',
-    'NSMutableCopying': 'NSMutableCopying',
-    'NSObject': 'NSObjectProtocol',
-    'NSSecureCoding': 'NSSecureCoding',
-    'NSStreamDelegate': 'NSStreamDelegate',
-  };
-  @visibleForTesting
-  static const builtInCategories = {
-    'NSDataCreation',
-    'NSExtendedArray',
-    'NSExtendedData',
-    'NSExtendedDate',
-    'NSExtendedDictionary',
-    'NSExtendedEnumerator',
-    'NSExtendedMutableArray',
-    'NSExtendedMutableData',
-    'NSExtendedMutableDictionary',
-    'NSExtendedMutableOrderedSet',
-    'NSExtendedMutableSet',
-    'NSExtendedOrderedSet',
-    'NSExtendedSet',
-    'NSNumberCreation',
-    'NSStringExtensionMethods',
-  };
+  static const checkOsVersion = ObjCImport('checkOsVersionInternal');
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
-  bool isBuiltInInterface(String name) =>
-      !generateForPackageObjectiveC && builtInInterfaces.contains(name);
+  String? getBuiltInInterfaceName(String name) =>
+      generateForPackageObjectiveC ? null : objCBuiltInInterfaces[name];
   String? getBuiltInCompoundName(String name) =>
-      generateForPackageObjectiveC ? null : builtInCompounds[name];
+      generateForPackageObjectiveC ? null : objCBuiltInCompounds[name];
   bool isBuiltInEnum(String name) =>
-      !generateForPackageObjectiveC && builtInEnums.contains(name);
+      !generateForPackageObjectiveC && objCBuiltInEnums.contains(name);
   String? getBuiltInProtocolName(String name) =>
-      generateForPackageObjectiveC ? null : builtInProtocols[name];
+      generateForPackageObjectiveC ? null : objCBuiltInProtocols[name];
   bool isBuiltInCategory(String name) =>
-      !generateForPackageObjectiveC && builtInCategories.contains(name);
+      !generateForPackageObjectiveC && objCBuiltInCategories.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
@@ -260,16 +153,8 @@ class ObjCBuiltInFunctions {
                 type: PointerType(objCBlockType),
                 objCConsumed: false),
             Parameter(
-                name: 'newWaiter',
-                type: PointerType(NativeFunc(FunctionType(
-                    returnType: PointerType(voidType), parameters: []))),
-                objCConsumed: false),
-            Parameter(
-                name: 'awaitWaiter',
-                type: PointerType(
-                    NativeFunc(FunctionType(returnType: voidType, parameters: [
-                  Parameter(type: PointerType(voidType), objCConsumed: false),
-                ]))),
+                name: 'context',
+                type: PointerType(objCContextType),
                 objCConsumed: false),
           ],
         ],

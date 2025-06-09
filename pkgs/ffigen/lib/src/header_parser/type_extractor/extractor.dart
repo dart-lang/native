@@ -252,6 +252,7 @@ _CreateTypeFromCursorResult _createTypeFromCursor(clang_types.CXType cxtype,
         return _CreateTypeFromCursorResult(enumClass);
       }
     case clang_types.CXTypeKind.CXType_ObjCInterface:
+    case clang_types.CXTypeKind.CXType_ObjCObject:
       return _CreateTypeFromCursorResult(parseObjCInterfaceDeclaration(cursor));
     default:
       return _CreateTypeFromCursorResult(

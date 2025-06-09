@@ -1,13 +1,16 @@
 {
     "CHECKS": {
         "prefixes": [
+            "[code_assets] ",
+            "[data_assets] ",
             "[ffi] ",
             "[ffigen] ",
+            "[hooks_runner] ",
+            "[hooks] ",
             "[infra] ",
             "[jni] ",
             "[jnigen] ",
-            "[native_assets_builder] ",
-            "[native_assets_cli] ",
+            "[native_doc_dartifier] ",
             "[native_toolchain_c] ",
             "[objective_c] ",
             "[swift2objc] ",

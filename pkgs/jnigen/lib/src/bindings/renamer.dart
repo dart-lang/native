@@ -46,7 +46,7 @@ const _keywords = {
   'extends': _Allowed.none,
   'extension': _Allowed.fields | _Allowed.methods,
   'external': _Allowed.fields | _Allowed.methods,
-  'factory': _Allowed.fields | _Allowed.fields,
+  'factory': _Allowed.fields | _Allowed.methods,
   'false': _Allowed.none,
   'final': _Allowed.none,
   'finally': _Allowed.none,
@@ -180,7 +180,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     }
     node.methodNumsAfterRenaming = {};
 
-    final superClass = (node.superclass!.type as DeclaredType).classDecl;
+    final superClass = (node.superclass! as DeclaredType).classDecl;
     superClass.accept(this);
     nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
 
@@ -244,8 +244,7 @@ class _MethodRenamer implements Visitor<Method, void> {
         node.userDefinedName ?? (node.isConstructor ? 'new' : node.name));
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
-    final superClass =
-        (node.classDecl.superclass!.type as DeclaredType).classDecl;
+    final superClass = (node.classDecl.superclass! as DeclaredType).classDecl;
     final superNum = superClass.methodNumsAfterRenaming[sig];
     if (superNum != null) {
       // Don't rename if superNum == 0

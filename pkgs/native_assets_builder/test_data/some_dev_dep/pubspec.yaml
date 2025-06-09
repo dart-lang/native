@@ -1,8 +1,0 @@
-name: some_dev_dep
-description: Has a bin script that can be run from the context of other root packages.
-version: 0.1.0
-
-publish_to: none
-
-environment:
-  sdk: '>=3.7.0 <4.0.0'

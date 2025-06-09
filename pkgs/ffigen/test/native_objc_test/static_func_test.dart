@@ -15,6 +15,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -29,8 +30,19 @@ void main() {
   group('static functions', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       lib = StaticFuncTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
 
@@ -41,7 +53,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(counter);
+      final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
       final pool = lib.objc_autoreleasePoolPush();
@@ -65,7 +77,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(counter);
+      final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
       final pool = lib.objc_autoreleasePoolPush();
@@ -132,7 +144,7 @@ void main() {
       final counter = alloc<Int32>();
       counter.value = 0;
 
-      final obj = StaticFuncTestObj.newWithCounter_(counter);
+      final obj = StaticFuncTestObj.newWithCounter(counter);
       expect(counter.value, 1);
 
       final outputObj = lib.staticFuncReturnsRetainedArg(obj);
@@ -156,7 +168,7 @@ void main() {
         'Objects passed to static functions that consume them '
         'have correct ref counts', () {
       final counter = calloc<Int32>();
-      StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter_(counter);
+      StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter(counter);
       final obj1raw = obj1.ref.pointer;
 
       expect(objectRetainCount(obj1raw), 1);

@@ -31,50 +31,50 @@ void main() {
       'Foo': ClassDecl(
         binaryName: 'Foo',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
+          Method(name: 'foo', returnType: DeclaredType.object),
+          Method(name: 'foo', returnType: DeclaredType.object),
+          Method(name: 'foo', returnType: DeclaredType.object),
+          Method(name: 'foo1', returnType: DeclaredType.object),
+          Method(name: 'foo1', returnType: DeclaredType.object),
+          Method(name: 'foo1', returnType: DeclaredType.object),
         ],
       ),
       'x.Foo': ClassDecl(
         binaryName: 'x.Foo',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
-          Method(name: 'foo1', returnType: TypeUsage.object),
+          Method(name: 'foo', returnType: DeclaredType.object),
+          Method(name: 'foo', returnType: DeclaredType.object),
+          Method(name: 'foo1', returnType: DeclaredType.object),
+          Method(name: 'foo1', returnType: DeclaredType.object),
         ],
         fields: [
-          Field(name: 'foo', type: TypeUsage.object),
-          Field(name: 'foo1', type: TypeUsage.object),
+          Field(name: 'foo', type: DeclaredType.object),
+          Field(name: 'foo1', type: DeclaredType.object),
         ],
       ),
       'y.Foo': ClassDecl(
         binaryName: 'y.Foo',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
       ),
       'Foo1': ClassDecl(
         binaryName: 'Foo1',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
       ),
       'x.Foo1': ClassDecl(
         binaryName: 'x.Foo1',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
       ),
       'y.Foo1': ClassDecl(
         binaryName: 'y.Foo1',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
       ),
     });
     await rename(classes);
@@ -120,19 +120,17 @@ void main() {
       'Player': ClassDecl(
         binaryName: 'Player',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: 'duck', returnType: TypeUsage.object),
+          Method(name: 'duck', returnType: DeclaredType.object),
         ],
       ),
       'DuckOwningPlayer': ClassDecl(
         binaryName: 'DuckOwningPlayer',
         declKind: DeclKind.classKind,
-        superclass:
-            TypeUsage(shorthand: 'Player', kind: Kind.declared, typeJson: {})
-              ..type = DeclaredType(binaryName: 'Player'),
+        superclass: DeclaredType(binaryName: 'Player'),
         fields: [
-          Field(name: 'duck', type: TypeUsage.object),
+          Field(name: 'duck', type: DeclaredType.object),
         ],
       ),
     });
@@ -149,20 +147,20 @@ void main() {
       'Foo': ClassDecl(
         binaryName: 'Foo',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: 'yield', returnType: TypeUsage.object),
-          Method(name: 'const', returnType: TypeUsage.object),
-          Method(name: 'const', returnType: TypeUsage.object),
+          Method(name: 'yield', returnType: DeclaredType.object),
+          Method(name: 'const', returnType: DeclaredType.object),
+          Method(name: 'const', returnType: DeclaredType.object),
         ],
         fields: [
-          Field(name: 'const', type: TypeUsage.object),
+          Field(name: 'const', type: DeclaredType.object),
         ],
       ),
       'Function': ClassDecl(
         binaryName: 'Function',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
       ),
     });
     await rename(classes);
@@ -181,18 +179,19 @@ void main() {
       'Foo': ClassDecl(
         binaryName: 'Foo',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: 'foo', returnType: TypeUsage.object),
-          Method(name: r'foo$1', returnType: TypeUsage.object),
-          Method(name: r'$$Many$Dollar$$Signs$', returnType: TypeUsage.object),
-          Method(name: 'alsoAField', returnType: TypeUsage.object),
-          Method(name: 'alsoAField', returnType: TypeUsage.object),
+          Method(name: 'foo', returnType: DeclaredType.object),
+          Method(name: 'foo', returnType: DeclaredType.object),
+          Method(name: r'foo$1', returnType: DeclaredType.object),
+          Method(
+              name: r'$$Many$Dollar$$Signs$', returnType: DeclaredType.object),
+          Method(name: 'alsoAField', returnType: DeclaredType.object),
+          Method(name: 'alsoAField', returnType: DeclaredType.object),
         ],
         fields: [
-          Field(name: r'alsoAField', type: TypeUsage.object),
-          Field(name: r'alsoAField$1', type: TypeUsage.object),
+          Field(name: r'alsoAField', type: DeclaredType.object),
+          Field(name: r'alsoAField$1', type: DeclaredType.object),
         ],
       ),
     });
@@ -220,12 +219,12 @@ void main() {
       '_Foo': ClassDecl(
         binaryName: '_Foo',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: '_foo', returnType: TypeUsage.object),
+          Method(name: '_foo', returnType: DeclaredType.object),
         ],
         fields: [
-          Field(name: '_bar', type: TypeUsage.object),
+          Field(name: '_bar', type: DeclaredType.object),
         ],
       ),
     });
@@ -246,13 +245,13 @@ void main() {
       r'_Foo$': ClassDecl(
         binaryName: r'_Foo$',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: r'_foo$', returnType: TypeUsage.object),
-          Method(name: r'_foo$', returnType: TypeUsage.object),
+          Method(name: r'_foo$', returnType: DeclaredType.object),
+          Method(name: r'_foo$', returnType: DeclaredType.object),
         ],
         fields: [
-          Field(name: r'_foo$', type: TypeUsage.object),
+          Field(name: r'_foo$', type: DeclaredType.object),
         ],
       ),
     });
@@ -269,19 +268,19 @@ void main() {
       'MyInterface': ClassDecl(
         binaryName: 'MyInterface',
         declKind: DeclKind.interfaceKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: 'implement', returnType: TypeUsage.object),
-          Method(name: 'implementIn', returnType: TypeUsage.object),
+          Method(name: 'implement', returnType: DeclaredType.object),
+          Method(name: 'implementIn', returnType: DeclaredType.object),
         ],
       ),
       'MyClass': ClassDecl(
         binaryName: 'MyClass',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [
-          Method(name: 'implement', returnType: TypeUsage.object),
-          Method(name: 'implementIn', returnType: TypeUsage.object),
+          Method(name: 'implement', returnType: DeclaredType.object),
+          Method(name: 'implementIn', returnType: DeclaredType.object),
         ],
       ),
     });
@@ -299,27 +298,27 @@ void main() {
       'Outer': ClassDecl(
         binaryName: 'Outer',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [],
       ),
       r'Outer$Inner': ClassDecl(
         binaryName: r'Outer$Inner',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [],
         outerClassBinaryName: 'Outer',
       ),
       r'Outer$Inner$Innermost': ClassDecl(
         binaryName: r'Outer$Inner$Innermost',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [],
         outerClassBinaryName: r'Outer$Inner',
       ),
       r'Outer$With$Many$Dollarsigns': ClassDecl(
         binaryName: r'Outer$With$Many$Dollarsigns',
         declKind: DeclKind.classKind,
-        superclass: TypeUsage.object,
+        superclass: DeclaredType.object,
         methods: [],
       ),
     });

@@ -7,6 +7,7 @@
 #import <Foundation/NSThread.h>
 
 #include "block_test.h"
+#include "../../../objective_c/src/include/dart_api_dl.h"
 
 @implementation DummyObject
 
@@ -32,6 +33,10 @@
 @end
 
 @implementation BlockTester
+
++ (void)setup:(void*)apiData {
+  Dart_InitializeApiDL(apiData);
+}
 
 + (BlockTester*)newFromBlock:(IntBlock)block {
   BlockTester* bt = [BlockTester new];
@@ -70,6 +75,13 @@ void objc_release(id value);
 
 + (void)callOnSameThread:(VoidBlock)block {
   block();
+}
+
++ (void)callOnSameThreadOutsideIsolate:(VoidBlock)block {
+  Dart_Isolate isolate = Dart_CurrentIsolate_DL();
+  Dart_ExitIsolate_DL();
+  block();
+  Dart_EnterIsolate_DL(isolate);
 }
 
 + (NSThread*)callOnNewThread:(VoidBlock)block NS_RETURNS_RETAINED {

@@ -2,8 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import 'cbuilder.dart';
 import 'clinker.dart';
@@ -45,6 +46,18 @@ abstract class CTool {
   ///
   /// The sources will be reported as dependencies of the hook.
   final List<String> includes;
+
+  /// Files passed to the compiler that will be included before all source
+  /// files.
+  ///
+  /// Resolved against [LinkInput.packageRoot].
+  ///
+  /// The sources will be reported as dependencies of the hook.
+  /// For clang, each of the files are added as an `-include` flag.
+  /// see: https://gcc.gnu.org/onlinedocs/gcc-13.2.0/gcc/Preprocessor-Options.html#index-include
+  /// For MSVC, each of the files are added as an `/FI` flag.
+  /// see: https://learn.microsoft.com/en-us/cpp/build/reference/fi-name-forced-include-file
+  final List<String> forcedIncludes;
 
   /// Frameworks to link.
   ///
@@ -154,6 +167,7 @@ abstract class CTool {
     required this.assetName,
     required this.sources,
     required this.includes,
+    required this.forcedIncludes,
     required this.frameworks,
     required this.libraries,
     required this.libraryDirectories,

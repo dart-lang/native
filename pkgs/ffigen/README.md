@@ -594,7 +594,7 @@ type-map:
 
 ```yaml
 ffi-native:
-  asset-id: 'myasset' # Optional, was assetId in previous versions
+  asset-id: 'package:some_pkg/asset' # Optional, was assetId in previous versions
 ```
   </td>
   </tr>

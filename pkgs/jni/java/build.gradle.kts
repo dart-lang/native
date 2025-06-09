@@ -9,8 +9,8 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.kotlin.stdlib)
-    implementation(libs.org.jetbrains.kotlinx.kotlinx.coroutines.core)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }
 
 group = "com.github.dart_lang"

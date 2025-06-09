@@ -1,6 +1,48 @@
-## 0.9.0-wip
+## 0.16.2
 
-- Nothing yet.
+* Bump the SDK constraint to at least the one from `package:hooks` to fix
+  dartdoc generation on https://pub.dev.
+
+## 0.16.1
+
+- Firebase Studio NixOS support (default install locations for native
+  toolchains).
+
+## 0.16.0
+
+- Depend on `package:code_assets` and `package:hooks` 0.19.0.
+  (`package:native_assets_cli` was split up into these packages.)
+
+## 0.15.0
+
+- Bump `package:native_assets_cli` to 0.18.0.
+
+## 0.14.0
+
+- Bump `package:native_assets_cli` to 0.17.0.
+
+## 0.13.0
+
+- Bump `package:native_assets_cli` to 0.16.0.
+
+## 0.12.0
+
+- Bump `package:native_assets_cli` to 0.16.0.
+
+## 0.11.0
+
+- Replace `linkInPackage` with `Routing`.
+- Bump `package:native_assets_cli` to 0.14.0.
+
+## 0.10.0
+
+- Bump `package:native_assets_cli` to 0.13.0 and required fixes.
+
+## 0.9.0
+
+- Added support for forced includes to `CBuilder`.
+- Toolchain recognizing fixes.
+- Bump `package:native_assets_cli` to 0.12.0.
 
 ## 0.8.0
 

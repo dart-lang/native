@@ -4,8 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -50,6 +50,7 @@ class _AndroidNdkResolver implements ToolResolver {
         toolName: 'Android NDK',
         paths: [
           if (Platform.isLinux) ...[
+            '\$HOME/.androidsdkroot/ndk/*/', // Firebase Studio
             '\$HOME/Android/Sdk/ndk/*/',
             '\$HOME/Android/Sdk/ndk-bundle/',
           ],
@@ -86,8 +87,9 @@ class _AndroidNdkResolver implements ToolResolver {
     if (!prebuiltDir.existsSync()) {
       return [];
     }
-    final hostArchDirs =
-        (await prebuiltDir.list().toList()).whereType<Directory>().toList();
+    final hostArchDirs = (await prebuiltDir.list().toList())
+        .whereType<Directory>()
+        .toList();
     for (final hostArchDir in hostArchDirs) {
       final clangUri = hostArchDir.uri
           .resolve('bin/')

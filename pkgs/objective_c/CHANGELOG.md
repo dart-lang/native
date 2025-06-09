@@ -1,4 +1,24 @@
-## 7.0.0-wip
+## 8.1.0-wip
+
+## 8.0.0
+
+- Use ffigen 19.0.0
+- `NSArray` is now a Dart `Iterable` and `NSMutableArray` is now a Dart `List`.
+- `NSDictionary` and `NSMutableDictionary` are now Dart `Map`s.
+- `NSSet` and `NSMutableSet` are now Dart `Set`s.
+- Add `.toNSNumber()` extension method to `int`, `double`, and `num`.
+- Add `DateTime.toNSDate()` and `NSDate.toDateTime()` extension methods.
+- Add `CFStringRef.toDartString()` and `CFStringRef.toNSString()`.
+- Add `toObjCObject` and `toDartObject` that automatically convert between
+  supported Objective C and Dart types.
+- Added various interfaces, protocols, categories etc to the built ins, such as
+  NSPort and NSTimer.
+
+## 7.1.0
+
+- Use ffigen 18.1.0
+
+## 7.0.0
 
 - Use ffigen 18.0.0
 - `ObjCProtocolBuilder` supports implementing protocol methods directly using a
@@ -15,6 +35,7 @@
 - __Breaking change__: Some API names have changed due to ffigen's new duplicate
   identifier renaming logic. `$` is now used as a delimiter, to match jnigen's
   renaming logic.
+- Added a `checkOsVersion` function.
 
 ## 6.0.0
 

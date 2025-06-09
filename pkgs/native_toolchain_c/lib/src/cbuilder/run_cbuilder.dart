@@ -4,8 +4,9 @@
 
 import 'dart:math';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
@@ -26,6 +27,7 @@ class RunCBuilder {
   final Logger? logger;
   final List<Uri> sources;
   final List<Uri> includes;
+  final List<Uri> forcedIncludes;
   final List<String> frameworks;
   final List<String> libraries;
   final List<Uri> libraryDirectories;
@@ -56,6 +58,7 @@ class RunCBuilder {
     this.logger,
     this.sources = const [],
     this.includes = const [],
+    this.forcedIncludes = const [],
     required this.frameworks,
     this.libraries = const [],
     this.libraryDirectories = const [],
@@ -116,8 +119,9 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
-    final toolInstance_ =
-        linkerOptions != null ? await linker() : await compiler();
+    final toolInstance_ = linkerOptions != null
+        ? await linker()
+        : await compiler();
     final tool = toolInstance_.tool;
     if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
@@ -151,17 +155,20 @@ class RunCBuilder {
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
     if (codeConfig.targetOS == OS.android) {
-      final minimumApi =
-          codeConfig.targetArchitecture == Architecture.riscv64 ? 35 : 21;
+      final minimumApi = codeConfig.targetArchitecture == Architecture.riscv64
+          ? 35
+          : 21;
       targetAndroidNdkApi = max(codeConfig.android.targetNdkApi, minimumApi);
     } else {
       targetAndroidNdkApi = null;
     }
 
-    final targetIOSVersion =
-        codeConfig.targetOS == OS.iOS ? codeConfig.iOS.targetVersion : null;
-    final targetMacOSVersion =
-        codeConfig.targetOS == OS.macOS ? codeConfig.macOS.targetVersion : null;
+    final targetIOSVersion = codeConfig.targetOS == OS.iOS
+        ? codeConfig.iOS.targetVersion
+        : null;
+    final targetMacOSVersion = codeConfig.targetOS == OS.macOS
+        ? codeConfig.macOS.targetVersion
+        : null;
 
     final architecture = codeConfig.targetArchitecture;
     final sourceFiles = sources.map((e) => e.toFilePath()).toList();
@@ -301,6 +308,8 @@ class RunCBuilder {
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',
         for (final include in includes) '-I${include.toFilePath()}',
+        for (final forcedInclude in forcedIncludes)
+          '-include${forcedInclude.toFilePath()}',
         ...sourceFiles,
         if (language == Language.objectiveC) ...[
           for (final framework in frameworks) ...['-framework', framework],
@@ -359,6 +368,8 @@ class RunCBuilder {
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',
         for (final directory in includes) '/I${directory.toFilePath()}',
+        for (final forcedInclude in forcedIncludes)
+          '/FI${forcedInclude.toFilePath()}',
         if (executable != null) ...[
           ...sources.map((e) => e.toFilePath()),
           '/link',

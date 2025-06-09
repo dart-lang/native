@@ -148,7 +148,7 @@ class ObjCBlock extends BindingType {
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
-    final wrapBlockingBlockFn = ObjCBuiltInFunctions.wrapBlockingBlock.gen(w);
+    final objCContext = ObjCBuiltInFunctions.objCContext.gen(w);
     final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(w);
     final returnFfiDartType = returnType.getFfiDartType(w);
     final voidPtrCType = voidPtr.getCType(w);
@@ -312,7 +312,7 @@ abstract final class $name {
     final rawListener = $newClosureBlock(
         $blockingListenerCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapBlockingBlockFn($wrapBlockingFn, raw, rawListener);
+    final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
     return $blockType(wrapper, retain: false, release: true);
@@ -406,19 +406,14 @@ typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
-    void* (*newWaiter)(), void (*awaitWaiter)(void*)) NS_RETURNS_RETAINED {
-  NSThread *targetThread = [NSThread currentThread];
-  return ^void($argStr) {
-    if ([NSThread currentThread] == targetThread) {
-      ${generateRetain('block')};
-      block(${blockingRetains.join(', ')});
-    } else {
-      void* waiter = newWaiter();
-      ${generateRetain('listenerBlock')};
-      listenerBlock(${blockingListenerRetains.join(', ')});
-      awaitWaiter(waiter);
-    }
-  };
+    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(ctx, ^void($argStr), {
+    ${generateRetain('block')};
+    block(${blockingRetains.join(', ')});
+  }, {
+    ${generateRetain('listenerBlock')};
+    listenerBlock(${blockingListenerRetains.join(', ')});
+  });
 }
 ''';
   }

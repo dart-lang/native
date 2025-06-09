@@ -1,0 +1,74 @@
+name: dart_lang_native_workspace
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+
+workspace:
+  - pkgs/code_assets
+  - pkgs/data_assets
+  - pkgs/hooks
+  - pkgs/hooks_runner
+  - pkgs/hooks_runner/test_data/add_asset_link
+  - pkgs/hooks_runner/test_data/complex_link
+  - pkgs/hooks_runner/test_data/complex_link_helper
+  - pkgs/hooks_runner/test_data/cyclic_package_1
+  - pkgs/hooks_runner/test_data/cyclic_package_2
+  - pkgs/hooks_runner/test_data/dart_app
+  - pkgs/hooks_runner/test_data/depend_on_fail_build
+  - pkgs/hooks_runner/test_data/depend_on_fail_build_app
+  - pkgs/hooks_runner/test_data/dev_dependency_with_hook
+  - pkgs/hooks_runner/test_data/drop_dylib_link
+  - pkgs/hooks_runner/test_data/fail_build
+  - pkgs/hooks_runner/test_data/fail_on_os_sdk_version
+  - pkgs/hooks_runner/test_data/fail_on_os_sdk_version_link
+  - pkgs/hooks_runner/test_data/fail_on_os_sdk_version_linker
+  - pkgs/hooks_runner/test_data/native_add
+  - pkgs/hooks_runner/test_data/native_add_add_source
+  - pkgs/hooks_runner/test_data/native_add_duplicate
+  - pkgs/hooks_runner/test_data/native_dynamic_linking
+  - pkgs/hooks_runner/test_data/native_subtract
+  - pkgs/hooks_runner/test_data/no_asset_for_link
+  - pkgs/hooks_runner/test_data/no_hook
+  - pkgs/hooks_runner/test_data/package_reading_metadata
+  - pkgs/hooks_runner/test_data/package_with_metadata
+  - pkgs/hooks_runner/test_data/relative_path
+  - pkgs/hooks_runner/test_data/reusable_dynamic_library
+  - pkgs/hooks_runner/test_data/reuse_dynamic_library
+  - pkgs/hooks_runner/test_data/simple_data_asset
+  - pkgs/hooks_runner/test_data/simple_link
+  - pkgs/hooks_runner/test_data/some_dev_dep
+  - pkgs/hooks_runner/test_data/system_library
+  - pkgs/hooks_runner/test_data/transformer
+  - pkgs/hooks_runner/test_data/treeshaking_native_libs
+  - pkgs/hooks_runner/test_data/use_all_api
+  - pkgs/hooks_runner/test_data/user_defines
+  - pkgs/hooks_runner/test_data/wrong_build_output
+  - pkgs/hooks_runner/test_data/wrong_build_output_2
+  - pkgs/hooks_runner/test_data/wrong_build_output_3
+  - pkgs/hooks_runner/test_data/wrong_linker
+  - pkgs/hooks_runner/test_data/wrong_namespace_asset
+  - pkgs/hooks/example/build/download_asset
+  - pkgs/hooks/example/build/local_asset
+  - pkgs/hooks/example/build/native_add_app
+  - pkgs/hooks/example/build/native_add_library
+  - pkgs/hooks/example/build/native_dynamic_linking
+  - pkgs/hooks/example/build/system_library
+  - pkgs/hooks/example/build/use_dart_api
+  - pkgs/hooks/example/link/app_with_asset_treeshaking
+  - pkgs/hooks/example/link/package_with_assets
+  - pkgs/json_syntax_generator
+  - pkgs/native_toolchain_c
+  - pkgs/repo_lint_rules
+
+# Hook user-defines are specified in the pub workspace.
+hooks:
+  user_defines:
+    download_asset:
+      local_build: false
+    user_defines: # package name
+      user_define_key: user_define_value
+      user_define_key2:
+        foo: bar
+      some_file: pkgs/hooks_runner/test_data/user_defines/assets/data.json
+    some_other_package: # package name
+      user_define_key3: user_define_value3

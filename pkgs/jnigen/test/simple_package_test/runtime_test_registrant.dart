@@ -646,12 +646,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final manyPrimitives = await manyPrimitivesResult.future;
         expect(manyPrimitives, -1 + 3 + 3.14.toInt() + 1);
 
+        // Running garbage collection does not work on Android. Skipping this
+        // test on Android.
         // Currently we have one implementation of the interface.
         expect(MyInterface.$impls, hasLength(1), skip: Platform.isAndroid);
         myInterface.release();
         if (!Platform.isAndroid) {
-          // Running garbage collection does not work on Android. Skipping this
-          // test for android.
           _runJavaGC();
           await _waitUntil(() => MyInterface.$impls.isEmpty);
           expect(MyInterface.$impls, isEmpty);
@@ -691,12 +691,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
         );
         expect(myInterface.manyPrimitives(1, true, 3, 4), 42);
 
+        // Running garbage collection does not work on Android. Skipping this
+        // test on Android.
         expect(MyInterface.$impls, hasLength(1), skip: Platform.isAndroid);
         expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
         myInterface.release();
         if (!Platform.isAndroid) {
-          // Running garbage collection does not work on Android. Skipping this
-          // test for android.
           _runJavaGC();
           await _waitUntil(() => MyInterface.$impls.isEmpty);
           // Since the interface is now deleted, the cleaner must signal to Dart
@@ -742,12 +742,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // listener, it will work.
           runner.runOnAnotherThreadAndJoin();
           await completer.future;
-          expect(MyRunnable.$impls, hasLength(1));
+          // Running garbage collection does not work on Android. Skipping
+          // this test on Android.
+          expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
           runnable.release();
           runner.release();
           if (!Platform.isAndroid) {
-            // Running garbage collection does not work on Android. Skipping
-            // this test for android.
             _runJavaGC();
             await _waitUntil(() => MyInterface.$impls.isEmpty);
             // Since the interface is now deleted, the cleaner must signal to
@@ -762,11 +762,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(runnable != runnable, false);
         expect(runnable.hashCode, runnable.hashCode);
         expect(runnable.toString(), runnable.toString());
-        expect(MyRunnable.$impls, hasLength(1));
+        // Running garbage collection does not work on Android. Skipping
+        // this test on Android.
+        expect(MyRunnable.$impls, hasLength(1), skip: Platform.isAndroid);
         runnable.release();
         if (!Platform.isAndroid) {
-          // Running garbage collection does not work on Android. Skipping
-          // this test for android.
           _runJavaGC();
           await _waitUntil(() => MyInterface.$impls.isEmpty);
           expect(MyRunnable.$impls, isEmpty);
@@ -977,6 +977,23 @@ void registerTests(String groupName, TestRunnerCallback test) {
           42,
         );
       });
+    });
+    test('Superinterface methods are available', () {
+      expect(
+        $R2250.new,
+        isA<
+            $R2250<$T> Function<$T extends JObject?>(
+                // ignore: invalid_use_of_internal_member
+                {required JObjType<$T> T,
+                required void Function($T?) foo,
+                bool foo$async})>(),
+      );
+      expect(
+        $R2250$Child.new,
+        isA<
+            $R2250$Child Function(
+                {required void Function(JObject?) foo, bool foo$async})>(),
+      );
     });
   });
 

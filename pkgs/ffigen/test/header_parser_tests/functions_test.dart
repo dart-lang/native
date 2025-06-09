@@ -23,7 +23,7 @@ ${strings.output}: 'unused'
 
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/functions.h'
+    - '${absPath('test/header_parser_tests/functions.h')}'
   ${strings.includeDirectives}:
     - '**functions.h'
 

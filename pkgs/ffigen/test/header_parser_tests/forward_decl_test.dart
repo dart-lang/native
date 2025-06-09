@@ -22,7 +22,7 @@ ${strings.description}: 'Forward Declaration Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/forward_decl.h'
+    - '${absPath('test/header_parser_tests/forward_decl.h')}'
 ${strings.ignoreSourceErrors}: true
         '''),
       );

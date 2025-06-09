@@ -20,13 +20,25 @@
   - changed-files:
     - any-glob-to-any-file: 'pkgs/jnigen/**'
 
-'package:native_assets_builder':
+'package:code_assets':
   - changed-files:
-    - any-glob-to-any-file: 'pkgs/native_assets_builder/**'
+    - any-glob-to-any-file: 'pkgs/code_assets/**'
 
-'package:native_assets_cli':
+'package:data_assets':
   - changed-files:
-    - any-glob-to-any-file: 'pkgs/native_assets_cli/**'
+    - any-glob-to-any-file: 'pkgs/data_assets/**'
+
+'package:hooks':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/hooks/**'
+
+'package:hooks_runner':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/hooks_runner/**'
+
+'package:native_doc_dartifier':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/native_doc_dartifier/**'
 
 'package:native_toolchain_c':
   - changed-files:

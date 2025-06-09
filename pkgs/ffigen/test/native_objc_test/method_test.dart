@@ -9,6 +9,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'method_bindings.dart';
@@ -20,8 +21,19 @@ void main() {
   group('method calls', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = MethodInterface();
@@ -34,15 +46,15 @@ void main() {
       });
 
       test('One argument', () {
-        expect(testInstance.add_(23), 23);
+        expect(testInstance.add$1(23), 23);
       });
 
       test('Two arguments', () {
-        expect(testInstance.add_Y_(23, 17), 40);
+        expect(testInstance.add$2(23, Y: 17), 40);
       });
 
       test('Three arguments', () {
-        expect(testInstance.add_Y_Z_(23, 17, 60), 100);
+        expect(testInstance.add$3(23, Y: 17, Z: 60), 100);
       });
     });
 
@@ -52,15 +64,15 @@ void main() {
       });
 
       test('One argument', () {
-        expect(MethodInterface.sub_(7), -7);
+        expect(MethodInterface.sub$1(7), -7);
       });
 
       test('Two arguments', () {
-        expect(MethodInterface.sub_Y_(7, 3), -10);
+        expect(MethodInterface.sub$2(7, Y: 3), -10);
       });
 
       test('Three arguments', () {
-        expect(MethodInterface.sub_Y_Z_(10, 7, 3), -20);
+        expect(MethodInterface.sub$3(10, Y: 7, Z: 3), -20);
       });
     });
 
@@ -73,7 +85,7 @@ void main() {
         input.z = 5.6;
         input.w = 7.8;
 
-        final result = testInstance.twiddleVec4Components_(input);
+        final result = testInstance.twiddleVec4Components(input);
         expect(result.x, 3.4);
         expect(result.y, 5.6);
         expect(result.z, 7.8);
@@ -83,11 +95,11 @@ void main() {
       });
 
       test('Floats', () {
-        expect(testInstance.addFloats_Y_(1.23, 4.56), closeTo(5.79, 1e-6));
+        expect(testInstance.addFloats(1.23, Y: 4.56), closeTo(5.79, 1e-6));
       });
 
       test('Doubles', () {
-        expect(testInstance.addDoubles_Y_(1.23, 4.56), closeTo(5.79, 1e-6));
+        expect(testInstance.addDoubles(1.23, Y: 4.56), closeTo(5.79, 1e-6));
       });
 
       test('Method with same name as a type', () {

@@ -1,3 +1,20 @@
+## 0.14.2
+
+- The name `factory` can now also be used in a method name without renaming.
+- Throw when output folder contains non JNIgen files. Users with existing
+  package bindings will need to delete them once for it to start working.
+- Added the ability to generate classes in Java SDK (`java.core`) module without
+  providing the class path.
+- Added gradle support for new Flutter projects that use `build.gradle.kts`
+  instead of `build.gradle`.
+- Fixed a bug where Kotlin suspend functions that returned nullable values were
+  generated incorrectly.
+- Fixed a [bug](https://github.com/dart-lang/native/issues/2250) where classes
+  that inherited a generic without specifying all type parameters were not
+  generated.
+- Added the ability to generate Kotlin stdlib classes without providing the
+  class path.
+
 ## 0.14.1
 
 - Added support for generating matching Kotlin operators as Dart operators.
@@ -5,7 +22,8 @@
   bindings.
 - Fix a bug where Kotlin suspendable functions that returned the result without
   ever suspending would timeout in Dart.
-- Retrieval of dependencies uses Gradle (`GradleTools`) en lieu of Maven (`MavenTools`).
+- Retrieval of dependencies uses Gradle (`GradleTools`) in lieu of Maven
+  (`MavenTools`).
 - Updated `bin\download_maven_jars.dart` to use `GradleTools`.
 
 ## 0.14.0

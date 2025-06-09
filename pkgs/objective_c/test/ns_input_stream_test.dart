@@ -14,7 +14,8 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/objective_c_bindings_generated.dart';
+import 'package:objective_c/src/objective_c_bindings_generated.dart'
+    show DartInputStreamAdapter;
 import 'package:test/test.dart';
 
 import 'util.dart';
@@ -23,7 +24,7 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
         NSInputStream stream, int size) =>
     Isolate.run(() {
       final buffer = calloc<Uint8>(size);
-      final readSize = stream.read_maxLength_(buffer, size);
+      final readSize = stream.read(buffer, maxLength: size);
       final data =
           Uint8List.fromList(buffer.asTypedList(readSize == -1 ? 0 : readSize));
       calloc.free(buffer);
@@ -40,7 +41,7 @@ void main() {
   group('NSInputStream', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
+      DynamicLibrary.open(testDylib);
     });
 
     group('toNSInputStream', () {
@@ -248,8 +249,8 @@ void main() {
 
       test('default delegate', () async {
         expect(inputStream.delegate, inputStream);
-        inputStream.stream_handleEvent_(
-            inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
+        inputStream.stream(inputStream,
+            handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
       });
 
       test('non-self delegate', () async {
@@ -257,8 +258,8 @@ void main() {
 
         inputStream.delegate = NSStreamDelegate.implement(
             stream_handleEvent_: (stream, event) => events.add(event));
-        inputStream.stream_handleEvent_(
-            inputStream, NSStreamEvent.NSStreamEventOpenCompleted);
+        inputStream.stream(inputStream,
+            handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
         expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
       });
 

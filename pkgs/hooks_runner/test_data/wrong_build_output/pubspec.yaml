@@ -1,0 +1,17 @@
+name: wrong_build_output
+description: Package that tries to add an asset with an id not prefixed by its package name.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+
+dependencies:
+  code_assets: ^0.19.3
+  hooks: ^0.19.3
+
+dev_dependencies:
+  lints: ^5.1.1

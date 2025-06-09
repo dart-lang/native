@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
+      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
           channel: 'stable'
       - id: install
@@ -52,7 +52,7 @@ jobs:
         working-directory: pkgs/objective_c/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
+      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
           channel: 'stable'
       - name: Install dependencies
@@ -60,8 +60,10 @@ jobs:
       - name: Build test dylib
         # TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
         run: dart test/setup.dart
+      - name: Install coverage
+        run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
-        run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+        run: dart pub global run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
       - name: Verify generated code is up to date
         # test/generate_code_test.dart runs the code generator, so if there are
         # any git-diffs at this point, it means the generated code is outdated.
@@ -76,7 +78,7 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
-          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c,swift2objc"
+          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
@@ -88,7 +90,7 @@ jobs:
         working-directory: pkgs/objective_c/example/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@f2c4f6686ca8e8d6e6d0f28410eeef506ed66aff
+      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
           channel: 'stable'
       - name: Install dependencies

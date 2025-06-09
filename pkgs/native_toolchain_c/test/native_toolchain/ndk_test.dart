@@ -17,6 +17,7 @@ void main() {
       ToolRequirement(androidNdkLld),
     ]);
     final resolved = await androidNdk.defaultResolver!.resolve(logger: logger);
+    printOnFailure(resolved.toString());
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 4);
   });

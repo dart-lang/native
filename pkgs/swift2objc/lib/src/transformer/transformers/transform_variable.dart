@@ -33,6 +33,7 @@ Declaration? transformProperty(
     originalProperty,
     globalNamer,
     transformationMap,
+    property: true,
     wrapperPropertyName: originalProperty.name,
     variableReferenceExpression: '$propertySource.${originalProperty.name}',
   );
@@ -60,6 +61,7 @@ Declaration _transformVariable(
   VariableDeclaration originalVariable,
   UniqueNamer globalNamer,
   TransformationMap transformationMap, {
+  bool property = false,
   required String wrapperPropertyName,
   required String variableReferenceExpression,
 }) {
@@ -73,24 +75,32 @@ Declaration _transformVariable(
       ? originalVariable.hasSetter
       : !originalVariable.isConstant;
 
+  // properties that throw or are async need to be wrapped in a method
   if (originalVariable.throws || originalVariable.async) {
     final prefix = [
       if (originalVariable.throws) 'try',
       if (originalVariable.async) 'await'
     ].join(' ');
 
+    final localNamer = UniqueNamer();
+    final resultName = localNamer.makeUnique('result');
+
+    final (wrapperResult, type) = maybeWrapValue(
+        originalVariable.type, resultName, globalNamer, transformationMap,
+        shouldWrapPrimitives: originalVariable.throws);
+
     return MethodDeclaration(
       id: originalVariable.id,
       name: wrapperPropertyName,
-      returnType: transformedType,
+      returnType: type,
       params: [],
       hasObjCAnnotation: true,
       isStatic: originalVariable is PropertyDeclaration
           ? originalVariable.isStatic
           : true,
       statements: [
-        'let result = $prefix $variableReferenceExpression',
-        'return $transformedType(result)',
+        'let $resultName = $prefix $variableReferenceExpression',
+        'return $wrapperResult',
       ],
       throws: originalVariable.throws,
       async: originalVariable.async,

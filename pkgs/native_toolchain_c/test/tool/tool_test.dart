@@ -14,7 +14,10 @@ void main() {
     expect(clang != androidNdk, true);
     expect(
       Tool(name: 'foo'),
-      Tool(name: 'foo', defaultResolver: PathToolResolver(toolName: 'foo')),
+      Tool(
+        name: 'foo',
+        defaultResolver: PathToolResolver(toolName: 'foo'),
+      ),
     );
     expect(Tool(name: 'foo') != Tool(name: 'bar'), true);
     expect(

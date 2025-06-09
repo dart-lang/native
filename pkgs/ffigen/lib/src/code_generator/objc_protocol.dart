@@ -62,6 +62,7 @@ class ObjCProtocol extends BindingType with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
+    final protocolClass = ObjCBuiltInFunctions.protocolClass.gen(w);
     final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(w);
     final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
     final protocolListenableMethod =
@@ -111,8 +112,7 @@ interface class $name extends $protocolBase $impls{
 
       var anyListeners = false;
       for (final method in methods) {
-        final methodName =
-            method.getDartMethodName(methodNamer, usePropertyNaming: false);
+        final methodName = method.getDartProtocolMethodName(methodNamer);
         final fieldName = methodName;
         final argName = methodName;
         final block = method.protocolBlock!;
@@ -180,6 +180,10 @@ interface class $name extends $protocolBase $impls{
       buildArgs.add('bool \$keepIsolateAlive = true');
       final args = '{${buildArgs.join(', ')}}';
       final builders = '''
+  /// Returns the [$protocolClass] object for this protocol.
+  static $protocolClass get \$protocol =>
+      $protocolClass.castFromPointer(${_protocolPointer.name}.cast());
+
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
   ///
@@ -188,6 +192,7 @@ interface class $name extends $protocolBase $impls{
   static $name implement($args) {
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildImplementations
+    builder.addProtocol(\$protocol);
     return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
@@ -197,6 +202,7 @@ interface class $name extends $protocolBase $impls{
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder($protocolBuilder builder, $args) {
     $buildImplementations
+    builder.addProtocol(\$protocol);
   }
 ''';
 
@@ -212,6 +218,7 @@ interface class $name extends $protocolBase $impls{
   static $name implementAsListener($args) {
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildListenerImplementations
+    builder.addProtocol(\$protocol);
     return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
@@ -222,6 +229,7 @@ interface class $name extends $protocolBase $impls{
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener($protocolBuilder builder, $args) {
     $buildListenerImplementations
+    builder.addProtocol(\$protocol);
   }
 
   /// Builds an object that implements the $originalName protocol. To implement
@@ -233,6 +241,7 @@ interface class $name extends $protocolBase $impls{
   static $name implementAsBlocking($args) {
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildBlockingImplementations
+    builder.addProtocol(\$protocol);
     return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
@@ -243,6 +252,7 @@ interface class $name extends $protocolBase $impls{
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking($protocolBuilder builder, $args) {
     $buildBlockingImplementations
+    builder.addProtocol(\$protocol);
   }
 ''';
       }

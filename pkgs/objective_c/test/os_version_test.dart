@@ -11,17 +11,30 @@ import 'dart:ffi';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
+import 'util.dart';
+
 void main() {
   group('osVersion', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('test/objective_c.dylib');
+      DynamicLibrary.open(testDylib);
     });
 
     test('getter', () {
       // macOS 11 was released in 2020 and isn't supported anymore.
       final oldVersion = Version(11, 0, 0);
       expect(osVersion, greaterThan(oldVersion));
+    });
+
+    test('check', () {
+      // This test is only run on macOS.
+      expect(checkOSVersion(iOS: Version(1, 0, 0)), isFalse);
+      expect(checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(11, 0, 0)),
+          isTrue);
+      expect(checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(1000, 0, 0)),
+          isFalse);
+      expect(checkOSVersion(macOS: Version(11, 0, 0)), isTrue);
+      expect(checkOSVersion(macOS: Version(1000, 0, 0)), isFalse);
     });
   });
 }

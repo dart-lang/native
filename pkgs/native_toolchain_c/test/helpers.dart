@@ -6,13 +6,11 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets_builder.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
-
-export 'package:native_assets_cli/code_assets_builder.dart';
 
 /// Returns a suffix for a test that is parameterized.
 ///
@@ -45,8 +43,9 @@ const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
-  final tempUri =
-      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+  final tempUri = Directory(
+    await tempDir.resolveSymbolicLinks(),
+  ).uri.normalizePath();
   if ((!Platform.environment.containsKey(keepTempKey) ||
           Platform.environment[keepTempKey]!.isEmpty) &&
       !keepTemp) {
@@ -58,13 +57,12 @@ Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
 }
 
 /// Logger that outputs the full trace when a test fails.
-Logger get logger =>
-    _logger ??= () {
-      // A new logger is lazily created for each test so that the messages
-      // captured by printOnFailure are scoped to the correct test.
-      addTearDown(() => _logger = null);
-      return _createTestLogger();
-    }();
+Logger get logger => _logger ??= () {
+  // A new logger is lazily created for each test so that the messages
+  // captured by printOnFailure are scoped to the correct test.
+  addTearDown(() => _logger = null);
+  return _createTestLogger();
+}();
 
 Logger? _logger;
 
@@ -93,8 +91,8 @@ Logger _createTestLogger({List<String>? capturedMessages}) =>
 Uri findPackageRoot(String packageName) {
   final script = Platform.script;
   final fileName = script.name;
-  if (fileName.endsWith('_test.dart')) {
-    // We're likely running from source.
+  if (fileName.endsWith('.dart')) {
+    // We're likely running from source in the package somewhere.
     var directory = script.resolve('.');
     while (true) {
       final dirName = directory.name;
@@ -106,11 +104,18 @@ Uri findPackageRoot(String packageName) {
       directory = parent;
     }
   } else if (fileName.endsWith('.dill')) {
+    // Probably from the package root.
     final cwd = Directory.current.uri;
     final dirName = cwd.name;
     if (dirName == packageName) {
       return cwd;
     }
+  }
+  // Or the workspace root.
+  final cwd = Directory.current.uri;
+  final candidate = cwd.resolve('pkgs/$packageName/');
+  if (Directory.fromUri(candidate).existsSync()) {
+    return candidate;
   }
   throw StateError(
     "Could not find package root for package '$packageName'. "
@@ -129,27 +134,27 @@ extension on Uri {
 /// Archiver provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ar =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']?.asFileUri();
+final Uri? _ar = Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']
+    ?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _cc =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.asFileUri();
+final Uri? _cc = Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']
+    ?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ld =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']?.asFileUri();
+final Uri? _ld = Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']
+    ?.asFileUri();
 
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
-        ?.asFileUri();
+final Uri? _envScript = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+    ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
@@ -161,23 +166,21 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler =
-    (_cc == null || _ar == null || _ld == null)
-        ? null
-        : CCompilerConfig(
-          compiler: _cc!,
-          archiver: _ar!,
-          linker: _ld!,
-          windows: WindowsCCompilerConfig(
-            developerCommandPrompt:
-                _envScript == null
-                    ? null
-                    : DeveloperCommandPrompt(
-                      script: _envScript!,
-                      arguments: _envScriptArgs ?? [],
-                    ),
-          ),
-        );
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        windows: WindowsCCompilerConfig(
+          developerCommandPrompt: _envScript == null
+              ? null
+              : DeveloperCommandPrompt(
+                  script: _envScript!,
+                  arguments: _envScriptArgs ?? [],
+                ),
+        ),
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -187,8 +190,9 @@ extension on String {
 ///
 /// Because `otool` output multiple names, [libraryName] as search parameter.
 Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
-  final otoolUri =
-      (await otool.defaultResolver!.resolve(logger: logger)).first.uri;
+  final otoolUri = (await otool.defaultResolver!.resolve(
+    logger: logger,
+  )).first.uri;
   final otoolResult = await runProcess(
     executable: otoolUri,
     arguments: ['-l', libraryUri.path],
@@ -197,14 +201,11 @@ Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
   expect(otoolResult.exitCode, 0);
   // Leading space on purpose to differentiate from other types of names.
   const installNameName = ' name ';
-  final installName =
-      otoolResult.stdout
-          .split('\n')
-          .firstWhere(
-            (e) => e.contains(installNameName) && e.contains(libraryName),
-          )
-          .trim()
-          .split(' ')[1];
+  final installName = otoolResult.stdout
+      .split('\n')
+      .firstWhere((e) => e.contains(installNameName) && e.contains(libraryName))
+      .trim()
+      .split(' ')[1];
   return installName;
 }
 

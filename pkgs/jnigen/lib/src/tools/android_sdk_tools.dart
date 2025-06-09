@@ -97,6 +97,33 @@ task $_gradleGetClasspathTaskName(type: Copy) {
 }
 ''';
 
+  static const _gradleGetClasspathStubKt = '''
+// Gradle stub for listing dependencies in jnigen. If found in
+// android/build.gradle.kts, please delete the following function.
+tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
+    doLast {
+        try {
+            val app = project(":app")
+            val android = app.android
+            val classPaths = mutableListOf(android.bootClasspath.first()) // Access the first element directly
+            for (variant in android.applicationVariants) {
+                if (variant.name == "release") {
+                    val javaCompile = variant.javaCompileProvider.get()
+                    classPaths.addAll(javaCompile.classpath.files)
+                }
+            }
+            for (classPath in classPaths) {
+                println(classPath)
+            }
+        } catch (e: Exception) {
+            System.err.println("$_gradleCannotFindJars")
+            throw e
+        }
+    }
+    System.err.println("$_leftOverStubWarning")
+}
+''';
+
   static const _gradleGetSourcesTaskName = 'getSources';
   // adapted from https://stackoverflow.com/questions/39975780/how-can-i-use-gradle-to-download-dependencies-and-their-source-files-and-place-t/39981143#39981143
   // Although it appears we can use this same code for getting JAR artifacts,
@@ -131,6 +158,42 @@ task $_gradleGetSourcesTaskName(type: Copy) {
 }
 ''';
 
+  static const _gradleGetSourcesStubKt = '''
+// Gradle stub for fetching source dependencies in jnigen. If found in
+// android/build.gradle.kts, please delete the following function.
+
+tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
+    doLast {
+        val app = project(":app")
+        val releaseCompileClasspath = app.configurations.getByName("releaseCompileClasspath")
+
+        val componentIds =
+            releaseCompileClasspath.incoming.resolutionResult.allDependencies.map { it.from.id }
+
+        val result = dependencies.createArtifactResolutionQuery()
+            .forComponents(componentIds)
+            .withArtifacts(JvmLibrary::class, SourcesArtifact::class)
+            .execute()
+
+        val sourceArtifacts = mutableListOf<File>()
+
+        for (component in result.resolvedComponents) {
+            val sourcesArtifactsResult = component.getArtifacts(SourcesArtifact::class)
+            for (artifactResult in sourcesArtifactsResult) {
+                if (artifactResult is org.gradle.api.artifacts.result.ResolvedArtifactResult) {
+                    sourceArtifacts.add(artifactResult.file)
+                }
+            }
+        }
+        for (sourceArtifact in sourceArtifacts) {
+            println(sourceArtifact)
+        }
+    }
+    System.err.println("$_leftOverStubWarning")
+}
+
+''';
+
   /// Get release compile classpath used by Gradle for android build.
   ///
   /// This function temporarily overwrites the build.gradle file by a stub with
@@ -142,8 +205,7 @@ task $_gradleGetSourcesTaskName(type: Copy) {
   static List<String> getGradleClasspaths(
           {Uri? configRoot, String androidProject = '.'}) =>
       _runGradleStub(
-        stubName: _gradleGetClasspathTaskName,
-        stubCode: _gradleGetClasspathStub,
+        isSource: false,
         androidProject: androidProject,
         configRoot: configRoot,
       );
@@ -156,8 +218,7 @@ task $_gradleGetSourcesTaskName(type: Copy) {
   static List<String> getGradleSources(
       {Uri? configRoot, String androidProject = '.'}) {
     return _runGradleStub(
-      stubName: _gradleGetSourcesTaskName,
-      stubCode: _gradleGetSourcesStub,
+      isSource: true,
       androidProject: androidProject,
       configRoot: configRoot,
     );
@@ -168,18 +229,34 @@ task $_gradleGetSourcesTaskName(type: Copy) {
   }
 
   static List<String> _runGradleStub({
-    required String stubName,
-    required String stubCode,
+    required bool isSource,
     Uri? configRoot,
     String androidProject = '.',
   }) {
+    final stubName =
+        isSource ? _gradleGetSourcesTaskName : _gradleGetClasspathTaskName;
     log.info('trying to obtain gradle dependencies [$stubName]...');
     if (configRoot != null) {
       androidProject = configRoot.resolve(androidProject).toFilePath();
     }
     final android = join(androidProject, 'android');
-    final buildGradle = join(android, 'build.gradle');
-    final buildGradleOld = join(android, 'build.gradle.old');
+    var buildGradle = join(android, 'build.gradle');
+    final usesKotlinScript = !File.fromUri(Uri.file(buildGradle)).existsSync();
+    if (usesKotlinScript) {
+      // The Kotlin version of the script is injected to `app/build.gradle.kts`
+      // instead of `build.gradle`.
+      buildGradle = join(android, 'app', 'build.gradle.kts');
+    }
+    final String stubCode;
+    if (isSource) {
+      stubCode =
+          usesKotlinScript ? _gradleGetSourcesStubKt : _gradleGetSourcesStub;
+    } else {
+      stubCode = usesKotlinScript
+          ? _gradleGetClasspathStubKt
+          : _gradleGetClasspathStub;
+    }
+    final buildGradleOld = '$buildGradle.old';
     final origBuild = File(buildGradle);
     final script = origBuild.readAsStringSync();
     origBuild.renameSync(buildGradleOld);

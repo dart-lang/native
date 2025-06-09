@@ -1,3 +1,9 @@
+## 0.14.2
+
+- Fixed a bug where certain method of `JList`, `JSet`, and `JMap` did not work
+  with nullable elements.
+- Fixed a bug in `JList.lastIndexOf`.
+
 ## 0.14.1
 
 - Updated `bin/setup.dart` to use Gradle instead of Maven for building Java sources. Added gradle executables 

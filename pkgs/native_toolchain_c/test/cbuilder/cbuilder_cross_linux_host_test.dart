@@ -7,6 +7,8 @@ library;
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -43,28 +45,26 @@ void main() {
         );
         const name = 'add';
 
-        final buildInputBuilder =
-            BuildInputBuilder()
-              ..setupShared(
-                packageName: name,
-                packageRoot: tempUri,
-                outputFile: tempUri.resolve('output.json'),
-                outputDirectory: tempUri,
-                outputDirectoryShared: tempUri2,
-              )
-              ..config.setupBuild(linkingEnabled: false)
-              ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-              ..config.setupCode(
-                targetOS: OS.linux,
-                targetArchitecture: target,
-                linkModePreference:
-                    linkMode == DynamicLoadingBundled()
-                        ? LinkModePreference.dynamic
-                        : LinkModePreference.static,
-                cCompiler: cCompiler,
-              );
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.linux,
+              targetArchitecture: target,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+              cCompiler: cCompiler,
+            ),
+          );
 
-        final buildInput = BuildInput(buildInputBuilder.json);
+        final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.library(
@@ -80,7 +80,7 @@ void main() {
           logger: logger,
         );
 
-        final libUri = tempUri.resolve(
+        final libUri = buildInput.outputDirectory.resolve(
           OS.linux.libraryFileName(name, linkMode),
         );
         final machine = await readelfMachine(libUri.path);

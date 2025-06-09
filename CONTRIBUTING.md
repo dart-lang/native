@@ -38,7 +38,7 @@ new file please also add this. The year should be a single number stating the
 year the file was created (don't use a range like "2011-2012"). Additionally, if
 you edit an existing file, you shouldn't update the year.
 
-    // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+    // Copyright (c) 2025, the Dart project authors.  Please see the AUTHORS file
     // for details. All rights reserved. Use of this source code is governed by a
     // BSD-style license that can be found in the LICENSE file.
 
@@ -52,10 +52,11 @@ We pledge to maintain an open and welcoming environment. For details, see our
 
 ## Tests
 
-Packages `native_assets_cli`, `native_assets_builder`, and `native_toolchain_c`
-roll into the Dart SDK. The tests of these packages are run on the Dart SDK in
-[a different way](https://github.com/dart-lang/sdk/issues/56574) than on the
-GitHub actions on this repo.
+Packages `hooks`, `code_assets`, `data_assets`, `hooks_runner`, and
+`native_toolchain_c` roll into the Dart SDK. The tests of these packages are run
+on the Dart SDK in [a different
+way](https://github.com/dart-lang/sdk/issues/56574) than on the GitHub actions
+on this repo.
 
 1. The `tools/test.py` runs `(.*)test.dart`, so no `package:test` annotations
    are respected. So, things such as skips should be done with early returns.

@@ -8,6 +8,8 @@ library;
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
@@ -71,32 +73,30 @@ void main() {
                   Language() => throw UnimplementedError(),
                 };
 
-                final buildInputBuilder =
-                    BuildInputBuilder()
-                      ..setupShared(
-                        packageName: name,
-                        packageRoot: tempUri,
-                        outputFile: tempUri.resolve('output.json'),
-                        outputDirectory: tempUri,
-                        outputDirectoryShared: tempUri2,
-                      )
-                      ..config.setupBuild(linkingEnabled: false)
-                      ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-                      ..config.setupCode(
-                        targetOS: OS.iOS,
-                        targetArchitecture: target,
-                        linkModePreference:
-                            linkMode == DynamicLoadingBundled()
-                                ? LinkModePreference.dynamic
-                                : LinkModePreference.static,
-                        iOS: IOSCodeConfig(
-                          targetSdk: targetIOSSdk,
-                          targetVersion: flutteriOSHighestBestEffort,
-                        ),
-                        cCompiler: cCompiler,
-                      );
+                final buildInputBuilder = BuildInputBuilder()
+                  ..setupShared(
+                    packageName: name,
+                    packageRoot: tempUri,
+                    outputFile: tempUri.resolve('output.json'),
+                    outputDirectoryShared: tempUri2,
+                  )
+                  ..config.setupBuild(linkingEnabled: false)
+                  ..addExtension(
+                    CodeAssetExtension(
+                      targetOS: OS.iOS,
+                      targetArchitecture: target,
+                      linkModePreference: linkMode == DynamicLoadingBundled()
+                          ? LinkModePreference.dynamic
+                          : LinkModePreference.static,
+                      iOS: IOSCodeConfig(
+                        targetSdk: targetIOSSdk,
+                        targetVersion: flutteriOSHighestBestEffort,
+                      ),
+                      cCompiler: cCompiler,
+                    ),
+                  );
 
-                final buildInput = BuildInput(buildInputBuilder.json);
+                final buildInput = buildInputBuilder.build();
                 final buildOutput = BuildOutputBuilder();
 
                 final cbuilder = CBuilder.library(
@@ -114,7 +114,7 @@ void main() {
                   logger: logger,
                 );
 
-                final libUri = tempUri.resolve(libName);
+                final libUri = buildInput.outputDirectory.resolve(libName);
                 final objdumpResult = await runProcess(
                   executable: Uri.file('objdump'),
                   arguments: ['-t', libUri.path],
@@ -157,11 +157,11 @@ void main() {
                   );
                   if (installName == null) {
                     // If no install path is passed, we have an absolute path.
-                    final tempName = tempUri.pathSegments.lastWhere(
-                      (e) => e != '',
-                    );
-                    final pathEnding =
-                        Uri.directory(tempName).resolve(libName).toFilePath();
+                    final tempName = buildInput.outputDirectory.pathSegments
+                        .lastWhere((e) => e != '');
+                    final pathEnding = Uri.directory(
+                      tempName,
+                    ).resolve(libName).toFilePath();
                     expect(Uri.file(libInstallName).isAbsolute, true);
                     expect(libInstallName, contains(pathEnding));
                     final targetInstallName =
@@ -234,32 +234,30 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: OS.iOS,
-          targetArchitecture: targetArchitecture,
-          linkModePreference:
-              linkMode == DynamicLoadingBundled()
-                  ? LinkModePreference.dynamic
-                  : LinkModePreference.static,
-          iOS: IOSCodeConfig(
-            targetSdk: IOSSdk.iPhoneOS,
-            targetVersion: targetIOSVersion,
-          ),
-          cCompiler: cCompiler,
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: OS.iOS,
+        targetArchitecture: targetArchitecture,
+        linkModePreference: linkMode == DynamicLoadingBundled()
+            ? LinkModePreference.dynamic
+            : LinkModePreference.static,
+        iOS: IOSCodeConfig(
+          targetSdk: IOSSdk.iPhoneOS,
+          targetVersion: targetIOSVersion,
+        ),
+        cCompiler: cCompiler,
+      ),
+    );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -270,6 +268,8 @@ Future<Uri> buildLib(
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-  final libUri = tempUri.resolve(OS.iOS.libraryFileName(name, linkMode));
+  final libUri = buildInput.outputDirectory.resolve(
+    OS.iOS.libraryFileName(name, linkMode),
+  );
   return libUri;
 }

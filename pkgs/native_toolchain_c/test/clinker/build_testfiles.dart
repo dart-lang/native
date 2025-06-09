@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
@@ -26,25 +28,24 @@ Future<Uri> buildTestArchive(
   final logger = createCapturingLogger(logMessages);
 
   assert(os == OS.linux); // Setup code input for other OSes.
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..config.setupShared(buildAssetTypes: [CodeAsset.type])
-        ..config.setupCode(
-          targetOS: os,
-          targetArchitecture: architecture,
-          linkModePreference: LinkModePreference.dynamic,
-          cCompiler: cCompiler,
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: os,
+        targetArchitecture: architecture,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: cCompiler,
+      ),
+    );
 
-  final buildInput = BuildInput(buildInputBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutputBuilder = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -60,6 +61,6 @@ Future<Uri> buildTestArchive(
     logger: logger,
   );
 
-  final buildOutput = BuildOutput(buildOutputBuilder.json);
+  final buildOutput = buildOutputBuilder.build();
   return buildOutput.assets.code.first.file!;
 }

@@ -78,20 +78,20 @@ void registerCommonTests(Classes classes) {
     expect(example.getMethod('finalMethod').modifiers, isFinal);
   });
 
-  void assertToBeStringListType(TypeUsage listType) {
-    expect(listType.kind, equals(Kind.declared));
-    final listClassType = listType.type as DeclaredType;
+  void assertToBeStringListType(ReferredType listType) {
+    expect(listType, isA<DeclaredType>());
+    final listClassType = listType as DeclaredType;
     expect(listClassType.binaryName, equals('java.util.List'));
     expect(listClassType.params, hasLength(1));
     final listTypeParam = listClassType.params[0];
-    expect(listTypeParam.kind, equals(Kind.declared));
-    expect(listTypeParam.type.name, equals('java.lang.String'));
+    expect(listTypeParam, isA<DeclaredType>());
+    expect(listTypeParam.name, equals('java.lang.String'));
   }
 
   test('return types', () {
     final example = classes.getExampleClass();
-    expect(example.getMethod('getNumber').returnType.shorthand, equals('int'));
-    expect(example.getMethod('getName').returnType.shorthand,
+    expect(example.getMethod('getNumber').returnType.name, equals('int'));
+    expect(example.getMethod('getName').returnType.name,
         equals('java.lang.String'));
     expect(example.getMethod('getNestedInstance').returnType.name,
         equals('$simplePackage.Example\$Nested'));
@@ -105,8 +105,8 @@ void registerCommonTests(Classes classes) {
     final listType = joinStrings.params[0].type;
     assertToBeStringListType(listType);
     final stringType = joinStrings.params[1].type;
-    expect(stringType.kind, Kind.declared);
-    expect((stringType.type as DeclaredType).binaryName, 'java.lang.String');
+    expect(stringType, isA<DeclaredType>());
+    expect((stringType as DeclaredType).binaryName, 'java.lang.String');
   });
 
   test('Parameters of several types', () {
@@ -117,51 +117,51 @@ void registerCommonTests(Classes classes) {
     expect(method.typeParams[0].bounds[0].name, 'java.lang.CharSequence');
 
     final charParam = method.params[0];
-    expect(charParam.type.kind, equals(Kind.primitive));
+    expect(charParam.type, isA<PrimitiveType>());
     expect(charParam.type.name, equals('char'));
 
     final stringParam = method.params[1];
-    expect(stringParam.type.kind, equals(Kind.declared));
-    expect((stringParam.type.type as DeclaredType).binaryName,
+    expect(stringParam.type, isA<DeclaredType>());
+    expect((stringParam.type as DeclaredType).binaryName,
         equals('java.lang.String'));
 
     final arrayParam = method.params[2];
-    expect(arrayParam.type.kind, equals(Kind.array));
-    expect((arrayParam.type.type as ArrayType).elementType.name, equals('int'));
+    expect(arrayParam.type, isA<ArrayType>());
+    expect((arrayParam.type as ArrayType).elementType.name, equals('int'));
 
     final typeVarParam = method.params[3];
-    expect(typeVarParam.type.kind, equals(Kind.typeVariable));
-    expect((typeVarParam.type.type as TypeVar).name, equals('T'));
+    expect(typeVarParam.type, isA<TypeVar>());
+    expect((typeVarParam.type as TypeVar).name, equals('T'));
 
     final listParam = method.params[4];
-    expect(listParam.type.kind, equals(Kind.declared));
-    final listType = listParam.type.type as DeclaredType;
+    expect(listParam.type, isA<DeclaredType>());
+    final listType = listParam.type as DeclaredType;
     expect(listType.binaryName, equals('java.util.List'));
     expect(listType.params, hasLength(1));
     final tType = listType.params[0];
-    expect(tType.kind, Kind.typeVariable);
-    expect((tType.type as TypeVar).name, equals('T'));
+    expect(tType, isA<TypeVar>());
+    expect((tType as TypeVar).name, equals('T'));
 
     final wildcardMapParam = method.params[5];
-    expect(wildcardMapParam.type.kind, equals(Kind.declared));
-    final mapType = wildcardMapParam.type.type as DeclaredType;
+    expect(wildcardMapParam.type, isA<DeclaredType>());
+    final mapType = wildcardMapParam.type as DeclaredType;
     expect(mapType.binaryName, equals('java.util.Map'));
     expect(mapType.params, hasLength(2));
     final strType = mapType.params[0];
     expect(strType.name, 'java.lang.String');
     final wildcardType = mapType.params[1];
-    expect(wildcardType.kind, equals(Kind.wildcard));
-    expect((wildcardType.type as Wildcard).extendsBound?.name,
+    expect(wildcardType, isA<Wildcard>());
+    expect((wildcardType as Wildcard).extendsBound?.name,
         equals('java.lang.CharSequence'));
   });
 
   test('typeParameters', () {
     final grandParent = classes.getClass('generics', 'GrandParent');
     final stringParent = grandParent.getMethod('stringParent');
-    final returnType = stringParent.returnType.type as DeclaredType;
+    final returnType = stringParent.returnType as DeclaredType;
     expect(returnType.params, hasLength(2));
-    expect(returnType.params[0].type, isA<TypeVar>());
-    expect(returnType.params[1].type, isA<DeclaredType>());
+    expect(returnType.params[0], isA<TypeVar>());
+    expect(returnType.params[1], isA<DeclaredType>());
   });
 
   test('superclass', () {
@@ -174,9 +174,9 @@ void registerCommonTests(Classes classes) {
     final specific = classes.getClass('inheritance', 'SpecificDerivedClass');
     expect(specific.typeParams, hasLength(0));
     expect(specific.superclass, isNotNull);
-    final specificSuper = specific.superclass!.type as DeclaredType;
-    expect(specificSuper.params[0].type, isA<DeclaredType>());
-    expect(specificSuper.params[0].type.name, equals('java.lang.String'));
+    final specificSuper = specific.superclass! as DeclaredType;
+    expect(specificSuper.params[0], isA<DeclaredType>());
+    expect(specificSuper.params[0].name, equals('java.lang.String'));
 
     final generic = classes.getClass('inheritance', 'GenericDerivedClass');
     expect(generic.typeParams, hasLength(1));
@@ -184,9 +184,9 @@ void registerCommonTests(Classes classes) {
     expect(generic.typeParams[0].bounds.map((b) => b.name).toList(),
         ['java.lang.CharSequence']);
     expect(generic.superclass, isNotNull);
-    final genericSuper = generic.superclass!.type as DeclaredType;
-    expect(genericSuper.params[0].type, isA<TypeVar>());
-    expect(genericSuper.params[0].type.name, equals('T'));
+    final genericSuper = generic.superclass! as DeclaredType;
+    expect(genericSuper.params[0], isA<TypeVar>());
+    expect(genericSuper.params[0].name, equals('T'));
   });
 
   test('constructor is included', () {
@@ -261,14 +261,14 @@ void registerCommonTests(Classes classes) {
     expect(typeParams[0].bounds.map((e) => e.name), ['java.lang.CharSequence']);
     expect(typeParams[1].name, equals('K'));
     final selfBound = typeParams[1].bounds[0];
-    expect(selfBound.kind, Kind.declared);
+    expect(selfBound, isA<DeclaredType>());
     expect(selfBound.name,
         equals('com.github.dart_lang.jnigen.generics.GenericTypeParams'));
-    final selfBoundType = selfBound.type as DeclaredType;
+    final selfBoundType = selfBound as DeclaredType;
     expect(selfBoundType.params, hasLength(2));
     expect(selfBoundType.params.map((e) => e.name), ['S', 'K']);
-    expect(selfBoundType.params.map((e) => e.kind),
-        [Kind.typeVariable, Kind.typeVariable]);
+    expect(selfBoundType.params[0], isA<TypeVar>());
+    expect(selfBoundType.params[1], isA<TypeVar>());
   });
 }
 

@@ -1,5 +1,5 @@
 # A workflow that goes together with the example package:download_asset inside
-# package:native_assets_cli.
+# package:hooks.
 name: package_download_asset
 
 permissions:
@@ -10,7 +10,7 @@ on:
     branches: [ main ]
     paths:
       - .github/workflows/package_download_asset.yaml
-      - pkgs/native_assets_cli/example/build/download_asset/
+      - pkgs/hooks/example/build/download_asset/
   push:
     tags:
       - 'download_asset-prebuild-assets-*'
@@ -27,14 +27,14 @@ jobs:
 
     defaults:
       run:
-        working-directory: pkgs/native_assets_cli/example/build/download_asset/
+        working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-    - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+    - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
       with:
-        sdk: stable
+        sdk: dev
 
     - uses: nttld/setup-ndk@afb4c9964b521afb97c864b7d40b11e6911bd410
       with:
@@ -47,7 +47,7 @@ jobs:
 
     - run: dart pub get
 
-    # Keep this list consistent with pkgs/native_assets_cli/example/build/download_asset/lib/src/hook_helpers/target_versions.dart
+    # Keep this list consistent with pkgs/hooks/example/build/download_asset/lib/src/hook_helpers/target_versions.dart
     - name: Build Linux host
       if: matrix.os == 'ubuntu'
       run: |
@@ -80,13 +80,13 @@ jobs:
         dart tool/build.dart -owindows -ax64
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: ${{ matrix.os }}-host
         path: |
-          pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**/*.dll
-          pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**/*.dylib
-          pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**/*.so
+          pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**/*.dll
+          pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**/*.dylib
+          pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**/*.so
         if-no-files-found: error
 
   release:
@@ -95,7 +95,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: pkgs/native_assets_cli/example/build/download_asset/
+        working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -103,17 +103,17 @@ jobs:
           submodules: true
 
       - name: Download assets
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           merge-multiple: true
-          path: pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/
+          path: pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/
 
       - name: Display structure of downloaded assets
         run: ls -R .dart_tool/download_asset/
 
       - name: Release
-        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda
+        uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
         if: startsWith(github.ref, 'refs/tags/download_asset-prebuild-assets')
         with:
-          files: 'pkgs/native_assets_cli/example/build/download_asset/.dart_tool/download_asset/**'
+          files: 'pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**'
           fail_on_unmatched_files: true

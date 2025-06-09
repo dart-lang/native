@@ -12,6 +12,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -22,8 +23,19 @@ void main() {
   group('Block inheritance', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
 
@@ -33,7 +45,7 @@ void main() {
     test('BlockInheritTestBase', () {
       final BlockInheritTestBase baseObj = BlockInheritTestBase();
       expect(baseObj.getAnimal().laysEggs(), false);
-      expect(baseObj.acceptAnimal_(Platypus()), true);
+      expect(baseObj.acceptAnimal(Platypus()), true);
 
       final ObjCBlock<Mammal Function()> returner = baseObj.getReturner();
       final Mammal returnerResult = returner();
@@ -45,20 +57,20 @@ void main() {
       final platypus = Platypus();
       final ObjCBlock<Platypus Function()> platypusReturner =
           ObjCBlock_Platypus.fromFunction(() => platypus);
-      expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
+      expect(baseObj.invokeReturner(platypusReturner).laysEggs(), true);
 
       final ObjCBlock<Bool Function(Mammal)> mammalAccepter =
           ObjCBlock_bool_Mammal.fromFunction(
               (Mammal mammal) => mammal.laysEggs());
-      expect(baseObj.invokeAccepter_(mammalAccepter), false);
+      expect(baseObj.invokeAccepter(mammalAccepter), false);
     });
 
     test('BlockInheritTestChild', () {
       final BlockInheritTestChild childObj = BlockInheritTestChild();
       final BlockInheritTestBase baseObj = childObj;
       expect(baseObj.getAnimal().laysEggs(), true);
-      expect(baseObj.acceptAnimal_(Platypus()), true);
-      expect(childObj.acceptAnimal_(Mammal()), false);
+      expect(baseObj.acceptAnimal(Platypus()), true);
+      expect(childObj.acceptAnimal(Mammal()), false);
 
       final ObjCBlock<Mammal Function()> baseReturner = baseObj.getReturner();
       final Mammal baseReturnerResult = baseReturner();
@@ -81,24 +93,24 @@ void main() {
       final platypus = Platypus();
       final ObjCBlock<Platypus Function()> platypusReturner =
           ObjCBlock_Platypus.fromFunction(() => platypus);
-      expect(baseObj.invokeReturner_(platypusReturner).laysEggs(), true);
+      expect(baseObj.invokeReturner(platypusReturner).laysEggs(), true);
 
       final mammal = Mammal();
       final ObjCBlock<Mammal Function()> mammalReturner =
           ObjCBlock_Mammal.fromFunction(() => mammal);
-      expect(childObj.invokeReturner_(mammalReturner).laysEggs(), false);
-      expect(childObj.invokeReturner_(platypusReturner).laysEggs(), true);
+      expect(childObj.invokeReturner(mammalReturner).laysEggs(), false);
+      expect(childObj.invokeReturner(platypusReturner).laysEggs(), true);
 
       final ObjCBlock<Bool Function(Mammal)> mammalAccepter =
           ObjCBlock_bool_Mammal.fromFunction(
               (Mammal mammal) => mammal.laysEggs());
-      expect(baseObj.invokeAccepter_(mammalAccepter), true);
+      expect(baseObj.invokeAccepter(mammalAccepter), true);
 
       final ObjCBlock<Bool Function(Platypus)> platypusAccepter =
           ObjCBlock_bool_Platypus.fromFunction(
               (Platypus platypus) => platypus.laysEggs());
-      expect(childObj.invokeAccepter_(platypusAccepter), true);
-      expect(childObj.invokeAccepter_(mammalAccepter), true);
+      expect(childObj.invokeAccepter(platypusAccepter), true);
+      expect(childObj.invokeAccepter(mammalAccepter), true);
     });
   });
 }

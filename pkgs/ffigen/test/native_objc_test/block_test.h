@@ -55,6 +55,7 @@ typedef void (^ResultBlock)(int32_t);
   __strong IntBlock myBlock;
   __strong ObjectListenerBlock myListener;
 }
++ (void)setup:(void*)apiData;
 + (BlockTester*)newFromBlock:(IntBlock)block;
 + (BlockTester*)newFromMultiplier:(int32_t)mult;
 + (BlockTester*)newFromListener:(ObjectListenerBlock)block;
@@ -62,6 +63,7 @@ typedef void (^ResultBlock)(int32_t);
 - (IntBlock)getBlock NS_RETURNS_RETAINED;
 - (void)pokeBlock;
 + (void)callOnSameThread:(VoidBlock)block;
++ (void)callOnSameThreadOutsideIsolate:(VoidBlock)block;
 + (NSThread*)callOnNewThread:(VoidBlock)block NS_RETURNS_RETAINED;
 + (NSThread*)callWithBlockOnNewThread:(ListenerBlock)block NS_RETURNS_RETAINED;
 + (float)callFloatBlock:(FloatBlock)block;

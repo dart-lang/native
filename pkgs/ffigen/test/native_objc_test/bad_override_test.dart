@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'bad_override_bindings.dart';
@@ -19,8 +20,19 @@ void main() {
   group('bad overrides', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('bad_override');
@@ -68,13 +80,12 @@ void main() {
       final triangle = Triangle();
 
       var parent = BadOverrideParent();
-      expect(parent.covariantArg_(square).toDartString(), 'Polygon: Square');
-      expect(
-          parent.covariantArg_(triangle).toDartString(), 'Polygon: Triangle');
+      expect(parent.covariantArg(square).toDartString(), 'Polygon: Square');
+      expect(parent.covariantArg(triangle).toDartString(), 'Polygon: Triangle');
 
       parent = BadOverrideChild();
-      expect(parent.covariantArg_(square).toDartString(), 'Rectangle: Square');
-      expect(() => parent.covariantArg_(triangle), throwsA(isA<TypeError>()));
+      expect(parent.covariantArg(square).toDartString(), 'Rectangle: Square');
+      expect(() => parent.covariantArg(triangle), throwsA(isA<TypeError>()));
     });
   });
 }

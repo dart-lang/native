@@ -5,10 +5,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/run_process.dart';
@@ -44,7 +44,12 @@ class PathToolResolver extends ToolResolver {
       logger?.fine('Did not find  $toolName on PATH.');
       return [];
     }
-    final toolInstances = [ToolInstance(tool: Tool(name: toolName), uri: uri)];
+    final toolInstances = [
+      ToolInstance(
+        tool: Tool(name: toolName),
+        uri: uri,
+      ),
+    ];
     logger?.fine('Found ${toolInstances.single}.');
     return toolInstances;
   }
@@ -195,7 +200,10 @@ class InstallLocationResolver implements ToolResolver {
     ];
     final toolInstances = [
       for (final uri in resolvedPaths)
-        ToolInstance(tool: Tool(name: toolName), uri: uri),
+        ToolInstance(
+          tool: Tool(name: toolName),
+          uri: uri,
+        ),
     ];
     if (toolInstances.isNotEmpty) {
       logger?.fine('Found $toolInstances.');
@@ -208,7 +216,7 @@ class InstallLocationResolver implements ToolResolver {
   Future<List<Uri>> tryResolvePath(String path) async {
     if (path.startsWith(home)) {
       final homeDir_ = homeDir;
-      assert(homeDir_ != null);
+      if (homeDir_ == null) return [];
       path = path.replaceAll(
         '$home/',
         homeDir!.toFilePath().replaceAll('\\', '/'),
@@ -273,7 +281,10 @@ class RelativeToolResolver implements ToolResolver {
 
     final result = [
       for (final fileSystemEntity in fileSystemEntities)
-        ToolInstance(tool: Tool(name: toolName), uri: fileSystemEntity.uri),
+        ToolInstance(
+          tool: Tool(name: toolName),
+          uri: fileSystemEntity.uri,
+        ),
     ];
 
     if (result.isNotEmpty) {

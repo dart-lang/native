@@ -4,9 +4,10 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import 'ctool.dart';
 import 'language.dart';
@@ -28,6 +29,7 @@ class CLinker extends CTool implements Linker {
     required this.linkerOptions,
     super.sources = const [],
     super.includes = const [],
+    super.forcedIncludes = const [],
     super.frameworks = CTool.defaultFrameworks,
     super.libraries = const [],
     super.libraryDirectories = CTool.defaultLibraryDirectories,
@@ -109,20 +111,17 @@ class CLinker extends CTool implements Linker {
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
-          os: input.config.code.targetOS,
-          architecture: input.config.code.targetArchitecture,
         ),
       );
     }
-    final includeFiles =
-        await Stream.fromIterable(includes)
-            .asyncExpand(
-              (include) => Directory(include.toFilePath())
-                  .list(recursive: true)
-                  .where((entry) => entry is File)
-                  .map((file) => file.uri),
-            )
-            .toList();
+    final includeFiles = await Stream.fromIterable(includes)
+        .asyncExpand(
+          (include) => Directory(include.toFilePath())
+              .list(recursive: true)
+              .where((entry) => entry is File)
+              .map((file) => file.uri),
+        )
+        .toList();
 
     output.addDependencies({
       // Note: We use a Set here to deduplicate the dependencies.

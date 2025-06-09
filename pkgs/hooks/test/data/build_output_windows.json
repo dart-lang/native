@@ -1,0 +1,22 @@
+{
+  "$schema": "../../doc/schema/hook/build_output.generated.schema.json",
+  "assets": [
+    {
+      "encoding": {
+        "some_key": "some_value"
+      },
+      "type": "some_asset_type"
+    },
+    {
+      "encoding": {
+        "some_other_key": "some_value"
+      },
+      "type": "some_other_asset_type"
+    }
+  ],
+  "dependencies": [
+    "C:\\src\\dacoharkes\\playground\\my_package\\src\\my_package.c"
+  ],
+  "status": "success",
+  "timestamp": "2025-02-17 09:57:36.000"
+}

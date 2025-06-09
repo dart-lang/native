@@ -26,7 +26,7 @@ ${strings.compilerOpts}: '-I${path.join(sdkPath, "include")}'
 
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/dart_handle.h'
+    - '${absPath('test/header_parser_tests/dart_handle.h')}'
   ${strings.includeDirectives}:
     - '**dart_handle.h'
         '''),

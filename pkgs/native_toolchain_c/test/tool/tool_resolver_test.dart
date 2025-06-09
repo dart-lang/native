@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
@@ -74,11 +75,17 @@ void main() {
     );
     final resolvedBarInstances = await barResolver.resolve(logger: logger);
     expect(resolvedBarInstances, [
-      ToolInstance(tool: Tool(name: 'bar'), uri: barExeUri),
+      ToolInstance(
+        tool: Tool(name: 'bar'),
+        uri: barExeUri,
+      ),
     ]);
     final resolvedBazInstances = await bazResolver.resolve(logger: logger);
     expect(resolvedBazInstances, [
-      ToolInstance(tool: Tool(name: 'baz'), uri: bazExeUri),
+      ToolInstance(
+        tool: Tool(name: 'baz'),
+        uri: bazExeUri,
+      ),
     ]);
   });
 
