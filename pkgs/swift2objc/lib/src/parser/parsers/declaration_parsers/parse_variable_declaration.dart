@@ -92,7 +92,7 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
     throws: _findKeywordInFragments(json, 'throws'),
     unowned: _findKeywordInFragments(json, 'unowned'),
     weak: _findKeywordInFragments(json, 'weak'),
-    lazy: _findKeywordInFragments(json, 'lazy')
+    lazy: _findKeywordInFragments(json, 'lazy'),
     getter: getter,
     setter: setter,
     mutating: _findKeywordInFragments(json, 'mutating')

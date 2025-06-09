@@ -62,7 +62,7 @@ class PropertyDeclaration extends AstNode
       this.async = false,
       this.unowned = false,
       this.weak = false,
-      this.lazy = false})
+      this.lazy = false,
       this.mutating = false})
       : assert(!(isConstant && hasSetter)),
         assert(!(hasSetter && throws));
