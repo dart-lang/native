@@ -22,10 +22,13 @@ PropertyDeclaration parsePropertyDeclaration(
     type: _parseVariableType(propertySymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(propertySymbolJson),
     isConstant: info.constant,
-    hasSetter: info.constant ? false : info.setter,
     isStatic: isStatic,
     throws: info.throws,
     async: info.async,
+    unowned: info.unowned,
+    weak: info.weak,
+    lazy: info.lazy,
+    hasSetter: info.constant ? false : info.setter,
   );
 }
 
@@ -72,6 +75,9 @@ bool _findKeywordInFragments(Json json, String keyword) {
 typedef ParsedPropertyInfo = ({
   bool async,
   bool throws,
+  bool unowned,
+  bool weak,
+  bool lazy,
   bool constant,
   bool getter,
   bool setter,
@@ -84,6 +90,9 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
     constant: _parseVariableIsConstant(json),
     async: _findKeywordInFragments(json, 'async'),
     throws: _findKeywordInFragments(json, 'throws'),
+    unowned: _findKeywordInFragments(json, 'unowned'),
+    weak: _findKeywordInFragments(json, 'weak'),
+    lazy: _findKeywordInFragments(json, 'lazy'),
     getter: getter,
     setter: setter,
     mutating: _findKeywordInFragments(json, 'mutating')

@@ -40,6 +40,12 @@ class PropertyDeclaration extends AstNode
   PropertyStatements? getter;
   PropertyStatements? setter;
 
+  bool unowned;
+
+  bool weak;
+
+  bool lazy;
+
   bool isStatic;
 
   PropertyDeclaration(
@@ -54,6 +60,9 @@ class PropertyDeclaration extends AstNode
       this.isStatic = false,
       this.throws = false,
       this.async = false,
+      this.unowned = false,
+      this.weak = false,
+      this.lazy = false,
       this.mutating = false})
       : assert(!(isConstant && hasSetter)),
         assert(!(hasSetter && throws));

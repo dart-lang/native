@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-// import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
-// import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_variable_declaration.dart';
 import 'package:test/test.dart';
 
@@ -303,7 +301,6 @@ void main() {
             ]'''));
 
       final info = parsePropertyInfo(json);
-
       expect(info.getter, isTrue);
       expect(info.async, isTrue);
       expect(info.throws, isTrue);
