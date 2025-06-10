@@ -14,9 +14,9 @@ import Foundation
 @objc public class MyClassWrapper: NSObject {
   var wrappedInstance: MyClass
 
-  @objc public lazy var lazyProperty: Int = {
+  @objc public var lazyProperty: Int {
       wrappedInstance.lazyProperty
-  }();
+  }
 
   @objc public weak var weakProperty: MyOtherClassWrapper? {
     get {
