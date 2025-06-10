@@ -17,7 +17,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '0.14.2';
+const String version = '0.15.0';
 
 // Import prefixes.
 const _jni = r'jni$_';
