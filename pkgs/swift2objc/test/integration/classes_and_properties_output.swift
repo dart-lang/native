@@ -15,7 +15,12 @@ import Foundation
   var wrappedInstance: MyClass
 
   @objc public var lazyProperty: Int {
+    get {
       wrappedInstance.lazyProperty
+    }
+    set {
+      wrappedInstance.lazyProperty = newValue
+    }
   }
 
   @objc public weak var weakProperty: MyOtherClassWrapper? {

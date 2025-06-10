@@ -154,18 +154,6 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
 
   header.write('public ${prefix}var ${property.name}: $propSwiftType {');
 
-  if (property.lazy) {
-    final lines = [
-      ...(property.getter?.statements.indent() ?? <String>[]),
-    ];
-
-    return [
-      header.toString(),
-      ...lines.indent(),
-      '}\n',
-    ];
-  }
-
   final getterLines = [
     'get ${generateAnnotations(property)}{',
     ...(property.getter?.statements.indent() ?? <String>[]),
