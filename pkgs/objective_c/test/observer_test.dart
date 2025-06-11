@@ -124,6 +124,9 @@ void main() {
         NSProgress.castFromPointer(observedRaw).totalUnitCount = 456;
         expect(values, [123, 456]);
 
+        // Force observation to stay in scope.
+        expect(observation, isNotNull);
+
         return (observedRaw, observerRaw);
       }();
 
