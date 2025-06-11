@@ -93,42 +93,43 @@ void main() {
     test('observer and observed kept alive by observation', () async {
       final values = <dynamic>[];
 
-      final (observedRaw, observerRaw) = () {
-        final (observedRaw, observerRaw, observation) = () {
-          final pool = autoreleasePoolPush();
-          final observed = NSProgress();
-          final observer = Observer.implement(
-              observeValueForKeyPath_ofObject_change_context_:
-                  (NSString keyPath, ObjCObjectBase object, NSDictionary change,
-                      Pointer<Void> context) {
-            values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+      final pool = autoreleasePoolPush();
+      NSProgress? observed = NSProgress();
+      Observer? observer = Observer.implement(
+          observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
+              ObjCObjectBase object,
+              NSDictionary change,
+              Pointer<Void> context) {
+        values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
 
-            // This is testing that a captured reference from the observer to
-            // the observed object does not cause leak.
-            expect(object, observed);
-          });
-          autoreleasePoolPop(pool);
+        // This is testing that a captured reference from the observer to
+        // the observed object does not cause leak.
+        expect(object, observed);
+      });
+      autoreleasePoolPop(pool);
 
-          final observation = observed.addObserver(observer,
-              forKeyPath: 'totalUnitCount'.toNSString());
+      Observation? observation = observed.addObserver(observer,
+          forKeyPath: 'totalUnitCount'.toNSString());
 
-          observed.totalUnitCount = 123;
-          expect(values, [123]);
+      observed.totalUnitCount = 123;
+      expect(values, [123]);
 
-          return (observed.ref.pointer, observer.ref.pointer, observation);
-        }();
+      final observedRaw = observed.ref.pointer;
+      final observerRaw = observer.ref.pointer;
 
-        expect(objectRetainCount(observedRaw), greaterThan(0));
-        expect(objectRetainCount(observerRaw), greaterThan(0));
+      observed = null;
+      observer = null;
 
-        NSProgress.castFromPointer(observedRaw).totalUnitCount = 456;
-        expect(values, [123, 456]);
+      expect(objectRetainCount(observedRaw), greaterThan(0));
+      expect(objectRetainCount(observerRaw), greaterThan(0));
 
-        // Force observation to stay in scope.
-        expect(observation, isNotNull);
+      NSProgress.castFromPointer(observedRaw).totalUnitCount = 456;
+      expect(values, [123, 456]);
 
-        return (observedRaw, observerRaw);
-      }();
+      // Force observation to stay in scope.
+      expect(observation, isNotNull);
+      observation = null;
+      expect(observation, isNull);
 
       doGC();
       await Future<void>.delayed(Duration.zero);
@@ -139,27 +140,26 @@ void main() {
     });
 
     test('remove method drops references', () async {
-      final (observedRaw, observerRaw, observation) = () {
-        final (observedRaw, observerRaw, observation) = () {
-          final pool = autoreleasePoolPush();
-          final observed = NSProgress();
-          final observer = Observer.implement(
-              observeValueForKeyPath_ofObject_change_context_:
-                  (NSString keyPath, ObjCObjectBase object, NSDictionary change,
-                      Pointer<Void> context) {});
-          autoreleasePoolPop(pool);
+      final pool = autoreleasePoolPush();
+      NSProgress? observed = NSProgress();
+      Observer? observer = Observer.implement(
+          observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
+              ObjCObjectBase object,
+              NSDictionary change,
+              Pointer<Void> context) {});
+      autoreleasePoolPop(pool);
 
-          final observation = observed.addObserver(observer,
-              forKeyPath: 'totalUnitCount'.toNSString());
+      final observation = observed.addObserver(observer,
+          forKeyPath: 'totalUnitCount'.toNSString());
 
-          return (observed.ref.pointer, observer.ref.pointer, observation);
-        }();
+      final observedRaw = observed.ref.pointer;
+      final observerRaw = observer.ref.pointer;
 
-        expect(objectRetainCount(observedRaw), greaterThan(0));
-        expect(objectRetainCount(observerRaw), greaterThan(0));
+      observed = null;
+      observer = null;
 
-        return (observedRaw, observerRaw, observation);
-      }();
+      expect(objectRetainCount(observedRaw), greaterThan(0));
+      expect(objectRetainCount(observerRaw), greaterThan(0));
 
       doGC();
       await Future<void>.delayed(Duration.zero);
