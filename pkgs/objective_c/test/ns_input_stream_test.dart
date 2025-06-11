@@ -271,6 +271,7 @@ void main() {
 
     group('ref counting', () {
       test('with self delegate', () async {
+        final pool = autoreleasePoolPush();
         DartInputStreamAdapter? inputStream = Stream.fromIterable([
           [1, 2, 3],
         ]).toNSInputStream() as DartInputStreamAdapter;
@@ -278,6 +279,7 @@ void main() {
         expect(inputStream.delegate, inputStream);
 
         final ptr = inputStream.ref.pointer;
+        autoreleasePoolPop(pool);
         expect(objectRetainCount(ptr), greaterThan(0));
 
         inputStream.open();
@@ -288,11 +290,11 @@ void main() {
         await Future<void>.delayed(Duration.zero);
         doGC();
 
-        // TODO(https://github.com/dart-lang/native/issues/1665): Re-enable.
-        // expect(objectRetainCount(ptr), 0);
+        expect(objectRetainCount(ptr), 0);
       });
 
       test('with non-self delegate', () async {
+        final pool = autoreleasePoolPush();
         DartInputStreamAdapter? inputStream = Stream.fromIterable([
           [1, 2, 3],
         ]).toNSInputStream() as DartInputStreamAdapter;
@@ -301,6 +303,7 @@ void main() {
         expect(inputStream.delegate, isNot(inputStream));
 
         final ptr = inputStream.ref.pointer;
+        autoreleasePoolPop(pool);
         expect(objectRetainCount(ptr), greaterThan(0));
 
         inputStream.open();
@@ -311,8 +314,7 @@ void main() {
         await Future<void>.delayed(Duration.zero);
         doGC();
 
-        // TODO(https://github.com/dart-lang/native/issues/1665): Re-enable.
-        // expect(objectRetainCount(ptr), 0);
+        expect(objectRetainCount(ptr), 0);
       });
     });
   });
