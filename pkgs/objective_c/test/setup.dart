@@ -98,6 +98,7 @@ void main(List<String> arguments) {
   lib.lookup('DOBJC_runOnMainThread'); // objective_c.m
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
   lib.lookup('OBJC_CLASS_\$_DOBJCDartProtocol'); // protocol.m
+  lib.lookup('OBJC_CLASS_\$_DOBJCObservation'); // observer.m
   // objective_c_bindings_generated.m
   lib.lookup('_ObjectiveCBindings_wrapListenerBlock_ovsamd');
 

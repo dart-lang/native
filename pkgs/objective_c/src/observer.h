@@ -20,7 +20,7 @@
 @end
 
 /**
- * Represents a single KVO observation. Each observation uses a new
+ * Represents a single KVO observation. Each observation creates a new
  * DOBJCObservation, even for the same observer, observed object, and keyPath.
  */
 @interface DOBJCObservation : NSObject
