@@ -68,6 +68,11 @@ void main() {
           'generated categories', objCBuiltInCategories, allCategoryNames);
     });
 
+    test('All code genned globals are included in the list', () {
+      final allGlobals = findBindings(RegExp(r'^\w+ get (\w+) =>'));
+      expectSetsEqual('generated globals', objCBuiltInGlobals, allGlobals);
+    });
+
     test('No stubs', () {
       final stubRegExp = RegExp(r'\Wstub\W');
       expect(bindings.where(stubRegExp.hasMatch).toList(), <String>[]);
