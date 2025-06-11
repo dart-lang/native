@@ -106,10 +106,10 @@ void main() {
         // the observed object does not cause leak.
         expect(object, observed);
       });
-      autoreleasePoolPop(pool);
 
       Observation? observation = observed.addObserver(observer,
           forKeyPath: 'totalUnitCount'.toNSString());
+      autoreleasePoolPop(pool);
 
       observed.totalUnitCount = 123;
       expect(values, [123]);
@@ -152,10 +152,10 @@ void main() {
               ObjCObjectBase object,
               NSDictionary change,
               Pointer<Void> context) {});
-      autoreleasePoolPop(pool);
 
       final observation = observed.addObserver(observer,
           forKeyPath: 'totalUnitCount'.toNSString());
+      autoreleasePoolPop(pool);
 
       final observedRaw = observed.ref.pointer;
       final observerRaw = observer.ref.pointer;
