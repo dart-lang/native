@@ -39,4 +39,6 @@ class Observation {
 
   /// Stops the [Observer] object from receiving change notifications.
   void remove() => _observation.remove();
+
+  Pointer<Void> get debugObserver => _observation.debugObserver();
 }

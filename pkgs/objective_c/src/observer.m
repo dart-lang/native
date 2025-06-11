@@ -45,4 +45,6 @@
 - (void)dealloc {
   [self remove];
 }
+
+- (void*)debugObserver { return (__bridge void*)_observer; }
 @end

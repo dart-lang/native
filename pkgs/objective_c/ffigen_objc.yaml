@@ -104,7 +104,6 @@ objc-categories:
     - NSExtendedMutableSet
     - NSExtendedOrderedSet
     - NSExtendedSet
-    - NSKeyValueObserverRegistration
     - NSNumberCreation
     - NSNumberIsFloat
     - NSStringExtensionMethods

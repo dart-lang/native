@@ -66,7 +66,6 @@ export 'objective_c_bindings_generated.dart'
         NSKeyValueChangeNewKey,
         NSKeyValueChangeNotificationIsPriorKey,
         NSKeyValueChangeOldKey,
-        NSKeyValueObserverRegistration,
         NSKeyValueObservingOptions,
         NSKeyValueSetMutationKind,
         NSLinguisticTaggerOptions,

@@ -127,7 +127,6 @@ const objCBuiltInCategories = {
   'NSExtendedMutableSet',
   'NSExtendedOrderedSet',
   'NSExtendedSet',
-  'NSKeyValueObserverRegistration',
   'NSNumberCreation',
   'NSNumberIsFloat',
   'NSStringExtensionMethods',

@@ -31,6 +31,7 @@
     context:(void *)context;
 - (void)remove;
 - (void)dealloc;
+- (void*)debugObserver;
 @end
 
 #endif  // OBJECTIVE_C_SRC_OBSERVER_H_

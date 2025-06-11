@@ -116,9 +116,14 @@ void main() {
 
       final observedRaw = observed.ref.pointer;
       final observerRaw = observer.ref.pointer;
+      print('ZXCV Dart observed address: $observedRaw');
+      print('ZXCV Dart observer address: $observerRaw');
+      print('ZXCV ObjC observer address: ${observation.debugObserver}');
 
       observed = null;
       observer = null;
+
+      print('ZXCV ObjC observer address: ${observation.debugObserver}');
 
       expect(objectRetainCount(observedRaw), greaterThan(0));
       expect(objectRetainCount(observerRaw), greaterThan(0));

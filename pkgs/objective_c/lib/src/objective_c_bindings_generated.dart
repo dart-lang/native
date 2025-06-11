@@ -714,7 +714,7 @@ final class CGSize extends ffi.Struct {
   external double height;
 }
 
-/// Represents a single KVO observation. Each observation uses a new
+/// Represents a single KVO observation. Each observation creates a new
 /// DOBJCObservation, even for the same observer, observed object, and keyPath.
 class DOBJCObservation extends NSObject {
   DOBJCObservation._(ffi.Pointer<objc.ObjCObject> pointer,
@@ -764,6 +764,11 @@ class DOBJCObservation extends NSObject {
   /// dealloc
   void dealloc() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_dealloc);
+  }
+
+  /// debugObserver
+  ffi.Pointer<ffi.Void> debugObserver() {
+    return _objc_msgSend_6ex6p5(this.ref.pointer, _sel_debugObserver);
   }
 
   /// init
@@ -6421,210 +6426,6 @@ enum NSKeyValueChange {
         4 => NSKeyValueChangeReplacement,
         _ => throw ArgumentError('Unknown value for NSKeyValueChange: $value'),
       };
-}
-
-/// NSKeyValueObserverRegistration
-extension NSKeyValueObserverRegistration on NSOrderedSet {
-  /// addObserver:forKeyPath:options:context:
-  void addObserver(NSObject observer,
-      {required NSString forKeyPath,
-      required NSKeyValueObservingOptions options,
-      required ffi.Pointer<ffi.Void> context}) {
-    objc.checkOsVersionInternal(
-        'NSOrderedSet.addObserver:forKeyPath:options:context:',
-        iOS: (false, (5, 0, 0)),
-        macOS: (false, (10, 7, 0)));
-    _objc_msgSend_akk2cd(
-        this.ref.pointer,
-        _sel_addObserver_forKeyPath_options_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        options.value,
-        context);
-  }
-
-  /// removeObserver:forKeyPath:
-  void removeObserver(NSObject observer, {required NSString forKeyPath}) {
-    objc.checkOsVersionInternal('NSOrderedSet.removeObserver:forKeyPath:',
-        iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
-    _objc_msgSend_pfv6jd(this.ref.pointer, _sel_removeObserver_forKeyPath_,
-        observer.ref.pointer, forKeyPath.ref.pointer);
-  }
-
-  /// removeObserver:forKeyPath:context:
-  void removeObserver$1(NSObject observer,
-      {required NSString forKeyPath, required ffi.Pointer<ffi.Void> context}) {
-    objc.checkOsVersionInternal(
-        'NSOrderedSet.removeObserver:forKeyPath:context:',
-        iOS: (false, (5, 0, 0)),
-        macOS: (false, (10, 7, 0)));
-    _objc_msgSend_1jed5jl(
-        this.ref.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        context);
-  }
-}
-
-/// NSKeyValueObserverRegistration
-extension NSKeyValueObserverRegistration$1 on NSObject {
-  /// addObserver:forKeyPath:options:context:
-  void addObserver(NSObject observer,
-      {required NSString forKeyPath,
-      required NSKeyValueObservingOptions options,
-      required ffi.Pointer<ffi.Void> context}) {
-    objc.checkOsVersionInternal(
-        'NSObject.addObserver:forKeyPath:options:context:',
-        iOS: (false, (2, 0, 0)),
-        macOS: (false, (10, 0, 0)));
-    _objc_msgSend_akk2cd(
-        this.ref.pointer,
-        _sel_addObserver_forKeyPath_options_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        options.value,
-        context);
-  }
-
-  /// removeObserver:forKeyPath:
-  void removeObserver(NSObject observer, {required NSString forKeyPath}) {
-    objc.checkOsVersionInternal('NSObject.removeObserver:forKeyPath:',
-        iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
-    _objc_msgSend_pfv6jd(this.ref.pointer, _sel_removeObserver_forKeyPath_,
-        observer.ref.pointer, forKeyPath.ref.pointer);
-  }
-
-  /// removeObserver:forKeyPath:context:
-  void removeObserver$1(NSObject observer,
-      {required NSString forKeyPath, required ffi.Pointer<ffi.Void> context}) {
-    objc.checkOsVersionInternal('NSObject.removeObserver:forKeyPath:context:',
-        iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
-    _objc_msgSend_1jed5jl(
-        this.ref.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        context);
-  }
-}
-
-/// NSKeyValueObserverRegistration
-extension NSKeyValueObserverRegistration$2 on NSArray {
-  /// addObserver:forKeyPath:options:context:
-  void addObserver(NSObject observer,
-      {required NSString forKeyPath,
-      required NSKeyValueObservingOptions options,
-      required ffi.Pointer<ffi.Void> context}) {
-    _objc_msgSend_akk2cd(
-        this.ref.pointer,
-        _sel_addObserver_forKeyPath_options_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        options.value,
-        context);
-  }
-
-  /// addObserver:toObjectsAtIndexes:forKeyPath:options:context:
-  void addObserver$1(NSObject observer,
-      {required NSIndexSet toObjectsAtIndexes,
-      required NSString forKeyPath,
-      required NSKeyValueObservingOptions options,
-      required ffi.Pointer<ffi.Void> context}) {
-    _objc_msgSend_1vfgg7v(
-        this.ref.pointer,
-        _sel_addObserver_toObjectsAtIndexes_forKeyPath_options_context_,
-        observer.ref.pointer,
-        toObjectsAtIndexes.ref.pointer,
-        forKeyPath.ref.pointer,
-        options.value,
-        context);
-  }
-
-  /// removeObserver:forKeyPath:
-  void removeObserver(NSObject observer, {required NSString forKeyPath}) {
-    _objc_msgSend_pfv6jd(this.ref.pointer, _sel_removeObserver_forKeyPath_,
-        observer.ref.pointer, forKeyPath.ref.pointer);
-  }
-
-  /// removeObserver:forKeyPath:context:
-  void removeObserver$1(NSObject observer,
-      {required NSString forKeyPath, required ffi.Pointer<ffi.Void> context}) {
-    objc.checkOsVersionInternal('NSArray.removeObserver:forKeyPath:context:',
-        iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
-    _objc_msgSend_1jed5jl(
-        this.ref.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        context);
-  }
-
-  /// removeObserver:fromObjectsAtIndexes:forKeyPath:
-  void removeObserver$2(NSObject observer,
-      {required NSIndexSet fromObjectsAtIndexes,
-      required NSString forKeyPath}) {
-    _objc_msgSend_r8gdi7(
-        this.ref.pointer,
-        _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_,
-        observer.ref.pointer,
-        fromObjectsAtIndexes.ref.pointer,
-        forKeyPath.ref.pointer);
-  }
-
-  /// removeObserver:fromObjectsAtIndexes:forKeyPath:context:
-  void removeObserver$3(NSObject observer,
-      {required NSIndexSet fromObjectsAtIndexes,
-      required NSString forKeyPath,
-      required ffi.Pointer<ffi.Void> context}) {
-    objc.checkOsVersionInternal(
-        'NSArray.removeObserver:fromObjectsAtIndexes:forKeyPath:context:',
-        iOS: (false, (5, 0, 0)),
-        macOS: (false, (10, 7, 0)));
-    _objc_msgSend_1pl4k3n(
-        this.ref.pointer,
-        _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_context_,
-        observer.ref.pointer,
-        fromObjectsAtIndexes.ref.pointer,
-        forKeyPath.ref.pointer,
-        context);
-  }
-}
-
-/// NSKeyValueObserverRegistration
-extension NSKeyValueObserverRegistration$3 on NSSet {
-  /// addObserver:forKeyPath:options:context:
-  void addObserver(NSObject observer,
-      {required NSString forKeyPath,
-      required NSKeyValueObservingOptions options,
-      required ffi.Pointer<ffi.Void> context}) {
-    _objc_msgSend_akk2cd(
-        this.ref.pointer,
-        _sel_addObserver_forKeyPath_options_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        options.value,
-        context);
-  }
-
-  /// removeObserver:forKeyPath:
-  void removeObserver(NSObject observer, {required NSString forKeyPath}) {
-    _objc_msgSend_pfv6jd(this.ref.pointer, _sel_removeObserver_forKeyPath_,
-        observer.ref.pointer, forKeyPath.ref.pointer);
-  }
-
-  /// removeObserver:forKeyPath:context:
-  void removeObserver$1(NSObject observer,
-      {required NSString forKeyPath, required ffi.Pointer<ffi.Void> context}) {
-    objc.checkOsVersionInternal('NSSet.removeObserver:forKeyPath:context:',
-        iOS: (false, (5, 0, 0)), macOS: (false, (10, 7, 0)));
-    _objc_msgSend_1jed5jl(
-        this.ref.pointer,
-        _sel_removeObserver_forKeyPath_context_,
-        observer.ref.pointer,
-        forKeyPath.ref.pointer,
-        context);
-  }
 }
 
 enum NSKeyValueObservingOptions {
@@ -26483,22 +26284,6 @@ final _objc_msgSend_1j9bhml = objc.msgSendPointer
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
             ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
-final _objc_msgSend_1jed5jl = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1jiinfj = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -26824,24 +26609,6 @@ final _objc_msgSend_1pl40xc = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             int,
             ffi.Pointer<objc.ObjCBlockImpl>)>();
-final _objc_msgSend_1pl4k3n = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1pl9qdv = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -27050,26 +26817,6 @@ final _objc_msgSend_1vd1c5m = objc.msgSendPointer
     .asFunction<
         int Function(ffi.Pointer<objc.ObjCObject>,
             ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
-final _objc_msgSend_1vfgg7v = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.UnsignedLong,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            int,
-            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_1vnlaqg = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -27528,24 +27275,6 @@ final _objc_msgSend_a3wp08 = objc.msgSendPointer
             ffi.Pointer<objc.ObjCObject>,
             int,
             ffi.Pointer<objc.ObjCBlockImpl>)>();
-final _objc_msgSend_akk2cd = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.UnsignedLong,
-                ffi.Pointer<ffi.Void>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            int,
-            ffi.Pointer<ffi.Void>)>();
 final _objc_msgSend_arew0j = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -28286,22 +28015,6 @@ final _objc_msgSend_r49ehc = objc.msgSendPointer
             double,
             ffi.Pointer<objc.ObjCObject>,
             bool)>();
-final _objc_msgSend_r8gdi7 = objc.msgSendPointer
-    .cast<
-        ffi.NativeFunction<
-            ffi.Void Function(
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCSelector>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>,
-                ffi.Pointer<objc.ObjCObject>)>>()
-    .asFunction<
-        void Function(
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCSelector>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>)>();
 final _objc_msgSend_rc4ypv = objc.msgSendPointer
     .cast<
         ffi.NativeFunction<
@@ -28615,11 +28328,6 @@ late final _sel_addObject_ = objc.registerName("addObject:");
 late final _sel_addObjectsFromArray_ =
     objc.registerName("addObjectsFromArray:");
 late final _sel_addObjects_count_ = objc.registerName("addObjects:count:");
-late final _sel_addObserver_forKeyPath_options_context_ =
-    objc.registerName("addObserver:forKeyPath:options:context:");
-late final _sel_addObserver_toObjectsAtIndexes_forKeyPath_options_context_ =
-    objc.registerName(
-        "addObserver:toObjectsAtIndexes:forKeyPath:options:context:");
 late final _sel_addPort_forMode_ = objc.registerName("addPort:forMode:");
 late final _sel_addProtocol_ = objc.registerName("addProtocol:");
 late final _sel_addSubscriberForFileURL_withPublishingHandler_ =
@@ -28770,6 +28478,7 @@ late final _sel_dateWithTimeInterval_sinceDate_ =
     objc.registerName("dateWithTimeInterval:sinceDate:");
 late final _sel_dealloc = objc.registerName("dealloc");
 late final _sel_debugDescription = objc.registerName("debugDescription");
+late final _sel_debugObserver = objc.registerName("debugObserver");
 late final _sel_decimalDigitCharacterSet =
     objc.registerName("decimalDigitCharacterSet");
 late final _sel_decodeDataObject = objc.registerName("decodeDataObject");
@@ -29525,14 +29234,6 @@ late final _sel_removeObjectsInArray_ =
     objc.registerName("removeObjectsInArray:");
 late final _sel_removeObjectsInRange_ =
     objc.registerName("removeObjectsInRange:");
-late final _sel_removeObserver_forKeyPath_ =
-    objc.registerName("removeObserver:forKeyPath:");
-late final _sel_removeObserver_forKeyPath_context_ =
-    objc.registerName("removeObserver:forKeyPath:context:");
-late final _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_ =
-    objc.registerName("removeObserver:fromObjectsAtIndexes:forKeyPath:");
-late final _sel_removeObserver_fromObjectsAtIndexes_forKeyPath_context_ = objc
-    .registerName("removeObserver:fromObjectsAtIndexes:forKeyPath:context:");
 late final _sel_removePort_forMode_ = objc.registerName("removePort:forMode:");
 late final _sel_removeSubscriber_ = objc.registerName("removeSubscriber:");
 late final _sel_replaceBytesInRange_withBytes_ =
