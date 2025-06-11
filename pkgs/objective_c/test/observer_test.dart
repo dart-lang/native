@@ -27,7 +27,7 @@ void main() {
       observed.totalUnitCount = 123;
       expect(observed.totalUnitCount, 123);
 
-      final values = [];
+      final values = <dynamic>[];
       final observer = Observer.implement(
           observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
               ObjCObjectBase object,
@@ -54,12 +54,17 @@ void main() {
 
       observed.totalUnitCount = 246;
       expect(values, [456, 789]);
+
+      observation.remove();
+
+      observed.totalUnitCount = 999;
+      expect(values, [456, 789]);
     });
 
     test('cancel observation due to GC', () {
       final observed = NSProgress();
 
-      final values = [];
+      final values = <dynamic>[];
       final observer = Observer.implement(
           observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
               ObjCObjectBase object,
@@ -74,6 +79,9 @@ void main() {
 
         observed.totalUnitCount = 123;
         expect(values, [123]);
+
+        // Force observation to stay in scope.
+        expect(observation, isNotNull);
       }();
 
       doGC();
@@ -83,11 +91,11 @@ void main() {
     });
 
     test('observer and observed kept alive by observation', () async {
-      final values = [];
+      final values = <dynamic>[];
 
       final (observedRaw, observerRaw) = () {
         final (observedRaw, observerRaw, observation) = () {
-          final pool = objc_autoreleasePoolPush();
+          final pool = autoreleasePoolPush();
           final observed = NSProgress();
           final observer = Observer.implement(
               observeValueForKeyPath_ofObject_change_context_:
@@ -99,7 +107,7 @@ void main() {
             // the observed object does not cause leak.
             expect(object, observed);
           });
-          objc_autoreleasePoolPop(pool);
+          autoreleasePoolPop(pool);
 
           final observation = observed.addObserver(observer,
               forKeyPath: 'totalUnitCount'.toNSString());
@@ -125,6 +133,51 @@ void main() {
 
       expect(objectRetainCount(observedRaw), 0);
       expect(objectRetainCount(observerRaw), 0);
+    });
+
+    test('remove method drops references', () async {
+      final (observedRaw, observerRaw, observation) = () {
+        final (observedRaw, observerRaw, observation) = () {
+          final pool = autoreleasePoolPush();
+          final observed = NSProgress();
+          final observer = Observer.implement(
+              observeValueForKeyPath_ofObject_change_context_:
+                  (NSString keyPath, ObjCObjectBase object, NSDictionary change,
+                      Pointer<Void> context) {});
+          autoreleasePoolPop(pool);
+
+          final observation = observed.addObserver(observer,
+              forKeyPath: 'totalUnitCount'.toNSString());
+
+          return (observed.ref.pointer, observer.ref.pointer, observation);
+        }();
+
+        expect(objectRetainCount(observedRaw), greaterThan(0));
+        expect(objectRetainCount(observerRaw), greaterThan(0));
+
+        return (observedRaw, observerRaw, observation);
+      }();
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+
+      // Still holding a reference to observation.
+      expect(objectRetainCount(observedRaw), greaterThan(0));
+      expect(objectRetainCount(observerRaw), greaterThan(0));
+
+      observation.remove();
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+
+      // Still holding a reference to observation, but we've called remove.
+      expect(objectRetainCount(observedRaw), 0);
+      expect(objectRetainCount(observerRaw), 0);
+
+      // Force observation to stay in scope.
+      expect(observation, isNotNull);
     });
   });
 }

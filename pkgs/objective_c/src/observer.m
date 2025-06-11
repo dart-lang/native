@@ -11,11 +11,10 @@
 #endif
 
 @implementation DOBJCObservation {
-  id _object;              // final
-  id<Observer> _observer;  // final
-  NSString* _keyPath;      // final
-  void* _context;          // final
-  BOOL _isObserving;       // mutable, guarded by @synchronized(self)
+  id _object;
+  id<Observer> _observer;
+  NSString* _keyPath;
+  void* _context;
 }
 
 - (instancetype)initForKeyPath:(NSString*)keyPath
@@ -27,7 +26,6 @@
   _observer = observer;
   _keyPath = keyPath;
   _context = context;
-  _isObserving = true;
   [object addObserver: observer
       forKeyPath: keyPath
       options: options
@@ -37,10 +35,10 @@
 
 - (void)remove {
   @synchronized(self) {
-    if (_isObserving) {
-      _isObserving = false;
-      [_object removeObserver:_observer forKeyPath:_keyPath context:_context];
-    }
+    [_object removeObserver:_observer forKeyPath:_keyPath context:_context];
+    _object = nil;
+    _observer = nil;
+    _keyPath = nil;
   }
 }
 
