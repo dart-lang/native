@@ -96,8 +96,6 @@ class RunCBuilder {
 
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
-  Future<ToolInstance> linker() async => await _resolver.resolveLinker();
-
   Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(

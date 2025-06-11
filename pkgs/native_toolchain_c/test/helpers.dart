@@ -309,6 +309,8 @@ const flutterAndroidNdkVersionLowestSupported = 21;
 /// From https://docs.flutter.dev/reference/supported-platforms.
 const flutterAndroidNdkVersionHighestSupported = 34;
 
+/// File-format strings used by the `objdump` tool for binaries that run on a
+/// given architecture.
 const objdumpFileFormat = {
   Architecture.arm: 'elf32-littlearm',
   Architecture.arm64: 'elf64-littleaarch64',
@@ -317,6 +319,11 @@ const objdumpFileFormat = {
   Architecture.riscv64: 'elf64-littleriscv',
 };
 
+/// Checks that the provided [libUri] binary has the correct format to be
+/// executed on the provided [target] architecture.
+///
+/// On Linux, the format of the binary is determined by `readelf`. On MacOS,
+/// the `objsdump` tool is used.
 Future<void> expectMachineArchitecture(Uri libUri, Architecture target) async {
   if (Platform.isLinux) {
     final machine = await readelfMachine(libUri.path);
