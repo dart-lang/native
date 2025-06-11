@@ -129,3 +129,7 @@ const objCBuiltInCategories = {
   'NSNumberIsFloat',
   'NSStringExtensionMethods',
 };
+
+const objCBuiltInGlobals = {
+  'NSLocalizedDescriptionKey',
+};
