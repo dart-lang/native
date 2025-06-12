@@ -10,9 +10,9 @@ environment:
   sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
-  code_assets: ^0.19.3
-  data_assets: ^0.19.1
-  hooks: ^0.19.3
+  code_assets: any
+  data_assets: any
+  hooks: any
   logging: ^1.3.0
   meta: ^1.16.0
 
