@@ -192,7 +192,7 @@ final class LinkOutputCodeAssetBuilder {
   void addAll(Iterable<CodeAsset> assets) => assets.forEach(add);
 }
 
-/// Extension to initialize code specific configuration on link/build inputs..
+/// Extension to initialize code specific configuration on link/build inputs.
 extension CodeAssetBuildInputBuilder on HookConfigBuilder {
   /// Sets up the code asset specific configuration for a build or link hook
   /// input.
