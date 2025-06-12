@@ -22,6 +22,7 @@ export 'src/ns_mutable_data.dart';
 export 'src/ns_number.dart';
 export 'src/ns_string.dart';
 export 'src/objective_c_bindings_exported.dart';
+export 'src/observer.dart';
 export 'src/os_version.dart';
 export 'src/protocol_builder.dart';
 export 'src/runtime_bindings_generated.dart'

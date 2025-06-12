@@ -12,7 +12,6 @@ export 'objective_c_bindings_generated.dart'
         CGPoint,
         CGRect,
         CGSize,
-        DOBJCObservation,
         DartProtocol,
         DartProtocolBuilder,
         NSAppleEventSendOptions,
