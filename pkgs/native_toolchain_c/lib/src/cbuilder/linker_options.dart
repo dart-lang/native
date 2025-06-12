@@ -51,7 +51,7 @@ class LinkerOptions {
   }) : _linkerFlags = <String>[
          ...flags ?? [],
          '--strip-debug',
-         if (symbols != null) ...symbols.expand((e) => ['-u', e]),
+         if (symbols != null) ...symbols.map((e) => '-u,$e'),
        ].toList(),
        gcSections = true,
        _wholeArchiveSandwich = symbols == null,

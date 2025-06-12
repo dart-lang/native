@@ -96,8 +96,6 @@ class RunCBuilder {
 
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
-  Future<ToolInstance> linker() async => await _resolver.resolveLinker();
-
   Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(
@@ -119,9 +117,7 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
-    final toolInstance_ = linkerOptions != null
-        ? await linker()
-        : await compiler();
+    final toolInstance_ = await compiler();
     final tool = toolInstance_.tool;
     if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
@@ -333,10 +329,7 @@ class RunCBuilder {
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
             // it is linked against.
-            if (linkerOptions != null)
-              '-rpath=\$ORIGIN'
-            else
-              '-Wl,-rpath=\$ORIGIN',
+            '-Wl,-rpath=\$ORIGIN',
           for (final directory in libraryDirectories)
             '-L${directory.toFilePath()}',
           for (final library in libraries) '-l$library',

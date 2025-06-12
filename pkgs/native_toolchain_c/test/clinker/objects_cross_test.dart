@@ -1,4 +1,4 @@
-// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -20,5 +20,13 @@ void main() {
     return;
   }
 
-  runObjectsTests(OS.current, [Architecture.current]);
+  final architectures = [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  ]..remove(Architecture.current);
+
+  runObjectsTests(OS.current, architectures);
 }
