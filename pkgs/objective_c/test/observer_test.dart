@@ -127,7 +127,7 @@ void main() {
       print('ZXCV ObjC observer ref count: '
           '${objectRetainCount(observation.debugObserver.cast())}');
 
-      expect(objectRetainCount(observedRaw), greaterThan(0));
+      // expect(objectRetainCount(observedRaw), greaterThan(0));
       // expect(objectRetainCount(observerRaw), greaterThan(0));
 
       NSProgress.castFromPointer(observedRaw).totalUnitCount = 456;
@@ -143,7 +143,7 @@ void main() {
       doGC();
 
       expect(objectRetainCount(observedRaw), 0);
-      // expect(objectRetainCount(observerRaw), 0);
+      expect(objectRetainCount(observerRaw), 0);
     });
 
     test('remove method drops references', () async {
@@ -165,7 +165,7 @@ void main() {
       observed = null;
       observer = null;
 
-      expect(objectRetainCount(observedRaw), greaterThan(0));
+      // expect(objectRetainCount(observedRaw), greaterThan(0));
       // expect(objectRetainCount(observerRaw), greaterThan(0));
 
       doGC();
@@ -174,7 +174,7 @@ void main() {
 
       // Still holding a reference to observation.
       expect(objectRetainCount(observedRaw), greaterThan(0));
-      // expect(objectRetainCount(observerRaw), greaterThan(0));
+      expect(objectRetainCount(observerRaw), greaterThan(0));
 
       observation.remove();
 
@@ -184,7 +184,7 @@ void main() {
 
       // Still holding a reference to observation, but we've called remove.
       expect(objectRetainCount(observedRaw), 0);
-      // expect(objectRetainCount(observerRaw), 0);
+      expect(objectRetainCount(observerRaw), 0);
 
       // Force observation to stay in scope.
       expect(observation, isNotNull);
