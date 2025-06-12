@@ -160,7 +160,7 @@ void main() {
       autoreleasePoolPop(pool);
 
       final observedRaw = observed.ref.pointer;
-      // final observerRaw = observer.ref.pointer;
+      final observerRaw = observer.ref.pointer;
 
       observed = null;
       observer = null;
