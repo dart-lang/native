@@ -21,7 +21,7 @@ environment:
 
 dependencies:
   collection: ^1.19.1
-  hooks: ^0.19.4
+  hooks: ^0.19.5
 
 dev_dependencies:
   custom_lint: ^0.7.5

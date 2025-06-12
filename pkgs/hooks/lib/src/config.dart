@@ -228,7 +228,7 @@ final class BuildInputMetadata {
   BuildInputMetadata._(this._input);
 
   /// The metadata emitted by the build hook of package [packageName].
-  PackageMetadata operator [](String packageName) => PackageMetadata(
+  PackageMetadata operator [](String packageName) => PackageMetadata._(
     (_input.assets.encodedAssets[packageName] ?? [])
         .where((e) => e.isMetadataAsset)
         .map((e) => e.asMetadataAsset)
@@ -238,8 +238,7 @@ final class BuildInputMetadata {
 
 /// The metadata from a specific package, available in [BuildInput.metadata].
 final class PackageMetadata {
-  /// Creates a [PackageMetadata] from the given metadata.
-  PackageMetadata(this._metadata);
+  PackageMetadata._(this._metadata);
 
   final List<MetadataAsset> _metadata;
 
@@ -258,7 +257,7 @@ final class BuildInputAssets {
   Map<String, List<EncodedAsset>> get encodedAssets => {
     for (final MapEntry(:key, :value)
         in (_input._syntaxBuildInput.assets ?? {}).entries)
-      key: _parseAssets(value),
+      key: EncodedAssetSyntax._fromSyntax(value),
   };
 
   /// The encoded assets from the direct dependency [packageName].
@@ -334,7 +333,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 final class LinkInput extends HookInput {
   List<EncodedAsset> get _encodedAssets {
     final assets = _syntaxLinkInput.assets;
-    return _parseAssets(assets);
+    return EncodedAssetSyntax._fromSyntax(assets);
   }
 
   /// The file containing recorded usages, if any.
@@ -407,12 +406,18 @@ final class LinkConfigBuilder extends HookConfigBuilder {
   LinkConfigBuilder._(super.builder) : super._();
 }
 
-List<EncodedAsset> _parseAssets(List<AssetSyntax>? assets) => assets == null
-    ? []
-    : [
-        for (final asset in assets)
-          EncodedAsset.fromJson(asset.json, asset.path),
-      ];
+/// Extension methods for [EncodedAsset] to convert to and from the syntax
+/// model.
+extension EncodedAssetSyntax on List<EncodedAsset> {
+  static List<EncodedAsset> _fromSyntax(List<AssetSyntax>? assets) {
+    if (assets == null) {
+      return [];
+    }
+    return [
+      for (final asset in assets) EncodedAsset.fromJson(asset.json, asset.path),
+    ];
+  }
+}
 
 /// The output from a `hook/build.dart` or `hook/link.dart`.
 ///
@@ -442,7 +447,8 @@ sealed class HookOutput {
   List<Uri> get dependencies => _syntax.dependencies ?? [];
 
   /// The assets produced by this build.
-  List<EncodedAsset> get _encodedAssets => _parseAssets(_syntax.assets);
+  List<EncodedAsset> get _encodedAssets =>
+      EncodedAssetSyntax._fromSyntax(_syntax.assets);
 
   HookOutputSyntax get _syntax;
 
@@ -513,11 +519,11 @@ final class BuildOutput extends HookOutput implements BuildOutputMaybeFailure {
   Map<String, List<EncodedAsset>> get _encodedAssetsForLinking => {
     for (final MapEntry(:key, :value)
         in (_syntax.assetsForLinking ?? {}).entries)
-      key: _parseAssets(value),
+      key: EncodedAssetSyntax._fromSyntax(value),
   };
 
   List<EncodedAsset> get _encodedAssetsForBuild =>
-      _parseAssets(_syntax.assetsForBuild ?? []);
+      EncodedAssetSyntax._fromSyntax(_syntax.assetsForBuild ?? []);
 
   @override
   final BuildOutputSyntax _syntax;
