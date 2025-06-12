@@ -124,6 +124,7 @@ void main() {
       observer = null;
 
       print('ZXCV ObjC observer address: ${observation.debugObserver}');
+      print('ZXCV ObjC observer ref count: ${objectRetainCount(observation.debugObserver)}');
 
       expect(objectRetainCount(observedRaw), greaterThan(0));
       expect(objectRetainCount(observerRaw), greaterThan(0));
@@ -155,7 +156,6 @@ void main() {
 
       final observation = observed.addObserver(observer,
           forKeyPath: 'totalUnitCount'.toNSString());
-      autoreleasePoolPop(pool);
 
       final observedRaw = observed.ref.pointer;
       final observerRaw = observer.ref.pointer;
@@ -175,6 +175,7 @@ void main() {
       expect(objectRetainCount(observerRaw), greaterThan(0));
 
       observation.remove();
+      autoreleasePoolPop(pool);
 
       doGC();
       await Future<void>.delayed(Duration.zero);
