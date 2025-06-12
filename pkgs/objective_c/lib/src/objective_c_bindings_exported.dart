@@ -61,6 +61,11 @@ export 'objective_c_bindings_generated.dart'
         NSItemProviderRepresentationVisibility,
         NSItemProviderWriting,
         NSKeyValueChange,
+        NSKeyValueChangeIndexesKey,
+        NSKeyValueChangeKindKey,
+        NSKeyValueChangeNewKey,
+        NSKeyValueChangeNotificationIsPriorKey,
+        NSKeyValueChangeOldKey,
         NSKeyValueObservingOptions,
         NSKeyValueSetMutationKind,
         NSLinguisticTaggerOptions,
@@ -115,5 +120,6 @@ export 'objective_c_bindings_generated.dart'
         NSURLHandleStatus,
         NSValue,
         NSZone,
+        Observer,
         OpaqueAEDataStorageType,
         Protocol;

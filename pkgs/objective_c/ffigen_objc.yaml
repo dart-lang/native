@@ -10,6 +10,7 @@ headers:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
     - 'src/ns_number.h'
+    - 'src/observer.h'
     - 'src/protocol.h'
 ffi-native:
 exclude-all-by-default: true
@@ -26,6 +27,7 @@ objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
+    - DOBJCObservation
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
     - NSArray
@@ -84,6 +86,7 @@ objc-protocols:
     - NSPortDelegate
     - NSSecureCoding
     - NSStreamDelegate
+    - Observer
   rename:
     'NSObject': 'NSObjectProtocol'
 objc-categories:
@@ -157,6 +160,11 @@ enums:
     - NSURLHandleStatus
 globals:
   include:
+    - NSKeyValueChangeIndexesKey
+    - NSKeyValueChangeKindKey
+    - NSKeyValueChangeNewKey
+    - NSKeyValueChangeNotificationIsPriorKey
+    - NSKeyValueChangeOldKey
     - NSLocalizedDescriptionKey
 typedefs:
   include:

@@ -1,5 +1,8 @@
 ## 8.1.0-wip
 
+- Support the KVO pattern by adding `Observer`, `Observation`, and
+  `NSObject.addObserver`.
+
 ## 8.0.0
 
 - Use ffigen 19.0.0
