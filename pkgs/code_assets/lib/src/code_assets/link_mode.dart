@@ -34,7 +34,10 @@ abstract final class LinkMode {
   Map<String, Object?> toJson() => toSyntax().json;
 }
 
+/// Extension methods for [LinkMode] to convert to and from the syntax model.
 extension LinkModeSyntaxExtension on LinkMode {
+  /// Converts this [LinkMode] to its corresponding [LinkModeSyntax]
+  /// representation.
   LinkModeSyntax toSyntax() => switch (this) {
     StaticLinking() => StaticLinkModeSyntax(),
     LookupInProcess() => DynamicLoadingProcessLinkModeSyntax(),
@@ -46,6 +49,8 @@ extension LinkModeSyntaxExtension on LinkMode {
     _ => throw UnimplementedError('The link mode "$this" is not known'),
   };
 
+  /// Converts a [LinkModeSyntax] to its corresponding [LinkMode]
+  /// representation.
   static LinkMode fromSyntax(LinkModeSyntax linkMode) => switch (linkMode) {
     _ when linkMode.isStaticLinkMode => StaticLinking(),
     _ when linkMode.isDynamicLoadingProcessLinkMode => LookupInProcess(),
@@ -86,6 +91,7 @@ final class DynamicLoadingBundled extends DynamicLoading {
 
   static final DynamicLoadingBundled _singleton = DynamicLoadingBundled._();
 
+  /// Returns the singleton instance of [DynamicLoadingBundled].
   factory DynamicLoadingBundled() => _singleton;
 
   @override
@@ -100,9 +106,10 @@ final class DynamicLoadingBundled extends DynamicLoading {
 /// At runtime, the dynamic library will be loaded and the symbols will be
 /// looked up in this dynamic library.
 final class DynamicLoadingSystem extends DynamicLoading {
-  /// The [Uri] of the
+  /// The [Uri] of the dynamic library on the system.
   final Uri uri;
 
+  /// Constructs a [DynamicLoadingSystem] with the given [uri].
   DynamicLoadingSystem(this.uri) : super._();
 
   static const _typeValue = 'dynamic_loading_system';
@@ -127,6 +134,7 @@ final class LookupInProcess extends DynamicLoading {
 
   static final LookupInProcess _singleton = LookupInProcess._();
 
+  /// Returns the singleton instance of [LookupInProcess].
   factory LookupInProcess() => _singleton;
 
   @override
@@ -142,6 +150,7 @@ final class LookupInExecutable extends DynamicLoading {
 
   static final LookupInExecutable _singleton = LookupInExecutable._();
 
+  /// Returns the singleton instance of [LookupInExecutable].
   factory LookupInExecutable() => _singleton;
 
   @override
@@ -160,6 +169,8 @@ final class LookupInExecutable extends DynamicLoading {
 // TODO(https://github.com/dart-lang/sdk/issues/49418): Support static linking.
 final class StaticLinking extends LinkMode {
   const StaticLinking._() : super._();
+
+  /// Returns the singleton instance of [StaticLinking].
   factory StaticLinking() => _singleton;
 
   static const StaticLinking _singleton = StaticLinking._();

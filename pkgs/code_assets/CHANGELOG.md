@@ -1,3 +1,7 @@
+## 0.19.4
+
+* Add doc comments to all public members.
+
 ## 0.19.3
 
 * Mark this package as in preview.

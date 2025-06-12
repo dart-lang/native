@@ -88,9 +88,10 @@ sealed class HookInput {
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 
+  /// The configuration for this hook input.
   HookConfig get config => HookConfig._(this);
 
-  /// The user-defines for this [packageName].
+  /// The user-defines for this hook input.
   HookInputUserDefines get userDefines => HookInputUserDefines._(this);
 }
 
@@ -154,8 +155,10 @@ sealed class HookInputBuilder {
   final _syntax = HookInputSyntax.fromJson({})
     ..config = ConfigSyntax(buildAssetTypes: [], extensions: null);
 
+  /// The JSON representation of this hook input builder.
   Map<String, Object?> get json => _syntax.json;
 
+  /// Sets up the hook input.
   void setupShared({
     required Uri packageRoot,
     required String packageName,
@@ -177,6 +180,7 @@ sealed class HookInputBuilder {
   /// output directory has not been set yet.
   String computeChecksum() => _jsonChecksum(_syntax.config.json);
 
+  /// The configuration for this hook input.
   HookConfigBuilder get config => HookConfigBuilder._(this);
 
   /// Adds the protocol extension to this hook input.
@@ -204,6 +208,7 @@ final class BuildInput extends HookInput {
 
   final BuildInputSyntax _syntaxBuildInput;
 
+  ///// Creates a [BuildInput] from the given [json].
   BuildInput(super.json) : _syntaxBuildInput = BuildInputSyntax.fromJson(json);
 
   @override
@@ -233,10 +238,12 @@ final class BuildInputMetadata {
 
 /// The metadata from a specific package, available in [BuildInput.metadata].
 final class PackageMetadata {
+  /// Creates a [PackageMetadata] from the given metadata.
   PackageMetadata(this._metadata);
 
   final List<MetadataAsset> _metadata;
 
+  /// Retrieves the metadata value for the given [key].
   Object? operator [](String key) =>
       _metadata.firstWhereOrNull((e) => e.key == key)?.value;
 }
@@ -247,12 +254,14 @@ final class BuildInputAssets {
 
   BuildInputAssets._(this._input);
 
+  /// The encoded assets from direct dependencies.
   Map<String, List<EncodedAsset>> get encodedAssets => {
     for (final MapEntry(:key, :value)
         in (_input._syntaxBuildInput.assets ?? {}).entries)
       key: _parseAssets(value),
   };
 
+  /// The encoded assets from the direct dependency [packageName].
   List<EncodedAsset> operator [](String packageName) =>
       encodedAssets[packageName] ?? [];
 }
@@ -262,6 +271,7 @@ final class BuildInputBuilder extends HookInputBuilder {
   @override
   BuildInputSyntax get _syntax => BuildInputSyntax.fromJson(super._syntax.json);
 
+  /// Sets up the build input with the given [assets].
   void setupBuildInput({Map<String, List<EncodedAsset>>? assets}) {
     _syntax.setup(
       assets: assets == null
@@ -283,19 +293,23 @@ final class BuildInputBuilder extends HookInputBuilder {
   void addExtension(ProtocolExtension extension) =>
       extension.setupBuildInput(this);
 
+  /// Builds the [BuildInput].
   BuildInput build() => BuildInput(json);
 }
 
 /// The builder for [HookConfig].
 final class HookConfigBuilder {
+  ///// The build for the parent (the hook input).
   final HookInputBuilder builder;
 
   HookConfigBuilder._(this.builder);
 
   ConfigSyntax get _syntax => builder._syntax.config;
 
+  /// The JSON representation of this config.
   Map<String, Object?> get json => _syntax.json;
 
+  /// Adds asset types to this hook configuration.
   void addBuildAssetTypes(Iterable<String> assetTypes) {
     _syntax.buildAssetTypes.addAll(assetTypes);
   }
@@ -310,6 +324,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 
   BuildConfigBuilder._(super.builder) : super._();
 
+  /// Sets up the build configuration.
   void setupBuild({required bool linkingEnabled}) {
     _syntax.setup(linkingEnabled: linkingEnabled);
   }
@@ -322,6 +337,7 @@ final class LinkInput extends HookInput {
     return _parseAssets(assets);
   }
 
+  /// The file containing recorded usages, if any.
   Uri? get recordedUsagesFile => _syntaxLinkInput.resourceIdentifiers;
 
   @override
@@ -329,6 +345,7 @@ final class LinkInput extends HookInput {
 
   final LinkInputSyntax _syntaxLinkInput;
 
+  /// Creates a [LinkInput] from the given [json].
   LinkInput(super.json) : _syntaxLinkInput = LinkInputSyntax.fromJson(json) {
     // Run validation.
     _encodedAssets;
@@ -337,6 +354,7 @@ final class LinkInput extends HookInput {
   @override
   LinkConfig get config => LinkConfig._(this);
 
+  /// The assets passed to `hook/link.dart`.
   LinkInputAssets get assets => LinkInputAssets._(this);
 }
 
@@ -346,6 +364,7 @@ final class LinkInputAssets {
 
   LinkInputAssets._(this._input);
 
+  /// The encoded assets passed to `hook/link.dart`.
   List<EncodedAsset> get encodedAssets => _input._encodedAssets;
 }
 
@@ -354,6 +373,7 @@ final class LinkInputBuilder extends HookInputBuilder {
   @override
   LinkInputSyntax get _syntax => LinkInputSyntax.fromJson(super._syntax.json);
 
+  /// Sets up the link input.
   void setupLink({
     required List<EncodedAsset> assets,
     required Uri? recordedUsesFile,
@@ -373,6 +393,7 @@ final class LinkInputBuilder extends HookInputBuilder {
   @override
   LinkConfigBuilder get config => LinkConfigBuilder._(this);
 
+  /// Builds the [LinkInput].
   LinkInput build() => LinkInput(json);
 }
 
@@ -441,6 +462,7 @@ sealed class HookOutputBuilder {
     failureDetails: null,
   );
 
+  /// The JSON representation of this hook output builder.
   Map<String, Object?> get json => _syntax.json;
 
   HookOutputBuilder();
@@ -465,6 +487,7 @@ sealed class HookOutputBuilder {
     _syntax.dependencies = dependencies;
   }
 
+  /// Sets the failure of this output.
   void setFailure(FailureType value) {
     _syntax.status = OutputStatusSyntax.failure;
     _syntax.failureDetails = FailureSyntax(
@@ -525,6 +548,8 @@ final class BuildOutputAssets {
   Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
       _output._encodedAssetsForLinking;
 
+  /// The assets produced by this build which should be available to subsequent
+  /// build hooks.
   List<EncodedAsset> get encodedAssetsForBuild =>
       _output._encodedAssetsForBuild;
 }
@@ -543,15 +568,19 @@ final class BuildOutputAssets {
 ///   });
 /// }
 /// ```
+/// The builder for [BuildOutput].
 final class BuildOutputBuilder extends HookOutputBuilder {
+  /// The metadata builder for this build output.
   BuildOutputMetadataBuilder get metadata => BuildOutputMetadataBuilder._(this);
 
+  /// The assets builder for this build output.
   BuildOutputAssetsBuilder get assets => BuildOutputAssetsBuilder._(this);
 
   @override
   BuildOutputSyntax get _syntax =>
       BuildOutputSyntax.fromJson(super._syntax.json);
 
+  /// Builds the [BuildOutput].
   BuildOutput build() => BuildOutput(json);
 }
 
@@ -561,6 +590,7 @@ final class BuildOutputMetadataBuilder {
 
   BuildOutputMetadataBuilder._(this._output);
 
+  /// Sets the metadata [value] for the given [key].
   void operator []=(String key, Object value) {
     _output.assets.addEncodedAsset(
       MetadataAsset(key: key, value: value).encode(),
@@ -568,6 +598,7 @@ final class BuildOutputMetadataBuilder {
     );
   }
 
+  /// Adds all entries from [metadata].
   void addAll(Map<String, Object> metadata) {
     for (final MapEntry(:key, :value) in metadata.entries) {
       this[key] = value;
@@ -588,6 +619,7 @@ sealed class AssetRouting {
 /// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the SDK
 /// to be bundled with the app.
 final class ToAppBundle extends AssetRouting {
+  /// Creates a [ToAppBundle].
   const ToAppBundle();
 }
 
@@ -606,6 +638,7 @@ final class ToAppBundle extends AssetRouting {
 /// dependency), the sender does not know about the receiver. Hence this routing
 /// is a broadcast with 0-N receivers.
 final class ToBuildHooks extends AssetRouting {
+  /// Creates a [ToBuildHooks].
   const ToBuildHooks();
 }
 
@@ -621,8 +654,11 @@ final class ToBuildHooks extends AssetRouting {
 /// the receiver package. Hence, the receiver must be specified and there is
 /// exactly one receiver.
 final class ToLinkHook extends AssetRouting {
+  /// The name of the package that contains the `hook/link.dart` to which assets
+  /// should be sent.
   final String packageName;
 
+  /// Creates a [ToLinkHook] with the given [packageName].
   const ToLinkHook(this.packageName);
 }
 
@@ -725,6 +761,7 @@ final class LinkOutput extends HookOutput implements LinkOutputMaybeFailure {
   /// Creates a [LinkOutput] from the given [json].
   LinkOutput(super.json) : _syntax = LinkOutputSyntax.fromJson(json), super._();
 
+  /// The assets produced by this link hook.
   LinkOutputAssets get assets => LinkOutputAssets._(this);
 
   @override
@@ -756,8 +793,10 @@ final class LinkOutputAssets {
 /// }
 /// ```
 final class LinkOutputBuilder extends HookOutputBuilder {
+  /// The assets builder for this link output.
   LinkOutputAssetsBuilder get assets => LinkOutputAssetsBuilder._(this);
 
+  /// Builds the [LinkOutput].
   LinkOutput build() => LinkOutput(json);
 }
 
@@ -813,8 +852,12 @@ final class LinkOutputAssetsBuilder {
 
 /// The configuration in [HookInput.config].
 final class HookConfig {
+  /// The JSON representation of this config.
   Map<String, Object?> get json => _syntax.json;
 
+  /// The JSON path to this config inside the input.
+  ///
+  /// This is a public member such that [ProtocolExtension]s  can access it.
   List<Object> get path => _syntax.path;
 
   final ConfigSyntax _syntax;
@@ -852,6 +895,7 @@ final class BuildConfig extends HookConfig {
   // ignore: overridden_fields
   final BuildConfigSyntax _syntax;
 
+  /// Whether linking is enabled for this build.
   bool get linkingEnabled => _syntax.linkingEnabled;
 
   BuildConfig._(super.input)
@@ -869,6 +913,7 @@ final class LinkConfig extends HookConfig {
 
 /// A type of failure that occurred during a hook execution.
 class FailureType {
+  /// The name of this failure type.
   final String name;
 
   const FailureType._(this.name);
@@ -894,6 +939,7 @@ class FailureType {
 
 /// The output of a hook that has failed.
 final class HookOutputFailure {
+  /// The JSON representation of this failure.
   Map<String, Object?> get json => _syntax.json;
 
   final HookOutputSyntax _syntax;
@@ -931,6 +977,7 @@ final class LinkOutputFailure extends HookOutputFailure
 
 /// Either a successful [BuildOutput] or a [BuildOutputFailure].
 sealed class BuildOutputMaybeFailure {
+  /// The JSON representation of this output.
   Map<String, Object?> get json;
 
   factory BuildOutputMaybeFailure(Map<String, Object?> json) {
@@ -949,6 +996,7 @@ sealed class BuildOutputMaybeFailure {
 
 /// Either a successful [LinkOutput] or a [LinkOutputFailure].
 sealed class LinkOutputMaybeFailure {
+  /// The JSON representation of this output.
   Map<String, Object?> get json;
 
   factory LinkOutputMaybeFailure(Map<String, Object?> json) {
@@ -972,6 +1020,7 @@ sealed class LinkOutputMaybeFailure {
 /// [HookOutputBuilder.setFailure] and exit the process with the exit code
 /// belonging to that error type.
 abstract class HookError extends Error {
+  /// The error message.
   final String message;
 
   /// An optional underlying exception that caused this error.
@@ -980,6 +1029,7 @@ abstract class HookError extends Error {
   /// An optional stack trace associated with the [wrappedException].
   final StackTrace? wrappedTrace;
 
+  /// Creates a [HookError] with the given [message].
   HookError({required this.message, this.wrappedException, this.wrappedTrace});
 
   /// The exit code that should be used if the process terminates due to this
@@ -998,6 +1048,7 @@ abstract class HookError extends Error {
 /// This typically means something went wrong during the asset generation or
 /// transformation process.
 final class BuildError extends HookError {
+  /// Creates a [BuildError] with the given [message].
   BuildError({
     required super.message,
     super.wrappedException,
@@ -1019,6 +1070,7 @@ final class BuildError extends HookError {
 ///
 /// This could be due to issues like network problems.
 final class InfraError extends HookError {
+  /// Creates a [InfraError] with the given [message].
   InfraError({
     required super.message,
     super.wrappedException,

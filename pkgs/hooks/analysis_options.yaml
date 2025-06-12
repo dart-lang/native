@@ -14,6 +14,7 @@ linter:
   rules:
     - avoid_positional_boolean_parameters
     - dangling_library_doc_comments
+    - public_member_api_docs
     - prefer_const_declarations
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
