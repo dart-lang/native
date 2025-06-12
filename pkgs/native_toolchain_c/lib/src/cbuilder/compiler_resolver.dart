@@ -9,7 +9,6 @@ import 'package:logging/logging.dart';
 
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
-import '../native_toolchain/clang.dart';
 import '../native_toolchain/gcc.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/recognizer.dart';
@@ -63,11 +62,6 @@ class CompilerResolver {
     final targetArch = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
-    if (targetArch == hostArchitecture &&
-        targetOS == hostOS &&
-        hostOS == OS.linux) {
-      return clang;
-    }
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleClang;
     if (targetOS == OS.android) return androidNdkClang;
     if (hostOS == OS.linux) {
@@ -151,11 +145,6 @@ class CompilerResolver {
     final targetArchitecture = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
-    if (targetArchitecture == hostArchitecture &&
-        targetOS == hostOS &&
-        hostOS == OS.linux) {
-      return llvmAr;
-    }
     if (targetOS == OS.macOS || targetOS == OS.iOS) return appleAr;
     if (targetOS == OS.android) return androidNdkLlvmAr;
     if (hostOS == OS.linux) {
