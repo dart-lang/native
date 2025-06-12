@@ -107,6 +107,9 @@ objc-categories:
     - NSNumberCreation
     - NSNumberIsFloat
     - NSStringExtensionMethods
+functions:
+  include:
+    - getLocalizedDescriptionKey
 structs:
   include:
     - AEDesc
@@ -183,4 +186,4 @@ preamble: |
   // ignore_for_file: unused_element
   // ignore_for_file: unused_field
   // coverage:ignore-file
-  import 'dart:collection';
+  import 'dart:collection' as collection;

@@ -12,7 +12,7 @@
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // coverage:ignore-file
-import 'dart:collection';
+import 'dart:collection' as collection;
 
 // AUTO GENERATED FILE, DO NOT EDIT.
 //
@@ -725,6 +725,17 @@ _ObjectiveCBindings_wrapListenerBlock_zkjmn1(
 external ffi.Pointer<objc.ObjCBlockImpl>
 _ObjectiveCBindings_wrapListenerBlock_zuf90e(
   ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<ffi.Pointer<objc.ObjCObject> Function()>(
+  symbol: 'getLocalizedDescriptionKey',
+)
+external ffi.Pointer<objc.ObjCObject> _getLocalizedDescriptionKey();
+
+NSString getLocalizedDescriptionKey() => NSString.castFromPointer(
+  _getLocalizedDescriptionKey(),
+  retain: true,
+  release: true,
 );
 
 @ffi.Packed(2)
