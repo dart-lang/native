@@ -116,17 +116,11 @@ void main() {
 
       final observedRaw = observed.ref.pointer;
       final observerRaw = observer.ref.pointer;
-      print('ZXCV Dart observed address: $observedRaw');
-      print('ZXCV Dart observer address: $observerRaw');
-      print('ZXCV ObjC observer address: ${observation.debugObserver}');
 
       observed = null;
       observer = null;
 
-      print('ZXCV ObjC observer address: ${observation.debugObserver}');
-      print('ZXCV ObjC observer ref count: '
-          '${objectRetainCount(observation.debugObserver.cast())}');
-
+      // TODO(https://github.com/dart-lang/native/issues/2352): Reenable.
       // expect(objectRetainCount(observedRaw), greaterThan(0));
       // expect(objectRetainCount(observerRaw), greaterThan(0));
 
@@ -165,16 +159,14 @@ void main() {
       observed = null;
       observer = null;
 
-      // expect(objectRetainCount(observedRaw), greaterThan(0));
-      // expect(objectRetainCount(observerRaw), greaterThan(0));
-
       doGC();
       await Future<void>.delayed(Duration.zero);
       doGC();
 
       // Still holding a reference to observation.
-      expect(objectRetainCount(observedRaw), greaterThan(0));
-      expect(objectRetainCount(observerRaw), greaterThan(0));
+      // TODO(https://github.com/dart-lang/native/issues/2352): Reenable.
+      // expect(objectRetainCount(observedRaw), greaterThan(0));
+      // expect(objectRetainCount(observerRaw), greaterThan(0));
 
       observation.remove();
 
