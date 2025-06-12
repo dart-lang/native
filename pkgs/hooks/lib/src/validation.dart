@@ -9,6 +9,7 @@ import 'encoded_asset.dart';
 import 'extension.dart';
 import 'hooks/syntax.g.dart';
 
+/// A list of [String]s describing validation errors.
 typedef ValidationErrors = List<String>;
 
 /// The base protocol for `hook/build.dart` and `hook/link.dart` which can be
@@ -19,6 +20,7 @@ typedef ValidationErrors = List<String>;
 /// setup methods for the [HookInput], the base protocol knows how to setup
 /// itself.)
 class ProtocolBase {
+  /// Validates the [BuildInput] for both syntax and semantics.
   static Future<ValidationErrors> validateBuildInput(BuildInput input) async {
     final syntaxErrors = BuildInputSyntax.fromJson(input.json).validate();
     if (syntaxErrors.isNotEmpty) {
@@ -28,6 +30,7 @@ class ProtocolBase {
     return _validateHookInput('BuildInput', input);
   }
 
+  /// Validates the [LinkInput] for both syntax and semantics.
   static Future<ValidationErrors> validateLinkInput(LinkInput input) async {
     final syntaxErrors = LinkInputSyntax.fromJson(input.json).validate();
     if (syntaxErrors.isNotEmpty) {
@@ -84,6 +87,7 @@ class ProtocolBase {
     return errors;
   }
 
+  /// Validates the [BuildOutput] for both syntax and semantics.
   static Future<ValidationErrors> validateBuildOutput(
     BuildInput input,
     BuildOutput output,
@@ -105,6 +109,7 @@ class ProtocolBase {
     return errors;
   }
 
+  /// Validates the [LinkOutput] for both syntax and semantics.
   static Future<ValidationErrors> validateLinkOutput(
     LinkInput input,
     LinkOutput output,
@@ -171,8 +176,10 @@ class ProtocolBase {
 ///
 /// Not exported, because this is not meant to be caught.
 final class ValidationFailure implements Exception {
+  /// The message describing the validation failure.
   final String? message;
 
+  /// Creates a new [ValidationFailure] with an optional [message].
   ValidationFailure(this.message);
 
   @override

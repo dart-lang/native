@@ -25,6 +25,7 @@ final class EncodedAsset {
 
   EncodedAsset._(this.type, this.encoding, {this.jsonPath});
 
+  /// Creates an [EncodedAsset].
   EncodedAsset(this.type, Map<String, Object?> encoding, {this.jsonPath})
     : encoding = UnmodifiableMapView(
         // It would be better if `encoding` would be deep copied.
