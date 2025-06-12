@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as p;
 import 'test_utils.dart';
 
 const usage = r'''Regenerates the Dart FFI bindings used in tests and examples.
@@ -19,9 +20,9 @@ $ dart run test/setup.dart && dart run test/regen.dart && dart test
 ''';
 
 void _regenConfig(FfiGen ffigen, String yamlConfigPath) {
-  final yamlConfig = File(yamlConfigPath).absolute;
-  withChDir(yamlConfig.path, () {
-    final config = testConfigFromPath(yamlConfig.path);
+  final path = p.join(packagePathForTests, yamlConfigPath);
+  withChDir(path, () {
+    final config = testConfigFromPath(path);
     ffigen.run(config);
   });
 }

@@ -11,12 +11,18 @@ import 'dart:io';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'bad_method_test_bindings.dart';
+import 'package:path/path.dart' as path;
 import 'util.dart';
 
 void main() {
   group('bad_method_test', () {
     setUpAll(() {
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('bad_method');

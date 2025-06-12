@@ -8,190 +8,84 @@ library;
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator/objc_built_in_functions.dart';
+import 'package:ffigen/src/code_generator/objc_built_in_types.dart';
+import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
-import 'package:yaml/yaml.dart';
 
-const privateObjectiveCClasses = ['DartInputStreamAdapter'];
+import 'util.dart';
+
+// The default expect error message for sets isn't very useful. In the common
+// case where the sets are different lengths, the default matcher just says the
+// lengths don't match. This function says exactly what the difference is.
+void expectSetsEqual(String name, Set<String> expected, Set<String> actual) {
+  expect(expected.difference(actual), <String>{},
+      reason: 'Found elements that are missing from $name');
+  expect(actual.difference(expected), <String>{},
+      reason: "Found extra elements that shouldn't be in $name");
+}
 
 void main() {
   group('Verify interface lists', () {
-    late List<String> yamlInterfaces;
-    late List<String> yamlStructs;
-    late List<String> yamlEnums;
-    late List<String> yamlProtocols;
-    late List<String> yamlCategories;
-
+    late final List<String> bindings;
     setUpAll(() {
-      final yaml =
-          loadYaml(File('ffigen_objc.yaml').readAsStringSync()) as YamlMap;
-
-      final interfaceRenames =
-          (yaml['objc-interfaces'] as YamlMap)['rename'] as YamlMap;
-      yamlInterfaces = ((yaml['objc-interfaces'] as YamlMap)['include']
-              as YamlList)
-          .map<String>(
-              (dynamic name) => (interfaceRenames[name] ?? name) as String)
-          .toList()
-        ..sort();
-
-      final structRenames = (yaml['structs'] as YamlMap)['rename'] as YamlMap;
-      yamlStructs = ((yaml['structs'] as YamlMap)['include'] as YamlList)
-          .map<String>(
-              (dynamic name) => (structRenames[name] ?? name) as String)
-          .toList()
-        ..sort();
-
-      yamlEnums = ((yaml['enums'] as YamlMap)['include'] as YamlList)
-          .map<String>((dynamic i) => i as String)
-          .toList()
-        ..sort();
-
-      final protocolRenames =
-          (yaml['objc-protocols'] as YamlMap)['rename'] as YamlMap;
-      yamlProtocols = ((yaml['objc-protocols'] as YamlMap)['include']
-              as YamlList)
-          .map<String>(
-              (dynamic name) => (protocolRenames[name] ?? name) as String)
-          .toList()
-        ..sort();
-
-      yamlCategories = ((yaml['objc-categories'] as YamlMap)['include']
-              as YamlList)
-          .map<String>((dynamic i) => i as String)
-          .toList()
-        ..sort();
+      bindings = File(p.join(
+              pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'))
+          .readAsLinesSync()
+          .toList();
     });
 
-    test('ObjCBuiltInFunctions.builtInInterfaces', () {
-      expect(ObjCBuiltInFunctions.builtInInterfaces, yamlInterfaces);
-    });
-
-    test('ObjCBuiltInFunctions.builtInCompounds', () {
-      expect(ObjCBuiltInFunctions.builtInCompounds.values, yamlStructs);
-    });
-
-    test('ObjCBuiltInFunctions.builtInEnums', () {
-      expect(ObjCBuiltInFunctions.builtInEnums, yamlEnums);
-    });
-
-    test('ObjCBuiltInFunctions.builtInProtocols', () {
-      expect(ObjCBuiltInFunctions.builtInProtocols.values, yamlProtocols);
-    });
-
-    test('ObjCBuiltInFunctions.builtInCategories', () {
-      expect(ObjCBuiltInFunctions.builtInCategories, yamlCategories);
-    });
-
-    test('package:objective_c exports all the interfaces', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final intf in yamlInterfaces) {
-        if (!privateObjectiveCClasses.contains(intf)) {
-          expect(exportFile, contains(RegExp('\\W$intf\\W')));
-        }
-      }
-    });
-
-    test('package:objective_c exports all the structs', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final struct in yamlStructs) {
-        expect(exportFile, contains(RegExp('\\W$struct\\W')));
-      }
-    });
-
-    test('package:objective_c exports all the enums', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final enum_ in yamlEnums) {
-        expect(exportFile, contains(RegExp('\\W$enum_\\W')));
-      }
-    });
-
-    test('package:objective_c exports all the protocols', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final protocol in yamlProtocols) {
-        expect(exportFile, contains(RegExp('\\W$protocol\\W')));
-      }
-    });
-
-    test('package:objective_c exports all the categories', () {
-      final exportFile = File('lib/objective_c.dart').readAsStringSync();
-      for (final category in yamlCategories) {
-        expect(exportFile, contains(RegExp('\\W$category\\W')));
-      }
-    });
+    Set<String> findBindings(RegExp re) =>
+        bindings.map(re.firstMatch).nonNulls.map((match) => match[1]!).toSet();
 
     test('All code genned interfaces are included in the list', () {
-      final classNameRegExp = RegExp(r'^class ([^_]\w*) ');
-      final allClassNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
-        final match = classNameRegExp.firstMatch(line);
-        if (match != null) {
-          allClassNames.add(match[1]!);
-        }
-      }
-      allClassNames.sort();
-      expect(allClassNames, yamlInterfaces);
+      final allClassNames = findBindings(RegExp(r'^class ([^_]\w*) '));
+      expectSetsEqual('generated classes', objCBuiltInInterfaces.values.toSet(),
+          allClassNames);
     });
 
     test('All code genned structs are included in the list', () {
-      final structNameRegExp =
-          RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)');
-      final allStructNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
-        final match = structNameRegExp.firstMatch(line);
-        if (match != null) {
-          allStructNames.add(match[1]!);
-        }
-      }
-      allStructNames.sort();
-      expect(allStructNames, yamlStructs);
+      final allStructNames = findBindings(
+          RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)'));
+      expectSetsEqual('generated structs', objCBuiltInCompounds.values.toSet(),
+          allStructNames);
     });
 
     test('All code genned enums are included in the list', () {
-      final enumNameRegExp = RegExp(r'^enum (\w+) {');
-      final allEnumNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
-        final match = enumNameRegExp.firstMatch(line);
-        if (match != null) {
-          allEnumNames.add(match[1]!);
-        }
-      }
-      expect(allEnumNames, unorderedEquals(yamlEnums));
+      final allEnumNames = findBindings(RegExp(r'^enum (\w+) {'));
+      expectSetsEqual('generated enums', objCBuiltInEnums, allEnumNames);
     });
 
     test('All code genned protocols are included in the list', () {
-      final protocolNameRegExp = RegExp(r'^interface class (\w+) ');
-      final allProtocolNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
-        final match = protocolNameRegExp.firstMatch(line);
-        if (match != null) {
-          allProtocolNames.add(match[1]!);
-        }
-      }
-      expect(allProtocolNames, unorderedEquals(yamlProtocols));
+      final allProtocolNames = findBindings(RegExp(r'^interface class (\w+) '));
+      expectSetsEqual('generated protocols',
+          objCBuiltInProtocols.values.toSet(), allProtocolNames);
     });
 
     test('All code genned categories are included in the list', () {
-      final categoryNameRegExp = RegExp(r'^extension (\w+) on \w+ {');
-      final allCategoryNames = <String>[];
-      for (final line in File('lib/src/objective_c_bindings_generated.dart')
-          .readAsLinesSync()) {
-        final match = categoryNameRegExp.firstMatch(line);
-        if (match != null) {
-          allCategoryNames.add(match[1]!);
-        }
-      }
-      expect(allCategoryNames, unorderedEquals(yamlCategories));
+      final allCategoryNames =
+          findBindings(RegExp(r'^extension (\w+) on \w+ {'));
+      expectSetsEqual(
+          'generated categories', objCBuiltInCategories, allCategoryNames);
+    });
+
+    test('All code genned globals are included in the list', () {
+      final allGlobals = findBindings(RegExp(r'^\w+ get (\w+) =>'));
+      expectSetsEqual('generated globals', objCBuiltInGlobals, allGlobals);
     });
 
     test('No stubs', () {
-      final bindings = File('lib/src/objective_c_bindings_generated.dart')
-          .readAsStringSync();
-      expect(bindings, isNot(contains(RegExp(r'\Wstub\W'))));
+      final stubRegExp = RegExp(r'\Wstub\W');
+      expect(bindings.where(stubRegExp.hasMatch).toList(), <String>[]);
+    });
+
+    test('No automatically renamed classes', () {
+      // All automatically renamed classes or enums should be given an explicit
+      // name. Note that we're not checking for renamed extensions, because ObjC
+      // allows categories with identical names (so we can't unambiguously
+      // rename them), and users don't need to refer to the extension by name
+      // anyway.
+      final renameRegExp = RegExp(r'(class|enum) .*\$');
+      expect(bindings.where(renameRegExp.hasMatch).toList(), <String>[]);
     });
   });
 }

@@ -33,6 +33,7 @@ Declaration? transformProperty(
     originalProperty,
     globalNamer,
     transformationMap,
+    property: true,
     wrapperPropertyName: originalProperty.name,
     variableReferenceExpression: '$propertySource.${originalProperty.name}',
   );
@@ -60,6 +61,7 @@ Declaration _transformVariable(
   VariableDeclaration originalVariable,
   UniqueNamer globalNamer,
   TransformationMap transformationMap, {
+  bool property = false,
   required String wrapperPropertyName,
   required String variableReferenceExpression,
 }) {
@@ -117,6 +119,13 @@ Declaration _transformVariable(
     isConstant: originalVariable.isConstant,
     throws: originalVariable.throws,
     async: originalVariable.async,
+    unowned: originalVariable is PropertyDeclaration
+        ? originalVariable.unowned
+        : false,
+    lazy:
+        originalVariable is PropertyDeclaration ? originalVariable.lazy : false,
+    weak:
+        originalVariable is PropertyDeclaration ? originalVariable.weak : false,
   );
 
   final getterStatements = _generateGetterStatements(

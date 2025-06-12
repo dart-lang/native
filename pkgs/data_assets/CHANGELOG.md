@@ -1,4 +1,4 @@
-## 0.19.2
+## 0.19.1
 
 * Bump the SDK constraint to at least the one from `package:hooks` to fix
   dartdoc generation on https://pub.dev.

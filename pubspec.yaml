@@ -16,6 +16,7 @@ workspace:
   - pkgs/hooks_runner/test_data/dart_app
   - pkgs/hooks_runner/test_data/depend_on_fail_build
   - pkgs/hooks_runner/test_data/depend_on_fail_build_app
+  - pkgs/hooks_runner/test_data/dev_dependency_with_hook
   - pkgs/hooks_runner/test_data/drop_dylib_link
   - pkgs/hooks_runner/test_data/fail_build
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version

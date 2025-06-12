@@ -29,6 +29,7 @@ void main(List<String> args) async {
     const LocalFileSystem(),
     packageUri,
     packageName,
+    includeDevDependencies: false,
   );
   final result =
       await NativeAssetsBuildRunner(

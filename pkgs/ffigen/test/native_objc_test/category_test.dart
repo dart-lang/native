@@ -9,6 +9,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -18,7 +19,12 @@ import 'util.dart';
 void main() {
   group('categories', () {
     setUpAll(() {
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('category');
@@ -79,8 +85,12 @@ void main() {
 
       // Don't include transitive category of built-in type that hasn't been
       // explicitly included.
-      final bindings = File('test/native_objc_test/category_bindings.dart')
-          .readAsStringSync();
+      final bindings = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'category_bindings.dart',
+      )).readAsStringSync();
       expect(bindings, isNot(contains('excludedExtensionMethod')));
 
       // This method is from an NSObject extension, which shouldn't be included.

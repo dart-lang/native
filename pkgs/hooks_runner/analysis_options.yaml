@@ -8,10 +8,11 @@ analyzer:
     strict-inference: true
     strict-raw-types: true
   plugins:
-    - custom_lint
+    # - custom_lint # https://github.com/dart-lang/sdk/issues/60784
 
 linter:
   rules:
+    - avoid_positional_boolean_parameters
     - dangling_library_doc_comments
     - prefer_const_declarations
     - prefer_expression_function_bodies
@@ -21,4 +22,3 @@ linter:
 custom_lint:
   rules:
     - avoid_import_outside_src
-

@@ -5,6 +5,7 @@
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -18,7 +19,12 @@ void main() {
       final library = parser.parse(Config(
         output: Uri.file('unused'),
         entryPoints: [
-          Uri.file('test/collision_tests/reserved_keyword_collision.h')
+          Uri.file(path.join(
+            packagePathForTests,
+            'test',
+            'collision_tests',
+            'reserved_keyword_collision.h',
+          ))
         ],
         structDecl: DeclarationFilters.includeAll,
         unionDecl: DeclarationFilters.includeAll,

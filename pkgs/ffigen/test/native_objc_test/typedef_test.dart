@@ -8,6 +8,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'typedef_bindings.dart';
@@ -16,7 +17,12 @@ import 'util.dart';
 void main() {
   group('typedef', () {
     setUpAll(() {
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('typedef');

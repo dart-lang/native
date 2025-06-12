@@ -52,6 +52,8 @@ class NativeAssetsBuildPlanner {
     final packageGraphJson = await packageGraphJsonFile.readAsString();
     final packageGraph = PackageGraph.fromPackageGraphJsonString(
       packageGraphJson,
+      packageLayout.runPackageName,
+      includeDevDependencies: packageLayout.includeDevDependencies,
     );
     final packageGraphFromRunPackage = packageGraph.subGraph(
       packageLayout.runPackageName,
@@ -182,12 +184,21 @@ class PackageGraph {
 
   PackageGraph(this.map);
 
-  factory PackageGraph.fromPackageGraphJsonString(String json) =>
-      PackageGraph.fromPackageGraphJson(
-        jsonDecode(json) as Map<dynamic, dynamic>,
-      );
+  factory PackageGraph.fromPackageGraphJsonString(
+    String json,
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) => PackageGraph.fromPackageGraphJson(
+    jsonDecode(json) as Map<dynamic, dynamic>,
+    runPackageName,
+    includeDevDependencies: includeDevDependencies,
+  );
 
-  factory PackageGraph.fromPackageGraphJson(Map<dynamic, dynamic> map) {
+  factory PackageGraph.fromPackageGraphJson(
+    Map<dynamic, dynamic> map,
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {
@@ -196,6 +207,14 @@ class PackageGraph {
       final dependencies = (package_['dependencies'] as List<dynamic>)
           .whereType<String>()
           .toList();
+      if (name == runPackageName && includeDevDependencies) {
+        final devDependencies =
+            (package_['devDependencies'] as List<dynamic>?)
+                ?.whereType<String>()
+                .toList() ??
+            [];
+        dependencies.addAll(devDependencies);
+      }
       result[name] = dependencies;
     }
     return PackageGraph(result);

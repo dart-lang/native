@@ -8,11 +8,13 @@
 // ignore_for_file: avoid_catching_errors
 
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart' as internal_for_testing
     show isValidClass;
+import 'package:path/path.dart' as p;
 
 final _executeInternalCommand = () {
   try {
@@ -32,6 +34,14 @@ void doGC() {
   _executeInternalCommand!(gcNow.cast(), nullptr);
   calloc.free(gcNow);
 }
+
+@Native<Pointer<Void> Function()>(
+    isLeaf: true, symbol: 'objc_autoreleasePoolPush')
+external Pointer<Void> autoreleasePoolPush();
+
+@Native<Void Function(Pointer<Void>)>(
+    isLeaf: true, symbol: 'objc_autoreleasePoolPop')
+external void autoreleasePoolPop(Pointer<Void> pool);
 
 @Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
 external int _isReadableMemory(Pointer<Void> ptr);
@@ -62,4 +72,56 @@ int objectRetainCount(Pointer<ObjCObject> object) {
 
   if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());
+}
+
+String pkgDir = findPackageRoot('objective_c').toFilePath();
+
+/// Test files are run in a variety of ways, find this package root in all.
+///
+/// Test files can be run from source from any working directory. The Dart SDK
+/// `tools/test.py` runs them from the root of the SDK for example.
+///
+/// Test files can be run from dill from the root of package. `package:test`
+/// does this.
+///
+/// https://github.com/dart-lang/test/issues/110
+Uri findPackageRoot(String packageName) {
+  final script = Platform.script;
+  final fileName = script.name;
+  if (fileName.endsWith('.dart')) {
+    // We're likely running from source in the package somewhere.
+    var directory = script.resolve('.');
+    while (true) {
+      final dirName = directory.name;
+      if (dirName == packageName) {
+        return directory;
+      }
+      final parent = directory.resolve('..');
+      if (parent == directory) break;
+      directory = parent;
+    }
+  } else if (fileName.endsWith('.dill')) {
+    // Probably from the package root.
+    final cwd = Directory.current.uri;
+    final dirName = cwd.name;
+    if (dirName == packageName) {
+      return cwd;
+    }
+  }
+  // Or the workspace root.
+  final cwd = Directory.current.uri;
+  final candidate = cwd.resolve('pkgs/$packageName/');
+  if (Directory.fromUri(candidate).existsSync()) {
+    return candidate;
+  }
+  throw StateError(
+    "Could not find package root for package '$packageName'. "
+    'Tried finding the package root via Platform.script '
+    "'${Platform.script.toFilePath()}' and Directory.current "
+    "'${Directory.current.uri.toFilePath()}'.",
+  );
+}
+
+extension on Uri {
+  String get name => pathSegments.where((e) => e != '').last;
 }

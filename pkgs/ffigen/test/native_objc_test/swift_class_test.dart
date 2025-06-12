@@ -8,6 +8,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'swift_class_bindings.dart';
@@ -16,7 +17,12 @@ import 'util.dart';
 void main() {
   group('swift_class_test', () {
     setUpAll(() {
-      final dylib = File('test/native_objc_test/swift_class_test.dylib');
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'swift_class_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('swift_class');

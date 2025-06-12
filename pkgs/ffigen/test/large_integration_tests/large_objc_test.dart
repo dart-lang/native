@@ -16,8 +16,11 @@ import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
+
+import '../test_utils.dart';
 
 Future<int> run(String exe, List<String> args) async {
   final process =
@@ -41,14 +44,31 @@ void main() {
               randInclude('$kind.memb', clazz, method),
         );
 
-    const outFile = 'test/large_integration_tests/large_objc_bindings.dart';
-    const outObjCFile = 'test/large_integration_tests/large_objc_bindings.m';
+    final outFile = path.join(
+      packagePathForTests,
+      'test',
+      'large_integration_tests',
+      'large_objc_bindings.dart',
+    );
+    final outObjCFile = path.join(
+      packagePathForTests,
+      'test',
+      'large_integration_tests',
+      'large_objc_bindings.m',
+    );
     final config = Config(
       wrapperName: 'LargeObjCLibrary',
       language: Language.objc,
       output: Uri.file(outFile),
       outputObjC: Uri.file(outObjCFile),
-      entryPoints: [Uri.file('test/large_integration_tests/large_objc_test.h')],
+      entryPoints: [
+        Uri.file(path.join(
+          packagePathForTests,
+          'test',
+          'large_integration_tests',
+          'large_objc_test.h',
+        ))
+      ],
       formatOutput: false,
       includeTransitiveObjCInterfaces: false,
       includeTransitiveObjCProtocols: false,

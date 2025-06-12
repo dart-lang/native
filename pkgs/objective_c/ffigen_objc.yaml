@@ -10,11 +10,9 @@ headers:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
     - 'src/ns_number.h'
+    - 'src/observer.h'
     - 'src/protocol.h'
 ffi-native:
-  asset-id: 'package:objective_c/objective_c.dylib'
-library-imports:
-  collection: 'dart:collection'
 exclude-all-by-default: true
 include-transitive-objc-categories: false
 generate-for-package-objective-c: true
@@ -29,6 +27,7 @@ objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
+    - DOBJCObservation
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
     - NSArray
@@ -56,10 +55,12 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionChange
     - NSOrderedCollectionDifference
     - NSOrderedSet
     - NSPort
     - NSPortMessage
+    - NSProgress
     - NSRunLoop
     - NSSet
     - NSStream
@@ -85,6 +86,7 @@ objc-protocols:
     - NSPortDelegate
     - NSSecureCoding
     - NSStreamDelegate
+    - Observer
   rename:
     'NSObject': 'NSObjectProtocol'
 objc-categories:
@@ -105,9 +107,6 @@ objc-categories:
     - NSNumberCreation
     - NSNumberIsFloat
     - NSStringExtensionMethods
-functions:
-  include:
-    - getLocalizedDescriptionKey
 structs:
   include:
     - AEDesc
@@ -130,6 +129,7 @@ enums:
   include:
     - NSAppleEventSendOptions
     - NSBinarySearchingOptions
+    - NSCollectionChangeType
     - NSComparisonResult
     - NSDataBase64DecodingOptions
     - NSDataBase64EncodingOptions
@@ -158,6 +158,13 @@ enums:
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
+globals:
+  include:
+    - NSKeyValueChangeIndexesKey
+    - NSKeyValueChangeKindKey
+    - NSKeyValueChangeNewKey
+    - NSKeyValueChangeNotificationIsPriorKey
+    - NSKeyValueChangeOldKey
 typedefs:
   include:
     - 'CFStringRef'
@@ -176,3 +183,4 @@ preamble: |
   // ignore_for_file: unused_element
   // ignore_for_file: unused_field
   // coverage:ignore-file
+  import 'dart:collection';

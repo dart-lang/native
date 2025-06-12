@@ -89,8 +89,10 @@ jobs:
           brew: clang-format
       - name: Build test dylib and bindings
         run: dart test/setup.dart
+      - name: Install coverage
+        run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
-        run: dart run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+        run: dart pub global run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
       - name: Generate package:jni bindings
         run: dart run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
@@ -104,7 +106,7 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
-          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c,swift2objc"
+          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 

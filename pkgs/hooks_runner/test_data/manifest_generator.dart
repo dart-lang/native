@@ -6,9 +6,11 @@ import 'dart:io';
 
 void main(List<String> args) async {
   final testDataDirectory = Directory.fromUri(Platform.script.resolve('.'));
-  updateManifest(testDataDirectory, false);
+  updateManifest(testDataDirectory, allowPartialProjects: false);
   final all = testDataDirectory.listSync(recursive: true);
-  all.whereType<Directory>().forEach((e) => updateManifest(e, true));
+  all.whereType<Directory>().forEach(
+    (e) => updateManifest(e, allowPartialProjects: true),
+  );
 }
 
 const denyList = [
@@ -32,7 +34,7 @@ const partialProjects = [
   'simple_link_change_asset',
 ];
 
-void updateManifest(Directory directory, bool allowPartialProjects) {
+void updateManifest(Directory directory, {required bool allowPartialProjects}) {
   final manifestFile = File.fromUri(directory.uri.resolve('manifest.yaml'));
   if (!manifestFile.existsSync()) {
     return;
