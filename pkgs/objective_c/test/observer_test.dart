@@ -124,7 +124,8 @@ void main() {
       observer = null;
 
       print('ZXCV ObjC observer address: ${observation.debugObserver}');
-      print('ZXCV ObjC observer ref count: ${objectRetainCount(observation.debugObserver)}');
+      print('ZXCV ObjC observer ref count: '
+          '${objectRetainCount(observation.debugObserver.cast())}');
 
       expect(objectRetainCount(observedRaw), greaterThan(0));
       expect(objectRetainCount(observerRaw), greaterThan(0));
