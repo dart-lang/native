@@ -26,7 +26,7 @@ dependencies:
 
 dev_dependencies:
   custom_lint: ^0.7.5
-  dart_flutter_team_lints: ^3.5.1
+  dart_flutter_team_lints: ^3.5.2
   data_assets: any # Used in tests.
   file_testing: ^3.0.2
   repo_lint_rules:

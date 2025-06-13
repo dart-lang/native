@@ -21,6 +21,6 @@ dependencies:
   ffi: ^2.1.0
 
 dev_dependencies:
-  dart_flutter_team_lints: ^3.5.1
+  dart_flutter_team_lints: ^3.5.2
   ffigen: ^19.0.0
   test: ^1.21.1
