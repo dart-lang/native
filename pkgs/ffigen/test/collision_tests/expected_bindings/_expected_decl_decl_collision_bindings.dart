@@ -7,17 +7,17 @@ import 'dart:ffi' as ffi$2;
 class Bindings {
   /// Holds the symbol lookup function.
   final ffi$2.Pointer<T> Function<T extends ffi$2.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings(ffi$2.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   Bindings.fromLookup(
-      ffi$2.Pointer<T> Function<T extends ffi$2.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi$2.Pointer<T> Function<T extends ffi$2.NativeType>(String symbolName)
+    lookup,
+  ) : _lookup = lookup;
 
   void testFunc() {
     return _testFunc();
@@ -41,15 +41,16 @@ class Bindings {
 
   late final _testCrossDecl$1Ptr =
       _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>('testCrossDecl');
-  late final _testCrossDecl$1 =
-      _testCrossDecl$1Ptr.asFunction<void Function()>();
+  late final _testCrossDecl$1 = _testCrossDecl$1Ptr
+      .asFunction<void Function()>();
 
   void ffi$1() {
     return _ffi$1();
   }
 
-  late final _ffi$1Ptr =
-      _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>('ffi\$1');
+  late final _ffi$1Ptr = _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>(
+    'ffi\$1',
+  );
   late final _ffi$1 = _ffi$1Ptr.asFunction<void Function()>();
 }
 

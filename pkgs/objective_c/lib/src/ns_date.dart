@@ -6,10 +6,12 @@ import 'objective_c_bindings_generated.dart';
 
 extension DateTimeToNSDate on DateTime {
   NSDate toNSDate() => NSDate.dateWithTimeIntervalSince1970(
-      millisecondsSinceEpoch / Duration.millisecondsPerSecond);
+    millisecondsSinceEpoch / Duration.millisecondsPerSecond,
+  );
 }
 
 extension NSDateToDateTime on NSDate {
   DateTime toDateTime() => DateTime.fromMillisecondsSinceEpoch(
-      (timeIntervalSince1970 * Duration.millisecondsPerSecond).toInt());
+    (timeIntervalSince1970 * Duration.millisecondsPerSecond).toInt(),
+  );
 }

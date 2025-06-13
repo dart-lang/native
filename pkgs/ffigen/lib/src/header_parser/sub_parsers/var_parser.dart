@@ -26,12 +26,15 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
   final cType = cursor.type();
 
   final type = cType.toCodeGenType(
-      // Native fields can be arrays, but if we use the lookup based method of
-      // reading fields there's no way to turn a Pointer into an array.
-      supportNonInlineArray: config.ffiNativeConfig.enabled);
+    // Native fields can be arrays, but if we use the lookup based method of
+    // reading fields there's no way to turn a Pointer into an array.
+    supportNonInlineArray: config.ffiNativeConfig.enabled,
+  );
   if (type.baseType is UnimplementedType) {
-    _logger.fine('---- Removed Global, reason: unsupported type: '
-        '${cursor.completeStringRepr()}');
+    _logger.fine(
+      '---- Removed Global, reason: unsupported type: '
+      '${cursor.completeStringRepr()}',
+    );
     _logger.warning("Skipped global variable '$name', type not supported.");
     return null;
   }

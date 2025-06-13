@@ -36,12 +36,15 @@ ${strings.unions}:
     });
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_opaque_dependencies_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_opaque_dependencies_bindings.dart'
-      ]);
+        actual,
+        'header_parser_opaque_dependencies_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_opaque_dependencies_bindings.dart',
+        ],
+      );
     });
   });
 }

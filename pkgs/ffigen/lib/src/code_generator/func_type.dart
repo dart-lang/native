@@ -25,16 +25,22 @@ class FunctionType extends Type {
   });
 
   String _getTypeImpl(
-      bool writeArgumentNames, String Function(Type) typeToString,
-      {String? varArgWrapper}) {
+    bool writeArgumentNames,
+    String Function(Type) typeToString, {
+    String? varArgWrapper,
+  }) {
     final params = varArgWrapper != null ? parameters : dartTypeParameters;
     String? varArgPack;
     if (varArgWrapper != null && varArgParameters.isNotEmpty) {
       final varArgPackBuf = StringBuffer();
       varArgPackBuf.write('$varArgWrapper<(');
-      varArgPackBuf.write(varArgParameters.map<String>((p) {
-        return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
-      }).join(', '));
+      varArgPackBuf.write(
+        varArgParameters
+            .map<String>((p) {
+              return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
+            })
+            .join(', '),
+      );
       varArgPackBuf.write(',)>');
       varArgPack = varArgPackBuf.toString();
     }
@@ -45,21 +51,25 @@ class FunctionType extends Type {
 
     // Write Function.
     sb.write(' Function(');
-    sb.write([
-      ...params.map<String>((p) {
-        return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
-      }),
-      if (varArgPack != null) varArgPack,
-    ].join(', '));
+    sb.write(
+      [
+        ...params.map<String>((p) {
+          return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
+        }),
+        if (varArgPack != null) varArgPack,
+      ].join(', '),
+    );
     sb.write(')');
 
     return sb.toString();
   }
 
   @override
-  String getCType(Writer w, {bool writeArgumentNames = true}) =>
-      _getTypeImpl(writeArgumentNames, (Type t) => t.getCType(w),
-          varArgWrapper: '${w.ffiLibraryPrefix}.VarArgs');
+  String getCType(Writer w, {bool writeArgumentNames = true}) => _getTypeImpl(
+    writeArgumentNames,
+    (Type t) => t.getCType(w),
+    varArgWrapper: '${w.ffiLibraryPrefix}.VarArgs',
+  );
 
   @override
   String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
@@ -128,8 +138,9 @@ class FunctionType extends Type {
         covariantLeft: [returnType],
         covariantRight: [other.returnType],
         contravariantLeft: dartTypeParameters.map((p) => p.type).toList(),
-        contravariantRight:
-            other.dartTypeParameters.map((p) => p.type).toList(),
+        contravariantRight: other.dartTypeParameters
+            .map((p) => p.type)
+            .toList(),
       );
     }
     return false;

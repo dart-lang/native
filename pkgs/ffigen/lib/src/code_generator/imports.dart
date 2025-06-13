@@ -15,11 +15,13 @@ class LibraryImport extends AstNode {
 
   String prefix;
 
-  LibraryImport(this.name, this._importPath,
-      {String? importPathWhenImportedByPackageObjC})
-      : _importPathWhenImportedByPackageObjC =
-            importPathWhenImportedByPackageObjC,
-        prefix = name;
+  LibraryImport(
+    this.name,
+    this._importPath, {
+    String? importPathWhenImportedByPackageObjC,
+  }) : _importPathWhenImportedByPackageObjC =
+           importPathWhenImportedByPackageObjC,
+       prefix = name;
 
   @override
   bool operator ==(Object other) {
@@ -117,57 +119,144 @@ class SelfImportedType extends Type {
 final ffiImport = LibraryImport('ffi', 'dart:ffi');
 final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
 final objcPkgImport = LibraryImport(
-    'objc', 'package:objective_c/objective_c.dart',
-    importPathWhenImportedByPackageObjC: '../objective_c.dart');
+  'objc',
+  'package:objective_c/objective_c.dart',
+  importPathWhenImportedByPackageObjC: '../objective_c.dart',
+);
 final self = LibraryImport('self', '');
 final allLibraries = [ffiImport, ffiPkgImport, objcPkgImport, self];
 
 final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 
 final unsignedCharType = ImportedType(
-    ffiImport, 'UnsignedChar', 'int', 'unsigned char',
-    defaultValue: '0');
-final signedCharType =
-    ImportedType(ffiImport, 'SignedChar', 'int', 'char', defaultValue: '0');
-final charType =
-    ImportedType(ffiImport, 'Char', 'int', 'char', defaultValue: '0');
+  ffiImport,
+  'UnsignedChar',
+  'int',
+  'unsigned char',
+  defaultValue: '0',
+);
+final signedCharType = ImportedType(
+  ffiImport,
+  'SignedChar',
+  'int',
+  'char',
+  defaultValue: '0',
+);
+final charType = ImportedType(
+  ffiImport,
+  'Char',
+  'int',
+  'char',
+  defaultValue: '0',
+);
 final unsignedShortType = ImportedType(
-    ffiImport, 'UnsignedShort', 'int', 'unsigned short',
-    defaultValue: '0');
-final shortType =
-    ImportedType(ffiImport, 'Short', 'int', 'short', defaultValue: '0');
+  ffiImport,
+  'UnsignedShort',
+  'int',
+  'unsigned short',
+  defaultValue: '0',
+);
+final shortType = ImportedType(
+  ffiImport,
+  'Short',
+  'int',
+  'short',
+  defaultValue: '0',
+);
 final unsignedIntType = ImportedType(
-    ffiImport, 'UnsignedInt', 'int', 'unsigned',
-    defaultValue: '0');
+  ffiImport,
+  'UnsignedInt',
+  'int',
+  'unsigned',
+  defaultValue: '0',
+);
 final intType = ImportedType(ffiImport, 'Int', 'int', 'int', defaultValue: '0');
 final unsignedLongType = ImportedType(
-    ffiImport, 'UnsignedLong', 'int', 'unsigned long',
-    defaultValue: '0');
-final longType =
-    ImportedType(ffiImport, 'Long', 'int', 'long', defaultValue: '0');
+  ffiImport,
+  'UnsignedLong',
+  'int',
+  'unsigned long',
+  defaultValue: '0',
+);
+final longType = ImportedType(
+  ffiImport,
+  'Long',
+  'int',
+  'long',
+  defaultValue: '0',
+);
 final unsignedLongLongType = ImportedType(
-    ffiImport, 'UnsignedLongLong', 'int', 'unsigned long long',
-    defaultValue: '0');
-final longLongType =
-    ImportedType(ffiImport, 'LongLong', 'int', 'long long', defaultValue: '0');
+  ffiImport,
+  'UnsignedLongLong',
+  'int',
+  'unsigned long long',
+  defaultValue: '0',
+);
+final longLongType = ImportedType(
+  ffiImport,
+  'LongLong',
+  'int',
+  'long long',
+  defaultValue: '0',
+);
 
-final floatType =
-    ImportedType(ffiImport, 'Float', 'double', 'float', defaultValue: '0.0');
-final doubleType =
-    ImportedType(ffiImport, 'Double', 'double', 'double', defaultValue: '0.0');
+final floatType = ImportedType(
+  ffiImport,
+  'Float',
+  'double',
+  'float',
+  defaultValue: '0.0',
+);
+final doubleType = ImportedType(
+  ffiImport,
+  'Double',
+  'double',
+  'double',
+  defaultValue: '0.0',
+);
 
-final sizeType =
-    ImportedType(ffiImport, 'Size', 'int', 'size_t', defaultValue: '0');
-final wCharType =
-    ImportedType(ffiImport, 'WChar', 'int', 'wchar_t', defaultValue: '0');
+final sizeType = ImportedType(
+  ffiImport,
+  'Size',
+  'int',
+  'size_t',
+  defaultValue: '0',
+);
+final wCharType = ImportedType(
+  ffiImport,
+  'WChar',
+  'int',
+  'wchar_t',
+  defaultValue: '0',
+);
 
-final objCObjectType =
-    ImportedType(objcPkgImport, 'ObjCObject', 'ObjCObject', 'void');
+final objCObjectType = ImportedType(
+  objcPkgImport,
+  'ObjCObject',
+  'ObjCObject',
+  'void',
+);
 final objCSelType = ImportedType(
-    objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'struct objc_selector');
-final objCBlockType =
-    ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id');
-final objCProtocolType =
-    ImportedType(objcPkgImport, 'ObjCProtocol', 'ObjCProtocol', 'void');
+  objcPkgImport,
+  'ObjCSelector',
+  'ObjCSelector',
+  'struct objc_selector',
+);
+final objCBlockType = ImportedType(
+  objcPkgImport,
+  'ObjCBlockImpl',
+  'ObjCBlockImpl',
+  'id',
+);
+final objCProtocolType = ImportedType(
+  objcPkgImport,
+  'ObjCProtocol',
+  'ObjCProtocol',
+  'void',
+);
 final objCContextType = ImportedType(
-    objcPkgImport, 'DOBJC_Context', 'DOBJC_Context', 'DOBJC_Context');
+  objcPkgImport,
+  'DOBJC_Context',
+  'DOBJC_Context',
+  'DOBJC_Context',
+);

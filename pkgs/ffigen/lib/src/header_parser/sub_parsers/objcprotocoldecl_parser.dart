@@ -47,16 +47,21 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
 
   final apiAvailability = ApiAvailability.fromCursor(cursor);
 
-  _logger.fine('++++ Adding ObjC protocol: '
-      'Name: $name, ${cursor.completeStringRepr()}');
+  _logger.fine(
+    '++++ Adding ObjC protocol: '
+    'Name: $name, ${cursor.completeStringRepr()}',
+  );
 
   final protocol = ObjCProtocol(
     usr: usr,
     originalName: name,
     name: config.objcProtocols.rename(decl),
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
-    dartDoc: getCursorDocComment(cursor,
-        fallbackComment: name, availability: apiAvailability.dartDoc),
+    dartDoc: getCursorDocComment(
+      cursor,
+      fallbackComment: name,
+      availability: apiAvailability.dartDoc,
+    ),
     builtInFunctions: objCBuiltInFunctions,
     apiAvailability: apiAvailability,
   );
@@ -70,15 +75,19 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
         final declCursor = clang.clang_getCursorDefinition(child);
         _logger.fine(
-            '       > Super protocol: ${declCursor.completeStringRepr()}');
+          '       > Super protocol: ${declCursor.completeStringRepr()}',
+        );
         final superProtocol = parseObjCProtocolDeclaration(declCursor);
         if (superProtocol != null) {
           protocol.superProtocols.add(superProtocol);
         }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) =
-            parseObjCProperty(child, decl, config.objcProtocols);
+        final (getter, setter) = parseObjCProperty(
+          child,
+          decl,
+          config.objcProtocols,
+        );
         protocol.addMethod(getter);
         protocol.addMethod(setter);
         break;

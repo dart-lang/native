@@ -28,8 +28,9 @@ class ObjCBuiltInFunctions {
   static const newPointerBlock = ObjCImport('newPointerBlock');
   static const newClosureBlock = ObjCImport('newClosureBlock');
   static const getBlockClosure = ObjCImport('getBlockClosure');
-  static const getProtocolMethodSignature =
-      ObjCImport('getProtocolMethodSignature');
+  static const getProtocolMethodSignature = ObjCImport(
+    'getProtocolMethodSignature',
+  );
   static const getProtocol = ObjCImport('getProtocol');
   static const objectRelease = ObjCImport('objectRelease');
   static const signalWaiter = ObjCImport('signalWaiter');
@@ -40,12 +41,14 @@ class ObjCBuiltInFunctions {
   static const consumedType = ObjCImport('Consumed');
   static const retainedType = ObjCImport('Retained');
   static const protocolMethod = ObjCImport('ObjCProtocolMethod');
-  static const protocolListenableMethod =
-      ObjCImport('ObjCProtocolListenableMethod');
+  static const protocolListenableMethod = ObjCImport(
+    'ObjCProtocolListenableMethod',
+  );
   static const protocolClass = ObjCImport('Protocol');
   static const protocolBuilder = ObjCImport('ObjCProtocolBuilder');
-  static const unimplementedOptionalMethodException =
-      ObjCImport('UnimplementedOptionalMethodException');
+  static const unimplementedOptionalMethodException = ObjCImport(
+    'UnimplementedOptionalMethodException',
+  );
   static const checkOsVersion = ObjCImport('checkOsVersionInternal');
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
@@ -71,7 +74,11 @@ class ObjCBuiltInFunctions {
     returnType = _methodSigType(returnType);
     final (id, idHash) = _methodSigId(returnType, params);
     return _msgSendFuncs[id] ??= ObjCMsgSendFunc(
-        '_objc_msgSend_$idHash', returnType, params, useMsgSendVariants);
+      '_objc_msgSend_$idHash',
+      returnType,
+      params,
+      useMsgSendVariants,
+    );
   }
 
   final _selObjects = <String, ObjCInternalGlobal>{};
@@ -91,8 +98,9 @@ class ObjCBuiltInFunctions {
       // retain function (if any) to all the param IDs.
       paramIds.add(p.getNativeType(varName: p.type.generateRetain('') ?? ''));
     }
-    final rt =
-        returnType.getNativeType(varName: returnType.generateRetain('') ?? '');
+    final rt = returnType.getNativeType(
+      varName: returnType.generateRetain('') ?? '',
+    );
     final id = '$rt,${paramIds.join(',')}';
     return (id, fnvHash32(id).toRadixString(36));
   }
@@ -125,8 +133,12 @@ class ObjCBuiltInFunctions {
   }
 
   List<Parameter> _methodSigParams(List<Parameter> params) => params
-      .map((p) =>
-          Parameter(type: _methodSigType(p.type), objCConsumed: p.objCConsumed))
+      .map(
+        (p) => Parameter(
+          type: _methodSigType(p.type),
+          objCConsumed: p.objCConsumed,
+        ),
+      )
       .toList();
 
   final _blockTrampolines = <String, ObjCBlockWrapperFuncs>{};
@@ -134,56 +146,64 @@ class ObjCBuiltInFunctions {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
       _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash'),
-      _blockTrampolineFunc('_${wrapperName}_wrapBlockingBlock_$idHash',
-          blocking: true),
+      _blockTrampolineFunc(
+        '_${wrapperName}_wrapBlockingBlock_$idHash',
+        blocking: true,
+      ),
     );
   }
 
   Func _blockTrampolineFunc(String name, {bool blocking = false}) => Func(
-        name: name,
-        returnType: PointerType(objCBlockType),
-        parameters: [
-          Parameter(
-              name: 'block',
-              type: PointerType(objCBlockType),
-              objCConsumed: false),
-          if (blocking) ...[
-            Parameter(
-                name: 'listnerBlock',
-                type: PointerType(objCBlockType),
-                objCConsumed: false),
-            Parameter(
-                name: 'context',
-                type: PointerType(objCContextType),
-                objCConsumed: false),
-          ],
-        ],
-        objCReturnsRetained: true,
-        isLeaf: true,
-        isInternal: true,
-        useNameForLookup: true,
-        ffiNativeConfig: const FfiNativeConfig(enabled: true),
-      );
+    name: name,
+    returnType: PointerType(objCBlockType),
+    parameters: [
+      Parameter(
+        name: 'block',
+        type: PointerType(objCBlockType),
+        objCConsumed: false,
+      ),
+      if (blocking) ...[
+        Parameter(
+          name: 'listnerBlock',
+          type: PointerType(objCBlockType),
+          objCConsumed: false,
+        ),
+        Parameter(
+          name: 'context',
+          type: PointerType(objCContextType),
+          objCConsumed: false,
+        ),
+      ],
+    ],
+    objCReturnsRetained: true,
+    isLeaf: true,
+    isInternal: true,
+    useNameForLookup: true,
+    ffiNativeConfig: const FfiNativeConfig(enabled: true),
+  );
 
   final _protocolTrampolines = <String, ObjCProtocolMethodTrampoline>{};
   ObjCProtocolMethodTrampoline? getProtocolMethodTrampoline(ObjCBlock block) {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
-    return _protocolTrampolines[id] ??= ObjCProtocolMethodTrampoline(Func(
-      name: '_${wrapperName}_protocolTrampoline_$idHash',
-      returnType: block.returnType,
-      parameters: [
-        Parameter(
+    return _protocolTrampolines[id] ??= ObjCProtocolMethodTrampoline(
+      Func(
+        name: '_${wrapperName}_protocolTrampoline_$idHash',
+        returnType: block.returnType,
+        parameters: [
+          Parameter(
             name: 'target',
             type: PointerType(objCObjectType),
-            objCConsumed: false),
-        ...block.params,
-      ],
-      objCReturnsRetained: false,
-      isLeaf: false,
-      isInternal: true,
-      useNameForLookup: true,
-      ffiNativeConfig: const FfiNativeConfig(enabled: true),
-    ));
+            objCConsumed: false,
+          ),
+          ...block.params,
+        ],
+        objCReturnsRetained: false,
+        isLeaf: false,
+        isInternal: true,
+        useNameForLookup: true,
+        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+      ),
+    );
   }
 
   static bool isInstanceType(Type type) {
@@ -241,7 +261,7 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function(Writer) makeValue;
 
   ObjCInternalGlobal(String name, this.makeValue)
-      : super(originalName: name, name: name, isInternal: true);
+    : super(originalName: name, name: name, isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -274,13 +294,13 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
   ObjCMsgSendVariant variant;
   FunctionType type;
 
-  ObjCMsgSendVariantFunc(
-      {required super.name,
-      required this.variant,
-      required Type returnType,
-      required List<Parameter> parameters})
-      : type = FunctionType(returnType: returnType, parameters: parameters),
-        super(isInternal: true);
+  ObjCMsgSendVariantFunc({
+    required super.name,
+    required this.variant,
+    required Type returnType,
+    required List<Parameter> parameters,
+  }) : type = FunctionType(returnType: returnType, parameters: parameters),
+       super(isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -288,7 +308,8 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
     final dartType = type.getFfiDartType(w, writeArgumentNames: false);
     final pointer = variant.pointer.gen(w);
 
-    final bindingString = '''
+    final bindingString =
+        '''
 final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 ''';
 
@@ -326,8 +347,11 @@ class ObjCMsgSendFunc extends AstNode {
   late final ObjCMsgSendVariantFunc? variantFunc;
 
   ObjCMsgSendFunc(
-      String name, Type returnType, List<Parameter> params, this.useVariants)
-      : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
+    String name,
+    Type returnType,
+    List<Parameter> params,
+    this.useVariants,
+  ) : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
     normalFunc = ObjCMsgSendVariantFunc(
       name: name,
       variant: ObjCMsgSendVariant.normal,
@@ -366,8 +390,13 @@ class ObjCMsgSendFunc extends AstNode {
 
   bool get isStret => variant == ObjCMsgSendVariant.stret;
 
-  String invoke(Writer w, String target, String sel, Iterable<String> params,
-      {String? structRetPtr}) {
+  String invoke(
+    Writer w,
+    String target,
+    String sel,
+    Iterable<String> params, {
+    String? structRetPtr,
+  }) {
     final normalCall = _invoke(normalFunc.name, target, sel, params);
     switch (variant) {
       case ObjCMsgSendVariant.normal:
@@ -376,8 +405,13 @@ class ObjCMsgSendFunc extends AstNode {
         final fpretCall = _invoke(variantFunc!.name, target, sel, params);
         return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
-        final stretCall = _invoke(variantFunc!.name, target, sel, params,
-            structRetPtr: structRetPtr);
+        final stretCall = _invoke(
+          variantFunc!.name,
+          target,
+          sel,
+          params,
+          structRetPtr: structRetPtr,
+        );
         return '${useVariants.gen(w)} ? $stretCall : '
             '$structRetPtr.ref = $normalCall';
     }
@@ -390,12 +424,7 @@ class ObjCMsgSendFunc extends AstNode {
     Iterable<String> params, {
     String? structRetPtr,
   }) {
-    return '''$name(${[
-      if (structRetPtr != null) structRetPtr,
-      target,
-      sel,
-      ...params,
-    ].join(', ')})''';
+    return '''$name(${[if (structRetPtr != null) structRetPtr, target, sel, ...params].join(', ')})''';
   }
 
   @override

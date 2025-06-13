@@ -25,18 +25,18 @@ class Library {
   static Library fromConfig({
     required Config config,
     required List<Binding> bindings,
-  }) =>
-      Library(
-        name: config.wrapperName,
-        description: config.wrapperDocComment,
-        bindings: bindings,
-        header: config.preamble,
-        generateForPackageObjectiveC: config.generateForPackageObjectiveC,
-        libraryImports: config.libraryImports.values.toList(),
-        silenceEnumWarning: config.silenceEnumWarning,
-        nativeEntryPoints:
-            config.entryPoints.map((uri) => uri.toFilePath()).toList(),
-      );
+  }) => Library(
+    name: config.wrapperName,
+    description: config.wrapperDocComment,
+    bindings: bindings,
+    header: config.preamble,
+    generateForPackageObjectiveC: config.generateForPackageObjectiveC,
+    libraryImports: config.libraryImports.values.toList(),
+    silenceEnumWarning: config.silenceEnumWarning,
+    nativeEntryPoints: config.entryPoints
+        .map((uri) => uri.toFilePath())
+        .toList(),
+  );
 
   factory Library({
     required String name,

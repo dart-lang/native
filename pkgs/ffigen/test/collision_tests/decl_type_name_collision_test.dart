@@ -31,12 +31,15 @@ ${strings.preamble}: |
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'decl_type_name_collision_test_output.dart', [
-        'test',
-        'collision_tests',
-        'expected_bindings',
-        '_expected_decl_type_name_collision_bindings.dart'
-      ]);
+        actual,
+        'decl_type_name_collision_test_output.dart',
+        [
+          'test',
+          'collision_tests',
+          'expected_bindings',
+          '_expected_decl_type_name_collision_bindings.dart',
+        ],
+      );
     });
   });
 }

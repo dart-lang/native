@@ -27,8 +27,10 @@ void saveMacroDefinition(clang_types.CXCursor cursor) {
   if (clang.clang_Cursor_isMacroBuiltin(cursor) == 0 &&
       clang.clang_Cursor_isMacroFunctionLike(cursor) == 0) {
     // Parse macro only if it's not builtin or function-like.
-    _logger.fine("++++ Saved Macro '$originalMacroName' for later : "
-        '${cursor.completeStringRepr()}');
+    _logger.fine(
+      "++++ Saved Macro '$originalMacroName' for later : "
+      '${cursor.completeStringRepr()}',
+    );
     final prefixedName = config.macroDecl.rename(decl);
     bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName);
@@ -91,7 +93,9 @@ List<MacroConstant> parseSavedMacros() {
 
 /// Child visitor invoked on translationUnitCursor for parsing macroVariables.
 void _macroVariablevisitor(
-    clang_types.CXCursor cursor, List<MacroConstant> bindings) {
+  clang_types.CXCursor cursor,
+  List<MacroConstant> bindings,
+) {
   MacroConstant? constant;
   try {
     if (isFromGeneratedFile(cursor) &&
@@ -119,8 +123,9 @@ void _macroVariablevisitor(
             originalName: savedMacros[macroName]!.originalName,
             name: macroName,
             rawType: 'double',
-            rawValue:
-                _writeDoubleAsString(clang.clang_EvalResult_getAsDouble(e)),
+            rawValue: _writeDoubleAsString(
+              clang.clang_EvalResult_getAsDouble(e),
+            ),
           );
           break;
         case clang_types.CXEvalResultKind.CXEval_StrLiteral:
@@ -194,8 +199,10 @@ File createFileForMacros() {
   for (final prefixedMacroName in savedMacros.keys) {
     // Write macro.
     final macroVarName = MacroVariableString.encode(prefixedMacroName);
-    sb.writeln('auto $macroVarName = '
-        '${savedMacros[prefixedMacroName]!.originalName};');
+    sb.writeln(
+      'auto $macroVarName = '
+      '${savedMacros[prefixedMacroName]!.originalName};',
+    );
     // Add to _macroVarNames.
     _macroVarNames.add(macroVarName);
   }
@@ -248,12 +255,17 @@ String _getWrittenRepresentation(String macroName, Pointer<Char> strPtr) {
   } catch (e) {
     // Handle string if it isn't Utf8. String is considered to be
     // Extended ASCII in this case.
-    _logger.warning("Couldn't decode Macro string '$macroName' as Utf8, using "
-        'ASCII instead.');
+    _logger.warning(
+      "Couldn't decode Macro string '$macroName' as Utf8, using "
+      'ASCII instead.',
+    );
     sb.clear();
     final length = strPtr.cast<Utf8>().length;
     final charList = Uint8List.view(
-        strPtr.cast<Uint8>().asTypedList(length).buffer, 0, length);
+      strPtr.cast<Uint8>().asTypedList(length).buffer,
+      0,
+      length,
+    );
 
     for (final char in charList) {
       sb.write(_getWritableChar(char, utf8: false));

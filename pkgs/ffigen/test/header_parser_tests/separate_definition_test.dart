@@ -18,11 +18,12 @@ void main() {
     test('different header order', () {
       final entryPoints = [
         'test/header_parser_tests/separate_definition_base.h',
-        'test/header_parser_tests/separate_definition.h'
+        'test/header_parser_tests/separate_definition.h',
       ];
       final library1String = parser.parse(_makeConfig(entryPoints)).generate();
-      final library2String =
-          parser.parse(_makeConfig(entryPoints.reversed.toList())).generate();
+      final library2String = parser
+          .parse(_makeConfig(entryPoints.reversed.toList()))
+          .generate();
 
       expect(library1String, library2String);
     });

@@ -13,32 +13,36 @@ import 'dart:ffi' as ffi;
 class Bindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   Bindings.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
+  ) : _lookup = lookup;
 
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> WithTypealiasStruct(
     Struct3Typealias t,
   ) {
-    return _WithTypealiasStruct(
-      t,
-    );
+    return _WithTypealiasStruct(t);
   }
 
-  late final _WithTypealiasStructPtr = _lookup<
-      ffi.NativeFunction<
+  late final _WithTypealiasStructPtr =
+      _lookup<
+        ffi.NativeFunction<
           ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-              Struct3Typealias)>>('WithTypealiasStruct');
-  late final _WithTypealiasStruct = _WithTypealiasStructPtr.asFunction<
-      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-          Struct3Typealias)>();
+            Struct3Typealias,
+          )
+        >
+      >('WithTypealiasStruct');
+  late final _WithTypealiasStruct =
+      _WithTypealiasStructPtr.asFunction<
+        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
+          Struct3Typealias,
+        )
+      >();
 }
 
 typedef RawUnused = Struct1;

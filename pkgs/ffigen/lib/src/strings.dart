@@ -151,7 +151,7 @@ const sizemapNativeMapping = <String, int>{
   uLong: clang.CXTypeKind.CXType_ULong,
   longLong: clang.CXTypeKind.CXType_LongLong,
   uLongLong: clang.CXTypeKind.CXType_ULongLong,
-  enumType: clang.CXTypeKind.CXType_Enum
+  enumType: clang.CXTypeKind.CXType_Enum,
 };
 
 // Library imports.
@@ -183,7 +183,7 @@ const importPath = 'import-path';
 
 final predefinedLibraryImports = {
   ffiImport.name: ffiImport,
-  ffiPkgImport.name: ffiPkgImport
+  ffiPkgImport.name: ffiPkgImport,
 };
 
 const typeMap = 'type-map';
@@ -257,9 +257,7 @@ const linuxDylibLocations = {
   '/usr/lib/',
   '/usr/lib64/',
 };
-const windowsDylibLocations = {
-  r'C:\Program Files\LLVM\bin\',
-};
+const windowsDylibLocations = {r'C:\Program Files\LLVM\bin\'};
 const macOsDylibLocations = {
   // Default Xcode commandline tools installation.
   '/Library/Developer/CommandLineTools/usr/',

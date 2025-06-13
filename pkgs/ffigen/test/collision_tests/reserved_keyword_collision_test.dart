@@ -16,32 +16,39 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('reserved keyword collision', () {
-      final library = parser.parse(Config(
-        output: Uri.file('unused'),
-        entryPoints: [
-          Uri.file(path.join(
-            packagePathForTests,
-            'test',
-            'collision_tests',
-            'reserved_keyword_collision.h',
-          ))
-        ],
-        structDecl: DeclarationFilters.includeAll,
-        unionDecl: DeclarationFilters.includeAll,
-        enumClassDecl: DeclarationFilters.includeAll,
-        functionDecl: DeclarationFilters.includeAll,
-        globals: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
-        includeUnusedTypedefs: true,
-        sort: true,
-      ));
+      final library = parser.parse(
+        Config(
+          output: Uri.file('unused'),
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'test',
+                'collision_tests',
+                'reserved_keyword_collision.h',
+              ),
+            ),
+          ],
+          structDecl: DeclarationFilters.includeAll,
+          unionDecl: DeclarationFilters.includeAll,
+          enumClassDecl: DeclarationFilters.includeAll,
+          functionDecl: DeclarationFilters.includeAll,
+          globals: DeclarationFilters.includeAll,
+          typedefs: DeclarationFilters.includeAll,
+          includeUnusedTypedefs: true,
+          sort: true,
+        ),
+      );
       matchLibraryWithExpected(
-          library, 'reserved_keyword_collision_test_output.dart', [
-        'test',
-        'collision_tests',
-        'expected_bindings',
-        '_expected_reserved_keyword_collision_bindings.dart',
-      ]);
+        library,
+        'reserved_keyword_collision_test_output.dart',
+        [
+          'test',
+          'collision_tests',
+          'expected_bindings',
+          '_expected_reserved_keyword_collision_bindings.dart',
+        ],
+      );
     });
   });
 }
