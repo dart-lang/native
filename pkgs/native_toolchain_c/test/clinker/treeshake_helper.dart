@@ -16,14 +16,18 @@ void runTreeshakeTests(
   OS targetOS,
   List<Architecture> architectures, {
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
 }) {
   assert((targetOS != OS.android) == (androidTargetNdkApi == null));
+  assert((targetOS != OS.macOS) == (macOSTargetVersion == null));
+
   CLinker linkerManual(List<String> sources) => CLinker.library(
     name: 'mylibname',
     assetName: '',
     sources: sources,
     linkerOptions: LinkerOptions.manual(
-      flags: ['--strip-debug', '-u,my_other_func'],
+      symbolsToKeep: ['my_other_func'],
+      stripDebug: true,
       gcSections: true,
       linkerScript: packageUri.resolve(
         'test/clinker/testfiles/linker/symbols.lds',
@@ -61,6 +65,7 @@ void runTreeshakeTests(
           targetOS,
           architecture,
           androidTargetNdkApi: androidTargetNdkApi,
+          macOSTargetVersion: macOSTargetVersion,
         );
 
         final linkInputBuilder = LinkInputBuilder()
@@ -80,6 +85,9 @@ void runTreeshakeTests(
               android: androidTargetNdkApi != null
                   ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
                   : null,
+              macOS: macOSTargetVersion != null
+                  ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+                  : null,
             ),
           );
 
@@ -95,9 +103,9 @@ void runTreeshakeTests(
         final linkOutput = linkOutputBuilder.build();
         final asset = linkOutput.assets.code.first;
 
-        await expectMachineArchitecture(asset.file!, architecture);
+        await expectMachineArchitecture(asset.file!, architecture, targetOS);
 
-        final symbols = await nmReadSymbols(asset);
+        final symbols = await nmReadSymbols(asset, targetOS);
         if (clinker.linker != linkerAutoEmpty) {
           expect(symbols, contains('my_other_func'));
           expect(symbols, isNot(contains('my_func')));

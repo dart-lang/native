@@ -16,8 +16,10 @@ Future<Uri> buildTestArchive(
   OS targetOS,
   Architecture architecture, {
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
 }) async {
   assert((targetOS != OS.android) == (androidTargetNdkApi == null));
+  assert((targetOS != OS.macOS) == (macOSTargetVersion == null));
   final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
   final test2Uri = packageUri.resolve('test/clinker/testfiles/linker/test2.c');
   if (!await File.fromUri(test1Uri).exists() ||
@@ -45,6 +47,9 @@ Future<Uri> buildTestArchive(
         cCompiler: cCompiler,
         android: androidTargetNdkApi != null
             ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
+            : null,
+        macOS: macOSTargetVersion != null
+            ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
             : null,
       ),
     );
