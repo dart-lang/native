@@ -11,7 +11,9 @@ import '../helpers.dart';
 
 void main() {
   for (final targetOS in OS.values) {
-    if (targetOS == OS.linux || targetOS == OS.android) {
+    if (targetOS == OS.linux ||
+        targetOS == OS.android ||
+        targetOS == OS.macOS) {
       // Is implemented.
       continue;
     }

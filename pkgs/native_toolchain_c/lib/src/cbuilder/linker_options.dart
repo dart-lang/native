@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+
 import '../native_toolchain/tool_likeness.dart';
 import '../tool/tool.dart';
 
@@ -14,7 +16,7 @@ import '../tool/tool.dart';
 /// the [LinkerOptions.treeshake] constructor can be used.
 class LinkerOptions {
   /// The flags to be passed to the linker. As they depend on the linker being
-  /// invoked, the actual usage is via the [postSourcesFlags] method.
+  /// invoked, the actual usage is via the [sourceFilesToFlags] method.
   final List<String> _linkerFlags;
 
   /// Enable garbage collection of unused input sections.
@@ -27,20 +29,24 @@ class LinkerOptions {
   /// See also the `ld` man page at https://linux.die.net/man/1/ld.
   final Uri? linkerScript;
 
-  /// Whether to include all symbols from the sources.
+  /// Whether to strip debugging symbols from the binary.
+  final bool stripDebug;
+
+  /// The symbols to keep in the resulting binaries.
   ///
-  /// This is achieved by setting the `whole-archive` flag before passing the
-  /// sources, and the `no-whole-archive` flag after.
-  final bool _wholeArchiveSandwich;
+  /// If null all symbols will be kept.
+  final List<String>? _symbolsToKeep;
 
   /// Create linking options manually for fine-grained control.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
     this.linkerScript,
+    this.stripDebug = true,
+    Iterable<String>? symbolsToKeep,
   }) : _linkerFlags = flags ?? [],
        gcSections = gcSections ?? true,
-       _wholeArchiveSandwich = false;
+       _symbolsToKeep = symbolsToKeep?.toList(growable: false);
 
   /// Create linking options to tree-shake symbols from the input files.
   ///
@@ -48,16 +54,13 @@ class LinkerOptions {
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
-  }) : _linkerFlags = <String>[
-         ...flags ?? [],
-         '--strip-debug',
-         if (symbols != null) ...symbols.map((e) => '-u,$e'),
-       ].toList(),
+    this.stripDebug = true,
+  }) : _linkerFlags = flags?.toList(growable: false) ?? [],
+       _symbolsToKeep = symbols?.toList(growable: false),
        gcSections = true,
-       _wholeArchiveSandwich = symbols == null,
        linkerScript = _createLinkerScript(symbols);
 
-  Iterable<String> _toLinkerSyntax(Tool linker, List<String> flagList) {
+  Iterable<String> _toLinkerSyntax(Tool linker, Iterable<String> flagList) {
     if (linker.isClangLike) {
       return flagList.map((e) => '-Wl,$e');
     } else if (linker.isLdLike) {
@@ -85,38 +88,48 @@ class LinkerOptions {
 }
 
 extension LinkerOptionsExt on LinkerOptions {
-  /// The flags for the specified [linker], which are inserted _before_ the
-  /// sources.
-  ///
-  /// This is mainly used for the whole-archive ... no-whole-archive
-  /// trick, which includes all symbols when linking object files.
-  ///
-  /// Throws if the [linker] is not supported.
-  Iterable<String> preSourcesFlags(Tool linker, Iterable<String> sourceFiles) =>
-      _toLinkerSyntax(
-        linker,
-        sourceFiles.any((source) => source.endsWith('.a')) ||
-                _wholeArchiveSandwich
-            ? ['--whole-archive']
-            : [],
-      );
-
-  /// The flags for the specified [linker], which are inserted _after_ the
-  /// sources.
-  ///
-  /// This is mainly used for the whole-archive ... no-whole-archive
-  /// trick, which includes all symbols when linking object files.
-  ///
-  /// Throws if the [linker] is not supported.
-  Iterable<String> postSourcesFlags(
-    Tool linker,
+  /// Takes [sourceFiles] and turns it into flags for the compiler driver while
+  /// considering the current [LinkerOptions].
+  Iterable<String> sourceFilesToFlags(
+    Tool tool,
     Iterable<String> sourceFiles,
-  ) => _toLinkerSyntax(linker, [
-    ..._linkerFlags,
-    if (gcSections) '--gc-sections',
-    if (linkerScript != null) '--version-script=${linkerScript!.toFilePath()}',
-    if (sourceFiles.any((source) => source.endsWith('.a')) ||
-        _wholeArchiveSandwich)
-      '--no-whole-archive',
-  ]);
+    OS targetOS,
+  ) {
+    final includeAllSymbols = _symbolsToKeep == null;
+
+    switch (targetOS) {
+      case OS.macOS:
+        return [
+          if (!includeAllSymbols) ...sourceFiles,
+          ..._toLinkerSyntax(tool, [
+            if (includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
+            ..._linkerFlags,
+            ..._symbolsToKeep?.map((symbol) => '-u,_$symbol') ?? [],
+            if (stripDebug) '-S',
+            if (gcSections) '-dead_strip',
+          ]),
+        ];
+
+      case OS.android || OS.linux:
+        final wholeArchiveSandwich =
+            sourceFiles.any((source) => source.endsWith('.a')) ||
+            includeAllSymbols;
+        return [
+          if (wholeArchiveSandwich)
+            ..._toLinkerSyntax(tool, ['--whole-archive']),
+          ...sourceFiles,
+          ..._toLinkerSyntax(tool, [
+            ..._linkerFlags,
+            ..._symbolsToKeep?.map((symbol) => '-u,$symbol') ?? [],
+            if (stripDebug) '--strip-debug',
+            if (gcSections) '--gc-sections',
+            if (linkerScript != null)
+              '--version-script=${linkerScript!.toFilePath()}',
+            if (wholeArchiveSandwich) '--no-whole-archive',
+          ]),
+        ];
+      case OS():
+        throw UnimplementedError();
+    }
+  }
 }

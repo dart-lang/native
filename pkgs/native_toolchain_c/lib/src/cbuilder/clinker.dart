@@ -53,7 +53,7 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    const supportedTargetOSs = [OS.linux, OS.android];
+    const supportedTargetOSs = [OS.linux, OS.android, OS.macOS];
     if (!supportedTargetOSs.contains(input.config.code.targetOS)) {
       throw UnsupportedError(
         'This feature is only supported when targeting '

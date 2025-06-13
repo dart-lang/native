@@ -1,3 +1,7 @@
+## 0.16.4
+
+* Support linking for MacOS.
+
 ## 0.16.3
 
 * Support linking for Android.
