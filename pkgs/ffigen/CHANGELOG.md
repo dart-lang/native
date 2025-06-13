@@ -1,5 +1,7 @@
 ## 19.1.0-wip
 
+- Bump minimum Dart version to 3.8.0.
+
 ## 19.0.0
 
 - Use package:objective_c 8.0.0.
