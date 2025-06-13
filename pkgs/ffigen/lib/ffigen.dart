@@ -6,7 +6,7 @@
 ///
 /// For most use cases the YAML based API is simpler. See
 /// https://pub.dev/packages/ffigen for details.
-library ffigen;
+library;
 
 export 'src/config_provider.dart'
     show

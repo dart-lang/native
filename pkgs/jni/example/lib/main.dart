@@ -150,7 +150,7 @@ class Example {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp(this.examples, {Key? key}) : super(key: key);
+  const MyApp(this.examples, {super.key});
   final List<Example> examples;
 
   @override
@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class ExampleCard extends StatefulWidget {
-  const ExampleCard(this.example, {Key? key}) : super(key: key);
+  const ExampleCard(this.example, {super.key});
   final Example example;
 
   @override
