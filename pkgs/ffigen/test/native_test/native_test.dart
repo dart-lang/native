@@ -30,12 +30,9 @@ void main() {
     });
 
     test('generate_bindings', () {
-      final configFile = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_test',
-        'config.yaml',
-      )).absolute;
+      final configFile = File(
+        path.join(packagePathForTests, 'test', 'native_test', 'config.yaml'),
+      ).absolute;
       final outFile = File(
         path.join(
           packagePathForTests,
@@ -55,9 +52,9 @@ void main() {
 
       try {
         final actual = outFile.readAsStringSync().replaceAll('\r', '');
-        final expected = File(path.join(config.output.toFilePath()))
-            .readAsStringSync()
-            .replaceAll('\r', '');
+        final expected = File(
+          path.join(config.output.toFilePath()),
+        ).readAsStringSync().replaceAll('\r', '');
         expect(actual, expected);
         if (outFile.existsSync()) {
           outFile.delete();
@@ -86,19 +83,27 @@ void main() {
     });
     test('int8_t', () {
       expect(
-          bindings.Function1Int8(pow(2, 7).toInt()), -pow(2, 7).toInt() + 42);
+        bindings.Function1Int8(pow(2, 7).toInt()),
+        -pow(2, 7).toInt() + 42,
+      );
     });
     test('int16_t', () {
-      expect(bindings.Function1Int16(pow(2, 15).toInt()),
-          -pow(2, 15).toInt() + 42);
+      expect(
+        bindings.Function1Int16(pow(2, 15).toInt()),
+        -pow(2, 15).toInt() + 42,
+      );
     });
     test('int32_t', () {
-      expect(bindings.Function1Int32(pow(2, 31).toInt()),
-          -pow(2, 31).toInt() + 42);
+      expect(
+        bindings.Function1Int32(pow(2, 31).toInt()),
+        -pow(2, 31).toInt() + 42,
+      );
     });
     test('int64_t', () {
-      expect(bindings.Function1Int64(pow(2, 63).toInt()),
-          -pow(2, 63).toInt() + 42);
+      expect(
+        bindings.Function1Int64(pow(2, 63).toInt()),
+        -pow(2, 63).toInt() + 42,
+      );
     });
     test('intptr_t', () {
       expect(bindings.Function1IntPtr(0), 42);
@@ -134,34 +139,58 @@ void main() {
     test('Array Workaround: Range Errors', () {
       final struct1 = bindings.getStruct1();
       // Index (get) above range.
-      expect(() => struct1.ref.data[4][0][0],
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[0][2][0],
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[0][0][3],
-          throwsA(const TypeMatcher<RangeError>()));
+      expect(
+        () => struct1.ref.data[4][0][0],
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[0][2][0],
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[0][0][3],
+        throwsA(const TypeMatcher<RangeError>()),
+      );
       // Index (get) below range.
-      expect(() => struct1.ref.data[-1][0][0],
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[-1][0][0],
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[0][0][-1],
-          throwsA(const TypeMatcher<RangeError>()));
+      expect(
+        () => struct1.ref.data[-1][0][0],
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[-1][0][0],
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[0][0][-1],
+        throwsA(const TypeMatcher<RangeError>()),
+      );
 
       // Index (set) above range.
-      expect(() => struct1.ref.data[4][0][0] = 0,
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[0][2][0] = 0,
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[0][0][3] = 0,
-          throwsA(const TypeMatcher<RangeError>()));
+      expect(
+        () => struct1.ref.data[4][0][0] = 0,
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[0][2][0] = 0,
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[0][0][3] = 0,
+        throwsA(const TypeMatcher<RangeError>()),
+      );
       // Index (get) below range.
-      expect(() => struct1.ref.data[-1][0][0] = 0,
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[-1][0][0] = 0,
-          throwsA(const TypeMatcher<RangeError>()));
-      expect(() => struct1.ref.data[0][0][-1] = 0,
-          throwsA(const TypeMatcher<RangeError>()));
+      expect(
+        () => struct1.ref.data[-1][0][0] = 0,
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[-1][0][0] = 0,
+        throwsA(const TypeMatcher<RangeError>()),
+      );
+      expect(
+        () => struct1.ref.data[0][0][-1] = 0,
+        throwsA(const TypeMatcher<RangeError>()),
+      );
     });
     test('Struct By Value', () {
       final r = Random();

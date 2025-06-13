@@ -37,14 +37,18 @@ extension LibraryTestExt on Library {
 /// exception if it does not.
 void verifySetupFile(File file) {
   if (!file.existsSync()) {
-    throw NotFoundException('The file ${file.path} does not exist.\n\n'
-        'You may need to run: dart run test/setup.dart\n');
+    throw NotFoundException(
+      'The file ${file.path} does not exist.\n\n'
+      'You may need to run: dart run test/setup.dart\n',
+    );
   }
 }
 
 // Remove '\r' for Windows compatibility, then apply user's normalizer.
 String _normalizeGeneratedCode(
-    String generated, String Function(String)? codeNormalizer) {
+  String generated,
+  String Function(String)? codeNormalizer,
+) {
   final noCR = generated.replaceAll('\r', '');
   if (codeNormalizer == null) return noCR;
   return codeNormalizer(noCR);
@@ -54,8 +58,12 @@ String _normalizeGeneratedCode(
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
 void matchLibraryWithExpected(
-    Library library, String pathForActual, List<String> pathToExpected,
-    {String Function(String)? codeNormalizer, bool format = true}) {
+  Library library,
+  String pathForActual,
+  List<String> pathToExpected, {
+  String Function(String)? codeNormalizer,
+  bool format = true,
+}) {
   _matchFileWithExpected(
     library: library,
     pathForActual: pathForActual,
@@ -69,16 +77,21 @@ void matchLibraryWithExpected(
 /// Generates actual file using library and tests using [expect] with expected.
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
-void matchLibrarySymbolFileWithExpected(Library library, String pathForActual,
-    List<String> pathToExpected, String importPath) {
+void matchLibrarySymbolFileWithExpected(
+  Library library,
+  String pathForActual,
+  List<String> pathToExpected,
+  String importPath,
+) {
   _matchFileWithExpected(
-      library: library,
-      pathForActual: pathForActual,
-      pathToExpected: pathToExpected,
-      fileWriter: ({required Library library, required File file}) {
-        if (!library.writer.canGenerateSymbolOutput) library.generate();
-        library.generateSymbolOutputFile(file, importPath);
-      });
+    library: library,
+    pathForActual: pathForActual,
+    pathToExpected: pathToExpected,
+    fileWriter: ({required Library library, required File file}) {
+      if (!library.writer.canGenerateSymbolOutput) library.generate();
+      library.generateSymbolOutputFile(file, importPath);
+    },
+  );
 }
 
 const bool updateExpectations = false;
@@ -98,19 +111,21 @@ void _matchFileWithExpected({
   required String pathForActual,
   required List<String> pathToExpected,
   required void Function({required Library library, required File file})
-      fileWriter,
+  fileWriter,
   String Function(String)? codeNormalizer,
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
-  final file = File(
-    path.join(strings.tmpDir, pathForActual),
-  );
+  final file = File(path.join(strings.tmpDir, pathForActual));
   fileWriter(library: library, file: file);
   try {
-    final actual =
-        _normalizeGeneratedCode(file.readAsStringSync(), codeNormalizer);
+    final actual = _normalizeGeneratedCode(
+      file.readAsStringSync(),
+      codeNormalizer,
+    );
     final expected = _normalizeGeneratedCode(
-        File(expectedPath).readAsStringSync(), codeNormalizer);
+      File(expectedPath).readAsStringSync(),
+      codeNormalizer,
+    );
     expect(actual.split('\n'), expected.split('\n'));
     if (file.existsSync()) {
       file.delete();
@@ -156,8 +171,9 @@ Config testConfig(String yamlBody, {String? filename}) {
     packageConfig: PackageConfig([
       Package(
         'shared_bindings',
-        Uri.file(path.join(
-            packagePathForTests, 'example', 'shared_bindings', 'lib/')),
+        Uri.file(
+          path.join(packagePathForTests, 'example', 'shared_bindings', 'lib/'),
+        ),
       ),
     ]),
   );

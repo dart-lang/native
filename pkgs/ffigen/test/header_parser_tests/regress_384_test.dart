@@ -30,12 +30,15 @@ ${strings.headers}:
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_regress_384_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_regress_384_bindings.dart'
-      ]);
+        actual,
+        'header_parser_regress_384_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_regress_384_bindings.dart',
+        ],
+      );
     });
   });
 }

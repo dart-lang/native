@@ -21,21 +21,23 @@ import 'package:test/test.dart';
 import 'util.dart';
 
 Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
-        NSInputStream stream, int size) =>
-    Isolate.run(() {
-      final buffer = calloc<Uint8>(size);
-      final readSize = stream.read(buffer, maxLength: size);
-      final data =
-          Uint8List.fromList(buffer.asTypedList(readSize == -1 ? 0 : readSize));
-      calloc.free(buffer);
-      return (
-        readSize,
-        data,
-        stream.hasBytesAvailable,
-        stream.streamStatus,
-        stream.streamError,
-      );
-    });
+  NSInputStream stream,
+  int size,
+) => Isolate.run(() {
+  final buffer = calloc<Uint8>(size);
+  final readSize = stream.read(buffer, maxLength: size);
+  final data = Uint8List.fromList(
+    buffer.asTypedList(readSize == -1 ? 0 : readSize),
+  );
+  calloc.free(buffer);
+  return (
+    readSize,
+    data,
+    stream.hasBytesAvailable,
+    stream.streamStatus,
+    stream.streamError,
+  );
+});
 
 void main() {
   group('NSInputStream', () {
@@ -54,7 +56,9 @@ void main() {
 
         test('initial state', () {
           expect(
-              inputStream.streamStatus, NSStreamStatus.NSStreamStatusNotOpen);
+            inputStream.streamStatus,
+            NSStreamStatus.NSStreamStatusNotOpen,
+          );
           expect(inputStream.streamError, null);
         });
 
@@ -66,8 +70,10 @@ void main() {
 
         test('read', () async {
           inputStream.open();
-          final (count, data, hasBytesAvailable, status, error) =
-              await read(inputStream, 10);
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            10,
+          );
           expect(count, 0);
           expect(data, isEmpty);
           expect(hasBytesAvailable, false);
@@ -77,8 +83,10 @@ void main() {
         });
 
         test('read without open', () async {
-          final (count, data, hasBytesAvailable, status, error) =
-              await read(inputStream, 10);
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            10,
+          );
           expect(count, -1);
           expect(data, isEmpty);
           expect(hasBytesAvailable, false);
@@ -101,13 +109,15 @@ void main() {
           inputStream = Stream.fromIterable([
             [1],
             [2, 3],
-            [4, 5, 6]
+            [4, 5, 6],
           ]).toNSInputStream();
         });
 
         test('initial state', () {
           expect(
-              inputStream.streamStatus, NSStreamStatus.NSStreamStatusNotOpen);
+            inputStream.streamStatus,
+            NSStreamStatus.NSStreamStatusNotOpen,
+          );
           expect(inputStream.streamError, null);
         });
 
@@ -119,8 +129,10 @@ void main() {
 
         test('partial read', () async {
           inputStream.open();
-          final (count, data, hasBytesAvailable, status, error) =
-              await read(inputStream, 5);
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            5,
+          );
           expect(count, lessThanOrEqualTo(5));
           expect(count, greaterThanOrEqualTo(1));
           expect(data, [1, 2, 3, 4, 5].sublist(0, count));
@@ -133,8 +145,10 @@ void main() {
           inputStream.open();
           final readData = <int>[];
           while (true) {
-            final (count, data, hasBytesAvailable, status, error) =
-                await read(inputStream, 6);
+            final (count, data, hasBytesAvailable, status, error) = await read(
+              inputStream,
+              6,
+            );
             readData.addAll(data);
 
             expect(error, isNull);
@@ -148,8 +162,10 @@ void main() {
         });
 
         test('read without open', () async {
-          final (count, data, hasBytesAvailable, status, error) =
-              await read(inputStream, 10);
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            10,
+          );
           expect(count, -1);
           expect(data, isEmpty);
           expect(hasBytesAvailable, false);
@@ -177,8 +193,10 @@ void main() {
 
       test('partial read', () async {
         inputStream.open();
-        final (count, data, hasBytesAvailable, status, error) =
-            await read(inputStream, 100000);
+        final (count, data, hasBytesAvailable, status, error) = await read(
+          inputStream,
+          100000,
+        );
         expect(count, lessThanOrEqualTo(100000));
         expect(count, greaterThanOrEqualTo(1));
         expect(data, testData.sublist(0, count));
@@ -191,8 +209,10 @@ void main() {
         inputStream.open();
         final readData = <int>[];
         while (true) {
-          final (count, data, hasBytesAvailable, status, error) =
-              await read(inputStream, Random.secure().nextInt(100000));
+          final (count, data, hasBytesAvailable, status, error) = await read(
+            inputStream,
+            Random.secure().nextInt(100000),
+          );
 
           readData.addAll(data);
 
@@ -213,53 +233,67 @@ void main() {
       inputStream = () async* {
         yield [1, 2];
         throw const FileSystemException('some exception message');
-      }()
-          .toNSInputStream();
+      }().toNSInputStream();
 
       inputStream.open();
-      final (count1, data1, hasBytesAvailable1, status1, error1) =
-          await read(inputStream, 10);
+      final (count1, data1, hasBytesAvailable1, status1, error1) = await read(
+        inputStream,
+        10,
+      );
       expect(count1, 2);
       expect(data1, [1, 2]);
       expect(hasBytesAvailable1, true);
       expect(status1, NSStreamStatus.NSStreamStatusOpen);
       expect(error1, isNull);
 
-      final (count2, _, hasBytesAvailable2, status2, error2) =
-          await read(inputStream, 10);
+      final (count2, _, hasBytesAvailable2, status2, error2) = await read(
+        inputStream,
+        10,
+      );
       expect(count2, -1);
       expect(hasBytesAvailable2, false);
       expect(status2, NSStreamStatus.NSStreamStatusError);
       expect(
-          error2,
-          isA<NSError>()
-              .having((e) => e.localizedDescription.toDartString(),
-                  'localizedDescription', contains('some exception message'))
-              .having((e) => e.domain.toDartString(), 'domain', 'DartError'));
+        error2,
+        isA<NSError>()
+            .having(
+              (e) => e.localizedDescription.toDartString(),
+              'localizedDescription',
+              contains('some exception message'),
+            )
+            .having((e) => e.domain.toDartString(), 'domain', 'DartError'),
+      );
     });
 
     group('delegate', () {
       late DartInputStreamAdapter inputStream;
 
       setUp(() {
-        inputStream = Stream.fromIterable([
-          [1, 2, 3],
-        ]).toNSInputStream() as DartInputStreamAdapter;
+        inputStream =
+            Stream.fromIterable([
+                  [1, 2, 3],
+                ]).toNSInputStream()
+                as DartInputStreamAdapter;
       });
 
       test('default delegate', () async {
         expect(inputStream.delegate, inputStream);
-        inputStream.stream(inputStream,
-            handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
+        inputStream.stream(
+          inputStream,
+          handleEvent: NSStreamEvent.NSStreamEventOpenCompleted,
+        );
       });
 
       test('non-self delegate', () async {
         final events = <NSStreamEvent>[];
 
         inputStream.delegate = NSStreamDelegate.implement(
-            stream_handleEvent_: (stream, event) => events.add(event));
-        inputStream.stream(inputStream,
-            handleEvent: NSStreamEvent.NSStreamEventOpenCompleted);
+          stream_handleEvent_: (stream, event) => events.add(event),
+        );
+        inputStream.stream(
+          inputStream,
+          handleEvent: NSStreamEvent.NSStreamEventOpenCompleted,
+        );
         expect(events, [NSStreamEvent.NSStreamEventOpenCompleted]);
       });
 
@@ -272,9 +306,11 @@ void main() {
     group('ref counting', () {
       test('with self delegate', () async {
         final pool = autoreleasePoolPush();
-        DartInputStreamAdapter? inputStream = Stream.fromIterable([
-          [1, 2, 3],
-        ]).toNSInputStream() as DartInputStreamAdapter;
+        DartInputStreamAdapter? inputStream =
+            Stream.fromIterable([
+                  [1, 2, 3],
+                ]).toNSInputStream()
+                as DartInputStreamAdapter;
 
         expect(inputStream.delegate, inputStream);
 
@@ -295,9 +331,11 @@ void main() {
 
       test('with non-self delegate', () async {
         final pool = autoreleasePoolPush();
-        DartInputStreamAdapter? inputStream = Stream.fromIterable([
-          [1, 2, 3],
-        ]).toNSInputStream() as DartInputStreamAdapter;
+        DartInputStreamAdapter? inputStream =
+            Stream.fromIterable([
+                  [1, 2, 3],
+                ]).toNSInputStream()
+                as DartInputStreamAdapter;
 
         inputStream.delegate = NSStreamDelegate.castFrom(NSObject());
         expect(inputStream.delegate, isNot(inputStream));
