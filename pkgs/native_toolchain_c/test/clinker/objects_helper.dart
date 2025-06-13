@@ -18,8 +18,12 @@ void runObjectsTests(
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
   int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
 }) {
-  assert((targetOS != OS.android) == (androidTargetNdkApi == null));
-  assert((targetOS != OS.macOS) == (macOSTargetVersion == null));
+  if (targetOS == OS.android) {
+    ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
+  }
+  if (targetOS == OS.macOS) {
+    ArgumentError.checkNotNull(macOSTargetVersion, 'macOSTargetVersion');
+  }
 
   const name = 'mylibname';
 

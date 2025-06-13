@@ -97,34 +97,39 @@ extension LinkerOptionsExt on LinkerOptions {
   ) {
     final includeAllSymbols = _symbolsToKeep == null;
 
-    if (targetOS == OS.macOS) {
-      return [
-        if (!includeAllSymbols) ...sourceFiles,
-        ..._toLinkerSyntax(tool, [
-          if (includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
-          ..._linkerFlags,
-          ..._symbolsToKeep?.map((symbol) => '-u,_$symbol') ?? [],
-          if (stripDebug) '-S',
-          if (gcSections) '-dead_strip',
-        ]),
-      ];
+    switch (targetOS) {
+      case OS.macOS:
+        return [
+          if (!includeAllSymbols) ...sourceFiles,
+          ..._toLinkerSyntax(tool, [
+            if (includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
+            ..._linkerFlags,
+            ..._symbolsToKeep?.map((symbol) => '-u,_$symbol') ?? [],
+            if (stripDebug) '-S',
+            if (gcSections) '-dead_strip',
+          ]),
+        ];
+
+      case OS.android || OS.linux:
+        final wholeArchiveSandwich =
+            sourceFiles.any((source) => source.endsWith('.a')) ||
+            includeAllSymbols;
+        return [
+          if (wholeArchiveSandwich)
+            ..._toLinkerSyntax(tool, ['--whole-archive']),
+          ...sourceFiles,
+          ..._toLinkerSyntax(tool, [
+            ..._linkerFlags,
+            ..._symbolsToKeep?.map((symbol) => '-u,$symbol') ?? [],
+            if (stripDebug) '--strip-debug',
+            if (gcSections) '--gc-sections',
+            if (linkerScript != null)
+              '--version-script=${linkerScript!.toFilePath()}',
+            if (wholeArchiveSandwich) '--no-whole-archive',
+          ]),
+        ];
+      case OS():
+        throw UnimplementedError();
     }
-
-    final wholeArchiveSandwich =
-        sourceFiles.any((source) => source.endsWith('.a')) || includeAllSymbols;
-
-    return [
-      if (wholeArchiveSandwich) ..._toLinkerSyntax(tool, ['--whole-archive']),
-      ...sourceFiles,
-      ..._toLinkerSyntax(tool, [
-        ..._linkerFlags,
-        ..._symbolsToKeep?.map((symbol) => '-u,$symbol') ?? [],
-        if (stripDebug) '--strip-debug',
-        if (gcSections) '--gc-sections',
-        if (linkerScript != null)
-          '--version-script=${linkerScript!.toFilePath()}',
-        if (wholeArchiveSandwich) '--no-whole-archive',
-      ]),
-    ];
   }
 }
