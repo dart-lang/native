@@ -28,7 +28,7 @@ dependencies:
   plugin_platform_interface: ^2.1.8
 
 dev_dependencies:
-  dart_flutter_team_lints: ^3.2.0
+  dart_flutter_team_lints: ^3.5.2
   ## Pin ffigen version because we are depending on internal APIs.
   ffigen: 16.1.0
   logging: ^1.2.0
