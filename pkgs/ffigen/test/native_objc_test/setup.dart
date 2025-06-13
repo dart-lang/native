@@ -164,7 +164,6 @@ Future<void> clean(List<String> testNames) async {
 Future<void> main(List<String> arguments) async {
   final parser = ArgParser();
   parser.addFlag('clean');
-  parser.addFlag('main-thread-dispatcher');
   final args = parser.parse(arguments);
 
   // Allow running this script directly from any path (or an IDE).
@@ -177,9 +176,5 @@ Future<void> main(List<String> arguments) async {
     return await clean(_getTestNames());
   }
 
-  await _runDart([
-    '../objective_c/test/setup.dart',
-    if (args.flag('main-thread-dispatcher')) '--main-thread-dispatcher',
-  ]);
   return await build(args.rest.isNotEmpty ? args.rest : _getTestNames());
 }

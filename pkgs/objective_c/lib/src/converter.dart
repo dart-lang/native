@@ -21,41 +21,42 @@ ObjCObjectBase _defaultObjCConverter(Object o) =>
 ObjCObjectBase toObjCObject(
   Object dartObject, {
   ObjCObjectBase Function(Object) convertOther = _defaultObjCConverter,
-}) =>
-    switch (dartObject) {
-      ObjCObjectBase() => dartObject,
-      num() => dartObject.toNSNumber(),
-      String() => dartObject.toNSString(),
-      DateTime() => dartObject.toNSDate(),
-      List<Object>() => dartObject.toNSArray(convertOther: convertOther),
-      Set<Object>() => dartObject.toNSSet(convertOther: convertOther),
-      Map<Object, Object>() =>
-        dartObject.toNSDictionary(convertOther: convertOther),
-      _ => convertOther(dartObject),
-    };
+}) => switch (dartObject) {
+  ObjCObjectBase() => dartObject,
+  num() => dartObject.toNSNumber(),
+  String() => dartObject.toNSString(),
+  DateTime() => dartObject.toNSDate(),
+  List<Object>() => dartObject.toNSArray(convertOther: convertOther),
+  Set<Object>() => dartObject.toNSSet(convertOther: convertOther),
+  Map<Object, Object>() => dartObject.toNSDictionary(
+    convertOther: convertOther,
+  ),
+  _ => convertOther(dartObject),
+};
 
 extension DartListToNSArray on List<Object> {
   NSArray toNSArray({
     ObjCObjectBase Function(Object) convertOther = _defaultObjCConverter,
-  }) =>
-      NSArray.of(map((o) => toObjCObject(o, convertOther: convertOther)));
+  }) => NSArray.of(map((o) => toObjCObject(o, convertOther: convertOther)));
 }
 
 extension DartSetToNSSet on Set<Object> {
   NSSet toNSSet({
     ObjCObjectBase Function(Object) convertOther = _defaultObjCConverter,
-  }) =>
-      NSSet.of(map((o) => toObjCObject(o, convertOther: convertOther)));
+  }) => NSSet.of(map((o) => toObjCObject(o, convertOther: convertOther)));
 }
 
 extension DartMapToNSDictionary on Map<Object, Object> {
   NSDictionary toNSDictionary({
     ObjCObjectBase Function(Object) convertOther = _defaultObjCConverter,
-  }) =>
-      NSDictionary.fromEntries(entries.map((kv) => MapEntry(
-            toObjCObject(kv.key, convertOther: convertOther) as NSCopying,
-            toObjCObject(kv.value, convertOther: convertOther),
-          )));
+  }) => NSDictionary.fromEntries(
+    entries.map(
+      (kv) => MapEntry(
+        toObjCObject(kv.key, convertOther: convertOther) as NSCopying,
+        toObjCObject(kv.value, convertOther: convertOther),
+      ),
+    ),
+  );
 }
 
 Object _defaultDartConverter(ObjCObjectBase o) => o;
@@ -91,8 +92,9 @@ Object toDartObject(
     return NSSet.castFrom(objCObject).toDartSet(convertOther: convertOther);
   }
   if (NSDictionary.isInstance(objCObject)) {
-    return NSDictionary.castFrom(objCObject)
-        .toDartMap(convertOther: convertOther);
+    return NSDictionary.castFrom(
+      objCObject,
+    ).toDartMap(convertOther: convertOther);
   }
   return convertOther(objCObject);
 }
@@ -100,22 +102,24 @@ Object toDartObject(
 extension NSArrayToDartList on NSArray {
   List<Object> toDartList({
     Object Function(ObjCObjectBase) convertOther = _defaultDartConverter,
-  }) =>
-      map((o) => toDartObject(o, convertOther: convertOther)).toList();
+  }) => map((o) => toDartObject(o, convertOther: convertOther)).toList();
 }
 
 extension NSSetToDartSet on NSSet {
   Set<Object> toDartSet({
     Object Function(ObjCObjectBase) convertOther = _defaultDartConverter,
-  }) =>
-      map((o) => toDartObject(o, convertOther: convertOther)).toSet();
+  }) => map((o) => toDartObject(o, convertOther: convertOther)).toSet();
 }
 
 extension NSDictionaryToDartMap on NSDictionary {
   Map<Object, Object> toDartMap({
     Object Function(ObjCObjectBase) convertOther = _defaultDartConverter,
-  }) =>
-      Map.fromEntries(entries.map((kv) => MapEntry(
-          toDartObject(kv.key, convertOther: convertOther),
-          toDartObject(kv.value, convertOther: convertOther))));
+  }) => Map.fromEntries(
+    entries.map(
+      (kv) => MapEntry(
+        toDartObject(kv.key, convertOther: convertOther),
+        toDartObject(kv.value, convertOther: convertOther),
+      ),
+    ),
+  );
 }

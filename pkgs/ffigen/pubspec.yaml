@@ -41,11 +41,14 @@ dev_dependencies:
   json_schema: ^5.1.1
   leak_tracker: ^10.0.7
   objective_c: ^8.1.0
-  test: ^1.16.2
+  test: ^1.26.2
 
 dependency_overrides:
-  # package:objective_c has a flutter dependency, so `dart test` must be run
-  # using the dart from the flutter SDK.
-  # See https://github.com/dart-lang/native/issues/1068
+  code_assets:
+    path: ../code_assets
+  hooks:
+    path: ../hooks
+  native_toolchain_c:
+    path: ../native_toolchain_c
   objective_c:
-    path: ../objective_c/
+    path: ../objective_c

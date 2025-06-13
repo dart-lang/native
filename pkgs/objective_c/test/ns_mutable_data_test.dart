@@ -12,15 +12,8 @@ import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
-import 'util.dart';
-
 void main() {
   group('NSData', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     group('toNSData', () {
       test('empty', () {
         final data = <int>[].toNSMutableData();

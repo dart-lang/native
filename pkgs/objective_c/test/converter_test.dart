@@ -6,20 +6,11 @@
 @TestOn('mac-os')
 library;
 
-import 'dart:ffi';
-
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
-import 'util.dart';
-
 void main() {
   group('converter', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('basics', () {
       final obj = NSObject();
       expect(toObjCObject(obj), obj);
@@ -38,8 +29,10 @@ void main() {
       expect((toObjCObject('hello') as NSString).toDartString(), 'hello');
 
       expect(toObjCObject(DateTime(2025)), isA<NSDate>());
-      expect((toObjCObject(DateTime(2025)) as NSDate).toDateTime(),
-          DateTime(2025));
+      expect(
+        (toObjCObject(DateTime(2025)) as NSDate).toDateTime(),
+        DateTime(2025),
+      );
     });
 
     test('list', () {
@@ -61,8 +54,8 @@ void main() {
         [2, 3],
         [
           4,
-          [5]
-        ]
+          [5],
+        ],
       ];
       final nestedObjCList = toObjCObject(nestedDartList) as NSArray;
       expect(toDartObject(nestedObjCList), nestedDartList);
@@ -87,8 +80,8 @@ void main() {
         {2, 3},
         {
           4,
-          {5}
-        }
+          {5},
+        },
       };
       final nestedObjCSet = toObjCObject(nestedDartSet) as NSSet;
       expect(toDartObject(nestedObjCSet), nestedDartSet);
@@ -111,16 +104,18 @@ void main() {
       final nestedDartMap = {
         1: {2: 3},
         4: {
-          5: {6: 7}
-        }
+          5: {6: 7},
+        },
       };
       final nestedObjCMap = toObjCObject(nestedDartMap) as NSDictionary;
       expect(toDartObject(nestedObjCMap), nestedDartMap);
     });
 
     test('unsupported type', () {
-      expect(() => toObjCObject(Future<void>.value()),
-          throwsA(isA<UnimplementedError>()));
+      expect(
+        () => toObjCObject(Future<void>.value()),
+        throwsA(isA<UnimplementedError>()),
+      );
 
       final obj = NSObject();
       expect(toObjCObject(obj), obj);

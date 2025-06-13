@@ -31,17 +31,17 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: 'stable'
+          sdk: stable
       - id: install
         name: Install dependencies
-        run: flutter pub get
+        run: dart pub get
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Analyze code
-        run: flutter analyze --fatal-infos
+        run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
 
   test-mac:
@@ -52,14 +52,11 @@ jobs:
         working-directory: pkgs/objective_c/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: 'stable'
+          sdk: stable
       - name: Install dependencies
-        run: flutter pub get
-      - name: Build test dylib
-        # TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-        run: dart test/setup.dart
+        run: dart pub get
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage

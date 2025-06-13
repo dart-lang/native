@@ -15,11 +15,6 @@ import 'util.dart';
 
 void main() {
   group('Observer', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('receive updates', () {
       // Using NSProgress here because it's already part of our generated
       // bindings and has a property with a getter and setter.
@@ -29,15 +24,19 @@ void main() {
 
       final values = <dynamic>[];
       final observer = Observer.implement(
-          observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
+        observeValueForKeyPath_ofObject_change_context_:
+            (
+              NSString keyPath,
               ObjCObjectBase object,
               NSDictionary change,
-              Pointer<Void> context) {
-        expect(keyPath.toDartString(), 'totalUnitCount');
-        expect(object, observed);
-        expect(context.address, 0x1234);
-        values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
-      });
+              Pointer<Void> context,
+            ) {
+              expect(keyPath.toDartString(), 'totalUnitCount');
+              expect(object, observed);
+              expect(context.address, 0x1234);
+              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+            },
+      );
       final observation = observed.addObserver(
         observer,
         forKeyPath: 'totalUnitCount'.toNSString(),
@@ -66,16 +65,22 @@ void main() {
 
       final values = <dynamic>[];
       final observer = Observer.implement(
-          observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
+        observeValueForKeyPath_ofObject_change_context_:
+            (
+              NSString keyPath,
               ObjCObjectBase object,
               NSDictionary change,
-              Pointer<Void> context) {
-        values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
-      });
+              Pointer<Void> context,
+            ) {
+              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+            },
+      );
 
       () {
-        final observation = observed.addObserver(observer,
-            forKeyPath: 'totalUnitCount'.toNSString());
+        final observation = observed.addObserver(
+          observer,
+          forKeyPath: 'totalUnitCount'.toNSString(),
+        );
 
         observed.totalUnitCount = 123;
         expect(values, [123]);
@@ -96,19 +101,25 @@ void main() {
       final pool = autoreleasePoolPush();
       NSProgress? observed = NSProgress();
       Observer? observer = Observer.implement(
-          observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
+        observeValueForKeyPath_ofObject_change_context_:
+            (
+              NSString keyPath,
               ObjCObjectBase object,
               NSDictionary change,
-              Pointer<Void> context) {
-        values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+              Pointer<Void> context,
+            ) {
+              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
 
-        // This is testing that a captured reference from the observer to
-        // the observed object does not cause leak.
-        expect(object, observed);
-      });
+              // This is testing that a captured reference from the observer to
+              // the observed object does not cause leak.
+              expect(object, observed);
+            },
+      );
 
-      Observation? observation = observed.addObserver(observer,
-          forKeyPath: 'totalUnitCount'.toNSString());
+      Observation? observation = observed.addObserver(
+        observer,
+        forKeyPath: 'totalUnitCount'.toNSString(),
+      );
       autoreleasePoolPop(pool);
 
       observed.totalUnitCount = 123;
@@ -144,13 +155,19 @@ void main() {
       final pool = autoreleasePoolPush();
       NSProgress? observed = NSProgress();
       Observer? observer = Observer.implement(
-          observeValueForKeyPath_ofObject_change_context_: (NSString keyPath,
+        observeValueForKeyPath_ofObject_change_context_:
+            (
+              NSString keyPath,
               ObjCObjectBase object,
               NSDictionary change,
-              Pointer<Void> context) {});
+              Pointer<Void> context,
+            ) {},
+      );
 
-      final observation = observed.addObserver(observer,
-          forKeyPath: 'totalUnitCount'.toNSString());
+      final observation = observed.addObserver(
+        observer,
+        forKeyPath: 'totalUnitCount'.toNSString(),
+      );
       autoreleasePoolPop(pool);
 
       final observedRaw = observed.ref.pointer;
