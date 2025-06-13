@@ -33,6 +33,8 @@ class LinkerOptions {
   final bool stripDebug;
 
   /// The symbols to keep in the resulting binaries.
+  ///
+  /// If null all symbols will be kept.
   final List<String>? _symbolsToKeep;
 
   /// Create linking options manually for fine-grained control.

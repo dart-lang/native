@@ -20,6 +20,7 @@ Future<Uri> buildTestArchive(
 }) async {
   assert((targetOS != OS.android) == (androidTargetNdkApi == null));
   assert((targetOS != OS.macOS) == (macOSTargetVersion == null));
+
   final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
   final test2Uri = packageUri.resolve('test/clinker/testfiles/linker/test2.c');
   if (!await File.fromUri(test1Uri).exists() ||
