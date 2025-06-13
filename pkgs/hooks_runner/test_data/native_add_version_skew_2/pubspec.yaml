@@ -13,9 +13,9 @@ dependencies:
   native_toolchain_c: ^0.5.0
 
 dev_dependencies:
-  dart_flutter_team_lints: ^3.5.1
+  dart_flutter_team_lints: ^3.5.2
   ffigen: ^18.0.0
-  lints: ^5.1.1
+  lints: ^6.0.0
   some_dev_dep:
     path: ../some_dev_dep/
   test: ^1.25.15
