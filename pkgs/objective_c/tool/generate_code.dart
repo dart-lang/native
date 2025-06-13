@@ -25,10 +25,7 @@ const builtInTypes =
     '../ffigen/lib/src/code_generator/objc_built_in_types.dart';
 const interfaceListTest = 'test/interface_lists_test.dart';
 
-const privateClasses = <String>{
-  'DartInputStreamAdapter',
-  'DOBJCObservation',
-};
+const privateClasses = <String>{'DartInputStreamAdapter', 'DOBJCObservation'};
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;
@@ -48,7 +45,8 @@ typedef ClassInfo = ({
   List<String> impl,
 });
 final _clsDecl = RegExp(
-    r'^class (.*?)(?: extends (.*?))?(?: with (.*?))?(?: implements (.*?))? {');
+  r'^class (.*?)(?: extends (.*?))?(?: with (.*?))?(?: implements (.*?))? {',
+);
 ClassInfo? parseClassDecl(String line) {
   final match = _clsDecl.firstMatch(line);
   if (match == null) return null;
@@ -56,7 +54,7 @@ ClassInfo? parseClassDecl(String line) {
     name: match[1]!,
     ext: match[2],
     mix: match[3]?.split(', ') ?? [],
-    impl: match[4]?.split(', ') ?? []
+    impl: match[4]?.split(', ') ?? [],
   );
 }
 
@@ -74,8 +72,10 @@ Map<String, ExtraMethods> parseExtraMethods(String filename) {
       }
     } else {
       if (line == '}') {
-        extraMethods[currentClass.name] =
-            (cls: currentClass, methods: methods.toString());
+        extraMethods[currentClass.name] = (
+          cls: currentClass,
+          methods: methods.toString(),
+        );
         currentClass = null;
       } else {
         methods.writeln(line);
@@ -86,17 +86,22 @@ Map<String, ExtraMethods> parseExtraMethods(String filename) {
 }
 
 String classDecl(
-        String name, String? ext, List<String> mix, List<String> impl) =>
-    [
-      'class $name',
-      if (ext != null) 'extends $ext',
-      if (mix.isNotEmpty) 'with ${mix.join(', ')}',
-      if (impl.isNotEmpty) 'implements ${impl.join(', ')}',
-      '{',
-    ].join(' ');
+  String name,
+  String? ext,
+  List<String> mix,
+  List<String> impl,
+) => [
+  'class $name',
+  if (ext != null) 'extends $ext',
+  if (mix.isNotEmpty) 'with ${mix.join(', ')}',
+  if (impl.isNotEmpty) 'implements ${impl.join(', ')}',
+  '{',
+].join(' ');
 
 void mergeExtraMethods(
-    String filename, Map<String, ExtraMethods> extraMethods) {
+  String filename,
+  Map<String, ExtraMethods> extraMethods,
+) {
   final out = StringBuffer();
   for (final line in File(filename).readAsLinesSync()) {
     final cls = parseClassDecl(line);
@@ -104,8 +109,14 @@ void mergeExtraMethods(
     if (cls == null || extra == null) {
       out.writeln(line);
     } else {
-      out.writeln(classDecl(cls.name, extra.cls.ext ?? cls.ext,
-          [...cls.mix, ...extra.cls.mix], [...cls.impl, ...extra.cls.impl]));
+      out.writeln(
+        classDecl(
+          cls.name,
+          extra.cls.ext ?? cls.ext,
+          [...cls.mix, ...extra.cls.mix],
+          [...cls.impl, ...extra.cls.impl],
+        ),
+      );
       out.writeln(extra.methods);
       extraMethods.remove(cls.name);
     }
@@ -115,8 +126,9 @@ void mergeExtraMethods(
   // remaining classes separately.
   for (final extra in extraMethods.values) {
     out.writeln('\n');
-    out.writeln(classDecl(
-        extra.cls.name, extra.cls.ext, extra.cls.mix, extra.cls.impl));
+    out.writeln(
+      classDecl(extra.cls.name, extra.cls.ext, extra.cls.mix, extra.cls.impl),
+    );
     out.writeln(extra.methods);
     out.writeln('}');
   }
@@ -222,13 +234,13 @@ Future<void> run({required bool format}) async {
 
 Future<void> main(List<String> args) async {
   Directory.current = Platform.script.resolve('..').path;
-  final argResults = (ArgParser()
-        ..addFlag(
-          'format',
-          help: 'Format the generated code.',
-          defaultsTo: true,
-          negatable: true,
-        ))
-      .parse(args);
+  final argResults =
+      (ArgParser()..addFlag(
+            'format',
+            help: 'Format the generated code.',
+            defaultsTo: true,
+            negatable: true,
+          ))
+          .parse(args);
   await run(format: argResults.flag('format'));
 }

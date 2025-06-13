@@ -4,15 +4,14 @@
 
 import 'dart:io';
 
-import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
+import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
 const assetName = 'objective_c.dylib';
-final packageAssetPath = Uri.file('assets/$assetName');
 
 const extraCFiles = ['test/util.c'];
 
@@ -30,12 +29,11 @@ void main(List<String> args) async {
 
     final packageName = input.packageName;
     final assetPath = input.outputDirectory.resolve(assetName);
-    final assetSourcePath = input.packageRoot.resolveUri(packageAssetPath);
     final srcDir = Directory.fromUri(input.packageRoot.resolve('src/'));
 
-    List<String> cFiles = [];
-    List<String> mFiles = [];
-    List<String> hFiles = [];
+    final cFiles = <String>[];
+    final mFiles = <String>[];
+    final hFiles = <String>[];
     for (final file in srcDir.listSync(recursive: true)) {
       if (file is File) {
         final path = file.path;
@@ -47,7 +45,7 @@ void main(List<String> args) async {
 
     cFiles.addAll(extraCFiles.map((f) => input.packageRoot.resolve(f).path));
 
-    final cFlags = [if (true) '-DNO_MAIN_THREAD_DISPATCH'];
+    final cFlags = <String>[];
     final mFlags = [...cFlags, ...objCFlags];
 
     final builder = await Builder.create(input, input.packageRoot.path);
@@ -91,39 +89,20 @@ class Builder {
     );
   }
 
-  Future<String> buildObject(
-    String input,
-    List<String> flags,
-  ) async {
+  Future<String> buildObject(String input, List<String> flags) async {
     assert(input.startsWith(_rootDir));
     final relativeInput = input.substring(_rootDir.length);
     final output = '${_tempOutDir.resolve(relativeInput).path}.o';
     File(output).parent.createSync(recursive: true);
-    await _compile([
-      ...flags,
-      '-c',
-      input,
-      '-fpic',
-      '-I',
-      'src',
-    ], output);
+    await _compile([...flags, '-c', input, '-fpic', '-I', 'src'], output);
     return output;
   }
 
   Future<void> linkLib(List<String> objects, String output) =>
-      _compile([
-        '-shared',
-        '-undefined',
-        'dynamic_lookup',
-        ...objects,
-      ], output);
+      _compile(['-shared', '-undefined', 'dynamic_lookup', ...objects], output);
 
-  Future<void> _compile(
-    List<String> flags,
-    String output,
-  ) async {
+  Future<void> _compile(List<String> flags, String output) async {
     final args = [...flags, '-o', output];
-    const exec = 'clang';
     logger.info('Running: $_comp ${args.join(" ")}');
     final proc = await Process.run(_comp, args);
     logger.info(proc.stdout);

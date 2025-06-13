@@ -6,8 +6,6 @@
 @TestOn('mac-os')
 library;
 
-import 'dart:ffi';
-
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -22,10 +20,14 @@ void main() {
     test('check', () {
       // This test is only run on macOS.
       expect(checkOSVersion(iOS: Version(1, 0, 0)), isFalse);
-      expect(checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(11, 0, 0)),
-          isTrue);
-      expect(checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(1000, 0, 0)),
-          isFalse);
+      expect(
+        checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(11, 0, 0)),
+        isTrue,
+      );
+      expect(
+        checkOSVersion(iOS: Version(1, 0, 0), macOS: Version(1000, 0, 0)),
+        isFalse,
+      );
       expect(checkOSVersion(macOS: Version(11, 0, 0)), isTrue);
       expect(checkOSVersion(macOS: Version(1000, 0, 0)), isFalse);
     });

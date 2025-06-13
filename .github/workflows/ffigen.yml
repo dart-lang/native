@@ -32,19 +32,19 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: 'stable'
+          sdk: stable
       - id: install
         name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/shared_bindings" && flutter pub get --directory="../objective_c"
+        run: dart pub get && dart pub get --directory="example/shared_bindings" && dart pub get --directory="../objective_c"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Analyze code
-        run: flutter analyze --fatal-infos
+        run: dart analyze --fatal-infos
 
   test-linux:
     needs: analyze
@@ -54,11 +54,11 @@ jobs:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: 'stable'
+          sdk: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../jni"
       - name: Install libclang-14-dev
         run: sudo apt-get install libclang-14-dev
       - name: Build test dylib and bindings
@@ -78,11 +78,11 @@ jobs:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: stable
+          sdk: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../objective_c" && dart pub get --directory="../jni"
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
@@ -118,11 +118,11 @@ jobs:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: master
+          sdk: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../objective_c" && dart pub get --directory="../jni"
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
@@ -140,15 +140,15 @@ jobs:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: 'stable'
+          sdk: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c"
+        run: dart pub get && dart pub get --directory="../objective_c"
       - name: Build test dylib and bindings
-        run: dart test/setup.dart --main-thread-dispatcher
+        run: dart test/setup.dart
       - name: Run Flutter tests
-        run: flutter test
+        run: dart test
 
   test-windows:
     needs: analyze
@@ -158,11 +158,11 @@ jobs:
         working-directory: pkgs/ffigen/
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: 'stable'
+          sdk: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../jni"
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests

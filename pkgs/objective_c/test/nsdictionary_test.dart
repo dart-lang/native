@@ -6,8 +6,6 @@
 @TestOn('mac-os')
 library;
 
-import 'dart:ffi';
-
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
@@ -21,11 +19,7 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSDictionary.of({
-        obj1: obj2,
-        obj3: obj4,
-        obj5: obj6,
-      });
+      final dict = NSDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
 
       expect(dict.length, 3);
       expect(dict[obj1], obj2);
@@ -58,11 +52,9 @@ void main() {
       // NSDictionary.of actually returns a NSMutableDictionary, so our
       // immutability tests wouldn't actually work. So convert it to a real
       // NSDictionary using an ObjC constructor.
-      final dict = NSDictionary.dictionaryWithDictionary(NSDictionary.of({
-        obj1: obj2,
-        obj3: obj4,
-        obj5: obj6,
-      }));
+      final dict = NSDictionary.dictionaryWithDictionary(
+        NSDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6}),
+      );
 
       expect(() => dict[obj3] = obj1, throwsUnsupportedError);
       expect(dict.clear, throwsUnsupportedError);
@@ -77,11 +69,7 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSDictionary.of({
-        obj1: obj2,
-        obj3: obj4,
-        obj5: obj6,
-      });
+      final dict = NSDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
 
       expect(dict.isNotEmpty, isTrue);
       expect(dict.containsKey(obj1), isTrue);
@@ -90,18 +78,15 @@ void main() {
       expect(dict.containsValue(obj3), isFalse);
 
       expect(
-          dict.map((key, value) =>
-              MapEntry<ObjCObjectBase, ObjCObjectBase>(value, key)),
-          {
-            obj2: obj1,
-            obj4: obj3,
-            obj6: obj5,
-          });
+        dict.map(
+          (key, value) => MapEntry<ObjCObjectBase, ObjCObjectBase>(value, key),
+        ),
+        {obj2: obj1, obj4: obj3, obj6: obj5},
+      );
       expect(
-          dict.keys
-              .map((key) => NSString.castFrom(key).toDartString())
-              .toList(),
-          unorderedEquals(['obj1', 'obj3', 'obj5']));
+        dict.keys.map((key) => NSString.castFrom(key).toDartString()).toList(),
+        unorderedEquals(['obj1', 'obj3', 'obj5']),
+      );
       expect(dict.values.toList(), unorderedEquals([obj2, obj4, obj6]));
     });
   });

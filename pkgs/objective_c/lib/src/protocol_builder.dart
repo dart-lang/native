@@ -23,7 +23,7 @@ class ObjCProtocolBuilder {
   objc.DartProtocolBuilder get builder => _builder;
 
   ObjCProtocolBuilder({String debugName = 'DOBJCDartProtocol'})
-      : _builder = _createBuilder(debugName);
+    : _builder = _createBuilder(debugName);
 
   /// Add a method implementation to the protocol.
   ///
@@ -31,8 +31,12 @@ class ObjCProtocolBuilder {
   /// implement methods on [ObjCProtocolMethod] and its subclasses.
   ///
   /// Note: You cannot call this method after you have called [build].
-  void implementMethod(Pointer<r.ObjCSelector> sel, Pointer<Char> signature,
-      Pointer<Void> trampoline, ObjCBlockBase block) {
+  void implementMethod(
+    Pointer<r.ObjCSelector> sel,
+    Pointer<Char> signature,
+    Pointer<Void> trampoline,
+    ObjCBlockBase block,
+  ) {
     if (_built) {
       throw StateError('Protocol is already built');
     }
@@ -73,8 +77,9 @@ class ObjCProtocolBuilder {
   static final _rand = Random();
   static objc.DartProtocolBuilder _createBuilder(String debugName) {
     final name = '${debugName}_${_rand.nextInt(1 << 32)}'.toNativeUtf8();
-    final builder =
-        objc.DartProtocolBuilder.alloc().initWithClassName(name.cast());
+    final builder = objc.DartProtocolBuilder.alloc().initWithClassName(
+      name.cast(),
+    );
     calloc.free(name);
     return builder;
   }
@@ -94,8 +99,13 @@ class ObjCProtocolMethod<T extends Function> {
   final ObjCBlockBase Function(T) _createBlock;
 
   /// Only for use by ffigen bindings.
-  ObjCProtocolMethod(this._proto, this._sel, this._trampoline, this._signature,
-      this._createBlock);
+  ObjCProtocolMethod(
+    this._proto,
+    this._sel,
+    this._trampoline,
+    this._signature,
+    this._createBlock,
+  );
 
   /// Implement this method on the protocol [builder] using a Dart [function].
   ///
@@ -143,13 +153,14 @@ class ObjCProtocolListenableMethod<T extends Function>
 
   /// Only for use by ffigen bindings.
   ObjCProtocolListenableMethod(
-      super._proto,
-      super._sel,
-      super._trampoline,
-      super._signature,
-      super._createBlock,
-      this._createListenerBlock,
-      this._createBlockingBlock);
+    super._proto,
+    super._sel,
+    super._trampoline,
+    super._signature,
+    super._createBlock,
+    this._createListenerBlock,
+    this._createBlockingBlock,
+  );
 
   /// Implement this method on the protocol [builder] as a listener using a Dart
   /// [function].

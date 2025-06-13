@@ -12,15 +12,16 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/internal.dart' as internal_for_testing
+import 'package:objective_c/src/internal.dart'
+    as internal_for_testing
     show isValidClass;
-import 'package:path/path.dart' as p;
 
 final _executeInternalCommand = () {
   try {
     return DynamicLibrary.process()
         .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
-            'Dart_ExecuteInternalCommand')
+          'Dart_ExecuteInternalCommand',
+        )
         .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
   } on ArgumentError {
     return null;
@@ -36,18 +37,24 @@ void doGC() {
 }
 
 @Native<Pointer<Void> Function()>(
-    isLeaf: true, symbol: 'objc_autoreleasePoolPush')
+  isLeaf: true,
+  symbol: 'objc_autoreleasePoolPush',
+)
 external Pointer<Void> autoreleasePoolPush();
 
 @Native<Void Function(Pointer<Void>)>(
-    isLeaf: true, symbol: 'objc_autoreleasePoolPop')
+  isLeaf: true,
+  symbol: 'objc_autoreleasePoolPop',
+)
 external void autoreleasePoolPop(Pointer<Void> pool);
 
 @Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
 external int _isReadableMemory(Pointer<Void> ptr);
 
 @Native<Uint64 Function(Pointer<Void>)>(
-    isLeaf: true, symbol: 'getObjectRetainCount')
+  isLeaf: true,
+  symbol: 'getObjectRetainCount',
+)
 external int _getObjectRetainCount(Pointer<Void> object);
 
 int objectRetainCount(Pointer<ObjCObject> object) {

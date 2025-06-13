@@ -6,8 +6,8 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'runtime_bindings_generated.dart' as r;
 import 'internal.dart';
+import 'runtime_bindings_generated.dart' as r;
 
 extension StringToSelector on String {
   /// Returns an Objective-C selector (aka `SEL`) for this [String].

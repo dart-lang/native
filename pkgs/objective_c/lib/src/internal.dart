@@ -124,22 +124,26 @@ Pointer<Char>? getProtocolMethodSignature(
   required bool isInstanceMethod,
 }) {
   _ensureDartAPI();
-  final sig =
-      r.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
+  final sig = r
+      .getMethodDescription(protocol, sel, isRequired, isInstanceMethod)
+      .types;
   return sig == nullptr ? null : sig;
 }
 
 /// Only for use by ffigen bindings.
-final msgSendPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(r.msgSend);
+final msgSendPointer = Native.addressOf<NativeFunction<Void Function()>>(
+  r.msgSend,
+);
 
 /// Only for use by ffigen bindings.
-final msgSendFpretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(r.msgSendFpret);
+final msgSendFpretPointer = Native.addressOf<NativeFunction<Void Function()>>(
+  r.msgSendFpret,
+);
 
 /// Only for use by ffigen bindings.
-final msgSendStretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(r.msgSendStret);
+final msgSendStretPointer = Native.addressOf<NativeFunction<Void Function()>>(
+  r.msgSendStret,
+);
 
 /// Only for use by ffigen bindings.
 final useMsgSendVariants =
@@ -151,12 +155,17 @@ bool respondsToSelector(ObjectPtr obj, Pointer<r.ObjCSelector> sel) =>
 final _selRespondsToSelector = registerName('respondsToSelector:');
 final _objcMsgSendRespondsToSelector = msgSendPointer
     .cast<
-        NativeFunction<
-            Bool Function(ObjectPtr, Pointer<r.ObjCSelector>,
-                Pointer<r.ObjCSelector> aSelector)>>()
+      NativeFunction<
+        Bool Function(
+          ObjectPtr,
+          Pointer<r.ObjCSelector>,
+          Pointer<r.ObjCSelector> aSelector,
+        )
+      >
+    >()
     .asFunction<
-        bool Function(
-            ObjectPtr, Pointer<r.ObjCSelector>, Pointer<r.ObjCSelector>)>();
+      bool Function(ObjectPtr, Pointer<r.ObjCSelector>, Pointer<r.ObjCSelector>)
+    >();
 
 // _FinalizablePointer exists because we can't access `this` in the initializers
 // of _ObjCReference's constructor, and we have to have an owner to attach the
@@ -177,7 +186,8 @@ void _ensureDartAPI() {
 }
 
 c.Dart_FinalizableHandle _newFinalizableHandle(
-    _FinalizablePointer finalizable) {
+  _FinalizablePointer finalizable,
+) {
   _ensureDartAPI();
   return c.newFinalizableHandle(finalizable, finalizable.ptr.cast());
 }
@@ -194,11 +204,14 @@ abstract final class _ObjCReference<T extends NativeType>
   final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
   final Pointer<Bool> _isReleased;
 
-  _ObjCReference(this._finalizable,
-      {required bool retain, required bool release})
-      : _ptrFinalizableHandle =
-            release ? _newFinalizableHandle(_finalizable) : null,
-        _isReleased = _newFinalizableBool(_finalizable) {
+  _ObjCReference(
+    this._finalizable, {
+    required bool retain,
+    required bool release,
+  }) : _ptrFinalizableHandle = release
+           ? _newFinalizableHandle(_finalizable)
+           : null,
+       _isReleased = _newFinalizableBool(_finalizable) {
     assert(_isValid(_finalizable.ptr));
     if (retain) {
       _retain(_finalizable.ptr);
@@ -276,7 +289,7 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 @pragma('vm:deeply-immutable')
 final class ObjCObjectRef extends _ObjCReference<r.ObjCObject> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
-      : super(_FinalizablePointer(ptr));
+    : super(_FinalizablePointer(ptr));
 
   @override
   void _retain(ObjectPtr ptr) => r.objectRetain(ptr);
@@ -288,7 +301,7 @@ final class ObjCObjectRef extends _ObjCReference<r.ObjCObject> {
 /// Only for use by ffigen bindings.
 class ObjCObjectBase extends _ObjCRefHolder<r.ObjCObject, ObjCObjectRef> {
   ObjCObjectBase(ObjectPtr ptr, {required bool retain, required bool release})
-      : super(ObjCObjectRef(ptr, retain: retain, release: release));
+    : super(ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
 // Returns whether the object is valid and live. The pointer must point to
@@ -330,7 +343,7 @@ class ObjCProtocolBase extends ObjCObjectBase {
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
-      : super(_FinalizablePointer(ptr));
+    : super(_FinalizablePointer(ptr));
 
   @override
   void _retain(BlockPtr ptr) => r.blockRetain(ptr.cast());
@@ -342,11 +355,12 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
 /// Only for use by ffigen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
-      : super(ObjCBlockRef(ptr, retain: retain, release: release));
+    : super(ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
-    Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper) {
+  Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper,
+) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlockImpl>();
@@ -358,11 +372,18 @@ Pointer<c.ObjCBlockDesc> _newBlockDesc(
 
 final _pointerBlockDesc = _newBlockDesc(nullptr);
 final _closureBlockDesc = _newBlockDesc(
-    Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
-        c.disposeObjCBlockWithClosure));
+  Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
+    c.disposeObjCBlockWithClosure,
+  ),
+);
 
-BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
-    Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
+BlockPtr _newBlock(
+  VoidPtr invoke,
+  VoidPtr target,
+  Pointer<c.ObjCBlockDesc> descriptor,
+  int disposePort,
+  int flags,
+) {
   final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
   b.ref.isa = Native.addressOf<Array<VoidPtr>>(r.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
@@ -374,8 +395,10 @@ BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
   assert(c.isValidBlock(b));
   final copy = r.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
-  assert(copy.ref.isa ==
-      Native.addressOf<Array<VoidPtr>>(r.NSConcreteMallocBlock).cast());
+  assert(
+    copy.ref.isa ==
+        Native.addressOf<Array<VoidPtr>>(r.NSConcreteMallocBlock).cast(),
+  );
   assert(c.isValidBlock(copy));
   return copy;
 }
@@ -385,20 +408,18 @@ const int _blockHasCopyDispose = 1 << 25;
 /// Only for use by ffigen bindings.
 BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
     _newBlock(
-        invoke,
-        _registerBlockClosure(fn, keepIsolateAlive),
-        _closureBlockDesc,
-        _blockClosureDisposer.sendPort.nativePort,
-        _blockHasCopyDispose);
+      invoke,
+      _registerBlockClosure(fn, keepIsolateAlive),
+      _closureBlockDesc,
+      _blockClosureDisposer.sendPort.nativePort,
+      _blockHasCopyDispose,
+    );
 
 /// Only for use by ffigen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
-typedef _RegEntry = ({
-  Function closure,
-  RawReceivePort? keepAlivePort,
-});
+typedef _RegEntry = ({Function closure, RawReceivePort? keepAlivePort});
 
 final _blockClosureRegistry = <int, _RegEntry>{};
 
@@ -411,8 +432,7 @@ final _blockClosureDisposer = () {
     assert(_blockClosureRegistry.containsKey(id));
     final entry = _blockClosureRegistry.remove(id)!;
     entry.keepAlivePort?.close();
-  }, 'ObjCBlockClosureDisposer')
-    ..keepIsolateAlive = false;
+  }, 'ObjCBlockClosureDisposer')..keepIsolateAlive = false;
 }();
 
 VoidPtr _registerBlockClosure(Function closure, bool keepIsolateAlive) {
@@ -433,8 +453,9 @@ Function getBlockClosure(BlockPtr block) {
 }
 
 /// Only for use by ffigen bindings.
-final Pointer<c.DOBJC_Context> objCContext =
-    c.fillContext(calloc<c.DOBJC_Context>());
+final Pointer<c.DOBJC_Context> objCContext = c.fillContext(
+  calloc<c.DOBJC_Context>(),
+);
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>
