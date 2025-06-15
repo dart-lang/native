@@ -35,6 +35,31 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
     }
   }
 
+  @override
+  void visitFieldDeclaration(FieldDeclaration node) {
+    final className =
+        (node.parent is ClassDeclaration)
+            ? (node.parent as ClassDeclaration).name.lexeme
+            : '';
+
+    // can jnigen generate some fields outside a class decleration?
+    // if so, should we give them to the LLM?
+    if (className.isEmpty || !_isPublic(className)) return;
+
+    for (final variable in node.fields.variables) {
+      final fieldName = variable.name.lexeme;
+      if (_isPublic(fieldName) && _classes.containsKey(className)) {
+        _classes[className]!.addField(
+          Field(
+            fieldName,
+            variable.declaredFragment?.runtimeType.toString() ?? 'dynamic',
+            isStatic: node.isStatic,
+          ),
+        );
+      }
+    }
+  }
+
   String generateClassRepresentation() {
     final buffer = StringBuffer();
 

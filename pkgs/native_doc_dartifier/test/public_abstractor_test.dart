@@ -86,4 +86,65 @@ void main() {
       );
     });
   });
+
+  group('Field summary cases', () {
+    final publicAbstractor = PublicAbstractor();
+    const code = '''
+    class Bar {
+      int _privateField;
+      int publicField;
+
+      final implicitField = "value";
+      final dynamicField;
+
+      static int? a, a1, a2;
+    }
+    ''';
+
+    parseString(content: code).unit.visitChildren(publicAbstractor);
+    final fields = publicAbstractor.classes['Bar']!.fields;
+
+    expect(fields, isNotNull);
+    expect(fields.length, 6);
+
+    test('Private and Public fields', () {
+      expect(fields.any((field) => field.name == '_privateField'), isFalse);
+      expect(fields.any((field) => field.name == 'publicField'), isTrue);
+
+      expect(
+        fields.firstWhere((field) => field.name == 'publicField').type,
+        'int',
+      );
+
+      expect(
+        fields.firstWhere((field) => field.name == 'publicField').isStatic,
+        isFalse,
+      );
+    });
+
+    test('final field type inference', () {
+      expect(
+        fields.firstWhere((field) => field.name == 'implicitField').type,
+        'String',
+      );
+      expect(
+        fields.firstWhere((field) => field.name == 'dynamicField').type,
+        'dynamic',
+      );
+    });
+
+    test('static nullable multiple fields in one decleration', () {
+      expect(fields.any((field) => field.name == 'a'), isTrue);
+      expect(fields.any((field) => field.name == 'a1'), isTrue);
+      expect(fields.any((field) => field.name == 'a2'), isTrue);
+
+      expect(fields.firstWhere((field) => field.name == 'a').type, 'int?');
+      expect(fields.firstWhere((field) => field.name == 'a1').type, 'int?');
+      expect(fields.firstWhere((field) => field.name == 'a2').type, 'int?');
+
+      expect(fields.firstWhere((field) => field.name == 'a').isStatic, isTrue);
+      expect(fields.firstWhere((field) => field.name == 'a1').isStatic, isTrue);
+      expect(fields.firstWhere((field) => field.name == 'a2').isStatic, isTrue);
+    });
+  });
 }

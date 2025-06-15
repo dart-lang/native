@@ -30,6 +30,10 @@ class Class {
   @override
   String toString() =>
       '''- ${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}''';
+
+  void addField(Field field) {
+    fields.add(field);
+  }
 }
 
 class Field {
@@ -38,6 +42,9 @@ class Field {
   final bool isStatic;
 
   Field(this.name, this.type, {this.isStatic = false});
+
+  @override
+  String toString() => '${isStatic ? 'static ' : ''}$type $name';
 }
 
 class Method {
