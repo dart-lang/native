@@ -19,8 +19,10 @@ void main(List<String> args) async {
     final fileStr = NSString(file);
     print('Loading $file');
     final fileUrl = NSURL.fileURLWithPath(fileStr);
-    final player =
-        AVAudioPlayer.alloc().initWithContentsOfURL(fileUrl, error: nullptr);
+    final player = AVAudioPlayer.alloc().initWithContentsOfURL(
+      fileUrl,
+      error: nullptr,
+    );
     if (player == null) {
       print('Failed to load audio');
       continue;

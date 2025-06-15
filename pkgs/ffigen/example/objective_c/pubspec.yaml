@@ -13,6 +13,7 @@ dependencies:
   objective_c: ^0.0.1
 
 dev_dependencies:
+  dart_flutter_team_lints: ^2.0.0
   ffigen:
     path: ../../
   lints: ^2.0.0
