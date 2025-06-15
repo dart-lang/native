@@ -10,10 +10,10 @@ environment:
   sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
-  data_assets: ^0.19.1
+  data_assets: any
   fail_on_os_sdk_version_linker:
     path: ../fail_on_os_sdk_version_linker/
-  hooks: ^0.19.3
+  hooks: any
 
 dev_dependencies:
   ffigen: ^18.0.0

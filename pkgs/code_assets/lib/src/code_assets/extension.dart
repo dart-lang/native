@@ -15,14 +15,34 @@ import 'validation.dart';
 /// The protocol extension for the `hook/build.dart` and `hook/link.dart`
 /// with [CodeAsset]s and [CodeConfig].
 final class CodeAssetExtension implements ProtocolExtension {
+  /// The architecture to build for.
   final Architecture targetArchitecture;
+
+  /// The operating system to build for.
   final OS targetOS;
+
+  /// The preferred link mode.
   final LinkModePreference linkModePreference;
+
+  /// Optional C compiler configuration.
   final CCompilerConfig? cCompiler;
+
+  /// Optional Android specific configuration.
+  ///
+  /// Required if [targetOS] is [OS.android].
   final AndroidCodeConfig? android;
+
+  /// Optional iOS specific configuration.
+  ///
+  /// Required if [targetOS] is [OS.iOS].
   final IOSCodeConfig? iOS;
+
+  /// Optional macOS specific configuration.
+  ///
+  /// Required if [targetOS] is [OS.macOS].
   final MacOSCodeConfig? macOS;
 
+  /// Constructs a [CodeAssetExtension].
   CodeAssetExtension({
     required this.targetArchitecture,
     required this.targetOS,

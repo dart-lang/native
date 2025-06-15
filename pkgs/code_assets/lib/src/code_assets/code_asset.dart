@@ -84,6 +84,7 @@ final class CodeAsset {
 
   CodeAsset._({required this.id, required this.linkMode, required this.file});
 
+  /// Creates a [CodeAsset] from an [EncodedAsset].
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.isCodeAsset);
     final syntaxNode = NativeCodeAssetEncodingSyntax.fromJson(
@@ -97,6 +98,7 @@ final class CodeAsset {
     );
   }
 
+  /// Creates a copy of this [CodeAsset] with the given fields replaced.
   CodeAsset copyWith({LinkMode? linkMode, String? id, Uri? file}) =>
       CodeAsset._(
         id: id ?? this.id,
@@ -115,6 +117,7 @@ final class CodeAsset {
   @override
   int get hashCode => Object.hash(id, linkMode, file);
 
+  /// Encodes this [CodeAsset] into an [EncodedAsset].
   EncodedAsset encode() {
     final encoding = NativeCodeAssetEncodingSyntax(
       file: file,
@@ -125,16 +128,22 @@ final class CodeAsset {
   }
 }
 
+/// Extension for identifying the type of a [CodeAsset].
 extension CodeAssetType on CodeAsset {
+  /// The type identifier for [CodeAsset]s in a hook input or output.
   static const String type = NativeCodeAssetNewSyntax.typeValue;
 }
 
 /// Methods on [EncodedAsset] for [CodeAsset]s.
 extension EncodedCodeAsset on EncodedAsset {
+  /// Whether this [EncodedAsset] represents a [CodeAsset].
   bool get isCodeAsset => type == CodeAssetType.type;
+
+  /// Converts this [EncodedAsset] to a [CodeAsset].
   CodeAsset get asCodeAsset => CodeAsset.fromEncoded(this);
 }
 
+/// Provides OS-specific library naming conventions.
 extension OSLibraryNaming on OS {
   /// The default dynamic library file name on this os.
   String dylibFileName(String name) {

@@ -25,6 +25,7 @@ const interfaceListTest = 'test/interface_lists_test.dart';
 
 const privateClasses = <String>{
   'DartInputStreamAdapter',
+  'DOBJCObservation',
 };
 
 void dartCmd(List<String> args) {
@@ -163,6 +164,7 @@ ${elements.join('\n')}
   writeDecls('objCBuiltInEnums', 'enums');
   writeDecls('objCBuiltInProtocols', 'objc-protocols');
   writeDecls('objCBuiltInCategories', 'objc-categories');
+  writeDecls('objCBuiltInGlobals', 'globals');
 
   File(out).writeAsStringSync(s.toString());
 

@@ -12,8 +12,11 @@ final class LinkModePreference {
   /// The name for this link mode.
   final String name;
 
-  const LinkModePreference(this.name);
+  const LinkModePreference._(this.name);
 
+  /// Creates a [LinkModePreference] from a string.
+  ///
+  /// The [name] must be one of [LinkModePreference.values].
   factory LinkModePreference.fromString(String name) =>
       LinkModePreferenceSyntaxExtension.fromSyntax(
         LinkModePreferenceSyntax.fromJson(name),
@@ -23,33 +26,36 @@ final class LinkModePreference {
   ///
   /// Fails if not all native assets can only be provided as static library.
   /// Required to run Dart in JIT mode.
-  static const dynamic = LinkModePreference('dynamic');
+  static const dynamic = LinkModePreference._('dynamic');
 
   /// Provide native assets as static libraries.
   ///
   /// Fails if not all native assets can only be provided as dynamic library.
   /// Required for potential link-time tree-shaking of native code.
   /// Therefore, preferred to in Dart AOT mode.
-  static const static = LinkModePreference('static');
+  static const static = LinkModePreference._('static');
 
   /// Provide native assets as dynamic libraries, if possible.
   ///
   /// Otherwise, build native assets as static libraries
-  static const preferDynamic = LinkModePreference('prefer_dynamic');
+  static const preferDynamic = LinkModePreference._('prefer_dynamic');
 
   /// Provide native assets as static libraries, if possible.
   ///
   /// Otherwise, build native assets as dynamic libraries. Preferred for AOT
   /// compilation, if there are any native assets which can only be provided as
   /// dynamic libraries.
-  static const preferStatic = LinkModePreference('prefer_static');
+  static const preferStatic = LinkModePreference._('prefer_static');
 
+  /// All possible values for [LinkModePreference].
   static const values = [dynamic, static, preferDynamic, preferStatic];
 
   @override
   String toString() => name;
 }
 
+/// Extension methods for [LinkModePreference] to convert to and from the
+/// syntax model.
 extension LinkModePreferenceSyntaxExtension on LinkModePreference {
   static const _toSyntax = {
     LinkModePreference.dynamic: LinkModePreferenceSyntax.dynamic,
@@ -65,8 +71,12 @@ extension LinkModePreferenceSyntaxExtension on LinkModePreference {
     LinkModePreferenceSyntax.static: LinkModePreference.static,
   };
 
+  /// Converts this [LinkModePreference] to its corresponding
+  /// [LinkModePreferenceSyntax].
   LinkModePreferenceSyntax toSyntax() => _toSyntax[this]!;
 
+  /// Converts a [LinkModePreferenceSyntax] to its corresponding
+  /// [LinkModePreference].
   static LinkModePreference fromSyntax(LinkModePreferenceSyntax syntax) =>
       _fromSyntax[syntax]!;
 }

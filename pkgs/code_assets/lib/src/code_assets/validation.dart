@@ -13,6 +13,7 @@ import 'link_mode_preference.dart';
 import 'os.dart';
 import 'syntax.g.dart';
 
+/// Validates the code asset specific parts of a [BuildInput].
 Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
     [
       ..._validateConfig('BuildInput.config.code', input.config),
@@ -21,6 +22,7 @@ Future<ValidationErrors> validateCodeAssetBuildInput(BuildInput input) async =>
       ]),
     ];
 
+/// Validates the code asset specific parts of a [LinkInput].
 Future<ValidationErrors> validateCodeAssetLinkInput(LinkInput input) async => [
   ..._validateConfig('LinkInput.config.code', input.config),
   ...await _validateCodeAssetHookInput(input.assets.encodedAssets),
@@ -79,6 +81,7 @@ Future<ValidationErrors> _validateCodeAssetHookInput(
   return errors;
 }
 
+/// Validates the code asset specific parts of a [BuildOutput].
 Future<ValidationErrors> validateCodeAssetBuildOutput(
   BuildInput input,
   BuildOutput output,
@@ -95,6 +98,7 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   true,
 );
 
+/// Validates the code asset specific parts of a [LinkOutput].
 Future<ValidationErrors> validateCodeAssetLinkOutput(
   LinkInput input,
   LinkOutput output,

@@ -1,3 +1,7 @@
+## 0.16.3
+
+* Support linking for Android.
+
 ## 0.16.2
 
 * Bump the SDK constraint to at least the one from `package:hooks` to fix

@@ -4,7 +4,9 @@
 
 import 'dart:io';
 
+/// Provides utility extensions for file system uris.
 extension UriExtension on Uri {
+  /// Get the file s system entity associated with this uri.
   FileSystemEntity get fileSystemEntity {
     if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
       return Directory.fromUri(this);
@@ -13,6 +15,7 @@ extension UriExtension on Uri {
   }
 }
 
+/// Convert a file system path to a uri.
 Uri fileSystemPathToUri(String path) {
   if (path.endsWith(Platform.pathSeparator) || path.endsWith('/')) {
     return Uri.directory(path);

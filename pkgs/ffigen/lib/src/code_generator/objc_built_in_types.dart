@@ -6,6 +6,7 @@
 
 const objCBuiltInInterfaces = {
   'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
+  'DOBJCObservation': 'DOBJCObservation',
   'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
   'DOBJCDartProtocol': 'DartProtocol',
   'NSArray': 'NSArray',
@@ -109,6 +110,7 @@ const objCBuiltInProtocols = {
   'NSPortDelegate': 'NSPortDelegate',
   'NSSecureCoding': 'NSSecureCoding',
   'NSStreamDelegate': 'NSStreamDelegate',
+  'Observer': 'Observer',
 };
 
 const objCBuiltInCategories = {
@@ -128,4 +130,13 @@ const objCBuiltInCategories = {
   'NSNumberCreation',
   'NSNumberIsFloat',
   'NSStringExtensionMethods',
+};
+
+const objCBuiltInGlobals = {
+  'NSKeyValueChangeIndexesKey',
+  'NSKeyValueChangeKindKey',
+  'NSKeyValueChangeNewKey',
+  'NSKeyValueChangeNotificationIsPriorKey',
+  'NSKeyValueChangeOldKey',
+  'NSLocalizedDescriptionKey',
 };

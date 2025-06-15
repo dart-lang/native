@@ -18,6 +18,8 @@ extension HookConfigCodeConfig on HookConfig {
   /// Code asset specific configuration.
   CodeConfig get code => CodeConfig._fromJson(json, path);
 
+  /// Whether the hook invoker (e.g. the Dart or Flutter SDK) expects this
+  /// hook to build code assets.
   bool get buildCodeAssets => buildAssetTypes.contains(CodeAssetType.type);
 }
 
@@ -25,18 +27,20 @@ extension HookConfigCodeConfig on HookConfig {
 /// code assets as well as code asset inputs to the linker (only available if
 /// code assets are supported).
 extension LinkInputCodeAssets on LinkInputAssets {
-  // Returns the code assets that were sent to this linker.
-  //
-  // NOTE: If the linker implementation depends on the contents of the files the
-  // code assets refer (e.g. looks at static archives and links them) then the
-  // linker script has to add those files as dependencies via
-  // [LinkOutput.addDependency] to ensure the linker script will be re-run if
-  // the content of the files changes.
+  /// The [CodeAsset]s in this [LinkInputAssets.encodedAssets].
+  ///
+  /// NOTE: If the linker implementation depends on the contents of the files
+  /// the code assets refer (e.g. looks at static archives and links them) then
+  /// the linker script has to add those files as dependencies via
+  /// [HookOutputBuilder.addDependencies] to ensure the linker script will be
+  /// re-run if the content of the files changes.
   Iterable<CodeAsset> get code =>
       encodedAssets.where((e) => e.isCodeAsset).map(CodeAsset.fromEncoded);
 }
 
 /// The configuration for [CodeAsset]s in [HookConfig].
+///
+/// Available via [HookConfigCodeConfig.code].
 final class CodeConfig {
   final CodeConfigSyntax _syntax;
 
@@ -53,6 +57,7 @@ final class CodeConfig {
   Architecture get targetArchitecture =>
       ArchitectureSyntaxExtension.fromSyntax(_syntax.targetArchitecture);
 
+  /// The preferred link for [CodeAsset]s.
   LinkModePreference get linkModePreference =>
       LinkModePreferenceSyntaxExtension.fromSyntax(_syntax.linkModePreference);
 
@@ -101,6 +106,7 @@ final class IOSCodeConfig {
   /// The lowest iOS version that the compiled code will be compatible with.
   int get targetVersion => _syntax.targetVersion;
 
+  /// Constructs a new [IOSCodeConfig].
   IOSCodeConfig({required IOSSdk targetSdk, required int targetVersion})
     : _syntax = IOSCodeConfigSyntax(
         targetSdk: targetSdk.type,
@@ -119,6 +125,7 @@ final class AndroidCodeConfig {
   /// compatible with.
   int get targetNdkApi => _syntax.targetNdkApi;
 
+  /// Constructs a new [AndroidCodeConfig].
   AndroidCodeConfig({required int targetNdkApi})
     : _syntax = AndroidCodeConfigSyntax(targetNdkApi: targetNdkApi);
 }
@@ -133,6 +140,7 @@ final class MacOSCodeConfig {
   /// The lowest MacOS version that the compiled code will be compatible with.
   int get targetVersion => _syntax.targetVersion;
 
+  /// Constructs a new [MacOSCodeConfig].
   MacOSCodeConfig({required int targetVersion})
     : _syntax = MacOSCodeConfigSyntax(targetVersion: targetVersion);
 }
@@ -145,6 +153,7 @@ extension BuildOutputAssetsBuilderCode on BuildOutputAssetsBuilder {
 
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
 final class BuildOutputCodeAssetBuilder {
+  /// Provides access to emitting code assets.
   final BuildOutputAssetsBuilder _output;
 
   BuildOutputCodeAssetBuilder._(this._output);
@@ -185,6 +194,8 @@ final class LinkOutputCodeAssetBuilder {
 
 /// Extension to initialize code specific configuration on link/build inputs.
 extension CodeAssetBuildInputBuilder on HookConfigBuilder {
+  /// Sets up the code asset specific configuration for a build or link hook
+  /// input.
   void setupCode({
     required Architecture targetArchitecture,
     required OS targetOS,
@@ -229,19 +240,30 @@ extension LinkOutputCodeAssets on LinkOutputAssets {
       .toList();
 }
 
+/// Extension methods for [MacOSCodeConfig] to convert to and from the syntax
+/// model.
 extension MacOSCodeConfigSyntaxExtension on MacOSCodeConfig {
+  /// Converts this [MacOSCodeConfig] to its corresponding
+  /// [MacOSCodeConfigSyntax].
   MacOSCodeConfigSyntax toSyntax() =>
       MacOSCodeConfigSyntax(targetVersion: targetVersion);
 }
 
+/// Extension methods for [IOSCodeConfig] to convert to and from the syntax
+/// model.
 extension IOSCodeConfigSyntaxExtension on IOSCodeConfig {
+  /// Converts this [IOSCodeConfig] to its corresponding [IOSCodeConfigSyntax].
   IOSCodeConfigSyntax toSyntax() => IOSCodeConfigSyntax(
     targetSdk: targetSdk.type,
     targetVersion: targetVersion,
   );
 }
 
+/// Extension methods for [AndroidCodeConfig] to convert to and from the syntax
+/// model.
 extension AndroidCodeConfigSyntaxExtension on AndroidCodeConfig {
+  /// Converts this [AndroidCodeConfig] to its corresponding
+  /// [AndroidCodeConfigSyntax].
   AndroidCodeConfigSyntax toSyntax() =>
       AndroidCodeConfigSyntax(targetNdkApi: targetNdkApi);
 }

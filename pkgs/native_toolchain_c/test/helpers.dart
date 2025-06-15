@@ -257,19 +257,6 @@ Future<String> nmReadSymbols(CodeAsset asset) async {
   return result.stdout;
 }
 
-Future<void> expectSymbols({
-  required CodeAsset asset,
-  required List<String> symbols,
-}) async {
-  if (Platform.isLinux) {
-    final nmOutput = await nmReadSymbols(asset);
-
-    expect(nmOutput, stringContainsInOrder(symbols));
-  } else {
-    throw UnimplementedError();
-  }
-}
-
 Future<int> textSectionAddress(Uri dylib) async {
   if (Platform.isMacOS) {
     // Find the line in the objdump output that looks like:
@@ -315,3 +302,42 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
 }
 
 int defaultMacOSVersion = 13;
+
+/// From https://docs.flutter.dev/reference/supported-platforms.
+const flutterAndroidNdkVersionLowestSupported = 21;
+
+/// From https://docs.flutter.dev/reference/supported-platforms.
+const flutterAndroidNdkVersionHighestSupported = 34;
+
+/// File-format strings used by the `objdump` tool for binaries that run on a
+/// given architecture.
+const objdumpFileFormat = {
+  Architecture.arm: 'elf32-littlearm',
+  Architecture.arm64: 'elf64-littleaarch64',
+  Architecture.ia32: 'elf32-i386',
+  Architecture.x64: 'elf64-x86-64',
+  Architecture.riscv64: 'elf64-littleriscv',
+};
+
+/// Checks that the provided [libUri] binary has the correct format to be
+/// executed on the provided [target] architecture.
+///
+/// On Linux, the format of the binary is determined by `readelf`. On MacOS,
+/// the `objsdump` tool is used.
+Future<void> expectMachineArchitecture(Uri libUri, Architecture target) async {
+  if (Platform.isLinux) {
+    final machine = await readelfMachine(libUri.path);
+    expect(machine, contains(readElfMachine[target]));
+  } else if (Platform.isMacOS) {
+    final result = await runProcess(
+      executable: Uri.file('objdump'),
+      arguments: ['-T', libUri.path],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final machine = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('file format'));
+    expect(machine, contains(objdumpFileFormat[target]));
+  }
+}

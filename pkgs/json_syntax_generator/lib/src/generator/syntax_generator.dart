@@ -26,7 +26,7 @@ class SyntaxGenerator {
 
 $header
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, public_member_api_docs
 
 import 'dart:io';
 ''');

@@ -88,6 +88,7 @@ final class Architecture {
   static final Architecture current = _abiToArch[Abi.current()]!;
 }
 
+/// Extension methods for [Architecture] to convert to and from the syntax.
 extension ArchitectureSyntaxExtension on Architecture {
   static final _toSyntax = {
     for (final item in Architecture.values)
@@ -98,8 +99,10 @@ extension ArchitectureSyntaxExtension on Architecture {
     for (var entry in _toSyntax.entries) entry.value: entry.key,
   };
 
+  /// Converts this [Architecture] to its corresponding [ArchitectureSyntax].
   ArchitectureSyntax toSyntax() => _toSyntax[this]!;
 
+  /// Converts an [ArchitectureSyntax] to its corresponding [Architecture].
   static Architecture fromSyntax(ArchitectureSyntax syntax) =>
       switch (_fromSyntax[syntax]) {
         null => throw FormatException(

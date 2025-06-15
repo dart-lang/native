@@ -5,4 +5,5 @@
 // expect_lint: avoid_import_outside_src
 import '../hooks.dart';
 
+/// A random use of a type.
 const x = Builder;
