@@ -8,7 +8,6 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
-import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
