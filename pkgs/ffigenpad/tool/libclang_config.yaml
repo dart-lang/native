@@ -1,0 +1,174 @@
+# Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# Config file for generating the libclang.wasm bindings used by ffigenpad.
+
+# ===================== GENERATING BINDINGS =====================
+#    cd to project's root, and run -
+#    dart run ffigen --config tool/libclang_config.yaml
+# ===============================================================
+
+# yaml-language-server: $schema=../../ffigen/ffigen.schema.json
+
+name: Clang
+description: Holds bindings to libclang.wasm used by ffigenpad
+output: "../lib/src/header_parser/clang_bindings/clang_bindings.dart"
+ffi-native:
+  assetId: libclang
+compiler-opts:
+  - "-Ithird_party/libclang/include"
+  - "-I/usr/lib/clang/17/include"
+headers:
+  entry-points:
+    - "../third_party/libclang/wrapper.c"
+preamble: |
+  // Part of the LLVM Project, under the Apache License v2.0 with LLVM
+  // Exceptions.
+  // See https://llvm.org/LICENSE.txt for license information.
+  // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+  // ignore_for_file: camel_case_types, non_constant_identifier_names
+
+exclude-all-by-default: true
+
+unions:
+  dependency-only: opaque
+
+typedefs:
+  include:
+    - CXIndex
+    - CXTranslationUnit
+    - CXDiagnostic
+    - CXClientData
+    - CXEvalResult
+    - CXFile
+
+structs:
+  dependency-only: opaque
+
+silence-enum-warning: true
+enums:
+  include:
+    - CXChildVisitResult
+    - CXCursorKind
+    - CXTypeKind
+    - CXDiagnosticDisplayOptions
+    - CXDiagnosticSeverity
+    - CXTranslationUnit_Flags
+    - CXEvalResultKind
+    - CXObjCPropertyAttrKind
+    - CXTypeNullabilityKind
+    - CXTypeLayoutError
+    - CX_StorageClass
+  as-int:
+    include:
+      - CXChildVisitResult
+      - CXCursorKind
+      - CXTypeKind
+      - CXDiagnosticDisplayOptions
+      - CXDiagnosticSeverity
+      - CXTranslationUnit_Flags
+      - CXEvalResultKind
+      - CXObjCPropertyAttrKind
+      - CXTypeNullabilityKind
+      - CXTypeLayoutError
+      - CX_StorageClass
+
+functions:
+  include:
+    - clang_createIndex
+    - clang_disposeIndex
+    - clang_parseTranslationUnit
+    - clang_disposeTranslationUnit
+    - clang_getNumDiagnostics
+    - clang_getDiagnostic
+    - clang_getDiagnosticSeverity
+    - clang_disposeDiagnostic
+    - clang_EvalResult_getKind
+    - clang_EvalResult_getAsLongLong
+    - clang_EvalResult_getAsDouble
+    - clang_EvalResult_getAsStr
+    - clang_EvalResult_dispose
+    - clang_getCString_wrap
+    - clang_disposeString_wrap
+    - clang_getClangVersion_wrap
+    - clang_getCursorKind_wrap
+    - clang_getCursorDefinition_wrap
+    - clang_getCursorKindSpelling_wrap
+    - clang_getCursorType_wrap
+    - clang_getTypeSpelling_wrap
+    - clang_getTypeKindSpelling_wrap
+    - clang_getResultType_wrap
+    - clang_getPointeeType_wrap
+    - clang_getCanonicalType_wrap
+    - clang_Type_getModifiedType_wrap
+    - clang_Type_getNullability_wrap
+    - clang_Type_getNamedType_wrap
+    - clang_Type_getAlignOf_wrap
+    - clang_getTypeDeclaration_wrap
+    - clang_getTypedefName_wrap
+    - clang_getTypedefDeclUnderlyingType_wrap
+    - clang_getCursorSpelling_wrap
+    - clang_getCursorUSR_wrap
+    - clang_getTranslationUnitCursor_wrap
+    - clang_formatDiagnostic_wrap
+    - clang_visitChildren_wrap
+    - clang_getArgType_wrap
+    - clang_getNumArgTypes_wrap
+    - clang_getEnumConstantDeclValue_wrap
+    - clang_equalRanges_wrap
+    - clang_Cursor_Evaluate_wrap
+    - clang_Cursor_getArgument_wrap
+    - clang_Cursor_getNumArguments_wrap
+    - clang_Cursor_getCommentRange_wrap
+    - clang_Cursor_getRawCommentText_wrap
+    - clang_Cursor_getBriefCommentText_wrap
+    - clang_Cursor_getStorageClass_wrap
+    - clang_getFieldDeclBitWidth_wrap
+    - clang_Cursor_hasAttrs_wrap
+    - clang_Cursor_isFunctionInlined_wrap
+    - clang_Cursor_isAnonymous_wrap
+    - clang_Cursor_isAnonymousRecordDecl_wrap
+    - clang_Cursor_isNull_wrap
+    - clang_Cursor_isMacroFunctionLike_wrap
+    - clang_Cursor_isMacroBuiltin_wrap
+    - clang_Cursor_getObjCPropertyAttributes_wrap
+    - clang_Cursor_isObjCOptional_wrap
+    - clang_Cursor_getObjCPropertyGetterName_wrap
+    - clang_Cursor_getObjCPropertySetterName_wrap
+    - clang_getCursorResultType_wrap
+    - clang_isFunctionTypeVariadic_wrap
+    - clang_getCursorLocation_wrap
+    - clang_getEnumDeclIntegerType_wrap
+    - clang_getFileLocation_wrap
+    - clang_getFileName_wrap
+    - clang_getNumElements_wrap
+    - clang_getArrayElementType_wrap
+    - clang_isConstQualifiedType_wrap
+    - clang_Location_isInSystemHeader_wrap
+    # Helper functions
+    - getCXTypeKind
+
+type-map:
+  "native-types":
+    "char":
+      "lib": "ffi"
+      "c-type": "Uint8"
+      "dart-type": "int"
+    "unsigned int":
+      "lib": "ffi"
+      "c-type": "Uint32"
+      "dart-type": "int"
+    "int":
+      "lib": "ffi"
+      "c-type": "Int32"
+      "dart-type": "int"
+    "long long":
+      "lib": "ffi"
+      "c-type": "Int64"
+      "dart-type": "int"
+    "unsigned long long":
+      "lib": "ffi"
+      "c-type": "Uint64"
+      "dart-type": "int"
