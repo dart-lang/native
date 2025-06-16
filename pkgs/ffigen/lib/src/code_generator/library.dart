@@ -21,9 +21,8 @@ class Library {
   final List<Binding> bindings;
 
   final Writer writer;
-  final String? workingDirectory;
 
-  Library._(this.bindings, this.writer, this.workingDirectory);
+  Library._(this.bindings, this.writer);
 
   static Library fromConfig({
     required Config config,
@@ -39,7 +38,6 @@ class Library {
     nativeEntryPoints: config.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
-    workingDirectory: config.filename?.resolve('..').toFilePath(),
   );
 
   factory Library({
@@ -51,7 +49,6 @@ class Library {
     List<LibraryImport> libraryImports = const <LibraryImport>[],
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
-    String? workingDirectory = null,
   }) {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
@@ -88,7 +85,7 @@ class Library {
       nativeEntryPoints: nativeEntryPoints,
     );
 
-    return Library._(bindings, writer, workingDirectory);
+    return Library._(bindings, writer);
   }
 
   /// Generates [file] by generating C bindings.
@@ -97,15 +94,12 @@ class Library {
   /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    var bindings = generate();
-    file.writeAsStringSync(bindings);
+    file.writeAsStringSync(generate());
     if (format) {
-      print(workingDirectory);
-      final result = Process.runSync(
-        Platform.resolvedExecutable,
-        ['format', file.absolute.path],
-        workingDirectory: workingDirectory,
-      );
+      final result = Process.runSync(Platform.resolvedExecutable, [
+        'format',
+        file.absolute.path,
+      ], workingDirectory: file.parent.absolute.path);
       if (result.exitCode != 0) {
         _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
       }
