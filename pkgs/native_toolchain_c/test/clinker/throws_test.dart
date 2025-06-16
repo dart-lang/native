@@ -13,7 +13,8 @@ void main() {
   for (final targetOS in OS.values) {
     if (targetOS == OS.linux ||
         targetOS == OS.android ||
-        targetOS == OS.macOS) {
+        targetOS == OS.macOS ||
+        targetOS == OS.iOS) {
       // Is implemented.
       continue;
     }
