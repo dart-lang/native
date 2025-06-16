@@ -8,91 +8,81 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-    : _lookup = dynamicLibrary.lookup;
+      : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
   void func(
     ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
-        )
-      >
-    >
-    unnamed1,
+            ffi.NativeFunction<
+                ffi.Void Function(
+                    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                        unnamed2)>>
+        unnamed1,
   ) {
-    return _func(unnamed1);
+    return _func(
+      unnamed1,
+    );
   }
 
-  late final _funcPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _funcPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
-            ffi.Pointer<
-              ffi.NativeFunction<
-                ffi.Void Function(
-                  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
-                )
-              >
-            >,
-          )
-        >
-      >('func');
-  late final _func = _funcPtr
-      .asFunction<
-        void Function(
+              ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Void Function(
+                          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                              unnamed2)>>)>>('func');
+  late final _func = _funcPtr.asFunction<
+      void Function(
           ffi.Pointer<
-            ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
-              )
-            >
-          >,
-        )
-      >();
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                          unnamed2)>>)>();
 
-  void funcWithNativeFunc(WithTypedefReturnType named) {
-    return _funcWithNativeFunc(named);
+  void funcWithNativeFunc(
+    WithTypedefReturnType named,
+  ) {
+    return _funcWithNativeFunc(
+      named,
+    );
   }
 
   late final _funcWithNativeFuncPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(WithTypedefReturnType)>>(
-        'funcWithNativeFunc',
-      );
-  late final _funcWithNativeFunc = _funcWithNativeFuncPtr
-      .asFunction<void Function(WithTypedefReturnType)>();
+          'funcWithNativeFunc');
+  late final _funcWithNativeFunc =
+      _funcWithNativeFuncPtr.asFunction<void Function(WithTypedefReturnType)>();
 }
 
 final class Struct extends ffi.Struct {
   external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
-      )
-    >
-  >
-  unnamed1;
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                  unnamed2)>> unnamed1;
 }
 
 typedef InsideReturnTypeFunction = ffi.Void Function();
 typedef DartInsideReturnTypeFunction = void Function();
-typedef InsideReturnType =
-    ffi.Pointer<ffi.NativeFunction<InsideReturnTypeFunction>>;
+typedef InsideReturnType
+    = ffi.Pointer<ffi.NativeFunction<InsideReturnTypeFunction>>;
 typedef WithTypedefReturnTypeFunction = InsideReturnType Function();
-typedef WithTypedefReturnType =
-    ffi.Pointer<ffi.NativeFunction<WithTypedefReturnTypeFunction>>;
+typedef WithTypedefReturnType
+    = ffi.Pointer<ffi.NativeFunction<WithTypedefReturnTypeFunction>>;
 typedef VoidFuncPointerFunction = ffi.Void Function();
 typedef DartVoidFuncPointerFunction = void Function();
-typedef VoidFuncPointer =
-    ffi.Pointer<ffi.NativeFunction<VoidFuncPointerFunction>>;
+typedef VoidFuncPointer
+    = ffi.Pointer<ffi.NativeFunction<VoidFuncPointerFunction>>;
 
 final class Struct2 extends ffi.Struct {
   external VoidFuncPointer constFuncPointer;

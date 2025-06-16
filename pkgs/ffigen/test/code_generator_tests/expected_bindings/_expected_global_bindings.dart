@@ -11,15 +11,16 @@ import 'dart:ffi' as ffi;
 class Bindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   Bindings.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
   late final ffi.Pointer<ffi.Int32> _test1 = _lookup<ffi.Int32>('test1');
 
@@ -36,17 +37,15 @@ class Bindings {
 
   ffi.Pointer<ffi.Float> get test3 => _test3;
 
-  late final ffi.Pointer<ffi.Pointer<Some>> _test5 = _lookup<ffi.Pointer<Some>>(
-    'test5',
-  );
+  late final ffi.Pointer<ffi.Pointer<Some>> _test5 =
+      _lookup<ffi.Pointer<Some>>('test5');
 
   ffi.Pointer<Some> get test5 => _test5.value;
 
   set test5(ffi.Pointer<Some> value) => _test5.value = value;
 
-  late final ffi.Pointer<EmptyStruct> _globalStruct = _lookup<EmptyStruct>(
-    'globalStruct',
-  );
+  late final ffi.Pointer<EmptyStruct> _globalStruct =
+      _lookup<EmptyStruct>('globalStruct');
 
   ffi.Pointer<EmptyStruct> get globalStruct => _globalStruct;
 }
