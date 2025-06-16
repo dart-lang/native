@@ -36,9 +36,10 @@ class FunctionType extends Type {
       varArgPackBuf.write('$varArgWrapper<(');
       varArgPackBuf.write(
         varArgParameters
-            .map<String>((p) {
-              return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
-            })
+            .map<String>(
+              (p) =>
+                  '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}',
+            )
             .join(', '),
       );
       varArgPackBuf.write(',)>');

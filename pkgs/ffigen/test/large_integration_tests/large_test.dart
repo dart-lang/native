@@ -18,14 +18,17 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('Libclang test', () {
+      final includeDir = path.join(
+        packagePathForTests,
+        'third_party',
+        'libclang',
+        'include',
+      );
       final config = Config(
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
-        compilerOpts: [
-          ...defaultCompilerOpts(),
-          '-I${path.join(packagePathForTests, 'third_party', 'libclang', 'include')}',
-        ],
+        compilerOpts: [...defaultCompilerOpts(), '-I$includeDir'],
         commentType: CommentType(CommentStyle.doxygen, CommentLength.brief),
         entryPoints: [
           Uri.file(
