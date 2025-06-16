@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:dart_style/dart_style.dart';
+import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
@@ -12,6 +12,8 @@ import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
 
 import 'writer.dart';
+
+final _logger = Logger('ffigen.library');
 
 /// Container for all Bindings.
 class Library {
@@ -92,14 +94,19 @@ class Library {
   /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    var bindings = generate();
+    file.writeAsStringSync(generate());
     if (format) {
-      final formatter = DartFormatter(
-        languageVersion: DartFormatter.latestShortStyleLanguageVersion,
-      );
-      bindings = formatter.format(bindings);
+      final result = Process.runSync(
+          Platform.resolvedExecutable,
+          [
+            'format',
+            file.absolute.path,
+          ],
+          workingDirectory: file.parent.absolute.path);
+      if (result.exitCode != 0) {
+        _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
+      }
     }
-    file.writeAsStringSync(bindings);
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if
