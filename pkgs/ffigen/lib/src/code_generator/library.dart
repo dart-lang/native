@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:dart_style/dart_style.dart';
+import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
@@ -13,14 +13,17 @@ import '../config_provider/config_types.dart';
 
 import 'writer.dart';
 
+final _logger = Logger('ffigen.library');
+
 /// Container for all Bindings.
 class Library {
   /// List of bindings in this library.
   final List<Binding> bindings;
 
   final Writer writer;
+  final String? workingDirectory;
 
-  Library._(this.bindings, this.writer);
+  Library._(this.bindings, this.writer, this.workingDirectory);
 
   static Library fromConfig({
     required Config config,
@@ -47,6 +50,7 @@ class Library {
     List<LibraryImport> libraryImports = const <LibraryImport>[],
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
+    String? workingDirectory = null,
   }) {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
@@ -83,7 +87,7 @@ class Library {
       nativeEntryPoints: nativeEntryPoints,
     );
 
-    return Library._(bindings, writer);
+    return Library._(bindings, writer, workingDirectory);
   }
 
   /// Generates [file] by generating C bindings.
@@ -93,13 +97,18 @@ class Library {
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
     var bindings = generate();
-    if (format) {
-      final formatter = DartFormatter(
-        languageVersion: DartFormatter.latestShortStyleLanguageVersion,
-      );
-      bindings = formatter.format(bindings);
-    }
     file.writeAsStringSync(bindings);
+    if (format) {
+      print(workingDirectory);
+      final result = Process.runSync(
+        Platform.resolvedExecutable,
+        ['format', file.absolute.path],
+        workingDirectory: workingDirectory,
+      );
+      if (result.exitCode != 0) {
+        _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
+      }
+    }
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if
