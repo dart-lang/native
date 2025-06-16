@@ -16,8 +16,9 @@ class NativeLibrary {
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
   void foo() {
     return _foo();

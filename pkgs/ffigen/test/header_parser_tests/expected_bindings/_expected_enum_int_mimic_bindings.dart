@@ -69,8 +69,7 @@ enum ExplicitTypeWithOverflow {
         0 => F0,
         -32727 => F1,
         _ => throw ArgumentError(
-            'Unknown value for ExplicitTypeWithOverflow: $value',
-          ),
+            'Unknown value for ExplicitTypeWithOverflow: $value'),
       };
 }
 

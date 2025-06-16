@@ -16,47 +16,50 @@ class NativeLibrary {
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
   void func(
     ffi.Pointer<
             ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
-                )>>
+                    ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                        unnamed2)>>
         unnamed1,
   ) {
-    return _func(unnamed1);
+    return _func(
+      unnamed1,
+    );
   }
 
   late final _funcPtr = _lookup<
       ffi.NativeFunction<
           ffi.Void Function(
-            ffi.Pointer<
-                ffi.NativeFunction<
-                    ffi.Void Function(
-                      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
-                          unnamed2,
-                    )>>,
-          )>>('func');
+              ffi.Pointer<
+                  ffi.NativeFunction<
+                      ffi.Void Function(
+                          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                              unnamed2)>>)>>('func');
   late final _func = _funcPtr.asFunction<
       void Function(
-        ffi.Pointer<
-            ffi.NativeFunction<
-                ffi.Void Function(
-                  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
-                )>>,
-      )>();
+          ffi.Pointer<
+              ffi.NativeFunction<
+                  ffi.Void Function(
+                      ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                          unnamed2)>>)>();
 
-  void funcWithNativeFunc(WithTypedefReturnType named) {
-    return _funcWithNativeFunc(named);
+  void funcWithNativeFunc(
+    WithTypedefReturnType named,
+  ) {
+    return _funcWithNativeFunc(
+      named,
+    );
   }
 
   late final _funcWithNativeFuncPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(WithTypedefReturnType)>>(
-    'funcWithNativeFunc',
-  );
+          'funcWithNativeFunc');
   late final _funcWithNativeFunc =
       _funcWithNativeFuncPtr.asFunction<void Function(WithTypedefReturnType)>();
 }
@@ -65,8 +68,8 @@ final class Struct extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-            ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
-          )>> unnamed1;
+              ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>
+                  unnamed2)>> unnamed1;
 }
 
 typedef InsideReturnTypeFunction = ffi.Void Function();

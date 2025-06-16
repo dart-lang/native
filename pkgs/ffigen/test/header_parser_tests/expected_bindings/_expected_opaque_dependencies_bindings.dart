@@ -16,28 +16,35 @@ class NativeLibrary {
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
-  ffi.Pointer<BAlias> func(ffi.Pointer<A> a) {
-    return _func(a);
+  ffi.Pointer<BAlias> func(
+    ffi.Pointer<A> a,
+  ) {
+    return _func(
+      a,
+    );
   }
 
   late final _funcPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<BAlias> Function(ffi.Pointer<A>)>>(
-    'func',
-  );
+          'func');
   late final _func =
       _funcPtr.asFunction<ffi.Pointer<BAlias> Function(ffi.Pointer<A>)>();
 
-  ffi.Pointer<UB> func2(ffi.Pointer<UA> a) {
-    return _func2(a);
+  ffi.Pointer<UB> func2(
+    ffi.Pointer<UA> a,
+  ) {
+    return _func2(
+      a,
+    );
   }
 
   late final _func2Ptr =
       _lookup<ffi.NativeFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>>(
-    'func2',
-  );
+          'func2');
   late final _func2 =
       _func2Ptr.asFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>();
 }

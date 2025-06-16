@@ -18,23 +18,14 @@ final class S extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Int Function(
-            ffi.Double a,
-            ffi.Float b,
-            ffi.Pointer<ffi.Char> c,
-            ffi.Int d,
-            ffi.LongLong e,
-          )>> veryManyArguments;
+          ffi.Int Function(ffi.Double a, ffi.Float b, ffi.Pointer<ffi.Char> c,
+              ffi.Int d, ffi.LongLong e)>> veryManyArguments;
 
   external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Int Function(
-            ffi.Int,
-            ffi.Int,
-            ffi.Int,
-            ffi.Float,
-            ffi.Pointer<ffi.Char>,
-          )>> argsDontHaveNames;
+          ffi.NativeFunction<
+              ffi.Int Function(
+                  ffi.Int, ffi.Int, ffi.Int, ffi.Float, ffi.Pointer<ffi.Char>)>>
+      argsDontHaveNames;
 
   external ArithmeticOperation operation;
 
@@ -47,11 +38,10 @@ final class S extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-            ffi.Pointer<ffi.Int> array,
-            ffi.Int len,
-            ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int x)>>
-                evaluator,
-          )>> sortBy;
+              ffi.Pointer<ffi.Int> array,
+              ffi.Int len,
+              ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int x)>>
+                  evaluator)>> sortBy;
 
   external ffi.Pointer<
           ffi.NativeFunction<ffi.Void Function(ffi.Int, ffi.Int, ffi.Char)>>
@@ -60,12 +50,11 @@ final class S extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-            ffi.Pointer<ffi.Int> array,
-            ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int x)>>
-                primaryEvaluator,
-            ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int x)>>
-                fallbackEvaluator,
-          )>> sortByWithFallback;
+              ffi.Pointer<ffi.Int> array,
+              ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int x)>>
+                  primaryEvaluator,
+              ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int x)>>
+                  fallbackEvaluator)>> sortByWithFallback;
 
   @ffi.Array.multi([2])
   external ffi.Array<

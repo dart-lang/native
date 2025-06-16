@@ -16,11 +16,16 @@ class NativeLibrary {
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
-  void func1(Object arg0) {
-    return _func1(arg0);
+  void func1(
+    Object arg0,
+  ) {
+    return _func1(
+      arg0,
+    );
   }
 
   late final _func1Ptr =
@@ -31,13 +36,16 @@ class NativeLibrary {
     return _func2();
   }
 
-  late final _func2Ptr = _lookup<ffi.NativeFunction<ffi.Handle Function()>>(
-    'func2',
-  );
+  late final _func2Ptr =
+      _lookup<ffi.NativeFunction<ffi.Handle Function()>>('func2');
   late final _func2 = _func2Ptr.asFunction<Object Function()>();
 
-  ffi.Pointer<ffi.Pointer<ffi.Handle>> func3(ffi.Pointer<ffi.Handle> arg0) {
-    return _func3(arg0);
+  ffi.Pointer<ffi.Pointer<ffi.Handle>> func3(
+    ffi.Pointer<ffi.Handle> arg0,
+  ) {
+    return _func3(
+      arg0,
+    );
   }
 
   late final _func3Ptr = _lookup<
@@ -47,8 +55,12 @@ class NativeLibrary {
   late final _func3 = _func3Ptr.asFunction<
       ffi.Pointer<ffi.Pointer<ffi.Handle>> Function(ffi.Pointer<ffi.Handle>)>();
 
-  void func4(Typedef1 arg0) {
-    return _func4(arg0);
+  void func4(
+    Typedef1 arg0,
+  ) {
+    return _func4(
+      arg0,
+    );
   }
 
   late final _func4Ptr =
