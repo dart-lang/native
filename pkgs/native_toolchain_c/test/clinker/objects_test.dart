@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-//TODO(mosuem): Enable for windows and mac.
+// TODO(mosuem): Enable for windows.
 // See https://github.com/dart-lang/native/issues/1376.
-@TestOn('linux')
+@TestOn('linux || mac-os')
 library;
 
 import 'dart:io';
@@ -12,13 +12,18 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
 
+import '../helpers.dart';
 import 'objects_helper.dart';
 
 void main() {
-  if (!Platform.isLinux) {
+  if (!Platform.isLinux && !Platform.isMacOS) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
-  runObjectsTests(OS.current, [Architecture.current]);
+  runObjectsTests(
+    OS.current,
+    [Architecture.current],
+    macOSTargetVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
+  );
 }
