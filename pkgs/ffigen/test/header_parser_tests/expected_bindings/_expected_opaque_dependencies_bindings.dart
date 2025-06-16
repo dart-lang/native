@@ -8,11 +8,11 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-    : _lookup = dynamicLibrary.lookup;
+      : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
@@ -25,10 +25,10 @@ class NativeLibrary {
 
   late final _funcPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<BAlias> Function(ffi.Pointer<A>)>>(
-        'func',
-      );
-  late final _func = _funcPtr
-      .asFunction<ffi.Pointer<BAlias> Function(ffi.Pointer<A>)>();
+    'func',
+  );
+  late final _func =
+      _funcPtr.asFunction<ffi.Pointer<BAlias> Function(ffi.Pointer<A>)>();
 
   ffi.Pointer<UB> func2(ffi.Pointer<UA> a) {
     return _func2(a);
@@ -36,10 +36,10 @@ class NativeLibrary {
 
   late final _func2Ptr =
       _lookup<ffi.NativeFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>>(
-        'func2',
-      );
-  late final _func2 = _func2Ptr
-      .asFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>();
+    'func2',
+  );
+  late final _func2 =
+      _func2Ptr.asFunction<ffi.Pointer<UB> Function(ffi.Pointer<UA>)>();
 }
 
 final class A extends ffi.Opaque {}
