@@ -27,18 +27,18 @@ class Library {
   static Library fromConfig({
     required Config config,
     required List<Binding> bindings,
-  }) => Library(
-    name: config.wrapperName,
-    description: config.wrapperDocComment,
-    bindings: bindings,
-    header: config.preamble,
-    generateForPackageObjectiveC: config.generateForPackageObjectiveC,
-    libraryImports: config.libraryImports.values.toList(),
-    silenceEnumWarning: config.silenceEnumWarning,
-    nativeEntryPoints: config.entryPoints
-        .map((uri) => uri.toFilePath())
-        .toList(),
-  );
+  }) =>
+      Library(
+        name: config.wrapperName,
+        description: config.wrapperDocComment,
+        bindings: bindings,
+        header: config.preamble,
+        generateForPackageObjectiveC: config.generateForPackageObjectiveC,
+        libraryImports: config.libraryImports.values.toList(),
+        silenceEnumWarning: config.silenceEnumWarning,
+        nativeEntryPoints:
+            config.entryPoints.map((uri) => uri.toFilePath()).toList(),
+      );
 
   factory Library({
     required String name,
@@ -96,10 +96,13 @@ class Library {
     if (!file.existsSync()) file.createSync(recursive: true);
     file.writeAsStringSync(generate());
     if (format) {
-      final result = Process.runSync(Platform.resolvedExecutable, [
-        'format',
-        file.absolute.path,
-      ], workingDirectory: file.parent.absolute.path);
+      final result = Process.runSync(
+          Platform.resolvedExecutable,
+          [
+            'format',
+            file.absolute.path,
+          ],
+          workingDirectory: file.parent.absolute.path);
       if (result.exitCode != 0) {
         _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
       }
