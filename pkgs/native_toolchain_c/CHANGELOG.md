@@ -1,3 +1,7 @@
+## 0.16.5
+
+* Support linking for iOS.
+
 ## 0.16.4
 
 * Support linking for MacOS.

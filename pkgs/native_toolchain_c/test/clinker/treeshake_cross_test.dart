@@ -23,10 +23,13 @@ void main() {
 
   final architectures = supportedArchitecturesFor(OS.current)
     ..remove(Architecture.current); // See treeshake_test.dart for current arch.
-
-  runTreeshakeTests(
-    OS.current,
-    architectures,
-    macOSTargetVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
-  );
+  for (final architecture in architectures) {
+    group('${OS.current} ($architecture):', () {
+      runTreeshakeTests(
+        OS.current,
+        architecture,
+        macOSTargetVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
+      );
+    });
+  }
 }

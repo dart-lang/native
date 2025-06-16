@@ -23,7 +23,7 @@ void main() {
 
   runTreeshakeTests(
     OS.current,
-    [Architecture.current],
+    Architecture.current,
     macOSTargetVersion: OS.current == OS.macOS ? defaultMacOSVersion : null,
   );
 }
