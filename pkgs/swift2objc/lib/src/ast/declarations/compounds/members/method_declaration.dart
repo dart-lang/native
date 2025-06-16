@@ -11,6 +11,7 @@ import '../../../ast_node.dart';
 
 /// Describes a method declaration for a Swift compound entity
 /// (e.g, class, structs)
+/// TODO(https://github.com/dart-lang/native/issues/2049): Add support for private(set) functions
 class MethodDeclaration extends AstNode
     implements FunctionDeclaration, ObjCAnnotatable, Overridable {
   @override
@@ -45,12 +46,15 @@ class MethodDeclaration extends AstNode
 
   bool isStatic;
 
+  bool public;
+
   bool mutating;
 
   String get fullName => [
         name,
         for (final p in params) p.name,
       ].join(':');
+
 
   MethodDeclaration(
       {required this.id,
@@ -64,6 +68,7 @@ class MethodDeclaration extends AstNode
       this.isOverriding = false,
       this.throws = false,
       this.async = false,
+      this.public = false,
       this.mutating = false})
       : assert(!isStatic || !isOverriding);
 

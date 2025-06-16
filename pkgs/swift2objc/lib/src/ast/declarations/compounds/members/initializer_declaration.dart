@@ -13,6 +13,7 @@ import '../../../_core/shared/parameter.dart';
 import '../../../ast_node.dart';
 
 /// Describes an initializer for a Swift compound entity (e.g, class, structs)
+/// TODO(https://github.com/dart-lang/native/issues/2048): Convenience and Required Initializers
 class InitializerDeclaration extends AstNode
     implements
         Declaration,
