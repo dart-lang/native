@@ -7,7 +7,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -23,19 +22,23 @@ void main() {
   group('Block inheritance', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(path.join(
-        packagePathForTests,
-        '..',
-        'objective_c',
-        'test',
-        'objective_c.dylib',
-      ));
-      final dylib = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'objc_test.dylib',
-      ));
+      DynamicLibrary.open(
+        path.join(
+          packagePathForTests,
+          '..',
+          'objective_c',
+          'test',
+          'objective_c.dylib',
+        ),
+      );
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
 
@@ -61,7 +64,8 @@ void main() {
 
       final ObjCBlock<Bool Function(Mammal)> mammalAccepter =
           ObjCBlock_bool_Mammal.fromFunction(
-              (Mammal mammal) => mammal.laysEggs());
+            (Mammal mammal) => mammal.laysEggs(),
+          );
       expect(baseObj.invokeAccepter(mammalAccepter), false);
     });
 
@@ -76,17 +80,17 @@ void main() {
       final Mammal baseReturnerResult = baseReturner();
       expect(baseReturnerResult.laysEggs(), true);
 
-      final ObjCBlock<Platypus Function()> childReturner =
-          childObj.getReturner();
+      final ObjCBlock<Platypus Function()> childReturner = childObj
+          .getReturner();
       final Platypus childReturnerResult = childReturner();
       expect(childReturnerResult.laysEggs(), true);
 
-      final ObjCBlock<Bool Function(Platypus)> baseAccepter =
-          baseObj.getAccepter();
+      final ObjCBlock<Bool Function(Platypus)> baseAccepter = baseObj
+          .getAccepter();
       expect(baseAccepter(Platypus()), true);
 
-      final ObjCBlock<Bool Function(Mammal)> childAccepter =
-          childObj.getAccepter();
+      final ObjCBlock<Bool Function(Mammal)> childAccepter = childObj
+          .getAccepter();
       expect(childAccepter(Mammal()), false);
       expect(childAccepter(Platypus()), true);
 
@@ -103,12 +107,14 @@ void main() {
 
       final ObjCBlock<Bool Function(Mammal)> mammalAccepter =
           ObjCBlock_bool_Mammal.fromFunction(
-              (Mammal mammal) => mammal.laysEggs());
+            (Mammal mammal) => mammal.laysEggs(),
+          );
       expect(baseObj.invokeAccepter(mammalAccepter), true);
 
       final ObjCBlock<Bool Function(Platypus)> platypusAccepter =
           ObjCBlock_bool_Platypus.fromFunction(
-              (Platypus platypus) => platypus.laysEggs());
+            (Platypus platypus) => platypus.laysEggs(),
+          );
       expect(childObj.invokeAccepter(platypusAccepter), true);
       expect(childObj.invokeAccepter(mammalAccepter), true);
     });

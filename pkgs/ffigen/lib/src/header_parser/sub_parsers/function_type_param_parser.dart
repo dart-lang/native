@@ -9,9 +9,7 @@ import '../utils.dart';
 class FunctionTypeParams {
   final List<String> paramNames;
   final Map<String, CXCursor> params;
-  FunctionTypeParams()
-      : paramNames = [],
-        params = {};
+  FunctionTypeParams() : paramNames = [], params = {};
 }
 
 /// Returns `ParmDecl` nodes of function pointer declaration

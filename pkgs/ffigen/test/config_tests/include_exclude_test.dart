@@ -24,13 +24,17 @@ void main() {
     for (final f in fieldsAndNameMap.keys) {
       test('include $f', () {
         final config = _makeFieldIncludeExcludeConfig(
-            field: f, include: fieldsAndNameMap[f]);
+          field: f,
+          include: fieldsAndNameMap[f],
+        );
         final library = parse(config);
         expect(library.getBinding(fieldsAndNameMap[f]!), isNotNull);
       });
       test('exclude $f', () {
         final config = _makeFieldIncludeExcludeConfig(
-            field: f, exclude: fieldsAndNameMap[f]);
+          field: f,
+          exclude: fieldsAndNameMap[f],
+        );
         final library = parse(config);
         expect(() => library.getBinding(fieldsAndNameMap[f]!), throwsException);
       });
@@ -43,7 +47,8 @@ Config _makeFieldIncludeExcludeConfig({
   String? include,
   String? exclude,
 }) {
-  var templateString = '''
+  var templateString =
+      '''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'include_exclude test'
 ${strings.output}: 'unused'
@@ -52,17 +57,20 @@ ${strings.headers}:
     - '${absPath('test/config_tests/include_exclude.h')}'
 ''';
   if (include != null || exclude != null) {
-    templateString += '''
+    templateString +=
+        '''
 $field:
 ''';
     if (include != null) {
-      templateString += '''
+      templateString +=
+          '''
   ${strings.include}:
     - $include
 ''';
     }
     if (exclude != null) {
-      templateString += '''
+      templateString +=
+          '''
   ${strings.exclude}:
     - $exclude
 ''';

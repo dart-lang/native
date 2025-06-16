@@ -47,7 +47,9 @@ class Constant extends NoLookUpBinding {
     s.write('\nconst $rawType $constantName = $rawValue;\n\n');
 
     return BindingString(
-        type: BindingStringType.constant, string: s.toString());
+      type: BindingStringType.constant,
+      string: s.toString(),
+    );
   }
 
   @override

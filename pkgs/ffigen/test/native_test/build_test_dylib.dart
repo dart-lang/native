@@ -65,18 +65,15 @@ void main(List<String> arguments) {
 
 /// Calls the clang compiler.
 ProcessResult runClangProcess(Options options) {
-  final result = Process.runSync(
-    'clang',
-    [
-      options.sharedFlag,
-      options.fPIC,
-      options.inputHeader,
-      '-o',
-      options.outputfilename,
-      options.moduleDefPath,
-      '-Wno-nullability-completeness',
-    ],
-  );
+  final result = Process.runSync('clang', [
+    options.sharedFlag,
+    options.fPIC,
+    options.inputHeader,
+    '-o',
+    options.outputfilename,
+    options.moduleDefPath,
+    '-Wno-nullability-completeness',
+  ]);
   return result;
 }
 

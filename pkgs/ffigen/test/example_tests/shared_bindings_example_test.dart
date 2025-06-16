@@ -16,30 +16,32 @@ void main() {
     });
 
     test('a_shared_base bindings', () {
-      final config = testConfigFromPath(path.join(
-        packagePathForTests,
-        'example',
-        'shared_bindings',
-        'ffigen_configs',
-        'a_shared_base.yaml',
-      ));
+      final config = testConfigFromPath(
+        path.join(
+          packagePathForTests,
+          'example',
+          'shared_bindings',
+          'ffigen_configs',
+          'a_shared_base.yaml',
+        ),
+      );
       final library = parse(config);
 
-      matchLibraryWithExpected(
-        library,
-        'example_shared_bindings.dart',
-        [config.output.toFilePath()],
-      );
+      matchLibraryWithExpected(library, 'example_shared_bindings.dart', [
+        config.output.toFilePath(),
+      ]);
     });
 
     test('base symbol file output', () {
-      final config = testConfigFromPath(path.join(
-        packagePathForTests,
-        'example',
-        'shared_bindings',
-        'ffigen_configs',
-        'base.yaml',
-      ));
+      final config = testConfigFromPath(
+        path.join(
+          packagePathForTests,
+          'example',
+          'shared_bindings',
+          'ffigen_configs',
+          'base.yaml',
+        ),
+      );
       final library = parse(config);
       matchLibrarySymbolFileWithExpected(
         library,

@@ -93,8 +93,7 @@ abstract class Type extends AstNode {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      value;
+  }) => value;
 
   /// Returns generated Dart code that converts the given value from its
   /// FfiDartType to its DartType.
@@ -109,8 +108,7 @@ abstract class Type extends AstNode {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      value;
+  }) => value;
 
   /// Returns generated ObjC code that retains a reference to the given value.
   /// Returns null if the Type does not need to be retained.
@@ -146,7 +144,9 @@ abstract class Type extends AstNode {
   }) =>
       isSupertypeOfCovariance(left: covariantLeft, right: covariantRight) &&
       isSupertypeOfCovariance(
-          left: contravariantRight, right: contravariantLeft);
+        left: contravariantRight,
+        right: contravariantLeft,
+      );
 
   static bool isSupertypeOfCovariance({
     required List<Type> left,
@@ -217,8 +217,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      value;
+  }) => value;
 
   @override
   String convertFfiDartTypeToDartType(
@@ -226,8 +225,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      value;
+  }) => value;
 
   @override
   String? generateRetain(String value) => null;

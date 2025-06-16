@@ -17,13 +17,12 @@ void main() {
       logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfigFromPath(configPath(
-            path.join(
-              packagePathForTests,
-              'test',
-              'header_parser_tests',
-            ),
-            'globals_config.yaml')),
+        testConfigFromPath(
+          configPath(
+            path.join(packagePathForTests, 'test', 'header_parser_tests'),
+            'globals_config.yaml',
+          ),
+        ),
       );
     });
 
@@ -32,27 +31,45 @@ void main() {
     });
 
     test('Parse global Values', () {
-      expect(actual.getBindingAsString('coolGlobal'),
-          expected.getBindingAsString('coolGlobal'));
-      expect(actual.getBindingAsString('myInt'),
-          expected.getBindingAsString('myInt'));
-      expect(actual.getBindingAsString('aGlobalPointer0'),
-          expected.getBindingAsString('aGlobalPointer0'));
-      expect(actual.getBindingAsString('aGlobalPointer1'),
-          expected.getBindingAsString('aGlobalPointer1'));
-      expect(actual.getBindingAsString('aGlobalPointer2'),
-          expected.getBindingAsString('aGlobalPointer2'));
-      expect(actual.getBindingAsString('aGlobalPointer3'),
-          expected.getBindingAsString('aGlobalPointer3'));
+      expect(
+        actual.getBindingAsString('coolGlobal'),
+        expected.getBindingAsString('coolGlobal'),
+      );
+      expect(
+        actual.getBindingAsString('myInt'),
+        expected.getBindingAsString('myInt'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer0'),
+        expected.getBindingAsString('aGlobalPointer0'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer1'),
+        expected.getBindingAsString('aGlobalPointer1'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer2'),
+        expected.getBindingAsString('aGlobalPointer2'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer3'),
+        expected.getBindingAsString('aGlobalPointer3'),
+      );
     });
 
     test('Ignore global values', () {
-      expect(() => actual.getBindingAsString('GlobalIgnore'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('longDouble'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('pointerToLongDouble'),
-          throwsA(const TypeMatcher<NotFoundException>()));
+      expect(
+        () => actual.getBindingAsString('GlobalIgnore'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('longDouble'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('pointerToLongDouble'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
     });
 
     test('identifies constant globals', () {
@@ -123,7 +140,7 @@ Library expectedLibrary() {
         name: 'globalStruct_from_alias',
         type: globalStructAlias,
         exposeSymbolAddress: true,
-      )
+      ),
     ],
   );
 }

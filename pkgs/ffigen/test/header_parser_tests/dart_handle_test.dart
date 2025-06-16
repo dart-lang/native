@@ -34,12 +34,15 @@ ${strings.headers}:
     });
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_dart_handle_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_dart_handle_bindings.dart'
-      ]);
+        actual,
+        'header_parser_dart_handle_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_dart_handle_bindings.dart',
+        ],
+      );
     });
   }, skip: isFlutterTester);
 }

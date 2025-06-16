@@ -32,12 +32,15 @@ ${strings.comments}:
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_comment_markup_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_comment_markup_bindings.dart'
-      ]);
+        actual,
+        'header_parser_comment_markup_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_comment_markup_bindings.dart',
+        ],
+      );
     });
   });
 }

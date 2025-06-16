@@ -27,8 +27,9 @@ void main() {
     });
 
     test('to DateTime', () {
-      final dartFirstAppeared =
-          NSDate.dateWithTimeIntervalSince1970(1318204800);
+      final dartFirstAppeared = NSDate.dateWithTimeIntervalSince1970(
+        1318204800,
+      );
       final dateTime = dartFirstAppeared.toDateTime();
       expect(dateTime.toUtc().toString(), '2011-10-10 00:00:00.000Z');
     });

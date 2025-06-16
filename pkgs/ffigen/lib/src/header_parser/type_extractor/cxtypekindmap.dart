@@ -24,16 +24,26 @@ Map<String, ImportedType> cxTypeKindToImportedTypes = {
 };
 
 Map<Type, ImportedType?> unsignedToSignedNativeIntType = Map.fromEntries(
-    cxTypeKindToImportedTypes.entries
-        .where((e) => e.key.contains('unsigned'))
-        .map((e) => MapEntry(e.value as Type,
-            cxTypeKindToImportedTypes[e.key.replaceFirst('unsigned ', '')])));
+  cxTypeKindToImportedTypes.entries
+      .where((e) => e.key.contains('unsigned'))
+      .map(
+        (e) => MapEntry(
+          e.value as Type,
+          cxTypeKindToImportedTypes[e.key.replaceFirst('unsigned ', '')],
+        ),
+      ),
+);
 
 Map<Type, ImportedType?> signedToUnsignedNativeIntType = Map.fromEntries(
-    cxTypeKindToImportedTypes.entries
-        .whereNot((e) => e.key.contains('unsigned'))
-        .map((e) => MapEntry(
-            e.value as Type, cxTypeKindToImportedTypes['unsigned ${e.key}'])));
+  cxTypeKindToImportedTypes.entries
+      .whereNot((e) => e.key.contains('unsigned'))
+      .map(
+        (e) => MapEntry(
+          e.value as Type,
+          cxTypeKindToImportedTypes['unsigned ${e.key}'],
+        ),
+      ),
+);
 
 Map<String, SupportedNativeType> suportedTypedefToSuportedNativeType = {
   'uint8_t': SupportedNativeType.uint8,
