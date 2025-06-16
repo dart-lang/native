@@ -6,6 +6,7 @@
 ///
 /// Source: https://dart.dev/guides/language/language-tour#keywords.
 const keywords = {
+  '_',
   'abstract',
   'as',
   'assert',

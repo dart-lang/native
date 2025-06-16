@@ -1,5 +1,10 @@
 ## 19.1.0-wip
 
+- Format using `dart format` so that the formatter uses the target package's
+  Dart version and formatting options.
+- Add `_` to the list of Dart keywords, since it has special meaning in newer
+  Dart versions.
+
 ## 19.0.0
 
 - Use package:objective_c 8.0.0.
