@@ -343,10 +343,10 @@ class Writer {
   }
 
   List<Binding> get _allBindings => <Binding>[
-    ...noLookUpBindings,
-    ...ffiNativeBindings,
-    ...lookUpBindings,
-  ];
+        ...noLookUpBindings,
+        ...ffiNativeBindings,
+        ...lookUpBindings,
+      ];
 
   Map<String, dynamic> generateSymbolOutputYamlMap(String importFilePath) {
     final bindings = _allBindings;
@@ -378,8 +378,8 @@ class Writer {
     bindings.sort((a, b) => a.usr.compareTo(b.usr));
 
     final usesFfiNative = bindings.whereType<Func>().any(
-      (element) => element.ffiNativeConfig.enabled,
-    );
+          (element) => element.ffiNativeConfig.enabled,
+        );
 
     return {
       strings.formatVersion: strings.symbolFileFormatVersion,

@@ -63,8 +63,7 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    final omit =
-        node.unavailable ||
+    final omit = node.unavailable ||
         !_visitImpl(
           node,
           config.includeTransitiveObjCInterfaces
@@ -79,16 +78,15 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) => _visitImpl(
-    node,
-    config.includeTransitiveObjCCategories
-        ? _IncludeBehavior.configOrDirectTransitive
-        : _IncludeBehavior.configOnly,
-  );
+        node,
+        config.includeTransitiveObjCCategories
+            ? _IncludeBehavior.configOrDirectTransitive
+            : _IncludeBehavior.configOnly,
+      );
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    final omit =
-        node.unavailable ||
+    final omit = node.unavailable ||
         !_visitImpl(
           node,
           config.includeTransitiveObjCProtocols

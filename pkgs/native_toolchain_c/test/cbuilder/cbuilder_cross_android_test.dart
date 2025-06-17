@@ -43,7 +43,7 @@ void main() {
             linkMode,
             optimizationLevel: optimizationLevel,
           );
-          await expectMachineArchitecture(libUri, target);
+          await expectMachineArchitecture(libUri, target, OS.android);
           if (linkMode == DynamicLoadingBundled()) {
             await expectPageSize(libUri, 16 * 1024);
           }

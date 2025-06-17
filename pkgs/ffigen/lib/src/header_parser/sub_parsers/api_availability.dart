@@ -152,8 +152,7 @@ class ApiAvailability {
   }
 
   @override
-  String toString() =>
-      '''Availability {
+  String toString() => '''Availability {
   alwaysDeprecated: $alwaysDeprecated
   alwaysUnavailable: $alwaysUnavailable
   ios: $ios
@@ -235,7 +234,6 @@ class PlatformAvailability {
       v == null ? 'null' : '(${v.major}, ${v.minor}, ${v.patch})';
 
   @override
-  String toString() =>
-      'introduced: $introduced, deprecated: $deprecated, '
+  String toString() => 'introduced: $introduced, deprecated: $deprecated, '
       'obsoleted: $obsoleted, unavailable: $unavailable';
 }

@@ -97,7 +97,7 @@ void main() {
     }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
-    allocMethodsInner(Pointer<Int32> counter) {
+        allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.alloc().initWithCounter(counter);
       expect(counter.value, 1);
       final obj2 = ArcTestObject.castFrom(ArcTestObject.alloc().init());
@@ -143,8 +143,7 @@ void main() {
       Pointer<ObjCObject>,
       Pointer<ObjCObject>,
       Pointer<ObjCObject>,
-    )
-    copyMethodsInner(Pointer<Int32> counter) {
+    ) copyMethodsInner(Pointer<Int32> counter) {
       final pool = lib.objc_autoreleasePoolPush();
       final obj1 = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -379,7 +378,7 @@ void main() {
     }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
-    copyPropertiesInner(Pointer<Int32> counter) {
+        copyPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
 

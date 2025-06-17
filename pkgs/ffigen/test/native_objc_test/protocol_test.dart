@@ -572,7 +572,8 @@ void main() {
               protoKeepAlive.ref.release();
               sendPort.send('protoKeepAlive destroyed');
             }
-          })..keepIsolateAlive = false;
+          })
+            ..keepIsolateAlive = false;
 
           sendPort.send(isolatePort.sendPort);
         },

@@ -1,6 +1,11 @@
 ## 19.1.0-wip
 
 - Bump minimum Dart version to 3.8.0.
+- Format using `dart format` so that the formatter uses the target package's
+  Dart version and formatting options.
+- Add `_` to the list of Dart keywords, since it has special meaning in newer
+  Dart versions.
+>>>>>>> main
 
 ## 19.0.0
 

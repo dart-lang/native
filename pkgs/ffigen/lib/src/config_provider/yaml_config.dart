@@ -432,25 +432,25 @@ class YamlConfig implements Config {
           required: true,
           valueConfigSpec:
               HeterogeneousMapConfigSpec<List<String>, YamlHeaders>(
-                entries: [
-                  HeterogeneousMapEntry(
-                    key: strings.entryPoints,
-                    valueConfigSpec: ListConfigSpec<String, List<String>>(
-                      childConfigSpec: StringConfigSpec(),
-                    ),
-                    required: true,
-                  ),
-                  HeterogeneousMapEntry(
-                    key: strings.includeDirectives,
-                    valueConfigSpec: ListConfigSpec<String, List<String>>(
-                      childConfigSpec: StringConfigSpec(),
-                    ),
-                  ),
-                ],
-                transform: (node) =>
-                    headersExtractor(node.value, filename?.toFilePath()),
-                result: (node) => _headers = node.value,
+            entries: [
+              HeterogeneousMapEntry(
+                key: strings.entryPoints,
+                valueConfigSpec: ListConfigSpec<String, List<String>>(
+                  childConfigSpec: StringConfigSpec(),
+                ),
+                required: true,
               ),
+              HeterogeneousMapEntry(
+                key: strings.includeDirectives,
+                valueConfigSpec: ListConfigSpec<String, List<String>>(
+                  childConfigSpec: StringConfigSpec(),
+                ),
+              ),
+            ],
+            transform: (node) =>
+                headersExtractor(node.value, filename?.toFilePath()),
+            result: (node) => _headers = node.value,
+          ),
         ),
         HeterogeneousMapEntry(
           key: strings.ignoreSourceErrors,
@@ -493,9 +493,8 @@ class YamlConfig implements Config {
               ),
             ],
             transform: (node) => CompilerOptsAuto(
-              macIncludeStdLib:
-                  (node.value[strings.macos] as Map?)?[strings.includeCStdLib]
-                      as bool,
+              macIncludeStdLib: (node.value[strings.macos]
+                  as Map?)?[strings.includeCStdLib] as bool,
             ),
             result: (node) => _compilerOpts.addAll(
               (node.value as CompilerOptsAuto).extractCompilerOpts(),
@@ -554,9 +553,8 @@ class YamlConfig implements Config {
                 node.value as Map<dynamic, dynamic>,
                 _excludeAllByDefault,
               );
-              _exposeFunctionTypedefs =
-                  (node.value as Map)[strings.exposeFunctionTypedefs]
-                      as YamlIncluder;
+              _exposeFunctionTypedefs = (node.value
+                  as Map)[strings.exposeFunctionTypedefs] as YamlIncluder;
               _leafFunctions =
                   (node.value as Map)[strings.leafFunctions] as YamlIncluder;
             },
@@ -596,9 +594,8 @@ class YamlConfig implements Config {
                 node.value as Map<dynamic, dynamic>,
                 _excludeAllByDefault,
               );
-              _structDependencies =
-                  (node.value as Map)[strings.dependencyOnly]
-                      as CompoundDependencies;
+              _structDependencies = (node.value as Map)[strings.dependencyOnly]
+                  as CompoundDependencies;
             },
           ),
         ),
@@ -616,9 +613,8 @@ class YamlConfig implements Config {
                 node.value as Map<dynamic, dynamic>,
                 _excludeAllByDefault,
               );
-              _unionDependencies =
-                  (node.value as Map)[strings.dependencyOnly]
-                      as CompoundDependencies;
+              _unionDependencies = (node.value as Map)[strings.dependencyOnly]
+                  as CompoundDependencies;
             },
           ),
         ),
@@ -776,14 +772,14 @@ class YamlConfig implements Config {
                 key: strings.symbolFilesImport,
                 valueConfigSpec:
                     ListConfigSpec<String, Map<String, ImportedType>>(
-                      childConfigSpec: StringConfigSpec(),
-                      transform: (node) => symbolFileImportExtractor(
-                        node.value,
-                        _libraryImports,
-                        filename?.toFilePath(),
-                        packageConfig,
-                      ),
-                    ),
+                  childConfigSpec: StringConfigSpec(),
+                  transform: (node) => symbolFileImportExtractor(
+                    node.value,
+                    _libraryImports,
+                    filename?.toFilePath(),
+                    packageConfig,
+                  ),
+                ),
                 defaultValue: (node) => <String, ImportedType>{},
                 resultOrDefault: (node) =>
                     _usrTypeMappings = node.value as Map<String, ImportedType>,
@@ -1171,23 +1167,20 @@ class YamlConfig implements Config {
     return [
       HeterogeneousMapEntry(
         key: strings.memberRename,
-        valueConfigSpec:
-            MapConfigSpec<
-              Map<dynamic, String>,
-              Map<dynamic, Map<dynamic, String>>
-            >(
-              schemaDefName: 'memberRename',
-              keyValueConfigSpecs: [
-                (
-                  keyRegexp: '.*',
-                  valueConfigSpec: MapConfigSpec<String, Map<dynamic, String>>(
-                    keyValueConfigSpecs: [
-                      (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
-                    ],
-                  ),
-                ),
-              ],
+        valueConfigSpec: MapConfigSpec<Map<dynamic, String>,
+            Map<dynamic, Map<dynamic, String>>>(
+          schemaDefName: 'memberRename',
+          keyValueConfigSpecs: [
+            (
+              keyRegexp: '.*',
+              valueConfigSpec: MapConfigSpec<String, Map<dynamic, String>>(
+                keyValueConfigSpecs: [
+                  (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
+                ],
+              ),
             ),
+          ],
+        ),
       ),
     ];
   }
@@ -1205,15 +1198,15 @@ class YamlConfig implements Config {
   }
 
   List<HeterogeneousMapEntry> _enumIntProperties() => [
-    HeterogeneousMapEntry(
-      key: strings.enumAsInt,
-      defaultValue: (node) => YamlIncluder.excludeByDefault(),
-      valueConfigSpec: _includeExcludeObject(),
-    ),
-  ];
+        HeterogeneousMapEntry(
+          key: strings.enumAsInt,
+          defaultValue: (node) => YamlIncluder.excludeByDefault(),
+          valueConfigSpec: _includeExcludeObject(),
+        ),
+      ];
 
   HeterogeneousMapConfigSpec<List<String>, YamlIncluder>
-  _includeExcludeObject() {
+      _includeExcludeObject() {
     return HeterogeneousMapConfigSpec(
       schemaDefName: 'includeExclude',
       entries: [..._includeExcludeProperties()],

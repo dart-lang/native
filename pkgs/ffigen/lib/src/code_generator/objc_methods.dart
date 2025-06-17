@@ -90,14 +90,15 @@ mixin ObjCMethods {
   }
 
   UniqueNamer createMethodRenamer(Writer w) =>
-      UniqueNamer(parent: w.topLevelUniqueNamer)..markAllUsed([
-        name,
-        'pointer',
-        'toString',
-        'hashCode',
-        'runtimeType',
-        'noSuchMethod',
-      ]);
+      UniqueNamer(parent: w.topLevelUniqueNamer)
+        ..markAllUsed([
+          name,
+          'pointer',
+          'toString',
+          'hashCode',
+          'runtimeType',
+          'noSuchMethod',
+        ]);
 
   void sortMethods() => _order.sort();
 
@@ -222,8 +223,8 @@ class ObjCMethod extends AstNode {
     required this.family,
     required this.apiAvailability,
     List<Parameter>? params_,
-  }) : params = params_ ?? [],
-       selObject = builtInFunctions.getSelObject(originalName);
+  })  : params = params_ ?? [],
+        selObject = builtInFunctions.getSelObject(originalName);
 
   // Must be called after all params are added to the method.
   void finalizeParams() {
@@ -336,8 +337,7 @@ class ObjCMethod extends AstNode {
   String get key => '${isClassMethod ? '+' : '-'}$originalName';
 
   @override
-  String toString() =>
-      '${isOptional ? '@optional ' : ''}$returnType '
+  String toString() => '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
 
   bool get returnsInstanceType {
@@ -446,8 +446,7 @@ class ObjCMethod extends AstNode {
     }
 ''');
     }
-    final convertReturn =
-        kind != ObjCMethodKind.propertySetter &&
+    final convertReturn = kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
 
     final msgSendParams = params.map(

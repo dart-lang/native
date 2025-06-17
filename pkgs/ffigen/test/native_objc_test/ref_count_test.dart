@@ -97,7 +97,7 @@ void main() {
     }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
-    allocMethodsInner(Pointer<Int32> counter) {
+        allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject.alloc().initWithCounter(counter);
       expect(counter.value, 1);
       final obj2 = RefCountTestObject.castFrom(
@@ -145,8 +145,7 @@ void main() {
       Pointer<ObjCObject>,
       Pointer<ObjCObject>,
       Pointer<ObjCObject>,
-    )
-    copyMethodsInner(Pointer<Int32> counter) {
+    ) copyMethodsInner(Pointer<Int32> counter) {
       final pool = lib.objc_autoreleasePoolPush();
       final obj1 = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -381,7 +380,7 @@ void main() {
     }, skip: !canDoGC);
 
     (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
-    copyPropertiesInner(Pointer<Int32> counter) {
+        copyPropertiesInner(Pointer<Int32> counter) {
       final outerObj = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
 

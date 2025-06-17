@@ -10,7 +10,7 @@ import 'dart:ffi' as ffi;
 class LibClang {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   LibClang(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
@@ -27,8 +27,8 @@ class LibClang {
 
   late final _clang_getCStringPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(CXString)>>(
-        'clang_getCString',
-      );
+    'clang_getCString',
+  );
   late final _clang_getCString = _clang_getCStringPtr
       .asFunction<ffi.Pointer<ffi.Char> Function(CXString)>();
 
@@ -39,10 +39,10 @@ class LibClang {
 
   late final _clang_disposeStringPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXString)>>(
-        'clang_disposeString',
-      );
-  late final _clang_disposeString = _clang_disposeStringPtr
-      .asFunction<void Function(CXString)>();
+    'clang_disposeString',
+  );
+  late final _clang_disposeString =
+      _clang_disposeStringPtr.asFunction<void Function(CXString)>();
 
   /// Free the given string set.
   void clang_disposeStringSet(ffi.Pointer<CXStringSet> set$) {
@@ -51,8 +51,8 @@ class LibClang {
 
   late final _clang_disposeStringSetPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CXStringSet>)>>(
-        'clang_disposeStringSet',
-      );
+    'clang_disposeStringSet',
+  );
   late final _clang_disposeStringSet = _clang_disposeStringSetPtr
       .asFunction<void Function(ffi.Pointer<CXStringSet>)>();
 
@@ -64,8 +64,8 @@ class LibClang {
 
   late final _clang_getBuildSessionTimestampPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedLongLong Function()>>(
-        'clang_getBuildSessionTimestamp',
-      );
+    'clang_getBuildSessionTimestamp',
+  );
   late final _clang_getBuildSessionTimestamp =
       _clang_getBuildSessionTimestampPtr.asFunction<int Function()>();
 
@@ -75,10 +75,9 @@ class LibClang {
     return _clang_VirtualFileOverlay_create(options);
   }
 
-  late final _clang_VirtualFileOverlay_createPtr =
-      _lookup<
-        ffi.NativeFunction<CXVirtualFileOverlay Function(ffi.UnsignedInt)>
-      >('clang_VirtualFileOverlay_create');
+  late final _clang_VirtualFileOverlay_createPtr = _lookup<
+          ffi.NativeFunction<CXVirtualFileOverlay Function(ffi.UnsignedInt)>>(
+      'clang_VirtualFileOverlay_create');
   late final _clang_VirtualFileOverlay_create =
       _clang_VirtualFileOverlay_createPtr
           .asFunction<CXVirtualFileOverlay Function(int)>();
@@ -95,25 +94,20 @@ class LibClang {
     );
   }
 
-  late final _clang_VirtualFileOverlay_addFileMappingPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_VirtualFileOverlay_addFileMappingPtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXVirtualFileOverlay,
             ffi.Pointer<ffi.Char>,
             ffi.Pointer<ffi.Char>,
-          )
-        >
-      >('clang_VirtualFileOverlay_addFileMapping');
+          )>>('clang_VirtualFileOverlay_addFileMapping');
   late final _clang_VirtualFileOverlay_addFileMapping =
-      _clang_VirtualFileOverlay_addFileMappingPtr
-          .asFunction<
-            int Function(
-              CXVirtualFileOverlay,
-              ffi.Pointer<ffi.Char>,
-              ffi.Pointer<ffi.Char>,
-            )
-          >();
+      _clang_VirtualFileOverlay_addFileMappingPtr.asFunction<
+          int Function(
+            CXVirtualFileOverlay,
+            ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Char>,
+          )>();
 
   /// Set the case sensitivity for the CXVirtualFileOverlay object. The
   /// CXVirtualFileOverlay object is case-sensitive by default, this option can
@@ -127,12 +121,10 @@ class LibClang {
     );
   }
 
-  late final _clang_VirtualFileOverlay_setCaseSensitivityPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXVirtualFileOverlay, ffi.Int)
-        >
-      >('clang_VirtualFileOverlay_setCaseSensitivity');
+  late final _clang_VirtualFileOverlay_setCaseSensitivityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(CXVirtualFileOverlay,
+              ffi.Int)>>('clang_VirtualFileOverlay_setCaseSensitivity');
   late final _clang_VirtualFileOverlay_setCaseSensitivity =
       _clang_VirtualFileOverlay_setCaseSensitivityPtr
           .asFunction<int Function(CXVirtualFileOverlay, int)>();
@@ -154,27 +146,22 @@ class LibClang {
     );
   }
 
-  late final _clang_VirtualFileOverlay_writeToBufferPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_VirtualFileOverlay_writeToBufferPtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXVirtualFileOverlay,
             ffi.UnsignedInt,
             ffi.Pointer<ffi.Pointer<ffi.Char>>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_VirtualFileOverlay_writeToBuffer');
+          )>>('clang_VirtualFileOverlay_writeToBuffer');
   late final _clang_VirtualFileOverlay_writeToBuffer =
-      _clang_VirtualFileOverlay_writeToBufferPtr
-          .asFunction<
-            int Function(
-              CXVirtualFileOverlay,
-              int,
-              ffi.Pointer<ffi.Pointer<ffi.Char>>,
-              ffi.Pointer<ffi.UnsignedInt>,
-            )
-          >();
+      _clang_VirtualFileOverlay_writeToBufferPtr.asFunction<
+          int Function(
+            CXVirtualFileOverlay,
+            int,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// free memory allocated by libclang, such as the buffer returned by
   /// CXVirtualFileOverlay() or clang_ModuleMapDescriptor_writeToBuffer().
@@ -184,10 +171,10 @@ class LibClang {
 
   late final _clang_freePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'clang_free',
-      );
-  late final _clang_free = _clang_freePtr
-      .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+    'clang_free',
+  );
+  late final _clang_free =
+      _clang_freePtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   /// Dispose a CXVirtualFileOverlay object.
   void clang_VirtualFileOverlay_dispose(CXVirtualFileOverlay arg0) {
@@ -196,8 +183,8 @@ class LibClang {
 
   late final _clang_VirtualFileOverlay_disposePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXVirtualFileOverlay)>>(
-        'clang_VirtualFileOverlay_dispose',
-      );
+    'clang_VirtualFileOverlay_dispose',
+  );
   late final _clang_VirtualFileOverlay_dispose =
       _clang_VirtualFileOverlay_disposePtr
           .asFunction<void Function(CXVirtualFileOverlay)>();
@@ -208,10 +195,9 @@ class LibClang {
     return _clang_ModuleMapDescriptor_create(options);
   }
 
-  late final _clang_ModuleMapDescriptor_createPtr =
-      _lookup<
-        ffi.NativeFunction<CXModuleMapDescriptor Function(ffi.UnsignedInt)>
-      >('clang_ModuleMapDescriptor_create');
+  late final _clang_ModuleMapDescriptor_createPtr = _lookup<
+          ffi.NativeFunction<CXModuleMapDescriptor Function(ffi.UnsignedInt)>>(
+      'clang_ModuleMapDescriptor_create');
   late final _clang_ModuleMapDescriptor_create =
       _clang_ModuleMapDescriptor_createPtr
           .asFunction<CXModuleMapDescriptor Function(int)>();
@@ -226,17 +212,14 @@ class LibClang {
     );
   }
 
-  late final _clang_ModuleMapDescriptor_setFrameworkModuleNamePtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)
-        >
-      >('clang_ModuleMapDescriptor_setFrameworkModuleName');
+  late final _clang_ModuleMapDescriptor_setFrameworkModuleNamePtr = _lookup<
+          ffi.NativeFunction<
+              ffi.UnsignedInt Function(
+                  CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)>>(
+      'clang_ModuleMapDescriptor_setFrameworkModuleName');
   late final _clang_ModuleMapDescriptor_setFrameworkModuleName =
-      _clang_ModuleMapDescriptor_setFrameworkModuleNamePtr
-          .asFunction<
-            int Function(CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)
-          >();
+      _clang_ModuleMapDescriptor_setFrameworkModuleNamePtr.asFunction<
+          int Function(CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)>();
 
   /// Sets the umbrealla header name that the module.map describes.
   CXErrorCode clang_ModuleMapDescriptor_setUmbrellaHeader(
@@ -248,17 +231,14 @@ class LibClang {
     );
   }
 
-  late final _clang_ModuleMapDescriptor_setUmbrellaHeaderPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)
-        >
-      >('clang_ModuleMapDescriptor_setUmbrellaHeader');
+  late final _clang_ModuleMapDescriptor_setUmbrellaHeaderPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.UnsignedInt Function(
+                  CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)>>(
+      'clang_ModuleMapDescriptor_setUmbrellaHeader');
   late final _clang_ModuleMapDescriptor_setUmbrellaHeader =
-      _clang_ModuleMapDescriptor_setUmbrellaHeaderPtr
-          .asFunction<
-            int Function(CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)
-          >();
+      _clang_ModuleMapDescriptor_setUmbrellaHeaderPtr.asFunction<
+          int Function(CXModuleMapDescriptor, ffi.Pointer<ffi.Char>)>();
 
   /// Write out the CXModuleMapDescriptor object to a char buffer.
   CXErrorCode clang_ModuleMapDescriptor_writeToBuffer(
@@ -277,27 +257,22 @@ class LibClang {
     );
   }
 
-  late final _clang_ModuleMapDescriptor_writeToBufferPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_ModuleMapDescriptor_writeToBufferPtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXModuleMapDescriptor,
             ffi.UnsignedInt,
             ffi.Pointer<ffi.Pointer<ffi.Char>>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_ModuleMapDescriptor_writeToBuffer');
+          )>>('clang_ModuleMapDescriptor_writeToBuffer');
   late final _clang_ModuleMapDescriptor_writeToBuffer =
-      _clang_ModuleMapDescriptor_writeToBufferPtr
-          .asFunction<
-            int Function(
-              CXModuleMapDescriptor,
-              int,
-              ffi.Pointer<ffi.Pointer<ffi.Char>>,
-              ffi.Pointer<ffi.UnsignedInt>,
-            )
-          >();
+      _clang_ModuleMapDescriptor_writeToBufferPtr.asFunction<
+          int Function(
+            CXModuleMapDescriptor,
+            int,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Dispose a CXModuleMapDescriptor object.
   void clang_ModuleMapDescriptor_dispose(CXModuleMapDescriptor arg0) {
@@ -306,8 +281,8 @@ class LibClang {
 
   late final _clang_ModuleMapDescriptor_disposePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXModuleMapDescriptor)>>(
-        'clang_ModuleMapDescriptor_dispose',
-      );
+    'clang_ModuleMapDescriptor_dispose',
+  );
   late final _clang_ModuleMapDescriptor_dispose =
       _clang_ModuleMapDescriptor_disposePtr
           .asFunction<void Function(CXModuleMapDescriptor)>();
@@ -322,10 +297,10 @@ class LibClang {
 
   late final _clang_createIndexPtr =
       _lookup<ffi.NativeFunction<CXIndex Function(ffi.Int, ffi.Int)>>(
-        'clang_createIndex',
-      );
-  late final _clang_createIndex = _clang_createIndexPtr
-      .asFunction<CXIndex Function(int, int)>();
+    'clang_createIndex',
+  );
+  late final _clang_createIndex =
+      _clang_createIndexPtr.asFunction<CXIndex Function(int, int)>();
 
   /// Destroy the given index.
   void clang_disposeIndex(CXIndex index) {
@@ -334,10 +309,10 @@ class LibClang {
 
   late final _clang_disposeIndexPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXIndex)>>(
-        'clang_disposeIndex',
-      );
-  late final _clang_disposeIndex = _clang_disposeIndexPtr
-      .asFunction<void Function(CXIndex)>();
+    'clang_disposeIndex',
+  );
+  late final _clang_disposeIndex =
+      _clang_disposeIndexPtr.asFunction<void Function(CXIndex)>();
 
   /// Sets general options associated with a CXIndex.
   void clang_CXIndex_setGlobalOptions(CXIndex arg0, int options) {
@@ -346,8 +321,8 @@ class LibClang {
 
   late final _clang_CXIndex_setGlobalOptionsPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXIndex, ffi.UnsignedInt)>>(
-        'clang_CXIndex_setGlobalOptions',
-      );
+    'clang_CXIndex_setGlobalOptions',
+  );
   late final _clang_CXIndex_setGlobalOptions =
       _clang_CXIndex_setGlobalOptionsPtr
           .asFunction<void Function(CXIndex, int)>();
@@ -359,8 +334,8 @@ class LibClang {
 
   late final _clang_CXIndex_getGlobalOptionsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXIndex)>>(
-        'clang_CXIndex_getGlobalOptions',
-      );
+    'clang_CXIndex_getGlobalOptions',
+  );
   late final _clang_CXIndex_getGlobalOptions =
       _clang_CXIndex_getGlobalOptionsPtr.asFunction<int Function(CXIndex)>();
 
@@ -372,10 +347,10 @@ class LibClang {
     return _clang_CXIndex_setInvocationEmissionPathOption(arg0, Path);
   }
 
-  late final _clang_CXIndex_setInvocationEmissionPathOptionPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Void Function(CXIndex, ffi.Pointer<ffi.Char>)>
-      >('clang_CXIndex_setInvocationEmissionPathOption');
+  late final _clang_CXIndex_setInvocationEmissionPathOptionPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.Void Function(CXIndex, ffi.Pointer<ffi.Char>)>>(
+      'clang_CXIndex_setInvocationEmissionPathOption');
   late final _clang_CXIndex_setInvocationEmissionPathOption =
       _clang_CXIndex_setInvocationEmissionPathOptionPtr
           .asFunction<void Function(CXIndex, ffi.Pointer<ffi.Char>)>();
@@ -387,10 +362,10 @@ class LibClang {
 
   late final _clang_getFileNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXFile)>>(
-        'clang_getFileName',
-      );
-  late final _clang_getFileName = _clang_getFileNamePtr
-      .asFunction<CXString Function(CXFile)>();
+    'clang_getFileName',
+  );
+  late final _clang_getFileName =
+      _clang_getFileNamePtr.asFunction<CXString Function(CXFile)>();
 
   /// Retrieve the last modification time of the given file.
   int clang_getFileTime(CXFile SFile) {
@@ -399,22 +374,20 @@ class LibClang {
 
   late final _clang_getFileTimePtr =
       _lookup<ffi.NativeFunction<ffi.Int64 Function(CXFile)>>(
-        'clang_getFileTime',
-      );
-  late final _clang_getFileTime = _clang_getFileTimePtr
-      .asFunction<int Function(CXFile)>();
+    'clang_getFileTime',
+  );
+  late final _clang_getFileTime =
+      _clang_getFileTimePtr.asFunction<int Function(CXFile)>();
 
   /// Retrieve the unique ID for the given file.
   int clang_getFileUniqueID(CXFile file, ffi.Pointer<CXFileUniqueID> outID) {
     return _clang_getFileUniqueID(file, outID);
   }
 
-  late final _clang_getFileUniqueIDPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Int Function(CXFile, ffi.Pointer<CXFileUniqueID>)
-        >
-      >('clang_getFileUniqueID');
+  late final _clang_getFileUniqueIDPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Int Function(
+              CXFile, ffi.Pointer<CXFileUniqueID>)>>('clang_getFileUniqueID');
   late final _clang_getFileUniqueID = _clang_getFileUniqueIDPtr
       .asFunction<int Function(CXFile, ffi.Pointer<CXFileUniqueID>)>();
 
@@ -425,10 +398,10 @@ class LibClang {
     return _clang_isFileMultipleIncludeGuarded(tu, file);
   }
 
-  late final _clang_isFileMultipleIncludeGuardedPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.UnsignedInt Function(CXTranslationUnit, CXFile)>
-      >('clang_isFileMultipleIncludeGuarded');
+  late final _clang_isFileMultipleIncludeGuardedPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.UnsignedInt Function(CXTranslationUnit, CXFile)>>(
+      'clang_isFileMultipleIncludeGuarded');
   late final _clang_isFileMultipleIncludeGuarded =
       _clang_isFileMultipleIncludeGuardedPtr
           .asFunction<int Function(CXTranslationUnit, CXFile)>();
@@ -438,12 +411,10 @@ class LibClang {
     return _clang_getFile(tu, file_name);
   }
 
-  late final _clang_getFilePtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXFile Function(CXTranslationUnit, ffi.Pointer<ffi.Char>)
-        >
-      >('clang_getFile');
+  late final _clang_getFilePtr = _lookup<
+      ffi.NativeFunction<
+          CXFile Function(
+              CXTranslationUnit, ffi.Pointer<ffi.Char>)>>('clang_getFile');
   late final _clang_getFile = _clang_getFilePtr
       .asFunction<CXFile Function(CXTranslationUnit, ffi.Pointer<ffi.Char>)>();
 
@@ -456,24 +427,19 @@ class LibClang {
     return _clang_getFileContents(tu, file, size);
   }
 
-  late final _clang_getFileContentsPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getFileContentsPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<ffi.Char> Function(
             CXTranslationUnit,
             CXFile,
             ffi.Pointer<ffi.Size>,
-          )
-        >
-      >('clang_getFileContents');
-  late final _clang_getFileContents = _clang_getFileContentsPtr
-      .asFunction<
-        ffi.Pointer<ffi.Char> Function(
-          CXTranslationUnit,
-          CXFile,
-          ffi.Pointer<ffi.Size>,
-        )
-      >();
+          )>>('clang_getFileContents');
+  late final _clang_getFileContents = _clang_getFileContentsPtr.asFunction<
+      ffi.Pointer<ffi.Char> Function(
+        CXTranslationUnit,
+        CXFile,
+        ffi.Pointer<ffi.Size>,
+      )>();
 
   /// Returns non-zero if the file1 and file2 point to the same file, or they
   /// are both NULL.
@@ -483,10 +449,10 @@ class LibClang {
 
   late final _clang_File_isEqualPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXFile, CXFile)>>(
-        'clang_File_isEqual',
-      );
-  late final _clang_File_isEqual = _clang_File_isEqualPtr
-      .asFunction<int Function(CXFile, CXFile)>();
+    'clang_File_isEqual',
+  );
+  late final _clang_File_isEqual =
+      _clang_File_isEqualPtr.asFunction<int Function(CXFile, CXFile)>();
 
   /// Returns the real path name of file.
   CXString clang_File_tryGetRealPathName(CXFile file) {
@@ -495,10 +461,10 @@ class LibClang {
 
   late final _clang_File_tryGetRealPathNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXFile)>>(
-        'clang_File_tryGetRealPathName',
-      );
-  late final _clang_File_tryGetRealPathName = _clang_File_tryGetRealPathNamePtr
-      .asFunction<CXString Function(CXFile)>();
+    'clang_File_tryGetRealPathName',
+  );
+  late final _clang_File_tryGetRealPathName =
+      _clang_File_tryGetRealPathNamePtr.asFunction<CXString Function(CXFile)>();
 
   /// Retrieve a NULL (invalid) source location.
   CXSourceLocation clang_getNullLocation() {
@@ -507,10 +473,10 @@ class LibClang {
 
   late final _clang_getNullLocationPtr =
       _lookup<ffi.NativeFunction<CXSourceLocation Function()>>(
-        'clang_getNullLocation',
-      );
-  late final _clang_getNullLocation = _clang_getNullLocationPtr
-      .asFunction<CXSourceLocation Function()>();
+    'clang_getNullLocation',
+  );
+  late final _clang_getNullLocation =
+      _clang_getNullLocationPtr.asFunction<CXSourceLocation Function()>();
 
   /// Determine whether two source locations, which must refer into the same
   /// translation unit, refer to exactly the same point in the source code.
@@ -518,12 +484,10 @@ class LibClang {
     return _clang_equalLocations(loc1, loc2);
   }
 
-  late final _clang_equalLocationsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXSourceLocation, CXSourceLocation)
-        >
-      >('clang_equalLocations');
+  late final _clang_equalLocationsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              CXSourceLocation, CXSourceLocation)>>('clang_equalLocations');
   late final _clang_equalLocations = _clang_equalLocationsPtr
       .asFunction<int Function(CXSourceLocation, CXSourceLocation)>();
 
@@ -538,21 +502,16 @@ class LibClang {
     return _clang_getLocation(tu, file, line, column);
   }
 
-  late final _clang_getLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getLocationPtr = _lookup<
+      ffi.NativeFunction<
           CXSourceLocation Function(
             CXTranslationUnit,
             CXFile,
             ffi.UnsignedInt,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_getLocation');
-  late final _clang_getLocation = _clang_getLocationPtr
-      .asFunction<
-        CXSourceLocation Function(CXTranslationUnit, CXFile, int, int)
-      >();
+          )>>('clang_getLocation');
+  late final _clang_getLocation = _clang_getLocationPtr.asFunction<
+      CXSourceLocation Function(CXTranslationUnit, CXFile, int, int)>();
 
   /// Retrieves the source location associated with a given character offset in
   /// a particular translation unit.
@@ -564,12 +523,10 @@ class LibClang {
     return _clang_getLocationForOffset(tu, file, offset);
   }
 
-  late final _clang_getLocationForOffsetPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXSourceLocation Function(CXTranslationUnit, CXFile, ffi.UnsignedInt)
-        >
-      >('clang_getLocationForOffset');
+  late final _clang_getLocationForOffsetPtr = _lookup<
+      ffi.NativeFunction<
+          CXSourceLocation Function(CXTranslationUnit, CXFile,
+              ffi.UnsignedInt)>>('clang_getLocationForOffset');
   late final _clang_getLocationForOffset = _clang_getLocationForOffsetPtr
       .asFunction<CXSourceLocation Function(CXTranslationUnit, CXFile, int)>();
 
@@ -580,8 +537,8 @@ class LibClang {
 
   late final _clang_Location_isInSystemHeaderPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXSourceLocation)>>(
-        'clang_Location_isInSystemHeader',
-      );
+    'clang_Location_isInSystemHeader',
+  );
   late final _clang_Location_isInSystemHeader =
       _clang_Location_isInSystemHeaderPtr
           .asFunction<int Function(CXSourceLocation)>();
@@ -594,8 +551,8 @@ class LibClang {
 
   late final _clang_Location_isFromMainFilePtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXSourceLocation)>>(
-        'clang_Location_isFromMainFile',
-      );
+    'clang_Location_isFromMainFile',
+  );
   late final _clang_Location_isFromMainFile = _clang_Location_isFromMainFilePtr
       .asFunction<int Function(CXSourceLocation)>();
 
@@ -606,22 +563,20 @@ class LibClang {
 
   late final _clang_getNullRangePtr =
       _lookup<ffi.NativeFunction<CXSourceRange Function()>>(
-        'clang_getNullRange',
-      );
-  late final _clang_getNullRange = _clang_getNullRangePtr
-      .asFunction<CXSourceRange Function()>();
+    'clang_getNullRange',
+  );
+  late final _clang_getNullRange =
+      _clang_getNullRangePtr.asFunction<CXSourceRange Function()>();
 
   /// Retrieve a source range given the beginning and ending source locations.
   CXSourceRange clang_getRange(CXSourceLocation begin, CXSourceLocation end) {
     return _clang_getRange(begin, end);
   }
 
-  late final _clang_getRangePtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXSourceRange Function(CXSourceLocation, CXSourceLocation)
-        >
-      >('clang_getRange');
+  late final _clang_getRangePtr = _lookup<
+      ffi.NativeFunction<
+          CXSourceRange Function(
+              CXSourceLocation, CXSourceLocation)>>('clang_getRange');
   late final _clang_getRange = _clang_getRangePtr
       .asFunction<CXSourceRange Function(CXSourceLocation, CXSourceLocation)>();
 
@@ -630,12 +585,10 @@ class LibClang {
     return _clang_equalRanges(range1, range2);
   }
 
-  late final _clang_equalRangesPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXSourceRange, CXSourceRange)
-        >
-      >('clang_equalRanges');
+  late final _clang_equalRangesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              CXSourceRange, CXSourceRange)>>('clang_equalRanges');
   late final _clang_equalRanges = _clang_equalRangesPtr
       .asFunction<int Function(CXSourceRange, CXSourceRange)>();
 
@@ -646,10 +599,10 @@ class LibClang {
 
   late final _clang_Range_isNullPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXSourceRange)>>(
-        'clang_Range_isNull',
-      );
-  late final _clang_Range_isNull = _clang_Range_isNullPtr
-      .asFunction<int Function(CXSourceRange)>();
+    'clang_Range_isNull',
+  );
+  late final _clang_Range_isNull =
+      _clang_Range_isNullPtr.asFunction<int Function(CXSourceRange)>();
 
   /// Retrieve the file, line, column, and offset represented by the given
   /// source location.
@@ -663,28 +616,24 @@ class LibClang {
     return _clang_getExpansionLocation(location, file, line, column, offset);
   }
 
-  late final _clang_getExpansionLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getExpansionLocationPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXSourceLocation,
             ffi.Pointer<CXFile>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_getExpansionLocation');
-  late final _clang_getExpansionLocation = _clang_getExpansionLocationPtr
-      .asFunction<
-        void Function(
-          CXSourceLocation,
-          ffi.Pointer<CXFile>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-        )
-      >();
+          )>>('clang_getExpansionLocation');
+  late final _clang_getExpansionLocation =
+      _clang_getExpansionLocationPtr.asFunction<
+          void Function(
+            CXSourceLocation,
+            ffi.Pointer<CXFile>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Retrieve the file, line and column represented by the given source
   /// location, as specified in a # line directive.
@@ -697,26 +646,22 @@ class LibClang {
     return _clang_getPresumedLocation(location, filename, line, column);
   }
 
-  late final _clang_getPresumedLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getPresumedLocationPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXSourceLocation,
             ffi.Pointer<CXString>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_getPresumedLocation');
-  late final _clang_getPresumedLocation = _clang_getPresumedLocationPtr
-      .asFunction<
-        void Function(
-          CXSourceLocation,
-          ffi.Pointer<CXString>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-        )
-      >();
+          )>>('clang_getPresumedLocation');
+  late final _clang_getPresumedLocation =
+      _clang_getPresumedLocationPtr.asFunction<
+          void Function(
+            CXSourceLocation,
+            ffi.Pointer<CXString>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Legacy API to retrieve the file, line, column, and offset represented by
   /// the given source location.
@@ -736,29 +681,24 @@ class LibClang {
     );
   }
 
-  late final _clang_getInstantiationLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getInstantiationLocationPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXSourceLocation,
             ffi.Pointer<CXFile>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_getInstantiationLocation');
+          )>>('clang_getInstantiationLocation');
   late final _clang_getInstantiationLocation =
-      _clang_getInstantiationLocationPtr
-          .asFunction<
-            void Function(
-              CXSourceLocation,
-              ffi.Pointer<CXFile>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-            )
-          >();
+      _clang_getInstantiationLocationPtr.asFunction<
+          void Function(
+            CXSourceLocation,
+            ffi.Pointer<CXFile>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Retrieve the file, line, column, and offset represented by the given
   /// source location.
@@ -772,28 +712,24 @@ class LibClang {
     return _clang_getSpellingLocation(location, file, line, column, offset);
   }
 
-  late final _clang_getSpellingLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getSpellingLocationPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXSourceLocation,
             ffi.Pointer<CXFile>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_getSpellingLocation');
-  late final _clang_getSpellingLocation = _clang_getSpellingLocationPtr
-      .asFunction<
-        void Function(
-          CXSourceLocation,
-          ffi.Pointer<CXFile>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-        )
-      >();
+          )>>('clang_getSpellingLocation');
+  late final _clang_getSpellingLocation =
+      _clang_getSpellingLocationPtr.asFunction<
+          void Function(
+            CXSourceLocation,
+            ffi.Pointer<CXFile>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Retrieve the file, line, column, and offset represented by the given
   /// source location.
@@ -807,28 +743,23 @@ class LibClang {
     return _clang_getFileLocation(location, file, line, column, offset);
   }
 
-  late final _clang_getFileLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getFileLocationPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXSourceLocation,
             ffi.Pointer<CXFile>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_getFileLocation');
-  late final _clang_getFileLocation = _clang_getFileLocationPtr
-      .asFunction<
-        void Function(
-          CXSourceLocation,
-          ffi.Pointer<CXFile>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<ffi.UnsignedInt>,
-        )
-      >();
+          )>>('clang_getFileLocation');
+  late final _clang_getFileLocation = _clang_getFileLocationPtr.asFunction<
+      void Function(
+        CXSourceLocation,
+        ffi.Pointer<CXFile>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )>();
 
   /// Retrieve a source location representing the first character within a
   /// source range.
@@ -838,8 +769,8 @@ class LibClang {
 
   late final _clang_getRangeStartPtr =
       _lookup<ffi.NativeFunction<CXSourceLocation Function(CXSourceRange)>>(
-        'clang_getRangeStart',
-      );
+    'clang_getRangeStart',
+  );
   late final _clang_getRangeStart = _clang_getRangeStartPtr
       .asFunction<CXSourceLocation Function(CXSourceRange)>();
 
@@ -851,8 +782,8 @@ class LibClang {
 
   late final _clang_getRangeEndPtr =
       _lookup<ffi.NativeFunction<CXSourceLocation Function(CXSourceRange)>>(
-        'clang_getRangeEnd',
-      );
+    'clang_getRangeEnd',
+  );
   late final _clang_getRangeEnd = _clang_getRangeEndPtr
       .asFunction<CXSourceLocation Function(CXSourceRange)>();
 
@@ -864,16 +795,12 @@ class LibClang {
     return _clang_getSkippedRanges(tu, file);
   }
 
-  late final _clang_getSkippedRangesPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Pointer<CXSourceRangeList> Function(CXTranslationUnit, CXFile)
-        >
-      >('clang_getSkippedRanges');
-  late final _clang_getSkippedRanges = _clang_getSkippedRangesPtr
-      .asFunction<
-        ffi.Pointer<CXSourceRangeList> Function(CXTranslationUnit, CXFile)
-      >();
+  late final _clang_getSkippedRangesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<CXSourceRangeList> Function(
+              CXTranslationUnit, CXFile)>>('clang_getSkippedRanges');
+  late final _clang_getSkippedRanges = _clang_getSkippedRangesPtr.asFunction<
+      ffi.Pointer<CXSourceRangeList> Function(CXTranslationUnit, CXFile)>();
 
   /// Retrieve all ranges from all files that were skipped by the preprocessor.
   ffi.Pointer<CXSourceRangeList> clang_getAllSkippedRanges(
@@ -882,12 +809,10 @@ class LibClang {
     return _clang_getAllSkippedRanges(tu);
   }
 
-  late final _clang_getAllSkippedRangesPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Pointer<CXSourceRangeList> Function(CXTranslationUnit)
-        >
-      >('clang_getAllSkippedRanges');
+  late final _clang_getAllSkippedRangesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<CXSourceRangeList> Function(
+              CXTranslationUnit)>>('clang_getAllSkippedRanges');
   late final _clang_getAllSkippedRanges = _clang_getAllSkippedRangesPtr
       .asFunction<ffi.Pointer<CXSourceRangeList> Function(CXTranslationUnit)>();
 
@@ -896,10 +821,10 @@ class LibClang {
     return _clang_disposeSourceRangeList(ranges);
   }
 
-  late final _clang_disposeSourceRangeListPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CXSourceRangeList>)>
-      >('clang_disposeSourceRangeList');
+  late final _clang_disposeSourceRangeListPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.Void Function(ffi.Pointer<CXSourceRangeList>)>>(
+      'clang_disposeSourceRangeList');
   late final _clang_disposeSourceRangeList = _clang_disposeSourceRangeListPtr
       .asFunction<void Function(ffi.Pointer<CXSourceRangeList>)>();
 
@@ -910,8 +835,8 @@ class LibClang {
 
   late final _clang_getNumDiagnosticsInSetPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXDiagnosticSet)>>(
-        'clang_getNumDiagnosticsInSet',
-      );
+    'clang_getNumDiagnosticsInSet',
+  );
   late final _clang_getNumDiagnosticsInSet = _clang_getNumDiagnosticsInSetPtr
       .asFunction<int Function(CXDiagnosticSet)>();
 
@@ -920,12 +845,10 @@ class LibClang {
     return _clang_getDiagnosticInSet(Diags, Index);
   }
 
-  late final _clang_getDiagnosticInSetPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXDiagnostic Function(CXDiagnosticSet, ffi.UnsignedInt)
-        >
-      >('clang_getDiagnosticInSet');
+  late final _clang_getDiagnosticInSetPtr = _lookup<
+      ffi.NativeFunction<
+          CXDiagnostic Function(
+              CXDiagnosticSet, ffi.UnsignedInt)>>('clang_getDiagnosticInSet');
   late final _clang_getDiagnosticInSet = _clang_getDiagnosticInSetPtr
       .asFunction<CXDiagnostic Function(CXDiagnosticSet, int)>();
 
@@ -938,24 +861,19 @@ class LibClang {
     return _clang_loadDiagnostics(file, error, errorString);
   }
 
-  late final _clang_loadDiagnosticsPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_loadDiagnosticsPtr = _lookup<
+      ffi.NativeFunction<
           CXDiagnosticSet Function(
             ffi.Pointer<ffi.Char>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<CXString>,
-          )
-        >
-      >('clang_loadDiagnostics');
-  late final _clang_loadDiagnostics = _clang_loadDiagnosticsPtr
-      .asFunction<
-        CXDiagnosticSet Function(
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.UnsignedInt>,
-          ffi.Pointer<CXString>,
-        )
-      >();
+          )>>('clang_loadDiagnostics');
+  late final _clang_loadDiagnostics = _clang_loadDiagnosticsPtr.asFunction<
+      CXDiagnosticSet Function(
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.UnsignedInt>,
+        ffi.Pointer<CXString>,
+      )>();
 
   /// Release a CXDiagnosticSet and all of its contained diagnostics.
   void clang_disposeDiagnosticSet(CXDiagnosticSet Diags) {
@@ -964,8 +882,8 @@ class LibClang {
 
   late final _clang_disposeDiagnosticSetPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXDiagnosticSet)>>(
-        'clang_disposeDiagnosticSet',
-      );
+    'clang_disposeDiagnosticSet',
+  );
   late final _clang_disposeDiagnosticSet = _clang_disposeDiagnosticSetPtr
       .asFunction<void Function(CXDiagnosticSet)>();
 
@@ -976,8 +894,8 @@ class LibClang {
 
   late final _clang_getChildDiagnosticsPtr =
       _lookup<ffi.NativeFunction<CXDiagnosticSet Function(CXDiagnostic)>>(
-        'clang_getChildDiagnostics',
-      );
+    'clang_getChildDiagnostics',
+  );
   late final _clang_getChildDiagnostics = _clang_getChildDiagnosticsPtr
       .asFunction<CXDiagnosticSet Function(CXDiagnostic)>();
 
@@ -989,22 +907,20 @@ class LibClang {
 
   late final _clang_getNumDiagnosticsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXTranslationUnit)>>(
-        'clang_getNumDiagnostics',
-      );
-  late final _clang_getNumDiagnostics = _clang_getNumDiagnosticsPtr
-      .asFunction<int Function(CXTranslationUnit)>();
+    'clang_getNumDiagnostics',
+  );
+  late final _clang_getNumDiagnostics =
+      _clang_getNumDiagnosticsPtr.asFunction<int Function(CXTranslationUnit)>();
 
   /// Retrieve a diagnostic associated with the given translation unit.
   CXDiagnostic clang_getDiagnostic(CXTranslationUnit Unit, int Index) {
     return _clang_getDiagnostic(Unit, Index);
   }
 
-  late final _clang_getDiagnosticPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXDiagnostic Function(CXTranslationUnit, ffi.UnsignedInt)
-        >
-      >('clang_getDiagnostic');
+  late final _clang_getDiagnosticPtr = _lookup<
+      ffi.NativeFunction<
+          CXDiagnostic Function(
+              CXTranslationUnit, ffi.UnsignedInt)>>('clang_getDiagnostic');
   late final _clang_getDiagnostic = _clang_getDiagnosticPtr
       .asFunction<CXDiagnostic Function(CXTranslationUnit, int)>();
 
@@ -1016,8 +932,8 @@ class LibClang {
 
   late final _clang_getDiagnosticSetFromTUPtr =
       _lookup<ffi.NativeFunction<CXDiagnosticSet Function(CXTranslationUnit)>>(
-        'clang_getDiagnosticSetFromTU',
-      );
+    'clang_getDiagnosticSetFromTU',
+  );
   late final _clang_getDiagnosticSetFromTU = _clang_getDiagnosticSetFromTUPtr
       .asFunction<CXDiagnosticSet Function(CXTranslationUnit)>();
 
@@ -1028,20 +944,19 @@ class LibClang {
 
   late final _clang_disposeDiagnosticPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXDiagnostic)>>(
-        'clang_disposeDiagnostic',
-      );
-  late final _clang_disposeDiagnostic = _clang_disposeDiagnosticPtr
-      .asFunction<void Function(CXDiagnostic)>();
+    'clang_disposeDiagnostic',
+  );
+  late final _clang_disposeDiagnostic =
+      _clang_disposeDiagnosticPtr.asFunction<void Function(CXDiagnostic)>();
 
   /// Format the given diagnostic in a manner that is suitable for display.
   CXString clang_formatDiagnostic(CXDiagnostic Diagnostic, int Options) {
     return _clang_formatDiagnostic(Diagnostic, Options);
   }
 
-  late final _clang_formatDiagnosticPtr =
-      _lookup<
-        ffi.NativeFunction<CXString Function(CXDiagnostic, ffi.UnsignedInt)>
-      >('clang_formatDiagnostic');
+  late final _clang_formatDiagnosticPtr = _lookup<
+          ffi.NativeFunction<CXString Function(CXDiagnostic, ffi.UnsignedInt)>>(
+      'clang_formatDiagnostic');
   late final _clang_formatDiagnostic = _clang_formatDiagnosticPtr
       .asFunction<CXString Function(CXDiagnostic, int)>();
 
@@ -1053,8 +968,8 @@ class LibClang {
 
   late final _clang_defaultDiagnosticDisplayOptionsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function()>>(
-        'clang_defaultDiagnosticDisplayOptions',
-      );
+    'clang_defaultDiagnosticDisplayOptions',
+  );
   late final _clang_defaultDiagnosticDisplayOptions =
       _clang_defaultDiagnosticDisplayOptionsPtr.asFunction<int Function()>();
 
@@ -1065,10 +980,10 @@ class LibClang {
 
   late final _clang_getDiagnosticSeverityPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXDiagnostic)>>(
-        'clang_getDiagnosticSeverity',
-      );
-  late final _clang_getDiagnosticSeverity = _clang_getDiagnosticSeverityPtr
-      .asFunction<int Function(CXDiagnostic)>();
+    'clang_getDiagnosticSeverity',
+  );
+  late final _clang_getDiagnosticSeverity =
+      _clang_getDiagnosticSeverityPtr.asFunction<int Function(CXDiagnostic)>();
 
   /// Retrieve the source location of the given diagnostic.
   CXSourceLocation clang_getDiagnosticLocation(CXDiagnostic arg0) {
@@ -1077,8 +992,8 @@ class LibClang {
 
   late final _clang_getDiagnosticLocationPtr =
       _lookup<ffi.NativeFunction<CXSourceLocation Function(CXDiagnostic)>>(
-        'clang_getDiagnosticLocation',
-      );
+    'clang_getDiagnosticLocation',
+  );
   late final _clang_getDiagnosticLocation = _clang_getDiagnosticLocationPtr
       .asFunction<CXSourceLocation Function(CXDiagnostic)>();
 
@@ -1089,8 +1004,8 @@ class LibClang {
 
   late final _clang_getDiagnosticSpellingPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXDiagnostic)>>(
-        'clang_getDiagnosticSpelling',
-      );
+    'clang_getDiagnosticSpelling',
+  );
   late final _clang_getDiagnosticSpelling = _clang_getDiagnosticSpellingPtr
       .asFunction<CXString Function(CXDiagnostic)>();
 
@@ -1102,12 +1017,10 @@ class LibClang {
     return _clang_getDiagnosticOption(Diag, Disable);
   }
 
-  late final _clang_getDiagnosticOptionPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(CXDiagnostic, ffi.Pointer<CXString>)
-        >
-      >('clang_getDiagnosticOption');
+  late final _clang_getDiagnosticOptionPtr = _lookup<
+      ffi.NativeFunction<
+          CXString Function(CXDiagnostic,
+              ffi.Pointer<CXString>)>>('clang_getDiagnosticOption');
   late final _clang_getDiagnosticOption = _clang_getDiagnosticOptionPtr
       .asFunction<CXString Function(CXDiagnostic, ffi.Pointer<CXString>)>();
 
@@ -1118,10 +1031,10 @@ class LibClang {
 
   late final _clang_getDiagnosticCategoryPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXDiagnostic)>>(
-        'clang_getDiagnosticCategory',
-      );
-  late final _clang_getDiagnosticCategory = _clang_getDiagnosticCategoryPtr
-      .asFunction<int Function(CXDiagnostic)>();
+    'clang_getDiagnosticCategory',
+  );
+  late final _clang_getDiagnosticCategory =
+      _clang_getDiagnosticCategoryPtr.asFunction<int Function(CXDiagnostic)>();
 
   /// Retrieve the name of a particular diagnostic category. This is now
   /// deprecated. Use clang_getDiagnosticCategoryText() instead.
@@ -1131,8 +1044,8 @@ class LibClang {
 
   late final _clang_getDiagnosticCategoryNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(ffi.UnsignedInt)>>(
-        'clang_getDiagnosticCategoryName',
-      );
+    'clang_getDiagnosticCategoryName',
+  );
   late final _clang_getDiagnosticCategoryName =
       _clang_getDiagnosticCategoryNamePtr.asFunction<CXString Function(int)>();
 
@@ -1143,8 +1056,8 @@ class LibClang {
 
   late final _clang_getDiagnosticCategoryTextPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXDiagnostic)>>(
-        'clang_getDiagnosticCategoryText',
-      );
+    'clang_getDiagnosticCategoryText',
+  );
   late final _clang_getDiagnosticCategoryText =
       _clang_getDiagnosticCategoryTextPtr
           .asFunction<CXString Function(CXDiagnostic)>();
@@ -1157,22 +1070,20 @@ class LibClang {
 
   late final _clang_getDiagnosticNumRangesPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXDiagnostic)>>(
-        'clang_getDiagnosticNumRanges',
-      );
-  late final _clang_getDiagnosticNumRanges = _clang_getDiagnosticNumRangesPtr
-      .asFunction<int Function(CXDiagnostic)>();
+    'clang_getDiagnosticNumRanges',
+  );
+  late final _clang_getDiagnosticNumRanges =
+      _clang_getDiagnosticNumRangesPtr.asFunction<int Function(CXDiagnostic)>();
 
   /// Retrieve a source range associated with the diagnostic.
   CXSourceRange clang_getDiagnosticRange(CXDiagnostic Diagnostic, int Range) {
     return _clang_getDiagnosticRange(Diagnostic, Range);
   }
 
-  late final _clang_getDiagnosticRangePtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXSourceRange Function(CXDiagnostic, ffi.UnsignedInt)
-        >
-      >('clang_getDiagnosticRange');
+  late final _clang_getDiagnosticRangePtr = _lookup<
+      ffi.NativeFunction<
+          CXSourceRange Function(
+              CXDiagnostic, ffi.UnsignedInt)>>('clang_getDiagnosticRange');
   late final _clang_getDiagnosticRange = _clang_getDiagnosticRangePtr
       .asFunction<CXSourceRange Function(CXDiagnostic, int)>();
 
@@ -1183,10 +1094,10 @@ class LibClang {
 
   late final _clang_getDiagnosticNumFixItsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXDiagnostic)>>(
-        'clang_getDiagnosticNumFixIts',
-      );
-  late final _clang_getDiagnosticNumFixIts = _clang_getDiagnosticNumFixItsPtr
-      .asFunction<int Function(CXDiagnostic)>();
+    'clang_getDiagnosticNumFixIts',
+  );
+  late final _clang_getDiagnosticNumFixIts =
+      _clang_getDiagnosticNumFixItsPtr.asFunction<int Function(CXDiagnostic)>();
 
   /// Retrieve the replacement information for a given fix-it.
   CXString clang_getDiagnosticFixIt(
@@ -1197,20 +1108,16 @@ class LibClang {
     return _clang_getDiagnosticFixIt(Diagnostic, FixIt, ReplacementRange);
   }
 
-  late final _clang_getDiagnosticFixItPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getDiagnosticFixItPtr = _lookup<
+      ffi.NativeFunction<
           CXString Function(
             CXDiagnostic,
             ffi.UnsignedInt,
             ffi.Pointer<CXSourceRange>,
-          )
-        >
-      >('clang_getDiagnosticFixIt');
-  late final _clang_getDiagnosticFixIt = _clang_getDiagnosticFixItPtr
-      .asFunction<
-        CXString Function(CXDiagnostic, int, ffi.Pointer<CXSourceRange>)
-      >();
+          )>>('clang_getDiagnosticFixIt');
+  late final _clang_getDiagnosticFixIt =
+      _clang_getDiagnosticFixItPtr.asFunction<
+          CXString Function(CXDiagnostic, int, ffi.Pointer<CXSourceRange>)>();
 
   /// Get the original translation unit source file name.
   CXString clang_getTranslationUnitSpelling(CXTranslationUnit CTUnit) {
@@ -1219,8 +1126,8 @@ class LibClang {
 
   late final _clang_getTranslationUnitSpellingPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXTranslationUnit)>>(
-        'clang_getTranslationUnitSpelling',
-      );
+    'clang_getTranslationUnitSpelling',
+  );
   late final _clang_getTranslationUnitSpelling =
       _clang_getTranslationUnitSpellingPtr
           .asFunction<CXString Function(CXTranslationUnit)>();
@@ -1245,9 +1152,8 @@ class LibClang {
     );
   }
 
-  late final _clang_createTranslationUnitFromSourceFilePtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_createTranslationUnitFromSourceFilePtr = _lookup<
+      ffi.NativeFunction<
           CXTranslationUnit Function(
             CXIndex,
             ffi.Pointer<ffi.Char>,
@@ -1255,21 +1161,17 @@ class LibClang {
             ffi.Pointer<ffi.Pointer<ffi.Char>>,
             ffi.UnsignedInt,
             ffi.Pointer<CXUnsavedFile>,
-          )
-        >
-      >('clang_createTranslationUnitFromSourceFile');
+          )>>('clang_createTranslationUnitFromSourceFile');
   late final _clang_createTranslationUnitFromSourceFile =
-      _clang_createTranslationUnitFromSourceFilePtr
-          .asFunction<
-            CXTranslationUnit Function(
-              CXIndex,
-              ffi.Pointer<ffi.Char>,
-              int,
-              ffi.Pointer<ffi.Pointer<ffi.Char>>,
-              int,
-              ffi.Pointer<CXUnsavedFile>,
-            )
-          >();
+      _clang_createTranslationUnitFromSourceFilePtr.asFunction<
+          CXTranslationUnit Function(
+            CXIndex,
+            ffi.Pointer<ffi.Char>,
+            int,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            int,
+            ffi.Pointer<CXUnsavedFile>,
+          )>();
 
   /// Same as clang_createTranslationUnit2, but returns the CXTranslationUnit
   /// instead of an error code. In case of an error this routine returns a NULL
@@ -1281,12 +1183,10 @@ class LibClang {
     return _clang_createTranslationUnit(CIdx, ast_filename);
   }
 
-  late final _clang_createTranslationUnitPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXTranslationUnit Function(CXIndex, ffi.Pointer<ffi.Char>)
-        >
-      >('clang_createTranslationUnit');
+  late final _clang_createTranslationUnitPtr = _lookup<
+      ffi.NativeFunction<
+          CXTranslationUnit Function(
+              CXIndex, ffi.Pointer<ffi.Char>)>>('clang_createTranslationUnit');
   late final _clang_createTranslationUnit = _clang_createTranslationUnitPtr
       .asFunction<CXTranslationUnit Function(CXIndex, ffi.Pointer<ffi.Char>)>();
 
@@ -1301,24 +1201,20 @@ class LibClang {
     );
   }
 
-  late final _clang_createTranslationUnit2Ptr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_createTranslationUnit2Ptr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXIndex,
             ffi.Pointer<ffi.Char>,
             ffi.Pointer<CXTranslationUnit>,
-          )
-        >
-      >('clang_createTranslationUnit2');
-  late final _clang_createTranslationUnit2 = _clang_createTranslationUnit2Ptr
-      .asFunction<
-        int Function(
-          CXIndex,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<CXTranslationUnit>,
-        )
-      >();
+          )>>('clang_createTranslationUnit2');
+  late final _clang_createTranslationUnit2 =
+      _clang_createTranslationUnit2Ptr.asFunction<
+          int Function(
+            CXIndex,
+            ffi.Pointer<ffi.Char>,
+            ffi.Pointer<CXTranslationUnit>,
+          )>();
 
   /// Returns the set of flags that is suitable for parsing a translation unit
   /// that is being edited.
@@ -1328,8 +1224,8 @@ class LibClang {
 
   late final _clang_defaultEditingTranslationUnitOptionsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function()>>(
-        'clang_defaultEditingTranslationUnitOptions',
-      );
+    'clang_defaultEditingTranslationUnitOptions',
+  );
   late final _clang_defaultEditingTranslationUnitOptions =
       _clang_defaultEditingTranslationUnitOptionsPtr
           .asFunction<int Function()>();
@@ -1357,9 +1253,8 @@ class LibClang {
     );
   }
 
-  late final _clang_parseTranslationUnitPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_parseTranslationUnitPtr = _lookup<
+      ffi.NativeFunction<
           CXTranslationUnit Function(
             CXIndex,
             ffi.Pointer<ffi.Char>,
@@ -1368,21 +1263,18 @@ class LibClang {
             ffi.Pointer<CXUnsavedFile>,
             ffi.UnsignedInt,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_parseTranslationUnit');
-  late final _clang_parseTranslationUnit = _clang_parseTranslationUnitPtr
-      .asFunction<
-        CXTranslationUnit Function(
-          CXIndex,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Pointer<ffi.Char>>,
-          int,
-          ffi.Pointer<CXUnsavedFile>,
-          int,
-          int,
-        )
-      >();
+          )>>('clang_parseTranslationUnit');
+  late final _clang_parseTranslationUnit =
+      _clang_parseTranslationUnitPtr.asFunction<
+          CXTranslationUnit Function(
+            CXIndex,
+            ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            int,
+            ffi.Pointer<CXUnsavedFile>,
+            int,
+            int,
+          )>();
 
   /// Parse the given source file and the translation unit corresponding to that
   /// file.
@@ -1410,9 +1302,8 @@ class LibClang {
     );
   }
 
-  late final _clang_parseTranslationUnit2Ptr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_parseTranslationUnit2Ptr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXIndex,
             ffi.Pointer<ffi.Char>,
@@ -1422,22 +1313,19 @@ class LibClang {
             ffi.UnsignedInt,
             ffi.UnsignedInt,
             ffi.Pointer<CXTranslationUnit>,
-          )
-        >
-      >('clang_parseTranslationUnit2');
-  late final _clang_parseTranslationUnit2 = _clang_parseTranslationUnit2Ptr
-      .asFunction<
-        int Function(
-          CXIndex,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Pointer<ffi.Char>>,
-          int,
-          ffi.Pointer<CXUnsavedFile>,
-          int,
-          int,
-          ffi.Pointer<CXTranslationUnit>,
-        )
-      >();
+          )>>('clang_parseTranslationUnit2');
+  late final _clang_parseTranslationUnit2 =
+      _clang_parseTranslationUnit2Ptr.asFunction<
+          int Function(
+            CXIndex,
+            ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            int,
+            ffi.Pointer<CXUnsavedFile>,
+            int,
+            int,
+            ffi.Pointer<CXTranslationUnit>,
+          )>();
 
   /// Same as clang_parseTranslationUnit2 but requires a full command line for
   /// command_line_args including argv[0]. This is useful if the standard
@@ -1466,9 +1354,8 @@ class LibClang {
     );
   }
 
-  late final _clang_parseTranslationUnit2FullArgvPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_parseTranslationUnit2FullArgvPtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXIndex,
             ffi.Pointer<ffi.Char>,
@@ -1478,23 +1365,19 @@ class LibClang {
             ffi.UnsignedInt,
             ffi.UnsignedInt,
             ffi.Pointer<CXTranslationUnit>,
-          )
-        >
-      >('clang_parseTranslationUnit2FullArgv');
+          )>>('clang_parseTranslationUnit2FullArgv');
   late final _clang_parseTranslationUnit2FullArgv =
-      _clang_parseTranslationUnit2FullArgvPtr
-          .asFunction<
-            int Function(
-              CXIndex,
-              ffi.Pointer<ffi.Char>,
-              ffi.Pointer<ffi.Pointer<ffi.Char>>,
-              int,
-              ffi.Pointer<CXUnsavedFile>,
-              int,
-              int,
-              ffi.Pointer<CXTranslationUnit>,
-            )
-          >();
+      _clang_parseTranslationUnit2FullArgvPtr.asFunction<
+          int Function(
+            CXIndex,
+            ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            int,
+            ffi.Pointer<CXUnsavedFile>,
+            int,
+            int,
+            ffi.Pointer<CXTranslationUnit>,
+          )>();
 
   /// Returns the set of flags that is suitable for saving a translation unit.
   int clang_defaultSaveOptions(CXTranslationUnit TU) {
@@ -1503,8 +1386,8 @@ class LibClang {
 
   late final _clang_defaultSaveOptionsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXTranslationUnit)>>(
-        'clang_defaultSaveOptions',
-      );
+    'clang_defaultSaveOptions',
+  );
   late final _clang_defaultSaveOptions = _clang_defaultSaveOptionsPtr
       .asFunction<int Function(CXTranslationUnit)>();
 
@@ -1518,20 +1401,16 @@ class LibClang {
     return _clang_saveTranslationUnit(TU, FileName, options);
   }
 
-  late final _clang_saveTranslationUnitPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_saveTranslationUnitPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Int Function(
             CXTranslationUnit,
             ffi.Pointer<ffi.Char>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_saveTranslationUnit');
-  late final _clang_saveTranslationUnit = _clang_saveTranslationUnitPtr
-      .asFunction<
-        int Function(CXTranslationUnit, ffi.Pointer<ffi.Char>, int)
-      >();
+          )>>('clang_saveTranslationUnit');
+  late final _clang_saveTranslationUnit =
+      _clang_saveTranslationUnitPtr.asFunction<
+          int Function(CXTranslationUnit, ffi.Pointer<ffi.Char>, int)>();
 
   /// Suspend a translation unit in order to free memory associated with it.
   int clang_suspendTranslationUnit(CXTranslationUnit arg0) {
@@ -1540,8 +1419,8 @@ class LibClang {
 
   late final _clang_suspendTranslationUnitPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXTranslationUnit)>>(
-        'clang_suspendTranslationUnit',
-      );
+    'clang_suspendTranslationUnit',
+  );
   late final _clang_suspendTranslationUnit = _clang_suspendTranslationUnitPtr
       .asFunction<int Function(CXTranslationUnit)>();
 
@@ -1552,8 +1431,8 @@ class LibClang {
 
   late final _clang_disposeTranslationUnitPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXTranslationUnit)>>(
-        'clang_disposeTranslationUnit',
-      );
+    'clang_disposeTranslationUnit',
+  );
   late final _clang_disposeTranslationUnit = _clang_disposeTranslationUnitPtr
       .asFunction<void Function(CXTranslationUnit)>();
 
@@ -1565,8 +1444,8 @@ class LibClang {
 
   late final _clang_defaultReparseOptionsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXTranslationUnit)>>(
-        'clang_defaultReparseOptions',
-      );
+    'clang_defaultReparseOptions',
+  );
   late final _clang_defaultReparseOptions = _clang_defaultReparseOptionsPtr
       .asFunction<int Function(CXTranslationUnit)>();
 
@@ -1585,21 +1464,18 @@ class LibClang {
     );
   }
 
-  late final _clang_reparseTranslationUnitPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_reparseTranslationUnitPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Int Function(
             CXTranslationUnit,
             ffi.UnsignedInt,
             ffi.Pointer<CXUnsavedFile>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_reparseTranslationUnit');
-  late final _clang_reparseTranslationUnit = _clang_reparseTranslationUnitPtr
-      .asFunction<
-        int Function(CXTranslationUnit, int, ffi.Pointer<CXUnsavedFile>, int)
-      >();
+          )>>('clang_reparseTranslationUnit');
+  late final _clang_reparseTranslationUnit =
+      _clang_reparseTranslationUnitPtr.asFunction<
+          int Function(
+              CXTranslationUnit, int, ffi.Pointer<CXUnsavedFile>, int)>();
 
   /// Returns the human-readable null-terminated C string that represents the
   /// name of the memory category. This string should never be freed.
@@ -1609,10 +1485,9 @@ class LibClang {
     return _clang_getTUResourceUsageName(kind.value);
   }
 
-  late final _clang_getTUResourceUsageNamePtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.UnsignedInt)>
-      >('clang_getTUResourceUsageName');
+  late final _clang_getTUResourceUsageNamePtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(ffi.UnsignedInt)>>(
+      'clang_getTUResourceUsageName');
   late final _clang_getTUResourceUsageName = _clang_getTUResourceUsageNamePtr
       .asFunction<ffi.Pointer<ffi.Char> Function(int)>();
 
@@ -1622,10 +1497,9 @@ class LibClang {
     return _clang_getCXTUResourceUsage(TU);
   }
 
-  late final _clang_getCXTUResourceUsagePtr =
-      _lookup<
-        ffi.NativeFunction<CXTUResourceUsage Function(CXTranslationUnit)>
-      >('clang_getCXTUResourceUsage');
+  late final _clang_getCXTUResourceUsagePtr = _lookup<
+          ffi.NativeFunction<CXTUResourceUsage Function(CXTranslationUnit)>>(
+      'clang_getCXTUResourceUsage');
   late final _clang_getCXTUResourceUsage = _clang_getCXTUResourceUsagePtr
       .asFunction<CXTUResourceUsage Function(CXTranslationUnit)>();
 
@@ -1635,8 +1509,8 @@ class LibClang {
 
   late final _clang_disposeCXTUResourceUsagePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXTUResourceUsage)>>(
-        'clang_disposeCXTUResourceUsage',
-      );
+    'clang_disposeCXTUResourceUsage',
+  );
   late final _clang_disposeCXTUResourceUsage =
       _clang_disposeCXTUResourceUsagePtr
           .asFunction<void Function(CXTUResourceUsage)>();
@@ -1648,8 +1522,8 @@ class LibClang {
 
   late final _clang_getTranslationUnitTargetInfoPtr =
       _lookup<ffi.NativeFunction<CXTargetInfo Function(CXTranslationUnit)>>(
-        'clang_getTranslationUnitTargetInfo',
-      );
+    'clang_getTranslationUnitTargetInfo',
+  );
   late final _clang_getTranslationUnitTargetInfo =
       _clang_getTranslationUnitTargetInfoPtr
           .asFunction<CXTargetInfo Function(CXTranslationUnit)>();
@@ -1661,10 +1535,10 @@ class LibClang {
 
   late final _clang_TargetInfo_disposePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXTargetInfo)>>(
-        'clang_TargetInfo_dispose',
-      );
-  late final _clang_TargetInfo_dispose = _clang_TargetInfo_disposePtr
-      .asFunction<void Function(CXTargetInfo)>();
+    'clang_TargetInfo_dispose',
+  );
+  late final _clang_TargetInfo_dispose =
+      _clang_TargetInfo_disposePtr.asFunction<void Function(CXTargetInfo)>();
 
   /// Get the normalized target triple as a string.
   CXString clang_TargetInfo_getTriple(CXTargetInfo Info) {
@@ -1673,8 +1547,8 @@ class LibClang {
 
   late final _clang_TargetInfo_getTriplePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXTargetInfo)>>(
-        'clang_TargetInfo_getTriple',
-      );
+    'clang_TargetInfo_getTriple',
+  );
   late final _clang_TargetInfo_getTriple = _clang_TargetInfo_getTriplePtr
       .asFunction<CXString Function(CXTargetInfo)>();
 
@@ -1685,8 +1559,8 @@ class LibClang {
 
   late final _clang_TargetInfo_getPointerWidthPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXTargetInfo)>>(
-        'clang_TargetInfo_getPointerWidth',
-      );
+    'clang_TargetInfo_getPointerWidth',
+  );
   late final _clang_TargetInfo_getPointerWidth =
       _clang_TargetInfo_getPointerWidthPtr
           .asFunction<int Function(CXTargetInfo)>();
@@ -1698,8 +1572,8 @@ class LibClang {
 
   late final _clang_getNullCursorPtr =
       _lookup<ffi.NativeFunction<CXCursor Function()>>('clang_getNullCursor');
-  late final _clang_getNullCursor = _clang_getNullCursorPtr
-      .asFunction<CXCursor Function()>();
+  late final _clang_getNullCursor =
+      _clang_getNullCursorPtr.asFunction<CXCursor Function()>();
 
   /// Retrieve the cursor that represents the given translation unit.
   CXCursor clang_getTranslationUnitCursor(CXTranslationUnit arg0) {
@@ -1708,8 +1582,8 @@ class LibClang {
 
   late final _clang_getTranslationUnitCursorPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXTranslationUnit)>>(
-        'clang_getTranslationUnitCursor',
-      );
+    'clang_getTranslationUnitCursor',
+  );
   late final _clang_getTranslationUnitCursor =
       _clang_getTranslationUnitCursorPtr
           .asFunction<CXCursor Function(CXTranslationUnit)>();
@@ -1721,10 +1595,10 @@ class LibClang {
 
   late final _clang_equalCursorsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor, CXCursor)>>(
-        'clang_equalCursors',
-      );
-  late final _clang_equalCursors = _clang_equalCursorsPtr
-      .asFunction<int Function(CXCursor, CXCursor)>();
+    'clang_equalCursors',
+  );
+  late final _clang_equalCursors =
+      _clang_equalCursorsPtr.asFunction<int Function(CXCursor, CXCursor)>();
 
   /// Returns non-zero if cursor is null.
   int clang_Cursor_isNull(CXCursor cursor) {
@@ -1733,10 +1607,10 @@ class LibClang {
 
   late final _clang_Cursor_isNullPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXCursor)>>(
-        'clang_Cursor_isNull',
-      );
-  late final _clang_Cursor_isNull = _clang_Cursor_isNullPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_isNull',
+  );
+  late final _clang_Cursor_isNull =
+      _clang_Cursor_isNullPtr.asFunction<int Function(CXCursor)>();
 
   /// Compute a hash value for the given cursor.
   int clang_hashCursor(CXCursor arg0) {
@@ -1745,10 +1619,10 @@ class LibClang {
 
   late final _clang_hashCursorPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_hashCursor',
-      );
-  late final _clang_hashCursor = _clang_hashCursorPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_hashCursor',
+  );
+  late final _clang_hashCursor =
+      _clang_hashCursorPtr.asFunction<int Function(CXCursor)>();
 
   /// Retrieve the kind of the given cursor.
   CXCursorKind clang_getCursorKind(CXCursor arg0) {
@@ -1757,10 +1631,10 @@ class LibClang {
 
   late final _clang_getCursorKindPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getCursorKind',
-      );
-  late final _clang_getCursorKind = _clang_getCursorKindPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getCursorKind',
+  );
+  late final _clang_getCursorKind =
+      _clang_getCursorKindPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine whether the given cursor kind represents a declaration.
   int clang_isDeclaration(CXCursorKind arg0) {
@@ -1769,10 +1643,10 @@ class LibClang {
 
   late final _clang_isDeclarationPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isDeclaration',
-      );
-  late final _clang_isDeclaration = _clang_isDeclarationPtr
-      .asFunction<int Function(int)>();
+    'clang_isDeclaration',
+  );
+  late final _clang_isDeclaration =
+      _clang_isDeclarationPtr.asFunction<int Function(int)>();
 
   /// Determine whether the given declaration is invalid.
   int clang_isInvalidDeclaration(CXCursor arg0) {
@@ -1781,10 +1655,10 @@ class LibClang {
 
   late final _clang_isInvalidDeclarationPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_isInvalidDeclaration',
-      );
-  late final _clang_isInvalidDeclaration = _clang_isInvalidDeclarationPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_isInvalidDeclaration',
+  );
+  late final _clang_isInvalidDeclaration =
+      _clang_isInvalidDeclarationPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine whether the given cursor kind represents a simple reference.
   int clang_isReference(CXCursorKind arg0) {
@@ -1793,10 +1667,10 @@ class LibClang {
 
   late final _clang_isReferencePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isReference',
-      );
-  late final _clang_isReference = _clang_isReferencePtr
-      .asFunction<int Function(int)>();
+    'clang_isReference',
+  );
+  late final _clang_isReference =
+      _clang_isReferencePtr.asFunction<int Function(int)>();
 
   /// Determine whether the given cursor kind represents an expression.
   int clang_isExpression(CXCursorKind arg0) {
@@ -1805,10 +1679,10 @@ class LibClang {
 
   late final _clang_isExpressionPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isExpression',
-      );
-  late final _clang_isExpression = _clang_isExpressionPtr
-      .asFunction<int Function(int)>();
+    'clang_isExpression',
+  );
+  late final _clang_isExpression =
+      _clang_isExpressionPtr.asFunction<int Function(int)>();
 
   /// Determine whether the given cursor kind represents a statement.
   int clang_isStatement(CXCursorKind arg0) {
@@ -1817,10 +1691,10 @@ class LibClang {
 
   late final _clang_isStatementPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isStatement',
-      );
-  late final _clang_isStatement = _clang_isStatementPtr
-      .asFunction<int Function(int)>();
+    'clang_isStatement',
+  );
+  late final _clang_isStatement =
+      _clang_isStatementPtr.asFunction<int Function(int)>();
 
   /// Determine whether the given cursor kind represents an attribute.
   int clang_isAttribute(CXCursorKind arg0) {
@@ -1829,10 +1703,10 @@ class LibClang {
 
   late final _clang_isAttributePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isAttribute',
-      );
-  late final _clang_isAttribute = _clang_isAttributePtr
-      .asFunction<int Function(int)>();
+    'clang_isAttribute',
+  );
+  late final _clang_isAttribute =
+      _clang_isAttributePtr.asFunction<int Function(int)>();
 
   /// Determine whether the given cursor has any attributes.
   int clang_Cursor_hasAttrs(CXCursor C) {
@@ -1841,10 +1715,10 @@ class LibClang {
 
   late final _clang_Cursor_hasAttrsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_hasAttrs',
-      );
-  late final _clang_Cursor_hasAttrs = _clang_Cursor_hasAttrsPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_hasAttrs',
+  );
+  late final _clang_Cursor_hasAttrs =
+      _clang_Cursor_hasAttrsPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine whether the given cursor kind represents an invalid cursor.
   int clang_isInvalid(CXCursorKind arg0) {
@@ -1853,10 +1727,10 @@ class LibClang {
 
   late final _clang_isInvalidPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isInvalid',
-      );
-  late final _clang_isInvalid = _clang_isInvalidPtr
-      .asFunction<int Function(int)>();
+    'clang_isInvalid',
+  );
+  late final _clang_isInvalid =
+      _clang_isInvalidPtr.asFunction<int Function(int)>();
 
   /// Determine whether the given cursor kind represents a translation unit.
   int clang_isTranslationUnit(CXCursorKind arg0) {
@@ -1865,10 +1739,10 @@ class LibClang {
 
   late final _clang_isTranslationUnitPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isTranslationUnit',
-      );
-  late final _clang_isTranslationUnit = _clang_isTranslationUnitPtr
-      .asFunction<int Function(int)>();
+    'clang_isTranslationUnit',
+  );
+  late final _clang_isTranslationUnit =
+      _clang_isTranslationUnitPtr.asFunction<int Function(int)>();
 
   /// * Determine whether the given cursor represents a preprocessing element,
   /// such as a preprocessor directive or macro instantiation.
@@ -1878,10 +1752,10 @@ class LibClang {
 
   late final _clang_isPreprocessingPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isPreprocessing',
-      );
-  late final _clang_isPreprocessing = _clang_isPreprocessingPtr
-      .asFunction<int Function(int)>();
+    'clang_isPreprocessing',
+  );
+  late final _clang_isPreprocessing =
+      _clang_isPreprocessingPtr.asFunction<int Function(int)>();
 
   /// * Determine whether the given cursor represents a currently unexposed
   /// piece of the AST (e.g., CXCursor_UnexposedStmt).
@@ -1891,10 +1765,10 @@ class LibClang {
 
   late final _clang_isUnexposedPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-        'clang_isUnexposed',
-      );
-  late final _clang_isUnexposed = _clang_isUnexposedPtr
-      .asFunction<int Function(int)>();
+    'clang_isUnexposed',
+  );
+  late final _clang_isUnexposed =
+      _clang_isUnexposedPtr.asFunction<int Function(int)>();
 
   /// Determine the linkage of the entity referred to by a given cursor.
   CXLinkageKind clang_getCursorLinkage(CXCursor cursor) {
@@ -1903,10 +1777,10 @@ class LibClang {
 
   late final _clang_getCursorLinkagePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getCursorLinkage',
-      );
-  late final _clang_getCursorLinkage = _clang_getCursorLinkagePtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getCursorLinkage',
+  );
+  late final _clang_getCursorLinkage =
+      _clang_getCursorLinkagePtr.asFunction<int Function(CXCursor)>();
 
   /// Describe the visibility of the entity referred to by a cursor.
   CXVisibilityKind clang_getCursorVisibility(CXCursor cursor) {
@@ -1915,10 +1789,10 @@ class LibClang {
 
   late final _clang_getCursorVisibilityPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getCursorVisibility',
-      );
-  late final _clang_getCursorVisibility = _clang_getCursorVisibilityPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getCursorVisibility',
+  );
+  late final _clang_getCursorVisibility =
+      _clang_getCursorVisibilityPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine the availability of the entity that this cursor refers to,
   /// taking the current target platform into account.
@@ -1928,10 +1802,10 @@ class LibClang {
 
   late final _clang_getCursorAvailabilityPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getCursorAvailability',
-      );
-  late final _clang_getCursorAvailability = _clang_getCursorAvailabilityPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getCursorAvailability',
+  );
+  late final _clang_getCursorAvailability =
+      _clang_getCursorAvailabilityPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine the availability of the entity that this cursor refers to on any
   /// platforms for which availability information is known.
@@ -1955,9 +1829,8 @@ class LibClang {
     );
   }
 
-  late final _clang_getCursorPlatformAvailabilityPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getCursorPlatformAvailabilityPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Int Function(
             CXCursor,
             ffi.Pointer<ffi.Int>,
@@ -1966,22 +1839,18 @@ class LibClang {
             ffi.Pointer<CXString>,
             ffi.Pointer<CXPlatformAvailability>,
             ffi.Int,
-          )
-        >
-      >('clang_getCursorPlatformAvailability');
+          )>>('clang_getCursorPlatformAvailability');
   late final _clang_getCursorPlatformAvailability =
-      _clang_getCursorPlatformAvailabilityPtr
-          .asFunction<
-            int Function(
-              CXCursor,
-              ffi.Pointer<ffi.Int>,
-              ffi.Pointer<CXString>,
-              ffi.Pointer<ffi.Int>,
-              ffi.Pointer<CXString>,
-              ffi.Pointer<CXPlatformAvailability>,
-              int,
-            )
-          >();
+      _clang_getCursorPlatformAvailabilityPtr.asFunction<
+          int Function(
+            CXCursor,
+            ffi.Pointer<ffi.Int>,
+            ffi.Pointer<CXString>,
+            ffi.Pointer<ffi.Int>,
+            ffi.Pointer<CXString>,
+            ffi.Pointer<CXPlatformAvailability>,
+            int,
+          )>();
 
   /// Free the memory associated with a CXPlatformAvailability structure.
   void clang_disposeCXPlatformAvailability(
@@ -1990,12 +1859,10 @@ class LibClang {
     return _clang_disposeCXPlatformAvailability(availability);
   }
 
-  late final _clang_disposeCXPlatformAvailabilityPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CXPlatformAvailability>)
-        >
-      >('clang_disposeCXPlatformAvailability');
+  late final _clang_disposeCXPlatformAvailabilityPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CXPlatformAvailability>)>>(
+      'clang_disposeCXPlatformAvailability');
   late final _clang_disposeCXPlatformAvailability =
       _clang_disposeCXPlatformAvailabilityPtr
           .asFunction<void Function(ffi.Pointer<CXPlatformAvailability>)>();
@@ -2007,10 +1874,10 @@ class LibClang {
 
   late final _clang_getCursorLanguagePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getCursorLanguage',
-      );
-  late final _clang_getCursorLanguage = _clang_getCursorLanguagePtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getCursorLanguage',
+  );
+  late final _clang_getCursorLanguage =
+      _clang_getCursorLanguagePtr.asFunction<int Function(CXCursor)>();
 
   /// Determine the "thread-local storage (TLS) kind" of the declaration
   /// referred to by a cursor.
@@ -2020,10 +1887,10 @@ class LibClang {
 
   late final _clang_getCursorTLSKindPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getCursorTLSKind',
-      );
-  late final _clang_getCursorTLSKind = _clang_getCursorTLSKindPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getCursorTLSKind',
+  );
+  late final _clang_getCursorTLSKind =
+      _clang_getCursorTLSKindPtr.asFunction<int Function(CXCursor)>();
 
   /// Returns the translation unit that a cursor originated from.
   CXTranslationUnit clang_Cursor_getTranslationUnit(CXCursor arg0) {
@@ -2032,8 +1899,8 @@ class LibClang {
 
   late final _clang_Cursor_getTranslationUnitPtr =
       _lookup<ffi.NativeFunction<CXTranslationUnit Function(CXCursor)>>(
-        'clang_Cursor_getTranslationUnit',
-      );
+    'clang_Cursor_getTranslationUnit',
+  );
   late final _clang_Cursor_getTranslationUnit =
       _clang_Cursor_getTranslationUnitPtr
           .asFunction<CXTranslationUnit Function(CXCursor)>();
@@ -2045,10 +1912,10 @@ class LibClang {
 
   late final _clang_createCXCursorSetPtr =
       _lookup<ffi.NativeFunction<CXCursorSet Function()>>(
-        'clang_createCXCursorSet',
-      );
-  late final _clang_createCXCursorSet = _clang_createCXCursorSetPtr
-      .asFunction<CXCursorSet Function()>();
+    'clang_createCXCursorSet',
+  );
+  late final _clang_createCXCursorSet =
+      _clang_createCXCursorSetPtr.asFunction<CXCursorSet Function()>();
 
   /// Disposes a CXCursorSet and releases its associated memory.
   void clang_disposeCXCursorSet(CXCursorSet cset) {
@@ -2057,20 +1924,19 @@ class LibClang {
 
   late final _clang_disposeCXCursorSetPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXCursorSet)>>(
-        'clang_disposeCXCursorSet',
-      );
-  late final _clang_disposeCXCursorSet = _clang_disposeCXCursorSetPtr
-      .asFunction<void Function(CXCursorSet)>();
+    'clang_disposeCXCursorSet',
+  );
+  late final _clang_disposeCXCursorSet =
+      _clang_disposeCXCursorSetPtr.asFunction<void Function(CXCursorSet)>();
 
   /// Queries a CXCursorSet to see if it contains a specific CXCursor.
   int clang_CXCursorSet_contains(CXCursorSet cset, CXCursor cursor) {
     return _clang_CXCursorSet_contains(cset, cursor);
   }
 
-  late final _clang_CXCursorSet_containsPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.UnsignedInt Function(CXCursorSet, CXCursor)>
-      >('clang_CXCursorSet_contains');
+  late final _clang_CXCursorSet_containsPtr = _lookup<
+          ffi.NativeFunction<ffi.UnsignedInt Function(CXCursorSet, CXCursor)>>(
+      'clang_CXCursorSet_contains');
   late final _clang_CXCursorSet_contains = _clang_CXCursorSet_containsPtr
       .asFunction<int Function(CXCursorSet, CXCursor)>();
 
@@ -2079,10 +1945,9 @@ class LibClang {
     return _clang_CXCursorSet_insert(cset, cursor);
   }
 
-  late final _clang_CXCursorSet_insertPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.UnsignedInt Function(CXCursorSet, CXCursor)>
-      >('clang_CXCursorSet_insert');
+  late final _clang_CXCursorSet_insertPtr = _lookup<
+          ffi.NativeFunction<ffi.UnsignedInt Function(CXCursorSet, CXCursor)>>(
+      'clang_CXCursorSet_insert');
   late final _clang_CXCursorSet_insert = _clang_CXCursorSet_insertPtr
       .asFunction<int Function(CXCursorSet, CXCursor)>();
 
@@ -2093,8 +1958,8 @@ class LibClang {
 
   late final _clang_getCursorSemanticParentPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor)>>(
-        'clang_getCursorSemanticParent',
-      );
+    'clang_getCursorSemanticParent',
+  );
   late final _clang_getCursorSemanticParent = _clang_getCursorSemanticParentPtr
       .asFunction<CXCursor Function(CXCursor)>();
 
@@ -2105,8 +1970,8 @@ class LibClang {
 
   late final _clang_getCursorLexicalParentPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor)>>(
-        'clang_getCursorLexicalParent',
-      );
+    'clang_getCursorLexicalParent',
+  );
   late final _clang_getCursorLexicalParent = _clang_getCursorLexicalParentPtr
       .asFunction<CXCursor Function(CXCursor)>();
 
@@ -2119,24 +1984,20 @@ class LibClang {
     return _clang_getOverriddenCursors(cursor, overridden, num_overridden);
   }
 
-  late final _clang_getOverriddenCursorsPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getOverriddenCursorsPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXCursor,
             ffi.Pointer<ffi.Pointer<CXCursor>>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_getOverriddenCursors');
-  late final _clang_getOverriddenCursors = _clang_getOverriddenCursorsPtr
-      .asFunction<
-        void Function(
-          CXCursor,
-          ffi.Pointer<ffi.Pointer<CXCursor>>,
-          ffi.Pointer<ffi.UnsignedInt>,
-        )
-      >();
+          )>>('clang_getOverriddenCursors');
+  late final _clang_getOverriddenCursors =
+      _clang_getOverriddenCursorsPtr.asFunction<
+          void Function(
+            CXCursor,
+            ffi.Pointer<ffi.Pointer<CXCursor>>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Free the set of overridden cursors returned by
   /// clang_getOverriddenCursors().
@@ -2146,8 +2007,8 @@ class LibClang {
 
   late final _clang_disposeOverriddenCursorsPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<CXCursor>)>>(
-        'clang_disposeOverriddenCursors',
-      );
+    'clang_disposeOverriddenCursors',
+  );
   late final _clang_disposeOverriddenCursors =
       _clang_disposeOverriddenCursorsPtr
           .asFunction<void Function(ffi.Pointer<CXCursor>)>();
@@ -2160,10 +2021,10 @@ class LibClang {
 
   late final _clang_getIncludedFilePtr =
       _lookup<ffi.NativeFunction<CXFile Function(CXCursor)>>(
-        'clang_getIncludedFile',
-      );
-  late final _clang_getIncludedFile = _clang_getIncludedFilePtr
-      .asFunction<CXFile Function(CXCursor)>();
+    'clang_getIncludedFile',
+  );
+  late final _clang_getIncludedFile =
+      _clang_getIncludedFilePtr.asFunction<CXFile Function(CXCursor)>();
 
   /// Map a source location to the cursor that describes the entity at that
   /// location in the source code.
@@ -2171,12 +2032,10 @@ class LibClang {
     return _clang_getCursor(arg0, arg1);
   }
 
-  late final _clang_getCursorPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXCursor Function(CXTranslationUnit, CXSourceLocation)
-        >
-      >('clang_getCursor');
+  late final _clang_getCursorPtr = _lookup<
+      ffi.NativeFunction<
+          CXCursor Function(
+              CXTranslationUnit, CXSourceLocation)>>('clang_getCursor');
   late final _clang_getCursor = _clang_getCursorPtr
       .asFunction<CXCursor Function(CXTranslationUnit, CXSourceLocation)>();
 
@@ -2188,8 +2047,8 @@ class LibClang {
 
   late final _clang_getCursorLocationPtr =
       _lookup<ffi.NativeFunction<CXSourceLocation Function(CXCursor)>>(
-        'clang_getCursorLocation',
-      );
+    'clang_getCursorLocation',
+  );
   late final _clang_getCursorLocation = _clang_getCursorLocationPtr
       .asFunction<CXSourceLocation Function(CXCursor)>();
 
@@ -2201,10 +2060,10 @@ class LibClang {
 
   late final _clang_getCursorExtentPtr =
       _lookup<ffi.NativeFunction<CXSourceRange Function(CXCursor)>>(
-        'clang_getCursorExtent',
-      );
-  late final _clang_getCursorExtent = _clang_getCursorExtentPtr
-      .asFunction<CXSourceRange Function(CXCursor)>();
+    'clang_getCursorExtent',
+  );
+  late final _clang_getCursorExtent =
+      _clang_getCursorExtentPtr.asFunction<CXSourceRange Function(CXCursor)>();
 
   /// Retrieve the type of a CXCursor (if any).
   CXType clang_getCursorType(CXCursor C) {
@@ -2213,10 +2072,10 @@ class LibClang {
 
   late final _clang_getCursorTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXCursor)>>(
-        'clang_getCursorType',
-      );
-  late final _clang_getCursorType = _clang_getCursorTypePtr
-      .asFunction<CXType Function(CXCursor)>();
+    'clang_getCursorType',
+  );
+  late final _clang_getCursorType =
+      _clang_getCursorTypePtr.asFunction<CXType Function(CXCursor)>();
 
   /// Pretty-print the underlying type using the rules of the language of the
   /// translation unit from which it came.
@@ -2226,10 +2085,10 @@ class LibClang {
 
   late final _clang_getTypeSpellingPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXType)>>(
-        'clang_getTypeSpelling',
-      );
-  late final _clang_getTypeSpelling = _clang_getTypeSpellingPtr
-      .asFunction<CXString Function(CXType)>();
+    'clang_getTypeSpelling',
+  );
+  late final _clang_getTypeSpelling =
+      _clang_getTypeSpellingPtr.asFunction<CXString Function(CXType)>();
 
   /// Retrieve the underlying type of a typedef declaration.
   CXType clang_getTypedefDeclUnderlyingType(CXCursor C) {
@@ -2238,8 +2097,8 @@ class LibClang {
 
   late final _clang_getTypedefDeclUnderlyingTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXCursor)>>(
-        'clang_getTypedefDeclUnderlyingType',
-      );
+    'clang_getTypedefDeclUnderlyingType',
+  );
   late final _clang_getTypedefDeclUnderlyingType =
       _clang_getTypedefDeclUnderlyingTypePtr
           .asFunction<CXType Function(CXCursor)>();
@@ -2251,10 +2110,10 @@ class LibClang {
 
   late final _clang_getEnumDeclIntegerTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXCursor)>>(
-        'clang_getEnumDeclIntegerType',
-      );
-  late final _clang_getEnumDeclIntegerType = _clang_getEnumDeclIntegerTypePtr
-      .asFunction<CXType Function(CXCursor)>();
+    'clang_getEnumDeclIntegerType',
+  );
+  late final _clang_getEnumDeclIntegerType =
+      _clang_getEnumDeclIntegerTypePtr.asFunction<CXType Function(CXCursor)>();
 
   /// Retrieve the integer value of an enum constant declaration as a signed
   /// long long.
@@ -2264,8 +2123,8 @@ class LibClang {
 
   late final _clang_getEnumConstantDeclValuePtr =
       _lookup<ffi.NativeFunction<ffi.LongLong Function(CXCursor)>>(
-        'clang_getEnumConstantDeclValue',
-      );
+    'clang_getEnumConstantDeclValue',
+  );
   late final _clang_getEnumConstantDeclValue =
       _clang_getEnumConstantDeclValuePtr.asFunction<int Function(CXCursor)>();
 
@@ -2277,8 +2136,8 @@ class LibClang {
 
   late final _clang_getEnumConstantDeclUnsignedValuePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedLongLong Function(CXCursor)>>(
-        'clang_getEnumConstantDeclUnsignedValue',
-      );
+    'clang_getEnumConstantDeclUnsignedValue',
+  );
   late final _clang_getEnumConstantDeclUnsignedValue =
       _clang_getEnumConstantDeclUnsignedValuePtr
           .asFunction<int Function(CXCursor)>();
@@ -2290,10 +2149,10 @@ class LibClang {
 
   late final _clang_getFieldDeclBitWidthPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXCursor)>>(
-        'clang_getFieldDeclBitWidth',
-      );
-  late final _clang_getFieldDeclBitWidth = _clang_getFieldDeclBitWidthPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getFieldDeclBitWidth',
+  );
+  late final _clang_getFieldDeclBitWidth =
+      _clang_getFieldDeclBitWidthPtr.asFunction<int Function(CXCursor)>();
 
   /// Retrieve the number of non-variadic arguments associated with a given
   /// cursor.
@@ -2303,10 +2162,10 @@ class LibClang {
 
   late final _clang_Cursor_getNumArgumentsPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXCursor)>>(
-        'clang_Cursor_getNumArguments',
-      );
-  late final _clang_Cursor_getNumArguments = _clang_Cursor_getNumArgumentsPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_getNumArguments',
+  );
+  late final _clang_Cursor_getNumArguments =
+      _clang_Cursor_getNumArgumentsPtr.asFunction<int Function(CXCursor)>();
 
   /// Retrieve the argument cursor of a function or method.
   CXCursor clang_Cursor_getArgument(CXCursor C, int i) {
@@ -2315,8 +2174,8 @@ class LibClang {
 
   late final _clang_Cursor_getArgumentPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor, ffi.UnsignedInt)>>(
-        'clang_Cursor_getArgument',
-      );
+    'clang_Cursor_getArgument',
+  );
   late final _clang_Cursor_getArgument = _clang_Cursor_getArgumentPtr
       .asFunction<CXCursor Function(CXCursor, int)>();
 
@@ -2328,8 +2187,8 @@ class LibClang {
 
   late final _clang_Cursor_getNumTemplateArgumentsPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXCursor)>>(
-        'clang_Cursor_getNumTemplateArguments',
-      );
+    'clang_Cursor_getNumTemplateArguments',
+  );
   late final _clang_Cursor_getNumTemplateArguments =
       _clang_Cursor_getNumTemplateArgumentsPtr
           .asFunction<int Function(CXCursor)>();
@@ -2344,10 +2203,10 @@ class LibClang {
     );
   }
 
-  late final _clang_Cursor_getTemplateArgumentKindPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor, ffi.UnsignedInt)>
-      >('clang_Cursor_getTemplateArgumentKind');
+  late final _clang_Cursor_getTemplateArgumentKindPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.UnsignedInt Function(CXCursor, ffi.UnsignedInt)>>(
+      'clang_Cursor_getTemplateArgumentKind');
   late final _clang_Cursor_getTemplateArgumentKind =
       _clang_Cursor_getTemplateArgumentKindPtr
           .asFunction<int Function(CXCursor, int)>();
@@ -2360,8 +2219,8 @@ class LibClang {
 
   late final _clang_Cursor_getTemplateArgumentTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXCursor, ffi.UnsignedInt)>>(
-        'clang_Cursor_getTemplateArgumentType',
-      );
+    'clang_Cursor_getTemplateArgumentType',
+  );
   late final _clang_Cursor_getTemplateArgumentType =
       _clang_Cursor_getTemplateArgumentTypePtr
           .asFunction<CXType Function(CXCursor, int)>();
@@ -2372,10 +2231,9 @@ class LibClang {
     return _clang_Cursor_getTemplateArgumentValue(C, I);
   }
 
-  late final _clang_Cursor_getTemplateArgumentValuePtr =
-      _lookup<
-        ffi.NativeFunction<ffi.LongLong Function(CXCursor, ffi.UnsignedInt)>
-      >('clang_Cursor_getTemplateArgumentValue');
+  late final _clang_Cursor_getTemplateArgumentValuePtr = _lookup<
+          ffi.NativeFunction<ffi.LongLong Function(CXCursor, ffi.UnsignedInt)>>(
+      'clang_Cursor_getTemplateArgumentValue');
   late final _clang_Cursor_getTemplateArgumentValue =
       _clang_Cursor_getTemplateArgumentValuePtr
           .asFunction<int Function(CXCursor, int)>();
@@ -2386,12 +2244,10 @@ class LibClang {
     return _clang_Cursor_getTemplateArgumentUnsignedValue(C, I);
   }
 
-  late final _clang_Cursor_getTemplateArgumentUnsignedValuePtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedLongLong Function(CXCursor, ffi.UnsignedInt)
-        >
-      >('clang_Cursor_getTemplateArgumentUnsignedValue');
+  late final _clang_Cursor_getTemplateArgumentUnsignedValuePtr = _lookup<
+          ffi.NativeFunction<
+              ffi.UnsignedLongLong Function(CXCursor, ffi.UnsignedInt)>>(
+      'clang_Cursor_getTemplateArgumentUnsignedValue');
   late final _clang_Cursor_getTemplateArgumentUnsignedValue =
       _clang_Cursor_getTemplateArgumentUnsignedValuePtr
           .asFunction<int Function(CXCursor, int)>();
@@ -2403,10 +2259,10 @@ class LibClang {
 
   late final _clang_equalTypesPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType, CXType)>>(
-        'clang_equalTypes',
-      );
-  late final _clang_equalTypes = _clang_equalTypesPtr
-      .asFunction<int Function(CXType, CXType)>();
+    'clang_equalTypes',
+  );
+  late final _clang_equalTypes =
+      _clang_equalTypesPtr.asFunction<int Function(CXType, CXType)>();
 
   /// Return the canonical type for a CXType.
   CXType clang_getCanonicalType(CXType T) {
@@ -2415,10 +2271,10 @@ class LibClang {
 
   late final _clang_getCanonicalTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_getCanonicalType',
-      );
-  late final _clang_getCanonicalType = _clang_getCanonicalTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_getCanonicalType',
+  );
+  late final _clang_getCanonicalType =
+      _clang_getCanonicalTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Determine whether a CXType has the "const" qualifier set, without looking
   /// through typedefs that may have added "const" at a different level.
@@ -2428,10 +2284,10 @@ class LibClang {
 
   late final _clang_isConstQualifiedTypePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_isConstQualifiedType',
-      );
-  late final _clang_isConstQualifiedType = _clang_isConstQualifiedTypePtr
-      .asFunction<int Function(CXType)>();
+    'clang_isConstQualifiedType',
+  );
+  late final _clang_isConstQualifiedType =
+      _clang_isConstQualifiedTypePtr.asFunction<int Function(CXType)>();
 
   /// Determine whether a CXCursor that is a macro, is function like.
   int clang_Cursor_isMacroFunctionLike(CXCursor C) {
@@ -2440,8 +2296,8 @@ class LibClang {
 
   late final _clang_Cursor_isMacroFunctionLikePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isMacroFunctionLike',
-      );
+    'clang_Cursor_isMacroFunctionLike',
+  );
   late final _clang_Cursor_isMacroFunctionLike =
       _clang_Cursor_isMacroFunctionLikePtr.asFunction<int Function(CXCursor)>();
 
@@ -2452,10 +2308,10 @@ class LibClang {
 
   late final _clang_Cursor_isMacroBuiltinPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isMacroBuiltin',
-      );
-  late final _clang_Cursor_isMacroBuiltin = _clang_Cursor_isMacroBuiltinPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_isMacroBuiltin',
+  );
+  late final _clang_Cursor_isMacroBuiltin =
+      _clang_Cursor_isMacroBuiltinPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine whether a CXCursor that is a function declaration, is an inline
   /// declaration.
@@ -2465,8 +2321,8 @@ class LibClang {
 
   late final _clang_Cursor_isFunctionInlinedPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isFunctionInlined',
-      );
+    'clang_Cursor_isFunctionInlined',
+  );
   late final _clang_Cursor_isFunctionInlined =
       _clang_Cursor_isFunctionInlinedPtr.asFunction<int Function(CXCursor)>();
 
@@ -2479,10 +2335,10 @@ class LibClang {
 
   late final _clang_isVolatileQualifiedTypePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_isVolatileQualifiedType',
-      );
-  late final _clang_isVolatileQualifiedType = _clang_isVolatileQualifiedTypePtr
-      .asFunction<int Function(CXType)>();
+    'clang_isVolatileQualifiedType',
+  );
+  late final _clang_isVolatileQualifiedType =
+      _clang_isVolatileQualifiedTypePtr.asFunction<int Function(CXType)>();
 
   /// Determine whether a CXType has the "restrict" qualifier set, without
   /// looking through typedefs that may have added "restrict" at a different
@@ -2493,10 +2349,10 @@ class LibClang {
 
   late final _clang_isRestrictQualifiedTypePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_isRestrictQualifiedType',
-      );
-  late final _clang_isRestrictQualifiedType = _clang_isRestrictQualifiedTypePtr
-      .asFunction<int Function(CXType)>();
+    'clang_isRestrictQualifiedType',
+  );
+  late final _clang_isRestrictQualifiedType =
+      _clang_isRestrictQualifiedTypePtr.asFunction<int Function(CXType)>();
 
   /// Returns the address space of the given type.
   int clang_getAddressSpace(CXType T) {
@@ -2505,10 +2361,10 @@ class LibClang {
 
   late final _clang_getAddressSpacePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_getAddressSpace',
-      );
-  late final _clang_getAddressSpace = _clang_getAddressSpacePtr
-      .asFunction<int Function(CXType)>();
+    'clang_getAddressSpace',
+  );
+  late final _clang_getAddressSpace =
+      _clang_getAddressSpacePtr.asFunction<int Function(CXType)>();
 
   /// Returns the typedef name of the given type.
   CXString clang_getTypedefName(CXType CT) {
@@ -2517,10 +2373,10 @@ class LibClang {
 
   late final _clang_getTypedefNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXType)>>(
-        'clang_getTypedefName',
-      );
-  late final _clang_getTypedefName = _clang_getTypedefNamePtr
-      .asFunction<CXString Function(CXType)>();
+    'clang_getTypedefName',
+  );
+  late final _clang_getTypedefName =
+      _clang_getTypedefNamePtr.asFunction<CXString Function(CXType)>();
 
   /// For pointer types, returns the type of the pointee.
   CXType clang_getPointeeType(CXType T) {
@@ -2529,10 +2385,10 @@ class LibClang {
 
   late final _clang_getPointeeTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_getPointeeType',
-      );
-  late final _clang_getPointeeType = _clang_getPointeeTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_getPointeeType',
+  );
+  late final _clang_getPointeeType =
+      _clang_getPointeeTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Return the cursor for the declaration of the given type.
   CXCursor clang_getTypeDeclaration(CXType T) {
@@ -2541,10 +2397,10 @@ class LibClang {
 
   late final _clang_getTypeDeclarationPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXType)>>(
-        'clang_getTypeDeclaration',
-      );
-  late final _clang_getTypeDeclaration = _clang_getTypeDeclarationPtr
-      .asFunction<CXCursor Function(CXType)>();
+    'clang_getTypeDeclaration',
+  );
+  late final _clang_getTypeDeclaration =
+      _clang_getTypeDeclarationPtr.asFunction<CXCursor Function(CXType)>();
 
   /// Returns the Objective-C type encoding for the specified declaration.
   CXString clang_getDeclObjCTypeEncoding(CXCursor C) {
@@ -2553,8 +2409,8 @@ class LibClang {
 
   late final _clang_getDeclObjCTypeEncodingPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_getDeclObjCTypeEncoding',
-      );
+    'clang_getDeclObjCTypeEncoding',
+  );
   late final _clang_getDeclObjCTypeEncoding = _clang_getDeclObjCTypeEncodingPtr
       .asFunction<CXString Function(CXCursor)>();
 
@@ -2565,10 +2421,10 @@ class LibClang {
 
   late final _clang_Type_getObjCEncodingPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXType)>>(
-        'clang_Type_getObjCEncoding',
-      );
-  late final _clang_Type_getObjCEncoding = _clang_Type_getObjCEncodingPtr
-      .asFunction<CXString Function(CXType)>();
+    'clang_Type_getObjCEncoding',
+  );
+  late final _clang_Type_getObjCEncoding =
+      _clang_Type_getObjCEncodingPtr.asFunction<CXString Function(CXType)>();
 
   /// Retrieve the spelling of a given CXTypeKind.
   CXString clang_getTypeKindSpelling(CXTypeKind K) {
@@ -2577,10 +2433,10 @@ class LibClang {
 
   late final _clang_getTypeKindSpellingPtr =
       _lookup<ffi.NativeFunction<CXString Function(ffi.UnsignedInt)>>(
-        'clang_getTypeKindSpelling',
-      );
-  late final _clang_getTypeKindSpelling = _clang_getTypeKindSpellingPtr
-      .asFunction<CXString Function(int)>();
+    'clang_getTypeKindSpelling',
+  );
+  late final _clang_getTypeKindSpelling =
+      _clang_getTypeKindSpellingPtr.asFunction<CXString Function(int)>();
 
   /// Retrieve the calling convention associated with a function type.
   CXCallingConv clang_getFunctionTypeCallingConv(CXType T) {
@@ -2589,8 +2445,8 @@ class LibClang {
 
   late final _clang_getFunctionTypeCallingConvPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_getFunctionTypeCallingConv',
-      );
+    'clang_getFunctionTypeCallingConv',
+  );
   late final _clang_getFunctionTypeCallingConv =
       _clang_getFunctionTypeCallingConvPtr.asFunction<int Function(CXType)>();
 
@@ -2601,10 +2457,10 @@ class LibClang {
 
   late final _clang_getResultTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_getResultType',
-      );
-  late final _clang_getResultType = _clang_getResultTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_getResultType',
+  );
+  late final _clang_getResultType =
+      _clang_getResultTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Retrieve the exception specification type associated with a function type.
   /// This is a value of type CXCursor_ExceptionSpecificationKind.
@@ -2614,8 +2470,8 @@ class LibClang {
 
   late final _clang_getExceptionSpecificationTypePtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXType)>>(
-        'clang_getExceptionSpecificationType',
-      );
+    'clang_getExceptionSpecificationType',
+  );
   late final _clang_getExceptionSpecificationType =
       _clang_getExceptionSpecificationTypePtr
           .asFunction<int Function(CXType)>();
@@ -2628,10 +2484,10 @@ class LibClang {
 
   late final _clang_getNumArgTypesPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXType)>>(
-        'clang_getNumArgTypes',
-      );
-  late final _clang_getNumArgTypes = _clang_getNumArgTypesPtr
-      .asFunction<int Function(CXType)>();
+    'clang_getNumArgTypes',
+  );
+  late final _clang_getNumArgTypes =
+      _clang_getNumArgTypesPtr.asFunction<int Function(CXType)>();
 
   /// Retrieve the type of a parameter of a function type.
   CXType clang_getArgType(CXType T, int i) {
@@ -2640,10 +2496,10 @@ class LibClang {
 
   late final _clang_getArgTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType, ffi.UnsignedInt)>>(
-        'clang_getArgType',
-      );
-  late final _clang_getArgType = _clang_getArgTypePtr
-      .asFunction<CXType Function(CXType, int)>();
+    'clang_getArgType',
+  );
+  late final _clang_getArgType =
+      _clang_getArgTypePtr.asFunction<CXType Function(CXType, int)>();
 
   /// Retrieves the base type of the ObjCObjectType.
   CXType clang_Type_getObjCObjectBaseType(CXType T) {
@@ -2652,8 +2508,8 @@ class LibClang {
 
   late final _clang_Type_getObjCObjectBaseTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_Type_getObjCObjectBaseType',
-      );
+    'clang_Type_getObjCObjectBaseType',
+  );
   late final _clang_Type_getObjCObjectBaseType =
       _clang_Type_getObjCObjectBaseTypePtr
           .asFunction<CXType Function(CXType)>();
@@ -2666,8 +2522,8 @@ class LibClang {
 
   late final _clang_Type_getNumObjCProtocolRefsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_Type_getNumObjCProtocolRefs',
-      );
+    'clang_Type_getNumObjCProtocolRefs',
+  );
   late final _clang_Type_getNumObjCProtocolRefs =
       _clang_Type_getNumObjCProtocolRefsPtr.asFunction<int Function(CXType)>();
 
@@ -2678,8 +2534,8 @@ class LibClang {
 
   late final _clang_Type_getObjCProtocolDeclPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXType, ffi.UnsignedInt)>>(
-        'clang_Type_getObjCProtocolDecl',
-      );
+    'clang_Type_getObjCProtocolDecl',
+  );
   late final _clang_Type_getObjCProtocolDecl =
       _clang_Type_getObjCProtocolDeclPtr
           .asFunction<CXCursor Function(CXType, int)>();
@@ -2691,10 +2547,10 @@ class LibClang {
 
   late final _clang_Type_getNumObjCTypeArgsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_Type_getNumObjCTypeArgs',
-      );
-  late final _clang_Type_getNumObjCTypeArgs = _clang_Type_getNumObjCTypeArgsPtr
-      .asFunction<int Function(CXType)>();
+    'clang_Type_getNumObjCTypeArgs',
+  );
+  late final _clang_Type_getNumObjCTypeArgs =
+      _clang_Type_getNumObjCTypeArgsPtr.asFunction<int Function(CXType)>();
 
   /// Retrieve a type argument associated with an ObjC object.
   CXType clang_Type_getObjCTypeArg(CXType T, int i) {
@@ -2703,10 +2559,10 @@ class LibClang {
 
   late final _clang_Type_getObjCTypeArgPtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType, ffi.UnsignedInt)>>(
-        'clang_Type_getObjCTypeArg',
-      );
-  late final _clang_Type_getObjCTypeArg = _clang_Type_getObjCTypeArgPtr
-      .asFunction<CXType Function(CXType, int)>();
+    'clang_Type_getObjCTypeArg',
+  );
+  late final _clang_Type_getObjCTypeArg =
+      _clang_Type_getObjCTypeArgPtr.asFunction<CXType Function(CXType, int)>();
 
   /// Return 1 if the CXType is a variadic function type, and 0 otherwise.
   int clang_isFunctionTypeVariadic(CXType T) {
@@ -2715,10 +2571,10 @@ class LibClang {
 
   late final _clang_isFunctionTypeVariadicPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_isFunctionTypeVariadic',
-      );
-  late final _clang_isFunctionTypeVariadic = _clang_isFunctionTypeVariadicPtr
-      .asFunction<int Function(CXType)>();
+    'clang_isFunctionTypeVariadic',
+  );
+  late final _clang_isFunctionTypeVariadic =
+      _clang_isFunctionTypeVariadicPtr.asFunction<int Function(CXType)>();
 
   /// Retrieve the return type associated with a given cursor.
   CXType clang_getCursorResultType(CXCursor C) {
@@ -2727,10 +2583,10 @@ class LibClang {
 
   late final _clang_getCursorResultTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXCursor)>>(
-        'clang_getCursorResultType',
-      );
-  late final _clang_getCursorResultType = _clang_getCursorResultTypePtr
-      .asFunction<CXType Function(CXCursor)>();
+    'clang_getCursorResultType',
+  );
+  late final _clang_getCursorResultType =
+      _clang_getCursorResultTypePtr.asFunction<CXType Function(CXCursor)>();
 
   /// Retrieve the exception specification type associated with a given cursor.
   /// This is a value of type CXCursor_ExceptionSpecificationKind.
@@ -2740,8 +2596,8 @@ class LibClang {
 
   late final _clang_getCursorExceptionSpecificationTypePtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXCursor)>>(
-        'clang_getCursorExceptionSpecificationType',
-      );
+    'clang_getCursorExceptionSpecificationType',
+  );
   late final _clang_getCursorExceptionSpecificationType =
       _clang_getCursorExceptionSpecificationTypePtr
           .asFunction<int Function(CXCursor)>();
@@ -2753,10 +2609,10 @@ class LibClang {
 
   late final _clang_isPODTypePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_isPODType',
-      );
-  late final _clang_isPODType = _clang_isPODTypePtr
-      .asFunction<int Function(CXType)>();
+    'clang_isPODType',
+  );
+  late final _clang_isPODType =
+      _clang_isPODTypePtr.asFunction<int Function(CXType)>();
 
   /// Return the element type of an array, complex, or vector type.
   CXType clang_getElementType(CXType T) {
@@ -2765,10 +2621,10 @@ class LibClang {
 
   late final _clang_getElementTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_getElementType',
-      );
-  late final _clang_getElementType = _clang_getElementTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_getElementType',
+  );
+  late final _clang_getElementType =
+      _clang_getElementTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Return the number of elements of an array or vector type.
   int clang_getNumElements(CXType T) {
@@ -2777,10 +2633,10 @@ class LibClang {
 
   late final _clang_getNumElementsPtr =
       _lookup<ffi.NativeFunction<ffi.LongLong Function(CXType)>>(
-        'clang_getNumElements',
-      );
-  late final _clang_getNumElements = _clang_getNumElementsPtr
-      .asFunction<int Function(CXType)>();
+    'clang_getNumElements',
+  );
+  late final _clang_getNumElements =
+      _clang_getNumElementsPtr.asFunction<int Function(CXType)>();
 
   /// Return the element type of an array type.
   CXType clang_getArrayElementType(CXType T) {
@@ -2789,10 +2645,10 @@ class LibClang {
 
   late final _clang_getArrayElementTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_getArrayElementType',
-      );
-  late final _clang_getArrayElementType = _clang_getArrayElementTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_getArrayElementType',
+  );
+  late final _clang_getArrayElementType =
+      _clang_getArrayElementTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Return the array size of a constant array.
   int clang_getArraySize(CXType T) {
@@ -2801,10 +2657,10 @@ class LibClang {
 
   late final _clang_getArraySizePtr =
       _lookup<ffi.NativeFunction<ffi.LongLong Function(CXType)>>(
-        'clang_getArraySize',
-      );
-  late final _clang_getArraySize = _clang_getArraySizePtr
-      .asFunction<int Function(CXType)>();
+    'clang_getArraySize',
+  );
+  late final _clang_getArraySize =
+      _clang_getArraySizePtr.asFunction<int Function(CXType)>();
 
   /// Retrieve the type named by the qualified-id.
   CXType clang_Type_getNamedType(CXType T) {
@@ -2813,10 +2669,10 @@ class LibClang {
 
   late final _clang_Type_getNamedTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_Type_getNamedType',
-      );
-  late final _clang_Type_getNamedType = _clang_Type_getNamedTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_Type_getNamedType',
+  );
+  late final _clang_Type_getNamedType =
+      _clang_Type_getNamedTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Determine if a typedef is 'transparent' tag.
   int clang_Type_isTransparentTagTypedef(CXType T) {
@@ -2825,8 +2681,8 @@ class LibClang {
 
   late final _clang_Type_isTransparentTagTypedefPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_Type_isTransparentTagTypedef',
-      );
+    'clang_Type_isTransparentTagTypedef',
+  );
   late final _clang_Type_isTransparentTagTypedef =
       _clang_Type_isTransparentTagTypedefPtr.asFunction<int Function(CXType)>();
 
@@ -2837,10 +2693,10 @@ class LibClang {
 
   late final _clang_Type_getNullabilityPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_Type_getNullability',
-      );
-  late final _clang_Type_getNullability = _clang_Type_getNullabilityPtr
-      .asFunction<int Function(CXType)>();
+    'clang_Type_getNullability',
+  );
+  late final _clang_Type_getNullability =
+      _clang_Type_getNullabilityPtr.asFunction<int Function(CXType)>();
 
   /// Return the alignment of a type in bytes as per C++[expr.alignof] standard.
   int clang_Type_getAlignOf(CXType T) {
@@ -2849,10 +2705,10 @@ class LibClang {
 
   late final _clang_Type_getAlignOfPtr =
       _lookup<ffi.NativeFunction<ffi.LongLong Function(CXType)>>(
-        'clang_Type_getAlignOf',
-      );
-  late final _clang_Type_getAlignOf = _clang_Type_getAlignOfPtr
-      .asFunction<int Function(CXType)>();
+    'clang_Type_getAlignOf',
+  );
+  late final _clang_Type_getAlignOf =
+      _clang_Type_getAlignOfPtr.asFunction<int Function(CXType)>();
 
   /// Return the class type of an member pointer type.
   CXType clang_Type_getClassType(CXType T) {
@@ -2861,10 +2717,10 @@ class LibClang {
 
   late final _clang_Type_getClassTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_Type_getClassType',
-      );
-  late final _clang_Type_getClassType = _clang_Type_getClassTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_Type_getClassType',
+  );
+  late final _clang_Type_getClassType =
+      _clang_Type_getClassTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Return the size of a type in bytes as per C++[expr.sizeof] standard.
   int clang_Type_getSizeOf(CXType T) {
@@ -2873,10 +2729,10 @@ class LibClang {
 
   late final _clang_Type_getSizeOfPtr =
       _lookup<ffi.NativeFunction<ffi.LongLong Function(CXType)>>(
-        'clang_Type_getSizeOf',
-      );
-  late final _clang_Type_getSizeOf = _clang_Type_getSizeOfPtr
-      .asFunction<int Function(CXType)>();
+    'clang_Type_getSizeOf',
+  );
+  late final _clang_Type_getSizeOf =
+      _clang_Type_getSizeOfPtr.asFunction<int Function(CXType)>();
 
   /// Return the offset of a field named S in a record of type T in bits as it
   /// would be returned by __offsetof__ as per C++11[18.2p4]
@@ -2884,10 +2740,10 @@ class LibClang {
     return _clang_Type_getOffsetOf(T, S);
   }
 
-  late final _clang_Type_getOffsetOfPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.LongLong Function(CXType, ffi.Pointer<ffi.Char>)>
-      >('clang_Type_getOffsetOf');
+  late final _clang_Type_getOffsetOfPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.LongLong Function(
+              CXType, ffi.Pointer<ffi.Char>)>>('clang_Type_getOffsetOf');
   late final _clang_Type_getOffsetOf = _clang_Type_getOffsetOfPtr
       .asFunction<int Function(CXType, ffi.Pointer<ffi.Char>)>();
 
@@ -2898,10 +2754,10 @@ class LibClang {
 
   late final _clang_Type_getModifiedTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType)>>(
-        'clang_Type_getModifiedType',
-      );
-  late final _clang_Type_getModifiedType = _clang_Type_getModifiedTypePtr
-      .asFunction<CXType Function(CXType)>();
+    'clang_Type_getModifiedType',
+  );
+  late final _clang_Type_getModifiedType =
+      _clang_Type_getModifiedTypePtr.asFunction<CXType Function(CXType)>();
 
   /// Return the offset of the field represented by the Cursor.
   int clang_Cursor_getOffsetOfField(CXCursor C) {
@@ -2910,10 +2766,10 @@ class LibClang {
 
   late final _clang_Cursor_getOffsetOfFieldPtr =
       _lookup<ffi.NativeFunction<ffi.LongLong Function(CXCursor)>>(
-        'clang_Cursor_getOffsetOfField',
-      );
-  late final _clang_Cursor_getOffsetOfField = _clang_Cursor_getOffsetOfFieldPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_getOffsetOfField',
+  );
+  late final _clang_Cursor_getOffsetOfField =
+      _clang_Cursor_getOffsetOfFieldPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine whether the given cursor represents an anonymous tag or
   /// namespace
@@ -2923,10 +2779,10 @@ class LibClang {
 
   late final _clang_Cursor_isAnonymousPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isAnonymous',
-      );
-  late final _clang_Cursor_isAnonymous = _clang_Cursor_isAnonymousPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_isAnonymous',
+  );
+  late final _clang_Cursor_isAnonymous =
+      _clang_Cursor_isAnonymousPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine whether the given cursor represents an anonymous record
   /// declaration.
@@ -2936,8 +2792,8 @@ class LibClang {
 
   late final _clang_Cursor_isAnonymousRecordDeclPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isAnonymousRecordDecl',
-      );
+    'clang_Cursor_isAnonymousRecordDecl',
+  );
   late final _clang_Cursor_isAnonymousRecordDecl =
       _clang_Cursor_isAnonymousRecordDeclPtr
           .asFunction<int Function(CXCursor)>();
@@ -2950,8 +2806,8 @@ class LibClang {
 
   late final _clang_Cursor_isInlineNamespacePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isInlineNamespace',
-      );
+    'clang_Cursor_isInlineNamespace',
+  );
   late final _clang_Cursor_isInlineNamespace =
       _clang_Cursor_isInlineNamespacePtr.asFunction<int Function(CXCursor)>();
 
@@ -2963,8 +2819,8 @@ class LibClang {
 
   late final _clang_Type_getNumTemplateArgumentsPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXType)>>(
-        'clang_Type_getNumTemplateArguments',
-      );
+    'clang_Type_getNumTemplateArguments',
+  );
   late final _clang_Type_getNumTemplateArguments =
       _clang_Type_getNumTemplateArgumentsPtr.asFunction<int Function(CXType)>();
 
@@ -2976,8 +2832,8 @@ class LibClang {
 
   late final _clang_Type_getTemplateArgumentAsTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXType, ffi.UnsignedInt)>>(
-        'clang_Type_getTemplateArgumentAsType',
-      );
+    'clang_Type_getTemplateArgumentAsType',
+  );
   late final _clang_Type_getTemplateArgumentAsType =
       _clang_Type_getTemplateArgumentAsTypePtr
           .asFunction<CXType Function(CXType, int)>();
@@ -2989,10 +2845,10 @@ class LibClang {
 
   late final _clang_Type_getCXXRefQualifierPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXType)>>(
-        'clang_Type_getCXXRefQualifier',
-      );
-  late final _clang_Type_getCXXRefQualifier = _clang_Type_getCXXRefQualifierPtr
-      .asFunction<int Function(CXType)>();
+    'clang_Type_getCXXRefQualifier',
+  );
+  late final _clang_Type_getCXXRefQualifier =
+      _clang_Type_getCXXRefQualifierPtr.asFunction<int Function(CXType)>();
 
   /// Returns non-zero if the cursor specifies a Record member that is a
   /// bitfield.
@@ -3002,10 +2858,10 @@ class LibClang {
 
   late final _clang_Cursor_isBitFieldPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isBitField',
-      );
-  late final _clang_Cursor_isBitField = _clang_Cursor_isBitFieldPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_isBitField',
+  );
+  late final _clang_Cursor_isBitField =
+      _clang_Cursor_isBitFieldPtr.asFunction<int Function(CXCursor)>();
 
   /// Returns 1 if the base class specified by the cursor with kind
   /// CX_CXXBaseSpecifier is virtual.
@@ -3015,10 +2871,10 @@ class LibClang {
 
   late final _clang_isVirtualBasePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_isVirtualBase',
-      );
-  late final _clang_isVirtualBase = _clang_isVirtualBasePtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_isVirtualBase',
+  );
+  late final _clang_isVirtualBase =
+      _clang_isVirtualBasePtr.asFunction<int Function(CXCursor)>();
 
   /// Returns the access control level for the referenced object.
   CX_CXXAccessSpecifier clang_getCXXAccessSpecifier(CXCursor arg0) {
@@ -3027,10 +2883,10 @@ class LibClang {
 
   late final _clang_getCXXAccessSpecifierPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getCXXAccessSpecifier',
-      );
-  late final _clang_getCXXAccessSpecifier = _clang_getCXXAccessSpecifierPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getCXXAccessSpecifier',
+  );
+  late final _clang_getCXXAccessSpecifier =
+      _clang_getCXXAccessSpecifierPtr.asFunction<int Function(CXCursor)>();
 
   /// Returns the storage class for a function or variable declaration.
   CX_StorageClass clang_Cursor_getStorageClass(CXCursor arg0) {
@@ -3039,10 +2895,10 @@ class LibClang {
 
   late final _clang_Cursor_getStorageClassPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_getStorageClass',
-      );
-  late final _clang_Cursor_getStorageClass = _clang_Cursor_getStorageClassPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_getStorageClass',
+  );
+  late final _clang_Cursor_getStorageClass =
+      _clang_Cursor_getStorageClassPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine the number of overloaded declarations referenced by a
   /// CXCursor_OverloadedDeclRef cursor.
@@ -3052,10 +2908,10 @@ class LibClang {
 
   late final _clang_getNumOverloadedDeclsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getNumOverloadedDecls',
-      );
-  late final _clang_getNumOverloadedDecls = _clang_getNumOverloadedDeclsPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getNumOverloadedDecls',
+  );
+  late final _clang_getNumOverloadedDecls =
+      _clang_getNumOverloadedDeclsPtr.asFunction<int Function(CXCursor)>();
 
   /// Retrieve a cursor for one of the overloaded declarations referenced by a
   /// CXCursor_OverloadedDeclRef cursor.
@@ -3065,8 +2921,8 @@ class LibClang {
 
   late final _clang_getOverloadedDeclPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor, ffi.UnsignedInt)>>(
-        'clang_getOverloadedDecl',
-      );
+    'clang_getOverloadedDecl',
+  );
   late final _clang_getOverloadedDecl = _clang_getOverloadedDeclPtr
       .asFunction<CXCursor Function(CXCursor, int)>();
 
@@ -3078,8 +2934,8 @@ class LibClang {
 
   late final _clang_getIBOutletCollectionTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXCursor)>>(
-        'clang_getIBOutletCollectionType',
-      );
+    'clang_getIBOutletCollectionType',
+  );
   late final _clang_getIBOutletCollectionType =
       _clang_getIBOutletCollectionTypePtr
           .asFunction<CXType Function(CXCursor)>();
@@ -3093,12 +2949,10 @@ class LibClang {
     return _clang_visitChildren(parent, visitor, client_data);
   }
 
-  late final _clang_visitChildrenPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXCursor, CXCursorVisitor, CXClientData)
-        >
-      >('clang_visitChildren');
+  late final _clang_visitChildrenPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              CXCursor, CXCursorVisitor, CXClientData)>>('clang_visitChildren');
   late final _clang_visitChildren = _clang_visitChildrenPtr
       .asFunction<int Function(CXCursor, CXCursorVisitor, CXClientData)>();
 
@@ -3110,10 +2964,10 @@ class LibClang {
 
   late final _clang_getCursorUSRPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_getCursorUSR',
-      );
-  late final _clang_getCursorUSR = _clang_getCursorUSRPtr
-      .asFunction<CXString Function(CXCursor)>();
+    'clang_getCursorUSR',
+  );
+  late final _clang_getCursorUSR =
+      _clang_getCursorUSRPtr.asFunction<CXString Function(CXCursor)>();
 
   /// Construct a USR for a specified Objective-C class.
   CXString clang_constructUSR_ObjCClass(ffi.Pointer<ffi.Char> class_name) {
@@ -3122,8 +2976,8 @@ class LibClang {
 
   late final _clang_constructUSR_ObjCClassPtr =
       _lookup<ffi.NativeFunction<CXString Function(ffi.Pointer<ffi.Char>)>>(
-        'clang_constructUSR_ObjCClass',
-      );
+    'clang_constructUSR_ObjCClass',
+  );
   late final _clang_constructUSR_ObjCClass = _clang_constructUSR_ObjCClassPtr
       .asFunction<CXString Function(ffi.Pointer<ffi.Char>)>();
 
@@ -3135,17 +2989,13 @@ class LibClang {
     return _clang_constructUSR_ObjCCategory(class_name, category_name);
   }
 
-  late final _clang_constructUSR_ObjCCategoryPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)
-        >
-      >('clang_constructUSR_ObjCCategory');
+  late final _clang_constructUSR_ObjCCategoryPtr = _lookup<
+      ffi.NativeFunction<
+          CXString Function(ffi.Pointer<ffi.Char>,
+              ffi.Pointer<ffi.Char>)>>('clang_constructUSR_ObjCCategory');
   late final _clang_constructUSR_ObjCCategory =
-      _clang_constructUSR_ObjCCategoryPtr
-          .asFunction<
-            CXString Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)
-          >();
+      _clang_constructUSR_ObjCCategoryPtr.asFunction<
+          CXString Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>();
 
   /// Construct a USR for a specified Objective-C protocol.
   CXString clang_constructUSR_ObjCProtocol(
@@ -3156,8 +3006,8 @@ class LibClang {
 
   late final _clang_constructUSR_ObjCProtocolPtr =
       _lookup<ffi.NativeFunction<CXString Function(ffi.Pointer<ffi.Char>)>>(
-        'clang_constructUSR_ObjCProtocol',
-      );
+    'clang_constructUSR_ObjCProtocol',
+  );
   late final _clang_constructUSR_ObjCProtocol =
       _clang_constructUSR_ObjCProtocolPtr
           .asFunction<CXString Function(ffi.Pointer<ffi.Char>)>();
@@ -3171,10 +3021,10 @@ class LibClang {
     return _clang_constructUSR_ObjCIvar(name, classUSR);
   }
 
-  late final _clang_constructUSR_ObjCIvarPtr =
-      _lookup<
-        ffi.NativeFunction<CXString Function(ffi.Pointer<ffi.Char>, CXString)>
-      >('clang_constructUSR_ObjCIvar');
+  late final _clang_constructUSR_ObjCIvarPtr = _lookup<
+          ffi
+          .NativeFunction<CXString Function(ffi.Pointer<ffi.Char>, CXString)>>(
+      'clang_constructUSR_ObjCIvar');
   late final _clang_constructUSR_ObjCIvar = _clang_constructUSR_ObjCIvarPtr
       .asFunction<CXString Function(ffi.Pointer<ffi.Char>, CXString)>();
 
@@ -3188,12 +3038,10 @@ class LibClang {
     return _clang_constructUSR_ObjCMethod(name, isInstanceMethod, classUSR);
   }
 
-  late final _clang_constructUSR_ObjCMethodPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(ffi.Pointer<ffi.Char>, ffi.UnsignedInt, CXString)
-        >
-      >('clang_constructUSR_ObjCMethod');
+  late final _clang_constructUSR_ObjCMethodPtr = _lookup<
+      ffi.NativeFunction<
+          CXString Function(ffi.Pointer<ffi.Char>, ffi.UnsignedInt,
+              CXString)>>('clang_constructUSR_ObjCMethod');
   late final _clang_constructUSR_ObjCMethod = _clang_constructUSR_ObjCMethodPtr
       .asFunction<CXString Function(ffi.Pointer<ffi.Char>, int, CXString)>();
 
@@ -3206,10 +3054,10 @@ class LibClang {
     return _clang_constructUSR_ObjCProperty(property, classUSR);
   }
 
-  late final _clang_constructUSR_ObjCPropertyPtr =
-      _lookup<
-        ffi.NativeFunction<CXString Function(ffi.Pointer<ffi.Char>, CXString)>
-      >('clang_constructUSR_ObjCProperty');
+  late final _clang_constructUSR_ObjCPropertyPtr = _lookup<
+          ffi
+          .NativeFunction<CXString Function(ffi.Pointer<ffi.Char>, CXString)>>(
+      'clang_constructUSR_ObjCProperty');
   late final _clang_constructUSR_ObjCProperty =
       _clang_constructUSR_ObjCPropertyPtr
           .asFunction<CXString Function(ffi.Pointer<ffi.Char>, CXString)>();
@@ -3221,10 +3069,10 @@ class LibClang {
 
   late final _clang_getCursorSpellingPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_getCursorSpelling',
-      );
-  late final _clang_getCursorSpelling = _clang_getCursorSpellingPtr
-      .asFunction<CXString Function(CXCursor)>();
+    'clang_getCursorSpelling',
+  );
+  late final _clang_getCursorSpelling =
+      _clang_getCursorSpellingPtr.asFunction<CXString Function(CXCursor)>();
 
   /// Retrieve a range for a piece that forms the cursors spelling name. Most of
   /// the times there is only one range for the complete spelling but for
@@ -3238,12 +3086,10 @@ class LibClang {
     return _clang_Cursor_getSpellingNameRange(arg0, pieceIndex, options);
   }
 
-  late final _clang_Cursor_getSpellingNameRangePtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXSourceRange Function(CXCursor, ffi.UnsignedInt, ffi.UnsignedInt)
-        >
-      >('clang_Cursor_getSpellingNameRange');
+  late final _clang_Cursor_getSpellingNameRangePtr = _lookup<
+      ffi.NativeFunction<
+          CXSourceRange Function(CXCursor, ffi.UnsignedInt,
+              ffi.UnsignedInt)>>('clang_Cursor_getSpellingNameRange');
   late final _clang_Cursor_getSpellingNameRange =
       _clang_Cursor_getSpellingNameRangePtr
           .asFunction<CXSourceRange Function(CXCursor, int, int)>();
@@ -3256,12 +3102,10 @@ class LibClang {
     return _clang_PrintingPolicy_getProperty(Policy, Property.value);
   }
 
-  late final _clang_PrintingPolicy_getPropertyPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXPrintingPolicy, ffi.UnsignedInt)
-        >
-      >('clang_PrintingPolicy_getProperty');
+  late final _clang_PrintingPolicy_getPropertyPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(CXPrintingPolicy,
+              ffi.UnsignedInt)>>('clang_PrintingPolicy_getProperty');
   late final _clang_PrintingPolicy_getProperty =
       _clang_PrintingPolicy_getPropertyPtr
           .asFunction<int Function(CXPrintingPolicy, int)>();
@@ -3275,12 +3119,10 @@ class LibClang {
     return _clang_PrintingPolicy_setProperty(Policy, Property.value, Value);
   }
 
-  late final _clang_PrintingPolicy_setPropertyPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(CXPrintingPolicy, ffi.UnsignedInt, ffi.UnsignedInt)
-        >
-      >('clang_PrintingPolicy_setProperty');
+  late final _clang_PrintingPolicy_setPropertyPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CXPrintingPolicy, ffi.UnsignedInt,
+              ffi.UnsignedInt)>>('clang_PrintingPolicy_setProperty');
   late final _clang_PrintingPolicy_setProperty =
       _clang_PrintingPolicy_setPropertyPtr
           .asFunction<void Function(CXPrintingPolicy, int, int)>();
@@ -3292,8 +3134,8 @@ class LibClang {
 
   late final _clang_getCursorPrintingPolicyPtr =
       _lookup<ffi.NativeFunction<CXPrintingPolicy Function(CXCursor)>>(
-        'clang_getCursorPrintingPolicy',
-      );
+    'clang_getCursorPrintingPolicy',
+  );
   late final _clang_getCursorPrintingPolicy = _clang_getCursorPrintingPolicyPtr
       .asFunction<CXPrintingPolicy Function(CXCursor)>();
 
@@ -3304,8 +3146,8 @@ class LibClang {
 
   late final _clang_PrintingPolicy_disposePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXPrintingPolicy)>>(
-        'clang_PrintingPolicy_dispose',
-      );
+    'clang_PrintingPolicy_dispose',
+  );
   late final _clang_PrintingPolicy_dispose = _clang_PrintingPolicy_disposePtr
       .asFunction<void Function(CXPrintingPolicy)>();
 
@@ -3317,10 +3159,9 @@ class LibClang {
     return _clang_getCursorPrettyPrinted(Cursor, Policy);
   }
 
-  late final _clang_getCursorPrettyPrintedPtr =
-      _lookup<
-        ffi.NativeFunction<CXString Function(CXCursor, CXPrintingPolicy)>
-      >('clang_getCursorPrettyPrinted');
+  late final _clang_getCursorPrettyPrintedPtr = _lookup<
+          ffi.NativeFunction<CXString Function(CXCursor, CXPrintingPolicy)>>(
+      'clang_getCursorPrettyPrinted');
   late final _clang_getCursorPrettyPrinted = _clang_getCursorPrettyPrintedPtr
       .asFunction<CXString Function(CXCursor, CXPrintingPolicy)>();
 
@@ -3331,10 +3172,10 @@ class LibClang {
 
   late final _clang_getCursorDisplayNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_getCursorDisplayName',
-      );
-  late final _clang_getCursorDisplayName = _clang_getCursorDisplayNamePtr
-      .asFunction<CXString Function(CXCursor)>();
+    'clang_getCursorDisplayName',
+  );
+  late final _clang_getCursorDisplayName =
+      _clang_getCursorDisplayNamePtr.asFunction<CXString Function(CXCursor)>();
 
   /// For a cursor that is a reference, retrieve a cursor representing the
   /// entity that it references.
@@ -3344,10 +3185,10 @@ class LibClang {
 
   late final _clang_getCursorReferencedPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor)>>(
-        'clang_getCursorReferenced',
-      );
-  late final _clang_getCursorReferenced = _clang_getCursorReferencedPtr
-      .asFunction<CXCursor Function(CXCursor)>();
+    'clang_getCursorReferenced',
+  );
+  late final _clang_getCursorReferenced =
+      _clang_getCursorReferencedPtr.asFunction<CXCursor Function(CXCursor)>();
 
   /// For a cursor that is either a reference to or a declaration of some
   /// entity, retrieve a cursor that describes the definition of that entity.
@@ -3357,10 +3198,10 @@ class LibClang {
 
   late final _clang_getCursorDefinitionPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor)>>(
-        'clang_getCursorDefinition',
-      );
-  late final _clang_getCursorDefinition = _clang_getCursorDefinitionPtr
-      .asFunction<CXCursor Function(CXCursor)>();
+    'clang_getCursorDefinition',
+  );
+  late final _clang_getCursorDefinition =
+      _clang_getCursorDefinitionPtr.asFunction<CXCursor Function(CXCursor)>();
 
   /// Determine whether the declaration pointed to by this cursor is also a
   /// definition of that entity.
@@ -3370,10 +3211,10 @@ class LibClang {
 
   late final _clang_isCursorDefinitionPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_isCursorDefinition',
-      );
-  late final _clang_isCursorDefinition = _clang_isCursorDefinitionPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_isCursorDefinition',
+  );
+  late final _clang_isCursorDefinition =
+      _clang_isCursorDefinitionPtr.asFunction<int Function(CXCursor)>();
 
   /// Retrieve the canonical cursor corresponding to the given cursor.
   CXCursor clang_getCanonicalCursor(CXCursor arg0) {
@@ -3382,10 +3223,10 @@ class LibClang {
 
   late final _clang_getCanonicalCursorPtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor)>>(
-        'clang_getCanonicalCursor',
-      );
-  late final _clang_getCanonicalCursor = _clang_getCanonicalCursorPtr
-      .asFunction<CXCursor Function(CXCursor)>();
+    'clang_getCanonicalCursor',
+  );
+  late final _clang_getCanonicalCursor =
+      _clang_getCanonicalCursorPtr.asFunction<CXCursor Function(CXCursor)>();
 
   /// If the cursor points to a selector identifier in an Objective-C method or
   /// message expression, this returns the selector index.
@@ -3395,8 +3236,8 @@ class LibClang {
 
   late final _clang_Cursor_getObjCSelectorIndexPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXCursor)>>(
-        'clang_Cursor_getObjCSelectorIndex',
-      );
+    'clang_Cursor_getObjCSelectorIndex',
+  );
   late final _clang_Cursor_getObjCSelectorIndex =
       _clang_Cursor_getObjCSelectorIndexPtr
           .asFunction<int Function(CXCursor)>();
@@ -3409,10 +3250,10 @@ class LibClang {
 
   late final _clang_Cursor_isDynamicCallPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXCursor)>>(
-        'clang_Cursor_isDynamicCall',
-      );
-  late final _clang_Cursor_isDynamicCall = _clang_Cursor_isDynamicCallPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_isDynamicCall',
+  );
+  late final _clang_Cursor_isDynamicCall =
+      _clang_Cursor_isDynamicCallPtr.asFunction<int Function(CXCursor)>();
 
   /// Given a cursor pointing to an Objective-C message or property reference,
   /// or C++ method call, returns the CXType of the receiver.
@@ -3422,10 +3263,10 @@ class LibClang {
 
   late final _clang_Cursor_getReceiverTypePtr =
       _lookup<ffi.NativeFunction<CXType Function(CXCursor)>>(
-        'clang_Cursor_getReceiverType',
-      );
-  late final _clang_Cursor_getReceiverType = _clang_Cursor_getReceiverTypePtr
-      .asFunction<CXType Function(CXCursor)>();
+    'clang_Cursor_getReceiverType',
+  );
+  late final _clang_Cursor_getReceiverType =
+      _clang_Cursor_getReceiverTypePtr.asFunction<CXType Function(CXCursor)>();
 
   /// Given a cursor that represents a property declaration, return the
   /// associated property attributes. The bits are formed from
@@ -3434,10 +3275,10 @@ class LibClang {
     return _clang_Cursor_getObjCPropertyAttributes(C, reserved);
   }
 
-  late final _clang_Cursor_getObjCPropertyAttributesPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor, ffi.UnsignedInt)>
-      >('clang_Cursor_getObjCPropertyAttributes');
+  late final _clang_Cursor_getObjCPropertyAttributesPtr = _lookup<
+          ffi
+          .NativeFunction<ffi.UnsignedInt Function(CXCursor, ffi.UnsignedInt)>>(
+      'clang_Cursor_getObjCPropertyAttributes');
   late final _clang_Cursor_getObjCPropertyAttributes =
       _clang_Cursor_getObjCPropertyAttributesPtr
           .asFunction<int Function(CXCursor, int)>();
@@ -3450,8 +3291,8 @@ class LibClang {
 
   late final _clang_Cursor_getObjCPropertyGetterNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_Cursor_getObjCPropertyGetterName',
-      );
+    'clang_Cursor_getObjCPropertyGetterName',
+  );
   late final _clang_Cursor_getObjCPropertyGetterName =
       _clang_Cursor_getObjCPropertyGetterNamePtr
           .asFunction<CXString Function(CXCursor)>();
@@ -3464,8 +3305,8 @@ class LibClang {
 
   late final _clang_Cursor_getObjCPropertySetterNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_Cursor_getObjCPropertySetterName',
-      );
+    'clang_Cursor_getObjCPropertySetterName',
+  );
   late final _clang_Cursor_getObjCPropertySetterName =
       _clang_Cursor_getObjCPropertySetterNamePtr
           .asFunction<CXString Function(CXCursor)>();
@@ -3480,8 +3321,8 @@ class LibClang {
 
   late final _clang_Cursor_getObjCDeclQualifiersPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_getObjCDeclQualifiers',
-      );
+    'clang_Cursor_getObjCDeclQualifiers',
+  );
   late final _clang_Cursor_getObjCDeclQualifiers =
       _clang_Cursor_getObjCDeclQualifiersPtr
           .asFunction<int Function(CXCursor)>();
@@ -3496,10 +3337,10 @@ class LibClang {
 
   late final _clang_Cursor_isObjCOptionalPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isObjCOptional',
-      );
-  late final _clang_Cursor_isObjCOptional = _clang_Cursor_isObjCOptionalPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_isObjCOptional',
+  );
+  late final _clang_Cursor_isObjCOptional =
+      _clang_Cursor_isObjCOptionalPtr.asFunction<int Function(CXCursor)>();
 
   /// Returns non-zero if the given cursor is a variadic function or method.
   int clang_Cursor_isVariadic(CXCursor C) {
@@ -3508,10 +3349,10 @@ class LibClang {
 
   late final _clang_Cursor_isVariadicPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_Cursor_isVariadic',
-      );
-  late final _clang_Cursor_isVariadic = _clang_Cursor_isVariadicPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_Cursor_isVariadic',
+  );
+  late final _clang_Cursor_isVariadic =
+      _clang_Cursor_isVariadicPtr.asFunction<int Function(CXCursor)>();
 
   /// Returns non-zero if the given cursor points to a symbol marked with
   /// external_source_symbol attribute.
@@ -3524,26 +3365,22 @@ class LibClang {
     return _clang_Cursor_isExternalSymbol(C, language, definedIn, isGenerated);
   }
 
-  late final _clang_Cursor_isExternalSymbolPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_Cursor_isExternalSymbolPtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXCursor,
             ffi.Pointer<CXString>,
             ffi.Pointer<CXString>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_Cursor_isExternalSymbol');
-  late final _clang_Cursor_isExternalSymbol = _clang_Cursor_isExternalSymbolPtr
-      .asFunction<
-        int Function(
-          CXCursor,
-          ffi.Pointer<CXString>,
-          ffi.Pointer<CXString>,
-          ffi.Pointer<ffi.UnsignedInt>,
-        )
-      >();
+          )>>('clang_Cursor_isExternalSymbol');
+  late final _clang_Cursor_isExternalSymbol =
+      _clang_Cursor_isExternalSymbolPtr.asFunction<
+          int Function(
+            CXCursor,
+            ffi.Pointer<CXString>,
+            ffi.Pointer<CXString>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Given a cursor that represents a declaration, return the associated
   /// comment's source range. The range may include multiple consecutive
@@ -3554,8 +3391,8 @@ class LibClang {
 
   late final _clang_Cursor_getCommentRangePtr =
       _lookup<ffi.NativeFunction<CXSourceRange Function(CXCursor)>>(
-        'clang_Cursor_getCommentRange',
-      );
+    'clang_Cursor_getCommentRange',
+  );
   late final _clang_Cursor_getCommentRange = _clang_Cursor_getCommentRangePtr
       .asFunction<CXSourceRange Function(CXCursor)>();
 
@@ -3567,8 +3404,8 @@ class LibClang {
 
   late final _clang_Cursor_getRawCommentTextPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_Cursor_getRawCommentText',
-      );
+    'clang_Cursor_getRawCommentText',
+  );
   late final _clang_Cursor_getRawCommentText =
       _clang_Cursor_getRawCommentTextPtr
           .asFunction<CXString Function(CXCursor)>();
@@ -3581,8 +3418,8 @@ class LibClang {
 
   late final _clang_Cursor_getBriefCommentTextPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_Cursor_getBriefCommentText',
-      );
+    'clang_Cursor_getBriefCommentText',
+  );
   late final _clang_Cursor_getBriefCommentText =
       _clang_Cursor_getBriefCommentTextPtr
           .asFunction<CXString Function(CXCursor)>();
@@ -3594,10 +3431,10 @@ class LibClang {
 
   late final _clang_Cursor_getManglingPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCursor)>>(
-        'clang_Cursor_getMangling',
-      );
-  late final _clang_Cursor_getMangling = _clang_Cursor_getManglingPtr
-      .asFunction<CXString Function(CXCursor)>();
+    'clang_Cursor_getMangling',
+  );
+  late final _clang_Cursor_getMangling =
+      _clang_Cursor_getManglingPtr.asFunction<CXString Function(CXCursor)>();
 
   /// Retrieve the CXStrings representing the mangled symbols of the C++
   /// constructor or destructor at the cursor.
@@ -3607,8 +3444,8 @@ class LibClang {
 
   late final _clang_Cursor_getCXXManglingsPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<CXStringSet> Function(CXCursor)>>(
-        'clang_Cursor_getCXXManglings',
-      );
+    'clang_Cursor_getCXXManglings',
+  );
   late final _clang_Cursor_getCXXManglings = _clang_Cursor_getCXXManglingsPtr
       .asFunction<ffi.Pointer<CXStringSet> Function(CXCursor)>();
 
@@ -3620,8 +3457,8 @@ class LibClang {
 
   late final _clang_Cursor_getObjCManglingsPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<CXStringSet> Function(CXCursor)>>(
-        'clang_Cursor_getObjCManglings',
-      );
+    'clang_Cursor_getObjCManglings',
+  );
   late final _clang_Cursor_getObjCManglings = _clang_Cursor_getObjCManglingsPtr
       .asFunction<ffi.Pointer<CXStringSet> Function(CXCursor)>();
 
@@ -3632,10 +3469,10 @@ class LibClang {
 
   late final _clang_Cursor_getModulePtr =
       _lookup<ffi.NativeFunction<CXModule Function(CXCursor)>>(
-        'clang_Cursor_getModule',
-      );
-  late final _clang_Cursor_getModule = _clang_Cursor_getModulePtr
-      .asFunction<CXModule Function(CXCursor)>();
+    'clang_Cursor_getModule',
+  );
+  late final _clang_Cursor_getModule =
+      _clang_Cursor_getModulePtr.asFunction<CXModule Function(CXCursor)>();
 
   /// Given a CXFile header file, return the module that contains it, if one
   /// exists.
@@ -3645,8 +3482,8 @@ class LibClang {
 
   late final _clang_getModuleForFilePtr =
       _lookup<ffi.NativeFunction<CXModule Function(CXTranslationUnit, CXFile)>>(
-        'clang_getModuleForFile',
-      );
+    'clang_getModuleForFile',
+  );
   late final _clang_getModuleForFile = _clang_getModuleForFilePtr
       .asFunction<CXModule Function(CXTranslationUnit, CXFile)>();
 
@@ -3657,10 +3494,10 @@ class LibClang {
 
   late final _clang_Module_getASTFilePtr =
       _lookup<ffi.NativeFunction<CXFile Function(CXModule)>>(
-        'clang_Module_getASTFile',
-      );
-  late final _clang_Module_getASTFile = _clang_Module_getASTFilePtr
-      .asFunction<CXFile Function(CXModule)>();
+    'clang_Module_getASTFile',
+  );
+  late final _clang_Module_getASTFile =
+      _clang_Module_getASTFilePtr.asFunction<CXFile Function(CXModule)>();
 
   /// Returns the parent of a sub-module or NULL if the given module is
   /// top-level, e.g. for 'std.vector' it will return the 'std' module.
@@ -3670,10 +3507,10 @@ class LibClang {
 
   late final _clang_Module_getParentPtr =
       _lookup<ffi.NativeFunction<CXModule Function(CXModule)>>(
-        'clang_Module_getParent',
-      );
-  late final _clang_Module_getParent = _clang_Module_getParentPtr
-      .asFunction<CXModule Function(CXModule)>();
+    'clang_Module_getParent',
+  );
+  late final _clang_Module_getParent =
+      _clang_Module_getParentPtr.asFunction<CXModule Function(CXModule)>();
 
   /// Returns the name of the module, e.g. for the 'std.vector' sub-module it
   /// will return "vector".
@@ -3683,10 +3520,10 @@ class LibClang {
 
   late final _clang_Module_getNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXModule)>>(
-        'clang_Module_getName',
-      );
-  late final _clang_Module_getName = _clang_Module_getNamePtr
-      .asFunction<CXString Function(CXModule)>();
+    'clang_Module_getName',
+  );
+  late final _clang_Module_getName =
+      _clang_Module_getNamePtr.asFunction<CXString Function(CXModule)>();
 
   /// Returns the full name of the module, e.g. "std.vector".
   CXString clang_Module_getFullName(CXModule Module) {
@@ -3695,10 +3532,10 @@ class LibClang {
 
   late final _clang_Module_getFullNamePtr =
       _lookup<ffi.NativeFunction<CXString Function(CXModule)>>(
-        'clang_Module_getFullName',
-      );
-  late final _clang_Module_getFullName = _clang_Module_getFullNamePtr
-      .asFunction<CXString Function(CXModule)>();
+    'clang_Module_getFullName',
+  );
+  late final _clang_Module_getFullName =
+      _clang_Module_getFullNamePtr.asFunction<CXString Function(CXModule)>();
 
   /// Returns non-zero if the module is a system one.
   int clang_Module_isSystem(CXModule Module) {
@@ -3707,10 +3544,10 @@ class LibClang {
 
   late final _clang_Module_isSystemPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXModule)>>(
-        'clang_Module_isSystem',
-      );
-  late final _clang_Module_isSystem = _clang_Module_isSystemPtr
-      .asFunction<int Function(CXModule)>();
+    'clang_Module_isSystem',
+  );
+  late final _clang_Module_isSystem =
+      _clang_Module_isSystemPtr.asFunction<int Function(CXModule)>();
 
   /// Returns the number of top level headers associated with this module.
   int clang_Module_getNumTopLevelHeaders(
@@ -3720,12 +3557,10 @@ class LibClang {
     return _clang_Module_getNumTopLevelHeaders(arg0, Module);
   }
 
-  late final _clang_Module_getNumTopLevelHeadersPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXTranslationUnit, CXModule)
-        >
-      >('clang_Module_getNumTopLevelHeaders');
+  late final _clang_Module_getNumTopLevelHeadersPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(CXTranslationUnit,
+              CXModule)>>('clang_Module_getNumTopLevelHeaders');
   late final _clang_Module_getNumTopLevelHeaders =
       _clang_Module_getNumTopLevelHeadersPtr
           .asFunction<int Function(CXTranslationUnit, CXModule)>();
@@ -3739,12 +3574,10 @@ class LibClang {
     return _clang_Module_getTopLevelHeader(arg0, Module, Index);
   }
 
-  late final _clang_Module_getTopLevelHeaderPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXFile Function(CXTranslationUnit, CXModule, ffi.UnsignedInt)
-        >
-      >('clang_Module_getTopLevelHeader');
+  late final _clang_Module_getTopLevelHeaderPtr = _lookup<
+      ffi.NativeFunction<
+          CXFile Function(CXTranslationUnit, CXModule,
+              ffi.UnsignedInt)>>('clang_Module_getTopLevelHeader');
   late final _clang_Module_getTopLevelHeader =
       _clang_Module_getTopLevelHeaderPtr
           .asFunction<CXFile Function(CXTranslationUnit, CXModule, int)>();
@@ -3756,8 +3589,8 @@ class LibClang {
 
   late final _clang_CXXConstructor_isConvertingConstructorPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXConstructor_isConvertingConstructor',
-      );
+    'clang_CXXConstructor_isConvertingConstructor',
+  );
   late final _clang_CXXConstructor_isConvertingConstructor =
       _clang_CXXConstructor_isConvertingConstructorPtr
           .asFunction<int Function(CXCursor)>();
@@ -3769,8 +3602,8 @@ class LibClang {
 
   late final _clang_CXXConstructor_isCopyConstructorPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXConstructor_isCopyConstructor',
-      );
+    'clang_CXXConstructor_isCopyConstructor',
+  );
   late final _clang_CXXConstructor_isCopyConstructor =
       _clang_CXXConstructor_isCopyConstructorPtr
           .asFunction<int Function(CXCursor)>();
@@ -3782,8 +3615,8 @@ class LibClang {
 
   late final _clang_CXXConstructor_isDefaultConstructorPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXConstructor_isDefaultConstructor',
-      );
+    'clang_CXXConstructor_isDefaultConstructor',
+  );
   late final _clang_CXXConstructor_isDefaultConstructor =
       _clang_CXXConstructor_isDefaultConstructorPtr
           .asFunction<int Function(CXCursor)>();
@@ -3795,8 +3628,8 @@ class LibClang {
 
   late final _clang_CXXConstructor_isMoveConstructorPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXConstructor_isMoveConstructor',
-      );
+    'clang_CXXConstructor_isMoveConstructor',
+  );
   late final _clang_CXXConstructor_isMoveConstructor =
       _clang_CXXConstructor_isMoveConstructorPtr
           .asFunction<int Function(CXCursor)>();
@@ -3808,10 +3641,10 @@ class LibClang {
 
   late final _clang_CXXField_isMutablePtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXField_isMutable',
-      );
-  late final _clang_CXXField_isMutable = _clang_CXXField_isMutablePtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_CXXField_isMutable',
+  );
+  late final _clang_CXXField_isMutable =
+      _clang_CXXField_isMutablePtr.asFunction<int Function(CXCursor)>();
 
   /// Determine if a C++ method is declared '= default'.
   int clang_CXXMethod_isDefaulted(CXCursor C) {
@@ -3820,10 +3653,10 @@ class LibClang {
 
   late final _clang_CXXMethod_isDefaultedPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXMethod_isDefaulted',
-      );
-  late final _clang_CXXMethod_isDefaulted = _clang_CXXMethod_isDefaultedPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_CXXMethod_isDefaulted',
+  );
+  late final _clang_CXXMethod_isDefaulted =
+      _clang_CXXMethod_isDefaultedPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine if a C++ member function or member function template is pure
   /// virtual.
@@ -3833,10 +3666,10 @@ class LibClang {
 
   late final _clang_CXXMethod_isPureVirtualPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXMethod_isPureVirtual',
-      );
-  late final _clang_CXXMethod_isPureVirtual = _clang_CXXMethod_isPureVirtualPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_CXXMethod_isPureVirtual',
+  );
+  late final _clang_CXXMethod_isPureVirtual =
+      _clang_CXXMethod_isPureVirtualPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine if a C++ member function or member function template is declared
   /// 'static'.
@@ -3846,10 +3679,10 @@ class LibClang {
 
   late final _clang_CXXMethod_isStaticPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXMethod_isStatic',
-      );
-  late final _clang_CXXMethod_isStatic = _clang_CXXMethod_isStaticPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_CXXMethod_isStatic',
+  );
+  late final _clang_CXXMethod_isStatic =
+      _clang_CXXMethod_isStaticPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine if a C++ member function or member function template is
   /// explicitly declared 'virtual' or if it overrides a virtual method from one
@@ -3860,10 +3693,10 @@ class LibClang {
 
   late final _clang_CXXMethod_isVirtualPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXMethod_isVirtual',
-      );
-  late final _clang_CXXMethod_isVirtual = _clang_CXXMethod_isVirtualPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_CXXMethod_isVirtual',
+  );
+  late final _clang_CXXMethod_isVirtual =
+      _clang_CXXMethod_isVirtualPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine if a C++ record is abstract, i.e. whether a class or struct has
   /// a pure virtual member function.
@@ -3873,10 +3706,10 @@ class LibClang {
 
   late final _clang_CXXRecord_isAbstractPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXRecord_isAbstract',
-      );
-  late final _clang_CXXRecord_isAbstract = _clang_CXXRecord_isAbstractPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_CXXRecord_isAbstract',
+  );
+  late final _clang_CXXRecord_isAbstract =
+      _clang_CXXRecord_isAbstractPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine if an enum declaration refers to a scoped enum.
   int clang_EnumDecl_isScoped(CXCursor C) {
@@ -3885,10 +3718,10 @@ class LibClang {
 
   late final _clang_EnumDecl_isScopedPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_EnumDecl_isScoped',
-      );
-  late final _clang_EnumDecl_isScoped = _clang_EnumDecl_isScopedPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_EnumDecl_isScoped',
+  );
+  late final _clang_EnumDecl_isScoped =
+      _clang_EnumDecl_isScopedPtr.asFunction<int Function(CXCursor)>();
 
   /// Determine if a C++ member function or member function template is declared
   /// 'const'.
@@ -3898,10 +3731,10 @@ class LibClang {
 
   late final _clang_CXXMethod_isConstPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_CXXMethod_isConst',
-      );
-  late final _clang_CXXMethod_isConst = _clang_CXXMethod_isConstPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_CXXMethod_isConst',
+  );
+  late final _clang_CXXMethod_isConst =
+      _clang_CXXMethod_isConstPtr.asFunction<int Function(CXCursor)>();
 
   /// Given a cursor that represents a template, determine the cursor kind of
   /// the specializations would be generated by instantiating the template.
@@ -3911,10 +3744,10 @@ class LibClang {
 
   late final _clang_getTemplateCursorKindPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_getTemplateCursorKind',
-      );
-  late final _clang_getTemplateCursorKind = _clang_getTemplateCursorKindPtr
-      .asFunction<int Function(CXCursor)>();
+    'clang_getTemplateCursorKind',
+  );
+  late final _clang_getTemplateCursorKind =
+      _clang_getTemplateCursorKindPtr.asFunction<int Function(CXCursor)>();
 
   /// Given a cursor that may represent a specialization or instantiation of a
   /// template, retrieve the cursor that represents the template that it
@@ -3925,8 +3758,8 @@ class LibClang {
 
   late final _clang_getSpecializedCursorTemplatePtr =
       _lookup<ffi.NativeFunction<CXCursor Function(CXCursor)>>(
-        'clang_getSpecializedCursorTemplate',
-      );
+    'clang_getSpecializedCursorTemplate',
+  );
   late final _clang_getSpecializedCursorTemplate =
       _clang_getSpecializedCursorTemplatePtr
           .asFunction<CXCursor Function(CXCursor)>();
@@ -3941,12 +3774,10 @@ class LibClang {
     return _clang_getCursorReferenceNameRange(C, NameFlags, PieceIndex);
   }
 
-  late final _clang_getCursorReferenceNameRangePtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXSourceRange Function(CXCursor, ffi.UnsignedInt, ffi.UnsignedInt)
-        >
-      >('clang_getCursorReferenceNameRange');
+  late final _clang_getCursorReferenceNameRangePtr = _lookup<
+      ffi.NativeFunction<
+          CXSourceRange Function(CXCursor, ffi.UnsignedInt,
+              ffi.UnsignedInt)>>('clang_getCursorReferenceNameRange');
   late final _clang_getCursorReferenceNameRange =
       _clang_getCursorReferenceNameRangePtr
           .asFunction<CXSourceRange Function(CXCursor, int, int)>();
@@ -3959,16 +3790,12 @@ class LibClang {
     return _clang_getToken(TU, Location);
   }
 
-  late final _clang_getTokenPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Pointer<CXToken> Function(CXTranslationUnit, CXSourceLocation)
-        >
-      >('clang_getToken');
-  late final _clang_getToken = _clang_getTokenPtr
-      .asFunction<
-        ffi.Pointer<CXToken> Function(CXTranslationUnit, CXSourceLocation)
-      >();
+  late final _clang_getTokenPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<CXToken> Function(
+              CXTranslationUnit, CXSourceLocation)>>('clang_getToken');
+  late final _clang_getToken = _clang_getTokenPtr.asFunction<
+      ffi.Pointer<CXToken> Function(CXTranslationUnit, CXSourceLocation)>();
 
   /// Determine the kind of the given token.
   CXTokenKind clang_getTokenKind(CXToken arg0) {
@@ -3977,20 +3804,19 @@ class LibClang {
 
   late final _clang_getTokenKindPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXToken)>>(
-        'clang_getTokenKind',
-      );
-  late final _clang_getTokenKind = _clang_getTokenKindPtr
-      .asFunction<int Function(CXToken)>();
+    'clang_getTokenKind',
+  );
+  late final _clang_getTokenKind =
+      _clang_getTokenKindPtr.asFunction<int Function(CXToken)>();
 
   /// Determine the spelling of the given token.
   CXString clang_getTokenSpelling(CXTranslationUnit arg0, CXToken arg1) {
     return _clang_getTokenSpelling(arg0, arg1);
   }
 
-  late final _clang_getTokenSpellingPtr =
-      _lookup<
-        ffi.NativeFunction<CXString Function(CXTranslationUnit, CXToken)>
-      >('clang_getTokenSpelling');
+  late final _clang_getTokenSpellingPtr = _lookup<
+          ffi.NativeFunction<CXString Function(CXTranslationUnit, CXToken)>>(
+      'clang_getTokenSpelling');
   late final _clang_getTokenSpelling = _clang_getTokenSpellingPtr
       .asFunction<CXString Function(CXTranslationUnit, CXToken)>();
 
@@ -4002,12 +3828,10 @@ class LibClang {
     return _clang_getTokenLocation(arg0, arg1);
   }
 
-  late final _clang_getTokenLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXSourceLocation Function(CXTranslationUnit, CXToken)
-        >
-      >('clang_getTokenLocation');
+  late final _clang_getTokenLocationPtr = _lookup<
+      ffi.NativeFunction<
+          CXSourceLocation Function(
+              CXTranslationUnit, CXToken)>>('clang_getTokenLocation');
   late final _clang_getTokenLocation = _clang_getTokenLocationPtr
       .asFunction<CXSourceLocation Function(CXTranslationUnit, CXToken)>();
 
@@ -4016,10 +3840,10 @@ class LibClang {
     return _clang_getTokenExtent(arg0, arg1);
   }
 
-  late final _clang_getTokenExtentPtr =
-      _lookup<
-        ffi.NativeFunction<CXSourceRange Function(CXTranslationUnit, CXToken)>
-      >('clang_getTokenExtent');
+  late final _clang_getTokenExtentPtr = _lookup<
+          ffi
+          .NativeFunction<CXSourceRange Function(CXTranslationUnit, CXToken)>>(
+      'clang_getTokenExtent');
   late final _clang_getTokenExtent = _clang_getTokenExtentPtr
       .asFunction<CXSourceRange Function(CXTranslationUnit, CXToken)>();
 
@@ -4034,26 +3858,21 @@ class LibClang {
     return _clang_tokenize(TU, Range, Tokens, NumTokens);
   }
 
-  late final _clang_tokenizePtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_tokenizePtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXTranslationUnit,
             CXSourceRange,
             ffi.Pointer<ffi.Pointer<CXToken>>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_tokenize');
-  late final _clang_tokenize = _clang_tokenizePtr
-      .asFunction<
-        void Function(
-          CXTranslationUnit,
-          CXSourceRange,
-          ffi.Pointer<ffi.Pointer<CXToken>>,
-          ffi.Pointer<ffi.UnsignedInt>,
-        )
-      >();
+          )>>('clang_tokenize');
+  late final _clang_tokenize = _clang_tokenizePtr.asFunction<
+      void Function(
+        CXTranslationUnit,
+        CXSourceRange,
+        ffi.Pointer<ffi.Pointer<CXToken>>,
+        ffi.Pointer<ffi.UnsignedInt>,
+      )>();
 
   /// Annotate the given set of tokens by providing cursors for each token that
   /// can be mapped to a specific entity within the abstract syntax tree.
@@ -4066,26 +3885,21 @@ class LibClang {
     return _clang_annotateTokens(TU, Tokens, NumTokens, Cursors);
   }
 
-  late final _clang_annotateTokensPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_annotateTokensPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXTranslationUnit,
             ffi.Pointer<CXToken>,
             ffi.UnsignedInt,
             ffi.Pointer<CXCursor>,
-          )
-        >
-      >('clang_annotateTokens');
-  late final _clang_annotateTokens = _clang_annotateTokensPtr
-      .asFunction<
-        void Function(
-          CXTranslationUnit,
-          ffi.Pointer<CXToken>,
-          int,
-          ffi.Pointer<CXCursor>,
-        )
-      >();
+          )>>('clang_annotateTokens');
+  late final _clang_annotateTokens = _clang_annotateTokensPtr.asFunction<
+      void Function(
+        CXTranslationUnit,
+        ffi.Pointer<CXToken>,
+        int,
+        ffi.Pointer<CXCursor>,
+      )>();
 
   /// Free the given set of tokens.
   void clang_disposeTokens(
@@ -4096,20 +3910,15 @@ class LibClang {
     return _clang_disposeTokens(TU, Tokens, NumTokens);
   }
 
-  late final _clang_disposeTokensPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_disposeTokensPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXTranslationUnit,
             ffi.Pointer<CXToken>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_disposeTokens');
-  late final _clang_disposeTokens = _clang_disposeTokensPtr
-      .asFunction<
-        void Function(CXTranslationUnit, ffi.Pointer<CXToken>, int)
-      >();
+          )>>('clang_disposeTokens');
+  late final _clang_disposeTokens = _clang_disposeTokensPtr.asFunction<
+      void Function(CXTranslationUnit, ffi.Pointer<CXToken>, int)>();
 
   /// These routines are used for testing and debugging, only, and should not be
   /// relied upon.
@@ -4119,10 +3928,10 @@ class LibClang {
 
   late final _clang_getCursorKindSpellingPtr =
       _lookup<ffi.NativeFunction<CXString Function(ffi.UnsignedInt)>>(
-        'clang_getCursorKindSpelling',
-      );
-  late final _clang_getCursorKindSpelling = _clang_getCursorKindSpellingPtr
-      .asFunction<CXString Function(int)>();
+    'clang_getCursorKindSpelling',
+  );
+  late final _clang_getCursorKindSpelling =
+      _clang_getCursorKindSpellingPtr.asFunction<CXString Function(int)>();
 
   void clang_getDefinitionSpellingAndExtent(
     CXCursor arg0,
@@ -4144,9 +3953,8 @@ class LibClang {
     );
   }
 
-  late final _clang_getDefinitionSpellingAndExtentPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getDefinitionSpellingAndExtentPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXCursor,
             ffi.Pointer<ffi.Pointer<ffi.Char>>,
@@ -4155,22 +3963,18 @@ class LibClang {
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_getDefinitionSpellingAndExtent');
+          )>>('clang_getDefinitionSpellingAndExtent');
   late final _clang_getDefinitionSpellingAndExtent =
-      _clang_getDefinitionSpellingAndExtentPtr
-          .asFunction<
-            void Function(
-              CXCursor,
-              ffi.Pointer<ffi.Pointer<ffi.Char>>,
-              ffi.Pointer<ffi.Pointer<ffi.Char>>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-            )
-          >();
+      _clang_getDefinitionSpellingAndExtentPtr.asFunction<
+          void Function(
+            CXCursor,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   void clang_enableStackTraces() {
     return _clang_enableStackTraces();
@@ -4178,42 +3982,35 @@ class LibClang {
 
   late final _clang_enableStackTracesPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function()>>(
-        'clang_enableStackTraces',
-      );
-  late final _clang_enableStackTraces = _clang_enableStackTracesPtr
-      .asFunction<void Function()>();
+    'clang_enableStackTraces',
+  );
+  late final _clang_enableStackTraces =
+      _clang_enableStackTracesPtr.asFunction<void Function()>();
 
   void clang_executeOnThread(
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
-    fn,
+        fn,
     ffi.Pointer<ffi.Void> user_data,
     int stack_size,
   ) {
     return _clang_executeOnThread(fn, user_data, stack_size);
   }
 
-  late final _clang_executeOnThreadPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_executeOnThreadPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
-            >,
+                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>,
             ffi.Pointer<ffi.Void>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_executeOnThread');
-  late final _clang_executeOnThread = _clang_executeOnThreadPtr
-      .asFunction<
-        void Function(
-          ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
-          >,
-          ffi.Pointer<ffi.Void>,
-          int,
-        )
-      >();
+          )>>('clang_executeOnThread');
+  late final _clang_executeOnThread = _clang_executeOnThreadPtr.asFunction<
+      void Function(
+        ffi.Pointer<
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>,
+        ffi.Pointer<ffi.Void>,
+        int,
+      )>();
 
   /// Determine the kind of a particular chunk within a completion string.
   CXCompletionChunkKind clang_getCompletionChunkKind(
@@ -4225,12 +4022,10 @@ class LibClang {
     );
   }
 
-  late final _clang_getCompletionChunkKindPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXCompletionString, ffi.UnsignedInt)
-        >
-      >('clang_getCompletionChunkKind');
+  late final _clang_getCompletionChunkKindPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(CXCompletionString,
+              ffi.UnsignedInt)>>('clang_getCompletionChunkKind');
   late final _clang_getCompletionChunkKind = _clang_getCompletionChunkKindPtr
       .asFunction<int Function(CXCompletionString, int)>();
 
@@ -4243,12 +4038,10 @@ class LibClang {
     return _clang_getCompletionChunkText(completion_string, chunk_number);
   }
 
-  late final _clang_getCompletionChunkTextPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(CXCompletionString, ffi.UnsignedInt)
-        >
-      >('clang_getCompletionChunkText');
+  late final _clang_getCompletionChunkTextPtr = _lookup<
+      ffi.NativeFunction<
+          CXString Function(CXCompletionString,
+              ffi.UnsignedInt)>>('clang_getCompletionChunkText');
   late final _clang_getCompletionChunkText = _clang_getCompletionChunkTextPtr
       .asFunction<CXString Function(CXCompletionString, int)>();
 
@@ -4264,12 +4057,10 @@ class LibClang {
     );
   }
 
-  late final _clang_getCompletionChunkCompletionStringPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXCompletionString Function(CXCompletionString, ffi.UnsignedInt)
-        >
-      >('clang_getCompletionChunkCompletionString');
+  late final _clang_getCompletionChunkCompletionStringPtr = _lookup<
+      ffi.NativeFunction<
+          CXCompletionString Function(CXCompletionString,
+              ffi.UnsignedInt)>>('clang_getCompletionChunkCompletionString');
   late final _clang_getCompletionChunkCompletionString =
       _clang_getCompletionChunkCompletionStringPtr
           .asFunction<CXCompletionString Function(CXCompletionString, int)>();
@@ -4281,8 +4072,8 @@ class LibClang {
 
   late final _clang_getNumCompletionChunksPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCompletionString)>>(
-        'clang_getNumCompletionChunks',
-      );
+    'clang_getNumCompletionChunks',
+  );
   late final _clang_getNumCompletionChunks = _clang_getNumCompletionChunksPtr
       .asFunction<int Function(CXCompletionString)>();
 
@@ -4293,8 +4084,8 @@ class LibClang {
 
   late final _clang_getCompletionPriorityPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCompletionString)>>(
-        'clang_getCompletionPriority',
-      );
+    'clang_getCompletionPriority',
+  );
   late final _clang_getCompletionPriority = _clang_getCompletionPriorityPtr
       .asFunction<int Function(CXCompletionString)>();
 
@@ -4310,8 +4101,8 @@ class LibClang {
 
   late final _clang_getCompletionAvailabilityPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCompletionString)>>(
-        'clang_getCompletionAvailability',
-      );
+    'clang_getCompletionAvailability',
+  );
   late final _clang_getCompletionAvailability =
       _clang_getCompletionAvailabilityPtr
           .asFunction<int Function(CXCompletionString)>();
@@ -4324,8 +4115,8 @@ class LibClang {
 
   late final _clang_getCompletionNumAnnotationsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCompletionString)>>(
-        'clang_getCompletionNumAnnotations',
-      );
+    'clang_getCompletionNumAnnotations',
+  );
   late final _clang_getCompletionNumAnnotations =
       _clang_getCompletionNumAnnotationsPtr
           .asFunction<int Function(CXCompletionString)>();
@@ -4338,12 +4129,10 @@ class LibClang {
     return _clang_getCompletionAnnotation(completion_string, annotation_number);
   }
 
-  late final _clang_getCompletionAnnotationPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(CXCompletionString, ffi.UnsignedInt)
-        >
-      >('clang_getCompletionAnnotation');
+  late final _clang_getCompletionAnnotationPtr = _lookup<
+      ffi.NativeFunction<
+          CXString Function(CXCompletionString,
+              ffi.UnsignedInt)>>('clang_getCompletionAnnotation');
   late final _clang_getCompletionAnnotation = _clang_getCompletionAnnotationPtr
       .asFunction<CXString Function(CXCompletionString, int)>();
 
@@ -4355,16 +4144,14 @@ class LibClang {
     return _clang_getCompletionParent(completion_string, kind);
   }
 
-  late final _clang_getCompletionParentPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(CXCompletionString, ffi.Pointer<ffi.UnsignedInt>)
-        >
-      >('clang_getCompletionParent');
-  late final _clang_getCompletionParent = _clang_getCompletionParentPtr
-      .asFunction<
-        CXString Function(CXCompletionString, ffi.Pointer<ffi.UnsignedInt>)
-      >();
+  late final _clang_getCompletionParentPtr = _lookup<
+      ffi.NativeFunction<
+          CXString Function(CXCompletionString,
+              ffi.Pointer<ffi.UnsignedInt>)>>('clang_getCompletionParent');
+  late final _clang_getCompletionParent =
+      _clang_getCompletionParentPtr.asFunction<
+          CXString Function(
+              CXCompletionString, ffi.Pointer<ffi.UnsignedInt>)>();
 
   /// Retrieve the brief documentation comment attached to the declaration that
   /// corresponds to the given completion string.
@@ -4376,8 +4163,8 @@ class LibClang {
 
   late final _clang_getCompletionBriefCommentPtr =
       _lookup<ffi.NativeFunction<CXString Function(CXCompletionString)>>(
-        'clang_getCompletionBriefComment',
-      );
+    'clang_getCompletionBriefComment',
+  );
   late final _clang_getCompletionBriefComment =
       _clang_getCompletionBriefCommentPtr
           .asFunction<CXString Function(CXCompletionString)>();
@@ -4390,8 +4177,8 @@ class LibClang {
 
   late final _clang_getCursorCompletionStringPtr =
       _lookup<ffi.NativeFunction<CXCompletionString Function(CXCursor)>>(
-        'clang_getCursorCompletionString',
-      );
+    'clang_getCursorCompletionString',
+  );
   late final _clang_getCursorCompletionString =
       _clang_getCursorCompletionStringPtr
           .asFunction<CXCompletionString Function(CXCursor)>();
@@ -4404,15 +4191,12 @@ class LibClang {
     return _clang_getCompletionNumFixIts(results, completion_index);
   }
 
-  late final _clang_getCompletionNumFixItsPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getCompletionNumFixItsPtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             ffi.Pointer<CXCodeCompleteResults>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_getCompletionNumFixIts');
+          )>>('clang_getCompletionNumFixIts');
   late final _clang_getCompletionNumFixIts = _clang_getCompletionNumFixItsPtr
       .asFunction<int Function(ffi.Pointer<CXCodeCompleteResults>, int)>();
 
@@ -4432,26 +4216,22 @@ class LibClang {
     );
   }
 
-  late final _clang_getCompletionFixItPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getCompletionFixItPtr = _lookup<
+      ffi.NativeFunction<
           CXString Function(
             ffi.Pointer<CXCodeCompleteResults>,
             ffi.UnsignedInt,
             ffi.UnsignedInt,
             ffi.Pointer<CXSourceRange>,
-          )
-        >
-      >('clang_getCompletionFixIt');
-  late final _clang_getCompletionFixIt = _clang_getCompletionFixItPtr
-      .asFunction<
-        CXString Function(
-          ffi.Pointer<CXCodeCompleteResults>,
-          int,
-          int,
-          ffi.Pointer<CXSourceRange>,
-        )
-      >();
+          )>>('clang_getCompletionFixIt');
+  late final _clang_getCompletionFixIt =
+      _clang_getCompletionFixItPtr.asFunction<
+          CXString Function(
+            ffi.Pointer<CXCodeCompleteResults>,
+            int,
+            int,
+            ffi.Pointer<CXSourceRange>,
+          )>();
 
   /// Returns a default set of code-completion options that can be passed to
   /// clang_codeCompleteAt().
@@ -4461,8 +4241,8 @@ class LibClang {
 
   late final _clang_defaultCodeCompleteOptionsPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function()>>(
-        'clang_defaultCodeCompleteOptions',
-      );
+    'clang_defaultCodeCompleteOptions',
+  );
   late final _clang_defaultCodeCompleteOptions =
       _clang_defaultCodeCompleteOptionsPtr.asFunction<int Function()>();
 
@@ -4487,9 +4267,8 @@ class LibClang {
     );
   }
 
-  late final _clang_codeCompleteAtPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_codeCompleteAtPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXCodeCompleteResults> Function(
             CXTranslationUnit,
             ffi.Pointer<ffi.Char>,
@@ -4498,21 +4277,17 @@ class LibClang {
             ffi.Pointer<CXUnsavedFile>,
             ffi.UnsignedInt,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_codeCompleteAt');
-  late final _clang_codeCompleteAt = _clang_codeCompleteAtPtr
-      .asFunction<
-        ffi.Pointer<CXCodeCompleteResults> Function(
-          CXTranslationUnit,
-          ffi.Pointer<ffi.Char>,
-          int,
-          int,
-          ffi.Pointer<CXUnsavedFile>,
-          int,
-          int,
-        )
-      >();
+          )>>('clang_codeCompleteAt');
+  late final _clang_codeCompleteAt = _clang_codeCompleteAtPtr.asFunction<
+      ffi.Pointer<CXCodeCompleteResults> Function(
+        CXTranslationUnit,
+        ffi.Pointer<ffi.Char>,
+        int,
+        int,
+        ffi.Pointer<CXUnsavedFile>,
+        int,
+        int,
+      )>();
 
   /// Sort the code-completion results in case-insensitive alphabetical order.
   void clang_sortCodeCompletionResults(
@@ -4522,12 +4297,10 @@ class LibClang {
     return _clang_sortCodeCompletionResults(Results, NumResults);
   }
 
-  late final _clang_sortCodeCompletionResultsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CXCompletionResult>, ffi.UnsignedInt)
-        >
-      >('clang_sortCodeCompletionResults');
+  late final _clang_sortCodeCompletionResultsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<CXCompletionResult>,
+              ffi.UnsignedInt)>>('clang_sortCodeCompletionResults');
   late final _clang_sortCodeCompletionResults =
       _clang_sortCodeCompletionResultsPtr
           .asFunction<void Function(ffi.Pointer<CXCompletionResult>, int)>();
@@ -4539,12 +4312,10 @@ class LibClang {
     return _clang_disposeCodeCompleteResults(Results);
   }
 
-  late final _clang_disposeCodeCompleteResultsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CXCodeCompleteResults>)
-        >
-      >('clang_disposeCodeCompleteResults');
+  late final _clang_disposeCodeCompleteResultsPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<CXCodeCompleteResults>)>>(
+      'clang_disposeCodeCompleteResults');
   late final _clang_disposeCodeCompleteResults =
       _clang_disposeCodeCompleteResultsPtr
           .asFunction<void Function(ffi.Pointer<CXCodeCompleteResults>)>();
@@ -4557,12 +4328,10 @@ class LibClang {
     return _clang_codeCompleteGetNumDiagnostics(Results);
   }
 
-  late final _clang_codeCompleteGetNumDiagnosticsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(ffi.Pointer<CXCodeCompleteResults>)
-        >
-      >('clang_codeCompleteGetNumDiagnostics');
+  late final _clang_codeCompleteGetNumDiagnosticsPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.UnsignedInt Function(ffi.Pointer<CXCodeCompleteResults>)>>(
+      'clang_codeCompleteGetNumDiagnostics');
   late final _clang_codeCompleteGetNumDiagnostics =
       _clang_codeCompleteGetNumDiagnosticsPtr
           .asFunction<int Function(ffi.Pointer<CXCodeCompleteResults>)>();
@@ -4575,20 +4344,15 @@ class LibClang {
     return _clang_codeCompleteGetDiagnostic(Results, Index);
   }
 
-  late final _clang_codeCompleteGetDiagnosticPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_codeCompleteGetDiagnosticPtr = _lookup<
+      ffi.NativeFunction<
           CXDiagnostic Function(
             ffi.Pointer<CXCodeCompleteResults>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_codeCompleteGetDiagnostic');
+          )>>('clang_codeCompleteGetDiagnostic');
   late final _clang_codeCompleteGetDiagnostic =
-      _clang_codeCompleteGetDiagnosticPtr
-          .asFunction<
-            CXDiagnostic Function(ffi.Pointer<CXCodeCompleteResults>, int)
-          >();
+      _clang_codeCompleteGetDiagnosticPtr.asFunction<
+          CXDiagnostic Function(ffi.Pointer<CXCodeCompleteResults>, int)>();
 
   /// Determines what completions are appropriate for the context the given code
   /// completion.
@@ -4598,12 +4362,11 @@ class LibClang {
     return _clang_codeCompleteGetContexts(Results);
   }
 
-  late final _clang_codeCompleteGetContextsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedLongLong Function(ffi.Pointer<CXCodeCompleteResults>)
-        >
-      >('clang_codeCompleteGetContexts');
+  late final _clang_codeCompleteGetContextsPtr = _lookup<
+          ffi.NativeFunction<
+              ffi.UnsignedLongLong Function(
+                  ffi.Pointer<CXCodeCompleteResults>)>>(
+      'clang_codeCompleteGetContexts');
   late final _clang_codeCompleteGetContexts = _clang_codeCompleteGetContextsPtr
       .asFunction<int Function(ffi.Pointer<CXCodeCompleteResults>)>();
 
@@ -4620,23 +4383,18 @@ class LibClang {
     );
   }
 
-  late final _clang_codeCompleteGetContainerKindPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_codeCompleteGetContainerKindPtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             ffi.Pointer<CXCodeCompleteResults>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_codeCompleteGetContainerKind');
+          )>>('clang_codeCompleteGetContainerKind');
   late final _clang_codeCompleteGetContainerKind =
-      _clang_codeCompleteGetContainerKindPtr
-          .asFunction<
-            int Function(
-              ffi.Pointer<CXCodeCompleteResults>,
-              ffi.Pointer<ffi.UnsignedInt>,
-            )
-          >();
+      _clang_codeCompleteGetContainerKindPtr.asFunction<
+          int Function(
+            ffi.Pointer<CXCodeCompleteResults>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Returns the USR for the container for the current code completion context.
   /// If there is not a container for the current context, this function will
@@ -4647,12 +4405,10 @@ class LibClang {
     return _clang_codeCompleteGetContainerUSR(Results);
   }
 
-  late final _clang_codeCompleteGetContainerUSRPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(ffi.Pointer<CXCodeCompleteResults>)
-        >
-      >('clang_codeCompleteGetContainerUSR');
+  late final _clang_codeCompleteGetContainerUSRPtr = _lookup<
+          ffi.NativeFunction<
+              CXString Function(ffi.Pointer<CXCodeCompleteResults>)>>(
+      'clang_codeCompleteGetContainerUSR');
   late final _clang_codeCompleteGetContainerUSR =
       _clang_codeCompleteGetContainerUSRPtr
           .asFunction<CXString Function(ffi.Pointer<CXCodeCompleteResults>)>();
@@ -4667,12 +4423,10 @@ class LibClang {
     return _clang_codeCompleteGetObjCSelector(Results);
   }
 
-  late final _clang_codeCompleteGetObjCSelectorPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXString Function(ffi.Pointer<CXCodeCompleteResults>)
-        >
-      >('clang_codeCompleteGetObjCSelector');
+  late final _clang_codeCompleteGetObjCSelectorPtr = _lookup<
+          ffi.NativeFunction<
+              CXString Function(ffi.Pointer<CXCodeCompleteResults>)>>(
+      'clang_codeCompleteGetObjCSelector');
   late final _clang_codeCompleteGetObjCSelector =
       _clang_codeCompleteGetObjCSelectorPtr
           .asFunction<CXString Function(ffi.Pointer<CXCodeCompleteResults>)>();
@@ -4685,8 +4439,8 @@ class LibClang {
 
   late final _clang_getClangVersionPtr =
       _lookup<ffi.NativeFunction<CXString Function()>>('clang_getClangVersion');
-  late final _clang_getClangVersion = _clang_getClangVersionPtr
-      .asFunction<CXString Function()>();
+  late final _clang_getClangVersion =
+      _clang_getClangVersionPtr.asFunction<CXString Function()>();
 
   /// Enable/disable crash recovery.
   void clang_toggleCrashRecovery(int isEnabled) {
@@ -4695,10 +4449,10 @@ class LibClang {
 
   late final _clang_toggleCrashRecoveryPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.UnsignedInt)>>(
-        'clang_toggleCrashRecovery',
-      );
-  late final _clang_toggleCrashRecovery = _clang_toggleCrashRecoveryPtr
-      .asFunction<void Function(int)>();
+    'clang_toggleCrashRecovery',
+  );
+  late final _clang_toggleCrashRecovery =
+      _clang_toggleCrashRecoveryPtr.asFunction<void Function(int)>();
 
   /// Visit the set of preprocessor inclusions in a translation unit. The
   /// visitor function is called with the provided data for every included file.
@@ -4712,16 +4466,12 @@ class LibClang {
     return _clang_getInclusions(tu, visitor, client_data);
   }
 
-  late final _clang_getInclusionsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(CXTranslationUnit, CXInclusionVisitor, CXClientData)
-        >
-      >('clang_getInclusions');
-  late final _clang_getInclusions = _clang_getInclusionsPtr
-      .asFunction<
-        void Function(CXTranslationUnit, CXInclusionVisitor, CXClientData)
-      >();
+  late final _clang_getInclusionsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(CXTranslationUnit, CXInclusionVisitor,
+              CXClientData)>>('clang_getInclusions');
+  late final _clang_getInclusions = _clang_getInclusionsPtr.asFunction<
+      void Function(CXTranslationUnit, CXInclusionVisitor, CXClientData)>();
 
   /// If cursor is a statement declaration tries to evaluate the statement and
   /// if its variable, tries to evaluate its initializer, into its corresponding
@@ -4732,10 +4482,10 @@ class LibClang {
 
   late final _clang_Cursor_EvaluatePtr =
       _lookup<ffi.NativeFunction<CXEvalResult Function(CXCursor)>>(
-        'clang_Cursor_Evaluate',
-      );
-  late final _clang_Cursor_Evaluate = _clang_Cursor_EvaluatePtr
-      .asFunction<CXEvalResult Function(CXCursor)>();
+    'clang_Cursor_Evaluate',
+  );
+  late final _clang_Cursor_Evaluate =
+      _clang_Cursor_EvaluatePtr.asFunction<CXEvalResult Function(CXCursor)>();
 
   /// Returns the kind of the evaluated result.
   CXEvalResultKind clang_EvalResult_getKind(CXEvalResult E) {
@@ -4744,10 +4494,10 @@ class LibClang {
 
   late final _clang_EvalResult_getKindPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXEvalResult)>>(
-        'clang_EvalResult_getKind',
-      );
-  late final _clang_EvalResult_getKind = _clang_EvalResult_getKindPtr
-      .asFunction<int Function(CXEvalResult)>();
+    'clang_EvalResult_getKind',
+  );
+  late final _clang_EvalResult_getKind =
+      _clang_EvalResult_getKindPtr.asFunction<int Function(CXEvalResult)>();
 
   /// Returns the evaluation result as integer if the kind is Int.
   int clang_EvalResult_getAsInt(CXEvalResult E) {
@@ -4756,10 +4506,10 @@ class LibClang {
 
   late final _clang_EvalResult_getAsIntPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(CXEvalResult)>>(
-        'clang_EvalResult_getAsInt',
-      );
-  late final _clang_EvalResult_getAsInt = _clang_EvalResult_getAsIntPtr
-      .asFunction<int Function(CXEvalResult)>();
+    'clang_EvalResult_getAsInt',
+  );
+  late final _clang_EvalResult_getAsInt =
+      _clang_EvalResult_getAsIntPtr.asFunction<int Function(CXEvalResult)>();
 
   /// Returns the evaluation result as a long long integer if the kind is Int.
   /// This prevents overflows that may happen if the result is returned with
@@ -4770,8 +4520,8 @@ class LibClang {
 
   late final _clang_EvalResult_getAsLongLongPtr =
       _lookup<ffi.NativeFunction<ffi.LongLong Function(CXEvalResult)>>(
-        'clang_EvalResult_getAsLongLong',
-      );
+    'clang_EvalResult_getAsLongLong',
+  );
   late final _clang_EvalResult_getAsLongLong =
       _clang_EvalResult_getAsLongLongPtr
           .asFunction<int Function(CXEvalResult)>();
@@ -4784,8 +4534,8 @@ class LibClang {
 
   late final _clang_EvalResult_isUnsignedIntPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXEvalResult)>>(
-        'clang_EvalResult_isUnsignedInt',
-      );
+    'clang_EvalResult_isUnsignedInt',
+  );
   late final _clang_EvalResult_isUnsignedInt =
       _clang_EvalResult_isUnsignedIntPtr
           .asFunction<int Function(CXEvalResult)>();
@@ -4798,8 +4548,8 @@ class LibClang {
 
   late final _clang_EvalResult_getAsUnsignedPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedLongLong Function(CXEvalResult)>>(
-        'clang_EvalResult_getAsUnsigned',
-      );
+    'clang_EvalResult_getAsUnsigned',
+  );
   late final _clang_EvalResult_getAsUnsigned =
       _clang_EvalResult_getAsUnsignedPtr
           .asFunction<int Function(CXEvalResult)>();
@@ -4811,8 +4561,8 @@ class LibClang {
 
   late final _clang_EvalResult_getAsDoublePtr =
       _lookup<ffi.NativeFunction<ffi.Double Function(CXEvalResult)>>(
-        'clang_EvalResult_getAsDouble',
-      );
+    'clang_EvalResult_getAsDouble',
+  );
   late final _clang_EvalResult_getAsDouble = _clang_EvalResult_getAsDoublePtr
       .asFunction<double Function(CXEvalResult)>();
 
@@ -4826,8 +4576,8 @@ class LibClang {
 
   late final _clang_EvalResult_getAsStrPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Char> Function(CXEvalResult)>>(
-        'clang_EvalResult_getAsStr',
-      );
+    'clang_EvalResult_getAsStr',
+  );
   late final _clang_EvalResult_getAsStr = _clang_EvalResult_getAsStrPtr
       .asFunction<ffi.Pointer<ffi.Char> Function(CXEvalResult)>();
 
@@ -4838,10 +4588,10 @@ class LibClang {
 
   late final _clang_EvalResult_disposePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXEvalResult)>>(
-        'clang_EvalResult_dispose',
-      );
-  late final _clang_EvalResult_dispose = _clang_EvalResult_disposePtr
-      .asFunction<void Function(CXEvalResult)>();
+    'clang_EvalResult_dispose',
+  );
+  late final _clang_EvalResult_dispose =
+      _clang_EvalResult_disposePtr.asFunction<void Function(CXEvalResult)>();
 
   /// Retrieve a remapping.
   CXRemapping clang_getRemappings(ffi.Pointer<ffi.Char> path) {
@@ -4850,8 +4600,8 @@ class LibClang {
 
   late final _clang_getRemappingsPtr =
       _lookup<ffi.NativeFunction<CXRemapping Function(ffi.Pointer<ffi.Char>)>>(
-        'clang_getRemappings',
-      );
+    'clang_getRemappings',
+  );
   late final _clang_getRemappings = _clang_getRemappingsPtr
       .asFunction<CXRemapping Function(ffi.Pointer<ffi.Char>)>();
 
@@ -4863,20 +4613,15 @@ class LibClang {
     return _clang_getRemappingsFromFileList(filePaths, numFiles);
   }
 
-  late final _clang_getRemappingsFromFileListPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_getRemappingsFromFileListPtr = _lookup<
+      ffi.NativeFunction<
           CXRemapping Function(
             ffi.Pointer<ffi.Pointer<ffi.Char>>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_getRemappingsFromFileList');
+          )>>('clang_getRemappingsFromFileList');
   late final _clang_getRemappingsFromFileList =
-      _clang_getRemappingsFromFileListPtr
-          .asFunction<
-            CXRemapping Function(ffi.Pointer<ffi.Pointer<ffi.Char>>, int)
-          >();
+      _clang_getRemappingsFromFileListPtr.asFunction<
+          CXRemapping Function(ffi.Pointer<ffi.Pointer<ffi.Char>>, int)>();
 
   /// Determine the number of remappings.
   int clang_remap_getNumFiles(CXRemapping arg0) {
@@ -4885,10 +4630,10 @@ class LibClang {
 
   late final _clang_remap_getNumFilesPtr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXRemapping)>>(
-        'clang_remap_getNumFiles',
-      );
-  late final _clang_remap_getNumFiles = _clang_remap_getNumFilesPtr
-      .asFunction<int Function(CXRemapping)>();
+    'clang_remap_getNumFiles',
+  );
+  late final _clang_remap_getNumFiles =
+      _clang_remap_getNumFilesPtr.asFunction<int Function(CXRemapping)>();
 
   /// Get the original and the associated filename from the remapping.
   void clang_remap_getFilenames(
@@ -4900,26 +4645,22 @@ class LibClang {
     return _clang_remap_getFilenames(arg0, index, original, transformed);
   }
 
-  late final _clang_remap_getFilenamesPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_remap_getFilenamesPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXRemapping,
             ffi.UnsignedInt,
             ffi.Pointer<CXString>,
             ffi.Pointer<CXString>,
-          )
-        >
-      >('clang_remap_getFilenames');
-  late final _clang_remap_getFilenames = _clang_remap_getFilenamesPtr
-      .asFunction<
-        void Function(
-          CXRemapping,
-          int,
-          ffi.Pointer<CXString>,
-          ffi.Pointer<CXString>,
-        )
-      >();
+          )>>('clang_remap_getFilenames');
+  late final _clang_remap_getFilenames =
+      _clang_remap_getFilenamesPtr.asFunction<
+          void Function(
+            CXRemapping,
+            int,
+            ffi.Pointer<CXString>,
+            ffi.Pointer<CXString>,
+          )>();
 
   /// Dispose the remapping.
   void clang_remap_dispose(CXRemapping arg0) {
@@ -4928,10 +4669,10 @@ class LibClang {
 
   late final _clang_remap_disposePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXRemapping)>>(
-        'clang_remap_dispose',
-      );
-  late final _clang_remap_dispose = _clang_remap_disposePtr
-      .asFunction<void Function(CXRemapping)>();
+    'clang_remap_dispose',
+  );
+  late final _clang_remap_dispose =
+      _clang_remap_disposePtr.asFunction<void Function(CXRemapping)>();
 
   /// Find references of a declaration in a specific file.
   CXResult clang_findReferencesInFile(
@@ -4944,12 +4685,10 @@ class LibClang {
     );
   }
 
-  late final _clang_findReferencesInFilePtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXCursor, CXFile, CXCursorAndRangeVisitor)
-        >
-      >('clang_findReferencesInFile');
+  late final _clang_findReferencesInFilePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(CXCursor, CXFile,
+              CXCursorAndRangeVisitor)>>('clang_findReferencesInFile');
   late final _clang_findReferencesInFile = _clang_findReferencesInFilePtr
       .asFunction<int Function(CXCursor, CXFile, CXCursorAndRangeVisitor)>();
 
@@ -4962,20 +4701,16 @@ class LibClang {
     return CXResult.fromValue(_clang_findIncludesInFile(TU, file, visitor));
   }
 
-  late final _clang_findIncludesInFilePtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_findIncludesInFilePtr = _lookup<
+      ffi.NativeFunction<
           ffi.UnsignedInt Function(
             CXTranslationUnit,
             CXFile,
             CXCursorAndRangeVisitor,
-          )
-        >
-      >('clang_findIncludesInFile');
-  late final _clang_findIncludesInFile = _clang_findIncludesInFilePtr
-      .asFunction<
-        int Function(CXTranslationUnit, CXFile, CXCursorAndRangeVisitor)
-      >();
+          )>>('clang_findIncludesInFile');
+  late final _clang_findIncludesInFile =
+      _clang_findIncludesInFilePtr.asFunction<
+          int Function(CXTranslationUnit, CXFile, CXCursorAndRangeVisitor)>();
 
   int clang_index_isEntityObjCContainerKind(CXIdxEntityKind arg0) {
     return _clang_index_isEntityObjCContainerKind(arg0.value);
@@ -4983,8 +4718,8 @@ class LibClang {
 
   late final _clang_index_isEntityObjCContainerKindPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(ffi.UnsignedInt)>>(
-        'clang_index_isEntityObjCContainerKind',
-      );
+    'clang_index_isEntityObjCContainerKind',
+  );
   late final _clang_index_isEntityObjCContainerKind =
       _clang_index_isEntityObjCContainerKindPtr.asFunction<int Function(int)>();
 
@@ -4994,21 +4729,16 @@ class LibClang {
     return _clang_index_getObjCContainerDeclInfo(arg0);
   }
 
-  late final _clang_index_getObjCContainerDeclInfoPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_getObjCContainerDeclInfoPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
             ffi.Pointer<CXIdxDeclInfo>,
-          )
-        >
-      >('clang_index_getObjCContainerDeclInfo');
+          )>>('clang_index_getObjCContainerDeclInfo');
   late final _clang_index_getObjCContainerDeclInfo =
-      _clang_index_getObjCContainerDeclInfoPtr
-          .asFunction<
-            ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
-              ffi.Pointer<CXIdxDeclInfo>,
-            )
-          >();
+      _clang_index_getObjCContainerDeclInfoPtr.asFunction<
+          ffi.Pointer<CXIdxObjCContainerDeclInfo> Function(
+            ffi.Pointer<CXIdxDeclInfo>,
+          )>();
 
   ffi.Pointer<CXIdxObjCInterfaceDeclInfo> clang_index_getObjCInterfaceDeclInfo(
     ffi.Pointer<CXIdxDeclInfo> arg0,
@@ -5016,21 +4746,16 @@ class LibClang {
     return _clang_index_getObjCInterfaceDeclInfo(arg0);
   }
 
-  late final _clang_index_getObjCInterfaceDeclInfoPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_getObjCInterfaceDeclInfoPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXIdxObjCInterfaceDeclInfo> Function(
             ffi.Pointer<CXIdxDeclInfo>,
-          )
-        >
-      >('clang_index_getObjCInterfaceDeclInfo');
+          )>>('clang_index_getObjCInterfaceDeclInfo');
   late final _clang_index_getObjCInterfaceDeclInfo =
-      _clang_index_getObjCInterfaceDeclInfoPtr
-          .asFunction<
-            ffi.Pointer<CXIdxObjCInterfaceDeclInfo> Function(
-              ffi.Pointer<CXIdxDeclInfo>,
-            )
-          >();
+      _clang_index_getObjCInterfaceDeclInfoPtr.asFunction<
+          ffi.Pointer<CXIdxObjCInterfaceDeclInfo> Function(
+            ffi.Pointer<CXIdxDeclInfo>,
+          )>();
 
   ffi.Pointer<CXIdxObjCCategoryDeclInfo> clang_index_getObjCCategoryDeclInfo(
     ffi.Pointer<CXIdxDeclInfo> arg0,
@@ -5038,42 +4763,32 @@ class LibClang {
     return _clang_index_getObjCCategoryDeclInfo(arg0);
   }
 
-  late final _clang_index_getObjCCategoryDeclInfoPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_getObjCCategoryDeclInfoPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXIdxObjCCategoryDeclInfo> Function(
             ffi.Pointer<CXIdxDeclInfo>,
-          )
-        >
-      >('clang_index_getObjCCategoryDeclInfo');
+          )>>('clang_index_getObjCCategoryDeclInfo');
   late final _clang_index_getObjCCategoryDeclInfo =
-      _clang_index_getObjCCategoryDeclInfoPtr
-          .asFunction<
-            ffi.Pointer<CXIdxObjCCategoryDeclInfo> Function(
-              ffi.Pointer<CXIdxDeclInfo>,
-            )
-          >();
+      _clang_index_getObjCCategoryDeclInfoPtr.asFunction<
+          ffi.Pointer<CXIdxObjCCategoryDeclInfo> Function(
+            ffi.Pointer<CXIdxDeclInfo>,
+          )>();
 
   ffi.Pointer<CXIdxObjCProtocolRefListInfo>
-  clang_index_getObjCProtocolRefListInfo(ffi.Pointer<CXIdxDeclInfo> arg0) {
+      clang_index_getObjCProtocolRefListInfo(ffi.Pointer<CXIdxDeclInfo> arg0) {
     return _clang_index_getObjCProtocolRefListInfo(arg0);
   }
 
-  late final _clang_index_getObjCProtocolRefListInfoPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_getObjCProtocolRefListInfoPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXIdxObjCProtocolRefListInfo> Function(
             ffi.Pointer<CXIdxDeclInfo>,
-          )
-        >
-      >('clang_index_getObjCProtocolRefListInfo');
+          )>>('clang_index_getObjCProtocolRefListInfo');
   late final _clang_index_getObjCProtocolRefListInfo =
-      _clang_index_getObjCProtocolRefListInfoPtr
-          .asFunction<
-            ffi.Pointer<CXIdxObjCProtocolRefListInfo> Function(
-              ffi.Pointer<CXIdxDeclInfo>,
-            )
-          >();
+      _clang_index_getObjCProtocolRefListInfoPtr.asFunction<
+          ffi.Pointer<CXIdxObjCProtocolRefListInfo> Function(
+            ffi.Pointer<CXIdxDeclInfo>,
+          )>();
 
   ffi.Pointer<CXIdxObjCPropertyDeclInfo> clang_index_getObjCPropertyDeclInfo(
     ffi.Pointer<CXIdxDeclInfo> arg0,
@@ -5081,42 +4796,33 @@ class LibClang {
     return _clang_index_getObjCPropertyDeclInfo(arg0);
   }
 
-  late final _clang_index_getObjCPropertyDeclInfoPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_getObjCPropertyDeclInfoPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXIdxObjCPropertyDeclInfo> Function(
             ffi.Pointer<CXIdxDeclInfo>,
-          )
-        >
-      >('clang_index_getObjCPropertyDeclInfo');
+          )>>('clang_index_getObjCPropertyDeclInfo');
   late final _clang_index_getObjCPropertyDeclInfo =
-      _clang_index_getObjCPropertyDeclInfoPtr
-          .asFunction<
-            ffi.Pointer<CXIdxObjCPropertyDeclInfo> Function(
-              ffi.Pointer<CXIdxDeclInfo>,
-            )
-          >();
+      _clang_index_getObjCPropertyDeclInfoPtr.asFunction<
+          ffi.Pointer<CXIdxObjCPropertyDeclInfo> Function(
+            ffi.Pointer<CXIdxDeclInfo>,
+          )>();
 
   ffi.Pointer<CXIdxIBOutletCollectionAttrInfo>
-  clang_index_getIBOutletCollectionAttrInfo(ffi.Pointer<CXIdxAttrInfo> arg0) {
+      clang_index_getIBOutletCollectionAttrInfo(
+          ffi.Pointer<CXIdxAttrInfo> arg0) {
     return _clang_index_getIBOutletCollectionAttrInfo(arg0);
   }
 
-  late final _clang_index_getIBOutletCollectionAttrInfoPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_getIBOutletCollectionAttrInfoPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXIdxIBOutletCollectionAttrInfo> Function(
             ffi.Pointer<CXIdxAttrInfo>,
-          )
-        >
-      >('clang_index_getIBOutletCollectionAttrInfo');
+          )>>('clang_index_getIBOutletCollectionAttrInfo');
   late final _clang_index_getIBOutletCollectionAttrInfo =
-      _clang_index_getIBOutletCollectionAttrInfoPtr
-          .asFunction<
-            ffi.Pointer<CXIdxIBOutletCollectionAttrInfo> Function(
-              ffi.Pointer<CXIdxAttrInfo>,
-            )
-          >();
+      _clang_index_getIBOutletCollectionAttrInfoPtr.asFunction<
+          ffi.Pointer<CXIdxIBOutletCollectionAttrInfo> Function(
+            ffi.Pointer<CXIdxAttrInfo>,
+          )>();
 
   ffi.Pointer<CXIdxCXXClassDeclInfo> clang_index_getCXXClassDeclInfo(
     ffi.Pointer<CXIdxDeclInfo> arg0,
@@ -5124,21 +4830,16 @@ class LibClang {
     return _clang_index_getCXXClassDeclInfo(arg0);
   }
 
-  late final _clang_index_getCXXClassDeclInfoPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_getCXXClassDeclInfoPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Pointer<CXIdxCXXClassDeclInfo> Function(
             ffi.Pointer<CXIdxDeclInfo>,
-          )
-        >
-      >('clang_index_getCXXClassDeclInfo');
+          )>>('clang_index_getCXXClassDeclInfo');
   late final _clang_index_getCXXClassDeclInfo =
-      _clang_index_getCXXClassDeclInfoPtr
-          .asFunction<
-            ffi.Pointer<CXIdxCXXClassDeclInfo> Function(
-              ffi.Pointer<CXIdxDeclInfo>,
-            )
-          >();
+      _clang_index_getCXXClassDeclInfoPtr.asFunction<
+          ffi.Pointer<CXIdxCXXClassDeclInfo> Function(
+            ffi.Pointer<CXIdxDeclInfo>,
+          )>();
 
   /// For retrieving a custom CXIdxClientContainer attached to a container.
   CXIdxClientContainer clang_index_getClientContainer(
@@ -5147,17 +4848,13 @@ class LibClang {
     return _clang_index_getClientContainer(arg0);
   }
 
-  late final _clang_index_getClientContainerPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXIdxClientContainer Function(ffi.Pointer<CXIdxContainerInfo>)
-        >
-      >('clang_index_getClientContainer');
+  late final _clang_index_getClientContainerPtr = _lookup<
+          ffi.NativeFunction<
+              CXIdxClientContainer Function(ffi.Pointer<CXIdxContainerInfo>)>>(
+      'clang_index_getClientContainer');
   late final _clang_index_getClientContainer =
-      _clang_index_getClientContainerPtr
-          .asFunction<
-            CXIdxClientContainer Function(ffi.Pointer<CXIdxContainerInfo>)
-          >();
+      _clang_index_getClientContainerPtr.asFunction<
+          CXIdxClientContainer Function(ffi.Pointer<CXIdxContainerInfo>)>();
 
   /// For setting a custom CXIdxClientContainer attached to a container.
   void clang_index_setClientContainer(
@@ -5167,20 +4864,16 @@ class LibClang {
     return _clang_index_setClientContainer(arg0, arg1);
   }
 
-  late final _clang_index_setClientContainerPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_index_setClientContainerPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             ffi.Pointer<CXIdxContainerInfo>,
             CXIdxClientContainer,
-          )
-        >
-      >('clang_index_setClientContainer');
+          )>>('clang_index_setClientContainer');
   late final _clang_index_setClientContainer =
-      _clang_index_setClientContainerPtr
-          .asFunction<
-            void Function(ffi.Pointer<CXIdxContainerInfo>, CXIdxClientContainer)
-          >();
+      _clang_index_setClientContainerPtr.asFunction<
+          void Function(
+              ffi.Pointer<CXIdxContainerInfo>, CXIdxClientContainer)>();
 
   /// For retrieving a custom CXIdxClientEntity attached to an entity.
   CXIdxClientEntity clang_index_getClientEntity(
@@ -5189,12 +4882,10 @@ class LibClang {
     return _clang_index_getClientEntity(arg0);
   }
 
-  late final _clang_index_getClientEntityPtr =
-      _lookup<
-        ffi.NativeFunction<
-          CXIdxClientEntity Function(ffi.Pointer<CXIdxEntityInfo>)
-        >
-      >('clang_index_getClientEntity');
+  late final _clang_index_getClientEntityPtr = _lookup<
+      ffi.NativeFunction<
+          CXIdxClientEntity Function(
+              ffi.Pointer<CXIdxEntityInfo>)>>('clang_index_getClientEntity');
   late final _clang_index_getClientEntity = _clang_index_getClientEntityPtr
       .asFunction<CXIdxClientEntity Function(ffi.Pointer<CXIdxEntityInfo>)>();
 
@@ -5206,16 +4897,13 @@ class LibClang {
     return _clang_index_setClientEntity(arg0, arg1);
   }
 
-  late final _clang_index_setClientEntityPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<CXIdxEntityInfo>, CXIdxClientEntity)
-        >
-      >('clang_index_setClientEntity');
-  late final _clang_index_setClientEntity = _clang_index_setClientEntityPtr
-      .asFunction<
-        void Function(ffi.Pointer<CXIdxEntityInfo>, CXIdxClientEntity)
-      >();
+  late final _clang_index_setClientEntityPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<CXIdxEntityInfo>,
+              CXIdxClientEntity)>>('clang_index_setClientEntity');
+  late final _clang_index_setClientEntity =
+      _clang_index_setClientEntityPtr.asFunction<
+          void Function(ffi.Pointer<CXIdxEntityInfo>, CXIdxClientEntity)>();
 
   /// An indexing action/session, to be applied to one or multiple translation
   /// units.
@@ -5225,8 +4913,8 @@ class LibClang {
 
   late final _clang_IndexAction_createPtr =
       _lookup<ffi.NativeFunction<CXIndexAction Function(CXIndex)>>(
-        'clang_IndexAction_create',
-      );
+    'clang_IndexAction_create',
+  );
   late final _clang_IndexAction_create = _clang_IndexAction_createPtr
       .asFunction<CXIndexAction Function(CXIndex)>();
 
@@ -5237,10 +4925,10 @@ class LibClang {
 
   late final _clang_IndexAction_disposePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(CXIndexAction)>>(
-        'clang_IndexAction_dispose',
-      );
-  late final _clang_IndexAction_dispose = _clang_IndexAction_disposePtr
-      .asFunction<void Function(CXIndexAction)>();
+    'clang_IndexAction_dispose',
+  );
+  late final _clang_IndexAction_dispose =
+      _clang_IndexAction_disposePtr.asFunction<void Function(CXIndexAction)>();
 
   /// Index the given source file and the translation unit corresponding to that
   /// file via callbacks implemented through #IndexerCallbacks.
@@ -5274,9 +4962,8 @@ class LibClang {
     );
   }
 
-  late final _clang_indexSourceFilePtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_indexSourceFilePtr = _lookup<
+      ffi.NativeFunction<
           ffi.Int Function(
             CXIndexAction,
             CXClientData,
@@ -5290,26 +4977,22 @@ class LibClang {
             ffi.UnsignedInt,
             ffi.Pointer<CXTranslationUnit>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_indexSourceFile');
-  late final _clang_indexSourceFile = _clang_indexSourceFilePtr
-      .asFunction<
-        int Function(
-          CXIndexAction,
-          CXClientData,
-          ffi.Pointer<IndexerCallbacks>,
-          int,
-          int,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Pointer<ffi.Char>>,
-          int,
-          ffi.Pointer<CXUnsavedFile>,
-          int,
-          ffi.Pointer<CXTranslationUnit>,
-          int,
-        )
-      >();
+          )>>('clang_indexSourceFile');
+  late final _clang_indexSourceFile = _clang_indexSourceFilePtr.asFunction<
+      int Function(
+        CXIndexAction,
+        CXClientData,
+        ffi.Pointer<IndexerCallbacks>,
+        int,
+        int,
+        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        int,
+        ffi.Pointer<CXUnsavedFile>,
+        int,
+        ffi.Pointer<CXTranslationUnit>,
+        int,
+      )>();
 
   /// Same as clang_indexSourceFile but requires a full command line for
   /// command_line_args including argv[0]. This is useful if the standard
@@ -5344,9 +5027,8 @@ class LibClang {
     );
   }
 
-  late final _clang_indexSourceFileFullArgvPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_indexSourceFileFullArgvPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Int Function(
             CXIndexAction,
             CXClientData,
@@ -5360,26 +5042,23 @@ class LibClang {
             ffi.UnsignedInt,
             ffi.Pointer<CXTranslationUnit>,
             ffi.UnsignedInt,
-          )
-        >
-      >('clang_indexSourceFileFullArgv');
-  late final _clang_indexSourceFileFullArgv = _clang_indexSourceFileFullArgvPtr
-      .asFunction<
-        int Function(
-          CXIndexAction,
-          CXClientData,
-          ffi.Pointer<IndexerCallbacks>,
-          int,
-          int,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Pointer<ffi.Char>>,
-          int,
-          ffi.Pointer<CXUnsavedFile>,
-          int,
-          ffi.Pointer<CXTranslationUnit>,
-          int,
-        )
-      >();
+          )>>('clang_indexSourceFileFullArgv');
+  late final _clang_indexSourceFileFullArgv =
+      _clang_indexSourceFileFullArgvPtr.asFunction<
+          int Function(
+            CXIndexAction,
+            CXClientData,
+            ffi.Pointer<IndexerCallbacks>,
+            int,
+            int,
+            ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Pointer<ffi.Char>>,
+            int,
+            ffi.Pointer<CXUnsavedFile>,
+            int,
+            ffi.Pointer<CXTranslationUnit>,
+            int,
+          )>();
 
   /// Index the given translation unit via callbacks implemented through
   /// #IndexerCallbacks.
@@ -5401,9 +5080,8 @@ class LibClang {
     );
   }
 
-  late final _clang_indexTranslationUnitPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_indexTranslationUnitPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Int Function(
             CXIndexAction,
             CXClientData,
@@ -5411,20 +5089,17 @@ class LibClang {
             ffi.UnsignedInt,
             ffi.UnsignedInt,
             CXTranslationUnit,
-          )
-        >
-      >('clang_indexTranslationUnit');
-  late final _clang_indexTranslationUnit = _clang_indexTranslationUnitPtr
-      .asFunction<
-        int Function(
-          CXIndexAction,
-          CXClientData,
-          ffi.Pointer<IndexerCallbacks>,
-          int,
-          int,
-          CXTranslationUnit,
-        )
-      >();
+          )>>('clang_indexTranslationUnit');
+  late final _clang_indexTranslationUnit =
+      _clang_indexTranslationUnitPtr.asFunction<
+          int Function(
+            CXIndexAction,
+            CXClientData,
+            ffi.Pointer<IndexerCallbacks>,
+            int,
+            int,
+            CXTranslationUnit,
+          )>();
 
   /// Retrieve the CXIdxFile, file, line, column, and offset represented by the
   /// given CXIdxLoc.
@@ -5446,9 +5121,8 @@ class LibClang {
     );
   }
 
-  late final _clang_indexLoc_getFileLocationPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _clang_indexLoc_getFileLocationPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             CXIdxLoc,
             ffi.Pointer<CXIdxClientFile>,
@@ -5456,21 +5130,17 @@ class LibClang {
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
             ffi.Pointer<ffi.UnsignedInt>,
-          )
-        >
-      >('clang_indexLoc_getFileLocation');
+          )>>('clang_indexLoc_getFileLocation');
   late final _clang_indexLoc_getFileLocation =
-      _clang_indexLoc_getFileLocationPtr
-          .asFunction<
-            void Function(
-              CXIdxLoc,
-              ffi.Pointer<CXIdxClientFile>,
-              ffi.Pointer<CXFile>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-              ffi.Pointer<ffi.UnsignedInt>,
-            )
-          >();
+      _clang_indexLoc_getFileLocationPtr.asFunction<
+          void Function(
+            CXIdxLoc,
+            ffi.Pointer<CXIdxClientFile>,
+            ffi.Pointer<CXFile>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+            ffi.Pointer<ffi.UnsignedInt>,
+          )>();
 
   /// Retrieve the CXSourceLocation represented by the given CXIdxLoc.
   CXSourceLocation clang_indexLoc_getCXSourceLocation(CXIdxLoc loc) {
@@ -5479,8 +5149,8 @@ class LibClang {
 
   late final _clang_indexLoc_getCXSourceLocationPtr =
       _lookup<ffi.NativeFunction<CXSourceLocation Function(CXIdxLoc)>>(
-        'clang_indexLoc_getCXSourceLocation',
-      );
+    'clang_indexLoc_getCXSourceLocation',
+  );
   late final _clang_indexLoc_getCXSourceLocation =
       _clang_indexLoc_getCXSourceLocationPtr
           .asFunction<CXSourceLocation Function(CXIdxLoc)>();
@@ -5494,12 +5164,10 @@ class LibClang {
     return _clang_Type_visitFields(T, visitor, client_data);
   }
 
-  late final _clang_Type_visitFieldsPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.UnsignedInt Function(CXType, CXFieldVisitor, CXClientData)
-        >
-      >('clang_Type_visitFields');
+  late final _clang_Type_visitFieldsPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              CXType, CXFieldVisitor, CXClientData)>>('clang_Type_visitFields');
   late final _clang_Type_visitFields = _clang_Type_visitFieldsPtr
       .asFunction<int Function(CXType, CXFieldVisitor, CXClientData)>();
 }
@@ -5525,13 +5193,13 @@ enum CXErrorCode {
   const CXErrorCode(this.value);
 
   static CXErrorCode fromValue(int value) => switch (value) {
-    0 => CXError_Success,
-    1 => CXError_Failure,
-    2 => CXError_Crashed,
-    3 => CXError_InvalidArguments,
-    4 => CXError_ASTReadError,
-    _ => throw ArgumentError('Unknown value for CXErrorCode: $value'),
-  };
+        0 => CXError_Success,
+        1 => CXError_Failure,
+        2 => CXError_Crashed,
+        3 => CXError_InvalidArguments,
+        4 => CXError_ASTReadError,
+        _ => throw ArgumentError('Unknown value for CXErrorCode: $value'),
+      };
 }
 
 /// A character string.
@@ -5613,12 +5281,13 @@ enum CXAvailabilityKind {
   const CXAvailabilityKind(this.value);
 
   static CXAvailabilityKind fromValue(int value) => switch (value) {
-    0 => CXAvailability_Available,
-    1 => CXAvailability_Deprecated,
-    2 => CXAvailability_NotAvailable,
-    3 => CXAvailability_NotAccessible,
-    _ => throw ArgumentError('Unknown value for CXAvailabilityKind: $value'),
-  };
+        0 => CXAvailability_Available,
+        1 => CXAvailability_Deprecated,
+        2 => CXAvailability_NotAvailable,
+        3 => CXAvailability_NotAccessible,
+        _ =>
+          throw ArgumentError('Unknown value for CXAvailabilityKind: $value'),
+      };
 }
 
 /// Describes a version number of the form major.minor.subminor.
@@ -5688,8 +5357,8 @@ enum CXCursor_ExceptionSpecificationKind {
         8 => CXCursor_ExceptionSpecificationKind_Unparsed,
         9 => CXCursor_ExceptionSpecificationKind_NoThrow,
         _ => throw ArgumentError(
-          'Unknown value for CXCursor_ExceptionSpecificationKind: $value',
-        ),
+            'Unknown value for CXCursor_ExceptionSpecificationKind: $value',
+          ),
       };
 }
 
@@ -5713,12 +5382,12 @@ enum CXGlobalOptFlags {
   const CXGlobalOptFlags(this.value);
 
   static CXGlobalOptFlags fromValue(int value) => switch (value) {
-    0 => CXGlobalOpt_None,
-    1 => CXGlobalOpt_ThreadBackgroundPriorityForIndexing,
-    2 => CXGlobalOpt_ThreadBackgroundPriorityForEditing,
-    3 => CXGlobalOpt_ThreadBackgroundPriorityForAll,
-    _ => throw ArgumentError('Unknown value for CXGlobalOptFlags: $value'),
-  };
+        0 => CXGlobalOpt_None,
+        1 => CXGlobalOpt_ThreadBackgroundPriorityForIndexing,
+        2 => CXGlobalOpt_ThreadBackgroundPriorityForEditing,
+        3 => CXGlobalOpt_ThreadBackgroundPriorityForAll,
+        _ => throw ArgumentError('Unknown value for CXGlobalOptFlags: $value'),
+      };
 }
 
 /// A particular source file that is part of a translation unit.
@@ -5785,13 +5454,14 @@ enum CXDiagnosticSeverity {
   const CXDiagnosticSeverity(this.value);
 
   static CXDiagnosticSeverity fromValue(int value) => switch (value) {
-    0 => CXDiagnostic_Ignored,
-    1 => CXDiagnostic_Note,
-    2 => CXDiagnostic_Warning,
-    3 => CXDiagnostic_Error,
-    4 => CXDiagnostic_Fatal,
-    _ => throw ArgumentError('Unknown value for CXDiagnosticSeverity: $value'),
-  };
+        0 => CXDiagnostic_Ignored,
+        1 => CXDiagnostic_Note,
+        2 => CXDiagnostic_Warning,
+        3 => CXDiagnostic_Error,
+        4 => CXDiagnostic_Fatal,
+        _ =>
+          throw ArgumentError('Unknown value for CXDiagnosticSeverity: $value'),
+      };
 }
 
 /// A single diagnostic, containing the diagnostic's severity, location, text,
@@ -5822,12 +5492,12 @@ enum CXLoadDiag_Error {
   const CXLoadDiag_Error(this.value);
 
   static CXLoadDiag_Error fromValue(int value) => switch (value) {
-    0 => CXLoadDiag_None,
-    1 => CXLoadDiag_Unknown,
-    2 => CXLoadDiag_CannotLoad,
-    3 => CXLoadDiag_InvalidFile,
-    _ => throw ArgumentError('Unknown value for CXLoadDiag_Error: $value'),
-  };
+        0 => CXLoadDiag_None,
+        1 => CXLoadDiag_Unknown,
+        2 => CXLoadDiag_CannotLoad,
+        3 => CXLoadDiag_InvalidFile,
+        _ => throw ArgumentError('Unknown value for CXLoadDiag_Error: $value'),
+      };
 }
 
 /// Options to control the display of diagnostics.
@@ -5856,16 +5526,16 @@ enum CXDiagnosticDisplayOptions {
   const CXDiagnosticDisplayOptions(this.value);
 
   static CXDiagnosticDisplayOptions fromValue(int value) => switch (value) {
-    1 => CXDiagnostic_DisplaySourceLocation,
-    2 => CXDiagnostic_DisplayColumn,
-    4 => CXDiagnostic_DisplaySourceRanges,
-    8 => CXDiagnostic_DisplayOption,
-    16 => CXDiagnostic_DisplayCategoryId,
-    32 => CXDiagnostic_DisplayCategoryName,
-    _ => throw ArgumentError(
-      'Unknown value for CXDiagnosticDisplayOptions: $value',
-    ),
-  };
+        1 => CXDiagnostic_DisplaySourceLocation,
+        2 => CXDiagnostic_DisplayColumn,
+        4 => CXDiagnostic_DisplaySourceRanges,
+        8 => CXDiagnostic_DisplayOption,
+        16 => CXDiagnostic_DisplayCategoryId,
+        32 => CXDiagnostic_DisplayCategoryName,
+        _ => throw ArgumentError(
+            'Unknown value for CXDiagnosticDisplayOptions: $value',
+          ),
+      };
 }
 
 /// Flags that control the creation of translation units.
@@ -5935,27 +5605,27 @@ enum CXTranslationUnit_Flags {
   const CXTranslationUnit_Flags(this.value);
 
   static CXTranslationUnit_Flags fromValue(int value) => switch (value) {
-    0 => CXTranslationUnit_None,
-    1 => CXTranslationUnit_DetailedPreprocessingRecord,
-    2 => CXTranslationUnit_Incomplete,
-    4 => CXTranslationUnit_PrecompiledPreamble,
-    8 => CXTranslationUnit_CacheCompletionResults,
-    16 => CXTranslationUnit_ForSerialization,
-    32 => CXTranslationUnit_CXXChainedPCH,
-    64 => CXTranslationUnit_SkipFunctionBodies,
-    128 => CXTranslationUnit_IncludeBriefCommentsInCodeCompletion,
-    256 => CXTranslationUnit_CreatePreambleOnFirstParse,
-    512 => CXTranslationUnit_KeepGoing,
-    1024 => CXTranslationUnit_SingleFileParse,
-    2048 => CXTranslationUnit_LimitSkipFunctionBodiesToPreamble,
-    4096 => CXTranslationUnit_IncludeAttributedTypes,
-    8192 => CXTranslationUnit_VisitImplicitAttributes,
-    16384 => CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles,
-    32768 => CXTranslationUnit_RetainExcludedConditionalBlocks,
-    _ => throw ArgumentError(
-      'Unknown value for CXTranslationUnit_Flags: $value',
-    ),
-  };
+        0 => CXTranslationUnit_None,
+        1 => CXTranslationUnit_DetailedPreprocessingRecord,
+        2 => CXTranslationUnit_Incomplete,
+        4 => CXTranslationUnit_PrecompiledPreamble,
+        8 => CXTranslationUnit_CacheCompletionResults,
+        16 => CXTranslationUnit_ForSerialization,
+        32 => CXTranslationUnit_CXXChainedPCH,
+        64 => CXTranslationUnit_SkipFunctionBodies,
+        128 => CXTranslationUnit_IncludeBriefCommentsInCodeCompletion,
+        256 => CXTranslationUnit_CreatePreambleOnFirstParse,
+        512 => CXTranslationUnit_KeepGoing,
+        1024 => CXTranslationUnit_SingleFileParse,
+        2048 => CXTranslationUnit_LimitSkipFunctionBodiesToPreamble,
+        4096 => CXTranslationUnit_IncludeAttributedTypes,
+        8192 => CXTranslationUnit_VisitImplicitAttributes,
+        16384 => CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles,
+        32768 => CXTranslationUnit_RetainExcludedConditionalBlocks,
+        _ => throw ArgumentError(
+            'Unknown value for CXTranslationUnit_Flags: $value',
+          ),
+      };
 }
 
 /// Flags that control how translation units are saved.
@@ -5967,11 +5637,11 @@ enum CXSaveTranslationUnit_Flags {
   const CXSaveTranslationUnit_Flags(this.value);
 
   static CXSaveTranslationUnit_Flags fromValue(int value) => switch (value) {
-    0 => CXSaveTranslationUnit_None,
-    _ => throw ArgumentError(
-      'Unknown value for CXSaveTranslationUnit_Flags: $value',
-    ),
-  };
+        0 => CXSaveTranslationUnit_None,
+        _ => throw ArgumentError(
+            'Unknown value for CXSaveTranslationUnit_Flags: $value',
+          ),
+      };
 }
 
 /// Describes the kind of error that occurred (if any) in a call to
@@ -5996,12 +5666,12 @@ enum CXSaveError {
   const CXSaveError(this.value);
 
   static CXSaveError fromValue(int value) => switch (value) {
-    0 => CXSaveError_None,
-    1 => CXSaveError_Unknown,
-    2 => CXSaveError_TranslationErrors,
-    3 => CXSaveError_InvalidTU,
-    _ => throw ArgumentError('Unknown value for CXSaveError: $value'),
-  };
+        0 => CXSaveError_None,
+        1 => CXSaveError_Unknown,
+        2 => CXSaveError_TranslationErrors,
+        3 => CXSaveError_InvalidTU,
+        _ => throw ArgumentError('Unknown value for CXSaveError: $value'),
+      };
 }
 
 /// Flags that control the reparsing of translation units.
@@ -6013,9 +5683,9 @@ enum CXReparse_Flags {
   const CXReparse_Flags(this.value);
 
   static CXReparse_Flags fromValue(int value) => switch (value) {
-    0 => CXReparse_None,
-    _ => throw ArgumentError('Unknown value for CXReparse_Flags: $value'),
-  };
+        0 => CXReparse_None,
+        _ => throw ArgumentError('Unknown value for CXReparse_Flags: $value'),
+      };
 }
 
 /// Categorizes how memory is being used by a translation unit.
@@ -6046,22 +5716,23 @@ enum CXTUResourceUsageKind {
   const CXTUResourceUsageKind(this.value);
 
   static CXTUResourceUsageKind fromValue(int value) => switch (value) {
-    1 => CXTUResourceUsage_AST,
-    2 => CXTUResourceUsage_Identifiers,
-    3 => CXTUResourceUsage_Selectors,
-    4 => CXTUResourceUsage_GlobalCompletionResults,
-    5 => CXTUResourceUsage_SourceManagerContentCache,
-    6 => CXTUResourceUsage_AST_SideTables,
-    7 => CXTUResourceUsage_SourceManager_Membuffer_Malloc,
-    8 => CXTUResourceUsage_SourceManager_Membuffer_MMap,
-    9 => CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc,
-    10 => CXTUResourceUsage_ExternalASTSource_Membuffer_MMap,
-    11 => CXTUResourceUsage_Preprocessor,
-    12 => CXTUResourceUsage_PreprocessingRecord,
-    13 => CXTUResourceUsage_SourceManager_DataStructures,
-    14 => CXTUResourceUsage_Preprocessor_HeaderSearch,
-    _ => throw ArgumentError('Unknown value for CXTUResourceUsageKind: $value'),
-  };
+        1 => CXTUResourceUsage_AST,
+        2 => CXTUResourceUsage_Identifiers,
+        3 => CXTUResourceUsage_Selectors,
+        4 => CXTUResourceUsage_GlobalCompletionResults,
+        5 => CXTUResourceUsage_SourceManagerContentCache,
+        6 => CXTUResourceUsage_AST_SideTables,
+        7 => CXTUResourceUsage_SourceManager_Membuffer_Malloc,
+        8 => CXTUResourceUsage_SourceManager_Membuffer_MMap,
+        9 => CXTUResourceUsage_ExternalASTSource_Membuffer_Malloc,
+        10 => CXTUResourceUsage_ExternalASTSource_Membuffer_MMap,
+        11 => CXTUResourceUsage_Preprocessor,
+        12 => CXTUResourceUsage_PreprocessingRecord,
+        13 => CXTUResourceUsage_SourceManager_DataStructures,
+        14 => CXTUResourceUsage_Preprocessor_HeaderSearch,
+        _ => throw ArgumentError(
+            'Unknown value for CXTUResourceUsageKind: $value'),
+      };
 
   @override
   String toString() {
@@ -6748,250 +6419,250 @@ enum CXCursorKind {
   const CXCursorKind(this.value);
 
   static CXCursorKind fromValue(int value) => switch (value) {
-    1 => CXCursor_UnexposedDecl,
-    2 => CXCursor_StructDecl,
-    3 => CXCursor_UnionDecl,
-    4 => CXCursor_ClassDecl,
-    5 => CXCursor_EnumDecl,
-    6 => CXCursor_FieldDecl,
-    7 => CXCursor_EnumConstantDecl,
-    8 => CXCursor_FunctionDecl,
-    9 => CXCursor_VarDecl,
-    10 => CXCursor_ParmDecl,
-    11 => CXCursor_ObjCInterfaceDecl,
-    12 => CXCursor_ObjCCategoryDecl,
-    13 => CXCursor_ObjCProtocolDecl,
-    14 => CXCursor_ObjCPropertyDecl,
-    15 => CXCursor_ObjCIvarDecl,
-    16 => CXCursor_ObjCInstanceMethodDecl,
-    17 => CXCursor_ObjCClassMethodDecl,
-    18 => CXCursor_ObjCImplementationDecl,
-    19 => CXCursor_ObjCCategoryImplDecl,
-    20 => CXCursor_TypedefDecl,
-    21 => CXCursor_CXXMethod,
-    22 => CXCursor_Namespace,
-    23 => CXCursor_LinkageSpec,
-    24 => CXCursor_Constructor,
-    25 => CXCursor_Destructor,
-    26 => CXCursor_ConversionFunction,
-    27 => CXCursor_TemplateTypeParameter,
-    28 => CXCursor_NonTypeTemplateParameter,
-    29 => CXCursor_TemplateTemplateParameter,
-    30 => CXCursor_FunctionTemplate,
-    31 => CXCursor_ClassTemplate,
-    32 => CXCursor_ClassTemplatePartialSpecialization,
-    33 => CXCursor_NamespaceAlias,
-    34 => CXCursor_UsingDirective,
-    35 => CXCursor_UsingDeclaration,
-    36 => CXCursor_TypeAliasDecl,
-    37 => CXCursor_ObjCSynthesizeDecl,
-    38 => CXCursor_ObjCDynamicDecl,
-    39 => CXCursor_CXXAccessSpecifier,
-    40 => CXCursor_FirstRef,
-    41 => CXCursor_ObjCProtocolRef,
-    42 => CXCursor_ObjCClassRef,
-    43 => CXCursor_TypeRef,
-    44 => CXCursor_CXXBaseSpecifier,
-    45 => CXCursor_TemplateRef,
-    46 => CXCursor_NamespaceRef,
-    47 => CXCursor_MemberRef,
-    48 => CXCursor_LabelRef,
-    49 => CXCursor_OverloadedDeclRef,
-    50 => CXCursor_VariableRef,
-    70 => CXCursor_FirstInvalid,
-    71 => CXCursor_NoDeclFound,
-    72 => CXCursor_NotImplemented,
-    73 => CXCursor_InvalidCode,
-    100 => CXCursor_FirstExpr,
-    101 => CXCursor_DeclRefExpr,
-    102 => CXCursor_MemberRefExpr,
-    103 => CXCursor_CallExpr,
-    104 => CXCursor_ObjCMessageExpr,
-    105 => CXCursor_BlockExpr,
-    106 => CXCursor_IntegerLiteral,
-    107 => CXCursor_FloatingLiteral,
-    108 => CXCursor_ImaginaryLiteral,
-    109 => CXCursor_StringLiteral,
-    110 => CXCursor_CharacterLiteral,
-    111 => CXCursor_ParenExpr,
-    112 => CXCursor_UnaryOperator,
-    113 => CXCursor_ArraySubscriptExpr,
-    114 => CXCursor_BinaryOperator,
-    115 => CXCursor_CompoundAssignOperator,
-    116 => CXCursor_ConditionalOperator,
-    117 => CXCursor_CStyleCastExpr,
-    118 => CXCursor_CompoundLiteralExpr,
-    119 => CXCursor_InitListExpr,
-    120 => CXCursor_AddrLabelExpr,
-    121 => CXCursor_StmtExpr,
-    122 => CXCursor_GenericSelectionExpr,
-    123 => CXCursor_GNUNullExpr,
-    124 => CXCursor_CXXStaticCastExpr,
-    125 => CXCursor_CXXDynamicCastExpr,
-    126 => CXCursor_CXXReinterpretCastExpr,
-    127 => CXCursor_CXXConstCastExpr,
-    128 => CXCursor_CXXFunctionalCastExpr,
-    129 => CXCursor_CXXTypeidExpr,
-    130 => CXCursor_CXXBoolLiteralExpr,
-    131 => CXCursor_CXXNullPtrLiteralExpr,
-    132 => CXCursor_CXXThisExpr,
-    133 => CXCursor_CXXThrowExpr,
-    134 => CXCursor_CXXNewExpr,
-    135 => CXCursor_CXXDeleteExpr,
-    136 => CXCursor_UnaryExpr,
-    137 => CXCursor_ObjCStringLiteral,
-    138 => CXCursor_ObjCEncodeExpr,
-    139 => CXCursor_ObjCSelectorExpr,
-    140 => CXCursor_ObjCProtocolExpr,
-    141 => CXCursor_ObjCBridgedCastExpr,
-    142 => CXCursor_PackExpansionExpr,
-    143 => CXCursor_SizeOfPackExpr,
-    144 => CXCursor_LambdaExpr,
-    145 => CXCursor_ObjCBoolLiteralExpr,
-    146 => CXCursor_ObjCSelfExpr,
-    147 => CXCursor_OMPArraySectionExpr,
-    148 => CXCursor_ObjCAvailabilityCheckExpr,
-    149 => CXCursor_FixedPointLiteral,
-    200 => CXCursor_FirstStmt,
-    201 => CXCursor_LabelStmt,
-    202 => CXCursor_CompoundStmt,
-    203 => CXCursor_CaseStmt,
-    204 => CXCursor_DefaultStmt,
-    205 => CXCursor_IfStmt,
-    206 => CXCursor_SwitchStmt,
-    207 => CXCursor_WhileStmt,
-    208 => CXCursor_DoStmt,
-    209 => CXCursor_ForStmt,
-    210 => CXCursor_GotoStmt,
-    211 => CXCursor_IndirectGotoStmt,
-    212 => CXCursor_ContinueStmt,
-    213 => CXCursor_BreakStmt,
-    214 => CXCursor_ReturnStmt,
-    215 => CXCursor_GCCAsmStmt,
-    216 => CXCursor_ObjCAtTryStmt,
-    217 => CXCursor_ObjCAtCatchStmt,
-    218 => CXCursor_ObjCAtFinallyStmt,
-    219 => CXCursor_ObjCAtThrowStmt,
-    220 => CXCursor_ObjCAtSynchronizedStmt,
-    221 => CXCursor_ObjCAutoreleasePoolStmt,
-    222 => CXCursor_ObjCForCollectionStmt,
-    223 => CXCursor_CXXCatchStmt,
-    224 => CXCursor_CXXTryStmt,
-    225 => CXCursor_CXXForRangeStmt,
-    226 => CXCursor_SEHTryStmt,
-    227 => CXCursor_SEHExceptStmt,
-    228 => CXCursor_SEHFinallyStmt,
-    229 => CXCursor_MSAsmStmt,
-    230 => CXCursor_NullStmt,
-    231 => CXCursor_DeclStmt,
-    232 => CXCursor_OMPParallelDirective,
-    233 => CXCursor_OMPSimdDirective,
-    234 => CXCursor_OMPForDirective,
-    235 => CXCursor_OMPSectionsDirective,
-    236 => CXCursor_OMPSectionDirective,
-    237 => CXCursor_OMPSingleDirective,
-    238 => CXCursor_OMPParallelForDirective,
-    239 => CXCursor_OMPParallelSectionsDirective,
-    240 => CXCursor_OMPTaskDirective,
-    241 => CXCursor_OMPMasterDirective,
-    242 => CXCursor_OMPCriticalDirective,
-    243 => CXCursor_OMPTaskyieldDirective,
-    244 => CXCursor_OMPBarrierDirective,
-    245 => CXCursor_OMPTaskwaitDirective,
-    246 => CXCursor_OMPFlushDirective,
-    247 => CXCursor_SEHLeaveStmt,
-    248 => CXCursor_OMPOrderedDirective,
-    249 => CXCursor_OMPAtomicDirective,
-    250 => CXCursor_OMPForSimdDirective,
-    251 => CXCursor_OMPParallelForSimdDirective,
-    252 => CXCursor_OMPTargetDirective,
-    253 => CXCursor_OMPTeamsDirective,
-    254 => CXCursor_OMPTaskgroupDirective,
-    255 => CXCursor_OMPCancellationPointDirective,
-    256 => CXCursor_OMPCancelDirective,
-    257 => CXCursor_OMPTargetDataDirective,
-    258 => CXCursor_OMPTaskLoopDirective,
-    259 => CXCursor_OMPTaskLoopSimdDirective,
-    260 => CXCursor_OMPDistributeDirective,
-    261 => CXCursor_OMPTargetEnterDataDirective,
-    262 => CXCursor_OMPTargetExitDataDirective,
-    263 => CXCursor_OMPTargetParallelDirective,
-    264 => CXCursor_OMPTargetParallelForDirective,
-    265 => CXCursor_OMPTargetUpdateDirective,
-    266 => CXCursor_OMPDistributeParallelForDirective,
-    267 => CXCursor_OMPDistributeParallelForSimdDirective,
-    268 => CXCursor_OMPDistributeSimdDirective,
-    269 => CXCursor_OMPTargetParallelForSimdDirective,
-    270 => CXCursor_OMPTargetSimdDirective,
-    271 => CXCursor_OMPTeamsDistributeDirective,
-    272 => CXCursor_OMPTeamsDistributeSimdDirective,
-    273 => CXCursor_OMPTeamsDistributeParallelForSimdDirective,
-    274 => CXCursor_OMPTeamsDistributeParallelForDirective,
-    275 => CXCursor_OMPTargetTeamsDirective,
-    276 => CXCursor_OMPTargetTeamsDistributeDirective,
-    277 => CXCursor_OMPTargetTeamsDistributeParallelForDirective,
-    278 => CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective,
-    279 => CXCursor_OMPTargetTeamsDistributeSimdDirective,
-    280 => CXCursor_BuiltinBitCastExpr,
-    281 => CXCursor_OMPMasterTaskLoopDirective,
-    282 => CXCursor_OMPParallelMasterTaskLoopDirective,
-    283 => CXCursor_OMPMasterTaskLoopSimdDirective,
-    284 => CXCursor_OMPParallelMasterTaskLoopSimdDirective,
-    285 => CXCursor_OMPParallelMasterDirective,
-    300 => CXCursor_TranslationUnit,
-    400 => CXCursor_FirstAttr,
-    401 => CXCursor_IBActionAttr,
-    402 => CXCursor_IBOutletAttr,
-    403 => CXCursor_IBOutletCollectionAttr,
-    404 => CXCursor_CXXFinalAttr,
-    405 => CXCursor_CXXOverrideAttr,
-    406 => CXCursor_AnnotateAttr,
-    407 => CXCursor_AsmLabelAttr,
-    408 => CXCursor_PackedAttr,
-    409 => CXCursor_PureAttr,
-    410 => CXCursor_ConstAttr,
-    411 => CXCursor_NoDuplicateAttr,
-    412 => CXCursor_CUDAConstantAttr,
-    413 => CXCursor_CUDADeviceAttr,
-    414 => CXCursor_CUDAGlobalAttr,
-    415 => CXCursor_CUDAHostAttr,
-    416 => CXCursor_CUDASharedAttr,
-    417 => CXCursor_VisibilityAttr,
-    418 => CXCursor_DLLExport,
-    419 => CXCursor_DLLImport,
-    420 => CXCursor_NSReturnsRetained,
-    421 => CXCursor_NSReturnsNotRetained,
-    422 => CXCursor_NSReturnsAutoreleased,
-    423 => CXCursor_NSConsumesSelf,
-    424 => CXCursor_NSConsumed,
-    425 => CXCursor_ObjCException,
-    426 => CXCursor_ObjCNSObject,
-    427 => CXCursor_ObjCIndependentClass,
-    428 => CXCursor_ObjCPreciseLifetime,
-    429 => CXCursor_ObjCReturnsInnerPointer,
-    430 => CXCursor_ObjCRequiresSuper,
-    431 => CXCursor_ObjCRootClass,
-    432 => CXCursor_ObjCSubclassingRestricted,
-    433 => CXCursor_ObjCExplicitProtocolImpl,
-    434 => CXCursor_ObjCDesignatedInitializer,
-    435 => CXCursor_ObjCRuntimeVisible,
-    436 => CXCursor_ObjCBoxable,
-    437 => CXCursor_FlagEnum,
-    438 => CXCursor_ConvergentAttr,
-    439 => CXCursor_WarnUnusedAttr,
-    440 => CXCursor_WarnUnusedResultAttr,
-    441 => CXCursor_AlignedAttr,
-    500 => CXCursor_PreprocessingDirective,
-    501 => CXCursor_MacroDefinition,
-    502 => CXCursor_MacroExpansion,
-    503 => CXCursor_InclusionDirective,
-    600 => CXCursor_ModuleImportDecl,
-    601 => CXCursor_TypeAliasTemplateDecl,
-    602 => CXCursor_StaticAssert,
-    603 => CXCursor_FriendDecl,
-    700 => CXCursor_OverloadCandidate,
-    _ => throw ArgumentError('Unknown value for CXCursorKind: $value'),
-  };
+        1 => CXCursor_UnexposedDecl,
+        2 => CXCursor_StructDecl,
+        3 => CXCursor_UnionDecl,
+        4 => CXCursor_ClassDecl,
+        5 => CXCursor_EnumDecl,
+        6 => CXCursor_FieldDecl,
+        7 => CXCursor_EnumConstantDecl,
+        8 => CXCursor_FunctionDecl,
+        9 => CXCursor_VarDecl,
+        10 => CXCursor_ParmDecl,
+        11 => CXCursor_ObjCInterfaceDecl,
+        12 => CXCursor_ObjCCategoryDecl,
+        13 => CXCursor_ObjCProtocolDecl,
+        14 => CXCursor_ObjCPropertyDecl,
+        15 => CXCursor_ObjCIvarDecl,
+        16 => CXCursor_ObjCInstanceMethodDecl,
+        17 => CXCursor_ObjCClassMethodDecl,
+        18 => CXCursor_ObjCImplementationDecl,
+        19 => CXCursor_ObjCCategoryImplDecl,
+        20 => CXCursor_TypedefDecl,
+        21 => CXCursor_CXXMethod,
+        22 => CXCursor_Namespace,
+        23 => CXCursor_LinkageSpec,
+        24 => CXCursor_Constructor,
+        25 => CXCursor_Destructor,
+        26 => CXCursor_ConversionFunction,
+        27 => CXCursor_TemplateTypeParameter,
+        28 => CXCursor_NonTypeTemplateParameter,
+        29 => CXCursor_TemplateTemplateParameter,
+        30 => CXCursor_FunctionTemplate,
+        31 => CXCursor_ClassTemplate,
+        32 => CXCursor_ClassTemplatePartialSpecialization,
+        33 => CXCursor_NamespaceAlias,
+        34 => CXCursor_UsingDirective,
+        35 => CXCursor_UsingDeclaration,
+        36 => CXCursor_TypeAliasDecl,
+        37 => CXCursor_ObjCSynthesizeDecl,
+        38 => CXCursor_ObjCDynamicDecl,
+        39 => CXCursor_CXXAccessSpecifier,
+        40 => CXCursor_FirstRef,
+        41 => CXCursor_ObjCProtocolRef,
+        42 => CXCursor_ObjCClassRef,
+        43 => CXCursor_TypeRef,
+        44 => CXCursor_CXXBaseSpecifier,
+        45 => CXCursor_TemplateRef,
+        46 => CXCursor_NamespaceRef,
+        47 => CXCursor_MemberRef,
+        48 => CXCursor_LabelRef,
+        49 => CXCursor_OverloadedDeclRef,
+        50 => CXCursor_VariableRef,
+        70 => CXCursor_FirstInvalid,
+        71 => CXCursor_NoDeclFound,
+        72 => CXCursor_NotImplemented,
+        73 => CXCursor_InvalidCode,
+        100 => CXCursor_FirstExpr,
+        101 => CXCursor_DeclRefExpr,
+        102 => CXCursor_MemberRefExpr,
+        103 => CXCursor_CallExpr,
+        104 => CXCursor_ObjCMessageExpr,
+        105 => CXCursor_BlockExpr,
+        106 => CXCursor_IntegerLiteral,
+        107 => CXCursor_FloatingLiteral,
+        108 => CXCursor_ImaginaryLiteral,
+        109 => CXCursor_StringLiteral,
+        110 => CXCursor_CharacterLiteral,
+        111 => CXCursor_ParenExpr,
+        112 => CXCursor_UnaryOperator,
+        113 => CXCursor_ArraySubscriptExpr,
+        114 => CXCursor_BinaryOperator,
+        115 => CXCursor_CompoundAssignOperator,
+        116 => CXCursor_ConditionalOperator,
+        117 => CXCursor_CStyleCastExpr,
+        118 => CXCursor_CompoundLiteralExpr,
+        119 => CXCursor_InitListExpr,
+        120 => CXCursor_AddrLabelExpr,
+        121 => CXCursor_StmtExpr,
+        122 => CXCursor_GenericSelectionExpr,
+        123 => CXCursor_GNUNullExpr,
+        124 => CXCursor_CXXStaticCastExpr,
+        125 => CXCursor_CXXDynamicCastExpr,
+        126 => CXCursor_CXXReinterpretCastExpr,
+        127 => CXCursor_CXXConstCastExpr,
+        128 => CXCursor_CXXFunctionalCastExpr,
+        129 => CXCursor_CXXTypeidExpr,
+        130 => CXCursor_CXXBoolLiteralExpr,
+        131 => CXCursor_CXXNullPtrLiteralExpr,
+        132 => CXCursor_CXXThisExpr,
+        133 => CXCursor_CXXThrowExpr,
+        134 => CXCursor_CXXNewExpr,
+        135 => CXCursor_CXXDeleteExpr,
+        136 => CXCursor_UnaryExpr,
+        137 => CXCursor_ObjCStringLiteral,
+        138 => CXCursor_ObjCEncodeExpr,
+        139 => CXCursor_ObjCSelectorExpr,
+        140 => CXCursor_ObjCProtocolExpr,
+        141 => CXCursor_ObjCBridgedCastExpr,
+        142 => CXCursor_PackExpansionExpr,
+        143 => CXCursor_SizeOfPackExpr,
+        144 => CXCursor_LambdaExpr,
+        145 => CXCursor_ObjCBoolLiteralExpr,
+        146 => CXCursor_ObjCSelfExpr,
+        147 => CXCursor_OMPArraySectionExpr,
+        148 => CXCursor_ObjCAvailabilityCheckExpr,
+        149 => CXCursor_FixedPointLiteral,
+        200 => CXCursor_FirstStmt,
+        201 => CXCursor_LabelStmt,
+        202 => CXCursor_CompoundStmt,
+        203 => CXCursor_CaseStmt,
+        204 => CXCursor_DefaultStmt,
+        205 => CXCursor_IfStmt,
+        206 => CXCursor_SwitchStmt,
+        207 => CXCursor_WhileStmt,
+        208 => CXCursor_DoStmt,
+        209 => CXCursor_ForStmt,
+        210 => CXCursor_GotoStmt,
+        211 => CXCursor_IndirectGotoStmt,
+        212 => CXCursor_ContinueStmt,
+        213 => CXCursor_BreakStmt,
+        214 => CXCursor_ReturnStmt,
+        215 => CXCursor_GCCAsmStmt,
+        216 => CXCursor_ObjCAtTryStmt,
+        217 => CXCursor_ObjCAtCatchStmt,
+        218 => CXCursor_ObjCAtFinallyStmt,
+        219 => CXCursor_ObjCAtThrowStmt,
+        220 => CXCursor_ObjCAtSynchronizedStmt,
+        221 => CXCursor_ObjCAutoreleasePoolStmt,
+        222 => CXCursor_ObjCForCollectionStmt,
+        223 => CXCursor_CXXCatchStmt,
+        224 => CXCursor_CXXTryStmt,
+        225 => CXCursor_CXXForRangeStmt,
+        226 => CXCursor_SEHTryStmt,
+        227 => CXCursor_SEHExceptStmt,
+        228 => CXCursor_SEHFinallyStmt,
+        229 => CXCursor_MSAsmStmt,
+        230 => CXCursor_NullStmt,
+        231 => CXCursor_DeclStmt,
+        232 => CXCursor_OMPParallelDirective,
+        233 => CXCursor_OMPSimdDirective,
+        234 => CXCursor_OMPForDirective,
+        235 => CXCursor_OMPSectionsDirective,
+        236 => CXCursor_OMPSectionDirective,
+        237 => CXCursor_OMPSingleDirective,
+        238 => CXCursor_OMPParallelForDirective,
+        239 => CXCursor_OMPParallelSectionsDirective,
+        240 => CXCursor_OMPTaskDirective,
+        241 => CXCursor_OMPMasterDirective,
+        242 => CXCursor_OMPCriticalDirective,
+        243 => CXCursor_OMPTaskyieldDirective,
+        244 => CXCursor_OMPBarrierDirective,
+        245 => CXCursor_OMPTaskwaitDirective,
+        246 => CXCursor_OMPFlushDirective,
+        247 => CXCursor_SEHLeaveStmt,
+        248 => CXCursor_OMPOrderedDirective,
+        249 => CXCursor_OMPAtomicDirective,
+        250 => CXCursor_OMPForSimdDirective,
+        251 => CXCursor_OMPParallelForSimdDirective,
+        252 => CXCursor_OMPTargetDirective,
+        253 => CXCursor_OMPTeamsDirective,
+        254 => CXCursor_OMPTaskgroupDirective,
+        255 => CXCursor_OMPCancellationPointDirective,
+        256 => CXCursor_OMPCancelDirective,
+        257 => CXCursor_OMPTargetDataDirective,
+        258 => CXCursor_OMPTaskLoopDirective,
+        259 => CXCursor_OMPTaskLoopSimdDirective,
+        260 => CXCursor_OMPDistributeDirective,
+        261 => CXCursor_OMPTargetEnterDataDirective,
+        262 => CXCursor_OMPTargetExitDataDirective,
+        263 => CXCursor_OMPTargetParallelDirective,
+        264 => CXCursor_OMPTargetParallelForDirective,
+        265 => CXCursor_OMPTargetUpdateDirective,
+        266 => CXCursor_OMPDistributeParallelForDirective,
+        267 => CXCursor_OMPDistributeParallelForSimdDirective,
+        268 => CXCursor_OMPDistributeSimdDirective,
+        269 => CXCursor_OMPTargetParallelForSimdDirective,
+        270 => CXCursor_OMPTargetSimdDirective,
+        271 => CXCursor_OMPTeamsDistributeDirective,
+        272 => CXCursor_OMPTeamsDistributeSimdDirective,
+        273 => CXCursor_OMPTeamsDistributeParallelForSimdDirective,
+        274 => CXCursor_OMPTeamsDistributeParallelForDirective,
+        275 => CXCursor_OMPTargetTeamsDirective,
+        276 => CXCursor_OMPTargetTeamsDistributeDirective,
+        277 => CXCursor_OMPTargetTeamsDistributeParallelForDirective,
+        278 => CXCursor_OMPTargetTeamsDistributeParallelForSimdDirective,
+        279 => CXCursor_OMPTargetTeamsDistributeSimdDirective,
+        280 => CXCursor_BuiltinBitCastExpr,
+        281 => CXCursor_OMPMasterTaskLoopDirective,
+        282 => CXCursor_OMPParallelMasterTaskLoopDirective,
+        283 => CXCursor_OMPMasterTaskLoopSimdDirective,
+        284 => CXCursor_OMPParallelMasterTaskLoopSimdDirective,
+        285 => CXCursor_OMPParallelMasterDirective,
+        300 => CXCursor_TranslationUnit,
+        400 => CXCursor_FirstAttr,
+        401 => CXCursor_IBActionAttr,
+        402 => CXCursor_IBOutletAttr,
+        403 => CXCursor_IBOutletCollectionAttr,
+        404 => CXCursor_CXXFinalAttr,
+        405 => CXCursor_CXXOverrideAttr,
+        406 => CXCursor_AnnotateAttr,
+        407 => CXCursor_AsmLabelAttr,
+        408 => CXCursor_PackedAttr,
+        409 => CXCursor_PureAttr,
+        410 => CXCursor_ConstAttr,
+        411 => CXCursor_NoDuplicateAttr,
+        412 => CXCursor_CUDAConstantAttr,
+        413 => CXCursor_CUDADeviceAttr,
+        414 => CXCursor_CUDAGlobalAttr,
+        415 => CXCursor_CUDAHostAttr,
+        416 => CXCursor_CUDASharedAttr,
+        417 => CXCursor_VisibilityAttr,
+        418 => CXCursor_DLLExport,
+        419 => CXCursor_DLLImport,
+        420 => CXCursor_NSReturnsRetained,
+        421 => CXCursor_NSReturnsNotRetained,
+        422 => CXCursor_NSReturnsAutoreleased,
+        423 => CXCursor_NSConsumesSelf,
+        424 => CXCursor_NSConsumed,
+        425 => CXCursor_ObjCException,
+        426 => CXCursor_ObjCNSObject,
+        427 => CXCursor_ObjCIndependentClass,
+        428 => CXCursor_ObjCPreciseLifetime,
+        429 => CXCursor_ObjCReturnsInnerPointer,
+        430 => CXCursor_ObjCRequiresSuper,
+        431 => CXCursor_ObjCRootClass,
+        432 => CXCursor_ObjCSubclassingRestricted,
+        433 => CXCursor_ObjCExplicitProtocolImpl,
+        434 => CXCursor_ObjCDesignatedInitializer,
+        435 => CXCursor_ObjCRuntimeVisible,
+        436 => CXCursor_ObjCBoxable,
+        437 => CXCursor_FlagEnum,
+        438 => CXCursor_ConvergentAttr,
+        439 => CXCursor_WarnUnusedAttr,
+        440 => CXCursor_WarnUnusedResultAttr,
+        441 => CXCursor_AlignedAttr,
+        500 => CXCursor_PreprocessingDirective,
+        501 => CXCursor_MacroDefinition,
+        502 => CXCursor_MacroExpansion,
+        503 => CXCursor_InclusionDirective,
+        600 => CXCursor_ModuleImportDecl,
+        601 => CXCursor_TypeAliasTemplateDecl,
+        602 => CXCursor_StaticAssert,
+        603 => CXCursor_FriendDecl,
+        700 => CXCursor_OverloadCandidate,
+        _ => throw ArgumentError('Unknown value for CXCursorKind: $value'),
+      };
 
   @override
   String toString() {
@@ -7074,13 +6745,13 @@ enum CXLinkageKind {
   const CXLinkageKind(this.value);
 
   static CXLinkageKind fromValue(int value) => switch (value) {
-    0 => CXLinkage_Invalid,
-    1 => CXLinkage_NoLinkage,
-    2 => CXLinkage_Internal,
-    3 => CXLinkage_UniqueExternal,
-    4 => CXLinkage_External,
-    _ => throw ArgumentError('Unknown value for CXLinkageKind: $value'),
-  };
+        0 => CXLinkage_Invalid,
+        1 => CXLinkage_NoLinkage,
+        2 => CXLinkage_Internal,
+        3 => CXLinkage_UniqueExternal,
+        4 => CXLinkage_External,
+        _ => throw ArgumentError('Unknown value for CXLinkageKind: $value'),
+      };
 }
 
 enum CXVisibilityKind {
@@ -7101,12 +6772,12 @@ enum CXVisibilityKind {
   const CXVisibilityKind(this.value);
 
   static CXVisibilityKind fromValue(int value) => switch (value) {
-    0 => CXVisibility_Invalid,
-    1 => CXVisibility_Hidden,
-    2 => CXVisibility_Protected,
-    3 => CXVisibility_Default,
-    _ => throw ArgumentError('Unknown value for CXVisibilityKind: $value'),
-  };
+        0 => CXVisibility_Invalid,
+        1 => CXVisibility_Hidden,
+        2 => CXVisibility_Protected,
+        3 => CXVisibility_Default,
+        _ => throw ArgumentError('Unknown value for CXVisibilityKind: $value'),
+      };
 }
 
 /// Describes the availability of a given entity on a particular platform, e.g.,
@@ -7147,12 +6818,12 @@ enum CXLanguageKind {
   const CXLanguageKind(this.value);
 
   static CXLanguageKind fromValue(int value) => switch (value) {
-    0 => CXLanguage_Invalid,
-    1 => CXLanguage_C,
-    2 => CXLanguage_ObjC,
-    3 => CXLanguage_CPlusPlus,
-    _ => throw ArgumentError('Unknown value for CXLanguageKind: $value'),
-  };
+        0 => CXLanguage_Invalid,
+        1 => CXLanguage_C,
+        2 => CXLanguage_ObjC,
+        3 => CXLanguage_CPlusPlus,
+        _ => throw ArgumentError('Unknown value for CXLanguageKind: $value'),
+      };
 }
 
 /// Describe the "thread-local storage (TLS) kind" of the declaration referred
@@ -7166,11 +6837,11 @@ enum CXTLSKind {
   const CXTLSKind(this.value);
 
   static CXTLSKind fromValue(int value) => switch (value) {
-    0 => CXTLS_None,
-    1 => CXTLS_Dynamic,
-    2 => CXTLS_Static,
-    _ => throw ArgumentError('Unknown value for CXTLSKind: $value'),
-  };
+        0 => CXTLS_None,
+        1 => CXTLS_Dynamic,
+        2 => CXTLS_Static,
+        _ => throw ArgumentError('Unknown value for CXTLSKind: $value'),
+      };
 }
 
 final class CXCursorSetImpl extends ffi.Opaque {}
@@ -7309,124 +6980,124 @@ enum CXTypeKind {
   const CXTypeKind(this.value);
 
   static CXTypeKind fromValue(int value) => switch (value) {
-    0 => CXType_Invalid,
-    1 => CXType_Unexposed,
-    2 => CXType_Void,
-    3 => CXType_Bool,
-    4 => CXType_Char_U,
-    5 => CXType_UChar,
-    6 => CXType_Char16,
-    7 => CXType_Char32,
-    8 => CXType_UShort,
-    9 => CXType_UInt,
-    10 => CXType_ULong,
-    11 => CXType_ULongLong,
-    12 => CXType_UInt128,
-    13 => CXType_Char_S,
-    14 => CXType_SChar,
-    15 => CXType_WChar,
-    16 => CXType_Short,
-    17 => CXType_Int,
-    18 => CXType_Long,
-    19 => CXType_LongLong,
-    20 => CXType_Int128,
-    21 => CXType_Float,
-    22 => CXType_Double,
-    23 => CXType_LongDouble,
-    24 => CXType_NullPtr,
-    25 => CXType_Overload,
-    26 => CXType_Dependent,
-    27 => CXType_ObjCId,
-    28 => CXType_ObjCClass,
-    29 => CXType_ObjCSel,
-    30 => CXType_Float128,
-    31 => CXType_Half,
-    32 => CXType_Float16,
-    33 => CXType_ShortAccum,
-    34 => CXType_Accum,
-    35 => CXType_LongAccum,
-    36 => CXType_UShortAccum,
-    37 => CXType_UAccum,
-    38 => CXType_ULongAccum,
-    100 => CXType_Complex,
-    101 => CXType_Pointer,
-    102 => CXType_BlockPointer,
-    103 => CXType_LValueReference,
-    104 => CXType_RValueReference,
-    105 => CXType_Record,
-    106 => CXType_Enum,
-    107 => CXType_Typedef,
-    108 => CXType_ObjCInterface,
-    109 => CXType_ObjCObjectPointer,
-    110 => CXType_FunctionNoProto,
-    111 => CXType_FunctionProto,
-    112 => CXType_ConstantArray,
-    113 => CXType_Vector,
-    114 => CXType_IncompleteArray,
-    115 => CXType_VariableArray,
-    116 => CXType_DependentSizedArray,
-    117 => CXType_MemberPointer,
-    118 => CXType_Auto,
-    119 => CXType_Elaborated,
-    120 => CXType_Pipe,
-    121 => CXType_OCLImage1dRO,
-    122 => CXType_OCLImage1dArrayRO,
-    123 => CXType_OCLImage1dBufferRO,
-    124 => CXType_OCLImage2dRO,
-    125 => CXType_OCLImage2dArrayRO,
-    126 => CXType_OCLImage2dDepthRO,
-    127 => CXType_OCLImage2dArrayDepthRO,
-    128 => CXType_OCLImage2dMSAARO,
-    129 => CXType_OCLImage2dArrayMSAARO,
-    130 => CXType_OCLImage2dMSAADepthRO,
-    131 => CXType_OCLImage2dArrayMSAADepthRO,
-    132 => CXType_OCLImage3dRO,
-    133 => CXType_OCLImage1dWO,
-    134 => CXType_OCLImage1dArrayWO,
-    135 => CXType_OCLImage1dBufferWO,
-    136 => CXType_OCLImage2dWO,
-    137 => CXType_OCLImage2dArrayWO,
-    138 => CXType_OCLImage2dDepthWO,
-    139 => CXType_OCLImage2dArrayDepthWO,
-    140 => CXType_OCLImage2dMSAAWO,
-    141 => CXType_OCLImage2dArrayMSAAWO,
-    142 => CXType_OCLImage2dMSAADepthWO,
-    143 => CXType_OCLImage2dArrayMSAADepthWO,
-    144 => CXType_OCLImage3dWO,
-    145 => CXType_OCLImage1dRW,
-    146 => CXType_OCLImage1dArrayRW,
-    147 => CXType_OCLImage1dBufferRW,
-    148 => CXType_OCLImage2dRW,
-    149 => CXType_OCLImage2dArrayRW,
-    150 => CXType_OCLImage2dDepthRW,
-    151 => CXType_OCLImage2dArrayDepthRW,
-    152 => CXType_OCLImage2dMSAARW,
-    153 => CXType_OCLImage2dArrayMSAARW,
-    154 => CXType_OCLImage2dMSAADepthRW,
-    155 => CXType_OCLImage2dArrayMSAADepthRW,
-    156 => CXType_OCLImage3dRW,
-    157 => CXType_OCLSampler,
-    158 => CXType_OCLEvent,
-    159 => CXType_OCLQueue,
-    160 => CXType_OCLReserveID,
-    161 => CXType_ObjCObject,
-    162 => CXType_ObjCTypeParam,
-    163 => CXType_Attributed,
-    164 => CXType_OCLIntelSubgroupAVCMcePayload,
-    165 => CXType_OCLIntelSubgroupAVCImePayload,
-    166 => CXType_OCLIntelSubgroupAVCRefPayload,
-    167 => CXType_OCLIntelSubgroupAVCSicPayload,
-    168 => CXType_OCLIntelSubgroupAVCMceResult,
-    169 => CXType_OCLIntelSubgroupAVCImeResult,
-    170 => CXType_OCLIntelSubgroupAVCRefResult,
-    171 => CXType_OCLIntelSubgroupAVCSicResult,
-    172 => CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout,
-    173 => CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout,
-    174 => CXType_OCLIntelSubgroupAVCImeSingleRefStreamin,
-    175 => CXType_OCLIntelSubgroupAVCImeDualRefStreamin,
-    176 => CXType_ExtVector,
-    _ => throw ArgumentError('Unknown value for CXTypeKind: $value'),
-  };
+        0 => CXType_Invalid,
+        1 => CXType_Unexposed,
+        2 => CXType_Void,
+        3 => CXType_Bool,
+        4 => CXType_Char_U,
+        5 => CXType_UChar,
+        6 => CXType_Char16,
+        7 => CXType_Char32,
+        8 => CXType_UShort,
+        9 => CXType_UInt,
+        10 => CXType_ULong,
+        11 => CXType_ULongLong,
+        12 => CXType_UInt128,
+        13 => CXType_Char_S,
+        14 => CXType_SChar,
+        15 => CXType_WChar,
+        16 => CXType_Short,
+        17 => CXType_Int,
+        18 => CXType_Long,
+        19 => CXType_LongLong,
+        20 => CXType_Int128,
+        21 => CXType_Float,
+        22 => CXType_Double,
+        23 => CXType_LongDouble,
+        24 => CXType_NullPtr,
+        25 => CXType_Overload,
+        26 => CXType_Dependent,
+        27 => CXType_ObjCId,
+        28 => CXType_ObjCClass,
+        29 => CXType_ObjCSel,
+        30 => CXType_Float128,
+        31 => CXType_Half,
+        32 => CXType_Float16,
+        33 => CXType_ShortAccum,
+        34 => CXType_Accum,
+        35 => CXType_LongAccum,
+        36 => CXType_UShortAccum,
+        37 => CXType_UAccum,
+        38 => CXType_ULongAccum,
+        100 => CXType_Complex,
+        101 => CXType_Pointer,
+        102 => CXType_BlockPointer,
+        103 => CXType_LValueReference,
+        104 => CXType_RValueReference,
+        105 => CXType_Record,
+        106 => CXType_Enum,
+        107 => CXType_Typedef,
+        108 => CXType_ObjCInterface,
+        109 => CXType_ObjCObjectPointer,
+        110 => CXType_FunctionNoProto,
+        111 => CXType_FunctionProto,
+        112 => CXType_ConstantArray,
+        113 => CXType_Vector,
+        114 => CXType_IncompleteArray,
+        115 => CXType_VariableArray,
+        116 => CXType_DependentSizedArray,
+        117 => CXType_MemberPointer,
+        118 => CXType_Auto,
+        119 => CXType_Elaborated,
+        120 => CXType_Pipe,
+        121 => CXType_OCLImage1dRO,
+        122 => CXType_OCLImage1dArrayRO,
+        123 => CXType_OCLImage1dBufferRO,
+        124 => CXType_OCLImage2dRO,
+        125 => CXType_OCLImage2dArrayRO,
+        126 => CXType_OCLImage2dDepthRO,
+        127 => CXType_OCLImage2dArrayDepthRO,
+        128 => CXType_OCLImage2dMSAARO,
+        129 => CXType_OCLImage2dArrayMSAARO,
+        130 => CXType_OCLImage2dMSAADepthRO,
+        131 => CXType_OCLImage2dArrayMSAADepthRO,
+        132 => CXType_OCLImage3dRO,
+        133 => CXType_OCLImage1dWO,
+        134 => CXType_OCLImage1dArrayWO,
+        135 => CXType_OCLImage1dBufferWO,
+        136 => CXType_OCLImage2dWO,
+        137 => CXType_OCLImage2dArrayWO,
+        138 => CXType_OCLImage2dDepthWO,
+        139 => CXType_OCLImage2dArrayDepthWO,
+        140 => CXType_OCLImage2dMSAAWO,
+        141 => CXType_OCLImage2dArrayMSAAWO,
+        142 => CXType_OCLImage2dMSAADepthWO,
+        143 => CXType_OCLImage2dArrayMSAADepthWO,
+        144 => CXType_OCLImage3dWO,
+        145 => CXType_OCLImage1dRW,
+        146 => CXType_OCLImage1dArrayRW,
+        147 => CXType_OCLImage1dBufferRW,
+        148 => CXType_OCLImage2dRW,
+        149 => CXType_OCLImage2dArrayRW,
+        150 => CXType_OCLImage2dDepthRW,
+        151 => CXType_OCLImage2dArrayDepthRW,
+        152 => CXType_OCLImage2dMSAARW,
+        153 => CXType_OCLImage2dArrayMSAARW,
+        154 => CXType_OCLImage2dMSAADepthRW,
+        155 => CXType_OCLImage2dArrayMSAADepthRW,
+        156 => CXType_OCLImage3dRW,
+        157 => CXType_OCLSampler,
+        158 => CXType_OCLEvent,
+        159 => CXType_OCLQueue,
+        160 => CXType_OCLReserveID,
+        161 => CXType_ObjCObject,
+        162 => CXType_ObjCTypeParam,
+        163 => CXType_Attributed,
+        164 => CXType_OCLIntelSubgroupAVCMcePayload,
+        165 => CXType_OCLIntelSubgroupAVCImePayload,
+        166 => CXType_OCLIntelSubgroupAVCRefPayload,
+        167 => CXType_OCLIntelSubgroupAVCSicPayload,
+        168 => CXType_OCLIntelSubgroupAVCMceResult,
+        169 => CXType_OCLIntelSubgroupAVCImeResult,
+        170 => CXType_OCLIntelSubgroupAVCRefResult,
+        171 => CXType_OCLIntelSubgroupAVCSicResult,
+        172 => CXType_OCLIntelSubgroupAVCImeResultSingleRefStreamout,
+        173 => CXType_OCLIntelSubgroupAVCImeResultDualRefStreamout,
+        174 => CXType_OCLIntelSubgroupAVCImeSingleRefStreamin,
+        175 => CXType_OCLIntelSubgroupAVCImeDualRefStreamin,
+        176 => CXType_ExtVector,
+        _ => throw ArgumentError('Unknown value for CXTypeKind: $value'),
+      };
 
   @override
   String toString() {
@@ -7466,27 +7137,27 @@ enum CXCallingConv {
   const CXCallingConv(this.value);
 
   static CXCallingConv fromValue(int value) => switch (value) {
-    0 => CXCallingConv_Default,
-    1 => CXCallingConv_C,
-    2 => CXCallingConv_X86StdCall,
-    3 => CXCallingConv_X86FastCall,
-    4 => CXCallingConv_X86ThisCall,
-    5 => CXCallingConv_X86Pascal,
-    6 => CXCallingConv_AAPCS,
-    7 => CXCallingConv_AAPCS_VFP,
-    8 => CXCallingConv_X86RegCall,
-    9 => CXCallingConv_IntelOclBicc,
-    10 => CXCallingConv_Win64,
-    11 => CXCallingConv_X86_64SysV,
-    12 => CXCallingConv_X86VectorCall,
-    13 => CXCallingConv_Swift,
-    14 => CXCallingConv_PreserveMost,
-    15 => CXCallingConv_PreserveAll,
-    16 => CXCallingConv_AArch64VectorCall,
-    100 => CXCallingConv_Invalid,
-    200 => CXCallingConv_Unexposed,
-    _ => throw ArgumentError('Unknown value for CXCallingConv: $value'),
-  };
+        0 => CXCallingConv_Default,
+        1 => CXCallingConv_C,
+        2 => CXCallingConv_X86StdCall,
+        3 => CXCallingConv_X86FastCall,
+        4 => CXCallingConv_X86ThisCall,
+        5 => CXCallingConv_X86Pascal,
+        6 => CXCallingConv_AAPCS,
+        7 => CXCallingConv_AAPCS_VFP,
+        8 => CXCallingConv_X86RegCall,
+        9 => CXCallingConv_IntelOclBicc,
+        10 => CXCallingConv_Win64,
+        11 => CXCallingConv_X86_64SysV,
+        12 => CXCallingConv_X86VectorCall,
+        13 => CXCallingConv_Swift,
+        14 => CXCallingConv_PreserveMost,
+        15 => CXCallingConv_PreserveAll,
+        16 => CXCallingConv_AArch64VectorCall,
+        100 => CXCallingConv_Invalid,
+        200 => CXCallingConv_Unexposed,
+        _ => throw ArgumentError('Unknown value for CXCallingConv: $value'),
+      };
 
   @override
   String toString() {
@@ -7524,20 +7195,20 @@ enum CXTemplateArgumentKind {
   const CXTemplateArgumentKind(this.value);
 
   static CXTemplateArgumentKind fromValue(int value) => switch (value) {
-    0 => CXTemplateArgumentKind_Null,
-    1 => CXTemplateArgumentKind_Type,
-    2 => CXTemplateArgumentKind_Declaration,
-    3 => CXTemplateArgumentKind_NullPtr,
-    4 => CXTemplateArgumentKind_Integral,
-    5 => CXTemplateArgumentKind_Template,
-    6 => CXTemplateArgumentKind_TemplateExpansion,
-    7 => CXTemplateArgumentKind_Expression,
-    8 => CXTemplateArgumentKind_Pack,
-    9 => CXTemplateArgumentKind_Invalid,
-    _ => throw ArgumentError(
-      'Unknown value for CXTemplateArgumentKind: $value',
-    ),
-  };
+        0 => CXTemplateArgumentKind_Null,
+        1 => CXTemplateArgumentKind_Type,
+        2 => CXTemplateArgumentKind_Declaration,
+        3 => CXTemplateArgumentKind_NullPtr,
+        4 => CXTemplateArgumentKind_Integral,
+        5 => CXTemplateArgumentKind_Template,
+        6 => CXTemplateArgumentKind_TemplateExpansion,
+        7 => CXTemplateArgumentKind_Expression,
+        8 => CXTemplateArgumentKind_Pack,
+        9 => CXTemplateArgumentKind_Invalid,
+        _ => throw ArgumentError(
+            'Unknown value for CXTemplateArgumentKind: $value',
+          ),
+      };
 }
 
 enum CXTypeNullabilityKind {
@@ -7559,12 +7230,13 @@ enum CXTypeNullabilityKind {
   const CXTypeNullabilityKind(this.value);
 
   static CXTypeNullabilityKind fromValue(int value) => switch (value) {
-    0 => CXTypeNullability_NonNull,
-    1 => CXTypeNullability_Nullable,
-    2 => CXTypeNullability_Unspecified,
-    3 => CXTypeNullability_Invalid,
-    _ => throw ArgumentError('Unknown value for CXTypeNullabilityKind: $value'),
-  };
+        0 => CXTypeNullability_NonNull,
+        1 => CXTypeNullability_Nullable,
+        2 => CXTypeNullability_Unspecified,
+        3 => CXTypeNullability_Invalid,
+        _ => throw ArgumentError(
+            'Unknown value for CXTypeNullabilityKind: $value'),
+      };
 }
 
 /// List the possible error codes for clang_Type_getSizeOf,
@@ -7592,14 +7264,14 @@ enum CXTypeLayoutError {
   const CXTypeLayoutError(this.value);
 
   static CXTypeLayoutError fromValue(int value) => switch (value) {
-    -1 => CXTypeLayoutError_Invalid,
-    -2 => CXTypeLayoutError_Incomplete,
-    -3 => CXTypeLayoutError_Dependent,
-    -4 => CXTypeLayoutError_NotConstantSize,
-    -5 => CXTypeLayoutError_InvalidFieldName,
-    -6 => CXTypeLayoutError_Undeduced,
-    _ => throw ArgumentError('Unknown value for CXTypeLayoutError: $value'),
-  };
+        -1 => CXTypeLayoutError_Invalid,
+        -2 => CXTypeLayoutError_Incomplete,
+        -3 => CXTypeLayoutError_Dependent,
+        -4 => CXTypeLayoutError_NotConstantSize,
+        -5 => CXTypeLayoutError_InvalidFieldName,
+        -6 => CXTypeLayoutError_Undeduced,
+        _ => throw ArgumentError('Unknown value for CXTypeLayoutError: $value'),
+      };
 }
 
 enum CXRefQualifierKind {
@@ -7616,11 +7288,12 @@ enum CXRefQualifierKind {
   const CXRefQualifierKind(this.value);
 
   static CXRefQualifierKind fromValue(int value) => switch (value) {
-    0 => CXRefQualifier_None,
-    1 => CXRefQualifier_LValue,
-    2 => CXRefQualifier_RValue,
-    _ => throw ArgumentError('Unknown value for CXRefQualifierKind: $value'),
-  };
+        0 => CXRefQualifier_None,
+        1 => CXRefQualifier_LValue,
+        2 => CXRefQualifier_RValue,
+        _ =>
+          throw ArgumentError('Unknown value for CXRefQualifierKind: $value'),
+      };
 }
 
 /// Represents the C++ access control level to a base class for a cursor with
@@ -7635,12 +7308,13 @@ enum CX_CXXAccessSpecifier {
   const CX_CXXAccessSpecifier(this.value);
 
   static CX_CXXAccessSpecifier fromValue(int value) => switch (value) {
-    0 => CX_CXXInvalidAccessSpecifier,
-    1 => CX_CXXPublic,
-    2 => CX_CXXProtected,
-    3 => CX_CXXPrivate,
-    _ => throw ArgumentError('Unknown value for CX_CXXAccessSpecifier: $value'),
-  };
+        0 => CX_CXXInvalidAccessSpecifier,
+        1 => CX_CXXPublic,
+        2 => CX_CXXProtected,
+        3 => CX_CXXPrivate,
+        _ => throw ArgumentError(
+            'Unknown value for CX_CXXAccessSpecifier: $value'),
+      };
 }
 
 /// Represents the storage classes as declared in the source. CX_SC_Invalid was
@@ -7659,16 +7333,16 @@ enum CX_StorageClass {
   const CX_StorageClass(this.value);
 
   static CX_StorageClass fromValue(int value) => switch (value) {
-    0 => CX_SC_Invalid,
-    1 => CX_SC_None,
-    2 => CX_SC_Extern,
-    3 => CX_SC_Static,
-    4 => CX_SC_PrivateExtern,
-    5 => CX_SC_OpenCLWorkGroupLocal,
-    6 => CX_SC_Auto,
-    7 => CX_SC_Register,
-    _ => throw ArgumentError('Unknown value for CX_StorageClass: $value'),
-  };
+        0 => CX_SC_Invalid,
+        1 => CX_SC_None,
+        2 => CX_SC_Extern,
+        3 => CX_SC_Static,
+        4 => CX_SC_PrivateExtern,
+        5 => CX_SC_OpenCLWorkGroupLocal,
+        6 => CX_SC_Auto,
+        7 => CX_SC_Register,
+        _ => throw ArgumentError('Unknown value for CX_StorageClass: $value'),
+      };
 }
 
 /// Describes how the traversal of the children of a particular cursor should
@@ -7689,29 +7363,28 @@ enum CXChildVisitResult {
   const CXChildVisitResult(this.value);
 
   static CXChildVisitResult fromValue(int value) => switch (value) {
-    0 => CXChildVisit_Break,
-    1 => CXChildVisit_Continue,
-    2 => CXChildVisit_Recurse,
-    _ => throw ArgumentError('Unknown value for CXChildVisitResult: $value'),
-  };
+        0 => CXChildVisit_Break,
+        1 => CXChildVisit_Continue,
+        2 => CXChildVisit_Recurse,
+        _ =>
+          throw ArgumentError('Unknown value for CXChildVisitResult: $value'),
+      };
 }
 
-typedef CXCursorVisitorFunction =
-    ffi.UnsignedInt Function(
-      CXCursor cursor,
-      CXCursor parent,
-      CXClientData client_data,
-    );
-typedef DartCXCursorVisitorFunction =
-    CXChildVisitResult Function(
-      CXCursor cursor,
-      CXCursor parent,
-      CXClientData client_data,
-    );
+typedef CXCursorVisitorFunction = ffi.UnsignedInt Function(
+  CXCursor cursor,
+  CXCursor parent,
+  CXClientData client_data,
+);
+typedef DartCXCursorVisitorFunction = CXChildVisitResult Function(
+  CXCursor cursor,
+  CXCursor parent,
+  CXClientData client_data,
+);
 
 /// Visitor invoked for each cursor found by a traversal.
-typedef CXCursorVisitor =
-    ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
+typedef CXCursorVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXCursorVisitorFunction>>;
 
 /// Opaque pointer representing a policy that controls pretty printing for
 /// clang_getCursorPrettyPrinted.
@@ -7753,36 +7426,36 @@ enum CXPrintingPolicyProperty {
   const CXPrintingPolicyProperty(this.value);
 
   static CXPrintingPolicyProperty fromValue(int value) => switch (value) {
-    0 => CXPrintingPolicy_Indentation,
-    1 => CXPrintingPolicy_SuppressSpecifiers,
-    2 => CXPrintingPolicy_SuppressTagKeyword,
-    3 => CXPrintingPolicy_IncludeTagDefinition,
-    4 => CXPrintingPolicy_SuppressScope,
-    5 => CXPrintingPolicy_SuppressUnwrittenScope,
-    6 => CXPrintingPolicy_SuppressInitializers,
-    7 => CXPrintingPolicy_ConstantArraySizeAsWritten,
-    8 => CXPrintingPolicy_AnonymousTagLocations,
-    9 => CXPrintingPolicy_SuppressStrongLifetime,
-    10 => CXPrintingPolicy_SuppressLifetimeQualifiers,
-    11 => CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors,
-    12 => CXPrintingPolicy_Bool,
-    13 => CXPrintingPolicy_Restrict,
-    14 => CXPrintingPolicy_Alignof,
-    15 => CXPrintingPolicy_UnderscoreAlignof,
-    16 => CXPrintingPolicy_UseVoidForZeroParams,
-    17 => CXPrintingPolicy_TerseOutput,
-    18 => CXPrintingPolicy_PolishForDeclaration,
-    19 => CXPrintingPolicy_Half,
-    20 => CXPrintingPolicy_MSWChar,
-    21 => CXPrintingPolicy_IncludeNewlines,
-    22 => CXPrintingPolicy_MSVCFormatting,
-    23 => CXPrintingPolicy_ConstantsAsWritten,
-    24 => CXPrintingPolicy_SuppressImplicitBase,
-    25 => CXPrintingPolicy_FullyQualifiedName,
-    _ => throw ArgumentError(
-      'Unknown value for CXPrintingPolicyProperty: $value',
-    ),
-  };
+        0 => CXPrintingPolicy_Indentation,
+        1 => CXPrintingPolicy_SuppressSpecifiers,
+        2 => CXPrintingPolicy_SuppressTagKeyword,
+        3 => CXPrintingPolicy_IncludeTagDefinition,
+        4 => CXPrintingPolicy_SuppressScope,
+        5 => CXPrintingPolicy_SuppressUnwrittenScope,
+        6 => CXPrintingPolicy_SuppressInitializers,
+        7 => CXPrintingPolicy_ConstantArraySizeAsWritten,
+        8 => CXPrintingPolicy_AnonymousTagLocations,
+        9 => CXPrintingPolicy_SuppressStrongLifetime,
+        10 => CXPrintingPolicy_SuppressLifetimeQualifiers,
+        11 => CXPrintingPolicy_SuppressTemplateArgsInCXXConstructors,
+        12 => CXPrintingPolicy_Bool,
+        13 => CXPrintingPolicy_Restrict,
+        14 => CXPrintingPolicy_Alignof,
+        15 => CXPrintingPolicy_UnderscoreAlignof,
+        16 => CXPrintingPolicy_UseVoidForZeroParams,
+        17 => CXPrintingPolicy_TerseOutput,
+        18 => CXPrintingPolicy_PolishForDeclaration,
+        19 => CXPrintingPolicy_Half,
+        20 => CXPrintingPolicy_MSWChar,
+        21 => CXPrintingPolicy_IncludeNewlines,
+        22 => CXPrintingPolicy_MSVCFormatting,
+        23 => CXPrintingPolicy_ConstantsAsWritten,
+        24 => CXPrintingPolicy_SuppressImplicitBase,
+        25 => CXPrintingPolicy_FullyQualifiedName,
+        _ => throw ArgumentError(
+            'Unknown value for CXPrintingPolicyProperty: $value',
+          ),
+      };
 
   @override
   String toString() {
@@ -7813,24 +7486,24 @@ enum CXObjCPropertyAttrKind {
   const CXObjCPropertyAttrKind(this.value);
 
   static CXObjCPropertyAttrKind fromValue(int value) => switch (value) {
-    0 => CXObjCPropertyAttr_noattr,
-    1 => CXObjCPropertyAttr_readonly,
-    2 => CXObjCPropertyAttr_getter,
-    4 => CXObjCPropertyAttr_assign,
-    8 => CXObjCPropertyAttr_readwrite,
-    16 => CXObjCPropertyAttr_retain,
-    32 => CXObjCPropertyAttr_copy,
-    64 => CXObjCPropertyAttr_nonatomic,
-    128 => CXObjCPropertyAttr_setter,
-    256 => CXObjCPropertyAttr_atomic,
-    512 => CXObjCPropertyAttr_weak,
-    1024 => CXObjCPropertyAttr_strong,
-    2048 => CXObjCPropertyAttr_unsafe_unretained,
-    4096 => CXObjCPropertyAttr_class,
-    _ => throw ArgumentError(
-      'Unknown value for CXObjCPropertyAttrKind: $value',
-    ),
-  };
+        0 => CXObjCPropertyAttr_noattr,
+        1 => CXObjCPropertyAttr_readonly,
+        2 => CXObjCPropertyAttr_getter,
+        4 => CXObjCPropertyAttr_assign,
+        8 => CXObjCPropertyAttr_readwrite,
+        16 => CXObjCPropertyAttr_retain,
+        32 => CXObjCPropertyAttr_copy,
+        64 => CXObjCPropertyAttr_nonatomic,
+        128 => CXObjCPropertyAttr_setter,
+        256 => CXObjCPropertyAttr_atomic,
+        512 => CXObjCPropertyAttr_weak,
+        1024 => CXObjCPropertyAttr_strong,
+        2048 => CXObjCPropertyAttr_unsafe_unretained,
+        4096 => CXObjCPropertyAttr_class,
+        _ => throw ArgumentError(
+            'Unknown value for CXObjCPropertyAttrKind: $value',
+          ),
+      };
 }
 
 /// 'Qualifiers' written next to the return and parameter types in Objective-C
@@ -7848,17 +7521,17 @@ enum CXObjCDeclQualifierKind {
   const CXObjCDeclQualifierKind(this.value);
 
   static CXObjCDeclQualifierKind fromValue(int value) => switch (value) {
-    0 => CXObjCDeclQualifier_None,
-    1 => CXObjCDeclQualifier_In,
-    2 => CXObjCDeclQualifier_Inout,
-    4 => CXObjCDeclQualifier_Out,
-    8 => CXObjCDeclQualifier_Bycopy,
-    16 => CXObjCDeclQualifier_Byref,
-    32 => CXObjCDeclQualifier_Oneway,
-    _ => throw ArgumentError(
-      'Unknown value for CXObjCDeclQualifierKind: $value',
-    ),
-  };
+        0 => CXObjCDeclQualifier_None,
+        1 => CXObjCDeclQualifier_In,
+        2 => CXObjCDeclQualifier_Inout,
+        4 => CXObjCDeclQualifier_Out,
+        8 => CXObjCDeclQualifier_Bycopy,
+        16 => CXObjCDeclQualifier_Byref,
+        32 => CXObjCDeclQualifier_Oneway,
+        _ => throw ArgumentError(
+            'Unknown value for CXObjCDeclQualifierKind: $value',
+          ),
+      };
 }
 
 /// The functions in this group provide access to information about modules.
@@ -7879,11 +7552,11 @@ enum CXNameRefFlags {
   const CXNameRefFlags(this.value);
 
   static CXNameRefFlags fromValue(int value) => switch (value) {
-    1 => CXNameRange_WantQualifier,
-    2 => CXNameRange_WantTemplateArgs,
-    4 => CXNameRange_WantSinglePiece,
-    _ => throw ArgumentError('Unknown value for CXNameRefFlags: $value'),
-  };
+        1 => CXNameRange_WantQualifier,
+        2 => CXNameRange_WantTemplateArgs,
+        4 => CXNameRange_WantSinglePiece,
+        _ => throw ArgumentError('Unknown value for CXNameRefFlags: $value'),
+      };
 }
 
 /// Describes a kind of token.
@@ -7907,13 +7580,13 @@ enum CXTokenKind {
   const CXTokenKind(this.value);
 
   static CXTokenKind fromValue(int value) => switch (value) {
-    0 => CXToken_Punctuation,
-    1 => CXToken_Keyword,
-    2 => CXToken_Identifier,
-    3 => CXToken_Literal,
-    4 => CXToken_Comment,
-    _ => throw ArgumentError('Unknown value for CXTokenKind: $value'),
-  };
+        0 => CXToken_Punctuation,
+        1 => CXToken_Keyword,
+        2 => CXToken_Identifier,
+        3 => CXToken_Literal,
+        4 => CXToken_Comment,
+        _ => throw ArgumentError('Unknown value for CXTokenKind: $value'),
+      };
 }
 
 /// Describes a single preprocessing token.
@@ -8016,29 +7689,30 @@ enum CXCompletionChunkKind {
   const CXCompletionChunkKind(this.value);
 
   static CXCompletionChunkKind fromValue(int value) => switch (value) {
-    0 => CXCompletionChunk_Optional,
-    1 => CXCompletionChunk_TypedText,
-    2 => CXCompletionChunk_Text,
-    3 => CXCompletionChunk_Placeholder,
-    4 => CXCompletionChunk_Informative,
-    5 => CXCompletionChunk_CurrentParameter,
-    6 => CXCompletionChunk_LeftParen,
-    7 => CXCompletionChunk_RightParen,
-    8 => CXCompletionChunk_LeftBracket,
-    9 => CXCompletionChunk_RightBracket,
-    10 => CXCompletionChunk_LeftBrace,
-    11 => CXCompletionChunk_RightBrace,
-    12 => CXCompletionChunk_LeftAngle,
-    13 => CXCompletionChunk_RightAngle,
-    14 => CXCompletionChunk_Comma,
-    15 => CXCompletionChunk_ResultType,
-    16 => CXCompletionChunk_Colon,
-    17 => CXCompletionChunk_SemiColon,
-    18 => CXCompletionChunk_Equal,
-    19 => CXCompletionChunk_HorizontalSpace,
-    20 => CXCompletionChunk_VerticalSpace,
-    _ => throw ArgumentError('Unknown value for CXCompletionChunkKind: $value'),
-  };
+        0 => CXCompletionChunk_Optional,
+        1 => CXCompletionChunk_TypedText,
+        2 => CXCompletionChunk_Text,
+        3 => CXCompletionChunk_Placeholder,
+        4 => CXCompletionChunk_Informative,
+        5 => CXCompletionChunk_CurrentParameter,
+        6 => CXCompletionChunk_LeftParen,
+        7 => CXCompletionChunk_RightParen,
+        8 => CXCompletionChunk_LeftBracket,
+        9 => CXCompletionChunk_RightBracket,
+        10 => CXCompletionChunk_LeftBrace,
+        11 => CXCompletionChunk_RightBrace,
+        12 => CXCompletionChunk_LeftAngle,
+        13 => CXCompletionChunk_RightAngle,
+        14 => CXCompletionChunk_Comma,
+        15 => CXCompletionChunk_ResultType,
+        16 => CXCompletionChunk_Colon,
+        17 => CXCompletionChunk_SemiColon,
+        18 => CXCompletionChunk_Equal,
+        19 => CXCompletionChunk_HorizontalSpace,
+        20 => CXCompletionChunk_VerticalSpace,
+        _ => throw ArgumentError(
+            'Unknown value for CXCompletionChunkKind: $value'),
+      };
 }
 
 /// Contains the results of code-completion.
@@ -8078,13 +7752,14 @@ enum CXCodeComplete_Flags {
   const CXCodeComplete_Flags(this.value);
 
   static CXCodeComplete_Flags fromValue(int value) => switch (value) {
-    1 => CXCodeComplete_IncludeMacros,
-    2 => CXCodeComplete_IncludeCodePatterns,
-    4 => CXCodeComplete_IncludeBriefComments,
-    8 => CXCodeComplete_SkipPreamble,
-    16 => CXCodeComplete_IncludeCompletionsWithFixIts,
-    _ => throw ArgumentError('Unknown value for CXCodeComplete_Flags: $value'),
-  };
+        1 => CXCodeComplete_IncludeMacros,
+        2 => CXCodeComplete_IncludeCodePatterns,
+        4 => CXCodeComplete_IncludeBriefComments,
+        8 => CXCodeComplete_SkipPreamble,
+        16 => CXCodeComplete_IncludeCompletionsWithFixIts,
+        _ =>
+          throw ArgumentError('Unknown value for CXCodeComplete_Flags: $value'),
+      };
 }
 
 /// Bits that represent the context under which completion is occurring.
@@ -8183,54 +7858,53 @@ enum CXCompletionContext {
   const CXCompletionContext(this.value);
 
   static CXCompletionContext fromValue(int value) => switch (value) {
-    0 => CXCompletionContext_Unexposed,
-    1 => CXCompletionContext_AnyType,
-    2 => CXCompletionContext_AnyValue,
-    4 => CXCompletionContext_ObjCObjectValue,
-    8 => CXCompletionContext_ObjCSelectorValue,
-    16 => CXCompletionContext_CXXClassTypeValue,
-    32 => CXCompletionContext_DotMemberAccess,
-    64 => CXCompletionContext_ArrowMemberAccess,
-    128 => CXCompletionContext_ObjCPropertyAccess,
-    256 => CXCompletionContext_EnumTag,
-    512 => CXCompletionContext_UnionTag,
-    1024 => CXCompletionContext_StructTag,
-    2048 => CXCompletionContext_ClassTag,
-    4096 => CXCompletionContext_Namespace,
-    8192 => CXCompletionContext_NestedNameSpecifier,
-    16384 => CXCompletionContext_ObjCInterface,
-    32768 => CXCompletionContext_ObjCProtocol,
-    65536 => CXCompletionContext_ObjCCategory,
-    131072 => CXCompletionContext_ObjCInstanceMessage,
-    262144 => CXCompletionContext_ObjCClassMessage,
-    524288 => CXCompletionContext_ObjCSelectorName,
-    1048576 => CXCompletionContext_MacroName,
-    2097152 => CXCompletionContext_NaturalLanguage,
-    4194304 => CXCompletionContext_IncludedFile,
-    8388607 => CXCompletionContext_Unknown,
-    _ => throw ArgumentError('Unknown value for CXCompletionContext: $value'),
-  };
+        0 => CXCompletionContext_Unexposed,
+        1 => CXCompletionContext_AnyType,
+        2 => CXCompletionContext_AnyValue,
+        4 => CXCompletionContext_ObjCObjectValue,
+        8 => CXCompletionContext_ObjCSelectorValue,
+        16 => CXCompletionContext_CXXClassTypeValue,
+        32 => CXCompletionContext_DotMemberAccess,
+        64 => CXCompletionContext_ArrowMemberAccess,
+        128 => CXCompletionContext_ObjCPropertyAccess,
+        256 => CXCompletionContext_EnumTag,
+        512 => CXCompletionContext_UnionTag,
+        1024 => CXCompletionContext_StructTag,
+        2048 => CXCompletionContext_ClassTag,
+        4096 => CXCompletionContext_Namespace,
+        8192 => CXCompletionContext_NestedNameSpecifier,
+        16384 => CXCompletionContext_ObjCInterface,
+        32768 => CXCompletionContext_ObjCProtocol,
+        65536 => CXCompletionContext_ObjCCategory,
+        131072 => CXCompletionContext_ObjCInstanceMessage,
+        262144 => CXCompletionContext_ObjCClassMessage,
+        524288 => CXCompletionContext_ObjCSelectorName,
+        1048576 => CXCompletionContext_MacroName,
+        2097152 => CXCompletionContext_NaturalLanguage,
+        4194304 => CXCompletionContext_IncludedFile,
+        8388607 => CXCompletionContext_Unknown,
+        _ =>
+          throw ArgumentError('Unknown value for CXCompletionContext: $value'),
+      };
 }
 
-typedef CXInclusionVisitorFunction =
-    ffi.Void Function(
-      CXFile included_file,
-      ffi.Pointer<CXSourceLocation> inclusion_stack,
-      ffi.UnsignedInt include_len,
-      CXClientData client_data,
-    );
-typedef DartCXInclusionVisitorFunction =
-    void Function(
-      CXFile included_file,
-      ffi.Pointer<CXSourceLocation> inclusion_stack,
-      int include_len,
-      CXClientData client_data,
-    );
+typedef CXInclusionVisitorFunction = ffi.Void Function(
+  CXFile included_file,
+  ffi.Pointer<CXSourceLocation> inclusion_stack,
+  ffi.UnsignedInt include_len,
+  CXClientData client_data,
+);
+typedef DartCXInclusionVisitorFunction = void Function(
+  CXFile included_file,
+  ffi.Pointer<CXSourceLocation> inclusion_stack,
+  int include_len,
+  CXClientData client_data,
+);
 
 /// Visitor invoked for each file in a translation unit (used with
 /// clang_getInclusions()).
-typedef CXInclusionVisitor =
-    ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
+typedef CXInclusionVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXInclusionVisitorFunction>>;
 
 enum CXEvalResultKind {
   CXEval_Int(1),
@@ -8245,15 +7919,15 @@ enum CXEvalResultKind {
   const CXEvalResultKind(this.value);
 
   static CXEvalResultKind fromValue(int value) => switch (value) {
-    1 => CXEval_Int,
-    2 => CXEval_Float,
-    3 => CXEval_ObjCStrLiteral,
-    4 => CXEval_StrLiteral,
-    5 => CXEval_CFStr,
-    6 => CXEval_Other,
-    0 => CXEval_UnExposed,
-    _ => throw ArgumentError('Unknown value for CXEvalResultKind: $value'),
-  };
+        1 => CXEval_Int,
+        2 => CXEval_Float,
+        3 => CXEval_ObjCStrLiteral,
+        4 => CXEval_StrLiteral,
+        5 => CXEval_CFStr,
+        6 => CXEval_Other,
+        0 => CXEval_UnExposed,
+        _ => throw ArgumentError('Unknown value for CXEvalResultKind: $value'),
+      };
 }
 
 /// Evaluation result of a cursor
@@ -8271,21 +7945,19 @@ enum CXVisitorResult {
   const CXVisitorResult(this.value);
 
   static CXVisitorResult fromValue(int value) => switch (value) {
-    0 => CXVisit_Break,
-    1 => CXVisit_Continue,
-    _ => throw ArgumentError('Unknown value for CXVisitorResult: $value'),
-  };
+        0 => CXVisit_Break,
+        1 => CXVisit_Continue,
+        _ => throw ArgumentError('Unknown value for CXVisitorResult: $value'),
+      };
 }
 
 final class CXCursorAndRangeVisitor extends ffi.Struct {
   external ffi.Pointer<ffi.Void> context;
 
   external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.UnsignedInt Function(ffi.Pointer<ffi.Void>, CXCursor, CXSourceRange)
-    >
-  >
-  visit;
+      ffi.NativeFunction<
+          ffi.UnsignedInt Function(
+              ffi.Pointer<ffi.Void>, CXCursor, CXSourceRange)>> visit;
 }
 
 enum CXResult {
@@ -8302,11 +7974,11 @@ enum CXResult {
   const CXResult(this.value);
 
   static CXResult fromValue(int value) => switch (value) {
-    0 => CXResult_Success,
-    1 => CXResult_Invalid,
-    2 => CXResult_VisitBreak,
-    _ => throw ArgumentError('Unknown value for CXResult: $value'),
-  };
+        0 => CXResult_Success,
+        1 => CXResult_Invalid,
+        2 => CXResult_VisitBreak,
+        _ => throw ArgumentError('Unknown value for CXResult: $value'),
+      };
 }
 
 /// The client's data object that is associated with a CXFile.
@@ -8404,35 +8076,35 @@ enum CXIdxEntityKind {
   const CXIdxEntityKind(this.value);
 
   static CXIdxEntityKind fromValue(int value) => switch (value) {
-    0 => CXIdxEntity_Unexposed,
-    1 => CXIdxEntity_Typedef,
-    2 => CXIdxEntity_Function,
-    3 => CXIdxEntity_Variable,
-    4 => CXIdxEntity_Field,
-    5 => CXIdxEntity_EnumConstant,
-    6 => CXIdxEntity_ObjCClass,
-    7 => CXIdxEntity_ObjCProtocol,
-    8 => CXIdxEntity_ObjCCategory,
-    9 => CXIdxEntity_ObjCInstanceMethod,
-    10 => CXIdxEntity_ObjCClassMethod,
-    11 => CXIdxEntity_ObjCProperty,
-    12 => CXIdxEntity_ObjCIvar,
-    13 => CXIdxEntity_Enum,
-    14 => CXIdxEntity_Struct,
-    15 => CXIdxEntity_Union,
-    16 => CXIdxEntity_CXXClass,
-    17 => CXIdxEntity_CXXNamespace,
-    18 => CXIdxEntity_CXXNamespaceAlias,
-    19 => CXIdxEntity_CXXStaticVariable,
-    20 => CXIdxEntity_CXXStaticMethod,
-    21 => CXIdxEntity_CXXInstanceMethod,
-    22 => CXIdxEntity_CXXConstructor,
-    23 => CXIdxEntity_CXXDestructor,
-    24 => CXIdxEntity_CXXConversionFunction,
-    25 => CXIdxEntity_CXXTypeAlias,
-    26 => CXIdxEntity_CXXInterface,
-    _ => throw ArgumentError('Unknown value for CXIdxEntityKind: $value'),
-  };
+        0 => CXIdxEntity_Unexposed,
+        1 => CXIdxEntity_Typedef,
+        2 => CXIdxEntity_Function,
+        3 => CXIdxEntity_Variable,
+        4 => CXIdxEntity_Field,
+        5 => CXIdxEntity_EnumConstant,
+        6 => CXIdxEntity_ObjCClass,
+        7 => CXIdxEntity_ObjCProtocol,
+        8 => CXIdxEntity_ObjCCategory,
+        9 => CXIdxEntity_ObjCInstanceMethod,
+        10 => CXIdxEntity_ObjCClassMethod,
+        11 => CXIdxEntity_ObjCProperty,
+        12 => CXIdxEntity_ObjCIvar,
+        13 => CXIdxEntity_Enum,
+        14 => CXIdxEntity_Struct,
+        15 => CXIdxEntity_Union,
+        16 => CXIdxEntity_CXXClass,
+        17 => CXIdxEntity_CXXNamespace,
+        18 => CXIdxEntity_CXXNamespaceAlias,
+        19 => CXIdxEntity_CXXStaticVariable,
+        20 => CXIdxEntity_CXXStaticMethod,
+        21 => CXIdxEntity_CXXInstanceMethod,
+        22 => CXIdxEntity_CXXConstructor,
+        23 => CXIdxEntity_CXXDestructor,
+        24 => CXIdxEntity_CXXConversionFunction,
+        25 => CXIdxEntity_CXXTypeAlias,
+        26 => CXIdxEntity_CXXInterface,
+        _ => throw ArgumentError('Unknown value for CXIdxEntityKind: $value'),
+      };
 }
 
 enum CXIdxEntityLanguage {
@@ -8446,13 +8118,14 @@ enum CXIdxEntityLanguage {
   const CXIdxEntityLanguage(this.value);
 
   static CXIdxEntityLanguage fromValue(int value) => switch (value) {
-    0 => CXIdxEntityLang_None,
-    1 => CXIdxEntityLang_C,
-    2 => CXIdxEntityLang_ObjC,
-    3 => CXIdxEntityLang_CXX,
-    4 => CXIdxEntityLang_Swift,
-    _ => throw ArgumentError('Unknown value for CXIdxEntityLanguage: $value'),
-  };
+        0 => CXIdxEntityLang_None,
+        1 => CXIdxEntityLang_C,
+        2 => CXIdxEntityLang_ObjC,
+        3 => CXIdxEntityLang_CXX,
+        4 => CXIdxEntityLang_Swift,
+        _ =>
+          throw ArgumentError('Unknown value for CXIdxEntityLanguage: $value'),
+      };
 }
 
 /// Extra C++ template information for an entity. This can apply to:
@@ -8469,14 +8142,14 @@ enum CXIdxEntityCXXTemplateKind {
   const CXIdxEntityCXXTemplateKind(this.value);
 
   static CXIdxEntityCXXTemplateKind fromValue(int value) => switch (value) {
-    0 => CXIdxEntity_NonTemplate,
-    1 => CXIdxEntity_Template,
-    2 => CXIdxEntity_TemplatePartialSpecialization,
-    3 => CXIdxEntity_TemplateSpecialization,
-    _ => throw ArgumentError(
-      'Unknown value for CXIdxEntityCXXTemplateKind: $value',
-    ),
-  };
+        0 => CXIdxEntity_NonTemplate,
+        1 => CXIdxEntity_Template,
+        2 => CXIdxEntity_TemplatePartialSpecialization,
+        3 => CXIdxEntity_TemplateSpecialization,
+        _ => throw ArgumentError(
+            'Unknown value for CXIdxEntityCXXTemplateKind: $value',
+          ),
+      };
 }
 
 enum CXIdxAttrKind {
@@ -8489,12 +8162,12 @@ enum CXIdxAttrKind {
   const CXIdxAttrKind(this.value);
 
   static CXIdxAttrKind fromValue(int value) => switch (value) {
-    0 => CXIdxAttr_Unexposed,
-    1 => CXIdxAttr_IBAction,
-    2 => CXIdxAttr_IBOutlet,
-    3 => CXIdxAttr_IBOutletCollection,
-    _ => throw ArgumentError('Unknown value for CXIdxAttrKind: $value'),
-  };
+        0 => CXIdxAttr_Unexposed,
+        1 => CXIdxAttr_IBAction,
+        2 => CXIdxAttr_IBOutlet,
+        3 => CXIdxAttr_IBOutletCollection,
+        _ => throw ArgumentError('Unknown value for CXIdxAttrKind: $value'),
+      };
 }
 
 final class CXIdxAttrInfo extends ffi.Struct {
@@ -8558,9 +8231,10 @@ enum CXIdxDeclInfoFlags {
   const CXIdxDeclInfoFlags(this.value);
 
   static CXIdxDeclInfoFlags fromValue(int value) => switch (value) {
-    1 => CXIdxDeclFlag_Skipped,
-    _ => throw ArgumentError('Unknown value for CXIdxDeclInfoFlags: $value'),
-  };
+        1 => CXIdxDeclFlag_Skipped,
+        _ =>
+          throw ArgumentError('Unknown value for CXIdxDeclInfoFlags: $value'),
+      };
 }
 
 final class CXIdxDeclInfo extends ffi.Struct {
@@ -8610,13 +8284,13 @@ enum CXIdxObjCContainerKind {
   const CXIdxObjCContainerKind(this.value);
 
   static CXIdxObjCContainerKind fromValue(int value) => switch (value) {
-    0 => CXIdxObjCContainer_ForwardRef,
-    1 => CXIdxObjCContainer_Interface,
-    2 => CXIdxObjCContainer_Implementation,
-    _ => throw ArgumentError(
-      'Unknown value for CXIdxObjCContainerKind: $value',
-    ),
-  };
+        0 => CXIdxObjCContainer_ForwardRef,
+        1 => CXIdxObjCContainer_Interface,
+        2 => CXIdxObjCContainer_Implementation,
+        _ => throw ArgumentError(
+            'Unknown value for CXIdxObjCContainerKind: $value',
+          ),
+      };
 }
 
 final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
@@ -8702,10 +8376,11 @@ enum CXIdxEntityRefKind {
   const CXIdxEntityRefKind(this.value);
 
   static CXIdxEntityRefKind fromValue(int value) => switch (value) {
-    1 => CXIdxEntityRef_Direct,
-    2 => CXIdxEntityRef_Implicit,
-    _ => throw ArgumentError('Unknown value for CXIdxEntityRefKind: $value'),
-  };
+        1 => CXIdxEntityRef_Direct,
+        2 => CXIdxEntityRef_Implicit,
+        _ =>
+          throw ArgumentError('Unknown value for CXIdxEntityRefKind: $value'),
+      };
 }
 
 /// Roles that are attributed to symbol occurrences.
@@ -8725,18 +8400,18 @@ enum CXSymbolRole {
   const CXSymbolRole(this.value);
 
   static CXSymbolRole fromValue(int value) => switch (value) {
-    0 => CXSymbolRole_None,
-    1 => CXSymbolRole_Declaration,
-    2 => CXSymbolRole_Definition,
-    4 => CXSymbolRole_Reference,
-    8 => CXSymbolRole_Read,
-    16 => CXSymbolRole_Write,
-    32 => CXSymbolRole_Call,
-    64 => CXSymbolRole_Dynamic,
-    128 => CXSymbolRole_AddressOf,
-    256 => CXSymbolRole_Implicit,
-    _ => throw ArgumentError('Unknown value for CXSymbolRole: $value'),
-  };
+        0 => CXSymbolRole_None,
+        1 => CXSymbolRole_Declaration,
+        2 => CXSymbolRole_Definition,
+        4 => CXSymbolRole_Reference,
+        8 => CXSymbolRole_Read,
+        16 => CXSymbolRole_Write,
+        32 => CXSymbolRole_Call,
+        64 => CXSymbolRole_Dynamic,
+        128 => CXSymbolRole_AddressOf,
+        256 => CXSymbolRole_Implicit,
+        _ => throw ArgumentError('Unknown value for CXSymbolRole: $value'),
+      };
 }
 
 /// Data for IndexerCallbacks#indexEntityReference.
@@ -8773,75 +8448,59 @@ final class IndexerCallbacks extends ffi.Struct {
   /// Called periodically to check whether indexing should be aborted. Should
   /// return 0 to continue, and non-zero to abort.
   external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Int Function(CXClientData client_data, ffi.Pointer<ffi.Void> reserved)
-    >
-  >
-  abortQuery;
+          ffi.NativeFunction<
+              ffi.Int Function(
+                  CXClientData client_data, ffi.Pointer<ffi.Void> reserved)>>
+      abortQuery;
 
   /// Called at the end of indexing; passes the complete diagnostic set.
   external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(CXClientData, CXDiagnosticSet, ffi.Pointer<ffi.Void>)
-    >
-  >
-  diagnostic;
+          ffi.NativeFunction<
+              ffi.Void Function(
+                  CXClientData, CXDiagnosticSet, ffi.Pointer<ffi.Void>)>>
+      diagnostic;
 
   external ffi.Pointer<
-    ffi.NativeFunction<
-      CXIdxClientFile Function(
-        CXClientData client_data,
-        CXFile mainFile,
-        ffi.Pointer<ffi.Void> reserved,
-      )
-    >
-  >
-  enteredMainFile;
+      ffi.NativeFunction<
+          CXIdxClientFile Function(
+            CXClientData client_data,
+            CXFile mainFile,
+            ffi.Pointer<ffi.Void> reserved,
+          )>> enteredMainFile;
 
   /// Called when a file gets #included/#imported.
   external ffi.Pointer<
-    ffi.NativeFunction<
-      CXIdxClientFile Function(CXClientData, ffi.Pointer<CXIdxIncludedFileInfo>)
-    >
-  >
-  ppIncludedFile;
+          ffi.NativeFunction<
+              CXIdxClientFile Function(
+                  CXClientData, ffi.Pointer<CXIdxIncludedFileInfo>)>>
+      ppIncludedFile;
 
   /// Called when a AST file (PCH or module) gets imported.
   external ffi.Pointer<
-    ffi.NativeFunction<
-      CXIdxClientASTFile Function(
-        CXClientData,
-        ffi.Pointer<CXIdxImportedASTFileInfo>,
-      )
-    >
-  >
-  importedASTFile;
+      ffi.NativeFunction<
+          CXIdxClientASTFile Function(
+            CXClientData,
+            ffi.Pointer<CXIdxImportedASTFileInfo>,
+          )>> importedASTFile;
 
   /// Called at the beginning of indexing a translation unit.
   external ffi.Pointer<
-    ffi.NativeFunction<
-      CXIdxClientContainer Function(
-        CXClientData client_data,
-        ffi.Pointer<ffi.Void> reserved,
-      )
-    >
-  >
-  startedTranslationUnit;
+      ffi.NativeFunction<
+          CXIdxClientContainer Function(
+            CXClientData client_data,
+            ffi.Pointer<ffi.Void> reserved,
+          )>> startedTranslationUnit;
 
   external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(CXClientData, ffi.Pointer<CXIdxDeclInfo>)
-    >
-  >
-  indexDeclaration;
+          ffi.NativeFunction<
+              ffi.Void Function(CXClientData, ffi.Pointer<CXIdxDeclInfo>)>>
+      indexDeclaration;
 
   /// Called to index a reference of an entity.
   external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(CXClientData, ffi.Pointer<CXIdxEntityRefInfo>)
-    >
-  >
-  indexEntityReference;
+          ffi.NativeFunction<
+              ffi.Void Function(CXClientData, ffi.Pointer<CXIdxEntityRefInfo>)>>
+      indexEntityReference;
 }
 
 /// An indexing action/session, to be applied to one or multiple translation
@@ -8877,24 +8536,24 @@ enum CXIndexOptFlags {
   const CXIndexOptFlags(this.value);
 
   static CXIndexOptFlags fromValue(int value) => switch (value) {
-    0 => CXIndexOpt_None,
-    1 => CXIndexOpt_SuppressRedundantRefs,
-    2 => CXIndexOpt_IndexFunctionLocalSymbols,
-    4 => CXIndexOpt_IndexImplicitTemplateInstantiations,
-    8 => CXIndexOpt_SuppressWarnings,
-    16 => CXIndexOpt_SkipParsedBodiesInSession,
-    _ => throw ArgumentError('Unknown value for CXIndexOptFlags: $value'),
-  };
+        0 => CXIndexOpt_None,
+        1 => CXIndexOpt_SuppressRedundantRefs,
+        2 => CXIndexOpt_IndexFunctionLocalSymbols,
+        4 => CXIndexOpt_IndexImplicitTemplateInstantiations,
+        8 => CXIndexOpt_SuppressWarnings,
+        16 => CXIndexOpt_SkipParsedBodiesInSession,
+        _ => throw ArgumentError('Unknown value for CXIndexOptFlags: $value'),
+      };
 }
 
-typedef CXFieldVisitorFunction =
-    ffi.UnsignedInt Function(CXCursor C, CXClientData client_data);
-typedef DartCXFieldVisitorFunction =
-    CXVisitorResult Function(CXCursor C, CXClientData client_data);
+typedef CXFieldVisitorFunction = ffi.UnsignedInt Function(
+    CXCursor C, CXClientData client_data);
+typedef DartCXFieldVisitorFunction = CXVisitorResult Function(
+    CXCursor C, CXClientData client_data);
 
 /// Visitor invoked for each field found by a traversal.
-typedef CXFieldVisitor =
-    ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
+typedef CXFieldVisitor
+    = ffi.Pointer<ffi.NativeFunction<CXFieldVisitorFunction>>;
 
 const int CINDEX_VERSION_MAJOR = 0;
 

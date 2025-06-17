@@ -55,8 +55,8 @@ abstract class Compound extends BindingType {
     super.isInternal,
     this.objCBuiltInFunctions,
     String? nativeType,
-  }) : members = members ?? [],
-       nativeType = nativeType ?? originalName ?? name;
+  })  : members = members ?? [],
+        nativeType = nativeType ?? originalName ?? name;
 
   factory Compound.fromType({
     required CompoundType type,
@@ -112,9 +112,8 @@ abstract class Compound extends BindingType {
 
   @override
   BindingString toBindingString(Writer w) {
-    final bindingType = isStruct
-        ? BindingStringType.struct
-        : BindingStringType.union;
+    final bindingType =
+        isStruct ? BindingStringType.struct : BindingStringType.union;
 
     final s = StringBuffer();
     final enclosingClassName = name;
@@ -154,9 +153,8 @@ abstract class Compound extends BindingType {
         if (!m.type.sameFfiDartAndCType) {
           s.write('$depth@${m.type.getCType(w)}()\n');
         }
-        final memberName = m.type.sameDartAndFfiDartType
-            ? m.name
-            : '${m.name}AsInt';
+        final memberName =
+            m.type.sameDartAndFfiDartType ? m.name : '${m.name}AsInt';
         s.write(
           '${depth}external ${m.type.getFfiDartType(w)} $memberName;\n\n',
         );

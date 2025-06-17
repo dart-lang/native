@@ -13,10 +13,10 @@ class ObjCNullable extends Type {
   Type child;
 
   ObjCNullable(this.child)
-    : assert(
-        isSupported(child),
-        'Nullable ${child.typealiasType.runtimeType} is not supported',
-      );
+      : assert(
+          isSupported(child),
+          'Nullable ${child.typealiasType.runtimeType} is not supported',
+        );
 
   static bool isSupported(Type type) => _isSupported(type.typealiasType);
   static bool _isSupported(Type type) =>

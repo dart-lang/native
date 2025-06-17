@@ -10,11 +10,11 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-    : _lookup = dynamicLibrary.lookup;
+      : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
@@ -25,15 +25,12 @@ class NativeLibrary {
     return _myfunc(a, va, va$1, va$2);
   }
 
-  late final _myfuncPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _myfuncPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Int Function(
             ffi.Int,
             ffi.VarArgs<(ffi.Int, ffi.Pointer<ffi.Char>, SA)>,
-          )
-        >
-      >('myfunc');
+          )>>('myfunc');
   late final _myfunc = _myfuncPtr
       .asFunction<int Function(int, int, ffi.Pointer<ffi.Char>, SA)>();
 
@@ -46,27 +43,22 @@ class NativeLibrary {
     return _myfunc2CharPtrLongPtrPtr(a, b, va, va$1);
   }
 
-  late final _myfunc2CharPtrLongPtrPtrPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _myfunc2CharPtrLongPtrPtrPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             ffi.Char,
             ffi.Char,
             ffi.VarArgs<
-              (ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Pointer<ffi.Long>>)
-            >,
-          )
-        >
-      >('myfunc2');
-  late final _myfunc2CharPtrLongPtrPtr = _myfunc2CharPtrLongPtrPtrPtr
-      .asFunction<
-        void Function(
-          int,
-          int,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Pointer<ffi.Long>>,
-        )
-      >();
+                (ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Pointer<ffi.Long>>)>,
+          )>>('myfunc2');
+  late final _myfunc2CharPtrLongPtrPtr =
+      _myfunc2CharPtrLongPtrPtrPtr.asFunction<
+          void Function(
+            int,
+            int,
+            ffi.Pointer<ffi.Char>,
+            ffi.Pointer<ffi.Pointer<ffi.Long>>,
+          )>();
 
   void myfunc2SAIntPtrUnsignedcharPtrPtr(
     int a,
@@ -78,33 +70,27 @@ class NativeLibrary {
     return _myfunc2SAIntPtrUnsignedcharPtrPtr(a, b, va, va$1, va$2);
   }
 
-  late final _myfunc2SAIntPtrUnsignedcharPtrPtrPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _myfunc2SAIntPtrUnsignedcharPtrPtrPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             ffi.Char,
             ffi.Char,
             ffi.VarArgs<
-              (
-                SA,
-                ffi.Pointer<ffi.Int>,
-                ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
-              )
-            >,
-          )
-        >
-      >('myfunc2');
+                (
+                  SA,
+                  ffi.Pointer<ffi.Int>,
+                  ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+                )>,
+          )>>('myfunc2');
   late final _myfunc2SAIntPtrUnsignedcharPtrPtr =
-      _myfunc2SAIntPtrUnsignedcharPtrPtrPtr
-          .asFunction<
-            void Function(
-              int,
-              int,
-              SA,
-              ffi.Pointer<ffi.Int>,
-              ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
-            )
-          >();
+      _myfunc2SAIntPtrUnsignedcharPtrPtrPtr.asFunction<
+          void Function(
+            int,
+            int,
+            SA,
+            ffi.Pointer<ffi.Int>,
+            ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+          )>();
 
   void myfunc2_custompostfix(
     int a,
@@ -116,32 +102,26 @@ class NativeLibrary {
     return _myfunc2_custompostfix(a, b, va, va$1, va$2);
   }
 
-  late final _myfunc2_custompostfixPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _myfunc2_custompostfixPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             ffi.Char,
             ffi.Char,
             ffi.VarArgs<
-              (
-                SA,
-                ffi.Pointer<ffi.Int>,
-                ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
-              )
-            >,
-          )
-        >
-      >('myfunc2');
-  late final _myfunc2_custompostfix = _myfunc2_custompostfixPtr
-      .asFunction<
-        void Function(
-          int,
-          int,
-          SA,
-          ffi.Pointer<ffi.Int>,
-          ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
-        )
-      >();
+                (
+                  SA,
+                  ffi.Pointer<ffi.Int>,
+                  ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+                )>,
+          )>>('myfunc2');
+  late final _myfunc2_custompostfix = _myfunc2_custompostfixPtr.asFunction<
+      void Function(
+        int,
+        int,
+        SA,
+        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<ffi.Pointer<ffi.UnsignedChar>>,
+      )>();
 
   void myfunc3Struct_WithLong_Name_testPtrFloatPtr(
     int a,
@@ -151,37 +131,32 @@ class NativeLibrary {
     return _myfunc3Struct_WithLong_Name_testPtrFloatPtr(a, va, va$1);
   }
 
-  late final _myfunc3Struct_WithLong_Name_testPtrFloatPtrPtr =
-      _lookup<
-        ffi.NativeFunction<
+  late final _myfunc3Struct_WithLong_Name_testPtrFloatPtrPtr = _lookup<
+      ffi.NativeFunction<
           ffi.Void Function(
             ffi.Long,
             ffi.VarArgs<
-              (ffi.Pointer<Struct_WithLong_Name_test>, ffi.Pointer<ffi.Float>)
-            >,
-          )
-        >
-      >('myfunc3');
+                (
+                  ffi.Pointer<Struct_WithLong_Name_test>,
+                  ffi.Pointer<ffi.Float>
+                )>,
+          )>>('myfunc3');
   late final _myfunc3Struct_WithLong_Name_testPtrFloatPtr =
-      _myfunc3Struct_WithLong_Name_testPtrFloatPtrPtr
-          .asFunction<
-            void Function(
-              int,
-              ffi.Pointer<Struct_WithLong_Name_test>,
-              ffi.Pointer<ffi.Float>,
-            )
-          >();
+      _myfunc3Struct_WithLong_Name_testPtrFloatPtrPtr.asFunction<
+          void Function(
+            int,
+            ffi.Pointer<Struct_WithLong_Name_test>,
+            ffi.Pointer<ffi.Float>,
+          )>();
 
   void myfunc3_custompostfix2(int a, Struct_WithLong_Name_test va) {
     return _myfunc3_custompostfix2(a, va);
   }
 
-  late final _myfunc3_custompostfix2Ptr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(ffi.Long, ffi.VarArgs<(Struct_WithLong_Name_test,)>)
-        >
-      >('myfunc3');
+  late final _myfunc3_custompostfix2Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Long, ffi.VarArgs<(Struct_WithLong_Name_test,)>)>>('myfunc3');
   late final _myfunc3_custompostfix2 = _myfunc3_custompostfix2Ptr
       .asFunction<void Function(int, Struct_WithLong_Name_test)>();
 }

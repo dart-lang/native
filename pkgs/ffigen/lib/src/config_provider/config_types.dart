@@ -23,12 +23,14 @@ class CommentType {
 
   /// Sets default style as [CommentStyle.doxygen], default length as
   /// [CommentLength.full].
-  CommentType.def() : style = CommentStyle.doxygen, length = CommentLength.full;
+  CommentType.def()
+      : style = CommentStyle.doxygen,
+        length = CommentLength.full;
 
   /// Disables any comments.
   CommentType.none()
-    : style = CommentStyle.doxygen,
-      length = CommentLength.none;
+      : style = CommentStyle.doxygen,
+        length = CommentLength.none;
 }
 
 enum CommentStyle { doxygen, any }
@@ -65,8 +67,8 @@ class YamlHeaders {
   final HeaderIncludeFilter includeFilter;
 
   YamlHeaders({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
-    : entryPoints = entryPoints?.map(Uri.file).toList() ?? [],
-      includeFilter = includeFilter ?? GlobHeaderFilter();
+      : entryPoints = entryPoints?.map(Uri.file).toList() ?? [],
+        includeFilter = includeFilter ?? GlobHeaderFilter();
 }
 
 abstract class HeaderIncludeFilter {
@@ -113,12 +115,12 @@ class YamlDeclarationFilters implements DeclarationFilters {
     YamlIncluder? symbolAddressIncluder,
     YamlMemberIncluder? memberIncluder,
     required this.excludeAllByDefault,
-  }) : _includer = includer ?? YamlIncluder(),
-       _renamer = renamer ?? YamlRenamer(),
-       _memberRenamer = memberRenamer ?? YamlMemberRenamer(),
-       _symbolAddressIncluder =
-           symbolAddressIncluder ?? YamlIncluder.excludeByDefault(),
-       _memberIncluder = memberIncluder ?? YamlMemberIncluder();
+  })  : _includer = includer ?? YamlIncluder(),
+        _renamer = renamer ?? YamlRenamer(),
+        _memberRenamer = memberRenamer ?? YamlMemberRenamer(),
+        _symbolAddressIncluder =
+            symbolAddressIncluder ?? YamlIncluder.excludeByDefault(),
+        _memberIncluder = memberIncluder ?? YamlMemberIncluder();
 
   /// Applies renaming and returns the result.
   @override
@@ -200,8 +202,8 @@ class YamlFilter {
   final Set<String> _full;
 
   YamlFilter({List<RegExp>? matchers, Set<String>? full})
-    : _full = full ?? {},
-      _matchers = matchers ?? [];
+      : _full = full ?? {},
+        _matchers = matchers ?? [];
 
   bool get isEmpty => _full.isEmpty && _matchers.isEmpty;
 
@@ -220,12 +222,12 @@ class YamlIncluder {
     Set<String>? includeFull,
     List<RegExp>? excludeMatchers,
     Set<String>? excludeFull,
-  }) : _include = YamlFilter(matchers: includeMatchers, full: includeFull),
-       _exclude = YamlFilter(matchers: excludeMatchers, full: excludeFull);
+  })  : _include = YamlFilter(matchers: includeMatchers, full: includeFull),
+        _exclude = YamlFilter(matchers: excludeMatchers, full: excludeFull);
 
   YamlIncluder.excludeByDefault()
-    : _include = YamlFilter(),
-      _exclude = YamlFilter(matchers: [RegExp('.*', dotAll: true)]);
+      : _include = YamlFilter(),
+        _exclude = YamlFilter(matchers: [RegExp('.*', dotAll: true)]);
 
   /// Returns true if [name] is allowed.
   ///
@@ -251,10 +253,12 @@ class YamlRenamer {
   YamlRenamer({
     List<RegExpRenamer>? renamePatterns,
     Map<String, String>? renameFull,
-  }) : _renameMatchers = renamePatterns ?? [],
-       _renameFull = renameFull ?? {};
+  })  : _renameMatchers = renamePatterns ?? [],
+        _renameFull = renameFull ?? {};
 
-  YamlRenamer.noRename() : _renameMatchers = [], _renameFull = {};
+  YamlRenamer.noRename()
+      : _renameMatchers = [],
+        _renameFull = {};
 
   String rename(String name) {
     // Apply full rename (if any).
@@ -302,8 +306,8 @@ class YamlMemberRenamer {
   YamlMemberRenamer({
     Map<String, YamlRenamer>? memberRenameFull,
     List<RegExpMemberRenamer>? memberRenamePattern,
-  }) : _memberRenameFull = memberRenameFull ?? {},
-       _memberRenameMatchers = memberRenamePattern ?? [];
+  })  : _memberRenameFull = memberRenameFull ?? {},
+        _memberRenameMatchers = memberRenamePattern ?? [];
 
   String rename(String declaration, String member) {
     if (_cache.containsKey(declaration)) {
@@ -338,8 +342,8 @@ class YamlMemberIncluder {
   YamlMemberIncluder({
     Map<String, YamlIncluder>? memberIncluderFull,
     List<(RegExp, YamlIncluder)>? memberIncluderMatchers,
-  }) : _memberIncluderFull = memberIncluderFull ?? {},
-       _memberIncluderMatchers = memberIncluderMatchers ?? [];
+  })  : _memberIncluderFull = memberIncluderFull ?? {},
+        _memberIncluderMatchers = memberIncluderMatchers ?? [];
 
   bool shouldInclude(String declaration, String member) {
     // Full matches take priority.
@@ -359,17 +363,17 @@ class YamlMemberIncluder {
 }
 
 List<String> defaultCompilerOpts({bool macIncludeStdLib = true}) => [
-  if (Platform.isMacOS && macIncludeStdLib)
-    ...getCStandardLibraryHeadersForMac(),
-  if (Platform.isMacOS) '-Wno-nullability-completeness',
-];
+      if (Platform.isMacOS && macIncludeStdLib)
+        ...getCStandardLibraryHeadersForMac(),
+      if (Platform.isMacOS) '-Wno-nullability-completeness',
+    ];
 
 /// Handles config for automatically added compiler options.
 class CompilerOptsAuto {
   final bool macIncludeStdLib;
 
   CompilerOptsAuto({bool? macIncludeStdLib})
-    : macIncludeStdLib = macIncludeStdLib ?? true;
+      : macIncludeStdLib = macIncludeStdLib ?? true;
 
   /// Extracts compiler options based on OS and config.
   List<String> extractCompilerOpts() {

@@ -44,8 +44,7 @@ ${strings.functions}:
 
 ${strings.preamble}: |
   // ignore_for_file: camel_case_types
-        ''')
-              as yaml.YamlMap,
+        ''') as yaml.YamlMap,
         ),
       );
     });

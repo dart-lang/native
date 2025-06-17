@@ -24,17 +24,20 @@ void main() {
 
     test('swift', () async {
       // Run the swiftc command from the example README, to generate the header.
-      final process = await Process.start('swiftc', [
-        '-c',
-        'swift_api.swift',
-        '-module-name',
-        'swift_module',
-        '-emit-objc-header-path',
-        'third_party/swift_api.h',
-        '-emit-library',
-        '-o',
-        'libswiftapi.dylib',
-      ], workingDirectory: path.join(packagePathForTests, 'example/swift'));
+      final process = await Process.start(
+          'swiftc',
+          [
+            '-c',
+            'swift_api.swift',
+            '-module-name',
+            'swift_module',
+            '-emit-objc-header-path',
+            'third_party/swift_api.h',
+            '-emit-library',
+            '-o',
+            'libswiftapi.dylib',
+          ],
+          workingDirectory: path.join(packagePathForTests, 'example/swift'));
       unawaited(stdout.addStream(process.stdout));
       unawaited(stderr.addStream(process.stderr));
       final result = await process.exitCode;

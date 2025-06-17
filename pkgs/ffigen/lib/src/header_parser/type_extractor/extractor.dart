@@ -30,7 +30,6 @@ const maxRecursionDepth = 5;
 /// Converts cxtype to a typestring code_generator can accept.
 Type getCodeGenType(
   clang_types.CXType cxtype, {
-
   /// Passed on if a value was marked as a pointer before this one.
   bool pointerReference = false,
 
@@ -156,16 +155,14 @@ Type getCodeGenType(
         clang.clang_Type_getModifiedType(cxtype),
         originalCursor: originalCursor,
       );
-      final isNullable =
-          clang.clang_Type_getNullability(cxtype) ==
+      final isNullable = clang.clang_Type_getNullability(cxtype) ==
           clang_types.CXTypeNullabilityKind.CXTypeNullability_Nullable;
       return isNullable && ObjCNullable.isSupported(innerType)
           ? ObjCNullable(innerType)
           : innerType;
     default:
-      var typeSpellKey = clang
-          .clang_getTypeSpelling(cxtype)
-          .toStringAndDispose();
+      var typeSpellKey =
+          clang.clang_getTypeSpelling(cxtype).toStringAndDispose();
       if (typeSpellKey.startsWith('const ')) {
         typeSpellKey = typeSpellKey.replaceFirst('const ', '');
       }

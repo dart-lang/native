@@ -97,12 +97,10 @@ List<Binding> parseToBindings(Config c) {
       nullptr,
       0,
       clang_types.CXTranslationUnit_Flags.CXTranslationUnit_SkipFunctionBodies |
-          clang_types
-              .CXTranslationUnit_Flags
+          clang_types.CXTranslationUnit_Flags
               .CXTranslationUnit_DetailedPreprocessingRecord |
           clang_types
-              .CXTranslationUnit_Flags
-              .CXTranslationUnit_IncludeAttributedTypes,
+              .CXTranslationUnit_Flags.CXTranslationUnit_IncludeAttributedTypes,
     );
 
     if (tu == nullptr) {
@@ -165,9 +163,9 @@ List<Binding> parseToBindings(Config c) {
 }
 
 List<String> _findObjectiveCSysroot() => [
-  '-isysroot',
-  firstLineOfStdout('xcrun', ['--show-sdk-path']),
-];
+      '-isysroot',
+      firstLineOfStdout('xcrun', ['--show-sdk-path']),
+    ];
 
 @visibleForTesting
 List<Binding> transformBindings(Config config, List<Binding> bindings) {

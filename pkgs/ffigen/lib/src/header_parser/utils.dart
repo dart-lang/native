@@ -19,8 +19,8 @@ final _logger = Logger('ffigen.header_parser.utils');
 const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
-typedef _CursorVisitorCallback =
-    Int32 Function(clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
+typedef _CursorVisitorCallback = Int32 Function(
+    clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
 
 /// Logs the warnings/errors returned by clang for a translation unit.
 void logTuDiagnostics(
@@ -43,12 +43,10 @@ void logTuDiagnostics(
     final cxstring = clang.clang_formatDiagnostic(
       diag,
       clang_types
-              .CXDiagnosticDisplayOptions
-              .CXDiagnostic_DisplaySourceLocation |
+              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplaySourceLocation |
           clang_types.CXDiagnosticDisplayOptions.CXDiagnostic_DisplayColumn |
           clang_types
-              .CXDiagnosticDisplayOptions
-              .CXDiagnostic_DisplayCategoryName,
+              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplayCategoryName,
     );
     logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
     clang.clang_disposeDiagnostic(diag);
@@ -95,8 +93,7 @@ extension CXCursorExt on clang_types.CXCursor {
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
-    final s =
-        '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
+    final s = '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
         'kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, '
         'typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
     return s;
@@ -177,11 +174,13 @@ extension CXCursorExt on clang_types.CXCursor {
   /// Returns whether the iteration completed.
   bool visitChildrenMayBreak(
     bool Function(clang_types.CXCursor child) callback,
-  ) => visitChildrenMayRecurse(
-    (clang_types.CXCursor child, clang_types.CXCursor parent) => callback(child)
-        ? clang_types.CXChildVisitResult.CXChildVisit_Continue
-        : clang_types.CXChildVisitResult.CXChildVisit_Break,
-  );
+  ) =>
+      visitChildrenMayRecurse(
+        (clang_types.CXCursor child, clang_types.CXCursor parent) =>
+            callback(child)
+                ? clang_types.CXChildVisitResult.CXChildVisit_Continue
+                : clang_types.CXChildVisitResult.CXChildVisit_Break,
+      );
 
   /// Visits all the direct children of this cursor.
   ///
@@ -193,14 +192,15 @@ extension CXCursorExt on clang_types.CXCursor {
   /// Returns whether the iteration completed.
   bool visitChildrenMayRecurse(
     int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
-    callback,
+        callback,
   ) {
     final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
       (
         clang_types.CXCursor child,
         clang_types.CXCursor parent,
         Pointer<Void> clientData,
-      ) => callback(child, parent),
+      ) =>
+          callback(child, parent),
       exceptionalReturn: exceptionalVisitorReturn,
     );
     final result = clang.clang_visitChildren(
@@ -374,8 +374,7 @@ extension CXTypeExt on clang_types.CXType {
 
   /// For debugging: returns [spelling] [kind] [kindSpelling].
   String completeStringRepr() {
-    final s =
-        '(Type) spelling: ${spelling()}, kind: ${kind()}, '
+    final s = '(Type) spelling: ${spelling()}, kind: ${kind()}, '
         'kindSpelling: ${kindSpelling()}';
     return s;
   }

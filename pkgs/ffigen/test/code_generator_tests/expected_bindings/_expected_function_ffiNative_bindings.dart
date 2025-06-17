@@ -20,11 +20,10 @@ external int noParam();
 external int withPrimitiveParam(int a, int b);
 
 @ffi.Native<
-  ffi.Pointer<ffi.Double> Function(
-    ffi.Pointer<ffi.Int32>,
-    ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
-  )
->()
+    ffi.Pointer<ffi.Double> Function(
+      ffi.Pointer<ffi.Int32>,
+      ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+    )>()
 external ffi.Pointer<ffi.Double> withPointerParam(
   ffi.Pointer<ffi.Int32> a,
   ffi.Pointer<ffi.Pointer<ffi.Uint8>> b,

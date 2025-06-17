@@ -214,8 +214,7 @@ Type makeTypeFromRawVarArgType(
       baseType = SelfImportedType(typeName, typeName);
     } else if (rawVarArgTypeSplit.length == 2) {
       final lib = rawVarArgTypeSplit[0];
-      final libraryImport =
-          strings.predefinedLibraryImports[lib] ??
+      final libraryImport = strings.predefinedLibraryImports[lib] ??
           libraryImportsMap[rawVarArgTypeSplit[0]];
       if (libraryImport == null) {
         throw Exception('Please declare $lib in library-imports.');

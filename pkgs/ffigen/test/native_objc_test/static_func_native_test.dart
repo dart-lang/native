@@ -140,7 +140,8 @@ void main() {
       return counter;
     }
 
-    test('Objects returned from static functions with NS_RETURNS_RETAINED '
+    test(
+        'Objects returned from static functions with NS_RETURNS_RETAINED '
         'have correct ref counts', () {
       using((Arena arena) {
         final (counter) = staticFuncReturnsRetainedRefCountTest(arena);
@@ -165,7 +166,8 @@ void main() {
       return counter;
     }
 
-    test('Objects passed through static functions with NS_RETURNS_RETAINED '
+    test(
+        'Objects passed through static functions with NS_RETURNS_RETAINED '
         'have correct ref counts', () {
       using((Arena arena) {
         final (counter) = staticFuncOfObjectReturnsRetainedRefCountTest(arena);
@@ -174,7 +176,8 @@ void main() {
       });
     }, skip: !canDoGC);
 
-    test('Objects passed to static functions that consume them '
+    test(
+        'Objects passed to static functions that consume them '
         'have correct ref counts', () {
       final counter = calloc<Int32>();
       StaticFuncTestObj? obj1 = StaticFuncTestObj.newWithCounter(counter);
