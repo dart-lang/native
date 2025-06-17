@@ -113,7 +113,7 @@ void _matchFileWithExpected({
   required String pathForActual,
   required List<String> pathToExpected,
   required void Function({required Library library, required File file})
-      fileWriter,
+  fileWriter,
   String Function(String)? codeNormalizer,
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);

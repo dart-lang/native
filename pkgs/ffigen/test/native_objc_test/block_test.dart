@@ -13,7 +13,8 @@ import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/internal.dart' as internal_for_testing
+import 'package:objective_c/src/internal.dart'
+    as internal_for_testing
     show blockHasRegisteredClosure;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -513,7 +514,7 @@ void main() {
     }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        blockBlockDartCallRefCountTest() {
+    blockBlockDartCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -587,7 +588,7 @@ void main() {
     }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        blockBlockObjCCallRefCountTest() {
+    blockBlockObjCCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
       final blockBlock = BlockBlock.fromFunction((
@@ -651,7 +652,7 @@ void main() {
     }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        nativeBlockBlockDartCallRefCountTest() {
+    nativeBlockBlockDartCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -689,7 +690,7 @@ void main() {
     );
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        nativeBlockBlockObjCCallRefCountTest() {
+    nativeBlockBlockObjCCallRefCountTest() {
       final blockBlock = BlockTester.newBlockBlock(7);
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       expect(outputBlock(1), 14);
@@ -788,7 +789,7 @@ void main() {
     );
 
     Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
-        listenerBlockArgumentRetentionTest() async {
+    listenerBlockArgumentRetentionTest() async {
       final hasRun = Completer<void>();
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
       final blockBlock = ListenerBlock.listener((
@@ -1008,8 +1009,7 @@ void main() {
               blkKeepAlive.ref.release();
               sendPort.send('blkKeepAlive destroyed');
             }
-          })
-            ..keepIsolateAlive = false;
+          })..keepIsolateAlive = false;
 
           sendPort.send(isolatePort.sendPort);
         },
@@ -1079,8 +1079,7 @@ void main() {
               blkKeepAlive.ref.release();
               sendPort.send('blkKeepAlive destroyed');
             }
-          })
-            ..keepIsolateAlive = false;
+          })..keepIsolateAlive = false;
 
           sendPort.send(isolatePort.sendPort);
         },
@@ -1150,8 +1149,7 @@ void main() {
               blkKeepAlive.ref.release();
               sendPort.send('blkKeepAlive destroyed');
             }
-          })
-            ..keepIsolateAlive = false;
+          })..keepIsolateAlive = false;
 
           sendPort.send(isolatePort.sendPort);
         },

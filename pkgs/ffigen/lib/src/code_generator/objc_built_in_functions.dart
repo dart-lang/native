@@ -154,33 +154,33 @@ class ObjCBuiltInFunctions {
   }
 
   Func _blockTrampolineFunc(String name, {bool blocking = false}) => Func(
-        name: name,
-        returnType: PointerType(objCBlockType),
-        parameters: [
-          Parameter(
-            name: 'block',
-            type: PointerType(objCBlockType),
-            objCConsumed: false,
-          ),
-          if (blocking) ...[
-            Parameter(
-              name: 'listnerBlock',
-              type: PointerType(objCBlockType),
-              objCConsumed: false,
-            ),
-            Parameter(
-              name: 'context',
-              type: PointerType(objCContextType),
-              objCConsumed: false,
-            ),
-          ],
-        ],
-        objCReturnsRetained: true,
-        isLeaf: true,
-        isInternal: true,
-        useNameForLookup: true,
-        ffiNativeConfig: const FfiNativeConfig(enabled: true),
-      );
+    name: name,
+    returnType: PointerType(objCBlockType),
+    parameters: [
+      Parameter(
+        name: 'block',
+        type: PointerType(objCBlockType),
+        objCConsumed: false,
+      ),
+      if (blocking) ...[
+        Parameter(
+          name: 'listnerBlock',
+          type: PointerType(objCBlockType),
+          objCConsumed: false,
+        ),
+        Parameter(
+          name: 'context',
+          type: PointerType(objCContextType),
+          objCConsumed: false,
+        ),
+      ],
+    ],
+    objCReturnsRetained: true,
+    isLeaf: true,
+    isInternal: true,
+    useNameForLookup: true,
+    ffiNativeConfig: const FfiNativeConfig(enabled: true),
+  );
 
   final _protocolTrampolines = <String, ObjCProtocolMethodTrampoline>{};
   ObjCProtocolMethodTrampoline? getProtocolMethodTrampoline(ObjCBlock block) {
@@ -261,7 +261,7 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function(Writer) makeValue;
 
   ObjCInternalGlobal(String name, this.makeValue)
-      : super(originalName: name, name: name, isInternal: true);
+    : super(originalName: name, name: name, isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -299,8 +299,8 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
     required this.variant,
     required Type returnType,
     required List<Parameter> parameters,
-  })  : type = FunctionType(returnType: returnType, parameters: parameters),
-        super(isInternal: true);
+  }) : type = FunctionType(returnType: returnType, parameters: parameters),
+       super(isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -308,7 +308,8 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
     final dartType = type.getFfiDartType(w, writeArgumentNames: false);
     final pointer = variant.pointer.gen(w);
 
-    final bindingString = '''
+    final bindingString =
+        '''
 final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 ''';
 
@@ -423,12 +424,7 @@ class ObjCMsgSendFunc extends AstNode {
     Iterable<String> params, {
     String? structRetPtr,
   }) {
-    return '''$name(${[
-      if (structRetPtr != null) structRetPtr,
-      target,
-      sel,
-      ...params
-    ].join(', ')})''';
+    return '''$name(${[if (structRetPtr != null) structRetPtr, target, sel, ...params].join(', ')})''';
   }
 
   @override

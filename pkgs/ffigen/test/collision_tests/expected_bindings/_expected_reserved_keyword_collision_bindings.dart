@@ -7,11 +7,11 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
@@ -24,10 +24,10 @@ class NativeLibrary {
 
   late final _implements$Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int, ffi.Int, ffi.Int)>>(
-    'implements',
-  );
-  late final _implements$ =
-      _implements$Ptr.asFunction<void Function(int, int, int)>();
+        'implements',
+      );
+  late final _implements$ = _implements$Ptr
+      .asFunction<void Function(int, int, int)>();
 
   late final ffi.Pointer<ffi.Int> _import$ = _lookup<ffi.Int>('import');
 
@@ -45,9 +45,9 @@ enum export$ {
   const export$(this.value);
 
   static export$ fromValue(int value) => switch (value) {
-        0 => covariant$,
-        _ => throw ArgumentError('Unknown value for export\$: $value'),
-      };
+    0 => covariant$,
+    _ => throw ArgumentError('Unknown value for export\$: $value'),
+  };
 }
 
 final class show$ extends ffi.Opaque {}

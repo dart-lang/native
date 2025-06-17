@@ -25,10 +25,10 @@ void main() {
     test('Schema Changes', () {
       final actualJsonSchema =
           const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
-        YamlConfig.getsRootConfigSpec().generateJsonSchema(
-          strings.ffigenJsonSchemaId,
-        ),
-      );
+            YamlConfig.getsRootConfigSpec().generateJsonSchema(
+              strings.ffigenJsonSchemaId,
+            ),
+          );
       final expectedJsonSchema = File(
         path.join(packagePathForTests, strings.ffigenJsonSchemaFileName),
       ).readAsStringSync().replaceAll('\r\n', '\n');

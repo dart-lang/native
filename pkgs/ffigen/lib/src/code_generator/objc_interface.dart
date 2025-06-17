@@ -37,12 +37,13 @@ class ObjCInterface extends BindingType with ObjCMethods {
     super.dartDoc,
     required this.builtInFunctions,
     required this.apiAvailability,
-  })  : lookupName = lookupName ?? originalName,
-        super(
-          name: builtInFunctions.getBuiltInInterfaceName(originalName) ??
-              name ??
-              originalName,
-        ) {
+  }) : lookupName = lookupName ?? originalName,
+       super(
+         name:
+             builtInFunctions.getBuiltInInterfaceName(originalName) ??
+             name ??
+             originalName,
+       ) {
     classObject = ObjCInternalGlobal(
       '_class_$originalName',
       (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")',
@@ -128,9 +129,7 @@ ${generateAsStub ? '' : _generateMethods(w)}
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
-    return ${_isKindOfClassMsgSend.invoke(w, 'obj.ref.pointer', _isKindOfClass.name, [
-          classObject.name
-        ])};
+    return ${_isKindOfClassMsgSend.invoke(w, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
   }
 ''');
     s.write(generateMethodBindings(w, this));
@@ -182,21 +181,17 @@ ${generateAsStub ? '' : _generateMethods(w)}
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   static String generateGetId(
     String value,
     bool objCRetain,
     bool objCAutorelease,
-  ) =>
-      objCRetain
-          ? (objCAutorelease
-              ? '$value.ref.retainAndAutorelease()'
-              : '$value.ref.retainAndReturnPointer()')
-          : (objCAutorelease
-              ? '$value.ref.autorelease()'
-              : '$value.ref.pointer');
+  ) => objCRetain
+      ? (objCAutorelease
+            ? '$value.ref.retainAndAutorelease()'
+            : '$value.ref.retainAndReturnPointer()')
+      : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
 
   @override
   String convertFfiDartTypeToDartType(
@@ -204,8 +199,7 @@ ${generateAsStub ? '' : _generateMethods(w)}
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+  }) => ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 
   static String generateConstructor(
     String className,

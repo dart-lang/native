@@ -45,11 +45,10 @@ void main() {
       Version? apiMax,
       Version? confMin,
       Version? confMax,
-    ) =>
-        PlatformAvailability(
-          introduced: apiMin,
-          deprecated: apiMax,
-        ).getAvailability(Versions(min: confMin, max: confMax));
+    ) => PlatformAvailability(
+      introduced: apiMin,
+      deprecated: apiMax,
+    ).getAvailability(Versions(min: confMin, max: confMax));
 
     final v1 = Version(1, 0, 0);
     final v2 = Version(2, 0, 0);
@@ -246,12 +245,11 @@ void main() {
         PlatformAvailability? macosAvail,
         Versions? iosVer,
         Versions? macosVer,
-      ) =>
-          ApiAvailability(
-            ios: iosAvail,
-            macos: macosAvail,
-            externalVersions: ExternalVersions(ios: iosVer, macos: macosVer),
-          ).availability;
+      ) => ApiAvailability(
+        ios: iosAvail,
+        macos: macosAvail,
+        externalVersions: ExternalVersions(ios: iosVer, macos: macosVer),
+      ).availability;
 
       expect(getAvail(null, null, null, null), Availability.all);
       expect(getAvail(null, null, verEmpty, verEmpty), Availability.all);

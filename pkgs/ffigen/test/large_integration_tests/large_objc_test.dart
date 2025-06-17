@@ -41,10 +41,10 @@ void main() {
         fnvHash32('$seed.$kind.${clazz.usr}.$method') <
         ((1 << 32) * inclusionRatio);
     DeclarationFilters randomFilter(String kind) => DeclarationFilters(
-          shouldInclude: (Declaration clazz) => randInclude(kind, clazz),
-          shouldIncludeMember: (Declaration clazz, String method) =>
-              randInclude('$kind.memb', clazz, method),
-        );
+      shouldInclude: (Declaration clazz) => randInclude(kind, clazz),
+      shouldIncludeMember: (Declaration clazz, String method) =>
+          randInclude('$kind.memb', clazz, method),
+    );
 
     final outFile = path.join(
       packagePathForTests,

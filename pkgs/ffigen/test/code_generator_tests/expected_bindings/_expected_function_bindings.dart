@@ -11,7 +11,7 @@ import 'dart:ffi' as ffi;
 class Bindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
@@ -38,10 +38,10 @@ class Bindings {
 
   late final _withPrimitiveParamPtr =
       _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Int32, ffi.Uint8)>>(
-    'withPrimitiveParam',
-  );
-  late final _withPrimitiveParam =
-      _withPrimitiveParamPtr.asFunction<int Function(int, int)>();
+        'withPrimitiveParam',
+      );
+  late final _withPrimitiveParam = _withPrimitiveParamPtr
+      .asFunction<int Function(int, int)>();
 
   ffi.Pointer<ffi.Double> withPointerParam(
     ffi.Pointer<ffi.Int32> a,
@@ -50,17 +50,22 @@ class Bindings {
     return _withPointerParam(a, b);
   }
 
-  late final _withPointerParamPtr = _lookup<
-      ffi.NativeFunction<
+  late final _withPointerParamPtr =
+      _lookup<
+        ffi.NativeFunction<
           ffi.Pointer<ffi.Double> Function(
             ffi.Pointer<ffi.Int32>,
             ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
-          )>>('withPointerParam');
-  late final _withPointerParam = _withPointerParamPtr.asFunction<
-      ffi.Pointer<ffi.Double> Function(
-        ffi.Pointer<ffi.Int32>,
-        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
-      )>();
+          )
+        >
+      >('withPointerParam');
+  late final _withPointerParam = _withPointerParamPtr
+      .asFunction<
+        ffi.Pointer<ffi.Double> Function(
+          ffi.Pointer<ffi.Int32>,
+          ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        )
+      >();
 
   /// A function with isLeaf: true
   int leafFunc(int a) {

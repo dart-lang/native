@@ -248,94 +248,87 @@ abstract interface class Config {
     bool ignoreSourceErrors = false,
     bool formatOutput = true,
     ExternalVersions externalVersions = const ExternalVersions(),
-  }) =>
-      ConfigImpl(
-        filename: filename == null ? null : Uri.file(filename.toFilePath()),
-        packageConfig: packageConfig,
-        libclangDylib: Uri.file(
-          libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(),
-        ),
-        output: Uri.file(output.toFilePath()),
-        outputObjC: Uri.file(
-          outputObjC?.toFilePath() ?? '${output.toFilePath()}.m',
-        ),
-        symbolFile: symbolFile,
-        language: language,
-        entryPoints: entryPoints,
-        shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-        compilerOpts: compilerOpts ?? defaultCompilerOpts(),
-        varArgFunctions: varArgFunctions,
-        functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
-        structDecl: structDecl ?? DeclarationFilters.excludeAll,
-        unionDecl: unionDecl ?? DeclarationFilters.excludeAll,
-        enumClassDecl: enumClassDecl ?? DeclarationFilters.excludeAll,
-        unnamedEnumConstants:
-            unnamedEnumConstants ?? DeclarationFilters.excludeAll,
-        globals: globals ?? DeclarationFilters.excludeAll,
-        macroDecl: macroDecl ?? DeclarationFilters.excludeAll,
-        typedefs: typedefs ?? DeclarationFilters.excludeAll,
-        objcInterfaces: objcInterfaces ?? DeclarationFilters.excludeAll,
-        objcProtocols: objcProtocols ?? DeclarationFilters.excludeAll,
-        objcCategories: objcCategories ?? DeclarationFilters.excludeAll,
-        includeUnusedTypedefs: includeUnusedTypedefs,
-        includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
-        includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
-        includeTransitiveObjCCategories: includeTransitiveObjCCategories,
-        generateForPackageObjectiveC: generateForPackageObjectiveC,
-        sort: sort,
-        useSupportedTypedefs: useSupportedTypedefs,
-        libraryImports: Map<String, LibraryImport>.fromEntries(
-          libraryImports.map(
-            (import) => MapEntry<String, LibraryImport>(import.name, import),
-          ),
-        ),
-        usrTypeMappings: usrTypeMappings,
-        typedefTypeMappings: Map<String, ImportedType>.fromEntries(
-          typedefTypeMappings.map(
-            (import) =>
-                MapEntry<String, ImportedType>(import.nativeType, import),
-          ),
-        ),
-        structTypeMappings: Map<String, ImportedType>.fromEntries(
-          structTypeMappings.map(
-            (import) =>
-                MapEntry<String, ImportedType>(import.nativeType, import),
-          ),
-        ),
-        unionTypeMappings: Map<String, ImportedType>.fromEntries(
-          unionTypeMappings.map(
-            (import) =>
-                MapEntry<String, ImportedType>(import.nativeType, import),
-          ),
-        ),
-        nativeTypeMappings: Map<String, ImportedType>.fromEntries(
-          nativeTypeMappings.map(
-            (import) =>
-                MapEntry<String, ImportedType>(import.nativeType, import),
-          ),
-        ),
-        commentType: commentType ?? CommentType.def(),
-        structDependencies: structDependencies,
-        unionDependencies: unionDependencies,
-        structPackingOverrideFunc: structPackingOverrideFunc ?? (_) => null,
-        interfaceModuleFunc: interfaceModuleFunc ?? (_) => null,
-        protocolModuleFunc: protocolModuleFunc ?? (_) => null,
-        wrapperName: wrapperName,
-        wrapperDocComment: wrapperDocComment,
-        preamble: preamble,
-        useDartHandle: useDartHandle,
-        silenceEnumWarning: silenceEnumWarning,
-        shouldExposeFunctionTypedefFunc:
-            shouldExposeFunctionTypedefFunc ?? (_) => false,
-        isLeafFunctionFunc: isLeafFunctionFunc ?? (_) => false,
-        enumShouldBeIntFunc: enumShouldBeIntFunc ?? (_) => false,
-        unnamedEnumsShouldBeIntFunc:
-            unnamedEnumsShouldBeIntFunc ?? (_) => false,
-        ffiNativeConfig: ffiNativeConfig,
-        ignoreSourceErrors: ignoreSourceErrors,
-        formatOutput: formatOutput,
-        externalVersions: externalVersions,
-      );
+  }) => ConfigImpl(
+    filename: filename == null ? null : Uri.file(filename.toFilePath()),
+    packageConfig: packageConfig,
+    libclangDylib: Uri.file(
+      libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(),
+    ),
+    output: Uri.file(output.toFilePath()),
+    outputObjC: Uri.file(
+      outputObjC?.toFilePath() ?? '${output.toFilePath()}.m',
+    ),
+    symbolFile: symbolFile,
+    language: language,
+    entryPoints: entryPoints,
+    shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
+    compilerOpts: compilerOpts ?? defaultCompilerOpts(),
+    varArgFunctions: varArgFunctions,
+    functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
+    structDecl: structDecl ?? DeclarationFilters.excludeAll,
+    unionDecl: unionDecl ?? DeclarationFilters.excludeAll,
+    enumClassDecl: enumClassDecl ?? DeclarationFilters.excludeAll,
+    unnamedEnumConstants: unnamedEnumConstants ?? DeclarationFilters.excludeAll,
+    globals: globals ?? DeclarationFilters.excludeAll,
+    macroDecl: macroDecl ?? DeclarationFilters.excludeAll,
+    typedefs: typedefs ?? DeclarationFilters.excludeAll,
+    objcInterfaces: objcInterfaces ?? DeclarationFilters.excludeAll,
+    objcProtocols: objcProtocols ?? DeclarationFilters.excludeAll,
+    objcCategories: objcCategories ?? DeclarationFilters.excludeAll,
+    includeUnusedTypedefs: includeUnusedTypedefs,
+    includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
+    includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
+    includeTransitiveObjCCategories: includeTransitiveObjCCategories,
+    generateForPackageObjectiveC: generateForPackageObjectiveC,
+    sort: sort,
+    useSupportedTypedefs: useSupportedTypedefs,
+    libraryImports: Map<String, LibraryImport>.fromEntries(
+      libraryImports.map(
+        (import) => MapEntry<String, LibraryImport>(import.name, import),
+      ),
+    ),
+    usrTypeMappings: usrTypeMappings,
+    typedefTypeMappings: Map<String, ImportedType>.fromEntries(
+      typedefTypeMappings.map(
+        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+      ),
+    ),
+    structTypeMappings: Map<String, ImportedType>.fromEntries(
+      structTypeMappings.map(
+        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+      ),
+    ),
+    unionTypeMappings: Map<String, ImportedType>.fromEntries(
+      unionTypeMappings.map(
+        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+      ),
+    ),
+    nativeTypeMappings: Map<String, ImportedType>.fromEntries(
+      nativeTypeMappings.map(
+        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+      ),
+    ),
+    commentType: commentType ?? CommentType.def(),
+    structDependencies: structDependencies,
+    unionDependencies: unionDependencies,
+    structPackingOverrideFunc: structPackingOverrideFunc ?? (_) => null,
+    interfaceModuleFunc: interfaceModuleFunc ?? (_) => null,
+    protocolModuleFunc: protocolModuleFunc ?? (_) => null,
+    wrapperName: wrapperName,
+    wrapperDocComment: wrapperDocComment,
+    preamble: preamble,
+    useDartHandle: useDartHandle,
+    silenceEnumWarning: silenceEnumWarning,
+    shouldExposeFunctionTypedefFunc:
+        shouldExposeFunctionTypedefFunc ?? (_) => false,
+    isLeafFunctionFunc: isLeafFunctionFunc ?? (_) => false,
+    enumShouldBeIntFunc: enumShouldBeIntFunc ?? (_) => false,
+    unnamedEnumsShouldBeIntFunc: unnamedEnumsShouldBeIntFunc ?? (_) => false,
+    ffiNativeConfig: ffiNativeConfig,
+    ignoreSourceErrors: ignoreSourceErrors,
+    formatOutput: formatOutput,
+    externalVersions: externalVersions,
+  );
 }
 
 abstract interface class DeclarationFilters {
@@ -363,20 +356,18 @@ abstract interface class DeclarationFilters {
     String Function(Declaration declaration)? rename,
     String Function(Declaration declaration, String member)? renameMember,
     bool Function(Declaration declaration, String member)? shouldIncludeMember,
-  }) =>
-      DeclarationFiltersImpl(
-        shouldIncludeFunc: shouldInclude ?? (_) => false,
-        shouldIncludeSymbolAddressFunc:
-            shouldIncludeSymbolAddress ?? (_) => false,
-        renameFunc: rename ?? (declaration) => declaration.originalName,
-        renameMemberFunc: renameMember ?? (_, member) => member,
-        shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
-      );
+  }) => DeclarationFiltersImpl(
+    shouldIncludeFunc: shouldInclude ?? (_) => false,
+    shouldIncludeSymbolAddressFunc: shouldIncludeSymbolAddress ?? (_) => false,
+    renameFunc: rename ?? (declaration) => declaration.originalName,
+    renameMemberFunc: renameMember ?? (_, member) => member,
+    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
+  );
 
   static final excludeAll = DeclarationFilters();
   static final includeAll = DeclarationFilters(shouldInclude: (_) => true);
 
   static DeclarationFilters include(Set<String> names) => DeclarationFilters(
-        shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-      );
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
 }

@@ -156,10 +156,12 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     cursor,
     0,
   );
-  final isClassMethod = propertyAttributes &
+  final isClassMethod =
+      propertyAttributes &
           clang_types.CXObjCPropertyAttrKind.CXObjCPropertyAttr_class >
       0;
-  final isReadOnly = propertyAttributes &
+  final isReadOnly =
+      propertyAttributes &
           clang_types.CXObjCPropertyAttrKind.CXObjCPropertyAttr_readonly >
       0;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
@@ -174,8 +176,9 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     '$fieldType $fieldName ${cursor.completeStringRepr()}',
   );
 
-  final getterName =
-      clang.clang_Cursor_getObjCPropertyGetterName(cursor).toStringAndDispose();
+  final getterName = clang
+      .clang_Cursor_getObjCPropertyGetterName(cursor)
+      .toStringAndDispose();
   final getter = ObjCMethod(
     builtInFunctions: objCBuiltInFunctions,
     originalName: getterName,

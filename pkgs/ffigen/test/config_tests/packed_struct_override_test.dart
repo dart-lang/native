@@ -12,7 +12,8 @@ import '../test_utils.dart';
 void main() {
   group('packed_struct_override_test', () {
     test('Invalid Packed Config values', () {
-      final baseYaml = '''${strings.name}: 'NativeLibrary'
+      final baseYaml =
+          '''${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Packed Struct Override Test'
 ${strings.output}: 'unused'
 ${strings.headers}:

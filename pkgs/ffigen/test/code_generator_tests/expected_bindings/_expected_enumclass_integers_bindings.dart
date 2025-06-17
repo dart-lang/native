@@ -13,7 +13,7 @@ import 'dart:ffi' as ffi;
 class Bindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
@@ -49,11 +49,11 @@ enum MyEnum {
   const MyEnum(this.value);
 
   static MyEnum fromValue(int value) => switch (value) {
-        0 => value1,
-        1 => value2,
-        2 => value3,
-        _ => throw ArgumentError('Unknown value for MyEnum: $value'),
-      };
+    0 => value1,
+    1 => value2,
+    2 => value3,
+    _ => throw ArgumentError('Unknown value for MyEnum: $value'),
+  };
 }
 
 sealed class MyIntegerEnum {

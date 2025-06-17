@@ -50,8 +50,9 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   if (enumName.isEmpty) {
     _logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(cursor);
-    hasNegativeEnumConstants =
-        addedConstants.where((c) => c.rawValue.startsWith('-')).isNotEmpty;
+    hasNegativeEnumConstants = addedConstants
+        .where((c) => c.rawValue.startsWith('-'))
+        .isNotEmpty;
   } else {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(

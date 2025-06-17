@@ -60,13 +60,13 @@ void main() {
     final child = makeInterface('Child', parent, [proto1, proto4]);
 
     ObjCBlock makeBlock(Type returnType, List<Type> argTypes) => ObjCBlock(
-          returnType: returnType,
-          params: [
-            for (final t in argTypes) Parameter(type: t, objCConsumed: false),
-          ],
-          returnsRetained: false,
-          builtInFunctions: builtInFunctions,
-        );
+      returnType: returnType,
+      params: [
+        for (final t in argTypes) Parameter(type: t, objCConsumed: false),
+      ],
+      returnsRetained: false,
+      builtInFunctions: builtInFunctions,
+    );
 
     group('ObjCInterface', () {
       test('subtype', () {

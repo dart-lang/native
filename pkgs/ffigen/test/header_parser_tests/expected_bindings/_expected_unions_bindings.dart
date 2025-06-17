@@ -8,11 +8,11 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
@@ -25,10 +25,10 @@ class NativeLibrary {
 
   late final _func1Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<Union2>)>>(
-    'func1',
-  );
-  late final _func1 =
-      _func1Ptr.asFunction<void Function(ffi.Pointer<Union2>)>();
+        'func1',
+      );
+  late final _func1 = _func1Ptr
+      .asFunction<void Function(ffi.Pointer<Union2>)>();
 
   void func2(ffi.Pointer<Union3> s) {
     return _func2(s);
@@ -36,10 +36,10 @@ class NativeLibrary {
 
   late final _func2Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<Union3>)>>(
-    'func2',
-  );
-  late final _func2 =
-      _func2Ptr.asFunction<void Function(ffi.Pointer<Union3>)>();
+        'func2',
+      );
+  late final _func2 = _func2Ptr
+      .asFunction<void Function(ffi.Pointer<Union3>)>();
 }
 
 final class Union1 extends ffi.Union {

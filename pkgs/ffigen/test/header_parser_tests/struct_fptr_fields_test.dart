@@ -26,7 +26,8 @@ ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/struct_fptr_fields.h')}'
-        ''') as yaml.YamlMap,
+        ''')
+              as yaml.YamlMap,
         ),
       );
     });

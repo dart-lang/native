@@ -19,9 +19,9 @@ class LibraryImport extends AstNode {
     this.name,
     this._importPath, {
     String? importPathWhenImportedByPackageObjC,
-  })  : _importPathWhenImportedByPackageObjC =
-            importPathWhenImportedByPackageObjC,
-        prefix = name;
+  }) : _importPathWhenImportedByPackageObjC =
+           importPathWhenImportedByPackageObjC,
+       prefix = name;
 
   @override
   bool operator ==(Object other) {

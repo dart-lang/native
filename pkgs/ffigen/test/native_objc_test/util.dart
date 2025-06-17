@@ -10,7 +10,8 @@ import 'package:ffigen/ffigen.dart';
 import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 import 'package:logging/logging.dart' show Level;
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/internal.dart' as internal_for_testing
+import 'package:objective_c/src/internal.dart'
+    as internal_for_testing
     show isValidClass, isValidBlock;
 import 'package:path/path.dart' as p;
 

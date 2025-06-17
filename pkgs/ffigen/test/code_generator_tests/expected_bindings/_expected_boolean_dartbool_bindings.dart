@@ -11,7 +11,7 @@ import 'dart:ffi' as ffi;
 class Bindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
@@ -25,11 +25,12 @@ class Bindings {
     return _test1(a, b);
   }
 
-  late final _test1Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Bool Function(ffi.Bool, ffi.Pointer<ffi.Bool>)>>('test1');
-  late final _test1 =
-      _test1Ptr.asFunction<bool Function(bool, ffi.Pointer<ffi.Bool>)>();
+  late final _test1Ptr =
+      _lookup<
+        ffi.NativeFunction<ffi.Bool Function(ffi.Bool, ffi.Pointer<ffi.Bool>)>
+      >('test1');
+  late final _test1 = _test1Ptr
+      .asFunction<bool Function(bool, ffi.Pointer<ffi.Bool>)>();
 }
 
 final class Test2 extends ffi.Struct {

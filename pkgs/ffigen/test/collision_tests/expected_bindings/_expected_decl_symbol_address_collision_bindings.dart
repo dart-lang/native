@@ -9,11 +9,11 @@ import 'dart:ffi' as ffi;
 class Bindings$1 {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings$1(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   Bindings$1.fromLookup(
@@ -35,8 +35,8 @@ class Bindings$1 {
 
   late final __SymbolAddresses_1Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('_SymbolAddresses_1');
-  late final __SymbolAddresses_1 =
-      __SymbolAddresses_1Ptr.asFunction<void Function()>();
+  late final __SymbolAddresses_1 = __SymbolAddresses_1Ptr
+      .asFunction<void Function()>();
 
   late final addresses = _SymbolAddresses$1(this);
 }

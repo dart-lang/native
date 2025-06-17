@@ -77,6 +77,7 @@ class _ParsedCompound {
 Compound? parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   CompoundType compoundType, {
+
   /// To track if the declaration was used by reference(i.e T*). (Used to only
   /// generate these as opaque if `dependency-only` was set to opaque).
   bool pointerReference = false,
@@ -153,6 +154,7 @@ Compound? parseCompoundDeclaration(
 void fillCompoundMembersIfNeeded(
   Compound compound,
   clang_types.CXCursor cursor, {
+
   /// To track if the declaration was used by reference(i.e T*). (Used to only
   /// generate these as opaque if `dependency-only` was set to opaque).
   bool pointerReference = false,

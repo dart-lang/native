@@ -47,7 +47,8 @@ Config _makeFieldIncludeExcludeConfig({
   String? include,
   String? exclude,
 }) {
-  var templateString = '''
+  var templateString =
+      '''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'include_exclude test'
 ${strings.output}: 'unused'
@@ -56,17 +57,20 @@ ${strings.headers}:
     - '${absPath('test/config_tests/include_exclude.h')}'
 ''';
   if (include != null || exclude != null) {
-    templateString += '''
+    templateString +=
+        '''
 $field:
 ''';
     if (include != null) {
-      templateString += '''
+      templateString +=
+          '''
   ${strings.include}:
     - $include
 ''';
     }
     if (exclude != null) {
-      templateString += '''
+      templateString +=
+          '''
   ${strings.exclude}:
     - $exclude
 ''';

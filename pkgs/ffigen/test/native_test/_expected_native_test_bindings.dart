@@ -10,11 +10,11 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
@@ -36,8 +36,8 @@ class NativeLibrary {
 
   late final _Function1Uint8Ptr =
       _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Uint8)>>(
-    'Function1Uint8',
-  );
+        'Function1Uint8',
+      );
   late final _Function1Uint8 =
       _Function1Uint8Ptr.asFunction<int Function(int)>();
 
@@ -47,8 +47,8 @@ class NativeLibrary {
 
   late final _Function1Uint16Ptr =
       _lookup<ffi.NativeFunction<ffi.Uint16 Function(ffi.Uint16)>>(
-    'Function1Uint16',
-  );
+        'Function1Uint16',
+      );
   late final _Function1Uint16 =
       _Function1Uint16Ptr.asFunction<int Function(int)>();
 
@@ -58,8 +58,8 @@ class NativeLibrary {
 
   late final _Function1Uint32Ptr =
       _lookup<ffi.NativeFunction<ffi.Uint32 Function(ffi.Uint32)>>(
-    'Function1Uint32',
-  );
+        'Function1Uint32',
+      );
   late final _Function1Uint32 =
       _Function1Uint32Ptr.asFunction<int Function(int)>();
 
@@ -69,8 +69,8 @@ class NativeLibrary {
 
   late final _Function1Uint64Ptr =
       _lookup<ffi.NativeFunction<ffi.Uint64 Function(ffi.Uint64)>>(
-    'Function1Uint64',
-  );
+        'Function1Uint64',
+      );
   late final _Function1Uint64 =
       _Function1Uint64Ptr.asFunction<int Function(int)>();
 
@@ -88,8 +88,8 @@ class NativeLibrary {
 
   late final _Function1Int16Ptr =
       _lookup<ffi.NativeFunction<ffi.Int16 Function(ffi.Int16)>>(
-    'Function1Int16',
-  );
+        'Function1Int16',
+      );
   late final _Function1Int16 =
       _Function1Int16Ptr.asFunction<int Function(int)>();
 
@@ -99,8 +99,8 @@ class NativeLibrary {
 
   late final _Function1Int32Ptr =
       _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Int32)>>(
-    'Function1Int32',
-  );
+        'Function1Int32',
+      );
   late final _Function1Int32 =
       _Function1Int32Ptr.asFunction<int Function(int)>();
 
@@ -110,8 +110,8 @@ class NativeLibrary {
 
   late final _Function1Int64Ptr =
       _lookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Int64)>>(
-    'Function1Int64',
-  );
+        'Function1Int64',
+      );
   late final _Function1Int64 =
       _Function1Int64Ptr.asFunction<int Function(int)>();
 
@@ -121,8 +121,8 @@ class NativeLibrary {
 
   late final _Function1IntPtrPtr =
       _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.IntPtr)>>(
-    'Function1IntPtr',
-  );
+        'Function1IntPtr',
+      );
   late final _Function1IntPtr =
       _Function1IntPtrPtr.asFunction<int Function(int)>();
 
@@ -132,8 +132,8 @@ class NativeLibrary {
 
   late final _Function1UintPtrPtr =
       _lookup<ffi.NativeFunction<ffi.UintPtr Function(ffi.UintPtr)>>(
-    'Function1UintPtr',
-  );
+        'Function1UintPtr',
+      );
   late final _Function1UintPtr =
       _Function1UintPtrPtr.asFunction<int Function(int)>();
 
@@ -143,8 +143,8 @@ class NativeLibrary {
 
   late final _Function1FloatPtr =
       _lookup<ffi.NativeFunction<ffi.Float Function(ffi.Float)>>(
-    'Function1Float',
-  );
+        'Function1Float',
+      );
   late final _Function1Float =
       _Function1FloatPtr.asFunction<double Function(double)>();
 
@@ -154,8 +154,8 @@ class NativeLibrary {
 
   late final _Function1DoublePtr =
       _lookup<ffi.NativeFunction<ffi.Double Function(ffi.Double)>>(
-    'Function1Double',
-  );
+        'Function1Double',
+      );
   late final _Function1Double =
       _Function1DoublePtr.asFunction<double Function(double)>();
 
@@ -165,10 +165,10 @@ class NativeLibrary {
 
   late final _getStruct1Ptr =
       _lookup<ffi.NativeFunction<ffi.Pointer<Struct1> Function()>>(
-    'getStruct1',
-  );
-  late final _getStruct1 =
-      _getStruct1Ptr.asFunction<ffi.Pointer<Struct1> Function()>();
+        'getStruct1',
+      );
+  late final _getStruct1 = _getStruct1Ptr
+      .asFunction<ffi.Pointer<Struct1> Function()>();
 
   Struct3 Function1StructReturnByValue(int a, int b, int c) {
     return _Function1StructReturnByValue(a, b, c);
@@ -176,10 +176,12 @@ class NativeLibrary {
 
   late final _Function1StructReturnByValuePtr =
       _lookup<ffi.NativeFunction<Struct3 Function(ffi.Int, ffi.Int, ffi.Int)>>(
-    'Function1StructReturnByValue',
-  );
-  late final _Function1StructReturnByValue = _Function1StructReturnByValuePtr
-      .asFunction<Struct3 Function(int, int, int)>();
+        'Function1StructReturnByValue',
+      );
+  late final _Function1StructReturnByValue =
+      _Function1StructReturnByValuePtr.asFunction<
+        Struct3 Function(int, int, int)
+      >();
 
   int Function1StructPassByValue(Struct3 sum_a_b_c) {
     return _Function1StructPassByValue(sum_a_b_c);
@@ -187,8 +189,8 @@ class NativeLibrary {
 
   late final _Function1StructPassByValuePtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(Struct3)>>(
-    'Function1StructPassByValue',
-  );
+        'Function1StructPassByValue',
+      );
   late final _Function1StructPassByValue =
       _Function1StructPassByValuePtr.asFunction<int Function(Struct3)>();
 
@@ -198,8 +200,8 @@ class NativeLibrary {
 
   late final _funcWithEnum1Ptr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-    'funcWithEnum1',
-  );
+        'funcWithEnum1',
+      );
   late final _funcWithEnum1 = _funcWithEnum1Ptr.asFunction<int Function(int)>();
 
   int funcWithEnum2(int value) {
@@ -208,8 +210,8 @@ class NativeLibrary {
 
   late final _funcWithEnum2Ptr =
       _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(ffi.UnsignedInt)>>(
-    'funcWithEnum2',
-  );
+        'funcWithEnum2',
+      );
   late final _funcWithEnum2 = _funcWithEnum2Ptr.asFunction<int Function(int)>();
 
   StructWithEnums getStructWithEnums() {
@@ -218,10 +220,10 @@ class NativeLibrary {
 
   late final _getStructWithEnumsPtr =
       _lookup<ffi.NativeFunction<StructWithEnums Function()>>(
-    'getStructWithEnums',
-  );
-  late final _getStructWithEnums =
-      _getStructWithEnumsPtr.asFunction<StructWithEnums Function()>();
+        'getStructWithEnums',
+      );
+  late final _getStructWithEnums = _getStructWithEnumsPtr
+      .asFunction<StructWithEnums Function()>();
 
   late final ffi.Pointer<ffi.Int> _globalArray = _lookup<ffi.Int>(
     'globalArray',
@@ -258,11 +260,11 @@ enum Enum1 {
   const Enum1(this.value);
 
   static Enum1 fromValue(int value) => switch (value) {
-        0 => enum1Value1,
-        1 => enum1Value2,
-        2 => enum1Value3,
-        _ => throw ArgumentError('Unknown value for Enum1: $value'),
-      };
+    0 => enum1Value1,
+    1 => enum1Value2,
+    2 => enum1Value3,
+    _ => throw ArgumentError('Unknown value for Enum1: $value'),
+  };
 }
 
 sealed class Enum2 {

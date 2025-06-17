@@ -67,10 +67,10 @@ class FunctionType extends Type {
 
   @override
   String getCType(Writer w, {bool writeArgumentNames = true}) => _getTypeImpl(
-        writeArgumentNames,
-        (Type t) => t.getCType(w),
-        varArgWrapper: '${w.ffiLibraryPrefix}.VarArgs',
-      );
+    writeArgumentNames,
+    (Type t) => t.getCType(w),
+    varArgWrapper: '${w.ffiLibraryPrefix}.VarArgs',
+  );
 
   @override
   String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
@@ -139,8 +139,9 @@ class FunctionType extends Type {
         covariantLeft: [returnType],
         covariantRight: [other.returnType],
         contravariantLeft: dartTypeParameters.map((p) => p.type).toList(),
-        contravariantRight:
-            other.dartTypeParameters.map((p) => p.type).toList(),
+        contravariantRight: other.dartTypeParameters
+            .map((p) => p.type)
+            .toList(),
       );
     }
     return false;

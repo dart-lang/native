@@ -216,10 +216,10 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
     super.transform,
     super.result,
     this.additionalProperties = AdditionalProperties.warn,
-  })  : requiredKeys = {
-          for (final kv in entries.where((kv) => kv.required)) kv.key,
-        },
-        allKeys = {for (final kv in entries) kv.key};
+  }) : requiredKeys = {
+         for (final kv in entries.where((kv) => kv.required)) kv.key,
+       },
+       allKeys = {for (final kv in entries) kv.key};
 
   @override
   bool _validateNode(ConfigValue<Object?> o, {bool log = true}) {
@@ -280,8 +280,9 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
     for (final entry in entries) {
       final path = [...o.path, entry.key];
       if (entry.defaultValue != null) {
-        result[entry.key] = entry.defaultValue!
-            .call(ConfigValue(path: path, value: null)) as CE;
+        result[entry.key] =
+            entry.defaultValue!.call(ConfigValue(path: path, value: null))
+                as CE;
       } else if (entry.valueConfigSpec is HeterogeneousMapConfigSpec) {
         final defaultValue =
             (entry.valueConfigSpec as HeterogeneousMapConfigSpec)
@@ -289,7 +290,8 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
         if (defaultValue != null) {
           result[entry.key] =
               (entry.valueConfigSpec as HeterogeneousMapConfigSpec)
-                  ._getAllDefaults(ConfigValue(path: path, value: null)) as CE;
+                      ._getAllDefaults(ConfigValue(path: path, value: null))
+                  as CE;
         }
       }
       if (result.containsKey(entry.key) && entry.resultOrDefault != null) {
@@ -302,9 +304,9 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
     return result.isEmpty
         ? null
         : o
-            .withValue(result, null)
-            .transformOrThis(transform, this.result)
-            .value;
+              .withValue(result, null)
+              .transformOrThis(transform, this.result)
+              .value;
   }
 
   @override
@@ -330,16 +332,18 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
       if (!inputMap.containsKey(entry.key)) {
         // No value specified, fill in with default value instead.
         if (entry.defaultValue != null) {
-          childExtracts[entry.key] = entry.defaultValue!
-              .call(ConfigValue(path: path, value: null)) as CE;
+          childExtracts[entry.key] =
+              entry.defaultValue!.call(ConfigValue(path: path, value: null))
+                  as CE;
         } else if (entry.valueConfigSpec is HeterogeneousMapConfigSpec) {
           final defaultValue =
               (entry.valueConfigSpec as HeterogeneousMapConfigSpec)
                   ._getAllDefaults(ConfigValue(path: path, value: null));
           if (defaultValue != null) {
-            childExtracts[entry.key] = (entry.valueConfigSpec
-                    as HeterogeneousMapConfigSpec)
-                ._getAllDefaults(ConfigValue(path: path, value: null)) as CE;
+            childExtracts[entry.key] =
+                (entry.valueConfigSpec as HeterogeneousMapConfigSpec)
+                        ._getAllDefaults(ConfigValue(path: path, value: null))
+                    as CE;
           }
         }
       } else {
@@ -414,7 +418,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
   ///
   /// Note: keyRegexp will be matched against key.toString()
   final List<({String keyRegexp, ConfigSpec valueConfigSpec})>
-      keyValueConfigSpecs;
+  keyValueConfigSpecs;
 
   MapConfigSpec({
     required this.keyValueConfigSpecs,

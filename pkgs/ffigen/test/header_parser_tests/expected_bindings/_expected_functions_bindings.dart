@@ -10,11 +10,11 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
@@ -42,12 +42,14 @@ class NativeLibrary {
     return _func3(arg0, a, arg2, b);
   }
 
-  late final _func3Ptr = _lookup<
-      ffi.NativeFunction<
-          ffi.Double Function(
-              ffi.Float, ffi.Int8, ffi.Int64, ffi.Int32)>>('func3');
-  late final _func3 =
-      _func3Ptr.asFunction<double Function(double, int, int, int)>();
+  late final _func3Ptr =
+      _lookup<
+        ffi.NativeFunction<
+          ffi.Double Function(ffi.Float, ffi.Int8, ffi.Int64, ffi.Int32)
+        >
+      >('func3');
+  late final _func3 = _func3Ptr
+      .asFunction<double Function(double, int, int, int)>();
 
   ffi.Pointer<ffi.Void> func4(
     ffi.Pointer<ffi.Pointer<ffi.Int8>> arg0,
@@ -57,19 +59,24 @@ class NativeLibrary {
     return _func4(arg0, arg1, arg2);
   }
 
-  late final _func4Ptr = _lookup<
-      ffi.NativeFunction<
+  late final _func4Ptr =
+      _lookup<
+        ffi.NativeFunction<
           ffi.Pointer<ffi.Void> Function(
             ffi.Pointer<ffi.Pointer<ffi.Int8>>,
             ffi.Double,
             ffi.Pointer<ffi.Pointer<ffi.Pointer<ffi.Int32>>>,
-          )>>('func4');
-  late final _func4 = _func4Ptr.asFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<ffi.Pointer<ffi.Int8>>,
-        double,
-        ffi.Pointer<ffi.Pointer<ffi.Pointer<ffi.Int32>>>,
-      )>();
+          )
+        >
+      >('func4');
+  late final _func4 = _func4Ptr
+      .asFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<ffi.Pointer<ffi.Int8>>,
+          double,
+          ffi.Pointer<ffi.Pointer<ffi.Pointer<ffi.Int32>>>,
+        )
+      >();
 
   void func5(
     ffi.Pointer<shortHand> a,
@@ -78,17 +85,22 @@ class NativeLibrary {
     return _func5(a, b);
   }
 
-  late final _func5Ptr = _lookup<
-      ffi.NativeFunction<
+  late final _func5Ptr =
+      _lookup<
+        ffi.NativeFunction<
           ffi.Void Function(
             ffi.Pointer<shortHand>,
             ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
-          )>>('func5');
-  late final _func5 = _func5Ptr.asFunction<
-      void Function(
-        ffi.Pointer<shortHand>,
-        ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
-      )>();
+          )
+        >
+      >('func5');
+  late final _func5 = _func5Ptr
+      .asFunction<
+        void Function(
+          ffi.Pointer<shortHand>,
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
+        )
+      >();
 
   void externInlineFunc(int a) {
     return _externInlineFunc(a);
@@ -96,18 +108,19 @@ class NativeLibrary {
 
   late final _externInlineFuncPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>(
-    'externInlineFunc',
-  );
-  late final _externInlineFunc =
-      _externInlineFuncPtr.asFunction<void Function(int)>();
+        'externInlineFunc',
+      );
+  late final _externInlineFunc = _externInlineFuncPtr
+      .asFunction<void Function(int)>();
 
   int diffChars(int a, int b) {
     return _diffChars(a, b);
   }
 
-  late final _diffCharsPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Char Function(ffi.UnsignedChar, ffi.SignedChar)>>('diffChars');
+  late final _diffCharsPtr =
+      _lookup<
+        ffi.NativeFunction<ffi.Char Function(ffi.UnsignedChar, ffi.SignedChar)>
+      >('diffChars');
   late final _diffChars = _diffCharsPtr.asFunction<int Function(int, int)>();
 
   late final addresses = _SymbolAddresses(this);
@@ -117,17 +130,24 @@ class _SymbolAddresses {
   final NativeLibrary _library;
   _SymbolAddresses(this._library);
   ffi.Pointer<
-          ffi.NativeFunction<
-              ffi.Double Function(ffi.Float, ffi.Int8, ffi.Int64, ffi.Int32)>>
-      get func3 => _library._func3Ptr;
+    ffi.NativeFunction<
+      ffi.Double Function(ffi.Float, ffi.Int8, ffi.Int64, ffi.Int32)
+    >
+  >
+  get func3 => _library._func3Ptr;
   ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Void> Function(
-            ffi.Pointer<ffi.Pointer<ffi.Int8>>,
-            ffi.Double,
-            ffi.Pointer<ffi.Pointer<ffi.Pointer<ffi.Int32>>>,
-          )>> get func4 => _library._func4Ptr;
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ffi.Pointer<ffi.Int8>>,
+        ffi.Double,
+        ffi.Pointer<ffi.Pointer<ffi.Pointer<ffi.Int32>>>,
+      )
+    >
+  >
+  get func4 => _library._func4Ptr;
 }
 
-typedef shortHand = ffi.NativeFunction<
-    ffi.Void Function(ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> b)>;
+typedef shortHand =
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> b)
+    >;

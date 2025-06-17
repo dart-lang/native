@@ -100,12 +100,14 @@ class ObjCBlock extends BindingType {
   bool get hasListener => returnType == voidType;
 
   String _blockType(Writer w) {
-    final argStr = params.map((param) {
-      final type = param.type.getObjCBlockSignatureType(w);
-      return param.objCConsumed
-          ? '${ObjCBuiltInFunctions.consumedType.gen(w)}<$type>'
-          : type;
-    }).join(', ');
+    final argStr = params
+        .map((param) {
+          final type = param.type.getObjCBlockSignatureType(w);
+          return param.objCConsumed
+              ? '${ObjCBuiltInFunctions.consumedType.gen(w)}<$type>'
+              : type;
+        })
+        .join(', ');
     final retType = returnType.getObjCBlockSignatureType(w);
     final retStr = returnsRetained
         ? '${ObjCBuiltInFunctions.retainedType.gen(w)}<$retType>'
@@ -357,7 +359,8 @@ extension $callExtension on $blockType {
           ),
         )
         .join(', ');
-    final callMethodInvocation = '''
+    final callMethodInvocation =
+        '''
 ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
   .asFunction<${func.trampFfiDartType}>()(
     ref.pointer, $callMethodArgs)''';
@@ -516,8 +519,7 @@ $ret $fnName(id target, $argRecv) {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
@@ -525,8 +527,7 @@ $ret $fnName(id target, $argRecv) {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      ObjCInterface.generateConstructor(name, value, objCRetain);
+  }) => ObjCInterface.generateConstructor(name, value, objCRetain);
 
   @override
   String? generateRetain(String value) => 'objc_retainBlock($value)';
@@ -598,9 +599,11 @@ class _FnHelper {
     trampNatFnCType = NativeFunc(trampFnType).getCType(w);
 
     paramsNameOnly = params.map((p) => p.name).join(', ');
-    paramsFfiDartType =
-        params.map((p) => '${p.type.getFfiDartType(w)} ${p.name}').join(', ');
-    paramsDartType =
-        params.map((p) => '${p.type.getDartType(w)} ${p.name}').join(', ');
+    paramsFfiDartType = params
+        .map((p) => '${p.type.getFfiDartType(w)} ${p.name}')
+        .join(', ');
+    paramsDartType = params
+        .map((p) => '${p.type.getDartType(w)} ${p.name}')
+        .join(', ');
   }
 }
