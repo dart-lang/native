@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
@@ -22,19 +21,23 @@ void main() {
   group('isolate', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(path.join(
-        packagePathForTests,
-        '..',
-        'objective_c',
-        'test',
-        'objective_c.dylib',
-      ));
-      final dylib = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'objc_test.dylib',
-      ));
+      DynamicLibrary.open(
+        path.join(
+          packagePathForTests,
+          '..',
+          'objective_c',
+          'test',
+          'objective_c.dylib',
+        ),
+      );
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('isolate');
@@ -60,8 +63,11 @@ void main() {
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingObjectTest, port.sendPort,
-          onExit: port.sendPort);
+      final isolate = await Isolate.spawn(
+        sendingObjectTest,
+        port.sendPort,
+        onExit: port.sendPort,
+      );
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(sendable);
@@ -115,15 +121,19 @@ void main() {
 
     test('Sending block through a port', () async {
       final completer = Completer<int>();
-      ObjCBlock<Void Function(Int32)>? block =
-          ObjCBlock_ffiVoid_Int32.listener((int value) {
-        completer.complete(value);
-      });
+      ObjCBlock<Void Function(Int32)>? block = ObjCBlock_ffiVoid_Int32.listener(
+        (int value) {
+          completer.complete(value);
+        },
+      );
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingBlockTest, port.sendPort,
-          onExit: port.sendPort);
+      final isolate = await Isolate.spawn(
+        sendingBlockTest,
+        port.sendPort,
+        onExit: port.sendPort,
+      );
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(block);

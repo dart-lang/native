@@ -5,7 +5,7 @@
 name: objective_c_example
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   args: ^2.6.0
@@ -13,6 +13,7 @@ dependencies:
   objective_c: ^0.0.1
 
 dev_dependencies:
+  dart_flutter_team_lints: ^2.0.0
   ffigen:
     path: ../../
   lints: ^2.0.0

@@ -53,7 +53,8 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
         }
       } else {
         _logger.finest(
-            'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}');
+          'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
+        );
       }
     } catch (e, s) {
       _logger.severe(e);
@@ -102,7 +103,9 @@ bool shouldIncludeRootCursor(String sourceFile) {
   // Add header to seen if it's not.
   if (!bindingsIndex.isSeenHeader(sourceFile)) {
     bindingsIndex.addHeaderToSeen(
-        sourceFile, config.shouldIncludeHeader(Uri.file(sourceFile)));
+      sourceFile,
+      config.shouldIncludeHeader(Uri.file(sourceFile)),
+    );
   }
 
   return bindingsIndex.getSeenHeaderStatus(sourceFile)!;
