@@ -98,7 +98,7 @@ extension LinkerOptionsExt on LinkerOptions {
     final includeAllSymbols = _symbolsToKeep == null;
 
     switch (targetOS) {
-      case OS.macOS:
+      case OS.macOS || OS.iOS:
         return [
           if (!includeAllSymbols) ...sourceFiles,
           ..._toLinkerSyntax(tool, [

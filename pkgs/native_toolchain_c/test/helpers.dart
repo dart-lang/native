@@ -245,11 +245,16 @@ Future<String> readelf(String filePath, String flags) async {
   return result.stdout;
 }
 
+List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
+  OS.macOS || OS.iOS => const [],
+  OS() => ['-D'],
+};
+
 Future<String> nmReadSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   final result = await runProcess(
     executable: Uri(path: 'nm'),
-    arguments: [if (targetOS != OS.macOS) '-D', assetUri.toFilePath()],
+    arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
     logger: logger,
   );
 
@@ -324,9 +329,16 @@ const objdumpFileFormatMacOS = {
   Architecture.x64: 'mach-o 64-bit x86-64',
 };
 
+// Don't include 'mach-o' or 'Mach-O', different spelling is used.
+const objdumpFileFormatIOS = {
+  Architecture.arm64: 'arm64',
+  Architecture.x64: '64-bit x86-64',
+};
+
 const targetOSToObjdumpFileFormat = {
   OS.android: objdumpFileFormatAndroid,
   OS.macOS: objdumpFileFormatMacOS,
+  OS.iOS: objdumpFileFormatMacOS,
 };
 
 /// Checks that the provided [libUri] binary has the correct format to be
@@ -360,7 +372,7 @@ Future<void> expectMachineArchitecture(
 }
 
 List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
-  OS.macOS => [Architecture.arm64, Architecture.x64],
+  OS.macOS || OS.iOS => [Architecture.arm64, Architecture.x64],
   OS() => [
     Architecture.arm,
     Architecture.arm64,
@@ -369,3 +381,15 @@ List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
     Architecture.riscv64,
   ],
 };
+
+List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
+    switch (iosSdk) {
+      IOSSdk.iPhoneOS => supportedArchitecturesFor(
+        OS.iOS,
+      )..remove(Architecture.x64),
+      IOSSdk.iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
+      IOSSdk() => throw UnimplementedError(),
+    };
+
+const flutteriOSHighestBestEffort = 16;
+const flutteriOSHighestSupported = 17;

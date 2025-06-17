@@ -16,9 +16,6 @@ import 'package:test/test.dart';
 
 import '../helpers.dart';
 
-const flutteriOSHighestBestEffort = 16;
-const flutteriOSHighestSupported = 17;
-
 void main() {
   if (!Platform.isMacOS) {
     // Avoid needing status files on Dart SDK CI.
@@ -26,12 +23,6 @@ void main() {
   }
 
   const targets = [Architecture.arm64, Architecture.x64];
-
-  // Dont include 'mach-o' or 'Mach-O', different spelling is used.
-  const objdumpFileFormat = {
-    Architecture.arm64: 'arm64',
-    Architecture.x64: '64-bit x86-64',
-  };
 
   const name = 'add';
 
@@ -124,7 +115,7 @@ void main() {
                 final machine = objdumpResult.stdout
                     .split('\n')
                     .firstWhere((e) => e.contains('file format'));
-                expect(machine, contains(objdumpFileFormat[target]));
+                expect(machine, contains(objdumpFileFormatIOS[target]));
 
                 final otoolResult = await runProcess(
                   executable: Uri.file('otool'),
