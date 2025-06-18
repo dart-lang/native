@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 
+import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../tool/tool.dart';
 
@@ -91,6 +92,20 @@ extension LinkerOptionsExt on LinkerOptions {
   /// Takes [sourceFiles] and turns it into flags for the compiler driver while
   /// considering the current [LinkerOptions].
   Iterable<String> sourceFilesToFlags(
+      Tool tool,
+      Iterable<String> sourceFiles,
+      OS targetOS,
+      ) {
+    if (tool.isClangLike || tool.isLdLike) {
+      return _sourceFilesToFlagsForClangLike(tool, sourceFiles, targetOS);
+    } else if (tool == cl) {
+      return _sourceFilesToFlagsForCl(tool, sourceFiles, targetOS);
+    } else {
+      throw UnimplementedError('This package does not know how to run $tool.');
+    }
+  }
+
+  Iterable<String> _sourceFilesToFlagsForClangLike(
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
@@ -133,5 +148,22 @@ extension LinkerOptionsExt on LinkerOptions {
       case OS():
         throw UnimplementedError();
     }
+  }
+
+  Iterable<String> _sourceFilesToFlagsForCl(
+      Tool tool,
+      Iterable<String> sourceFiles,
+      OS targetOS,
+      ) {
+    final includeAllSymbols = _symbolsToKeep == null;
+    return [
+      ...sourceFiles,
+      '/link',
+      if (includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+      ..._linkerFlags,
+      ..._symbolsToKeep?.map((symbol) => '/INCLUDE:$symbol') ?? [],
+      if (stripDebug) '/PDBSTRIPPED',
+      if (gcSections) '/OPT:REF',
+    ];
   }
 }

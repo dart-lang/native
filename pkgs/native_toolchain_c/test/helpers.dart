@@ -355,11 +355,17 @@ const targetOSToObjdumpFileFormat = {
   OS.iOS: objdumpFileFormatMacOS,
 };
 
+const dumpbinFileFormat = {
+  Architecture.arm64: 'ARM64',
+  Architecture.ia32: 'x86',
+  Architecture.x64: 'x64',
+};
+
 /// Checks that the provided [libUri] binary has the correct format to be
 /// executed on the provided [targetArch] architecture.
 ///
 /// On Linux, the format of the binary is determined by `readelf`. On MacOS,
-/// the `objsdump` tool is used.
+/// the `objsdump` tool is used. On Windows, `dumpbin` is used.
 Future<void> expectMachineArchitecture(
   Uri libUri,
   Architecture targetArch,
@@ -382,11 +388,31 @@ Future<void> expectMachineArchitecture(
       machine,
       contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
     );
+  } else if (Platform.isWindows) {
+    final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
+      logger: logger,
+    )).first.uri;
+    final result = await runProcess(
+      executable: dumpbinUri,
+      arguments: ['/HEADERS', libUri.toFilePath()],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final machine = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('machine'));
+    expect(machine, contains(dumpbinFileFormat[targetArch]));
   }
 }
 
 List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
   OS.macOS || OS.iOS => [Architecture.arm64, Architecture.x64],
+  OS.windows => [
+    // TODO(https://github.com/dart-lang/native/issues/170): Support arm64.
+    // Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+  ],
   OS() => [
     Architecture.arm,
     Architecture.arm64,
