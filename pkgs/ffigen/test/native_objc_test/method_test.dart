@@ -19,12 +19,14 @@ void main() {
 
   group('method calls', () {
     setUpAll(() {
-      final dylib = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'objc_test.dylib',
-      ));
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = MethodInterface();

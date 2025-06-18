@@ -37,12 +37,14 @@ void main() {
     // correct block type.
 
     setUpAll(() {
-      final dylib = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'objc_test.dylib',
-      ));
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       lib = BlockAnnotationTestLibrary(
         DynamicLibrary.open(dylib.absolute.path),

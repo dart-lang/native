@@ -29,12 +29,14 @@ void main() {
 
   group('protocol', () {
     setUpAll(() {
-      final dylib = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'objc_test.dylib',
-      ));
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       lib = ProtocolTestObjCLibrary(DynamicLibrary.open(dylib.absolute.path));
       generateBindingsForCoverage('protocol');
