@@ -128,6 +128,8 @@ extension LinkerOptionsExt on LinkerOptions {
             if (wholeArchiveSandwich) '--no-whole-archive',
           ]),
         ];
+      case OS.windows:
+
       case OS():
         throw UnimplementedError();
     }

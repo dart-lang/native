@@ -125,7 +125,7 @@ void runTreeshakeTests(
         targetOS,
       );
 
-      final symbols = await nmReadSymbols(asset, targetOS);
+      final symbols = await readSymbols(asset, targetOS);
       if (clinker.linker != linkerAutoEmpty) {
         expect(symbols, contains('my_other_func'));
         expect(symbols, isNot(contains('my_func')));

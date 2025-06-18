@@ -95,7 +95,7 @@ void runObjectsTests(
       final asset = codeAssets.first;
       expect(asset, isA<CodeAsset>());
       expect(
-        await nmReadSymbols(asset, targetOS),
+        await readSymbols(asset, targetOS),
         stringContainsInOrder(['my_func', 'my_other_func']),
       );
     });

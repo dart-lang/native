@@ -53,14 +53,6 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    const supportedTargetOSs = [OS.linux, OS.android, OS.macOS, OS.iOS];
-    if (!supportedTargetOSs.contains(input.config.code.targetOS)) {
-      throw UnsupportedError(
-        'This feature is only supported when targeting '
-        '${supportedTargetOSs.join(', ')}. '
-        'See also https://github.com/dart-lang/native/issues/1376',
-      );
-    }
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);

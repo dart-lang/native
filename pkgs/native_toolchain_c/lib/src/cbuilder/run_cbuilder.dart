@@ -368,18 +368,15 @@ class RunCBuilder {
         for (final forcedInclude in forcedIncludes)
           '/FI${forcedInclude.toFilePath()}',
         if (executable != null) ...[
-          ...sources.map((e) => e.toFilePath()),
-          '/link',
-          '/out:${outDir.resolveUri(executable!).toFilePath()}',
+          '/Fe:${outDir.resolveUri(executable!).toFilePath()}',
         ] else if (dynamicLibrary != null) ...[
-          ...sources.map((e) => e.toFilePath()),
-          '/link',
-          '/DLL',
-          '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
+          '/LD',
+          '/Fe:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
         ] else if (staticLibrary != null) ...[
           '/c',
-          ...sources.map((e) => e.toFilePath()),
         ],
+        ...sources.map((e) => e.toFilePath()),
+        if (linkerOptions != null) ...['/link',...sources.map((e) => '/WHOLEARCHIVE:${e.toFilePath()}')],
         if (executable != null || dynamicLibrary != null) ...[
           for (final directory in libraryDirectories)
             '/LIBPATH:${directory.toFilePath()}',

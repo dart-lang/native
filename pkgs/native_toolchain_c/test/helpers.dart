@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
@@ -40,7 +41,7 @@ String testSuffix(List<Object> tags) => switch (tags) {
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
-Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
+Future<Uri> tempDirForTest({String? prefix, bool keepTemp = true}) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
   final tempUri = Directory(
@@ -250,16 +251,29 @@ List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
   OS() => ['-D'],
 };
 
-Future<String> nmReadSymbols(CodeAsset asset, OS targetOS) async {
+Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
-  final result = await runProcess(
-    executable: Uri(path: 'nm'),
-    arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
-    logger: logger,
-  );
-
-  expect(result.exitCode, 0);
-  return result.stdout;
+  switch (targetOS) {
+    case OS.windows:
+      final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
+        logger: logger,
+      )).first.uri;
+      final result = await runProcess(
+        executable: dumpbinUri,
+        arguments: ['/EXPORTS', assetUri.toFilePath()],
+        logger: logger,
+      );
+      expect(result.exitCode, 0);
+      return result.stdout;
+    case OS():
+      final result = await runProcess(
+        executable: Uri(path: 'nm'),
+        arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
+        logger: logger,
+      );
+      expect(result.exitCode, 0);
+      return result.stdout;
+  }
 }
 
 Future<int> textSectionAddress(Uri dylib) async {
