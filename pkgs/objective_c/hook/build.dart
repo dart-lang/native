@@ -25,6 +25,12 @@ final logger = Logger('')
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
+    const supportedOSs = {OS.iOS, OS.macOS};
+    if (!supportedOSs.contains(input.config.code.targetOS)) {
+      // Nothing to do.
+      return;
+    }
+
     if (input.config.code.linkModePreference == LinkModePreference.static) {
       throw UnsupportedError('LinkModePreference.static is not supported.');
     }
