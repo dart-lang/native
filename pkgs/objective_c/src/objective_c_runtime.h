@@ -31,27 +31,6 @@ void objc_msgSend(void);
 void objc_msgSend_fpret(void);
 void objc_msgSend_stret(void);
 
-// See https://clang.llvm.org/docs/Block-ABI-Apple.html
-typedef struct _ObjCBlockDesc {
-  unsigned long int reserved;
-  unsigned long int size;  // sizeof(ObjCBlockImpl)
-  void (*copy_helper)(void *dst, void *src);
-  void (*dispose_helper)(void *src);
-  const char *signature;
-} ObjCBlockDesc;
-
-typedef struct _ObjCBlockImpl {
-  void *isa;  // _NSConcreteGlobalBlock
-  int flags;
-  int reserved;
-  void *invoke;  // RET (*invoke)(ObjCBlockImpl *, ARGS...);
-  ObjCBlockDesc *descriptor;
-
-  // Captured variables follow. These are specific to our use case.
-  void *target;
-  Dart_Port dispose_port;
-} ObjCBlockImpl;
-
 // https://opensource.apple.com/source/libclosure/libclosure-38/Block_private.h
 extern void *_NSConcreteStackBlock[32];
 extern void *_NSConcreteMallocBlock[32];

@@ -13,8 +13,10 @@ import 'package:args/args.dart';
 import 'package:ffigen/src/executables/ffigen.dart' as ffigen;
 import 'package:yaml/yaml.dart';
 
+const runtimeConfig = 'ffigen_runtime.yaml';
 const cConfig = 'ffigen_c.yaml';
 const objcConfig = 'ffigen_objc.yaml';
+const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
 const objcExports = 'lib/src/objective_c_bindings_exported.dart';
@@ -198,6 +200,9 @@ export 'objective_c_bindings_generated.dart'
 }
 
 Future<void> run({required bool format}) async {
+  print('Generating runtime bindings...');
+  await ffigen.main(['--no-format', '-v', 'severe', '--config', runtimeConfig]);
+
   print('Generating C bindings...');
   await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
 
@@ -213,7 +218,14 @@ Future<void> run({required bool format}) async {
 
   if (format) {
     print('Formatting bindings...');
-    dartCmd(['format', cBindings, objcBindings, builtInTypes, objcExports]);
+    dartCmd([
+      'format',
+      runtimeBindings,
+      cBindings,
+      objcBindings,
+      builtInTypes,
+      objcExports,
+    ]);
   }
 
   print('Running tests...');

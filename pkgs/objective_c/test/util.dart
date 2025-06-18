@@ -15,7 +15,6 @@ import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart'
     as internal_for_testing
     show isValidClass;
-import 'package:path/path.dart' as p;
 
 final _executeInternalCommand = () {
   try {
@@ -83,9 +82,6 @@ int objectRetainCount(Pointer<ObjCObject> object) {
 }
 
 String pkgDir = findPackageRoot('objective_c').toFilePath();
-
-// TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-String testDylib = p.join(pkgDir, 'test', 'objective_c.dylib');
 
 /// Test files are run in a variety of ways, find this package root in all.
 ///
