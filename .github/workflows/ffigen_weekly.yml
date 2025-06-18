@@ -32,7 +32,7 @@ jobs:
         with:
           channel: master
       - name: Install dependencies
-        run: dart pub get && dart pub get --directory="../objective_c" && dart pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
