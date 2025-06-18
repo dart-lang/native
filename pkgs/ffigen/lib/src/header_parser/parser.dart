@@ -48,9 +48,7 @@ final _logger = Logger('ffigen.header_parser.parser');
 /// Initializes parser, clears any previous values.
 void initParser(Config c) {
   // Initialize global variables.
-  initializeGlobals(
-    config: c,
-  );
+  initializeGlobals(config: c);
 }
 
 /// Parses source files and returns the bindings.
@@ -71,7 +69,7 @@ List<Binding> parseToBindings(Config c) {
     ],
 
     // Add the user options last so they can override any other options.
-    ...config.compilerOpts
+    ...config.compilerOpts,
   ];
 
   _logger.fine('CompilerOpts used: $compilerOpts');
@@ -99,15 +97,18 @@ List<Binding> parseToBindings(Config c) {
       nullptr,
       0,
       clang_types.CXTranslationUnit_Flags.CXTranslationUnit_SkipFunctionBodies |
-          clang_types.CXTranslationUnit_Flags
+          clang_types
+              .CXTranslationUnit_Flags
               .CXTranslationUnit_DetailedPreprocessingRecord |
           clang_types
-              .CXTranslationUnit_Flags.CXTranslationUnit_IncludeAttributedTypes,
+              .CXTranslationUnit_Flags
+              .CXTranslationUnit_IncludeAttributedTypes,
     );
 
     if (tu == nullptr) {
       _logger.severe(
-          "Skipped header/file: $headerLocation, couldn't parse source.");
+        "Skipped header/file: $headerLocation, couldn't parse source.",
+      );
       // Skip parsing this header.
       continue;
     }
@@ -121,18 +122,21 @@ List<Binding> parseToBindings(Config c) {
     _logger.warning('This will likely generate invalid bindings.');
     if (config.ignoreSourceErrors) {
       _logger.warning(
-          'Ignored source errors. (User supplied --ignore-source-errors)');
+        'Ignored source errors. (User supplied --ignore-source-errors)',
+      );
     } else if (config.language == Language.objc) {
       _logger.warning('Ignored source errors. (ObjC)');
     } else {
       _logger.severe(
-          'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.');
+        'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.',
+      );
       exit(1);
     }
   }
 
-  final tuCursors =
-      tuList.map((tu) => clang.clang_getTranslationUnitCursor(tu));
+  final tuCursors = tuList.map(
+    (tu) => clang.clang_getTranslationUnitCursor(tu),
+  );
 
   // Build usr to CXCusror map from translation units.
   for (final rootCursor in tuCursors) {
@@ -161,9 +165,9 @@ List<Binding> parseToBindings(Config c) {
 }
 
 List<String> _findObjectiveCSysroot() => [
-      '-isysroot',
-      firstLineOfStdout('xcrun', ['--show-sdk-path'])
-    ];
+  '-isysroot',
+  firstLineOfStdout('xcrun', ['--show-sdk-path']),
+];
 
 @visibleForTesting
 List<Binding> transformBindings(Config config, List<Binding> bindings) {
@@ -175,26 +179,28 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
   final directlyIncluded = filterResults.directlyIncluded;
   final included = directlyIncluded.union(filterResults.indirectlyIncluded);
 
-  final byValueCompounds = visit(FindByValueCompoundsVisitation(),
-          FindByValueCompoundsVisitation.rootNodes(included))
-      .byValueCompounds;
+  final byValueCompounds = visit(
+    FindByValueCompoundsVisitation(),
+    FindByValueCompoundsVisitation.rootNodes(included),
+  ).byValueCompounds;
   visit(
-      ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
-      bindings);
+    ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
+    bindings,
+  );
 
-  final transitives =
-      visit(FindTransitiveDepsVisitation(), included).transitives;
+  final transitives = visit(
+    FindTransitiveDepsVisitation(),
+    included,
+  ).transitives;
   final directTransitives = visit(
-          FindDirectTransitiveDepsVisitation(
-              config, included, directlyIncluded),
-          included)
-      .directTransitives;
+    FindDirectTransitiveDepsVisitation(config, included, directlyIncluded),
+    included,
+  ).directTransitives;
 
   final finalBindings = visit(
-          ListBindingsVisitation(
-              config, included, transitives, directTransitives),
-          bindings)
-      .bindings;
+    ListBindingsVisitation(config, included, transitives, directTransitives),
+    bindings,
+  ).bindings;
   visit(MarkBindingsVisitation(finalBindings), bindings);
 
   final finalBindingsList = finalBindings.toList();
@@ -231,8 +237,10 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
 /// Logs a warning if generated declaration will be private.
 void _warnIfPrivateDeclaration(Binding b) {
   if (b.name.startsWith('_') && !b.isInternal) {
-    _logger.warning("Generated declaration '${b.name}' starts with '_' "
-        'and therefore will be private.');
+    _logger.warning(
+      "Generated declaration '${b.name}' starts with '_' "
+      'and therefore will be private.',
+    );
   }
 }
 
@@ -242,7 +250,9 @@ void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
   final oldName = b.name;
   b.name = namer.makeUnique(b.name);
   if (oldName != b.name) {
-    _logger.warning("Resolved name conflict: Declaration '$oldName' "
-        "and has been renamed to '${b.name}'.");
+    _logger.warning(
+      "Resolved name conflict: Declaration '$oldName' "
+      "and has been renamed to '${b.name}'.",
+    );
   }
 }

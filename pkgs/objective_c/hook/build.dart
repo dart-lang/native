@@ -13,6 +13,8 @@ const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
 const assetName = 'objective_c.dylib';
 
+// TODO(https://github.com/dart-lang/native/issues/2272): Remove this from the
+// main build.
 const extraCFiles = ['test/util.c'];
 
 final logger = Logger('')

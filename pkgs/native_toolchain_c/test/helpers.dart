@@ -245,29 +245,21 @@ Future<String> readelf(String filePath, String flags) async {
   return result.stdout;
 }
 
-Future<String> nmReadSymbols(CodeAsset asset) async {
+List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
+  OS.macOS || OS.iOS => const [],
+  OS() => ['-D'],
+};
+
+Future<String> nmReadSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   final result = await runProcess(
     executable: Uri(path: 'nm'),
-    arguments: ['-D', assetUri.toFilePath()],
+    arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
     logger: logger,
   );
 
   expect(result.exitCode, 0);
   return result.stdout;
-}
-
-Future<void> expectSymbols({
-  required CodeAsset asset,
-  required List<String> symbols,
-}) async {
-  if (Platform.isLinux) {
-    final nmOutput = await nmReadSymbols(asset);
-
-    expect(nmOutput, stringContainsInOrder(symbols));
-  } else {
-    throw UnimplementedError();
-  }
 }
 
 Future<int> textSectionAddress(Uri dylib) async {
@@ -315,3 +307,89 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
 }
 
 int defaultMacOSVersion = 13;
+
+/// From https://docs.flutter.dev/reference/supported-platforms.
+const flutterAndroidNdkVersionLowestSupported = 21;
+
+/// From https://docs.flutter.dev/reference/supported-platforms.
+const flutterAndroidNdkVersionHighestSupported = 34;
+
+/// File-format strings used by the `objdump` tool for Android binaries that
+/// run on a given architecture.
+const objdumpFileFormatAndroid = {
+  Architecture.arm: 'elf32-littlearm',
+  Architecture.arm64: 'elf64-littleaarch64',
+  Architecture.ia32: 'elf32-i386',
+  Architecture.x64: 'elf64-x86-64',
+  Architecture.riscv64: 'elf64-littleriscv',
+};
+
+const objdumpFileFormatMacOS = {
+  Architecture.arm64: 'mach-o arm64',
+  Architecture.x64: 'mach-o 64-bit x86-64',
+};
+
+// Don't include 'mach-o' or 'Mach-O', different spelling is used.
+const objdumpFileFormatIOS = {
+  Architecture.arm64: 'arm64',
+  Architecture.x64: '64-bit x86-64',
+};
+
+const targetOSToObjdumpFileFormat = {
+  OS.android: objdumpFileFormatAndroid,
+  OS.macOS: objdumpFileFormatMacOS,
+  OS.iOS: objdumpFileFormatMacOS,
+};
+
+/// Checks that the provided [libUri] binary has the correct format to be
+/// executed on the provided [targetArch] architecture.
+///
+/// On Linux, the format of the binary is determined by `readelf`. On MacOS,
+/// the `objsdump` tool is used.
+Future<void> expectMachineArchitecture(
+  Uri libUri,
+  Architecture targetArch,
+  OS targetOS,
+) async {
+  if (Platform.isLinux) {
+    final machine = await readelfMachine(libUri.path);
+    expect(machine, contains(readElfMachine[targetArch]));
+  } else if (Platform.isMacOS) {
+    final result = await runProcess(
+      executable: Uri.file('objdump'),
+      arguments: ['-T', libUri.path],
+      logger: logger,
+    );
+    expect(result.exitCode, 0);
+    final machine = result.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('file format'));
+    expect(
+      machine,
+      contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
+    );
+  }
+}
+
+List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
+  OS.macOS || OS.iOS => [Architecture.arm64, Architecture.x64],
+  OS() => [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  ],
+};
+
+List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
+    switch (iosSdk) {
+      IOSSdk.iPhoneOS => supportedArchitecturesFor(
+        OS.iOS,
+      )..remove(Architecture.x64),
+      IOSSdk.iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
+      IOSSdk() => throw UnimplementedError(),
+    };
+
+const flutteriOSHighestBestEffort = 16;
+const flutteriOSHighestSupported = 17;

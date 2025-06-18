@@ -71,6 +71,7 @@ export 'objective_c_bindings_generated.dart'
         NSLinguisticTaggerOptions,
         NSLocale,
         NSLocaleLanguageDirection,
+        NSLocalizedDescriptionKey,
         NSMethodSignature,
         NSMutableArray,
         NSMutableCopying,

@@ -6,7 +6,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
@@ -14,7 +13,8 @@ import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/internal.dart' as internal_for_testing
+import 'package:objective_c/src/internal.dart'
+    as internal_for_testing
     show blockHasRegisteredClosure;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -46,7 +46,8 @@ bool get hasIsolateOwnershipApi =>
     DynamicLibrary.process().providesSymbol('Dart_SetCurrentThreadOwnsIsolate');
 void setCurrentThreadOwnsIsolate() =>
     DynamicLibrary.process().lookupFunction<Void Function(), void Function()>(
-        'Dart_SetCurrentThreadOwnsIsolate')();
+      'Dart_SetCurrentThreadOwnsIsolate',
+    )();
 
 void main() {
   late final BlockTestObjCLibrary lib;
@@ -79,8 +80,9 @@ void main() {
     });
 
     test('Block from function pointer', () {
-      final block =
-          IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
+      final block = IntBlock.fromFunctionPointer(
+        Pointer.fromFunction(_add100, 999),
+      );
       final blockTester = BlockTester.newFromBlock(block);
       blockTester.pokeBlock();
       expect(blockTester.call(123), 223);
@@ -300,7 +302,8 @@ void main() {
     test('Nullable string block', () {
       // Regression test for https://github.com/dart-lang/native/issues/1537.
       final block = NullableStringBlock.fromFunction(
-          (NSString? x) => '${x?.toDartString()} Cat'.toNSString());
+        (NSString? x) => '${x?.toDartString()} Cat'.toNSString(),
+      );
 
       final result1 = block('Dog'.toNSString());
       expect(result1?.toDartString(), 'Dog Cat');
@@ -336,8 +339,11 @@ void main() {
 
     test('Struct listener block', () async {
       final hasRun = Completer<void>();
-      final block =
-          StructListenerBlock.listener((Vec2 vec2, Vec4 vec4, NSObject dummy) {
+      final block = StructListenerBlock.listener((
+        Vec2 vec2,
+        Vec4 vec4,
+        NSObject dummy,
+      ) {
         expect(vec2.x, 100);
         expect(vec2.y, 200);
 
@@ -368,8 +374,11 @@ void main() {
 
     test('No trampoline listener block', () async {
       final hasRun = Completer<void>();
-      final block = NoTrampolineListenerBlock.listener(
-          (int x, Vec4 vec4, Pointer<Char> charPtr) {
+      final block = NoTrampolineListenerBlock.listener((
+        int x,
+        Vec4 vec4,
+        Pointer<Char> charPtr,
+      ) {
         expect(x, 123);
 
         expect(vec4.x, 1.2);
@@ -387,8 +396,9 @@ void main() {
     });
 
     test('Block block', () {
-      final blockBlock =
-          BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock = BlockBlock.fromFunction((
+        ObjCBlock<Int32 Function(Int32)> intBlock,
+      ) {
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
@@ -418,10 +428,13 @@ void main() {
     });
 
     Pointer<ObjCBlockImpl> funcPointerBlockRefCountTest() {
-      final block =
-          IntBlock.fromFunctionPointer(Pointer.fromFunction(_add100, 999));
-      expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
-          false);
+      final block = IntBlock.fromFunctionPointer(
+        Pointer.fromFunction(_add100, 999),
+      );
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
+        false,
+      );
       expect(blockRetainCount(block.ref.pointer), 1);
       return block.ref.pointer;
     }
@@ -434,8 +447,10 @@ void main() {
 
     Pointer<ObjCBlockImpl> funcBlockRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
-          true);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
+        true,
+      );
       expect(blockRetainCount(block.ref.pointer), 1);
       return block.ref.pointer;
     }
@@ -445,14 +460,18 @@ void main() {
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(blockRetainCount(rawBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
+        false,
+      );
     }, skip: !canDoGC);
 
     Pointer<ObjCBlockImpl> blockManualRetainRefCountTest() {
       final block = IntBlock.fromFunction(makeAdder(4000));
-      expect(internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
-          true);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(block.ref.pointer),
+        true,
+      );
       expect(blockRetainCount(block.ref.pointer), 1);
       final rawBlock = block.ref.retainAndReturnPointer();
       expect(blockRetainCount(rawBlock), 2);
@@ -460,8 +479,11 @@ void main() {
     }
 
     int blockManualRetainRefCountTest2(Pointer<ObjCBlockImpl> rawBlock) {
-      final block = IntBlock.castFromPointer(rawBlock.cast(),
-          retain: false, release: true);
+      final block = IntBlock.castFromPointer(
+        rawBlock.cast(),
+        retain: false,
+        release: true,
+      );
       return blockRetainCount(block.ref.pointer);
     }
 
@@ -473,18 +495,21 @@ void main() {
       doGC();
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
       expect(blockRetainCount(rawBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(rawBlock.cast()),
+        false,
+      );
     }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        blockBlockDartCallRefCountTest() {
+    blockBlockDartCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
       });
-      final blockBlock =
-          BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock = BlockBlock.fromFunction((
+        ObjCBlock<Int32 Function(Int32)> intBlock,
+      ) {
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
         });
@@ -498,24 +523,30 @@ void main() {
       // outputBlock lambda.
       expect(blockRetainCount(inputBlock.ref.pointer), 2);
       expect(
-          internal_for_testing
-              .blockHasRegisteredClosure(inputBlock.ref.pointer.cast()),
-          true);
+        internal_for_testing.blockHasRegisteredClosure(
+          inputBlock.ref.pointer.cast(),
+        ),
+        true,
+      );
 
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
       expect(
-          internal_for_testing
-              .blockHasRegisteredClosure(blockBlock.ref.pointer.cast()),
-          true);
+        internal_for_testing.blockHasRegisteredClosure(
+          blockBlock.ref.pointer.cast(),
+        ),
+        true,
+      );
       expect(blockRetainCount(outputBlock.ref.pointer), 1);
       expect(
-          internal_for_testing
-              .blockHasRegisteredClosure(outputBlock.ref.pointer.cast()),
-          true);
+        internal_for_testing.blockHasRegisteredClosure(
+          outputBlock.ref.pointer.cast(),
+        ),
+        true,
+      );
       return (
         inputBlock.ref.pointer,
         blockBlock.ref.pointer,
-        outputBlock.ref.pointer
+        outputBlock.ref.pointer,
       );
     }
 
@@ -528,22 +559,29 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
       expect(blockRetainCount(inputBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+        false,
+      );
       expect(blockRetainCount(blockBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
+        false,
+      );
       expect(blockRetainCount(outputBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
+        false,
+      );
     }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        blockBlockObjCCallRefCountTest() {
+    blockBlockObjCCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       late Pointer<ObjCBlockImpl> inputBlock;
-      final blockBlock =
-          BlockBlock.fromFunction((ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock = BlockBlock.fromFunction((
+        ObjCBlock<Int32 Function(Int32)> intBlock,
+      ) {
         inputBlock = intBlock.ref.pointer;
         return IntBlock.fromFunction((int x) {
           return 3 * intBlock(x);
@@ -555,18 +593,24 @@ void main() {
       doGC();
 
       expect(blockRetainCount(inputBlock), 1);
-      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+        false,
+      );
       expect(blockRetainCount(blockBlock.ref.pointer), 1);
       expect(
-          internal_for_testing
-              .blockHasRegisteredClosure(blockBlock.ref.pointer.cast()),
-          true);
+        internal_for_testing.blockHasRegisteredClosure(
+          blockBlock.ref.pointer.cast(),
+        ),
+        true,
+      );
       expect(blockRetainCount(outputBlock.ref.pointer), 1);
       expect(
-          internal_for_testing
-              .blockHasRegisteredClosure(outputBlock.ref.pointer.cast()),
-          true);
+        internal_for_testing.blockHasRegisteredClosure(
+          outputBlock.ref.pointer.cast(),
+        ),
+        true,
+      );
       return (inputBlock, blockBlock.ref.pointer, outputBlock.ref.pointer);
     }
 
@@ -579,18 +623,24 @@ void main() {
       await Future<void>.delayed(Duration.zero); // Let dispose message arrive.
 
       expect(blockRetainCount(inputBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(inputBlock.cast()),
+        false,
+      );
       expect(blockRetainCount(blockBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(blockBlock.cast()),
+        false,
+      );
       expect(blockRetainCount(outputBlock), 0);
-      expect(internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
-          false);
+      expect(
+        internal_for_testing.blockHasRegisteredClosure(outputBlock.cast()),
+        false,
+      );
     }, skip: !canDoGC);
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        nativeBlockBlockDartCallRefCountTest() {
+    nativeBlockBlockDartCallRefCountTest() {
       final pool = lib.objc_autoreleasePoolPush();
       final inputBlock = IntBlock.fromFunction((int x) {
         return 5 * x;
@@ -610,21 +660,25 @@ void main() {
       return (
         inputBlock.ref.pointer,
         blockBlock.ref.pointer,
-        outputBlock.ref.pointer
+        outputBlock.ref.pointer,
       );
     }
 
-    test('Calling a native block block from Dart has correct ref counting', () {
-      final (inputBlock, blockBlock, outputBlock) =
-          nativeBlockBlockDartCallRefCountTest();
-      doGC();
-      expect(blockRetainCount(inputBlock), 0);
-      expect(blockRetainCount(blockBlock), 0);
-      expect(blockRetainCount(outputBlock), 0);
-    }, skip: !canDoGC);
+    test(
+      'Calling a native block block from Dart has correct ref counting',
+      () {
+        final (inputBlock, blockBlock, outputBlock) =
+            nativeBlockBlockDartCallRefCountTest();
+        doGC();
+        expect(blockRetainCount(inputBlock), 0);
+        expect(blockRetainCount(blockBlock), 0);
+        expect(blockRetainCount(outputBlock), 0);
+      },
+      skip: !canDoGC,
+    );
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        nativeBlockBlockObjCCallRefCountTest() {
+    nativeBlockBlockObjCCallRefCountTest() {
       final blockBlock = BlockTester.newBlockBlock(7);
       final outputBlock = BlockTester.newBlock(blockBlock, withMult: 2);
       expect(outputBlock(1), 14);
@@ -635,12 +689,17 @@ void main() {
       return (blockBlock.ref.pointer, outputBlock.ref.pointer);
     }
 
-    test('Calling a native block block from ObjC has correct ref counting', () {
-      final (blockBlock, outputBlock) = nativeBlockBlockObjCCallRefCountTest();
-      doGC();
-      expect(blockRetainCount(blockBlock), 0);
-      expect(blockRetainCount(outputBlock), 0);
-    }, skip: !canDoGC);
+    test(
+      'Calling a native block block from ObjC has correct ref counting',
+      () {
+        final (blockBlock, outputBlock) =
+            nativeBlockBlockObjCCallRefCountTest();
+        doGC();
+        expect(blockRetainCount(blockBlock), 0);
+        expect(blockRetainCount(outputBlock), 0);
+      },
+      skip: !canDoGC,
+    );
 
     (Pointer<Int32>, Pointer<Int32>) objectBlockRefCountTest(Allocator alloc) {
       final pool = lib.objc_autoreleasePoolPush();
@@ -662,17 +721,22 @@ void main() {
       return (inputCounter, outputCounter);
     }
 
-    test('Objects received and returned by blocks have correct ref counts', () {
-      using((Arena arena) {
-        final (inputCounter, outputCounter) = objectBlockRefCountTest(arena);
-        doGC();
-        expect(inputCounter.value, 0);
-        expect(outputCounter.value, 0);
-      });
-    }, skip: !canDoGC);
+    test(
+      'Objects received and returned by blocks have correct ref counts',
+      () {
+        using((Arena arena) {
+          final (inputCounter, outputCounter) = objectBlockRefCountTest(arena);
+          doGC();
+          expect(inputCounter.value, 0);
+          expect(outputCounter.value, 0);
+        });
+      },
+      skip: !canDoGC,
+    );
 
     (Pointer<Int32>, Pointer<Int32>) objectNativeBlockRefCountTest(
-        Allocator alloc) {
+      Allocator alloc,
+    ) {
       final pool = lib.objc_autoreleasePoolPush();
       final inputCounter = alloc<Int32>();
       final outputCounter = alloc<Int32>();
@@ -693,26 +757,32 @@ void main() {
     }
 
     test(
-        'Objects received and returned by native blocks have correct ref counts',
-        () {
-      using((Arena arena) async {
-        final (inputCounter, outputCounter) =
-            objectNativeBlockRefCountTest(arena);
-        doGC();
-        await Future<void>.delayed(Duration.zero); // Let dispose message arrive
-        doGC();
+      'Objects received and returned by native blocks have correct ref counts',
+      () {
+        using((Arena arena) async {
+          final (inputCounter, outputCounter) = objectNativeBlockRefCountTest(
+            arena,
+          );
+          doGC();
+          await Future<void>.delayed(
+            Duration.zero,
+          ); // Let dispose message arrive
+          doGC();
 
-        expect(inputCounter.value, 0);
-        expect(outputCounter.value, 0);
-      });
-    }, skip: !canDoGC);
+          expect(inputCounter.value, 0);
+          expect(outputCounter.value, 0);
+        });
+      },
+      skip: !canDoGC,
+    );
 
     Future<(Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)>
-        listenerBlockArgumentRetentionTest() async {
+    listenerBlockArgumentRetentionTest() async {
       final hasRun = Completer<void>();
       late ObjCBlock<Int32 Function(Int32)> inputBlock;
-      final blockBlock =
-          ListenerBlock.listener((ObjCBlock<Int32 Function(Int32)> intBlock) {
+      final blockBlock = ListenerBlock.listener((
+        ObjCBlock<Int32 Function(Int32)> intBlock,
+      ) {
         expect(blockRetainCount(intBlock.ref.pointer), greaterThan(0));
         inputBlock = intBlock;
         hasRun.complete();
@@ -745,8 +815,9 @@ void main() {
 
     test('Blocking block ref counting same thread', () async {
       DummyObject? dummyObject = DummyObject();
-      DartObjectListenerBlock? block =
-          ObjectListenerBlock.blocking((DummyObject obj) {
+      DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
+        DummyObject obj,
+      ) {
         // Object passed as argument.
         expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
 
@@ -775,8 +846,9 @@ void main() {
     test('Blocking block ref counting new thread', () async {
       final completer = Completer<void>();
       DummyObject? dummyObject = DummyObject();
-      DartObjectListenerBlock? block =
-          ObjectListenerBlock.blocking((DummyObject obj) {
+      DartObjectListenerBlock? block = ObjectListenerBlock.blocking((
+        DummyObject obj,
+      ) {
         // Object passed as argument.
         expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
 
@@ -822,12 +894,14 @@ void main() {
     });
 
     test('Block trampoline args converted to id', () {
-      final objCBindings = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'block_bindings.m',
-      )).readAsStringSync();
+      final objCBindings = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'block_bindings.m',
+        ),
+      ).readAsStringSync();
 
       // Objects are converted to id.
       expect(objCBindings, isNot(contains('NSObject')));
@@ -843,10 +917,12 @@ void main() {
     });
 
     (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObject>) regress1571Inner(
-        Completer<void> completer) {
+      Completer<void> completer,
+    ) {
       final dummyObject = DummyObject();
-      DartObjectListenerBlock? block =
-          ObjectListenerBlock.listener((DummyObject obj) {
+      DartObjectListenerBlock? block = ObjectListenerBlock.listener((
+        DummyObject obj,
+      ) {
         expect(objectRetainCount(obj.ref.pointer), greaterThan(0));
         completer.complete();
         expect(dummyObject, isNotNull);
@@ -857,29 +933,31 @@ void main() {
       return (tester, block.ref.pointer, dummyObject.ref.pointer);
     }
 
-    test('Regression test for https://github.com/dart-lang/native/issues/1571',
-        () async {
-      // Pass a listener block to an ObjC API that retains a reference to the
-      // block, and release the Dart-side reference. Then, on a different
-      // thread, invoke the block and immediately release the ObjC-side
-      // reference. Before the fix, the dtor message could arrive before the
-      // invoke message. This was a flaky error, so try a few times.
-      for (int i = 0; i < 10; ++i) {
-        final completer = Completer<void>();
-        final (tester, blockPtr, objectPtr) = regress1571Inner(completer);
+    test(
+      'Regression test for https://github.com/dart-lang/native/issues/1571',
+      () async {
+        // Pass a listener block to an ObjC API that retains a reference to the
+        // block, and release the Dart-side reference. Then, on a different
+        // thread, invoke the block and immediately release the ObjC-side
+        // reference. Before the fix, the dtor message could arrive before the
+        // invoke message. This was a flaky error, so try a few times.
+        for (int i = 0; i < 10; ++i) {
+          final completer = Completer<void>();
+          final (tester, blockPtr, objectPtr) = regress1571Inner(completer);
 
-        await flutterDoGC();
-        expect(blockRetainCount(blockPtr), 1);
-        expect(objectRetainCount(objectPtr), 1);
+          await flutterDoGC();
+          expect(blockRetainCount(blockPtr), 1);
+          expect(objectRetainCount(objectPtr), 1);
 
-        tester.invokeAndReleaseListenerOnNewThread();
-        await completer.future;
+          tester.invokeAndReleaseListenerOnNewThread();
+          await completer.future;
 
-        await flutterDoGC();
-        expect(blockRetainCount(blockPtr), 0);
-        expect(objectRetainCount(objectPtr), 0);
-      }
-    });
+          await flutterDoGC();
+          expect(blockRetainCount(blockPtr), 0);
+          expect(objectRetainCount(objectPtr), 0);
+        }
+      },
+    );
 
     test('Block.fromFunction, keepIsolateAlive', () async {
       final isolateSendPort = Completer<SendPort>();
@@ -902,23 +980,30 @@ void main() {
         exitPort.close();
       });
 
-      final isolate = Isolate.spawn((sendPort) {
-        final blkKeepAlive =
-            VoidBlock.fromFunction(() {}, keepIsolateAlive: true);
-        final blkDontKeepAlive =
-            VoidBlock.fromFunction(() {}, keepIsolateAlive: false);
-        sendPort.send('Blocks created');
+      final isolate = Isolate.spawn(
+        (sendPort) {
+          final blkKeepAlive = VoidBlock.fromFunction(
+            () {},
+            keepIsolateAlive: true,
+          );
+          final blkDontKeepAlive = VoidBlock.fromFunction(
+            () {},
+            keepIsolateAlive: false,
+          );
+          sendPort.send('Blocks created');
 
-        final isolatePort = RawReceivePort((msg) {
-          if (msg == 'Destroy blkKeepAlive') {
-            blkKeepAlive.ref.release();
-            sendPort.send('blkKeepAlive destroyed');
-          }
-        })
-          ..keepIsolateAlive = false;
+          final isolatePort = RawReceivePort((msg) {
+            if (msg == 'Destroy blkKeepAlive') {
+              blkKeepAlive.ref.release();
+              sendPort.send('blkKeepAlive destroyed');
+            }
+          })..keepIsolateAlive = false;
 
-        sendPort.send(isolatePort.sendPort);
-      }, receivePort.sendPort, onExit: exitPort.sendPort);
+          sendPort.send(isolatePort.sendPort);
+        },
+        receivePort.sendPort,
+        onExit: exitPort.sendPort,
+      );
 
       await blocksCreated.future;
 
@@ -965,22 +1050,30 @@ void main() {
         exitPort.close();
       });
 
-      final isolate = Isolate.spawn((sendPort) {
-        final blkKeepAlive = VoidBlock.listener(() {}, keepIsolateAlive: true);
-        final blkDontKeepAlive =
-            VoidBlock.listener(() {}, keepIsolateAlive: false);
-        sendPort.send('Blocks created');
+      final isolate = Isolate.spawn(
+        (sendPort) {
+          final blkKeepAlive = VoidBlock.listener(
+            () {},
+            keepIsolateAlive: true,
+          );
+          final blkDontKeepAlive = VoidBlock.listener(
+            () {},
+            keepIsolateAlive: false,
+          );
+          sendPort.send('Blocks created');
 
-        final isolatePort = RawReceivePort((msg) {
-          if (msg == 'Destroy blkKeepAlive') {
-            blkKeepAlive.ref.release();
-            sendPort.send('blkKeepAlive destroyed');
-          }
-        })
-          ..keepIsolateAlive = false;
+          final isolatePort = RawReceivePort((msg) {
+            if (msg == 'Destroy blkKeepAlive') {
+              blkKeepAlive.ref.release();
+              sendPort.send('blkKeepAlive destroyed');
+            }
+          })..keepIsolateAlive = false;
 
-        sendPort.send(isolatePort.sendPort);
-      }, receivePort.sendPort, onExit: exitPort.sendPort);
+          sendPort.send(isolatePort.sendPort);
+        },
+        receivePort.sendPort,
+        onExit: exitPort.sendPort,
+      );
 
       await blocksCreated.future;
 
@@ -1027,22 +1120,30 @@ void main() {
         exitPort.close();
       });
 
-      final isolate = Isolate.spawn((sendPort) {
-        final blkKeepAlive = VoidBlock.blocking(() {}, keepIsolateAlive: true);
-        final blkDontKeepAlive =
-            VoidBlock.blocking(() {}, keepIsolateAlive: false);
-        sendPort.send('Blocks created');
+      final isolate = Isolate.spawn(
+        (sendPort) {
+          final blkKeepAlive = VoidBlock.blocking(
+            () {},
+            keepIsolateAlive: true,
+          );
+          final blkDontKeepAlive = VoidBlock.blocking(
+            () {},
+            keepIsolateAlive: false,
+          );
+          sendPort.send('Blocks created');
 
-        final isolatePort = RawReceivePort((msg) {
-          if (msg == 'Destroy blkKeepAlive') {
-            blkKeepAlive.ref.release();
-            sendPort.send('blkKeepAlive destroyed');
-          }
-        })
-          ..keepIsolateAlive = false;
+          final isolatePort = RawReceivePort((msg) {
+            if (msg == 'Destroy blkKeepAlive') {
+              blkKeepAlive.ref.release();
+              sendPort.send('blkKeepAlive destroyed');
+            }
+          })..keepIsolateAlive = false;
 
-        sendPort.send(isolatePort.sendPort);
-      }, receivePort.sendPort, onExit: exitPort.sendPort);
+          sendPort.send(isolatePort.sendPort);
+        },
+        receivePort.sendPort,
+        onExit: exitPort.sendPort,
+      );
 
       await blocksCreated.future;
 

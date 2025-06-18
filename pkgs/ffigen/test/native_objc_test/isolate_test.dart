@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
@@ -52,8 +51,11 @@ void main() {
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingObjectTest, port.sendPort,
-          onExit: port.sendPort);
+      final isolate = await Isolate.spawn(
+        sendingObjectTest,
+        port.sendPort,
+        onExit: port.sendPort,
+      );
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(sendable);
@@ -107,15 +109,19 @@ void main() {
 
     test('Sending block through a port', () async {
       final completer = Completer<int>();
-      ObjCBlock<Void Function(Int32)>? block =
-          ObjCBlock_ffiVoid_Int32.listener((int value) {
-        completer.complete(value);
-      });
+      ObjCBlock<Void Function(Int32)>? block = ObjCBlock_ffiVoid_Int32.listener(
+        (int value) {
+          completer.complete(value);
+        },
+      );
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingBlockTest, port.sendPort,
-          onExit: port.sendPort);
+      final isolate = await Isolate.spawn(
+        sendingBlockTest,
+        port.sendPort,
+        onExit: port.sendPort,
+      );
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(block);

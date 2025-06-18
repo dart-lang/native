@@ -1,5 +1,6 @@
 ## 8.1.0-wip
 
+- Bump minimum Dart version to 3.8.0.
 - Support the KVO pattern by adding `Observer`, `Observation`, and
   `NSObject.addObserver`.
 

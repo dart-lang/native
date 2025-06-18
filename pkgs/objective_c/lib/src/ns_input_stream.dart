@@ -33,7 +33,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
       },
       onError: (Object e) {
         final d = NSMutableDictionary();
-        d[getLocalizedDescriptionKey()] = e.toString().toNSString();
+        d[NSLocalizedDescriptionKey] = e.toString().toNSString();
         inputStream.setError(
           NSError.errorWithDomain(
             'DartError'.toNSString(),
@@ -57,8 +57,8 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         // indicate that the `NSInputStream` needs more data.
         //
         // If [DartInputStreamAdapter.setError] or
-        // [DartInputStreamAdapter.setDone] is called then the close message (-1)
-        // will not be sent when the input stream is closed.
+        // [DartInputStreamAdapter.setDone] is called then the close message
+        // (-1) will not be sent when the input stream is closed.
         if (count == -1) {
           port.close();
         } else {

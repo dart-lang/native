@@ -114,6 +114,24 @@ set NSKeyValueChangeOldKey(NSString value) {
   _NSKeyValueChangeOldKey = value.ref.retainAndReturnPointer();
 }
 
+@ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: 'NSLocalizedDescriptionKey')
+external ffi.Pointer<objc.ObjCObject> _NSLocalizedDescriptionKey;
+
+NSString get NSLocalizedDescriptionKey => NSString.castFromPointer(
+  _NSLocalizedDescriptionKey,
+  retain: true,
+  release: true,
+);
+
+set NSLocalizedDescriptionKey(NSString value) {
+  NSString.castFromPointer(
+    _NSLocalizedDescriptionKey,
+    retain: false,
+    release: true,
+  ).ref.release();
+  _NSLocalizedDescriptionKey = value.ref.retainAndReturnPointer();
+}
+
 @ffi.Native<
   instancetype Function(
     ffi.Pointer<objc.ObjCObject>,
@@ -766,17 +784,6 @@ _ObjectiveCBindings_wrapListenerBlock_zkjmn1(
 external ffi.Pointer<objc.ObjCBlockImpl>
 _ObjectiveCBindings_wrapListenerBlock_zuf90e(
   ffi.Pointer<objc.ObjCBlockImpl> block,
-);
-
-@ffi.Native<ffi.Pointer<objc.ObjCObject> Function()>(
-  symbol: 'getLocalizedDescriptionKey',
-)
-external ffi.Pointer<objc.ObjCObject> _getLocalizedDescriptionKey();
-
-NSString getLocalizedDescriptionKey() => NSString.castFromPointer(
-  _getLocalizedDescriptionKey(),
-  retain: true,
-  release: true,
 );
 
 @ffi.Packed(2)

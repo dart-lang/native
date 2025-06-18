@@ -8,6 +8,7 @@ import 'config.dart';
 import 'encoded_asset.dart';
 import 'validation.dart';
 
+/// A list of error messages from validation.
 typedef ValidationErrors = List<String>;
 
 /// An extension to the [ProtocolBase] for `hook/build.dart` and

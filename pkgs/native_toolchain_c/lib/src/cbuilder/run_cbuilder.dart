@@ -96,8 +96,6 @@ class RunCBuilder {
 
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
-  Future<ToolInstance> linker() async => await _resolver.resolveLinker();
-
   Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
     if (iosSdk == IOSSdk.iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(
@@ -119,9 +117,7 @@ class RunCBuilder {
       compiler.uri.resolve('../sysroot/');
 
   Future<void> run() async {
-    final toolInstance_ = linkerOptions != null
-        ? await linker()
-        : await compiler();
+    final toolInstance_ = await compiler();
     final tool = toolInstance_.tool;
     if (tool.isClangLike || tool.isLdLike) {
       await runClangLike(tool: toolInstance_);
@@ -266,9 +262,9 @@ class RunCBuilder {
               if (dynamicLibrary != null) '-fPIC',
               // Using PIC for static libraries allows them to be linked into
               // any executable, but it is not necessarily the best option in
-              // terms of overhead. We would have to know wether the target into
-              // which the static library is linked is PIC, PIE or neither. Then
-              // we could use the same option for the static library.
+              // terms of overhead. We would have to know whether the target
+              // into which the static library is linked is PIC, PIE or neither.
+              // Then we could use the same option for the static library.
               if (staticLibrary != null) '-fPIC',
               if (executable != null) ...[
                 // Generate position-independent code for executables.
@@ -300,7 +296,6 @@ class RunCBuilder {
         ],
         if (optimizationLevel != OptimizationLevel.unspecified)
           optimizationLevel.clangFlag(),
-        ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
         if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
@@ -310,7 +305,14 @@ class RunCBuilder {
         for (final include in includes) '-I${include.toFilePath()}',
         for (final forcedInclude in forcedIncludes)
           '-include${forcedInclude.toFilePath()}',
-        ...sourceFiles,
+        if (linkerOptions != null)
+          ...linkerOptions!.sourceFilesToFlags(
+            toolInstance.tool,
+            sourceFiles,
+            codeConfig.targetOS,
+          )
+        else
+          ...sourceFiles,
         if (language == Language.objectiveC) ...[
           for (final framework in frameworks) ...['-framework', framework],
         ],
@@ -326,17 +328,12 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
-            [],
         if (executable != null || dynamicLibrary != null) ...[
           if (codeConfig.targetOS case OS.android || OS.linux)
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
             // it is linked against.
-            if (linkerOptions != null)
-              '-rpath=\$ORIGIN'
-            else
-              '-Wl,-rpath=\$ORIGIN',
+            '-Wl,-rpath=\$ORIGIN',
           for (final directory in libraryDirectories)
             '-L${directory.toFilePath()}',
           for (final library in libraries) '-l$library',

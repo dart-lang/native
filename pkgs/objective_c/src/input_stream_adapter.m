@@ -7,10 +7,6 @@
 #import <Foundation/Foundation.h>
 #include <os/log.h>
 
-NSErrorUserInfoKey getLocalizedDescriptionKey() {
-  return NSLocalizedDescriptionKey;
-}
-
 @implementation DOBJCDartInputStreamAdapter {
   Dart_Port _sendPort;
   NSCondition *_dataCondition;

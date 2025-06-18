@@ -1,3 +1,15 @@
+## 0.16.5
+
+* Support linking for iOS.
+
+## 0.16.4
+
+* Support linking for MacOS.
+
+## 0.16.3
+
+* Support linking for Android.
+
 ## 0.16.2
 
 * Bump the SDK constraint to at least the one from `package:hooks` to fix

@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -64,7 +63,7 @@ void main() {
     });
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-        globalBlockRefCountingInner() {
+    globalBlockRefCountingInner() {
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
       lib.globalBlock = blk1;
       final blk1raw = blk1.ref.pointer;

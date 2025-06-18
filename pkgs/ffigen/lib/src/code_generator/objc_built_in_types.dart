@@ -138,4 +138,5 @@ const objCBuiltInGlobals = {
   'NSKeyValueChangeNewKey',
   'NSKeyValueChangeNotificationIsPriorKey',
   'NSKeyValueChangeOldKey',
+  'NSLocalizedDescriptionKey',
 };

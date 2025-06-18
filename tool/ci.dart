@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ffi';
 
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
@@ -98,12 +99,12 @@ void main(List<String> arguments) async {
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      ['--enable-experiment=native-assets', 'build', 'bin/native_add_app.dart'],
+      ['--enable-experiment=native-assets', 'build', 'cli', 'bin/native_add_app.dart'],
     );
     _runProcess(
       repositoryRoot
           .resolve(
-            'pkgs/hooks/example/build/native_add_app/bin/native_add_app/native_add_app.exe',
+            'pkgs/hooks/example/build/native_add_app/build/cli/${Abi.current().toString().replaceAll('_', '-')}/bundle/bin/native_add_app${Platform.isWindows ? '.exe' : ''}',
           )
           .toFilePath(),
       [],

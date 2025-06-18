@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
-
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
@@ -11,14 +9,17 @@ import 'package:test/test.dart';
 
 import '../helpers.dart';
 
-Future<void> main() async {
-  for (final os in OS.values) {
-    if (Platform.isLinux) {
+void main() {
+  for (final targetOS in OS.values) {
+    if (targetOS == OS.linux ||
+        targetOS == OS.android ||
+        targetOS == OS.macOS ||
+        targetOS == OS.iOS) {
       // Is implemented.
       continue;
     }
 
-    test('throws on some platforms', () async {
+    test('throws when targeting $targetOS', () async {
       final tempUri = await tempDirForTest();
       final tempUri2 = await tempDirForTest();
 
@@ -32,7 +33,7 @@ Future<void> main() async {
         ..setupLink(assets: [], recordedUsesFile: null)
         ..addExtension(
           CodeAssetExtension(
-            targetOS: os,
+            targetOS: targetOS,
             targetArchitecture: Architecture.x64,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: cCompiler,
@@ -51,7 +52,7 @@ Future<void> main() async {
           output: LinkOutputBuilder(),
           logger: logger,
         ),
-        throwsUnsupportedError,
+        targetOS == OS.fuchsia ? throwsFormatException : throwsUnsupportedError,
       );
     });
   }

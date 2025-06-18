@@ -11,8 +11,8 @@ environment:
 
 dependencies:
   crypto: ^3.0.6
-  data_assets: ^0.19.1
-  hooks: ^0.19.3
+  data_assets: any
+  hooks: any
 
 dev_dependencies:
   lints: ^5.1.1

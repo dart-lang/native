@@ -5,7 +5,6 @@
 // Objective C support is only available on mac.
 
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -40,8 +39,9 @@ void main() {
 
     test('castFromPointer', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast =
-          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
+      final fromCast = Castaway.castFromPointer(
+        Pointer<ObjCObject>.fromAddress(meAsInt),
+      );
       expect(fromCast, testInstance!);
     });
 
@@ -52,15 +52,17 @@ void main() {
 
     test('equality equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast =
-          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
+      final fromCast = Castaway.castFromPointer(
+        Pointer<ObjCObject>.fromAddress(meAsInt),
+      );
       expect(fromCast, testInstance!);
     });
 
     test('equality not equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast =
-          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
+      final fromCast = Castaway.castFromPointer(
+        Pointer<ObjCObject>.fromAddress(meAsInt),
+      );
       expect(fromCast, isNot(equals(NSObject())));
     });
   });

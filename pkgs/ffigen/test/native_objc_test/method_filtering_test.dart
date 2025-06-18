@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -26,12 +25,14 @@ void main() {
       late final String bindings;
       setUpAll(() {
         generateBindingsForCoverage('method_filtering');
-        bindings = File(path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'method_filtering_bindings.dart',
-        )).readAsStringSync();
+        bindings = File(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'method_filtering_bindings.dart',
+          ),
+        ).readAsStringSync();
       });
 
       test('interfaces', () {

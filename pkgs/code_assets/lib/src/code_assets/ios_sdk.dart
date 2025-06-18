@@ -6,6 +6,9 @@ import 'config.dart';
 
 /// The iOS SDK (device or simulator) in [IOSCodeConfig.targetSdk].
 final class IOSSdk {
+  /// The type of this [IOSSdk].
+  ///
+  /// A string such as `iphoneos` or `iphonesimulator`.
   final String type;
 
   const IOSSdk._(this.type);

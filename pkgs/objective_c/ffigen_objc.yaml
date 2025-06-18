@@ -107,9 +107,6 @@ objc-categories:
     - NSNumberCreation
     - NSNumberIsFloat
     - NSStringExtensionMethods
-functions:
-  include:
-    - getLocalizedDescriptionKey
 structs:
   include:
     - AEDesc
@@ -168,6 +165,7 @@ globals:
     - NSKeyValueChangeNewKey
     - NSKeyValueChangeNotificationIsPriorKey
     - NSKeyValueChangeOldKey
+    - NSLocalizedDescriptionKey
 typedefs:
   include:
     - 'CFStringRef'

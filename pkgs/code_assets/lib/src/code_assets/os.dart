@@ -65,6 +65,7 @@ final class OS {
   static final OS current = OS.fromString(Platform.operatingSystem);
 }
 
+/// Extension methods for [OS] to convert to and from the syntax model.
 extension OSSyntaxExtension on OS {
   static final _toSyntax = {
     for (final item in OS.values) item: OSSyntax.fromJson(item.name),
@@ -74,8 +75,10 @@ extension OSSyntaxExtension on OS {
     for (var entry in _toSyntax.entries) entry.value: entry.key,
   };
 
+  /// Converts this [OS] to its corresponding [OSSyntax].
   OSSyntax toSyntax() => _toSyntax[this]!;
 
+  /// Converts an [OSSyntax] to its corresponding [OS].
   static OS fromSyntax(OSSyntax syntax) => switch (_fromSyntax[syntax]) {
     null => throw FormatException('The OS "${syntax.name}" is not known'),
     final e => e,
