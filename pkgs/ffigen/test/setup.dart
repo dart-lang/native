@@ -8,8 +8,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/args.dart';
-
 Future<void> _run(String subdir, String script, List<String> flags) async {
   final dir = Platform.script.resolve('$subdir/');
   print('\nRunning $script in ${dir.toFilePath()}');
