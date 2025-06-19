@@ -105,19 +105,19 @@ extension LinkerOptionsExt on LinkerOptions {
     }
   }
 
+  bool get _includeAllSymbols => _symbolsToKeep == null;
+
   Iterable<String> _sourceFilesToFlagsForClangLike(
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
   ) {
-    final includeAllSymbols = _symbolsToKeep == null;
-
     switch (targetOS) {
       case OS.macOS || OS.iOS:
         return [
-          if (!includeAllSymbols) ...sourceFiles,
+          if (!_includeAllSymbols) ...sourceFiles,
           ..._toLinkerSyntax(tool, [
-            if (includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
+            if (_includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
             ..._linkerFlags,
             ..._symbolsToKeep?.map((symbol) => '-u,_$symbol') ?? [],
             if (stripDebug) '-S',
@@ -128,7 +128,7 @@ extension LinkerOptionsExt on LinkerOptions {
       case OS.android || OS.linux:
         final wholeArchiveSandwich =
             sourceFiles.any((source) => source.endsWith('.a')) ||
-            includeAllSymbols;
+            _includeAllSymbols;
         return [
           if (wholeArchiveSandwich)
             ..._toLinkerSyntax(tool, ['--whole-archive']),
@@ -143,8 +143,6 @@ extension LinkerOptionsExt on LinkerOptions {
             if (wholeArchiveSandwich) '--no-whole-archive',
           ]),
         ];
-      case OS.windows:
-
       case OS():
         throw UnimplementedError();
     }
@@ -154,16 +152,13 @@ extension LinkerOptionsExt on LinkerOptions {
       Tool tool,
       Iterable<String> sourceFiles,
       OS targetOS,
-      ) {
-    final includeAllSymbols = _symbolsToKeep == null;
-    return [
+      ) => [
       ...sourceFiles,
       '/link',
-      if (includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+      if (_includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
       ..._linkerFlags,
       ..._symbolsToKeep?.map((symbol) => '/INCLUDE:$symbol') ?? [],
       if (stripDebug) '/PDBSTRIPPED',
       if (gcSections) '/OPT:REF',
     ];
-  }
 }

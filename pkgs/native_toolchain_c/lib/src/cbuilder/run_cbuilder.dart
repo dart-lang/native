@@ -123,7 +123,7 @@ class RunCBuilder {
       await runClangLike(tool: toolInstance_);
       return;
     } else if (tool == cl) {
-      await runCl(toolInstance: toolInstance_);
+      await runCl(tool: toolInstance_);
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
     }
@@ -345,8 +345,8 @@ class RunCBuilder {
     );
   }
 
-  Future<void> runCl({required ToolInstance toolInstance}) async {
-    final environment = await _resolver.resolveEnvironment(toolInstance);
+  Future<void> runCl({required ToolInstance tool}) async {
+    final environment = await _resolver.resolveEnvironment(tool);
 
     final isStaticLib = staticLibrary != null;
     Uri? archiver_;
@@ -356,7 +356,7 @@ class RunCBuilder {
     final sourceFiles = sources.map((e) => e.toFilePath());
 
     final result = await runProcess(
-      executable: toolInstance.uri,
+      executable: tool.uri,
       arguments: [
         if (optimizationLevel != OptimizationLevel.unspecified)
           optimizationLevel.msvcFlag(),
@@ -378,7 +378,7 @@ class RunCBuilder {
         ],
         if (linkerOptions != null)
           ...linkerOptions!.sourceFilesToFlags(
-            toolInstance.tool,
+            tool.tool,
             sourceFiles,
             codeConfig.targetOS,
           )

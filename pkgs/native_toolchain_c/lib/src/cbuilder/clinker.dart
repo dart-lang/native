@@ -18,8 +18,6 @@ import 'output_type.dart';
 import 'run_cbuilder.dart';
 
 /// Specification for linking an artifact with a C linker.
-//TODO(mosuem): This is currently only implemented for linux.
-// See also https://github.com/dart-lang/native/issues/1376
 class CLinker extends CTool implements Linker {
   final LinkerOptions linkerOptions;
 
