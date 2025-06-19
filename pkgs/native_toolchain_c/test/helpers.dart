@@ -388,7 +388,7 @@ Future<void> expectMachineArchitecture(
       machine,
       contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
     );
-  } else if (Platform.isWindows) {
+  } else if (Platform.isWindows && targetOS == OS.windows) {
     final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
       logger: logger,
     )).first.uri;
