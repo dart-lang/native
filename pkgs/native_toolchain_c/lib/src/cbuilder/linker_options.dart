@@ -92,10 +92,10 @@ extension LinkerOptionsExt on LinkerOptions {
   /// Takes [sourceFiles] and turns it into flags for the compiler driver while
   /// considering the current [LinkerOptions].
   Iterable<String> sourceFilesToFlags(
-      Tool tool,
-      Iterable<String> sourceFiles,
-      OS targetOS,
-      ) {
+    Tool tool,
+    Iterable<String> sourceFiles,
+    OS targetOS,
+  ) {
     if (tool.isClangLike || tool.isLdLike) {
       return _sourceFilesToFlagsForClangLike(tool, sourceFiles, targetOS);
     } else if (tool == cl) {
@@ -149,16 +149,16 @@ extension LinkerOptionsExt on LinkerOptions {
   }
 
   Iterable<String> _sourceFilesToFlagsForCl(
-      Tool tool,
-      Iterable<String> sourceFiles,
-      OS targetOS,
-      ) => [
-      ...sourceFiles,
-      '/link',
-      if (_includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
-      ..._linkerFlags,
-      ..._symbolsToKeep?.map((symbol) => '/INCLUDE:$symbol') ?? [],
-      if (stripDebug) '/PDBSTRIPPED',
-      if (gcSections) '/OPT:REF',
-    ];
+    Tool tool,
+    Iterable<String> sourceFiles,
+    OS targetOS,
+  ) => [
+    ...sourceFiles,
+    '/link',
+    if (_includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+    ..._linkerFlags,
+    ..._symbolsToKeep?.map((symbol) => '/INCLUDE:$symbol') ?? [],
+    if (stripDebug) '/PDBSTRIPPED',
+    if (gcSections) '/OPT:REF',
+  ];
 }
