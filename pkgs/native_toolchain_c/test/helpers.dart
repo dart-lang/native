@@ -255,14 +255,7 @@ Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   switch (targetOS) {
     case OS.windows:
-      final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
-        logger: logger,
-      )).first.uri;
-      final result = await runProcess(
-        executable: dumpbinUri,
-        arguments: ['/EXPORTS', assetUri.toFilePath()],
-        logger: logger,
-      );
+      final result = await runDumpbin(['/EXPORTS'], asset.file!);
       expect(result.exitCode, 0);
       return result.stdout;
     case OS():
@@ -274,6 +267,17 @@ Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
       expect(result.exitCode, 0);
       return result.stdout;
   }
+}
+
+Future<RunProcessResult> runDumpbin(List<String> arguments, Uri libUri) async {
+  final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
+    logger: logger,
+  )).first.uri;
+  return await runProcess(
+    executable: dumpbinUri,
+    arguments: [...arguments, libUri.toFilePath()],
+    logger: logger,
+  );
 }
 
 Future<int> textSectionAddress(Uri dylib) async {
@@ -392,11 +396,7 @@ Future<void> expectMachineArchitecture(
     final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
       logger: logger,
     )).first.uri;
-    final result = await runProcess(
-      executable: dumpbinUri,
-      arguments: ['/HEADERS', libUri.toFilePath()],
-      logger: logger,
-    );
+    final result = await runDumpbin(['/HEADERS'], libUri);
     expect(result.exitCode, 0);
     final machine = result.stdout
         .split('\n')
