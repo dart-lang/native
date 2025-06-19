@@ -8,5 +8,5 @@
 
 FFI_EXPORT void my_other_func()
 {
-  printf("42+1");
+  printf("Hello World");
 }
