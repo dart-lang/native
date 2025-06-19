@@ -382,10 +382,11 @@ class RunCBuilder {
             sourceFiles,
             codeConfig.targetOS,
           )
-        else
+        else ...[
           ...sourceFiles,
+          '/link',
+        ],
         if (executable != null || dynamicLibrary != null) ...[
-          if (linkerOptions == null) '/link',
           for (final directory in libraryDirectories)
             '/LIBPATH:${directory.toFilePath()}',
           for (final library in libraries) '$library.lib',
