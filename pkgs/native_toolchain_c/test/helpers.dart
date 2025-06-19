@@ -74,7 +74,9 @@ Logger _createTestLogger({List<String>? capturedMessages}) =>
     Logger.detached('')
       ..level = Level.ALL
       ..onRecord.listen((record) {
-        print('${record.level.name}: ${record.time}: ${record.message}');
+        printOnFailure(
+          '${record.level.name}: ${record.time}: ${record.message}',
+        );
         capturedMessages?.add(record.message);
       });
 
@@ -255,7 +257,6 @@ Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
     case OS.windows:
       final result = await runDumpbin(['/EXPORTS'], asset.file!);
       expect(result.exitCode, 0);
-      print(result.stdout);
       return result.stdout;
     case OS():
       final result = await runProcess(
@@ -394,7 +395,6 @@ Future<void> expectMachineArchitecture(
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await runDumpbin(['/HEADERS'], libUri);
     expect(result.exitCode, 0);
-    print(result.stdout);
     final machine = result.stdout
         .split('\n')
         .firstWhere((e) => e.contains('machine'));
