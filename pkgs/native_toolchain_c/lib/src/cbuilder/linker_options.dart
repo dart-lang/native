@@ -95,11 +95,17 @@ extension LinkerOptionsExt on LinkerOptions {
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
+    Architecture targetArchitecture,
   ) {
     if (tool.isClangLike || tool.isLdLike) {
       return _sourceFilesToFlagsForClangLike(tool, sourceFiles, targetOS);
     } else if (tool == cl) {
-      return _sourceFilesToFlagsForCl(tool, sourceFiles, targetOS);
+      return _sourceFilesToFlagsForCl(
+        tool,
+        sourceFiles,
+        targetOS,
+        targetArchitecture,
+      );
     } else {
       throw UnimplementedError('This package does not know how to run $tool.');
     }
@@ -152,12 +158,17 @@ extension LinkerOptionsExt on LinkerOptions {
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
+    Architecture targetArch,
   ) => [
     ...sourceFiles,
     '/link',
     if (_includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
     ..._linkerFlags,
-    ..._symbolsToKeep?.map((symbol) => '/INCLUDE:$symbol') ?? [],
+    ..._symbolsToKeep?.map(
+          (symbol) =>
+              '/INCLUDE:${targetArch == Architecture.ia32 ? '_' : ''}$symbol',
+        ) ??
+        [],
     if (stripDebug) '/PDBSTRIPPED',
     if (gcSections) '/OPT:REF',
   ];

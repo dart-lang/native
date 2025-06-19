@@ -310,6 +310,7 @@ class RunCBuilder {
             toolInstance.tool,
             sourceFiles,
             codeConfig.targetOS,
+            codeConfig.targetArchitecture,
           )
         else
           ...sourceFiles,
@@ -381,11 +382,13 @@ class RunCBuilder {
             tool.tool,
             sourceFiles,
             codeConfig.targetOS,
+            codeConfig.targetArchitecture,
           )
         else ...[
           ...sourceFiles,
           '/link',
         ],
+        '/MACHINE:${clTargetFlags[codeConfig.targetArchitecture]}',
         if (executable != null || dynamicLibrary != null) ...[
           for (final directory in libraryDirectories)
             '/LIBPATH:${directory.toFilePath()}',
@@ -439,6 +442,12 @@ class RunCBuilder {
     Architecture.arm64: 'arm64-pc-windows-msvc',
     Architecture.ia32: 'i386-pc-windows-msvc',
     Architecture.x64: 'x86_64-pc-windows-msvc',
+  };
+
+  static const clTargetFlags = {
+    Architecture.arm64: 'ARM64',
+    Architecture.ia32: 'X86',
+    Architecture.x64: 'X64',
   };
 
   static const defaultCppLinkStdLib = {
