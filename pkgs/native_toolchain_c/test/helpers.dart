@@ -74,9 +74,7 @@ Logger _createTestLogger({List<String>? capturedMessages}) =>
     Logger.detached('')
       ..level = Level.ALL
       ..onRecord.listen((record) {
-        printOnFailure(
-          '${record.level.name}: ${record.time}: ${record.message}',
-        );
+        print('${record.level.name}: ${record.time}: ${record.message}');
         capturedMessages?.add(record.message);
       });
 
