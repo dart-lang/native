@@ -255,7 +255,7 @@ Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   switch (targetOS) {
     case OS.windows:
-      final result = await runDumpbin(['/EXPORTS'], asset.file!);
+      final result = await _runDumpbin(['/EXPORTS'], asset.file!);
       expect(result.exitCode, 0);
       return result.stdout;
     case OS():
@@ -269,7 +269,7 @@ Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
   }
 }
 
-Future<RunProcessResult> runDumpbin(List<String> arguments, Uri libUri) async {
+Future<RunProcessResult> _runDumpbin(List<String> arguments, Uri libUri) async {
   final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
     logger: logger,
   )).first.uri;
@@ -393,7 +393,7 @@ Future<void> expectMachineArchitecture(
       contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
     );
   } else if (Platform.isWindows && targetOS == OS.windows) {
-    final result = await runDumpbin(['/HEADERS'], libUri);
+    final result = await _runDumpbin(['/HEADERS'], libUri);
     expect(result.exitCode, 0);
     final machine = result.stdout
         .split('\n')
