@@ -379,7 +379,7 @@ const dumpbinFileFormat = {
 /// executed on the provided [targetArch] architecture.
 ///
 /// On Linux, the format of the binary is determined by `readelf`. On MacOS,
-/// the `objsdump` tool is used. On Windows, `dumpbin` is used.
+/// the `objdump` tool is used. On Windows, `dumpbin` is used.
 Future<void> expectMachineArchitecture(
   Uri libUri,
   Architecture targetArch,
