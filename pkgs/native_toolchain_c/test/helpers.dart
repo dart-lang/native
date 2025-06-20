@@ -258,7 +258,6 @@ Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
     case OS.windows:
       final result = await _runDumpbin(['/EXPORTS'], asset.file!);
       if (result == null) {
-        print('Cannot verify exported symbols: dumpbin tool not available.');
         return null;
       }
       expect(result.exitCode, 0);
@@ -281,6 +280,7 @@ Future<RunProcessResult?> _runDumpbin(
 ) async {
   final dumpbinTools = await dumpbin.defaultResolver!.resolve(logger: logger);
   if (dumpbinTools.isEmpty) {
+    logger.info('Unable to locate dumpbin tool. Some expects may be skipped.');
     return null;
   }
   return await runProcess(
@@ -404,15 +404,14 @@ Future<void> expectMachineArchitecture(
     );
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await _runDumpbin(['/HEADERS'], libUri);
-    if (result == null) {
-      print('Skipping machine architecture check: dumpbin tool not available.');
-      return;
-    }
-    expect(result.exitCode, 0);
-    final machine = result.stdout
+    final skipReason = result == null
+        ? 'tool to determine binary architecture unavailable'
+        : false;
+    expect(result?.exitCode, 0, skip: skipReason);
+    final machine = result?.stdout
         .split('\n')
         .firstWhere((e) => e.contains('machine'));
-    expect(machine, contains(dumpbinFileFormat[targetArch]));
+    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skipReason);
   }
 }
 

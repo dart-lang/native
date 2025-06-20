@@ -98,7 +98,7 @@ void runObjectsTests(
       expect(
         symbols,
         stringContainsInOrder(['my_func', 'my_other_func']),
-        skip: symbols == null,
+        skip: symbols == null ? 'tool to extract symbols unavailable' : false,
       );
     });
   }
