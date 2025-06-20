@@ -251,11 +251,15 @@ List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
   OS() => ['-D'],
 };
 
-Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
+/// Returns null if the tool to extract the symbols is not available.
+Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   switch (targetOS) {
     case OS.windows:
       final result = await _runDumpbin(['/EXPORTS'], asset.file!);
+      if (result == null) {
+        return null;
+      }
       expect(result.exitCode, 0);
       return result.stdout;
     case OS():
@@ -269,12 +273,18 @@ Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
   }
 }
 
-Future<RunProcessResult> _runDumpbin(List<String> arguments, Uri libUri) async {
-  final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
-    logger: logger,
-  )).first.uri;
+/// Returns null if the dumpbin tool is not available.
+Future<RunProcessResult?> _runDumpbin(
+  List<String> arguments,
+  Uri libUri,
+) async {
+  final dumpbinTools = await dumpbin.defaultResolver!.resolve(logger: logger);
+  if (dumpbinTools.isEmpty) {
+    logger.info('Unable to locate dumpbin tool. Some expects may be skipped.');
+    return null;
+  }
   return await runProcess(
-    executable: dumpbinUri,
+    executable: dumpbinTools.first.uri,
     arguments: [...arguments, libUri.toFilePath()],
     logger: logger,
   );
@@ -369,7 +379,7 @@ const dumpbinFileFormat = {
 /// executed on the provided [targetArch] architecture.
 ///
 /// On Linux, the format of the binary is determined by `readelf`. On MacOS,
-/// the `objsdump` tool is used. On Windows, `dumpbin` is used.
+/// the `objdump` tool is used. On Windows, `dumpbin` is used.
 Future<void> expectMachineArchitecture(
   Uri libUri,
   Architecture targetArch,
@@ -394,11 +404,14 @@ Future<void> expectMachineArchitecture(
     );
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await _runDumpbin(['/HEADERS'], libUri);
-    expect(result.exitCode, 0);
-    final machine = result.stdout
+    final skipReason = result == null
+        ? 'tool to determine binary architecture unavailable'
+        : false;
+    expect(result?.exitCode, 0, skip: skipReason);
+    final machine = result?.stdout
         .split('\n')
         .firstWhere((e) => e.contains('machine'));
-    expect(machine, contains(dumpbinFileFormat[targetArch]));
+    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skipReason);
   }
 }
 
