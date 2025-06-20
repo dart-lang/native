@@ -251,11 +251,16 @@ List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
   OS() => ['-D'],
 };
 
-Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
+/// Returns null if the tool to extract the symbols is not available.
+Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   switch (targetOS) {
     case OS.windows:
       final result = await _runDumpbin(['/EXPORTS'], asset.file!);
+      if (result == null) {
+        print('Cannot verify exported symbols: dumpbin tool not available.');
+        return null;
+      }
       expect(result.exitCode, 0);
       return result.stdout;
     case OS():
@@ -269,12 +274,17 @@ Future<String> readSymbols(CodeAsset asset, OS targetOS) async {
   }
 }
 
-Future<RunProcessResult> _runDumpbin(List<String> arguments, Uri libUri) async {
-  final dumpbinUri = (await dumpbin.defaultResolver!.resolve(
-    logger: logger,
-  )).first.uri;
+/// Returns null if the dumpbin tool is not available.
+Future<RunProcessResult?> _runDumpbin(
+  List<String> arguments,
+  Uri libUri,
+) async {
+  final dumpbinTools = await dumpbin.defaultResolver!.resolve(logger: logger);
+  if (dumpbinTools.isEmpty) {
+    return null;
+  }
   return await runProcess(
-    executable: dumpbinUri,
+    executable: dumpbinTools.first.uri,
     arguments: [...arguments, libUri.toFilePath()],
     logger: logger,
   );
@@ -394,6 +404,10 @@ Future<void> expectMachineArchitecture(
     );
   } else if (Platform.isWindows && targetOS == OS.windows) {
     final result = await _runDumpbin(['/HEADERS'], libUri);
+    if (result == null) {
+      print('Skipping machine architecture check: dumpbin tool not available.');
+      return;
+    }
     expect(result.exitCode, 0);
     final machine = result.stdout
         .split('\n')

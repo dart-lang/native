@@ -126,12 +126,14 @@ void runTreeshakeTests(
       );
 
       final symbols = await readSymbols(asset, targetOS);
-      if (clinker.linker != linkerAutoEmpty) {
-        expect(symbols, contains('my_other_func'));
-        expect(symbols, isNot(contains('my_func')));
-      } else {
-        expect(symbols, contains('my_other_func'));
-        expect(symbols, contains('my_func'));
+      if (symbols != null) {
+        if (clinker.linker != linkerAutoEmpty) {
+          expect(symbols, contains('my_other_func'));
+          expect(symbols, isNot(contains('my_func')));
+        } else {
+          expect(symbols, contains('my_other_func'));
+          expect(symbols, contains('my_func'));
+        }
       }
 
       final sizeInBytes = await File.fromUri(asset.file!).length();
