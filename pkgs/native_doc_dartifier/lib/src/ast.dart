@@ -77,6 +77,7 @@ class Method {
     final staticPrefix = isStatic ? 'static ' : '';
     final operatorPrefix =
         operatorKeyword.isNotEmpty ? '$operatorKeyword ' : '';
+    // ignore: lines_longer_than_80_chars
     return '$staticPrefix$returnType $operatorPrefix$name$typeParameters$parameters';
   }
 }
