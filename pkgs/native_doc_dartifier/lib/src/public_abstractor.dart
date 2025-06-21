@@ -46,16 +46,84 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
 
     for (final variable in node.fields.variables) {
       final fieldName = variable.name.lexeme;
-      if (_isPublic(fieldName) && _classes.containsKey(className)) {
+      if (_isPublic(fieldName)) {
         _classes[className]!.addField(
           Field(
             fieldName,
-            variable.declaredFragment?.runtimeType.toString() ?? 'dynamic',
+            node.fields.type?.toSource() ?? 'dynamic',
             isStatic: node.isStatic,
           ),
         );
       }
     }
+  }
+
+  @override
+  void visitMethodDeclaration(MethodDeclaration node) {
+    final className =
+        (node.parent is ClassDeclaration)
+            ? (node.parent as ClassDeclaration).name.lexeme
+            : '';
+
+    final methodName = node.name.lexeme;
+
+    if (className.isEmpty || !_isPublic(className) || !_isPublic(methodName)) {
+      return;
+    }
+
+    final returnType = node.returnType?.toSource() ?? 'dynamic';
+    final parameters = node.parameters?.toSource() ?? '()';
+    final typeParameters = node.typeParameters?.toSource() ?? '';
+
+    if (node.isGetter) {
+      _classes[className]!.getters.add(
+        Getter(methodName, returnType, node.isStatic),
+      );
+      return;
+    }
+
+    if (node.isSetter) {
+      _classes[className]!.setters.add(
+        Setter(
+          methodName,
+          returnType,
+          node.isStatic,
+          node.parameters?.toSource() ?? '()',
+        ),
+      );
+      return;
+    }
+
+    _classes[className]!.addMethod(
+      Method(methodName, returnType, node.isStatic, parameters, typeParameters),
+    );
+  }
+
+  @override
+  void visitConstructorDeclaration(ConstructorDeclaration node) {
+    final className =
+        (node.parent is ClassDeclaration)
+            ? (node.parent as ClassDeclaration).name.lexeme
+            : '';
+
+    final constructorName = node.name?.lexeme ?? '';
+
+    if (className.isEmpty ||
+        !_isPublic(className) ||
+        !_isPublic(constructorName)) {
+      return;
+    }
+
+    final parameters = node.parameters.toSource();
+
+    _classes[className]!.constructors.add(
+      Constructor(
+        className,
+        constructorName,
+        parameters,
+        node.factoryKeyword?.stringValue,
+      ),
+    );
   }
 
   String generateClassRepresentation() {
