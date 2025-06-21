@@ -61,19 +61,23 @@ class Method {
   final bool isStatic;
   final String parameters;
   final String typeParameters;
+  final String operatorKeyword;
 
   Method(
     this.name,
     this.returnType,
     this.isStatic,
     this.parameters,
-    this.typeParameters,
-  );
+    this.typeParameters, {
+    this.operatorKeyword = '',
+  });
 
   @override
   String toString() {
     final staticPrefix = isStatic ? 'static ' : '';
-    return '$staticPrefix$returnType $name$typeParameters$parameters';
+    final operatorPrefix =
+        operatorKeyword.isNotEmpty ? '$operatorKeyword ' : '';
+    return '$staticPrefix$returnType $operatorPrefix$name$typeParameters$parameters';
   }
 }
 

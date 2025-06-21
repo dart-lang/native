@@ -157,6 +157,7 @@ void main() {
       void methodWithNamedParams({String name}) {}
       void methodWithFunctionalParams(void Function(String, int) callback) {}
       void methodWithTypeParameters<T>(T value) {}
+      Foo operator +(Foo other) {}
     }
     ''';
 
@@ -165,7 +166,7 @@ void main() {
 
     test('Number of methods', () {
       expect(methods, isNotNull);
-      expect(methods.length, 5);
+      expect(methods.length, 6);
     });
 
     test('private, public, static methods', () {
@@ -225,6 +226,15 @@ void main() {
       expect(typeParamMethod.returnType, 'void');
       expect(typeParamMethod.parameters, '(T value)');
       expect(typeParamMethod.typeParameters, '<T>');
+    });
+
+    test('operator method', () {
+      final operatorMethod = methods.firstWhere((method) => method.name == '+');
+      expect(operatorMethod.name, '+');
+      expect(operatorMethod.isStatic, isFalse);
+      expect(operatorMethod.returnType, 'Foo');
+      expect(operatorMethod.parameters, '(Foo other)');
+      expect(operatorMethod.typeParameters, isEmpty);
     });
   });
 

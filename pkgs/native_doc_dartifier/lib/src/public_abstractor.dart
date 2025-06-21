@@ -74,6 +74,7 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
     final returnType = node.returnType?.toSource() ?? 'dynamic';
     final parameters = node.parameters?.toSource() ?? '()';
     final typeParameters = node.typeParameters?.toSource() ?? '';
+    final operatorKeyword = node.operatorKeyword?.stringValue ?? '';
 
     if (node.isGetter) {
       _classes[className]!.getters.add(
@@ -95,7 +96,14 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
     }
 
     _classes[className]!.addMethod(
-      Method(methodName, returnType, node.isStatic, parameters, typeParameters),
+      Method(
+        methodName,
+        returnType,
+        node.isStatic,
+        parameters,
+        typeParameters,
+        operatorKeyword: operatorKeyword,
+      ),
     );
   }
 
