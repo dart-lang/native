@@ -12,39 +12,55 @@ void main() {
       expect(parseObjCFrameworkHeader('/Foo/Bar.h'), null);
       expect(parseObjCFrameworkHeader('/Library/a/b/c/Headers/Bar.h'), null);
       expect(
-          parseObjCFrameworkHeader(
-              '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/'
-              'Library/Frameworks/AppKit.framework/Versions/C/Headers/NSMatrix.h'),
-          'AppKit/NSMatrix.h');
+        parseObjCFrameworkHeader(
+          '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/'
+          'Library/Frameworks/AppKit.framework/Versions/C/Headers/NSMatrix.h',
+        ),
+        'AppKit/NSMatrix.h',
+      );
       expect(
-          parseObjCFrameworkHeader(
-              '/System/Library/Frameworks/Photos.framework/Versions/Current/'
-              'Headers/SomeHeader.h'),
-          'Photos/SomeHeader.h');
+        parseObjCFrameworkHeader(
+          '/System/Library/Frameworks/Photos.framework/Versions/Current/'
+          'Headers/SomeHeader.h',
+        ),
+        'Photos/SomeHeader.h',
+      );
       expect(
-          parseObjCFrameworkHeader(
-              '/Library/Frameworks/macFUSE.framework/Headers/macFUSE.h'),
-          'macFUSE/macFUSE.h');
+        parseObjCFrameworkHeader(
+          '/Library/Frameworks/macFUSE.framework/Headers/macFUSE.h',
+        ),
+        'macFUSE/macFUSE.h',
+      );
       expect(
-          parseObjCFrameworkHeader(
-              '/Library/Frameworks/Foo.framework/Headers/Bar.h'),
-          'Foo/Bar.h');
+        parseObjCFrameworkHeader(
+          '/Library/Frameworks/Foo.framework/Headers/Bar.h',
+        ),
+        'Foo/Bar.h',
+      );
       expect(
-          parseObjCFrameworkHeader(
-              'a/b/c/Library/Frameworks/Foo.framework/Headers/Bar.h'),
-          'Foo/Bar.h');
+        parseObjCFrameworkHeader(
+          'a/b/c/Library/Frameworks/Foo.framework/Headers/Bar.h',
+        ),
+        'Foo/Bar.h',
+      );
       expect(
-          parseObjCFrameworkHeader(
-              '/Library/a/b/c/Frameworks/Foo.framework/Headers/Bar.h'),
-          'Foo/Bar.h');
+        parseObjCFrameworkHeader(
+          '/Library/a/b/c/Frameworks/Foo.framework/Headers/Bar.h',
+        ),
+        'Foo/Bar.h',
+      );
       expect(
-          parseObjCFrameworkHeader(
-              '/Library/Frameworks/Foo.framework/a/b/c/Headers/Bar.h'),
-          'Foo/Bar.h');
+        parseObjCFrameworkHeader(
+          '/Library/Frameworks/Foo.framework/a/b/c/Headers/Bar.h',
+        ),
+        'Foo/Bar.h',
+      );
       expect(
-          parseObjCFrameworkHeader(
-              '/Library/Frameworks/Foo.framework/Headers/a/b/c/Bar.h'),
-          'Foo/a/b/c/Bar.h');
+        parseObjCFrameworkHeader(
+          '/Library/Frameworks/Foo.framework/Headers/a/b/c/Bar.h',
+        ),
+        'Foo/a/b/c/Bar.h',
+      );
     });
   });
 }

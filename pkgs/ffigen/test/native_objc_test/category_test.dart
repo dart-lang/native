@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -20,19 +19,23 @@ void main() {
   group('categories', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(path.join(
-        packagePathForTests,
-        '..',
-        'objective_c',
-        'test',
-        'objective_c.dylib',
-      ));
-      final dylib = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'objc_test.dylib',
-      ));
+      DynamicLibrary.open(
+        path.join(
+          packagePathForTests,
+          '..',
+          'objective_c',
+          'test',
+          'objective_c.dylib',
+        ),
+      );
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('category');
@@ -79,8 +82,10 @@ void main() {
       final str = 'Hello'.toNSString();
 
       expect(str.method().toDartString(), 'HelloWorld!');
-      expect(InterfaceOnBuiltInType.staticMethod().method().toDartString(),
-          'GoodbyeWorld!');
+      expect(
+        InterfaceOnBuiltInType.staticMethod().method().toDartString(),
+        'GoodbyeWorld!',
+      );
 
       NSString str2 = str.instancetypeMethod();
       expect(str2.toDartString(), 'Hello');
@@ -93,12 +98,14 @@ void main() {
 
       // Don't include transitive category of built-in type that hasn't been
       // explicitly included.
-      final bindings = File(path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'category_bindings.dart',
-      )).readAsStringSync();
+      final bindings = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'category_bindings.dart',
+        ),
+      ).readAsStringSync();
       expect(bindings, isNot(contains('excludedExtensionMethod')));
 
       // This method is from an NSObject extension, which shouldn't be included.

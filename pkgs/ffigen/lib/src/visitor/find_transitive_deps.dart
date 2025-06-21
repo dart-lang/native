@@ -25,7 +25,10 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
   final directTransitives = <Binding>{};
 
   FindDirectTransitiveDepsVisitation(
-      this.config, this.includes, this.directIncludes);
+    this.config,
+    this.includes,
+    this.directIncludes,
+  );
 
   void _visitImpl(Binding node, bool forceVisitChildren) {
     if (node.isObjCImport) return;

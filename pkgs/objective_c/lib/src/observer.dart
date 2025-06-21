@@ -17,16 +17,21 @@ extension Observed on NSObject {
   /// This method wraps ObjC's `addObserver:forKeyPath:options:context:` method.
   /// However there is no matching `removeObserver` method, as
   /// [Observation.remove] serves that purpose.
-  Observation addObserver(Observer observer,
-          {required NSString forKeyPath,
-          NSKeyValueObservingOptions options =
-              NSKeyValueObservingOptions.NSKeyValueObservingOptionNew,
-          Pointer<Void>? context}) =>
-      Observation._(DOBJCObservation().initForKeyPath(forKeyPath,
-          ofObject: this,
-          withObserver: observer,
-          options: options,
-          context: context ?? nullptr));
+  Observation addObserver(
+    Observer observer, {
+    required NSString forKeyPath,
+    NSKeyValueObservingOptions options =
+        NSKeyValueObservingOptions.NSKeyValueObservingOptionNew,
+    Pointer<Void>? context,
+  }) => Observation._(
+    DOBJCObservation().initForKeyPath(
+      forKeyPath,
+      ofObject: this,
+      withObserver: observer,
+      options: options,
+      context: context ?? nullptr,
+    ),
+  );
 }
 
 /// Represents a single KVO observation.

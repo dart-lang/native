@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
@@ -245,16 +246,48 @@ Future<String> readelf(String filePath, String flags) async {
   return result.stdout;
 }
 
-Future<String> nmReadSymbols(CodeAsset asset) async {
+List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
+  OS.macOS || OS.iOS => const [],
+  OS() => ['-D'],
+};
+
+/// Returns null if the tool to extract the symbols is not available.
+Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
-  final result = await runProcess(
-    executable: Uri(path: 'nm'),
-    arguments: ['-D', assetUri.toFilePath()],
+  switch (targetOS) {
+    case OS.windows:
+      final result = await _runDumpbin(['/EXPORTS'], asset.file!);
+      if (result == null) {
+        return null;
+      }
+      expect(result.exitCode, 0);
+      return result.stdout;
+    case OS():
+      final result = await runProcess(
+        executable: Uri(path: 'nm'),
+        arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
+        logger: logger,
+      );
+      expect(result.exitCode, 0);
+      return result.stdout;
+  }
+}
+
+/// Returns null if the dumpbin tool is not available.
+Future<RunProcessResult?> _runDumpbin(
+  List<String> arguments,
+  Uri libUri,
+) async {
+  final dumpbinTools = await dumpbin.defaultResolver!.resolve(logger: logger);
+  if (dumpbinTools.isEmpty) {
+    logger.info('Unable to locate dumpbin tool. Some expects may be skipped.');
+    return null;
+  }
+  return await runProcess(
+    executable: dumpbinTools.first.uri,
+    arguments: [...arguments, libUri.toFilePath()],
     logger: logger,
   );
-
-  expect(result.exitCode, 0);
-  return result.stdout;
 }
 
 Future<int> textSectionAddress(Uri dylib) async {
@@ -309,9 +342,9 @@ const flutterAndroidNdkVersionLowestSupported = 21;
 /// From https://docs.flutter.dev/reference/supported-platforms.
 const flutterAndroidNdkVersionHighestSupported = 34;
 
-/// File-format strings used by the `objdump` tool for binaries that run on a
-/// given architecture.
-const objdumpFileFormat = {
+/// File-format strings used by the `objdump` tool for Android binaries that
+/// run on a given architecture.
+const objdumpFileFormatAndroid = {
   Architecture.arm: 'elf32-littlearm',
   Architecture.arm64: 'elf64-littleaarch64',
   Architecture.ia32: 'elf32-i386',
@@ -319,15 +352,42 @@ const objdumpFileFormat = {
   Architecture.riscv64: 'elf64-littleriscv',
 };
 
+const objdumpFileFormatMacOS = {
+  Architecture.arm64: 'mach-o arm64',
+  Architecture.x64: 'mach-o 64-bit x86-64',
+};
+
+// Don't include 'mach-o' or 'Mach-O', different spelling is used.
+const objdumpFileFormatIOS = {
+  Architecture.arm64: 'arm64',
+  Architecture.x64: '64-bit x86-64',
+};
+
+const targetOSToObjdumpFileFormat = {
+  OS.android: objdumpFileFormatAndroid,
+  OS.macOS: objdumpFileFormatMacOS,
+  OS.iOS: objdumpFileFormatMacOS,
+};
+
+const dumpbinFileFormat = {
+  Architecture.arm64: 'ARM64',
+  Architecture.ia32: 'x86',
+  Architecture.x64: 'x64',
+};
+
 /// Checks that the provided [libUri] binary has the correct format to be
-/// executed on the provided [target] architecture.
+/// executed on the provided [targetArch] architecture.
 ///
 /// On Linux, the format of the binary is determined by `readelf`. On MacOS,
-/// the `objsdump` tool is used.
-Future<void> expectMachineArchitecture(Uri libUri, Architecture target) async {
+/// the `objdump` tool is used. On Windows, `dumpbin` is used.
+Future<void> expectMachineArchitecture(
+  Uri libUri,
+  Architecture targetArch,
+  OS targetOS,
+) async {
   if (Platform.isLinux) {
     final machine = await readelfMachine(libUri.path);
-    expect(machine, contains(readElfMachine[target]));
+    expect(machine, contains(readElfMachine[targetArch]));
   } else if (Platform.isMacOS) {
     final result = await runProcess(
       executable: Uri.file('objdump'),
@@ -338,6 +398,48 @@ Future<void> expectMachineArchitecture(Uri libUri, Architecture target) async {
     final machine = result.stdout
         .split('\n')
         .firstWhere((e) => e.contains('file format'));
-    expect(machine, contains(objdumpFileFormat[target]));
+    expect(
+      machine,
+      contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
+    );
+  } else if (Platform.isWindows && targetOS == OS.windows) {
+    final result = await _runDumpbin(['/HEADERS'], libUri);
+    final skipReason = result == null
+        ? 'tool to determine binary architecture unavailable'
+        : false;
+    expect(result?.exitCode, 0, skip: skipReason);
+    final machine = result?.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('machine'));
+    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skipReason);
   }
 }
+
+List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
+  OS.macOS || OS.iOS => [Architecture.arm64, Architecture.x64],
+  OS.windows => [
+    // TODO(https://github.com/dart-lang/native/issues/170): Support arm64.
+    // Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+  ],
+  OS() => [
+    Architecture.arm,
+    Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+    Architecture.riscv64,
+  ],
+};
+
+List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
+    switch (iosSdk) {
+      IOSSdk.iPhoneOS => supportedArchitecturesFor(
+        OS.iOS,
+      )..remove(Architecture.x64),
+      IOSSdk.iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
+      IOSSdk() => throw UnimplementedError(),
+    };
+
+const flutteriOSHighestBestEffort = 16;
+const flutteriOSHighestSupported = 17;

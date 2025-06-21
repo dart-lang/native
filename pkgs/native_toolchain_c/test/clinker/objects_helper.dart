@@ -16,8 +16,21 @@ void runObjectsTests(
   OS targetOS,
   List<Architecture> architectures, {
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
+  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
+  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
 }) {
-  assert((targetOS != OS.android) == (androidTargetNdkApi == null));
+  if (targetOS == OS.android) {
+    ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
+  }
+  if (targetOS == OS.macOS) {
+    ArgumentError.checkNotNull(macOSTargetVersion, 'macOSTargetVersion');
+  }
+  if (targetOS == OS.iOS) {
+    ArgumentError.checkNotNull(iOSTargetVersion, 'iOSTargetVersion');
+    ArgumentError.checkNotNull(iOSTargetSdk, 'iOSTargetSdk');
+  }
+
   const name = 'mylibname';
 
   for (final architecture in architectures) {
@@ -31,6 +44,9 @@ void runObjectsTests(
         targetOS,
         architecture,
         androidTargetNdkApi: androidTargetNdkApi,
+        macOSTargetVersion: macOSTargetVersion,
+        iOSTargetVersion: iOSTargetVersion,
+        iOSTargetSdk: iOSTargetSdk,
       );
 
       final linkInputBuilder = LinkInputBuilder()
@@ -49,6 +65,15 @@ void runObjectsTests(
             cCompiler: cCompiler,
             android: androidTargetNdkApi != null
                 ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
+                : null,
+            macOS: macOSTargetVersion != null
+                ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+                : null,
+            iOS: iOSTargetVersion != null && iOSTargetSdk != null
+                ? IOSCodeConfig(
+                    targetSdk: iOSTargetSdk,
+                    targetVersion: iOSTargetVersion,
+                  )
                 : null,
           ),
         );
@@ -69,9 +94,11 @@ void runObjectsTests(
       expect(codeAssets, hasLength(1));
       final asset = codeAssets.first;
       expect(asset, isA<CodeAsset>());
+      final symbols = await readSymbols(asset, targetOS);
       expect(
-        await nmReadSymbols(asset),
+        symbols,
         stringContainsInOrder(['my_func', 'my_other_func']),
+        skip: symbols == null ? 'tool to extract symbols unavailable' : false,
       );
     });
   }

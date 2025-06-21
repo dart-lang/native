@@ -28,11 +28,7 @@ final objCFiles = [
   'src/observer.m',
   'src/protocol.m',
 ].map(_resolve);
-const objCFlags = [
-  '-x',
-  'objective-c',
-  '-fobjc-arc',
-];
+const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 final outputFile = _resolve('test/objective_c.dylib');
 
 final _repoDir = () {
@@ -49,11 +45,7 @@ final _pkgDir = _repoDir.resolve('pkgs/objective_c/');
 String _resolve(String file) => _pkgDir.resolve(file).toFilePath();
 
 void _runClang(List<String> flags, String output) {
-  final args = [
-    ...flags,
-    '-o',
-    output,
-  ];
+  final args = [...flags, '-o', output];
   const exec = 'clang';
   print('Running: $exec ${args.join(" ")}');
   final proc = Process.runSync(exec, args);

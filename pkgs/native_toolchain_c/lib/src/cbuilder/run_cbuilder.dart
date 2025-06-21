@@ -262,9 +262,9 @@ class RunCBuilder {
               if (dynamicLibrary != null) '-fPIC',
               // Using PIC for static libraries allows them to be linked into
               // any executable, but it is not necessarily the best option in
-              // terms of overhead. We would have to know wether the target into
-              // which the static library is linked is PIC, PIE or neither. Then
-              // we could use the same option for the static library.
+              // terms of overhead. We would have to know whether the target
+              // into which the static library is linked is PIC, PIE or neither.
+              // Then we could use the same option for the static library.
               if (staticLibrary != null) '-fPIC',
               if (executable != null) ...[
                 // Generate position-independent code for executables.
@@ -296,7 +296,6 @@ class RunCBuilder {
         ],
         if (optimizationLevel != OptimizationLevel.unspecified)
           optimizationLevel.clangFlag(),
-        ...linkerOptions?.preSourcesFlags(toolInstance.tool, sourceFiles) ?? [],
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
         if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
@@ -306,7 +305,15 @@ class RunCBuilder {
         for (final include in includes) '-I${include.toFilePath()}',
         for (final forcedInclude in forcedIncludes)
           '-include${forcedInclude.toFilePath()}',
-        ...sourceFiles,
+        if (linkerOptions != null)
+          ...linkerOptions!.sourceFilesToFlags(
+            toolInstance.tool,
+            sourceFiles,
+            codeConfig.targetOS,
+            codeConfig.targetArchitecture,
+          )
+        else
+          ...sourceFiles,
         if (language == Language.objectiveC) ...[
           for (final framework in frameworks) ...['-framework', framework],
         ],
@@ -322,8 +329,6 @@ class RunCBuilder {
           '-o',
           outFile!.toFilePath(),
         ],
-        ...linkerOptions?.postSourcesFlags(toolInstance.tool, sourceFiles) ??
-            [],
         if (executable != null || dynamicLibrary != null) ...[
           if (codeConfig.targetOS case OS.android || OS.linux)
             // During bundling code assets are all placed in the same directory.
@@ -349,6 +354,7 @@ class RunCBuilder {
     if (isStaticLib) {
       archiver_ = await archiver();
     }
+    final sourceFiles = sources.map((e) => e.toFilePath());
 
     final result = await runProcess(
       executable: tool.uri,
@@ -364,18 +370,25 @@ class RunCBuilder {
         for (final forcedInclude in forcedIncludes)
           '/FI${forcedInclude.toFilePath()}',
         if (executable != null) ...[
-          ...sources.map((e) => e.toFilePath()),
-          '/link',
-          '/out:${outDir.resolveUri(executable!).toFilePath()}',
+          '/Fe:${outDir.resolveUri(executable!).toFilePath()}',
         ] else if (dynamicLibrary != null) ...[
-          ...sources.map((e) => e.toFilePath()),
-          '/link',
-          '/DLL',
-          '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
+          '/LD',
+          '/Fe:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
         ] else if (staticLibrary != null) ...[
           '/c',
-          ...sources.map((e) => e.toFilePath()),
         ],
+        if (linkerOptions != null)
+          ...linkerOptions!.sourceFilesToFlags(
+            tool.tool,
+            sourceFiles,
+            codeConfig.targetOS,
+            codeConfig.targetArchitecture,
+          )
+        else ...[
+          ...sourceFiles,
+          '/link',
+        ],
+        '/MACHINE:${clTargetFlags[codeConfig.targetArchitecture]}',
         if (executable != null || dynamicLibrary != null) ...[
           for (final directory in libraryDirectories)
             '/LIBPATH:${directory.toFilePath()}',
@@ -429,6 +442,12 @@ class RunCBuilder {
     Architecture.arm64: 'arm64-pc-windows-msvc',
     Architecture.ia32: 'i386-pc-windows-msvc',
     Architecture.x64: 'x86_64-pc-windows-msvc',
+  };
+
+  static const clTargetFlags = {
+    Architecture.arm64: 'ARM64',
+    Architecture.ia32: 'X86',
+    Architecture.x64: 'X64',
   };
 
   static const defaultCppLinkStdLib = {

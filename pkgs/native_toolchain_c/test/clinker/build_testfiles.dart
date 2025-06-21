@@ -16,8 +16,21 @@ Future<Uri> buildTestArchive(
   OS targetOS,
   Architecture architecture, {
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
+  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
+  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
 }) async {
-  assert((targetOS != OS.android) == (androidTargetNdkApi == null));
+  if (targetOS == OS.android) {
+    ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
+  }
+  if (targetOS == OS.macOS) {
+    ArgumentError.checkNotNull(macOSTargetVersion, 'macOSTargetVersion');
+  }
+  if (targetOS == OS.iOS) {
+    ArgumentError.checkNotNull(iOSTargetVersion, 'iOSTargetVersion');
+    ArgumentError.checkNotNull(iOSTargetSdk, 'iOSTargetSdk');
+  }
+
   final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
   final test2Uri = packageUri.resolve('test/clinker/testfiles/linker/test2.c');
   if (!await File.fromUri(test1Uri).exists() ||
@@ -45,6 +58,15 @@ Future<Uri> buildTestArchive(
         cCompiler: cCompiler,
         android: androidTargetNdkApi != null
             ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
+            : null,
+        macOS: macOSTargetVersion != null
+            ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+            : null,
+        iOS: iOSTargetVersion != null && iOSTargetSdk != null
+            ? IOSCodeConfig(
+                targetSdk: iOSTargetSdk,
+                targetVersion: iOSTargetVersion,
+              )
             : null,
       ),
     );

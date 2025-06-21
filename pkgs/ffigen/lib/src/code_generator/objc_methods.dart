@@ -67,8 +67,10 @@ mixin ObjCMethods {
 
     // Check the duplicate is the same method.
     if (!newMethod.sameAs(oldMethod)) {
-      _logger.severe('Duplicate methods with different signatures: '
-          '$originalName.${newMethod.originalName}');
+      _logger.severe(
+        'Duplicate methods with different signatures: '
+        '$originalName.${newMethod.originalName}',
+      );
       return newMethod;
     }
 
@@ -88,15 +90,14 @@ mixin ObjCMethods {
   }
 
   UniqueNamer createMethodRenamer(Writer w) =>
-      UniqueNamer(parent: w.topLevelUniqueNamer)
-        ..markAllUsed([
-          name,
-          'pointer',
-          'toString',
-          'hashCode',
-          'runtimeType',
-          'noSuchMethod'
-        ]);
+      UniqueNamer(parent: w.topLevelUniqueNamer)..markAllUsed([
+        name,
+        'pointer',
+        'toString',
+        'hashCode',
+        'runtimeType',
+        'noSuchMethod',
+      ]);
 
   void sortMethods() => _order.sort();
 
@@ -122,17 +123,9 @@ mixin ObjCMethods {
   }
 }
 
-enum ObjCMethodKind {
-  method,
-  propertyGetter,
-  propertySetter,
-}
+enum ObjCMethodKind { method, propertyGetter, propertySetter }
 
-enum ObjCMethodOwnership {
-  retained,
-  notRetained,
-  autoreleased,
-}
+enum ObjCMethodOwnership { retained, notRetained, autoreleased }
 
 // In ObjC, the name of a method affects its ref counting semantics. See
 // https://clang.llvm.org/docs/AutomaticReferenceCounting.html#method-families
@@ -147,8 +140,11 @@ enum ObjCMethodFamily {
   final bool returnsRetained;
   final bool consumesSelf;
 
-  const ObjCMethodFamily(this.name,
-      {required this.returnsRetained, required this.consumesSelf});
+  const ObjCMethodFamily(
+    this.name, {
+    required this.returnsRetained,
+    required this.consumesSelf,
+  });
 
   static ObjCMethodFamily? parse(String methodName) {
     final name = methodName.substring(_findFamilyStart(methodName));
@@ -226,8 +222,8 @@ class ObjCMethod extends AstNode {
     required this.family,
     required this.apiAvailability,
     List<Parameter>? params_,
-  })  : params = params_ ?? [],
-        selObject = builtInFunctions.getSelObject(originalName);
+  }) : params = params_ ?? [],
+       selObject = builtInFunctions.getSelObject(originalName);
 
   // Must be called after all params are added to the method.
   void finalizeParams() {
@@ -281,11 +277,7 @@ class ObjCMethod extends AstNode {
       returnType: returnType,
       params: [
         // First arg of the protocol block is a void pointer that we ignore.
-        Parameter(
-          name: '_',
-          type: PointerType(voidType),
-          objCConsumed: false,
-        ),
+        Parameter(name: '_', type: PointerType(voidType), objCConsumed: false),
         ...params,
       ],
       returnsRetained: returnsRetained,
@@ -344,7 +336,8 @@ class ObjCMethod extends AstNode {
   String get key => '${isClassMethod ? '+' : '-'}$originalName';
 
   @override
-  String toString() => '${isOptional ? '@optional ' : ''}$returnType '
+  String toString() =>
+      '${isOptional ? '@optional ' : ''}$returnType '
       '$originalName(${params.join(', ')})';
 
   bool get returnsInstanceType {
@@ -379,7 +372,10 @@ class ObjCMethod extends AstNode {
   }
 
   String generateBindings(
-      Writer w, ObjCInterface target, UniqueNamer methodNamer) {
+    Writer w,
+    ObjCInterface target,
+    UniqueNamer methodNamer,
+  ) {
     if (dartMethodName == null) {
       dartMethodName = getDartMethodName(methodNamer);
       final paramNamer = UniqueNamer(parent: methodNamer);
@@ -434,8 +430,9 @@ class ObjCMethod extends AstNode {
 
     // Implementation.
     final versionCheck = apiAvailability.runtimeCheck(
-        ObjCBuiltInFunctions.checkOsVersion.gen(w),
-        '${target.originalName}.$originalName');
+      ObjCBuiltInFunctions.checkOsVersion.gen(w),
+      '${target.originalName}.$originalName',
+    );
     if (versionCheck != null) {
       s.write('  $versionCheck\n');
     }
@@ -449,22 +446,30 @@ class ObjCMethod extends AstNode {
     }
 ''');
     }
-    final convertReturn = kind != ObjCMethodKind.propertySetter &&
+    final convertReturn =
+        kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
 
-    final msgSendParams = params.map((p) => p.type.convertDartTypeToFfiDartType(
-          w,
-          p.name,
-          objCRetain: p.objCConsumed,
-          objCAutorelease: false,
-        ));
+    final msgSendParams = params.map(
+      (p) => p.type.convertDartTypeToFfiDartType(
+        w,
+        p.name,
+        objCRetain: p.objCConsumed,
+        objCAutorelease: false,
+      ),
+    );
     if (msgSend!.isStret) {
       assert(!convertReturn);
       final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
       final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
       final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
-      final invoke = msgSend!
-          .invoke(w, targetStr, sel, msgSendParams, structRetPtr: '_ptr');
+      final invoke = msgSend!.invoke(
+        w,
+        targetStr,
+        sel,
+        msgSendParams,
+        structRetPtr: '_ptr',
+      );
       s.write('''
     final _ptr = $calloc<$returnTypeStr>();
     $invoke;

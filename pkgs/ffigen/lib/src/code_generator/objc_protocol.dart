@@ -32,22 +32,25 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     super.dartDoc,
     required this.builtInFunctions,
     required this.apiAvailability,
-  })  : lookupName = lookupName ?? originalName,
-        _protocolPointer = ObjCInternalGlobal(
-            '_protocol_$originalName',
-            (Writer w) =>
-                '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")'),
-        super(
-            name: builtInFunctions.getBuiltInProtocolName(originalName) ??
-                name ??
-                originalName) {
+  }) : lookupName = lookupName ?? originalName,
+       _protocolPointer = ObjCInternalGlobal(
+         '_protocol_$originalName',
+         (Writer w) =>
+             '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")',
+       ),
+       super(
+         name:
+             builtInFunctions.getBuiltInProtocolName(originalName) ??
+             name ??
+             originalName,
+       ) {
     _conformsTo = builtInFunctions.getSelObject('conformsToProtocol:');
     _conformsToMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
       Parameter(
         name: 'protocol',
         type: PointerType(objCProtocolType),
         objCConsumed: false,
-      )
+      ),
     ]);
   }
 
@@ -65,8 +68,9 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     final protocolClass = ObjCBuiltInFunctions.protocolClass.gen(w);
     final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(w);
     final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
-    final protocolListenableMethod =
-        ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
+    final protocolListenableMethod = ObjCBuiltInFunctions
+        .protocolListenableMethod
+        .gen(w);
     final protocolBuilder = ObjCBuiltInFunctions.protocolBuilder.gen(w);
     final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
     final rawObjType = PointerType(objCObjectType).getCType(w);
@@ -117,13 +121,15 @@ interface class $name extends $protocolBase $impls{
         final argName = methodName;
         final block = method.protocolBlock!;
         final blockUtils = block.name;
-        final methodClass =
-            block.hasListener ? protocolListenableMethod : protocolMethod;
+        final methodClass = block.hasListener
+            ? protocolListenableMethod
+            : protocolMethod;
 
         // The function type omits the first arg of the block, which is unused.
-        final func = FunctionType(returnType: block.returnType, parameters: [
-          ...block.params.skip(1),
-        ]);
+        final func = FunctionType(
+          returnType: block.returnType,
+          parameters: [...block.params.skip(1)],
+        );
         final funcType = func.getDartType(w, writeArgumentNames: false);
 
         if (method.isOptional) {
@@ -144,7 +150,8 @@ interface class $name extends $protocolBase $impls{
         var maybeImplementAsListener = 'implement';
         var maybeImplementAsBlocking = 'implement';
         if (block.hasListener) {
-          listenerBuilders = '''
+          listenerBuilders =
+              '''
     ($funcType func) => $blockUtils.listener($wrapper),
     ($funcType func) => $blockUtils.blocking($wrapper),
 ''';
@@ -179,7 +186,8 @@ interface class $name extends $protocolBase $impls{
 
       buildArgs.add('bool \$keepIsolateAlive = true');
       final args = '{${buildArgs.join(', ')}}';
-      final builders = '''
+      final builders =
+          '''
   /// Returns the [$protocolClass] object for this protocol.
   static $protocolClass get \$protocol =>
       $protocolClass.castFromPointer(${_protocolPointer.name}.cast());
@@ -208,7 +216,8 @@ interface class $name extends $protocolBase $impls{
 
       var listenerBuilders = '';
       if (anyListeners) {
-        listenerBuilders = '''
+        listenerBuilders =
+            '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
@@ -260,12 +269,7 @@ interface class $name extends $protocolBase $impls{
       s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool conformsTo($objectBase obj) {
-    return ${_conformsToMsgSend.invoke(
-        w,
-        'obj.ref.pointer',
-        _conformsTo.name,
-        [_protocolPointer.name],
-      )};
+    return ${_conformsToMsgSend.invoke(w, 'obj.ref.pointer', _conformsTo.name, [_protocolPointer.name])};
   }
 
   $builders
@@ -278,26 +282,32 @@ interface class $name extends $protocolBase $impls{
 ''');
 
     return BindingString(
-        type: BindingStringType.objcProtocol, string: s.toString());
+      type: BindingStringType.objcProtocol,
+      string: s.toString(),
+    );
   }
 
   static String _trampolineAddress(Writer w, ObjCBlock block) {
     final func = block.protocolTrampoline!.func;
-    final type =
-        NativeFunc(func.functionType).getCType(w, writeArgumentNames: false);
+    final type = NativeFunc(
+      func.functionType,
+    ).getCType(w, writeArgumentNames: false);
     return '${w.ffiLibraryPrefix}.Native.addressOf<$type>(${func.name}).cast()';
   }
 
   @override
   BindingString? toObjCBindingString(Writer w) {
     final wrapName = builtInFunctions.wrapperName;
-    final mainString = '''
+    final mainString =
+        '''
 
 Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
 ''';
 
     return BindingString(
-        type: BindingStringType.objcProtocol, string: mainString);
+      type: BindingStringType.objcProtocol,
+      string: mainString,
+    );
   }
 
   @override
@@ -328,8 +338,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
@@ -337,8 +346,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+  }) => ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 
   @override
   String? generateRetain(String value) =>

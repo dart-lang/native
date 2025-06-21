@@ -8,25 +8,25 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
+  ) : _lookup = lookup;
 
   /// This is a single line test comment.
   void com1() {
     return _com1();
   }
 
-  late final _com1Ptr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('com1');
+  late final _com1Ptr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
+    'com1',
+  );
   late final _com1 = _com1Ptr.asFunction<void Function()>();
 
   /// This is a multi-line
@@ -35,8 +35,9 @@ class NativeLibrary {
     return _com2();
   }
 
-  late final _com2Ptr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('com2');
+  late final _com2Ptr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
+    'com2',
+  );
   late final _com2 = _com2Ptr.asFunction<void Function()>();
 
   /// This is a multi-line
@@ -46,8 +47,9 @@ class NativeLibrary {
     return _com3();
   }
 
-  late final _com3Ptr =
-      _lookup<ffi.NativeFunction<ffi.Void Function()>>('com3');
+  late final _com3Ptr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
+    'com3',
+  );
   late final _com3 = _com3Ptr.asFunction<void Function()>();
 }
 

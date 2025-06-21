@@ -9,22 +9,20 @@ import '../helpers.dart';
 import 'treeshake_helper.dart';
 
 void main() {
-  final architectures = [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  ];
-
   const targetOS = OS.android;
 
   for (final apiLevel in [
     flutterAndroidNdkVersionLowestSupported,
     flutterAndroidNdkVersionHighestSupported,
   ]) {
-    group('Android API$apiLevel', () {
-      runTreeshakeTests(targetOS, architectures, androidTargetNdkApi: apiLevel);
-    });
+    for (final architecture in supportedArchitecturesFor(targetOS)) {
+      group('Android API$apiLevel ($architecture):', () {
+        runTreeshakeTests(
+          targetOS,
+          architecture,
+          androidTargetNdkApi: apiLevel,
+        );
+      });
+    }
   }
 }

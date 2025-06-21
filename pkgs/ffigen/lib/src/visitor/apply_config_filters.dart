@@ -41,7 +41,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (node.unavailable) return;
 
     node.filterMethods(
-        (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName));
+      (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName),
+    );
     _visitImpl(node, config.objcInterfaces);
 
     // If this node is included, include all its super types.

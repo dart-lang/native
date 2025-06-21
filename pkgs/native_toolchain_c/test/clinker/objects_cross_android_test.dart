@@ -9,21 +9,14 @@ import '../helpers.dart';
 import 'objects_helper.dart';
 
 void main() {
-  final architectures = [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  ];
-
   const targetOS = OS.android;
+  final architectures = supportedArchitecturesFor(targetOS);
 
   for (final apiLevel in [
     flutterAndroidNdkVersionLowestSupported,
     flutterAndroidNdkVersionHighestSupported,
   ]) {
-    group('Android API$apiLevel', () {
+    group('Android API$apiLevel:', () {
       runObjectsTests(targetOS, architectures, androidTargetNdkApi: apiLevel);
     });
   }

@@ -1,3 +1,15 @@
+## 0.16.6
+
+* Support linking for Windows.
+
+## 0.16.5
+
+* Support linking for iOS.
+
+## 0.16.4
+
+* Support linking for MacOS.
+
 ## 0.16.3
 
 * Support linking for Android.
