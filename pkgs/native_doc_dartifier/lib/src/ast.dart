@@ -9,9 +9,9 @@ class Class {
   final String extendedClass;
   final List<String> implementedInterfaces;
 
+  final List<Constructor> constructors;
   final List<Field> fields;
   final List<Method> methods;
-  final List<Constructor> constructors;
   final List<Getter> getters;
   final List<Setter> setters;
 
@@ -30,6 +30,18 @@ class Class {
   @override
   String toString() =>
       '''- ${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}''';
+
+  void addField(Field field) {
+    fields.add(field);
+  }
+
+  void addMethod(Method method) {
+    methods.add(method);
+  }
+
+  void addGetter(Getter getter) {
+    getters.add(getter);
+  }
 }
 
 class Field {
@@ -38,46 +50,79 @@ class Field {
   final bool isStatic;
 
   Field(this.name, this.type, {this.isStatic = false});
+
+  @override
+  String toString() => '${isStatic ? 'static ' : ''}$type $name';
 }
 
 class Method {
   final String name;
   final String returnType;
   final bool isStatic;
-  final List<Param> parameters;
+  final String parameters;
+  final String typeParameters;
+  final String operatorKeyword;
 
   Method(
     this.name,
     this.returnType,
-    this.isStatic, {
-    this.parameters = const [],
+    this.isStatic,
+    this.parameters,
+    this.typeParameters, {
+    this.operatorKeyword = '',
   });
-}
 
-class Param {
-  final String name;
-  final String type;
+  @override
+  String toString() {
+    final staticPrefix = isStatic ? 'static ' : '';
+    final operatorPrefix =
+        operatorKeyword.isNotEmpty ? '$operatorKeyword ' : '';
 
-  Param(this.name, this.type);
+    return '$staticPrefix$returnType $operatorPrefix$name'
+        '$typeParameters$parameters';
+  }
 }
 
 class Constructor {
+  final String className;
   final String name;
-  final List<String> parameters;
+  final String parameters;
+  final String? factoryKeyword;
 
-  Constructor(this.name, {this.parameters = const []});
+  Constructor(this.className, this.name, this.parameters, this.factoryKeyword);
+
+  @override
+  String toString() {
+    final constructorName = name.isNotEmpty ? '$className.$name' : className;
+    return '${factoryKeyword ?? ''} $constructorName$parameters';
+  }
 }
 
 class Getter {
   final String name;
   final String returnType;
+  final bool isStatic;
 
-  Getter(this.name, this.returnType);
+  Getter(this.name, this.returnType, this.isStatic);
+
+  @override
+  String toString() {
+    final staticPrefix = isStatic ? 'static ' : '';
+    return '$staticPrefix$returnType get $name';
+  }
 }
 
 class Setter {
   final String name;
   final String parameterType;
+  final bool isStatic;
+  final String parameter;
 
-  Setter(this.name, this.parameterType);
+  Setter(this.name, this.parameterType, this.isStatic, this.parameter);
+
+  @override
+  String toString() {
+    final staticPrefix = isStatic ? 'static ' : '';
+    return '$staticPrefix$parameterType set $name($parameter)';
+  }
 }
