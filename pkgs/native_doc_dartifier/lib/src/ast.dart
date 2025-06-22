@@ -28,8 +28,19 @@ class Class {
       setters = [];
 
   @override
-  String toString() =>
-      '''- ${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}''';
+  String toString() => '''
+- ${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}
+  - Constructors:
+${constructors.isEmpty ? '' : constructors.map((c) => '    - $c').join('\n')}
+  - Fields:
+${fields.isEmpty ? '' : fields.map((f) => '    - $f').join('\n')}
+  - Methods:
+${methods.isEmpty ? '' : methods.map((m) => '    - $m').join('\n')}
+  - Getters:
+${getters.isEmpty ? '' : getters.map((g) => '    - $g').join('\n')}
+  - Setters:
+${setters.isEmpty ? '' : setters.map((s) => '    - $s').join('\n')}
+    ''';
 
   void addField(Field field) {
     fields.add(field);
