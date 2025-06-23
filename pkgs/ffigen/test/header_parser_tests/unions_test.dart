@@ -22,7 +22,7 @@ ${strings.description}: 'Unions Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/unions.h'
+    - '${absPath('test/header_parser_tests/unions.h')}'
 ${strings.ignoreSourceErrors}: true
         '''),
       );
@@ -30,12 +30,15 @@ ${strings.ignoreSourceErrors}: true
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_unions_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_unions_bindings.dart'
-      ]);
+        actual,
+        'header_parser_unions_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_unions_bindings.dart',
+        ],
+      );
     });
   });
 }

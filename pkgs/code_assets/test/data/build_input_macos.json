@@ -1,0 +1,50 @@
+{
+  "$schema": "../../doc/schema/sdk/build_input.generated.schema.json",
+  "assets": {
+    "some_package": [
+      {
+        "encoding": {
+          "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/iv6i0d/native_add/.dart_tool/hooks_runner/native_add/c6b312c90c95d2d98ffb6760a738fb36/out/libnative_add.a",
+          "id": "package:native_add/src/native_add_bindings_generated.dart",
+          "link_mode": {
+            "type": "static"
+          }
+        },
+        "type": "code_assets/code"
+      }
+    ]
+  },
+  "config": {
+    "build_asset_types": [
+      "code_assets/code"
+    ],
+    "extensions": {
+      "code_assets": {
+        "c_compiler": {
+          "ar": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar",
+          "cc": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang",
+          "ld": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld"
+        },
+        "link_mode_preference": "dynamic",
+        "macos": {
+          "target_version": 13
+        },
+        "target_architecture": "arm64",
+        "target_os": "macos"
+      }
+    },
+    "linking_enabled": false
+  },
+  "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/shared/my_package/build/",
+  "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/output.json",
+  "package_name": "my_package",
+  "package_root": "/Users/dacoharkes/src/dacoharkes/playground/my_package/",
+  "user_defines": {
+    "workspace_pubspec": {
+      "base_path": "/Users/dacoharkes/src/dacoharkes/playground/my_package/pubspec.yaml",
+      "defines": {
+        "some_key": "some_value"
+      }
+    }
+  }
+}

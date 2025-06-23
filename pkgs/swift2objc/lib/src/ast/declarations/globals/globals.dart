@@ -6,6 +6,7 @@ import '../../_core/interfaces/function_declaration.dart';
 import '../../_core/interfaces/variable_declaration.dart';
 import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
+import '../../ast_node.dart';
 
 /// A container for globally defined values (i.e variables & constants)
 /// and functions.
@@ -20,7 +21,7 @@ class Globals {
 }
 
 /// Describes a globally defined function.
-class GlobalFunctionDeclaration implements FunctionDeclaration {
+class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
   @override
   String id;
 
@@ -55,10 +56,18 @@ class GlobalFunctionDeclaration implements FunctionDeclaration {
     this.throws = false,
     this.async = false,
   });
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(params);
+    visitor.visitAll(typeParams);
+    visitor.visit(returnType);
+  }
 }
 
 /// Describes a globally defined values (i.e variable/constant).
-class GlobalVariableDeclaration implements VariableDeclaration {
+class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
   @override
   String id;
 
@@ -85,4 +94,10 @@ class GlobalVariableDeclaration implements VariableDeclaration {
     required this.throws,
     required this.async,
   }) : assert(!(throws && !isConstant));
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(type);
+  }
 }

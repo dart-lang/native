@@ -18,21 +18,13 @@ class ToolInstance implements Comparable<ToolInstance> {
   /// Can be null if version is hard to determine.
   final Version? version;
 
-  ToolInstance({
-    required this.tool,
-    required this.uri,
-    this.version,
-  });
+  ToolInstance({required this.tool, required this.uri, this.version});
 
-  ToolInstance copyWith({
-    Uri? uri,
-    Version? version,
-  }) =>
-      ToolInstance(
-        tool: tool,
-        uri: uri ?? this.uri,
-        version: version ?? this.version,
-      );
+  ToolInstance copyWith({Uri? uri, Version? version}) => ToolInstance(
+    tool: tool,
+    uri: uri ?? this.uri,
+    version: version ?? this.version,
+  );
 
   @override
   String toString() => 'ToolInstance(${tool.name}, $version, $uri)';

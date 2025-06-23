@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -13,6 +12,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -27,13 +27,29 @@ String generate({
     wrapperName: 'TransitiveTestObjCLibrary',
     wrapperDocComment: 'Tests transitive inclusion',
     language: Language.objc,
-    output: Uri.file('test/native_objc_test/transitive_bindings.dart'),
-    entryPoints: [Uri.file('test/native_objc_test/transitive_test.h')],
-    formatOutput: true,
+    output: Uri.file(
+      path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'transitive_bindings.dart',
+      ),
+    ),
+    entryPoints: [
+      Uri.file(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'transitive_test.h',
+        ),
+      ),
+    ],
+    formatOutput: false,
     objcInterfaces: DeclarationFilters.include({
       'DirectlyIncluded',
       'DirectlyIncludedWithProtocol',
-      'DirectlyIncludedIntForCat'
+      'DirectlyIncludedIntForCat',
     }),
     objcProtocols: DeclarationFilters.include({'DirectlyIncludedProtocol'}),
     objcCategories: DeclarationFilters.include({'DirectlyIncludedCategory'}),
@@ -42,8 +58,14 @@ String generate({
     includeTransitiveObjCCategories: includeTransitiveObjCCategories,
   );
   FfiGen(logLevel: Level.SEVERE).run(config);
-  return File('test/native_objc_test/transitive_bindings.dart')
-      .readAsStringSync();
+  return File(
+    path.join(
+      packagePathForTests,
+      'test',
+      'native_objc_test',
+      'transitive_bindings.dart',
+    ),
+  ).readAsStringSync();
 }
 
 enum Inclusion { omitted, stubbed, included }
@@ -55,22 +77,31 @@ void main() {
     Inclusion incItf(String name) {
       bool classDef = bindings.contains('class $name ');
       bool stubWarn = bindings.contains('WARNING: $name is a stub.');
-      bool isInst = bindings
-          .contains('/// Returns whether [obj] is an instance of [$name].');
+      bool isInst = bindings.contains(
+        '/// Returns whether [obj] is an instance of [$name].',
+      );
       bool any = bindings.contains(RegExp('\\W$name\\W'));
       if (classDef && stubWarn && !isInst && any) return Inclusion.stubbed;
       if (classDef && !stubWarn && isInst && any) return Inclusion.included;
       if (!classDef && !stubWarn && !isInst && !any) return Inclusion.omitted;
       throw Exception(
-          'Bad interface: $name ($classDef, $stubWarn, $isInst, $any)');
+        'Bad interface: $name ($classDef, $stubWarn, $isInst, $any)',
+      );
     }
 
     Inclusion incProto(String name) {
       bool classDef = bindings.contains('class $name ');
+      bool stubWarn = bindings.contains('WARNING: $name is a stub.');
+      bool hasImpl = bindings.contains(
+        '/// Adds the implementation of the $name protocol',
+      );
       bool any = bindings.contains(RegExp('\\W$name\\W'));
-      if (classDef && any) return Inclusion.included;
-      if (!classDef && !any) return Inclusion.omitted;
-      throw Exception('Bad protocol: $name ($classDef, $any)');
+      if (classDef && stubWarn && !hasImpl && any) return Inclusion.stubbed;
+      if (classDef && !stubWarn && hasImpl && any) return Inclusion.included;
+      if (!classDef && !stubWarn && !hasImpl && !any) return Inclusion.omitted;
+      throw Exception(
+        'Bad protocol: $name ($classDef, $stubWarn, $hasImpl, $any)',
+      );
     }
 
     Inclusion incCat(String name) {
@@ -143,14 +174,12 @@ void main() {
       test('included', () {
         bindings = generate(includeTransitiveObjCProtocols: true);
 
-        // TODO(https://github.com/dart-lang/native/issues/1462): Transitive
-        // protocols should be included.
-        expect(incProto('DoublyTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveSuperProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveProtocol'), Inclusion.omitted);
+        expect(incProto('DoublyTransitiveProtocol'), Inclusion.included);
+        expect(incProto('TransitiveSuperProtocol'), Inclusion.included);
+        expect(incProto('TransitiveProtocol'), Inclusion.included);
         expect(incProto('SuperSuperProtocol'), Inclusion.included);
-        expect(incProto('DoublySuperTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperTransitiveProtocol'), Inclusion.omitted);
+        expect(incProto('DoublySuperTransitiveProtocol'), Inclusion.included);
+        expect(incProto('SuperTransitiveProtocol'), Inclusion.included);
         expect(incProto('SuperProtocol'), Inclusion.included);
         expect(incProto('AnotherSuperProtocol'), Inclusion.included);
         expect(incProto('DirectlyIncludedProtocol'), Inclusion.included);
@@ -158,15 +187,15 @@ void main() {
         expect(incProto('NotIncludedTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('NotIncludedProtocol'), Inclusion.omitted);
         expect(incProto('SuperFromInterfaceProtocol'), Inclusion.included);
-        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.omitted);
+        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.included);
         expect(incItf('DirectlyIncludedWithProtocol'), Inclusion.included);
 
-        expect(bindings.contains('doubleProtoMethod'), isFalse);
-        expect(bindings.contains('transitiveSuperProtoMethod'), isFalse);
-        expect(bindings.contains('transitiveProtoMethod'), isFalse);
+        expect(bindings.contains('doubleProtoMethod'), isTrue);
+        expect(bindings.contains('transitiveSuperProtoMethod'), isTrue);
+        expect(bindings.contains('transitiveProtoMethod'), isTrue);
         expect(bindings.contains('superSuperProtoMethod'), isTrue);
-        expect(bindings.contains('doublySuperProtoMethod'), isFalse);
-        expect(bindings.contains('superTransitiveProtoMethod'), isFalse);
+        expect(bindings.contains('doublySuperProtoMethod'), isTrue);
+        expect(bindings.contains('superTransitiveProtoMethod'), isTrue);
         expect(bindings.contains('superProtoMethod'), isTrue);
         expect(bindings.contains('anotherSuperProtoMethod'), isTrue);
         expect(bindings.contains('directProtoMethod'), isTrue);
@@ -174,8 +203,7 @@ void main() {
         expect(bindings.contains('notIncludedTransitiveProtoMethod'), isFalse);
         expect(bindings.contains('notIncludedProtoMethod'), isFalse);
         expect(bindings.contains('superFromInterfaceProtoMethod'), isTrue);
-        expect(
-            bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
+        expect(bindings.contains('transitiveFromInterfaceProtoMethod'), isTrue);
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
       });
 
@@ -183,19 +211,19 @@ void main() {
         bindings = generate(includeTransitiveObjCProtocols: false);
 
         expect(incProto('DoublyTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveSuperProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperSuperProtocol'), Inclusion.omitted);
+        expect(incProto('TransitiveSuperProtocol'), Inclusion.stubbed);
+        expect(incProto('TransitiveProtocol'), Inclusion.stubbed);
+        expect(incProto('SuperSuperProtocol'), Inclusion.stubbed);
         expect(incProto('DoublySuperTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperTransitiveProtocol'), Inclusion.omitted);
-        expect(incProto('SuperProtocol'), Inclusion.omitted);
-        expect(incProto('AnotherSuperProtocol'), Inclusion.omitted);
+        expect(incProto('SuperTransitiveProtocol'), Inclusion.stubbed);
+        expect(incProto('SuperProtocol'), Inclusion.stubbed);
+        expect(incProto('AnotherSuperProtocol'), Inclusion.stubbed);
         expect(incProto('DirectlyIncludedProtocol'), Inclusion.included);
         expect(incProto('NotIncludedSuperProtocol'), Inclusion.omitted);
         expect(incProto('NotIncludedTransitiveProtocol'), Inclusion.omitted);
         expect(incProto('NotIncludedProtocol'), Inclusion.omitted);
-        expect(incProto('SuperFromInterfaceProtocol'), Inclusion.omitted);
-        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.omitted);
+        expect(incProto('SuperFromInterfaceProtocol'), Inclusion.stubbed);
+        expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.stubbed);
         expect(incItf('DirectlyIncludedWithProtocol'), Inclusion.included);
 
         expect(bindings.contains('doubleProtoMethod'), isFalse);
@@ -212,7 +240,9 @@ void main() {
         expect(bindings.contains('notIncludedProtoMethod'), isFalse);
         expect(bindings.contains('superFromInterfaceProtoMethod'), isTrue);
         expect(
-            bindings.contains('transitiveFromInterfaceProtoMethod'), isFalse);
+          bindings.contains('transitiveFromInterfaceProtoMethod'),
+          isFalse,
+        );
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
       });
     });
@@ -223,7 +253,7 @@ void main() {
 
         expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
         expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);
-        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.omitted);
+        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.stubbed);
         expect(incCat('DirectlyIncludedCategory'), Inclusion.included);
         expect(incItf('DoubleTransitiveIntOfTransitiveCat'), Inclusion.omitted);
         expect(incCat('TransitiveCatOfTransitiveInt'), Inclusion.omitted);
@@ -236,13 +266,19 @@ void main() {
         expect(bindings.contains('transitiveIntOfCatMethod'), isFalse);
         expect(bindings.contains('transitiveProtOfDirectCatMethod'), isTrue);
         expect(bindings.contains('directlyIncludedCategoryMethod'), isTrue);
-        expect(bindings.contains('doubleTransitiveIntOfTransitiveCatMethod'),
-            isFalse);
         expect(
-            bindings.contains('transitiveCatOfTransitiveIntMethod'), isFalse);
+          bindings.contains('doubleTransitiveIntOfTransitiveCatMethod'),
+          isFalse,
+        );
+        expect(
+          bindings.contains('transitiveCatOfTransitiveIntMethod'),
+          isFalse,
+        );
         expect(bindings.contains('directlyIncludedIntForCatMethod'), isTrue);
         expect(
-            bindings.contains('transitiveIntOfTransitiveCatMethod'), isFalse);
+          bindings.contains('transitiveIntOfTransitiveCatMethod'),
+          isFalse,
+        );
         expect(bindings.contains('transitiveCatOfDirectIntMethod'), isTrue);
         expect(bindings.contains('notIncludedCategoryMethod'), isFalse);
       });
@@ -252,7 +288,7 @@ void main() {
 
         expect(incItf('IntOfDirectCat'), Inclusion.stubbed);
         expect(incItf('TransitiveIntOfDirectCat'), Inclusion.stubbed);
-        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.omitted);
+        expect(incProto('TransitiveProtOfDirectCat'), Inclusion.stubbed);
         expect(incCat('DirectlyIncludedCategory'), Inclusion.included);
         expect(incItf('DoubleTransitiveIntOfTransitiveCat'), Inclusion.omitted);
         expect(incCat('TransitiveCatOfTransitiveInt'), Inclusion.omitted);
@@ -265,13 +301,19 @@ void main() {
         expect(bindings.contains('transitiveIntOfCatMethod'), isFalse);
         expect(bindings.contains('transitiveProtOfDirectCatMethod'), isTrue);
         expect(bindings.contains('directlyIncludedCategoryMethod'), isTrue);
-        expect(bindings.contains('doubleTransitiveIntOfTransitiveCatMethod'),
-            isFalse);
         expect(
-            bindings.contains('transitiveCatOfTransitiveIntMethod'), isFalse);
+          bindings.contains('doubleTransitiveIntOfTransitiveCatMethod'),
+          isFalse,
+        );
+        expect(
+          bindings.contains('transitiveCatOfTransitiveIntMethod'),
+          isFalse,
+        );
         expect(bindings.contains('directlyIncludedIntForCatMethod'), isTrue);
         expect(
-            bindings.contains('transitiveIntOfTransitiveCatMethod'), isFalse);
+          bindings.contains('transitiveIntOfTransitiveCatMethod'),
+          isFalse,
+        );
         expect(bindings.contains('transitiveCatOfDirectIntMethod'), isFalse);
         expect(bindings.contains('notIncludedCategoryMethod'), isFalse);
       });

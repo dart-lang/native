@@ -16,18 +16,14 @@ void main() {
     });
 
     test('simple', () {
-      final config = testConfigFromPath(path.join(
-        'example',
-        'simple',
-        'config.yaml',
-      ));
+      final config = testConfigFromPath(
+        path.join(packagePathForTests, 'example', 'simple', 'config.yaml'),
+      );
       final library = parse(config);
 
-      matchLibraryWithExpected(
-        library,
-        'example_simple.dart',
-        [config.output.toFilePath()],
-      );
+      matchLibraryWithExpected(library, 'example_simple.dart', [
+        config.output.toFilePath(),
+      ]);
     });
   });
 }

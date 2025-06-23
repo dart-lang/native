@@ -9,7 +9,7 @@ import '../_core/utils.dart';
 
 ParsedSymbolsMap parseSymbolsMap(Json symbolgraphJson) {
   final parsedSymbols = {
-    for (final decl in BuiltInDeclaration.values)
+    for (final decl in builtInDeclarations)
       decl.id: ParsedSymbol(json: Json(null), declaration: decl)
   };
 

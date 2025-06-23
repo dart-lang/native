@@ -22,10 +22,7 @@ class ToolRequirement implements Requirement {
 
   final Version? minimumVersion;
 
-  ToolRequirement(
-    this.tool, {
-    this.minimumVersion,
-  });
+  ToolRequirement(this.tool, {this.minimumVersion});
 
   @override
   String toString() =>

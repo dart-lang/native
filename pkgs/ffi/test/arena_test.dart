@@ -65,18 +65,15 @@ void main() async {
     expect(didThrow, true);
   });
 
-  test(
-    'allocate',
-    () {
-      final countingAllocator = CountingAllocator();
-      // To ensure resources are freed, wrap them in a [using] call.
-      using((Arena arena) {
-        final p = arena<Int64>(2);
-        p[1] = p[0];
-      }, countingAllocator);
-      expect(countingAllocator.freeCount, 1);
-    },
-  );
+  test('allocate', () {
+    final countingAllocator = CountingAllocator();
+    // To ensure resources are freed, wrap them in a [using] call.
+    using((Arena arena) {
+      final p = arena<Int64>(2);
+      p[1] = p[0];
+    }, countingAllocator);
+    expect(countingAllocator.freeCount, 1);
+  });
 
   test('allocate throw', () {
     // Resources are freed also when abnormal control flow occurs.
@@ -171,14 +168,17 @@ void main() async {
       throw Exception('Exception 4');
     }
 
-    final future = runZonedGuarded(() {
-      return withZoneArena(asyncFunction).catchError((error) {
-        caughtError = true;
-        return 5;
-      });
-    }, (error, stackTrace) {
-      uncaughtError = true;
-    });
+    final future = runZonedGuarded(
+      () {
+        return withZoneArena(asyncFunction).catchError((error) {
+          caughtError = true;
+          return 5;
+        });
+      },
+      (error, stackTrace) {
+        uncaughtError = true;
+      },
+    );
 
     final result = (await Future.wait([future!])).single;
 

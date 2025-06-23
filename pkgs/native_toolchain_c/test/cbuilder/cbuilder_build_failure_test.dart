@@ -2,14 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -19,52 +18,53 @@ void main() {
   test('build failure', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final addCOriginalUri =
-        packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+    final addCOriginalUri = packageUri.resolve(
+      'test/cbuilder/testfiles/add/src/add.c',
+    );
     final addCUri = tempUri.resolve('add.c');
-    final addCOriginalContents =
-        await File.fromUri(addCOriginalUri).readAsString();
+    final addCOriginalContents = await File.fromUri(
+      addCOriginalUri,
+    ).readAsString();
     final addCBrokenContents = addCOriginalContents.replaceAll(
-        'int32_t a, int32_t b', 'int64_t blabla');
+      'int32_t a, int32_t b',
+      'int64_t blabla',
+    );
     await File.fromUri(addCUri).writeAsString(addCBrokenContents);
     const name = 'add';
 
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+    final targetOS = OS.current;
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
-        buildMode: BuildMode.release,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupCodeConfig(
-        targetArchitecture: Architecture.current,
-        linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-    );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
       sources: [addCUri.toFilePath()],
       name: name,
       assetName: name,
+      buildMode: BuildMode.release,
     );
     expect(
-      () => cbuilder.run(
-        config: buildConfig,
-        output: buildOutput,
-        logger: logger,
-      ),
+      () =>
+          cbuilder.run(input: buildInput, output: buildOutput, logger: logger),
       throwsException,
     );
   });

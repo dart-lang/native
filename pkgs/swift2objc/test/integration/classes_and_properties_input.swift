@@ -29,17 +29,23 @@ public class MyClass {
 
     public let representableConstantProperty: Int
 
+    public weak var weakProperty: MyOtherClass?
+    public unowned var unownedProperty: MyOtherClass
+    public lazy var lazyProperty: Int = { 1 }();
+
 
     init(
         customVariableProperty: MyOtherClass, 
         customConstantProperty: MyOtherClass,
         representableVariableProperty: Int,
-        representableConstantProperty: Int
+        representableConstantProperty: Int,
+        unownedProperty: MyOtherClass
     ) {
         self.customVariableProperty = customVariableProperty
         self.customConstantProperty = customConstantProperty
         self.representableVariableProperty = representableVariableProperty
         self.representableConstantProperty = representableConstantProperty
+        self.unownedProperty = unownedProperty
     }
 }
 

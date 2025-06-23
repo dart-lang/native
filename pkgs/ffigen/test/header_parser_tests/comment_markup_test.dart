@@ -22,7 +22,7 @@ ${strings.description}: 'Comment Markup Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/comment_markup.h'
+    - '${absPath('test/header_parser_tests/comment_markup.h')}'
 ${strings.comments}:
   ${strings.style}: ${strings.any}
   ${strings.length}: ${strings.full}
@@ -32,12 +32,15 @@ ${strings.comments}:
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_comment_markup_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_comment_markup_bindings.dart'
-      ]);
+        actual,
+        'header_parser_comment_markup_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_comment_markup_bindings.dart',
+        ],
+      );
     });
   });
 }

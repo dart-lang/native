@@ -33,14 +33,12 @@ ClassDecl _$ClassDeclFromJson(Map<String, dynamic> json) => ClassDecl(
           const [],
       superclass: json['superclass'] == null
           ? null
-          : TypeUsage.fromJson(json['superclass'] as Map<String, dynamic>),
+          : ReferredType.fromJson(json['superclass'] as Map<String, dynamic>),
       outerClassBinaryName: json['outerClassBinaryName'] as String?,
       interfaces: (json['interfaces'] as List<dynamic>?)
-              ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ReferredType.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      hasStaticInit: json['hasStaticInit'] as bool? ?? false,
-      hasInstanceInit: json['hasInstanceInit'] as bool? ?? false,
       values:
           (json['values'] as List<dynamic>?)?.map((e) => e as String).toList(),
       kotlinClass: json['kotlinClass'] == null
@@ -58,27 +56,13 @@ const _$DeclKindEnumMap = {
   DeclKind.enumKind: 'ENUM',
 };
 
-TypeUsage _$TypeUsageFromJson(Map<String, dynamic> json) => TypeUsage(
-      shorthand: json['shorthand'] as String,
-      kind: $enumDecode(_$KindEnumMap, json['kind']),
-      typeJson: json['type'] as Map<String, dynamic>,
-    );
-
-const _$KindEnumMap = {
-  Kind.primitive: 'PRIMITIVE',
-  Kind.typeVariable: 'TYPE_VARIABLE',
-  Kind.wildcard: 'WILDCARD',
-  Kind.declared: 'DECLARED',
-  Kind.array: 'ARRAY',
-};
-
 DeclaredType _$DeclaredTypeFromJson(Map<String, dynamic> json) => DeclaredType(
       binaryName: json['binaryName'] as String,
       annotations: (json['annotations'] as List<dynamic>?)
           ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
           .toList(),
       params: (json['params'] as List<dynamic>?)
-              ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ReferredType.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -93,10 +77,10 @@ TypeVar _$TypeVarFromJson(Map<String, dynamic> json) => TypeVar(
 Wildcard _$WildcardFromJson(Map<String, dynamic> json) => Wildcard(
       extendsBound: json['extendsBound'] == null
           ? null
-          : TypeUsage.fromJson(json['extendsBound'] as Map<String, dynamic>),
+          : ReferredType.fromJson(json['extendsBound'] as Map<String, dynamic>),
       superBound: json['superBound'] == null
           ? null
-          : TypeUsage.fromJson(json['superBound'] as Map<String, dynamic>),
+          : ReferredType.fromJson(json['superBound'] as Map<String, dynamic>),
       annotations: (json['annotations'] as List<dynamic>?)
           ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -104,7 +88,7 @@ Wildcard _$WildcardFromJson(Map<String, dynamic> json) => Wildcard(
 
 ArrayType _$ArrayTypeFromJson(Map<String, dynamic> json) => ArrayType(
       elementType:
-          TypeUsage.fromJson(json['elementType'] as Map<String, dynamic>),
+          ReferredType.fromJson(json['elementType'] as Map<String, dynamic>),
       annotations: (json['annotations'] as List<dynamic>?)
           ?.map((e) => Annotation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -132,7 +116,7 @@ Method _$MethodFromJson(Map<String, dynamic> json) => Method(
               .toList() ??
           const [],
       returnType:
-          TypeUsage.fromJson(json['returnType'] as Map<String, dynamic>),
+          ReferredType.fromJson(json['returnType'] as Map<String, dynamic>),
     );
 
 Param _$ParamFromJson(Map<String, dynamic> json) => Param(
@@ -143,7 +127,7 @@ Param _$ParamFromJson(Map<String, dynamic> json) => Param(
           ? null
           : JavaDocComment.fromJson(json['javadoc'] as Map<String, dynamic>),
       name: json['name'] as String? ?? 'synthetic',
-      type: TypeUsage.fromJson(json['type'] as Map<String, dynamic>),
+      type: ReferredType.fromJson(json['type'] as Map<String, dynamic>),
     );
 
 Field _$FieldFromJson(Map<String, dynamic> json) => Field(
@@ -158,14 +142,14 @@ Field _$FieldFromJson(Map<String, dynamic> json) => Field(
               .toSet() ??
           const {},
       name: json['name'] as String,
-      type: TypeUsage.fromJson(json['type'] as Map<String, dynamic>),
+      type: ReferredType.fromJson(json['type'] as Map<String, dynamic>),
       defaultValue: json['defaultValue'],
     );
 
 TypeParam _$TypeParamFromJson(Map<String, dynamic> json) => TypeParam(
       name: json['name'] as String,
       bounds: (json['bounds'] as List<dynamic>?)
-              ?.map((e) => TypeUsage.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ReferredType.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       annotations: (json['annotations'] as List<dynamic>?)
@@ -280,6 +264,7 @@ KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
           const [],
       flags: (json['flags'] as num).toInt(),
       isSuspend: json['isSuspend'] as bool,
+      isOperator: json['isOperator'] as bool,
     );
 
 KotlinConstructor _$KotlinConstructorFromJson(Map<String, dynamic> json) =>
@@ -335,8 +320,8 @@ KotlinType _$KotlinTypeFromJson(Map<String, dynamic> json) => KotlinType(
       id: (json['id'] as num).toInt(),
       isNullable: json['isNullable'] as bool,
       arguments: (json['arguments'] as List<dynamic>?)
-              ?.map((e) =>
-                  KotlinTypeProjection.fromJson(e as Map<String, dynamic>))
+              ?.map(
+                  (e) => KotlinTypeArgument.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -369,11 +354,4 @@ KotlinValueParameter _$KotlinValueParameterFromJson(
           ? null
           : KotlinType.fromJson(
               json['varargElementType'] as Map<String, dynamic>),
-    );
-
-KotlinTypeProjection _$KotlinTypeProjectionFromJson(
-        Map<String, dynamic> json) =>
-    KotlinTypeProjection(
-      type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
-      variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
     );

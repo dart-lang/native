@@ -13,35 +13,26 @@ import 'dart:ffi' as ffi;
 class Bindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   Bindings.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
+  ) : _lookup = lookup;
 
-  MyEnum acceptsEnum(
-    MyEnum value,
-  ) {
-    return MyEnum.fromValue(_acceptsEnum(
-      value.value,
-    ));
+  MyEnum acceptsEnum(MyEnum value) {
+    return MyEnum.fromValue(_acceptsEnum(value.value));
   }
 
   late final _acceptsEnumPtr =
       _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int)>>('acceptsEnum');
   late final _acceptsEnum = _acceptsEnumPtr.asFunction<int Function(int)>();
 
-  int acceptsInt(
-    int value,
-  ) {
-    return _acceptsInt(
-      value,
-    );
+  int acceptsInt(int value) {
+    return _acceptsInt(value);
   }
 
   late final _acceptsIntPtr =
@@ -58,11 +49,11 @@ enum MyEnum {
   const MyEnum(this.value);
 
   static MyEnum fromValue(int value) => switch (value) {
-        0 => value1,
-        1 => value2,
-        2 => value3,
-        _ => throw ArgumentError("Unknown value for MyEnum: $value"),
-      };
+    0 => value1,
+    1 => value2,
+    2 => value3,
+    _ => throw ArgumentError('Unknown value for MyEnum: $value'),
+  };
 }
 
 sealed class MyIntegerEnum {

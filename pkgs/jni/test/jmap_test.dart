@@ -28,6 +28,16 @@ void run({required TestRunnerCallback testRunner}) {
       ..releasedBy(arena);
   }
 
+  JMap<JString?, JString?> testNullableDataMap(Arena arena) {
+    return {
+      '1'.toJString()..releasedBy(arena): 'One'.toJString()..releasedBy(arena),
+      '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
+      '3'.toJString()..releasedBy(arena): null,
+      null: null,
+    }.toJMap(JString.nullableType, JString.nullableType)
+      ..releasedBy(arena);
+  }
+
   testRunner('length', () {
     using((arena) {
       final map = testDataMap(arena);
@@ -46,6 +56,30 @@ void run({required TestRunnerCallback testRunner}) {
       );
       expect(
         map['4'.toJString()..releasedBy(arena)],
+        null,
+      );
+    });
+  });
+  testRunner('nullable []', () {
+    using((arena) {
+      final map = testNullableDataMap(arena);
+      // ignore: collection_methods_unrelated_type
+      expect(map[1], null);
+      expect(
+        map['1'.toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
+        'One',
+      );
+      expect(
+        map['4'.toJString()..releasedBy(arena)],
+        null,
+      );
+      expect(
+        map['3'.toJString()..releasedBy(arena)],
+        null,
+      );
+      expect(
+        map[null],
         null,
       );
     });
@@ -69,6 +103,35 @@ void run({required TestRunnerCallback testRunner}) {
         'one!',
       );
       expect(map.length, 4);
+    });
+  });
+  testRunner('nullable []=', () {
+    using((arena) {
+      final map = testNullableDataMap(arena);
+      map['0'.toJString()..releasedBy(arena)] = 'Zero'.toJString()
+        ..releasedBy(arena);
+      expect(
+        map['0'.toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
+        'Zero',
+      );
+      expect(map.length, 5);
+      map['1'.toJString()..releasedBy(arena)] = 'one!'.toJString()
+        ..releasedBy(arena);
+      expect(
+        map['1'.toJString()..releasedBy(arena)]
+            ?.toDartString(releaseOriginal: true),
+        'one!',
+      );
+      expect(map.length, 5);
+      map['1'.toJString()..releasedBy(arena)] = null;
+      expect(map['1'.toJString()..releasedBy(arena)], null);
+      expect(map.length, 5);
+      map[null] = 'null'.toJString()..releasedBy(arena);
+      expect(
+        map[null]?.toDartString(releaseOriginal: true),
+        'null',
+      );
     });
   });
   testRunner('addAll', () {
@@ -118,6 +181,16 @@ void run({required TestRunnerCallback testRunner}) {
       expect(map.containsKey('4'.toJString()..releasedBy(arena)), false);
     });
   });
+  testRunner('nullable containsKey', () {
+    using((arena) {
+      final map = testNullableDataMap(arena);
+      // ignore: collection_methods_unrelated_type
+      expect(map.containsKey(1), false);
+      expect(map.containsKey('1'.toJString()..releasedBy(arena)), true);
+      expect(map.containsKey('4'.toJString()..releasedBy(arena)), false);
+      expect(map.containsKey(null), true);
+    });
+  });
   testRunner('containsValue', () {
     using((arena) {
       final map = testDataMap(arena);
@@ -125,6 +198,16 @@ void run({required TestRunnerCallback testRunner}) {
       expect(map.containsValue(1), false);
       expect(map.containsValue('One'.toJString()..releasedBy(arena)), true);
       expect(map.containsValue('Four'.toJString()..releasedBy(arena)), false);
+    });
+  });
+  testRunner('nullable containsValue', () {
+    using((arena) {
+      final map = testNullableDataMap(arena);
+      // ignore: collection_methods_unrelated_type
+      expect(map.containsValue(1), false);
+      expect(map.containsValue('One'.toJString()..releasedBy(arena)), true);
+      expect(map.containsValue('Four'.toJString()..releasedBy(arena)), false);
+      expect(map.containsValue(null), true);
     });
   });
   testRunner('keys', () {
@@ -151,6 +234,27 @@ void run({required TestRunnerCallback testRunner}) {
             .remove('3'.toJString()..releasedBy(arena))
             ?.toDartString(releaseOriginal: true),
         'Three',
+      );
+      expect(map.length, 2);
+    });
+  });
+  testRunner('nullable remove', () {
+    using((arena) {
+      final map = testNullableDataMap(arena);
+      // ignore: collection_methods_unrelated_type
+      expect(map.remove(1), null);
+      expect(map.remove('4'.toJString()..releasedBy(arena)), null);
+      expect(map.length, 4);
+      expect(
+        map
+            .remove('3'.toJString()..releasedBy(arena))
+            ?.toDartString(releaseOriginal: true),
+        null,
+      );
+      expect(map.length, 3);
+      expect(
+        map.remove(null),
+        null,
       );
       expect(map.length, 2);
     });

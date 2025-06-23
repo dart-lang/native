@@ -22,7 +22,7 @@ ${strings.description}: 'Opaque Dependencies Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/opaque_dependencies.h'
+    - '${absPath('test/header_parser_tests/opaque_dependencies.h')}'
 ${strings.structs}:
   ${strings.include}:
     - 'E'
@@ -36,12 +36,15 @@ ${strings.unions}:
     });
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_opaque_dependencies_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_opaque_dependencies_bindings.dart'
-      ]);
+        actual,
+        'header_parser_opaque_dependencies_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_opaque_dependencies_bindings.dart',
+        ],
+      );
     });
   });
 }

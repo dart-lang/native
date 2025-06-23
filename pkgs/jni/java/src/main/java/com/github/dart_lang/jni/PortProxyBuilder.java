@@ -9,8 +9,20 @@ import java.util.*;
 
 public class PortProxyBuilder implements InvocationHandler {
   private static final PortCleaner cleaner = new PortCleaner();
+  private static final Method equals;
+  private static final Method hashCode;
+  private static final Method toString;
 
   static {
+    Class<Object> object = Object.class;
+    try {
+      equals = object.getDeclaredMethod("equals", object);
+      hashCode = object.getDeclaredMethod("hashCode");
+      toString = object.getDeclaredMethod("toString");
+    } catch (NoSuchMethodException e) {
+      // Never happens.
+      throw new Error();
+    }
     System.loadLibrary("dartjni");
   }
 
@@ -26,11 +38,26 @@ public class PortProxyBuilder implements InvocationHandler {
 
   private boolean built = false;
   private final long isolateId;
+  private final boolean constructedOnMainThread;
   private final HashMap<String, DartImplementation> implementations = new HashMap<>();
   private final HashSet<String> asyncMethods = new HashSet<>();
 
+  private static boolean isOnMainThread() {
+    try {
+      Class<?> looper = Class.forName("android.os.Looper");
+      Method getMainLooper = looper.getMethod("getMainLooper");
+      Method getThread = looper.getMethod("getThread");
+      Thread mainThread = (Thread) getThread.invoke(getMainLooper.invoke(null));
+      return mainThread == Thread.currentThread();
+    } catch (Exception e) {
+      // Not on Android, so there is no concept of a "main" thread.
+      return false;
+    }
+  }
+
   public PortProxyBuilder(long isolateId) {
     this.isolateId = isolateId;
+    this.constructedOnMainThread = isOnMainThread();
   }
 
   private static String getDescriptor(Method method) {
@@ -109,15 +136,26 @@ public class PortProxyBuilder implements InvocationHandler {
       Object proxy,
       String methodDescriptor,
       Object[] args,
-      boolean isBlocking);
+      boolean isBlocking,
+      boolean mayEnterIsolate);
 
   private static native void _cleanUp(long resultPtr);
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    if (method.equals(equals)) {
+      return proxy == args[0];
+    }
+    if (method.equals(hashCode)) {
+      return System.identityHashCode(proxy);
+    }
+    if (method.equals(toString)) {
+      return proxy.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(proxy));
+    }
     DartImplementation implementation = implementations.get(method.getDeclaringClass().getName());
     String descriptor = getDescriptor(method);
     boolean isBlocking = !asyncMethods.contains(descriptor);
+    boolean mayEnterIsolate = isOnMainThread() && constructedOnMainThread;
     Object[] result =
         _invoke(
             implementation.port,
@@ -126,7 +164,8 @@ public class PortProxyBuilder implements InvocationHandler {
             proxy,
             descriptor,
             args,
-            isBlocking);
+            isBlocking,
+            mayEnterIsolate);
     if (!isBlocking) {
       return null;
     }

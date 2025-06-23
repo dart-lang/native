@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:native_assets_cli/code_assets.dart';
+import 'package:code_assets/code_assets.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
@@ -13,10 +13,7 @@ import '../tool/tool_resolver.dart';
 final gcc = Tool(
   name: 'GCC',
   defaultResolver: CliVersionResolver(
-    wrappedResolver: PathToolResolver(
-      toolName: 'GCC',
-      executableName: 'gcc',
-    ),
+    wrappedResolver: PathToolResolver(toolName: 'GCC', executableName: 'gcc'),
   ),
 );
 
@@ -74,14 +71,14 @@ final riscv64LinuxGnuGccAr = _gnuArchiver('riscv64-linux-gnu');
 final riscv64LinuxGnuLd = _gnuLinker('riscv64-linux-gnu');
 
 Tool _gcc(String prefix) => Tool(
-      name: gcc.name,
-      defaultResolver: CliVersionResolver(
-        wrappedResolver: PathToolResolver(
-          toolName: gcc.name,
-          executableName: '$prefix-gcc',
-        ),
-      ),
-    );
+  name: gcc.name,
+  defaultResolver: CliVersionResolver(
+    wrappedResolver: PathToolResolver(
+      toolName: gcc.name,
+      executableName: '$prefix-gcc',
+    ),
+  ),
+);
 
 Tool _gnuArchiver(String prefix) {
   final gcc = _gcc(prefix);

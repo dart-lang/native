@@ -246,8 +246,14 @@ class JBuffer extends JObject {
 
   /// The array that backs this buffer.
   ///
+  /// Note that the first element of the buffer starts at element [arrayOffset]
+  /// of the backing array.
+  ///
   /// Concrete subclasses like [JByteBuffer] provide more strongly-typed return
   /// values for this method.
+  ///
+  /// Invoke the [hasArray] method before invoking this method in order to
+  /// ensure that this buffer has an accessible backing array.
   ///
   /// Throws:
   /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is
@@ -262,6 +268,9 @@ class JBuffer extends JObject {
 
   /// The offset within this buffer's backing array of the first element
   /// of the buffer.
+  ///
+  /// Invoke the [hasArray] method before invoking this method in order to
+  /// ensure that this buffer has an accessible backing array.
   ///
   /// Throws:
   /// * `ReadOnlyBufferException` - If this buffer is backed by an array but is

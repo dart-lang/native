@@ -10,6 +10,10 @@ abstract class Visitor<T extends Element<T>, R> {
   R visit(T node);
 }
 
+mixin TopLevelVisitor<R> on Visitor<Classes, R> {
+  GenerationStage get stage;
+}
+
 abstract class TypeVisitor<R> {
   const TypeVisitor();
 
@@ -28,9 +32,9 @@ extension MultiVisitor<T extends Element<T>> on Iterable<Element<T>> {
   }
 }
 
-extension MultiTypeUsageVisitor on Iterable<TypeUsage> {
+extension MultiTypeUsageVisitor on Iterable<ReferredType> {
   /// Accepts all lazily. Remember to call `.toList()` or similar methods!
   Iterable<R> accept<R>(TypeVisitor<R> v) {
-    return map((e) => e.type.accept(v));
+    return map((e) => e.accept(v));
   }
 }

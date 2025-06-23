@@ -4,7 +4,6 @@
 
 import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
-import 'package:jni/src/types.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
@@ -452,7 +451,7 @@ void run({required TestRunnerCallback testRunner}) {
     expect(lowestCommonSuperType([JString.type]), JString.type);
     expect(lowestCommonSuperType([JObject.type, JObject.type]), JObject.type);
     expect(lowestCommonSuperType([JString.type, JString.type]), JString.type);
-    expect(lowestCommonSuperType([JString.type, JArray.type(jlong.type)]),
+    expect(lowestCommonSuperType([JString.type, JArray.type(JString.type)]),
         JObject.type);
   });
 
@@ -490,10 +489,10 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       expect(
         lowestCommonSuperType([
-          JArray.type(jint.type),
-          JArray.type(jint.type),
+          JIntArray.type,
+          JIntArray.type,
         ]),
-        JArray.type(jint.type),
+        JIntArray.type,
       );
       expect(
         lowestCommonSuperType([
@@ -505,7 +504,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(
         lowestCommonSuperType([
           JArray.type(JObject.type),
-          JArray.type(jint.type),
+          JIntArray.type,
         ]),
         JObject.type,
       );

@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 import '../helpers.dart';
@@ -11,9 +13,24 @@ import '../helpers.dart';
 Future<Uri> buildTestArchive(
   Uri tempUri,
   Uri tempUri2,
-  OS os,
-  Architecture architecture,
-) async {
+  OS targetOS,
+  Architecture architecture, {
+  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
+  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
+  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
+}) async {
+  if (targetOS == OS.android) {
+    ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
+  }
+  if (targetOS == OS.macOS) {
+    ArgumentError.checkNotNull(macOSTargetVersion, 'macOSTargetVersion');
+  }
+  if (targetOS == OS.iOS) {
+    ArgumentError.checkNotNull(iOSTargetVersion, 'iOSTargetVersion');
+    ArgumentError.checkNotNull(iOSTargetSdk, 'iOSTargetSdk');
+  }
+
   final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
   final test2Uri = packageUri.resolve('test/clinker/testfiles/linker/test2.c');
   if (!await File.fromUri(test1Uri).exists() ||
@@ -25,29 +42,36 @@ Future<Uri> buildTestArchive(
   final logMessages = <String>[];
   final logger = createCapturingLogger(logMessages);
 
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
-      supportedAssetTypes: [CodeAsset.type],
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
-      targetOS: os,
-      buildMode: BuildMode.release,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUri2,
     )
-    ..setupBuildConfig(
-      linkingEnabled: false,
-      dryRun: false,
-    )
-    ..setupCodeConfig(
-      targetArchitecture: architecture,
-      linkModePreference: LinkModePreference.dynamic,
-      cCompilerConfig: cCompiler,
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: targetOS,
+        targetArchitecture: architecture,
+        linkModePreference: LinkModePreference.dynamic,
+        cCompiler: cCompiler,
+        android: androidTargetNdkApi != null
+            ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
+            : null,
+        macOS: macOSTargetVersion != null
+            ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+            : null,
+        iOS: iOSTargetVersion != null && iOSTargetSdk != null
+            ? IOSCodeConfig(
+                targetSdk: iOSTargetSdk,
+                targetVersion: iOSTargetVersion,
+              )
+            : null,
+      ),
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUri2,
-  );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutputBuilder = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -55,13 +79,14 @@ Future<Uri> buildTestArchive(
     assetName: '',
     sources: [test1Uri.toFilePath(), test2Uri.toFilePath()],
     linkModePreference: LinkModePreference.static,
+    buildMode: BuildMode.release,
   );
   await cbuilder.run(
-    config: buildConfig,
+    input: buildInput,
     output: buildOutputBuilder,
     logger: logger,
   );
 
-  final buildOutput = BuildOutput(buildOutputBuilder.json);
-  return buildOutput.codeAssets.first.file!;
+  final buildOutput = buildOutputBuilder.build();
+  return buildOutput.assets.code.first.file!;
 }

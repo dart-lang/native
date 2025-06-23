@@ -2,15 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -25,8 +24,9 @@ void main() {
   test('CBuilder compile objective c', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final addMUri =
-        packageUri.resolve('test/cbuilder/testfiles/add_objective_c/src/add.m');
+    final addMUri = packageUri.resolve(
+      'test/cbuilder/testfiles/add_objective_c/src/add.m',
+    );
     if (!await File.fromUri(addMUri).exists()) {
       throw Exception('Run the test from the root directory.');
     }
@@ -35,29 +35,28 @@ void main() {
     final logMessages = <String>[];
     final logger = createCapturingLogger(logMessages);
 
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+    final targetOS = OS.current;
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: name,
         packageRoot: tempUri,
-        targetOS: OS.current,
-        buildMode: BuildMode.release,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupCodeConfig(
-        targetArchitecture: Architecture.current,
-        linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-    );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final buildOutput = BuildOutputBuilder();
 
     final cbuilder = CBuilder.library(
@@ -65,18 +64,19 @@ void main() {
       assetName: name,
       sources: [addMUri.toFilePath()],
       language: Language.objectiveC,
+      buildMode: BuildMode.release,
     );
-    await cbuilder.run(
-      config: buildConfig,
-      output: buildOutput,
-      logger: logger,
-    );
+    await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-    final dylibUri = tempUri.resolve(OS.current.dylibFileName(name));
+    final dylibUri = buildInput.outputDirectory.resolve(
+      OS.current.dylibFileName(name),
+    );
     expect(await File.fromUri(dylibUri).exists(), true);
     final dylib = openDynamicLibraryForTest(dylibUri.toFilePath());
-    final add = dylib.lookupFunction<Int32 Function(Int32, Int32),
-        int Function(int, int)>('add');
+    final add = dylib
+        .lookupFunction<Int32 Function(Int32, Int32), int Function(int, int)>(
+          'add',
+        );
     expect(add(1, 2), 3);
   });
 }

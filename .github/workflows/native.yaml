@@ -7,21 +7,29 @@ permissions: read-all
 
 on:
   pull_request:
-    branches: [main]
+    # No `branches:` to enable stacked PRs on GitHub.
     paths:
       - ".github/workflows/native.yaml"
-      - "pkgs/native_assets_builder/**"
-      - "pkgs/native_assets_cli/**"
+      - "pkgs/code_assets/**"
+      - "pkgs/data_assets/**"
+      - "pkgs/hooks_runner/**"
+      - "pkgs/hooks/**"
+      - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
-      - "tools/**"
+      - "pkgs/repo_lint_rules/**"
+      - "tool/**"
   push:
     branches: [main]
     paths:
       - ".github/workflows/native.yaml"
-      - "pkgs/native_assets_builder/**"
-      - "pkgs/native_assets_cli/**"
+      - "pkgs/code_assets/**"
+      - "pkgs/data_assets/**"
+      - "pkgs/hooks_runner/**"
+      - "pkgs/hooks/**"
+      - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
-      - "tools/**"
+      - "pkgs/repo_lint_rules/**"
+      - "tool/**"
   schedule:
     - cron: "0 0 * * 0" # weekly
 
@@ -31,22 +39,18 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        sdk: [stable, dev]
-        package: [native_assets_builder, native_assets_cli, native_toolchain_c]
-        # Breaking changes temporarily break the example run on the Dart SDK until native_assets_builder is rolled into the Dart SDK dev build.
-        breaking-change: [false]
-
+        sdk: [dev]
 
     runs-on: ${{ matrix.os }}-latest
 
     defaults:
       run:
-        working-directory: pkgs/${{ matrix.package }}
+        working-directory: .
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
           sdk: ${{ matrix.sdk }}
 
@@ -55,125 +59,19 @@ jobs:
           ndk-version: r27
         if: ${{ matrix.os != 'macos' }}
 
-      - run: dart pub get
-
-      - run: dart pub get -C test_data/dart_app/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/native_add/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/native_add_duplicate/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/native_add_add_source/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/native_subtract/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/package_reading_metadata/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/package_with_metadata/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/simple_link/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/complex_link/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/complex_link_helper/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/drop_dylib_link/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/add_asset_link/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/transformer/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/treeshaking_native_libs/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/native_dynamic_linking/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C example/build/native_dynamic_linking/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/native_add_library/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/build/use_dart_api/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/link/package_with_assets/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C example/link/app_with_asset_treeshaking/
-        if: ${{ matrix.package == 'native_assets_cli' }}
-
-      - run: dart pub get -C test_data/fail_build/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/depend_on_fail_build/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart pub get -C test_data/depend_on_fail_build_app/
-        if: ${{ matrix.package == 'native_assets_builder' }}
-
-      - run: dart analyze --fatal-infos
-        # Run on dev to ensure we're not depending on deprecated SDK things.
-
-      - run: dart format --output=none --set-exit-if-changed .
-
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.os == 'ubuntu' }}
 
-      - run: dart test
+      - run: dart pub get
 
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_dynamic_linking/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change && matrix.os != 'windows' }}
-
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: dart --enable-experiment=native-assets run
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: ./native_add_app.exe
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
-        if: ${{ matrix.package == 'native_assets_cli' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - name: Install coverage
-        run: dart pub global activate coverage
-
-      - name: Collect coverage
-        run: dart pub global run coverage:test_with_coverage
+      - name: Run pub get, analysis, formatting, generators, tests, and examples.
+        run: dart tool/ci.dart --pub --coverage
 
       - name: Upload coverage
-        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
-          flag-name: ${{ matrix.package }}_${{ matrix.os }}
+          flag-name: native_pkgs_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
 
@@ -182,8 +80,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage
-        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
-          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c,swift2objc"
+          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

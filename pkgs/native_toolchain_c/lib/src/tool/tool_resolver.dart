@@ -5,10 +5,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../utils/run_process.dart';
@@ -31,11 +31,10 @@ class PathToolResolver extends ToolResolver {
 
   final String executableName;
 
-  PathToolResolver({
-    required this.toolName,
-    String? executableName,
-  }) : executableName = executableName ??
-            OS.current.executableFileName(toolName.toLowerCase());
+  PathToolResolver({required this.toolName, String? executableName})
+    : executableName =
+          executableName ??
+          OS.current.executableFileName(toolName.toLowerCase());
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
@@ -46,7 +45,10 @@ class PathToolResolver extends ToolResolver {
       return [];
     }
     final toolInstances = [
-      ToolInstance(tool: Tool(name: toolName), uri: uri),
+      ToolInstance(
+        tool: Tool(name: toolName),
+        uri: uri,
+      ),
     ];
     logger?.fine('Found ${toolInstances.single}.');
     return toolInstances;
@@ -96,7 +98,7 @@ class CliVersionResolver implements ToolResolver {
           arguments: arguments,
           expectedExitCode: expectedExitCode,
           logger: logger,
-        )
+        ),
     ];
   }
 
@@ -133,8 +135,9 @@ class CliVersionResolver implements ToolResolver {
     if (process.exitCode != expectedExitCode) {
       final executablePath = executable.toFilePath();
       throw ToolError(
-          '`$executablePath ${arguments.join(' ')}` returned unexpected exit'
-          ' code: ${process.exitCode}.');
+        '`$executablePath ${arguments.join(' ')}` returned unexpected exit'
+        ' code: ${process.exitCode}.',
+      );
     }
     return versionFromString(process.stderr) ??
         versionFromString(process.stdout)!;
@@ -151,7 +154,7 @@ class PathVersionResolver implements ToolResolver {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
 
     return [
-      for (final toolInstance in toolInstances) lookupVersion(toolInstance)
+      for (final toolInstance in toolInstances) lookupVersion(toolInstance),
     ];
   }
 
@@ -159,9 +162,7 @@ class PathVersionResolver implements ToolResolver {
     if (toolInstance.version != null) {
       return toolInstance;
     }
-    return toolInstance.copyWith(
-      version: version(toolInstance.uri),
-    );
+    return toolInstance.copyWith(version: version(toolInstance.uri));
   }
 
   static Version? version(Uri uri) {
@@ -179,19 +180,15 @@ class ToolResolvers implements ToolResolver {
 
   @override
   Future<List<ToolInstance>> resolve({required Logger? logger}) async => [
-        for (final resolver in resolvers)
-          ...await resolver.resolve(logger: logger)
-      ];
+    for (final resolver in resolvers) ...await resolver.resolve(logger: logger),
+  ];
 }
 
 class InstallLocationResolver implements ToolResolver {
   final String toolName;
   final List<String> paths;
 
-  InstallLocationResolver({
-    required this.toolName,
-    required this.paths,
-  });
+  InstallLocationResolver({required this.toolName, required this.paths});
 
   static const home = '\$HOME';
 
@@ -199,11 +196,14 @@ class InstallLocationResolver implements ToolResolver {
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     logger?.finer('Looking for $toolName in $paths.');
     final resolvedPaths = [
-      for (final path in paths) ...await tryResolvePath(path)
+      for (final path in paths) ...await tryResolvePath(path),
     ];
     final toolInstances = [
       for (final uri in resolvedPaths)
-        ToolInstance(tool: Tool(name: toolName), uri: uri),
+        ToolInstance(
+          tool: Tool(name: toolName),
+          uri: uri,
+        ),
     ];
     if (toolInstances.isNotEmpty) {
       logger?.fine('Found $toolInstances.');
@@ -216,9 +216,11 @@ class InstallLocationResolver implements ToolResolver {
   Future<List<Uri>> tryResolvePath(String path) async {
     if (path.startsWith(home)) {
       final homeDir_ = homeDir;
-      assert(homeDir_ != null);
+      if (homeDir_ == null) return [];
       path = path.replaceAll(
-          '$home/', homeDir!.toFilePath().replaceAll('\\', '/'));
+        '$home/',
+        homeDir!.toFilePath().replaceAll('\\', '/'),
+      );
     }
 
     final result = <Uri>[];
@@ -258,15 +260,20 @@ class RelativeToolResolver implements ToolResolver {
   Future<List<ToolInstance>> resolve({required Logger? logger}) async {
     final otherToolInstances = await wrappedResolver.resolve(logger: logger);
 
-    logger?.finer('Looking for $toolName relative to $otherToolInstances '
-        'with $relativePath.');
+    logger?.finer(
+      'Looking for $toolName relative to $otherToolInstances '
+      'with $relativePath.',
+    );
     final globs = [
       for (final toolInstance in otherToolInstances)
-        Glob([
-          Glob.quote(
-              toolInstance.uri.resolve('.').toFilePath().replaceAll('\\', '/')),
-          relativePath.path
-        ].join())
+        Glob(
+          [
+            Glob.quote(
+              toolInstance.uri.resolve('.').toFilePath().replaceAll('\\', '/'),
+            ),
+            relativePath.path,
+          ].join(),
+        ),
     ];
     final fileSystemEntities = [
       for (final glob in globs) ...await glob.list().toList(),
@@ -305,7 +312,7 @@ class CliFilter implements ToolResolver {
     final toolInstances = await wrappedResolver.resolve(logger: logger);
     return [
       for (final toolInstance in toolInstances)
-        await filter(toolInstance, logger: logger)
+        await filter(toolInstance, logger: logger),
     ].whereType<ToolInstance>().toList();
   }
 

@@ -3,9 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @TestOn('mac-os')
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-})
+@OnPlatform({'mac-os': Timeout.factor(2)})
 library;
 
 import 'dart:io';
@@ -24,8 +22,10 @@ void main() {
   }
 
   test('smoke test', () async {
-    final requirement = ToolRequirement(appleClang,
-        minimumVersion: Version(12, 0, 0, pre: '0'));
+    final requirement = ToolRequirement(
+      appleClang,
+      minimumVersion: Version(12, 0, 0, pre: '0'),
+    );
     final resolved = await appleClang.defaultResolver!.resolve(logger: logger);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);

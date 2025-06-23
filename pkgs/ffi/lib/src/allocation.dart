@@ -28,9 +28,10 @@ final DynamicLibrary ole32lib = DynamicLibrary.open('ole32.dll');
 
 typedef WinCoTaskMemAllocNative = Pointer Function(Size);
 typedef WinCoTaskMemAlloc = Pointer Function(int);
-final WinCoTaskMemAlloc winCoTaskMemAlloc =
-    ole32lib.lookupFunction<WinCoTaskMemAllocNative, WinCoTaskMemAlloc>(
-        'CoTaskMemAlloc');
+final WinCoTaskMemAlloc winCoTaskMemAlloc = ole32lib
+    .lookupFunction<WinCoTaskMemAllocNative, WinCoTaskMemAlloc>(
+      'CoTaskMemAlloc',
+    );
 
 typedef WinCoTaskMemFreeNative = Void Function(Pointer);
 typedef WinCoTaskMemFree = void Function(Pointer);

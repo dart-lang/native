@@ -4,11 +4,11 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'native_objc_test_bindings.dart';
@@ -18,16 +18,31 @@ void main() {
   group('native_objc_test', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(
+        path.join(
+          packagePathForTests,
+          '..',
+          'objective_c',
+          'test',
+          'objective_c.dylib',
+        ),
+      );
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('native_objc');
     });
 
     test('Basic types', () {
-      final foo = Foo.new1();
-      final obj = NSObject.new1();
+      final foo = Foo();
+      final obj = NSObject();
 
       foo.intVal = 123;
       expect(foo.intVal, 123);
@@ -46,22 +61,22 @@ void main() {
     });
 
     test('Interface basics, with Foo', () {
-      final foo1 = Foo.makeFoo_(3.14159);
-      final foo2 = Foo.makeFoo_(2.71828);
+      final foo1 = Foo.makeFoo(3.14159);
+      final foo2 = Foo.makeFoo(2.71828);
 
       expect(foo1.intVal, 3);
       expect(foo2.intVal, 2);
 
-      expect(foo1.multiply_withOtherFoo_(false, foo2), 8);
-      expect(foo1.multiply_withOtherFoo_(true, foo2), 6);
+      expect(foo1.multiply(false, withOtherFoo: foo2), 8);
+      expect(foo1.multiply(true, withOtherFoo: foo2), 6);
 
       foo1.intVal = 100;
-      expect(foo1.multiply_withOtherFoo_(false, foo2), 8);
-      expect(foo1.multiply_withOtherFoo_(true, foo2), 200);
+      expect(foo1.multiply(false, withOtherFoo: foo2), 8);
+      expect(foo1.multiply(true, withOtherFoo: foo2), 200);
 
-      foo2.setDoubleVal_(1.61803);
-      expect(foo1.multiply_withOtherFoo_(false, foo2), 5);
-      expect(foo1.multiply_withOtherFoo_(true, foo2), 200);
+      foo2.setDoubleVal(1.61803);
+      expect(foo1.multiply(false, withOtherFoo: foo2), 5);
+      expect(foo1.multiply(true, withOtherFoo: foo2), 200);
     });
   });
 }

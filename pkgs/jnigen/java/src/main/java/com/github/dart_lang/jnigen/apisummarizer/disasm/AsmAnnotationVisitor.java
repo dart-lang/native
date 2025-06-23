@@ -21,13 +21,19 @@ public class AsmAnnotationVisitor extends AnnotationVisitor {
 
   @Override
   public void visit(String name, Object value) {
-    annotation.properties.put(name, value);
+    if (value instanceof Number) {
+      annotation.properties.put(name, value);
+    } else {
+      annotation.properties.put(name, value.toString());
+    }
+    super.visit(name, value);
   }
 
   @Override
   public void visitEnum(String name, String descriptor, String value) {
     annotation.properties.put(
         name, new JavaAnnotation.EnumVal(Type.getType(descriptor).getClassName(), value));
+    super.visitEnum(name, descriptor, value);
   }
 
   @Override
@@ -56,13 +62,19 @@ public class AsmAnnotationVisitor extends AnnotationVisitor {
 
     @Override
     public void visit(String unused, Object value) {
-      list.add(value);
+      if (value instanceof Number) {
+        list.add(value);
+      } else {
+        list.add(value.toString());
+      }
+      super.visit(unused, value);
     }
 
     @Override
     public void visitEnum(String unused, String descriptor, String value) {
       var type = Type.getType(descriptor);
       list.add(new JavaAnnotation.EnumVal(type.getClassName(), value));
+      super.visitEnum(unused, descriptor, value);
     }
 
     @Override

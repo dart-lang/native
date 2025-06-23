@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "package:hooks party:shared shared definitions",
+  "definitions": {
+    "Asset": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "anyOf": [
+            {
+              "const": "hooks/metadata"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "encoding": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "hooks/metadata"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "encoding": {
+                "$ref": "#/definitions/MetadataAssetEncoding"
+              }
+            },
+            "required": [
+              "encoding"
+            ]
+          }
+        }
+      ]
+    },
+    "BuildConfig": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Config"
+        },
+        {
+          "properties": {
+            "linking_enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "linking_enabled"
+          ]
+        }
+      ]
+    },
+    "BuildInput": {
+      "properties": {
+        "assets": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        },
+        "config": {
+          "$ref": "#/definitions/BuildConfig"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        }
+      ]
+    },
+    "BuildOutput": {
+      "type": "object",
+      "properties": {
+        "assets_for_build": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
+        "assets_for_linking": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        }
+      ]
+    },
+    "Config": {
+      "type": "object",
+      "properties": {
+        "build_asset_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extensions": {
+          "$ref": "#/definitions/ConfigExtensions"
+        }
+      },
+      "required": [
+        "build_asset_types"
+      ]
+    },
+    "ConfigExtensions": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "Failure": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/FailureType"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "FailureType": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "build",
+            "infra",
+            "uncategorized"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "HookInput": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/Config"
+        },
+        "out_dir_shared": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "out_file": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "package_name": {
+          "type": "string"
+        },
+        "package_root": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "user_defines": {
+          "type": "object",
+          "properties": {
+            "workspace_pubspec": {
+              "$ref": "#/definitions/UserDefinesSource"
+            }
+          }
+        }
+      },
+      "required": [
+        "config",
+        "out_dir_shared",
+        "out_file",
+        "package_name",
+        "package_root"
+      ]
+    },
+    "HookOutput": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/absolutePath"
+          }
+        },
+        "failure_details": {
+          "$ref": "#/definitions/Failure"
+        },
+        "status": {
+          "$ref": "#/definitions/OutputStatus"
+        },
+        "timestamp": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failure"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "failure_details"
+            ]
+          }
+        }
+      ]
+    },
+    "LinkInput": {
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
+        "resource_identifiers": {
+          "$ref": "#/definitions/absolutePath"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookInput"
+        }
+      ]
+    },
+    "LinkOutput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HookOutput"
+        }
+      ]
+    },
+    "MetadataAssetEncoding": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {}
+      },
+      "required": [
+        "key"
+      ]
+    },
+    "OutputStatus": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "failure",
+            "success"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "UserDefinesSource": {
+      "type": "object",
+      "properties": {
+        "base_path": {
+          "$ref": "#/definitions/absolutePath"
+        },
+        "defines": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "base_path",
+        "defines"
+      ]
+    },
+    "absolutePath": {
+      "type": "string",
+      "pattern": "^(\\/|[A-Za-z]:)"
+    },
+    "relativePath": {
+      "type": "string",
+      "pattern": "^([A-Za-z])"
+    }
+  }
+}

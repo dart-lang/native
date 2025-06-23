@@ -26,6 +26,7 @@ public class KotlinFunction {
   public List<KotlinTypeParameter> typeParameters;
   public int flags;
   public boolean isSuspend;
+  public boolean isOperator;
 
   public static KotlinFunction fromKmFunction(KmFunction f) {
     var fun = new KotlinFunction();
@@ -36,6 +37,7 @@ public class KotlinFunction {
     fun.flags = f.getFlags();
     // Processing the information needed from the flags.
     fun.isSuspend = Flag.Function.IS_SUSPEND.invoke(fun.flags);
+    fun.isOperator = Flag.Function.IS_OPERATOR.invoke(fun.flags);
     fun.valueParameters =
         f.getValueParameters().stream()
             .map(KotlinValueParameter::fromKmValueParameter)

@@ -68,7 +68,7 @@ class ConstantArray extends PointerType {
   final bool useArrayType;
 
   ConstantArray(this.length, Type child, {required this.useArrayType})
-      : super._(child);
+    : super._(child);
 
   @override
   Type get baseArrayType => child.baseArrayType;
@@ -105,7 +105,7 @@ class IncompleteArray extends PointerType {
 
   @override
   String getNativeType({String varName = ''}) =>
-      '${child.getNativeType()} $varName[]';
+      '${child.getNativeType()}* $varName';
 
   @override
   String toString() => '$child[]';
@@ -140,8 +140,7 @@ class ObjCObjectPointer extends PointerType {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
@@ -149,11 +148,11 @@ class ObjCObjectPointer extends PointerType {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      '${getDartType(w)}($value, retain: $objCRetain, release: true)';
+  }) => '${getDartType(w)}($value, retain: $objCRetain, release: true)';
 
   @override
-  String? generateRetain(String value) => 'objc_retain($value)';
+  String? generateRetain(String value) =>
+      '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
   bool isSupertypeOf(Type other) {
@@ -182,5 +181,56 @@ class ObjCBlockPointer extends ObjCObjectPointer {
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     return other is ObjCBlockPointer || other is ObjCBlock;
+  }
+}
+
+/// A pointer to an Objective C object with protocols.
+class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
+  List<ObjCProtocol> protocols;
+
+  ObjCObjectPointerWithProtocols(this.protocols)
+    : assert(protocols.isNotEmpty),
+      super._();
+
+  @override
+  String getDartType(Writer w) => protocols.first.getDartType(w);
+
+  @override
+  bool isSupertypeOf(Type other) {
+    other = other.typealiasType;
+    if (other is ObjCObjectPointerWithProtocols) {
+      // The "correct" logic would be to return true if each of our protocols
+      // was a supertype of one of the other's protocols. But this method is
+      // designed to reflect the subtyping rules of the *Dart bindings*, not the
+      // ObjC types. So since the codegen just uses the first protocol, we do
+      // the same here.
+      return protocols.first.isSupertypeOf(other.protocols.first);
+    }
+    return false;
+  }
+
+  @override
+  String toString() => 'id<${protocols.join(', ')}>';
+
+  @override
+  String cacheKey() => 'id<${protocols.map((p) => p.cacheKey()).join(', ')}>';
+
+  @override
+  String convertFfiDartTypeToDartType(
+    Writer w,
+    String value, {
+    required bool objCRetain,
+    String? objCEnclosingClass,
+  }) => protocols.first.convertFfiDartTypeToDartType(
+    w,
+    value,
+    objCRetain: objCRetain,
+    objCEnclosingClass: objCEnclosingClass,
+  );
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(protocols);
   }
 }

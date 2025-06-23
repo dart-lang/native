@@ -1,7 +1,85 @@
-## 16.0.1-wip
+## 19.1.0-wip
+
+- Bump minimum Dart version to 3.8.0.
+- Format using `dart format` so that the formatter uses the target package's
+  Dart version and formatting options.
+- Add `_` to the list of Dart keywords, since it has special meaning in newer
+  Dart versions.
+
+## 19.0.0
+
+- Use package:objective_c 8.0.0.
+- __Breaking change__: Major change to the way ObjC methods are code-genned.
+  Methods now use named parameters, making them more readable and closer to how
+  they're written in ObjC. For example, the `NSData` method
+  `dataWithBytes:length:` used to be generated as
+  `dataWithBytes_length_(Pointer<Void> bytes, int length)`, but is now generated
+  as `dataWithBytes(Pointer<Void> bytes, {required int length})`. Protocol
+  methods are not affected.
+  - Migration tip: A quick way to find affected methods is to search for `_(`.
+- Make it easier for a downstream clone to change behavior of certain utils.
+- Fix [a bug](https://github.com/dart-lang/native/issues/1268) where types could
+  occasionally show up as a generic ObjCObjectBase, when they were supposed to
+  be codegenned as a more specific interface types.
+
+## 18.1.0
+
+- Fix a clang warning in ObjC protocol generated bindings.
+
+## 18.0.0
+
+- Use package:objective_c 7.0.0.
+- Add variable substitutions that can be used in the `headers.entry-points` to
+  locate Apple APIs: `$XCODE`, `$IOS_SDK`, and `$MACOS_SDK`.
+- Add an empty constructor to all ObjC interfaces that have a `new` method,
+  which just calls that method.
+- __Breaking change__: Change the `usrTypeMappings` field of `Config`'s factory
+  constructor from a `List<ImportedType>` to a `Map<String, ImportedType>`.
+- Add a `keepIsolateAlive` parameter to the block and protocol constructors that
+  allows a block or protocol to keep its owner isolate alive.
+- __Breaking change__: `keepIsolateAlive` defaults to true, so all existing ObjC
+  blocks and protocols now keep their isolates alive by default.
+- Change how protocols are implemented to fix
+  [a bug](https://github.com/dart-lang/http/issues/1702), by removing all uses
+  of `NSProxy`.
+- __Breaking change__: Change how duplicate identifiers are renamed to match
+  jnigen. The main change is that `$` is used as a delimiter now, to avoid
+  renamed identifiers from colliding with other identifiers. For example, `foo`
+  is renamed to `foo$1` if there's already a `foo` in the namespace.
+- Fix [a bug](https://github.com/dart-lang/native/issues/1967) where blocking
+  blocks could deadlock if invoked from the Flutter UI thread. Note that this
+  relies on changes in Flutter that are currently only available in the main
+  channel. These changes will likely be released in Flutter 3.31.0.
+
+## 17.0.0
+
+- Use package:objective_c 6.0.0
+- Support transitive categories of built-in types:
+  https://github.com/dart-lang/native/issues/1820
+- __Breaking change__: Maintain protocol conformance when translating from ObjC
+  to Dart. For example, ObjC's `id<FooProtocol>` is now translated to Dart's
+  `FooProtocol`. Generally this shouldn't be a breaking change for code that is
+  using protocols correctly, with a few caveats:
+    - For more advanced use cases that use `ObjCProtocolBuilder` directly, after
+      calling `build()` you will need to cast the generated object to the target
+      protocol: `FooProtocol.castFrom(protocolBuilder.build())`.
+    - Due to limitations in the Dart type system, only the first protocol of an
+      `id` is used: `id<FooProtocol, BarProtocol>` becomes `FooProtocol`. The
+      `FooProtocol.castFrom` method can help work around issues this may cause.
+- Fix the handling of global arrays to remove the extra pointer reference.
+- Add a `max` field to the `external-versions` config, and use it to determine
+  which APIs are generated.
+- Add a runtime OS version check to ObjC APIs, which throws an error if the
+  current OS version is earlier than the version that the API was introduced.
+
+## 16.1.0
 
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
+- Handle dart typedefs in import/export of symbol files.
+- Add support for blocking ObjC blocks that can be invoked from any thread.
+- Add support for blocking ObjC protocol methods.
+- Remove explicit `objc_retain` calls from the generated bindings.
 
 ## 16.0.0
 

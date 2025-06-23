@@ -14,11 +14,11 @@ import 'package:test/test.dart';
 
 void main() {
   final parsedSymbols = {
-    for (final decl in BuiltInDeclaration.values)
+    for (final decl in builtInDeclarations)
       decl.id: ParsedSymbol(json: Json(null), declaration: decl)
   };
   final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
-  group('Valid json', () {
+  group('Function Valid json', () {
     void expectEqualParams(
       List<Parameter> actualParams,
       List<Parameter> expectedParams,
@@ -455,6 +455,96 @@ void main() {
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isTrue);
       expect(info.async, isTrue);
+    });
+
+    test('Mutating Function that throws', () {
+      final json = Json(jsonDecode('''
+        [
+                {
+                    "kind": "keyword",
+                    "spelling": "mutating"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "func"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "identifier",
+                    "spelling": "moveBy"
+                },
+                {
+                    "kind": "text",
+                    "spelling": "("
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "x"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "internalParam",
+                    "spelling": "deltaX"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Double",
+                    "preciseIdentifier": "s:Sd"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ", "
+                },
+                {
+                    "kind": "externalParam",
+                    "spelling": "y"
+                },
+                {
+                    "kind": "text",
+                    "spelling": " "
+                },
+                {
+                    "kind": "internalParam",
+                    "spelling": "deltaY"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ": "
+                },
+                {
+                    "kind": "typeIdentifier",
+                    "spelling": "Double",
+                    "preciseIdentifier": "s:Sd"
+                },
+                {
+                    "kind": "text",
+                    "spelling": ") "
+                },
+                {
+                    "kind": "keyword",
+                    "spelling": "throws"
+                }
+            ]
+        '''));
+
+      final info = parseFunctionInfo(json, emptySymbolgraph);
+
+      expect(info.throws, isTrue);
+      expect(info.mutating, isTrue);
     });
   });
 

@@ -7,58 +7,50 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-      _lookup;
+  _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-      : _lookup = dynamicLibrary.lookup;
+    : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
+  ) : _lookup = lookup;
 
-  void implements1(
-    int dynamic1,
-    int in1,
-    int deferred1,
-  ) {
-    return _implements1(
-      dynamic1,
-      in1,
-      deferred1,
-    );
+  void implements$(int dynamic$, int in$, int deferred$) {
+    return _implements$(dynamic$, in$, deferred$);
   }
 
-  late final _implements1Ptr =
+  late final _implements$Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int, ffi.Int, ffi.Int)>>(
-          'implements');
-  late final _implements1 =
-      _implements1Ptr.asFunction<void Function(int, int, int)>();
+        'implements',
+      );
+  late final _implements$ = _implements$Ptr
+      .asFunction<void Function(int, int, int)>();
 
-  late final ffi.Pointer<ffi.Int> _import1 = _lookup<ffi.Int>('import');
+  late final ffi.Pointer<ffi.Int> _import$ = _lookup<ffi.Int>('import');
 
-  int get import1 => _import1.value;
+  int get import$ => _import$.value;
 
-  set import1(int value) => _import1.value = value;
+  set import$(int value) => _import$.value = value;
 }
 
-final class abstract1 extends ffi.Opaque {}
+final class abstract$ extends ffi.Opaque {}
 
-enum export1 {
-  covariant1(0);
+enum export$ {
+  covariant$(0);
 
   final int value;
-  const export1(this.value);
+  const export$(this.value);
 
-  static export1 fromValue(int value) => switch (value) {
-        0 => covariant1,
-        _ => throw ArgumentError("Unknown value for export1: $value"),
-      };
+  static export$ fromValue(int value) => switch (value) {
+    0 => covariant$,
+    _ => throw ArgumentError('Unknown value for export\$: $value'),
+  };
 }
 
-final class show1 extends ffi.Opaque {}
+final class show$ extends ffi.Opaque {}
 
-typedef var1 = ffi.Void;
+typedef var$ = ffi.Void;
 typedef Dartvar = void;

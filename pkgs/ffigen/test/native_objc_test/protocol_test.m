@@ -8,8 +8,18 @@
 
 #include "protocol_test.h"
 
+const char* class_getName(Class cls);
+
+const char* getClassName(void* cls) {
+  return class_getName((__bridge Class)cls);
+}
+
+void* getClass(id object) {
+  return (__bridge void*)[object class];
+}
+
 @implementation ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol {
+- (NSString*)callInstanceMethod:(id<SuperProtocol>)protocol {
   return [protocol instanceMethod:@"Hello from ObjC" withDouble:3.14];
 }
 
@@ -30,6 +40,20 @@
   dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
     [protocol voidMethod:123];
   });
+}
+
+- (void)callBlockingMethodOnRandomThread:(id<MyProtocol>)protocol {
+  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+    int32_t x;
+    [protocol intPtrMethod:&x];
+    [protocol voidMethod:x];
+  });
+}
+
+- (int32_t)callTwoMethods:(id<MyProtocol, SecondaryProtocol>)protocol {
+  SomeStruct s = {123, 345};
+  int32_t x = [protocol optionalMethod:s];
+  return [protocol otherMethod:x b:1 c:10 d:100];
 }
 @end
 

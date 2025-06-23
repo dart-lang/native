@@ -7,6 +7,7 @@ import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
 import '../../_core/shared/referred_type.dart';
+import '../../ast_node.dart';
 import '../built_in/built_in_declaration.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
@@ -14,7 +15,8 @@ import 'members/property_declaration.dart';
 import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift class.
-class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
+class ClassDeclaration extends AstNode
+    implements CompoundDeclaration, ObjCAnnotatable {
   @override
   String id;
 
@@ -75,5 +77,23 @@ class ClassDeclaration implements CompoundDeclaration, ObjCAnnotatable {
     this.initializers = const [],
   }) : assert(superClass == null ||
             superClass.declaration is ClassDeclaration ||
-            superClass.declaration == BuiltInDeclaration.swiftNSObject);
+            superClass.sameAs(objectType));
+
+  @override
+  void visit(Visitation visitation) => visitation.visitClassDeclaration(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(properties);
+    visitor.visitAll(methods);
+    visitor.visitAll(conformedProtocols);
+    visitor.visitAll(typeParams);
+    visitor.visit(superClass);
+    visitor.visit(wrappedInstance);
+    visitor.visit(wrapperInitializer);
+    visitor.visitAll(initializers);
+    visitor.visit(nestingParent);
+    visitor.visitAll(nestedDeclarations);
+  }
 }

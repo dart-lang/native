@@ -4,7 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
-import 'package:ffigen/src/strings.dart' as strings;
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -17,26 +17,12 @@ void main() {
       logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
-${strings.name}: 'NativeLibrary'
-${strings.description}: 'Globals Test'
-${strings.output}: 'unused'
-${strings.headers}:
-  ${strings.entryPoints}:
-    - 'test/header_parser_tests/globals.h'
-  ${strings.includeDirectives}:
-    - '**globals.h'
-${strings.globals}:
-  ${strings.exclude}:
-    - GlobalIgnore
-  ${strings.symbolAddress}:
-    ${strings.include}:
-      - myInt
-      - pointerToLongDouble
-      - globalStruct
-${strings.compilerOpts}: '-Wno-nullability-completeness'
-${strings.ignoreSourceErrors}: true
-        '''),
+        testConfigFromPath(
+          configPath(
+            path.join(packagePathForTests, 'test', 'header_parser_tests'),
+            'globals_config.yaml',
+          ),
+        ),
       );
     });
 
@@ -45,27 +31,45 @@ ${strings.ignoreSourceErrors}: true
     });
 
     test('Parse global Values', () {
-      expect(actual.getBindingAsString('coolGlobal'),
-          expected.getBindingAsString('coolGlobal'));
-      expect(actual.getBindingAsString('myInt'),
-          expected.getBindingAsString('myInt'));
-      expect(actual.getBindingAsString('aGlobalPointer0'),
-          expected.getBindingAsString('aGlobalPointer0'));
-      expect(actual.getBindingAsString('aGlobalPointer1'),
-          expected.getBindingAsString('aGlobalPointer1'));
-      expect(actual.getBindingAsString('aGlobalPointer2'),
-          expected.getBindingAsString('aGlobalPointer2'));
-      expect(actual.getBindingAsString('aGlobalPointer3'),
-          expected.getBindingAsString('aGlobalPointer3'));
+      expect(
+        actual.getBindingAsString('coolGlobal'),
+        expected.getBindingAsString('coolGlobal'),
+      );
+      expect(
+        actual.getBindingAsString('myInt'),
+        expected.getBindingAsString('myInt'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer0'),
+        expected.getBindingAsString('aGlobalPointer0'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer1'),
+        expected.getBindingAsString('aGlobalPointer1'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer2'),
+        expected.getBindingAsString('aGlobalPointer2'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer3'),
+        expected.getBindingAsString('aGlobalPointer3'),
+      );
     });
 
     test('Ignore global values', () {
-      expect(() => actual.getBindingAsString('GlobalIgnore'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('longDouble'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('pointerToLongDouble'),
-          throwsA(const TypeMatcher<NotFoundException>()));
+      expect(
+        () => actual.getBindingAsString('GlobalIgnore'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('longDouble'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('pointerToLongDouble'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
     });
 
     test('identifies constant globals', () {
@@ -119,6 +123,12 @@ Library expectedLibrary() {
         exposeSymbolAddress: true,
         constant: true,
       ),
+      Global(
+        type: ConstantArray(3, intType, useArrayType: false),
+        name: 'globalArray0',
+        exposeSymbolAddress: true,
+        constant: true,
+      ),
       globalStruct,
       Global(
         name: 'globalStruct',
@@ -130,7 +140,7 @@ Library expectedLibrary() {
         name: 'globalStruct_from_alias',
         type: globalStructAlias,
         exposeSymbolAddress: true,
-      )
+      ),
     ],
   );
 }

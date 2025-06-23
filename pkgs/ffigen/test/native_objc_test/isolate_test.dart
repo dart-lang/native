@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
@@ -12,6 +11,7 @@ import 'dart:isolate';
 
 import 'package:async/async.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'isolate_bindings.dart';
@@ -21,8 +21,23 @@ void main() {
   group('isolate', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(
+        path.join(
+          packagePathForTests,
+          '..',
+          'objective_c',
+          'test',
+          'objective_c.dylib',
+        ),
+      );
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('isolate');
@@ -43,13 +58,16 @@ void main() {
     }
 
     test('Sending object through a port', () async {
-      Sendable? sendable = Sendable.new1();
+      Sendable? sendable = Sendable();
       sendable.value = 123;
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingObjectTest, port.sendPort,
-          onExit: port.sendPort);
+      final isolate = await Isolate.spawn(
+        sendingObjectTest,
+        port.sendPort,
+        onExit: port.sendPort,
+      );
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(sendable);
@@ -70,7 +88,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('Capturing object in closure', () async {
-      Sendable? sendable = Sendable.new1();
+      Sendable? sendable = Sendable();
       sendable.value = 123;
 
       final oldValue = await Isolate.run(() {
@@ -103,15 +121,19 @@ void main() {
 
     test('Sending block through a port', () async {
       final completer = Completer<int>();
-      ObjCBlock<Void Function(Int32)>? block =
-          ObjCBlock_ffiVoid_Int32.listener((int value) {
-        completer.complete(value);
-      });
+      ObjCBlock<Void Function(Int32)>? block = ObjCBlock_ffiVoid_Int32.listener(
+        (int value) {
+          completer.complete(value);
+        },
+      );
 
       final port = ReceivePort();
       final queue = StreamQueue(port);
-      final isolate = await Isolate.spawn(sendingBlockTest, port.sendPort,
-          onExit: port.sendPort);
+      final isolate = await Isolate.spawn(
+        sendingBlockTest,
+        port.sendPort,
+        onExit: port.sendPort,
+      );
 
       final sendPort = await queue.next as SendPort;
       sendPort.send(block);
@@ -157,7 +179,7 @@ void main() {
     }, skip: !canDoGC);
 
     test('Manual release across isolates', () async {
-      final sendable = Sendable.new1();
+      final sendable = Sendable();
       final pointer = sendable.ref.pointer;
 
       expect(objectRetainCount(pointer), 1);
@@ -177,7 +199,7 @@ void main() {
     });
 
     test('Use after release and double release', () async {
-      final sendable = Sendable.new1();
+      final sendable = Sendable();
       sendable.value = 123;
       final pointer = sendable.ref.pointer;
 

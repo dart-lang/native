@@ -1,13 +1,10 @@
 name: Health
 on:
   pull_request:
-    branches: [ main ]
     # Remove paths after https://github.com/bmw-tech/dart_apitool/issues/177 is addressed.
     paths:
-      - "pkgs/ffi/**"
-      - "pkgs/native_assets_builder/**"
-      - "pkgs/native_assets_cli/**"
-      - "pkgs/native_toolchain_c/**"
+      - ".github/workflows/health.yaml"
+      - "pkgs/**"
     types: [opened, synchronize, reopened, labeled, unlabeled]
 jobs:
   health:
@@ -15,8 +12,13 @@ jobs:
     with:
       coverage_web: false
       # TODO(https://github.com/dart-lang/native/issues/1242): Add coverage back.
-      checks: "version,changelog,license,do-not-submit,breaking,leaking"
-      use-flutter: true
-      sdk: master
+      checks: "changelog,license,do-not-submit,breaking,leaking"
+      flutter_packages: "pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/objective_c"
+      ignore_license: "**.g.dart"
+      ignore_coverage: "**.mock.dart,**.g.dart"
+      # TODO(https://github.com/dart-lang/native/issues/1857): Enable ffigen.
+      ignore_packages: "pkgs/swiftgen,pkgs/jnigen,pkgs/swift2objc,pkgs/ffigen"
+      sdk: dev
+      channel: master
     permissions:
       pull-requests: write

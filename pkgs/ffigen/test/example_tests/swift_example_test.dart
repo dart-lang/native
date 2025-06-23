@@ -24,45 +24,45 @@ void main() {
 
     test('swift', () async {
       // Run the swiftc command from the example README, to generate the header.
-      final process = await Process.start(
-          'swiftc',
-          [
-            '-c',
-            'swift_api.swift',
-            '-module-name',
-            'swift_module',
-            '-emit-objc-header-path',
-            'third_party/swift_api.h',
-            '-emit-library',
-            '-o',
-            'libswiftapi.dylib',
-          ],
-          workingDirectory: path.join(Directory.current.path, 'example/swift'));
+      final process = await Process.start('swiftc', [
+        '-c',
+        'swift_api.swift',
+        '-module-name',
+        'swift_module',
+        '-emit-objc-header-path',
+        'third_party/swift_api.h',
+        '-emit-library',
+        '-o',
+        'libswiftapi.dylib',
+      ], workingDirectory: path.join(packagePathForTests, 'example/swift'));
       unawaited(stdout.addStream(process.stdout));
       unawaited(stderr.addStream(process.stderr));
       final result = await process.exitCode;
       expect(result, 0);
 
-      final config = testConfigFromPath(path.join(
-        'example',
-        'swift',
-        'config.yaml',
-      ));
+      final config = testConfigFromPath(
+        path.join(packagePathForTests, 'example', 'swift', 'config.yaml'),
+      );
       final output = parse(config).generate();
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
       expect(output, contains('class SwiftClass extends objc.NSObject {'));
-      expect(output, contains('static SwiftClass new1() {'));
+      expect(output, contains('static SwiftClass new\$() {'));
       expect(output, contains('NSString sayHello() {'));
       expect(output, contains('int get someField {'));
       expect(output, contains('set someField(int value) {'));
 
       // Verify that SwiftClass is loaded using the swift_module prefix.
       expect(
-          output,
-          contains(RegExp(r'late final _class_SwiftClass.* = '
-              r'objc.getClass.*\("swift_module\.SwiftClass"\)')));
+        output,
+        contains(
+          RegExp(
+            r'late final _class_SwiftClass.* = '
+            r'objc.getClass.*\("swift_module\.SwiftClass"\)',
+          ),
+        ),
+      );
     });
   });
 }

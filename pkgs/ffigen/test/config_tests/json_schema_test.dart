@@ -10,23 +10,28 @@ import 'package:ffigen/src/strings.dart' as strings;
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:json_schema/json_schema.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
+import '../test_utils.dart';
+
 void main() {
   group('json_schema_test', () {
-    final schema = YamlConfig.getsRootConfigSpec()
-        .generateJsonSchema(strings.ffigenJsonSchemaId);
+    final schema = YamlConfig.getsRootConfigSpec().generateJsonSchema(
+      strings.ffigenJsonSchemaId,
+    );
 
     test('Schema Changes', () {
       final actualJsonSchema =
           const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
-        YamlConfig.getsRootConfigSpec()
-            .generateJsonSchema(strings.ffigenJsonSchemaId),
-      );
-      final expectedJsonSchema = File(strings.ffigenJsonSchemaFileName)
-          .readAsStringSync()
-          .replaceAll('\r\n', '\n');
+            YamlConfig.getsRootConfigSpec().generateJsonSchema(
+              strings.ffigenJsonSchemaId,
+            ),
+          );
+      final expectedJsonSchema = File(
+        path.join(packagePathForTests, strings.ffigenJsonSchemaFileName),
+      ).readAsStringSync().replaceAll('\r\n', '\n');
       expect(actualJsonSchema, expectedJsonSchema);
     });
 
@@ -37,16 +42,19 @@ void main() {
 
     // Find all ffigen config files in the repo.
     final configYamlGlob = Glob('**config.yaml');
-    final configYamlFiles =
-        configYamlGlob.listFileSystemSync(const LocalFileSystem());
+    final configYamlFiles = configYamlGlob.listFileSystemSync(
+      const LocalFileSystem(),
+      root: packagePathForTests,
+    );
     test('$configYamlGlob files not empty', () {
       expect(configYamlFiles.isNotEmpty, true);
     });
 
-    final sharedBindingsConfigYamlGlob =
-        Glob('example/shared_bindings/ffigen_configs/**.yaml');
+    final sharedBindingsConfigYamlGlob = Glob(
+      'example/shared_bindings/ffigen_configs/**.yaml',
+    );
     final sharedBindingsConfigYamlFiles = sharedBindingsConfigYamlGlob
-        .listFileSystemSync(const LocalFileSystem());
+        .listFileSystemSync(const LocalFileSystem(), root: packagePathForTests);
     test('$sharedBindingsConfigYamlGlob files not emty', () {
       expect(sharedBindingsConfigYamlFiles.isNotEmpty, true);
     });
@@ -57,31 +65,40 @@ void main() {
       test('validate config file: ${fe.path}', () {
         final yamlDoc = loadYaml(File(fe.absolute.path).readAsStringSync());
         final validationResult = jsonSchema.validate(yamlDoc);
-        expect(validationResult.errors.isEmpty, true,
-            reason: 'Schema Errors: ${validationResult.errors}');
-        expect(validationResult.warnings.isEmpty, true,
-            reason: 'Schema Warnings: ${validationResult.errors}');
+        expect(
+          validationResult.errors.isEmpty,
+          true,
+          reason: 'Schema Errors: ${validationResult.errors}',
+        );
+        expect(
+          validationResult.warnings.isEmpty,
+          true,
+          reason: 'Schema Warnings: ${validationResult.errors}',
+        );
       });
     }
 
     test('Bare minimal input', () {
       expect(
-          jsonSchema
-              .validate({
-                'output': 'abcd.dart',
-                'headers': {
-                  'entry-points': ['a.h']
-                }
-              })
-              .errors
-              .isEmpty,
-          true);
+        jsonSchema
+            .validate({
+              'output': 'abcd.dart',
+              'headers': {
+                'entry-points': ['a.h'],
+              },
+            })
+            .errors
+            .isEmpty,
+        true,
+      );
     });
     test('Fail input', () {
       expect(jsonSchema.validate(null).errors.isNotEmpty, true);
       expect(jsonSchema.validate({'a': 1}).errors.isNotEmpty, true);
       expect(
-          jsonSchema.validate({'output': 'abcd.dart'}).errors.isNotEmpty, true);
+        jsonSchema.validate({'output': 'abcd.dart'}).errors.isNotEmpty,
+        true,
+      );
     });
   });
 }

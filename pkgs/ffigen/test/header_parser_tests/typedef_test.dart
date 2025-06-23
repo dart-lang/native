@@ -24,7 +24,7 @@ ${strings.output}: 'unused'
 
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/typedef.h'
+    - '${absPath('test/header_parser_tests/typedef.h')}'
   ${strings.includeDirectives}:
     - '**typedef.h'
 ${strings.structs}:
@@ -49,12 +49,15 @@ ${strings.preamble}: |
 
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_typedef_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_typedef_bindings.dart'
-      ]);
+        actual,
+        'header_parser_typedef_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_typedef_bindings.dart',
+        ],
+      );
     });
   });
 }

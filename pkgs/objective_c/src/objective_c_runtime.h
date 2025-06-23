@@ -27,9 +27,9 @@ ObjCObject** objc_copyClassList(unsigned int* count);
 
 // The signature of this function is just a placeholder. This function is used
 // by every method invocation, and is cast to every signature we need.
-void objc_msgSend();
-void objc_msgSend_fpret();
-void objc_msgSend_stret();
+void objc_msgSend(void);
+void objc_msgSend_fpret(void);
+void objc_msgSend_stret(void);
 
 // See https://clang.llvm.org/docs/Block-ABI-Apple.html
 typedef struct _ObjCBlockDesc {

@@ -21,17 +21,20 @@ void main() {
 
     test('objective_c', () {
       final config = testConfigFromPath(
-          path.join('example', 'objective_c', 'config.yaml'));
+        path.join(packagePathForTests, 'example', 'objective_c', 'config.yaml'),
+      );
       final output = parse(config).generate();
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
       expect(output, contains('class AVAudioPlayer extends objc.NSObject {'));
       expect(
-          output,
-          contains(
-              'AVAudioPlayer? initWithContentsOfURL_error_(objc.NSURL url, '
-              'ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {'));
+        output,
+        contains(
+          'AVAudioPlayer? initWithContentsOfURL(objc.NSURL url, '
+          '{required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {',
+        ),
+      );
       expect(output, contains('double get duration {'));
       expect(output, contains('bool play() {'));
     });

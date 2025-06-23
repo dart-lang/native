@@ -6,6 +6,7 @@ import '../code_generator.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'unique_namer.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -54,8 +55,8 @@ abstract class Compound extends BindingType {
     super.isInternal,
     this.objCBuiltInFunctions,
     String? nativeType,
-  })  : members = members ?? [],
-        nativeType = nativeType ?? originalName ?? name;
+  }) : members = members ?? [],
+       nativeType = nativeType ?? originalName ?? name;
 
   factory Compound.fromType({
     required CompoundType type,
@@ -111,18 +112,17 @@ abstract class Compound extends BindingType {
 
   @override
   BindingString toBindingString(Writer w) {
-    final bindingType =
-        isStruct ? BindingStringType.struct : BindingStringType.union;
+    final bindingType = isStruct
+        ? BindingStringType.struct
+        : BindingStringType.union;
 
     final s = StringBuffer();
     final enclosingClassName = name;
-    if (dartDoc != null) {
-      s.write(makeDartDoc(dartDoc!));
-    }
+    s.write(makeDartDoc(dartDoc));
 
     /// Adding [enclosingClassName] because dart doesn't allow class member
     /// to have the same name as the class.
-    final localUniqueNamer = UniqueNamer({enclosingClassName});
+    final localUniqueNamer = UniqueNamer()..markUsed(enclosingClassName);
 
     /// Marking type names because dart doesn't allow class member to have the
     /// same name as a type name used internally.
@@ -154,10 +154,12 @@ abstract class Compound extends BindingType {
         if (!m.type.sameFfiDartAndCType) {
           s.write('$depth@${m.type.getCType(w)}()\n');
         }
-        final memberName =
-            m.type.sameDartAndFfiDartType ? m.name : '${m.name}AsInt';
+        final memberName = m.type.sameDartAndFfiDartType
+            ? m.name
+            : '${m.name}AsInt';
         s.write(
-            '${depth}external ${m.type.getFfiDartType(w)} $memberName;\n\n');
+          '${depth}external ${m.type.getFfiDartType(w)} $memberName;\n\n',
+        );
       }
       if (m.type case EnumClass(:final generateAsInt) when !generateAsInt) {
         final enumName = m.type.getDartType(w);
@@ -178,8 +180,9 @@ abstract class Compound extends BindingType {
 
   @override
   String getCType(Writer w) {
-    final builtInName =
-        objCBuiltInFunctions?.getBuiltInCompoundName(originalName);
+    final builtInName = objCBuiltInFunctions?.getBuiltInCompoundName(
+      originalName,
+    );
     return builtInName != null ? '${w.objcPkgPrefix}.$builtInName' : name;
   }
 

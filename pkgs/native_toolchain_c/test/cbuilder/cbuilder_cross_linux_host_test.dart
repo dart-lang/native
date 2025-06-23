@@ -7,6 +7,8 @@ library;
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
@@ -38,35 +40,31 @@ void main() {
       test('CBuilder $linkMode library $target $optimizationLevel', () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
-        final addCUri =
-            packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
+        final addCUri = packageUri.resolve(
+          'test/cbuilder/testfiles/add/src/add.c',
+        );
         const name = 'add';
 
-        final buildConfigBuilder = BuildConfigBuilder()
-          ..setupHookConfig(
-            supportedAssetTypes: [CodeAsset.type],
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
             packageName: name,
             packageRoot: tempUri,
-            targetOS: OS.linux,
-            buildMode: BuildMode.release,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
           )
-          ..setupBuildConfig(
-            linkingEnabled: false,
-            dryRun: false,
-          )
-          ..setupCodeConfig(
-            targetArchitecture: target,
-            linkModePreference: linkMode == DynamicLoadingBundled()
-                ? LinkModePreference.dynamic
-                : LinkModePreference.static,
-            cCompilerConfig: cCompiler,
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.linux,
+              targetArchitecture: target,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+              cCompiler: cCompiler,
+            ),
           );
-        buildConfigBuilder.setupBuildRunConfig(
-          outputDirectory: tempUri,
-          outputDirectoryShared: tempUri2,
-        );
 
-        final buildConfig = BuildConfig(buildConfigBuilder.json);
+        final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();
 
         final cbuilder = CBuilder.library(
@@ -74,15 +72,17 @@ void main() {
           assetName: name,
           sources: [addCUri.toFilePath()],
           optimizationLevel: optimizationLevel,
+          buildMode: BuildMode.release,
         );
         await cbuilder.run(
-          config: buildConfig,
+          input: buildInput,
           output: buildOutput,
           logger: logger,
         );
 
-        final libUri =
-            tempUri.resolve(OS.linux.libraryFileName(name, linkMode));
+        final libUri = buildInput.outputDirectory.resolve(
+          OS.linux.libraryFileName(name, linkMode),
+        );
         final machine = await readelfMachine(libUri.path);
         expect(machine, contains(readElfMachine[target]));
       });

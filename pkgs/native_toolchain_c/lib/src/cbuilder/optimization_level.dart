@@ -31,8 +31,9 @@ final class OptimizationLevel {
   static const OptimizationLevel oS = OptimizationLevel._('Os');
 
   /// Unspecified optimization level; the default or compiler-chosen level.
-  static const OptimizationLevel unspecified =
-      OptimizationLevel._('unspecified');
+  static const OptimizationLevel unspecified = OptimizationLevel._(
+    'unspecified',
+  );
 
   /// Returns the string representation of the optimization level.
   @override
@@ -41,9 +42,9 @@ final class OptimizationLevel {
   String clangFlag() => '-$_level';
 
   String msvcFlag() => switch (this) {
-        o3 => o2.msvcFlag(),
-        _ => '/$_level',
-      };
+    o3 => o2.msvcFlag(),
+    _ => '/$_level',
+  };
 
   static const List<OptimizationLevel> values = [
     o0,

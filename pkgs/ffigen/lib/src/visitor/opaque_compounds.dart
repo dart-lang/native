@@ -42,7 +42,10 @@ class ClearOpaqueCompoundMembersVisitation extends Visitation {
   final Set<Binding> included;
 
   ClearOpaqueCompoundMembersVisitation(
-      this.config, this.byValueCompounds, this.included);
+    this.config,
+    this.byValueCompounds,
+    this.included,
+  );
 
   void _visitImpl(Compound node, CompoundDependencies compondDepsConfig) {
     // If a compound isn't referred to by value, isn't explicitly included by

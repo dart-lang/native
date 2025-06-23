@@ -5,27 +5,38 @@
 import '../ast/_core/interfaces/compound_declaration.dart';
 import '../ast/_core/interfaces/declaration.dart';
 import '../ast/_core/interfaces/nestable_declaration.dart';
+import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
+import '../ast/visitor.dart';
+import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
-List<Declaration> transform(List<Declaration> declarations) {
+Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
+    visit(DependencyVisitation(), decls).topLevelDeclarations;
+
+/// Transforms the given declarations into the desired ObjC wrapped declarations
+List<Declaration> transform(List<Declaration> declarations,
+    {required bool Function(Declaration) filter}) {
   final transformationMap = <Declaration, Declaration>{};
 
+  final declarations0 = declarations.where(filter).toSet();
+  declarations0.addAll(generateDependencies(declarations0));
+
   final globalNamer = UniqueNamer(
-    declarations.map((declaration) => declaration.name),
+    declarations0.map((declaration) => declaration.name),
   );
 
   final globals = Globals(
-    functions: declarations.whereType<GlobalFunctionDeclaration>().toList(),
-    variables: declarations.whereType<GlobalVariableDeclaration>().toList(),
+    functions: declarations0.whereType<GlobalFunctionDeclaration>().toList(),
+    variables: declarations0.whereType<GlobalVariableDeclaration>().toList(),
   );
-  final nonGlobals = declarations
+  final nonGlobals = declarations0
       .where(
         (declaration) =>
             declaration is! GlobalFunctionDeclaration &&
@@ -41,7 +52,8 @@ List<Declaration> transform(List<Declaration> declarations) {
       transformGlobals(globals, globalNamer, transformationMap),
   ];
 
-  return transformedDeclarations
+  return (transformedDeclarations +
+      _getPrimitiveWrapperClasses(transformationMap))
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 
@@ -69,4 +81,12 @@ Declaration transformDeclaration(
       ),
     _ => throw UnimplementedError(),
   };
+}
+
+List<Declaration> _getPrimitiveWrapperClasses(
+    TransformationMap transformationMap) {
+  return transformationMap.entries
+      .where((entry) => entry.key is BuiltInDeclaration)
+      .map((entry) => entry.value)
+      .toList();
 }

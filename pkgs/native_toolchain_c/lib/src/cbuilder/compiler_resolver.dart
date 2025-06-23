@@ -4,8 +4,8 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/apple_clang.dart';
@@ -16,28 +16,27 @@ import '../native_toolchain/recognizer.dart';
 import '../tool/tool.dart';
 import '../tool/tool_error.dart';
 import '../tool/tool_instance.dart';
+import '../utils/env_from_bat.dart';
 
 // TODO(dacoharkes): This should support alternatives.
 // For example use Clang or MSVC on Windows.
 class CompilerResolver {
-  final HookConfig hookConfig;
   final CodeConfig codeConfig;
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
 
   CompilerResolver({
-    required this.hookConfig,
     required this.codeConfig,
     required this.logger,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
-  })  : hostOS = hostOS ?? OS.current,
-        hostArchitecture = hostArchitecture ?? Architecture.current;
+  }) : hostOS = hostOS ?? OS.current,
+       hostArchitecture = hostArchitecture ?? Architecture.current;
 
   Future<ToolInstance> resolveCompiler() async {
     // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadCompilerFromConfig();
+    var result = await _tryLoadCompilerFromInput();
 
     // Then, try to detect on the host machine.
     final tool = _selectCompiler();
@@ -49,18 +48,18 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No compiler configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right compiler for cross compiling to the specified target.
   Tool? _selectCompiler() {
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArch = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
@@ -100,30 +99,32 @@ class CompilerResolver {
     return null;
   }
 
-  Future<ToolInstance?> _tryLoadCompilerFromConfig() async {
-    final configCcUri = codeConfig.cCompiler.compiler;
-    if (configCcUri != null) {
-      assert(await File.fromUri(configCcUri).exists());
-      logger?.finer('Using compiler ${configCcUri.toFilePath()} '
-          'from BuildConfig.cCompiler.cc.');
-      return (await CompilerRecognizer(configCcUri).resolve(logger: logger))
-          .first;
+  Future<ToolInstance?> _tryLoadCompilerFromInput() async {
+    final inputCcUri = codeConfig.cCompiler?.compiler;
+    if (inputCcUri != null) {
+      assert(await File.fromUri(inputCcUri).exists());
+      logger?.finer(
+        'Using compiler ${inputCcUri.toFilePath()} '
+        'from BuildInput.cCompiler.cc.',
+      );
+      return (await CompilerRecognizer(
+        inputCcUri,
+      ).resolve(logger: logger)).first;
     }
-    logger?.finer('No compiler set in BuildConfig.cCompiler.cc.');
+    logger?.finer('No compiler set in BuildInput.cCompiler.cc.');
     return null;
   }
 
   Future<ToolInstance?> _tryLoadToolFromNativeToolchain(Tool tool) async {
-    final resolved = (await tool.defaultResolver!.resolve(logger: logger))
-        .where((i) => i.tool == tool)
-        .toList()
-      ..sort();
+    final resolved = (await tool.defaultResolver!.resolve(
+      logger: logger,
+    )).where((i) => i.tool == tool).toList()..sort();
     return resolved.isEmpty ? null : resolved.first;
   }
 
   Future<ToolInstance> resolveArchiver() async {
     // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadArchiverFromConfig();
+    var result = await _tryLoadArchiverFromInput();
 
     // Then, try to detect on the host machine.
     final tool = _selectArchiver();
@@ -135,18 +136,18 @@ class CompilerResolver {
       return result;
     }
 
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
     final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
+        "No archiver configured on host '${hostOS}_$hostArchitecture' with "
+        "target '${targetOS}_$targetArchitecture'.";
     logger?.severe(errorMessage);
     throw ToolError(errorMessage);
   }
 
   /// Select the right archiver for cross compiling to the specified target.
   Tool? _selectArchiver() {
-    final targetOS = hookConfig.targetOS;
+    final targetOS = codeConfig.targetOS;
     final targetArchitecture = codeConfig.targetArchitecture;
 
     // TODO(dacoharkes): Support falling back on other tools.
@@ -185,113 +186,58 @@ class CompilerResolver {
     return null;
   }
 
-  Future<ToolInstance?> _tryLoadArchiverFromConfig() async {
-    final configArUri = codeConfig.cCompiler.archiver;
-    if (configArUri != null) {
-      assert(await File.fromUri(configArUri).exists());
-      logger?.finer('Using archiver ${configArUri.toFilePath()} '
-          'from BuildConfig.cCompiler.ar.');
-      return (await ArchiverRecognizer(configArUri).resolve(logger: logger))
-          .first;
+  Future<ToolInstance?> _tryLoadArchiverFromInput() async {
+    final inputArUri = codeConfig.cCompiler?.archiver;
+    if (inputArUri != null) {
+      assert(await File.fromUri(inputArUri).exists());
+      logger?.finer(
+        'Using archiver ${inputArUri.toFilePath()} '
+        'from BuildInput.cCompiler.ar.',
+      );
+      return (await ArchiverRecognizer(
+        inputArUri,
+      ).resolve(logger: logger)).first;
     }
-    logger?.finer('No archiver set in BuildConfig.cCompiler.ar.');
+    logger?.finer('No archiver set in BuildInput.cCompiler.ar.');
     return null;
   }
 
-  Future<Uri?> toolchainEnvironmentScript(ToolInstance compiler) async {
-    final fromConfig = codeConfig.cCompiler.envScript;
-    if (fromConfig != null) {
-      logger?.fine('Using envScript from config: $fromConfig');
-      return fromConfig;
+  Future<Map<String, String>> resolveEnvironment(ToolInstance compiler) async {
+    if (codeConfig.targetOS != OS.windows) {
+      return {};
+    }
+
+    final cCompilerConfig = codeConfig.cCompiler;
+    if (cCompilerConfig != null &&
+        cCompilerConfig.windows.developerCommandPrompt != null) {
+      final envScriptFromConfig =
+          cCompilerConfig.windows.developerCommandPrompt!.script;
+      final vcvarsArgs =
+          cCompilerConfig.windows.developerCommandPrompt!.arguments;
+      logger?.fine('Using envScript from input: $envScriptFromConfig');
+      if (vcvarsArgs.isNotEmpty) {
+        logger?.fine('Using envScriptArgs from input: $vcvarsArgs');
+      }
+      return await environmentFromBatchFile(
+        envScriptFromConfig,
+        arguments: vcvarsArgs,
+      );
     }
 
     final compilerTool = compiler.tool;
-    assert(compilerTool == cl);
-    final vcvarsScript =
-        (await vcvars(compiler).defaultResolver!.resolve(logger: logger)).first;
-    return vcvarsScript.uri;
-  }
-
-  List<String>? toolchainEnvironmentScriptArguments() {
-    final fromConfig = codeConfig.cCompiler.envScriptArgs;
-    if (fromConfig != null) {
-      logger?.fine('Using envScriptArgs from config: $fromConfig');
-      return fromConfig;
+    if (compilerTool != cl) {
+      // If Clang is used on Windows, and we could discover the MSVC
+      // installation, then Clang should be able to discover it as well.
+      return {};
     }
-
-    // vcvars above already has x64 or x86 in the script name.
-    return null;
-  }
-
-  Future<ToolInstance> resolveLinker() async {
-    final targetOS = hookConfig.targetOS;
-    final targetArchitecture = codeConfig.targetArchitecture;
-    // First, check if the launcher provided a direct path to the compiler.
-    var result = await _tryLoadLinkerFromConfig();
-
-    // Then, try to detect on the host machine.
-    final tool = _selectLinker();
-    if (tool != null) {
-      result ??= await _tryLoadToolFromNativeToolchain(tool);
-    }
-
-    if (result != null) {
-      return result;
-    }
-
-    final errorMessage =
-        "No tools configured on host '${hostOS}_$hostArchitecture' with target "
-        "'${targetOS}_$targetArchitecture'.";
-    logger?.severe(errorMessage);
-    throw ToolError(errorMessage);
-  }
-
-  Future<ToolInstance?> _tryLoadLinkerFromConfig() async {
-    final configLdUri = codeConfig.cCompiler.linker;
-    if (configLdUri != null) {
-      assert(await File.fromUri(configLdUri).exists());
-      logger?.finer('Using linker ${configLdUri.toFilePath()} '
-          'from cCompiler.ld.');
-      final tools = await LinkerRecognizer(configLdUri).resolve(logger: logger);
-      return tools.first;
-    }
-    logger?.finer('No linker set in cCompiler.ld.');
-    return null;
-  }
-
-  /// Select the right compiler for cross compiling to the specified target.
-  Tool? _selectLinker() {
-    final targetOS = hookConfig.targetOS;
-    final targetArchitecture = codeConfig.targetArchitecture;
-
-    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleLd;
-    if (targetOS == OS.android) return androidNdkLld;
-    if (hostOS == OS.linux) {
-      switch (targetArchitecture) {
-        case Architecture.arm:
-          return armLinuxGnueabihfLd;
-        case Architecture.arm64:
-          return aarch64LinuxGnuLd;
-        case Architecture.ia32:
-          return i686LinuxGnuLd;
-        case Architecture.x64:
-          return x86_64LinuxGnuLd;
-        case Architecture.riscv64:
-          return riscv64LinuxGnuLd;
-      }
-    }
-
-    if (hostOS == OS.windows) {
-      switch (targetArchitecture) {
-        case Architecture.ia32:
-          return linkIA32;
-        case Architecture.arm64:
-          return linkArm64;
-        case Architecture.x64:
-          return msvcLink;
-      }
-    }
-
-    return null;
+    final vcvarsScript = (await vcvars(
+      compiler,
+    ).defaultResolver!.resolve(logger: logger)).first;
+    return await environmentFromBatchFile(
+      vcvarsScript.uri,
+      arguments: [
+        /* vcvarsScript already has x64 or x86 in the script name. */
+      ],
+    );
   }
 }

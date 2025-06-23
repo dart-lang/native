@@ -1,0 +1,17 @@
+name: SdkVariableTestObjCLibrary
+description: 'Tests the ObjC SDK variables'
+language: objc
+output: 'sdk_variable_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - NSColorPicker
+    - UIPickerView
+    - NSTextList
+headers:
+  entry-points:
+    - '$XCODE/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSColorPicker.h'
+    - '$IOS_SDK/System/Library/Frameworks/UIKit.framework/Headers/UIPickerView.h'
+    - '$MACOS_SDK/System/Library/Frameworks/AppKit.framework/Headers/NSTextList.h'
+preamble: |
+  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

@@ -8,7 +8,7 @@ project(objective_c_library VERSION 0.0.1 LANGUAGES C)
 add_library(objective_c SHARED
   "objective_c.c"
   "objective_c.m"
-  "proxy.m"
+  "protocol.m"
   "include/dart_api_dl.c"
 )
 

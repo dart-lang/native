@@ -26,16 +26,20 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     return cachedCategory;
   }
 
-  if (!isApiAvailable(cursor)) {
+  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  if (apiAvailability.availability == Availability.none) {
     _logger.info('Omitting deprecated category $name');
     return null;
   }
 
-  _logger.fine('++++ Adding ObjC category: '
-      'Name: $name, ${cursor.completeStringRepr()}');
+  _logger.fine(
+    '++++ Adding ObjC category: '
+    'Name: $name, ${cursor.completeStringRepr()}',
+  );
 
-  final itfCursor =
-      cursor.findChildWithKind(clang_types.CXCursorKind.CXCursor_ObjCClassRef);
+  final itfCursor = cursor.findChildWithKind(
+    clang_types.CXCursorKind.CXCursor_ObjCClassRef,
+  );
   if (itfCursor == null) {
     _logger.severe('Category $name has no interface.');
     return null;
@@ -43,8 +47,10 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
 
   final parentInterface = itfCursor.type().toCodeGenType();
   if (parentInterface is! ObjCInterface) {
-    _logger.severe('Interface of category $name is $parentInterface, '
-        'which is not a valid interface.');
+    _logger.severe(
+      'Interface of category $name is $parentInterface, '
+      'which is not a valid interface.',
+    );
     return null;
   }
 
@@ -53,7 +59,11 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     originalName: name,
     name: config.objcCategories.rename(decl),
     parent: parentInterface,
-    dartDoc: getCursorDocComment(cursor),
+    dartDoc: getCursorDocComment(
+      cursor,
+      fallbackComment: name,
+      availability: apiAvailability.dartDoc,
+    ),
     builtInFunctions: objCBuiltInFunctions,
   );
 
@@ -66,8 +76,11 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
         category.addProtocol(parseObjCProtocolDeclaration(protoCursor));
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) =
-            parseObjCProperty(child, decl, config.objcCategories);
+        final (getter, setter) = parseObjCProperty(
+          child,
+          decl,
+          config.objcCategories,
+        );
         category.addMethod(getter);
         category.addMethod(setter);
         break;
@@ -78,8 +91,10 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     }
   });
 
-  _logger.fine('++++ Finished ObjC category: '
-      'Name: $name, ${cursor.completeStringRepr()}');
+  _logger.fine(
+    '++++ Finished ObjC category: '
+    'Name: $name, ${cursor.completeStringRepr()}',
+  );
 
   parentInterface.categories.add(category);
   return category;

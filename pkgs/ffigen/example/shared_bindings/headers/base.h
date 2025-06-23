@@ -20,6 +20,9 @@ union BaseUnion2{
 
 typedef struct BaseStruct1 BaseTypedef1;
 typedef struct BaseStruct2 BaseTypedef2;
+typedef int BaseNativeTypedef1;
+typedef BaseNativeTypedef1 BaseNativeTypedef2;
+typedef BaseNativeTypedef2 BaseNativeTypedef3;
 
 enum BaseEnum{
     BASE_ENUM_1,
@@ -29,3 +32,4 @@ enum BaseEnum{
 #define BASE_MACRO_1 1;
 
 void base_func1(BaseTypedef1 t1, BaseTypedef2 t2);
+

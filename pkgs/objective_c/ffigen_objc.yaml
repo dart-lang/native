@@ -9,7 +9,9 @@ headers:
   entry-points:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
-    - 'src/proxy.h'
+    - 'src/ns_number.h'
+    - 'src/observer.h'
+    - 'src/protocol.h'
 ffi-native:
 exclude-all-by-default: true
 include-transitive-objc-categories: false
@@ -25,8 +27,9 @@ objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
-    - DOBJCDartProxy
-    - DOBJCDartProxyBuilder
+    - DOBJCObservation
+    - DOBJCDartProtocolBuilder
+    - DOBJCDartProtocol
     - NSArray
     - NSCharacterSet
     - NSCoder
@@ -52,39 +55,81 @@ objc-interfaces:
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionChange
     - NSOrderedCollectionDifference
     - NSOrderedSet
-    - NSProxy
+    - NSPort
+    - NSPortMessage
+    - NSProgress
     - NSRunLoop
     - NSSet
     - NSStream
     - NSString
+    - NSTimer
     - NSURL
     - NSURLHandle
     - NSValue
     - Protocol
   rename:
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
-    'DOBJCDartProxy': 'DartProxy'
-    'DOBJCDartProxyBuilder': 'DartProxyBuilder'
+    'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
+    'DOBJCDartProtocol': 'DartProtocol'
 objc-protocols:
   include:
+    - NSCoding
+    - NSCopying
+    - NSFastEnumeration
+    - NSItemProviderReading
+    - NSItemProviderWriting
+    - NSMutableCopying
+    - NSObject
+    - NSPortDelegate
+    - NSSecureCoding
     - NSStreamDelegate
+    - Observer
+  rename:
+    'NSObject': 'NSObjectProtocol'
 objc-categories:
   include:
     - NSDataCreation
+    - NSExtendedArray
+    - NSExtendedData
+    - NSExtendedDate
+    - NSExtendedDictionary
+    - NSExtendedEnumerator
+    - NSExtendedMutableArray
     - NSExtendedMutableData
+    - NSExtendedMutableDictionary
+    - NSExtendedMutableOrderedSet
+    - NSExtendedMutableSet
+    - NSExtendedOrderedSet
+    - NSExtendedSet
     - NSNumberCreation
+    - NSNumberIsFloat
     - NSStringExtensionMethods
 structs:
   include:
-    - _NSRange
+    - AEDesc
+    - __CFRunLoop
+    - __CFString
+    - CGPoint
+    - CGRect
+    - CGSize
+    - NSEdgeInsets
     - NSFastEnumerationState
+    - _NSRange
+    - _NSZone
+    - OpaqueAEDataStorageType
   rename:
+    __CFRunLoop: CFRunLoop
+    __CFString: CFString
     _NSRange: NSRange
+    _NSZone: NSZone
 enums:
   include:
+    - NSAppleEventSendOptions
     - NSBinarySearchingOptions
+    - NSCollectionChangeType
     - NSComparisonResult
     - NSDataBase64DecodingOptions
     - NSDataBase64EncodingOptions
@@ -92,13 +137,18 @@ enums:
     - NSDataReadingOptions
     - NSDataSearchOptions
     - NSDataWritingOptions
+    - NSDecodingFailurePolicy
     - NSEnumerationOptions
     - NSItemProviderFileOptions
     - NSItemProviderRepresentationVisibility
     - NSKeyValueChange
     - NSKeyValueObservingOptions
     - NSKeyValueSetMutationKind
+    - NSLinguisticTaggerOptions
+    - NSLocaleLanguageDirection
     - NSOrderedCollectionDifferenceCalculationOptions
+    - NSPropertyListFormat
+    - NSQualityOfService
     - NSSortOptions
     - NSStreamEvent
     - NSStreamStatus
@@ -110,7 +160,15 @@ enums:
     - NSURLHandleStatus
 globals:
   include:
+    - NSKeyValueChangeIndexesKey
+    - NSKeyValueChangeKindKey
+    - NSKeyValueChangeNewKey
+    - NSKeyValueChangeNotificationIsPriorKey
+    - NSKeyValueChangeOldKey
     - NSLocalizedDescriptionKey
+typedefs:
+  include:
+    - 'CFStringRef'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
@@ -126,3 +184,4 @@ preamble: |
   // ignore_for_file: unused_element
   // ignore_for_file: unused_field
   // coverage:ignore-file
+  import 'dart:collection';

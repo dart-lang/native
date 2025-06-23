@@ -6,7 +6,7 @@
 Utilities for working with Foreign Function Interface (FFI) code, incl.
 converting between Dart strings and C strings encoded with UTF-8 and UTF-16.
 
-Please see the [API reference](https://pub.dev/documentation/ffi/latest/ffi/ffi-library.html) for more documentation and the [tests](https://github.com/dart-lang/ffi/tree/main/test) for example usage. 
+Please see the [API reference](https://pub.dev/documentation/ffi/latest/ffi/ffi-library.html) for more documentation and the [tests](https://github.com/dart-lang/native/tree/main/pkgs/ffi/test) for example usage. 
 
 For additional details about Dart FFI (`dart:ffi`), see
 https://dart.dev/guides/libraries/c-interop.

@@ -13,8 +13,10 @@ class ObjCNullable extends Type {
   Type child;
 
   ObjCNullable(this.child)
-      : assert(isSupported(child),
-            'Nullable ${child.typealiasType.runtimeType} is not supported');
+    : assert(
+        isSupported(child),
+        'Nullable ${child.typealiasType.runtimeType} is not supported',
+      );
 
   static bool isSupported(Type type) => _isSupported(type.typealiasType);
   static bool _isSupported(Type type) =>
@@ -63,8 +65,12 @@ class ObjCNullable extends Type {
     // all the types that are allowed to be a child type. If we add more allowed
     // child types, we may have to start special casing each type. For example,
     // `value.pointer` becomes `value?.pointer ?? nullptr`.
-    final convertedValue = child.convertDartTypeToFfiDartType(w, '$value?',
-        objCRetain: objCRetain, objCAutorelease: objCAutorelease);
+    final convertedValue = child.convertDartTypeToFfiDartType(
+      w,
+      '$value?',
+      objCRetain: objCRetain,
+      objCAutorelease: objCAutorelease,
+    );
     return '$convertedValue ?? ${w.ffiLibraryPrefix}.nullptr';
   }
 

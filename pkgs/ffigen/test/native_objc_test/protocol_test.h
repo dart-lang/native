@@ -5,6 +5,11 @@
 #import <Foundation/NSObject.h>
 #import <Foundation/NSString.h>
 
+const char* getClassName(void* cls);
+void* getClass(id object);
+void objc_autoreleasePoolPop(void *pool);
+void *objc_autoreleasePoolPush();
+
 typedef struct {
   int32_t x;
   int32_t y;
@@ -44,6 +49,9 @@ typedef struct {
 - (int32_t)disabledMethod;
 #endif
 
+@optional
+- (void)intPtrMethod:(int32_t*)ptr;
+
 @end
 
 
@@ -65,12 +73,18 @@ typedef struct {
 - (int32_t)fooMethod;
 @end
 
+@protocol FilteredUnusedProtocol
+- (int32_t)filteredUnusedProtocolMethod;
+@end
+
 
 @interface ProtocolConsumer : NSObject
-- (NSString*)callInstanceMethod:(id<MyProtocol>)protocol;
+- (NSString*)callInstanceMethod:(id<SuperProtocol>)protocol;
 - (int32_t)callOptionalMethod:(id<MyProtocol>)protocol;
 - (int32_t)callOtherMethod:(id<SecondaryProtocol>)protocol;
-- (void)callMethodOnRandomThread:(id<SecondaryProtocol>)protocol;
+- (void)callMethodOnRandomThread:(id<MyProtocol>)protocol;
+- (void)callBlockingMethodOnRandomThread:(id<MyProtocol>)protocol;
+- (int32_t)callTwoMethods:(id<MyProtocol, SecondaryProtocol>)protocol;
 @end
 
 

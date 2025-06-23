@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@OnPlatform({
-  'mac-os': Timeout.factor(2),
-  'windows': Timeout.factor(10),
-})
+@OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
+import 'package:code_assets/code_assets.dart';
 import 'package:collection/collection.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
@@ -19,7 +18,7 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 
 void main() {
-  test('Config provided compiler', () async {
+  test('Input provided compiler', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final ar = [
@@ -38,76 +37,82 @@ void main() {
       ...await lld.defaultResolver!.resolve(logger: logger),
     ].first.uri;
     final envScript = [
-      ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger)
+      ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger),
     ].firstOrNull?.uri;
 
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+    final targetOS = OS.current;
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: 'dummy',
         packageRoot: tempUri,
-        targetOS: OS.current,
-        buildMode: BuildMode.release,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupCodeConfig(
-        targetArchitecture: Architecture.current,
-        linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: CCompilerConfig(
-          archiver: ar,
-          compiler: cc,
-          linker: ld,
-          envScript: envScript,
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: targetOS,
+          macOS: targetOS == OS.macOS
+              ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+              : null,
+          targetArchitecture: Architecture.current,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: CCompilerConfig(
+            archiver: ar,
+            compiler: cc,
+            linker: ld,
+            windows: targetOS == OS.windows
+                ? WindowsCCompilerConfig(
+                    developerCommandPrompt: DeveloperCommandPrompt(
+                      script: envScript!,
+                      arguments: [],
+                    ),
+                  )
+                : null,
+          ),
         ),
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectory: tempUri,
-      outputDirectoryShared: tempUri2,
-    );
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = buildInputBuilder.build();
     final resolver = CompilerResolver(
-        hookConfig: buildConfig,
-        codeConfig: buildConfig.codeConfig,
-        logger: logger);
+      codeConfig: buildInput.config.code,
+      logger: logger,
+    );
     final compiler = await resolver.resolveCompiler();
     final archiver = await resolver.resolveArchiver();
-    expect(compiler.uri, buildConfig.codeConfig.cCompiler.compiler);
-    expect(archiver.uri, buildConfig.codeConfig.cCompiler.archiver);
+    expect(compiler.uri, buildInput.config.code.cCompiler?.compiler);
+    expect(archiver.uri, buildInput.config.code.cCompiler?.archiver);
+    final environment = await resolver.resolveEnvironment(compiler);
+    if (targetOS == OS.windows) {
+      expect(environment, isNot(equals({})));
+    } else {
+      expect(environment, equals({}));
+    }
   });
 
   test('No compiler found', () async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
-    final buildConfigBuilder = BuildConfigBuilder()
-      ..setupHookConfig(
-        supportedAssetTypes: [CodeAsset.type],
+    final buildInputBuilder = BuildInputBuilder()
+      ..setupShared(
         packageName: 'dummy',
         packageRoot: tempUri,
-        targetOS: OS.windows,
-        buildMode: BuildMode.release,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: tempUri2,
       )
-      ..setupBuildConfig(
-        linkingEnabled: false,
-        dryRun: false,
-      )
-      ..setupCodeConfig(
-        targetArchitecture: Architecture.arm64,
-        linkModePreference: LinkModePreference.dynamic,
-        cCompilerConfig: cCompiler,
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.windows,
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: LinkModePreference.dynamic,
+          cCompiler: cCompiler,
+        ),
       );
-    buildConfigBuilder.setupBuildRunConfig(
-      outputDirectoryShared: tempUri2,
-      outputDirectory: tempUri,
-    );
 
-    final buildConfig = BuildConfig(buildConfigBuilder.json);
+    final buildInput = buildInputBuilder.build();
 
     final resolver = CompilerResolver(
-      hookConfig: buildConfig,
-      codeConfig: buildConfig.codeConfig,
+      codeConfig: buildInput.config.code,
       logger: logger,
       hostOS: OS.android, // This is never a host.
       hostArchitecture: Architecture.arm64, // This is never a host.

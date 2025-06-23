@@ -35,7 +35,7 @@ extension NSMutableDataExtensions on NSMutableData {
     final f = malloc<Uint8>(iterable.length);
     try {
       f.asTypedList(iterable.length).setAll(0, iterable);
-      appendBytes_length_(f.cast(), iterable.length);
+      appendBytes(f.cast(), length: iterable.length);
     } finally {
       malloc.free(f);
     }
@@ -51,12 +51,12 @@ extension NSMutableDataListExtension on List<int> {
   /// `value.toUnsigned(8)`.
   NSMutableData toNSMutableData() {
     if (length == 0) {
-      return NSMutableData.new1();
+      return NSMutableData();
     }
     final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);
 
-    final data = NSMutableData.dataWithBytes_length_(buffer.cast(), length);
+    final data = NSMutableData.dataWithBytes(buffer.cast(), length: length);
     malloc.free(buffer);
 
     return data;

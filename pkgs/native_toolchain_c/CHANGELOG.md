@@ -1,9 +1,80 @@
-## 0.6.1-wip
+## 0.16.6
+
+* Support linking for Windows.
+
+## 0.16.5
+
+* Support linking for iOS.
+
+## 0.16.4
+
+* Support linking for MacOS.
+
+## 0.16.3
+
+* Support linking for Android.
+
+## 0.16.2
+
+* Bump the SDK constraint to at least the one from `package:hooks` to fix
+  dartdoc generation on https://pub.dev.
+
+## 0.16.1
+
+- Firebase Studio NixOS support (default install locations for native
+  toolchains).
+
+## 0.16.0
+
+- Depend on `package:code_assets` and `package:hooks` 0.19.0.
+  (`package:native_assets_cli` was split up into these packages.)
+
+## 0.15.0
+
+- Bump `package:native_assets_cli` to 0.18.0.
+
+## 0.14.0
+
+- Bump `package:native_assets_cli` to 0.17.0.
+
+## 0.13.0
+
+- Bump `package:native_assets_cli` to 0.16.0.
+
+## 0.12.0
+
+- Bump `package:native_assets_cli` to 0.16.0.
+
+## 0.11.0
+
+- Replace `linkInPackage` with `Routing`.
+- Bump `package:native_assets_cli` to 0.14.0.
+
+## 0.10.0
+
+- Bump `package:native_assets_cli` to 0.13.0 and required fixes.
+
+## 0.9.0
+
+- Added support for forced includes to `CBuilder`.
+- Toolchain recognizing fixes.
+- Bump `package:native_assets_cli` to 0.12.0.
+
+## 0.8.0
+
+- Bump `package:native_assets_cli` to 0.11.0.
+- Support for LLVM Clang on Windows (requires MSVC to be installed).
+
+## 0.7.0
 
 - For Android, produce dylibs with page-size set to 16kb by default.
   https://github.com/dart-lang/native/issues/1611
-- Make optimization level configurable. Defaults to `-3s` and `/O3`.
-  https://github.com/dart-lang/native/issues/1267
+- Make optimization level configurable from `CBuilder`. It defaults to `-3s` and
+  `/O3`. https://github.com/dart-lang/native/issues/1267
+- Make build mode configurable form `CBuilder`. It defaults to `release`. (The
+  build mode was removed from the build config of the hooks.)
+- Add `libraries` and `libraryDirectories` to `CTool`.
+- Bump `package:native_assets_cli` to 0.10.0.
 
 ## 0.6.0
 

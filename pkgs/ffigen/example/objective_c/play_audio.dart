@@ -17,10 +17,12 @@ void main(List<String> args) async {
   DynamicLibrary.open(_dylibPath);
   for (final file in args) {
     final fileStr = NSString(file);
-    print('Loading $fileStr');
-    final fileUrl = NSURL.fileURLWithPath_(fileStr);
-    final player =
-        AVAudioPlayer.alloc().initWithContentsOfURL_error_(fileUrl, nullptr);
+    print('Loading $file');
+    final fileUrl = NSURL.fileURLWithPath(fileStr);
+    final player = AVAudioPlayer.alloc().initWithContentsOfURL(
+      fileUrl,
+      error: nullptr,
+    );
     if (player == null) {
       print('Failed to load audio');
       continue;

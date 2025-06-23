@@ -4,11 +4,11 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -19,16 +19,31 @@ void main() {
   group('isInstance', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      DynamicLibrary.open(
+        path.join(
+          packagePathForTests,
+          '..',
+          'objective_c',
+          'test',
+          'objective_c.dylib',
+        ),
+      );
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('is_instance');
     });
 
     test('Unrelated classes', () {
-      final base = NSObject.castFrom(IsInstanceBaseClass.new1());
-      final unrelated = NSObject.castFrom(IsInstanceUnrelatedClass.new1());
+      final base = NSObject.castFrom(IsInstanceBaseClass());
+      final unrelated = NSObject.castFrom(IsInstanceUnrelatedClass());
       expect(IsInstanceBaseClass.isInstance(base), isTrue);
       expect(IsInstanceBaseClass.isInstance(unrelated), isFalse);
       expect(IsInstanceUnrelatedClass.isInstance(base), isFalse);
@@ -36,8 +51,8 @@ void main() {
     });
 
     test('Base class vs child class', () {
-      final base = NSObject.castFrom(IsInstanceBaseClass.new1());
-      final child = NSObject.castFrom(IsInstanceChildClass.new1());
+      final base = NSObject.castFrom(IsInstanceBaseClass());
+      final child = NSObject.castFrom(IsInstanceChildClass());
       expect(IsInstanceBaseClass.isInstance(base), isTrue);
       expect(IsInstanceBaseClass.isInstance(child), isTrue);
       expect(IsInstanceChildClass.isInstance(base), isFalse);

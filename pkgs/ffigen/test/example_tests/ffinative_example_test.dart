@@ -16,15 +16,14 @@ void main() {
     });
 
     test('ffinative', () {
-      final config =
-          testConfigFromPath(path.join('example', 'ffinative', 'config.yaml'));
+      final config = testConfigFromPath(
+        path.join(packagePathForTests, 'example', 'ffinative', 'config.yaml'),
+      );
       final library = parse(config);
 
-      matchLibraryWithExpected(
-        library,
-        'example_ffinative.dart',
-        [config.output.toFilePath()],
-      );
+      matchLibraryWithExpected(library, 'example_ffinative.dart', [
+        config.output.toFilePath(),
+      ]);
     });
   });
 }

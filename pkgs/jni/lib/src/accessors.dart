@@ -62,6 +62,11 @@ extension JniResultMethods on JniResult {
     return value.l;
   }
 
+  JObjectRefType get referenceType {
+    check();
+    return JObjectRefType.fromValue(value.i);
+  }
+
   JReference get reference {
     final pointer = objectPointer;
     return pointer == nullptr ? jNullReference : JGlobalReference(pointer);

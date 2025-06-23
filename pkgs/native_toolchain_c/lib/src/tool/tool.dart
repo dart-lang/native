@@ -9,10 +9,7 @@ class Tool {
 
   ToolResolver? defaultResolver;
 
-  Tool({
-    required this.name,
-    this.defaultResolver,
-  });
+  Tool({required this.name, this.defaultResolver});
 
   @override
   bool operator ==(Object other) => other is Tool && name == other.name;

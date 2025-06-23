@@ -46,7 +46,7 @@ const _keywords = {
   'extends': _Allowed.none,
   'extension': _Allowed.fields | _Allowed.methods,
   'external': _Allowed.fields | _Allowed.methods,
-  'factory': _Allowed.fields | _Allowed.fields,
+  'factory': _Allowed.fields | _Allowed.methods,
   'false': _Allowed.none,
   'final': _Allowed.none,
   'finally': _Allowed.none,
@@ -95,6 +95,8 @@ const Map<String, int> _definedSyms = {
   'runtimeType': 1,
   'noSuchMethod': 1,
   'reference': 1,
+  'isA': 1,
+  'isInstanceOf': 1,
   'isReleased': 1,
   'isNull': 1,
   'use': 1,
@@ -137,7 +139,10 @@ String _renameConflict(
   return _keywordRename(name, kind);
 }
 
-class Renamer implements Visitor<Classes, void> {
+class Renamer extends Visitor<Classes, void> with TopLevelVisitor {
+  @override
+  final GenerationStage stage = GenerationStage.renamer;
+
   final Config config;
 
   Renamer(this.config);
@@ -155,7 +160,7 @@ class Renamer implements Visitor<Classes, void> {
 class _ClassRenamer implements Visitor<ClassDecl, void> {
   final Config config;
   final Set<ClassDecl> renamed;
-  final Map<String, int> classNameCounts = {};
+  final Map<String, int> topLevelNameCounts = {};
   final Map<ClassDecl, Map<String, int>> nameCounts = {};
 
   _ClassRenamer(
@@ -175,38 +180,51 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     }
     node.methodNumsAfterRenaming = {};
 
-    // TODO(https://github.com/dart-lang/native/issues/1516): Nested classes
-    // should continue to use dollar sign.
-    // TODO(https://github.com/dart-lang/native/issues/1544): Class names can
-    // have dollar signs even if not nested.
-    final className = _preprocess(node.name.replaceAll(r'$', '_'));
+    final superClass = (node.superclass! as DeclaredType).classDecl;
+    superClass.accept(this);
+    nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
+
+    if (node.outerClass case final outerClass?) {
+      outerClass.accept(this);
+    }
+
+    final outerClassName =
+        node.outerClass == null ? '' : '${node.outerClass!.finalName}\$';
+    final className =
+        '$outerClassName${_preprocess(node.userDefinedName ?? node.name)}';
 
     // When generating all the classes in a single file
     // the names need to be unique.
     final uniquifyName =
         config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
     node.finalName = uniquifyName
-        ? _renameConflict(classNameCounts, className, _ElementKind.klass)
+        ? _renameConflict(topLevelNameCounts, className, _ElementKind.klass)
         : className;
     node.typeClassName = '\$${node.finalName}\$Type';
     node.nullableTypeClassName = '\$${node.finalName}\$NullableType';
-    log.fine('Class ${node.binaryName} is named ${node.finalName}');
 
-    final superClass = (node.superclass!.type as DeclaredType).classDecl;
-    superClass.accept(this);
-    nameCounts[node]!.addAll(nameCounts[superClass] ?? {});
+    if (node.userDefinedName == null ||
+        node.userDefinedName == node.finalName) {
+      log.fine('Class ${node.binaryName} is named ${node.finalName}');
+    } else {
+      log.warning('Renaming Class ${node.binaryName} to ${node.userDefinedName}'
+          ' causes a name collision. Renamed to ${node.finalName} instead.');
+    }
 
     // Rename fields before renaming methods. In case a method and a field have
     // identical names, the field will keep its original name and the
     // method will be renamed.
-    final fieldRenamer = _FieldRenamer(config, nameCounts[node]!);
+    final fieldRenamer = _FieldRenamer(
+      config,
+      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
+    );
     for (final field in node.fields) {
       field.accept(fieldRenamer);
     }
 
     final methodRenamer = _MethodRenamer(
       config,
-      nameCounts[node]!,
+      uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);
@@ -222,11 +240,11 @@ class _MethodRenamer implements Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final name = _preprocess(node.isConstructor ? 'new' : node.name);
+    final name = _preprocess(
+        node.userDefinedName ?? (node.isConstructor ? 'new' : node.name));
     final sig = node.javaSig;
     // If node is in super class, assign its number, overriding it.
-    final superClass =
-        (node.classDecl.superclass!.type as DeclaredType).classDecl;
+    final superClass = (node.classDecl.superclass! as DeclaredType).classDecl;
     final superNum = superClass.methodNumsAfterRenaming[sig];
     if (superNum != null) {
       // Don't rename if superNum == 0
@@ -240,8 +258,16 @@ class _MethodRenamer implements Visitor<Method, void> {
       node.finalName = _renameConflict(nameCounts, name, _ElementKind.method);
       node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
     }
-    log.fine('Method ${node.classDecl.binaryName}#${node.name}'
-        ' is named ${node.finalName}');
+
+    if (node.userDefinedName == null ||
+        node.userDefinedName == node.finalName) {
+      log.fine('Method ${node.classDecl.binaryName}#${node.name}'
+          ' is named ${node.finalName}');
+    } else {
+      log.warning('Renaming Method ${node.classDecl.binaryName}#'
+          '${node.name} to ${node.userDefinedName} cause a name collision. '
+          'Renamed to ${node.finalName} instead.');
+    }
 
     final paramRenamer = _ParamRenamer(config);
     for (final param in node.params) {
@@ -258,10 +284,18 @@ class _FieldRenamer implements Visitor<Field, void> {
 
   @override
   void visit(Field node) {
-    final fieldName = _preprocess(node.name);
+    final fieldName = _preprocess(node.userDefinedName ?? node.name);
     node.finalName = _renameConflict(nameCounts, fieldName, _ElementKind.field);
-    log.fine('Field ${node.classDecl.binaryName}#${node.name}'
-        ' is named ${node.finalName}');
+
+    if (node.userDefinedName == null ||
+        node.userDefinedName == node.finalName) {
+      log.fine('Field ${node.classDecl.binaryName}#${node.name}'
+          ' is named ${node.finalName}');
+    } else {
+      log.warning('Renaming Field ${node.classDecl.binaryName}#${node.name}'
+          ' to ${node.userDefinedName} cause a name collision. '
+          'Renamed to ${node.finalName} instead.');
+    }
   }
 }
 
@@ -272,6 +306,7 @@ class _ParamRenamer implements Visitor<Param, void> {
 
   @override
   void visit(Param node) {
-    node.finalName = _keywordRename(node.name, _ElementKind.field);
+    node.finalName =
+        _keywordRename(node.userDefinedName ?? node.name, _ElementKind.field);
   }
 }

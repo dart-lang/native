@@ -32,7 +32,10 @@ String _toJavaBinaryName(String kotlinBinaryName) {
 
 /// A [Visitor] that adds the the information from Kotlin's metadata to the Java
 /// classes and methods.
-class KotlinProcessor extends Visitor<Classes, void> {
+class KotlinProcessor extends Visitor<Classes, void> with TopLevelVisitor {
+  @override
+  final GenerationStage stage = GenerationStage.kotlinProcessor;
+
   @override
   void visit(Classes node) {
     final classProcessor = _KotlinClassProcessor();
@@ -136,6 +139,7 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
   @override
   void visit(Method node) {
     _processParams(node.params, function.valueParameters);
+    node.kotlinFunction = function;
     for (var i = 0; i < node.typeParams.length; ++i) {
       node.typeParams[i]
           .accept(_KotlinTypeParamProcessor(function.typeParameters[i]));
@@ -143,23 +147,24 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
     if (function.isSuspend) {
       const kotlinContinutationType = 'kotlin.coroutines.Continuation';
       assert(node.params.isNotEmpty &&
-          node.params.last.type.kind == Kind.declared &&
+          node.params.last.type is DeclaredType &&
           node.params.last.type.name == kotlinContinutationType);
       var continuationType =
-          (node.params.last.type.type as DeclaredType).params.firstOrNull;
+          (node.params.last.type as DeclaredType).params.firstOrNull;
       if (continuationType != null &&
-          continuationType.kind == Kind.wildcard &&
-          (continuationType.type as Wildcard).superBound != null) {
-        continuationType = (continuationType.type as Wildcard).superBound!;
+          continuationType is Wildcard &&
+          continuationType.superBound != null) {
+        continuationType = continuationType.superBound!;
       }
       node.asyncReturnType = continuationType == null
-          ? TypeUsage.object
+          ? DeclaredType.object.clone()
           : continuationType.clone();
       node.asyncReturnType!.accept(_KotlinTypeProcessor(function.returnType));
 
-      // The continuation object is always non-null.
-      node.returnType.type.annotations ??= [];
-      node.returnType.type.annotations!.add(Annotation.nonNull);
+      if (!node.asyncReturnType!.isNullable) {
+        node.returnType.annotations ??= [];
+        node.returnType.annotations!.add(Annotation.nonNull);
+      }
     } else {
       node.returnType.accept(_KotlinTypeProcessor(function.returnType));
     }
@@ -254,7 +259,9 @@ class _KotlinTypeProcessor extends TypeVisitor<void> {
   @override
   void visitDeclaredType(DeclaredType node) {
     for (var i = 0; i < node.params.length; ++i) {
-      node.params[i].accept(_KotlinTypeProcessor(kotlinType.arguments[i].type));
+      if (kotlinType.arguments[i] case final KotlinTypeProjection projection) {
+        node.params[i].accept(_KotlinTypeProcessor(projection.type));
+      }
     }
     super.visitDeclaredType(node);
   }
@@ -262,8 +269,10 @@ class _KotlinTypeProcessor extends TypeVisitor<void> {
   @override
   void visitArrayType(ArrayType node) {
     if (kotlinType.arguments.isNotEmpty) {
-      node.elementType
-          .accept(_KotlinTypeProcessor(kotlinType.arguments.first.type));
+      if (kotlinType.arguments.first
+          case final KotlinTypeProjection projection) {
+        node.elementType.accept(_KotlinTypeProcessor(projection.type));
+      }
     }
     super.visitArrayType(node);
   }

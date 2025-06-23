@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
@@ -24,9 +25,7 @@ void main() {
     ];
     expect(toolInstances.isNotEmpty, true);
     final toolInstance = toolInstances.first;
-    final versionArguments = [
-      if (toolInstance.tool != cl) '--version',
-    ];
+    final versionArguments = [if (toolInstance.tool != cl) '--version'];
     final version = await CliVersionResolver.executableVersion(
       toolInstance.uri,
       arguments: versionArguments,
@@ -75,15 +74,19 @@ void main() {
       relativePath: Uri.file(bazExeName),
     );
     final resolvedBarInstances = await barResolver.resolve(logger: logger);
-    expect(
-      resolvedBarInstances,
-      [ToolInstance(tool: Tool(name: 'bar'), uri: barExeUri)],
-    );
+    expect(resolvedBarInstances, [
+      ToolInstance(
+        tool: Tool(name: 'bar'),
+        uri: barExeUri,
+      ),
+    ]);
     final resolvedBazInstances = await bazResolver.resolve(logger: logger);
-    expect(
-      resolvedBazInstances,
-      [ToolInstance(tool: Tool(name: 'baz'), uri: bazExeUri)],
-    );
+    expect(resolvedBazInstances, [
+      ToolInstance(
+        tool: Tool(name: 'baz'),
+        uri: bazExeUri,
+      ),
+    ]);
   });
 
   test('logger', () async {
@@ -93,9 +96,13 @@ void main() {
     final bazExeUri = tempUri.resolve(bazExeName);
     await File.fromUri(barExeUri).writeAsString('dummy');
     final barResolver = InstallLocationResolver(
-        toolName: 'bar', paths: [barExeUri.toFilePath().unescape()]);
+      toolName: 'bar',
+      paths: [barExeUri.toFilePath().unescape()],
+    );
     final bazResolver = InstallLocationResolver(
-        toolName: 'baz', paths: [bazExeUri.toFilePath().unescape()]);
+      toolName: 'baz',
+      paths: [bazExeUri.toFilePath().unescape()],
+    );
     final barLogs = <String>[];
     final bazLogs = <String>[];
     await barResolver.resolve(logger: createCapturingLogger(barLogs));

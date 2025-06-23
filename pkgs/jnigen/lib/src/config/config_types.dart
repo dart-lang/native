@@ -10,11 +10,11 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
 
 import '../elements/elements.dart';
+import '../elements/j_elements.dart' as j_ast;
 import '../logging/logging.dart';
 import '../util/find_package.dart';
 import 'config_exception.dart';
 import 'experiments.dart';
-import 'filters.dart';
 import 'yaml_reader.dart';
 
 /// Modify this when symbols file format changes according to pub_semver.
@@ -233,13 +233,6 @@ class OutputConfig {
   SymbolsOutputConfig? symbolsConfig;
 }
 
-class BindingExclusions {
-  BindingExclusions({this.methods, this.fields, this.classes});
-  MethodFilter? methods;
-  FieldFilter? fields;
-  ClassFilter? classes;
-}
-
 bool _isCapitalized(String s) {
   final firstLetter = s.substring(0, 1);
   return firstLetter == firstLetter.toUpperCase();
@@ -265,24 +258,23 @@ void _validateClassName(String className) {
 
 /// Configuration for jnigen binding generation.
 class Config {
-  Config({
-    required this.outputConfig,
-    required this.classes,
-    this.experiments,
-    this.exclude,
-    this.sourcePath,
-    this.classPath,
-    this.preamble,
-    this.customClassBody,
-    this.androidSdkConfig,
-    this.mavenDownloads,
-    this.summarizerOptions,
-    this.nonNullAnnotations,
-    this.nullableAnnotations,
-    this.logLevel = Level.INFO,
-    this.dumpJsonTo,
-    this.imports,
-  }) {
+  Config(
+      {required this.outputConfig,
+      required this.classes,
+      this.experiments,
+      this.sourcePath,
+      this.classPath,
+      this.preamble,
+      this.customClassBody,
+      this.androidSdkConfig,
+      this.mavenDownloads,
+      this.summarizerOptions,
+      this.nonNullAnnotations,
+      this.nullableAnnotations,
+      this.logLevel = Level.INFO,
+      this.dumpJsonTo,
+      this.imports,
+      this.visitors}) {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -301,9 +293,6 @@ class Config {
   List<String> classes;
 
   Set<Experiment?>? experiments;
-
-  /// Methods and fields to be excluded from generated bindings.
-  final BindingExclusions? exclude;
 
   /// Paths to search for java source files.
   ///
@@ -348,6 +337,9 @@ class Config {
   ///
   /// Used for testing package:jnigen.
   final Map<String, String>? customClassBody;
+
+  // User custom visitors.
+  List<j_ast.Visitor>? visitors;
 
   Future<void> importClasses() async {
     importedClasses = {};
@@ -429,20 +421,13 @@ class Config {
                   'of "$binaryName".',
                 );
               }
-              final boundKind = (e.value as String) == 'DECLARED'
-                  ? Kind.declared
-                  : Kind.typeVariable;
               final ReferredType type;
-              if (boundKind == Kind.declared) {
+              if ((e.value as String) == 'DECLARED') {
                 type = DeclaredType(binaryName: boundName);
               } else {
                 type = TypeVar(name: boundName);
               }
-              return TypeUsage(
-                shorthand: binaryName,
-                kind: boundKind,
-                typeJson: {},
-              )..type = type;
+              return type;
             }).toList();
             classDecl.allTypeParams.add(
               TypeParam(name: typeParamName, bounds: bounds),
@@ -486,24 +471,6 @@ class Config {
       return res;
     }
 
-    MemberFilter<T>? regexFilter<T extends ClassMember>(String property) {
-      final exclusions = prov.getStringList(property);
-      if (exclusions == null) return null;
-      final filters = <MemberFilter<T>>[];
-      for (var exclusion in exclusions) {
-        final split = exclusion.split('#');
-        if (split.length != 2) {
-          throw ConfigException('Error parsing exclusion: "$exclusion": '
-              'expected to be in binaryName#member format.');
-        }
-        filters.add(MemberNameFilter<T>.exclude(
-          RegExp(split[0]),
-          RegExp(split[1]),
-        ));
-      }
-      return CombinedMemberFilter<T>(filters);
-    }
-
     String? getSdkRoot() {
       final root = prov.getString(_Props.androidSdkRoot) ??
           Platform.environment['ANDROID_SDK_ROOT'];
@@ -531,10 +498,6 @@ class Config {
         extraArgs: prov.getStringList(_Props.summarizerArgs) ?? const [],
         backend: getSummarizerBackend(prov.getString(_Props.backend), null),
         workingDirectory: prov.getPath(_Props.summarizerWorkingDir),
-      ),
-      exclude: BindingExclusions(
-        methods: regexFilter<Method>(_Props.excludeMethods),
-        fields: regexFilter<Field>(_Props.excludeFields),
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
@@ -623,9 +586,6 @@ class _Props {
   static const sourcePath = 'source_path';
   static const classPath = 'class_path';
   static const classes = 'classes';
-  static const exclude = 'exclude';
-  static const excludeMethods = '$exclude.methods';
-  static const excludeFields = '$exclude.fields';
 
   static const experiments = 'enable_experiment';
   static const import = 'import';

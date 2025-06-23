@@ -7,4 +7,5 @@
 #include "../../src/input_stream_adapter.m"
 #include "../../src/objective_c.m"
 #include "../../src/objective_c_bindings_generated.m"
-#include "../../src/proxy.m"
+#include "../../src/observer.m"
+#include "../../src/protocol.m"

@@ -23,7 +23,7 @@ ${strings.output}: 'unused'
 
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/imported_types.h'
+    - '${absPath('test/header_parser_tests/imported_types.h')}'
   ${strings.includeDirectives}:
     - '**imported_types.h'
 
@@ -34,12 +34,15 @@ ${strings.preamble}: |
     });
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_imported_types_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_imported_types_bindings.dart'
-      ]);
+        actual,
+        'header_parser_imported_types_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_imported_types_bindings.dart',
+        ],
+      );
     });
   });
 }

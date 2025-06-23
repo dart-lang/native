@@ -19,7 +19,7 @@ void main() {
   final classBar = ClassDeclaration(id: 'Bar', name: 'Bar');
 
   final testDecls = <Declaration>[
-    ...BuiltInDeclaration.values,
+    ...builtInDeclarations,
     classFoo,
     classBar,
   ];

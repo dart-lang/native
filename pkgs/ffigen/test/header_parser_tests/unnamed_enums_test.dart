@@ -23,7 +23,7 @@ ${strings.description}: 'Unnamed Enums Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/unnamed_enums.h'
+    - '${absPath('test/header_parser_tests/unnamed_enums.h')}'
 ${strings.enums}:
   ${strings.exclude}:
     - Named
@@ -44,12 +44,18 @@ ${strings.unnamedEnums}:
     });
 
     test('Ignore unnamed enums inside typedefs', () {
-      expect(() => actual.getBindingAsString('E'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('F'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('G'),
-          throwsA(const TypeMatcher<NotFoundException>()));
+      expect(
+        () => actual.getBindingAsString('E'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('F'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('G'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
     });
   });
 }
@@ -58,16 +64,8 @@ Library expectedLibrary() {
   return Library(
     name: 'Bindings',
     bindings: [
-      Constant(
-        name: 'A',
-        rawType: 'int',
-        rawValue: '1',
-      ),
-      Constant(
-        name: 'C',
-        rawType: 'int',
-        rawValue: '3',
-      ),
+      Constant(name: 'A', rawType: 'int', rawValue: '1'),
+      Constant(name: 'C', rawType: 'int', rawValue: '3'),
     ],
   );
 }

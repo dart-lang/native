@@ -2,132 +2,157 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-//TODO(mosuem): Enable for windows and mac.
-// See https://github.com/dart-lang/native/issues/1376.
-@TestOn('linux')
-library;
-
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 import 'build_testfiles.dart';
 
-Future<void> runTests(List<Architecture> architectures) async {
-  CLinker linkerManual(List<String> sources) => CLinker.library(
-        name: 'mylibname',
-        assetName: '',
-        sources: sources,
-        linkerOptions: LinkerOptions.manual(
-          flags: ['--strip-debug', '-u', 'my_other_func'],
-          gcSections: true,
-          linkerScript:
-              packageUri.resolve('test/clinker/testfiles/linker/symbols.lds'),
-        ),
-      );
-  CLinker linkerAuto(List<String> sources) => CLinker.library(
-        name: 'mylibname',
-        assetName: '',
-        sources: sources,
-        linkerOptions: LinkerOptions.treeshake(symbols: ['my_other_func']),
-      );
-  CLinker linkerAutoEmpty(List<String> sources) => CLinker.library(
-        name: 'mylibname',
-        assetName: '',
-        sources: sources,
-        linkerOptions: LinkerOptions.treeshake(symbols: null),
-      );
+void runTreeshakeTests(
+  OS targetOS,
+  Architecture targetArchitecture, {
+  int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
+  int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
+  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
+  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
+}) {
+  if (targetOS == OS.android) {
+    ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
+  }
+  if (targetOS == OS.macOS) {
+    ArgumentError.checkNotNull(macOSTargetVersion, 'macOSTargetVersion');
+  }
+  if (targetOS == OS.iOS) {
+    ArgumentError.checkNotNull(iOSTargetVersion, 'iOSTargetVersion');
+    ArgumentError.checkNotNull(iOSTargetSdk, 'iOSTargetSdk');
+  }
 
-  const os = OS.linux;
+  CLinker linkerManual(List<String> sources) => CLinker.library(
+    name: 'mylibname',
+    assetName: '',
+    sources: sources,
+    linkerOptions: LinkerOptions.manual(
+      symbolsToKeep: ['my_other_func'],
+      stripDebug: true,
+      gcSections: true,
+      linkerScript: packageUri.resolve(
+        'test/clinker/testfiles/linker/symbols.lds',
+      ),
+    ),
+  );
+  CLinker linkerAuto(List<String> sources) => CLinker.library(
+    name: 'mylibname',
+    assetName: '',
+    sources: sources,
+    linkerOptions: LinkerOptions.treeshake(symbols: ['my_other_func']),
+  );
+  CLinker linkerAutoEmpty(List<String> sources) => CLinker.library(
+    name: 'mylibname',
+    assetName: '',
+    sources: sources,
+    linkerOptions: LinkerOptions.treeshake(symbols: null),
+  );
 
   late Map<String, int> sizes;
   sizes = <String, int>{};
-  for (final architecture in architectures) {
-    for (final clinker in [
-      (name: 'manual', linker: linkerManual),
-      (name: 'auto', linker: linkerAuto),
-      (name: 'autoEmpty', linker: linkerAutoEmpty),
-    ]) {
-      test('link test with CLinker ${clinker.name} and target $architecture',
-          () async {
-        final tempUri = await tempDirForTest();
-        final tempUri2 = await tempDirForTest();
-        final testArchive = await buildTestArchive(
-          tempUri,
-          tempUri2,
-          os,
-          architecture,
-        );
+  for (final clinker in [
+    (name: 'manual', linker: linkerManual),
+    (name: 'auto', linker: linkerAuto),
+    (name: 'autoEmpty', linker: linkerAutoEmpty),
+  ]) {
+    test('link test with CLinker ${clinker.name}', () async {
+      final tempUri = await tempDirForTest();
+      final tempUri2 = await tempDirForTest();
+      final testArchive = await buildTestArchive(
+        tempUri,
+        tempUri2,
+        targetOS,
+        targetArchitecture,
+        androidTargetNdkApi: androidTargetNdkApi,
+        macOSTargetVersion: macOSTargetVersion,
+        iOSTargetVersion: iOSTargetVersion,
+        iOSTargetSdk: iOSTargetSdk,
+      );
 
-        final linkConfigBuilder = LinkConfigBuilder()
-          ..setupHookConfig(
-            supportedAssetTypes: [CodeAsset.type],
-            packageName: 'testpackage',
-            packageRoot: tempUri,
-            targetOS: os,
-            buildMode: BuildMode.release,
-            //outputDirectoryShared: tempUri2,
-          )
-          ..setupLinkConfig(
-            assets: [],
-          )
-          ..setupCodeConfig(
-            targetArchitecture: architecture,
-            linkModePreference: LinkModePreference.dynamic,
-            cCompilerConfig: cCompiler,
-          );
-        linkConfigBuilder.setupLinkRunConfig(
-          outputDirectory: tempUri,
+      final linkInputBuilder = LinkInputBuilder()
+        ..setupShared(
+          packageName: 'testpackage',
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
           outputDirectoryShared: tempUri2,
-          recordedUsesFile: null,
+        )
+        ..setupLink(assets: [], recordedUsesFile: null)
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: targetOS,
+            targetArchitecture: targetArchitecture,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: cCompiler,
+            android: androidTargetNdkApi != null
+                ? AndroidCodeConfig(targetNdkApi: androidTargetNdkApi)
+                : null,
+            macOS: macOSTargetVersion != null
+                ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
+                : null,
+            iOS: iOSTargetVersion != null && iOSTargetSdk != null
+                ? IOSCodeConfig(
+                    targetSdk: iOSTargetSdk,
+                    targetVersion: iOSTargetVersion,
+                  )
+                : null,
+          ),
         );
-        final linkConfig = LinkConfig(linkConfigBuilder.json);
-        final linkOutputBuilder = LinkOutputBuilder();
 
-        printOnFailure(linkConfig.codeConfig.cCompiler.toString());
-        printOnFailure(Platform.environment.keys.toList().toString());
-        await clinker.linker([testArchive.toFilePath()]).run(
-          config: linkConfig,
-          output: linkOutputBuilder,
-          logger: logger,
-        );
+      final linkInput = linkInputBuilder.build();
+      final linkOutputBuilder = LinkOutputBuilder();
 
-        final linkOutput = LinkOutput(linkOutputBuilder.json);
-        final asset = linkOutput.codeAssets.first;
-        final filePath = asset.file!.toFilePath();
+      printOnFailure(linkInput.config.code.cCompiler.toString());
+      printOnFailure(Platform.environment.keys.toList().toString());
+      await clinker
+          .linker([testArchive.toFilePath()])
+          .run(input: linkInput, output: linkOutputBuilder, logger: logger);
 
-        final machine = await readelfMachine(filePath);
-        expect(machine, contains(readElfMachine[architecture]));
+      final linkOutput = linkOutputBuilder.build();
+      final asset = linkOutput.assets.code.first;
 
-        final symbols = await nmReadSymbols(asset);
-        if (clinker.linker != linkerAutoEmpty) {
-          expect(symbols, contains('my_other_func'));
-          expect(symbols, isNot(contains('my_func')));
-        } else {
-          expect(symbols, contains('my_other_func'));
-          expect(symbols, contains('my_func'));
-        }
+      await expectMachineArchitecture(
+        asset.file!,
+        targetArchitecture,
+        targetOS,
+      );
 
-        final du = Process.runSync('du', ['-sb', filePath]).stdout as String;
-        final sizeInBytes = int.parse(du.split('\t')[0]);
-        sizes[clinker.name] = sizeInBytes;
-      });
-    }
-    tearDownAll(
-      () {
-        expect(
-          sizes['manual'],
-          lessThan(sizes['autoEmpty']!),
-          reason: 'Tree-shaking reduces size',
-        );
-        expect(
-          sizes['auto'],
-          lessThan(sizes['autoEmpty']!),
-          reason: 'Tree-shaking reduces size',
-        );
-      },
-    );
+      final symbols = await readSymbols(asset, targetOS);
+      final skipReason = symbols == null
+          ? 'tool to extract symbols unavailable'
+          : false;
+      if (clinker.linker != linkerAutoEmpty) {
+        expect(symbols, contains('my_other_func'), skip: skipReason);
+        expect(symbols, isNot(contains('my_func')), skip: skipReason);
+      } else {
+        expect(symbols, contains('my_other_func'), skip: skipReason);
+        expect(symbols, contains('my_func'), skip: skipReason);
+      }
+
+      final sizeInBytes = await File.fromUri(asset.file!).length();
+      // Make sure we don't override any results.
+      expect(sizes[clinker.name], isNull);
+      sizes[clinker.name] = sizeInBytes;
+    });
+    tearDownAll(() {
+      expect(
+        sizes['manual'],
+        lessThan(sizes['autoEmpty']!),
+        reason: 'Tree-shaking reduces size',
+      );
+      expect(
+        sizes['auto'],
+        lessThan(sizes['autoEmpty']!),
+        reason: 'Tree-shaking reduces size',
+      );
+    });
   }
 }

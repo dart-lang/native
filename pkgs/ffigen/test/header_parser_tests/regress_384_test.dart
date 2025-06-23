@@ -22,20 +22,23 @@ ${strings.description}: 'https://github.com/dart-lang/ffigen/issues/384'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
-    - 'test/header_parser_tests/regress_384_header_1.h'
-    - 'test/header_parser_tests/regress_384_header_2.h'
+    - '${absPath('test/header_parser_tests/regress_384_header_1.h')}'
+    - '${absPath('test/header_parser_tests/regress_384_header_2.h')}'
         '''),
       );
     });
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_regress_384_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_regress_384_bindings.dart'
-      ]);
+        actual,
+        'header_parser_regress_384_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_regress_384_bindings.dart',
+        ],
+      );
     });
   });
 }

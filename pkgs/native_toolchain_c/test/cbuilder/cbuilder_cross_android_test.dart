@@ -4,8 +4,9 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
-import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -19,30 +20,12 @@ void main() {
     Architecture.riscv64,
   ];
 
-  const objdumpFileFormat = {
-    Architecture.arm: 'elf32-littlearm',
-    Architecture.arm64: 'elf64-littleaarch64',
-    Architecture.ia32: 'elf32-i386',
-    Architecture.x64: 'elf64-x86-64',
-    Architecture.riscv64: 'elf64-littleriscv',
-  };
-
-  /// From https://docs.flutter.dev/reference/supported-platforms.
-  const flutterAndroidNdkVersionLowestBestEffort = 19;
-
-  /// From https://docs.flutter.dev/reference/supported-platforms.
-  const flutterAndroidNdkVersionLowestSupported = 21;
-
-  /// From https://docs.flutter.dev/reference/supported-platforms.
-  const flutterAndroidNdkVersionHighestSupported = 34;
-
   const optimizationLevels = OptimizationLevel.values;
   var selectOptimizationLevel = 0;
 
   for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
     for (final target in targets) {
       for (final apiLevel in [
-        flutterAndroidNdkVersionLowestBestEffort,
         flutterAndroidNdkVersionLowestSupported,
         flutterAndroidNdkVersionHighestSupported,
       ]) {
@@ -50,8 +33,7 @@ void main() {
         final optimizationLevel = optimizationLevels[selectOptimizationLevel];
         selectOptimizationLevel =
             (selectOptimizationLevel + 1) % optimizationLevels.length;
-        test(
-            'CBuilder $linkMode library $target minSdkVersion $apiLevel '
+        test('CBuilder $linkMode library $target minSdkVersion $apiLevel '
             '$optimizationLevel', () async {
           final tempUri = await tempDirForTest();
           final libUri = await buildLib(
@@ -61,21 +43,7 @@ void main() {
             linkMode,
             optimizationLevel: optimizationLevel,
           );
-          if (Platform.isLinux) {
-            final machine = await readelfMachine(libUri.path);
-            expect(machine, contains(readElfMachine[target]));
-          } else if (Platform.isMacOS) {
-            final result = await runProcess(
-              executable: Uri.file('objdump'),
-              arguments: ['-T', libUri.path],
-              logger: logger,
-            );
-            expect(result.exitCode, 0);
-            final machine = result.stdout
-                .split('\n')
-                .firstWhere((e) => e.contains('file format'));
-            expect(machine, contains(objdumpFileFormat[target]));
-          }
+          await expectMachineArchitecture(libUri, target, OS.android);
           if (linkMode == DynamicLoadingBundled()) {
             await expectPageSize(libUri, 16 * 1024);
           }
@@ -144,32 +112,27 @@ Future<Uri> buildLib(
 
   final tempUriShared = tempUri.resolve('shared/');
   await Directory.fromUri(tempUriShared).create();
-  final buildConfigBuilder = BuildConfigBuilder()
-    ..setupHookConfig(
-      supportedAssetTypes: [CodeAsset.type],
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
       packageName: name,
       packageRoot: tempUri,
-      targetOS: OS.android,
-      buildMode: BuildMode.release,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUriShared,
     )
-    ..setupBuildConfig(
-      linkingEnabled: false,
-      dryRun: false,
-    )
-    ..setupCodeConfig(
-      targetArchitecture: targetArchitecture,
-      cCompilerConfig: cCompiler,
-      targetAndroidNdkApi: androidNdkApi,
-      linkModePreference: linkMode == DynamicLoadingBundled()
-          ? LinkModePreference.dynamic
-          : LinkModePreference.static,
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: OS.android,
+        targetArchitecture: targetArchitecture,
+        cCompiler: cCompiler,
+        android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
+        linkModePreference: linkMode == DynamicLoadingBundled()
+            ? LinkModePreference.dynamic
+            : LinkModePreference.static,
+      ),
     );
-  buildConfigBuilder.setupBuildRunConfig(
-    outputDirectory: tempUri,
-    outputDirectoryShared: tempUriShared,
-  );
 
-  final buildConfig = BuildConfig(buildConfigBuilder.json);
+  final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();
 
   final cbuilder = CBuilder.library(
@@ -177,13 +140,12 @@ Future<Uri> buildLib(
     assetName: name,
     sources: [addCUri.toFilePath()],
     flags: flags,
+    buildMode: BuildMode.release,
   );
-  await cbuilder.run(
-    config: buildConfig,
-    output: buildOutput,
-    logger: logger,
-  );
+  await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
-  final libUri = tempUri.resolve(OS.android.libraryFileName(name, linkMode));
+  final libUri = buildInput.outputDirectory.resolve(
+    OS.android.libraryFileName(name, linkMode),
+  );
   return libUri;
 }

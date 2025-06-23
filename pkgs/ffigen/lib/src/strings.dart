@@ -62,6 +62,7 @@ const ios = 'ios';
 const externalVersions = 'external-versions';
 const externalVersionsPlatforms = [ios, macos];
 const externalVersionsMin = 'min';
+const externalVersionsMax = 'max';
 
 const compilerOptsAuto = 'compiler-opts-automatic';
 // Sub-fields of compilerOptsAuto.macos
@@ -150,7 +151,7 @@ const sizemapNativeMapping = <String, int>{
   uLong: clang.CXTypeKind.CXType_ULong,
   longLong: clang.CXTypeKind.CXType_LongLong,
   uLongLong: clang.CXTypeKind.CXType_ULongLong,
-  enumType: clang.CXTypeKind.CXType_Enum
+  enumType: clang.CXTypeKind.CXType_Enum,
 };
 
 // Library imports.
@@ -170,6 +171,7 @@ const formatVersion = 'format_version';
 const symbolFileFormatVersion = '1.0.0';
 const files = 'files';
 const usedConfig = 'used-config';
+const dartName = 'dart-name';
 
 const import = 'import';
 const defaultSymbolFileImportPrefix = 'imp';
@@ -181,7 +183,7 @@ const importPath = 'import-path';
 
 final predefinedLibraryImports = {
   ffiImport.name: ffiImport,
-  ffiPkgImport.name: ffiPkgImport
+  ffiPkgImport.name: ffiPkgImport,
 };
 
 const typeMap = 'type-map';
@@ -255,9 +257,7 @@ const linuxDylibLocations = {
   '/usr/lib/',
   '/usr/lib64/',
 };
-const windowsDylibLocations = {
-  r'C:\Program Files\LLVM\bin\',
-};
+const windowsDylibLocations = {r'C:\Program Files\LLVM\bin\'};
 const macOsDylibLocations = {
   // Default Xcode commandline tools installation.
   '/Library/Developer/CommandLineTools/usr/',

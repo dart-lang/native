@@ -25,6 +25,7 @@ public class AsmMethodVisitor extends MethodVisitor {
   @Override
   public void visitParameter(String name, int access) {
     paramNames.add(name);
+    super.visitParameter(name, access);
   }
 
   @Override
@@ -97,5 +98,6 @@ public class AsmMethodVisitor extends MethodVisitor {
         method.params.get(i).name = paramNames.get(i);
       }
     }
+    super.visitEnd();
   }
 }

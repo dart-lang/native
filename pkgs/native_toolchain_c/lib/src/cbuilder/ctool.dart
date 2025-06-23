@@ -2,25 +2,28 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:meta/meta.dart';
-import 'package:native_assets_cli/code_assets.dart';
 
 import 'cbuilder.dart';
+import 'clinker.dart';
 import 'language.dart';
 import 'optimization_level.dart';
 import 'output_type.dart';
 
+/// Common options for [CBuilder] and [CLinker].
 abstract class CTool {
   /// What kind of artifact to build.
   final OutputType type;
 
-  /// Name of the library or executable to linkg.
+  /// Name of the library or executable to build or link.
   ///
-  /// The filename will be decided by [LinkConfig.targetOS] and
+  /// The filename will be decided by [CodeConfig.targetOS] and
   /// [OSLibraryNaming.libraryFileName] or
   /// [OSLibraryNaming.executableFileName].
   ///
-  /// File will be placed in [LinkConfig.outputDirectory].
+  /// File will be placed in [LinkInput.outputDirectory].
   final String name;
 
   /// Asset identifier.
@@ -32,17 +35,29 @@ abstract class CTool {
 
   /// Sources to build the library or executable.
   ///
-  /// Resolved against [LinkConfig.packageRoot].
+  /// Resolved against [LinkInput.packageRoot].
   ///
   /// The sources will be reported as dependencies of the hook.
   final List<String> sources;
 
   /// Include directories to pass to the linker.
   ///
-  /// Resolved against [LinkConfig.packageRoot].
+  /// Resolved against [LinkInput.packageRoot].
   ///
   /// The sources will be reported as dependencies of the hook.
   final List<String> includes;
+
+  /// Files passed to the compiler that will be included before all source
+  /// files.
+  ///
+  /// Resolved against [LinkInput.packageRoot].
+  ///
+  /// The sources will be reported as dependencies of the hook.
+  /// For clang, each of the files are added as an `-include` flag.
+  /// see: https://gcc.gnu.org/onlinedocs/gcc-13.2.0/gcc/Preprocessor-Options.html#index-include
+  /// For MSVC, each of the files are added as an `/FI` flag.
+  /// see: https://learn.microsoft.com/en-us/cpp/build/reference/fi-name-forced-include-file
+  final List<String> forcedIncludes;
 
   /// Frameworks to link.
   ///
@@ -50,7 +65,7 @@ abstract class CTool {
   ///
   /// Defaults to `['Foundation']`.
   ///
-  /// Framworks will not be automatically reported as dependencies of the hook.
+  /// Frameworks will not be automatically reported as dependencies of the hook.
   /// Frameworks can be mentioned by name if they are available on the system,
   /// so the file path is not known. If you're depending on your own frameworks
   /// report them as dependencies of the hook by calling
@@ -58,9 +73,32 @@ abstract class CTool {
   /// manually.
   final List<String> frameworks;
 
+  /// The default [frameworks].
   static const List<String> defaultFrameworks = ['Foundation'];
 
-  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [LinkConfig]
+  /// Libraries to link to.
+  ///
+  /// In addition to the system default directories, libraries will be searched
+  /// for in [libraryDirectories].
+  ///
+  /// If you want to link to a library that was built by another [CBuilder] or
+  /// [CLinker], either leave the default [libraryDirectories] or include `'.'`
+  /// in the list.
+  final List<String> libraries;
+
+  /// Directories to search for [libraries], in addition to the system default
+  /// directories.
+  ///
+  /// Resolved against [LinkInput.outputDirectory].
+  ///
+  /// Defaults to `['.']`, which means the [LinkInput.outputDirectory] will be
+  /// searched for libraries.
+  final List<String> libraryDirectories;
+
+  /// The default [libraryDirectories].
+  static const List<String> defaultLibraryDirectories = ['.'];
+
+  /// TODO(https://github.com/dart-lang/native/issues/54): Move to [LinkInput]
   /// or hide in public API.
   @visibleForTesting
   final Uri? installName;
@@ -118,7 +156,7 @@ abstract class CTool {
   /// If the code asset should be a dynamic or static library.
   ///
   /// This determines whether to produce a dynamic or static library. If null,
-  /// the value is instead retrieved from the [LinkConfig].
+  /// the value is instead retrieved from the [LinkInput].
   final LinkModePreference? linkModePreference;
 
   /// What optimization level should be used for compiling.
@@ -129,7 +167,10 @@ abstract class CTool {
     required this.assetName,
     required this.sources,
     required this.includes,
+    required this.forcedIncludes,
     required this.frameworks,
+    required this.libraries,
+    required this.libraryDirectories,
     required this.installName,
     required this.flags,
     required this.defines,

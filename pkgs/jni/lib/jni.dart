@@ -63,6 +63,7 @@ library;
 export 'package:ffi/ffi.dart' show Arena, using;
 
 export 'src/errors.dart';
+export 'src/jarray.dart';
 export 'src/jimplementer.dart';
 export 'src/jni.dart' hide ProtectedJniExtensions, StringMethodsForJni;
 export 'src/jobject.dart';
@@ -75,7 +76,6 @@ export 'src/third_party/generated_bindings.dart'
 export 'src/types.dart'
     hide
         JAccessible,
-        JArrayElementType,
         JCallable,
         JConstructable,
         JObjType,

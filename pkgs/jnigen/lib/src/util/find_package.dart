@@ -32,15 +32,24 @@ Future<bool> isPackageModifiedAfter(String packageName, DateTime time,
   if (!await dir.exists()) {
     throw UnsupportedError('can not resolve $subDir in $packageName');
   }
+
   // A directory's modification time is not helpful because one of
   // internal files may be modified later.
   // In case of git / pub package we might be able to check pubspec, but no
   // such technique applies for path packages.
   await for (final entry in dir.list(recursive: true)) {
-    final stat = await entry.stat();
-    if (stat.modified.isAfter(time)) {
-      return true;
+    if (isAllowedSourceFile(entry)) {
+      final stat = await entry.stat();
+      if (stat.modified.isAfter(time)) {
+        return true;
+      }
     }
   }
   return false;
+}
+
+bool isAllowedSourceFile(FileSystemEntity entry) {
+  return entry.path.endsWith('.dart') ||
+      entry.path.endsWith('.java') ||
+      entry.path.endsWith('.kt');
 }

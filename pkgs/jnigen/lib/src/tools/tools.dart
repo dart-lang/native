@@ -4,4 +4,4 @@
 
 export 'android_sdk_tools.dart';
 export 'build_summarizer.dart';
-export 'maven_tools.dart';
+export 'gradle_tools.dart';

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -20,6 +21,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   final protocols = <ObjCProtocol>[];
   final categories = <ObjCCategory>[];
   final subtypes = <ObjCInterface>[];
+  final ApiAvailability apiAvailability;
 
   @override
   final ObjCBuiltInFunctions builtInFunctions;
@@ -34,17 +36,25 @@ class ObjCInterface extends BindingType with ObjCMethods {
     String? lookupName,
     super.dartDoc,
     required this.builtInFunctions,
-  })  : lookupName = lookupName ?? originalName,
-        super(name: name ?? originalName) {
-    classObject = ObjCInternalGlobal('_class_$originalName',
-        (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")');
+    required this.apiAvailability,
+  }) : lookupName = lookupName ?? originalName,
+       super(
+         name:
+             builtInFunctions.getBuiltInInterfaceName(originalName) ??
+             name ??
+             originalName,
+       ) {
+    classObject = ObjCInternalGlobal(
+      '_class_$originalName',
+      (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")',
+    );
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
       Parameter(
         name: 'clazz',
         type: PointerType(objCObjectType),
         objCConsumed: false,
-      )
+      ),
     ]);
   }
 
@@ -53,10 +63,13 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
-  bool get isObjCImport => builtInFunctions.isBuiltInInterface(originalName);
+  bool get isObjCImport =>
+      builtInFunctions.getBuiltInInterfaceName(originalName) != null;
 
   @override
   void sort() => sortMethods();
+
+  bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override
   BindingString toBindingString(Writer w) {
@@ -65,22 +78,29 @@ class ObjCInterface extends BindingType with ObjCMethods {
     if (generateAsStub) {
       s.write('''
 /// WARNING: $name is a stub. To generate bindings for this class, include
-/// $name in your config's objc-interfaces list.
+/// $originalName in your config's objc-interfaces list.
 ///
 ''');
     }
-    s.write(makeDartDoc(dartDoc ?? originalName));
+    s.write(makeDartDoc(dartDoc));
+
+    final versionCheck = apiAvailability.runtimeCheck(
+      ObjCBuiltInFunctions.checkOsVersion.gen(w),
+      originalName,
+    );
+    final ctorBody = versionCheck == null ? ';' : ' { $versionCheck }';
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
-    final superTypeIsInPkgObjc = superType == null;
+    final protoImpl = protocols.isEmpty
+        ? ''
+        : 'implements ${protocols.map((p) => p.getDartType(w)).join(', ')} ';
 
+    final superCtor = superType == null ? 'super' : 'super.castFromPointer';
     s.write('''
-class $name extends ${superType?.getDartType(w) ?? wrapObjType} {
-  $name._($rawObjType pointer,
-      {bool retain = false, bool release = false}) :
-          ${superTypeIsInPkgObjc ? 'super' : 'super.castFromPointer'}
-              (pointer, retain: retain, release: release);
+class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
+  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
+      $superCtor(pointer, retain: retain, release: release)$ctorBody
 
   /// Constructs a [$name] that points to the same underlying object as [other].
   $name.castFrom($wrapObjType other) :
@@ -97,7 +117,9 @@ ${generateAsStub ? '' : _generateMethods(w)}
 ''');
 
     return BindingString(
-        type: BindingStringType.objcInterface, string: s.toString());
+      type: BindingStringType.objcInterface,
+      string: s.toString(),
+    );
   }
 
   String _generateMethods(Writer w) {
@@ -107,15 +129,26 @@ ${generateAsStub ? '' : _generateMethods(w)}
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
-    return ${_isKindOfClassMsgSend.invoke(
-      w,
-      'obj.ref.pointer',
-      _isKindOfClass.name,
-      [classObject.name],
-    )};
+    return ${_isKindOfClassMsgSend.invoke(w, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
   }
 ''');
     s.write(generateMethodBindings(w, this));
+
+    final newMethod = methods
+        .where(
+          (ObjCMethod m) =>
+              m.isClassMethod &&
+              m.family == ObjCMethodFamily.new_ &&
+              m.params.isEmpty &&
+              m.originalName == 'new',
+        )
+        .firstOrNull;
+    if (newMethod != null && originalName != 'NSString') {
+      s.write('''
+  /// Returns a new instance of $name constructed with the default `new` method.
+  factory $name() => ${newMethod.dartMethodName}();
+''');
+    }
 
     return s.toString();
   }
@@ -148,18 +181,17 @@ ${generateAsStub ? '' : _generateMethods(w)}
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   static String generateGetId(
-          String value, bool objCRetain, bool objCAutorelease) =>
-      objCRetain
-          ? (objCAutorelease
-              ? '$value.ref.retainAndAutorelease()'
-              : '$value.ref.retainAndReturnPointer()')
-          : (objCAutorelease
-              ? '$value.ref.autorelease()'
-              : '$value.ref.pointer');
+    String value,
+    bool objCRetain,
+    bool objCAutorelease,
+  ) => objCRetain
+      ? (objCAutorelease
+            ? '$value.ref.retainAndAutorelease()'
+            : '$value.ref.retainAndReturnPointer()')
+      : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
 
   @override
   String convertFfiDartTypeToDartType(
@@ -167,8 +199,7 @@ ${generateAsStub ? '' : _generateMethods(w)}
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+  }) => ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 
   static String generateConstructor(
     String className,
@@ -180,7 +211,8 @@ ${generateAsStub ? '' : _generateMethods(w)}
   }
 
   @override
-  String? generateRetain(String value) => 'objc_retain($value)';
+  String? generateRetain(String value) =>
+      '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
   void visit(Visitation visitation) => visitation.visitObjCInterface(this);

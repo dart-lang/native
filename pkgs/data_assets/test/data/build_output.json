@@ -1,0 +1,65 @@
+{
+  "$schema": "../../doc/schema/hook/build_output.generated.schema.json",
+  "assets": [
+    {
+      "encoding": {
+        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+        "name": "assets/data_0.json",
+        "package": "simple_link"
+      },
+      "type": "data_assets/data"
+    },
+    {
+      "encoding": {
+        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
+        "name": "assets/data_1.json",
+        "package": "simple_link"
+      },
+      "type": "data_assets/data"
+    }
+  ],
+  "assets_for_build": [
+    {
+      "encoding": {
+        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+        "name": "assets/data_0.json",
+        "package": "simple_link"
+      },
+      "type": "data_assets/data"
+    },
+    {
+      "encoding": {
+        "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
+        "name": "assets/data_1.json",
+        "package": "simple_link"
+      },
+      "type": "data_assets/data"
+    }
+  ],
+  "assets_for_linking": {
+    "package_with_linker": [
+      {
+        "encoding": {
+          "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_0.json",
+          "name": "assets/data_0.json",
+          "package": "simple_link"
+        },
+        "type": "data_assets/data"
+      },
+      {
+        "encoding": {
+          "file": "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_1.json",
+          "name": "assets/data_1.json",
+          "package": "simple_link"
+        },
+        "type": "data_assets/data"
+      }
+    ]
+  },
+  "dependencies": [
+    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json",
+    "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json"
+  ],
+  "status": "success",
+  "timestamp": "2025-02-11 11:20:20.000"
+}
