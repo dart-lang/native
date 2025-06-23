@@ -35,6 +35,10 @@ const _floatDecl = BuiltInDeclaration(id: 's:Sf', name: 'Float');
 const _doubleDecl = BuiltInDeclaration(id: 's:Sd', name: 'Double');
 const _boolDecl = BuiltInDeclaration(id: 's:Sb', name: 'Bool');
 const _voidDecl = BuiltInDeclaration(id: 's:s4Voida', name: 'Void');
+const _swiftURLDecl =
+    BuiltInDeclaration(id: 's:10Foundation3URLV', name: 'URL');  // HACK
+const _swiftTimeIntervalDecl =
+    BuiltInDeclaration(id: 'c:@T@NSTimeInterval', name: 'TimeInterval');  // HACK
 
 const builtInDeclarations = [
   _objectDecl,
