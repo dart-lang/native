@@ -13,10 +13,13 @@ headers:
     - 'src/observer.h'
     - 'src/protocol.h'
 ffi-native:
+  asset-id: 'package:objective_c/objective_c.dylib'
 exclude-all-by-default: true
 include-transitive-objc-categories: false
 generate-for-package-objective-c: true
 sort: true
+library-imports:
+  collection: 'dart:collection'
 external-versions:
   # See https://docs.flutter.dev/reference/supported-platforms.
   ios:
@@ -184,4 +187,3 @@ preamble: |
   // ignore_for_file: unused_element
   // ignore_for_file: unused_field
   // coverage:ignore-file
-  import 'dart:collection' as collection;
