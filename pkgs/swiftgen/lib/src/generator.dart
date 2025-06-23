@@ -4,11 +4,10 @@
 
 import 'dart:io';
 
-import 'package:path/path.dart' as p;
-import 'package:swift2objc/swift2objc.dart' as swift2objc;
 import 'package:ffigen/ffigen.dart' as ffigen;
 import 'package:ffigen/src/config_provider/path_finder.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as p;
 
 import 'config.dart';
 import 'util.dart';
@@ -16,30 +15,20 @@ import 'util.dart';
 extension _ConfigUtil on Config {
   String get absTempDir => p.absolute(tempDir.toFilePath());
   String get outModule => outputModule ?? input.module;
-  String get objcHeader => p.join(absTempDir, '${outModule}.h');
+  String get objcHeader => p.join(absTempDir, '$outModule.h');
 }
 
 Future<void> generate(Config config) async {
   Directory(config.absTempDir).createSync(recursive: true);
-  await _generateObjCSwiftFile(config);
   await _generateObjCFile(config);
   _generateDartFile(config);
 }
-
-Future<void> _generateObjCSwiftFile(Config config) =>
-    swift2objc.generateWrapper(swift2objc.Config(
-      input: config.input.asSwift2ObjCConfig(config.target),
-      outputFile: config.objcSwiftFile,
-      tempDir: config.tempDir,
-      preamble: config.objcSwiftPreamble,
-    ));
 
 Future<void> _generateObjCFile(Config config) => run(
     'swiftc',
     [
       '-c',
-      p.absolute(config.objcSwiftFile.toFilePath()),
-      ...config.input.files.map((uri) => p.absolute(uri.toFilePath())),
+      for (final uri in config.input.files) p.absolute(uri.toFilePath()),
       '-module-name',
       config.outModule,
       '-emit-objc-header-path',

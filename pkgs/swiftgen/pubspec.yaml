@@ -19,8 +19,10 @@ environment:
 
 dependencies:
   ffi: ^2.1.0
-  objective_c: ^1.1.0
-  swift2objc: ^0.1.0
+  ffigen: ^19.0.0
+  logging: ^1.3.0
+  objective_c: ^8.0.0
+  path: ^1.9.1
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.1
@@ -32,8 +34,3 @@ dependency_overrides:
     path: ../ffigen/
   objective_c:
     path: ../objective_c/
-  swift2objc:
-    path: ../swift2objc/
-
-executables:
-  swiftgen:

@@ -7,8 +7,6 @@ export 'src/config.dart'
     show
         Config,
         FfiGenConfig,
-        JsonFileInput,
-        SwiftFileInput,
-        SwiftModuleInput,
+        ObjCCompatibleSwiftFileInput,
         Target;
 export 'src/generator.dart' show generate;
