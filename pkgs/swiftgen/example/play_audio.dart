@@ -26,10 +26,10 @@ void main(List<String> args) async {
   DynamicLibrary.open(Platform.script.resolve(_wrapperDylib).toFilePath());
   for (final file in args) {
     final fileStr = NSString(file);
-    print('Loading $fileStr');
-    final fileUrl = NSURL.fileURLWithPath_(fileStr);
+    print('Loading ${fileStr.toDartString()}');
+    final fileUrl = NSURL.fileURLWithPath(fileStr);
     final player = AVAudioPlayerWrapper.alloc()
-        .initWithContentsOf_error_(fileUrl, nullptr);
+        .initWithContentsOf(fileUrl, error: nullptr);
     if (player == null) {
       print('Failed to load audio');
       continue;

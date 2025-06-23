@@ -4,10 +4,10 @@
 
 import 'dart:io';
 
-import 'package:swiftgen/swiftgen.dart';
-import 'package:logging/logging.dart';
 import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
+import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
   // TODO: Should swiftgen have an internal notion of working dir?
@@ -24,10 +24,10 @@ Future<void> main() async {
       sdk: Uri.directory(
           '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk'),
     ),
-    input: SwiftModuleInput(module: 'AVFAudio'),
+    input: ObjCCompatibleSwiftFileInput(
+        module: 'AVFAudio', files: [Uri.file('avf_audio_wrapper.swift')]),
     tempDir: Uri.directory('temp'),
     outputModule: 'AVFAudioWrapper',
-    objcSwiftFile: Uri.file('avf_audio_wrapper.swift'),
     ffigen: FfiGenConfig(
       output: Uri.file('avf_audio_bindings.dart'),
       outputObjC: Uri.file('avf_audio_wrapper.m'),
@@ -57,7 +57,7 @@ Future<void> main() async {
     ],
   );
   if (result.exitCode != 0) {
-    print("Failed to build the swift wrapper library");
+    print('Failed to build the swift wrapper library');
     print(result.stdout);
     print(result.stderr);
   }
