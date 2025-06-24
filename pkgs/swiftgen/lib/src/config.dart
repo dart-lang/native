@@ -6,6 +6,30 @@ import 'package:ffigen/ffigen.dart' as ffigen;
 
 import 'util.dart';
 
+/// Config options for swiftgen.
+class Config {
+  final Target target;
+
+  // Input files.
+  final ConfigInput input;
+
+  // Intermediates.
+  final Uri tempDir;
+
+  // Output file.
+  final String? outputModule;
+  final FfiGenConfig ffigen;
+
+  Config({
+    required this.target,
+    required this.input,
+    Uri? tempDirectory,
+    this.outputModule,
+    required this.ffigen,
+  }) : tempDir = tempDirectory ?? createTempDirectory();
+}
+
+/// A target is a target triple string and an iOS/macOS SDK directory.
 class Target {
   String triple;
   Uri sdk;
@@ -15,12 +39,14 @@ class Target {
   static Future<Target> host() => getHostTarget();
 }
 
+/// Describes the inputs to the swiftgen pipeline.
 abstract interface class ConfigInput {
   String get module;
   Iterable<Uri> get files;
   Iterable<String> get compileArgs;
 }
 
+/// Input swift files that are already annotated with @objc.
 class ObjCCompatibleSwiftFileInput implements ConfigInput {
   @override
   final String module;
@@ -105,27 +131,5 @@ class FfiGenConfig {
     this.objcInterfaces,
     this.objcProtocols,
     this.externalVersions = const ffigen.ExternalVersions(),
-  });
-}
-
-class Config {
-  final Target target;
-
-  // Input files.
-  final ConfigInput input;
-
-  // Intermediates.
-  final Uri tempDir;
-
-  // Output file.
-  final String? outputModule;
-  final FfiGenConfig ffigen;
-
-  Config({
-    required this.target,
-    required this.input,
-    required this.tempDir,
-    this.outputModule,
-    required this.ffigen,
   });
 }

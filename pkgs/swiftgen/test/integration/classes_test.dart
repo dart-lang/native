@@ -17,12 +17,15 @@ void main() {
       final gen = TestGenerator('classes');
       await gen.generateAndVerifyBindings();
       DynamicLibrary.open(gen.dylibFile);
+
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open(objCTestDylib);
     });
 
     test('method invocation', () {
-      final testClass = TestClassWrapper.create();
+      final testClass = TestClass.create();
       final testOtherClass = testClass.myMethod();
-      expect(testOtherClass.times10WithX_(123), 1230);
+      expect(testOtherClass.times10WithX(123), 1230);
     });
   });
 }
