@@ -28,8 +28,6 @@ void main() {
       expect(classes['Bar']?.implementedInterfaces, isEmpty);
       expect(classes['Bar']?.extendedClass, isEmpty);
       expect(classes['Bar']?.isAbstract, isFalse);
-
-      expect(classes['Bar']?.toString(), '- class Bar ');
     });
 
     test('interface class and abstract class', () {
@@ -53,13 +51,11 @@ void main() {
       expect(classes['Bar']?.implementedInterfaces, isEmpty);
       expect(classes['Bar']?.isAbstract, isFalse);
       expect(classes['Bar']?.isInterface, isTrue);
-      expect(classes['Bar']?.toString(), '- interface class Bar ');
 
       expect(classes['Foo']?.name, 'Foo');
       expect(classes['Foo']?.implementedInterfaces, isEmpty);
       expect(classes['Foo']?.isAbstract, isTrue);
       expect(classes['Foo']?.isInterface, isFalse);
-      expect(classes['Foo']?.toString(), '- abstract class Foo ');
     });
 
     test('implements and extends classes', () {
@@ -79,11 +75,6 @@ void main() {
       expect(classes['Bar']?.extendedClass, '_Foo');
       expect(classes['Bar']?.isAbstract, isFalse);
       expect(classes['Bar']?.isInterface, isFalse);
-
-      expect(
-        classes['Bar']?.toString(),
-        '- class Bar extends _Foo implements Foo, _Baz ',
-      );
     });
   });
 

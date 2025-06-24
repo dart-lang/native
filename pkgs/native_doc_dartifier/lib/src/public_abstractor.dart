@@ -2,9 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 import 'ast.dart';
+
+String generateBindingsSummary(String sourceCode) {
+  final abstractor = PublicAbstractor();
+  parseString(content: sourceCode).unit.visitChildren(abstractor);
+  final summary = abstractor.getRepresentation();
+  return summary.replaceAll('jni\$_.', '').replaceAll('core\$_.', '');
+}
 
 class PublicAbstractor extends RecursiveAstVisitor<void> {
   final Map<String, Class> _classes = {};
@@ -134,11 +142,11 @@ class PublicAbstractor extends RecursiveAstVisitor<void> {
     );
   }
 
-  String generateClassRepresentation() {
+  String getRepresentation() {
     final buffer = StringBuffer();
 
     for (final classInfo in _classes.values) {
-      buffer.writeln(classInfo.toString());
+      buffer.writeln(classInfo.toDartLikeRepresentaion());
       buffer.writeln();
     }
     return buffer.toString();
