@@ -15,5 +15,6 @@ export 'src/config_provider.dart'
         ExternalVersions,
         Language,
         Versions,
-        YamlConfig;
+        YamlConfig,
+        getCStandardLibraryHeadersForMac;
 export 'src/ffigen.dart' show FfiGen;

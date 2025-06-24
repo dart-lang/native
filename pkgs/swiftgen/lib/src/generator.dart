@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart' as ffigen;
-import 'package:ffigen/src/config_provider/path_finder.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
@@ -68,7 +67,7 @@ void _generateDartFile(Config config) {
         config.ffigen.objcProtocols ?? ffigen.DeclarationFilters.excludeAll,
     entryPoints: [Uri.file(config.objcHeader)],
     compilerOpts: [
-      ...getCStandardLibraryHeadersForMac(),
+      ...ffigen.getCStandardLibraryHeadersForMac(),
       '-Wno-nullability-completeness',
     ],
     interfaceModuleFunc: (_) => config.outModule,

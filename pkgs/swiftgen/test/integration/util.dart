@@ -12,7 +12,8 @@ import 'package:test/test.dart';
 String pkgDir = findPackageRoot('swiftgen').toFilePath();
 
 // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-String objCTestDylib = path.join(pkgDir, '..', 'objective_c', 'test', 'objective_c.dylib');
+String objCTestDylib =
+    path.join(pkgDir, '..', 'objective_c', 'test', 'objective_c.dylib');
 
 class TestGenerator {
   final String name;
@@ -33,10 +34,10 @@ class TestGenerator {
     inputFile = path.join(testDir, '${name}_wrapper.swift');
     outputFile = path.join(tempDir, '${name}_output.dart');
     outputObjCFile = path.join(tempDir, '${name}_output.m');
-    objInputFile = path.join(tempDir, '${name}.o');
+    objInputFile = path.join(tempDir, '$name.o');
     objWrapperFile = path.join(tempDir, '${name}_wrapper.o');
     objObjCFile = path.join(tempDir, '${name}_output_m.o');
-    dylibFile = path.join(tempDir, '${name}.dylib');
+    dylibFile = path.join(tempDir, '$name.dylib');
     actualOutputFile = path.join(testDir, '${name}_bindings.dart');
   }
 
@@ -57,6 +58,14 @@ class TestGenerator {
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+
+// ignore_for_file: always_specify_types
+// ignore_for_file: camel_case_types
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_non_null_assertion
+// ignore_for_file: unused_element
+// ignore_for_file: unused_field
+// coverage:ignore-file
 ''',
         ),
       ));
