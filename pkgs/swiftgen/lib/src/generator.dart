@@ -23,22 +23,19 @@ Future<void> generate(Config config) async {
   _generateDartFile(config);
 }
 
-Future<void> _generateObjCFile(Config config) => run(
-    'swiftc',
-    [
-      '-c',
-      for (final uri in config.input.files) p.absolute(uri.toFilePath()),
-      '-module-name',
-      config.outModule,
-      '-emit-objc-header-path',
-      config.objcHeader,
-      '-target',
-      config.target.triple,
-      '-sdk',
-      p.absolute(config.target.sdk.toFilePath()),
-      ...config.input.compileArgs,
-    ],
-    config.absTempDir);
+Future<void> _generateObjCFile(Config config) => run('swiftc', [
+  '-c',
+  for (final uri in config.input.files) p.absolute(uri.toFilePath()),
+  '-module-name',
+  config.outModule,
+  '-emit-objc-header-path',
+  config.objcHeader,
+  '-target',
+  config.target.triple,
+  '-sdk',
+  p.absolute(config.target.sdk.toFilePath()),
+  ...config.input.compileArgs,
+], config.absTempDir);
 
 void _generateDartFile(Config config) {
   final generator = ffigen.FfiGen(logLevel: Level.SEVERE);
@@ -56,7 +53,8 @@ void _generateDartFile(Config config) {
     unionDecl: config.ffigen.unionDecl ?? ffigen.DeclarationFilters.excludeAll,
     enumClassDecl:
         config.ffigen.enumClassDecl ?? ffigen.DeclarationFilters.excludeAll,
-    unnamedEnumConstants: config.ffigen.unnamedEnumConstants ??
+    unnamedEnumConstants:
+        config.ffigen.unnamedEnumConstants ??
         ffigen.DeclarationFilters.excludeAll,
     globals: config.ffigen.globals ?? ffigen.DeclarationFilters.excludeAll,
     macroDecl: config.ffigen.macroDecl ?? ffigen.DeclarationFilters.excludeAll,

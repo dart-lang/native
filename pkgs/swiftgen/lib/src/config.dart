@@ -54,10 +54,7 @@ class ObjCCompatibleSwiftFileInput implements ConfigInput {
   @override
   final List<Uri> files;
 
-  ObjCCompatibleSwiftFileInput({
-    required this.module,
-    required this.files,
-  });
+  ObjCCompatibleSwiftFileInput({required this.module, required this.files});
 
   @override
   Iterable<String> get compileArgs => const <String>[];

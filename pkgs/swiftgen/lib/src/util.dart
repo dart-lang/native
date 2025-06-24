@@ -8,9 +8,15 @@ import 'dart:io';
 import 'config.dart';
 
 Future<void> run(
-    String executable, List<String> arguments, String workingDir) async {
-  final process =
-      await Process.start(executable, arguments, workingDirectory: workingDir);
+  String executable,
+  List<String> arguments,
+  String workingDir,
+) async {
+  final process = await Process.start(
+    executable,
+    arguments,
+    workingDirectory: workingDir,
+  );
   process.stdout.listen(stdout.add);
   process.stderr.listen(stderr.add);
   if ((await process.exitCode) != 0) {
