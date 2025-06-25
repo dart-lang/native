@@ -29,7 +29,6 @@
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
-// ignore_for_file: prefer_expression_function_bodies
 
 import 'dart:core' show Object, String, bool, double, int;
 import 'dart:core' as core$_;
