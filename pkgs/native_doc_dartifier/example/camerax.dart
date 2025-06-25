@@ -29,6 +29,7 @@
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
+// ignore_for_file: prefer_expression_function_bodies
 
 import 'dart:core' show Object, String, bool, double, int;
 import 'dart:core' as core$_;
@@ -3188,8 +3189,8 @@ final class $ImageCapture$CaptureMode$NullableType
   @core$_.override
   ImageCapture$CaptureMode? fromReference(jni$_.JReference reference) =>
       reference.isNull
-      ? null
-      : ImageCapture$CaptureMode.fromReference(reference);
+          ? null
+          : ImageCapture$CaptureMode.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
@@ -3831,8 +3832,8 @@ final class $ImageCapture$ImageCaptureError$NullableType
   @core$_.override
   ImageCapture$ImageCaptureError? fromReference(jni$_.JReference reference) =>
       reference.isNull
-      ? null
-      : ImageCapture$ImageCaptureError.fromReference(reference);
+          ? null
+          : ImageCapture$ImageCaptureError.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
@@ -4353,9 +4354,10 @@ final class $ImageCapture$OnImageCapturedCallback$NullableType
   @core$_.override
   ImageCapture$OnImageCapturedCallback? fromReference(
     jni$_.JReference reference,
-  ) => reference.isNull
-      ? null
-      : ImageCapture$OnImageCapturedCallback.fromReference(reference);
+  ) =>
+      reference.isNull
+          ? null
+          : ImageCapture$OnImageCapturedCallback.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
@@ -4651,9 +4653,10 @@ final class $ImageCapture$OnImageSavedCallback$NullableType
   @core$_.override
   ImageCapture$OnImageSavedCallback? fromReference(
     jni$_.JReference reference,
-  ) => reference.isNull
-      ? null
-      : ImageCapture$OnImageSavedCallback.fromReference(reference);
+  ) =>
+      reference.isNull
+          ? null
+          : ImageCapture$OnImageSavedCallback.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
@@ -4939,9 +4942,10 @@ final class $ImageCapture$OutputFileOptions$Builder$NullableType
   @core$_.override
   ImageCapture$OutputFileOptions$Builder? fromReference(
     jni$_.JReference reference,
-  ) => reference.isNull
-      ? null
-      : ImageCapture$OutputFileOptions$Builder.fromReference(reference);
+  ) =>
+      reference.isNull
+          ? null
+          : ImageCapture$OutputFileOptions$Builder.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
@@ -5249,8 +5253,8 @@ final class $ImageCapture$OutputFileOptions$NullableType
   @core$_.override
   ImageCapture$OutputFileOptions? fromReference(jni$_.JReference reference) =>
       reference.isNull
-      ? null
-      : ImageCapture$OutputFileOptions.fromReference(reference);
+          ? null
+          : ImageCapture$OutputFileOptions.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
@@ -5407,8 +5411,8 @@ final class $ImageCapture$OutputFileResults$NullableType
   @core$_.override
   ImageCapture$OutputFileResults? fromReference(jni$_.JReference reference) =>
       reference.isNull
-      ? null
-      : ImageCapture$OutputFileResults.fromReference(reference);
+          ? null
+          : ImageCapture$OutputFileResults.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
