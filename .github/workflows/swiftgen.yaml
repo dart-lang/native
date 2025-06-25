@@ -58,6 +58,9 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
+      - name: Install ObjC dependencies
+        working-directory: pkgs/objective_c/
+        run: flutter pub get
       - name: Build ObjC test dylib
         working-directory: pkgs/objective_c/
         # TODO(https://github.com/dart-lang/native/issues/1068): Remove this.

@@ -65,7 +65,7 @@ void _generateDartFile(Config config) {
         config.ffigen.objcProtocols ?? ffigen.DeclarationFilters.excludeAll,
     entryPoints: [Uri.file(config.objcHeader)],
     compilerOpts: [
-      ...ffigen.getCStandardLibraryHeadersForMac(),
+      ...ffigen.defaultCompilerOpts(),
       '-Wno-nullability-completeness',
     ],
     interfaceModuleFunc: (_) => config.outModule,
