@@ -28,7 +28,7 @@ Future<void> main() async {
     ),
     tempDirectory: Uri.directory('temp'),
     outputModule: 'AVFAudioWrapper',
-    ffigen: FfiGenConfig(
+    ffigen: fg.Config(
       output: Uri.file('avf_audio_bindings.dart'),
       outputObjC: Uri.file('avf_audio_wrapper.m'),
       externalVersions: fg.ExternalVersions(

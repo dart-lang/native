@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:ffigen/ffigen.dart' as fg;
 import 'package:path/path.dart' as path;
 import 'package:swiftgen/src/util.dart';
 import 'package:swiftgen/swiftgen.dart';
@@ -53,10 +54,10 @@ class TestGenerator {
       files: [Uri.file(inputFile)],
     ),
     tempDirectory: Directory(tempDir).uri,
-    ffigen: FfiGenConfig(
+    ffigen: fg.Config(
       output: Uri.file(outputFile),
       outputObjC: Uri.file(outputObjCFile),
-      objcInterfaces: DeclarationFilters(
+      objcInterfaces: fg.DeclarationFilters(
         shouldInclude: (decl) => decl.originalName.startsWith('Test'),
       ),
       preamble: '''

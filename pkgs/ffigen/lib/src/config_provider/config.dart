@@ -200,7 +200,7 @@ abstract interface class Config {
     Uri? outputObjC,
     SymbolFile? symbolFile,
     Language language = Language.c,
-    required List<Uri> entryPoints,
+    List<Uri> entryPoints = const <Uri>[],
     bool Function(Uri header)? shouldIncludeHeaderFunc,
     List<String>? compilerOpts,
     Map<String, List<VarArgFunction>> varArgFunctions =

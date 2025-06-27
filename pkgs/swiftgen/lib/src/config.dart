@@ -2,23 +2,24 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:ffigen/ffigen.dart' as fg;
 
 import 'util.dart';
 
 /// Config options for swiftgen.
 class SwiftGen {
   final Target target;
-
-  // Input files.
-  final ConfigInput input;
-
-  // Intermediates.
+  final SwiftGenInput input;
   final Uri tempDir;
-
-  // Output file.
   final String? outputModule;
-  final FfiGenConfig ffigen;
+
+  /// Controls the way ffigen is invoked on the generated ObjC wrapper around
+  /// the Swift API. The most important elements to specify are the outputs,
+  /// and the API filtering/renaming options.
+  ///
+  /// Some options will be overriden by SwiftGen: language, entryPoints,
+  /// compilerOpts, interfaceModule, protocolModule.
+  final fg.Config ffigen;
 
   SwiftGen({
     required this.target,
@@ -40,14 +41,14 @@ class Target {
 }
 
 /// Describes the inputs to the swiftgen pipeline.
-abstract interface class ConfigInput {
+abstract interface class SwiftGenInput {
   String get module;
   Iterable<Uri> get files;
   Iterable<String> get compileArgs;
 }
 
 /// Input swift files that are already annotated with @objc.
-class ObjCCompatibleSwiftFileInput implements ConfigInput {
+class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
   @override
   final String module;
 
@@ -58,75 +59,4 @@ class ObjCCompatibleSwiftFileInput implements ConfigInput {
 
   @override
   Iterable<String> get compileArgs => const <String>[];
-}
-
-/// Selected options from the ffigen Config object.
-class FfiGenConfig {
-  /// Output file name.
-  final Uri output;
-
-  /// Output ObjC file name.
-  final Uri outputObjC;
-
-  /// Name of the wrapper class.
-  final String? wrapperName;
-
-  /// Doc comment for the wrapper class.
-  final String? wrapperDocComment;
-
-  /// Header of the generated bindings.
-  final String? preamble;
-
-  /// Declaration filters for Functions.
-  final ffigen.DeclarationFilters? functionDecl;
-
-  /// Declaration filters for Structs.
-  final ffigen.DeclarationFilters? structDecl;
-
-  /// Declaration filters for Unions.
-  final ffigen.DeclarationFilters? unionDecl;
-
-  /// Declaration filters for Enums.
-  final ffigen.DeclarationFilters? enumClassDecl;
-
-  /// Declaration filters for Unnamed enum constants.
-  final ffigen.DeclarationFilters? unnamedEnumConstants;
-
-  /// Declaration filters for Globals.
-  final ffigen.DeclarationFilters? globals;
-
-  /// Declaration filters for Macro constants.
-  final ffigen.DeclarationFilters? macroDecl;
-
-  /// Declaration filters for Typedefs.
-  final ffigen.DeclarationFilters? typedefs;
-
-  /// Declaration filters for Objective C interfaces.
-  final ffigen.DeclarationFilters? objcInterfaces;
-
-  /// Declaration filters for Objective C protocols.
-  final ffigen.DeclarationFilters? objcProtocols;
-
-  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
-  /// before this version will not be generated.
-  final ffigen.ExternalVersions externalVersions;
-
-  FfiGenConfig({
-    required this.output,
-    required this.outputObjC,
-    this.wrapperName,
-    this.wrapperDocComment,
-    this.preamble,
-    this.functionDecl,
-    this.structDecl,
-    this.unionDecl,
-    this.enumClassDecl,
-    this.unnamedEnumConstants,
-    this.globals,
-    this.macroDecl,
-    this.typedefs,
-    this.objcInterfaces,
-    this.objcProtocols,
-    this.externalVersions = const ffigen.ExternalVersions(),
-  });
 }

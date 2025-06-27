@@ -9,6 +9,7 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 import 'config.dart';
+import 'ffigen_config.dart';
 import 'util.dart';
 
 extension SwiftGenGenerator on SwiftGen {
@@ -38,33 +39,13 @@ extension SwiftGenGenerator on SwiftGen {
 
   void _generateDartFile() {
     final generator = fg.FfiGen(logLevel: Level.SEVERE);
-    final ffigenConfig = fg.Config(
-      language: fg.Language.objc,
-      output: ffigen.output,
-      outputObjC: ffigen.outputObjC,
-      wrapperName: ffigen.wrapperName ?? outModule,
-      wrapperDocComment: ffigen.wrapperDocComment,
-      preamble: ffigen.preamble,
-      functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
-      structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
-      unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,
-      enumClassDecl: ffigen.enumClassDecl ?? fg.DeclarationFilters.excludeAll,
-      unnamedEnumConstants:
-          ffigen.unnamedEnumConstants ?? fg.DeclarationFilters.excludeAll,
-      globals: ffigen.globals ?? fg.DeclarationFilters.excludeAll,
-      macroDecl: ffigen.macroDecl ?? fg.DeclarationFilters.excludeAll,
-      typedefs: ffigen.typedefs ?? fg.DeclarationFilters.excludeAll,
-      objcInterfaces: ffigen.objcInterfaces ?? fg.DeclarationFilters.excludeAll,
-      objcProtocols: ffigen.objcProtocols ?? fg.DeclarationFilters.excludeAll,
-      entryPoints: [Uri.file(objcHeader)],
-      compilerOpts: [
-        ...fg.defaultCompilerOpts(),
-        '-Wno-nullability-completeness',
-      ],
-      interfaceModuleFunc: (_) => outModule,
-      protocolModuleFunc: (_) => outModule,
-      externalVersions: ffigen.externalVersions,
+    generator.run(
+      FfiGenConfig(
+        ffigen,
+        [Uri.file(objcHeader)],
+        [...fg.defaultCompilerOpts(), '-Wno-nullability-completeness'],
+        outModule,
+      ),
     );
-    generator.run(ffigenConfig);
   }
 }
