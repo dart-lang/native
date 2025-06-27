@@ -35,7 +35,7 @@ Future<void> main(List<String> args) async {
   final ffigen = FfiGen(logLevel: _parseLogLevel(argResult));
 
   // Create a config object.
-  Config config;
+  FfiGen config;
   try {
     config = getConfig(argResult, await findPackageConfig(Directory.current));
   } on FormatException {
@@ -46,7 +46,7 @@ Future<void> main(List<String> args) async {
   ffigen.run(config);
 }
 
-Config getConfig(ArgResults result, PackageConfig? packageConfig) {
+FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
   _logger.info('Running in ${Directory.current}');
   YamlConfig config;
 

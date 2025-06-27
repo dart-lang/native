@@ -30,7 +30,7 @@ import 'translation_unit_parser.dart';
 import 'utils.dart';
 
 /// Main entrypoint for header_parser.
-Library parse(Config config) {
+Library parse(FfiGen config) {
   initParser(config);
 
   return Library.fromConfig(
@@ -46,13 +46,13 @@ Library parse(Config config) {
 final _logger = Logger('ffigen.header_parser.parser');
 
 /// Initializes parser, clears any previous values.
-void initParser(Config c) {
+void initParser(FfiGen c) {
   // Initialize global variables.
   initializeGlobals(config: c);
 }
 
 /// Parses source files and returns the bindings.
-List<Binding> parseToBindings(Config c) {
+List<Binding> parseToBindings(FfiGen c) {
   final index = clang.clang_createIndex(0, 0);
 
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
@@ -170,7 +170,7 @@ List<String> _findObjectiveCSysroot() => [
 ];
 
 @visibleForTesting
-List<Binding> transformBindings(Config config, List<Binding> bindings) {
+List<Binding> transformBindings(FfiGen config, List<Binding> bindings) {
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
   visit(FillMethodDependenciesVisitation(), bindings);

@@ -39,7 +39,7 @@ Future<void> _generateObjCFile(Config config) => run('swiftc', [
 
 void _generateDartFile(Config config) {
   final generator = ffigen.FfiGen(logLevel: Level.SEVERE);
-  final ffigenConfig = ffigen.Config(
+  final ffigenConfig = ffigen.FfiGen(
     language: ffigen.Language.objc,
     output: config.ffigen.output,
     outputObjC: config.ffigen.outputObjC,

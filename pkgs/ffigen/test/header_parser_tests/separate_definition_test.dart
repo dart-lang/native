@@ -30,7 +30,7 @@ void main() {
   });
 }
 
-Config _makeConfig(List<String> entryPoints) {
+FfiGen _makeConfig(List<String> entryPoints) {
   final entryPointBuilder = StringBuffer();
   for (final ep in entryPoints) {
     entryPointBuilder.writeln('    - $ep');

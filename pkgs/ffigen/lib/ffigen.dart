@@ -10,7 +10,7 @@ library ffigen;
 
 export 'src/config_provider.dart'
     show
-        Config,
+        FfiGen,
         DeclarationFilters,
         ExternalVersions,
         Language,
