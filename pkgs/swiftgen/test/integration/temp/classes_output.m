@@ -1,10 +1,7 @@
 #include <stdint.h>
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
-#import "input_stream_adapter.h"
-#import "ns_number.h"
-#import "observer.h"
-#import "protocol.h"
+#import "classes.h"
 
 #if !__has_feature(objc_arc)
 #error "This file must be compiled with ARC enabled"
@@ -52,36 +49,11 @@ id objc_retainBlock(id);
   };
 
 
-typedef void  (^ListenerTrampoline)(void * arg0, id arg1, id arg2, id arg3, void * arg4);
+typedef id  (^ProtocolTrampoline)(void * sel);
 __attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline _ObjectiveCBindings_wrapListenerBlock_1sr3ozv(ListenerTrampoline block) NS_RETURNS_RETAINED {
-  return ^void(void * arg0, id arg1, id arg2, id arg3, void * arg4) {
-    objc_retainBlock(block);
-    block(arg0, (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2), (__bridge id)(__bridge_retained void*)(arg3), arg4);
-  };
+id  _classes_protocolTrampoline_1mbt9g9(id target, void * sel) {
+  return ((ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
 }
-
-typedef void  (^BlockingTrampoline)(void * waiter, void * arg0, id arg1, id arg2, id arg3, void * arg4);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline _ObjectiveCBindings_wrapBlockingBlock_1sr3ozv(
-    BlockingTrampoline block, BlockingTrampoline listenerBlock,
-    DOBJC_Context* ctx) NS_RETURNS_RETAINED {
-  BLOCKING_BLOCK_IMPL(ctx, ^void(void * arg0, id arg1, id arg2, id arg3, void * arg4), {
-    objc_retainBlock(block);
-    block(nil, arg0, (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2), (__bridge id)(__bridge_retained void*)(arg3), arg4);
-  }, {
-    objc_retainBlock(listenerBlock);
-    listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void*)(arg1), (__bridge id)(__bridge_retained void*)(arg2), (__bridge id)(__bridge_retained void*)(arg3), arg4);
-  });
-}
-
-typedef void  (^ProtocolTrampoline)(void * sel, id arg1, id arg2, id arg3, void * arg4);
-__attribute__((visibility("default"))) __attribute__((used))
-void  _ObjectiveCBindings_protocolTrampoline_1sr3ozv(id target, void * sel, id arg1, id arg2, id arg3, void * arg4) {
-  return ((ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3, arg4);
-}
-
-Protocol* _ObjectiveCBindings_Observer(void) { return @protocol(Observer); }
 #undef BLOCKING_BLOCK_IMPL
 
 #pragma clang diagnostic pop

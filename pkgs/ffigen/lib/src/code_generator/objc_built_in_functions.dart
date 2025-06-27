@@ -54,7 +54,7 @@ class ObjCBuiltInFunctions {
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
   // would be based on more than just the name.
   String? getBuiltInInterfaceName(String name) =>
-      generateForPackageObjectiveC ? null : objCBuiltInInterfaces[name];
+      generateForPackageObjectiveC && objCBuiltInInterfaces.contains(name) ? null : name;
   String? getBuiltInCompoundName(String name) =>
       generateForPackageObjectiveC ? null : objCBuiltInCompounds[name];
   bool isBuiltInEnum(String name) =>

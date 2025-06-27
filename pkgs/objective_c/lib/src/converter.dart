@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'foundation_bindings_generated.dart';
 import 'internal.dart';
 import 'ns_date.dart';
 import 'ns_number.dart';

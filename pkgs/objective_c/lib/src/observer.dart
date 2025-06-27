@@ -4,6 +4,7 @@
 
 import 'dart:ffi';
 
+import 'foundation_bindings_generated.dart';
 import 'objective_c_bindings_generated.dart';
 
 extension Observed on NSObject {

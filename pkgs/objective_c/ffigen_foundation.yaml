@@ -1,0 +1,173 @@
+# Generate bindings for the ObjC foundation APIs.
+# Regenerate bindings with `dart run tool/generate_code.dart`.
+name: ObjectiveCBindings
+language: objc
+output:
+  bindings: 'lib/src/foundation_bindings_generated.dart'
+  objc-bindings: 'src/foundation_bindings_generated.m'
+headers:
+  entry-points:
+    - 'src/foundation.h'
+ffi-native:
+exclude-all-by-default: true
+include-transitive-objc-categories: false
+generate-for-package-objective-c: true
+sort: true
+library-imports:
+  collection: 'dart:collection'
+external-versions:
+  # See https://docs.flutter.dev/reference/supported-platforms.
+  ios:
+    min: 12.0.0
+  macos:
+    min: 10.14.0
+objc-interfaces:
+  include:
+    - NSArray
+    - NSCharacterSet
+    - NSCoder
+    - NSData
+    - NSDate
+    - NSDictionary
+    - NSEnumerator
+    - NSError
+    - NSIndexSet
+    - NSInputStream
+    - NSInvocation
+    - NSItemProvider
+    - NSLocale
+    - NSMethodSignature
+    - NSMutableArray
+    - NSMutableData
+    - NSMutableDictionary
+    - NSMutableIndexSet
+    - NSMutableOrderedSet
+    - NSMutableSet
+    - NSMutableString
+    - NSNotification
+    - NSNumber
+    - NSObject
+    - NSOutputStream
+    - NSOrderedCollectionChange
+    - NSOrderedCollectionDifference
+    - NSOrderedSet
+    - NSPort
+    - NSPortMessage
+    - NSProgress
+    - NSRunLoop
+    - NSSet
+    - NSStream
+    - NSString
+    - NSTimer
+    - NSURL
+    - NSURLHandle
+    - NSValue
+    - Protocol
+objc-protocols:
+  include:
+    - NSCoding
+    - NSCopying
+    - NSFastEnumeration
+    - NSItemProviderReading
+    - NSItemProviderWriting
+    - NSMutableCopying
+    - NSObject
+    - NSPortDelegate
+    - NSSecureCoding
+    - NSStreamDelegate
+  rename:
+    'NSObject': 'NSObjectProtocol'
+objc-categories:
+  include:
+    - NSDataCreation
+    - NSExtendedArray
+    - NSExtendedData
+    - NSExtendedDate
+    - NSExtendedDictionary
+    - NSExtendedEnumerator
+    - NSExtendedMutableArray
+    - NSExtendedMutableData
+    - NSExtendedMutableDictionary
+    - NSExtendedMutableOrderedSet
+    - NSExtendedMutableSet
+    - NSExtendedOrderedSet
+    - NSExtendedSet
+    - NSNumberCreation
+    - NSStringExtensionMethods
+structs:
+  include:
+    - AEDesc
+    - __CFRunLoop
+    - __CFString
+    - CGPoint
+    - CGRect
+    - CGSize
+    - NSEdgeInsets
+    - NSFastEnumerationState
+    - _NSRange
+    - _NSZone
+    - OpaqueAEDataStorageType
+  rename:
+    __CFRunLoop: CFRunLoop
+    __CFString: CFString
+    _NSRange: NSRange
+    _NSZone: NSZone
+enums:
+  include:
+    - NSAppleEventSendOptions
+    - NSBinarySearchingOptions
+    - NSCollectionChangeType
+    - NSComparisonResult
+    - NSDataBase64DecodingOptions
+    - NSDataBase64EncodingOptions
+    - NSDataCompressionAlgorithm
+    - NSDataReadingOptions
+    - NSDataSearchOptions
+    - NSDataWritingOptions
+    - NSDecodingFailurePolicy
+    - NSEnumerationOptions
+    - NSItemProviderFileOptions
+    - NSItemProviderRepresentationVisibility
+    - NSKeyValueChange
+    - NSKeyValueObservingOptions
+    - NSKeyValueSetMutationKind
+    - NSLinguisticTaggerOptions
+    - NSLocaleLanguageDirection
+    - NSOrderedCollectionDifferenceCalculationOptions
+    - NSPropertyListFormat
+    - NSQualityOfService
+    - NSSortOptions
+    - NSStreamEvent
+    - NSStreamStatus
+    - NSStringCompareOptions
+    - NSStringEncodingConversionOptions
+    - NSStringEnumerationOptions
+    - NSURLBookmarkCreationOptions
+    - NSURLBookmarkResolutionOptions
+    - NSURLHandleStatus
+globals:
+  include:
+    - NSKeyValueChangeIndexesKey
+    - NSKeyValueChangeKindKey
+    - NSKeyValueChangeNewKey
+    - NSKeyValueChangeNotificationIsPriorKey
+    - NSKeyValueChangeOldKey
+    - NSLocalizedDescriptionKey
+typedefs:
+  include:
+    - 'CFStringRef'
+preamble: |
+  // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+  // for details. All rights reserved. Use of this source code is governed by a
+  // BSD-style license that can be found in the LICENSE file.
+
+  // Bindings for `src/foundation.h`.
+  // Regenerate bindings with `dart run tool/generate_code.dart`.
+
+  // ignore_for_file: always_specify_types
+  // ignore_for_file: camel_case_types
+  // ignore_for_file: non_constant_identifier_names
+  // ignore_for_file: unnecessary_non_null_assertion
+  // ignore_for_file: unused_element
+  // ignore_for_file: unused_field
+  // coverage:ignore-file

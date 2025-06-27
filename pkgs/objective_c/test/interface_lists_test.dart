@@ -46,7 +46,7 @@ void main() {
       final allClassNames = findBindings(RegExp(r'^class ([^_]\w*) '));
       expectSetsEqual(
         'generated classes',
-        objCBuiltInInterfaces.values.toSet(),
+        objCBuiltInInterfaces,
         allClassNames,
       );
     });

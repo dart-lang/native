@@ -7,6 +7,7 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 
+import 'foundation_bindings_generated.dart';
 import 'objective_c_bindings_generated.dart';
 
 extension NSDataExtensions on NSData {
