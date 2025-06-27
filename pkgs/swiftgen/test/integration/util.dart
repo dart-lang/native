@@ -46,21 +46,20 @@ class TestGenerator {
     actualOutputFile = path.join(testDir, '${name}_bindings.dart');
   }
 
-  Future<void> generateBindings() async => generate(
-    Config(
-      target: await Target.host(),
-      input: ObjCCompatibleSwiftFileInput(
-        module: name,
-        files: [Uri.file(inputFile)],
+  Future<void> generateBindings() async => SwiftGen(
+    target: await Target.host(),
+    input: ObjCCompatibleSwiftFileInput(
+      module: name,
+      files: [Uri.file(inputFile)],
+    ),
+    tempDirectory: Directory(tempDir).uri,
+    ffigen: FfiGenConfig(
+      output: Uri.file(outputFile),
+      outputObjC: Uri.file(outputObjCFile),
+      objcInterfaces: DeclarationFilters(
+        shouldInclude: (decl) => decl.originalName.startsWith('Test'),
       ),
-      tempDirectory: Directory(tempDir).uri,
-      ffigen: FfiGenConfig(
-        output: Uri.file(outputFile),
-        outputObjC: Uri.file(outputObjCFile),
-        objcInterfaces: DeclarationFilters(
-          shouldInclude: (decl) => decl.originalName.startsWith('Test'),
-        ),
-        preamble: '''
+      preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -73,9 +72,8 @@ class TestGenerator {
 // ignore_for_file: unused_field
 // coverage:ignore-file
 ''',
-      ),
     ),
-  );
+  ).generate();
 
   Future<void> generateAndVerifyBindings() async {
     // Run the generation pipeline. This produces the swift compatability

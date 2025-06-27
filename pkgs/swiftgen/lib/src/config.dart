@@ -7,7 +7,7 @@ import 'package:ffigen/ffigen.dart' as ffigen;
 import 'util.dart';
 
 /// Config options for swiftgen.
-class Config {
+class SwiftGen {
   final Target target;
 
   // Input files.
@@ -20,7 +20,7 @@ class Config {
   final String? outputModule;
   final FfiGenConfig ffigen;
 
-  Config({
+  SwiftGen({
     required this.target,
     required this.input,
     Uri? tempDirectory,

@@ -4,5 +4,5 @@
 
 export 'package:ffigen/ffigen.dart' show DeclarationFilters;
 export 'src/config.dart'
-    show Config, FfiGenConfig, ObjCCompatibleSwiftFileInput, Target;
-export 'src/generator.dart' show generate;
+    show FfiGenConfig, ObjCCompatibleSwiftFileInput, SwiftGen, Target;
+export 'src/generator.dart' show SwiftGenGenerator;
