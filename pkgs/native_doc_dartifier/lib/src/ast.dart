@@ -30,11 +30,11 @@ class Class {
   String toDartLikeRepresentaion() => '''
 ${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}
 {
-${constructors.map((c) => '${c.toString()};').join('\n')}
-${fields.map((f) => '${f.toString()};').join('\n')}
-${methods.map((m) => '${m.toString()};').join('\n')}
-${getters.map((g) => '${g.toString()};').join('\n')}
-${setters.map((s) => '${s.toString()};').join('\n')}
+${constructors.map((c) => '${c.toDartLikeRepresentaion()};').join('\n')}
+${fields.map((f) => '${f.toDartLikeRepresentaion()};').join('\n')}
+${methods.map((m) => '${m.toDartLikeRepresentaion()};').join('\n')}
+${getters.map((g) => '${g.toDartLikeRepresentaion()};').join('\n')}
+${setters.map((s) => '${s.toDartLikeRepresentaion()};').join('\n')}
 }
 ''';
 
