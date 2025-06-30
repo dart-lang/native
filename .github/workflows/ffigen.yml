@@ -34,17 +34,17 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
-          channel: 'stable'
+          channel: master
       - id: install
         name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/shared_bindings" && flutter pub get --directory="../objective_c"
+        run: dart pub get && dart pub get --directory="example/shared_bindings" && dart pub get --directory="../objective_c"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Analyze code
-        run: flutter analyze --fatal-infos
+        run: dart analyze --fatal-infos
 
   test-linux:
     needs: analyze
@@ -56,9 +56,9 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
-          channel: 'stable'
+          channel: master
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../jni"
+        run: dart pub get && flutter pub get --directory="../jni"
       - name: Install libclang-14-dev
         run: sudo apt-get install libclang-14-dev
       - name: Build test dylib and bindings
@@ -80,9 +80,9 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
-          channel: stable
+          channel: master
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
@@ -122,7 +122,7 @@ jobs:
         with:
           channel: master
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
@@ -142,13 +142,13 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
-          channel: 'stable'
+          channel: master
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c"
+        run: dart pub get && dart pub get --directory="../objective_c"
       - name: Build test dylib and bindings
-        run: dart test/setup.dart --main-thread-dispatcher
+        run: dart test/setup.dart
       - name: Run Flutter tests
-        run: flutter test
+        run: dart test
 
   test-windows:
     needs: analyze
@@ -160,9 +160,9 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
-          channel: 'stable'
+          channel: master
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../jni"
+        run: dart pub get && flutter pub get --directory="../jni"
       - name: Build test dylib and bindings
         run: dart test/setup.dart
       - name: Run VM tests
@@ -191,7 +191,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
-          channel: "master"
+          channel: master
       - name: Install dependencies
         run: flutter pub get
       - name: Build test dylib and bindings

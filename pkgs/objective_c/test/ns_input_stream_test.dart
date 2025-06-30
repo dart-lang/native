@@ -41,11 +41,6 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
 
 void main() {
   group('NSInputStream', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     group('toNSInputStream', () {
       group('empty', () {
         late NSInputStream inputStream;

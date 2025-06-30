@@ -12,7 +12,7 @@
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // coverage:ignore-file
-import 'dart:collection';
+import 'dart:collection' as collection;
 
 // AUTO GENERATED FILE, DO NOT EDIT.
 //
@@ -3341,7 +3341,7 @@ enum NSDecodingFailurePolicy {
 
 /// NSDictionary
 class NSDictionary extends NSObject
-    with MapBase<NSCopying, objc.ObjCObjectBase>
+    with collection.MapBase<NSCopying, objc.ObjCObjectBase>
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   /// Creates a [NSDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
@@ -8943,7 +8943,8 @@ class NSMethodSignature extends NSObject {
 }
 
 /// NSMutableArray
-class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
+class NSMutableArray extends NSArray
+    with collection.ListBase<objc.ObjCObjectBase> {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///
@@ -17243,7 +17244,7 @@ interface class NSSecureCoding extends objc.ObjCProtocolBase
 
 /// NSSet
 class NSSet extends NSObject
-    with SetBase<objc.ObjCObjectBase>
+    with collection.SetBase<objc.ObjCObjectBase>
     implements NSCopying, NSMutableCopying, NSSecureCoding, NSFastEnumeration {
   /// Creates a [NSSet] from [elements].
   static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
