@@ -54,7 +54,7 @@ class TestGenerator {
       files: [Uri.file(inputFile)],
     ),
     tempDirectory: Directory(tempDir).uri,
-    ffigen: fg.Config(
+    ffigen: FfiGenConfig(
       output: Uri.file(outputFile),
       outputObjC: Uri.file(outputObjCFile),
       objcInterfaces: fg.DeclarationFilters(
