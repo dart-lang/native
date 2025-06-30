@@ -7,6 +7,7 @@ import '../ast/_core/interfaces/declaration.dart';
 import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
+import '../ast/declarations/compounds/protocol_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/visitor.dart';
@@ -14,8 +15,15 @@ import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
+import 'transformers/transform_protocol.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
+
+extension TransformationMapUtils on TransformationMap {
+  Declaration? findByOriginalId(String id) {
+    return this[keys.where((k) => k.id == id).firstOrNull];
+  }
+}
 
 Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
     visit(DependencyVisitation(), decls).topLevelDeclarations;
@@ -79,6 +87,8 @@ Declaration transformDeclaration(
         parentNamer,
         transformationMap,
       ),
+    ProtocolDeclaration() =>
+      transformProtocol(declaration, parentNamer, transformationMap),
     _ => throw UnimplementedError(),
   };
 }
