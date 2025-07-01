@@ -2,12 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 import 'dartified_snippets/overloaded_methods.dart';
 
 void main() {
   setUpAll(() {
+    final setup = Process.runSync('flutter', ['pub', 'run', 'jni:setup']);
+    if (setup.exitCode != 0) {
+      throw Exception('Failed to run jni:setup: ${setup.stderr}');
+    }
+
     Jni.spawn(
       dylibDir: 'build/jni_libs',
       classPath: [

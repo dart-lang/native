@@ -4,7 +4,7 @@
 
 import 'dart:io';
 import 'package:native_doc_dartifier/src/dartify_code.dart';
-import '../test/dartiy_simple_cases/java/java_snippets.dart';
+import '../test/dartiy_simple_cases/java_snippets.dart';
 
 const workingDir = 'test/dartiy_simple_cases';
 const javaPath = '$workingDir/java';
@@ -13,11 +13,6 @@ const dartifiedSnippetsDir = 'dartified_snippets';
 const bindingsPath = '$workingDir/bindings.dart';
 
 void generateBindings() {
-  final setup = Process.runSync('flutter', ['pub', 'run', 'jni:setup']);
-  if (setup.exitCode != 0) {
-    throw Exception('Failed to run jni:setup: ${setup.stderr}');
-  }
-
   final runJnigen = Process.runSync('flutter', [
     'pub',
     'run',
