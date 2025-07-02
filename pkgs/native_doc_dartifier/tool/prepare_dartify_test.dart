@@ -13,12 +13,11 @@ const dartifiedSnippetsDir = 'dartified_snippets';
 const bindingsPath = '$workingDir/bindings.dart';
 
 void generateBindings() {
-  final runJnigen = Process.runSync('flutter', [
-    'pub',
+  final runJnigen = Process.runSync('dart', [
     'run',
     'jnigen',
     '--config',
-    '$workingDir/jnigen.yaml',
+    'jnigen.yaml',
   ], workingDirectory: workingDir);
   if (runJnigen.exitCode != 0) {
     throw Exception('Failed to run jnigen: ${runJnigen.stderr}');
