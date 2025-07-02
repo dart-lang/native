@@ -38,12 +38,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     required this.builtInFunctions,
     required this.apiAvailability,
   }) : lookupName = lookupName ?? originalName,
-       super(
-         name:
-             builtInFunctions.getBuiltInInterfaceName(originalName) ??
-             name ??
-             originalName,
-       ) {
+       super(name: name ?? originalName) {
     classObject = ObjCInternalGlobal(
       '_class_$originalName',
       (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")',
@@ -63,8 +58,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
   }
 
   @override
-  bool get isObjCImport =>
-      builtInFunctions.getBuiltInInterfaceName(originalName) != null;
+  bool get isObjCImport => builtInFunctions.isBuiltInInterface(originalName);
 
   @override
   void sort() => sortMethods();
