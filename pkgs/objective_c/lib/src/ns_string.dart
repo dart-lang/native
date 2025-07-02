@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffi/ffi.dart';
+
 import 'objective_c_bindings_generated.dart';
 
 extension StringToNSString on String {
