@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 
+import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../tool/tool.dart';
 
@@ -94,15 +95,35 @@ extension LinkerOptionsExt on LinkerOptions {
     Tool tool,
     Iterable<String> sourceFiles,
     OS targetOS,
+    Architecture targetArchitecture,
   ) {
-    final includeAllSymbols = _symbolsToKeep == null;
+    if (tool.isClangLike || tool.isLdLike) {
+      return _sourceFilesToFlagsForClangLike(tool, sourceFiles, targetOS);
+    } else if (tool == cl) {
+      return _sourceFilesToFlagsForCl(
+        tool,
+        sourceFiles,
+        targetOS,
+        targetArchitecture,
+      );
+    } else {
+      throw UnimplementedError('This package does not know how to run $tool.');
+    }
+  }
 
+  bool get _includeAllSymbols => _symbolsToKeep == null;
+
+  Iterable<String> _sourceFilesToFlagsForClangLike(
+    Tool tool,
+    Iterable<String> sourceFiles,
+    OS targetOS,
+  ) {
     switch (targetOS) {
       case OS.macOS || OS.iOS:
         return [
-          if (!includeAllSymbols) ...sourceFiles,
+          if (!_includeAllSymbols) ...sourceFiles,
           ..._toLinkerSyntax(tool, [
-            if (includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
+            if (_includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
             ..._linkerFlags,
             ..._symbolsToKeep?.map((symbol) => '-u,_$symbol') ?? [],
             if (stripDebug) '-S',
@@ -113,7 +134,7 @@ extension LinkerOptionsExt on LinkerOptions {
       case OS.android || OS.linux:
         final wholeArchiveSandwich =
             sourceFiles.any((source) => source.endsWith('.a')) ||
-            includeAllSymbols;
+            _includeAllSymbols;
         return [
           if (wholeArchiveSandwich)
             ..._toLinkerSyntax(tool, ['--whole-archive']),
@@ -132,4 +153,23 @@ extension LinkerOptionsExt on LinkerOptions {
         throw UnimplementedError();
     }
   }
+
+  Iterable<String> _sourceFilesToFlagsForCl(
+    Tool tool,
+    Iterable<String> sourceFiles,
+    OS targetOS,
+    Architecture targetArch,
+  ) => [
+    ...sourceFiles,
+    '/link',
+    if (_includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+    ..._linkerFlags,
+    ..._symbolsToKeep?.map(
+          (symbol) =>
+              '/INCLUDE:${targetArch == Architecture.ia32 ? '_' : ''}$symbol',
+        ) ??
+        [],
+    if (stripDebug) '/PDBSTRIPPED',
+    if (gcSections) '/OPT:REF',
+  ];
 }
