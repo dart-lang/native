@@ -18,8 +18,8 @@ void main() {
     Jni.spawn(
       dylibDir: 'build/jni_libs',
       classPath: [
-        '../build/jni_libs/jni.jar',
-        'test/dartiy_simple_cases/compiled',
+        'build/jni_libs/jni.jar',
+        'test/dartify_simple_cases/compiled',
       ],
     );
   });

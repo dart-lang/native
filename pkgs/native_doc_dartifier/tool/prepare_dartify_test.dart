@@ -4,9 +4,9 @@
 
 import 'dart:io';
 import 'package:native_doc_dartifier/src/dartify_code.dart';
-import '../test/dartiy_simple_cases/java_snippets.dart';
+import '../test/dartify_simple_cases/java_snippets.dart';
 
-const workingDir = 'test/dartiy_simple_cases';
+const workingDir = 'test/dartify_simple_cases';
 const javaPath = '$workingDir/java';
 const compileDirName = 'compiled';
 const dartifiedSnippetsDir = 'dartified_snippets';
@@ -31,7 +31,7 @@ void compileJavaPackage() {
     throw Exception('Directory does not exist: $workingDir');
   }
 
-  final outputDir = Directory('$workingDir/compiled');
+  final outputDir = Directory('$workingDir/$compileDirName');
   if (!outputDir.existsSync()) {
     outputDir.createSync(recursive: true);
   }

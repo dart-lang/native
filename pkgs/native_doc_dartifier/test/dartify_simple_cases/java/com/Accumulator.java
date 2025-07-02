@@ -1,17 +1,17 @@
 package com;
 
-public class Accumelator {
+public class Accumulator {
     public int accumulator;
 
-    public Accumelator() {
+    public Accumulator() {
         this.accumulator = 0;
     }
 
-    public Accumelator(int initialValue) {
+    public Accumulator(int initialValue) {
         this.accumulator = initialValue;
     }
 
-    public Accumelator(Accumelator other) {
+    public Accumulator(Accumulator other) {
         this.accumulator = other.accumulator;
     }
 
@@ -27,7 +27,7 @@ public class Accumelator {
         this.accumulator += value1 + value2 + value3;
     }
 
-    public void add(Accumelator other) {
+    public void add(Accumulator other) {
         this.accumulator += other.accumulator;
     }
 }

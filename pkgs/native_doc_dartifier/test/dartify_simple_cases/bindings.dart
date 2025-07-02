@@ -36,22 +36,22 @@ import 'dart:core' as core$_;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-/// from: `com.Accumelator`
-class Accumelator extends jni$_.JObject {
+/// from: `com.Accumulator`
+class Accumulator extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Accumelator> $type;
+  final jni$_.JObjType<Accumulator> $type;
 
   @jni$_.internal
-  Accumelator.fromReference(jni$_.JReference reference)
+  Accumulator.fromReference(jni$_.JReference reference)
     : $type = type,
       super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(r'com/Accumelator');
+  static final _class = jni$_.JClass.forName(r'com/Accumulator');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Accumelator$NullableType();
-  static const type = $Accumelator$Type();
+  static const nullableType = $Accumulator$NullableType();
+  static const type = $Accumulator$Type();
   static final _id_accumulator = _class.instanceFieldId(r'accumulator', r'I');
 
   /// from: `public int accumulator`
@@ -81,8 +81,8 @@ class Accumelator extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumelator() {
-    return Accumelator.fromReference(
+  factory Accumulator() {
+    return Accumulator.fromReference(
       _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
     );
   }
@@ -109,8 +109,8 @@ class Accumelator extends jni$_.JObject {
 
   /// from: `public void <init>(int initialValue)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumelator.new$1(int initialValue) {
-    return Accumelator.fromReference(
+  factory Accumulator.new$1(int initialValue) {
+    return Accumulator.fromReference(
       _new$1(
         _class.reference.pointer,
         _id_new$1 as jni$_.JMethodIDPtr,
@@ -119,7 +119,7 @@ class Accumelator extends jni$_.JObject {
     );
   }
 
-  static final _id_new$2 = _class.constructorId(r'(Lcom/Accumelator;)V');
+  static final _id_new$2 = _class.constructorId(r'(Lcom/Accumulator;)V');
 
   static final _new$2 =
       jni$_.ProtectedJniExtensions.lookup<
@@ -139,11 +139,11 @@ class Accumelator extends jni$_.JObject {
             )
           >();
 
-  /// from: `public void <init>(com.Accumelator other)`
+  /// from: `public void <init>(com.Accumulator other)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumelator.new$2(Accumelator? other) {
+  factory Accumulator.new$2(Accumulator? other) {
     final _$other = other?.reference ?? jni$_.jNullReference;
-    return Accumelator.fromReference(
+    return Accumulator.fromReference(
       _new$2(
         _class.reference.pointer,
         _id_new$2 as jni$_.JMethodIDPtr,
@@ -243,7 +243,7 @@ class Accumelator extends jni$_.JObject {
 
   static final _id_add$3 = _class.instanceMethodId(
     r'add',
-    r'(Lcom/Accumelator;)V',
+    r'(Lcom/Accumulator;)V',
   );
 
   static final _add$3 =
@@ -264,8 +264,8 @@ class Accumelator extends jni$_.JObject {
             )
           >();
 
-  /// from: `public void add(com.Accumelator other)`
-  void add$3(Accumelator? other) {
+  /// from: `public void add(com.Accumulator other)`
+  void add$3(Accumulator? other) {
     final _$other = other?.reference ?? jni$_.jNullReference;
     _add$3(
       reference.pointer,
@@ -275,71 +275,71 @@ class Accumelator extends jni$_.JObject {
   }
 }
 
-final class $Accumelator$NullableType extends jni$_.JObjType<Accumelator?> {
+final class $Accumulator$NullableType extends jni$_.JObjType<Accumulator?> {
   @jni$_.internal
-  const $Accumelator$NullableType();
+  const $Accumulator$NullableType();
 
   @jni$_.internal
   @core$_.override
-  String get signature => r'Lcom/Accumelator;';
+  String get signature => r'Lcom/Accumulator;';
 
   @jni$_.internal
   @core$_.override
-  Accumelator? fromReference(jni$_.JReference reference) =>
-      reference.isNull ? null : Accumelator.fromReference(reference);
+  Accumulator? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : Accumulator.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Accumelator?> get nullableType => this;
+  jni$_.JObjType<Accumulator?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Accumelator$NullableType).hashCode;
+  int get hashCode => ($Accumulator$NullableType).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Accumelator$NullableType) &&
-        other is $Accumelator$NullableType;
+    return other.runtimeType == ($Accumulator$NullableType) &&
+        other is $Accumulator$NullableType;
   }
 }
 
-final class $Accumelator$Type extends jni$_.JObjType<Accumelator> {
+final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
   @jni$_.internal
-  const $Accumelator$Type();
+  const $Accumulator$Type();
 
   @jni$_.internal
   @core$_.override
-  String get signature => r'Lcom/Accumelator;';
+  String get signature => r'Lcom/Accumulator;';
 
   @jni$_.internal
   @core$_.override
-  Accumelator fromReference(jni$_.JReference reference) =>
-      Accumelator.fromReference(reference);
+  Accumulator fromReference(jni$_.JReference reference) =>
+      Accumulator.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Accumelator?> get nullableType =>
-      const $Accumelator$NullableType();
+  jni$_.JObjType<Accumulator?> get nullableType =>
+      const $Accumulator$NullableType();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Accumelator$Type).hashCode;
+  int get hashCode => ($Accumulator$Type).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Accumelator$Type) &&
-        other is $Accumelator$Type;
+    return other.runtimeType == ($Accumulator$Type) &&
+        other is $Accumulator$Type;
   }
 }

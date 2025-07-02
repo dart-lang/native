@@ -2,15 +2,15 @@ final snippets = [
   {
     'code': '''
 int overloadedMethods() {
-    Accumelator acc1 = new Accumelator();
+    Accumulator acc1 = new Accumulator();
     acc1.add(10);
     acc1.add(10, 10);
     acc1.add(10, 10, 10);
 
-    Accumelator acc2 = new Accumelator(20);
+    Accumulator acc2 = new Accumulator(20);
     acc2.add(acc1);
 
-    Accumelator acc3 = new Accumelator(acc2);
+    Accumulator acc3 = new Accumulator(acc2);
     return acc3.accumulator;
 }''',
     'fileName': 'overloaded_methods.dart',
