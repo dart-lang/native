@@ -6,7 +6,6 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'foundation_bindings_generated.dart';
 import 'objective_c_bindings_generated.dart';
 
 extension NSMutableDataExtensions on NSMutableData {

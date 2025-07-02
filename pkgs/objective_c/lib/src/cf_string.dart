@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'ns_string.dart';
-import 'foundation_bindings_generated.dart';
+import 'objective_c_bindings_generated.dart';
 
 extension CFStringRefConversions on CFStringRef {
   NSString toNSString() =>

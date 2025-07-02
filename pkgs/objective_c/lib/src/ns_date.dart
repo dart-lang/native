@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'foundation_bindings_generated.dart';
 import 'objective_c_bindings_generated.dart';
 
 extension DateTimeToNSDate on DateTime {

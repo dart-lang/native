@@ -4,7 +4,6 @@ import 'dart:isolate';
 
 import 'ns_data.dart';
 import 'ns_string.dart';
-import 'foundation_bindings_generated.dart';
 import 'objective_c_bindings_generated.dart';
 
 extension NSInputStreamStreamExtension on Stream<List<int>> {

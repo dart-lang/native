@@ -11,7 +11,6 @@ import 'package:ffi/ffi.dart';
 import 'c_bindings_generated.dart' as c;
 import 'internal.dart'
     show FailedToLoadProtocolMethodException, GetProtocolName, ObjCBlockBase;
-import 'foundation_bindings_generated.dart';
 import 'objective_c_bindings_generated.dart' as objc;
 import 'runtime_bindings_generated.dart' as r;
 import 'selector.dart';
@@ -53,7 +52,7 @@ class ObjCProtocolBuilder {
   ///
   /// This can be called multiple times to construct multiple object instances
   /// that all implement the same protocol methods using the same functions.
-  NSObject build({bool keepIsolateAlive = true}) {
+  objc.NSObject build({bool keepIsolateAlive = true}) {
     if (!_built) {
       _builder.registerClass();
       _built = true;
@@ -73,7 +72,7 @@ class ObjCProtocolBuilder {
   /// This essentially declares that the implementation implements the protocol.
   /// There is no automatic check that ensures that the implementation actually
   /// implements all the methods of the protocol.
-  void addProtocol(Protocol protocol) => _builder.addProtocol(protocol);
+  void addProtocol(objc.Protocol protocol) => _builder.addProtocol(protocol);
 
   static final _rand = Random();
   static objc.DartProtocolBuilder _createBuilder(String debugName) {

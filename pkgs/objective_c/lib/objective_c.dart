@@ -13,7 +13,7 @@ export 'src/c_bindings_generated.dart'
         signalWaiter;
 export 'src/cf_string.dart';
 export 'src/converter.dart';
-export 'src/foundation_bindings_exported.dart';
+export 'src/objective_c_bindings_exported.dart';
 export 'src/internal.dart'
     hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
 export 'src/ns_data.dart';
