@@ -41,6 +41,12 @@ functions:
 globals:
   include:
     - '_NSConcrete.*Block'
+    - NSKeyValueChangeIndexesKey
+    - NSKeyValueChangeKindKey
+    - NSKeyValueChangeNewKey
+    - NSKeyValueChangeNotificationIsPriorKey
+    - NSKeyValueChangeOldKey
+    - NSLocalizedDescriptionKey
   rename:
     '_(.*)': '$1'
 structs:

@@ -50,4 +50,11 @@ ObjCMethodDesc protocol_getMethodDescription(
     bool isInstanceMethod);
 const char *protocol_getName(ObjCProtocol *proto);
 
+extern const ObjCObject *NSKeyValueChangeIndexesKey;
+extern const ObjCObject *NSKeyValueChangeKindKey;
+extern const ObjCObject *NSKeyValueChangeNewKey;
+extern const ObjCObject *NSKeyValueChangeNotificationIsPriorKey;
+extern const ObjCObject *NSKeyValueChangeOldKey;
+extern const ObjCObject *NSLocalizedDescriptionKey;
+
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_

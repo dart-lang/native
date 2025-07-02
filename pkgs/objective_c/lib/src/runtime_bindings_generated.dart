@@ -39,6 +39,24 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 @ffi.Native<ffi.Array<ffi.Pointer<ffi.Void>>>(symbol: '_NSConcreteStackBlock')
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
 
+@ffi.Native<ffi.Pointer<ObjCObject>>()
+external ffi.Pointer<ObjCObject> NSKeyValueChangeIndexesKey;
+
+@ffi.Native<ffi.Pointer<ObjCObject>>()
+external ffi.Pointer<ObjCObject> NSKeyValueChangeKindKey;
+
+@ffi.Native<ffi.Pointer<ObjCObject>>()
+external ffi.Pointer<ObjCObject> NSKeyValueChangeNewKey;
+
+@ffi.Native<ffi.Pointer<ObjCObject>>()
+external ffi.Pointer<ObjCObject> NSKeyValueChangeNotificationIsPriorKey;
+
+@ffi.Native<ffi.Pointer<ObjCObject>>()
+external ffi.Pointer<ObjCObject> NSKeyValueChangeOldKey;
+
+@ffi.Native<ffi.Pointer<ObjCObject>>()
+external ffi.Pointer<ObjCObject> NSLocalizedDescriptionKey;
+
 @ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
   symbol: 'objc_retainBlock',
   isLeaf: true,

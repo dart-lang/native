@@ -178,7 +178,6 @@ ${elements.join('\n')}
   writeDecls('objCBuiltInEnums', 'enums');
   writeDecls('objCBuiltInProtocols', 'objc-protocols');
   writeDecls('objCBuiltInCategories', 'objc-categories');
-  writeDecls('objCBuiltInGlobals', 'globals');
 
   File(out).writeAsStringSync(s.toString());
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
+import 'globals.dart';
 import 'ns_data.dart';
 import 'ns_string.dart';
 import 'objective_c_bindings_generated.dart';

@@ -161,14 +161,6 @@ enums:
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
-globals:
-  include:
-    - NSKeyValueChangeIndexesKey
-    - NSKeyValueChangeKindKey
-    - NSKeyValueChangeNewKey
-    - NSKeyValueChangeNotificationIsPriorKey
-    - NSKeyValueChangeOldKey
-    - NSLocalizedDescriptionKey
 typedefs:
   include:
     - 'CFStringRef'
