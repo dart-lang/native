@@ -8,6 +8,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:json_syntax_generator/json_syntax_generator.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 import '../test/json_schema/helpers.dart';
 
