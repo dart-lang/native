@@ -38,6 +38,8 @@ dev_dependencies:
   json_schema: ^5.2.0 # May only be used in tool/ and test/json_schema/.
   json_syntax_generator:
     path: ../json_syntax_generator/
+  native_test_helpers:
+    path: ../native_test_helpers/
   path: ^1.9.1
   repo_lint_rules:
     path: ../repo_lint_rules/
