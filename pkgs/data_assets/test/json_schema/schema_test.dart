@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:json_schema/json_schema.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 import 'helpers.dart';
 

@@ -16,6 +16,7 @@ on:
       - "pkgs/hooks/**"
       - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
+      - "pkgs/native_test_helpers/**"
       - "pkgs/repo_lint_rules/**"
       - "tool/**"
   push:
@@ -28,6 +29,7 @@ on:
       - "pkgs/hooks/**"
       - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
+      - "pkgs/native_test_helpers/**"
       - "pkgs/repo_lint_rules/**"
       - "tool/**"
   schedule:

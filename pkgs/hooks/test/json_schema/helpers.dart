@@ -10,8 +10,6 @@ import 'dart:io';
 import 'package:json_schema/json_schema.dart';
 import 'package:test/test.dart';
 
-export '../helpers.dart' show findPackageRoot;
-
 typedef AllSchemas = Map<Uri, JsonSchema>;
 
 /// The schemas are reused in tests, so load and parse them all.

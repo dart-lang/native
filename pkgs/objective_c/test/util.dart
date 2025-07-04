@@ -2,15 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// TODO: Should we share this with ffigen and move it to an unpublished util
-// package in this repo?
-
 // ignore_for_file: avoid_catching_errors
 
 import 'dart:ffi';
-import 'dart:io';
 
 import 'package:ffi/ffi.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart'
     as internal_for_testing
@@ -86,53 +83,3 @@ String pkgDir = findPackageRoot('objective_c').toFilePath();
 
 // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
 String testDylib = p.join(pkgDir, 'test', 'objective_c.dylib');
-
-/// Test files are run in a variety of ways, find this package root in all.
-///
-/// Test files can be run from source from any working directory. The Dart SDK
-/// `tools/test.py` runs them from the root of the SDK for example.
-///
-/// Test files can be run from dill from the root of package. `package:test`
-/// does this.
-///
-/// https://github.com/dart-lang/test/issues/110
-Uri findPackageRoot(String packageName) {
-  final script = Platform.script;
-  final fileName = script.name;
-  if (fileName.endsWith('.dart')) {
-    // We're likely running from source in the package somewhere.
-    var directory = script.resolve('.');
-    while (true) {
-      final dirName = directory.name;
-      if (dirName == packageName) {
-        return directory;
-      }
-      final parent = directory.resolve('..');
-      if (parent == directory) break;
-      directory = parent;
-    }
-  } else if (fileName.endsWith('.dill')) {
-    // Probably from the package root.
-    final cwd = Directory.current.uri;
-    final dirName = cwd.name;
-    if (dirName == packageName) {
-      return cwd;
-    }
-  }
-  // Or the workspace root.
-  final cwd = Directory.current.uri;
-  final candidate = cwd.resolve('pkgs/$packageName/');
-  if (Directory.fromUri(candidate).existsSync()) {
-    return candidate;
-  }
-  throw StateError(
-    "Could not find package root for package '$packageName'. "
-    'Tried finding the package root via Platform.script '
-    "'${Platform.script.toFilePath()}' and Directory.current "
-    "'${Directory.current.uri.toFilePath()}'.",
-  );
-}
-
-extension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
-}
