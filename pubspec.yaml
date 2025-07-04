@@ -58,6 +58,7 @@ workspace:
   - pkgs/hooks/example/link/package_with_assets
   - pkgs/json_syntax_generator
   - pkgs/native_toolchain_c
+  - pkgs/native_test_helpers
   - pkgs/repo_lint_rules
 
 # Hook user-defines are specified in the pub workspace.

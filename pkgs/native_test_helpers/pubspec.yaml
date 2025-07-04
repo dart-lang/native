@@ -5,5 +5,7 @@ description: Helper functions for tests in this monorepo.
 
 publish_to: none
 
+resolution: workspace
+
 environment:
   sdk: '>=3.8.0 <4.0.0'
