@@ -8,11 +8,11 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
-import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
+import 'package:test_helpers/test_helpers.dart';
 
 /// Returns a suffix for a test that is parameterized.
 ///

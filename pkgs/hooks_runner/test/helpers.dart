@@ -11,7 +11,7 @@ import 'package:file/local.dart' show LocalFileSystem;
 import 'package:hooks/hooks.dart';
 import 'package:hooks_runner/src/utils/run_process.dart' as run_process;
 import 'package:logging/logging.dart';
-import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:test_helpers/test_helpers.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
