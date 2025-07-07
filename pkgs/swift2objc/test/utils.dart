@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:path/path.dart' as p;
-import 'package:test_helpers/test_helpers.dart';
 import 'package:test/test.dart';
+import 'package:test_helpers/test_helpers.dart';
 
 final _whitespace = RegExp(r'\s+');
 
