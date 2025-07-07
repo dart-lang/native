@@ -15,6 +15,7 @@ Future<Uri> buildTestArchive(
   Uri tempUri2,
   OS targetOS,
   Architecture architecture, {
+  List<Uri>? extraSources,
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
   int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
   int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
@@ -77,7 +78,11 @@ Future<Uri> buildTestArchive(
   final cbuilder = CBuilder.library(
     name: name,
     assetName: '',
-    sources: [test1Uri.toFilePath(), test2Uri.toFilePath()],
+    sources: [
+      test1Uri.toFilePath(),
+      test2Uri.toFilePath(),
+      ...?extraSources?.map((src) => src.toFilePath()),
+    ],
     linkModePreference: LinkModePreference.static,
     buildMode: BuildMode.release,
   );
