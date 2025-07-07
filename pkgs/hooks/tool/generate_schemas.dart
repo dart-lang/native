@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:test_helpers/test_helpers.dart';
 
 import '../test/json_schema/helpers.dart';
 import 'normalize.dart';

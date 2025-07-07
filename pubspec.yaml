@@ -59,6 +59,7 @@ workspace:
   - pkgs/json_syntax_generator
   - pkgs/native_toolchain_c
   - pkgs/repo_lint_rules
+  - pkgs/test_helpers
 
 # Hook user-defines are specified in the pub workspace.
 hooks:

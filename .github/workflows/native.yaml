@@ -17,6 +17,7 @@ on:
       - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
       - "pkgs/repo_lint_rules/**"
+      - "pkgs/test_helpers/**"
       - "tool/**"
   push:
     branches: [main]
@@ -29,6 +30,7 @@ on:
       - "pkgs/json_syntax_generator/**"
       - "pkgs/native_toolchain_c/**"
       - "pkgs/repo_lint_rules/**"
+      - "pkgs/test_helpers/**"
       - "tool/**"
   schedule:
     - cron: "0 0 * * 0" # weekly

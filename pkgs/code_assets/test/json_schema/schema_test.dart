@@ -7,6 +7,7 @@
 import 'dart:convert';
 
 import 'package:json_schema/json_schema.dart';
+import 'package:test_helpers/test_helpers.dart';
 
 import 'helpers.dart';
 

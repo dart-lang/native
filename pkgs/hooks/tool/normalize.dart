@@ -7,8 +7,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
-
-import '../test/json_schema/helpers.dart' show findPackageRoot;
+import 'package:test_helpers/test_helpers.dart';
 
 void main(List<String> arguments) {
   final stopwatch = Stopwatch()..start();

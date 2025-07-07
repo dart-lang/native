@@ -8,12 +8,14 @@ on:
       - '.github/workflows/objective_c.yaml'
       - 'pkgs/ffigen/**'
       - 'pkgs/objective_c/**'
+      - 'pkgs/test_helpers/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/objective_c.yaml'
       - 'pkgs/ffigen/**'
       - 'pkgs/objective_c/**'
+      - 'pkgs/test_helpers/**'
   schedule:
     - cron: "0 0 * * 0"
 
