@@ -6,14 +6,14 @@ on:
     branches: [main, stable]
     paths:
       - '.github/workflows/swift2objc.yaml'
-      - 'pkgs/swift2objc/**'
       - 'pkgs/native_test_helpers/**'
+      - 'pkgs/swift2objc/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/swift2objc.yaml'
-      - 'pkgs/swift2objc/**'
       - 'pkgs/native_test_helpers/**'
+      - 'pkgs/swift2objc/**'
   schedule:
     - cron: "0 0 * * 0"
 

@@ -7,19 +7,19 @@ on:
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'
+      - 'pkgs/native_test_helpers/**'
       - 'pkgs/objective_c/**'
       - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'
-      - 'pkgs/native_test_helpers/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'
+      - 'pkgs/native_test_helpers/**'
       - 'pkgs/objective_c/**'
       - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'
-      - 'pkgs/native_test_helpers/**'
   schedule:
     - cron: "0 0 * * 0"
 

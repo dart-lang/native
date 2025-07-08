@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:path/path.dart' as p;
 import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:path/path.dart' as p;
 
 void main(List<String> arguments) {
   final stopwatch = Stopwatch()..start();

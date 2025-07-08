@@ -29,8 +29,8 @@ dev_dependencies:
   dart_flutter_team_lints: ^3.5.1
   data_assets: any # Used in tests.
   file_testing: ^3.0.2
+  native_test_helpers:
+    path: ../native_test_helpers/
   repo_lint_rules:
     path: ../repo_lint_rules/
   test: ^1.25.15
-  native_test_helpers:
-    path: ../native_test_helpers/
