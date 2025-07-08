@@ -26,5 +26,5 @@ dev_dependencies:
   repo_lint_rules:
     path: ../repo_lint_rules/
   test: ^1.25.15
-  test_helpers:
-    path: ../test_helpers
+  native_test_helpers:
+    path: ../native_test_helpers

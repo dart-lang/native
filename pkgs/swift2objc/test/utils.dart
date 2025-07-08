@@ -4,7 +4,7 @@
 
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
-import 'package:test_helpers/test_helpers.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 final _whitespace = RegExp(r'\s+');
 

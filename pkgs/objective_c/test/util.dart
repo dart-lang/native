@@ -12,7 +12,7 @@ import 'package:objective_c/src/internal.dart'
     as internal_for_testing
     show isValidClass;
 import 'package:path/path.dart' as p;
-import 'package:test_helpers/test_helpers.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 final _executeInternalCommand = () {
   try {

@@ -9,7 +9,7 @@ import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
-import 'package:test_helpers/test_helpers.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 

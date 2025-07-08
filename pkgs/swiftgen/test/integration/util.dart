@@ -9,7 +9,7 @@ import 'package:path/path.dart' as path;
 import 'package:swiftgen/src/util.dart';
 import 'package:swiftgen/swiftgen.dart';
 import 'package:test/test.dart';
-import 'package:test_helpers/test_helpers.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 String pkgDir = findPackageRoot('swiftgen').toFilePath();
 
