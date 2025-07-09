@@ -1,3 +1,7 @@
+## 0.16.8
+
+* Support building assets for packages which are not the input package.
+
 ## 0.16.7
 
 * Support Module Definitions for linking on Windows.
