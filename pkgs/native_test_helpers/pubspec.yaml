@@ -1,6 +1,6 @@
-name: test_helpers
+name: native_test_helpers
 version: 0.1.0-wip
-repository: https://github.com/dart-lang/native/tree/main/pkgs/test_helpers
+repository: https://github.com/dart-lang/native/tree/main/pkgs/native_test_helpers
 description: Helper functions for tests in this monorepo.
 
 publish_to: none

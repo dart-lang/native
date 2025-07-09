@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
-import 'package:test_helpers/test_helpers.dart';
 
 final _whitespace = RegExp(r'\s+');
 
