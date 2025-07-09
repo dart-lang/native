@@ -8,7 +8,9 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
@@ -79,57 +81,7 @@ Logger _createTestLogger({List<String>? capturedMessages}) =>
         capturedMessages?.add(record.message);
       });
 
-/// Test files are run in a variety of ways, find this package root in all.
-///
-/// Test files can be run from source from any working directory. The Dart SDK
-/// `tools/test.py` runs them from the root of the SDK for example.
-///
-/// Test files can be run from dill from the root of package. `package:test`
-/// does this.
-///
-/// https://github.com/dart-lang/test/issues/110
-Uri findPackageRoot(String packageName) {
-  final script = Platform.script;
-  final fileName = script.name;
-  if (fileName.endsWith('.dart')) {
-    // We're likely running from source in the package somewhere.
-    var directory = script.resolve('.');
-    while (true) {
-      final dirName = directory.name;
-      if (dirName == packageName) {
-        return directory;
-      }
-      final parent = directory.resolve('..');
-      if (parent == directory) break;
-      directory = parent;
-    }
-  } else if (fileName.endsWith('.dill')) {
-    // Probably from the package root.
-    final cwd = Directory.current.uri;
-    final dirName = cwd.name;
-    if (dirName == packageName) {
-      return cwd;
-    }
-  }
-  // Or the workspace root.
-  final cwd = Directory.current.uri;
-  final candidate = cwd.resolve('pkgs/$packageName/');
-  if (Directory.fromUri(candidate).existsSync()) {
-    return candidate;
-  }
-  throw StateError(
-    "Could not find package root for package '$packageName'. "
-    'Tried finding the package root via Platform.script '
-    "'${Platform.script.toFilePath()}' and Directory.current "
-    "'${Directory.current.uri.toFilePath()}'.",
-  );
-}
-
 Uri packageUri = findPackageRoot('native_toolchain_c');
-
-extension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
-}
 
 /// Archiver provided by the environment.
 ///
@@ -250,16 +202,43 @@ List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
   OS() => ['-D'],
 };
 
-Future<String> nmReadSymbols(CodeAsset asset, OS targetOS) async {
+/// Returns null if the tool to extract the symbols is not available.
+Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
-  final result = await runProcess(
-    executable: Uri(path: 'nm'),
-    arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
+  switch (targetOS) {
+    case OS.windows:
+      final result = await _runDumpbin(['/EXPORTS'], asset.file!);
+      if (result == null) {
+        return null;
+      }
+      expect(result.exitCode, 0);
+      return result.stdout;
+    case OS():
+      final result = await runProcess(
+        executable: Uri(path: 'nm'),
+        arguments: [...nmParameterFor(targetOS), assetUri.toFilePath()],
+        logger: logger,
+      );
+      expect(result.exitCode, 0);
+      return result.stdout;
+  }
+}
+
+/// Returns null if the dumpbin tool is not available.
+Future<RunProcessResult?> _runDumpbin(
+  List<String> arguments,
+  Uri libUri,
+) async {
+  final dumpbinTools = await dumpbin.defaultResolver!.resolve(logger: logger);
+  if (dumpbinTools.isEmpty) {
+    logger.info('Unable to locate dumpbin tool. Some expects may be skipped.');
+    return null;
+  }
+  return await runProcess(
+    executable: dumpbinTools.first.uri,
+    arguments: [...arguments, libUri.toFilePath()],
     logger: logger,
   );
-
-  expect(result.exitCode, 0);
-  return result.stdout;
 }
 
 Future<int> textSectionAddress(Uri dylib) async {
@@ -341,11 +320,17 @@ const targetOSToObjdumpFileFormat = {
   OS.iOS: objdumpFileFormatMacOS,
 };
 
+const dumpbinFileFormat = {
+  Architecture.arm64: 'ARM64',
+  Architecture.ia32: 'x86',
+  Architecture.x64: 'x64',
+};
+
 /// Checks that the provided [libUri] binary has the correct format to be
 /// executed on the provided [targetArch] architecture.
 ///
 /// On Linux, the format of the binary is determined by `readelf`. On MacOS,
-/// the `objsdump` tool is used.
+/// the `objdump` tool is used. On Windows, `dumpbin` is used.
 Future<void> expectMachineArchitecture(
   Uri libUri,
   Architecture targetArch,
@@ -368,11 +353,27 @@ Future<void> expectMachineArchitecture(
       machine,
       contains(targetOSToObjdumpFileFormat[targetOS]![targetArch]),
     );
+  } else if (Platform.isWindows && targetOS == OS.windows) {
+    final result = await _runDumpbin(['/HEADERS'], libUri);
+    final skipReason = result == null
+        ? 'tool to determine binary architecture unavailable'
+        : false;
+    expect(result?.exitCode, 0, skip: skipReason);
+    final machine = result?.stdout
+        .split('\n')
+        .firstWhere((e) => e.contains('machine'));
+    expect(machine, contains(dumpbinFileFormat[targetArch]), skip: skipReason);
   }
 }
 
 List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
   OS.macOS || OS.iOS => [Architecture.arm64, Architecture.x64],
+  OS.windows => [
+    // TODO(https://github.com/dart-lang/native/issues/170): Support arm64.
+    // Architecture.arm64,
+    Architecture.ia32,
+    Architecture.x64,
+  ],
   OS() => [
     Architecture.arm,
     Architecture.arm64,

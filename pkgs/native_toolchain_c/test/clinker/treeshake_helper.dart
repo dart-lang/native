@@ -39,9 +39,9 @@ void runTreeshakeTests(
       symbolsToKeep: ['my_other_func'],
       stripDebug: true,
       gcSections: true,
-      linkerScript: packageUri.resolve(
-        'test/clinker/testfiles/linker/symbols.lds',
-      ),
+      linkerScript: targetOS == OS.windows
+          ? packageUri.resolve('test/clinker/testfiles/linker/symbols.def')
+          : packageUri.resolve('test/clinker/testfiles/linker/symbols.lds'),
     ),
   );
   CLinker linkerAuto(List<String> sources) => CLinker.library(
@@ -125,13 +125,16 @@ void runTreeshakeTests(
         targetOS,
       );
 
-      final symbols = await nmReadSymbols(asset, targetOS);
+      final symbols = await readSymbols(asset, targetOS);
+      final skipReason = symbols == null
+          ? 'tool to extract symbols unavailable'
+          : false;
       if (clinker.linker != linkerAutoEmpty) {
-        expect(symbols, contains('my_other_func'));
-        expect(symbols, isNot(contains('my_func')));
+        expect(symbols, contains('my_other_func'), skip: skipReason);
+        expect(symbols, isNot(contains('my_func')), skip: skipReason);
       } else {
-        expect(symbols, contains('my_other_func'));
-        expect(symbols, contains('my_func'));
+        expect(symbols, contains('my_other_func'), skip: skipReason);
+        expect(symbols, contains('my_func'), skip: skipReason);
       }
 
       final sizeInBytes = await File.fromUri(asset.file!).length();
