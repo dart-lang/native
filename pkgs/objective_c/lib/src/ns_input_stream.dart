@@ -44,6 +44,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         port.close();
       },
       onDone: () {
+        print('dataSubscription.onDone');
         inputStream.setDone();
         port.close();
       },
@@ -66,10 +67,11 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         }
       },
       onDone: () {
+        print('port.onDone');
         dataSubscription.cancel();
       },
     );
-
+    print('Returned a stream');
     return inputStream;
   }
 }
