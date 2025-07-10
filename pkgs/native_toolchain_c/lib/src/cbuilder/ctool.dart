@@ -26,6 +26,11 @@ abstract class CTool {
   /// File will be placed in [LinkInput.outputDirectory].
   final String name;
 
+  /// The package name to associate the asset with.
+  ///
+  /// If this is null, it defaults to the [HookInput.packageName].
+  final String? packageName;
+
   /// Asset identifier.
   ///
   /// Used to output the [CodeAsset].
@@ -164,6 +169,7 @@ abstract class CTool {
 
   CTool({
     required this.name,
+    required this.packageName,
     required this.assetName,
     required this.sources,
     required this.includes,
