@@ -17,26 +17,18 @@ void main() {
       expect(ObjCMethodFamily.parse('new'), ObjCMethodFamily.new_);
       expect(ObjCMethodFamily.parse('copy'), ObjCMethodFamily.copy);
       expect(
-        ObjCMethodFamily.parse('mutableCopy'),
-        ObjCMethodFamily.mutableCopy,
-      );
+          ObjCMethodFamily.parse('mutableCopy'), ObjCMethodFamily.mutableCopy);
 
       expect(ObjCMethodFamily.parse('______alloc'), ObjCMethodFamily.alloc);
       expect(ObjCMethodFamily.parse('allocFoo'), ObjCMethodFamily.alloc);
       expect(ObjCMethodFamily.parse('_allocFooBar'), ObjCMethodFamily.alloc);
 
-      expect(
-        ObjCMethodFamily.parse('______mutableCopy'),
-        ObjCMethodFamily.mutableCopy,
-      );
-      expect(
-        ObjCMethodFamily.parse('mutableCopyFoo'),
-        ObjCMethodFamily.mutableCopy,
-      );
-      expect(
-        ObjCMethodFamily.parse('_mutableCopyFooBar'),
-        ObjCMethodFamily.mutableCopy,
-      );
+      expect(ObjCMethodFamily.parse('______mutableCopy'),
+          ObjCMethodFamily.mutableCopy);
+      expect(ObjCMethodFamily.parse('mutableCopyFoo'),
+          ObjCMethodFamily.mutableCopy);
+      expect(ObjCMethodFamily.parse('_mutableCopyFooBar'),
+          ObjCMethodFamily.mutableCopy);
 
       expect(ObjCMethodFamily.parse('allocate'), null);
       expect(ObjCMethodFamily.parse('mutableCo'), null);

@@ -29,13 +29,9 @@ String _replaceSeparators(String path) {
 String normalizePath(String path, String? configFilename) {
   final resolveInConfigDir =
       (configFilename == null) || p.isAbsolute(path) || path.startsWith('**');
-  return _replaceSeparators(
-    p.normalize(
-      resolveInConfigDir
-          ? path
-          : p.absolute(p.join(p.dirname(configFilename), path)),
-    ),
-  );
+  return _replaceSeparators(p.normalize(resolveInConfigDir
+      ? path
+      : p.absolute(p.join(p.dirname(configFilename), path))));
 }
 
 /// These locations are searched for clang dylibs before any others. Downstream

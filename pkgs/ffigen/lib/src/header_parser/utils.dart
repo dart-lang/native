@@ -19,16 +19,13 @@ final _logger = Logger('ffigen.header_parser.utils');
 const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
-typedef _CursorVisitorCallback =
-    Int32 Function(clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
+typedef _CursorVisitorCallback = Int32 Function(
+    clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
 
 /// Logs the warnings/errors returned by clang for a translation unit.
 void logTuDiagnostics(
-  Pointer<clang_types.CXTranslationUnitImpl> tu,
-  Logger logger,
-  String header, {
-  Level logLevel = Level.SEVERE,
-}) {
+    Pointer<clang_types.CXTranslationUnitImpl> tu, Logger logger, String header,
+    {Level logLevel = Level.SEVERE}) {
   final total = clang.clang_getNumDiagnostics(tu);
   if (total == 0) {
     return;
@@ -43,12 +40,10 @@ void logTuDiagnostics(
     final cxstring = clang.clang_formatDiagnostic(
       diag,
       clang_types
-              .CXDiagnosticDisplayOptions
-              .CXDiagnostic_DisplaySourceLocation |
+              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplaySourceLocation |
           clang_types.CXDiagnosticDisplayOptions.CXDiagnostic_DisplayColumn |
           clang_types
-              .CXDiagnosticDisplayOptions
-              .CXDiagnostic_DisplayCategoryName,
+              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplayCategoryName,
     );
     logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
     clang.clang_disposeDiagnostic(diag);
@@ -95,8 +90,7 @@ extension CXCursorExt on clang_types.CXCursor {
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
-    final s =
-        '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
+    final s = '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
         'kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, '
         'typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
     return s;
@@ -161,10 +155,8 @@ extension CXCursorExt on clang_types.CXCursor {
       return true;
     });
     if (!completed) {
-      throw Exception(
-        'Exception thrown in a dart function called via C, '
-        'use --verbose to see more details',
-      );
+      throw Exception('Exception thrown in a dart function called via C, '
+          'use --verbose to see more details');
     }
   }
 
@@ -176,12 +168,12 @@ extension CXCursorExt on clang_types.CXCursor {
   ///
   /// Returns whether the iteration completed.
   bool visitChildrenMayBreak(
-    bool Function(clang_types.CXCursor child) callback,
-  ) => visitChildrenMayRecurse(
-    (clang_types.CXCursor child, clang_types.CXCursor parent) => callback(child)
-        ? clang_types.CXChildVisitResult.CXChildVisit_Continue
-        : clang_types.CXChildVisitResult.CXChildVisit_Break,
-  );
+          bool Function(clang_types.CXCursor child) callback) =>
+      visitChildrenMayRecurse(
+          (clang_types.CXCursor child, clang_types.CXCursor parent) =>
+              callback(child)
+                  ? clang_types.CXChildVisitResult.CXChildVisit_Continue
+                  : clang_types.CXChildVisitResult.CXChildVisit_Break);
 
   /// Visits all the direct children of this cursor.
   ///
@@ -192,22 +184,15 @@ extension CXCursorExt on clang_types.CXCursor {
   ///
   /// Returns whether the iteration completed.
   bool visitChildrenMayRecurse(
-    int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
-    callback,
-  ) {
+      int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
+          callback) {
     final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
-      (
-        clang_types.CXCursor child,
-        clang_types.CXCursor parent,
-        Pointer<Void> clientData,
-      ) => callback(child, parent),
-      exceptionalReturn: exceptionalVisitorReturn,
-    );
-    final result = clang.clang_visitChildren(
-      this,
-      visitor.nativeFunction.cast(),
-      nullptr,
-    );
+        (clang_types.CXCursor child, clang_types.CXCursor parent,
+                Pointer<Void> clientData) =>
+            callback(child, parent),
+        exceptionalReturn: exceptionalVisitorReturn);
+    final result =
+        clang.clang_visitChildren(this, visitor.nativeFunction.cast(), nullptr);
     visitor.close();
     return result == 0;
   }
@@ -215,8 +200,7 @@ extension CXCursorExt on clang_types.CXCursor {
   /// Returns the first child where `predicate(child)` is true, or null if there
   /// isn't one.
   clang_types.CXCursor? findChildWhere(
-    bool Function(clang_types.CXCursor) predicate,
-  ) {
+      bool Function(clang_types.CXCursor) predicate) {
     clang_types.CXCursor? result;
     visitChildrenMayBreak((child) {
       if (predicate(child)) {
@@ -258,12 +242,10 @@ clang_types.CXSourceRange? lastCommentRange;
 /// The given string is wrapped at line width = 80 - [indent]. The [indent] is
 /// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
-String? getCursorDocComment(
-  clang_types.CXCursor cursor, {
-  int indent = commentPrefix.length,
-  String? fallbackComment,
-  String? availability,
-}) {
+String? getCursorDocComment(clang_types.CXCursor cursor,
+    {int indent = commentPrefix.length,
+    String? fallbackComment,
+    String? availability}) {
   String? formattedDocComment;
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
@@ -276,14 +258,12 @@ String? getCursorDocComment(
     switch (config.commentType.length) {
       case CommentLength.full:
         formattedDocComment = removeRawCommentMarkups(
-          clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),
-        );
+            clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose());
         break;
       case CommentLength.brief:
         formattedDocComment = _wrapNoNewLineString(
-          clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
-          80 - indent,
-        );
+            clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
+            80 - indent);
         break;
       default:
         formattedDocComment = null;
@@ -374,8 +354,7 @@ extension CXTypeExt on clang_types.CXType {
 
   /// For debugging: returns [spelling] [kind] [kindSpelling].
   String completeStringRepr() {
-    final s =
-        '(Type) spelling: ${spelling()}, kind: ${kind()}, '
+    final s = '(Type) spelling: ${spelling()}, kind: ${kind()}, '
         'kindSpelling: ${kindSpelling()}';
     return s;
   }
@@ -545,10 +524,8 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        _logger.warning(
-          'No definition found for declaration -'
-          '${cursor.completeStringRepr()}',
-        );
+        _logger.warning('No definition found for declaration -'
+            '${cursor.completeStringRepr()}');
         return cursor;
       }
     }
@@ -567,9 +544,8 @@ class CursorIndex {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
             _logger.finest(
-              'Missing cursor definition in current translation unit: '
-              '${cursor.completeStringRepr()}',
-            );
+                'Missing cursor definition in current translation unit: '
+                '${cursor.completeStringRepr()}');
           }
         }
     }

@@ -8,21 +8,12 @@
 /// https://pub.dev/packages/ffigen for details.
 library ffigen;
 
-export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
 export 'src/config_provider.dart'
     show
-        CommentType,
-        CompoundDependencies,
         Config,
-        Declaration,
         DeclarationFilters,
         ExternalVersions,
-        FfiNativeConfig,
         Language,
-        PackingValue,
-        SymbolFile,
-        VarArgFunction,
         Versions,
-        YamlConfig,
-        defaultCompilerOpts;
+        YamlConfig;
 export 'src/ffigen.dart' show FfiGen;

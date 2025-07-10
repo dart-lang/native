@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+
 import 'dart:ffi';
 import 'dart:io';
 
@@ -18,34 +19,28 @@ void main() {
 
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(
-        path.join(
-          packagePathForTests,
-          '..',
-          'objective_c',
-          'test',
-          'objective_c.dylib',
-        ),
-      );
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('rename');
-      bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'sdk_variable_bindings.dart',
-        ),
-      ).readAsStringSync();
+      bindings = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'sdk_variable_bindings.dart',
+      )).readAsStringSync();
     });
 
     test('XCODE', () {

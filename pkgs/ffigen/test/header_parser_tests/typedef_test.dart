@@ -49,15 +49,12 @@ ${strings.preamble}: |
 
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-        actual,
-        'header_parser_typedef_test_output.dart',
-        [
-          'test',
-          'header_parser_tests',
-          'expected_bindings',
-          '_expected_typedef_bindings.dart',
-        ],
-      );
+          actual, 'header_parser_typedef_test_output.dart', [
+        'test',
+        'header_parser_tests',
+        'expected_bindings',
+        '_expected_typedef_bindings.dart'
+      ]);
     });
   });
 }

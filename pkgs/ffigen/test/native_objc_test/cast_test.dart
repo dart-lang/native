@@ -5,6 +5,7 @@
 // Objective C support is only available on mac.
 
 @TestOn('mac-os')
+
 import 'dart:ffi';
 import 'dart:io';
 
@@ -21,23 +22,19 @@ void main() {
   group('cast', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(
-        path.join(
-          packagePathForTests,
-          '..',
-          'objective_c',
-          'test',
-          'objective_c.dylib',
-        ),
-      );
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = Castaway();
@@ -51,9 +48,8 @@ void main() {
 
     test('castFromPointer', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(meAsInt),
-      );
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
       expect(fromCast, testInstance!);
     });
 
@@ -64,17 +60,15 @@ void main() {
 
     test('equality equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(meAsInt),
-      );
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
       expect(fromCast, testInstance!);
     });
 
     test('equality not equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(meAsInt),
-      );
+      final fromCast =
+          Castaway.castFromPointer(Pointer<ObjCObject>.fromAddress(meAsInt));
       expect(fromCast, isNot(equals(NSObject())));
     });
   });

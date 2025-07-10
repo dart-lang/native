@@ -37,24 +37,20 @@ class ObjCInterface extends BindingType with ObjCMethods {
     super.dartDoc,
     required this.builtInFunctions,
     required this.apiAvailability,
-  }) : lookupName = lookupName ?? originalName,
-       super(
-         name:
-             builtInFunctions.getBuiltInInterfaceName(originalName) ??
-             name ??
-             originalName,
-       ) {
-    classObject = ObjCInternalGlobal(
-      '_class_$originalName',
-      (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")',
-    );
+  })  : lookupName = lookupName ?? originalName,
+        super(
+            name: builtInFunctions.getBuiltInInterfaceName(originalName) ??
+                name ??
+                originalName) {
+    classObject = ObjCInternalGlobal('_class_$originalName',
+        (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")');
     _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
     _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
       Parameter(
         name: 'clazz',
         type: PointerType(objCObjectType),
         objCConsumed: false,
-      ),
+      )
     ]);
   }
 
@@ -85,9 +81,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     s.write(makeDartDoc(dartDoc));
 
     final versionCheck = apiAvailability.runtimeCheck(
-      ObjCBuiltInFunctions.checkOsVersion.gen(w),
-      originalName,
-    );
+        ObjCBuiltInFunctions.checkOsVersion.gen(w), originalName);
     final ctorBody = versionCheck == null ? ';' : ' { $versionCheck }';
 
     final rawObjType = PointerType(objCObjectType).getCType(w);
@@ -117,9 +111,7 @@ ${generateAsStub ? '' : _generateMethods(w)}
 ''');
 
     return BindingString(
-      type: BindingStringType.objcInterface,
-      string: s.toString(),
-    );
+        type: BindingStringType.objcInterface, string: s.toString());
   }
 
   String _generateMethods(Writer w) {
@@ -129,19 +121,22 @@ ${generateAsStub ? '' : _generateMethods(w)}
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
-    return ${_isKindOfClassMsgSend.invoke(w, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
+    return ${_isKindOfClassMsgSend.invoke(
+      w,
+      'obj.ref.pointer',
+      _isKindOfClass.name,
+      [classObject.name],
+    )};
   }
 ''');
     s.write(generateMethodBindings(w, this));
 
     final newMethod = methods
-        .where(
-          (ObjCMethod m) =>
-              m.isClassMethod &&
-              m.family == ObjCMethodFamily.new_ &&
-              m.params.isEmpty &&
-              m.originalName == 'new',
-        )
+        .where((ObjCMethod m) =>
+            m.isClassMethod &&
+            m.family == ObjCMethodFamily.new_ &&
+            m.params.isEmpty &&
+            m.originalName == 'new')
         .firstOrNull;
     if (newMethod != null && originalName != 'NSString') {
       s.write('''
@@ -181,17 +176,18 @@ ${generateAsStub ? '' : _generateMethods(w)}
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) =>
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   static String generateGetId(
-    String value,
-    bool objCRetain,
-    bool objCAutorelease,
-  ) => objCRetain
-      ? (objCAutorelease
-            ? '$value.ref.retainAndAutorelease()'
-            : '$value.ref.retainAndReturnPointer()')
-      : (objCAutorelease ? '$value.ref.autorelease()' : '$value.ref.pointer');
+          String value, bool objCRetain, bool objCAutorelease) =>
+      objCRetain
+          ? (objCAutorelease
+              ? '$value.ref.retainAndAutorelease()'
+              : '$value.ref.retainAndReturnPointer()')
+          : (objCAutorelease
+              ? '$value.ref.autorelease()'
+              : '$value.ref.pointer');
 
   @override
   String convertFfiDartTypeToDartType(
@@ -199,7 +195,8 @@ ${generateAsStub ? '' : _generateMethods(w)}
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+  }) =>
+      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
 
   static String generateConstructor(
     String className,

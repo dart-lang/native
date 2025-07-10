@@ -28,22 +28,27 @@ void main() {
   test('Run Flutter', () async {
     final projectDirUri = tempDirUri!.resolve('$projectName/');
     final libDirUri = projectDirUri.resolve('lib/');
-    final bindingsGeneratedUri = libDirUri.resolve(
-      '${projectName}_bindings_generated.dart',
-    );
-    final bindingsGeneratedCopyUri = libDirUri.resolve(
-      '${projectName}_bindings_generated_copy.dart',
-    );
+    final bindingsGeneratedUri =
+        libDirUri.resolve('${projectName}_bindings_generated.dart');
+    final bindingsGeneratedCopyUri =
+        libDirUri.resolve('${projectName}_bindings_generated_copy.dart');
 
     await runProcess(
       executable: 'flutter',
-      arguments: ['create', '--template=plugin_ffi', projectName],
+      arguments: [
+        'create',
+        '--template=plugin_ffi',
+        projectName,
+      ],
       workingDirectory: tempDirUri,
     );
     // Don't fail on formatter differences in template.
     await runProcess(
       executable: 'dart',
-      arguments: ['format', bindingsGeneratedUri.toFilePath()],
+      arguments: [
+        'format',
+        bindingsGeneratedUri.toFilePath(),
+      ],
       workingDirectory: tempDirUri,
     );
     await copyFile(
@@ -52,7 +57,13 @@ void main() {
     );
     await runProcess(
       executable: 'flutter',
-      arguments: ['pub', 'run', 'ffigen', '--config', 'ffigen.yaml'],
+      arguments: [
+        'pub',
+        'run',
+        'ffigen',
+        '--config',
+        'ffigen.yaml',
+      ],
       workingDirectory: projectDirUri,
     );
 
@@ -87,19 +98,16 @@ Future<void> runProcess({
   final workingDirectoryString = workingDirectory?.toFilePath();
 
   print('Running `$commandString`.');
-  final process =
-      await Process.start(
-        executable,
-        arguments,
-        runInShell: true,
-        includeParentEnvironment: true,
-        workingDirectory: workingDirectoryString,
-        environment: environment,
-      ).then((process) {
-        process.stdout.transform(utf8.decoder).forEach((s) => print('  $s'));
-        process.stderr.transform(utf8.decoder).forEach((s) => print('  $s'));
-        return process;
-      });
+  final process = await Process.start(executable, arguments,
+          runInShell: true,
+          includeParentEnvironment: true,
+          workingDirectory: workingDirectoryString,
+          environment: environment)
+      .then((process) {
+    process.stdout.transform(utf8.decoder).forEach((s) => print('  $s'));
+    process.stderr.transform(utf8.decoder).forEach((s) => print('  $s'));
+    return process;
+  });
   final exitCode = await process.exitCode;
   if (exitCode != 0) {
     final message = 'Command `$commandString` failed with exit code $exitCode.';
@@ -111,7 +119,10 @@ Future<void> runProcess({
   print('Command `$commandString` done.');
 }
 
-Future<void> copyFile({required Uri source, required Uri target}) async {
+Future<void> copyFile({
+  required Uri source,
+  required Uri target,
+}) async {
   final file = File.fromUri(source);
   if (!await file.exists()) {
     final message = "File not in expected location: '${source.toFilePath()}'.";

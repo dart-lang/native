@@ -15,7 +15,6 @@ on:
       - "pkgs/hooks_runner/**"
       - "pkgs/hooks/**"
       - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
       - "pkgs/native_toolchain_c/**"
       - "pkgs/repo_lint_rules/**"
       - "tool/**"
@@ -28,7 +27,6 @@ on:
       - "pkgs/hooks_runner/**"
       - "pkgs/hooks/**"
       - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
       - "pkgs/native_toolchain_c/**"
       - "pkgs/repo_lint_rules/**"
       - "tool/**"
@@ -84,6 +82,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
+          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

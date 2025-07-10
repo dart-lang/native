@@ -28,23 +28,18 @@ ${strings.headers}:
     });
 
     test('Remove deeply nested unsupported types', () {
-      expect(
-        () => actual.getBindingAsString('funcNestedUnimplemented'),
-        throwsA(const TypeMatcher<NotFoundException>()),
-      );
+      expect(() => actual.getBindingAsString('funcNestedUnimplemented'),
+          throwsA(const TypeMatcher<NotFoundException>()));
     });
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-        actual,
-        'header_parser_native_func_typedef_test_output.dart',
-        [
-          'test',
-          'header_parser_tests',
-          'expected_bindings',
-          '_expected_native_func_typedef_bindings.dart',
-        ],
-      );
+          actual, 'header_parser_native_func_typedef_test_output.dart', [
+        'test',
+        'header_parser_tests',
+        'expected_bindings',
+        '_expected_native_func_typedef_bindings.dart'
+      ]);
     });
   });
 }

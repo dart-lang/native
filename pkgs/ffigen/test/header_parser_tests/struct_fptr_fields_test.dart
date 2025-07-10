@@ -18,31 +18,25 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        YamlConfig.fromYaml(
-          yaml.loadYaml('''
+        YamlConfig.fromYaml(yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Function pointer fields in structs Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/struct_fptr_fields.h')}'
-        ''')
-              as yaml.YamlMap,
-        ),
+        ''') as yaml.YamlMap),
       );
     });
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-        actual,
-        'header_parser_struct_fptr_fields_output.dart',
-        [
-          'test',
-          'header_parser_tests',
-          'expected_bindings',
-          '_expected_struct_fptr_fields_bindings.dart',
-        ],
-      );
+          actual, 'header_parser_struct_fptr_fields_output.dart', [
+        'test',
+        'header_parser_tests',
+        'expected_bindings',
+        '_expected_struct_fptr_fields_bindings.dart',
+      ]);
     });
   });
 }

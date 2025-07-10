@@ -1,3 +1,0 @@
-LIBRARY MyDLL
-EXPORTS
-    my_other_func

@@ -23,8 +23,7 @@ import 'utils.dart';
 final _logger = Logger('ffigen.config_provider.spec_utils');
 
 Map<String, LibraryImport> libraryImportsExtractor(
-  Map<String, String>? typeMap,
-) {
+    Map<String, String>? typeMap) {
   final resultMap = <String, LibraryImport>{};
   if (typeMap != null) {
     for (final kv in typeMap.entries) {
@@ -34,32 +33,21 @@ Map<String, LibraryImport> libraryImportsExtractor(
   return resultMap;
 }
 
-void loadImportedTypes(
-  YamlMap fileConfig,
-  Map<String, ImportedType> usrTypeMappings,
-  LibraryImport libraryImport,
-) {
+void loadImportedTypes(YamlMap fileConfig,
+    Map<String, ImportedType> usrTypeMappings, LibraryImport libraryImport) {
   final symbols = fileConfig['symbols'] as YamlMap;
   for (final key in symbols.keys) {
     final usr = key as String;
     final value = symbols[usr]! as YamlMap;
     final name = value[strings.name] as String;
     final dartName = (value[strings.dartName] as String?) ?? name;
-    usrTypeMappings[usr] = ImportedType(
-      libraryImport,
-      name,
-      dartName,
-      name,
-      importedDartType: true,
-    );
+    usrTypeMappings[usr] = ImportedType(libraryImport, name, dartName, name,
+        importedDartType: true);
   }
 }
 
-YamlMap loadSymbolFile(
-  String symbolFilePath,
-  String? configFileName,
-  PackageConfig? packageConfig,
-) {
+YamlMap loadSymbolFile(String symbolFilePath, String? configFileName,
+    PackageConfig? packageConfig) {
   final path = symbolFilePath.startsWith('package:')
       ? packageConfig!.resolve(Uri.parse(symbolFilePath))!.toFilePath()
       : normalizePath(symbolFilePath, configFileName);
@@ -68,27 +56,21 @@ YamlMap loadSymbolFile(
 }
 
 Map<String, ImportedType> symbolFileImportExtractor(
-  List<String> yamlConfig,
-  Map<String, LibraryImport> libraryImports,
-  String? configFileName,
-  PackageConfig? packageConfig,
-) {
+    List<String> yamlConfig,
+    Map<String, LibraryImport> libraryImports,
+    String? configFileName,
+    PackageConfig? packageConfig) {
   final resultMap = <String, ImportedType>{};
   for (final item in yamlConfig) {
     String symbolFilePath;
     symbolFilePath = item;
-    final symbolFile = loadSymbolFile(
-      symbolFilePath,
-      configFileName,
-      packageConfig,
-    );
+    final symbolFile =
+        loadSymbolFile(symbolFilePath, configFileName, packageConfig);
     final formatVersion = symbolFile[strings.formatVersion] as String;
     if (formatVersion.split('.')[0] !=
         strings.symbolFileFormatVersion.split('.')[0]) {
-      _logger.severe(
-        'Incompatible format versions for file $symbolFilePath: '
-        '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).',
-      );
+      _logger.severe('Incompatible format versions for file $symbolFilePath: '
+          '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).');
       exit(1);
     }
     final uniqueNamer = UniqueNamer()
@@ -96,13 +78,11 @@ Map<String, ImportedType> symbolFileImportExtractor(
       ..markUsed(strings.defaultSymbolFileImportPrefix);
     final files = symbolFile[strings.files] as YamlMap;
     for (final file in files.keys) {
-      final existingImports = libraryImports.values.where(
-        (element) => element.importPath(false) == file,
-      );
+      final existingImports = libraryImports.values
+          .where((element) => element.importPath(false) == file);
       if (existingImports.isEmpty) {
-        final name = uniqueNamer.makeUnique(
-          strings.defaultSymbolFileImportPrefix,
-        );
+        final name =
+            uniqueNamer.makeUnique(strings.defaultSymbolFileImportPrefix);
         libraryImports[name] = LibraryImport(name, file as String);
       }
       final libraryImport = libraryImports.values.firstWhere(
@@ -132,9 +112,8 @@ Map<String, List<String>> typeMapExtractor(Map<dynamic, dynamic>? yamlConfig) {
 }
 
 Map<String, ImportedType> makeImportTypeMapping(
-  Map<String, List<String>> rawTypeMappings,
-  Map<String, LibraryImport> libraryImportsMap,
-) {
+    Map<String, List<String>> rawTypeMappings,
+    Map<String, LibraryImport> libraryImportsMap) {
   final typeMappings = <String, ImportedType>{};
   for (final key in rawTypeMappings.keys) {
     final lib = rawTypeMappings[key]![0];
@@ -143,18 +122,10 @@ Map<String, ImportedType> makeImportTypeMapping(
     final nativeType = key;
     if (strings.predefinedLibraryImports.containsKey(lib)) {
       typeMappings[key] = ImportedType(
-        strings.predefinedLibraryImports[lib]!,
-        cType,
-        dartType,
-        nativeType,
-      );
+          strings.predefinedLibraryImports[lib]!, cType, dartType, nativeType);
     } else if (libraryImportsMap.containsKey(lib)) {
-      typeMappings[key] = ImportedType(
-        libraryImportsMap[lib]!,
-        cType,
-        dartType,
-        nativeType,
-      );
+      typeMappings[key] =
+          ImportedType(libraryImportsMap[lib]!, cType, dartType, nativeType);
     } else {
       throw Exception('Please declare $lib under library-imports.');
     }
@@ -171,21 +142,17 @@ Type makePointerToType(Type type, int pointerCount) {
 
 String makePostfixFromRawVarArgType(List<String> rawVarArgType) {
   return rawVarArgType
-      .map(
-        (e) => e
-            .replaceAll('*', 'Ptr')
-            .replaceAll(RegExp(r'_t$'), '')
-            .replaceAll(' ', '')
-            .replaceAll(RegExp('[^A-Za-z0-9_]'), ''),
-      )
+      .map((e) => e
+          .replaceAll('*', 'Ptr')
+          .replaceAll(RegExp(r'_t$'), '')
+          .replaceAll(' ', '')
+          .replaceAll(RegExp('[^A-Za-z0-9_]'), ''))
       .map((e) => e.length > 1 ? '${e[0].toUpperCase()}${e.substring(1)}' : e)
       .join('');
 }
 
 Type makeTypeFromRawVarArgType(
-  String rawVarArgType,
-  Map<String, LibraryImport> libraryImportsMap,
-) {
+    String rawVarArgType, Map<String, LibraryImport> libraryImportsMap) {
   Type baseType;
   var rawBaseType = rawVarArgType.trim();
   // Split the raw type based on pointer usage. E.g -
@@ -214,8 +181,7 @@ Type makeTypeFromRawVarArgType(
       baseType = SelfImportedType(typeName, typeName);
     } else if (rawVarArgTypeSplit.length == 2) {
       final lib = rawVarArgTypeSplit[0];
-      final libraryImport =
-          strings.predefinedLibraryImports[lib] ??
+      final libraryImport = strings.predefinedLibraryImports[lib] ??
           libraryImportsMap[rawVarArgTypeSplit[0]];
       if (libraryImport == null) {
         throw Exception('Please declare $lib in library-imports.');
@@ -224,8 +190,7 @@ Type makeTypeFromRawVarArgType(
       baseType = ImportedType(libraryImport, typeName, typeName, typeName);
     } else {
       throw Exception(
-        'Invalid type $rawVarArgType : Expected 0 or 1 .(dot) separators.',
-      );
+          'Invalid type $rawVarArgType : Expected 0 or 1 .(dot) separators.');
     }
   }
 
@@ -235,9 +200,8 @@ Type makeTypeFromRawVarArgType(
 }
 
 Map<String, List<VarArgFunction>> makeVarArgFunctionsMapping(
-  Map<String, List<RawVarArgFunction>> rawVarArgMappings,
-  Map<String, LibraryImport> libraryImportsMap,
-) {
+    Map<String, List<RawVarArgFunction>> rawVarArgMappings,
+    Map<String, LibraryImport> libraryImportsMap) {
   final mappings = <String, List<VarArgFunction>>{};
   for (final key in rawVarArgMappings.keys) {
     final varArgList = <VarArgFunction>[];
@@ -288,9 +252,7 @@ List<String> compilerOptsExtractor(List<String> value) {
 }
 
 YamlHeaders headersExtractor(
-  Map<dynamic, List<String>> yamlConfig,
-  String? configFilename,
-) {
+    Map<dynamic, List<String>> yamlConfig, String? configFilename) {
   final entryPoints = <String>[];
   final includeGlobs = <quiver.Glob>[];
   for (final key in yamlConfig.keys) {
@@ -304,10 +266,8 @@ YamlHeaders headersExtractor(
           _logger.fine('Adding header/file: $headerGlob');
         } else {
           final glob = Glob(headerGlob);
-          for (final file in glob.listFileSystemSync(
-            const LocalFileSystem(),
-            followLinks: true,
-          )) {
+          for (final file in glob.listFileSystemSync(const LocalFileSystem(),
+              followLinks: true)) {
             final fixedPath = file.path;
             entryPoints.add(fixedPath);
             _logger.fine('Adding header/file: $fixedPath');
@@ -324,7 +284,9 @@ YamlHeaders headersExtractor(
   }
   return YamlHeaders(
     entryPoints: entryPoints,
-    includeFilter: GlobHeaderFilter(includeGlobs: includeGlobs),
+    includeFilter: GlobHeaderFilter(
+      includeGlobs: includeGlobs,
+    ),
   );
 }
 
@@ -378,9 +340,8 @@ String findDylibAtDefaultLocations() {
     final dylibLocations = strings.windowsDylibLocations.toList();
     final userHome = Platform.environment['USERPROFILE'];
     if (userHome != null) {
-      dylibLocations.add(
-        p.join(userHome, 'scoop', 'apps', 'llvm', 'current', 'bin'),
-      );
+      dylibLocations
+          .add(p.join(userHome, 'scoop', 'apps', 'llvm', 'current', 'bin'));
     }
     for (final l in dylibLocations) {
       final winLib = findLibclangDylib(l);
@@ -391,10 +352,8 @@ String findDylibAtDefaultLocations() {
       final macLib = findLibclangDylib(l);
       if (macLib != null) return macLib;
     }
-    final findLibraryResult = Process.runSync('xcodebuild', [
-      '-find-library',
-      'libclang.dylib',
-    ]);
+    final findLibraryResult =
+        Process.runSync('xcodebuild', ['-find-library', 'libclang.dylib']);
     if (findLibraryResult.exitCode == 0) {
       final location = (findLibraryResult.stdout as String).split('\n').first;
       if (File(location).existsSync()) {
@@ -404,11 +363,8 @@ String findDylibAtDefaultLocations() {
     final xcodePathResult = Process.runSync('xcode-select', ['-print-path']);
     if (xcodePathResult.exitCode == 0) {
       final xcodePath = (xcodePathResult.stdout as String).split('\n').first;
-      final location = p.join(
-        xcodePath,
-        strings.xcodeDylibLocation,
-        strings.dylibFileName,
-      );
+      final location =
+          p.join(xcodePath, strings.xcodeDylibLocation, strings.dylibFileName);
       if (File(location).existsSync()) {
         return location;
       }
@@ -419,8 +375,7 @@ String findDylibAtDefaultLocations() {
 
   _logger.severe("Couldn't find dynamic library in default locations.");
   _logger.severe(
-    "Please supply one or more path/to/llvm in ffigen's config under the key '${strings.llvmPath}'.",
-  );
+      "Please supply one or more path/to/llvm in ffigen's config under the key '${strings.llvmPath}'.");
   throw Exception("Couldn't find dynamic library in default locations.");
 }
 
@@ -436,9 +391,8 @@ String? findLibclangDylib(String parentFolder) {
 String llvmPathExtractor(List<String> value) {
   // Extract libclang's dylib from user specified paths.
   for (final path in value) {
-    final dylibPath = findLibclangDylib(
-      p.join(path, strings.dynamicLibParentName),
-    );
+    final dylibPath =
+        findLibclangDylib(p.join(path, strings.dynamicLibParentName));
     if (dylibPath != null) {
       _logger.fine('Found dynamic library at: $dylibPath');
       return dylibPath;
@@ -448,15 +402,12 @@ String llvmPathExtractor(List<String> value) {
     if (p.extension(completeDylibPath).isNotEmpty &&
         File(completeDylibPath).existsSync()) {
       _logger.info(
-        'Using complete dylib path: $completeDylibPath from llvm-path.',
-      );
+          'Using complete dylib path: $completeDylibPath from llvm-path.');
       return completeDylibPath;
     }
   }
-  _logger.fine(
-    "Couldn't find dynamic library under paths specified by "
-    '${strings.llvmPath}.',
-  );
+  _logger.fine("Couldn't find dynamic library under paths specified by "
+      '${strings.llvmPath}.');
   // Extract path from default locations.
   try {
     final res = findDylibAtDefaultLocations();
@@ -469,10 +420,7 @@ String llvmPathExtractor(List<String> value) {
 }
 
 OutputConfig outputExtractor(
-  dynamic value,
-  String? configFilename,
-  PackageConfig? packageConfig,
-) {
+    dynamic value, String? configFilename, PackageConfig? packageConfig) {
   if (value is String) {
     return OutputConfig(normalizePath(value, configFilename), null, null);
   }
@@ -484,37 +432,27 @@ OutputConfig outputExtractor(
         : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
-            value[strings.symbolFile],
-            configFilename,
-            packageConfig,
-          )
+            value[strings.symbolFile], configFilename, packageConfig)
         : null,
   );
 }
 
 SymbolFile symbolFileOutputExtractor(
-  dynamic value,
-  String? configFilename,
-  PackageConfig? packageConfig,
-) {
+    dynamic value, String? configFilename, PackageConfig? packageConfig) {
   value = value as Map;
   var output = Uri.parse(value[strings.output] as String);
   if (output.scheme != 'package') {
-    _logger.warning(
-      'Consider using a Package Uri for ${strings.symbolFile} -> '
-      '${strings.output}: $output so that external packages can use it.',
-    );
+    _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
+        '${strings.output}: $output so that external packages can use it.');
     output = Uri.file(normalizePath(output.toFilePath(), configFilename));
   } else {
     output = packageConfig!.resolve(output)!;
   }
   final importPath = Uri.parse(value[strings.importPath] as String);
   if (importPath.scheme != 'package') {
-    _logger.warning(
-      'Consider using a Package Uri for ${strings.symbolFile} -> '
-      '${strings.importPath}: $importPath so that external packages '
-      'can use it.',
-    );
+    _logger.warning('Consider using a Package Uri for ${strings.symbolFile} -> '
+        '${strings.importPath}: $importPath so that external packages '
+        'can use it.');
   }
   return SymbolFile(importPath, output);
 }
@@ -565,8 +503,7 @@ YamlIncluder extractIncluderFromYaml(Map<dynamic, dynamic> yamlMap) {
 }
 
 Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
-  Map<dynamic, dynamic> yamlMap,
-) {
+    Map<dynamic, dynamic> yamlMap) {
   final result = <String, List<RawVarArgFunction>>{};
   final configMap = yamlMap;
   for (final key in configMap.keys) {
@@ -575,12 +512,8 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
       if (rawVaFunc is List) {
         vafuncs.add(RawVarArgFunction(null, rawVaFunc.cast()));
       } else if (rawVaFunc is Map) {
-        vafuncs.add(
-          RawVarArgFunction(
-            rawVaFunc[strings.postfix] as String?,
-            (rawVaFunc[strings.types] as List).cast(),
-          ),
-        );
+        vafuncs.add(RawVarArgFunction(rawVaFunc[strings.postfix] as String?,
+            (rawVaFunc[strings.types] as List).cast()));
       } else {
         throw Exception('Unexpected type in variadic-argument config.');
       }
@@ -592,9 +525,7 @@ Map<String, List<RawVarArgFunction>> varArgFunctionConfigExtractor(
 }
 
 YamlDeclarationFilters declarationConfigExtractor(
-  Map<dynamic, dynamic> yamlMap,
-  bool excludeAllByDefault,
-) {
+    Map<dynamic, dynamic> yamlMap, bool excludeAllByDefault) {
   final renamePatterns = <RegExpRenamer>[];
   final renameFull = <String, String>{};
   final memberRenamePatterns = <RegExpMemberRenamer>[];
@@ -612,9 +543,8 @@ YamlDeclarationFilters declarationConfigExtractor(
       if (isFullDeclarationName(str)) {
         renameFull[str] = rename[str]!;
       } else {
-        renamePatterns.add(
-          RegExpRenamer(RegExp(str, dotAll: true), rename[str]!),
-        );
+        renamePatterns
+            .add(RegExpRenamer(RegExp(str, dotAll: true), rename[str]!));
       }
     }
   }
@@ -633,12 +563,8 @@ YamlDeclarationFilters declarationConfigExtractor(
         if (isFullDeclarationName(memberStr)) {
           renameFull[memberStr] = memberRenameMap[member]!;
         } else {
-          renamePatterns.add(
-            RegExpRenamer(
-              RegExp(memberStr, dotAll: true),
-              memberRenameMap[member]!,
-            ),
-          );
+          renamePatterns.add(RegExpRenamer(
+              RegExp(memberStr, dotAll: true), memberRenameMap[member]!));
         }
       }
       if (isFullDeclarationName(decl)) {
@@ -650,7 +576,10 @@ YamlDeclarationFilters declarationConfigExtractor(
         memberRenamePatterns.add(
           RegExpMemberRenamer(
             RegExp(decl, dotAll: true),
-            YamlRenamer(renameFull: renameFull, renamePatterns: renamePatterns),
+            YamlRenamer(
+              renameFull: renameFull,
+              renamePatterns: renamePatterns,
+            ),
           ),
         );
       }
@@ -692,13 +621,12 @@ YamlDeclarationFilters declarationConfigExtractor(
 }
 
 StructPackingOverride structPackingOverrideExtractor(
-  Map<dynamic, dynamic> value,
-) {
+    Map<dynamic, dynamic> value) {
   final matcherMap = <(RegExp, int?)>[];
   for (final key in value.keys) {
     matcherMap.add((
       RegExp(key as String, dotAll: true),
-      strings.packingValuesMap[value[key]],
+      strings.packingValuesMap[value[key]]
     ));
   }
   return StructPackingOverride(matcherMap);

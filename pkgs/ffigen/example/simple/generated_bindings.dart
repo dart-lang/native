@@ -8,20 +8,27 @@ import 'dart:ffi' as ffi;
 class NativeLibrary {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibrary(ffi.DynamicLibrary dynamicLibrary)
-    : _lookup = dynamicLibrary.lookup;
+      : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibrary.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
   /// Adds 2 integers.
-  int sum(int a, int b) {
-    return _sum(a, b);
+  int sum(
+    int a,
+    int b,
+  ) {
+    return _sum(
+      a,
+      b,
+    );
   }
 
   late final _sumPtr =
@@ -29,63 +36,72 @@ class NativeLibrary {
   late final _sum = _sumPtr.asFunction<int Function(int, int)>();
 
   /// Subtracts 2 integers.
-  int subtract(ffi.Pointer<ffi.Int> a, int b) {
-    return _subtract(a, b);
+  int subtract(
+    ffi.Pointer<ffi.Int> a,
+    int b,
+  ) {
+    return _subtract(
+      a,
+      b,
+    );
   }
 
-  late final _subtractPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Int>, ffi.Int)>
-      >('subtract');
-  late final _subtract = _subtractPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Int>, int)>();
+  late final _subtractPtr = _lookup<
+          ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Int>, ffi.Int)>>(
+      'subtract');
+  late final _subtract =
+      _subtractPtr.asFunction<int Function(ffi.Pointer<ffi.Int>, int)>();
 
   /// Multiplies 2 integers, returns pointer to an integer,.
-  ffi.Pointer<ffi.Int> multiply(int a, int b) {
-    return _multiply(a, b);
+  ffi.Pointer<ffi.Int> multiply(
+    int a,
+    int b,
+  ) {
+    return _multiply(
+      a,
+      b,
+    );
   }
 
-  late final _multiplyPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>
-      >('multiply');
-  late final _multiply = _multiplyPtr
-      .asFunction<ffi.Pointer<ffi.Int> Function(int, int)>();
+  late final _multiplyPtr = _lookup<
+          ffi.NativeFunction<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>>(
+      'multiply');
+  late final _multiply =
+      _multiplyPtr.asFunction<ffi.Pointer<ffi.Int> Function(int, int)>();
 
   /// Divides 2 integers, returns pointer to a float.
-  ffi.Pointer<ffi.Float> divide(int a, int b) {
-    return _divide(a, b);
+  ffi.Pointer<ffi.Float> divide(
+    int a,
+    int b,
+  ) {
+    return _divide(
+      a,
+      b,
+    );
   }
 
-  late final _dividePtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Pointer<ffi.Float> Function(ffi.Int, ffi.Int)>
-      >('divide');
-  late final _divide = _dividePtr
-      .asFunction<ffi.Pointer<ffi.Float> Function(int, int)>();
+  late final _dividePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Float> Function(ffi.Int, ffi.Int)>>('divide');
+  late final _divide =
+      _dividePtr.asFunction<ffi.Pointer<ffi.Float> Function(int, int)>();
 
   /// Divides 2 floats, returns a pointer to double.
   ffi.Pointer<ffi.Double> dividePrecision(
     ffi.Pointer<ffi.Float> a,
     ffi.Pointer<ffi.Float> b,
   ) {
-    return _dividePrecision(a, b);
+    return _dividePrecision(
+      a,
+      b,
+    );
   }
 
-  late final _dividePrecisionPtr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Pointer<ffi.Double> Function(
-            ffi.Pointer<ffi.Float>,
-            ffi.Pointer<ffi.Float>,
-          )
-        >
-      >('dividePrecision');
-  late final _dividePrecision = _dividePrecisionPtr
-      .asFunction<
-        ffi.Pointer<ffi.Double> Function(
-          ffi.Pointer<ffi.Float>,
-          ffi.Pointer<ffi.Float>,
-        )
-      >();
+  late final _dividePrecisionPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Double> Function(ffi.Pointer<ffi.Float>,
+              ffi.Pointer<ffi.Float>)>>('dividePrecision');
+  late final _dividePrecision = _dividePrecisionPtr.asFunction<
+      ffi.Pointer<ffi.Double> Function(
+          ffi.Pointer<ffi.Float>, ffi.Pointer<ffi.Float>)>();
 }

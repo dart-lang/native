@@ -8,7 +8,9 @@ import 'dart:io';
 import 'package:args/args.dart';
 
 // All ObjC source files are compiled with ARC enabled except these.
-const arcDisabledFiles = <String>{'ref_count_test.m'};
+const arcDisabledFiles = <String>{
+  'ref_count_test.m',
+};
 
 Future<void> _runClang(List<String> flags, String output) async {
   final args = [...flags, '-o', output];
@@ -25,7 +27,10 @@ Future<void> _runClang(List<String> flags, String output) async {
 Future<String> _buildObject(String input, {bool objc = false}) async {
   final output = '$input.o';
   await _runClang([
-    if (objc) ...['-x', 'objective-c'],
+    if (objc) ...[
+      '-x',
+      'objective-c',
+    ],
     if (objc && !arcDisabledFiles.contains(input)) '-fobjc-arc',
     '-Wno-nullability-completeness',
     '-c',
@@ -35,8 +40,12 @@ Future<String> _buildObject(String input, {bool objc = false}) async {
   return output;
 }
 
-Future<void> _linkLib(List<String> inputs, String output) =>
-    _runClang(['-shared', '-framework', 'Foundation', ...inputs], output);
+Future<void> _linkLib(List<String> inputs, String output) => _runClang([
+      '-shared',
+      '-framework',
+      'Foundation',
+      ...inputs,
+    ], output);
 
 Future<void> _buildLib(List<String> inputs, String output) async {
   final objFiles = <String>[];
@@ -44,16 +53,12 @@ Future<void> _buildLib(List<String> inputs, String output) async {
     objFiles.add(await _buildObject(input, objc: true));
   }
   objFiles.add(
-    await _buildObject('../../../objective_c/src/include/dart_api_dl.c'),
-  );
+      await _buildObject('../../../objective_c/src/include/dart_api_dl.c'));
   await _linkLib(objFiles, output);
 }
 
 Future<void> _buildSwift(
-  String input,
-  String outputHeader,
-  String outputLib,
-) async {
+    String input, String outputHeader, String outputLib) async {
   final args = [
     '-c',
     input,
@@ -74,11 +79,8 @@ Future<void> _buildSwift(
 }
 
 Future<void> _runDart(List<String> args) async {
-  final process = await Process.start(
-    Platform.executable,
-    args,
-    workingDirectory: '../..',
-  );
+  final process =
+      await Process.start(Platform.executable, args, workingDirectory: '../..');
   unawaited(stdout.addStream(process.stdout));
   unawaited(stderr.addStream(process.stderr));
   final result = await process.exitCode;
@@ -116,10 +118,7 @@ Future<void> build(List<String> testNames) async {
     final swiftFile = '${name}_test.swift';
     if (File(swiftFile).existsSync()) {
       await _buildSwift(
-        swiftFile,
-        '${name}_test-Swift.h',
-        '${name}_test.dylib',
-      );
+          swiftFile, '${name}_test-Swift.h', '${name}_test.dylib');
     }
   }
 

@@ -68,7 +68,7 @@ class ConstantArray extends PointerType {
   final bool useArrayType;
 
   ConstantArray(this.length, Type child, {required this.useArrayType})
-    : super._(child);
+      : super._(child);
 
   @override
   Type get baseArrayType => child.baseArrayType;
@@ -140,7 +140,8 @@ class ObjCObjectPointer extends PointerType {
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) =>
+      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
@@ -148,7 +149,8 @@ class ObjCObjectPointer extends PointerType {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => '${getDartType(w)}($value, retain: $objCRetain, release: true)';
+  }) =>
+      '${getDartType(w)}($value, retain: $objCRetain, release: true)';
 
   @override
   String? generateRetain(String value) =>
@@ -189,8 +191,8 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
   List<ObjCProtocol> protocols;
 
   ObjCObjectPointerWithProtocols(this.protocols)
-    : assert(protocols.isNotEmpty),
-      super._();
+      : assert(protocols.isNotEmpty),
+        super._();
 
   @override
   String getDartType(Writer w) => protocols.first.getDartType(w);
@@ -221,12 +223,9 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => protocols.first.convertFfiDartTypeToDartType(
-    w,
-    value,
-    objCRetain: objCRetain,
-    objCEnclosingClass: objCEnclosingClass,
-  );
+  }) =>
+      protocols.first.convertFfiDartTypeToDartType(w, value,
+          objCRetain: objCRetain, objCEnclosingClass: objCEnclosingClass);
 
   @override
   void visitChildren(Visitor visitor) {

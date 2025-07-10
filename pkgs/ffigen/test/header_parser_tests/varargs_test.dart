@@ -18,8 +18,7 @@ void main() {
     setUpAll(() {
       logWarnings();
       actual = parser.parse(
-        YamlConfig.fromYaml(
-          yaml.loadYaml('''
+        YamlConfig.fromYaml(yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'VarArgs Test'
 ${strings.output}: 'unused'
@@ -44,22 +43,17 @@ ${strings.functions}:
 
 ${strings.preamble}: |
   // ignore_for_file: camel_case_types
-        ''')
-              as yaml.YamlMap,
-        ),
+        ''') as yaml.YamlMap),
       );
     });
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-        actual,
-        'header_parser_varargs_test_output.dart',
-        [
-          'test',
-          'header_parser_tests',
-          'expected_bindings',
-          '_expected_varargs_bindings.dart',
-        ],
-      );
+          actual, 'header_parser_varargs_test_output.dart', [
+        'test',
+        'header_parser_tests',
+        'expected_bindings',
+        '_expected_varargs_bindings.dart'
+      ]);
     });
   });
 }

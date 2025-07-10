@@ -67,7 +67,10 @@ abstract class LookUpBinding extends Binding {
     required super.name,
     super.dartDoc,
     super.isInternal,
-  }) : super(usr: usr ?? name, originalName: originalName ?? name);
+  }) : super(
+          usr: usr ?? name,
+          originalName: originalName ?? name,
+        );
 
   @override
   void visit(Visitation visitation) => visitation.visitLookUpBinding(this);
@@ -81,7 +84,10 @@ abstract class NoLookUpBinding extends Binding {
     required super.name,
     super.dartDoc,
     super.isInternal,
-  }) : super(usr: usr ?? name, originalName: originalName ?? name);
+  }) : super(
+          usr: usr ?? name,
+          originalName: originalName ?? name,
+        );
 
   @override
   void visit(Visitation visitation) => visitation.visitNoLookUpBinding(this);

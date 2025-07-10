@@ -12,11 +12,8 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 
 @ffi.Native<
-  ffi.Pointer<objc.ObjCObject> Function(
-    ffi.Pointer<objc.ObjCObject>,
-    ffi.Pointer<ffi.Void>,
-  )
->()
+    ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Void>)>()
 external ffi.Pointer<objc.ObjCObject> _AVFAudio_protocolTrampoline_1mbt9g9(
   ffi.Pointer<objc.ObjCObject> target,
   ffi.Pointer<ffi.Void> arg0,
@@ -89,31 +86,32 @@ enum AudioChannelBitmap {
   const AudioChannelBitmap(this.value);
 
   static AudioChannelBitmap fromValue(int value) => switch (value) {
-    1 => kAudioChannelBit_Left,
-    2 => kAudioChannelBit_Right,
-    4 => kAudioChannelBit_Center,
-    8 => kAudioChannelBit_LFEScreen,
-    16 => kAudioChannelBit_LeftSurround,
-    32 => kAudioChannelBit_RightSurround,
-    64 => kAudioChannelBit_LeftCenter,
-    128 => kAudioChannelBit_RightCenter,
-    256 => kAudioChannelBit_CenterSurround,
-    512 => kAudioChannelBit_LeftSurroundDirect,
-    1024 => kAudioChannelBit_RightSurroundDirect,
-    2048 => kAudioChannelBit_TopCenterSurround,
-    4096 => kAudioChannelBit_VerticalHeightLeft,
-    8192 => kAudioChannelBit_VerticalHeightCenter,
-    16384 => kAudioChannelBit_VerticalHeightRight,
-    32768 => kAudioChannelBit_TopBackLeft,
-    65536 => kAudioChannelBit_TopBackCenter,
-    131072 => kAudioChannelBit_TopBackRight,
-    2097152 => kAudioChannelBit_LeftTopMiddle,
-    8388608 => kAudioChannelBit_RightTopMiddle,
-    16777216 => kAudioChannelBit_LeftTopRear,
-    33554432 => kAudioChannelBit_CenterTopRear,
-    67108864 => kAudioChannelBit_RightTopRear,
-    _ => throw ArgumentError('Unknown value for AudioChannelBitmap: $value'),
-  };
+        1 => kAudioChannelBit_Left,
+        2 => kAudioChannelBit_Right,
+        4 => kAudioChannelBit_Center,
+        8 => kAudioChannelBit_LFEScreen,
+        16 => kAudioChannelBit_LeftSurround,
+        32 => kAudioChannelBit_RightSurround,
+        64 => kAudioChannelBit_LeftCenter,
+        128 => kAudioChannelBit_RightCenter,
+        256 => kAudioChannelBit_CenterSurround,
+        512 => kAudioChannelBit_LeftSurroundDirect,
+        1024 => kAudioChannelBit_RightSurroundDirect,
+        2048 => kAudioChannelBit_TopCenterSurround,
+        4096 => kAudioChannelBit_VerticalHeightLeft,
+        8192 => kAudioChannelBit_VerticalHeightCenter,
+        16384 => kAudioChannelBit_VerticalHeightRight,
+        32768 => kAudioChannelBit_TopBackLeft,
+        65536 => kAudioChannelBit_TopBackCenter,
+        131072 => kAudioChannelBit_TopBackRight,
+        2097152 => kAudioChannelBit_LeftTopMiddle,
+        8388608 => kAudioChannelBit_RightTopMiddle,
+        16777216 => kAudioChannelBit_LeftTopRear,
+        33554432 => kAudioChannelBit_CenterTopRear,
+        67108864 => kAudioChannelBit_RightTopRear,
+        _ =>
+          throw ArgumentError('Unknown value for AudioChannelBitmap: $value'),
+      };
 
   @override
   String toString() {
@@ -139,12 +137,12 @@ enum AudioChannelFlags {
   const AudioChannelFlags(this.value);
 
   static AudioChannelFlags fromValue(int value) => switch (value) {
-    0 => kAudioChannelFlags_AllOff,
-    1 => kAudioChannelFlags_RectangularCoordinates,
-    2 => kAudioChannelFlags_SphericalCoordinates,
-    4 => kAudioChannelFlags_Meters,
-    _ => throw ArgumentError('Unknown value for AudioChannelFlags: $value'),
-  };
+        0 => kAudioChannelFlags_AllOff,
+        1 => kAudioChannelFlags_RectangularCoordinates,
+        2 => kAudioChannelFlags_SphericalCoordinates,
+        4 => kAudioChannelFlags_Meters,
+        _ => throw ArgumentError('Unknown value for AudioChannelFlags: $value'),
+      };
 }
 
 final class AudioChannelDescription extends ffi.Struct {
@@ -191,13 +189,14 @@ enum AVAudioCommonFormat {
   const AVAudioCommonFormat(this.value);
 
   static AVAudioCommonFormat fromValue(int value) => switch (value) {
-    0 => AVAudioOtherFormat,
-    1 => AVAudioPCMFormatFloat32,
-    2 => AVAudioPCMFormatFloat64,
-    3 => AVAudioPCMFormatInt16,
-    4 => AVAudioPCMFormatInt32,
-    _ => throw ArgumentError('Unknown value for AVAudioCommonFormat: $value'),
-  };
+        0 => AVAudioOtherFormat,
+        1 => AVAudioPCMFormatFloat32,
+        2 => AVAudioPCMFormatFloat64,
+        3 => AVAudioPCMFormatInt16,
+        4 => AVAudioPCMFormatInt32,
+        _ =>
+          throw ArgumentError('Unknown value for AVAudioCommonFormat: $value'),
+      };
 }
 
 /// WARNING: AVAudioFormat is a stub. To generate bindings for this class, include
@@ -205,232 +204,150 @@ enum AVAudioCommonFormat {
 ///
 /// AVAudioFormat
 class AVAudioFormat extends objc.NSObject implements objc.NSSecureCoding {
-  AVAudioFormat._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super.castFromPointer(pointer, retain: retain, release: release) {
-    objc.checkOsVersionInternal(
-      'AVAudioFormat',
-      iOS: (false, (8, 0, 0)),
-      macOS: (false, (10, 10, 0)),
-    );
+  AVAudioFormat._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release) {
+    objc.checkOsVersionInternal('AVAudioFormat',
+        iOS: (false, (8, 0, 0)), macOS: (false, (10, 10, 0)));
   }
 
   /// Constructs a [AVAudioFormat] that points to the same underlying object as [other].
   AVAudioFormat.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
+      : this._(other.ref.pointer, retain: true, release: true);
 
   /// Constructs a [AVAudioFormat] that wraps the given raw object pointer.
-  AVAudioFormat.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
-    bool retain = false,
-    bool release = false,
-  }) : this._(other, retain: retain, release: release);
+  AVAudioFormat.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
 }
 
 late final _class_AVAudioPlayer = objc.getClass("AVAudioPlayer");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Bool Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
-      )
-    >();
+        bool Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 typedef instancetype = ffi.Pointer<objc.ObjCObject>;
 typedef Dartinstancetype = objc.ObjCObjectBase;
-late final _sel_initWithContentsOfURL_error_ = objc.registerName(
-  "initWithContentsOfURL:error:",
-);
+late final _sel_initWithContentsOfURL_error_ =
+    objc.registerName("initWithContentsOfURL:error:");
 final _objc_msgSend_1lhpu4m = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-      )
-    >();
+        ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
 late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
-late final _sel_initWithContentsOfURL_fileTypeHint_error_ = objc.registerName(
-  "initWithContentsOfURL:fileTypeHint:error:",
-);
+late final _sel_initWithContentsOfURL_fileTypeHint_error_ =
+    objc.registerName("initWithContentsOfURL:fileTypeHint:error:");
 final _objc_msgSend_1pnyuds = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>>()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-      )
-    >();
-late final _sel_initWithData_fileTypeHint_error_ = objc.registerName(
-  "initWithData:fileTypeHint:error:",
-);
+        ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>();
+late final _sel_initWithData_fileTypeHint_error_ =
+    objc.registerName("initWithData:fileTypeHint:error:");
 late final _sel_prepareToPlay = objc.registerName("prepareToPlay");
 final _objc_msgSend_91o635 = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
+        bool Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_play = objc.registerName("play");
 late final _sel_playAtTime_ = objc.registerName("playAtTime:");
 final _objc_msgSend_18chyc = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Double,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Bool Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-      )
-    >();
+        bool Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, double)>();
 late final _sel_pause = objc.registerName("pause");
 final _objc_msgSend_1pl9qdv = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
+        void Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_stop = objc.registerName("stop");
 late final _sel_isPlaying = objc.registerName("isPlaying");
 late final _sel_numberOfChannels = objc.registerName("numberOfChannels");
 final _objc_msgSend_xw2lbc = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.UnsignedLong Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.UnsignedLong Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
-    >();
+        int Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_duration = objc.registerName("duration");
 final _objc_msgSend_1ukqyt8 = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Double Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Double Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
+        double Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Double Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Double Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
+        double Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_currentDevice = objc.registerName("currentDevice");
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
+        ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_setCurrentDevice_ = objc.registerName("setCurrentDevice:");
 final _objc_msgSend_xtuoz7 = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Void Function(
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>,
+                ffi.Pointer<objc.ObjCObject>)>>()
     .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
-      )
-    >();
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.ObjCObject>)>();
 
 /// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
 /// AVAudioPlayerDelegate in your config's objc-protocols list.
@@ -438,22 +355,18 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
 /// AVAudioPlayerDelegate
 interface class AVAudioPlayerDelegate extends objc.ObjCProtocolBase
     implements objc.NSObjectProtocol {
-  AVAudioPlayerDelegate._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super(pointer, retain: retain, release: release);
+  AVAudioPlayerDelegate._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super(pointer, retain: retain, release: release);
 
   /// Constructs a [AVAudioPlayerDelegate] that points to the same underlying object as [other].
   AVAudioPlayerDelegate.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
+      : this._(other.ref.pointer, retain: true, release: true);
 
   /// Constructs a [AVAudioPlayerDelegate] that wraps the given raw object pointer.
-  AVAudioPlayerDelegate.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
-    bool retain = false,
-    bool release = false,
-  }) : this._(other, retain: retain, release: release);
+  AVAudioPlayerDelegate.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
 }
 
 late final _sel_delegate = objc.registerName("delegate");
@@ -463,296 +376,181 @@ late final _sel_data = objc.registerName("data");
 late final _sel_pan = objc.registerName("pan");
 final _objc_msgSend_2cgrxl = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
+        double Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_2cgrxlFpret = objc.msgSendFpretPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
+        double Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_setPan_ = objc.registerName("setPan:");
 final _objc_msgSend_v5hmet = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Float,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Float)>>()
     .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-      )
-    >();
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, double)>();
 late final _sel_volume = objc.registerName("volume");
 late final _sel_setVolume_ = objc.registerName("setVolume:");
-late final _sel_setVolume_fadeDuration_ = objc.registerName(
-  "setVolume:fadeDuration:",
-);
+late final _sel_setVolume_fadeDuration_ =
+    objc.registerName("setVolume:fadeDuration:");
 final _objc_msgSend_1p4uk9e = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Float,
-          ffi.Double,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Float, ffi.Double)>>()
     .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-        double,
-      )
-    >();
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, double, double)>();
 late final _sel_enableRate = objc.registerName("enableRate");
 late final _sel_setEnableRate_ = objc.registerName("setEnableRate:");
 final _objc_msgSend_1s56lr9 = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Bool,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Bool)>>()
     .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        bool,
-      )
-    >();
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, bool)>();
 late final _sel_rate = objc.registerName("rate");
 late final _sel_setRate_ = objc.registerName("setRate:");
 late final _sel_currentTime = objc.registerName("currentTime");
 late final _sel_setCurrentTime_ = objc.registerName("setCurrentTime:");
 final _objc_msgSend_hwm8nu = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Double,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Double)>>()
     .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        double,
-      )
-    >();
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, double)>();
 late final _sel_deviceCurrentTime = objc.registerName("deviceCurrentTime");
 late final _sel_numberOfLoops = objc.registerName("numberOfLoops");
 final _objc_msgSend_1hz7y9r = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Long Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>)>>()
     .asFunction<
-      int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
-    >();
+        int Function(
+            ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)>();
 late final _sel_setNumberOfLoops_ = objc.registerName("setNumberOfLoops:");
 final _objc_msgSend_4sp4xj = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Long,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Long)>>()
     .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
+        void Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, int)>();
 late final _sel_settings = objc.registerName("settings");
 late final _sel_format = objc.registerName("format");
 late final _sel_isMeteringEnabled = objc.registerName("isMeteringEnabled");
 late final _sel_setMeteringEnabled_ = objc.registerName("setMeteringEnabled:");
 late final _sel_updateMeters = objc.registerName("updateMeters");
-late final _sel_peakPowerForChannel_ = objc.registerName(
-  "peakPowerForChannel:",
-);
+late final _sel_peakPowerForChannel_ =
+    objc.registerName("peakPowerForChannel:");
 final _objc_msgSend_65s5yw = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.UnsignedLong,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
+        double Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, int)>();
 final _objc_msgSend_65s5ywFpret = objc.msgSendFpretPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.UnsignedLong,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Float Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.UnsignedLong)>>()
     .asFunction<
-      double Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        int,
-      )
-    >();
-late final _sel_averagePowerForChannel_ = objc.registerName(
-  "averagePowerForChannel:",
-);
+        double Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, int)>();
+late final _sel_averagePowerForChannel_ =
+    objc.registerName("averagePowerForChannel:");
 late final _sel_channelAssignments = objc.registerName("channelAssignments");
-late final _sel_setChannelAssignments_ = objc.registerName(
-  "setChannelAssignments:",
-);
+late final _sel_setChannelAssignments_ =
+    objc.registerName("setChannelAssignments:");
 late final _sel_init = objc.registerName("init");
 late final _sel_new = objc.registerName("new");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.NSZone>,
-        )
-      >
-    >()
+        ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.NSZone>)>>()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.NSZone>,
-      )
-    >();
+        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCSelector>, ffi.Pointer<objc.NSZone>)>();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_self = objc.registerName("self");
 ffi.Pointer<objc.ObjCObject> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-) => block.ref.target
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-    >()(arg0);
+        ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+    block.ref.target
+        .cast<
+            ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<ffi.Void> arg0)>>()
+        .asFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+                ffi.Pointer<ffi.Void>)>()(arg0);
 ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable =
     ffi.Pointer.fromFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >(_ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline)
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
+            _ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline)
         .cast();
 ffi.Pointer<objc.ObjCObject>
-_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-) =>
-    (objc.getBlockClosure(block)
-        as ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>))(arg0);
+    _ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<ffi.Void> arg0) =>
+        (objc.getBlockClosure(block) as ffi.Pointer<objc.ObjCObject> Function(
+            ffi.Pointer<ffi.Void>))(arg0);
 ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_closureCallable =
     ffi.Pointer.fromFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >(_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline)
+                ffi.Pointer<objc.ObjCObject> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>(
+            _ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline)
         .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_objcObjCObject_ffiVoid {
   /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  castFromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-      >(pointer, retain: retain, release: release);
+  static objc
+      .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>
+      castFromPointer(ffi.Pointer<objc.ObjCBlockImpl> pointer,
+              {bool retain = false, bool release = false}) =>
+          objc.ObjCBlock<
+                  ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
+              pointer,
+              retain: retain,
+              release: release);
 
   /// Creates a block from a C function pointer.
   ///
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
-      >
-    >
-    ptr,
-  ) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-      >(
-        objc.newPointerBlock(
-          _ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable,
-          ptr.cast(),
-        ),
-        retain: false,
-        release: true,
-      );
+  static objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>
+      fromFunctionPointer(
+              ffi.Pointer<
+                      ffi.NativeFunction<
+                          ffi.Pointer<objc.ObjCObject> Function(
+                              ffi.Pointer<ffi.Void> arg0)>>
+                  ptr) =>
+          objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
+              objc.newPointerBlock(_ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable, ptr.cast()),
+              retain: false,
+              release: true);
 
   /// Creates a block from a Dart function.
   ///
@@ -762,51 +560,37 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  fromFunction(
-    objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn, {
-    bool keepIsolateAlive = true,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-      >(
-        objc.newClosureBlock(
-          _ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
-        retain: false,
-        release: true,
-      );
+  static objc
+      .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>
+      fromFunction(objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn,
+              {bool keepIsolateAlive = true}) =>
+          objc.ObjCBlock<
+                  ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>(
+              objc.newClosureBlock(
+                  _ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
+                  (ffi.Pointer<ffi.Void> arg0) =>
+                      fn(arg0).ref.retainAndAutorelease(),
+                  keepIsolateAlive),
+              retain: false,
+              release: true);
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_objcObjCObject_ffiVoid_CallExtension
-    on
-        objc.ObjCBlock<
-          ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-        > {
+extension ObjCBlock_objcObjCObject_ffiVoid_CallExtension on objc
+    .ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)> {
   objc.ObjCObjectBase call(ffi.Pointer<ffi.Void> arg0) => objc.ObjCObjectBase(
-    ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-            )
-          >
-        >()
-        .asFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >()(ref.pointer, arg0),
-    retain: true,
-    release: true,
-  );
+      ref.pointer.ref.invoke
+          .cast<
+              ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObject> Function(
+                      ffi.Pointer<objc.ObjCBlockImpl> block,
+                      ffi.Pointer<ffi.Void> arg0)>>()
+          .asFunction<
+              ffi.Pointer<objc.ObjCObject> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>)>()(ref.pointer, arg0),
+      retain: true,
+      release: true);
 }
 
 late final _sel_retain = objc.registerName("retain");
@@ -814,121 +598,85 @@ late final _sel_autorelease = objc.registerName("autorelease");
 
 /// AVAudioPlayer
 class AVAudioPlayer extends objc.NSObject {
-  AVAudioPlayer._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super.castFromPointer(pointer, retain: retain, release: release) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+  AVAudioPlayer._(ffi.Pointer<objc.ObjCObject> pointer,
+      {bool retain = false, bool release = false})
+      : super.castFromPointer(pointer, retain: retain, release: release) {
+    objc.checkOsVersionInternal('AVAudioPlayer',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
   }
 
   /// Constructs a [AVAudioPlayer] that points to the same underlying object as [other].
   AVAudioPlayer.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
+      : this._(other.ref.pointer, retain: true, release: true);
 
   /// Constructs a [AVAudioPlayer] that wraps the given raw object pointer.
-  AVAudioPlayer.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
-    bool retain = false,
-    bool release = false,
-  }) : this._(other, retain: retain, release: release);
+  AVAudioPlayer.castFromPointer(ffi.Pointer<objc.ObjCObject> other,
+      {bool retain = false, bool release = false})
+      : this._(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [AVAudioPlayer].
   static bool isInstance(objc.ObjCObjectBase obj) {
     return _objc_msgSend_19nvye5(
-      obj.ref.pointer,
-      _sel_isKindOfClass_,
-      _class_AVAudioPlayer,
-    );
+        obj.ref.pointer, _sel_isKindOfClass_, _class_AVAudioPlayer);
   }
 
   /// initWithContentsOfURL:error:
-  AVAudioPlayer? initWithContentsOfURL(
-    objc.NSURL url, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
-  }) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.initWithContentsOfURL:error:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
-    final _ret = _objc_msgSend_1lhpu4m(
-      this.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_error_,
-      url.ref.pointer,
-      error,
-    );
+  AVAudioPlayer? initWithContentsOfURL(objc.NSURL url,
+      {required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {
+    objc.checkOsVersionInternal('AVAudioPlayer.initWithContentsOfURL:error:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
+    final _ret = _objc_msgSend_1lhpu4m(this.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_error_, url.ref.pointer, error);
     return _ret.address == 0
         ? null
         : AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithData:error:
-  AVAudioPlayer? initWithData(
-    objc.NSData data, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
-  }) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.initWithData:error:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
-    final _ret = _objc_msgSend_1lhpu4m(
-      this.ref.retainAndReturnPointer(),
-      _sel_initWithData_error_,
-      data.ref.pointer,
-      error,
-    );
+  AVAudioPlayer? initWithData(objc.NSData data,
+      {required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {
+    objc.checkOsVersionInternal('AVAudioPlayer.initWithData:error:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
+    final _ret = _objc_msgSend_1lhpu4m(this.ref.retainAndReturnPointer(),
+        _sel_initWithData_error_, data.ref.pointer, error);
     return _ret.address == 0
         ? null
         : AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithContentsOfURL:fileTypeHint:error:
-  AVAudioPlayer? initWithContentsOfURL$1(
-    objc.NSURL url, {
-    objc.NSString? fileTypeHint,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
-  }) {
+  AVAudioPlayer? initWithContentsOfURL$1(objc.NSURL url,
+      {objc.NSString? fileTypeHint,
+      required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {
     objc.checkOsVersionInternal(
-      'AVAudioPlayer.initWithContentsOfURL:fileTypeHint:error:',
-      iOS: (false, (7, 0, 0)),
-      macOS: (false, (10, 9, 0)),
-    );
+        'AVAudioPlayer.initWithContentsOfURL:fileTypeHint:error:',
+        iOS: (false, (7, 0, 0)),
+        macOS: (false, (10, 9, 0)));
     final _ret = _objc_msgSend_1pnyuds(
-      this.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_fileTypeHint_error_,
-      url.ref.pointer,
-      fileTypeHint?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
+        this.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_fileTypeHint_error_,
+        url.ref.pointer,
+        fileTypeHint?.ref.pointer ?? ffi.nullptr,
+        error);
     return _ret.address == 0
         ? null
         : AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithData:fileTypeHint:error:
-  AVAudioPlayer? initWithData$1(
-    objc.NSData data, {
-    objc.NSString? fileTypeHint,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
-  }) {
+  AVAudioPlayer? initWithData$1(objc.NSData data,
+      {objc.NSString? fileTypeHint,
+      required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {
     objc.checkOsVersionInternal(
-      'AVAudioPlayer.initWithData:fileTypeHint:error:',
-      iOS: (false, (7, 0, 0)),
-      macOS: (false, (10, 9, 0)),
-    );
+        'AVAudioPlayer.initWithData:fileTypeHint:error:',
+        iOS: (false, (7, 0, 0)),
+        macOS: (false, (10, 9, 0)));
     final _ret = _objc_msgSend_1pnyuds(
-      this.ref.retainAndReturnPointer(),
-      _sel_initWithData_fileTypeHint_error_,
-      data.ref.pointer,
-      fileTypeHint?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
+        this.ref.retainAndReturnPointer(),
+        _sel_initWithData_fileTypeHint_error_,
+        data.ref.pointer,
+        fileTypeHint?.ref.pointer ?? ffi.nullptr,
+        error);
     return _ret.address == 0
         ? null
         : AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
@@ -936,81 +684,57 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// prepareToPlay
   bool prepareToPlay() {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.prepareToPlay',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.prepareToPlay',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_prepareToPlay);
   }
 
   /// play
   bool play() {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.play',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.play',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_play);
   }
 
   /// playAtTime:
   bool playAtTime(double time) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.playAtTime:',
-      iOS: (false, (4, 0, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.playAtTime:',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_18chyc(this.ref.pointer, _sel_playAtTime_, time);
   }
 
   /// pause
   void pause() {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.pause',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.pause',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_pause);
   }
 
   /// stop
   void stop() {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.stop',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.stop',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_stop);
   }
 
   /// isPlaying
   bool get playing {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.isPlaying',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.isPlaying',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_isPlaying);
   }
 
   /// numberOfChannels
   int get numberOfChannels {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.numberOfChannels',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.numberOfChannels',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_numberOfChannels);
   }
 
   /// duration
   double get duration {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.duration',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.duration',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(this.ref.pointer, _sel_duration)
         : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_duration);
@@ -1018,11 +742,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// currentDevice
   objc.NSString? get currentDevice {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.currentDevice',
-      iOS: (true, null),
-      macOS: (false, (10, 13, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.currentDevice',
+        iOS: (true, null), macOS: (false, (10, 13, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_currentDevice);
     return _ret.address == 0
         ? null
@@ -1031,56 +752,35 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setCurrentDevice:
   set currentDevice(objc.NSString? value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setCurrentDevice:',
-      iOS: (true, null),
-      macOS: (false, (10, 13, 0)),
-    );
-    _objc_msgSend_xtuoz7(
-      this.ref.pointer,
-      _sel_setCurrentDevice_,
-      value?.ref.pointer ?? ffi.nullptr,
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setCurrentDevice:',
+        iOS: (true, null), macOS: (false, (10, 13, 0)));
+    _objc_msgSend_xtuoz7(this.ref.pointer, _sel_setCurrentDevice_,
+        value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// delegate
   AVAudioPlayerDelegate? get delegate {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.delegate',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.delegate',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_delegate);
     return _ret.address == 0
         ? null
-        : AVAudioPlayerDelegate.castFromPointer(
-            _ret,
-            retain: true,
-            release: true,
-          );
+        : AVAudioPlayerDelegate.castFromPointer(_ret,
+            retain: true, release: true);
   }
 
   /// setDelegate:
   set delegate(AVAudioPlayerDelegate? value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setDelegate:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setDelegate:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_xtuoz7(
-      this.ref.pointer,
-      _sel_setDelegate_,
-      value?.ref.pointer ?? ffi.nullptr,
-    );
+        this.ref.pointer, _sel_setDelegate_, value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// url
   objc.NSURL? get url {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.url',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.url',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_url);
     return _ret.address == 0
         ? null
@@ -1089,11 +789,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// data
   objc.NSData? get data {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.data',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.data',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_data);
     return _ret.address == 0
         ? null
@@ -1102,11 +799,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// pan
   double get pan {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.pan',
-      iOS: (false, (4, 0, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.pan',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_2cgrxlFpret(this.ref.pointer, _sel_pan)
         : _objc_msgSend_2cgrxl(this.ref.pointer, _sel_pan);
@@ -1114,21 +808,15 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setPan:
   set pan(double value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setPan:',
-      iOS: (false, (4, 0, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setPan:',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setPan_, value);
   }
 
   /// volume
   double get volume {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.volume',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.volume',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_2cgrxlFpret(this.ref.pointer, _sel_volume)
         : _objc_msgSend_2cgrxl(this.ref.pointer, _sel_volume);
@@ -1136,56 +824,37 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setVolume:
   set volume(double value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setVolume:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setVolume:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setVolume_, value);
   }
 
   /// setVolume:fadeDuration:
   void setVolume(double volume$1, {required double fadeDuration}) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setVolume:fadeDuration:',
-      iOS: (false, (10, 0, 0)),
-      macOS: (false, (10, 12, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setVolume:fadeDuration:',
+        iOS: (false, (10, 0, 0)), macOS: (false, (10, 12, 0)));
     _objc_msgSend_1p4uk9e(
-      this.ref.pointer,
-      _sel_setVolume_fadeDuration_,
-      volume$1,
-      fadeDuration,
-    );
+        this.ref.pointer, _sel_setVolume_fadeDuration_, volume$1, fadeDuration);
   }
 
   /// enableRate
   bool get enableRate {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.enableRate',
-      iOS: (false, (5, 0, 0)),
-      macOS: (false, (10, 8, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.enableRate',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_enableRate);
   }
 
   /// setEnableRate:
   set enableRate(bool value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setEnableRate:',
-      iOS: (false, (5, 0, 0)),
-      macOS: (false, (10, 8, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setEnableRate:',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setEnableRate_, value);
   }
 
   /// rate
   double get rate {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.rate',
-      iOS: (false, (5, 0, 0)),
-      macOS: (false, (10, 8, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.rate',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_2cgrxlFpret(this.ref.pointer, _sel_rate)
         : _objc_msgSend_2cgrxl(this.ref.pointer, _sel_rate);
@@ -1193,21 +862,15 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setRate:
   set rate(double value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setRate:',
-      iOS: (false, (5, 0, 0)),
-      macOS: (false, (10, 8, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setRate:',
+        iOS: (false, (5, 0, 0)), macOS: (false, (10, 8, 0)));
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setRate_, value);
   }
 
   /// currentTime
   double get currentTime {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.currentTime',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.currentTime',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(this.ref.pointer, _sel_currentTime)
         : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_currentTime);
@@ -1215,21 +878,15 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setCurrentTime:
   set currentTime(double value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setCurrentTime:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setCurrentTime:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_hwm8nu(this.ref.pointer, _sel_setCurrentTime_, value);
   }
 
   /// deviceCurrentTime
   double get deviceCurrentTime {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.deviceCurrentTime',
-      iOS: (false, (4, 0, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.deviceCurrentTime',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(this.ref.pointer, _sel_deviceCurrentTime)
         : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_deviceCurrentTime);
@@ -1237,127 +894,83 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// numberOfLoops
   int get numberOfLoops {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.numberOfLoops',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.numberOfLoops',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_numberOfLoops);
   }
 
   /// setNumberOfLoops:
   set numberOfLoops(int value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setNumberOfLoops:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setNumberOfLoops:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_4sp4xj(this.ref.pointer, _sel_setNumberOfLoops_, value);
   }
 
   /// settings
   objc.NSDictionary get settings {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.settings',
-      iOS: (false, (4, 0, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.settings',
+        iOS: (false, (4, 0, 0)), macOS: (false, (10, 7, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_settings);
     return objc.NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// format
   AVAudioFormat get format {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.format',
-      iOS: (false, (10, 0, 0)),
-      macOS: (false, (10, 12, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.format',
+        iOS: (false, (10, 0, 0)), macOS: (false, (10, 12, 0)));
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_format);
     return AVAudioFormat.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// isMeteringEnabled
   bool get meteringEnabled {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.isMeteringEnabled',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.isMeteringEnabled',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return _objc_msgSend_91o635(this.ref.pointer, _sel_isMeteringEnabled);
   }
 
   /// setMeteringEnabled:
   set meteringEnabled(bool value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setMeteringEnabled:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setMeteringEnabled:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setMeteringEnabled_, value);
   }
 
   /// updateMeters
   void updateMeters() {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.updateMeters',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.updateMeters',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_updateMeters);
   }
 
   /// peakPowerForChannel:
   double peakPowerForChannel(int channelNumber) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.peakPowerForChannel:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.peakPowerForChannel:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_65s5ywFpret(
-            this.ref.pointer,
-            _sel_peakPowerForChannel_,
-            channelNumber,
-          )
+            this.ref.pointer, _sel_peakPowerForChannel_, channelNumber)
         : _objc_msgSend_65s5yw(
-            this.ref.pointer,
-            _sel_peakPowerForChannel_,
-            channelNumber,
-          );
+            this.ref.pointer, _sel_peakPowerForChannel_, channelNumber);
   }
 
   /// averagePowerForChannel:
   double averagePowerForChannel(int channelNumber) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.averagePowerForChannel:',
-      iOS: (false, (2, 2, 0)),
-      macOS: (false, (10, 7, 0)),
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.averagePowerForChannel:',
+        iOS: (false, (2, 2, 0)), macOS: (false, (10, 7, 0)));
     return objc.useMsgSendVariants
         ? _objc_msgSend_65s5ywFpret(
-            this.ref.pointer,
-            _sel_averagePowerForChannel_,
-            channelNumber,
-          )
+            this.ref.pointer, _sel_averagePowerForChannel_, channelNumber)
         : _objc_msgSend_65s5yw(
-            this.ref.pointer,
-            _sel_averagePowerForChannel_,
-            channelNumber,
-          );
+            this.ref.pointer, _sel_averagePowerForChannel_, channelNumber);
   }
 
   /// channelAssignments
   objc.NSArray? get channelAssignments {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.channelAssignments',
-      iOS: (false, (7, 0, 0)),
-      macOS: (true, null),
-    );
-    final _ret = _objc_msgSend_151sglz(
-      this.ref.pointer,
-      _sel_channelAssignments,
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.channelAssignments',
+        iOS: (false, (7, 0, 0)), macOS: (true, null));
+    final _ret =
+        _objc_msgSend_151sglz(this.ref.pointer, _sel_channelAssignments);
     return _ret.address == 0
         ? null
         : objc.NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -1365,29 +978,18 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// setChannelAssignments:
   set channelAssignments(objc.NSArray? value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setChannelAssignments:',
-      iOS: (false, (7, 0, 0)),
-      macOS: (true, null),
-    );
-    _objc_msgSend_xtuoz7(
-      this.ref.pointer,
-      _sel_setChannelAssignments_,
-      value?.ref.pointer ?? ffi.nullptr,
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.setChannelAssignments:',
+        iOS: (false, (7, 0, 0)), macOS: (true, null));
+    _objc_msgSend_xtuoz7(this.ref.pointer, _sel_setChannelAssignments_,
+        value?.ref.pointer ?? ffi.nullptr);
   }
 
   /// init
   AVAudioPlayer init() {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final _ret = _objc_msgSend_151sglz(
-      this.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
+    objc.checkOsVersionInternal('AVAudioPlayer.init',
+        iOS: (false, (2, 0, 0)), macOS: (false, (10, 0, 0)));
+    final _ret =
+        _objc_msgSend_151sglz(this.ref.retainAndReturnPointer(), _sel_init);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -1399,11 +1001,8 @@ class AVAudioPlayer extends objc.NSObject {
 
   /// allocWithZone:
   static AVAudioPlayer allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final _ret = _objc_msgSend_1cwp428(
-      _class_AVAudioPlayer,
-      _sel_allocWithZone_,
-      zone,
-    );
+    final _ret =
+        _objc_msgSend_1cwp428(_class_AVAudioPlayer, _sel_allocWithZone_, zone);
     return AVAudioPlayer.castFromPointer(_ret, retain: false, release: true);
   }
 

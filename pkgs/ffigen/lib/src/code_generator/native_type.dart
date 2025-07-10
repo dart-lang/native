@@ -37,19 +37,11 @@ class NativeType extends Type {
     SupportedNativeType.uint32: NativeType._('Uint32', 'int', 'uint32_t', '0'),
     SupportedNativeType.uint64: NativeType._('Uint64', 'int', 'uint64_t', '0'),
     SupportedNativeType.float: NativeType._('Float', 'double', 'float', '0.0'),
-    SupportedNativeType.double: NativeType._(
-      'Double',
-      'double',
-      'double',
-      '0.0',
-    ),
+    SupportedNativeType.double:
+        NativeType._('Double', 'double', 'double', '0.0'),
     SupportedNativeType.intPtr: NativeType._('IntPtr', 'int', 'intptr_t', '0'),
-    SupportedNativeType.uintPtr: NativeType._(
-      'UintPtr',
-      'int',
-      'uintptr_t',
-      '0',
-    ),
+    SupportedNativeType.uintPtr:
+        NativeType._('UintPtr', 'int', 'uintptr_t', '0'),
   };
 
   final String _cType;
@@ -58,11 +50,7 @@ class NativeType extends Type {
   final String? _defaultValue;
 
   const NativeType._(
-    this._cType,
-    this._dartType,
-    this._nativeType,
-    this._defaultValue,
-  );
+      this._cType, this._dartType, this._nativeType, this._defaultValue);
 
   factory NativeType(SupportedNativeType type) => _primitives[type]!;
 

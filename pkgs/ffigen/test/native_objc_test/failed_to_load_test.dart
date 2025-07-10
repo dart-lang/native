@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'failed_to_load_bindings.dart';
@@ -20,11 +21,9 @@ void main() {
       // load. The native objc_getClass returns null, which the wrapper in
       // package:objective_c turns into an exception.
       expect(
-        () => ClassThatWillFailToLoad(),
-        throwsA(
-          predicate((e) => e.toString().contains('ClassThatWillFailToLoad')),
-        ),
-      );
+          () => ClassThatWillFailToLoad(),
+          throwsA(predicate(
+              (e) => e.toString().contains('ClassThatWillFailToLoad'))));
     });
   });
 }

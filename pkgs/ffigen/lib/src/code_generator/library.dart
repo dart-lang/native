@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:logging/logging.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
@@ -12,8 +12,6 @@ import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
 
 import 'writer.dart';
-
-final _logger = Logger('ffigen.library');
 
 /// Container for all Bindings.
 class Library {
@@ -27,18 +25,18 @@ class Library {
   static Library fromConfig({
     required Config config,
     required List<Binding> bindings,
-  }) => Library(
-    name: config.wrapperName,
-    description: config.wrapperDocComment,
-    bindings: bindings,
-    header: config.preamble,
-    generateForPackageObjectiveC: config.generateForPackageObjectiveC,
-    libraryImports: config.libraryImports.values.toList(),
-    silenceEnumWarning: config.silenceEnumWarning,
-    nativeEntryPoints: config.entryPoints
-        .map((uri) => uri.toFilePath())
-        .toList(),
-  );
+  }) =>
+      Library(
+        name: config.wrapperName,
+        description: config.wrapperDocComment,
+        bindings: bindings,
+        header: config.preamble,
+        generateForPackageObjectiveC: config.generateForPackageObjectiveC,
+        libraryImports: config.libraryImports.values.toList(),
+        silenceEnumWarning: config.silenceEnumWarning,
+        nativeEntryPoints:
+            config.entryPoints.map((uri) => uri.toFilePath()).toList(),
+      );
 
   factory Library({
     required String name,
@@ -94,16 +92,14 @@ class Library {
   /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    file.writeAsStringSync(generate());
+    var bindings = generate();
     if (format) {
-      final result = Process.runSync(Platform.resolvedExecutable, [
-        'format',
-        file.absolute.path,
-      ], workingDirectory: file.parent.absolute.path);
-      if (result.exitCode != 0) {
-        _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
-      }
+      final formatter = DartFormatter(
+        languageVersion: DartFormatter.latestShortStyleLanguageVersion,
+      );
+      bindings = formatter.format(bindings);
     }
+    file.writeAsStringSync(bindings);
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if

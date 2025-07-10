@@ -40,27 +40,20 @@ Typealias? parseTypedefDeclaration(
   final typedefUsr = cursor.usr();
   final decl = Declaration(usr: typedefUsr, originalName: typedefName);
   final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
-  final s = getCodeGenType(
-    ct,
-    pointerReference: pointerReference,
-    originalCursor: cursor,
-  );
+  final s = getCodeGenType(ct,
+      pointerReference: pointerReference, originalCursor: cursor);
 
   if (bindingsIndex.isSeenUnsupportedTypealias(typedefUsr)) {
     // Do not process unsupported typealiases again.
   } else if (s is UnimplementedType) {
-    _logger.fine(
-      "Skipped Typedef '$typedefName': "
-      'Unimplemented type referred.',
-    );
+    _logger.fine("Skipped Typedef '$typedefName': "
+        'Unimplemented type referred.');
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
   } else if (s is Compound && s.originalName == typedefName) {
     // Ignore typedef if it refers to a compound with the same original name.
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-    _logger.fine(
-      "Skipped Typedef '$typedefName': "
-      'Name matches with referred struct/union.',
-    );
+    _logger.fine("Skipped Typedef '$typedefName': "
+        'Name matches with referred struct/union.');
   } else if (s is EnumClass) {
     // Ignore typedefs to Enum.
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);

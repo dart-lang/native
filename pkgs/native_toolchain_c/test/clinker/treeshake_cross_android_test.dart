@@ -10,19 +10,14 @@ import 'treeshake_helper.dart';
 
 void main() {
   const targetOS = OS.android;
+  final architectures = supportedArchitecturesFor(targetOS);
 
   for (final apiLevel in [
     flutterAndroidNdkVersionLowestSupported,
     flutterAndroidNdkVersionHighestSupported,
   ]) {
-    for (final architecture in supportedArchitecturesFor(targetOS)) {
-      group('Android API$apiLevel ($architecture):', () {
-        runTreeshakeTests(
-          targetOS,
-          architecture,
-          androidTargetNdkApi: apiLevel,
-        );
-      });
-    }
+    group('Android API$apiLevel', () {
+      runTreeshakeTests(targetOS, architectures, androidTargetNdkApi: apiLevel);
+    });
   }
 }

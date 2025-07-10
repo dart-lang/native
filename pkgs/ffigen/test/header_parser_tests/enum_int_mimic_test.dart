@@ -32,15 +32,12 @@ ${strings.ignoreSourceErrors}: true
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-        actual,
-        'header_parser_enum_int_mimic_test_output.dart',
-        [
-          'test',
-          'header_parser_tests',
-          'expected_bindings',
-          '_expected_enum_int_mimic_bindings.dart',
-        ],
-      );
+          actual, 'header_parser_enum_int_mimic_test_output.dart', [
+        'test',
+        'header_parser_tests',
+        'expected_bindings',
+        '_expected_enum_int_mimic_bindings.dart'
+      ]);
     });
   });
 }

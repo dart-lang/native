@@ -16,7 +16,7 @@ void main() {
     flutterAndroidNdkVersionLowestSupported,
     flutterAndroidNdkVersionHighestSupported,
   ]) {
-    group('Android API$apiLevel:', () {
+    group('Android API$apiLevel', () {
       runObjectsTests(targetOS, architectures, androidTargetNdkApi: apiLevel);
     });
   }

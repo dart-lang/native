@@ -57,8 +57,6 @@ void initializeGlobals({required Config config}) {
   _cursorIndex = CursorIndex();
   _bindingsIndex = BindingsIndex();
   _objCBuiltInFunctions = ObjCBuiltInFunctions(
-    config.wrapperName,
-    config.generateForPackageObjectiveC,
-  );
+      config.wrapperName, config.generateForPackageObjectiveC);
   hasSourceErrors = false;
 }

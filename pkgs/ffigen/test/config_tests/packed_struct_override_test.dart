@@ -12,8 +12,7 @@ import '../test_utils.dart';
 void main() {
   group('packed_struct_override_test', () {
     test('Invalid Packed Config values', () {
-      final baseYaml =
-          '''${strings.name}: 'NativeLibrary'
+      final baseYaml = '''${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Packed Struct Override Test'
 ${strings.output}: 'unused'
 ${strings.headers}:
@@ -22,18 +21,12 @@ ${strings.headers}:
 ${strings.structs}:
   ${strings.structPack}:
     ''';
-      expect(
-        () => testConfig("$baseYaml'.*': null"),
-        throwsA(const TypeMatcher<FormatException>()),
-      );
-      expect(
-        () => testConfig("$baseYaml'.*': 3"),
-        throwsA(const TypeMatcher<FormatException>()),
-      );
-      expect(
-        () => testConfig("$baseYaml'.*': 32"),
-        throwsA(const TypeMatcher<FormatException>()),
-      );
+      expect(() => testConfig("$baseYaml'.*': null"),
+          throwsA(const TypeMatcher<FormatException>()));
+      expect(() => testConfig("$baseYaml'.*': 3"),
+          throwsA(const TypeMatcher<FormatException>()));
+      expect(() => testConfig("$baseYaml'.*': 32"),
+          throwsA(const TypeMatcher<FormatException>()));
     });
     test('Override values', () {
       final config = testConfig('''

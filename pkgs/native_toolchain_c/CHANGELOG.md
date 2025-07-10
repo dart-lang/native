@@ -1,15 +1,3 @@
-## 0.16.7
-
-* Support Module Definitions for linking on Windows.
-
-## 0.16.6
-
-* Support linking for Windows.
-
-## 0.16.5
-
-* Support linking for iOS.
-
 ## 0.16.4
 
 * Support linking for MacOS.

@@ -17,7 +17,10 @@ ObjCBlock parseObjCBlock(clang_types.CXType cxtype) {
   final numArgs = clang.clang_getNumArgTypes(blk);
   for (var i = 0; i < numArgs; ++i) {
     final type = clang.clang_getArgType(blk, i);
-    params.add(Parameter(type: type.toCodeGenType(), objCConsumed: false));
+    params.add(Parameter(
+      type: type.toCodeGenType(),
+      objCConsumed: false,
+    ));
   }
   return ObjCBlock(
     returnType: returnType,

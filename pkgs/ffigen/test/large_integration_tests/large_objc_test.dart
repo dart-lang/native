@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+
 // This is a slow test.
 @Timeout(Duration(minutes: 5))
 library;
@@ -13,6 +14,7 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
+import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
@@ -21,11 +23,8 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 Future<int> run(String exe, List<String> args) async {
-  final process = await Process.start(
-    exe,
-    args,
-    mode: ProcessStartMode.inheritStdio,
-  );
+  final process =
+      await Process.start(exe, args, mode: ProcessStartMode.inheritStdio);
   return await process.exitCode;
 }
 
@@ -40,10 +39,10 @@ void main() {
         fnvHash32('$seed.$kind.${clazz.usr}.$method') <
         ((1 << 32) * inclusionRatio);
     DeclarationFilters randomFilter(String kind) => DeclarationFilters(
-      shouldInclude: (Declaration clazz) => randInclude(kind, clazz),
-      shouldIncludeMember: (Declaration clazz, String method) =>
-          randInclude('$kind.memb', clazz, method),
-    );
+          shouldInclude: (Declaration clazz) => randInclude(kind, clazz),
+          shouldIncludeMember: (Declaration clazz, String method) =>
+              randInclude('$kind.memb', clazz, method),
+        );
 
     final outFile = path.join(
       packagePathForTests,
@@ -63,14 +62,12 @@ void main() {
       output: Uri.file(outFile),
       outputObjC: Uri.file(outObjCFile),
       entryPoints: [
-        Uri.file(
-          path.join(
-            packagePathForTests,
-            'test',
-            'large_integration_tests',
-            'large_objc_test.h',
-          ),
-        ),
+        Uri.file(path.join(
+          packagePathForTests,
+          'test',
+          'large_integration_tests',
+          'large_objc_test.h',
+        ))
       ],
       formatOutput: false,
       includeTransitiveObjCInterfaces: false,
@@ -115,20 +112,19 @@ void main() {
 
     // Verify ObjC bindings compile.
     expect(
-      await run('clang', [
-        '-x',
-        'objective-c',
-        outObjCFile,
-        '-fpic',
-        '-fobjc-arc',
-        '-shared',
-        '-framework',
-        'Foundation',
-        '-o',
-        '/dev/null',
-      ]),
-      0,
-    );
+        await run('clang', [
+          '-x',
+          'objective-c',
+          outObjCFile,
+          '-fpic',
+          '-fobjc-arc',
+          '-shared',
+          '-framework',
+          'Foundation',
+          '-o',
+          '/dev/null',
+        ]),
+        0);
 
     print('\n\t\tCompile ObjC: ${timer.elapsed}\n');
     timer.reset();

@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+
 import 'dart:ffi';
 import 'dart:io';
 
@@ -21,23 +22,19 @@ void main() {
   group('Nullability', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(
-        path.join(
-          packagePathForTests,
-          '..',
-          'objective_c',
-          'test',
-          'objective_c.dylib',
-        ),
-      );
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       nullableInterface = NullableInterface();
@@ -77,16 +74,13 @@ void main() {
     group('Not-nullable arguments', () {
       test('Not null', () {
         expect(
-          NullableInterface.isNullWithNotNullableNSObjectPtrArg(obj),
-          false,
-        );
+            NullableInterface.isNullWithNotNullableNSObjectPtrArg(obj), false);
       });
 
       test('Explicit non null', () {
         expect(
-          NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg(obj),
-          false,
-        );
+            NullableInterface.isNullWithExplicitNonNullableNSObjectPtrArg(obj),
+            false);
       });
     });
 
@@ -94,9 +88,7 @@ void main() {
       // Regression test for https://github.com/dart-lang/native/issues/1701
       expect(NullableInterface.returnNullableAlias(true), isNull);
       expect(
-        NullableInterface.returnNullableAlias(false)?.toDartString(),
-        "Hi",
-      );
+          NullableInterface.returnNullableAlias(false)?.toDartString(), "Hi");
     });
 
     test('Multiple nullable args', () {
@@ -108,9 +100,7 @@ void main() {
       expect(NullableInterface.multipleNullableArgs(null, y: y, z: z), y);
       expect(NullableInterface.multipleNullableArgs(null, y: null, z: z), z);
       expect(
-        NullableInterface.multipleNullableArgs(null, y: null, z: null),
-        null,
-      );
+          NullableInterface.multipleNullableArgs(null, y: null, z: null), null);
 
       // Nullable named args are optional.
       expect(NullableInterface.multipleNullableArgs(null, z: z), z);

@@ -310,7 +310,6 @@ class RunCBuilder {
             toolInstance.tool,
             sourceFiles,
             codeConfig.targetOS,
-            codeConfig.targetArchitecture,
           )
         else
           ...sourceFiles,
@@ -354,7 +353,6 @@ class RunCBuilder {
     if (isStaticLib) {
       archiver_ = await archiver();
     }
-    final sourceFiles = sources.map((e) => e.toFilePath());
 
     final result = await runProcess(
       executable: tool.uri,
@@ -370,25 +368,18 @@ class RunCBuilder {
         for (final forcedInclude in forcedIncludes)
           '/FI${forcedInclude.toFilePath()}',
         if (executable != null) ...[
-          '/Fe:${outDir.resolveUri(executable!).toFilePath()}',
+          ...sources.map((e) => e.toFilePath()),
+          '/link',
+          '/out:${outDir.resolveUri(executable!).toFilePath()}',
         ] else if (dynamicLibrary != null) ...[
-          '/LD',
-          '/Fe:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
+          ...sources.map((e) => e.toFilePath()),
+          '/link',
+          '/DLL',
+          '/out:${outDir.resolveUri(dynamicLibrary!).toFilePath()}',
         ] else if (staticLibrary != null) ...[
           '/c',
+          ...sources.map((e) => e.toFilePath()),
         ],
-        if (linkerOptions != null)
-          ...linkerOptions!.sourceFilesToFlags(
-            tool.tool,
-            sourceFiles,
-            codeConfig.targetOS,
-            codeConfig.targetArchitecture,
-          )
-        else ...[
-          ...sourceFiles,
-          '/link',
-        ],
-        '/MACHINE:${clTargetFlags[codeConfig.targetArchitecture]}',
         if (executable != null || dynamicLibrary != null) ...[
           for (final directory in libraryDirectories)
             '/LIBPATH:${directory.toFilePath()}',
@@ -442,12 +433,6 @@ class RunCBuilder {
     Architecture.arm64: 'arm64-pc-windows-msvc',
     Architecture.ia32: 'i386-pc-windows-msvc',
     Architecture.x64: 'x86_64-pc-windows-msvc',
-  };
-
-  static const clTargetFlags = {
-    Architecture.arm64: 'ARM64',
-    Architecture.ia32: 'X86',
-    Architecture.x64: 'X64',
   };
 
   static const defaultCppLinkStdLib = {

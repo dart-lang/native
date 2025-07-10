@@ -15,21 +15,14 @@ Future<Uri> buildTestArchive(
   Uri tempUri2,
   OS targetOS,
   Architecture architecture, {
-  List<Uri>? extraSources,
   int? androidTargetNdkApi, // Must be specified iff targetOS is OS.android.
   int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
-  int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
-  IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
 }) async {
   if (targetOS == OS.android) {
     ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
   }
   if (targetOS == OS.macOS) {
     ArgumentError.checkNotNull(macOSTargetVersion, 'macOSTargetVersion');
-  }
-  if (targetOS == OS.iOS) {
-    ArgumentError.checkNotNull(iOSTargetVersion, 'iOSTargetVersion');
-    ArgumentError.checkNotNull(iOSTargetSdk, 'iOSTargetSdk');
   }
 
   final test1Uri = packageUri.resolve('test/clinker/testfiles/linker/test1.c');
@@ -63,12 +56,6 @@ Future<Uri> buildTestArchive(
         macOS: macOSTargetVersion != null
             ? MacOSCodeConfig(targetVersion: macOSTargetVersion)
             : null,
-        iOS: iOSTargetVersion != null && iOSTargetSdk != null
-            ? IOSCodeConfig(
-                targetSdk: iOSTargetSdk,
-                targetVersion: iOSTargetVersion,
-              )
-            : null,
       ),
     );
 
@@ -78,11 +65,7 @@ Future<Uri> buildTestArchive(
   final cbuilder = CBuilder.library(
     name: name,
     assetName: '',
-    sources: [
-      test1Uri.toFilePath(),
-      test2Uri.toFilePath(),
-      ...?extraSources?.map((src) => src.toFilePath()),
-    ],
+    sources: [test1Uri.toFilePath(), test2Uri.toFilePath()],
     linkModePreference: LinkModePreference.static,
     buildMode: BuildMode.release,
   );

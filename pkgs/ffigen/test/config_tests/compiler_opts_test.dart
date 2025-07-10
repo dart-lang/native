@@ -16,13 +16,16 @@ void main() {
       final opts =
           '''--option value "in double quotes" 'in single quotes'  -tab=separated''';
       final list = compilerOptsToList(opts);
-      expect(list, <String>[
-        '--option',
-        'value',
-        'in double quotes',
-        'in single quotes',
-        '-tab=separated',
-      ]);
+      expect(
+        list,
+        <String>[
+          '--option',
+          'value',
+          'in double quotes',
+          'in single quotes',
+          '-tab=separated',
+        ],
+      );
     });
     test('Compiler Opts Automatic', () {
       final config = testConfig('''
@@ -38,7 +41,9 @@ ${strings.compilerOptsAuto}:
         ''');
       expect(
         config.compilerOpts,
-        equals([if (Platform.isMacOS) '-Wno-nullability-completeness']),
+        equals([
+          if (Platform.isMacOS) '-Wno-nullability-completeness',
+        ]),
       );
     });
   });

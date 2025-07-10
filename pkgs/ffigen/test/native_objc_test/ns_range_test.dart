@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+
 import 'dart:ffi';
 import 'dart:io';
 
@@ -25,44 +26,36 @@ void main() {
       final config = Config(
         wrapperName: 'NSRangeTestObjCLibrary',
         language: Language.objc,
-        output: Uri.file(
-          path.join(
+        output: Uri.file(path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'ns_range_bindings.dart',
+        )),
+        entryPoints: [
+          Uri.file(path.join(
             packagePathForTests,
             'test',
             'native_objc_test',
-            'ns_range_bindings.dart',
-          ),
-        ),
-        entryPoints: [
-          Uri.file(
-            path.join(
-              packagePathForTests,
-              'test',
-              'native_objc_test',
-              'ns_range_test.m',
-            ),
-          ),
+            'ns_range_test.m',
+          ))
         ],
         formatOutput: false,
         objcInterfaces: DeclarationFilters.include({'SFTranscriptionSegment'}),
       );
       FfiGen(logLevel: Level.SEVERE).run(config);
-      bindings = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'ns_range_bindings.dart',
-        ),
-      ).readAsStringSync();
+      bindings = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'ns_range_bindings.dart',
+      )).readAsStringSync();
     });
 
     test('interfaces', () {
       // Regression test for https://github.com/dart-lang/native/issues/1180.
-      expect(
-        bindings.split('\n'),
-        isNot(contains(matches(RegExp(r'class.*NSRange.*Struct')))),
-      );
+      expect(bindings.split('\n'),
+          isNot(contains(matches(RegExp(r'class.*NSRange.*Struct')))));
     });
   });
 }

@@ -77,10 +77,8 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
   final pubspecFile = File(pubspecName);
 
   if (!pubspecFile.existsSync()) {
-    _logger.severe(
-      'Error: $pubspecName not found, please run this tool from '
-      'the root of your package.',
-    );
+    _logger.severe('Error: $pubspecName not found, please run this tool from '
+        'the root of your package.');
     exit(1);
   }
 
@@ -95,18 +93,13 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
     _logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");
     exit(1);
   }
-  return YamlConfig.fromYaml(
-    bindingsConfigMap,
-    filename: pubspecFile.path,
-    packageConfig: packageConfig,
-  );
+  return YamlConfig.fromYaml(bindingsConfigMap,
+      filename: pubspecFile.path, packageConfig: packageConfig);
 }
 
 /// Extracts configuration from a custom yaml file.
 YamlConfig getConfigFromCustomYaml(
-  String yamlPath,
-  PackageConfig? packageConfig,
-) {
+    String yamlPath, PackageConfig? packageConfig) {
   final yamlFile = File(yamlPath);
 
   if (!yamlFile.existsSync()) {
@@ -122,8 +115,7 @@ ArgResults getArgResults(List<String> args) {
   final parser = ArgParser(allowTrailingOptions: true);
 
   parser.addSeparator(
-    'FFIGEN: Generate dart bindings from C header files\nUsage:',
-  );
+      'FFIGEN: Generate dart bindings from C header files\nUsage:');
   parser.addOption(
     conf,
     help: 'Path to Yaml file containing configurations if not in pubspec.yaml',
@@ -132,9 +124,20 @@ ArgResults getArgResults(List<String> args) {
     verbose,
     abbr: 'v',
     defaultsTo: logInfo,
-    allowed: [logAll, logFine, logInfo, logWarning, logSevere],
+    allowed: [
+      logAll,
+      logFine,
+      logInfo,
+      logWarning,
+      logSevere,
+    ],
   );
-  parser.addFlag(help, abbr: 'h', help: 'Prints this usage', negatable: false);
+  parser.addFlag(
+    help,
+    abbr: 'h',
+    help: 'Prints this usage',
+    negatable: false,
+  );
   parser.addOption(
     compilerOpts,
     help: 'Compiler options for clang. (E.g --$compilerOpts "-I/headers -W")',

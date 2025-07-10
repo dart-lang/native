@@ -22,11 +22,8 @@ void main() {
 
     for (final s in ['Hello', '🇵🇬', 'Embedded\u0000Null']) {
       test('CFString conversions [$s]', () {
-        final cfString = s
-            .toNSString()
-            .ref
-            .retainAndAutorelease()
-            .cast<CFString>();
+        final cfString =
+            s.toNSString().ref.retainAndAutorelease().cast<CFString>();
         expect(cfString.toDartString(), s);
         expect(cfString.toNSString().toDartString(), s);
       });

@@ -55,9 +55,8 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       }
 
       final paramName = paramCursor.spelling();
-      final objCConsumed = paramCursor.hasChildWithKind(
-        clang_types.CXCursorKind.CXCursor_NSConsumed,
-      );
+      final objCConsumed = paramCursor
+          .hasChildWithKind(clang_types.CXCursorKind.CXCursor_NSConsumed);
 
       /// If [paramName] is null or empty, its set to `arg$i` by code_generator.
       parameters.add(
@@ -73,48 +72,39 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
         clang.clang_Cursor_getStorageClass(cursor) !=
             clang_types.CX_StorageClass.CX_SC_Extern) {
-      _logger.fine(
-        '---- Removed Function, reason: inline function: '
-        '${cursor.completeStringRepr()}',
-      );
+      _logger.fine('---- Removed Function, reason: inline function: '
+          '${cursor.completeStringRepr()}');
       _logger.warning(
-        "Skipped Function '$funcName', inline functions are not supported.",
-      );
+          "Skipped Function '$funcName', inline functions are not supported.");
       // Returning empty so that [addToBindings] function excludes this.
       return funcs;
     }
 
     if (returnType.isIncompleteCompound || incompleteStructParameter) {
       _logger.fine(
-        '---- Removed Function, reason: Incomplete struct pass/return by '
-        'value: ${cursor.completeStringRepr()}',
-      );
+          '---- Removed Function, reason: Incomplete struct pass/return by '
+          'value: ${cursor.completeStringRepr()}');
       _logger.warning(
-        "Skipped Function '$funcName', Incomplete struct pass/return by "
-        'value not supported.',
-      );
+          "Skipped Function '$funcName', Incomplete struct pass/return by "
+          'value not supported.');
       // Returning null so that [addToBindings] function excludes this.
       return funcs;
     }
 
     if (returnType.baseType is UnimplementedType ||
         unimplementedParameterType) {
-      _logger.fine(
-        '---- Removed Function, reason: unsupported return type or '
-        'parameter type: ${cursor.completeStringRepr()}',
-      );
+      _logger.fine('---- Removed Function, reason: unsupported return type or '
+          'parameter type: ${cursor.completeStringRepr()}');
       _logger.warning(
-        "Skipped Function '$funcName', function has unsupported return type "
-        'or parameter type.',
-      );
+          "Skipped Function '$funcName', function has unsupported return type "
+          'or parameter type.');
       // Returning null so that [addToBindings] function excludes this.
       return funcs;
     }
 
     // Look for any annotations on the function.
-    final objCReturnsRetained = cursor.hasChildWithKind(
-      clang_types.CXCursorKind.CXCursor_NSReturnsRetained,
-    );
+    final objCReturnsRetained = cursor
+        .hasChildWithKind(clang_types.CXCursorKind.CXCursor_NSReturnsRetained);
 
     // Initialized with a single value with no prefix and empty var args.
     var varArgFunctions = [VarArgFunction('', [])];
@@ -122,37 +112,32 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       if (clang.clang_isFunctionTypeVariadic(cursor.type()) == 1) {
         varArgFunctions = config.varArgFunctions[funcName]!;
       } else {
-        _logger.warning(
-          'Skipping variadic-argument config for function '
-          "'$funcName' since its not variadic.",
-        );
+        _logger.warning('Skipping variadic-argument config for function '
+            "'$funcName' since its not variadic.");
       }
     }
     for (final vaFunc in varArgFunctions) {
-      funcs.add(
-        Func(
-          dartDoc: getCursorDocComment(
-            cursor,
-            indent: nesting.length + commentPrefix.length,
-            availability: apiAvailability.dartDoc,
-          ),
-          usr: funcUsr + vaFunc.postfix,
-          name: config.functionDecl.rename(decl) + vaFunc.postfix,
-          originalName: funcName,
-          returnType: returnType,
-          parameters: parameters,
-          varArgParameters: vaFunc.types
-              .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
-              .toList(),
-          exposeSymbolAddress: config.functionDecl.shouldIncludeSymbolAddress(
-            decl,
-          ),
-          exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
-          isLeaf: config.isLeafFunction(decl),
-          objCReturnsRetained: objCReturnsRetained,
-          ffiNativeConfig: config.ffiNativeConfig,
+      funcs.add(Func(
+        dartDoc: getCursorDocComment(
+          cursor,
+          indent: nesting.length + commentPrefix.length,
+          availability: apiAvailability.dartDoc,
         ),
-      );
+        usr: funcUsr + vaFunc.postfix,
+        name: config.functionDecl.rename(decl) + vaFunc.postfix,
+        originalName: funcName,
+        returnType: returnType,
+        parameters: parameters,
+        varArgParameters: vaFunc.types
+            .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
+            .toList(),
+        exposeSymbolAddress:
+            config.functionDecl.shouldIncludeSymbolAddress(decl),
+        exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
+        isLeaf: config.isLeafFunction(decl),
+        objCReturnsRetained: objCReturnsRetained,
+        ffiNativeConfig: config.ffiNativeConfig,
+      ));
     }
     bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
   }

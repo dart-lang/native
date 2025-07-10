@@ -10,78 +10,97 @@ import 'dart:ffi' as ffi;
 class NativeLibraryA {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-  _lookup;
+      _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
   NativeLibraryA(ffi.DynamicLibrary dynamicLibrary)
-    : _lookup = dynamicLibrary.lookup;
+      : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
   NativeLibraryA.fromLookup(
-    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
-  ) : _lookup = lookup;
+      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
+          lookup)
+      : _lookup = lookup;
 
-  void base_func1(BaseTypedef1 t1, BaseTypedef2 t2) {
-    return _base_func1(t1, t2);
+  void base_func1(
+    BaseTypedef1 t1,
+    BaseTypedef2 t2,
+  ) {
+    return _base_func1(
+      t1,
+      t2,
+    );
   }
 
-  late final _base_func1Ptr =
-      _lookup<
-        ffi.NativeFunction<ffi.Void Function(BaseTypedef1, BaseTypedef2)>
-      >('base_func1');
-  late final _base_func1 = _base_func1Ptr
-      .asFunction<void Function(BaseTypedef1, BaseTypedef2)>();
+  late final _base_func1Ptr = _lookup<
+          ffi.NativeFunction<ffi.Void Function(BaseTypedef1, BaseTypedef2)>>(
+      'base_func1');
+  late final _base_func1 =
+      _base_func1Ptr.asFunction<void Function(BaseTypedef1, BaseTypedef2)>();
 
   void a_func1() {
     return _a_func1();
   }
 
-  late final _a_func1Ptr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
-    'a_func1',
-  );
+  late final _a_func1Ptr =
+      _lookup<ffi.NativeFunction<ffi.Void Function()>>('a_func1');
   late final _a_func1 = _a_func1Ptr.asFunction<void Function()>();
 
-  void a_func2(BaseStruct2 s, BaseUnion2 u, BaseTypedef2 t) {
-    return _a_func2(s, u, t);
+  void a_func2(
+    BaseStruct2 s,
+    BaseUnion2 u,
+    BaseTypedef2 t,
+  ) {
+    return _a_func2(
+      s,
+      u,
+      t,
+    );
   }
 
-  late final _a_func2Ptr =
-      _lookup<
-        ffi.NativeFunction<
-          ffi.Void Function(BaseStruct2, BaseUnion2, BaseTypedef2)
-        >
-      >('a_func2');
+  late final _a_func2Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(BaseStruct2, BaseUnion2, BaseTypedef2)>>('a_func2');
   late final _a_func2 = _a_func2Ptr
       .asFunction<void Function(BaseStruct2, BaseUnion2, BaseTypedef2)>();
 
-  void a_func3(int i) {
-    return _a_func3(i);
+  void a_func3(
+    int i,
+  ) {
+    return _a_func3(
+      i,
+    );
   }
 
   late final _a_func3Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function(BaseNativeTypedef1)>>(
-        'a_func3',
-      );
+          'a_func3');
   late final _a_func3 = _a_func3Ptr.asFunction<void Function(int)>();
 
-  void a_func4(int i) {
-    return _a_func4(i);
+  void a_func4(
+    int i,
+  ) {
+    return _a_func4(
+      i,
+    );
   }
 
   late final _a_func4Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function(BaseNativeTypedef2)>>(
-        'a_func4',
-      );
+          'a_func4');
   late final _a_func4 = _a_func4Ptr.asFunction<void Function(int)>();
 
-  void a_func5(int i) {
-    return _a_func5(i);
+  void a_func5(
+    int i,
+  ) {
+    return _a_func5(
+      i,
+    );
   }
 
   late final _a_func5Ptr =
       _lookup<ffi.NativeFunction<ffi.Void Function(BaseNativeTypedef3)>>(
-        'a_func5',
-      );
+          'a_func5');
   late final _a_func5 = _a_func5Ptr.asFunction<void Function(int)>();
 }
 
@@ -120,10 +139,10 @@ enum BaseEnum {
   const BaseEnum(this.value);
 
   static BaseEnum fromValue(int value) => switch (value) {
-    0 => BASE_ENUM_1,
-    1 => BASE_ENUM_2,
-    _ => throw ArgumentError("Unknown value for BaseEnum: $value"),
-  };
+        0 => BASE_ENUM_1,
+        1 => BASE_ENUM_2,
+        _ => throw ArgumentError("Unknown value for BaseEnum: $value"),
+      };
 }
 
 final class A_Struct1 extends ffi.Struct {
@@ -144,10 +163,10 @@ enum A_Enum {
   const A_Enum(this.value);
 
   static A_Enum fromValue(int value) => switch (value) {
-    0 => A_ENUM_1,
-    1 => A_ENUM_2,
-    _ => throw ArgumentError("Unknown value for A_Enum: $value"),
-  };
+        0 => A_ENUM_1,
+        1 => A_ENUM_2,
+        _ => throw ArgumentError("Unknown value for A_Enum: $value"),
+      };
 }
 
 const int BASE_MACRO_1 = 1;

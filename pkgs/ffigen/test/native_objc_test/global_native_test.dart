@@ -4,6 +4,7 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+
 import 'dart:ffi';
 import 'dart:io';
 
@@ -19,23 +20,19 @@ void main() {
   group('global using @Native', () {
     setUpAll(() {
       // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(
-        path.join(
-          packagePathForTests,
-          '..',
-          'objective_c',
-          'test',
-          'objective_c.dylib',
-        ),
-      );
-      final dylib = File(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'objc_test.dylib',
-        ),
-      );
+      DynamicLibrary.open(path.join(
+        packagePathForTests,
+        '..',
+        'objective_c',
+        'test',
+        'objective_c.dylib',
+      ));
+      final dylib = File(path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'objc_test.dylib',
+      ));
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('global');
@@ -73,7 +70,7 @@ void main() {
     });
 
     (Pointer<ObjCBlockImpl>, Pointer<ObjCBlockImpl>)
-    globalBlockRefCountingInner() {
+        globalBlockRefCountingInner() {
       final blk1 = ObjCBlock_Int32_Int32.fromFunction((int x) => x * 10);
       globalBlock = blk1;
       final blk1raw = blk1.ref.pointer;

@@ -7,14 +7,12 @@ on:
     paths:
       - '.github/workflows/objective_c.yaml'
       - 'pkgs/ffigen/**'
-      - 'pkgs/native_test_helpers/**'
       - 'pkgs/objective_c/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/objective_c.yaml'
       - 'pkgs/ffigen/**'
-      - 'pkgs/native_test_helpers/**'
       - 'pkgs/objective_c/**'
   schedule:
     - cron: "0 0 * * 0"
@@ -80,7 +78,7 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
+          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 

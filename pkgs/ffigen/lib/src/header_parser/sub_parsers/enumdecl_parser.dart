@@ -18,8 +18,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 /// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
 /// is null for anonymous enums.
 (EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
-  clang_types.CXCursor cursor,
-) {
+    clang_types.CXCursor cursor) {
   EnumClass? enumClass;
   // Parse the cursor definition instead, if this is a forward declaration.
   cursor = cursorIndex.getDefinition(cursor);
@@ -50,17 +49,14 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
   if (enumName.isEmpty) {
     _logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(cursor);
-    hasNegativeEnumConstants = addedConstants
-        .where((c) => c.rawValue.startsWith('-'))
-        .isNotEmpty;
+    hasNegativeEnumConstants =
+        addedConstants.where((c) => c.rawValue.startsWith('-')).isNotEmpty;
   } else {
     _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: enumUsr,
-      dartDoc: getCursorDocComment(
-        cursor,
-        availability: apiAvailability.dartDoc,
-      ),
+      dartDoc:
+          getCursorDocComment(cursor, availability: apiAvailability.dartDoc),
       originalName: enumName,
       name: config.enumClassDecl.rename(decl),
       nativeType: nativeType,
@@ -75,14 +71,16 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
             final enumIntValue = clang.clang_getEnumConstantDeclValue(child);
             enumClass!.enumConstants.add(
               EnumConstant(
-                dartDoc: getCursorDocComment(
-                  child,
-                  indent: nesting.length + commentPrefix.length,
-                ),
-                originalName: child.spelling(),
-                name: config.enumClassDecl.renameMember(decl, child.spelling()),
-                value: enumIntValue,
-              ),
+                  dartDoc: getCursorDocComment(
+                    child,
+                    indent: nesting.length + commentPrefix.length,
+                  ),
+                  originalName: child.spelling(),
+                  name: config.enumClassDecl.renameMember(
+                    decl,
+                    child.spelling(),
+                  ),
+                  value: enumIntValue),
             );
             if (enumIntValue < 0) {
               hasNegativeEnumConstants = true;
@@ -104,10 +102,8 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
   if (hasNegativeEnumConstants) {
     // Change enum native type to signed type.
-    _logger.fine(
-      'For enum $enumUsr - using signed type for $nativeType : '
-      '${unsignedToSignedNativeIntType[nativeType]}',
-    );
+    _logger.fine('For enum $enumUsr - using signed type for $nativeType : '
+        '${unsignedToSignedNativeIntType[nativeType]}');
     nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;
     enumClass?.nativeType = nativeType;
   }

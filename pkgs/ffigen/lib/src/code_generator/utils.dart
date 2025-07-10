@@ -91,8 +91,7 @@ String findDart() {
     if (File(dartPath).existsSync()) return dartPath;
   }
   throw Exception(
-    "Couldn't find Dart executable near ${Platform.resolvedExecutable}",
-  );
+      "Couldn't find Dart executable near ${Platform.resolvedExecutable}");
 }
 
 /// Attempts to parse an absolute path to an ObjC framework header. Returns an
@@ -108,5 +107,4 @@ String? parseObjCFrameworkHeader(String path) {
 }
 
 final _frameworkHeaderRegex = RegExp(
-  r'.*/Library(?:/.*/|/)Frameworks/([^/]+)\.framework(?:/.*/|/)Headers/(.*)',
-);
+    r'.*/Library(?:/.*/|/)Frameworks/([^/]+)\.framework(?:/.*/|/)Headers/(.*)');

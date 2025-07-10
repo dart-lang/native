@@ -19,14 +19,12 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('libclang-example', () {
-      final configYaml = File(
-        path.join(
-          packagePathForTests,
-          'example',
-          'libclang-example',
-          'config.yaml',
-        ),
-      ).absolute;
+      final configYaml = File(path.join(
+        packagePathForTests,
+        'example',
+        'libclang-example',
+        'config.yaml',
+      )).absolute;
       late Config config;
       late Library library;
       withChDir(configYaml.path, () {
@@ -34,9 +32,11 @@ void main() {
         library = parse(config);
       });
 
-      matchLibraryWithExpected(library, 'example_libclang.dart', [
-        config.output.toFilePath(),
-      ]);
+      matchLibraryWithExpected(
+        library,
+        'example_libclang.dart',
+        [config.output.toFilePath()],
+      );
     });
   });
 }

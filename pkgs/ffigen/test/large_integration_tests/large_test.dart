@@ -18,29 +18,32 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('Libclang test', () {
-      final includeDir = path.join(
-        packagePathForTests,
-        'third_party',
-        'libclang',
-        'include',
-      );
       final config = Config(
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
-        compilerOpts: [...defaultCompilerOpts(), '-I$includeDir'],
-        commentType: CommentType(CommentStyle.doxygen, CommentLength.brief),
+        compilerOpts: [
+          ...defaultCompilerOpts(),
+          '-I${path.join(
+            packagePathForTests,
+            'third_party',
+            'libclang',
+            'include',
+          )}',
+        ],
+        commentType: CommentType(
+          CommentStyle.doxygen,
+          CommentLength.brief,
+        ),
         entryPoints: [
-          Uri.file(
-            path.join(
-              packagePathForTests,
-              'third_party',
-              'libclang',
-              'include',
-              'clang-c',
-              'Index.h',
-            ),
-          ),
+          Uri.file(path.join(
+            packagePathForTests,
+            'third_party',
+            'libclang',
+            'include',
+            'clang-c',
+            'Index.h',
+          ))
         ],
         shouldIncludeHeaderFunc: (Uri header) => [
           'BuildSystem.h',
@@ -82,14 +85,12 @@ void main() {
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
         entryPoints: [
-          Uri.file(
-            path.join(
-              packagePathForTests,
-              'third_party',
-              'cjson_library',
-              'cJSON.h',
-            ),
-          ),
+          Uri.file(path.join(
+            packagePathForTests,
+            'third_party',
+            'cjson_library',
+            'cJSON.h',
+          ))
         ],
         shouldIncludeHeaderFunc: (Uri header) =>
             header.pathSegments.last == 'cJSON.h',
@@ -103,11 +104,11 @@ void main() {
       );
       final library = parse(config);
 
-      matchLibraryWithExpected(library, 'large_test_cjson.dart', [
-        'test',
-        'large_integration_tests',
-        '_expected_cjson_bindings.dart',
-      ]);
+      matchLibraryWithExpected(
+        library,
+        'large_test_cjson.dart',
+        ['test', 'large_integration_tests', '_expected_cjson_bindings.dart'],
+      );
     });
 
     test('SQLite test', () {
@@ -117,16 +118,17 @@ void main() {
         wrapperName: 'SQLite',
         wrapperDocComment: 'Bindings to SQLite.',
         output: Uri.file('unused'),
-        commentType: CommentType(CommentStyle.any, CommentLength.full),
+        commentType: CommentType(
+          CommentStyle.any,
+          CommentLength.full,
+        ),
         entryPoints: [
-          Uri.file(
-            path.join(
-              packagePathForTests,
-              'third_party',
-              'sqlite',
-              'sqlite3.h',
-            ),
-          ),
+          Uri.file(path.join(
+            packagePathForTests,
+            'third_party',
+            'sqlite',
+            'sqlite3.h',
+          ))
         ],
         shouldIncludeHeaderFunc: (Uri header) =>
             header.pathSegments.last == 'sqlite3.h',
@@ -147,11 +149,11 @@ void main() {
       );
       final library = parse(config);
 
-      matchLibraryWithExpected(library, 'large_test_sqlite.dart', [
-        'test',
-        'large_integration_tests',
-        '_expected_sqlite_bindings.dart',
-      ]);
+      matchLibraryWithExpected(
+        library,
+        'large_test_sqlite.dart',
+        ['test', 'large_integration_tests', '_expected_sqlite_bindings.dart'],
+      );
     });
   });
 }

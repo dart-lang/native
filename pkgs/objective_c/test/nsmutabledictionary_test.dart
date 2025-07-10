@@ -28,7 +28,11 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSMutableDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSMutableDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      });
 
       expect(dict.length, 3);
       expect(dict[obj1], obj2);
@@ -58,15 +62,26 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSMutableDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSMutableDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      });
 
       dict[obj3] = obj1;
-      expect(dict, {obj1: obj2, obj3: obj1, obj5: obj6});
+      expect(dict, {
+        obj1: obj2,
+        obj3: obj1,
+        obj5: obj6,
+      });
 
       expect(dict.remove(null), null);
       expect((dict as Map).remove(123), null);
       expect(dict.remove(obj1), obj2);
-      expect(dict, {obj3: obj1, obj5: obj6});
+      expect(dict, {
+        obj3: obj1,
+        obj5: obj6,
+      });
 
       dict.clear();
       expect(dict, <NSString, NSString>{});
@@ -80,7 +95,11 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSMutableDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSMutableDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      });
 
       expect(dict.isNotEmpty, isTrue);
       expect(dict.containsKey(obj1), isTrue);
@@ -89,15 +108,18 @@ void main() {
       expect(dict.containsValue(obj3), isFalse);
 
       expect(
-        dict.map(
-          (key, value) => MapEntry<ObjCObjectBase, ObjCObjectBase>(value, key),
-        ),
-        {obj2: obj1, obj4: obj3, obj6: obj5},
-      );
+          dict.map((key, value) =>
+              MapEntry<ObjCObjectBase, ObjCObjectBase>(value, key)),
+          {
+            obj2: obj1,
+            obj4: obj3,
+            obj6: obj5,
+          });
       expect(
-        dict.keys.map((key) => NSString.castFrom(key).toDartString()).toList(),
-        unorderedEquals(['obj1', 'obj3', 'obj5']),
-      );
+          dict.keys
+              .map((key) => NSString.castFrom(key).toDartString())
+              .toList(),
+          unorderedEquals(['obj1', 'obj3', 'obj5']));
       expect(dict.values.toList(), unorderedEquals([obj2, obj4, obj6]));
     });
   });

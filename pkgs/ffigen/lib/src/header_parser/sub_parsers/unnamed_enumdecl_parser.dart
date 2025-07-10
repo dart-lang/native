@@ -18,9 +18,8 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
   final addedConstants = <Constant>[];
   cursor.visitChildren((child) {
     try {
-      _logger.finest(
-        '  unnamedenumCursorVisitor: ${child.completeStringRepr()}',
-      );
+      _logger
+          .finest('  unnamedenumCursorVisitor: ${child.completeStringRepr()}');
       switch (clang.clang_getCursorKind(child)) {
         case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
           final value = _addUnNamedEnumConstant(child);
@@ -52,8 +51,7 @@ Constant? _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
   }
 
   _logger.fine(
-    '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}',
-  );
+      '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}');
   final constant = UnnamedEnumConstant(
     usr: cursor.usr(),
     originalName: cursor.spelling(),

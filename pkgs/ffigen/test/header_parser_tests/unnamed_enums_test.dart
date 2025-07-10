@@ -44,18 +44,12 @@ ${strings.unnamedEnums}:
     });
 
     test('Ignore unnamed enums inside typedefs', () {
-      expect(
-        () => actual.getBindingAsString('E'),
-        throwsA(const TypeMatcher<NotFoundException>()),
-      );
-      expect(
-        () => actual.getBindingAsString('F'),
-        throwsA(const TypeMatcher<NotFoundException>()),
-      );
-      expect(
-        () => actual.getBindingAsString('G'),
-        throwsA(const TypeMatcher<NotFoundException>()),
-      );
+      expect(() => actual.getBindingAsString('E'),
+          throwsA(const TypeMatcher<NotFoundException>()));
+      expect(() => actual.getBindingAsString('F'),
+          throwsA(const TypeMatcher<NotFoundException>()));
+      expect(() => actual.getBindingAsString('G'),
+          throwsA(const TypeMatcher<NotFoundException>()));
     });
   });
 }
@@ -64,8 +58,16 @@ Library expectedLibrary() {
   return Library(
     name: 'Bindings',
     bindings: [
-      Constant(name: 'A', rawType: 'int', rawValue: '1'),
-      Constant(name: 'C', rawType: 'int', rawValue: '3'),
+      Constant(
+        name: 'A',
+        rawType: 'int',
+        rawValue: '1',
+      ),
+      Constant(
+        name: 'C',
+        rawType: 'int',
+        rawValue: '3',
+      ),
     ],
   );
 }

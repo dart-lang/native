@@ -13,7 +13,11 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../data.dart';
 import '../utils.dart';
 
-enum Availability { none, some, all }
+enum Availability {
+  none,
+  some,
+  all,
+}
 
 class ApiAvailability {
   final bool alwaysDeprecated;
@@ -30,37 +34,21 @@ class ApiAvailability {
     this.macos,
     ExternalVersions? externalVersions,
   }) {
-    availability = _getAvailability(
-      externalVersions ?? config.externalVersions,
-    );
+    availability =
+        _getAvailability(externalVersions ?? config.externalVersions);
   }
 
   static ApiAvailability fromCursor(clang_types.CXCursor cursor) {
     final platformsLength = clang.clang_getCursorPlatformAvailability(
-      cursor,
-      nullptr,
-      nullptr,
-      nullptr,
-      nullptr,
-      nullptr,
-      0,
-    );
+        cursor, nullptr, nullptr, nullptr, nullptr, nullptr, 0);
 
     final alwaysDeprecated = calloc<Int>();
     final alwaysUnavailable = calloc<Int>();
-    final platforms = calloc<clang_types.CXPlatformAvailability>(
-      platformsLength,
-    );
+    final platforms =
+        calloc<clang_types.CXPlatformAvailability>(platformsLength);
 
-    clang.clang_getCursorPlatformAvailability(
-      cursor,
-      alwaysDeprecated,
-      nullptr,
-      alwaysUnavailable,
-      nullptr,
-      platforms,
-      platformsLength,
-    );
+    clang.clang_getCursorPlatformAvailability(cursor, alwaysDeprecated, nullptr,
+        alwaysUnavailable, nullptr, platforms, platformsLength);
 
     PlatformAvailability? ios;
     PlatformAvailability? macos;
@@ -152,8 +140,7 @@ class ApiAvailability {
   }
 
   @override
-  String toString() =>
-      '''Availability {
+  String toString() => '''Availability {
   alwaysDeprecated: $alwaysDeprecated
   alwaysUnavailable: $alwaysUnavailable
   ios: $ios
@@ -219,13 +206,11 @@ class PlatformAvailability {
     if (unavailable) {
       s.write('unavailable');
     } else {
-      s.write(
-        [
-          if (introduced != null) 'introduced $introduced',
-          if (deprecated != null) 'deprecated $deprecated',
-          if (obsoleted != null) 'obsoleted $obsoleted',
-        ].join(', '),
-      );
+      s.write([
+        if (introduced != null) 'introduced $introduced',
+        if (deprecated != null) 'deprecated $deprecated',
+        if (obsoleted != null) 'obsoleted $obsoleted',
+      ].join(', '));
     }
     return s.toString();
   }
@@ -235,7 +220,6 @@ class PlatformAvailability {
       v == null ? 'null' : '(${v.major}, ${v.minor}, ${v.patch})';
 
   @override
-  String toString() =>
-      'introduced: $introduced, deprecated: $deprecated, '
+  String toString() => 'introduced: $introduced, deprecated: $deprecated, '
       'obsoleted: $obsoleted, unavailable: $unavailable';
 }

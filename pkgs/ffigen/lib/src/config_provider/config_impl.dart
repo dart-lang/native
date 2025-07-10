@@ -128,7 +128,7 @@ class ConfigImpl implements Config {
   PackingValue? structPackingOverride(Declaration declaration) =>
       structPackingOverrideFunc(declaration);
   final PackingValue? Function(Declaration declaration)
-  structPackingOverrideFunc;
+      structPackingOverrideFunc;
 
   @override
   String? interfaceModule(Declaration declaration) =>
@@ -254,7 +254,7 @@ class DeclarationFiltersImpl implements DeclarationFilters {
   String renameMember(Declaration declaration, String member) =>
       renameMemberFunc(declaration, member);
   final String Function(Declaration declaration, String member)
-  renameMemberFunc;
+      renameMemberFunc;
 
   @override
   bool shouldInclude(Declaration declaration) => shouldIncludeFunc(declaration);
@@ -269,7 +269,7 @@ class DeclarationFiltersImpl implements DeclarationFilters {
   bool shouldIncludeMember(Declaration declaration, String member) =>
       shouldIncludeMemberFunc(declaration, member);
   final bool Function(Declaration declaration, String member)
-  shouldIncludeMemberFunc;
+      shouldIncludeMemberFunc;
 
   DeclarationFiltersImpl({
     required this.renameFunc,

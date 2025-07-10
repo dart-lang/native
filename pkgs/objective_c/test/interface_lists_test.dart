@@ -18,25 +18,20 @@ import 'util.dart';
 // case where the sets are different lengths, the default matcher just says the
 // lengths don't match. This function says exactly what the difference is.
 void expectSetsEqual(String name, Set<String> expected, Set<String> actual) {
-  expect(
-    expected.difference(actual),
-    <String>{},
-    reason: 'Found elements that are missing from $name',
-  );
-  expect(
-    actual.difference(expected),
-    <String>{},
-    reason: "Found extra elements that shouldn't be in $name",
-  );
+  expect(expected.difference(actual), <String>{},
+      reason: 'Found elements that are missing from $name');
+  expect(actual.difference(expected), <String>{},
+      reason: "Found extra elements that shouldn't be in $name");
 }
 
 void main() {
   group('Verify interface lists', () {
     late final List<String> bindings;
     setUpAll(() {
-      bindings = File(
-        p.join(pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'),
-      ).readAsLinesSync().toList();
+      bindings = File(p.join(
+              pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'))
+          .readAsLinesSync()
+          .toList();
     });
 
     Set<String> findBindings(RegExp re) =>
@@ -44,22 +39,15 @@ void main() {
 
     test('All code genned interfaces are included in the list', () {
       final allClassNames = findBindings(RegExp(r'^class ([^_]\w*) '));
-      expectSetsEqual(
-        'generated classes',
-        objCBuiltInInterfaces.values.toSet(),
-        allClassNames,
-      );
+      expectSetsEqual('generated classes', objCBuiltInInterfaces.values.toSet(),
+          allClassNames);
     });
 
     test('All code genned structs are included in the list', () {
       final allStructNames = findBindings(
-        RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)'),
-      );
-      expectSetsEqual(
-        'generated structs',
-        objCBuiltInCompounds.values.toSet(),
-        allStructNames,
-      );
+          RegExp(r'^final class (\w+) extends ffi\.(Struct|Opaque)'));
+      expectSetsEqual('generated structs', objCBuiltInCompounds.values.toSet(),
+          allStructNames);
     });
 
     test('All code genned enums are included in the list', () {
@@ -69,22 +57,15 @@ void main() {
 
     test('All code genned protocols are included in the list', () {
       final allProtocolNames = findBindings(RegExp(r'^interface class (\w+) '));
-      expectSetsEqual(
-        'generated protocols',
-        objCBuiltInProtocols.values.toSet(),
-        allProtocolNames,
-      );
+      expectSetsEqual('generated protocols',
+          objCBuiltInProtocols.values.toSet(), allProtocolNames);
     });
 
     test('All code genned categories are included in the list', () {
-      final allCategoryNames = findBindings(
-        RegExp(r'^extension (\w+) on \w+ {'),
-      );
+      final allCategoryNames =
+          findBindings(RegExp(r'^extension (\w+) on \w+ {'));
       expectSetsEqual(
-        'generated categories',
-        objCBuiltInCategories,
-        allCategoryNames,
-      );
+          'generated categories', objCBuiltInCategories, allCategoryNames);
     });
 
     test('All code genned globals are included in the list', () {

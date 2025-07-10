@@ -10,8 +10,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
 import 'package:logging/logging.dart' show Level;
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/internal.dart'
-    as internal_for_testing
+import 'package:objective_c/src/internal.dart' as internal_for_testing
     show isValidClass, isValidBlock;
 import 'package:path/path.dart' as p;
 
@@ -36,8 +35,7 @@ final _executeInternalCommand = () {
   try {
     return DynamicLibrary.process()
         .lookup<NativeFunction<Void Function(Pointer<Char>, Pointer<Void>)>>(
-          'Dart_ExecuteInternalCommand',
-        )
+            'Dart_ExecuteInternalCommand')
         .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
   } on ArgumentError {
     return null;
@@ -64,9 +62,7 @@ Future<void> flutterDoGC() async {
 external int _isReadableMemory(Pointer<Void> ptr);
 
 @Native<Uint64 Function(Pointer<Void>)>(
-  isLeaf: true,
-  symbol: 'getBlockRetainCount',
-)
+    isLeaf: true, symbol: 'getBlockRetainCount')
 external int _getBlockRetainCount(Pointer<Void> block);
 
 int blockRetainCount(Pointer<ObjCBlockImpl> block) {
@@ -76,9 +72,7 @@ int blockRetainCount(Pointer<ObjCBlockImpl> block) {
 }
 
 @Native<Uint64 Function(Pointer<Void>)>(
-  isLeaf: true,
-  symbol: 'getObjectRetainCount',
-)
+    isLeaf: true, symbol: 'getObjectRetainCount')
 external int _getObjectRetainCount(Pointer<Void> object);
 
 int objectRetainCount(Pointer<ObjCObject> object) {

@@ -55,18 +55,12 @@ class Global extends LookUpBinding {
         : type.getCType(w);
 
     void generateConvertingGetterAndSetter(String pointerValue) {
-      final getValue = type.convertFfiDartTypeToDartType(
-        w,
-        pointerValue,
-        objCRetain: true,
-      );
+      final getValue =
+          type.convertFfiDartTypeToDartType(w, pointerValue, objCRetain: true);
       s.write('$dartType get $globalVarName => $getValue;\n\n');
       if (!constant) {
-        final releaseOldValue = type.convertFfiDartTypeToDartType(
-          w,
-          pointerValue,
-          objCRetain: false,
-        );
+        final releaseOldValue = type
+            .convertFfiDartTypeToDartType(w, pointerValue, objCRetain: false);
         final newValue = type.convertDartTypeToFfiDartType(
           w,
           'value',
@@ -90,15 +84,13 @@ class Global extends LookUpBinding {
           : w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
 
       s
-        ..writeln(
-          makeNativeAnnotation(
-            w,
-            nativeType: cType,
-            dartName: pointerName,
-            nativeSymbolName: originalName,
-            isLeaf: false,
-          ),
-        )
+        ..writeln(makeNativeAnnotation(
+          w,
+          nativeType: cType,
+          dartName: pointerName,
+          nativeSymbolName: originalName,
+          isLeaf: false,
+        ))
         ..write('external ');
       if (constant) {
         s.write('final ');
@@ -112,26 +104,19 @@ class Global extends LookUpBinding {
 
       if (exposeSymbolAddress) {
         w.symbolAddressWriter.addNativeSymbol(
-          type: '${w.ffiLibraryPrefix}.Pointer<$cType>',
-          name: name,
-        );
+            type: '${w.ffiLibraryPrefix}.Pointer<$cType>', name: name);
       }
     } else {
-      final pointerName = w.wrapperLevelUniqueNamer.makeUnique(
-        '_$globalVarName',
-      );
+      final pointerName =
+          w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
 
-      s.write(
-        'late final ${w.ffiLibraryPrefix}.Pointer<$cType> $pointerName = '
-        "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n",
-      );
+      s.write('late final ${w.ffiLibraryPrefix}.Pointer<$cType> $pointerName = '
+          "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n");
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
-          s.write(
-            '${w.ffiLibraryPrefix}.Pointer<$cType> get $globalVarName =>'
-            ' $pointerName;\n\n',
-          );
+          s.write('${w.ffiLibraryPrefix}.Pointer<$cType> get $globalVarName =>'
+              ' $pointerName;\n\n');
         } else {
           s.write('$ffiDartType get $globalVarName => $pointerName.ref;\n\n');
         }
@@ -140,10 +125,8 @@ class Global extends LookUpBinding {
       } else if (type.sameDartAndFfiDartType) {
         s.write('$dartType get $globalVarName => $pointerName.value;\n\n');
         if (!constant) {
-          s.write(
-            'set $globalVarName($dartType value) =>'
-            '$pointerName.value = value;\n\n',
-          );
+          s.write('set $globalVarName($dartType value) =>'
+              '$pointerName.value = value;\n\n');
         }
       } else {
         generateConvertingGetterAndSetter('$pointerName.value');
