@@ -81,7 +81,9 @@ int fnvHash32(String input) {
 /// This is usually just Platform.resolvedExecutable. But when running flutter
 /// tests, the resolvedExecutable will be flutter_tester, and Dart will be in a
 /// directory a few levels up from it.
-String findDart() {
+final String dartExecutable = _findDart();
+
+String _findDart() {
   var path = Platform.resolvedExecutable;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
   final dartExe = 'dart${p.extension(path)}';
