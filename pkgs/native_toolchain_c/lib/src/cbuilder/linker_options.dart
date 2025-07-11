@@ -116,6 +116,8 @@ extension LinkerOptionsExt on LinkerOptions {
             ..._symbolsToKeep?.map((symbol) => '-u,_$symbol') ?? [],
             if (stripDebug) '-S',
             if (gcSections) '-dead_strip',
+            if (_generateLinkerScript && _symbolsToKeep != null)
+              '-exported_symbols_list,${_createMacSymbolList(_symbolsToKeep)}',
           ]),
         ];
 
@@ -166,6 +168,16 @@ extension LinkerOptionsExt on LinkerOptions {
     if (stripDebug) '/PDBSTRIPPED',
     if (gcSections) '/OPT:REF',
   ];
+
+  /// This creates a list of exported symbols - otherwise, some symbols might be
+  /// kept because of `global-dont-strip`.
+  static String _createMacSymbolList(Iterable<String> symbols) {
+    final tempDir = Directory.systemTemp.createTempSync();
+    final symbolsFileUri = tempDir.uri.resolve('exported_symbols_list.txt');
+    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
+    symbolsFile.writeAsStringSync(symbols.map((e) => '_$e').join('\n'));
+    return symbolsFileUri.toFilePath();
+  }
 
   static String _createClangLikeLinkScript(Iterable<String> symbols) {
     final tempDir = Directory.systemTemp.createTempSync();
