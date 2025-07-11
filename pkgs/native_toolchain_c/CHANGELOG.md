@@ -1,3 +1,7 @@
+## 0.16.9
+
+* Fix treeshaking on mac.
+
 ## 0.16.8
 
 * Support building assets for packages which are not the input package.
