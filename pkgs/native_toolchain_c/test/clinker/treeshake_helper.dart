@@ -44,6 +44,7 @@ void runTreeshakeTests(
           'test/clinker/testfiles/linker/symbols.def',
         ),
         OS.macOS => null,
+        OS.iOS => null,
         _ => packageUri.resolve('test/clinker/testfiles/linker/symbols.lds'),
       },
     ),
