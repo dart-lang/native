@@ -83,7 +83,7 @@ void main(List<String> arguments) async {
           'pkgs/hooks/example/build/$exampleWithTest/',
         ),
         'dart',
-        ['--enable-experiment=native-assets', 'test'],
+        ['test'],
       );
     }
 
@@ -92,19 +92,14 @@ void main(List<String> arguments) async {
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      ['--enable-experiment=native-assets', 'run'],
+      ['run'],
     );
     _runProcess(
       workingDirectory: repositoryRoot.resolve(
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      [
-        '--enable-experiment=native-assets',
-        'build',
-        'cli',
-        'bin/native_add_app.dart',
-      ],
+      ['build', 'cli', 'bin/native_add_app.dart'],
     );
     _runProcess(
       repositoryRoot
