@@ -361,7 +361,7 @@ abstract interface class DeclarationFilters {
     shouldIncludeSymbolAddressFunc: shouldIncludeSymbolAddress ?? (_) => false,
     renameFunc: rename ?? (declaration) => declaration.originalName,
     renameMemberFunc: renameMember ?? (_, member) => member,
-    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
+    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, _) => true,
   );
 
   static final excludeAll = DeclarationFilters();
