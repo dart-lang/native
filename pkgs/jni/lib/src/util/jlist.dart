@@ -206,7 +206,7 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
       _class.instanceMethodId(r'subList', r'(II)Ljava/util/List;');
   @override
   JList<$E> getRange(int start, int end) {
-    RangeError.checkValidRange(start, end, this.length);
+    RangeError.checkValidRange(start, end, length);
     return _getRangeId(
         this, JListType<$E>(E), [JValueInt(start), JValueInt(end)])!;
   }
@@ -271,9 +271,9 @@ class JList<$E extends JObject?> extends JObject with ListMixin<$E> {
   @override
   int lastIndexOf(Object? element, [int? start]) {
     if (element is! JObject?) return -1;
-    if (start == null || start >= this.length) start = this.length - 1;
+    if (start == null || start >= length) start = length - 1;
     final elementRef = element?.reference ?? jNullReference;
-    if (start == this.length - 1) {
+    if (start == length - 1) {
       return _lastIndexOfId(this, const jintType(), [elementRef.pointer]);
     }
     final range = getRange(0, start);
