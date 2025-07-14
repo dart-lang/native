@@ -141,10 +141,6 @@ void runTreeshakeTests(
         expect(symbols, contains('my_func'), skip: skipReason);
       }
 
-      if (clinker.linker == linkerManual) {
-        throw 'A';
-      }
-
       final sizeInBytes = await File.fromUri(asset.file!).length();
       // Make sure we don't override any results.
       expect(sizes[clinker.name], isNull);
