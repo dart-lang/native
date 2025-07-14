@@ -25,10 +25,7 @@ class LinkerOptions {
   /// See also the `ld` man page at https://linux.die.net/man/1/ld.
   final bool gcSections;
 
-  /// The linker script to be passed via `--version-script`.
-  ///
-  /// See also the `ld` man page at https://linux.die.net/man/1/ld.
-  final Uri? linkerScript;
+  final LinkerScriptMode? _linkerScriptMode;
 
   /// Whether to strip debugging symbols from the binary.
   final bool stripDebug;
@@ -36,34 +33,38 @@ class LinkerOptions {
   /// The symbols to keep in the resulting binaries.
   ///
   /// If null all symbols will be kept.
-  final List<String>? _symbolsToKeep;
+  final List<String> _symbols;
 
-  final bool _generateLinkerScript;
+  final bool _keepAllSymbols;
 
   /// Create linking options manually for fine-grained control.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
-    this.linkerScript,
+    Uri? linkerScript,
     this.stripDebug = true,
     Iterable<String>? symbolsToKeep,
   }) : _linkerFlags = flags ?? [],
        gcSections = gcSections ?? true,
-       _symbolsToKeep = symbolsToKeep?.toList(growable: false),
-       _generateLinkerScript = false;
+       _symbols = symbolsToKeep?.toList(growable: false) ?? const [],
+       _keepAllSymbols = symbolsToKeep == null,
+       _linkerScriptMode = linkerScript != null
+           ? ManualLinkerScript(script: linkerScript)
+           : null;
 
   /// Create linking options to tree-shake symbols from the input files.
   ///
-  /// The [symbols] specify the symbols which should be kept.
+  /// The [symbols] specify the symbols which should be kept. Passing `null`
+  /// implies that all symbols should be kept.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
     required Iterable<String>? symbols,
     this.stripDebug = true,
   }) : _linkerFlags = flags?.toList(growable: false) ?? [],
-       _symbolsToKeep = symbols?.toList(growable: false),
+       _symbols = symbols?.toList(growable: false) ?? const [],
+       _keepAllSymbols = symbols == null,
        gcSections = true,
-       linkerScript = null,
-       _generateLinkerScript = symbols != null;
+       _linkerScriptMode = symbols != null ? GenerateLinkerScript() : null;
 
   Iterable<String> _toLinkerSyntax(Tool linker, Iterable<String> flagList) {
     if (linker.isClangLike) {
@@ -74,6 +75,19 @@ class LinkerOptions {
       throw UnsupportedError('Linker flags for $linker are not supported');
     }
   }
+}
+
+sealed class LinkerScriptMode {}
+
+final class GenerateLinkerScript extends LinkerScriptMode {}
+
+final class ManualLinkerScript extends LinkerScriptMode {
+  /// The linker script to be passed via `--version-script`.
+  ///
+  /// See also the `ld` man page at https://linux.die.net/man/1/ld.
+  final Uri script;
+
+  ManualLinkerScript({required this.script});
 }
 
 extension LinkerOptionsExt on LinkerOptions {
@@ -99,8 +113,6 @@ extension LinkerOptionsExt on LinkerOptions {
     }
   }
 
-  bool get _includeAllSymbols => _symbolsToKeep == null;
-
   Iterable<String> _sourceFilesToFlagsForClangLike(
     Tool tool,
     Iterable<String> sourceFiles,
@@ -109,35 +121,37 @@ extension LinkerOptionsExt on LinkerOptions {
     switch (targetOS) {
       case OS.macOS || OS.iOS:
         return [
-          if (!_includeAllSymbols) ...sourceFiles,
+          if (!_keepAllSymbols) ...sourceFiles,
           ..._toLinkerSyntax(tool, [
-            if (_includeAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
+            if (_keepAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
             ..._linkerFlags,
-            ..._symbolsToKeep?.map((symbol) => '-u,_$symbol') ?? [],
+            ..._symbols.map((symbol) => '-u,_$symbol'),
             if (stripDebug) '-S',
             if (gcSections) '-dead_strip',
-            if (_generateLinkerScript && _symbolsToKeep != null)
-              '-exported_symbols_list,${_createMacSymbolList(_symbolsToKeep)}',
+            if (_linkerScriptMode is ManualLinkerScript)
+              '-exported_symbols_list,${_linkerScriptMode.script.toFilePath()}',
+            if (_linkerScriptMode is GenerateLinkerScript)
+              '-exported_symbols_list,${_createMacSymbolList(_symbols)}',
           ]),
         ];
 
       case OS.android || OS.linux:
         final wholeArchiveSandwich =
             sourceFiles.any((source) => source.endsWith('.a')) ||
-            _includeAllSymbols;
+            _keepAllSymbols;
         return [
           if (wholeArchiveSandwich)
             ..._toLinkerSyntax(tool, ['--whole-archive']),
           ...sourceFiles,
           ..._toLinkerSyntax(tool, [
             ..._linkerFlags,
-            ..._symbolsToKeep?.map((symbol) => '-u,$symbol') ?? [],
+            ..._symbols.map((symbol) => '-u,$symbol'),
             if (stripDebug) '--strip-debug',
             if (gcSections) '--gc-sections',
-            if (linkerScript != null)
-              '--version-script=${linkerScript!.toFilePath()}'
-            else if (_generateLinkerScript && _symbolsToKeep != null)
-              '--version-script=${_createClangLikeLinkScript(_symbolsToKeep)}',
+            if (_linkerScriptMode is ManualLinkerScript)
+              '--version-script=${_linkerScriptMode.script.toFilePath()}'
+            else if (_linkerScriptMode is GenerateLinkerScript)
+              '--version-script=${_createClangLikeLinkScript(_symbols)}',
             if (wholeArchiveSandwich) '--no-whole-archive',
           ]),
         ];
@@ -154,17 +168,16 @@ extension LinkerOptionsExt on LinkerOptions {
   ) => [
     ...sourceFiles,
     '/link',
-    if (_includeAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
+    if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
     ..._linkerFlags,
-    ..._symbolsToKeep?.map(
-          (symbol) =>
-              '/INCLUDE:${targetArch == Architecture.ia32 ? '_' : ''}$symbol',
-        ) ??
-        [],
-    if (linkerScript != null)
-      '/DEF:${linkerScript!.toFilePath()}'
-    else if (_generateLinkerScript && _symbolsToKeep != null)
-      '/DEF:${_createClLinkScript(_symbolsToKeep)}',
+    ..._symbols.map(
+      (symbol) =>
+          '/INCLUDE:${targetArch == Architecture.ia32 ? '_' : ''}$symbol',
+    ),
+    if (_linkerScriptMode is ManualLinkerScript)
+      '/DEF:${_linkerScriptMode.script.toFilePath()}'
+    else if (_linkerScriptMode is GenerateLinkerScript)
+      '/DEF:${_createClLinkScript(_symbols)}',
     if (stripDebug) '/PDBSTRIPPED',
     if (gcSections) '/OPT:REF',
   ];
