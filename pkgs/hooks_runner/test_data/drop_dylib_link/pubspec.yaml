@@ -16,5 +16,5 @@ dependencies:
   native_toolchain_c: any
 
 dev_dependencies:
-  lints: ^5.1.1
+  lints: ^6.0.0
   test: ^1.25.15

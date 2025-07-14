@@ -15,4 +15,4 @@ dependencies:
   hooks: any
 
 dev_dependencies:
-  lints: ^5.1.1
+  lints: ^6.0.0
