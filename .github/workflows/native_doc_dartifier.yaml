@@ -16,6 +16,12 @@ env:
   PUB_ENVIRONMENT: bot.github
 
 jobs:
+  echo_api_key:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo ${{ secrets.GEMINI_API_KEY }}
+
   analyze_and_test:
     runs-on: ubuntu-latest
     defaults:
