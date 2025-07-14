@@ -169,8 +169,11 @@ extension LinkerOptionsExt on LinkerOptions {
     if (gcSections) '/OPT:REF',
   ];
 
-  /// This creates a list of exported symbols - otherwise, some symbols might be
-  /// kept because of `global-dont-strip`.
+  /// This creates a list of exported symbols.
+  ///
+  /// If this is not set, some symbols might be kept. This can be inspected
+  /// using `ld -why_live`, see https://www.unix.com/man_page/osx/1/ld/, where
+  /// the reason will show up as `global-dont-strip`.
   static String _createMacSymbolList(Iterable<String> symbols) {
     final tempDir = Directory.systemTemp.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('exported_symbols_list.txt');
