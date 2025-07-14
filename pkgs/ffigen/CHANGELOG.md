@@ -5,6 +5,7 @@
   Dart version and formatting options.
 - Add `_` to the list of Dart keywords, since it has special meaning in newer
   Dart versions.
+- Update to the latest lints.
 
 ## 19.0.0
 

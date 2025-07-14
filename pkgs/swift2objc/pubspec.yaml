@@ -25,5 +25,7 @@ environment:
 
 dev_dependencies:
   args: ^2.6.0
-  dart_flutter_team_lints: ^3.5.1
+  dart_flutter_team_lints: ^3.5.2
+  native_test_helpers:
+    path: ../native_test_helpers
   test: ^1.21.1

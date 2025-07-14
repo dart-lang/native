@@ -39,9 +39,9 @@ void runTreeshakeTests(
       symbolsToKeep: ['my_other_func'],
       stripDebug: true,
       gcSections: true,
-      linkerScript: packageUri.resolve(
-        'test/clinker/testfiles/linker/symbols.lds',
-      ),
+      linkerScript: targetOS == OS.windows
+          ? packageUri.resolve('test/clinker/testfiles/linker/symbols.def')
+          : packageUri.resolve('test/clinker/testfiles/linker/symbols.lds'),
     ),
   );
   CLinker linkerAuto(List<String> sources) => CLinker.library(

@@ -109,7 +109,7 @@ void main(List<String> arguments) async {
     _runProcess(
       repositoryRoot
           .resolve(
-            'pkgs/hooks/example/build/native_add_app/build/cli/${Abi.current().toString()}/bundle/bin/native_add_app${Platform.isWindows ? '.exe' : ''}',
+            'pkgs/hooks/example/build/native_add_app/build/cli/${Abi.current()}/bundle/bin/native_add_app${Platform.isWindows ? '.exe' : ''}',
           )
           .toFilePath(),
       [],

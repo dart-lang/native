@@ -38,6 +38,8 @@ class LinkerOptions {
   /// If null all symbols will be kept.
   final List<String>? _symbolsToKeep;
 
+  final bool _generateLinkerScript;
+
   /// Create linking options manually for fine-grained control.
   LinkerOptions.manual({
     List<String>? flags,
@@ -47,7 +49,8 @@ class LinkerOptions {
     Iterable<String>? symbolsToKeep,
   }) : _linkerFlags = flags ?? [],
        gcSections = gcSections ?? true,
-       _symbolsToKeep = symbolsToKeep?.toList(growable: false);
+       _symbolsToKeep = symbolsToKeep?.toList(growable: false),
+       _generateLinkerScript = false;
 
   /// Create linking options to tree-shake symbols from the input files.
   ///
@@ -59,7 +62,8 @@ class LinkerOptions {
   }) : _linkerFlags = flags?.toList(growable: false) ?? [],
        _symbolsToKeep = symbols?.toList(growable: false),
        gcSections = true,
-       linkerScript = _createLinkerScript(symbols);
+       linkerScript = null,
+       _generateLinkerScript = symbols != null;
 
   Iterable<String> _toLinkerSyntax(Tool linker, Iterable<String> flagList) {
     if (linker.isClangLike) {
@@ -69,22 +73,6 @@ class LinkerOptions {
     } else {
       throw UnsupportedError('Linker flags for $linker are not supported');
     }
-  }
-
-  static Uri? _createLinkerScript(Iterable<String>? symbols) {
-    if (symbols == null) return null;
-    final tempDir = Directory.systemTemp.createTempSync();
-    final symbolsFileUri = tempDir.uri.resolve('symbols.lds');
-    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
-    symbolsFile.writeAsStringSync('''
-{
-  global:
-    ${symbols.map((e) => '$e;').join('\n    ')}
-  local:
-    *;
-};
-''');
-    return symbolsFileUri;
   }
 }
 
@@ -145,7 +133,9 @@ extension LinkerOptionsExt on LinkerOptions {
             if (stripDebug) '--strip-debug',
             if (gcSections) '--gc-sections',
             if (linkerScript != null)
-              '--version-script=${linkerScript!.toFilePath()}',
+              '--version-script=${linkerScript!.toFilePath()}'
+            else if (_generateLinkerScript && _symbolsToKeep != null)
+              '--version-script=${_createClangLikeLinkScript(_symbolsToKeep)}',
             if (wholeArchiveSandwich) '--no-whole-archive',
           ]),
         ];
@@ -169,7 +159,38 @@ extension LinkerOptionsExt on LinkerOptions {
               '/INCLUDE:${targetArch == Architecture.ia32 ? '_' : ''}$symbol',
         ) ??
         [],
+    if (linkerScript != null)
+      '/DEF:${linkerScript!.toFilePath()}'
+    else if (_generateLinkerScript && _symbolsToKeep != null)
+      '/DEF:${_createClLinkScript(_symbolsToKeep)}',
     if (stripDebug) '/PDBSTRIPPED',
     if (gcSections) '/OPT:REF',
   ];
+
+  static String _createClangLikeLinkScript(Iterable<String> symbols) {
+    final tempDir = Directory.systemTemp.createTempSync();
+    final symbolsFileUri = tempDir.uri.resolve('symbols.lds');
+    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
+    symbolsFile.writeAsStringSync('''
+{
+  global:
+    ${symbols.map((e) => '$e;').join('\n    ')}
+  local:
+    *;
+};
+''');
+    return symbolsFileUri.toFilePath();
+  }
+
+  static String _createClLinkScript(Iterable<String> symbols) {
+    final tempDir = Directory.systemTemp.createTempSync();
+    final symbolsFileUri = tempDir.uri.resolve('symbols.def');
+    final symbolsFile = File.fromUri(symbolsFileUri)..createSync();
+    symbolsFile.writeAsStringSync('''
+LIBRARY MyDLL
+EXPORTS
+${symbols.map((s) => '    $s').join('\n')}      
+''');
+    return symbolsFileUri.toFilePath();
+  }
 }
