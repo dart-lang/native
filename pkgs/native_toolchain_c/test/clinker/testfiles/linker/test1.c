@@ -3,7 +3,7 @@
 #if _WIN32
 #define FFI_EXPORT __declspec(dllexport)
 #else
-#define FFI_EXPORT
+#define FFI_EXPORT __attribute__((visibility("default")))
 #endif
 
 FFI_EXPORT void my_func()

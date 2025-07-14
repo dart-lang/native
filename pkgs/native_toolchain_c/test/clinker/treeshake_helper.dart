@@ -43,10 +43,8 @@ void runTreeshakeTests(
         OS.windows => packageUri.resolve(
           'test/clinker/testfiles/linker/symbols.def',
         ),
-        OS.linux => packageUri.resolve(
-          'test/clinker/testfiles/linker/symbols.lds',
-        ),
-        _ => null,
+        OS.macOS => null,
+        _ => packageUri.resolve('test/clinker/testfiles/linker/symbols.lds'),
       },
     ),
   );
@@ -56,7 +54,7 @@ void runTreeshakeTests(
     sources: sources,
     linkerOptions: LinkerOptions.treeshake(symbols: ['my_other_func']),
   );
-  CLinker linkerAutoEmpty(List<String> sources) => CLinker.library(
+  CLinker linkerAutoKeepAll(List<String> sources) => CLinker.library(
     name: 'mylibname',
     assetName: '',
     sources: sources,
@@ -68,7 +66,7 @@ void runTreeshakeTests(
   for (final clinker in [
     (name: 'manual', linker: linkerManual),
     (name: 'auto', linker: linkerAuto),
-    (name: 'autoEmpty', linker: linkerAutoEmpty),
+    (name: 'autoEmpty', linker: linkerAutoKeepAll),
   ]) {
     test('link test with CLinker ${clinker.name}', () async {
       final tempUri = await tempDirForTest();
@@ -135,12 +133,16 @@ void runTreeshakeTests(
       final skipReason = symbols == null
           ? 'tool to extract symbols unavailable'
           : false;
-      if (clinker.linker != linkerAutoEmpty) {
+      if (clinker.linker != linkerAutoKeepAll) {
         expect(symbols, contains('my_other_func'), skip: skipReason);
         expect(symbols, isNot(contains('my_func')), skip: skipReason);
       } else {
         expect(symbols, contains('my_other_func'), skip: skipReason);
         expect(symbols, contains('my_func'), skip: skipReason);
+      }
+
+      if (clinker.linker == linkerManual) {
+        throw 'A';
       }
 
       final sizeInBytes = await File.fromUri(asset.file!).length();
