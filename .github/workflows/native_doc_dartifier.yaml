@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo
-        run: echo {{ secrets.GEMINI_API_KEY }}
+        run: echo ${{ secrets.GEMINI_API_KEY }}
 
   analyze_and_test:
     runs-on: ubuntu-latest
