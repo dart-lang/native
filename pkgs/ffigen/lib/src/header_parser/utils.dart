@@ -55,7 +55,30 @@ void logTuDiagnostics(
   }
 }
 
-extension CXSourceRangeExt on Pointer<clang_types.CXSourceRange> {
+extension CXSourceLocationExt on clang_types.CXSourceLocation {
+  (String, int) get fileAndOffset {
+    final filePtr = calloc<Pointer<Void>>();
+    final offsetPtr = calloc<UnsignedInt>();
+
+    clang.clang_getFileLocation(this, filePtr, nullptr, nullptr, offsetPtr);
+    final file = clang.clang_getFileName(filePtr.value).toStringAndDispose();
+    final offset = offsetPtr.value;
+
+    calloc.free(filePtr);
+    calloc.free(offsetPtr);
+
+    return (file, offset);
+  }
+}
+
+extension CXSourceRangeExt on clang_types.CXSourceRange {
+  clang_types.CXSourceLocation get start => clang.clang_getRangeStart(this);
+  clang_types.CXSourceLocation get end => clang.clang_getRangeEnd(this);
+  ((String, int), (String, int)) toTuple() =>
+      (start.fileAndOffset, end.fileAndOffset);
+}
+
+extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
   void dispose() {
     calloc.free(this);
   }
@@ -250,8 +273,7 @@ extension CXCursorExt on clang_types.CXCursor {
 const commentPrefix = '/// ';
 const nesting = '  ';
 
-/// Stores the [clang_types.CXSourceRange] of the last comment.
-clang_types.CXSourceRange? lastCommentRange;
+Set<((String, int), (String, int))> reportedCommentRanges = {};
 
 /// Returns a cursor's associated comment.
 ///
@@ -267,10 +289,8 @@ String? getCursorDocComment(
   String? formattedDocComment;
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
-  // See if this comment and the last comment both point to the same source
-  // range.
-  if (lastCommentRange != null &&
-      clang.clang_equalRanges(lastCommentRange!, currentCommentRange) != 0) {
+  // Only report the comment if we haven't reported this comment before.
+  if (!reportedCommentRanges.add(currentCommentRange.toTuple())) {
     formattedDocComment = null;
   } else {
     switch (config.commentType.length) {
@@ -289,7 +309,6 @@ String? getCursorDocComment(
         formattedDocComment = null;
     }
   }
-  lastCommentRange = currentCommentRange;
   final docs = [formattedDocComment ?? fallbackComment, availability].nonNulls;
   return docs.isEmpty ? null : docs.join('\n\n');
 }
