@@ -50,7 +50,7 @@ jobs:
         name: 'Check Java formatting with google-java-format'
         with:
           release-name: 'v1.27.0'
-          args: '--set-exit-if-changed'
+          skip-commit: true
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -168,7 +168,7 @@ jobs:
         name: 'Check Java formatting with google-java-format'
         with:
           release-name: 'v1.27.0'
-          args: '--set-exit-if-changed'
+          skip-commit: true
       - name: install clang tools & CMake
         run: |
           sudo apt-get update -y
