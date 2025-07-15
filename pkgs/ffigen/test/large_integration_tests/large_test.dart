@@ -24,7 +24,7 @@ void main() {
         'libclang',
         'include',
       );
-      final config = Config(
+      final config = FfiGen(
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
@@ -77,7 +77,7 @@ void main() {
     });
 
     test('CJSON test', () {
-      final config = Config(
+      final config = FfiGen(
         wrapperName: 'CJson',
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
@@ -113,7 +113,7 @@ void main() {
     test('SQLite test', () {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
-      final config = Config(
+      final config = FfiGen(
         wrapperName: 'SQLite',
         wrapperDocComment: 'Bindings to SQLite.',
         output: Uri.file('unused'),
