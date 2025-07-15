@@ -1,4 +1,4 @@
-## 0.16.9
+## 0.17.0
 
 * Fix treeshaking on mac.
 
