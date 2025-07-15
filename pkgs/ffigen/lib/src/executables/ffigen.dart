@@ -65,8 +65,9 @@ FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
   YamlConfig config;
 
   // Parse config from yaml.
-  if (result.wasParsed(conf)) {
-    config = getConfigFromCustomYaml(result[conf] as String, packageConfig);
+  final configOption = (result[conf] as String?) ?? result.rest.firstOrNull;
+  if (configOption != null) {
+    config = getConfigFromCustomYaml(configOption, packageConfig);
   } else {
     config = getConfigFromPubspec(packageConfig);
   }

@@ -4,6 +4,8 @@
   `Config` classes. Rename `FfiGen.run` to `.generate`, and make it an extension
   method on the `Config` class. So `FfiGen().run(config)` becomes
   `config.generate(logger)`.
+- `dart run ffigen <configYaml>` is now allowed, and is equivalent to
+  `dart run ffigen --config <configYaml>`.
 
 ## 19.1.0
 
