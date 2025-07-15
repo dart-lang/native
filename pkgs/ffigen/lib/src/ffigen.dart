@@ -10,7 +10,6 @@ import 'package:logging/logging.dart';
 import 'config_provider.dart' show FfiGen;
 import 'header_parser.dart' show parse;
 
-final logger = Logger('ffigen.ffigen');
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 extension FfiGenGenerator on FfiGen {
