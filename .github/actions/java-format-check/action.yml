@@ -8,8 +8,7 @@ inputs:
     default: '1.28.0'
   working-directory:
     description: 'The directory to search for Java files (relative to repository root)'
-    required: false
-    default: '.'
+    required: true
 
 runs:
   using: 'composite'
