@@ -55,7 +55,7 @@ List<MacroConstant> parseSavedMacros() {
   }
 
   // Create a file for parsing macros;
-  final (file, macroVarNames) = createFileForMacros();
+  final file = createFileForMacros();
 
   final index = clang.clang_createIndex(0, 0);
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
@@ -79,16 +79,8 @@ List<MacroConstant> parseSavedMacros() {
     _logger.severe('Unable to parse Macros.');
   } else {
     logTuDiagnostics(tu, _logger, file.path, logLevel: Level.FINEST);
-    final generatedFileBaseName = p.basename(file.path);
     final rootCursor = clang.clang_getTranslationUnitCursor(tu);
-    rootCursor.visitChildren(
-      (child) => _macroVariablevisitor(
-        generatedFileBaseName,
-        macroVarNames,
-        child,
-        bindings,
-      ),
-    );
+    rootCursor.visitChildren((child) => _macroVariablevisitor(child, bindings));
   }
 
   clang.clang_disposeTranslationUnit(tu);
@@ -101,15 +93,13 @@ List<MacroConstant> parseSavedMacros() {
 
 /// Child visitor invoked on translationUnitCursor for parsing macroVariables.
 void _macroVariablevisitor(
-  String generatedFileBaseName,
-  Set<String> macroVarNames,
   clang_types.CXCursor cursor,
   List<MacroConstant> bindings,
 ) {
   MacroConstant? constant;
   try {
-    if (isFromGeneratedFile(generatedFileBaseName, cursor) &&
-        macroVarNames.contains(cursor.spelling()) &&
+    if (isFromGeneratedFile(cursor) &&
+        _macroVarNames.contains(cursor.spelling()) &&
         cursor.kind == clang_types.CXCursorKind.CXCursor_VarDecl) {
       final e = clang.clang_Cursor_Evaluate(cursor);
       final k = clang.clang_EvalResult_getKind(e);
@@ -166,16 +156,21 @@ void _macroVariablevisitor(
 }
 
 /// Returns true if cursor is from generated file.
-bool isFromGeneratedFile(
-  String generatedFileBaseName,
-  clang_types.CXCursor cursor,
-) {
+bool isFromGeneratedFile(clang_types.CXCursor cursor) {
   final s = cursor.sourceFileName();
-  return p.basename(s) == generatedFileBaseName;
+  return p.basename(s) == _generatedFileBaseName;
 }
 
+/// Base name of generated file.
+String? _generatedFileBaseName;
+
+/// Generated macro variable names.
+///
+/// Used to determine if macro should be included in bindings or not.
+late Set<String> _macroVarNames;
+
 /// Creates a temporary file for parsing macros in current directory.
-(File, Set<String>) createFileForMacros() {
+File createFileForMacros() {
   final fileNameBase = p.normalize(p.join(strings.tmpDir, 'temp_for_macros'));
   final fileExt = 'hpp';
 
@@ -190,6 +185,9 @@ bool isFromGeneratedFile(
   // Create file.
   file.createSync();
 
+  // Save generated name.
+  _generatedFileBaseName = p.basename(file.path);
+
   // Write file contents.
   final sb = StringBuffer();
   for (final h in config.entryPoints) {
@@ -197,7 +195,7 @@ bool isFromGeneratedFile(
     sb.writeln('#include "$fullHeaderPath"');
   }
 
-  final macroVarNames = <String>{};
+  _macroVarNames = {};
   for (final prefixedMacroName in savedMacros.keys) {
     // Write macro.
     final macroVarName = MacroVariableString.encode(prefixedMacroName);
@@ -205,7 +203,8 @@ bool isFromGeneratedFile(
       'auto $macroVarName = '
       '${savedMacros[prefixedMacroName]!.originalName};',
     );
-    macroVarNames.add(macroVarName);
+    // Add to _macroVarNames.
+    _macroVarNames.add(macroVarName);
   }
   final macroFileContent = sb.toString();
   // Log this generated file for debugging purpose.
@@ -215,7 +214,7 @@ bool isFromGeneratedFile(
   _logger.finest('========================');
 
   file.writeAsStringSync(macroFileContent);
-  return (file, macroVarNames);
+  return file;
 }
 
 /// Deals with encoding/decoding name of the variable generated for a Macro.

@@ -283,14 +283,18 @@ const dartHandleUsr = 'c:@S@_Dart_Handle';
 const ffiNative = 'ffi-native';
 const ffiNativeAsset = 'asset-id';
 
+Directory? _tmpDir;
+
 /// A path to a unique temporary directory that should be used for files meant
 /// to be discarded after the current execution is finished.
-final String tmpDir = () {
-  final testTmpdir = Platform.environment['TEST_TMPDIR'];
-  if (testTmpdir != null) return testTmpdir;
+String get tmpDir {
+  if (Platform.environment.containsKey('TEST_TMPDIR')) {
+    return Platform.environment['TEST_TMPDIR']!;
+  }
 
-  return Directory.systemTemp.createTempSync().path;
-}();
+  _tmpDir ??= Directory.systemTemp.createTempSync();
+  return _tmpDir!.path;
+}
 
 const ffigenJsonSchemaIndent = '  ';
 const ffigenJsonSchemaId = 'https://json.schemastore.org/ffigen';
