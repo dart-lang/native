@@ -39,8 +39,8 @@ final _executeInternalCommand = () {
           'Dart_ExecuteInternalCommand',
         )
         .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
-  } on ArgumentError {
     // ignore: avoid_catching_errors
+  } on ArgumentError {
     return null;
   }
 }();
