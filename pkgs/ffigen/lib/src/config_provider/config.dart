@@ -10,7 +10,7 @@ import 'config_types.dart';
 import 'spec_utils.dart';
 
 /// Provides configurations to other modules.
-abstract interface class Config {
+abstract interface class FfiGen {
   /// Input config filename, if any.
   Uri? get filename;
 
@@ -192,7 +192,7 @@ abstract interface class Config {
   /// before this version will not be generated.
   ExternalVersions get externalVersions;
 
-  factory Config({
+  factory FfiGen({
     Uri? filename,
     PackageConfig? packageConfig,
     Uri? libclangDylib,

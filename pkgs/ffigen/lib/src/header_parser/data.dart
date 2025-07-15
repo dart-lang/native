@@ -5,7 +5,7 @@
 import 'dart:ffi';
 
 import '../code_generator.dart' show Constant, ObjCBuiltInFunctions;
-import '../config_provider.dart' show Config;
+import '../config_provider.dart' show FfiGen;
 import 'clang_bindings/clang_bindings.dart' show Clang;
 
 import 'utils.dart';
@@ -13,8 +13,8 @@ import 'utils.dart';
 /// Holds all Global shared variables.
 
 /// Holds configurations.
-Config get config => _config;
-late Config _config;
+FfiGen get config => _config;
+late FfiGen _config;
 
 /// Holds clang functions.
 Clang get clang => _clang;
@@ -48,7 +48,7 @@ late ObjCBuiltInFunctions _objCBuiltInFunctions;
 /// invalid generated bindings.
 bool hasSourceErrors = false;
 
-void initializeGlobals({required Config config}) {
+void initializeGlobals({required FfiGen config}) {
   _config = config;
   _clang = Clang(DynamicLibrary.open(config.libclangDylib.toFilePath()));
   _incrementalNamer = IncrementalNamer();

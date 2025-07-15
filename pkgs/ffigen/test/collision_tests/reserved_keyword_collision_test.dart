@@ -17,7 +17,7 @@ void main() {
     });
     test('reserved keyword collision', () {
       final library = parser.parse(
-        Config(
+        FfiGen(
           output: Uri.file('unused'),
           entryPoints: [
             Uri.file(

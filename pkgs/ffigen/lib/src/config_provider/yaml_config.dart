@@ -23,7 +23,7 @@ final _logger = Logger('ffigen.config_provider.config');
 /// Provides configurations to other modules.
 ///
 /// Handles validation, extraction of configurations from a yaml file.
-class YamlConfig implements Config {
+class YamlConfig implements FfiGen {
   /// Input config filename, if any.
   @override
   final Uri? filename;

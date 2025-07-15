@@ -15,7 +15,7 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('declaration conflict', () {
-      final config = Config(
+      final config = FfiGen(
         entryPoints: [],
         output: Uri(),
         functionDecl: DeclarationFilters.includeAll,

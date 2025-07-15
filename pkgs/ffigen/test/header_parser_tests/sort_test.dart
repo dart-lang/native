@@ -17,7 +17,7 @@ void main() {
     setUpAll(() {
       logWarnings();
       actual = parser.parse(
-        Config(
+        FfiGen(
           output: Uri.file('unused'),
           entryPoints: [
             Uri.file(

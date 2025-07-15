@@ -42,7 +42,7 @@ void main() {
         ),
       ).absolute;
 
-      late Config config;
+      late FfiGen config;
       withChDir(configFile.path, () {
         config = testConfigFromPath(configFile.path);
       });
