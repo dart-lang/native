@@ -29,6 +29,11 @@ Future<void> main() async {
       staticLib.toFilePath(),
     ]);
     rustToolchainInstalled = processResult.exitCode == 0;
+    if (rustToolchainInstalled) {
+      await File.fromUri(
+        staticLib,
+      ).copy(tempUri.resolve('libtest.a').toFilePath());
+    }
     final linkInputBuilder = LinkInputBuilder()
       ..setupShared(
         packageName: 'testpackage',
@@ -46,10 +51,6 @@ Future<void> main() async {
       );
 
     linkInput = linkInputBuilder.build();
-
-    await File.fromUri(
-      staticLib,
-    ).copy(tempUri.resolve('libtest.a').toFilePath());
   });
   test('link rust binary with script treeshakes', () async {
     if (!rustToolchainInstalled) {
