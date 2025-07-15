@@ -9,7 +9,7 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
-import '../config_provider/config.dart' show Config;
+import '../config_provider/config.dart' show FfiGen;
 import '../config_provider/config_types.dart';
 
 import 'writer.dart';

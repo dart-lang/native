@@ -100,7 +100,7 @@ void main() {
     );
 
     final timer = Stopwatch()..start();
-    FfiGen(logLevel: Level.SEVERE).run(config);
+    config.generate(Logger('ffigen.test')..level = Level.SEVERE);
     expect(File(outFile).existsSync(), isTrue);
     expect(File(outObjCFile).existsSync(), isTrue);
 

@@ -6,6 +6,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
@@ -13,6 +14,7 @@ import 'package:yaml/yaml.dart' as yaml;
 import '../../ffigen.dart';
 
 final _logger = Logger('ffigen.ffigen');
+final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 const compilerOpts = 'compiler-opts';
 const ignoreSourceErrors = 'ignore-source-errors';
@@ -32,7 +34,16 @@ Future<void> main(List<String> args) async {
   // Parses the cmd args. This will print usage and exit if --help was passed.
   final argResult = getArgResults(args);
 
-  final ffigen = FfiGen(logLevel: _parseLogLevel(argResult));
+  _logger.level = _parseLogLevel(argResult);
+  _logger.onRecord.listen((record) {
+    final levelStr = '[${record.level.name}]'.padRight(9);
+    final log = '$levelStr: ${record.message}';
+    if (record.level < Level.SEVERE) {
+      print(log);
+    } else {
+      print('${_ansi.red}$log${_ansi.none}');
+    }
+  });
 
   // Create a config object.
   FfiGen config;
@@ -43,7 +54,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  ffigen.run(config);
+  config.generate(_logger);
 }
 
 FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {

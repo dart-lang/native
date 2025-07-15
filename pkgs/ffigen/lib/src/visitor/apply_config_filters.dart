@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show FfiGen, DeclarationFilters;
+import '../config_provider/config.dart' show DeclarationFilters, FfiGen;
 
 import 'ast.dart';
 

@@ -10,36 +10,35 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
-  // TODO(https://github.com/dart-lang/native/issues/2371): Remove this.
-  Logger.root.onRecord.listen((record) {
+  final logger = Logger('swiftgen');
+  logger.onRecord.listen((record) {
     stderr.writeln('${record.level.name}: ${record.message}');
   });
 
-  await generate(
-    Config(
-      target: Target(
-        triple: 'x86_64-apple-macosx14.0',
-        sdk: Uri.directory(
-          '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk',
-        ),
+  await SwiftGen(
+    target: Target(
+      triple: 'x86_64-apple-macosx14.0',
+      sdk: Uri.directory(
+        '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk',
       ),
-      input: ObjCCompatibleSwiftFileInput(
-        module: 'AVFAudio',
-        files: [Uri.file('avf_audio_wrapper.swift')],
+    ),
+    input: ObjCCompatibleSwiftFileInput(
+      module: 'AVFAudio',
+      files: [Uri.file('avf_audio_wrapper.swift')],
+    ),
+    tempDirectory: Uri.directory('temp'),
+    outputModule: 'AVFAudioWrapper',
+    ffigen: FfiGenConfig(
+      output: Uri.file('avf_audio_bindings.dart'),
+      outputObjC: Uri.file('avf_audio_wrapper.m'),
+      externalVersions: fg.ExternalVersions(
+        ios: fg.Versions(min: Version(12, 0, 0)),
+        macos: fg.Versions(min: Version(10, 14, 0)),
       ),
-      tempDirectory: Uri.directory('temp'),
-      outputModule: 'AVFAudioWrapper',
-      ffigen: FfiGenConfig(
-        output: Uri.file('avf_audio_bindings.dart'),
-        outputObjC: Uri.file('avf_audio_wrapper.m'),
-        externalVersions: ffigen.ExternalVersions(
-          ios: ffigen.Versions(min: Version(12, 0, 0)),
-          macos: ffigen.Versions(min: Version(10, 14, 0)),
-        ),
-        objcInterfaces: ffigen.DeclarationFilters(
-          shouldInclude: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
-        ),
-        preamble: '''
+      objcInterfaces: fg.DeclarationFilters(
+        shouldInclude: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
+      ),
+      preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -52,9 +51,8 @@ Future<void> main() async {
 // ignore_for_file: unused_field
 // coverage:ignore-file
 ''',
-      ),
     ),
-  );
+  ).generate(logger);
 
   final result = Process.runSync('swiftc', [
     '-emit-library',
