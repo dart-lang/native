@@ -46,11 +46,13 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
-        name: 'Check Java formatting with google-java-format'
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00
         with:
-          version: 'v1.24.0'
-          args: '--set-exit-if-changed'
+          distribution: 'zulu'
+          java-version: '17'
+          cache: maven
+      - name: 'Check Java formatting with google-java-format'
+        uses: ./.github/actions/java-format-check
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -164,11 +166,8 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
-        name: 'Check Java formatting with google-java-format'
-        with:
-          version: 'v1.24.0'
-          args: '--set-exit-if-changed'
+      - name: 'Check Java formatting with google-java-format'
+        uses: ./.github/actions/java-format-check
       - name: install clang tools & CMake
         run: |
           sudo apt-get update -y
