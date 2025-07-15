@@ -47,6 +47,9 @@ jobs:
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
 
+      - name: Install rust for pkgs/native_toolchain_c/test/clinker/rust_test.dart
+        uses: actions-rust-lang/setup-rust-toolchain@fb51252c7ba57d633bc668f941da052e410add48
+
       - run: git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
       - run: echo "$PWD/depot_tools" >> $GITHUB_PATH
       - run: mkdir dart-sdk

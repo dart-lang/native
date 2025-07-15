@@ -13,15 +13,20 @@ import '../helpers.dart';
 
 Future<void> main() async {
   late final LinkInput linkInput;
+  late final Uri staticLib;
   final linkOutputBuilder = LinkOutputBuilder();
   final targetArchitecture = Architecture.current;
   final targetOS = OS.current;
-  final staticLib = packageUri.resolve(
-    'test/clinker/testfiles/linker/libtest.a',
-  );
   setUpAll(() async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
+    staticLib = tempUri.resolve(targetOS.staticlibFileName('libtest'));
+    await Process.run('rustc', [
+      '--crate-type=staticlib',
+      'test/clinker/testfiles/linker/test.rs',
+      '-o',
+      staticLib.toFilePath(),
+    ]);
     final linkInputBuilder = LinkInputBuilder()
       ..setupShared(
         packageName: 'testpackage',
