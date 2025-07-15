@@ -52,7 +52,7 @@ jobs:
           java-version: '17'
           cache: maven
       - name: 'Check Java formatting with google-java-format'
-        uses: ./.github/actions/java-format-check
+        uses: ./.github/workflows/java-format-check.yaml
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -167,7 +167,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
       - name: 'Check Java formatting with google-java-format'
-        uses: ./.github/actions/java-format-check
+        uses: ./.github/workflows/java-format-check.yaml
       - name: install clang tools & CMake
         run: |
           sudo apt-get update -y
