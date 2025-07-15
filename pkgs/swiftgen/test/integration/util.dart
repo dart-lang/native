@@ -76,7 +76,7 @@ class TestGenerator {
 // coverage:ignore-file
 ''',
     ),
-  ).generate(Logger('swiftgen.test')..level = Level.SEVERE);
+  ).generate(Logger.root..level = Level.SEVERE);
 
   Future<void> generateAndVerifyBindings() async {
     // Run the generation pipeline. This produces the swift compatability

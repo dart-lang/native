@@ -45,7 +45,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  final logger = Logger('ffigen.regen')..level = Level.WARNING;
+  final logger = Logger.root..level = Level.WARNING;
 
   _regenConfig(logger, 'test/native_test/config.yaml');
   _regenConfig(logger, 'example/libclang-example/config.yaml');
