@@ -52,6 +52,8 @@ jobs:
           java-version: '17'
           cache: maven
       - uses: ./.github/actions/java-format-check
+        with:
+          working-directory: ./pkgs/jnigen
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -166,6 +168,8 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
       - uses: ./.github/actions/java-format-check
+        with:
+          working-directory: ./pkgs/jni
       - name: install clang tools & CMake
         run: |
           sudo apt-get update -y
