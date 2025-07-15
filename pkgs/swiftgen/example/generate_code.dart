@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:ffigen/ffigen.dart' as fg;
 import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:swiftgen/swiftgen.dart';

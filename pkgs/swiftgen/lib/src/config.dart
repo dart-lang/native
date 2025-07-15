@@ -7,20 +7,14 @@ import 'package:ffigen/ffigen.dart' as ffigen;
 import 'util.dart';
 
 /// Config options for swiftgen.
-class Config {
+class SwiftGen {
   final Target target;
-
-  // Input files.
-  final ConfigInput input;
-
-  // Intermediates.
+  final SwiftGenInput input;
   final Uri tempDir;
-
-  // Output file.
   final String? outputModule;
   final FfiGenConfig ffigen;
 
-  Config({
+  SwiftGen({
     required this.target,
     required this.input,
     Uri? tempDirectory,
@@ -40,14 +34,14 @@ class Target {
 }
 
 /// Describes the inputs to the swiftgen pipeline.
-abstract interface class ConfigInput {
+abstract interface class SwiftGenInput {
   String get module;
   Iterable<Uri> get files;
   Iterable<String> get compileArgs;
 }
 
 /// Input swift files that are already annotated with @objc.
-class ObjCCompatibleSwiftFileInput implements ConfigInput {
+class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
   @override
   final String module;
 
@@ -60,55 +54,69 @@ class ObjCCompatibleSwiftFileInput implements ConfigInput {
   Iterable<String> get compileArgs => const <String>[];
 }
 
-/// Selected options from the ffigen Config object.
+/// Selected options from [ffigen.Config].
 class FfiGenConfig {
-  /// Output file name.
+  /// [ffigen.Config.output]
   final Uri output;
 
-  /// Output ObjC file name.
+  /// [ffigen.Config.outputObjC]
   final Uri outputObjC;
 
-  /// Name of the wrapper class.
+  /// [ffigen.Config.wrapperName]
+  /// Defaults to the swift module name.
   final String? wrapperName;
 
-  /// Doc comment for the wrapper class.
+  /// [ffigen.Config.wrapperDocComment]
   final String? wrapperDocComment;
 
-  /// Header of the generated bindings.
+  /// [ffigen.Config.preamble]
   final String? preamble;
 
-  /// Declaration filters for Functions.
+  /// [ffigen.Config.functionDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? functionDecl;
 
-  /// Declaration filters for Structs.
+  /// [ffigen.Config.structDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? structDecl;
 
-  /// Declaration filters for Unions.
+  /// [ffigen.Config.unionDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? unionDecl;
 
-  /// Declaration filters for Enums.
+  /// [ffigen.Config.enumClassDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? enumClassDecl;
 
-  /// Declaration filters for Unnamed enum constants.
+  /// [ffigen.Config.unnamedEnumConstants]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? unnamedEnumConstants;
 
-  /// Declaration filters for Globals.
+  /// [ffigen.Config.globals]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? globals;
 
-  /// Declaration filters for Macro constants.
+  /// [ffigen.Config.macroDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? macroDecl;
 
-  /// Declaration filters for Typedefs.
+  /// [ffigen.Config.typedefs]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? typedefs;
 
-  /// Declaration filters for Objective C interfaces.
+  /// [ffigen.Config.objcInterfaces]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? objcInterfaces;
 
-  /// Declaration filters for Objective C protocols.
+  /// [ffigen.Config.objcProtocols]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? objcProtocols;
 
-  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
-  /// before this version will not be generated.
+  /// [ffigen.Config.objcCategories]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  final ffigen.DeclarationFilters? objcCategories;
+
+  /// [ffigen.Config.externalVersions]
   final ffigen.ExternalVersions externalVersions;
 
   FfiGenConfig({
@@ -127,6 +135,7 @@ class FfiGenConfig {
     this.typedefs,
     this.objcInterfaces,
     this.objcProtocols,
+    this.objcCategories,
     this.externalVersions = const ffigen.ExternalVersions(),
   });
 }

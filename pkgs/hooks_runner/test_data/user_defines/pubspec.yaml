@@ -14,7 +14,7 @@ dependencies:
   hooks: any
 
 dev_dependencies:
-  lints: ^5.1.1
+  lints: ^6.0.0
   test: ^1.25.15
 
 # Note: If pub workspaces are in use, the user-defines must be in the workspace

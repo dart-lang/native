@@ -6,12 +6,17 @@ on:
     branches: [main, stable]
     paths:
       - '.github/workflows/swiftgen.yaml'
+      - 'pkgs/ffigen/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/objective_c/**'
+      - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'
+      - 'pkgs/native_test_helpers/**'
       - 'pkgs/objective_c/**'
       - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'

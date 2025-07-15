@@ -14,6 +14,7 @@ on:
 
 env:
   PUB_ENVIRONMENT: bot.github
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
 jobs:
   analyze_and_test:
@@ -27,17 +28,20 @@ jobs:
         sdk: [stable]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
-          sdk: ${{ matrix.sdk }}
+          channel: ${{ matrix.sdk }}
       - id: install
         name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Analyze code
         run: dart analyze --fatal-infos
+        if: always() && steps.install.outcome == 'success'
+      - name: Run pre-test tool
+        run: dart run tool/prepare_dartify_test.dart
         if: always() && steps.install.outcome == 'success'
       - name: Run VM tests
         run: dart test --platform vm

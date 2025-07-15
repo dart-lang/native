@@ -200,7 +200,7 @@ abstract interface class FfiGen {
     Uri? outputObjC,
     SymbolFile? symbolFile,
     Language language = Language.c,
-    required List<Uri> entryPoints,
+    List<Uri> entryPoints = const <Uri>[],
     bool Function(Uri header)? shouldIncludeHeaderFunc,
     List<String>? compilerOpts,
     Map<String, List<VarArgFunction>> varArgFunctions =
@@ -361,7 +361,7 @@ abstract interface class DeclarationFilters {
     shouldIncludeSymbolAddressFunc: shouldIncludeSymbolAddress ?? (_) => false,
     renameFunc: rename ?? (declaration) => declaration.originalName,
     renameMemberFunc: renameMember ?? (_, member) => member,
-    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
+    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, _) => true,
   );
 
   static final excludeAll = DeclarationFilters();

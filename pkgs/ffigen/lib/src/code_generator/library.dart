@@ -8,7 +8,8 @@ import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show FfiGen;
+import '../code_generator/utils.dart';
+import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
 
 import 'writer.dart';
@@ -96,7 +97,7 @@ class Library {
     if (!file.existsSync()) file.createSync(recursive: true);
     file.writeAsStringSync(generate());
     if (format) {
-      final result = Process.runSync(Platform.resolvedExecutable, [
+      final result = Process.runSync(dartExecutable, [
         'format',
         file.absolute.path,
       ], workingDirectory: file.parent.absolute.path);

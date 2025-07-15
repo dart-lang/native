@@ -22,10 +22,13 @@ dependencies:
   ffigen: ^19.0.0
   logging: ^1.3.0
   objective_c: ^8.0.0
+  package_config: ^2.2.0
   path: ^1.9.1
 
 dev_dependencies:
-  dart_flutter_team_lints: ^3.5.1
+  dart_flutter_team_lints: ^3.5.2
+  native_test_helpers:
+    path: ../native_test_helpers
   test: ^1.21.1
 
 dependency_overrides:
