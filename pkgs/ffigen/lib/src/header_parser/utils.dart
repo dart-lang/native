@@ -250,9 +250,6 @@ extension CXCursorExt on clang_types.CXCursor {
 const commentPrefix = '/// ';
 const nesting = '  ';
 
-/// Stores the [clang_types.CXSourceRange] of the last comment.
-clang_types.CXSourceRange? lastCommentRange;
-
 /// Returns a cursor's associated comment.
 ///
 /// The given string is wrapped at line width = 80 - [indent]. The [indent] is
@@ -265,31 +262,24 @@ String? getCursorDocComment(
   String? availability,
 }) {
   String? formattedDocComment;
-  final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
   // See if this comment and the last comment both point to the same source
   // range.
-  if (lastCommentRange != null &&
-      clang.clang_equalRanges(lastCommentRange!, currentCommentRange) != 0) {
-    formattedDocComment = null;
-  } else {
-    switch (config.commentType.length) {
-      case CommentLength.full:
-        formattedDocComment = removeRawCommentMarkups(
-          clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),
-        );
-        break;
-      case CommentLength.brief:
-        formattedDocComment = _wrapNoNewLineString(
-          clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
-          80 - indent,
-        );
-        break;
-      default:
-        formattedDocComment = null;
-    }
+  switch (config.commentType.length) {
+    case CommentLength.full:
+      formattedDocComment = removeRawCommentMarkups(
+        clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),
+      );
+      break;
+    case CommentLength.brief:
+      formattedDocComment = _wrapNoNewLineString(
+        clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
+        80 - indent,
+      );
+      break;
+    default:
+      formattedDocComment = null;
   }
-  lastCommentRange = currentCommentRange;
   final docs = [formattedDocComment ?? fallbackComment, availability].nonNulls;
   return docs.isEmpty ? null : docs.join('\n\n');
 }
