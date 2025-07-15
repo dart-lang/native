@@ -17,16 +17,18 @@ Future<void> main() async {
   final linkOutputBuilder = LinkOutputBuilder();
   final targetArchitecture = Architecture.current;
   final targetOS = OS.current;
+  late final bool rustToolchainInstalled;
   setUpAll(() async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     staticLib = tempUri.resolve(targetOS.staticlibFileName('libtest'));
-    await Process.run('rustc', [
+    final processResult = await Process.run('rustc', [
       '--crate-type=staticlib',
       'test/clinker/testfiles/linker/test.rs',
       '-o',
       staticLib.toFilePath(),
     ]);
+    rustToolchainInstalled = processResult.exitCode == 0;
     final linkInputBuilder = LinkInputBuilder()
       ..setupShared(
         packageName: 'testpackage',
@@ -50,6 +52,9 @@ Future<void> main() async {
     ).copy(tempUri.resolve('libtest.a').toFilePath());
   });
   test('link rust binary with script treeshakes', () async {
+    if (!rustToolchainInstalled) {
+      return;
+    }
     final treeshakeOption = LinkerOptions.treeshake(
       symbolsToKeep: ['my_other_func'],
     );
@@ -69,6 +74,9 @@ Future<void> main() async {
   });
 
   test('link rust binary without script keeps symbols', () async {
+    if (!rustToolchainInstalled) {
+      return;
+    }
     final manualOption = LinkerOptions.manual(
       symbolsToKeep: ['my_other_func'],
       stripDebug: true,
@@ -110,6 +118,5 @@ Future<String?> _link(
 
   await expectMachineArchitecture(asset.file!, targetArchitecture, targetOS);
 
-  final symbols = await readSymbols(asset, targetOS);
-  return symbols;
+  return await readSymbols(asset, targetOS);
 }
