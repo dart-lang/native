@@ -1,4 +1,11 @@
-## 19.1.0-wip
+## 20.0.0-wip
+
+- __Breaking change__: Refactor the Dart API a bit, to merge the `FfiGen` and
+  `Config` classes. Rename `FfiGen.run` to `.generate`, and make it an extension
+  method on the `Config` class. So `FfiGen().run(config)` becomes
+  `config.generate(logger)`.
+
+## 19.1.0
 
 - Bump minimum Dart version to 3.8.0.
 - Format using `dart format` so that the formatter uses the target package's
