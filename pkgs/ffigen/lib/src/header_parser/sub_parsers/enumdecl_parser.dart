@@ -7,17 +7,15 @@ import 'package:logging/logging.dart';
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'unnamed_enumdecl_parser.dart';
 
-final _logger = Logger('ffigen.header_parser.enumdecl_parser');
-
 /// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
 /// is null for anonymous enums.
 (EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
+  Context context,
   clang_types.CXCursor cursor,
 ) {
   EnumClass? enumClass;
@@ -42,19 +40,19 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
   final apiAvailability = ApiAvailability.fromCursor(cursor);
   if (apiAvailability.availability == Availability.none) {
-    _logger.info('Omitting deprecated enum $enumName');
+    logger.info('Omitting deprecated enum $enumName');
     return (null, nativeType);
   }
 
   final decl = Declaration(usr: enumUsr, originalName: enumName);
   if (enumName.isEmpty) {
-    _logger.fine('Saving anonymous enum.');
+    logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(cursor);
     hasNegativeEnumConstants = addedConstants
         .where((c) => c.rawValue.startsWith('-'))
         .isNotEmpty;
   } else {
-    _logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
+    logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: enumUsr,
       dartDoc: getCursorDocComment(
@@ -69,7 +67,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
     );
     cursor.visitChildren((clang_types.CXCursor child) {
       try {
-        _logger.finest('  enumCursorVisitor: ${child.completeStringRepr()}');
+        logger.finest('  enumCursorVisitor: ${child.completeStringRepr()}');
         switch (clang.clang_getCursorKind(child)) {
           case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
             final enumIntValue = clang.clang_getEnumConstantDeclValue(child);
@@ -92,11 +90,11 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
             // Ignore.
             break;
           default:
-            _logger.fine('invalid enum constant');
+            logger.fine('invalid enum constant');
         }
       } catch (e, s) {
-        _logger.severe(e);
-        _logger.severe(s);
+        logger.severe(e);
+        logger.severe(s);
         rethrow;
       }
     });
@@ -104,7 +102,7 @@ final _logger = Logger('ffigen.header_parser.enumdecl_parser');
 
   if (hasNegativeEnumConstants) {
     // Change enum native type to signed type.
-    _logger.fine(
+    logger.fine(
       'For enum $enumUsr - using signed type for $nativeType : '
       '${unsignedToSignedNativeIntType[nativeType]}',
     );

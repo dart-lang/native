@@ -10,8 +10,6 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
-final _logger = Logger('ffigen.config_provider.path_finder');
-
 /// This will return include path from either LLVM, XCode or CommandLineTools.
 List<String> getCStandardLibraryHeadersForMac() {
   final includePaths = <String>[];
@@ -20,7 +18,7 @@ List<String> getCStandardLibraryHeadersForMac() {
   const systemHeaders =
       '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include';
   if (Directory(systemHeaders).existsSync()) {
-    _logger.fine('Added $systemHeaders to compiler-opts.');
+    logger.fine('Added $systemHeaders to compiler-opts.');
     includePaths.add('-I$systemHeaders');
   }
 
@@ -36,7 +34,7 @@ List<String> getCStandardLibraryHeadersForMac() {
     for (final version in versions) {
       final path = p.join(version.path, 'include');
       if (Directory(path).existsSync()) {
-        _logger.fine('Added stdlib path: $path to compiler-opts.');
+        logger.fine('Added stdlib path: $path to compiler-opts.');
         includePaths.add('-I$path');
         return includePaths;
       }
@@ -47,14 +45,14 @@ List<String> getCStandardLibraryHeadersForMac() {
   const cmdLineToolHeaders =
       '/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Kernel.framework/Headers/';
   if (Directory(cmdLineToolHeaders).existsSync()) {
-    _logger.fine('Added stdlib path: $cmdLineToolHeaders to compiler-opts.');
+    logger.fine('Added stdlib path: $cmdLineToolHeaders to compiler-opts.');
     includePaths.add('-I$cmdLineToolHeaders');
     return includePaths;
   }
 
   // Warnings for missing headers are printed by libclang while parsing.
-  _logger.fine('Couldn\'t find stdlib headers in default locations.');
-  _logger.fine('Paths searched: ${[cmdLineToolHeaders, ...searchPaths]}');
+  logger.fine('Couldn\'t find stdlib headers in default locations.');
+  logger.fine('Paths searched: ${[cmdLineToolHeaders, ...searchPaths]}');
 
   return [];
 }

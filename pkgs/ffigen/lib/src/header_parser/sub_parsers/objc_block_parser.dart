@@ -3,11 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 
-ObjCBlock parseObjCBlock(clang_types.CXType cxtype) {
+ObjCBlock parseObjCBlock(Context context, clang_types.CXType cxtype) {
   // TODO(https://github.com/dart-lang/native/issues/1490): We need to figure
   // out a way of parsing ns_returns_retained and ns_consumed for blocks. Then
   // we can fill in the `objCConsumed` and `returnsRetained` fields below.

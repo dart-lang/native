@@ -11,7 +11,6 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../sub_parsers/compounddecl_parser.dart';
 import '../sub_parsers/enumdecl_parser.dart';
 import '../sub_parsers/function_type_param_parser.dart';
@@ -22,13 +21,13 @@ import '../sub_parsers/typedefdecl_parser.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
 
-final _logger = Logger('ffigen.header_parser.extractor');
 const _padding = '  ';
 
 const maxRecursionDepth = 5;
 
 /// Converts cxtype to a typestring code_generator can accept.
 Type getCodeGenType(
+  Context context,
   clang_types.CXType cxtype, {
 
   /// Passed on if a value was marked as a pointer before this one.
@@ -39,7 +38,7 @@ Type getCodeGenType(
   clang_types.CXCursor? originalCursor,
   bool supportNonInlineArray = false,
 }) {
-  _logger.fine('${_padding}getCodeGenType ${cxtype.completeStringRepr()}');
+  logger.fine('${_padding}getCodeGenType ${cxtype.completeStringRepr()}');
 
   // Special case: Elaborated types just refer to another type.
   if (cxtype.kind == clang_types.CXTypeKind.CXType_Elaborated) {
@@ -170,12 +169,12 @@ Type getCodeGenType(
         typeSpellKey = typeSpellKey.replaceFirst('const ', '');
       }
       if (config.nativeTypeMappings.containsKey(typeSpellKey)) {
-        _logger.fine('  Type $typeSpellKey mapped from type-map.');
+        logger.fine('  Type $typeSpellKey mapped from type-map.');
         return config.nativeTypeMappings[typeSpellKey]!;
       } else if (cxTypeKindToImportedTypes.containsKey(typeSpellKey)) {
         return cxTypeKindToImportedTypes[typeSpellKey]!;
       } else {
-        _logger.fine(
+        logger.fine(
           'typedeclarationCursorVisitor: getCodeGenType: Type Not '
           'Implemented, ${cxtype.completeStringRepr()}',
         );
@@ -214,24 +213,24 @@ _CreateTypeFromCursorResult _createTypeFromCursor(
       }
       final usr = cursor.usr();
       if (config.typedefTypeMappings.containsKey(spelling)) {
-        _logger.fine('  Type $spelling mapped from type-map');
+        logger.fine('  Type $spelling mapped from type-map');
         return _CreateTypeFromCursorResult(
           config.typedefTypeMappings[spelling]!,
         );
       }
       if (config.usrTypeMappings.containsKey(usr)) {
-        _logger.fine('  Type $spelling mapped from usr');
+        logger.fine('  Type $spelling mapped from usr');
         return _CreateTypeFromCursorResult(config.usrTypeMappings[usr]!);
       }
       // Get name from supported typedef name if config allows.
       if (config.useSupportedTypedefs) {
         if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
-          _logger.fine('  Type Mapped from supported typedef');
+          logger.fine('  Type Mapped from supported typedef');
           return _CreateTypeFromCursorResult(
             NativeType(suportedTypedefToSuportedNativeType[spelling]!),
           );
         } else if (supportedTypedefToImportedType.containsKey(spelling)) {
-          _logger.fine('  Type Mapped from supported typedef');
+          logger.fine('  Type Mapped from supported typedef');
           return _CreateTypeFromCursorResult(
             supportedTypedefToImportedType[spelling]!,
           );
@@ -299,7 +298,7 @@ Type? _extractfromRecord(
   clang_types.CXCursor cursor,
   bool pointerReference,
 ) {
-  _logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
+  logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
 
   final cursorKind = clang.clang_getCursorKind(cursor);
   if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl ||
@@ -326,10 +325,10 @@ Type? _extractfromRecord(
 
     // Also add a struct binding, if its unseen.
     if (compoundTypeMappings.containsKey(declSpelling)) {
-      _logger.fine('  Type Mapped from type-map');
+      logger.fine('  Type Mapped from type-map');
       return compoundTypeMappings[declSpelling]!;
     } else if (config.usrTypeMappings.containsKey(declUsr)) {
-      _logger.fine('  Type Mapped from usr');
+      logger.fine('  Type Mapped from usr');
       return config.usrTypeMappings[declUsr]!;
     } else {
       final struct = parseCompoundDeclaration(
@@ -340,7 +339,7 @@ Type? _extractfromRecord(
       return struct;
     }
   }
-  _logger.fine(
+  logger.fine(
     'typedeclarationCursorVisitor: _extractfromRecord: '
     'Not Implemented, ${cursor.completeStringRepr()}',
   );
@@ -387,7 +386,7 @@ void _parseAndMergeParamNames(
   }
   if (recursionDepth == 0) {
     final cursorRepr = cursor.completeStringRepr();
-    _logger.warning(
+    logger.warning(
       'Recursion depth exceeded when merging function parameters.'
       ' Last cursor encountered was $cursorRepr',
     );

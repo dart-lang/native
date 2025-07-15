@@ -7,11 +7,8 @@ import 'package:logging/logging.dart';
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../type_extractor/extractor.dart';
 import '../utils.dart';
-
-final _logger = Logger('ffigen.header_parser.typedefdecl_parser');
 
 /// Parses a typedef declaration.
 ///
@@ -33,6 +30,7 @@ final _logger = Logger('ffigen.header_parser.typedefdecl_parser');
 /// Returns `null` if the typedef could not be generated or has been excluded
 /// by the config.
 Typealias? parseTypedefDeclaration(
+  Context context,
   clang_types.CXCursor cursor, {
   bool pointerReference = false,
 }) {
@@ -49,7 +47,7 @@ Typealias? parseTypedefDeclaration(
   if (bindingsIndex.isSeenUnsupportedTypealias(typedefUsr)) {
     // Do not process unsupported typealiases again.
   } else if (s is UnimplementedType) {
-    _logger.fine(
+    logger.fine(
       "Skipped Typedef '$typedefName': "
       'Unimplemented type referred.',
     );
@@ -57,25 +55,25 @@ Typealias? parseTypedefDeclaration(
   } else if (s is Compound && s.originalName == typedefName) {
     // Ignore typedef if it refers to a compound with the same original name.
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-    _logger.fine(
+    logger.fine(
       "Skipped Typedef '$typedefName': "
       'Name matches with referred struct/union.',
     );
   } else if (s is EnumClass) {
     // Ignore typedefs to Enum.
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
-    _logger.fine("Skipped Typedef '$typedefName': typedef to enum.");
+    logger.fine("Skipped Typedef '$typedefName': typedef to enum.");
   } else if (s is HandleType) {
     // Ignore typedefs to Handle.
-    _logger.fine("Skipped Typedef '$typedefName': typedef to Dart Handle.");
+    logger.fine("Skipped Typedef '$typedefName': typedef to Dart Handle.");
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
   } else if (s is ConstantArray || s is IncompleteArray) {
     // Ignore typedefs to Constant Array.
-    _logger.fine("Skipped Typedef '$typedefName': typedef to array.");
+    logger.fine("Skipped Typedef '$typedefName': typedef to array.");
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
   } else if (s is BooleanType) {
     // Ignore typedefs to Boolean.
-    _logger.fine("Skipped Typedef '$typedefName': typedef to bool.");
+    logger.fine("Skipped Typedef '$typedefName': typedef to bool.");
     bindingsIndex.addUnsupportedTypealiasToSeen(typedefUsr);
   } else {
     // Create typealias.

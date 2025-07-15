@@ -7,14 +7,14 @@ import 'package:logging/logging.dart';
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
 
-final _logger = Logger('ffigen.header_parser.objcprotocoldecl_parser');
-
-ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
+ObjCProtocol? parseObjCProtocolDeclaration(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
   if (cursor.kind != clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl) {
     return null;
   }
@@ -47,7 +47,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
 
   final apiAvailability = ApiAvailability.fromCursor(cursor);
 
-  _logger.fine(
+  logger.fine(
     '++++ Adding ObjC protocol: '
     'Name: $name, ${cursor.completeStringRepr()}',
   );
@@ -74,7 +74,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(clang_types.CXCursor cursor) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
         final declCursor = clang.clang_getCursorDefinition(child);
-        _logger.fine(
+        logger.fine(
           '       > Super protocol: ${declCursor.completeStringRepr()}',
         );
         final superProtocol = parseObjCProtocolDeclaration(declCursor);

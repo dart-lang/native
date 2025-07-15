@@ -18,12 +18,10 @@ import 'config_spec.dart';
 import 'config_types.dart';
 import 'spec_utils.dart';
 
-final _logger = Logger('ffigen.config_provider.config');
-
 /// Provides configurations to other modules.
 ///
 /// Handles validation, extraction of configurations from a yaml file.
-class YamlConfig implements Config {
+class YamlConfig implements FfiGen {
   /// Input config filename, if any.
   @override
   final Uri? filename;
@@ -331,7 +329,7 @@ class YamlConfig implements Config {
       filename: filename == null ? null : Uri.file(filename),
       packageConfig: packageConfig,
     );
-    _logger.finest('Config Map: $map');
+    logger.finest('Config Map: $map');
 
     final ffigenConfigSpec = config._getRootConfigSpec();
     final result = ffigenConfigSpec.validate(map);
@@ -897,7 +895,7 @@ class YamlConfig implements Config {
           key: strings.name,
           valueConfigSpec: _dartClassNameStringConfigSpec(),
           defaultValue: (node) {
-            _logger.warning(
+            logger.warning(
               "Prefer adding Key '${node.pathString}' to your config.",
             );
             return 'NativeLibrary';
@@ -908,7 +906,7 @@ class YamlConfig implements Config {
           key: strings.description,
           valueConfigSpec: _nonEmptyStringConfigSpec(),
           defaultValue: (node) {
-            _logger.warning(
+            logger.warning(
               "Prefer adding Key '${node.pathString}' to your config.",
             );
             return null;
@@ -996,7 +994,7 @@ class YamlConfig implements Config {
     if (node.value is YamlMap) {
       return (node.value as YamlMap).keys.where((key) {
         if (strings.predefinedLibraryImports.containsKey(key)) {
-          _logger.severe(
+          logger.severe(
             '${node.pathString} -> $key should not collide with any '
             'predefined imports - ${strings.predefinedLibraryImports.keys}.',
           );

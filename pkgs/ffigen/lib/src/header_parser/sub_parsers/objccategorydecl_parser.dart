@@ -7,15 +7,15 @@ import 'package:logging/logging.dart';
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
 import 'objcprotocoldecl_parser.dart';
 
-final _logger = Logger('ffigen.header_parser.objccategorydecl_parser');
-
-ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
+ObjCCategory? parseObjCCategoryDeclaration(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
   final usr = cursor.usr();
   final name = cursor.spelling();
 
@@ -28,11 +28,11 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
 
   final apiAvailability = ApiAvailability.fromCursor(cursor);
   if (apiAvailability.availability == Availability.none) {
-    _logger.info('Omitting deprecated category $name');
+    logger.info('Omitting deprecated category $name');
     return null;
   }
 
-  _logger.fine(
+  logger.fine(
     '++++ Adding ObjC category: '
     'Name: $name, ${cursor.completeStringRepr()}',
   );
@@ -41,13 +41,13 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     clang_types.CXCursorKind.CXCursor_ObjCClassRef,
   );
   if (itfCursor == null) {
-    _logger.severe('Category $name has no interface.');
+    logger.severe('Category $name has no interface.');
     return null;
   }
 
   final parentInterface = itfCursor.type().toCodeGenType();
   if (parentInterface is! ObjCInterface) {
-    _logger.severe(
+    logger.severe(
       'Interface of category $name is $parentInterface, '
       'which is not a valid interface.',
     );
@@ -91,7 +91,7 @@ ObjCCategory? parseObjCCategoryDeclaration(clang_types.CXCursor cursor) {
     }
   });
 
-  _logger.fine(
+  logger.fine(
     '++++ Finished ObjC category: '
     'Name: $name, ${cursor.completeStringRepr()}',
   );

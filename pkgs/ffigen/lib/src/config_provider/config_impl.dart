@@ -8,7 +8,7 @@ import '../code_generator.dart';
 import 'config.dart';
 import 'config_types.dart';
 
-class ConfigImpl implements Config {
+class ConfigImpl implements FfiGen {
   @override
   final Uri? filename;
 

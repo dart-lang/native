@@ -107,6 +107,8 @@ functions:
     - clang_Cursor_getRawCommentText
     - clang_Cursor_getBriefCommentText
     - clang_getCursorLocation
+    - clang_getRangeStart
+    - clang_getRangeEnd
     - clang_getFileLocation
     - clang_getFileName
     - clang_getNumElements

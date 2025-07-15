@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../header_parser/data.dart' show bindingsIndex;
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -11,6 +10,7 @@ import 'unique_namer.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType {
+  final Context context;
   final ObjCBuiltInFunctions builtInFunctions;
   final Type returnType;
   final List<Parameter> params;
@@ -18,7 +18,8 @@ class ObjCBlock extends BindingType {
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
 
-  factory ObjCBlock({
+  factory ObjCBlock(
+    this.context, {
     required Type returnType,
     required List<Parameter> params,
     required bool returnsRetained,

@@ -166,7 +166,7 @@ void logToArray(List<String> logArr, Level level) {
   });
 }
 
-Config testConfig(String yamlBody, {String? filename}) {
+FfiGen testConfig(String yamlBody, {String? filename}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
     filename: filename,
@@ -181,7 +181,7 @@ Config testConfig(String yamlBody, {String? filename}) {
   );
 }
 
-Config testConfigFromPath(String path) {
+FfiGen testConfigFromPath(String path) {
   final file = File(path);
   final yamlBody = file.readAsStringSync();
   return testConfig(yamlBody, filename: path);

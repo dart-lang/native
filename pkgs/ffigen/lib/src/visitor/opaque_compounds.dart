@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config;
+import '../config_provider/config.dart' show FfiGen;
 import '../config_provider/config_types.dart' show CompoundDependencies;
 
 import 'ast.dart';
@@ -37,7 +37,7 @@ class FindByValueCompoundsVisitation extends Visitation {
 }
 
 class ClearOpaqueCompoundMembersVisitation extends Visitation {
-  final Config config;
+  final FfiGen config;
   final Set<Compound> byValueCompounds;
   final Set<Binding> included;
 

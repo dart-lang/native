@@ -9,12 +9,10 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
-import '../config_provider/config.dart' show Config;
+import '../config_provider/config.dart' show FfiGen;
 import '../config_provider/config_types.dart';
 
 import 'writer.dart';
-
-final _logger = Logger('ffigen.library');
 
 /// Container for all Bindings.
 class Library {
@@ -26,7 +24,7 @@ class Library {
   Library._(this.bindings, this.writer);
 
   static Library fromConfig({
-    required Config config,
+    required FfiGen config,
     required List<Binding> bindings,
   }) => Library(
     name: config.wrapperName,
@@ -102,7 +100,7 @@ class Library {
         file.absolute.path,
       ], workingDirectory: file.parent.absolute.path);
       if (result.exitCode != 0) {
-        _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
+        logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
       }
     }
   }

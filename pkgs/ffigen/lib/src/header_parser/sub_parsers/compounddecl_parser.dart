@@ -9,11 +9,8 @@ import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 import 'api_availability.dart';
-
-final _logger = Logger('ffigen.header_parser.compounddecl_parser');
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -61,7 +58,7 @@ class _ParsedCompound {
       if (strings.packingValuesMap.containsKey(alignment)) {
         return alignment;
       } else {
-        _logger.warning(
+        logger.warning(
           'Unsupported pack value "$alignment" for Struct '
           '"${compound.name}".',
         );
@@ -75,6 +72,7 @@ class _ParsedCompound {
 
 /// Parses a compound declaration.
 Compound? parseCompoundDeclaration(
+  Context context,
   clang_types.CXCursor cursor,
   CompoundType compoundType, {
 
@@ -112,7 +110,7 @@ Compound? parseCompoundDeclaration(
 
   final apiAvailability = ApiAvailability.fromCursor(cursor);
   if (apiAvailability.availability == Availability.none) {
-    _logger.info('Omitting deprecated $className $declName');
+    logger.info('Omitting deprecated $className $declName');
     return null;
   }
 
@@ -132,7 +130,7 @@ Compound? parseCompoundDeclaration(
     );
   } else {
     cursor = cursorIndex.getDefinition(cursor);
-    _logger.fine(
+    logger.fine(
       '++++ Adding $className: Name: $declName, '
       '${cursor.completeStringRepr()}',
     );
@@ -172,7 +170,7 @@ void fillCompoundMembersIfNeeded(
 
   cursor.visitChildren((cursor) => _compoundMembersVisitor(cursor, parsed));
 
-  _logger.finest(
+  logger.finest(
     'Opaque: ${parsed.isIncomplete}, HasAttr: ${parsed.hasAttr}, '
     'AlignValue: ${parsed.alignment}, '
     'MaxChildAlignValue: ${parsed.maxChildAlignment}, '
@@ -181,47 +179,47 @@ void fillCompoundMembersIfNeeded(
   compound.pack = parsed.packValue;
 
   if (parsed.unimplementedMemberType) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: member with '
       'unimplementedtype ${cursor.completeStringRepr()}',
     );
-    _logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), struct member has an unsupported type.',
     );
   } else if (parsed.flexibleArrayMember) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: incomplete array '
       'member ${cursor.completeStringRepr()}',
     );
-    _logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Flexible array members not supported.',
     );
   } else if (parsed.bitFieldMember) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: bitfield members '
       '${cursor.completeStringRepr()}',
     );
-    _logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Bit Field members not supported.',
     );
   } else if (parsed.dartHandleMember && config.useDartHandle) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: Dart_Handle member. '
       '${cursor.completeStringRepr()}',
     );
-    _logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Dart_Handle member not supported.',
     );
   } else if (parsed.incompleteCompoundMember) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: Incomplete Nested Struct '
       'member. ${cursor.completeStringRepr()}',
     );
-    _logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Incomplete Nested Struct member not '
       'supported.',
@@ -254,7 +252,7 @@ void _compoundMembersVisitor(
   try {
     switch (cursor.kind) {
       case clang_types.CXCursorKind.CXCursor_FieldDecl:
-        _logger.finer('===== member: ${cursor.completeStringRepr()}');
+        logger.finer('===== member: ${cursor.completeStringRepr()}');
 
         // Set maxChildAlignValue.
         final align = cursor.type().alignment();
@@ -331,8 +329,8 @@ void _compoundMembersVisitor(
         break;
     }
   } catch (e, s) {
-    _logger.severe(e);
-    _logger.severe(s);
+    logger.severe(e);
+    logger.severe(s);
     rethrow;
   }
 }
