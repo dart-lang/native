@@ -1,0 +1,30 @@
+name: 'Java Format Check'
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'The version of google-java-format to use. Use without the intial "v".'
+        required: false
+        default: '1.28.0'
+        type: string
+
+jobs:
+  check-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run google-java-format
+        run: |
+          if [[ "${{ runner.os }}" != "Linux" ]]; then
+            echo "❌ Error: This action is designed to run only on Linux (Ubuntu) runners."
+            exit 1
+          fi
+
+          GJF_VERSION="${{ inputs.version }}"
+
+          echo "Downloading google-java-format v${GJF_VERSION}..."
+          curl -L -o google-java-format.jar "https://github.com/google/google-java-format/releases/download/v${GJF_VERSION}/google-java-format-${GJF_VERSION}-all-deps.jar"
+          
+          echo "Finding all .java files and checking formatting..."
+          find . -type f -name "*.java" -not -path "./.git/*" | xargs java -jar google-java-format.jar --set-exit-if-changed
+        shell: bash
