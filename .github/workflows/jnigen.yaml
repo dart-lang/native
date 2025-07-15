@@ -46,10 +46,16 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: maven
       - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
         name: 'Check Java formatting with google-java-format'
         with:
           release-name: 'v1.27.0'
+          args: '--set-exit-if-changed'
           skip-commit: true
       - id: install
         name: Install dependencies
@@ -168,6 +174,7 @@ jobs:
         name: 'Check Java formatting with google-java-format'
         with:
           release-name: 'v1.27.0'
+          args: '--set-exit-if-changed'
           skip-commit: true
       - name: install clang tools & CMake
         run: |
