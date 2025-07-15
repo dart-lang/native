@@ -8,8 +8,8 @@ import 'package:logging/logging.dart';
 
 import 'code_generator.dart' show Constant, ObjCBuiltInFunctions;
 import 'config_provider.dart' show FfiGen;
-import 'clang_bindings/clang_bindings.dart' show Clang;
-import 'utils.dart';
+import 'header_parser/clang_bindings/clang_bindings.dart' show Clang;
+import 'header_parser/utils.dart';
 
 /// Wrapper around various ffigen-wide variables.
 class Context {
@@ -17,7 +17,7 @@ class Context {
 
   final FfiGen config;
 
-  final CursorIndex cursorIndex = CursorIndex();
+  final CursorIndex cursorIndex;
 
   final BindingsIndex bindingsIndex = BindingsIndex();
 
@@ -34,7 +34,8 @@ class Context {
   Set<((String, int), (String, int))> reportedCommentRanges = {};
 
   Context(this.logger, this.config)
-    : objCBuiltInFunctions = ObjCBuiltInFunctions(
+    : cursorIndex = CursorIndex(logger),
+      objCBuiltInFunctions = ObjCBuiltInFunctions(
         config.wrapperName,
         config.generateForPackageObjectiveC,
       ) {

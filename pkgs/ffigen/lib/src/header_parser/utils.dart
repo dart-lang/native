@@ -552,10 +552,10 @@ class BindingsIndex {
 }
 
 class CursorIndex {
-  final Context _context;
+  final Logger _logger;
   final _usrCursorDefinition = <String, clang_types.CXCursor>{};
 
-  CursorIndex(this._context);
+  CursorIndex(this._logger);
 
   /// Returns the Cursor definition (if found) or itself.
   clang_types.CXCursor getDefinition(clang_types.CXCursor cursor) {
@@ -567,7 +567,7 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        _context.logger.warning(
+        _logger.warning(
           'No definition found for declaration -'
           '${cursor.completeStringRepr()}',
         );
@@ -588,7 +588,7 @@ class CursorIndex {
           if (clang.clang_Cursor_isNull(cursorDefinition) == 0) {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
-            _context.logger.finest(
+            _logger.finest(
               'Missing cursor definition in current translation unit: '
               '${cursor.completeStringRepr()}',
             );

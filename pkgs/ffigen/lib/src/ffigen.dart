@@ -15,8 +15,10 @@ final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 extension FfiGenGenerator on FfiGen {
   /// Runs the entire generation pipeline for the given config.
   void generate(Logger logger) {
+    final context = Context(logger, this);
+
     // Parse the bindings according to config object provided.
-    final library = parse(this);
+    final library = parse(context);
 
     // Generate files for the parsed bindings.
     final gen = File(output.toFilePath());
