@@ -8,8 +8,6 @@ import '../code_generator.dart';
 
 import 'ast.dart';
 
-final _logger = Logger('ffigen.visitor');
-
 /// Wrapper around [Visitation] to be used by callers.
 final class Visitor {
   Visitor(this._visitation, {bool debug = false}) : _debug = debug {
@@ -24,7 +22,7 @@ final class Visitor {
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) _logger.info('${'  ' * _indentLevel++}$node');
+    if (_debug) logger.info('${'  ' * _indentLevel++}$node');
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);

@@ -5,8 +5,6 @@
 import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
 
-final _logger = Logger('ffigen.config_provider.config');
-
 /// Base class for all ConfigSpecs to extend.
 ///
 /// [TE] - type input for [transform], [RE] - type input for [result].
@@ -153,7 +151,7 @@ class ConfigValue<TE> {
   bool checkType<T>({bool log = true}) {
     if (value is! T) {
       if (log) {
-        _logger.severe(
+        logger.severe(
           "Expected value of key '$pathString' to be of type"
           " '$T' (Got ${value.runtimeType}).",
         );
@@ -233,7 +231,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
     for (final requiredKey in requiredKeys) {
       if (!inputMap.containsKey(requiredKey)) {
         if (log) {
-          _logger.severe(
+          logger.severe(
             "Key '${[...o.path, requiredKey].join(' -> ')}' is required.",
           );
         }
@@ -260,7 +258,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
       for (final key in inputMap.keys) {
         if (!allKeys.contains(key)) {
           if (log) {
-            _logger.severe("Unknown key - '${[...o.path, key].join(' -> ')}'.");
+            logger.severe("Unknown key - '${[...o.path, key].join(' -> ')}'.");
           }
           if (additionalProperties == AdditionalProperties.error) {
             result = false;
@@ -458,14 +456,14 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
         result = false;
         // No configSpec matched, running again to print logs this time.
         if (log) {
-          _logger.severe(
+          logger.severe(
             "'${configSpecNode.pathString}' must match atleast one of the "
             'allowed key regex and configSpec.',
           );
           for (final (keyRegexp: keyRegexp, valueConfigSpec: valueConfigSpec)
               in keyValueConfigSpecs) {
             if (!RegExp(keyRegexp, dotAll: true).hasMatch(key.toString())) {
-              _logger.severe(
+              logger.severe(
                 "'${configSpecNode.pathString}' does not match regex - "
                 "'$keyRegexp' (Input - $key)",
               );
@@ -633,7 +631,7 @@ class StringConfigSpec<RE extends Object?> extends ConfigSpec<String, RE> {
     }
     if (!(_regexp?.hasMatch(o.value as String) ?? true)) {
       if (log) {
-        _logger.severe(
+        logger.severe(
           "Expected value of key '${o.pathString}' to match pattern "
           '$pattern (Input - ${o.value}).',
         );
@@ -728,7 +726,7 @@ class EnumConfigSpec<CE extends Object?, RE extends Object?>
   bool _validateNode(ConfigValue<Object?> o, {bool log = true}) {
     if (!allowedValues.contains(o.value)) {
       if (log) {
-        _logger.severe(
+        logger.severe(
           "'${o.pathString}' must be one of the following - $allowedValues "
           '(Got ${o.value})',
         );
@@ -834,7 +832,7 @@ class OneOfConfigSpec<TE extends Object?, RE extends Object?>
     }
     // No configSpec matched, running again to print logs this time.
     if (log) {
-      _logger.severe(
+      logger.severe(
         "'${o.pathString}' must match atleast one of the allowed "
         'configSpec -',
       );

@@ -14,6 +14,7 @@ import '../code_generator.dart';
 import '../code_generator/unique_namer.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
+import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
@@ -24,35 +25,24 @@ import '../visitor/fix_overridden_methods.dart';
 import '../visitor/list_bindings.dart';
 import '../visitor/opaque_compounds.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'data.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'translation_unit_parser.dart';
 import 'utils.dart';
 
 /// Main entrypoint for header_parser.
-Library parse(FfiGen config) {
-  initParser(config);
-
-  return Library.fromConfig(
-    config: config,
-    bindings: transformBindings(config, parseToBindings(config)),
-  );
-}
+Library parse(Context context) => Library.fromConfig(
+  context: context,
+  bindings: transformBindings(context, parseToBindings(context)),
+);
 
 // =============================================================================
 //           BELOW FUNCTIONS ARE MEANT FOR INTERNAL USE AND TESTING
 // =============================================================================
 
-final _logger = Logger('ffigen.header_parser.parser');
-
-/// Initializes parser, clears any previous values.
-void initParser(FfiGen c) {
-  // Initialize global variables.
-  initializeGlobals(config: c);
-}
-
 /// Parses source files and returns the bindings.
-List<Binding> parseToBindings(FfiGen c) {
+List<Binding> parseToBindings(Context context) {
+  final clang = context.clang;
+  final config = context.config;
   final index = clang.clang_createIndex(0, 0);
 
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
@@ -72,7 +62,7 @@ List<Binding> parseToBindings(FfiGen c) {
     ...config.compilerOpts,
   ];
 
-  _logger.fine('CompilerOpts used: $compilerOpts');
+  logger.fine('CompilerOpts used: $compilerOpts');
   clangCmdArgs = createDynamicStringArray(compilerOpts);
   final cmdLen = compilerOpts.length;
 
@@ -80,14 +70,14 @@ List<Binding> parseToBindings(FfiGen c) {
   final bindings = <Binding>{};
 
   // Log all headers for user.
-  _logger.info('Input Headers: ${config.entryPoints}');
+  logger.info('Input Headers: ${config.entryPoints}');
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
   for (final headerLocationUri in config.entryPoints) {
     final headerLocation = headerLocationUri.toFilePath();
-    _logger.fine('Creating TranslationUnit for header: $headerLocation');
+    logger.fine('Creating TranslationUnit for header: $headerLocation');
 
     final tu = clang.clang_parseTranslationUnit(
       index,
@@ -106,28 +96,28 @@ List<Binding> parseToBindings(FfiGen c) {
     );
 
     if (tu == nullptr) {
-      _logger.severe(
+      logger.severe(
         "Skipped header/file: $headerLocation, couldn't parse source.",
       );
       // Skip parsing this header.
       continue;
     }
 
-    logTuDiagnostics(tu, _logger, headerLocation);
+    logTuDiagnostics(tu, logger, headerLocation);
     tuList.add(tu);
   }
 
   if (hasSourceErrors) {
-    _logger.warning('The compiler found warnings/errors in source files.');
-    _logger.warning('This will likely generate invalid bindings.');
+    logger.warning('The compiler found warnings/errors in source files.');
+    logger.warning('This will likely generate invalid bindings.');
     if (config.ignoreSourceErrors) {
-      _logger.warning(
+      logger.warning(
         'Ignored source errors. (User supplied --ignore-source-errors)',
       );
     } else if (config.language == Language.objc) {
-      _logger.warning('Ignored source errors. (ObjC)');
+      logger.warning('Ignored source errors. (ObjC)');
     } else {
-      _logger.severe(
+      logger.severe(
         'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.',
       );
       exit(1);
@@ -170,7 +160,8 @@ List<String> _findObjectiveCSysroot() => [
 ];
 
 @visibleForTesting
-List<Binding> transformBindings(FfiGen config, List<Binding> bindings) {
+List<Binding> transformBindings(Context context, List<Binding> bindings) {
+  final config = context.config;
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
   visit(FillMethodDependenciesVisitation(), bindings);
@@ -237,7 +228,7 @@ List<Binding> transformBindings(FfiGen config, List<Binding> bindings) {
 /// Logs a warning if generated declaration will be private.
 void _warnIfPrivateDeclaration(Binding b) {
   if (b.name.startsWith('_') && !b.isInternal) {
-    _logger.warning(
+    logger.warning(
       "Generated declaration '${b.name}' starts with '_' "
       'and therefore will be private.',
     );
@@ -250,7 +241,7 @@ void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
   final oldName = b.name;
   b.name = namer.makeUnique(b.name);
   if (oldName != b.name) {
-    _logger.warning(
+    logger.warning(
       "Resolved name conflict: Declaration '$oldName' "
       "and has been renamed to '${b.name}'.",
     );

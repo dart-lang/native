@@ -8,8 +8,6 @@ import '../code_generator.dart';
 
 import 'ast.dart';
 
-final _logger = Logger('ffigen.visitor.FixOverriddenMethodsVisitation');
-
 class FixOverriddenMethodsVisitation extends Visitation {
   @override
   void visitObjCInterface(ObjCInterface node) {
@@ -55,7 +53,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
     if (!superMethod.returnType.isSubtypeOf(method.returnType)) {
       // Types are unrelated, so this can't be sensibly fixed.
-      _logger.severe(
+      logger.severe(
         '${node.originalName} is a subtype of ${superType.originalName} but '
         'the return types of their ${method.originalName} methods are '
         'unrelated',
@@ -64,7 +62,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     }
 
     superMethod.returnType = method.returnType;
-    _logger.info(
+    logger.info(
       'Changed the return type of '
       '${superType.originalName}.${superMethod.originalName} to '
       '${method.returnType} to match ${node.originalName}',
@@ -90,7 +88,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     // parameter.
     final n = method.params.length;
     if (n != superMethod.params.length) {
-      _logger.severe(
+      logger.severe(
         '${node.originalName} is a subtype of ${superType.originalName} but '
         'their ${method.originalName} methods have a different number of '
         'parameters',
@@ -109,7 +107,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
       if (!pt.isSubtypeOf(st)) {
         // Types are unrelated, so this can't be sensibly fixed.
-        _logger.severe(
+        logger.severe(
           '${node.originalName} is a subtype of ${superType.originalName} '
           'but their ${method.originalName} methods have a parameter at '
           'position ${i + 1} with an unrelated type',
@@ -117,7 +115,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
         return;
       }
 
-      _logger.info(
+      logger.info(
         'Set the parameter of '
         '${node.originalName}.${method.originalName} at position ${i + 1} to '
         'be covariant',
@@ -179,7 +177,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     final method = node.getSimilarMethod(rootMethod);
     if (method != null && method.kind == ObjCMethodKind.method) {
       method.kind = ObjCMethodKind.propertyGetter;
-      _logger.info(
+      logger.info(
         'Converted ${node.originalName}.${method.originalName} to a getter',
       );
     }

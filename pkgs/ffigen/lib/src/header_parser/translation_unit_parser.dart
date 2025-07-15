@@ -6,7 +6,6 @@ import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'data.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objccategorydecl_parser.dart';
@@ -15,16 +14,17 @@ import 'sub_parsers/var_parser.dart';
 import 'type_extractor/extractor.dart';
 import 'utils.dart';
 
-final _logger = Logger('ffigen.header_parser.translation_unit_parser');
-
 /// Parses the translation unit and returns the generated bindings.
-Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
+Set<Binding> parseTranslationUnit(
+  Context context,
+  clang_types.CXCursor translationUnitCursor,
+) {
   final bindings = <Binding>{};
 
   translationUnitCursor.visitChildren((cursor) {
     try {
       if (shouldIncludeRootCursor(cursor.sourceFileName())) {
-        _logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
+        logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
         switch (clang.clang_getCursorKind(cursor)) {
           case clang_types.CXCursorKind.CXCursor_FunctionDecl:
             bindings.addAll(parseFunctionDeclaration(cursor));
@@ -49,16 +49,16 @@ Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
             addToBindings(bindings, parseVarDeclaration(cursor));
             break;
           default:
-            _logger.finer('rootCursorVisitor: CursorKind not implemented');
+            logger.finer('rootCursorVisitor: CursorKind not implemented');
         }
       } else {
-        _logger.finest(
+        logger.finest(
           'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
         );
       }
     } catch (e, s) {
-      _logger.severe(e);
-      _logger.severe(s);
+      logger.severe(e);
+      logger.severe(s);
       rethrow;
     }
   });
@@ -85,8 +85,8 @@ void buildUsrCursorDefinitionMap(clang_types.CXCursor translationUnitCursor) {
     try {
       cursorIndex.saveDefinition(cursor);
     } catch (e, s) {
-      _logger.severe(e);
-      _logger.severe(s);
+      logger.severe(e);
+      logger.severe(s);
       rethrow;
     }
   });

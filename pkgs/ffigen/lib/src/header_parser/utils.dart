@@ -9,12 +9,10 @@ import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../config_provider/config_types.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'data.dart';
 import 'type_extractor/extractor.dart';
-
-final _logger = Logger('ffigen.header_parser.utils');
 
 const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
@@ -25,7 +23,7 @@ typedef _CursorVisitorCallback =
 /// Logs the warnings/errors returned by clang for a translation unit.
 void logTuDiagnostics(
   Pointer<clang_types.CXTranslationUnitImpl> tu,
-  Logger logger,
+  Context context,
   String header, {
   Level logLevel = Level.SEVERE,
 }) {
@@ -33,7 +31,10 @@ void logTuDiagnostics(
   if (total == 0) {
     return;
   }
-  logger.log(logLevel, 'Header $header: Total errors/warnings: $total.');
+  context.logger.log(
+    logLevel,
+    'Header $header: Total errors/warnings: $total.',
+  );
   for (var i = 0; i < total; i++) {
     final diag = clang.clang_getDiagnostic(tu, i);
     if (clang.clang_getDiagnosticSeverity(diag) >=
@@ -50,7 +51,7 @@ void logTuDiagnostics(
               .CXDiagnosticDisplayOptions
               .CXDiagnostic_DisplayCategoryName,
     );
-    logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
+    context.logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
     clang.clang_disposeDiagnostic(diag);
   }
 }
@@ -273,14 +274,13 @@ extension CXCursorExt on clang_types.CXCursor {
 const commentPrefix = '/// ';
 const nesting = '  ';
 
-Set<((String, int), (String, int))> reportedCommentRanges = {};
-
 /// Returns a cursor's associated comment.
 ///
 /// The given string is wrapped at line width = 80 - [indent]. The [indent] is
 /// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
 String? getCursorDocComment(
+  Context context,
   clang_types.CXCursor cursor, {
   int indent = commentPrefix.length,
   String? fallbackComment,
@@ -290,7 +290,7 @@ String? getCursorDocComment(
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
   // Only report the comment if we haven't reported this comment before.
-  if (!reportedCommentRanges.add(currentCommentRange.toTuple())) {
+  if (!context.reportedCommentRanges.add(currentCommentRange.toTuple())) {
     formattedDocComment = null;
   } else {
     switch (config.commentType.length) {
@@ -552,7 +552,10 @@ class BindingsIndex {
 }
 
 class CursorIndex {
+  final Context _context;
   final _usrCursorDefinition = <String, clang_types.CXCursor>{};
+
+  CursorIndex(this._context);
 
   /// Returns the Cursor definition (if found) or itself.
   clang_types.CXCursor getDefinition(clang_types.CXCursor cursor) {
@@ -564,7 +567,7 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        _logger.warning(
+        _context.logger.warning(
           'No definition found for declaration -'
           '${cursor.completeStringRepr()}',
         );
@@ -585,7 +588,7 @@ class CursorIndex {
           if (clang.clang_Cursor_isNull(cursorDefinition) == 0) {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
-            _logger.finest(
+            _context.logger.finest(
               'Missing cursor definition in current translation unit: '
               '${cursor.completeStringRepr()}',
             );

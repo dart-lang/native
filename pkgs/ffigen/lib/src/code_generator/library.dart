@@ -14,8 +14,6 @@ import '../config_provider/config_types.dart';
 
 import 'writer.dart';
 
-final _logger = Logger('ffigen.library');
-
 /// Container for all Bindings.
 class Library {
   /// List of bindings in this library.
@@ -102,7 +100,7 @@ class Library {
         file.absolute.path,
       ], workingDirectory: file.parent.absolute.path);
       if (result.exitCode != 0) {
-        _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
+        logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
       }
     }
   }

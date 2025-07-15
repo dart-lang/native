@@ -14,10 +14,7 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
-
-final _logger = Logger('ffigen.header_parser.macro_parser');
 
 /// Adds a macro definition to be parsed later.
 void saveMacroDefinition(clang_types.CXCursor cursor) {
@@ -27,7 +24,7 @@ void saveMacroDefinition(clang_types.CXCursor cursor) {
   if (clang.clang_Cursor_isMacroBuiltin(cursor) == 0 &&
       clang.clang_Cursor_isMacroFunctionLike(cursor) == 0) {
     // Parse macro only if it's not builtin or function-like.
-    _logger.fine(
+    logger.fine(
       "++++ Saved Macro '$originalMacroName' for later : "
       '${cursor.completeStringRepr()}',
     );
@@ -76,9 +73,9 @@ List<MacroConstant> parseSavedMacros() {
   );
 
   if (tu == nullptr) {
-    _logger.severe('Unable to parse Macros.');
+    logger.severe('Unable to parse Macros.');
   } else {
-    logTuDiagnostics(tu, _logger, file.path, logLevel: Level.FINEST);
+    logTuDiagnostics(tu, logger, file.path, logLevel: Level.FINEST);
     final rootCursor = clang.clang_getTranslationUnitCursor(tu);
     rootCursor.visitChildren((child) => _macroVariablevisitor(child, bindings));
   }
@@ -103,7 +100,7 @@ void _macroVariablevisitor(
         cursor.kind == clang_types.CXCursorKind.CXCursor_VarDecl) {
       final e = clang.clang_Cursor_Evaluate(cursor);
       final k = clang.clang_EvalResult_getKind(e);
-      _logger.fine('macroVariablevisitor: ${cursor.completeStringRepr()}');
+      logger.fine('macroVariablevisitor: ${cursor.completeStringRepr()}');
 
       /// Get macro name, the variable name starts with '<macro-name>_'.
       final macroName = MacroVariableString.decode(cursor.spelling());
@@ -149,8 +146,8 @@ void _macroVariablevisitor(
       }
     }
   } catch (e, s) {
-    _logger.severe(e);
-    _logger.severe(s);
+    logger.severe(e);
+    logger.severe(s);
     rethrow;
   }
 }
@@ -209,9 +206,9 @@ File createFileForMacros() {
   final macroFileContent = sb.toString();
   // Log this generated file for debugging purpose.
   // We use the finest log because this file may be very big.
-  _logger.finest('=====FILE FOR MACROS====');
-  _logger.finest(macroFileContent);
-  _logger.finest('========================');
+  logger.finest('=====FILE FOR MACROS====');
+  logger.finest(macroFileContent);
+  logger.finest('========================');
 
   file.writeAsStringSync(macroFileContent);
   return file;
@@ -255,7 +252,7 @@ String _getWrittenRepresentation(String macroName, Pointer<Char> strPtr) {
   } catch (e) {
     // Handle string if it isn't Utf8. String is considered to be
     // Extended ASCII in this case.
-    _logger.warning(
+    logger.warning(
       "Couldn't decode Macro string '$macroName' as Utf8, using "
       'ASCII instead.',
     );

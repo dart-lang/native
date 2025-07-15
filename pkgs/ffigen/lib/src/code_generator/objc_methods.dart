@@ -14,8 +14,6 @@ import 'unique_namer.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-final _logger = Logger('ffigen.code_generator.objc_methods');
-
 mixin ObjCMethods {
   Map<String, ObjCMethod> _methods = <String, ObjCMethod>{};
   List<String> _order = <String>[];
@@ -67,7 +65,7 @@ mixin ObjCMethods {
 
     // Check the duplicate is the same method.
     if (!newMethod.sameAs(oldMethod)) {
-      _logger.severe(
+      logger.severe(
         'Duplicate methods with different signatures: '
         '$originalName.${newMethod.originalName}',
       );

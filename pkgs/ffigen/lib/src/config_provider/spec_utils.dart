@@ -20,8 +20,6 @@ import '../strings.dart' as strings;
 import 'config_types.dart';
 import 'utils.dart';
 
-final _logger = Logger('ffigen.config_provider.spec_utils');
-
 Map<String, LibraryImport> libraryImportsExtractor(
   Map<String, String>? typeMap,
 ) {
@@ -85,7 +83,7 @@ Map<String, ImportedType> symbolFileImportExtractor(
     final formatVersion = symbolFile[strings.formatVersion] as String;
     if (formatVersion.split('.')[0] !=
         strings.symbolFileFormatVersion.split('.')[0]) {
-      _logger.severe(
+      logger.severe(
         'Incompatible format versions for file $symbolFilePath: '
         '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).',
       );
@@ -301,7 +299,7 @@ YamlHeaders headersExtractor(
         if (File(headerGlob).existsSync()) {
           final osSpecificPath = headerGlob;
           entryPoints.add(osSpecificPath);
-          _logger.fine('Adding header/file: $headerGlob');
+          logger.fine('Adding header/file: $headerGlob');
         } else {
           final glob = Glob(headerGlob);
           for (final file in glob.listFileSystemSync(
@@ -310,7 +308,7 @@ YamlHeaders headersExtractor(
           )) {
             final fixedPath = file.path;
             entryPoints.add(fixedPath);
-            _logger.fine('Adding header/file: $fixedPath');
+            logger.fine('Adding header/file: $fixedPath');
           }
         }
       }
@@ -417,8 +415,8 @@ String findDylibAtDefaultLocations() {
     throw Exception('Unsupported Platform.');
   }
 
-  _logger.severe("Couldn't find dynamic library in default locations.");
-  _logger.severe(
+  logger.severe("Couldn't find dynamic library in default locations.");
+  logger.severe(
     "Please supply one or more path/to/llvm in ffigen's config under the key '${strings.llvmPath}'.",
   );
   throw Exception("Couldn't find dynamic library in default locations.");
@@ -440,20 +438,20 @@ String llvmPathExtractor(List<String> value) {
       p.join(path, strings.dynamicLibParentName),
     );
     if (dylibPath != null) {
-      _logger.fine('Found dynamic library at: $dylibPath');
+      logger.fine('Found dynamic library at: $dylibPath');
       return dylibPath;
     }
     // Check if user has specified complete path to dylib.
     final completeDylibPath = path;
     if (p.extension(completeDylibPath).isNotEmpty &&
         File(completeDylibPath).existsSync()) {
-      _logger.info(
+      logger.info(
         'Using complete dylib path: $completeDylibPath from llvm-path.',
       );
       return completeDylibPath;
     }
   }
-  _logger.fine(
+  logger.fine(
     "Couldn't find dynamic library under paths specified by "
     '${strings.llvmPath}.',
   );
@@ -463,7 +461,7 @@ String llvmPathExtractor(List<String> value) {
     return res;
   } catch (e) {
     final path = p.join(strings.dynamicLibParentName, strings.dylibFileName);
-    _logger.severe("Couldn't find $path in specified locations.");
+    logger.severe("Couldn't find $path in specified locations.");
     exit(1);
   }
 }
@@ -500,7 +498,7 @@ SymbolFile symbolFileOutputExtractor(
   value = value as Map;
   var output = Uri.parse(value[strings.output] as String);
   if (output.scheme != 'package') {
-    _logger.warning(
+    logger.warning(
       'Consider using a Package Uri for ${strings.symbolFile} -> '
       '${strings.output}: $output so that external packages can use it.',
     );
@@ -510,7 +508,7 @@ SymbolFile symbolFileOutputExtractor(
   }
   final importPath = Uri.parse(value[strings.importPath] as String);
   if (importPath.scheme != 'package') {
-    _logger.warning(
+    logger.warning(
       'Consider using a Package Uri for ${strings.symbolFile} -> '
       '${strings.importPath}: $importPath so that external packages '
       'can use it.',
@@ -711,7 +709,7 @@ FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {
   if (yamlMap != null &&
       !yamlMap.containsKey(strings.ffiNativeAsset) &&
       yamlMap.containsKey('assetId')) {
-    _logger.warning("DEPRECATION WARNING: use 'asset-id' instead of 'assetId'");
+    logger.warning("DEPRECATION WARNING: use 'asset-id' instead of 'assetId'");
     return FfiNativeConfig(
       enabled: true,
       assetId: yamlMap['assetId'] as String?,

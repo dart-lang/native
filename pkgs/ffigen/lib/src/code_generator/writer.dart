@@ -10,8 +10,6 @@ import '../strings.dart' as strings;
 import 'unique_namer.dart';
 import 'utils.dart';
 
-final _logger = Logger('ffigen.code_generator.writer');
-
 /// To store generated String bindings.
 class Writer {
   final String? header;
@@ -327,7 +325,7 @@ class Writer {
     // Warn about Enum usage in API surface.
     if (!silenceEnumWarning && usedEnumCTypes.isNotEmpty) {
       final names = usedEnumCTypes.map((e) => e.originalName).toList()..sort();
-      _logger.severe(
+      logger.severe(
         'The integer type used for enums is '
         'implementation-defined. FFIgen tries to mimic the integer sizes '
         'chosen by the most common compilers for the various OS and '
@@ -362,7 +360,7 @@ class Writer {
       (element) => element is Constant && element.usr.contains('@macro@'),
     );
     if (hasMacroBindings) {
-      _logger.info(
+      logger.info(
         'Removing all Macros from symbol file since they cannot '
         'be cross referenced reliably.',
       );

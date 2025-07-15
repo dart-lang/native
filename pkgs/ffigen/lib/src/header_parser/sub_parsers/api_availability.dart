@@ -10,7 +10,6 @@ import 'package:pub_semver/pub_semver.dart';
 
 import '../../config_provider/config_types.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 
 enum Availability { none, some, all }

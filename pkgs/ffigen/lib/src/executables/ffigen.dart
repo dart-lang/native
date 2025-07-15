@@ -14,7 +14,7 @@ import 'package:yaml/yaml.dart' as yaml;
 import '../../ffigen.dart';
 
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
-final _logger = () {
+final logger = () {
   final logger = Logger('ffigen.ffigen');
   logger.onRecord.listen((record) {
     final levelStr = '[${record.level.name}]'.padRight(9);
@@ -53,15 +53,15 @@ Future<void> main(List<String> args) async {
   try {
     config = getConfig(argResult, await findPackageConfig(Directory.current));
   } on FormatException {
-    _logger.severe('Please fix configuration errors and re-run the tool.');
+    logger.severe('Please fix configuration errors and re-run the tool.');
     exit(1);
   }
 
-  config.generate(_logger);
+  config.generate(logger);
 }
 
 FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
-  _logger.info('Running in ${Directory.current}');
+  logger.info('Running in ${Directory.current}');
   YamlConfig config;
 
   // Parse config from yaml.
@@ -74,7 +74,7 @@ FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
 
   // Add compiler options from command line.
   if (result.wasParsed(compilerOpts)) {
-    _logger.fine('Passed compiler opts - "${result[compilerOpts]}"');
+    logger.fine('Passed compiler opts - "${result[compilerOpts]}"');
     config.addCompilerOpts(result[compilerOpts] as String, highPriority: true);
   }
 
@@ -92,7 +92,7 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
   final pubspecFile = File(pubspecName);
 
   if (!pubspecFile.existsSync()) {
-    _logger.severe(
+    logger.severe(
       'Error: $pubspecName not found, please run this tool from '
       'the root of your package.',
     );
@@ -107,7 +107,7 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
   final bindingsConfigMap = pubspecYaml[configKey] as yaml.YamlMap?;
 
   if (bindingsConfigMap == null) {
-    _logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");
+    logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");
     exit(1);
   }
   return YamlConfig.fromYaml(
@@ -125,7 +125,7 @@ YamlConfig getConfigFromCustomYaml(
   final yamlFile = File(yamlPath);
 
   if (!yamlFile.existsSync()) {
-    _logger.severe('Error: $yamlPath not found.');
+    logger.severe('Error: $yamlPath not found.');
     exit(1);
   }
 
