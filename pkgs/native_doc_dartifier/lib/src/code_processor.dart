@@ -25,7 +25,6 @@ class CodeProcessor {
 
     var errorMessage = '';
     if (analysisResult.exitCode != 0) {
-      print('Dart analysis found issues:');
       final allLines = analysisResult.stdout.toString().trim().split('\n');
       final errorLines =
           allLines.where((line) => line.trim().startsWith('error -')).toList();
@@ -60,6 +59,12 @@ class CodeProcessor {
     buffer.writeln();
     buffer.write(code);
     return buffer.toString();
+  }
+
+  String removeImports(String code) {
+    final lines = code.split('\n');
+    final filteredLines = lines.where((line) => !line.startsWith('import'));
+    return filteredLines.join('\n');
   }
 
   Future<void> _cleanUp() async {

@@ -71,6 +71,6 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
     mainCode = fixedCode.mainCode;
     helperCode = fixedCode.helperCode;
   }
-
+  mainCode = codeProcessor.removeImports(mainCode);
   return mainCode;
 }
