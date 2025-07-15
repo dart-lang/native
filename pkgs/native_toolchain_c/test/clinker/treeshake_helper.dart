@@ -53,13 +53,13 @@ void runTreeshakeTests(
     name: 'mylibname',
     assetName: '',
     sources: sources,
-    linkerOptions: LinkerOptions.treeshake(symbols: ['my_other_func']),
+    linkerOptions: LinkerOptions.treeshake(symbolsToKeep: ['my_other_func']),
   );
   CLinker linkerAutoKeepAll(List<String> sources) => CLinker.library(
     name: 'mylibname',
     assetName: '',
     sources: sources,
-    linkerOptions: LinkerOptions.treeshake(symbols: null),
+    linkerOptions: LinkerOptions.treeshake(symbolsToKeep: null),
   );
 
   late Map<String, int> sizes;

@@ -54,17 +54,19 @@ class LinkerOptions {
 
   /// Create linking options to tree-shake symbols from the input files.
   ///
-  /// The [symbols] specify the symbols which should be kept. Passing `null`
-  /// implies that all symbols should be kept.
+  /// The [symbolsToKeep] specify the symbols which should be kept. Passing
+  /// `null` implies that all symbols should be kept.
   LinkerOptions.treeshake({
     Iterable<String>? flags,
-    required Iterable<String>? symbols,
+    required Iterable<String>? symbolsToKeep,
     this.stripDebug = true,
   }) : _linkerFlags = flags?.toList(growable: false) ?? [],
-       _symbols = symbols?.toList(growable: false) ?? const [],
-       _keepAllSymbols = symbols == null,
+       _symbols = symbolsToKeep?.toList(growable: false) ?? const [],
+       _keepAllSymbols = symbolsToKeep == null,
        gcSections = true,
-       _linkerScriptMode = symbols != null ? GenerateLinkerScript() : null;
+       _linkerScriptMode = symbolsToKeep != null
+           ? GenerateLinkerScript()
+           : null;
 
   Iterable<String> _toLinkerSyntax(Tool linker, Iterable<String> flagList) {
     if (linker.isClangLike) {
