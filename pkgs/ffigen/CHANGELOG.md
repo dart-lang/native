@@ -1,4 +1,4 @@
-## 19.1.0-wip
+## 19.1.0
 
 - Bump minimum Dart version to 3.8.0.
 - Format using `dart format` so that the formatter uses the target package's
