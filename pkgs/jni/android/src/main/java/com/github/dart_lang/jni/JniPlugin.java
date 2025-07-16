@@ -27,7 +27,7 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
 
   // Activity handling methods
   @Override
-  public void onAttachedToActivity(@NonNull ActivityPluginBinding binding         ) {
+  public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
     Activity activity = binding.getActivity();
     setJniActivity(activity, activity.getApplicationContext());
   }
