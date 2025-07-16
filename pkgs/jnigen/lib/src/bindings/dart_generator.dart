@@ -1386,6 +1386,16 @@ ${modifier}final _$name = $_protectedExtension
         s.write('operator ');
       }
       s.write('fun ');
+      if (kotlinFunction.typeParameters.isNotEmpty) {
+        s.write('<');
+        s.writeAll(
+            // TODO: length > 1
+            kotlinFunction.typeParameters.map((t) => t.upperBounds.length == 1
+                ? '${t.name} : ${t.upperBounds.first.toDocComment()}'
+                : t.name),
+            ', ');
+        s.write('> ');
+      }
       s.write('${kotlinFunction.kotlinName}(');
       s.writeAll(
           kotlinFunction.valueParameters
