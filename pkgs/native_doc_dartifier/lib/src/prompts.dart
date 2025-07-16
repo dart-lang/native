@@ -118,3 +118,61 @@ $_schema
     return dartCode;
   }
 }
+
+class FixPrompt implements Prompt {
+  final String mainDartCode;
+  final String helperDartCode;
+  final String analysisResult;
+
+  FixPrompt(this.mainDartCode, this.helperDartCode, this.analysisResult);
+
+  // Change this will require changing the getParsedResponse() method.
+  final String _schema = '''
+Output the response in JSON format:
+{
+  "mainDartCode": "Dart code here",
+  "helperDartCode": "Dart code here"
+}
+  ''';
+
+  @override
+  String get prompt => '''
+  You are an expert Dart code fixer. Your task is to fix the provided main Dart code based on the analysis results.
+  Here is the main Dart file code that needs fixing:
+  $mainDartCode
+  Here is the helper Dart file that you can use to add initialization code or other necessary imports to fix the issues in the main Dart code file:
+  $helperDartCode
+  Here are the issues found in the main Dart code:
+  $analysisResult
+
+  $_schema
+
+  try to add initialization or imports or whatever in the helper Dart file to fix the errors as the main Dart file import this helper Dart file.
+  change the main Dart file only if you can't fix the issues by adding code to the helper Dart file.
+  do not make a full initializaiton or completed code in the helper Dart file, just add the necessary code to fix the issues in the main Dart file even if not complete.
+
+  Make sure to not use a backslash (`\\`) before Dollar sign ('\$') in the Dart code, as it is not a valid Dart.
+  ''';
+
+  @override
+  FixResponse getParsedResponse(String response) {
+    print('Response: $response');
+    final json = jsonDecode(response) as Map<String, dynamic>;
+    var mainDartCode = '';
+    var tempDartCode = '';
+    if (json.containsKey('mainDartCode')) {
+      mainDartCode = json['mainDartCode'].toString();
+    }
+    if (json.containsKey('helperDartCode')) {
+      tempDartCode = json['helperDartCode'].toString();
+    }
+    return FixResponse(mainCode: mainDartCode, helperCode: tempDartCode);
+  }
+}
+
+class FixResponse {
+  final String mainCode;
+  final String helperCode;
+
+  FixResponse({required this.mainCode, required this.helperCode});
+}
