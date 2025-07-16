@@ -48,7 +48,7 @@ void main() {
     test('nothing', () async {
       final r = ReceivePort();
       Isolate.spawn(
-        (_) {
+        (_) async {
           //          final x = const Stream<List<int>>.empty().toNSInputStream();
           final x = DartInputStreamAdapter.inputStreamWithPort(123);
           x.ref.release();
@@ -61,6 +61,8 @@ void main() {
       );
       // Will never exit unless the `x.close` is called../
       print('exited: ${await r.first}');
+      await Future.delayed(const Duration(seconds: 2));
+      print('After delay');
     });
   });
 }
