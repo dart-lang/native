@@ -41,6 +41,7 @@ export 'src/config.dart'
         HookOutputBuilder,
         HookOutputFailure,
         InfraError,
+        LinkAssetRouting,
         LinkConfig,
         LinkConfigBuilder,
         LinkInput,

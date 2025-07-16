@@ -226,8 +226,23 @@ class NativeAssetsBuildPlanner {
 /// dependencies.
 class PackageGraph {
   final Map<String, List<String>> map;
+  late final Map<String, List<String>> _inverseMap = _computeInverseMap(map);
 
   PackageGraph(this.map);
+
+  // Helper method to compute the inverse map
+  static Map<String, List<String>> _computeInverseMap(
+    Map<String, List<String>> graphMap,
+  ) {
+    final inverse = <String, List<String>>{};
+    for (final packageName in graphMap.keys) {
+      inverse.putIfAbsent(packageName, () => []);
+      for (final dependency in graphMap[packageName]!) {
+        inverse.putIfAbsent(dependency, () => []).add(packageName);
+      }
+    }
+    return inverse;
+  }
 
   factory PackageGraph.fromPackageGraphJsonString(
     String json,
@@ -266,6 +281,10 @@ class PackageGraph {
   }
 
   Iterable<String> neighborsOf(String vertex) => map[vertex] ?? [];
+
+  // New method to get inverse neighbors (incoming edges)
+  Iterable<String> inverseNeighborsOf(String vertex) =>
+      _inverseMap[vertex] ?? [];
 
   Iterable<String> get vertices => map.keys;
 

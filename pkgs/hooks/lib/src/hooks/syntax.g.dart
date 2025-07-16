@@ -739,6 +739,7 @@ class LinkInputSyntax extends HookInputSyntax {
   LinkInputSyntax({
     required List<AssetSyntax>? assets,
     required super.config,
+    required Map<String, List<AssetSyntax>>? internalAssets,
     required super.outDirShared,
     required super.outFile,
     required super.packageName,
@@ -747,6 +748,7 @@ class LinkInputSyntax extends HookInputSyntax {
     required super.userDefines,
   }) : super() {
     _assets = assets;
+    _internalAssets = internalAssets;
     _resourceIdentifiers = resourceIdentifiers;
     json.sortOnKey();
   }
@@ -755,9 +757,11 @@ class LinkInputSyntax extends HookInputSyntax {
   /// [HookInputSyntax].
   void setup({
     required List<AssetSyntax>? assets,
+    required Map<String, List<AssetSyntax>>? internalAssets,
     required Uri? resourceIdentifiers,
   }) {
     _assets = assets;
+    _internalAssets = internalAssets;
     _resourceIdentifiers = resourceIdentifiers;
     json.sortOnKey();
   }
@@ -796,6 +800,53 @@ class LinkInputSyntax extends HookInputSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
+  Map<String, List<AssetSyntax>>? get internalAssets {
+    final jsonValue = _reader.optionalMap('internal_assets');
+    if (jsonValue == null) {
+      return null;
+    }
+    final result = <String, List<AssetSyntax>>{};
+    for (final MapEntry(:key, :value) in jsonValue.entries) {
+      result[key] = [
+        for (final (index, item) in (value as List<Object?>).indexed)
+          AssetSyntax.fromJson(
+            item as Map<String, Object?>,
+            path: [...path, key, index],
+          ),
+      ];
+    }
+    return result;
+  }
+
+  set _internalAssets(Map<String, List<AssetSyntax>>? value) {
+    if (value == null) {
+      json.remove('internal_assets');
+    } else {
+      json['internal_assets'] = {
+        for (final MapEntry(:key, :value) in value.entries)
+          key: [for (final item in value) item.json],
+      };
+    }
+  }
+
+  List<String> _validateInternalAssets() {
+    final mapErrors = _reader.validateOptionalMap('internal_assets');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    final jsonValue = _reader.optionalMap('internal_assets');
+    if (jsonValue == null) {
+      return [];
+    }
+    final result = <String>[];
+    for (final list in internalAssets!.values) {
+      for (final element in list) {
+        result.addAll(element.validate());
+      }
+    }
+    return result;
+  }
+
   Uri? get resourceIdentifiers => _reader.optionalPath('resource_identifiers');
 
   set _resourceIdentifiers(Uri? value) {
@@ -809,6 +860,7 @@ class LinkInputSyntax extends HookInputSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssets(),
+    ..._validateInternalAssets(),
     ..._validateResourceIdentifiers(),
   ];
 

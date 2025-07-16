@@ -50,7 +50,7 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])
-      ..setupLink(assets: assets, recordedUsesFile: null);
+      ..setupLink(assets: assets, recordedUsesFile: null, internalAssets: {});
     final input = inputBuilder.build();
 
     expect(input.json, inputJson);

@@ -152,11 +152,11 @@ class NativeAssetsBuildRunner {
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
     for (final package in buildPlan) {
-      final assetsForBuild = _assetsForBuildForPackage(
-        packageGraph: packageGraph!,
-        packageName: package.name,
-        globalAssetsForBuild: globalAssetsForBuild,
-      );
+      final dependencies = packageGraph!.neighborsOf(package.name).toSet();
+      final assetsForBuild = <String, List<EncodedAsset>>{
+        for (final entry in globalAssetsForBuild.entries)
+          if (dependencies.contains(entry.key)) entry.key: entry.value,
+      };
 
       final inputBuilder = BuildInputBuilder();
 
@@ -269,6 +269,14 @@ class NativeAssetsBuildRunner {
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
     for (final package in buildPlan) {
+      final dependencies = packageGraph!
+          .inverseNeighborsOf(package.name)
+          .toSet();
+      final assetsForLinks = <String, List<EncodedAsset>>{
+        for (final entry in globalAssetsForBuild.entries)
+          if (dependencies.contains(entry.key)) entry.key: entry.value,
+      };
+
       final inputBuilder = LinkInputBuilder();
       for (final e in extensions) {
         e.setupLinkInput(inputBuilder);
@@ -297,6 +305,7 @@ class NativeAssetsBuildRunner {
       inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
+        internalAssets: assetsForLinks,
       );
 
       final input = inputBuilder.build();
@@ -792,23 +801,6 @@ ${compileResult.stdout}
       return const Success(null);
     },
   );
-
-  /// Returns only the assets output as assetForBuild by the packages that are
-  /// the direct dependencies of [packageName].
-  Map<String, List<EncodedAsset>>? _assetsForBuildForPackage({
-    required PackageGraph packageGraph,
-    required String packageName,
-    Map<String, List<EncodedAsset>>? globalAssetsForBuild,
-  }) {
-    if (globalAssetsForBuild == null) {
-      return null;
-    }
-    final dependencies = packageGraph.neighborsOf(packageName).toSet();
-    return {
-      for (final entry in globalAssetsForBuild.entries)
-        if (dependencies.contains(entry.key)) entry.key: entry.value,
-    };
-  }
 
   Future<ValidationErrors> _validate(
     HookInput input,

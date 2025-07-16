@@ -331,10 +331,7 @@ final class BuildConfigBuilder extends HookConfigBuilder {
 
 /// The input for a `hook/link.dart`.
 final class LinkInput extends HookInput {
-  List<EncodedAsset> get _encodedAssets {
-    final assets = _syntaxLinkInput.assets;
-    return EncodedAssetSyntax._fromSyntax(assets);
-  }
+  List<EncodedAsset> get _encodedAssets => assets.encodedAssets;
 
   /// The file containing recorded usages, if any.
   Uri? get recordedUsagesFile => _syntaxLinkInput.resourceIdentifiers;
@@ -364,7 +361,19 @@ final class LinkInputAssets {
   LinkInputAssets._(this._input);
 
   /// The encoded assets passed to `hook/link.dart`.
-  List<EncodedAsset> get encodedAssets => _input._encodedAssets;
+  List<EncodedAsset> get encodedAssets =>
+      EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.assets);
+
+  /// The encoded assets from direct dependencies.
+  Map<String, List<EncodedAsset>> get encodedInternalAssets => {
+    for (final MapEntry(:key, :value)
+        in (_input._syntaxLinkInput.internalAssets ?? {}).entries)
+      key: EncodedAssetSyntax._fromSyntax(value),
+  };
+
+  /// The encoded assets from the direct dependency [packageName].
+  List<EncodedAsset> encodedInternalAssetsFor(String packageName) =>
+      encodedInternalAssets[packageName] ?? [];
 }
 
 /// The builder for [LinkInput].
@@ -376,11 +385,20 @@ final class LinkInputBuilder extends HookInputBuilder {
   void setupLink({
     required List<EncodedAsset> assets,
     required Uri? recordedUsesFile,
+    required Map<String, List<EncodedAsset>> internalAssets,
   }) {
     _syntax.setup(
       assets: [
         for (final asset in assets) AssetSyntax.fromJson(asset.toJson()),
       ],
+      internalAssets: {
+        for (final MapEntry(:key, value: assetsForKey)
+            in internalAssets.entries)
+          key: [
+            for (final asset in assetsForKey)
+              AssetSyntax.fromJson(asset.toJson()),
+          ],
+      },
       resourceIdentifiers: recordedUsesFile,
     );
   }
@@ -555,8 +573,8 @@ final class BuildOutputAssets {
   Map<String, List<EncodedAsset>> get encodedAssetsForLinking =>
       _output._encodedAssetsForLinking;
 
-  /// The assets produced by this build which should be available to subsequent
-  /// build hooks.
+  /// The assets produced by this link which should be available to subsequent
+  /// link hooks.
   List<EncodedAsset> get encodedAssetsForBuild => _output._encodedAssetsForHook;
 }
 
@@ -622,9 +640,19 @@ sealed class AssetRouting {
   const AssetRouting();
 }
 
+/// The destination for assets in the [LinkOutput].
+///
+/// Currently supported routings:
+///  * [ToHooks]: From build hook to all dependent builds hooks.
+///  * [ToLinkHook]: From build hook to a specific link hook.
+///  * [ToAppBundle]: From build or link hook to the application Bundle.
+sealed class LinkAssetRouting {
+  const LinkAssetRouting();
+}
+
 /// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the SDK
 /// to be bundled with the app.
-final class ToAppBundle extends AssetRouting {
+final class ToAppBundle implements AssetRouting, LinkAssetRouting {
   /// Creates a [ToAppBundle].
   const ToAppBundle();
 }
@@ -643,7 +671,7 @@ final class ToAppBundle extends AssetRouting {
 /// The receiver will know about sender package (it must be a direct
 /// dependency), the sender does not know about the receiver. Hence this routing
 /// is a broadcast with 0-N receivers.
-final class ToHooks extends AssetRouting {
+final class ToHooks implements AssetRouting, LinkAssetRouting {
   /// Creates a [ToHooks].
   const ToHooks();
 }
@@ -659,7 +687,7 @@ final class ToHooks extends AssetRouting {
 /// The receiver will not know about the sender package. The sender knows about
 /// the receiver package. Hence, the receiver must be specified and there is
 /// exactly one receiver.
-final class ToLinkHook extends AssetRouting {
+final class ToLinkHook implements AssetRouting {
   /// The name of the package that contains the `hook/link.dart` to which assets
   /// should be sent.
   final String packageName;
@@ -829,10 +857,20 @@ final class LinkOutputAssetsBuilder {
   ///   });
   /// }
   /// ```
-  void addEncodedAsset(EncodedAsset asset) {
-    final list = _syntax.assets ?? [];
-    list.add(AssetSyntax.fromJson(asset.toJson()));
-    _syntax.assets = list;
+  void addEncodedAsset(
+    EncodedAsset asset, {
+    LinkAssetRouting routing = const ToAppBundle(),
+  }) {
+    switch (routing) {
+      case ToAppBundle():
+        final assets = _syntax.assets ?? [];
+        assets.add(AssetSyntax.fromJson(asset.toJson()));
+        _syntax.assets = assets;
+      case ToHooks():
+        final assets = _syntax.assetsForHook ?? [];
+        assets.add(AssetSyntax.fromJson(asset.toJson()));
+        _syntax.assetsForHook = assets;
+    }
   }
 
   /// Adds [EncodedAsset]s produced by this build.
@@ -848,12 +886,24 @@ final class LinkOutputAssetsBuilder {
   ///   });
   /// }
   /// ```
-  void addEncodedAssets(Iterable<EncodedAsset> assets) {
-    final list = _syntax.assets ?? [];
-    for (final asset in assets) {
-      list.add(AssetSyntax.fromJson(asset.toJson()));
+  void addEncodedAssets(
+    Iterable<EncodedAsset> assets, {
+    LinkAssetRouting routing = const ToAppBundle(),
+  }) {
+    switch (routing) {
+      case ToAppBundle():
+        final list = _syntax.assets ?? [];
+        for (final asset in assets) {
+          list.add(AssetSyntax.fromJson(asset.toJson()));
+        }
+        _syntax.assets = list;
+      case ToHooks():
+        final list = _syntax.assetsForHook ?? [];
+        for (final asset in assets) {
+          list.add(AssetSyntax.fromJson(asset.toJson()));
+        }
+        _syntax.assetsForHook = list;
     }
-    _syntax.assets = list;
   }
 
   LinkOutputSyntax get _syntax =>
