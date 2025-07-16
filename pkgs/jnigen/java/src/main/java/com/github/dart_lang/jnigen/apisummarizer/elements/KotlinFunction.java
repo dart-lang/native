@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import kotlinx.metadata.Flag;
 import kotlinx.metadata.KmFunction;
+import kotlinx.metadata.Visibility;
 import kotlinx.metadata.jvm.JvmExtensionsKt;
+import kotlin.reflect.KVisibility;
 
 public class KotlinFunction {
   /** Name in the byte code. */
@@ -27,6 +29,10 @@ public class KotlinFunction {
   public int flags;
   public boolean isSuspend;
   public boolean isOperator;
+  public boolean isPublic;
+  public boolean isPrivate;
+  public boolean isProtected;
+  public boolean isInternal;
 
   public static KotlinFunction fromKmFunction(KmFunction f) {
     var fun = new KotlinFunction();
@@ -52,6 +58,10 @@ public class KotlinFunction {
         f.getTypeParameters().stream()
             .map(KotlinTypeParameter::fromKmTypeParameter)
             .collect(Collectors.toList());
+    fun.isPublic = Flag.IS_PUBLIC.invoke(fun.flags);
+    fun.isPrivate = Flag.IS_PRIVATE.invoke(fun.flags);
+    fun.isProtected = Flag.IS_PROTECTED.invoke(fun.flags);
+    fun.isInternal = Flag.IS_INTERNAL.invoke(fun.flags);
     return fun;
   }
 }

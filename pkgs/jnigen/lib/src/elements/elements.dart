@@ -1158,6 +1158,10 @@ class KotlinFunction {
     required this.flags,
     required this.isSuspend,
     required this.isOperator,
+    required this.isPublic,
+    required this.isPrivate,
+    required this.isProtected,
+    required this.isInternal,
   });
 
   /// Name in the byte code.
@@ -1175,6 +1179,10 @@ class KotlinFunction {
   final int flags;
   final bool isSuspend;
   final bool isOperator;
+  final bool isPublic;
+  final bool isPrivate;
+  final bool isProtected;
+  final bool isInternal;
 
   factory KotlinFunction.fromJson(Map<String, dynamic> json) =>
       _$KotlinFunctionFromJson(json);
@@ -1281,6 +1289,10 @@ class KotlinType implements Element<KotlinType> {
   @override
   R accept<R>(Visitor<KotlinType, R> v) {
     return v.visit(this);
+  }
+
+  String? toDartDoc() {
+    return '${name?.split('/').last}${isNullable ? '?' : ''}';
   }
 }
 

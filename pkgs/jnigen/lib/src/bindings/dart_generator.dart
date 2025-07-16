@@ -1365,10 +1365,39 @@ ${modifier}final _$name = $_protectedExtension
 
     // Docs
     s.write('  /// from: `');
-    s.writeAll(node.modifiers.map((m) => '$m '));
-    s.write('${node.returnType} ${node.name}(');
-    s.writeAll(node.params.map((p) => '${p.type} ${p.name}'), ', ');
-    s.writeln(')`');
+    if (node.kotlinFunction != null) {
+      final kotlinFunction = node.kotlinFunction!;
+      if (kotlinFunction.isPublic) {
+        s.write('public ');
+      }
+      if (kotlinFunction.isPrivate) {
+        s.write('private ');
+      }
+      if (kotlinFunction.isProtected) {
+        s.write('protected ');
+      }
+      if (kotlinFunction.isInternal) {
+        s.write('internal ');
+      }
+      if (kotlinFunction.isSuspend) {
+        s.write('suspend ');
+      }
+      if (kotlinFunction.isOperator) {
+        s.write('operator ');
+      }
+      s.write('fun ');
+      s.write('${kotlinFunction.kotlinName}(');
+      s.writeAll(
+          kotlinFunction.valueParameters
+              .map((p) => '${p.name}: ${p.type.toDartDoc()}'),
+          ', ');
+      s.writeln('): ${kotlinFunction.returnType.toDartDoc()}`');
+    } else {
+      s.writeAll(node.modifiers.map((m) => '$m '));
+      s.write('${node.returnType} ${node.name}(');
+      s.writeAll(node.params.map((p) => '${p.type} ${p.name}'), ', ');
+      s.writeln(')`');
+    }
     if (node.returnType is! PrimitiveType || node.isConstructor) {
       s.writeln(_releaseInstruction);
     }
