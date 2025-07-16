@@ -59,7 +59,7 @@ void runWindowsModuleDefinitionTests(List<Architecture> architectures) {
           name: name,
           assetName: '',
           linkerOptions: LinkerOptions.treeshake(
-            symbols: ['my_func', 'my_unexported_func'],
+            symbolsToKeep: ['my_func', 'my_unexported_func'],
           ),
           sources: [uri.toFilePath()],
         ).run(input: linkInput, output: linkOutput, logger: logger);
