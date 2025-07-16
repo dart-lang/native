@@ -21,7 +21,7 @@ runs:
         WORKING_DIR="${{ inputs.working-directory }}"
         
         echo "Downloading google-java-format v${GJF_VERSION}..."
-        curl -L -o google-java-format.jar "https://github.com/google/google-java-format/releases/download/v${GJF_VERSION}/google-java-format-${GJF_VERSION}-all-deps.jar"
+        curl -L -s -o google-java-format.jar "https://github.com/google/google-java-format/releases/download/v${GJF_VERSION}/google-java-format-${GJF_VERSION}-all-deps.jar"
         
         echo "Finding all .java files in ${WORKING_DIR}..."
         java_files=$(find "${WORKING_DIR}" -type f -name "*.java" -not -path "./.git/*")
@@ -32,15 +32,18 @@ runs:
         fi
         
         echo "Found $(echo "$java_files" | wc -l) Java files to check"
+
+        non_compliant_files=$(echo "$java_files" | xargs java -jar google-java-format.jar -n)
         
-        if ! echo "$java_files" | xargs java -jar google-java-format.jar --set-exit-if-changed; then
-          echo "❌ Some Java files are not properly formatted"
+        if [ -n "$non_compliant_files" ]; then
+          echo "❌ The following Java files are not formatted correctly:"
+          echo "$non_compliant_files"
           echo ""
           echo "To fix formatting issues, run:"
           echo "find \"${WORKING_DIR}\" -name '*.java' -not -path './.git/*' | xargs java -jar google-java-format.jar --replace"
           exit 1
         else
-          echo "✅ All Java files are properly formatted"
+          echo "✅ All Java files are properly formatted."
         fi
     
     - name: Unsupported OS
