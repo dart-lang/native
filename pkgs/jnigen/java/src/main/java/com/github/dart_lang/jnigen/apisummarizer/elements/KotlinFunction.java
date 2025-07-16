@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import kotlinx.metadata.Flag;
 import kotlinx.metadata.KmFunction;
-import kotlinx.metadata.Visibility;
 import kotlinx.metadata.jvm.JvmExtensionsKt;
-import kotlin.reflect.KVisibility;
 
 public class KotlinFunction {
   /** Name in the byte code. */
