@@ -31,13 +31,13 @@ class LinkerOptions {
   final bool stripDebug;
 
   /// The symbols to keep in the resulting binaries.
-  ///
-  /// If null all symbols will be kept.
   final List<String> _symbols;
 
   final bool _keepAllSymbols;
 
   /// Create linking options manually for fine-grained control.
+  ///
+  /// If [symbolsToKeep] is null, all symbols will be kept.
   LinkerOptions.manual({
     List<String>? flags,
     bool? gcSections,
@@ -131,8 +131,8 @@ extension LinkerOptionsExt on LinkerOptions {
             if (stripDebug) '-S',
             if (gcSections) '-dead_strip',
             if (_linkerScriptMode is ManualLinkerScript)
-              '-exported_symbols_list,${_linkerScriptMode.script.toFilePath()}',
-            if (_linkerScriptMode is GenerateLinkerScript)
+              '-exported_symbols_list,${_linkerScriptMode.script.toFilePath()}'
+            else if (_linkerScriptMode is GenerateLinkerScript)
               '-exported_symbols_list,${_createMacSymbolList(_symbols)}',
           ]),
         ];
@@ -189,6 +189,7 @@ extension LinkerOptionsExt on LinkerOptions {
   /// If this is not set, some symbols might be kept. This can be inspected
   /// using `ld -why_live`, see https://www.unix.com/man_page/osx/1/ld/, where
   /// the reason will show up as `global-dont-strip`.
+  /// This might possibly be a Rust only feature.
   static String _createMacSymbolList(Iterable<String> symbols) {
     final tempDir = Directory.systemTemp.createTempSync();
     final symbolsFileUri = tempDir.uri.resolve('exported_symbols_list.txt');
