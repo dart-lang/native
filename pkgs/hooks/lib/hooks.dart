@@ -54,7 +54,7 @@ export 'src/config.dart'
         LinkOutputMaybeFailure,
         PackageMetadata,
         ToAppBundle,
-        ToBuildHooks,
+        ToHooks,
         ToLinkHook;
 export 'src/encoded_asset.dart' show EncodedAsset;
 export 'src/extension.dart';

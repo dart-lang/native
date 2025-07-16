@@ -216,62 +216,22 @@ class BuildOutputSyntax extends HookOutputSyntax {
 
   BuildOutputSyntax({
     required super.assets,
-    required List<AssetSyntax>? assetsForBuild,
+    required super.assetsForHook,
     required Map<String, List<AssetSyntax>>? assetsForLinking,
     required super.dependencies,
     required super.failureDetails,
     required super.status,
     required super.timestamp,
   }) : super() {
-    this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
     json.sortOnKey();
   }
 
   /// Setup all fields for [BuildOutputSyntax] that are not in
   /// [HookOutputSyntax].
-  void setup({
-    required List<AssetSyntax>? assetsForBuild,
-    required Map<String, List<AssetSyntax>>? assetsForLinking,
-  }) {
-    this.assetsForBuild = assetsForBuild;
+  void setup({required Map<String, List<AssetSyntax>>? assetsForLinking}) {
     this.assetsForLinking = assetsForLinking;
     json.sortOnKey();
-  }
-
-  List<AssetSyntax>? get assetsForBuild {
-    final jsonValue = _reader.optionalList('assets_for_build');
-    if (jsonValue == null) return null;
-    return [
-      for (final (index, element) in jsonValue.indexed)
-        AssetSyntax.fromJson(
-          element as Map<String, Object?>,
-          path: [...path, 'assets_for_build', index],
-        ),
-    ];
-  }
-
-  set assetsForBuild(List<AssetSyntax>? value) {
-    if (value == null) {
-      json.remove('assets_for_build');
-    } else {
-      json['assets_for_build'] = [for (final item in value) item.json];
-    }
-    json.sortOnKey();
-  }
-
-  List<String> _validateAssetsForBuild() {
-    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'assets_for_build',
-    );
-    if (listErrors.isNotEmpty) {
-      return listErrors;
-    }
-    final elements = assetsForBuild;
-    if (elements == null) {
-      return [];
-    }
-    return [for (final element in elements) ...element.validate()];
   }
 
   Map<String, List<AssetSyntax>>? get assetsForLinking {
@@ -326,7 +286,6 @@ class BuildOutputSyntax extends HookOutputSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAssetsForBuild(),
     ..._validateAssetsForLinking(),
     ..._validateExtraRulesBuildOutput(),
   ];
@@ -575,12 +534,14 @@ class HookOutputSyntax extends JsonObjectSyntax {
 
   HookOutputSyntax({
     required List<AssetSyntax>? assets,
+    required List<AssetSyntax>? assetsForHook,
     required List<Uri>? dependencies,
     required FailureSyntax? failureDetails,
     required OutputStatusSyntax? status,
     required String timestamp,
   }) : super() {
     this.assets = assets;
+    this.assetsForHook = assetsForHook;
     this.dependencies = dependencies;
     this.failureDetails = failureDetails;
     this.status = status;
@@ -617,6 +578,41 @@ class HookOutputSyntax extends JsonObjectSyntax {
       return listErrors;
     }
     final elements = assets;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  List<AssetSyntax>? get assetsForHook {
+    final jsonValue = _reader.optionalList('assets_for_hook');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        AssetSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'assets_for_hook', index],
+        ),
+    ];
+  }
+
+  set assetsForHook(List<AssetSyntax>? value) {
+    if (value == null) {
+      json.remove('assets_for_hook');
+    } else {
+      json['assets_for_hook'] = [for (final item in value) item.json];
+    }
+    json.sortOnKey();
+  }
+
+  List<String> _validateAssetsForHook() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'assets_for_hook',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = assetsForHook;
     if (elements == null) {
       return [];
     }
@@ -683,6 +679,7 @@ class HookOutputSyntax extends JsonObjectSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssets(),
+    ..._validateAssetsForHook(),
     ..._validateDependencies(),
     ..._validateFailureDetails(),
     ..._validateStatus(),
@@ -826,6 +823,7 @@ class LinkOutputSyntax extends HookOutputSyntax {
 
   LinkOutputSyntax({
     required super.assets,
+    required super.assetsForHook,
     required super.dependencies,
     required super.failureDetails,
     required super.status,
