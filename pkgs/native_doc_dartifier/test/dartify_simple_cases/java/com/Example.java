@@ -1,10 +1,11 @@
 package com;
 
 public class Example {
-    int has$dollar$sign = 1;
-    int _startsWithUnderscore = 2;
 
-    String greet(String name) {
+    public static int has$dollar$sign = 1;
+    public static int _startsWithUnderscore = 2;
+
+    public String greet(String name) {
         return "Hello " + name;
     }
 }
