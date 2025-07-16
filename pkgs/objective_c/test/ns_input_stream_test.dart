@@ -196,13 +196,15 @@ void main() {
         Isolate.spawn(
           (_) {
             final x = const Stream<List<int>>.empty().toNSInputStream();
-            // x.open();
-            // x.close();
+            x.ref.release();
+            print(x.ref.isReleased);
+            //            x.open();
+            //            x.close();
           },
           Void,
           onExit: r.sendPort,
         );
-        // Will never exit unless the `x.close` is called.
+        // Will never exit unless the `x.close` is called../
         print('exited: ${await r.first}');
       });
 

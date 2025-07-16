@@ -4,6 +4,7 @@
 
 #include "include/dart_api_dl.h"
 
+#import <Foundation/Foundation.h>
 #import <Foundation/NSObject.h>
 #import <Foundation/NSStream.h>
 
@@ -19,4 +20,11 @@
 - (NSUInteger)addData:(NSData *)data;
 - (void)setDone;
 - (void)setError:(NSError *)error;
+@end
+
+@interface DOBJCDartInputStreamAdapterWeakHolder : NSObject
+
++ (instancetype)initWithAdapter:(DOBJCDartInputStreamAdapter *)adapter;
+@property(nonatomic, readonly, weak) id adapter;
+
 @end

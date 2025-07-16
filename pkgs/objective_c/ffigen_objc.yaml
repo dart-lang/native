@@ -27,6 +27,7 @@ objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
+    - DOBJCDartInputStreamAdapterWeakHolder
     - DOBJCObservation
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol

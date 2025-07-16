@@ -33,6 +33,15 @@
   return stream;
 }
 
+- (void)dealloc {
+  printf("I was deallocated!\n");
+  if (_status != NSStreamStatusClosed) {
+    printf("Here!\n");
+    __unused const bool success = Dart_PostInteger_DL(_sendPort, -1);
+//    NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
+  }
+}
+
 - (NSUInteger)addData:(NSData *)data {
   [_dataCondition lock];
   [_data appendData:data];
@@ -165,5 +174,18 @@
     [delegate stream:self handleEvent:streamEvent];
   }
 }
+
+@end
+
+@implementation DOBJCDartInputStreamAdapterWeakHolder
++ (instancetype)initWithAdapter:(DOBJCDartInputStreamAdapter *)adapter {
+  DOBJCDartInputStreamAdapterWeakHolder * holder = [[DOBJCDartInputStreamAdapterWeakHolder alloc] init]; 
+  if (holder != nil) {
+    holder->adapter = adapter;
+  }
+  return holder;
+}
+
+@synthesize adapter;
 
 @end
