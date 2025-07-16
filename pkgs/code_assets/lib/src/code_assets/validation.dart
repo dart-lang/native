@@ -106,7 +106,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
-  [],
+  output.assets.encodedAssetsForLink,
   output,
   false,
 );

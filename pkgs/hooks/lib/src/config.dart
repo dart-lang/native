@@ -214,7 +214,7 @@ final class BuildInput extends HookInput {
   @override
   BuildConfig get config => BuildConfig._(this);
 
-  /// The assets emitted by `hook/build.dart` of direct dependencies with [ToBuildHooks].
+  /// The assets emitted by `hook/build.dart` of direct dependencies with [ToHooks].
   BuildInputAssets get assets => BuildInputAssets._(this);
 
   /// The metadata emitted by dependent build hooks.
@@ -454,6 +454,9 @@ sealed class HookOutput {
 
   HookOutput._(Map<String, Object?> json);
 
+  List<EncodedAsset> get _encodedAssetsForHook =>
+      EncodedAssetSyntax._fromSyntax(_syntax.assetsForHook ?? []);
+
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert(json);
 }
@@ -466,6 +469,7 @@ sealed class HookOutputBuilder {
     dependencies: null,
     status: OutputStatusSyntax.success,
     failureDetails: null,
+    assetsForHook: [],
   );
 
   /// The JSON representation of this hook output builder.
@@ -522,9 +526,6 @@ final class BuildOutput extends HookOutput implements BuildOutputMaybeFailure {
       key: EncodedAssetSyntax._fromSyntax(value),
   };
 
-  List<EncodedAsset> get _encodedAssetsForBuild =>
-      EncodedAssetSyntax._fromSyntax(_syntax.assetsForBuild ?? []);
-
   @override
   final BuildOutputSyntax _syntax;
 
@@ -556,8 +557,7 @@ final class BuildOutputAssets {
 
   /// The assets produced by this build which should be available to subsequent
   /// build hooks.
-  List<EncodedAsset> get encodedAssetsForBuild =>
-      _output._encodedAssetsForBuild;
+  List<EncodedAsset> get encodedAssetsForBuild => _output._encodedAssetsForHook;
 }
 
 /// The builder for [BuildOutput].
@@ -600,7 +600,7 @@ final class BuildOutputMetadataBuilder {
   void operator []=(String key, Object value) {
     _output.assets.addEncodedAsset(
       MetadataAsset(key: key, value: value).encode(),
-      routing: const ToBuildHooks(),
+      routing: const ToHooks(),
     );
   }
 
@@ -615,7 +615,7 @@ final class BuildOutputMetadataBuilder {
 /// The destination for assets in the [BuildOutput].
 ///
 /// Currently supported routings:
-///  * [ToBuildHooks]: From build hook to all dependent builds hooks.
+///  * [ToHooks]: From build hook to all dependent builds hooks.
 ///  * [ToLinkHook]: From build hook to a specific link hook.
 ///  * [ToAppBundle]: From build or link hook to the application Bundle.
 sealed class AssetRouting {
@@ -643,9 +643,9 @@ final class ToAppBundle extends AssetRouting {
 /// The receiver will know about sender package (it must be a direct
 /// dependency), the sender does not know about the receiver. Hence this routing
 /// is a broadcast with 0-N receivers.
-final class ToBuildHooks extends AssetRouting {
-  /// Creates a [ToBuildHooks].
-  const ToBuildHooks();
+final class ToHooks extends AssetRouting {
+  /// Creates a [ToHooks].
+  const ToHooks();
 }
 
 /// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the
@@ -698,10 +698,10 @@ final class BuildOutputAssetsBuilder {
         final assets = _syntax.assets ?? [];
         assets.add(AssetSyntax.fromJson(asset.toJson()));
         _syntax.assets = assets;
-      case ToBuildHooks():
-        final assets = _syntax.assetsForBuild ?? [];
+      case ToHooks():
+        final assets = _syntax.assetsForHook ?? [];
         assets.add(AssetSyntax.fromJson(asset.toJson()));
-        _syntax.assetsForBuild = assets;
+        _syntax.assetsForHook = assets;
       case ToLinkHook():
         final packageName = routing.packageName;
         final assetsForLinking = _syntax.assetsForLinking ?? {};
@@ -739,12 +739,12 @@ final class BuildOutputAssetsBuilder {
           list.add(AssetSyntax.fromJson(asset.toJson()));
         }
         _syntax.assets = list;
-      case ToBuildHooks():
-        final list = _syntax.assetsForBuild ?? [];
+      case ToHooks():
+        final list = _syntax.assetsForHook ?? [];
         for (final asset in assets) {
           list.add(AssetSyntax.fromJson(asset.toJson()));
         }
-        _syntax.assetsForBuild = list;
+        _syntax.assetsForHook = list;
       case ToLinkHook():
         final linkInPackage = routing.packageName;
         final assetsForLinking = _syntax.assetsForLinking ?? {};
@@ -782,6 +782,10 @@ final class LinkOutputAssets {
 
   /// The assets produced by this build.
   List<EncodedAsset> get encodedAssets => _output._encodedAssets;
+
+  /// The assets produced by this build which should be available to subsequent
+  /// link hooks.
+  List<EncodedAsset> get encodedAssetsForLink => _output._encodedAssetsForHook;
 }
 
 /// The builder for [LinkOutput].

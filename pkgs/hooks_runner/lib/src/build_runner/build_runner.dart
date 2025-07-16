@@ -248,6 +248,17 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
+    final planResult = await _makePlan(
+      hook: Hook.link,
+      buildResult: buildResult,
+    );
+    if (planResult.isFailure) return planResult.asFailure;
+    final (buildPlan, packageGraph) = planResult.success;
+    if (buildPlan.isEmpty) {
+      // Return eagerly if there are no link hooks at all.
+      return Success(HookResult());
+    }
+
     final loadedUserDefines = await _loadedUserDefines;
     final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
     if (hookResultUserDefines.isFailure) {
@@ -255,13 +266,8 @@ class NativeAssetsBuildRunner {
     }
     var linkResult = hookResultUserDefines.success;
 
-    final planResult = await _makePlan(
-      hook: Hook.link,
-      buildResult: buildResult,
-    );
-    if (planResult.isFailure) return planResult.asFailure;
-    final (buildPlan, packageGraph) = planResult.success;
-
+    /// Key is packageName.
+    final globalAssetsForBuild = <String, List<EncodedAsset>>{};
     for (final package in buildPlan) {
       final inputBuilder = LinkInputBuilder();
       for (final e in extensions) {
@@ -299,7 +305,6 @@ class NativeAssetsBuildRunner {
         for (final e in extensions) ...await e.validateLinkInput(input),
       ];
       if (errors.isNotEmpty) {
-        print(input.assets.encodedAssets);
         _printErrors('Link input for ${package.name} contains errors', errors);
         return const Failure(HooksRunnerFailure.internal);
       }
@@ -318,9 +323,13 @@ class NativeAssetsBuildRunner {
         buildDirUri,
         outDirUri,
       );
-      if (result.isFailure) return result.asFailure;
+      if (result.isFailure) {
+        return result.asFailure;
+      }
       final (hookOutput, hookDeps) = result.success;
       linkResult = linkResult.copyAdd(hookOutput, hookDeps);
+      globalAssetsForBuild[package.name] =
+          (hookOutput as BuildOutput).assets.encodedAssetsForBuild;
     }
 
     final errors = [
@@ -850,42 +859,25 @@ ${compileResult.stdout}
   Future<
     Result<(BuildPlan plan, PackageGraph? dependencyGraph), HooksRunnerFailure>
   >
-  _makePlan({required Hook hook, BuildResult? buildResult}) async => _timeAsync(
-    '_makePlan',
-    () async {
-      switch (hook) {
-        case Hook.build:
-          final planner = await _planner;
-          final planResult = await planner.makeBuildHookPlan();
-          if (planResult.isFailure) {
-            return planResult.asFailure;
-          }
-          return Success((planResult.success, planner.packageGraph));
-        case Hook.link:
-          // Link hooks are not run in any particular order.
-          // Link hooks are skipped if no assets for linking are provided.
-          final buildPlan = <Package>[];
-          final skipped = <String>[];
-          final encodedAssetsForLinking = buildResult!.encodedAssetsForLinking;
-          final planner = await _planner;
-          final packagesWithHook = await planner.packagesWithHook(Hook.link);
-          for (final package in packagesWithHook) {
-            if (encodedAssetsForLinking[package.name]?.isNotEmpty ?? false) {
-              buildPlan.add(package);
-            } else {
-              skipped.add(package.name);
+  _makePlan({required Hook hook, BuildResult? buildResult}) async =>
+      _timeAsync('_makePlan', () async {
+        switch (hook) {
+          case Hook.build:
+            final planner = await _planner;
+            final planResult = await planner.makeBuildHookPlan();
+            if (planResult.isFailure) {
+              return planResult.asFailure;
             }
-          }
-          if (skipped.isNotEmpty) {
-            logger.info(
-              'Skipping link hooks from ${skipped.join(', ')}'
-              ' due to no assets provided to link for these link hooks.',
-            );
-          }
-          return Success((buildPlan, null));
-      }
-    },
-  );
+            return Success((planResult.success, planner.packageGraph));
+          case Hook.link:
+            final planner = await _planner;
+            final planResult = await planner.makeLinkHookPlan();
+            if (planResult.isFailure) {
+              return planResult.asFailure;
+            }
+            return Success((planResult.success, planner.packageGraph));
+        }
+      });
 
   Future<Result<HookOutput, HooksRunnerFailure>> _readHookOutputFromUri(
     Hook hook,
