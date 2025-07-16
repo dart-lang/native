@@ -139,7 +139,7 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun convertValue(unit: null): Float`
+  /// from: `public fun convertValue(unit: T): Float`
   double convertValue(
     $T measureUnit,
   ) {
@@ -616,7 +616,7 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun f(t: null, u: null, v: null): Unit`
+  /// from: `public fun f(t: T, u: U, v: V): Unit`
   void f(
     $T object,
     $U object1,
@@ -1062,7 +1062,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun methodGenericEcho(v: null): null`
+  /// from: `public fun <V : Any> methodGenericEcho(v: V): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericEcho<$V extends jni$_.JObject>(
     $V object, {
@@ -1093,7 +1093,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun methodGenericNullableEcho(v: null): null`
+  /// from: `public fun <V> methodGenericNullableEcho(v: V): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericNullableEcho<$V extends jni$_.JObject?>(
     $V object, {
@@ -1123,7 +1123,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericEcho(u: null): null`
+  /// from: `public fun classGenericEcho(u: U): U`
   /// The returned object must be released after use, by calling the [release] method.
   $U classGenericEcho(
     $U object,
@@ -1150,7 +1150,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericNullableEcho(t: null): null`
+  /// from: `public fun classGenericNullableEcho(t: T): T`
   /// The returned object must be released after use, by calling the [release] method.
   $T classGenericNullableEcho(
     $T object,
@@ -1233,7 +1233,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericFirstOf(list: List<null>): null`
+  /// from: `public fun classGenericFirstOf(list: List<U>): U`
   /// The returned object must be released after use, by calling the [release] method.
   $U classGenericFirstOf(
     jni$_.JList<$U> list,
@@ -1261,7 +1261,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericFirstOfNullable(list: List<null>): null`
+  /// from: `public fun classGenericFirstOfNullable(list: List<T>): T`
   /// The returned object must be released after use, by calling the [release] method.
   $T classGenericFirstOfNullable(
     jni$_.JList<$T> list,
@@ -1290,7 +1290,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun methodGenericFirstOf(list: List<null>): null`
+  /// from: `public fun <V : Any> methodGenericFirstOf(list: List<V>): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOf<$V extends jni$_.JObject>(
     jni$_.JList<$V> list, {
@@ -1322,7 +1322,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun methodGenericFirstOfNullable(list: List<null>): null`
+  /// from: `public fun <V> methodGenericFirstOfNullable(list: List<V>): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list, {
@@ -1411,7 +1411,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericListOf(element: null): List<null>`
+  /// from: `public fun classGenericListOf(element: U): List<U>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$U> classGenericListOf(
     $U object,
@@ -1439,7 +1439,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericNullableListOf(element: null): List<null>`
+  /// from: `public fun classGenericNullableListOf(element: T): List<T>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T> classGenericNullableListOf(
     $T object,
@@ -1468,7 +1468,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun methodGenericListOf(element: null): List<null>`
+  /// from: `public fun <V : Any> methodGenericListOf(element: V): List<V>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericListOf<$V extends jni$_.JObject>(
     $V object, {
@@ -1500,7 +1500,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun methodGenericNullableListOf(element: null): List<null>`
+  /// from: `public fun <V> methodGenericNullableListOf(element: V): List<V>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericNullableListOf<$V extends jni$_.JObject?>(
     $V object, {
