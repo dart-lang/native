@@ -1291,8 +1291,13 @@ class KotlinType implements Element<KotlinType> {
     return v.visit(this);
   }
 
-  String? toDartDoc() {
-    return '${name?.split('/').last}${isNullable ? '?' : ''}';
+  String? toDocComment() {
+    final typeList = arguments.map((a) => switch (a) {
+          KotlinWildcard() => '*',
+          KotlinTypeProjection() => a.type.toDocComment(),
+        });
+    final typeArgs = typeList.isNotEmpty ? '<${typeList.join(', ')}>' : '';
+    return '${name?.split('/').last}$typeArgs${isNullable ? '?' : ''}';
   }
 }
 

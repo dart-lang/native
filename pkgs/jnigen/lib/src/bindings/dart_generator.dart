@@ -1389,9 +1389,9 @@ ${modifier}final _$name = $_protectedExtension
       s.write('${kotlinFunction.kotlinName}(');
       s.writeAll(
           kotlinFunction.valueParameters
-              .map((p) => '${p.name}: ${p.type.toDartDoc()}'),
+              .map((p) => '${p.name}: ${p.type.toDocComment()}'),
           ', ');
-      s.writeln('): ${kotlinFunction.returnType.toDartDoc()}`');
+      s.writeln('): ${kotlinFunction.returnType.toDocComment()}`');
     } else {
       s.writeAll(node.modifiers.map((m) => '$m '));
       s.write('${node.returnType} ${node.name}(');
