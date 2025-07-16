@@ -19,4 +19,13 @@ int overloadedMethods() {
 }''',
     'fileName': 'overloaded_methods.dart',
   },
+  {
+    'code': '''
+String backAndForthStrings(){
+    String name = "World";
+    Example example = new Example();
+    return example.greet(name);
+}''',
+    'fileName': 'strings.dart',
+  },
 ];
