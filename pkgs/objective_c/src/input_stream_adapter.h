@@ -25,6 +25,6 @@
 @interface DOBJCDartInputStreamAdapterWeakHolder : NSObject
 
 + (instancetype)initWithAdapter:(DOBJCDartInputStreamAdapter *)adapter;
-@property(nonatomic, readonly, weak) id adapter;
+@property(nonatomic, readonly, weak) DOBJCDartInputStreamAdapter* adapter;
 
 @end

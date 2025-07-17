@@ -13,7 +13,8 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
-import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/objective_c.dart'
+    hide autoreleasePoolPop, autoreleasePoolPush;
 import 'package:objective_c/src/objective_c_bindings_generated.dart'
     show DartInputStreamAdapter;
 import 'package:test/test.dart';
@@ -49,8 +50,12 @@ void main() {
       final r = ReceivePort();
       Isolate.spawn(
         (_) async {
-          //          final x = const Stream<List<int>>.empty().toNSInputStream();
-          final x = DartInputStreamAdapter.inputStreamWithPort(123);
+          final x = const Stream<List<int>>.empty().toNSInputStream();
+          //          final pool = autoreleasePoolPush();
+          // final x = DartInputStreamAdapter.inputStreamWithPort(123);
+          //          autoreleasePoolPop(pool);
+          print('Just about to release!');
+          print('The pointer for x is: ${x.ref.pointer}');
           x.ref.release();
           print('x.ref.isReleased: ${x.ref.isReleased}');
           //            x.open();
