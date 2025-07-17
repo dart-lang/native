@@ -27,7 +27,7 @@ void main(List<String> args) async {
         // Bundle the dylib in the app, someone might use it.
         ToAppBundle(),
         // Enable other packages to link to the dylib.
-        ToHooks(),
+        ToBuildHooks(),
       ],
     );
 

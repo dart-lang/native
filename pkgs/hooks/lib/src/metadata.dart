@@ -10,7 +10,7 @@ import 'hooks/syntax.g.dart';
 
 /// An asset that contains metadata.
 ///
-/// Should only be used with [ToLinkHook] and [ToHooks].
+/// Should only be used with [ToLinkHook] and [ToBuildHooks].
 //
 // Note: not exported to public API. The public API only contains a way to read
 // and write metadata, it doesn't expose the underlying mechanism.

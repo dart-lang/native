@@ -87,6 +87,12 @@
     "BuildOutput": {
       "type": "object",
       "properties": {
+        "assets_for_build": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
         "assets_for_linking": {
           "type": "object",
           "additionalProperties": {
@@ -200,12 +206,6 @@
             "$ref": "#/definitions/Asset"
           }
         },
-        "assets_for_hook": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Asset"
-          }
-        },
         "dependencies": {
           "type": "array",
           "items": {
@@ -270,6 +270,18 @@
       ]
     },
     "LinkOutput": {
+      "type": "object",
+      "properties": {
+        "assets_for_link": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        }
+      },
       "allOf": [
         {
           "$ref": "#/definitions/HookOutput"
