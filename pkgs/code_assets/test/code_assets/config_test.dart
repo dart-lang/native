@@ -168,7 +168,7 @@ void main() async {
         outputFile: outFile,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupLink(assets: assets, recordedUsesFile: null)
+      ..setupLink(assets: assets, recordedUsesFile: null, internalAssets: {})
       ..addExtension(
         CodeAssetExtension(
           targetOS: OS.android,
