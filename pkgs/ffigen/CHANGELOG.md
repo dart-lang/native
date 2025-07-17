@@ -1,3 +1,8 @@
+## 19.1.1
+
+- Fix [a bug](https://github.com/dart-lang/native/issues/2419) where methods
+  copied from super types might not be renamed correctly.
+
 ## 19.1.0
 
 - Bump minimum Dart version to 3.8.0.
