@@ -244,19 +244,19 @@
     },
     "LinkInput": {
       "properties": {
-         "internal_assets": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
+        "internal_assets": {
           "type": "object",
           "additionalProperties": {
             "type": "array",
             "items": {
               "$ref": "#/definitions/Asset"
             }
-          }
-        },
-        "assets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Asset"
           }
         },
         "resource_identifiers": {
