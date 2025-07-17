@@ -13,5 +13,6 @@ environment:
   sdk: '>=3.7.0 <4.0.0'
 
 dev_dependencies:
-  dart_flutter_team_lints: ^3.5.2
+  native_test_helpers:
+    path: ../native_test_helpers
   test: ^1.21.2

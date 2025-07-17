@@ -1,4 +1,4 @@
-include: package:flutter_lints/flutter.yaml
+include: package:native_test_helpers/analysis_options.yaml
 
-# Additional information about this file can be found at
+# For additional information about configuring this file, see
 # https://dart.dev/guides/language/analysis-options

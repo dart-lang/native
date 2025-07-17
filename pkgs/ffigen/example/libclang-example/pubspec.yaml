@@ -11,6 +11,5 @@ dependencies:
   ffi: ^2.0.1
 
 dev_dependencies:
-  dart_flutter_team_lints: ^3.5.2
   ffigen:
     path: '../../'

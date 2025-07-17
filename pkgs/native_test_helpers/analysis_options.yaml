@@ -1,3 +1,7 @@
+# This file represents the canonical analysis options for this repository.
+# Every package in the repository is expected to apply these (this is enforced
+# by CI).
+
 include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
@@ -13,6 +17,18 @@ linter:
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
     - prefer_final_locals
+    - public_member_api_docs
+
+    # From flutter_lints (analysis_options may only have one include statement)
+    - avoid_unnecessary_containers
+    - avoid_web_libraries_in_flutter
+    - no_logic_in_create_state
+    - prefer_const_constructors_in_immutables
+    - sized_box_for_whitespace
+    - sort_child_properties_last
+    - use_build_context_synchronously
+    - use_full_hex_values_for_flutter_colors
+    - use_key_in_widget_constructors
 
 custom_lint:
   rules:
