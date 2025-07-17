@@ -17,7 +17,6 @@ dependencies:
 
 dev_dependencies:
   ffigen: ^18.0.0
-  lints: ^6.0.0
   some_dev_dep:
     path: ../some_dev_dep/
   test: ^1.25.15

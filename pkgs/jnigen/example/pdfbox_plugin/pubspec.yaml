@@ -7,21 +7,17 @@ homepage: https://github.com/dart-lang/native
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
-  #flutter: ">=2.11.0"
 
 dependencies:
   jni:
     path: ../../../jni/
-  #flutter:
-    #sdk: flutter
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
-  ## Path dependency for sake of the example
+  # Path dependency for sake of the example
   jnigen:
     path: ../../
   test: any
-  lints: ^6.0.0
 
 flutter:
   # A JNI plugin uses FFI for calling into C code. Thus the relevant shared

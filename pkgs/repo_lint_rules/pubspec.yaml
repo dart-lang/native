@@ -12,8 +12,9 @@ environment:
 dependencies:
   analyzer: ^7.3.0
   custom_lint_builder: ^0.7.5
-  dart_flutter_team_lints: ^3.5.2
   path: ^1.9.1
 
 dev_dependencies: 
   custom_lint: ^0.7.5
+  native_test_helpers:
+    path: ../native_test_helpers
