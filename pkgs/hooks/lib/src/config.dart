@@ -352,6 +352,12 @@ final class LinkInput extends HookInput {
 
   /// The assets passed to `hook/link.dart`.
   LinkInputAssets get assets => LinkInputAssets._(this);
+
+  /// The metadata emitted by dependent build hooks.
+  List<MetadataAsset> get metadata => assets.encodedInternalAssets
+      .where((e) => e.isMetadataAsset)
+      .map((e) => e.asMetadataAsset)
+      .toList();
 }
 
 /// The assets in [LinkInput.assets];
@@ -619,6 +625,26 @@ final class BuildOutputMetadataBuilder {
   }
 }
 
+/// The builder for [BuildOutputBuilder.metadata].
+final class LinkOutputMetadataBuilder {
+  final LinkOutputBuilder _output;
+
+  LinkOutputMetadataBuilder._(this._output);
+
+  /// Sets the metadata [value] for the given [key].
+  void add(String packageName, String key, Object value) {
+    _output.assets.addEncodedAsset(
+      MetadataAsset(key: key, value: value).encode(),
+      routing: ToLinkHook(packageName),
+    );
+  }
+
+  /// Adds all entries from [metadata].
+  void addAll(String packageName, Map<String, Object> metadata) {
+    metadata.forEach((key, value) => add(packageName, key, value));
+  }
+}
+
 /// The destination for assets in the [BuildOutput].
 ///
 /// Currently supported routings:
@@ -831,6 +857,9 @@ final class LinkOutputAssets {
 /// }
 /// ```
 final class LinkOutputBuilder extends HookOutputBuilder {
+  /// The metadata builder for this build output.
+  LinkOutputMetadataBuilder get metadata => LinkOutputMetadataBuilder._(this);
+
   /// The assets builder for this link output.
   LinkOutputAssetsBuilder get assets => LinkOutputAssetsBuilder._(this);
 

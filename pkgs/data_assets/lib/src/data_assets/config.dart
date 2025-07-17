@@ -140,10 +140,18 @@ final class LinkOutputDataAssetsBuilder {
   LinkOutputDataAssetsBuilder(this._output);
 
   /// Adds the given [asset] to the link hook output.
-  void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
+  void add(DataAsset asset, {LinkAssetRouting routing = const ToAppBundle()}) =>
+      _output.addEncodedAsset(asset.encode(), routing: routing);
 
   /// Adds the given [assets] to the link hook output.
-  void addAll(Iterable<DataAsset> assets) => assets.forEach(add);
+  void addAll(
+    Iterable<DataAsset> assets, {
+    LinkAssetRouting routing = const ToAppBundle(),
+  }) {
+    for (final asset in assets) {
+      add(asset, routing: routing);
+    }
+  }
 }
 
 /// Provides access to [DataAsset]s from a build hook output.
