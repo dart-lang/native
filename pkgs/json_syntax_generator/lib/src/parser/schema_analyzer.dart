@@ -351,17 +351,21 @@ class SchemaAnalyzer {
               final additionalPropertiesBool =
                   additionalPropertiesSchema.additionalPropertiesBool;
               if (additionalPropertiesBool != true) {
-                throw UnimplementedError(
-                  'Expected an object with arbitrary properties.',
+                _analyzeClass(additionalPropertiesSchema);
+                final clazz = _classes[additionalPropertiesSchema.className]!;
+                dartType = MapDartType(
+                  valueType: ClassDartType(classInfo: clazz, isNullable: false),
+                  isNullable: !required,
+                );
+              } else {
+                dartType = MapDartType(
+                  valueType: const MapDartType(
+                    valueType: ObjectDartType(isNullable: true),
+                    isNullable: false,
+                  ),
+                  isNullable: !required,
                 );
               }
-              dartType = MapDartType(
-                valueType: const MapDartType(
-                  valueType: ObjectDartType(isNullable: true),
-                  isNullable: false,
-                ),
-                isNullable: !required,
-              );
             case null:
               if (schemas.additionalPropertiesBool != true) {
                 throw UnimplementedError(
@@ -421,7 +425,11 @@ class SchemaAnalyzer {
       return '';
     }
 
-    final parts = string.replaceAll('/', '_').split('_');
+    final parts = string
+        .replaceAll('/', '_')
+        .replaceAll(' ', '_')
+        .replaceAll('-', '_')
+        .split('_');
 
     String remapCapitalization(String input) => nameOverrides[input] ?? input;
 

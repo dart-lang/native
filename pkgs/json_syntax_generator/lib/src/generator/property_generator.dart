@@ -260,6 +260,53 @@ List<String> $validateName() {
   return result;
 }
 ''');
+      case ClassDartType():
+        final itemType = valueType;
+        final typeName = itemType.toString();
+        buffer.writeln('''
+$dartType get $fieldName {
+  final jsonValue = _reader.optionalMap('$jsonKey');
+  if (jsonValue == null) {
+    return null;
+  }
+  return {
+    for (final MapEntry(:key, :value) in jsonValue.entries)
+      key: $typeName.fromJson(
+        value as $jsonObjectDartType,
+        path: [...path, key],
+      )
+  };
+}
+
+set $setterName($dartType value) {
+  if (value == null) {
+    json.remove('$jsonKey');
+  } else {
+    json['$jsonKey'] = {
+      for (final MapEntry(:key, :value) in value.entries) key: value.json,
+    };
+  }
+  $sortOnKey
+}
+
+List<String> $validateName() {
+  final mapErrors = _reader.validateOptionalMap('$jsonKey');
+  if (mapErrors.isNotEmpty) {
+    return mapErrors;
+  }
+  final jsonValue = _reader.optionalMap(
+    '$jsonKey',
+  );
+  if (jsonValue == null) {
+    return [];
+  }
+  final result = <String>[];
+    for (final value in $fieldName!.values) {
+      result.addAll(value.validate());
+    }
+  return result;
+}
+''');
       case SimpleDartType():
         switch (valueType.typeName) {
           case 'Object':
