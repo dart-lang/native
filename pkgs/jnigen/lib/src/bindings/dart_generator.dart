@@ -1366,47 +1366,8 @@ ${modifier}final _$name = $_protectedExtension
     // Docs
     s.write('  /// from: `');
     if (node.kotlinFunction != null) {
-      final kotlinFunction = node.kotlinFunction!;
-      final typeParams = [
-        ...node.classDecl.allTypeParams,
-        ...node.typeParams,
-      ];
-
-      if (kotlinFunction.isPublic) {
-        s.write('public ');
-      }
-      if (kotlinFunction.isPrivate) {
-        s.write('private ');
-      }
-      if (kotlinFunction.isProtected) {
-        s.write('protected ');
-      }
-      if (kotlinFunction.isInternal) {
-        s.write('internal ');
-      }
-      if (kotlinFunction.isSuspend) {
-        s.write('suspend ');
-      }
-      if (kotlinFunction.isOperator) {
-        s.write('operator ');
-      }
-      s.write('fun ');
-      if (kotlinFunction.typeParameters.isNotEmpty) {
-        s.write('<');
-        s.writeAll(
-            // TODO: length > 1
-            kotlinFunction.typeParameters.map((t) => t.upperBounds.length == 1
-                ? '${t.name} : ${t.upperBounds.first.toDocComment(typeParams)}'
-                : t.name),
-            ', ');
-        s.write('> ');
-      }
-      s.write('${kotlinFunction.kotlinName}(');
-      s.writeAll(
-          kotlinFunction.valueParameters
-              .map((p) => '${p.name}: ${p.type.toDocComment(typeParams)}'),
-          ', ');
-      s.writeln('): ${kotlinFunction.returnType.toDocComment(typeParams)}`');
+      _writeKotlinSignature(node);
+      s.writeln('`');
     } else {
       s.writeAll(node.modifiers.map((m) => '$m '));
       s.write('${node.returnType} ${node.name}(');
@@ -1552,6 +1513,58 @@ ${modifier}final _$name = $_protectedExtension
   }
 ''');
     }
+  }
+
+  void _writeKotlinSignature(Method node) {
+    final kotlinFunction = node.kotlinFunction!;
+    final typeParams = [
+      ...node.classDecl.allTypeParams,
+      ...node.typeParams,
+    ];
+
+    if (kotlinFunction.isPublic) {
+      s.write('public ');
+    }
+    if (kotlinFunction.isPrivate) {
+      s.write('private ');
+    }
+    if (kotlinFunction.isProtected) {
+      s.write('protected ');
+    }
+    if (kotlinFunction.isInternal) {
+      s.write('internal ');
+    }
+    if (kotlinFunction.isSuspend) {
+      s.write('suspend ');
+    }
+    if (kotlinFunction.isOperator) {
+      s.write('operator ');
+    }
+    s.write('fun ');
+    if (kotlinFunction.typeParameters.isNotEmpty) {
+      s.write('<');
+      s.writeAll(
+          // TODO: length > 1
+          kotlinFunction.typeParameters.map((t) => t.upperBounds.length == 1
+              ? '${t.name} : ${t.upperBounds.first.toDocComment(typeParams)}'
+              : t.name),
+          ', ');
+      s.write('> ');
+    }
+    s.write('${kotlinFunction.kotlinName}(');
+    s.writeAll(kotlinFunction.valueParameters.map((p) {
+      final KotlinType type;
+      final String prefix;
+      if (p.varargElementType != null) {
+        prefix = 'vararg ';
+        type = p.varargElementType!;
+      } else {
+        prefix = '';
+        type = p.type;
+      }
+      return '$prefix${p.name}: ${type.toDocComment(typeParams)}';
+    }), ', ');
+    s.write('): ${kotlinFunction.returnType.toDocComment(typeParams)}');
   }
 }
 

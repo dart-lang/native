@@ -86,6 +86,10 @@ public class Nullability<T, U : Any>(val t: T, val u: U, var nullableU: U?) {
         return listOf(element)
     }
 
+    public fun methodWithVarArgs(vararg argument: String): Int {
+        return 42
+    }
+
     public inner class InnerClass<V> {
         public fun f(t: T, u: U, v: V) {}
     }

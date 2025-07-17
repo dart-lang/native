@@ -1513,6 +1513,32 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             _$object.pointer)
         .object<jni$_.JList<$V>>(jni$_.JListType<$V>(V));
   }
+
+  static final _id_methodWithVarArgs = _class.instanceMethodId(
+    r'methodWithVarArgs',
+    r'([Ljava/lang/String;)I',
+  );
+
+  static final _methodWithVarArgs = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public fun methodWithVarArgs(vararg argument: String): Int`
+  int methodWithVarArgs(
+    jni$_.JArray<jni$_.JString> strings,
+  ) {
+    final _$strings = strings.reference;
+    return _methodWithVarArgs(reference.pointer,
+            _id_methodWithVarArgs as jni$_.JMethodIDPtr, _$strings.pointer)
+        .integer;
+  }
 }
 
 final class $Nullability$NullableType<$T extends jni$_.JObject?,
