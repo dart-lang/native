@@ -23,14 +23,17 @@ void main() {
     builder.assets.addEncodedAsset(assets.first);
     builder.assets.addEncodedAsset(
       assets.skip(2).first,
-      routing: const ToHooks(),
+      routing: const ToBuildHooks(),
     );
     builder.assets.addEncodedAsset(
       assets.skip(1).first,
       routing: const ToLinkHook('package:linker1'),
     );
     builder.assets.addEncodedAssets(assets.skip(2).take(2).toList());
-    builder.assets.addEncodedAssets(assets.take(2), routing: const ToHooks());
+    builder.assets.addEncodedAssets(
+      assets.take(2),
+      routing: const ToBuildHooks(),
+    );
     builder.assets.addEncodedAssets(
       assets.skip(4).toList(),
       routing: const ToLinkHook('package:linker2'),
