@@ -75,7 +75,7 @@ class CanDoA extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public fun doA(): Unit`
+  /// from: `public fun doA(): kotlin.Unit`
   void doA() {
     _doA(reference.pointer, _id_doA as jni$_.JMethodIDPtr).check();
   }
@@ -288,7 +288,7 @@ class CanDoB extends jni$_.JObject {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public fun doB(): Unit`
+  /// from: `public fun doB(): kotlin.Unit`
   void doB() {
     _doB(reference.pointer, _id_doB as jni$_.JMethodIDPtr).check();
   }
@@ -565,7 +565,7 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun convertValue(unit: T): Float`
+  /// from: `public fun convertValue(unit: T): kotlin.Float`
   double convertValue(
     $T measureUnit,
   ) {
@@ -1042,7 +1042,7 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun f(t: T, u: U, v: V): Unit`
+  /// from: `public fun f(t: T, u: U, v: V): kotlin.Unit`
   void f(
     $T object,
     $U object1,
@@ -1389,7 +1389,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public fun self(): Nullability<*, *>`
+  /// from: `public fun self(): com.github.dart_lang.jnigen.Nullability<*, *>`
   /// The returned object must be released after use, by calling the [release] method.
   Nullability<jni$_.JObject?, jni$_.JObject> self() {
     return _self(reference.pointer, _id_self as jni$_.JMethodIDPtr)
@@ -1415,7 +1415,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public fun hello(): String`
+  /// from: `public fun hello(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString hello() {
     return _hello(reference.pointer, _id_hello as jni$_.JMethodIDPtr)
@@ -1437,7 +1437,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public fun nullableHello(returnNull: Boolean): String?`
+  /// from: `public fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
     bool z,
@@ -1464,7 +1464,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public fun list(): List<*>`
+  /// from: `public fun list(): kotlin.collections.List<*>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> list() {
     return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
@@ -1488,7 +1488,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <V : Any> methodGenericEcho(v: V): V`
+  /// from: `public fun <V : kotlin.Any> methodGenericEcho(v: V): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericEcho<$V extends jni$_.JObject>(
     $V object, {
@@ -1605,7 +1605,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun firstOf(list: List<String>): String`
+  /// from: `public fun firstOf(list: kotlin.collections.List<kotlin.String>): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString firstOf(
     jni$_.JList<jni$_.JString> list,
@@ -1632,7 +1632,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun firstOfNullable(list: List<String?>): String?`
+  /// from: `public fun firstOfNullable(list: kotlin.collections.List<kotlin.String?>): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? firstOfNullable(
     jni$_.JList<jni$_.JString?> list,
@@ -1659,7 +1659,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericFirstOf(list: List<U>): U`
+  /// from: `public fun classGenericFirstOf(list: kotlin.collections.List<U>): U`
   /// The returned object must be released after use, by calling the [release] method.
   $U classGenericFirstOf(
     jni$_.JList<$U> list,
@@ -1687,7 +1687,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericFirstOfNullable(list: List<T>): T`
+  /// from: `public fun classGenericFirstOfNullable(list: kotlin.collections.List<T>): T`
   /// The returned object must be released after use, by calling the [release] method.
   $T classGenericFirstOfNullable(
     jni$_.JList<$T> list,
@@ -1716,7 +1716,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <V : Any> methodGenericFirstOf(list: List<V>): V`
+  /// from: `public fun <V : kotlin.Any> methodGenericFirstOf(list: kotlin.collections.List<V>): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOf<$V extends jni$_.JObject>(
     jni$_.JList<$V> list, {
@@ -1748,7 +1748,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <V> methodGenericFirstOfNullable(list: List<V>): V`
+  /// from: `public fun <V> methodGenericFirstOfNullable(list: kotlin.collections.List<V>): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list, {
@@ -1781,7 +1781,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun stringListOf(element: String): List<String>`
+  /// from: `public fun stringListOf(element: kotlin.String): kotlin.collections.List<kotlin.String>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString> stringListOf(
     jni$_.JString string,
@@ -1809,7 +1809,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun nullableListOf(element: String?): List<String?>`
+  /// from: `public fun nullableListOf(element: kotlin.String?): kotlin.collections.List<kotlin.String?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?> nullableListOf(
     jni$_.JString? string,
@@ -1837,7 +1837,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericListOf(element: U): List<U>`
+  /// from: `public fun classGenericListOf(element: U): kotlin.collections.List<U>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$U> classGenericListOf(
     $U object,
@@ -1865,7 +1865,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun classGenericNullableListOf(element: T): List<T>`
+  /// from: `public fun classGenericNullableListOf(element: T): kotlin.collections.List<T>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T> classGenericNullableListOf(
     $T object,
@@ -1894,7 +1894,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <V : Any> methodGenericListOf(element: V): List<V>`
+  /// from: `public fun <V : kotlin.Any> methodGenericListOf(element: V): kotlin.collections.List<V>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericListOf<$V extends jni$_.JObject>(
     $V object, {
@@ -1926,7 +1926,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <V> methodGenericNullableListOf(element: V): List<V>`
+  /// from: `public fun <V> methodGenericNullableListOf(element: V): kotlin.collections.List<V>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericNullableListOf<$V extends jni$_.JObject?>(
     $V object, {
@@ -1956,7 +1956,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun methodWithVarArgs(vararg argument: String): Int`
+  /// from: `public fun methodWithVarArgs(vararg argument: kotlin.String): kotlin.Int`
   int methodWithVarArgs(
     jni$_.JArray<jni$_.JString> strings,
   ) {
@@ -1982,7 +1982,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <V> methodWithWhere(element: V): Int where V : CanDoA, V : CanDoB`
+  /// from: `public fun <V> methodWithWhere(element: V): kotlin.Int where V : com.github.dart_lang.jnigen.CanDoA, V : com.github.dart_lang.jnigen.CanDoB`
   int methodWithWhere<$V extends jni$_.JObject>(
     $V canDoA, {
     jni$_.JObjType<$V>? V,
@@ -2203,7 +2203,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public operator fun plus(op: Operators): Operators`
+  /// from: `public operator fun plus(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators plus(
     Operators operators,
@@ -2229,7 +2229,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public operator fun plus(int: Int): Operators`
+  /// from: `public operator fun plus(int: kotlin.Int): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators plus$1(
     int i,
@@ -2254,7 +2254,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public operator fun minus(op: Operators): Operators`
+  /// from: `public operator fun minus(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators minus(
     Operators operators,
@@ -2281,7 +2281,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public operator fun times(op: Operators): Operators`
+  /// from: `public operator fun times(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators times(
     Operators operators,
@@ -2308,7 +2308,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public operator fun div(op: Operators): Operators`
+  /// from: `public operator fun div(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators div(
     Operators operators,
@@ -2335,7 +2335,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public operator fun rem(op: Operators): Operators`
+  /// from: `public operator fun rem(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators rem(
     Operators operators,
@@ -2362,7 +2362,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public operator fun get(index: Int): Boolean`
+  /// from: `public operator fun get(index: kotlin.Int): kotlin.Boolean`
   bool get(
     int i,
   ) {
@@ -2385,7 +2385,7 @@ class Operators extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
-  /// from: `public operator fun set(index: Int, bit: Boolean): Unit`
+  /// from: `public operator fun set(index: kotlin.Int, bit: kotlin.Boolean): kotlin.Unit`
   void set(
     int i,
     bool z,
@@ -2410,7 +2410,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun compareTo(op: Operators): Int`
+  /// from: `public fun compareTo(op: com.github.dart_lang.jnigen.Operators): kotlin.Int`
   int compareTo(
     Operators operators,
   ) {
@@ -2650,7 +2650,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public fun toString(): String`
+  /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
     return _toString$1(reference.pointer, _id_toString$1 as jni$_.JMethodIDPtr)
@@ -2674,7 +2674,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public operator fun component1(): Float`
+  /// from: `public operator fun component1(): kotlin.Float`
   double component1() {
     return _component1(reference.pointer, _id_component1 as jni$_.JMethodIDPtr)
         .float;
@@ -2697,7 +2697,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public operator fun component2(): SpeedUnit`
+  /// from: `public operator fun component2(): com.github.dart_lang.jnigen.SpeedUnit`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit component2() {
     return _component2(reference.pointer, _id_component2 as jni$_.JMethodIDPtr)
@@ -2723,7 +2723,7 @@ class Speed extends Measure<SpeedUnit> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, double, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun copy(value: Float, unit: SpeedUnit): Speed`
+  /// from: `public fun copy(value: kotlin.Float, unit: com.github.dart_lang.jnigen.SpeedUnit): com.github.dart_lang.jnigen.Speed`
   /// The returned object must be released after use, by calling the [release] method.
   Speed copy(
     double f,
@@ -2752,7 +2752,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public fun hashCode(): Int`
+  /// from: `public fun hashCode(): kotlin.Int`
   int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
         .integer;
@@ -2774,7 +2774,7 @@ class Speed extends Measure<SpeedUnit> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public operator fun equals(other: Any?): Boolean`
+  /// from: `public operator fun equals(other: kotlin.Any?): kotlin.Boolean`
   bool equals(
     jni$_.JObject? object,
   ) {
@@ -3129,7 +3129,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun sayHelloWithoutDelay(): String`
+  /// from: `public suspend fun sayHelloWithoutDelay(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHelloWithoutDelay() async {
     final $p = jni$_.ReceivePort();
@@ -3178,7 +3178,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun failWithoutDelay(): String`
+  /// from: `public suspend fun failWithoutDelay(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> failWithoutDelay() async {
     final $p = jni$_.ReceivePort();
@@ -3225,7 +3225,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun fail(): String`
+  /// from: `public suspend fun fail(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> fail() async {
     final $p = jni$_.ReceivePort();
@@ -3272,7 +3272,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun sayHello(): String`
+  /// from: `public suspend fun sayHello(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello() async {
     final $p = jni$_.ReceivePort();
@@ -3325,7 +3325,7 @@ class SuspendFun extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun sayHello(name: String): String`
+  /// from: `public suspend fun sayHello(name: kotlin.String): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello$1(
     jni$_.JString string,
@@ -3378,7 +3378,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun nullableHello(returnNull: Boolean): String?`
+  /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHello(
     bool z,
@@ -3433,7 +3433,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun nullableHelloWithoutDelay(returnNull: Boolean): String?`
+  /// from: `public suspend fun nullableHelloWithoutDelay(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHelloWithoutDelay(
     bool z,
@@ -3612,7 +3612,7 @@ final _topLevel = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `public fun topLevel(): Int`
+/// from: `public fun topLevel(): kotlin.Int`
 int topLevel() {
   return _topLevel(_TopLevelKtClass.reference.pointer,
           _id_topLevel as jni$_.JMethodIDPtr)
@@ -3635,7 +3635,7 @@ final _topLevelSum = jni$_.ProtectedJniExtensions.lookup<
         jni$_.JniResult Function(
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
-/// from: `public fun topLevelSum(a: Int, b: Int): Int`
+/// from: `public fun topLevelSum(a: kotlin.Int, b: kotlin.Int): kotlin.Int`
 int topLevelSum(
   int i,
   int i1,
@@ -3712,7 +3712,7 @@ final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `public fun topLevel(): Int`
+/// from: `public fun topLevel(): kotlin.Int`
 int topLevel$1() {
   return _topLevel$1(_TopLevelKt$1Class.reference.pointer,
           _id_topLevel$1 as jni$_.JMethodIDPtr)

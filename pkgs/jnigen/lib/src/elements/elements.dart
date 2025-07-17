@@ -1297,8 +1297,10 @@ class KotlinType implements Element<KotlinType> {
           KotlinTypeProjection() => a.type.toDocComment(typeParametersByIndex),
         });
     final typeArgs = typeList.isNotEmpty ? '<${typeList.join(', ')}>' : '';
-    final typeName =
-        name == null ? typeParametersByIndex[id].name : name!.split('/').last;
+    final typeName = name == null
+        ? typeParametersByIndex[id].name
+        // Translate JVM internal form (aka binary name form) to Kotlin form.
+        : name!.replaceAll('/', '.').replaceAll('\$', '.');
     return '$typeName$typeArgs${isNullable ? '?' : ''}';
   }
 }
