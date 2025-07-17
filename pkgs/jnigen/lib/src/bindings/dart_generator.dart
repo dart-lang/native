@@ -1541,14 +1541,19 @@ ${modifier}final _$name = $_protectedExtension
       s.write('operator ');
     }
     s.write('fun ');
+    final whereClauses = <String>[];
     if (kotlinFunction.typeParameters.isNotEmpty) {
       s.write('<');
-      s.writeAll(
-          // TODO: length > 1
-          kotlinFunction.typeParameters.map((t) => t.upperBounds.length == 1
-              ? '${t.name} : ${t.upperBounds.first.toDocComment(typeParams)}'
-              : t.name),
-          ', ');
+      for (final t in kotlinFunction.typeParameters) {
+        final typeParameters = t.upperBounds
+            .map((bound) => '${t.name} : ${bound.toDocComment(typeParams)}');
+        if (typeParameters.length == 1) {
+          s.write(typeParameters.single);
+        } else {
+          s.write(t.name);
+          whereClauses.addAll(typeParameters);
+        }
+      }
       s.write('> ');
     }
     s.write('${kotlinFunction.kotlinName}(');
@@ -1565,6 +1570,10 @@ ${modifier}final _$name = $_protectedExtension
       return '$prefix${p.name}: ${type.toDocComment(typeParams)}';
     }), ', ');
     s.write('): ${kotlinFunction.returnType.toDocComment(typeParams)}');
+    if (whereClauses.isNotEmpty) {
+      s.write(' where ');
+      s.writeAll(whereClauses, ', ');
+    }
   }
 }
 

@@ -40,6 +40,432 @@ import 'dart:core' as core$_;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `com.github.dart_lang.jnigen.CanDoA`
+class CanDoA extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<CanDoA> $type;
+
+  @jni$_.internal
+  CanDoA.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoA');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $CanDoA$NullableType();
+  static const type = $CanDoA$Type();
+  static final _id_doA = _class.instanceMethodId(
+    r'doA',
+    r'()V',
+  );
+
+  static final _doA = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public fun doA(): Unit`
+  void doA() {
+    _doA(reference.pointer, _id_doA as jni$_.JMethodIDPtr).check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $CanDoA> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'doA()V') {
+        _$impls[$p]!.doA();
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $CanDoA $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.CanDoA',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.doA$async) r'doA()V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory CanDoA.implement(
+    $CanDoA $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return CanDoA.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $CanDoA {
+  factory $CanDoA({
+    required void Function() doA,
+    bool doA$async,
+  }) = _$CanDoA;
+
+  void doA();
+  bool get doA$async => false;
+}
+
+final class _$CanDoA with $CanDoA {
+  _$CanDoA({
+    required void Function() doA,
+    this.doA$async = false,
+  }) : _doA = doA;
+
+  final void Function() _doA;
+  final bool doA$async;
+
+  void doA() {
+    return _doA();
+  }
+}
+
+final class $CanDoA$NullableType extends jni$_.JObjType<CanDoA?> {
+  @jni$_.internal
+  const $CanDoA$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoA;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoA? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : CanDoA.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoA?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoA$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoA$NullableType) &&
+        other is $CanDoA$NullableType;
+  }
+}
+
+final class $CanDoA$Type extends jni$_.JObjType<CanDoA> {
+  @jni$_.internal
+  const $CanDoA$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoA;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoA fromReference(jni$_.JReference reference) => CanDoA.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoA?> get nullableType => const $CanDoA$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoA$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoA$Type) && other is $CanDoA$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.CanDoB`
+class CanDoB extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<CanDoB> $type;
+
+  @jni$_.internal
+  CanDoB.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoB');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $CanDoB$NullableType();
+  static const type = $CanDoB$Type();
+  static final _id_doB = _class.instanceMethodId(
+    r'doB',
+    r'()V',
+  );
+
+  static final _doB = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public fun doB(): Unit`
+  void doB() {
+    _doB(reference.pointer, _id_doB as jni$_.JMethodIDPtr).check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $CanDoB> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'doB()V') {
+        _$impls[$p]!.doB();
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $CanDoB $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.CanDoB',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.doB$async) r'doB()V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory CanDoB.implement(
+    $CanDoB $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return CanDoB.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $CanDoB {
+  factory $CanDoB({
+    required void Function() doB,
+    bool doB$async,
+  }) = _$CanDoB;
+
+  void doB();
+  bool get doB$async => false;
+}
+
+final class _$CanDoB with $CanDoB {
+  _$CanDoB({
+    required void Function() doB,
+    this.doB$async = false,
+  }) : _doB = doB;
+
+  final void Function() _doB;
+  final bool doB$async;
+
+  void doB() {
+    return _doB();
+  }
+}
+
+final class $CanDoB$NullableType extends jni$_.JObjType<CanDoB?> {
+  @jni$_.internal
+  const $CanDoB$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoB;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoB? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : CanDoB.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoB?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoB$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoB$NullableType) &&
+        other is $CanDoB$NullableType;
+  }
+}
+
+final class $CanDoB$Type extends jni$_.JObjType<CanDoB> {
+  @jni$_.internal
+  const $CanDoB$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoB;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoB fromReference(jni$_.JReference reference) => CanDoB.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoB?> get nullableType => const $CanDoB$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoB$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoB$Type) && other is $CanDoB$Type;
+  }
+}
+
 /// from: `com.github.dart_lang.jnigen.Measure`
 class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
   @jni$_.internal
@@ -1537,6 +1963,36 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     final _$strings = strings.reference;
     return _methodWithVarArgs(reference.pointer,
             _id_methodWithVarArgs as jni$_.JMethodIDPtr, _$strings.pointer)
+        .integer;
+  }
+
+  static final _id_methodWithWhere = _class.instanceMethodId(
+    r'methodWithWhere',
+    r'(Lcom/github/dart_lang/jnigen/CanDoA;)I',
+  );
+
+  static final _methodWithWhere = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public fun <T> methodWithWhere(element: T): Int where T : CanDoA, T : CanDoB`
+  int methodWithWhere<$T extends jni$_.JObject>(
+    $T canDoA, {
+    jni$_.JObjType<$T>? T,
+  }) {
+    T ??= jni$_.lowestCommonSuperType([
+      canDoA.$type,
+    ]) as jni$_.JObjType<$T>;
+    final _$canDoA = canDoA.reference;
+    return _methodWithWhere(reference.pointer,
+            _id_methodWithWhere as jni$_.JMethodIDPtr, _$canDoA.pointer)
         .integer;
   }
 }
