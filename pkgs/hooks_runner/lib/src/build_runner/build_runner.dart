@@ -267,15 +267,16 @@ class NativeAssetsBuildRunner {
     var linkResult = hookResultUserDefines.success;
 
     /// Key is packageName.
-    final globalAssetsForBuild = <String, List<EncodedAsset>>{};
+    final globalAssetsForBuild = <String, Map<String, List<EncodedAsset>>>{};
     for (final package in buildPlan) {
       final dependencies = packageGraph!
           .inverseNeighborsOf(package.name)
           .toSet();
-      final assetsForLinks = <String, List<EncodedAsset>>{
-        for (final entry in globalAssetsForBuild.entries)
-          if (dependencies.contains(entry.key)) entry.key: entry.value,
-      };
+
+      final assetsForLinks = (globalAssetsForBuild[package.name] ?? {}).entries
+          .where((entry) => dependencies.contains(entry.key))
+          .expand((e) => e.value)
+          .toList();
 
       final inputBuilder = LinkInputBuilder();
       for (final e in extensions) {
@@ -337,8 +338,22 @@ class NativeAssetsBuildRunner {
       }
       final (hookOutput, hookDeps) = result.success;
       linkResult = linkResult.copyAdd(hookOutput, hookDeps);
-      globalAssetsForBuild[package.name] =
-          (hookOutput as BuildOutput).assets.encodedAssetsForBuild;
+      final encodedAssets =
+          (hookOutput as LinkOutput).assets.encodedAssetsForLink;
+      // Merge encodedAssets into globalAssetsForBuild for the current package.
+      // We iterate over the encodedAssets, and for each entry (which represents
+      // assets from a dependency), we add or update the corresponding list in
+      // globalAssetsForBuild.
+      globalAssetsForBuild.update(package.name, (currentMap) {
+        for (final entry in encodedAssets.entries) {
+          currentMap.update(
+            entry.key,
+            (currentList) => [...currentList, ...entry.value],
+            ifAbsent: () => entry.value,
+          );
+        }
+        return currentMap;
+      }, ifAbsent: () => encodedAssets);
     }
 
     final errors = [

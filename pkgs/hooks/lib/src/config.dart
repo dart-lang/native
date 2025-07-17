@@ -365,15 +365,8 @@ final class LinkInputAssets {
       EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.assets);
 
   /// The encoded assets from direct dependencies.
-  Map<String, List<EncodedAsset>> get encodedInternalAssets => {
-    for (final MapEntry(:key, :value)
-        in (_input._syntaxLinkInput.internalAssets ?? {}).entries)
-      key: EncodedAssetSyntax._fromSyntax(value),
-  };
-
-  /// The encoded assets from the direct dependency [packageName].
-  List<EncodedAsset> encodedInternalAssetsFor(String packageName) =>
-      encodedInternalAssets[packageName] ?? [];
+  List<EncodedAsset> get encodedInternalAssets =>
+      EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.internalAssets);
 }
 
 /// The builder for [LinkInput].
@@ -385,20 +378,16 @@ final class LinkInputBuilder extends HookInputBuilder {
   void setupLink({
     required List<EncodedAsset> assets,
     required Uri? recordedUsesFile,
-    required Map<String, List<EncodedAsset>> internalAssets,
+    required List<EncodedAsset> internalAssets,
   }) {
     _syntax.setup(
       assets: [
         for (final asset in assets) AssetSyntax.fromJson(asset.toJson()),
       ],
-      internalAssets: {
-        for (final MapEntry(:key, value: assetsForKey)
-            in internalAssets.entries)
-          key: [
-            for (final asset in assetsForKey)
-              AssetSyntax.fromJson(asset.toJson()),
-          ],
-      },
+      internalAssets: [
+        for (final asset in internalAssets)
+          AssetSyntax.fromJson(asset.toJson()),
+      ],
       resourceIdentifiers: recordedUsesFile,
     );
   }
