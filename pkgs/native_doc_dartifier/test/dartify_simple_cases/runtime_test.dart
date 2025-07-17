@@ -32,7 +32,7 @@ void main() {
   });
 
   test('Inner Class Call', () async {
-    expect(InnerClassCall(), equals(120));
+    expect(innerClassCall(), equals(120));
   });
 
   test('Back and Forth Strings', () async {

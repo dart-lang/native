@@ -21,7 +21,7 @@ int overloadedMethods() {
   },
   {
     'code': '''
-int InnerClassCall() {
+int innerClassCall() {
     DoublingAccumulator acc1 = new DoublingAccumulator();
     acc1.add(10);
     acc1.add(10, 10);
