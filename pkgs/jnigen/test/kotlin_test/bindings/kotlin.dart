@@ -40,6 +40,432 @@ import 'dart:core' as core$_;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `com.github.dart_lang.jnigen.CanDoA`
+class CanDoA extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<CanDoA> $type;
+
+  @jni$_.internal
+  CanDoA.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoA');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $CanDoA$NullableType();
+  static const type = $CanDoA$Type();
+  static final _id_doA = _class.instanceMethodId(
+    r'doA',
+    r'()V',
+  );
+
+  static final _doA = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public fun doA(): kotlin.Unit`
+  void doA() {
+    _doA(reference.pointer, _id_doA as jni$_.JMethodIDPtr).check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $CanDoA> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'doA()V') {
+        _$impls[$p]!.doA();
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $CanDoA $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.CanDoA',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.doA$async) r'doA()V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory CanDoA.implement(
+    $CanDoA $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return CanDoA.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $CanDoA {
+  factory $CanDoA({
+    required void Function() doA,
+    bool doA$async,
+  }) = _$CanDoA;
+
+  void doA();
+  bool get doA$async => false;
+}
+
+final class _$CanDoA with $CanDoA {
+  _$CanDoA({
+    required void Function() doA,
+    this.doA$async = false,
+  }) : _doA = doA;
+
+  final void Function() _doA;
+  final bool doA$async;
+
+  void doA() {
+    return _doA();
+  }
+}
+
+final class $CanDoA$NullableType extends jni$_.JObjType<CanDoA?> {
+  @jni$_.internal
+  const $CanDoA$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoA;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoA? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : CanDoA.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoA?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoA$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoA$NullableType) &&
+        other is $CanDoA$NullableType;
+  }
+}
+
+final class $CanDoA$Type extends jni$_.JObjType<CanDoA> {
+  @jni$_.internal
+  const $CanDoA$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoA;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoA fromReference(jni$_.JReference reference) => CanDoA.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoA?> get nullableType => const $CanDoA$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoA$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoA$Type) && other is $CanDoA$Type;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.CanDoB`
+class CanDoB extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<CanDoB> $type;
+
+  @jni$_.internal
+  CanDoB.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoB');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $CanDoB$NullableType();
+  static const type = $CanDoB$Type();
+  static final _id_doB = _class.instanceMethodId(
+    r'doB',
+    r'()V',
+  );
+
+  static final _doB = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public fun doB(): kotlin.Unit`
+  void doB() {
+    _doB(reference.pointer, _id_doB as jni$_.JMethodIDPtr).check();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $CanDoB> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'doB()V') {
+        _$impls[$p]!.doB();
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $CanDoB $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.CanDoB',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.doB$async) r'doB()V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory CanDoB.implement(
+    $CanDoB $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return CanDoB.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $CanDoB {
+  factory $CanDoB({
+    required void Function() doB,
+    bool doB$async,
+  }) = _$CanDoB;
+
+  void doB();
+  bool get doB$async => false;
+}
+
+final class _$CanDoB with $CanDoB {
+  _$CanDoB({
+    required void Function() doB,
+    this.doB$async = false,
+  }) : _doB = doB;
+
+  final void Function() _doB;
+  final bool doB$async;
+
+  void doB() {
+    return _doB();
+  }
+}
+
+final class $CanDoB$NullableType extends jni$_.JObjType<CanDoB?> {
+  @jni$_.internal
+  const $CanDoB$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoB;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoB? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : CanDoB.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoB?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoB$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoB$NullableType) &&
+        other is $CanDoB$NullableType;
+  }
+}
+
+final class $CanDoB$Type extends jni$_.JObjType<CanDoB> {
+  @jni$_.internal
+  const $CanDoB$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/CanDoB;';
+
+  @jni$_.internal
+  @core$_.override
+  CanDoB fromReference(jni$_.JReference reference) => CanDoB.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<CanDoB?> get nullableType => const $CanDoB$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($CanDoB$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($CanDoB$Type) && other is $CanDoB$Type;
+  }
+}
+
 /// from: `com.github.dart_lang.jnigen.Measure`
 class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
   @jni$_.internal
@@ -139,7 +565,7 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final float convertValue(T measureUnit)`
+  /// from: `public fun convertValue(unit: T): kotlin.Float`
   double convertValue(
     $T measureUnit,
   ) {
@@ -616,7 +1042,7 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final void f(T object, U object1, V object2)`
+  /// from: `public fun f(t: T, u: U, v: V): kotlin.Unit`
   void f(
     $T object,
     $U object1,
@@ -963,7 +1389,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Nullability<?, ?> self()`
+  /// from: `public fun self(): com.github.dart_lang.jnigen.Nullability<*, *>`
   /// The returned object must be released after use, by calling the [release] method.
   Nullability<jni$_.JObject?, jni$_.JObject> self() {
     return _self(reference.pointer, _id_self as jni$_.JMethodIDPtr)
@@ -989,7 +1415,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final java.lang.String hello()`
+  /// from: `public fun hello(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString hello() {
     return _hello(reference.pointer, _id_hello as jni$_.JMethodIDPtr)
@@ -1011,7 +1437,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public final java.lang.String nullableHello(boolean z)`
+  /// from: `public fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
     bool z,
@@ -1038,7 +1464,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final java.util.List<?> list()`
+  /// from: `public fun list(): kotlin.collections.List<*>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> list() {
     return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
@@ -1062,7 +1488,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final V methodGenericEcho(V object)`
+  /// from: `public fun <V : kotlin.Any> methodGenericEcho(v: V): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericEcho<$V extends jni$_.JObject>(
     $V object, {
@@ -1093,7 +1519,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final V methodGenericNullableEcho(V object)`
+  /// from: `public fun <V> methodGenericNullableEcho(v: V): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericNullableEcho<$V extends jni$_.JObject?>(
     $V object, {
@@ -1123,7 +1549,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final U classGenericEcho(U object)`
+  /// from: `public fun classGenericEcho(u: U): U`
   /// The returned object must be released after use, by calling the [release] method.
   $U classGenericEcho(
     $U object,
@@ -1150,7 +1576,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final T classGenericNullableEcho(T object)`
+  /// from: `public fun classGenericNullableEcho(t: T): T`
   /// The returned object must be released after use, by calling the [release] method.
   $T classGenericNullableEcho(
     $T object,
@@ -1179,7 +1605,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.String firstOf(java.util.List<java.lang.String> list)`
+  /// from: `public fun firstOf(list: kotlin.collections.List<kotlin.String>): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString firstOf(
     jni$_.JList<jni$_.JString> list,
@@ -1206,7 +1632,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.String firstOfNullable(java.util.List<java.lang.String> list)`
+  /// from: `public fun firstOfNullable(list: kotlin.collections.List<kotlin.String?>): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? firstOfNullable(
     jni$_.JList<jni$_.JString?> list,
@@ -1233,7 +1659,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final U classGenericFirstOf(java.util.List<? extends U> list)`
+  /// from: `public fun classGenericFirstOf(list: kotlin.collections.List<U>): U`
   /// The returned object must be released after use, by calling the [release] method.
   $U classGenericFirstOf(
     jni$_.JList<$U> list,
@@ -1261,7 +1687,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final T classGenericFirstOfNullable(java.util.List<? extends T> list)`
+  /// from: `public fun classGenericFirstOfNullable(list: kotlin.collections.List<T>): T`
   /// The returned object must be released after use, by calling the [release] method.
   $T classGenericFirstOfNullable(
     jni$_.JList<$T> list,
@@ -1290,7 +1716,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final V methodGenericFirstOf(java.util.List<? extends V> list)`
+  /// from: `public fun <V : kotlin.Any> methodGenericFirstOf(list: kotlin.collections.List<V>): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOf<$V extends jni$_.JObject>(
     jni$_.JList<$V> list, {
@@ -1322,7 +1748,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final V methodGenericFirstOfNullable(java.util.List<? extends V> list)`
+  /// from: `public fun <V> methodGenericFirstOfNullable(list: kotlin.collections.List<V>): V`
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list, {
@@ -1355,7 +1781,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.util.List<java.lang.String> stringListOf(java.lang.String string)`
+  /// from: `public fun stringListOf(element: kotlin.String): kotlin.collections.List<kotlin.String>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString> stringListOf(
     jni$_.JString string,
@@ -1383,7 +1809,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.util.List<java.lang.String> nullableListOf(java.lang.String string)`
+  /// from: `public fun nullableListOf(element: kotlin.String?): kotlin.collections.List<kotlin.String?>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?> nullableListOf(
     jni$_.JString? string,
@@ -1411,7 +1837,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.util.List<U> classGenericListOf(U object)`
+  /// from: `public fun classGenericListOf(element: U): kotlin.collections.List<U>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$U> classGenericListOf(
     $U object,
@@ -1439,7 +1865,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.util.List<T> classGenericNullableListOf(T object)`
+  /// from: `public fun classGenericNullableListOf(element: T): kotlin.collections.List<T>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T> classGenericNullableListOf(
     $T object,
@@ -1468,7 +1894,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.util.List<V> methodGenericListOf(V object)`
+  /// from: `public fun <V : kotlin.Any> methodGenericListOf(element: V): kotlin.collections.List<V>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericListOf<$V extends jni$_.JObject>(
     $V object, {
@@ -1500,7 +1926,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
                   jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.util.List<V> methodGenericNullableListOf(V object)`
+  /// from: `public fun <V> methodGenericNullableListOf(element: V): kotlin.collections.List<V>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericNullableListOf<$V extends jni$_.JObject?>(
     $V object, {
@@ -1512,6 +1938,62 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             _id_methodGenericNullableListOf as jni$_.JMethodIDPtr,
             _$object.pointer)
         .object<jni$_.JList<$V>>(jni$_.JListType<$V>(V));
+  }
+
+  static final _id_methodWithVarArgs = _class.instanceMethodId(
+    r'methodWithVarArgs',
+    r'([Ljava/lang/String;)I',
+  );
+
+  static final _methodWithVarArgs = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public fun methodWithVarArgs(vararg argument: kotlin.String): kotlin.Int`
+  int methodWithVarArgs(
+    jni$_.JArray<jni$_.JString> strings,
+  ) {
+    final _$strings = strings.reference;
+    return _methodWithVarArgs(reference.pointer,
+            _id_methodWithVarArgs as jni$_.JMethodIDPtr, _$strings.pointer)
+        .integer;
+  }
+
+  static final _id_methodWithWhere = _class.instanceMethodId(
+    r'methodWithWhere',
+    r'(Lcom/github/dart_lang/jnigen/CanDoA;)I',
+  );
+
+  static final _methodWithWhere = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public fun <V> methodWithWhere(element: V): kotlin.Int where V : com.github.dart_lang.jnigen.CanDoA, V : com.github.dart_lang.jnigen.CanDoB`
+  int methodWithWhere<$V extends jni$_.JObject>(
+    $V canDoA, {
+    jni$_.JObjType<$V>? V,
+  }) {
+    V ??= jni$_.lowestCommonSuperType([
+      canDoA.$type,
+    ]) as jni$_.JObjType<$V>;
+    final _$canDoA = canDoA.reference;
+    return _methodWithWhere(reference.pointer,
+            _id_methodWithWhere as jni$_.JMethodIDPtr, _$canDoA.pointer)
+        .integer;
   }
 }
 
@@ -1721,7 +2203,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Operators plus(com.github.dart_lang.jnigen.Operators operators)`
+  /// from: `public operator fun plus(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators plus(
     Operators operators,
@@ -1747,7 +2229,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Operators plus(int i)`
+  /// from: `public operator fun plus(int: kotlin.Int): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators plus$1(
     int i,
@@ -1772,7 +2254,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Operators minus(com.github.dart_lang.jnigen.Operators operators)`
+  /// from: `public operator fun minus(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators minus(
     Operators operators,
@@ -1799,7 +2281,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Operators times(com.github.dart_lang.jnigen.Operators operators)`
+  /// from: `public operator fun times(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators times(
     Operators operators,
@@ -1826,7 +2308,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Operators div(com.github.dart_lang.jnigen.Operators operators)`
+  /// from: `public operator fun div(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators div(
     Operators operators,
@@ -1853,7 +2335,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Operators rem(com.github.dart_lang.jnigen.Operators operators)`
+  /// from: `public operator fun rem(op: com.github.dart_lang.jnigen.Operators): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators rem(
     Operators operators,
@@ -1880,7 +2362,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public final boolean get(int i)`
+  /// from: `public operator fun get(index: kotlin.Int): kotlin.Boolean`
   bool get(
     int i,
   ) {
@@ -1903,7 +2385,7 @@ class Operators extends jni$_.JObject {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
-  /// from: `public final void set(int i, boolean z)`
+  /// from: `public operator fun set(index: kotlin.Int, bit: kotlin.Boolean): kotlin.Unit`
   void set(
     int i,
     bool z,
@@ -1928,7 +2410,7 @@ class Operators extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final int compareTo(com.github.dart_lang.jnigen.Operators operators)`
+  /// from: `public fun compareTo(op: com.github.dart_lang.jnigen.Operators): kotlin.Int`
   int compareTo(
     Operators operators,
   ) {
@@ -2168,7 +2650,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.lang.String toString()`
+  /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
     return _toString$1(reference.pointer, _id_toString$1 as jni$_.JMethodIDPtr)
@@ -2192,7 +2674,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final float component1()`
+  /// from: `public operator fun component1(): kotlin.Float`
   double component1() {
     return _component1(reference.pointer, _id_component1 as jni$_.JMethodIDPtr)
         .float;
@@ -2215,7 +2697,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public final com.github.dart_lang.jnigen.SpeedUnit component2()`
+  /// from: `public operator fun component2(): com.github.dart_lang.jnigen.SpeedUnit`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit component2() {
     return _component2(reference.pointer, _id_component2 as jni$_.JMethodIDPtr)
@@ -2241,7 +2723,7 @@ class Speed extends Measure<SpeedUnit> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, double, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final com.github.dart_lang.jnigen.Speed copy(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
+  /// from: `public fun copy(value: kotlin.Float, unit: com.github.dart_lang.jnigen.SpeedUnit): com.github.dart_lang.jnigen.Speed`
   /// The returned object must be released after use, by calling the [release] method.
   Speed copy(
     double f,
@@ -2270,7 +2752,7 @@ class Speed extends Measure<SpeedUnit> {
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public int hashCode()`
+  /// from: `public fun hashCode(): kotlin.Int`
   int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
         .integer;
@@ -2292,7 +2774,7 @@ class Speed extends Measure<SpeedUnit> {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public boolean equals(java.lang.Object object)`
+  /// from: `public operator fun equals(other: kotlin.Any?): kotlin.Boolean`
   bool equals(
     jni$_.JObject? object,
   ) {
@@ -2647,7 +3129,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object sayHelloWithoutDelay(kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun sayHelloWithoutDelay(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHelloWithoutDelay() async {
     final $p = jni$_.ReceivePort();
@@ -2696,7 +3178,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object failWithoutDelay(kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun failWithoutDelay(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> failWithoutDelay() async {
     final $p = jni$_.ReceivePort();
@@ -2743,7 +3225,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object fail(kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun fail(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> fail() async {
     final $p = jni$_.ReceivePort();
@@ -2790,7 +3272,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object sayHello(kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun sayHello(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello() async {
     final $p = jni$_.ReceivePort();
@@ -2843,7 +3325,7 @@ class SuspendFun extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object sayHello(java.lang.String string, kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun sayHello(name: kotlin.String): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> sayHello$1(
     jni$_.JString string,
@@ -2896,7 +3378,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object nullableHello(boolean z, kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHello(
     bool z,
@@ -2951,7 +3433,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object nullableHelloWithoutDelay(boolean z, kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun nullableHelloWithoutDelay(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHelloWithoutDelay(
     bool z,
@@ -3130,7 +3612,7 @@ final _topLevel = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `static public final int topLevel()`
+/// from: `public fun topLevel(): kotlin.Int`
 int topLevel() {
   return _topLevel(_TopLevelKtClass.reference.pointer,
           _id_topLevel as jni$_.JMethodIDPtr)
@@ -3153,7 +3635,7 @@ final _topLevelSum = jni$_.ProtectedJniExtensions.lookup<
         jni$_.JniResult Function(
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
-/// from: `static public final int topLevelSum(int i, int i1)`
+/// from: `public fun topLevelSum(a: kotlin.Int, b: kotlin.Int): kotlin.Int`
 int topLevelSum(
   int i,
   int i1,
@@ -3230,7 +3712,7 @@ final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.JMethodIDPtr,
         )>();
 
-/// from: `static public final int topLevel()`
+/// from: `public fun topLevel(): kotlin.Int`
 int topLevel$1() {
   return _topLevel$1(_TopLevelKt$1Class.reference.pointer,
           _id_topLevel$1 as jni$_.JMethodIDPtr)
