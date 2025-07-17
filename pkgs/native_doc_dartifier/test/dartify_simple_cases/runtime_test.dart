@@ -6,7 +6,10 @@ import 'dart:io';
 
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
+import 'dartified_snippets/identifiers.dart';
+import 'dartified_snippets/inner_class.dart';
 import 'dartified_snippets/overloaded_methods.dart';
+import 'dartified_snippets/strings.dart';
 
 void main() {
   setUpAll(() {
@@ -26,5 +29,17 @@ void main() {
 
   test('Overloaded Methods and Constructors', () async {
     expect(overloadedMethods(), equals(80));
+  });
+
+  test('Inner Class Call', () async {
+    expect(innerClassCall(), equals(120));
+  });
+
+  test('Back and Forth Strings', () async {
+    expect(backAndForthStrings(), equals('Hello World'));
+  });
+
+  test('identifiers has \$ and starts with "_"', () async {
+    expect(identifiersSpecialCases(), equals(3));
   });
 }

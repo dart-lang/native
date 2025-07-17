@@ -19,4 +19,34 @@ int overloadedMethods() {
 }''',
     'fileName': 'overloaded_methods.dart',
   },
+  {
+    'code': '''
+int innerClassCall() {
+    DoublingAccumulator acc1 = new DoublingAccumulator();
+    acc1.add(10);
+    acc1.add(10, 10);
+    acc1.add(10, 10, 10);
+
+    return acc1.accumulator;
+}''',
+    'fileName': 'inner_class.dart',
+  },
+  {
+    'code': '''
+String backAndForthStrings(){
+    String name = "World";
+    Example example = new Example();
+    String greeting = example.greet(name);
+    System.out.println(greeting);
+    return greeting;
+}''',
+    'fileName': 'strings.dart',
+  },
+  {
+    'code': '''
+int identifiersSpecialCases(){
+    return Example.has\$dollar\$sign() + Example._startsWithUnderscore();
+}''',
+    'fileName': 'identifiers.dart',
+  },
 ];
