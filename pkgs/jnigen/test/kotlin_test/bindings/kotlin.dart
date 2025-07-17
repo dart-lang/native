@@ -1982,14 +1982,14 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public fun <T> methodWithWhere(element: T): Int where T : CanDoA, T : CanDoB`
-  int methodWithWhere<$T extends jni$_.JObject>(
-    $T canDoA, {
-    jni$_.JObjType<$T>? T,
+  /// from: `public fun <V> methodWithWhere(element: V): Int where V : CanDoA, V : CanDoB`
+  int methodWithWhere<$V extends jni$_.JObject>(
+    $V canDoA, {
+    jni$_.JObjType<$V>? V,
   }) {
-    T ??= jni$_.lowestCommonSuperType([
+    V ??= jni$_.lowestCommonSuperType([
       canDoA.$type,
-    ]) as jni$_.JObjType<$T>;
+    ]) as jni$_.JObjType<$V>;
     final _$canDoA = canDoA.reference;
     return _methodWithWhere(reference.pointer,
             _id_methodWithWhere as jni$_.JMethodIDPtr, _$canDoA.pointer)

@@ -93,7 +93,7 @@ public class Nullability<T, U : Any>(val t: T, val u: U, var nullableU: U?) {
         return 42
     }
 
-    public fun <T> methodWithWhere(element: T): Int where T: CanDoA, T: CanDoB {
+    public fun <V> methodWithWhere(element: V): Int where V: CanDoA, V: CanDoB {
         return 42
     }
 
