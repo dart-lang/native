@@ -81,11 +81,9 @@ class Accumulator extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumulator() {
-    return Accumulator.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory Accumulator() => Accumulator.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -109,15 +107,13 @@ class Accumulator extends jni$_.JObject {
 
   /// from: `public void <init>(int initialValue)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumulator.new$1(int initialValue) {
-    return Accumulator.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-        initialValue,
-      ).reference,
-    );
-  }
+  factory Accumulator.new$1(int initialValue) => Accumulator.fromReference(
+    _new$1(
+      _class.reference.pointer,
+      _id_new$1 as jni$_.JMethodIDPtr,
+      initialValue,
+    ).reference,
+  );
 
   static final _id_new$2 = _class.constructorId(r'(Lcom/Accumulator;)V');
 
@@ -303,10 +299,9 @@ final class $Accumulator$NullableType extends jni$_.JObjType<Accumulator?> {
   int get hashCode => ($Accumulator$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Accumulator$NullableType) &&
-        other is $Accumulator$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$NullableType) &&
+      other is $Accumulator$NullableType;
 }
 
 final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
@@ -338,10 +333,8 @@ final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
   int get hashCode => ($Accumulator$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Accumulator$Type) &&
-        other is $Accumulator$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$Type) && other is $Accumulator$Type;
 }
 
 /// from: `com.Accumulator$DoublingAccumulator`
@@ -525,11 +518,9 @@ final class $Accumulator$DoublingAccumulator$NullableType
   int get hashCode => ($Accumulator$DoublingAccumulator$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType ==
-            ($Accumulator$DoublingAccumulator$NullableType) &&
-        other is $Accumulator$DoublingAccumulator$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$DoublingAccumulator$NullableType) &&
+      other is $Accumulator$DoublingAccumulator$NullableType;
 }
 
 final class $Accumulator$DoublingAccumulator$Type
@@ -562,10 +553,9 @@ final class $Accumulator$DoublingAccumulator$Type
   int get hashCode => ($Accumulator$DoublingAccumulator$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Accumulator$DoublingAccumulator$Type) &&
-        other is $Accumulator$DoublingAccumulator$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$DoublingAccumulator$Type) &&
+      other is $Accumulator$DoublingAccumulator$Type;
 }
 
 /// from: `com.Example`
@@ -630,11 +620,9 @@ class Example extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example() {
-    return Example.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory Example() => Example.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_greet = _class.instanceMethodId(
     r'greet',
@@ -699,10 +687,9 @@ final class $Example$NullableType extends jni$_.JObjType<Example?> {
   int get hashCode => ($Example$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example$NullableType) &&
-        other is $Example$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Example$NullableType) &&
+      other is $Example$NullableType;
 }
 
 final class $Example$Type extends jni$_.JObjType<Example> {
@@ -733,7 +720,6 @@ final class $Example$Type extends jni$_.JObjType<Example> {
   int get hashCode => ($Example$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example$Type) && other is $Example$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Example$Type) && other is $Example$Type;
 }

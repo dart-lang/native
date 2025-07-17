@@ -3,7 +3,6 @@
 import 'package:jni/jni.dart';
 import '../bindings.dart';
 
-  
 String backAndForthStrings() {
   final name = 'World'.toJString();
   final example = Example();
@@ -11,4 +10,3 @@ String backAndForthStrings() {
   print(greeting);
   return greeting!;
 }
-  
