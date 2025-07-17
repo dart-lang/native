@@ -251,12 +251,9 @@
           }
         },
         "internal_assets": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Asset"
-            }
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
           }
         },
         "resource_identifiers": {

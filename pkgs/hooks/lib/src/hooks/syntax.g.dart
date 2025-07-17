@@ -742,7 +742,7 @@ class LinkInputSyntax extends HookInputSyntax {
   LinkInputSyntax({
     required List<AssetSyntax>? assets,
     required super.config,
-    required Map<String, List<AssetSyntax>>? internalAssets,
+    required List<AssetSyntax>? internalAssets,
     required super.outDirShared,
     required super.outFile,
     required super.packageName,
@@ -760,7 +760,7 @@ class LinkInputSyntax extends HookInputSyntax {
   /// [HookInputSyntax].
   void setup({
     required List<AssetSyntax>? assets,
-    required Map<String, List<AssetSyntax>>? internalAssets,
+    required List<AssetSyntax>? internalAssets,
     required Uri? resourceIdentifiers,
   }) {
     _assets = assets;
@@ -803,51 +803,38 @@ class LinkInputSyntax extends HookInputSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
-  Map<String, List<AssetSyntax>>? get internalAssets {
-    final jsonValue = _reader.optionalMap('internal_assets');
-    if (jsonValue == null) {
-      return null;
-    }
-    final result = <String, List<AssetSyntax>>{};
-    for (final MapEntry(:key, :value) in jsonValue.entries) {
-      result[key] = [
-        for (final (index, item) in (value as List<Object?>).indexed)
-          AssetSyntax.fromJson(
-            item as Map<String, Object?>,
-            path: [...path, key, index],
-          ),
-      ];
-    }
-    return result;
+  List<AssetSyntax>? get internalAssets {
+    final jsonValue = _reader.optionalList('internal_assets');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        AssetSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'internal_assets', index],
+        ),
+    ];
   }
 
-  set _internalAssets(Map<String, List<AssetSyntax>>? value) {
+  set _internalAssets(List<AssetSyntax>? value) {
     if (value == null) {
       json.remove('internal_assets');
     } else {
-      json['internal_assets'] = {
-        for (final MapEntry(:key, :value) in value.entries)
-          key: [for (final item in value) item.json],
-      };
+      json['internal_assets'] = [for (final item in value) item.json];
     }
   }
 
   List<String> _validateInternalAssets() {
-    final mapErrors = _reader.validateOptionalMap('internal_assets');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'internal_assets',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
     }
-    final jsonValue = _reader.optionalMap('internal_assets');
-    if (jsonValue == null) {
+    final elements = internalAssets;
+    if (elements == null) {
       return [];
     }
-    final result = <String>[];
-    for (final list in internalAssets!.values) {
-      for (final element in list) {
-        result.addAll(element.validate());
-      }
-    }
-    return result;
+    return [for (final element in elements) ...element.validate()];
   }
 
   Uri? get resourceIdentifiers => _reader.optionalPath('resource_identifiers');
