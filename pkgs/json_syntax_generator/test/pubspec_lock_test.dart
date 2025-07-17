@@ -37,7 +37,10 @@ void main() {
       tempFile.path,
     ]);
     expect(formatResult.exitCode, equals(0));
-    expect(tempFile.readAsStringSync(), goldenFile.readAsStringSync());
+    expect(
+      tempFile.readAsStringSync().replaceAll('\r\n', '\n'),
+      goldenFile.readAsStringSync().replaceAll('\r\n', '\n'),
+    );
     tempFile.deleteSync();
   });
 }
