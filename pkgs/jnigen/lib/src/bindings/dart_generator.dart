@@ -1367,6 +1367,11 @@ ${modifier}final _$name = $_protectedExtension
     s.write('  /// from: `');
     if (node.kotlinFunction != null) {
       final kotlinFunction = node.kotlinFunction!;
+      final typeParams = [
+        ...node.classDecl.allTypeParams,
+        ...node.typeParams,
+      ];
+
       if (kotlinFunction.isPublic) {
         s.write('public ');
       }
@@ -1391,7 +1396,7 @@ ${modifier}final _$name = $_protectedExtension
         s.writeAll(
             // TODO: length > 1
             kotlinFunction.typeParameters.map((t) => t.upperBounds.length == 1
-                ? '${t.name} : ${t.upperBounds.first.toDocComment()}'
+                ? '${t.name} : ${t.upperBounds.first.toDocComment(typeParams)}'
                 : t.name),
             ', ');
         s.write('> ');
@@ -1399,9 +1404,9 @@ ${modifier}final _$name = $_protectedExtension
       s.write('${kotlinFunction.kotlinName}(');
       s.writeAll(
           kotlinFunction.valueParameters
-              .map((p) => '${p.name}: ${p.type.toDocComment()}'),
+              .map((p) => '${p.name}: ${p.type.toDocComment(typeParams)}'),
           ', ');
-      s.writeln('): ${kotlinFunction.returnType.toDocComment()}`');
+      s.writeln('): ${kotlinFunction.returnType.toDocComment(typeParams)}`');
     } else {
       s.writeAll(node.modifiers.map((m) => '$m '));
       s.write('${node.returnType} ${node.name}(');

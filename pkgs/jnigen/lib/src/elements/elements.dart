@@ -1291,13 +1291,15 @@ class KotlinType implements Element<KotlinType> {
     return v.visit(this);
   }
 
-  String? toDocComment() {
+  String? toDocComment(List<TypeParam> typeParametersByIndex) {
     final typeList = arguments.map((a) => switch (a) {
           KotlinWildcard() => '*',
-          KotlinTypeProjection() => a.type.toDocComment(),
+          KotlinTypeProjection() => a.type.toDocComment(typeParametersByIndex),
         });
     final typeArgs = typeList.isNotEmpty ? '<${typeList.join(', ')}>' : '';
-    return '${name?.split('/').last}$typeArgs${isNullable ? '?' : ''}';
+    final typeName =
+        name == null ? typeParametersByIndex[id].name : name!.split('/').last;
+    return '$typeName$typeArgs${isNullable ? '?' : ''}';
   }
 }
 
