@@ -7,6 +7,10 @@ import 'package:hooks/hooks.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    await output.addDataAssetDirectories(['assets'], input: input);
+    await output.addDataAssetDirectories(
+      ['assets'],
+      input: input,
+      routing: ToLinkHook(input.packageName),
+    );
   });
 }

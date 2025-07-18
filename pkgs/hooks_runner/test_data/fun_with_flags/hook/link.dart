@@ -4,14 +4,22 @@ import 'package:hooks/hooks.dart';
 
 void main(List<String> args) {
   link(args, (input, output) async {
+    print('Metadata: ${input.metadata}');
     final usedFlags = input.metadata
         .where((asset) => asset.key.startsWith(prefix))
-        .expand((e) => e.value as List<String>)
-        .map((country) => 'assets/$country.txt');
+        .expand((e) => e.value as List)
+        .map((e) => e as String)
+        .map((country) => 'package:fun_with_flags/assets/$country.txt')
+        .toSet();
+
+    print('Got $usedFlags for linking. Checking against ${input.assets.data}');
 
     final usedFlagAssets = input.assets.data.where(
       (flagAsset) => usedFlags.contains(flagAsset.id),
     );
+
+    print('After filtering, got $usedFlagAssets');
+
     output.assets.data.addAll(usedFlagAssets);
   });
 }

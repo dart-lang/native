@@ -273,7 +273,7 @@ class NativeAssetsBuildRunner {
           .inverseNeighborsOf(package.name)
           .toSet();
 
-      final assetsForLinks = (globalAssetsForBuild[package.name] ?? {}).entries
+      final internalAssets = (globalAssetsForBuild[package.name] ?? {}).entries
           .where((entry) => dependencies.contains(entry.key))
           .expand((e) => e.value)
           .toList();
@@ -303,10 +303,11 @@ class NativeAssetsBuildRunner {
         outputDirectoryShared: outDirSharedUri,
         userDefines: loadedUserDefines?[package.name],
       );
+
       inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
-        internalAssets: assetsForLinks,
+        internalAssets: internalAssets,
       );
 
       final input = inputBuilder.build();
@@ -338,22 +339,18 @@ class NativeAssetsBuildRunner {
       }
       final (hookOutput, hookDeps) = result.success;
       linkResult = linkResult.copyAdd(hookOutput, hookDeps);
-      final encodedAssets =
-          (hookOutput as LinkOutput).assets.encodedAssetsForLink;
-      // Merge encodedAssets into globalAssetsForBuild for the current package.
-      // We iterate over the encodedAssets, and for each entry (which represents
-      // assets from a dependency), we add or update the corresponding list in
-      // globalAssetsForBuild.
-      globalAssetsForBuild.update(package.name, (currentMap) {
-        for (final entry in encodedAssets.entries) {
-          currentMap.update(
-            entry.key,
-            (currentList) => [...currentList, ...entry.value],
-            ifAbsent: () => entry.value,
-          );
-        }
-        return currentMap;
-      }, ifAbsent: () => encodedAssets);
+
+      // Merge the assets into the global asset map.
+      (hookOutput as LinkOutput).assets.encodedAssetsForLink.forEach(
+        (packageName, assetsForPackage) => globalAssetsForBuild.update(
+          packageName,
+          (current) => {
+            ...current,
+            ...{package.name: assetsForPackage},
+          },
+          ifAbsent: () => {package.name: assetsForPackage},
+        ),
+      );
     }
 
     final errors = [
