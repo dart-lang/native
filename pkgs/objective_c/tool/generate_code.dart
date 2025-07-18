@@ -23,7 +23,11 @@ const builtInTypes =
     '../ffigen/lib/src/code_generator/objc_built_in_types.dart';
 const interfaceListTest = 'test/interface_lists_test.dart';
 
-const privateClasses = <String>{'DartInputStreamAdapter', 'DOBJCObservation'};
+const privateClasses = <String>{
+  'DartInputStreamAdapter',
+  'DartInputStreamAdapterWeakHolder',
+  'DOBJCObservation',
+};
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;

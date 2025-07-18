@@ -27,6 +27,7 @@ objc-interfaces:
   # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
+    - DOBJCDartInputStreamAdapterWeakHolder
     - DOBJCObservation
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
@@ -72,6 +73,7 @@ objc-interfaces:
     - Protocol
   rename:
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
+    'DOBJCDartInputStreamAdapterWeakHolder' : 'DartInputStreamAdapterWeakHolder'
     'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
     'DOBJCDartProtocol': 'DartProtocol'
 objc-protocols:
