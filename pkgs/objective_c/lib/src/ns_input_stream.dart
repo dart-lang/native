@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
-import 'package:objective_c/objective_c.dart';
+import '../objective_c.dart';
 
 import 'objective_c_bindings_generated.dart';
 
