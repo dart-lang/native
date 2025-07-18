@@ -1,3 +1,8 @@
+## 0.20.0
+
+* Enable passing metadata from link hooks of a package to the link hooks in 
+  depending packages, by fixing the link hook execution order.
+
 ## 0.19.1
 
 * Bump the SDK constraint to at least the one from `package:hooks` to fix
