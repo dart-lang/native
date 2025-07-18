@@ -1,3 +1,8 @@
+## 0.22.0
+
+* Enable passing metadata from link hooks of a package to the link hooks in 
+  depending packages, by fixing the link hook execution order.
+
 ## 0.21.0
 
 * Add `includeDevDependencies` param to `BuildLayout` to enable building the
