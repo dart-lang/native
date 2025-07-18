@@ -4,7 +4,6 @@
 
 #include "include/dart_api_dl.h"
 
-#import <Foundation/Foundation.h>
 #import <Foundation/NSObject.h>
 #import <Foundation/NSStream.h>
 
@@ -22,6 +21,7 @@
 - (void)setError:(NSError *)error;
 @end
 
+/// Helper class that contains a weak reference to a `DOBJCDartInputStreamAdapter`.
 @interface DOBJCDartInputStreamAdapterWeakHolder : NSObject
 
 + (instancetype)holderWithInputStreamAdapter:(DOBJCDartInputStreamAdapter *)adapter;

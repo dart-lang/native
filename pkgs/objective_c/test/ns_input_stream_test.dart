@@ -6,6 +6,7 @@
 @TestOn('mac-os')
 library;
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
@@ -53,6 +54,7 @@ void main() {
         setUp(() {
           inputStream = const Stream<List<int>>.empty().toNSInputStream();
         });
+        tearDown(() => inputStream.close());
 
         test('initial state', () {
           expect(
@@ -112,6 +114,7 @@ void main() {
             [4, 5, 6],
           ]).toNSInputStream();
         });
+        tearDown(() => inputStream.close());
 
         test('initial state', () {
           expect(
@@ -190,6 +193,7 @@ void main() {
       setUp(() {
         inputStream = Stream.fromIterable(streamData).toNSInputStream();
       });
+      tearDown(() => inputStream.close());
 
       test('nothing', () async {
         final r = ReceivePort();
@@ -292,6 +296,7 @@ void main() {
                 ]).toNSInputStream()
                 as DartInputStreamAdapter;
       });
+      tearDown(() => inputStream.close());
 
       test('default delegate', () async {
         expect(inputStream.delegate, inputStream);
@@ -321,6 +326,21 @@ void main() {
     });
 
     group('ref counting', () {
+      test('dart and objective-c cycle', () async {
+        final completionPort = ReceivePort();
+        unawaited(
+          Isolate.spawn(
+            (_) async {
+              final inputStream = const Stream<List<int>>.empty()
+                  .toNSInputStream();
+              inputStream.ref.release();
+            },
+            Void,
+            onExit: completionPort.sendPort,
+          ),
+        );
+        await completionPort.first;
+      });
       test('with self delegate', () async {
         final pool = autoreleasePoolPush();
         DartInputStreamAdapter? inputStream =

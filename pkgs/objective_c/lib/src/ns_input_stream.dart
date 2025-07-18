@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
-import 'ns_data.dart';
-import 'ns_string.dart';
+import 'package:objective_c/objective_c.dart';
+
 import 'objective_c_bindings_generated.dart';
 
 @Native<Pointer<Void> Function()>(
@@ -27,6 +27,21 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// > than the one that calls [toNSInputStream]. Otherwise,
   /// > [NSInputStream.read] will deadlock waiting for data to be added from the
   /// > [Stream].
+  ///
+  /// > [!IMPORTANT]
+  /// > [NSInputStream.read] must be called from a different thread or [Isolate]
+  /// > than the one that calls `toNSInputStream`. Otherwise,
+  /// > [NSInputStream.read] will deadlock waiting for data to be added from the
+  /// > [Stream].
+  ///
+  /// > [!IMPORTANT]
+  /// > `toNSInputStream` creates a reference cycle between Dart and
+  /// > Objective-C. Unless this cycle is broken, the [Isolate] calling
+  /// > `toNSInputStream` will never exit. The cycle can be broken by calling
+  /// > [NSInputStream.close].
+  // TODO(brianquinlan): Add a note saying that the Dart/Objective-C reference
+  // cycle can be broken by releasing the Objective-C object when a public API
+  // to do that is available.
   NSInputStream toNSInputStream() {
     // Eagerly add data until `maxReadAheadSize` is buffered.
     const maxReadAheadSize = 4096;
@@ -84,7 +99,6 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
     dataSubscription.pause();
     port.listen(
       (count) {
-        print(count);
         // -1 indicates that the `NSInputStream` is closed. All other values
         // indicate that the `NSInputStream` needs more data.
         //
@@ -98,11 +112,9 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         }
       },
       onDone: () {
-        print('port.onDone');
         dataSubscription.cancel();
       },
     );
-    print('Returned a stream');
     return inputStream;
   }
 }
