@@ -50,6 +50,11 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
 
     final DartInputStreamAdapter inputStream;
     final DartInputStreamAdapterWeakHolder weakInputStream;
+
+    // Only hold a weak reference to the returned `inputStream` so that there is
+    // no unbreakable reference cycle between Dart and Objective-C. When the
+    // `inputStream`'s `dealloc` method is called then it sends this code a
+    // message saying that it was closed.
     final pool = _autoreleasePoolPush();
     try {
       inputStream = DartInputStreamAdapter.inputStreamWithPort(
