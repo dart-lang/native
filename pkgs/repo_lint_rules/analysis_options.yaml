@@ -4,7 +4,7 @@ analyzer:
   language:
     strict-raw-types: true
   plugins:
-    # - custom_lint # https://github.com/dart-lang/sdk/issues/60784
+    - custom_lint
 
 linter:
   rules:
