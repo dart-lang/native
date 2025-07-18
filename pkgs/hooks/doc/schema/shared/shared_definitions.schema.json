@@ -250,6 +250,12 @@
             "$ref": "#/definitions/Asset"
           }
         },
+        "internal_assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
         "resource_identifiers": {
           "$ref": "#/definitions/absolutePath"
         }
@@ -261,6 +267,18 @@
       ]
     },
     "LinkOutput": {
+      "type": "object",
+      "properties": {
+        "assets_for_link": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        }
+      },
       "allOf": [
         {
           "$ref": "#/definitions/HookOutput"

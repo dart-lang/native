@@ -103,41 +103,6 @@ void main() async {
     });
   });
 
-  test('no_asset_for_link', timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
-      await copyTestProjects(targetUri: tempUri);
-      final packageUri = tempUri.resolve('no_asset_for_link/');
-
-      // First, run `pub get`, we need pub to resolve our dependencies.
-      await runPubGet(workingDirectory: packageUri, logger: logger);
-
-      final buildResult = (await buildDataAssets(
-        packageUri,
-        linkingEnabled: true,
-      )).success;
-      expect(buildResult.encodedAssets.length, 0);
-      expect(buildResult.encodedAssetsForLinking.length, 0);
-
-      final logMessages = <String>[];
-      final linkResult = (await link(
-        packageUri,
-        logger,
-        dartExecutable,
-        buildResult: buildResult,
-        capturedLogs: logMessages,
-        buildAssetTypes: [BuildAssetType.data],
-      )).success;
-      expect(linkResult.encodedAssets.length, 0);
-      expect(
-        logMessages,
-        contains(
-          'Skipping link hooks from no_asset_for_link due to '
-          'no assets provided to link for these link hooks.',
-        ),
-      );
-    });
-  });
-
   if (Platform.isMacOS || Platform.isWindows) {
     // https://github.com/dart-lang/native/issues/1376.
     return;

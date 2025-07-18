@@ -56,7 +56,7 @@ void runObjectsTests(
           outputFile: tempUri.resolve('output.json'),
           outputDirectoryShared: tempUri2,
         )
-        ..setupLink(assets: [], recordedUsesFile: null)
+        ..setupLink(assets: [], recordedUsesFile: null, internalAssets: [])
         ..addExtension(
           CodeAssetExtension(
             targetOS: targetOS,
