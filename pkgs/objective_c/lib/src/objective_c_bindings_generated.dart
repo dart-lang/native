@@ -1129,7 +1129,7 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   }
 }
 
-/// DOBJCDartInputStreamAdapterWeakHolder
+/// Helper class that contains a weak reference to a `DOBJCDartInputStreamAdapter`.
 class DartInputStreamAdapterWeakHolder extends NSObject {
   DartInputStreamAdapterWeakHolder._(
     ffi.Pointer<objc.ObjCObject> pointer, {
