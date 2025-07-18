@@ -178,7 +178,7 @@
 @end
 
 @implementation DOBJCDartInputStreamAdapterWeakHolder
-+ (instancetype)initWithAdapter:(DOBJCDartInputStreamAdapter *)adapter {
++ (instancetype)holderWithInputStreamAdapter:(DOBJCDartInputStreamAdapter *)adapter {
   DOBJCDartInputStreamAdapterWeakHolder * holder = [[DOBJCDartInputStreamAdapterWeakHolder alloc] init]; 
   if (holder != nil) {
     holder->adapter = adapter;

@@ -822,154 +822,6 @@ final class CGSize extends ffi.Struct {
   external double height;
 }
 
-/// DOBJCDartInputStreamAdapterWeakHolder
-class DOBJCDartInputStreamAdapterWeakHolder extends NSObject {
-  DOBJCDartInputStreamAdapterWeakHolder._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super.castFromPointer(pointer, retain: retain, release: release);
-
-  /// Constructs a [DOBJCDartInputStreamAdapterWeakHolder] that points to the same underlying object as [other].
-  DOBJCDartInputStreamAdapterWeakHolder.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [DOBJCDartInputStreamAdapterWeakHolder] that wraps the given raw object pointer.
-  DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
-    bool retain = false,
-    bool release = false,
-  }) : this._(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [DOBJCDartInputStreamAdapterWeakHolder].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-      obj.ref.pointer,
-      _sel_isKindOfClass_,
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
-    );
-  }
-
-  /// alloc
-  static DOBJCDartInputStreamAdapterWeakHolder alloc() {
-    final _ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
-      _sel_alloc,
-    );
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// allocWithZone:
-  static DOBJCDartInputStreamAdapterWeakHolder allocWithZone(
-    ffi.Pointer<NSZone> zone,
-  ) {
-    final _ret = _objc_msgSend_1cwp428(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// initWithAdapter:
-  static DOBJCDartInputStreamAdapterWeakHolder initWithAdapter(
-    DartInputStreamAdapter adapter,
-  ) {
-    final _ret = _objc_msgSend_1sotr3r(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
-      _sel_initWithAdapter_,
-      adapter.ref.pointer,
-    );
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// new
-  static DOBJCDartInputStreamAdapterWeakHolder new$() {
-    final _ret = _objc_msgSend_151sglz(
-      _class_DOBJCDartInputStreamAdapterWeakHolder,
-      _sel_new,
-    );
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// adapter
-  DartInputStreamAdapter get adapter {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_adapter);
-    return DartInputStreamAdapter.castFromPointer(
-      _ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// autorelease
-  DOBJCDartInputStreamAdapterWeakHolder autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// init
-  DOBJCDartInputStreamAdapterWeakHolder init() {
-    objc.checkOsVersionInternal(
-      'DOBJCDartInputStreamAdapterWeakHolder.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final _ret = _objc_msgSend_151sglz(
-      this.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// retain
-  DOBJCDartInputStreamAdapterWeakHolder retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  DOBJCDartInputStreamAdapterWeakHolder self$1() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DOBJCDartInputStreamAdapterWeakHolder.castFromPointer(
-      _ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// Returns a new instance of DOBJCDartInputStreamAdapterWeakHolder constructed with the default `new` method.
-  factory DOBJCDartInputStreamAdapterWeakHolder() => new$();
-}
-
 /// Represents a single KVO observation. Each observation creates a new
 /// DOBJCObservation, even for the same observer, observed object, and keyPath.
 class DOBJCObservation extends NSObject {
@@ -1275,6 +1127,154 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
       handleEvent.value,
     );
   }
+}
+
+/// DOBJCDartInputStreamAdapterWeakHolder
+class DartInputStreamAdapterWeakHolder extends NSObject {
+  DartInputStreamAdapterWeakHolder._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [DartInputStreamAdapterWeakHolder] that points to the same underlying object as [other].
+  DartInputStreamAdapterWeakHolder.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [DartInputStreamAdapterWeakHolder] that wraps the given raw object pointer.
+  DartInputStreamAdapterWeakHolder.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [DartInputStreamAdapterWeakHolder].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_19nvye5(
+      obj.ref.pointer,
+      _sel_isKindOfClass_,
+      _class_DOBJCDartInputStreamAdapterWeakHolder,
+    );
+  }
+
+  /// alloc
+  static DartInputStreamAdapterWeakHolder alloc() {
+    final _ret = _objc_msgSend_151sglz(
+      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _sel_alloc,
+    );
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static DartInputStreamAdapterWeakHolder allocWithZone(
+    ffi.Pointer<NSZone> zone,
+  ) {
+    final _ret = _objc_msgSend_1cwp428(
+      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// holderWithInputStreamAdapter:
+  static DartInputStreamAdapterWeakHolder holderWithInputStreamAdapter(
+    DartInputStreamAdapter adapter,
+  ) {
+    final _ret = _objc_msgSend_1sotr3r(
+      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _sel_holderWithInputStreamAdapter_,
+      adapter.ref.pointer,
+    );
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// new
+  static DartInputStreamAdapterWeakHolder new$() {
+    final _ret = _objc_msgSend_151sglz(
+      _class_DOBJCDartInputStreamAdapterWeakHolder,
+      _sel_new,
+    );
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// adapter
+  DartInputStreamAdapter get adapter {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_adapter);
+    return DartInputStreamAdapter.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// autorelease
+  DartInputStreamAdapterWeakHolder autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// init
+  DartInputStreamAdapterWeakHolder init() {
+    objc.checkOsVersionInternal(
+      'DOBJCDartInputStreamAdapterWeakHolder.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// retain
+  DartInputStreamAdapterWeakHolder retain() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// self
+  DartInputStreamAdapterWeakHolder self$1() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return DartInputStreamAdapterWeakHolder.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// Returns a new instance of DartInputStreamAdapterWeakHolder constructed with the default `new` method.
+  factory DartInputStreamAdapterWeakHolder() => new$();
 }
 
 /// Base class of all classes DOBJCDartProtocolBuilder creates.
@@ -39432,6 +39432,9 @@ late final _sel_hasSpaceAvailable = objc.registerName("hasSpaceAvailable");
 late final _sel_hasSuffix_ = objc.registerName("hasSuffix:");
 late final _sel_hash = objc.registerName("hash");
 late final _sel_helpAnchor = objc.registerName("helpAnchor");
+late final _sel_holderWithInputStreamAdapter_ = objc.registerName(
+  "holderWithInputStreamAdapter:",
+);
 late final _sel_host = objc.registerName("host");
 late final _sel_illegalCharacterSet = objc.registerName("illegalCharacterSet");
 late final _sel_implementMethod_withBlock_withTrampoline_withSignature_ = objc
@@ -39531,7 +39534,6 @@ late final _sel_initToFileAtPath_append_ = objc.registerName(
   "initToFileAtPath:append:",
 );
 late final _sel_initToMemory = objc.registerName("initToMemory");
-late final _sel_initWithAdapter_ = objc.registerName("initWithAdapter:");
 late final _sel_initWithArray_ = objc.registerName("initWithArray:");
 late final _sel_initWithArray_copyItems_ = objc.registerName(
   "initWithArray:copyItems:",

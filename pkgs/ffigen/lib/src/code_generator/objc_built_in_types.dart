@@ -6,8 +6,7 @@
 
 const objCBuiltInInterfaces = {
   'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
-  'DOBJCDartInputStreamAdapterWeakHolder':
-      'DOBJCDartInputStreamAdapterWeakHolder',
+  'DOBJCDartInputStreamAdapterWeakHolder': 'DartInputStreamAdapterWeakHolder',
   'DOBJCObservation': 'DOBJCObservation',
   'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
   'DOBJCDartProtocol': 'DartProtocol',

@@ -10,13 +10,13 @@ import 'objective_c_bindings_generated.dart';
   isLeaf: true,
   symbol: 'objc_autoreleasePoolPush',
 )
-external Pointer<Void> autoreleasePoolPush();
+external Pointer<Void> _autoreleasePoolPush();
 
 @Native<Void Function(Pointer<Void>)>(
   isLeaf: true,
   symbol: 'objc_autoreleasePoolPop',
 )
-external void autoreleasePoolPop(Pointer<Void> pool);
+external void _autoreleasePoolPop(Pointer<Void> pool);
 
 extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// Return a [NSInputStream] that, when read, will contain the contents of
@@ -34,25 +34,19 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
     final port = ReceivePort();
 
     final DartInputStreamAdapter inputStream;
-    final DOBJCDartInputStreamAdapterWeakHolder weakInputStream;
-    final pool = autoreleasePoolPush();
+    final DartInputStreamAdapterWeakHolder weakInputStream;
+    final pool = _autoreleasePoolPush();
     try {
       inputStream = DartInputStreamAdapter.inputStreamWithPort(
         port.sendPort.nativePort,
       );
-      weakInputStream = DOBJCDartInputStreamAdapterWeakHolder.initWithAdapter(
-        inputStream,
-      );
-      print('The pointer for inputStream is: ${inputStream.ref.pointer}');
-      print(
-        'The pointer for weakInputStream is: ${weakInputStream.ref.pointer}',
-      );
+      weakInputStream =
+          DartInputStreamAdapterWeakHolder.holderWithInputStreamAdapter(
+            inputStream,
+          );
     } finally {
-      autoreleasePoolPop(pool);
+      _autoreleasePoolPop(pool);
     }
-
-    print('The pointer for inputStream is: ${inputStream.ref.pointer}');
-    print('The pointer for weakInputStream is: ${weakInputStream.ref.pointer}');
 
     late final StreamSubscription<dynamic> dataSubscription;
 

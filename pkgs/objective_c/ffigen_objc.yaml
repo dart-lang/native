@@ -73,6 +73,7 @@ objc-interfaces:
     - Protocol
   rename:
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
+    'DOBJCDartInputStreamAdapterWeakHolder' : 'DartInputStreamAdapterWeakHolder'
     'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
     'DOBJCDartProtocol': 'DartProtocol'
 objc-protocols:
