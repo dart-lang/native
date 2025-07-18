@@ -120,6 +120,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         dataSubscription.cancel();
       },
     );
+
     return inputStream;
   }
 }
