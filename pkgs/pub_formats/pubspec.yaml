@@ -1,0 +1,25 @@
+name: pub_formats
+description: >-
+  An internal library containing file formats for the pub client. Not a curated
+  API. Might break at any point when `package:json_syntax_generator` is updated.
+  On breaking changes needs to be rolled into the Dart SDK.
+
+# This library is not meant to be published. It is used
+publish_to: none
+
+version: 0.0.1-wip
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0-21.0.dev <4.0.0'
+
+dev_dependencies:
+  args: ^2.6.0
+  json_schema: ^5.2.0 # May only be used in tool/ and test/json_schema/.
+  json_syntax_generator:
+    path: ../json_syntax_generator/
+  native_test_helpers:
+    path: ../native_test_helpers/
+  test: ^1.25.15
+  yaml: ^3.1.3
