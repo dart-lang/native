@@ -34,11 +34,8 @@
 }
 
 - (void)dealloc {
-  printf("\nI was deallocated!\n");
   if (_status != NSStreamStatusClosed) {
-    printf("\nStream not closed, sending close message\n");
-    __unused const bool success = Dart_PostInteger_DL(_sendPort, -1);
-//    NSCAssert(success, @"DartInputStreamAdapter: Dart_PostCObject_DL failed.");
+    Dart_PostInteger_DL(_sendPort, -1);
   }
 }
 

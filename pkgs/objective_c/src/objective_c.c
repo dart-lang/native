@@ -6,7 +6,6 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "include/dart_api_dl.h"
 #include "objective_c_runtime.h"
@@ -27,7 +26,6 @@ FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl* block) {
 
 FFI_EXPORT void DOBJC_finalizeObject(void* isolate_callback_data, void* peer) {
   // objc_release works for Objects and Blocks.
-  printf("DOBJC_finalizeObject(..., %p)", peer);
   DOBJC_runOnMainThread((void (*)(void*))objc_release, peer);
 }
 

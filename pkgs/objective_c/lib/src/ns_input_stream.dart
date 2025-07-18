@@ -52,31 +52,30 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
 
     dataSubscription = listen(
       (data) {
-        final s = DartInputStreamAdapter.castFrom(weakInputStream.adapter);
-        if (s.addData(data.toNSData()) > maxReadAheadSize) {
+        final inputStream = weakInputStream.adapter;
+        if (inputStream.addData(data.toNSData()) > maxReadAheadSize) {
           dataSubscription.pause();
         }
-        s.ref.release();
+        inputStream.ref.release();
       },
       onError: (Object e) {
-        final s = weakInputStream.adapter;
+        final inputStream = weakInputStream.adapter;
         final d = NSMutableDictionary();
         d[NSLocalizedDescriptionKey] = e.toString().toNSString();
-        s.setError(
+        inputStream.setError(
           NSError.errorWithDomain(
             'DartError'.toNSString(),
             code: 0,
             userInfo: d,
           ),
         );
-        s.ref.release();
+        inputStream.ref.release();
         port.close();
       },
       onDone: () {
-        print('dataSubscription.onDone');
-        final s = weakInputStream.adapter;
-        s.setDone();
-        s.ref.release();
+        final inputStream = weakInputStream.adapter;
+        inputStream.setDone();
+        inputStream.ref.release();
         port.close();
       },
       cancelOnError: true,
