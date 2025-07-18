@@ -27,10 +27,23 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
     List<String> paths, {
     required BuildInput input,
     bool recursive = false,
+    AssetRouting routing = const ToAppBundle(),
   }) async {
     String assetName(Uri assetUri) => assetUri
         .toFilePath(windows: false)
         .substring(input.packageRoot.toFilePath().length);
+
+    void addAsset(File file) {
+      assets.data.add(
+        DataAsset(
+          package: input.packageName,
+          name: assetName(file.uri),
+          file: file.uri,
+        ),
+        routing: routing,
+      );
+      addDependency(file.uri);
+    }
 
     for (final path in paths) {
       final resolvedUri = input.packageRoot.resolve(path);
@@ -45,15 +58,10 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
             followLinks: false,
           )) {
             if (entity is File) {
-              assets.data.add(
-                DataAsset(
-                  package: input.packageName,
-                  name: assetName(entity.uri),
-                  file: entity.uri,
-                ),
-              );
+              addAsset(entity);
+            } else {
+              addDependency(entity.uri);
             }
-            addDependency(entity.uri);
           }
         } on FileSystemException catch (e) {
           throw FileSystemException(
@@ -63,14 +71,7 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
           );
         }
       } else if (await file.exists()) {
-        assets.data.add(
-          DataAsset(
-            package: input.packageName,
-            name: assetName(file.uri),
-            file: file.uri,
-          ),
-        );
-        addDependency(file.uri);
+        addAsset(file);
       } else {
         throw FileSystemException(
           'Path does not exist',

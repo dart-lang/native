@@ -1,0 +1,15 @@
+name: flag_app
+description: A sample application using flags.
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+
+dependencies:
+  flag_enthusiast_1:
+    path: ../flag_enthusiast_1
+  flag_enthusiast_2:
+    path: ../flag_enthusiast_2
