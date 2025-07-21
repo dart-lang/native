@@ -58,6 +58,7 @@ void main(List<String> arguments) async {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
+      'pkgs/pub_formats/tool/generate.dart',
     ];
     for (final generator in generators) {
       _runProcess('dart', [generator, '--set-exit-if-changed']);
