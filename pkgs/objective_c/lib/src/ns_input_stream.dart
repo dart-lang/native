@@ -38,10 +38,8 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// > `toNSInputStream` creates a reference cycle between Dart and
   /// > Objective-C. Unless this cycle is broken, the [Isolate] calling
   /// > `toNSInputStream` will never exit. The cycle can be broken by calling
-  /// > [NSInputStream.close].
-  // TODO(brianquinlan): Add a note saying that the Dart/Objective-C reference
-  // cycle can be broken by releasing the Objective-C object when a public API
-  // to do that is available.
+  /// > [NSInputStream.close] or releasing the `NSInputStream` using
+  /// > `NSInputStream.ref.release()`.
   NSInputStream toNSInputStream() {
     // Eagerly add data until `maxReadAheadSize` is buffered.
     const maxReadAheadSize = 4096;
