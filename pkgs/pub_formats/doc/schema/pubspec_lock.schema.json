@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Pubspec Lock File Schema",
-    "description": "Schema for a Dart pubspec.lock file.",
+    "description": "Schema for a Dart pubspec.lock file. Note that this is reverse engineered and not the source of truth for pubspec locks.",
     "$ref": "#/definitions/PubspecLockFile",
     "definitions": {
         "PubspecLockFile": {

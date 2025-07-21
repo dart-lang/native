@@ -15,6 +15,7 @@
             "[native_test_helpers] ",
             "[native_toolchain_c] ",
             "[objective_c] ",
+            "[pub_formats] ",
             "[swift2objc] ",
             "[swiftgen] "
         ],

@@ -57,6 +57,7 @@ workspace:
   - pkgs/hooks/example/link/app_with_asset_treeshaking
   - pkgs/hooks/example/link/package_with_assets
   - pkgs/json_syntax_generator
+  - pkgs/native_test_helpers
   - pkgs/pub_formats
   - pkgs/native_toolchain_c
   - pkgs/repo_lint_rules
