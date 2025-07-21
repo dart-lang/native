@@ -1,3 +1,7 @@
+## 0.17.1-wip
+
+* Skip Rust test when no toolchain is installed.
+
 ## 0.17.0
 
 * Fix treeshaking on mac.

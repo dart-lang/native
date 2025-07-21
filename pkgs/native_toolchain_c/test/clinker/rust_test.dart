@@ -17,45 +17,48 @@ Future<void> main() async {
   final linkOutputBuilder = LinkOutputBuilder();
   final targetArchitecture = Architecture.current;
   final targetOS = OS.current;
-  late final bool rustToolchainInstalled;
+  late var rustToolchainInstalled = false;
   setUpAll(() async {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     staticLib = tempUri.resolve(targetOS.staticlibFileName('libtest'));
-    final processResult = await Process.run('rustc', [
-      '--crate-type=staticlib',
-      'test/clinker/testfiles/linker/test.rs',
-      '-o',
-      staticLib.toFilePath(),
-    ]);
-    rustToolchainInstalled = processResult.exitCode == 0;
+    try {
+      final processResult = await Process.run('rustc', [
+        '--crate-type=staticlib',
+        'test/clinker/testfiles/linker/test.rs',
+        '-o',
+        staticLib.toFilePath(),
+      ]);
+      rustToolchainInstalled = processResult.exitCode == 0;
+    } catch (e, s) {
+      print('$e');
+      print('$s');
+    }
     if (rustToolchainInstalled) {
       await File.fromUri(
         staticLib,
       ).copy(tempUri.resolve('libtest.a').toFilePath());
-    }
-    final linkInputBuilder = LinkInputBuilder()
-      ..setupShared(
-        packageName: 'testpackage',
-        packageRoot: tempUri,
-        outputFile: tempUri.resolve('output.json'),
-        outputDirectoryShared: tempUri2,
-      )
-      ..setupLink(assets: [], recordedUsesFile: null)
-      ..addExtension(
-        CodeAssetExtension(
-          targetOS: targetOS,
-          targetArchitecture: targetArchitecture,
-          linkModePreference: LinkModePreference.dynamic,
-        ),
-      );
+    } else {
+      final linkInputBuilder = LinkInputBuilder()
+        ..setupShared(
+          packageName: 'testpackage',
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+          outputDirectoryShared: tempUri2,
+        )
+        ..setupLink(assets: [], recordedUsesFile: null)
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: targetOS,
+            targetArchitecture: targetArchitecture,
+            linkModePreference: LinkModePreference.dynamic,
+          ),
+        );
 
-    linkInput = linkInputBuilder.build();
+      linkInput = linkInputBuilder.build();
+    }
   });
   test('link rust binary with script treeshakes', () async {
-    if (!rustToolchainInstalled) {
-      return;
-    }
     final treeshakeOption = LinkerOptions.treeshake(
       symbolsToKeep: ['my_other_func'],
     );
@@ -72,12 +75,9 @@ Future<void> main() async {
         : false;
     expect(symbols, contains('my_other_func'), skip: skipReason);
     expect(symbols, isNot(contains('my_func')), skip: skipReason);
-  });
+  }, skip: !rustToolchainInstalled);
 
   test('link rust binary without script keeps symbols', () async {
-    if (!rustToolchainInstalled) {
-      return;
-    }
     final manualOption = LinkerOptions.manual(
       symbolsToKeep: ['my_other_func'],
       stripDebug: true,
@@ -96,7 +96,7 @@ Future<void> main() async {
         : false;
     expect(symbols, contains('my_other_func'), skip: skipReason);
     expect(symbols, contains('my_func'), skip: skipReason);
-  });
+  }, skip: !rustToolchainInstalled);
 }
 
 Future<String?> _link(
