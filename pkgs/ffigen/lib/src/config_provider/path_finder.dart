@@ -11,7 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 /// This will return include path from either LLVM, XCode or CommandLineTools.
-List<String> getCStandardLibraryHeadersForMac() {
+List<String> getCStandardLibraryHeadersForMac(Logger logger) {
   final includePaths = <String>[];
 
   /// Add system headers.

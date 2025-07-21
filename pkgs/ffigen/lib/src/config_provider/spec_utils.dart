@@ -66,6 +66,7 @@ YamlMap loadSymbolFile(
 }
 
 Map<String, ImportedType> symbolFileImportExtractor(
+  Logger logger,
   List<String> yamlConfig,
   Map<String, LibraryImport> libraryImports,
   String? configFileName,
@@ -286,6 +287,7 @@ List<String> compilerOptsExtractor(List<String> value) {
 }
 
 YamlHeaders headersExtractor(
+  Logger logger,
   Map<dynamic, List<String>> yamlConfig,
   String? configFilename,
 ) {
@@ -343,7 +345,7 @@ String? _findLibInConda() {
 
 /// Returns location of dynamic library by searching default locations. Logs
 /// error and throws an Exception if not found.
-String findDylibAtDefaultLocations() {
+String findDylibAtDefaultLocations(Logger logger) {
   for (final libclangPath in libclangOverridePaths) {
     final overridableLib = findLibclangDylib(libclangPath);
     if (overridableLib != null) return overridableLib;
@@ -431,7 +433,7 @@ String? findLibclangDylib(String parentFolder) {
   }
 }
 
-String llvmPathExtractor(List<String> value) {
+String llvmPathExtractor(Logger logger, List<String> value) {
   // Extract libclang's dylib from user specified paths.
   for (final path in value) {
     final dylibPath = findLibclangDylib(
@@ -457,8 +459,7 @@ String llvmPathExtractor(List<String> value) {
   );
   // Extract path from default locations.
   try {
-    final res = findDylibAtDefaultLocations();
-    return res;
+    return findDylibAtDefaultLocations(logger);
   } catch (e) {
     final path = p.join(strings.dynamicLibParentName, strings.dylibFileName);
     logger.severe("Couldn't find $path in specified locations.");
@@ -467,6 +468,7 @@ String llvmPathExtractor(List<String> value) {
 }
 
 OutputConfig outputExtractor(
+  Logger logger,
   dynamic value,
   String? configFilename,
   PackageConfig? packageConfig,
@@ -482,6 +484,7 @@ OutputConfig outputExtractor(
         : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
+            logger,
             value[strings.symbolFile],
             configFilename,
             packageConfig,
@@ -491,6 +494,7 @@ OutputConfig outputExtractor(
 }
 
 SymbolFile symbolFileOutputExtractor(
+  Logger logger,
   dynamic value,
   String? configFilename,
   PackageConfig? packageConfig,
@@ -702,7 +706,7 @@ StructPackingOverride structPackingOverrideExtractor(
   return StructPackingOverride(matcherMap);
 }
 
-FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {
+FfiNativeConfig ffiNativeExtractor(Logger logger, dynamic yamlConfig) {
   final yamlMap = yamlConfig as Map?;
 
   // Use the old 'assetId' key if present but give a deprecation warning

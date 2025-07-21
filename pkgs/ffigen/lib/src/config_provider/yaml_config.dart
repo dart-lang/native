@@ -321,7 +321,8 @@ class YamlConfig implements FfiGen {
 
   /// Create config from Yaml map.
   factory YamlConfig.fromYaml(
-    YamlMap map, {
+    YamlMap map,
+    Logger logger, {
     String? filename,
     PackageConfig? packageConfig,
   }) {
@@ -331,7 +332,7 @@ class YamlConfig implements FfiGen {
     );
     logger.finest('Config Map: $map');
 
-    final ffigenConfigSpec = config._getRootConfigSpec();
+    final ffigenConfigSpec = config._getRootConfigSpec(logger);
     final result = ffigenConfigSpec.validate(map);
     if (!result) {
       throw const FormatException('Invalid configurations provided.');
@@ -342,21 +343,26 @@ class YamlConfig implements FfiGen {
   }
 
   /// Create config from a file.
-  factory YamlConfig.fromFile(File file, {PackageConfig? packageConfig}) {
+  factory YamlConfig.fromFile(
+    File file,
+    Logger logger, {
+    PackageConfig? packageConfig,
+  }) {
     // Throws a [YamlException] if it's unable to parse the Yaml.
     final configYaml = loadYaml(file.readAsStringSync()) as YamlMap;
 
     return YamlConfig.fromYaml(
       configYaml,
+      logger,
       filename: file.path,
       packageConfig: packageConfig,
     );
   }
 
   /// Returns the root ConfigSpec object.
-  static ConfigSpec getsRootConfigSpec() {
+  static ConfigSpec getsRootConfigSpec(Logger logger) {
     final configspecs = YamlConfig._(filename: null, packageConfig: null);
-    return configspecs._getRootConfigSpec();
+    return configspecs._getRootConfigSpec(logger);
   }
 
   /// Add compiler options for clang. If [highPriority] is true these are added
@@ -372,7 +378,7 @@ class YamlConfig implements FfiGen {
     }
   }
 
-  ConfigSpec _getRootConfigSpec() {
+  ConfigSpec _getRootConfigSpec(Logger logger) {
     return HeterogeneousMapConfigSpec(
       entries: [
         HeterogeneousMapEntry(
@@ -385,9 +391,9 @@ class YamlConfig implements FfiGen {
           key: strings.llvmPath,
           valueConfigSpec: ListConfigSpec<String, String>(
             childConfigSpec: StringConfigSpec(),
-            transform: (node) => llvmPathExtractor(node.value),
+            transform: (node) => llvmPathExtractor(logger, node.value),
           ),
-          defaultValue: (node) => findDylibAtDefaultLocations(),
+          defaultValue: (node) => findDylibAtDefaultLocations(logger),
           resultOrDefault: (node) => _libclangDylib = node.value as String,
         ),
         HeterogeneousMapEntry(
@@ -399,6 +405,7 @@ class YamlConfig implements FfiGen {
               _outputFullConfigSpec(),
             ],
             transform: (node) => outputExtractor(
+              logger,
               node.value,
               filename?.toFilePath(),
               packageConfig,
@@ -445,8 +452,11 @@ class YamlConfig implements FfiGen {
                     ),
                   ),
                 ],
-                transform: (node) =>
-                    headersExtractor(node.value, filename?.toFilePath()),
+                transform: (node) => headersExtractor(
+                  logger,
+                  node.value,
+                  filename?.toFilePath(),
+                ),
                 result: (node) => _headers = node.value,
               ),
         ),
@@ -496,7 +506,7 @@ class YamlConfig implements FfiGen {
                       as bool,
             ),
             result: (node) => _compilerOpts.addAll(
-              (node.value as CompilerOptsAuto).extractCompilerOpts(),
+              (node.value as CompilerOptsAuto).extractCompilerOpts(logger),
             ),
           ),
         ),
@@ -506,7 +516,8 @@ class YamlConfig implements FfiGen {
             keyValueConfigSpecs: [
               (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
             ],
-            customValidation: _libraryImportsPredefinedValidation,
+            customValidation: (node) =>
+                _libraryImportsPredefinedValidation(node, logger),
             transform: (node) => libraryImportsExtractor(node.value.cast()),
           ),
           defaultValue: (node) => <String, LibraryImport>{},
@@ -776,6 +787,7 @@ class YamlConfig implements FfiGen {
                     ListConfigSpec<String, Map<String, ImportedType>>(
                       childConfigSpec: StringConfigSpec(),
                       transform: (node) => symbolFileImportExtractor(
+                        logger,
                         node.value,
                         _libraryImports,
                         filename?.toFilePath(),
@@ -950,7 +962,7 @@ class YamlConfig implements FfiGen {
                 ],
               ),
             ],
-            transform: (node) => ffiNativeExtractor(node.value),
+            transform: (node) => ffiNativeExtractor(logger, node.value),
           ),
           defaultValue: (node) => const FfiNativeConfig(enabled: false),
           resultOrDefault: (node) =>
@@ -990,7 +1002,10 @@ class YamlConfig implements FfiGen {
     );
   }
 
-  bool _libraryImportsPredefinedValidation(ConfigValue<Object?> node) {
+  bool _libraryImportsPredefinedValidation(
+    ConfigValue<Object?> node,
+    Logger logger,
+  ) {
     if (node.value is YamlMap) {
       return (node.value as YamlMap).keys.where((key) {
         if (strings.predefinedLibraryImports.containsKey(key)) {
