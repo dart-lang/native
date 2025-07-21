@@ -108,14 +108,20 @@ $_schema
 
   @override
   String getParsedResponse(String response) {
+    response = response.replaceAll(r'\$', r'$').replaceAll('\\\'', '\'');
     print('Response: $response');
-    final json = jsonDecode(response) as Map<String, dynamic>;
-    if (!json.containsKey('dartCode')) {
+    try {
+      final json = jsonDecode(response) as Map<String, dynamic>;
+      if (!json.containsKey('dartCode')) {
+        return '';
+      }
+      final dartCode = json['dartCode'].toString();
+      print('Dart Code: $dartCode');
+      return dartCode;
+    } catch (e) {
+      print('Error decoding JSON: $e');
       return '';
     }
-    final dartCode = json['dartCode'].toString();
-    print('Dart Code: $dartCode');
-    return dartCode;
   }
 }
 
@@ -156,17 +162,23 @@ Output the response in JSON format:
 
   @override
   FixResponse getParsedResponse(String response) {
+    response = response.replaceAll(r'\$', r'$').replaceAll('\\\'', '\'');
     print('Response: $response');
-    final json = jsonDecode(response) as Map<String, dynamic>;
-    var mainDartCode = '';
-    var tempDartCode = '';
-    if (json.containsKey('mainDartCode')) {
-      mainDartCode = json['mainDartCode'].toString();
+    try {
+      final json = jsonDecode(response) as Map<String, dynamic>;
+      var mainDartCode = '';
+      var tempDartCode = '';
+      if (json.containsKey('mainDartCode')) {
+        mainDartCode = json['mainDartCode'].toString();
+      }
+      if (json.containsKey('helperDartCode')) {
+        tempDartCode = json['helperDartCode'].toString();
+      }
+      return FixResponse(mainCode: mainDartCode, helperCode: tempDartCode);
+    } catch (e) {
+      print('Error decoding JSON: $e');
+      return FixResponse(mainCode: '', helperCode: '');
     }
-    if (json.containsKey('helperDartCode')) {
-      tempDartCode = json['helperDartCode'].toString();
-    }
-    return FixResponse(mainCode: mainDartCode, helperCode: tempDartCode);
   }
 }
 
