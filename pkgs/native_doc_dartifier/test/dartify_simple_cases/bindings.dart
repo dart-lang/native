@@ -82,8 +82,8 @@ class Accumulator extends jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Accumulator() => Accumulator.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -108,12 +108,12 @@ class Accumulator extends jni$_.JObject {
   /// from: `public void <init>(int initialValue)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Accumulator.new$1(int initialValue) => Accumulator.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-        initialValue,
-      ).reference,
-    );
+    _new$1(
+      _class.reference.pointer,
+      _id_new$1 as jni$_.JMethodIDPtr,
+      initialValue,
+    ).reference,
+  );
 
   static final _id_new$2 = _class.constructorId(r'(Lcom/Accumulator;)V');
 
@@ -299,8 +299,9 @@ final class $Accumulator$NullableType extends jni$_.JObjType<Accumulator?> {
   int get hashCode => ($Accumulator$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) => other.runtimeType == ($Accumulator$NullableType) &&
-        other is $Accumulator$NullableType;
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$NullableType) &&
+      other is $Accumulator$NullableType;
 }
 
 final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
@@ -332,8 +333,8 @@ final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
   int get hashCode => ($Accumulator$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) => other.runtimeType == ($Accumulator$Type) &&
-        other is $Accumulator$Type;
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$Type) && other is $Accumulator$Type;
 }
 
 /// from: `com.Runnable`
@@ -380,9 +381,9 @@ class Runnable extends jni$_.JObject {
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) => _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -474,8 +475,9 @@ final class $Runnable$NullableType extends jni$_.JObjType<Runnable?> {
   int get hashCode => ($Runnable$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) => other.runtimeType == ($Runnable$NullableType) &&
-        other is $Runnable$NullableType;
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Runnable$NullableType) &&
+      other is $Runnable$NullableType;
 }
 
 final class $Runnable$Type extends jni$_.JObjType<Runnable> {
@@ -506,5 +508,6 @@ final class $Runnable$Type extends jni$_.JObjType<Runnable> {
   int get hashCode => ($Runnable$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) => other.runtimeType == ($Runnable$Type) && other is $Runnable$Type;
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Runnable$Type) && other is $Runnable$Type;
 }
