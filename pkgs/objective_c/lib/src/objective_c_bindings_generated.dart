@@ -133,23 +133,6 @@ set NSLocalizedDescriptionKey(NSString value) {
 }
 
 @ffi.Native<
-  instancetype Function(
-    ffi.Pointer<objc.ObjCObject>,
-    ffi.Pointer<ffi.Void>,
-    ffi.Pointer<objc.ObjCObject>,
-    ffi.Pointer<objc.ObjCObject>,
-    ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-  )
->()
-external instancetype _ObjectiveCBindings_protocolTrampoline_10z9f5k(
-  ffi.Pointer<objc.ObjCObject> target,
-  ffi.Pointer<ffi.Void> arg0,
-  ffi.Pointer<objc.ObjCObject> arg1,
-  ffi.Pointer<objc.ObjCObject> arg2,
-  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-);
-
-@ffi.Native<
   ffi.UnsignedLong Function(
     ffi.Pointer<objc.ObjCObject>,
     ffi.Pointer<ffi.Void>,
@@ -873,6 +856,11 @@ class DOBJCObservation extends NSObject {
     return DOBJCObservation.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of DOBJCObservation constructed with the default `new` method.
+  factory DOBJCObservation() => new$();
+}
+
+extension DOBJCObservationMethods on DOBJCObservation {
   /// autorelease
   DOBJCObservation autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -939,9 +927,6 @@ class DOBJCObservation extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DOBJCObservation.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of DOBJCObservation constructed with the default `new` method.
-  factory DOBJCObservation() => new$();
 }
 
 /// Helper class to adapt a Dart stream into a `NSInputStream`.
@@ -1041,7 +1026,9 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
             release: true,
           );
   }
+}
 
+extension DartInputStreamAdapterMethods on DartInputStreamAdapter {
   /// addData:
   int addData(NSData data) {
     return _objc_msgSend_1vd1c5m(
@@ -1215,6 +1202,12 @@ class DartInputStreamAdapterWeakHolder extends NSObject {
     );
   }
 
+  /// Returns a new instance of DartInputStreamAdapterWeakHolder constructed with the default `new` method.
+  factory DartInputStreamAdapterWeakHolder() => new$();
+}
+
+extension DartInputStreamAdapterWeakHolderMethods
+    on DartInputStreamAdapterWeakHolder {
   /// adapter
   DartInputStreamAdapter get adapter {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_adapter);
@@ -1272,9 +1265,6 @@ class DartInputStreamAdapterWeakHolder extends NSObject {
       release: true,
     );
   }
-
-  /// Returns a new instance of DartInputStreamAdapterWeakHolder constructed with the default `new` method.
-  factory DartInputStreamAdapterWeakHolder() => new$();
 }
 
 /// Base class of all classes DOBJCDartProtocolBuilder creates.
@@ -1327,6 +1317,11 @@ class DartProtocol extends NSObject {
     return DartProtocol.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of DartProtocol constructed with the default `new` method.
+  factory DartProtocol() => new$();
+}
+
+extension DartProtocolMethods on DartProtocol {
   /// autorelease
   DartProtocol autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -1389,9 +1384,6 @@ class DartProtocol extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProtocol.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of DartProtocol constructed with the default `new` method.
-  factory DartProtocol() => new$();
 }
 
 /// Used by the Dart ObjCProtocolBuilder to construct ObjC classes at runtime to
@@ -1463,6 +1455,11 @@ class DartProtocolBuilder extends NSObject {
     );
   }
 
+  /// Returns a new instance of DartProtocolBuilder constructed with the default `new` method.
+  factory DartProtocolBuilder() => new$();
+}
+
+extension DartProtocolBuilderMethods on DartProtocolBuilder {
   /// addProtocol:
   void addProtocol(Protocol protocol) {
     _objc_msgSend_xtuoz7(
@@ -1565,9 +1562,6 @@ class DartProtocolBuilder extends NSObject {
       release: true,
     );
   }
-
-  /// Returns a new instance of DartProtocolBuilder constructed with the default `new` method.
-  factory DartProtocolBuilder() => new$();
 }
 
 /// iOS: unavailable
@@ -1734,6 +1728,11 @@ class NSArray extends NSObject
     return _objc_msgSend_91o635(_class_NSArray, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSArray constructed with the default `new` method.
+  factory NSArray() => new$();
+}
+
+extension NSArrayMethods on NSArray {
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -1778,21 +1777,21 @@ class NSArray extends NSObject
   }
 
   /// initWithArray:
-  NSArray initWithArray(NSArray array$1) {
+  NSArray initWithArray(NSArray array) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithArray_,
-      array$1.ref.pointer,
+      array.ref.pointer,
     );
     return NSArray.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithArray:copyItems:
-  NSArray initWithArray$1(NSArray array$1, {required bool copyItems}) {
+  NSArray initWithArray$1(NSArray array, {required bool copyItems}) {
     final _ret = _objc_msgSend_17amj0z(
       this.ref.retainAndReturnPointer(),
       _sel_initWithArray_copyItems_,
-      array$1.ref.pointer,
+      array.ref.pointer,
       copyItems,
     );
     return NSArray.castFromPointer(_ret, retain: false, release: true);
@@ -1843,9 +1842,6 @@ class NSArray extends NSObject
     );
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSArray constructed with the default `new` method.
-  factory NSArray() => new$();
 }
 
 enum NSBinarySearchingOptions {
@@ -2107,6 +2103,11 @@ class NSCharacterSet extends NSObject
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// Returns a new instance of NSCharacterSet constructed with the default `new` method.
+  factory NSCharacterSet() => new$();
+}
+
+extension NSCharacterSetMethods on NSCharacterSet {
   /// autorelease
   NSCharacterSet autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -2210,9 +2211,6 @@ class NSCharacterSet extends NSObject
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSCharacterSet constructed with the default `new` method.
-  factory NSCharacterSet() => new$();
 }
 
 /// NSCoder
@@ -2265,6 +2263,11 @@ class NSCoder extends NSObject {
     return NSCoder.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSCoder constructed with the default `new` method.
+  factory NSCoder() => new$();
+}
+
+extension NSCoderMethods on NSCoder {
   /// decodeDataObject
   NSData? decodeDataObject() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_decodeDataObject);
@@ -2337,9 +2340,6 @@ class NSCoder extends NSObject {
       className.ref.pointer,
     );
   }
-
-  /// Returns a new instance of NSCoder constructed with the default `new` method.
-  factory NSCoder() => new$();
 }
 
 /// NSCoding
@@ -2845,6 +2845,11 @@ class NSData extends NSObject
     return _objc_msgSend_91o635(_class_NSData, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSData constructed with the default `new` method.
+  factory NSData() => new$();
+}
+
+extension NSDataMethods on NSData {
   /// bytes
   ffi.Pointer<ffi.Void> get bytes {
     return _objc_msgSend_6ex6p5(this.ref.pointer, _sel_bytes);
@@ -3099,11 +3104,11 @@ class NSData extends NSObject
   }
 
   /// initWithData:
-  NSData initWithData(NSData data$1) {
+  NSData initWithData(NSData data) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithData_,
-      data$1.ref.pointer,
+      data.ref.pointer,
     );
     return NSData.castFromPointer(_ret, retain: false, release: true);
   }
@@ -3112,9 +3117,6 @@ class NSData extends NSObject
   int get length {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_length);
   }
-
-  /// Returns a new instance of NSData constructed with the default `new` method.
-  factory NSData() => new$();
 }
 
 enum NSDataBase64DecodingOptions {
@@ -3360,6 +3362,11 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
     return _objc_msgSend_91o635(_class_NSDate, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSDate constructed with the default `new` method.
+  factory NSDate() => new$();
+}
+
+extension NSDateMethods on NSDate {
   /// dateByAddingTimeInterval:
   NSDate dateByAddingTimeInterval(double ti) {
     objc.checkOsVersionInternal(
@@ -3466,9 +3473,6 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
             _sel_timeIntervalSinceReferenceDate,
           );
   }
-
-  /// Returns a new instance of NSDate constructed with the default `new` method.
-  factory NSDate() => new$();
 }
 
 enum NSDecodingFailurePolicy {
@@ -3652,6 +3656,11 @@ class NSDictionary extends NSObject
     return _objc_msgSend_91o635(_class_NSDictionary, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSDictionary constructed with the default `new` method.
+  factory NSDictionary() => new$();
+}
+
+extension NSDictionaryMethods on NSDictionary {
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -3785,9 +3794,6 @@ class NSDictionary extends NSObject
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSDictionary constructed with the default `new` method.
-  factory NSDictionary() => new$();
 }
 
 final class NSEdgeInsets extends ffi.Struct {
@@ -3881,18 +3887,23 @@ class NSEnumerator extends NSObject
     return NSEnumerator.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSEnumerator constructed with the default `new` method.
+  factory NSEnumerator() => new$();
+}
+
+extension NSEnumeratorMethods on NSEnumerator {
   /// countByEnumeratingWithState:objects:count:
   int countByEnumeratingWithState(
     ffi.Pointer<NSFastEnumerationState> state, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-    required int count$1,
+    required int count,
   }) {
     return _objc_msgSend_1b5ysjl(
       this.ref.pointer,
       _sel_countByEnumeratingWithState_objects_count_,
       state,
       objects,
-      count$1,
+      count,
     );
   }
 
@@ -3917,9 +3928,6 @@ class NSEnumerator extends NSObject
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSEnumerator constructed with the default `new` method.
-  factory NSEnumerator() => new$();
 }
 
 /// NSError
@@ -4042,6 +4050,11 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
           );
   }
 
+  /// Returns a new instance of NSError constructed with the default `new` method.
+  factory NSError() => new$();
+}
+
+extension NSErrorMethods on NSError {
   /// code
   int get code {
     return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_code);
@@ -4182,9 +4195,6 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_userInfo);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSError constructed with the default `new` method.
-  factory NSError() => new$();
 }
 
 /// NSExtendedArray
@@ -7169,17 +7179,22 @@ class NSIndexSet extends NSObject
     return _objc_msgSend_91o635(_class_NSIndexSet, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSIndexSet constructed with the default `new` method.
+  factory NSIndexSet() => new$();
+}
+
+extension NSIndexSetMethods on NSIndexSet {
   /// containsIndex:
   bool containsIndex(int value) {
     return _objc_msgSend_6peh6o(this.ref.pointer, _sel_containsIndex_, value);
   }
 
   /// containsIndexes:
-  bool containsIndexes(NSIndexSet indexSet$1) {
+  bool containsIndexes(NSIndexSet indexSet) {
     return _objc_msgSend_19nvye5(
       this.ref.pointer,
       _sel_containsIndexes_,
-      indexSet$1.ref.pointer,
+      indexSet.ref.pointer,
     );
   }
 
@@ -7555,11 +7570,11 @@ class NSIndexSet extends NSObject
   }
 
   /// initWithIndexSet:
-  NSIndexSet initWithIndexSet(NSIndexSet indexSet$1) {
+  NSIndexSet initWithIndexSet(NSIndexSet indexSet) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithIndexSet_,
-      indexSet$1.ref.pointer,
+      indexSet.ref.pointer,
     );
     return NSIndexSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -7584,11 +7599,11 @@ class NSIndexSet extends NSObject
   }
 
   /// isEqualToIndexSet:
-  bool isEqualToIndexSet(NSIndexSet indexSet$1) {
+  bool isEqualToIndexSet(NSIndexSet indexSet) {
     return _objc_msgSend_19nvye5(
       this.ref.pointer,
       _sel_isEqualToIndexSet_,
-      indexSet$1.ref.pointer,
+      indexSet.ref.pointer,
     );
   }
 
@@ -7596,9 +7611,6 @@ class NSIndexSet extends NSObject
   int get lastIndex {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_lastIndex);
   }
-
-  /// Returns a new instance of NSIndexSet constructed with the default `new` method.
-  factory NSIndexSet() => new$();
 }
 
 /// NSInputStream
@@ -7669,7 +7681,9 @@ class NSInputStream extends NSStream {
         ? null
         : NSInputStream.castFromPointer(_ret, retain: true, release: true);
   }
+}
 
+extension NSInputStreamMethods on NSInputStream {
   /// getBuffer:length:
   bool getBuffer(
     ffi.Pointer<ffi.Pointer<ffi.Uint8>> buffer, {
@@ -7798,6 +7812,11 @@ class NSInvocation extends NSObject {
     return NSInvocation.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSInvocation constructed with the default `new` method.
+  factory NSInvocation() => new$();
+}
+
+extension NSInvocationMethods on NSInvocation {
   /// argumentsRetained
   bool get argumentsRetained {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_argumentsRetained);
@@ -7911,9 +7930,6 @@ class NSInvocation extends NSObject {
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSInvocation constructed with the default `new` method.
-  factory NSInvocation() => new$();
 }
 
 /// NSItemProvider
@@ -7972,6 +7988,11 @@ class NSItemProvider extends NSObject implements NSCopying {
     return NSItemProvider.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSItemProvider constructed with the default `new` method.
+  factory NSItemProvider() => new$();
+}
+
+extension NSItemProviderMethods on NSItemProvider {
   /// autorelease
   NSItemProvider autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -8383,9 +8404,6 @@ class NSItemProvider extends NSObject implements NSCopying {
         ? null
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSItemProvider constructed with the default `new` method.
-  factory NSItemProvider() => new$();
 }
 
 enum NSItemProviderFileOptions {
@@ -8841,6 +8859,11 @@ class NSLocale extends NSObject implements NSCopying, NSSecureCoding {
     return _objc_msgSend_91o635(_class_NSLocale, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSLocale constructed with the default `new` method.
+  factory NSLocale() => new$();
+}
+
+extension NSLocaleMethods on NSLocale {
   /// autorelease
   NSLocale autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -8931,9 +8954,6 @@ class NSLocale extends NSObject implements NSCopying, NSSecureCoding {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSLocale.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSLocale constructed with the default `new` method.
-  factory NSLocale() => new$();
 }
 
 enum NSLocaleLanguageDirection {
@@ -9034,6 +9054,11 @@ class NSMethodSignature extends NSObject {
         : NSMethodSignature.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// Returns a new instance of NSMethodSignature constructed with the default `new` method.
+  factory NSMethodSignature() => new$();
+}
+
+extension NSMethodSignatureMethods on NSMethodSignature {
   /// frameLength
   int get frameLength {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_frameLength);
@@ -9085,9 +9110,6 @@ class NSMethodSignature extends NSObject {
   int get numberOfArguments {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_numberOfArguments);
   }
-
-  /// Returns a new instance of NSMethodSignature constructed with the default `new` method.
-  factory NSMethodSignature() => new$();
 }
 
 /// NSMutableArray
@@ -9242,6 +9264,11 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
     );
   }
 
+  /// Returns a new instance of NSMutableArray constructed with the default `new` method.
+  factory NSMutableArray() => new$();
+}
+
+extension NSMutableArrayMethods on NSMutableArray {
   /// addObject:
   void addObject(objc.ObjCObjectBase anObject) {
     _objc_msgSend_xtuoz7(
@@ -9266,21 +9293,21 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
   }
 
   /// initWithArray:
-  NSMutableArray initWithArray(NSArray array$1) {
+  NSMutableArray initWithArray(NSArray array) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithArray_,
-      array$1.ref.pointer,
+      array.ref.pointer,
     );
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithArray:copyItems:
-  NSMutableArray initWithArray$1(NSArray array$1, {required bool copyItems}) {
+  NSMutableArray initWithArray$1(NSArray array, {required bool copyItems}) {
     final _ret = _objc_msgSend_17amj0z(
       this.ref.retainAndReturnPointer(),
       _sel_initWithArray_copyItems_,
-      array$1.ref.pointer,
+      array.ref.pointer,
       copyItems,
     );
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
@@ -9321,13 +9348,13 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
   /// initWithObjects:count:
   NSMutableArray initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
-    required int count$1,
+    required int count,
   }) {
     final _ret = _objc_msgSend_zmbtbd(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_count_,
       objects,
-      count$1,
+      count,
     );
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
@@ -9364,9 +9391,6 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
       withObject.ref.pointer,
     );
   }
-
-  /// Returns a new instance of NSMutableArray constructed with the default `new` method.
-  factory NSMutableArray() => new$();
 }
 
 /// NSMutableCopying
@@ -9671,6 +9695,11 @@ class NSMutableData extends NSData {
     );
   }
 
+  /// Returns a new instance of NSMutableData constructed with the default `new` method.
+  factory NSMutableData() => new$();
+}
+
+extension NSMutableDataMethods on NSMutableData {
   /// compressedDataUsingAlgorithm:error:
   ///
   /// iOS: introduced 13.0.0
@@ -9777,13 +9806,13 @@ class NSMutableData extends NSData {
 
   /// initWithBytes:length:
   NSMutableData initWithBytes(
-    ffi.Pointer<ffi.Void> bytes$1, {
+    ffi.Pointer<ffi.Void> bytes, {
     required int length,
   }) {
     final _ret = _objc_msgSend_3nbx5e(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytes_length_,
-      bytes$1,
+      bytes,
       length,
     );
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
@@ -9791,13 +9820,13 @@ class NSMutableData extends NSData {
 
   /// initWithBytesNoCopy:length:
   NSMutableData initWithBytesNoCopy(
-    ffi.Pointer<ffi.Void> bytes$1, {
+    ffi.Pointer<ffi.Void> bytes, {
     required int length,
   }) {
     final _ret = _objc_msgSend_3nbx5e(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytesNoCopy_length_,
-      bytes$1,
+      bytes,
       length,
     );
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
@@ -9805,7 +9834,7 @@ class NSMutableData extends NSData {
 
   /// initWithBytesNoCopy:length:deallocator:
   NSMutableData initWithBytesNoCopy$1(
-    ffi.Pointer<ffi.Void> bytes$1, {
+    ffi.Pointer<ffi.Void> bytes, {
     required int length,
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>?
     deallocator,
@@ -9818,7 +9847,7 @@ class NSMutableData extends NSData {
     final _ret = _objc_msgSend_134vhyh(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytesNoCopy_length_deallocator_,
-      bytes$1,
+      bytes,
       length,
       deallocator?.ref.pointer ?? ffi.nullptr,
     );
@@ -9827,14 +9856,14 @@ class NSMutableData extends NSData {
 
   /// initWithBytesNoCopy:length:freeWhenDone:
   NSMutableData initWithBytesNoCopy$2(
-    ffi.Pointer<ffi.Void> bytes$1, {
+    ffi.Pointer<ffi.Void> bytes, {
     required int length,
     required bool freeWhenDone,
   }) {
     final _ret = _objc_msgSend_161ne8y(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytesNoCopy_length_freeWhenDone_,
-      bytes$1,
+      bytes,
       length,
       freeWhenDone,
     );
@@ -9926,11 +9955,11 @@ class NSMutableData extends NSData {
   }
 
   /// initWithData:
-  NSMutableData initWithData(NSData data$1) {
+  NSMutableData initWithData(NSData data) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithData_,
-      data$1.ref.pointer,
+      data.ref.pointer,
     );
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
   }
@@ -9961,9 +9990,6 @@ class NSMutableData extends NSData {
   set length(int value) {
     _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
   }
-
-  /// Returns a new instance of NSMutableData constructed with the default `new` method.
-  factory NSMutableData() => new$();
 }
 
 /// NSMutableDictionary
@@ -9992,7 +10018,9 @@ class NSMutableDictionary extends NSDictionary {
 
   @override
   void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
-      setObject(value, forKey: NSCopying.castFrom(key));
+      NSMutableDictionaryMethods(
+        this,
+      ).setObject(value, forKey: NSCopying.castFrom(key));
 
   NSMutableDictionary._(
     ffi.Pointer<objc.ObjCObject> pointer, {
@@ -10175,6 +10203,11 @@ class NSMutableDictionary extends NSDictionary {
     );
   }
 
+  /// Returns a new instance of NSMutableDictionary constructed with the default `new` method.
+  factory NSMutableDictionary() => new$();
+}
+
+extension NSMutableDictionaryMethods on NSMutableDictionary {
   /// init
   NSMutableDictionary init() {
     objc.checkOsVersionInternal(
@@ -10277,14 +10310,14 @@ class NSMutableDictionary extends NSDictionary {
   NSMutableDictionary initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> forKeys,
-    required int count$1,
+    required int count,
   }) {
     final _ret = _objc_msgSend_1dydpdi(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_forKeys_count_,
       objects,
       forKeys,
-      count$1,
+      count,
     );
     return NSMutableDictionary.castFromPointer(
       _ret,
@@ -10325,9 +10358,6 @@ class NSMutableDictionary extends NSDictionary {
       forKey.ref.pointer,
     );
   }
-
-  /// Returns a new instance of NSMutableDictionary constructed with the default `new` method.
-  factory NSMutableDictionary() => new$();
 }
 
 /// NSMutableIndexSet
@@ -10426,6 +10456,11 @@ class NSMutableIndexSet extends NSIndexSet {
     );
   }
 
+  /// Returns a new instance of NSMutableIndexSet constructed with the default `new` method.
+  factory NSMutableIndexSet() => new$();
+}
+
+extension NSMutableIndexSetMethods on NSMutableIndexSet {
   /// addIndex:
   void addIndex(int value) {
     _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_addIndex_, value);
@@ -10490,11 +10525,11 @@ class NSMutableIndexSet extends NSIndexSet {
   }
 
   /// initWithIndexSet:
-  NSMutableIndexSet initWithIndexSet(NSIndexSet indexSet$1) {
+  NSMutableIndexSet initWithIndexSet(NSIndexSet indexSet) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithIndexSet_,
-      indexSet$1.ref.pointer,
+      indexSet.ref.pointer,
     );
     return NSMutableIndexSet.castFromPointer(
       _ret,
@@ -10550,9 +10585,6 @@ class NSMutableIndexSet extends NSIndexSet {
       by,
     );
   }
-
-  /// Returns a new instance of NSMutableIndexSet constructed with the default `new` method.
-  factory NSMutableIndexSet() => new$();
 }
 
 /// NSMutableOrderedSet
@@ -10861,6 +10893,11 @@ class NSMutableOrderedSet extends NSOrderedSet {
     );
   }
 
+  /// Returns a new instance of NSMutableOrderedSet constructed with the default `new` method.
+  factory NSMutableOrderedSet() => new$();
+}
+
+extension NSMutableOrderedSetMethods on NSMutableOrderedSet {
   /// init
   NSMutableOrderedSet init() {
     objc.checkOsVersionInternal(
@@ -11187,9 +11224,6 @@ class NSMutableOrderedSet extends NSOrderedSet {
       withObject.ref.pointer,
     );
   }
-
-  /// Returns a new instance of NSMutableOrderedSet constructed with the default `new` method.
-  factory NSMutableOrderedSet() => new$();
 }
 
 /// NSMutableSet
@@ -11339,6 +11373,11 @@ class NSMutableSet extends NSSet {
     return _objc_msgSend_91o635(_class_NSMutableSet, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSMutableSet constructed with the default `new` method.
+  factory NSMutableSet() => new$();
+}
+
+extension NSMutableSetMethods on NSMutableSet {
   /// addObject:
   void addObject(objc.ObjCObjectBase object) {
     _objc_msgSend_xtuoz7(this.ref.pointer, _sel_addObject_, object.ref.pointer);
@@ -11415,21 +11454,21 @@ class NSMutableSet extends NSSet {
   }
 
   /// initWithSet:
-  NSMutableSet initWithSet(NSSet set$1) {
+  NSMutableSet initWithSet(NSSet set$) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithSet_,
-      set$1.ref.pointer,
+      set$.ref.pointer,
     );
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithSet:copyItems:
-  NSMutableSet initWithSet$1(NSSet set$1, {required bool copyItems}) {
+  NSMutableSet initWithSet$1(NSSet set$, {required bool copyItems}) {
     final _ret = _objc_msgSend_17amj0z(
       this.ref.retainAndReturnPointer(),
       _sel_initWithSet_copyItems_,
-      set$1.ref.pointer,
+      set$.ref.pointer,
       copyItems,
     );
     return NSMutableSet.castFromPointer(_ret, retain: false, release: true);
@@ -11443,9 +11482,6 @@ class NSMutableSet extends NSSet {
       object.ref.pointer,
     );
   }
-
-  /// Returns a new instance of NSMutableSet constructed with the default `new` method.
-  factory NSMutableSet() => new$();
 }
 
 /// NSMutableString
@@ -11727,6 +11763,11 @@ class NSMutableString extends NSString {
     );
   }
 
+  /// Returns a new instance of NSMutableString constructed with the default `new` method.
+  factory NSMutableString() => new$();
+}
+
+extension NSMutableStringMethods on NSMutableString {
   /// autorelease
   NSMutableString autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -12091,9 +12132,6 @@ class NSMutableString extends NSString {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSMutableString constructed with the default `new` method.
-  factory NSMutableString() => new$();
 }
 
 /// NSNotification
@@ -12176,6 +12214,11 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// Returns a new instance of NSNotification constructed with the default `new` method.
+  factory NSNotification() => new$();
+}
+
+extension NSNotificationMethods on NSNotification {
   /// autorelease
   NSNotification autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -12266,9 +12309,6 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSNotification constructed with the default `new` method.
-  factory NSNotification() => new$();
 }
 
 /// NSNumber
@@ -12326,6 +12366,11 @@ class NSNumber extends NSValue {
     return _objc_msgSend_91o635(_class_NSNumber, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSNumber constructed with the default `new` method.
+  factory NSNumber() => new$();
+}
+
+extension NSNumberMethods on NSNumber {
   /// boolValue
   bool get boolValue {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_boolValue);
@@ -12649,9 +12694,6 @@ class NSNumber extends NSValue {
   int get unsignedShortValue {
     return _objc_msgSend_ud8gg(this.ref.pointer, _sel_unsignedShortValue);
   }
-
-  /// Returns a new instance of NSNumber constructed with the default `new` method.
-  factory NSNumber() => new$();
 }
 
 /// NSNumberCreation
@@ -13079,6 +13121,11 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
+  /// Returns a new instance of NSObject constructed with the default `new` method.
+  factory NSObject() => new$();
+}
+
+extension NSObjectMethods on NSObject {
   /// autorelease
   NSObject autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -13086,13 +13133,13 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// class
-  objc.ObjCObjectBase class$1() {
+  objc.ObjCObjectBase class$() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_class);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
 
   /// conformsToProtocol:
-  bool conformsToProtocol$1(Protocol aProtocol) {
+  bool conformsToProtocol(Protocol aProtocol) {
     return _objc_msgSend_19nvye5(
       this.ref.pointer,
       _sel_conformsToProtocol_,
@@ -13117,7 +13164,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// debugDescription
-  NSString get debugDescription$1 {
+  NSString get debugDescription {
     if (!objc.respondsToSelector(this.ref.pointer, _sel_debugDescription)) {
       throw objc.UnimplementedOptionalMethodException(
         'NSObject',
@@ -13129,7 +13176,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// description
-  NSString get description$1 {
+  NSString get description {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -13175,7 +13222,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// hash
-  int get hash$1 {
+  int get hash {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_hash);
   }
 
@@ -13338,7 +13385,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// superclass
-  objc.ObjCObjectBase get superclass$1 {
+  objc.ObjCObjectBase get superclass {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_superclass);
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
@@ -13347,9 +13394,6 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   ffi.Pointer<NSZone> zone() {
     return _objc_msgSend_sz90oi(this.ref.pointer, _sel_zone);
   }
-
-  /// Returns a new instance of NSObject constructed with the default `new` method.
-  factory NSObject() => new$();
 }
 
 /// NSObject
@@ -14530,6 +14574,11 @@ class NSOrderedCollectionChange extends NSObject {
     );
   }
 
+  /// Returns a new instance of NSOrderedCollectionChange constructed with the default `new` method.
+  factory NSOrderedCollectionChange() => new$();
+}
+
+extension NSOrderedCollectionChangeMethods on NSOrderedCollectionChange {
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   int get associatedIndex {
@@ -14653,9 +14702,6 @@ class NSOrderedCollectionChange extends NSObject {
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSOrderedCollectionChange constructed with the default `new` method.
-  factory NSOrderedCollectionChange() => new$();
 }
 
 /// NSOrderedCollectionDifference
@@ -14736,18 +14782,24 @@ class NSOrderedCollectionDifference extends NSObject
     );
   }
 
+  /// Returns a new instance of NSOrderedCollectionDifference constructed with the default `new` method.
+  factory NSOrderedCollectionDifference() => new$();
+}
+
+extension NSOrderedCollectionDifferenceMethods
+    on NSOrderedCollectionDifference {
   /// countByEnumeratingWithState:objects:count:
   int countByEnumeratingWithState(
     ffi.Pointer<NSFastEnumerationState> state, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-    required int count$1,
+    required int count,
   }) {
     return _objc_msgSend_1b5ysjl(
       this.ref.pointer,
       _sel_countByEnumeratingWithState_objects_count_,
       state,
       objects,
-      count$1,
+      count,
     );
   }
 
@@ -14935,9 +14987,6 @@ class NSOrderedCollectionDifference extends NSObject
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_removals);
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSOrderedCollectionDifference constructed with the default `new` method.
-  factory NSOrderedCollectionDifference() => new$();
 }
 
 /// iOS: introduced 13.0.0
@@ -15190,6 +15239,11 @@ class NSOrderedSet extends NSObject
     return _objc_msgSend_91o635(_class_NSOrderedSet, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSOrderedSet constructed with the default `new` method.
+  factory NSOrderedSet() => new$();
+}
+
+extension NSOrderedSetMethods on NSOrderedSet {
   /// count
   int get count {
     objc.checkOsVersionInternal(
@@ -15349,7 +15403,7 @@ class NSOrderedSet extends NSObject
   /// initWithObjects:count:
   NSOrderedSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
-    required int count,
+    required int count$1,
   }) {
     objc.checkOsVersionInternal(
       'NSOrderedSet.initWithObjects:count:',
@@ -15360,7 +15414,7 @@ class NSOrderedSet extends NSObject
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_count_,
       objects,
-      count,
+      count$1,
     );
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -15465,9 +15519,6 @@ class NSOrderedSet extends NSObject
     );
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSOrderedSet constructed with the default `new` method.
-  factory NSOrderedSet() => new$();
 }
 
 /// NSOutputStream
@@ -15555,7 +15606,9 @@ class NSOutputStream extends NSStream {
         ? null
         : NSOutputStream.castFromPointer(_ret, retain: true, release: true);
   }
+}
 
+extension NSOutputStreamMethods on NSOutputStream {
   /// hasSpaceAvailable
   bool get hasSpaceAvailable {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_hasSpaceAvailable);
@@ -15682,6 +15735,11 @@ class NSPort extends NSObject implements NSCopying, NSCoding {
     return NSPort.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// Returns a new instance of NSPort constructed with the default `new` method.
+  factory NSPort() => new$();
+}
+
+extension NSPortMethods on NSPort {
   /// autorelease
   NSPort autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -15822,9 +15880,6 @@ class NSPort extends NSObject implements NSCopying, NSCoding {
       anObject?.ref.pointer ?? ffi.nullptr,
     );
   }
-
-  /// Returns a new instance of NSPort constructed with the default `new` method.
-  factory NSPort() => new$();
 }
 
 /// NSPortDelegate
@@ -16052,6 +16107,11 @@ class NSPortMessage extends NSObject {
     return NSPortMessage.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSPortMessage constructed with the default `new` method.
+  factory NSPortMessage() => new$();
+}
+
+extension NSPortMessageMethods on NSPortMessage {
   /// autorelease
   NSPortMessage autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -16142,9 +16202,6 @@ class NSPortMessage extends NSObject {
   set msgid(int value) {
     _objc_msgSend_1xpk2hb(this.ref.pointer, _sel_setMsgid_, value);
   }
-
-  /// Returns a new instance of NSPortMessage constructed with the default `new` method.
-  factory NSPortMessage() => new$();
 }
 
 /// NSProgress
@@ -16303,6 +16360,11 @@ class NSProgress extends NSObject {
     );
   }
 
+  /// Returns a new instance of NSProgress constructed with the default `new` method.
+  factory NSProgress() => new$();
+}
+
+extension NSProgressMethods on NSProgress {
   /// addChild:withPendingUnitCount:
   void addChild(NSProgress child, {required int withPendingUnitCount}) {
     objc.checkOsVersionInternal(
@@ -16958,9 +17020,6 @@ class NSProgress extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_userInfo);
     return NSDictionary.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSProgress constructed with the default `new` method.
-  factory NSProgress() => new$();
 }
 
 enum NSPropertyListFormat {
@@ -17074,6 +17133,11 @@ class NSRunLoop extends NSObject {
     return NSRunLoop.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSRunLoop constructed with the default `new` method.
+  factory NSRunLoop() => new$();
+}
+
+extension NSRunLoopMethods on NSRunLoop {
   /// acceptInputForMode:beforeDate:
   void acceptInputForMode(NSString mode, {required NSDate beforeDate}) {
     _objc_msgSend_pfv6jd(
@@ -17170,9 +17234,6 @@ class NSRunLoop extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSRunLoop.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSRunLoop constructed with the default `new` method.
-  factory NSRunLoop() => new$();
 }
 
 /// NSSecureCoding
@@ -17533,6 +17594,11 @@ class NSSet extends NSObject
     return _objc_msgSend_91o635(_class_NSSet, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSSet constructed with the default `new` method.
+  factory NSSet() => new$();
+}
+
+extension NSSetMethods on NSSet {
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -17611,33 +17677,33 @@ class NSSet extends NSObject
   /// initWithObjects:count:
   NSSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
-    required int count,
+    required int count$1,
   }) {
     final _ret = _objc_msgSend_zmbtbd(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_count_,
       objects,
-      count,
+      count$1,
     );
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithSet:
-  NSSet initWithSet(NSSet set$1) {
+  NSSet initWithSet(NSSet set$) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithSet_,
-      set$1.ref.pointer,
+      set$.ref.pointer,
     );
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
 
   /// initWithSet:copyItems:
-  NSSet initWithSet$1(NSSet set$1, {required bool copyItems}) {
+  NSSet initWithSet$1(NSSet set$, {required bool copyItems}) {
     final _ret = _objc_msgSend_17amj0z(
       this.ref.retainAndReturnPointer(),
       _sel_initWithSet_copyItems_,
-      set$1.ref.pointer,
+      set$.ref.pointer,
       copyItems,
     );
     return NSSet.castFromPointer(_ret, retain: false, release: true);
@@ -17660,9 +17726,6 @@ class NSSet extends NSObject
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_objectEnumerator);
     return NSEnumerator.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSSet constructed with the default `new` method.
-  factory NSSet() => new$();
 }
 
 enum NSSortOptions {
@@ -17729,6 +17792,11 @@ class NSStream extends NSObject {
     return NSStream.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSStream constructed with the default `new` method.
+  factory NSStream() => new$();
+}
+
+extension NSStreamMethods on NSStream {
   /// autorelease
   NSStream autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -17843,9 +17911,6 @@ class NSStream extends NSObject {
     final _ret = _objc_msgSend_1efxbd8(this.ref.pointer, _sel_streamStatus);
     return NSStreamStatus.fromValue(_ret);
   }
-
-  /// Returns a new instance of NSStream constructed with the default `new` method.
-  factory NSStream() => new$();
 }
 
 /// NSStreamDelegate
@@ -18364,7 +18429,9 @@ class NSString extends NSObject
   static bool getSupportsSecureCoding() {
     return _objc_msgSend_91o635(_class_NSString, _sel_supportsSecureCoding);
   }
+}
 
+extension NSStringMethods on NSString {
   /// autorelease
   NSString autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -20153,6 +20220,11 @@ class NSTimer extends NSObject {
     return NSTimer.castFromPointer(_ret, retain: true, release: true);
   }
 
+  /// Returns a new instance of NSTimer constructed with the default `new` method.
+  factory NSTimer() => new$();
+}
+
+extension NSTimerMethods on NSTimer {
   /// autorelease
   NSTimer autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -20296,9 +20368,6 @@ class NSTimer extends NSObject {
         ? null
         : objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSTimer constructed with the default `new` method.
-  factory NSTimer() => new$();
 }
 
 /// NSURL
@@ -20657,6 +20726,11 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
     );
   }
 
+  /// Returns a new instance of NSURL constructed with the default `new` method.
+  factory NSURL() => new$();
+}
+
+extension NSURLMethods on NSURL {
   /// absoluteString
   NSString? get absoluteString {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_absoluteString);
@@ -21164,7 +21238,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// resourceValuesForKeys:error:
-  NSDictionary? resourceValuesForKeys$1(
+  NSDictionary? resourceValuesForKeys(
     NSArray keys, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
@@ -21289,9 +21363,6 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
         ? null
         : NSString.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSURL constructed with the default `new` method.
-  factory NSURL() => new$();
 }
 
 enum NSURLBookmarkCreationOptions {
@@ -21388,6 +21459,11 @@ class NSURLHandle extends NSObject {
     return NSURLHandle.castFromPointer(_ret, retain: false, release: true);
   }
 
+  /// Returns a new instance of NSURLHandle constructed with the default `new` method.
+  factory NSURLHandle() => new$();
+}
+
+extension NSURLHandleMethods on NSURLHandle {
   /// autorelease
   NSURLHandle autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -21419,9 +21495,6 @@ class NSURLHandle extends NSObject {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }
-
-  /// Returns a new instance of NSURLHandle constructed with the default `new` method.
-  factory NSURLHandle() => new$();
 }
 
 enum NSURLHandleStatus {
@@ -21497,6 +21570,11 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
     return _objc_msgSend_91o635(_class_NSValue, _sel_supportsSecureCoding);
   }
 
+  /// Returns a new instance of NSValue constructed with the default `new` method.
+  factory NSValue() => new$();
+}
+
+extension NSValueMethods on NSValue {
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     _objc_msgSend_xtuoz7(
@@ -21560,9 +21638,6 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   ffi.Pointer<ffi.Char> get objCType {
     return _objc_msgSend_1fuqfwb(this.ref.pointer, _sel_objCType);
   }
-
-  /// Returns a new instance of NSValue constructed with the default `new` method.
-  factory NSValue() => new$();
 }
 
 final class NSZone extends ffi.Opaque {}
@@ -33009,263 +33084,6 @@ extension ObjCBlock_instancetype_ffiVoid_NSCoder_CallExtension
         );
 }
 
-instancetype
-_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-  ffi.Pointer<objc.ObjCObject> arg1,
-  ffi.Pointer<objc.ObjCObject> arg2,
-  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-) => block.ref.target
-    .cast<
-      ffi.NativeFunction<
-        instancetype Function(
-          ffi.Pointer<ffi.Void> arg0,
-          ffi.Pointer<objc.ObjCObject> arg1,
-          ffi.Pointer<objc.ObjCObject> arg2,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-        )
-      >
-    >()
-    .asFunction<
-      instancetype Function(
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-      )
-    >()(arg0, arg1, arg2, arg3);
-ffi.Pointer<ffi.Void>
-_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable =
-    ffi.Pointer.fromFunction<
-          instancetype Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-          )
-        >(_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline)
-        .cast();
-instancetype
-_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-  ffi.Pointer<objc.ObjCObject> arg1,
-  ffi.Pointer<objc.ObjCObject> arg2,
-  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-) =>
-    (objc.getBlockClosure(block)
-        as instancetype Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-        ))(arg0, arg1, arg2, arg3);
-ffi.Pointer<ffi.Void>
-_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable =
-    ffi.Pointer.fromFunction<
-          instancetype Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<objc.ObjCObject>,
-            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-          )
-        >(_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline)
-        .cast();
-
-/// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>`.
-abstract final class ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject>? Function(
-      ffi.Pointer<ffi.Void>,
-      NSData,
-      NSString,
-      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-    )
-  >
-  castFromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject>? Function(
-          ffi.Pointer<ffi.Void>,
-          NSData,
-          NSString,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-        )
-      >(pointer, retain: retain, release: release);
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject>? Function(
-      ffi.Pointer<ffi.Void>,
-      NSData,
-      NSString,
-      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-    )
-  >
-  fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        instancetype Function(
-          ffi.Pointer<ffi.Void> arg0,
-          ffi.Pointer<objc.ObjCObject> arg1,
-          ffi.Pointer<objc.ObjCObject> arg2,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-        )
-      >
-    >
-    ptr,
-  ) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject>? Function(
-          ffi.Pointer<ffi.Void>,
-          NSData,
-          NSString,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-        )
-      >(
-        objc.newPointerBlock(
-          _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable,
-          ptr.cast(),
-        ),
-        retain: false,
-        release: true,
-      );
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject>? Function(
-      ffi.Pointer<ffi.Void>,
-      NSData,
-      NSString,
-      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-    )
-  >
-  fromFunction(
-    Dartinstancetype? Function(
-      ffi.Pointer<ffi.Void>,
-      NSData,
-      NSString,
-      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-    )
-    fn, {
-    bool keepIsolateAlive = true,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject>? Function(
-          ffi.Pointer<ffi.Void>,
-          NSData,
-          NSString,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-        )
-      >(
-        objc.newClosureBlock(
-          _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable,
-          (
-            ffi.Pointer<ffi.Void> arg0,
-            ffi.Pointer<objc.ObjCObject> arg1,
-            ffi.Pointer<objc.ObjCObject> arg2,
-            ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-          ) =>
-              fn(
-                arg0,
-                NSData.castFromPointer(arg1, retain: true, release: true),
-                NSString.castFromPointer(arg2, retain: true, release: true),
-                arg3,
-              )?.ref.retainAndAutorelease() ??
-              ffi.nullptr,
-          keepIsolateAlive,
-        ),
-        retain: false,
-        release: true,
-      );
-}
-
-/// Call operator for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>`.
-extension ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_CallExtension
-    on
-        objc.ObjCBlock<
-          ffi.Pointer<objc.ObjCObject>? Function(
-            ffi.Pointer<ffi.Void>,
-            NSData,
-            NSString,
-            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-          )
-        > {
-  Dartinstancetype? call(
-    ffi.Pointer<ffi.Void> arg0,
-    NSData arg1,
-    NSString arg2,
-    ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-  ) =>
-      ref.pointer.ref.invoke
-              .cast<
-                ffi.NativeFunction<
-                  instancetype Function(
-                    ffi.Pointer<objc.ObjCBlockImpl> block,
-                    ffi.Pointer<ffi.Void> arg0,
-                    ffi.Pointer<objc.ObjCObject> arg1,
-                    ffi.Pointer<objc.ObjCObject> arg2,
-                    ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-                  )
-                >
-              >()
-              .asFunction<
-                instancetype Function(
-                  ffi.Pointer<objc.ObjCBlockImpl>,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<objc.ObjCObject>,
-                  ffi.Pointer<objc.ObjCObject>,
-                  ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-                )
-              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer, arg3)
-              .address ==
-          0
-      ? null
-      : objc.ObjCObjectBase(
-          ref.pointer.ref.invoke
-              .cast<
-                ffi.NativeFunction<
-                  instancetype Function(
-                    ffi.Pointer<objc.ObjCBlockImpl> block,
-                    ffi.Pointer<ffi.Void> arg0,
-                    ffi.Pointer<objc.ObjCObject> arg1,
-                    ffi.Pointer<objc.ObjCObject> arg2,
-                    ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
-                  )
-                >
-              >()
-              .asFunction<
-                instancetype Function(
-                  ffi.Pointer<objc.ObjCBlockImpl>,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<objc.ObjCObject>,
-                  ffi.Pointer<objc.ObjCObject>,
-                  ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
-                )
-              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer, arg3),
-          retain: true,
-          release: true,
-        );
-}
-
 ffi.Pointer<objc.ObjCObject>
 _ObjCBlock_objcObjCObject_NSError_NSErrorUserInfoKey_fnPtrTrampoline(
   ffi.Pointer<objc.ObjCBlockImpl> block,
@@ -34692,6 +34510,8 @@ class Protocol extends objc.ObjCObjectBase {
   }
 }
 
+extension ProtocolMethods on Protocol {}
+
 late final _class_DOBJCDartInputStreamAdapter = objc.getClass(
   "DOBJCDartInputStreamAdapter",
 );
@@ -35181,23 +35001,6 @@ final _objc_msgSend_16f0drb = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
-      )
-    >();
-final _objc_msgSend_16fy0up = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-        )
-      >
-    >()
-    .asFunction<
-      int Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
       )
     >();
 final _objc_msgSend_177cajs = objc.msgSendPointer
