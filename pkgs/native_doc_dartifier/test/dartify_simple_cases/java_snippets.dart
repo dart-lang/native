@@ -19,4 +19,34 @@ int overloadedMethods() {
 }''',
     'fileName': 'overloaded_methods.dart',
   },
+  {
+    'code': '''
+int implementInlineInterface() {
+    Runnable runnable = new Runnable() {
+        @Override
+        public int run() {
+            return 0;
+        }
+    };
+    return runnable.run();
+}''',
+    'fileName': 'implement_inline_interface.dart',
+  },
+  {
+    'code': '''
+public class RunnableClass implements Runnable {
+
+  public RunnableClass() {}
+
+  @Override
+  public int run() {
+    return 5;
+  }
+}
+int implementNormalInterface() {
+    Runnable runnable = new RunnableClass();
+    return runnable.run();
+}''',
+    'fileName': 'implement_normal_interface.dart',
+  },
 ];

@@ -76,9 +76,7 @@ JNIgen handles various syntactic and semantic differences between Java/Kotlin an
         * Pass each interface method as a named closure argument within the `\$InterfaceName` factory constructor.
         * Example: `InterfaceName.implement(\$InterfaceName(method1: (param1) { /* ... */ }))`
     * **Reusable Implementations:**
-        * If the Java/Kotlin code defines a class that `implements` an interface, translate it to a Dart `final class` that `with` (mixes in) the corresponding `\$`-prefixed interface (e.g., `final class MyPrinter with \$Runnable`).
-        * The Dart class should override the interface methods as required.
-        * Instantiate and pass this class to the `implement` factory: `InterfaceName.implement(MyClassImplementingInterface(...))`
+        * If the Java/Kotlin code defines a class that `implements` an interface, To translate it to Dart make this class to be 'final class with' \$InterfaceName, as JNIgen make a mixin class \$InterfaceName that handles this, Don't make it to implements InterfaceName only use the mixin class.
     * **Asynchronous Listener Methods:**
         * For `void`-returning methods in implemented interfaces that should be non-blocking (listeners), explicitly set the `<methodName>\$async` parameter to `true` when using the inline implementation (e.g., `run\$async: true`).
         * If using a reusable class (mixin), override the `<methodName>\$async` getter to return `true` (e.g., `bool get run\$async => true;`).

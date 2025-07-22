@@ -19,7 +19,6 @@
 // ignore_for_file: only_throw_errors
 // ignore_for_file: overridden_fields
 // ignore_for_file: prefer_double_quotes
-// ignore_for_file: prefer_expression_function_bodies
 // ignore_for_file: unintended_html_in_doc_comment
 // ignore_for_file: unnecessary_cast
 // ignore_for_file: unnecessary_non_null_assertion
@@ -82,11 +81,9 @@ class Accumulator extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumulator() {
-    return Accumulator.fromReference(
+  factory Accumulator() => Accumulator.fromReference(
       _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
     );
-  }
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -110,15 +107,13 @@ class Accumulator extends jni$_.JObject {
 
   /// from: `public void <init>(int initialValue)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumulator.new$1(int initialValue) {
-    return Accumulator.fromReference(
+  factory Accumulator.new$1(int initialValue) => Accumulator.fromReference(
       _new$1(
         _class.reference.pointer,
         _id_new$1 as jni$_.JMethodIDPtr,
         initialValue,
       ).reference,
     );
-  }
 
   static final _id_new$2 = _class.constructorId(r'(Lcom/Accumulator;)V');
 
@@ -304,10 +299,8 @@ final class $Accumulator$NullableType extends jni$_.JObjType<Accumulator?> {
   int get hashCode => ($Accumulator$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Accumulator$NullableType) &&
+  bool operator ==(Object other) => other.runtimeType == ($Accumulator$NullableType) &&
         other is $Accumulator$NullableType;
-  }
 }
 
 final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
@@ -339,8 +332,179 @@ final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
   int get hashCode => ($Accumulator$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Accumulator$Type) &&
+  bool operator ==(Object other) => other.runtimeType == ($Accumulator$Type) &&
         other is $Accumulator$Type;
+}
+
+/// from: `com.Runnable`
+class Runnable extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Runnable> $type;
+
+  @jni$_.internal
+  Runnable.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(r'com/Runnable');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Runnable$NullableType();
+  static const type = $Runnable$Type();
+  static final _id_run = _class.instanceMethodId(r'run', r'()I');
+
+  static final _run =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public abstract int run()`
+  int run() => _run(reference.pointer, _id_run as jni$_.JMethodIDPtr).integer;
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $Runnable> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) => _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+    );
+
+  static final jni$_.Pointer<
+    jni$_.NativeFunction<
+      jni$_.JObjectPtr Function(jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)
+    >
+  >
+  _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'run()I') {
+        final $r = _$impls[$p]!.run();
+        return jni$_.JInteger($r).reference.toPointer();
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
   }
+
+  static void implementIn(jni$_.JImplementer implementer, $Runnable $impl) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(r'com.Runnable', $p, _$invokePointer, []);
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory Runnable.implement($Runnable $impl) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return Runnable.fromReference($i.implementReference());
+  }
+}
+
+abstract base mixin class $Runnable {
+  factory $Runnable({required int Function() run}) = _$Runnable;
+
+  int run();
+}
+
+final class _$Runnable with $Runnable {
+  _$Runnable({required int Function() run}) : _run = run;
+
+  final int Function() _run;
+
+  int run() => _run();
+}
+
+final class $Runnable$NullableType extends jni$_.JObjType<Runnable?> {
+  @jni$_.internal
+  const $Runnable$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Runnable;';
+
+  @jni$_.internal
+  @core$_.override
+  Runnable? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : Runnable.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Runnable?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Runnable$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType == ($Runnable$NullableType) &&
+        other is $Runnable$NullableType;
+}
+
+final class $Runnable$Type extends jni$_.JObjType<Runnable> {
+  @jni$_.internal
+  const $Runnable$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Runnable;';
+
+  @jni$_.internal
+  @core$_.override
+  Runnable fromReference(jni$_.JReference reference) =>
+      Runnable.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Runnable?> get nullableType => const $Runnable$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Runnable$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType == ($Runnable$Type) && other is $Runnable$Type;
 }
