@@ -234,17 +234,30 @@ class Parameter extends AstNode {
   String name;
   Type type;
   final bool objCConsumed;
-  bool isCovariant = false;
+  bool isCovariant;
+
+  Parameter._({
+    required this.originalName,
+    required this.name,
+    required this.type,
+    required this.objCConsumed,
+    required this.isCovariant,
+  });
 
   Parameter({
     String? originalName,
-    this.name = '',
+    String name = '',
     required Type type,
-    required this.objCConsumed,
-  }) : originalName = originalName ?? name,
-       // A [NativeFunc] is wrapped with a pointer because this is a shorthand
-       // used in C for Pointer to function.
-       type = type.typealiasType is NativeFunc ? PointerType(type) : type;
+    required bool objCConsumed,
+  }) : this._(
+         originalName: originalName ?? name,
+         name: name,
+         // A [NativeFunc] is wrapped with a pointer because this is a shorthand
+         // used in C for Pointer to function.
+         type: type.typealiasType is NativeFunc ? PointerType(type) : type,
+         objCConsumed: objCConsumed,
+         isCovariant: false,
+       );
 
   String getNativeType({String varName = ''}) =>
       '${type.getNativeType(varName: varName)}'
@@ -260,4 +273,12 @@ class Parameter extends AstNode {
   }
 
   bool get isNullable => type.typealiasType is ObjCNullable;
+
+  Parameter clone() => Parameter._(
+    originalName: originalName,
+    name: name,
+    type: type,
+    objCConsumed: objCConsumed,
+    isCovariant: isCovariant,
+  );
 }

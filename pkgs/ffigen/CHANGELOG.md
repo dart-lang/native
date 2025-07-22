@@ -4,6 +4,12 @@
   `Config` classes. Rename `FfiGen.run` to `.generate`, and make it an extension
   method on the `Config` class. So `FfiGen().run(config)` becomes
   `config.generate(logger)`.
+- __Breaking change__: Minor breaking change in the way that ObjC class methods
+  are generated. Instance methods are now generated as extension methods instead
+  of being part of the class. This shouldn't require any code changes unless you
+  are using `show` or `hide` when importing the classes.
+- Fix [a bug](https://github.com/dart-lang/native/issues/2419) where methods
+  copied from super types might not be renamed correctly.
 
 ## 19.1.0
 
