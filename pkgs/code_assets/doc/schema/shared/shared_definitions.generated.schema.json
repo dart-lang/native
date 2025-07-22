@@ -42,7 +42,7 @@
                 "$ref": "shared_definitions.schema.json#/definitions/Asset"
               }
             },
-            "assets_for_linking": {
+            "assets_for_link": {
               "type": "object",
               "additionalProperties": {
                 "type": "array",

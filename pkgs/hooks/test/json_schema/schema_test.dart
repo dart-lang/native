@@ -43,7 +43,7 @@ _metadataAssetFields({
     if (inputOrOutput == InputOrOutput.input && hook == Hook.link) ['assets'],
     if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
       ['assets_for_build'],
-      ['assets_for_linking', 'package_with_linker'],
+      ['assets_for_link', 'package_with_linker'],
     ],
   ]) ...[
     ([...path, 1], expectOptionalFieldMissing),

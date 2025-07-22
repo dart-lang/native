@@ -55,7 +55,7 @@ List<(List<Object>, void Function(ValidationResults result))> _dataFields({
       for (final field in _dataAssetFields)
         for (final path in [
           ['assets_for_build'],
-          ['assets_for_linking', 'package_with_linker'],
+          ['assets_for_link', 'package_with_linker'],
         ])
           ([...path, 0, 'encoding', field], expectRequiredFieldMissing),
     ],
