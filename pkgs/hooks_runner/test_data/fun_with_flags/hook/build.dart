@@ -10,7 +10,9 @@ void main(List<String> args) async {
     await output.addDataAssetDirectories(
       ['assets'],
       input: input,
-      routing: ToLinkHook(input.packageName),
+      routing: input.config.linkingEnabled
+          ? ToLinkHook(input.packageName)
+          : const ToAppBundle(),
     );
   });
 }

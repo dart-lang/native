@@ -353,7 +353,7 @@ final class LinkInput extends HookInput {
   /// The assets passed to `hook/link.dart`.
   LinkInputAssets get assets => LinkInputAssets._(this);
 
-  /// The metadata emitted by dependent build hooks.
+  /// The metadata set to this link hook by dependent link hooks.
   List<MetadataAsset> get metadata => assets.encodedInternalAssets
       .where((e) => e.isMetadataAsset)
       .map((e) => e.asMetadataAsset)
@@ -372,7 +372,7 @@ final class LinkInputAssets {
 
   /// The encoded assets from direct dependencies.
   List<EncodedAsset> get encodedInternalAssets =>
-      EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.internalAssets);
+      EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.assetsFromLinking);
 }
 
 /// The builder for [LinkInput].
@@ -384,14 +384,14 @@ final class LinkInputBuilder extends HookInputBuilder {
   void setupLink({
     required List<EncodedAsset> assets,
     required Uri? recordedUsesFile,
-    required List<EncodedAsset> internalAssets,
+    required List<EncodedAsset> assetsFromLinking,
   }) {
     _syntax.setup(
       assets: [
         for (final asset in assets) AssetSyntax.fromJson(asset.toJson()),
       ],
-      internalAssets: [
-        for (final asset in internalAssets)
+      assetsFromLinking: [
+        for (final asset in assetsFromLinking)
           AssetSyntax.fromJson(asset.toJson()),
       ],
       resourceIdentifiers: recordedUsesFile,
@@ -479,6 +479,7 @@ sealed class HookOutputBuilder {
     dependencies: null,
     status: OutputStatusSyntax.success,
     failureDetails: null,
+    assetsForLink: {},
   );
 
   /// The JSON representation of this hook output builder.
@@ -631,7 +632,7 @@ final class LinkOutputMetadataBuilder {
 
   LinkOutputMetadataBuilder._(this._output);
 
-  /// Sets the metadata [value] for the given [key].
+  /// Sets the metadata [value] for the given [key] to be sent to [packageName].
   void add(String packageName, String key, Object value) {
     _output.assets.addEncodedAsset(
       MetadataAsset(key: key, value: value).encode(),
@@ -639,7 +640,7 @@ final class LinkOutputMetadataBuilder {
     );
   }
 
-  /// Adds all entries from [metadata].
+  /// Adds all entries from [metadata] to be sent to [packageName].
   void addAll(String packageName, Map<String, Object> metadata) {
     metadata.forEach((key, value) => add(packageName, key, value));
   }
@@ -650,20 +651,15 @@ final class LinkOutputMetadataBuilder {
 /// Currently supported routings:
 ///  * [ToBuildHooks]: From build hook to all dependent builds hooks.
 ///  * [ToLinkHook]: From build hook to a specific link hook.
-///  * [ToAppBundle]: From build or link hook to the application Bundle.
-sealed class AssetRouting {
-  const AssetRouting();
-}
+///  * [ToAppBundle]: From build hook to the application Bundle.
+sealed class AssetRouting {}
 
 /// The destination for assets in the [LinkOutput].
 ///
 /// Currently supported routings:
-///  * [ToBuildHooks]: From build hook to all dependent builds hooks.
-///  * [ToLinkHook]: From build hook to a specific link hook.
-///  * [ToAppBundle]: From build or link hook to the application Bundle.
-sealed class LinkAssetRouting {
-  const LinkAssetRouting();
-}
+///  * [ToLinkHook]: From link hook to another depending link hook.
+///  * [ToAppBundle]: From link hook to the application Bundle.
+sealed class LinkAssetRouting {}
 
 /// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the SDK
 /// to be bundled with the app.
@@ -807,7 +803,7 @@ final class BuildOutputAssetsBuilder {
 ///
 /// See [LinkOutputFailure] for failure.
 final class LinkOutput extends HookOutput implements LinkOutputMaybeFailure {
-  /// The assets produced by this link which are sent to linkers upstream.
+  /// The assets produced by this link which are routed to linkers upstream.
   ///
   /// Every key in the map is a package name. These assets in the values are not
   /// bundled with the application, but are sent to the link hook of the package
@@ -836,8 +832,9 @@ final class LinkOutputAssets {
   /// The assets produced by this build.
   List<EncodedAsset> get encodedAssets => _output._encodedAssets;
 
-  /// The assets produced by this build which should be available to subsequent
-  /// link hooks.
+  /// The assets produced by this link hook sent to a specific link hook.
+  ///
+  /// The key of the map is the package name of the destination link hook.
   Map<String, List<EncodedAsset>> get encodedAssetsForLink =>
       _output._encodedAssetsForLinking;
 }
@@ -857,7 +854,7 @@ final class LinkOutputAssets {
 /// }
 /// ```
 final class LinkOutputBuilder extends HookOutputBuilder {
-  /// The metadata builder for this build output.
+  /// The metadata builder for this link output.
   LinkOutputMetadataBuilder get metadata => LinkOutputMetadataBuilder._(this);
 
   /// The assets builder for this link output.

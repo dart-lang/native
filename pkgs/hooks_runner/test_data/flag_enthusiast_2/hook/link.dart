@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:fun_with_flags/src/hook.dart' show flagsUsed;
+import 'package:fun_with_flags/src/hook.dart';
 import 'package:hooks/hooks.dart';
 
 void main(List<String> args) async {
   await link(args, (input, output) async {
-    flagsUsed(input, output, ['fr']);
+    output.registerFlagUse(input.packageName, ['fr']);
   });
 }

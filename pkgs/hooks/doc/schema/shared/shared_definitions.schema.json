@@ -206,6 +206,15 @@
             "$ref": "#/definitions/Asset"
           }
         },
+        "assets_for_link": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        },
         "dependencies": {
           "type": "array",
           "items": {
@@ -250,7 +259,7 @@
             "$ref": "#/definitions/Asset"
           }
         },
-        "internal_assets": {
+        "assets_from_linking": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Asset"
@@ -268,17 +277,6 @@
     },
     "LinkOutput": {
       "type": "object",
-      "properties": {
-        "assets_for_link": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Asset"
-            }
-          }
-        }
-      },
       "allOf": [
         {
           "$ref": "#/definitions/HookOutput"

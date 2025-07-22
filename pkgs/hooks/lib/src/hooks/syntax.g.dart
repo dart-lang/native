@@ -217,6 +217,7 @@ class BuildOutputSyntax extends HookOutputSyntax {
   BuildOutputSyntax({
     required super.assets,
     required List<AssetSyntax>? assetsForBuild,
+    required super.assetsForLink,
     required Map<String, List<AssetSyntax>>? assetsForLinking,
     required super.dependencies,
     required super.failureDetails,
@@ -575,12 +576,14 @@ class HookOutputSyntax extends JsonObjectSyntax {
 
   HookOutputSyntax({
     required List<AssetSyntax>? assets,
+    required Map<String, List<AssetSyntax>>? assetsForLink,
     required List<Uri>? dependencies,
     required FailureSyntax? failureDetails,
     required OutputStatusSyntax? status,
     required String timestamp,
   }) : super() {
     this.assets = assets;
+    this.assetsForLink = assetsForLink;
     this.dependencies = dependencies;
     this.failureDetails = failureDetails;
     this.status = status;
@@ -621,6 +624,54 @@ class HookOutputSyntax extends JsonObjectSyntax {
       return [];
     }
     return [for (final element in elements) ...element.validate()];
+  }
+
+  Map<String, List<AssetSyntax>>? get assetsForLink {
+    final jsonValue = _reader.optionalMap('assets_for_link');
+    if (jsonValue == null) {
+      return null;
+    }
+    final result = <String, List<AssetSyntax>>{};
+    for (final MapEntry(:key, :value) in jsonValue.entries) {
+      result[key] = [
+        for (final (index, item) in (value as List<Object?>).indexed)
+          AssetSyntax.fromJson(
+            item as Map<String, Object?>,
+            path: [...path, key, index],
+          ),
+      ];
+    }
+    return result;
+  }
+
+  set assetsForLink(Map<String, List<AssetSyntax>>? value) {
+    if (value == null) {
+      json.remove('assets_for_link');
+    } else {
+      json['assets_for_link'] = {
+        for (final MapEntry(:key, :value) in value.entries)
+          key: [for (final item in value) item.json],
+      };
+    }
+    json.sortOnKey();
+  }
+
+  List<String> _validateAssetsForLink() {
+    final mapErrors = _reader.validateOptionalMap('assets_for_link');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    final jsonValue = _reader.optionalMap('assets_for_link');
+    if (jsonValue == null) {
+      return [];
+    }
+    final result = <String>[];
+    for (final list in assetsForLink!.values) {
+      for (final element in list) {
+        result.addAll(element.validate());
+      }
+    }
+    return result;
   }
 
   List<Uri>? get dependencies => _reader.optionalPathList('dependencies');
@@ -683,6 +734,7 @@ class HookOutputSyntax extends JsonObjectSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssets(),
+    ..._validateAssetsForLink(),
     ..._validateDependencies(),
     ..._validateFailureDetails(),
     ..._validateStatus(),
@@ -743,8 +795,8 @@ class LinkInputSyntax extends HookInputSyntax {
 
   LinkInputSyntax({
     required List<AssetSyntax>? assets,
+    required List<AssetSyntax>? assetsFromLinking,
     required super.config,
-    required List<AssetSyntax>? internalAssets,
     required super.outDirShared,
     required super.outFile,
     required super.packageName,
@@ -753,7 +805,7 @@ class LinkInputSyntax extends HookInputSyntax {
     required super.userDefines,
   }) : super() {
     _assets = assets;
-    _internalAssets = internalAssets;
+    _assetsFromLinking = assetsFromLinking;
     _resourceIdentifiers = resourceIdentifiers;
     json.sortOnKey();
   }
@@ -762,11 +814,11 @@ class LinkInputSyntax extends HookInputSyntax {
   /// [HookInputSyntax].
   void setup({
     required List<AssetSyntax>? assets,
-    required List<AssetSyntax>? internalAssets,
+    required List<AssetSyntax>? assetsFromLinking,
     required Uri? resourceIdentifiers,
   }) {
     _assets = assets;
-    _internalAssets = internalAssets;
+    _assetsFromLinking = assetsFromLinking;
     _resourceIdentifiers = resourceIdentifiers;
     json.sortOnKey();
   }
@@ -805,34 +857,34 @@ class LinkInputSyntax extends HookInputSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
-  List<AssetSyntax>? get internalAssets {
-    final jsonValue = _reader.optionalList('internal_assets');
+  List<AssetSyntax>? get assetsFromLinking {
+    final jsonValue = _reader.optionalList('assets_from_linking');
     if (jsonValue == null) return null;
     return [
       for (final (index, element) in jsonValue.indexed)
         AssetSyntax.fromJson(
           element as Map<String, Object?>,
-          path: [...path, 'internal_assets', index],
+          path: [...path, 'assets_from_linking', index],
         ),
     ];
   }
 
-  set _internalAssets(List<AssetSyntax>? value) {
+  set _assetsFromLinking(List<AssetSyntax>? value) {
     if (value == null) {
-      json.remove('internal_assets');
+      json.remove('assets_from_linking');
     } else {
-      json['internal_assets'] = [for (final item in value) item.json];
+      json['assets_from_linking'] = [for (final item in value) item.json];
     }
   }
 
-  List<String> _validateInternalAssets() {
+  List<String> _validateAssetsFromLinking() {
     final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'internal_assets',
+      'assets_from_linking',
     );
     if (listErrors.isNotEmpty) {
       return listErrors;
     }
-    final elements = internalAssets;
+    final elements = assetsFromLinking;
     if (elements == null) {
       return [];
     }
@@ -852,7 +904,7 @@ class LinkInputSyntax extends HookInputSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssets(),
-    ..._validateInternalAssets(),
+    ..._validateAssetsFromLinking(),
     ..._validateResourceIdentifiers(),
   ];
 
@@ -865,75 +917,16 @@ class LinkOutputSyntax extends HookOutputSyntax {
 
   LinkOutputSyntax({
     required super.assets,
-    required Map<String, List<AssetSyntax>>? assetsForLink,
+    required super.assetsForLink,
     required super.dependencies,
     required super.failureDetails,
     required super.status,
     required super.timestamp,
-  }) : super() {
-    this.assetsForLink = assetsForLink;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [LinkOutputSyntax] that are not in
-  /// [HookOutputSyntax].
-  void setup({required Map<String, List<AssetSyntax>>? assetsForLink}) {
-    this.assetsForLink = assetsForLink;
-    json.sortOnKey();
-  }
-
-  Map<String, List<AssetSyntax>>? get assetsForLink {
-    final jsonValue = _reader.optionalMap('assets_for_link');
-    if (jsonValue == null) {
-      return null;
-    }
-    final result = <String, List<AssetSyntax>>{};
-    for (final MapEntry(:key, :value) in jsonValue.entries) {
-      result[key] = [
-        for (final (index, item) in (value as List<Object?>).indexed)
-          AssetSyntax.fromJson(
-            item as Map<String, Object?>,
-            path: [...path, key, index],
-          ),
-      ];
-    }
-    return result;
-  }
-
-  set assetsForLink(Map<String, List<AssetSyntax>>? value) {
-    if (value == null) {
-      json.remove('assets_for_link');
-    } else {
-      json['assets_for_link'] = {
-        for (final MapEntry(:key, :value) in value.entries)
-          key: [for (final item in value) item.json],
-      };
-    }
-    json.sortOnKey();
-  }
-
-  List<String> _validateAssetsForLink() {
-    final mapErrors = _reader.validateOptionalMap('assets_for_link');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    final jsonValue = _reader.optionalMap('assets_for_link');
-    if (jsonValue == null) {
-      return [];
-    }
-    final result = <String>[];
-    for (final list in assetsForLink!.values) {
-      for (final element in list) {
-        result.addAll(element.validate());
-      }
-    }
-    return result;
-  }
+  }) : super();
 
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAssetsForLink(),
     ..._validateExtraRulesLinkOutput(),
   ];
 

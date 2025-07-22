@@ -230,7 +230,8 @@ class PackageGraph {
 
   PackageGraph(this.map);
 
-  // Helper method to compute the inverse map
+  /// Instead of a map of package -> dependencies, get the map of package ->
+  /// dependents.
   static Map<String, List<String>> _computeInverseMap(
     Map<String, List<String>> graphMap,
   ) {
@@ -282,7 +283,6 @@ class PackageGraph {
 
   Iterable<String> neighborsOf(String vertex) => map[vertex] ?? [];
 
-  // New method to get inverse neighbors (incoming edges)
   Iterable<String> inverseNeighborsOf(String vertex) =>
       _inverseMap[vertex] ?? [];
 

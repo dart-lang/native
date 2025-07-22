@@ -1,7 +1,7 @@
 ## 0.20.0
 
 * Enable passing metadata from link hooks of a package to the link hooks in 
-  depending packages, by fixing the link hook execution order.
+  dependencies, by fixing the link hook execution order.
 
 ## 0.19.5
 

@@ -1,7 +1,6 @@
 ## 0.20.0
 
-* Enable passing metadata from link hooks of a package to the link hooks in 
-  depending packages, by fixing the link hook execution order.
+* Bump `hooks` to `0.20.0`.
 
 ## 0.19.1
 

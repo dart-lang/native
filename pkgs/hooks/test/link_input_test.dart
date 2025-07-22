@@ -34,7 +34,7 @@ void main() async {
       'config': {
         'build_asset_types': ['asset-type-1', 'asset-type-2'],
       },
-      'internal_assets': [],
+      'assets_from_linking': [],
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
@@ -51,7 +51,11 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])
-      ..setupLink(assets: assets, recordedUsesFile: null, internalAssets: []);
+      ..setupLink(
+        assets: assets,
+        recordedUsesFile: null,
+        assetsFromLinking: [],
+      );
     final input = inputBuilder.build();
 
     expect(input.json, inputJson);

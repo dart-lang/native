@@ -2,16 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:hooks/hooks.dart' show LinkInput, LinkOutputBuilder;
+import 'package:hooks/hooks.dart' show LinkOutputBuilder;
 
 const prefix = 'used_flags_';
 
-void flagsUsed(
-  LinkInput input,
-  LinkOutputBuilder output,
-  List<String> countries,
-) => output.metadata.add(
-  'fun_with_flags',
-  '$prefix${input.packageName}',
-  countries,
-);
+extension FlagsUsed on LinkOutputBuilder {
+  void registerFlagUse(String callerPackageName, List<String> countries) =>
+      metadata.add('fun_with_flags', '$prefix$callerPackageName', countries);
+}

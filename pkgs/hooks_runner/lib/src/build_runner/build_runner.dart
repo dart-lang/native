@@ -273,7 +273,8 @@ class NativeAssetsBuildRunner {
           .inverseNeighborsOf(package.name)
           .toSet();
 
-      final internalAssets = (globalAssetsForBuild[package.name] ?? {}).entries
+      final assetsFromLinking = (globalAssetsForBuild[package.name] ?? {})
+          .entries
           .where((entry) => dependencies.contains(entry.key))
           .expand((e) => e.value)
           .toList();
@@ -307,7 +308,7 @@ class NativeAssetsBuildRunner {
       inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
-        internalAssets: internalAssets,
+        assetsFromLinking: assetsFromLinking,
       );
 
       final input = inputBuilder.build();
