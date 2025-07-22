@@ -62,7 +62,7 @@
       "type": "code_assets/code"
     }
   ],
-  "assets_for_link": {
+  "assets_for_linking": {
     "package_with_linker": [
       {
         "encoding": {

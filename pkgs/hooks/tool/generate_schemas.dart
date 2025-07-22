@@ -64,7 +64,7 @@ void generateSharedDefinitions(Counts counts) {
   };
   const buildOutputAssetOverride = {
     'properties': {
-      'assets_for_link': {
+      'assets_for_linking': {
         'type': 'object',
         'additionalProperties': {
           'type': 'array',

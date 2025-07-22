@@ -479,7 +479,7 @@ sealed class HookOutputBuilder {
     dependencies: null,
     status: OutputStatusSyntax.success,
     failureDetails: null,
-    assetsForLink: {},
+    assetsForLinking: {},
   );
 
   /// The JSON representation of this hook output builder.
@@ -531,7 +531,8 @@ final class BuildOutput extends HookOutput implements BuildOutputMaybeFailure {
   /// bundled with the application, but are sent to the link hook of the package
   /// specified in the key, which can decide if they are bundled or not.
   Map<String, List<EncodedAsset>> get _encodedAssetsForLinking => {
-    for (final MapEntry(:key, :value) in (_syntax.assetsForLink ?? {}).entries)
+    for (final MapEntry(:key, :value)
+        in (_syntax.assetsForLinking ?? {}).entries)
       key: EncodedAssetSyntax._fromSyntax(value),
   };
 
@@ -742,10 +743,12 @@ final class BuildOutputAssetsBuilder {
         _syntax.assetsForBuild = assets;
       case ToLinkHook():
         final packageName = routing.packageName;
-        final assetsForLink = _syntax.assetsForLink ?? {};
-        assetsForLink[packageName] ??= [];
-        assetsForLink[packageName]!.add(AssetSyntax.fromJson(asset.toJson()));
-        _syntax.assetsForLink = assetsForLink;
+        final assetsForLinking = _syntax.assetsForLinking ?? {};
+        assetsForLinking[packageName] ??= [];
+        assetsForLinking[packageName]!.add(
+          AssetSyntax.fromJson(asset.toJson()),
+        );
+        _syntax.assetsForLinking = assetsForLinking;
     }
   }
 
@@ -783,12 +786,12 @@ final class BuildOutputAssetsBuilder {
         _syntax.assetsForBuild = list;
       case ToLinkHook():
         final linkInPackage = routing.packageName;
-        final assetsForLink = _syntax.assetsForLink ?? {};
-        final list = assetsForLink[linkInPackage] ??= [];
+        final assetsForLinking = _syntax.assetsForLinking ?? {};
+        final list = assetsForLinking[linkInPackage] ??= [];
         for (final asset in assets) {
           list.add(AssetSyntax.fromJson(asset.toJson()));
         }
-        _syntax.assetsForLink = assetsForLink;
+        _syntax.assetsForLinking = assetsForLinking;
     }
   }
 
@@ -806,7 +809,8 @@ final class LinkOutput extends HookOutput implements LinkOutputMaybeFailure {
   /// bundled with the application, but are sent to the link hook of the package
   /// specified in the key, which can decide what to do with them.
   Map<String, List<EncodedAsset>> get _encodedAssetsForLink => {
-    for (final MapEntry(:key, :value) in (_syntax.assetsForLink ?? {}).entries)
+    for (final MapEntry(:key, :value)
+        in (_syntax.assetsForLinking ?? {}).entries)
       key: EncodedAssetSyntax._fromSyntax(value),
   };
 
@@ -891,12 +895,12 @@ final class LinkOutputAssetsBuilder {
         _syntax.assets = assets;
       case ToLinkHook():
         final packageName = routing.packageName;
-        final assetsForLinking = _syntax.assetsForLink ?? {};
+        final assetsForLinking = _syntax.assetsForLinking ?? {};
         assetsForLinking[packageName] ??= [];
         assetsForLinking[packageName]!.add(
           AssetSyntax.fromJson(asset.toJson()),
         );
-        _syntax.assetsForLink = assetsForLinking;
+        _syntax.assetsForLinking = assetsForLinking;
     }
   }
 
@@ -926,12 +930,12 @@ final class LinkOutputAssetsBuilder {
         _syntax.assets = list;
       case ToLinkHook():
         final linkInPackage = routing.packageName;
-        final assetsForLinking = _syntax.assetsForLink ?? {};
+        final assetsForLinking = _syntax.assetsForLinking ?? {};
         final list = assetsForLinking[linkInPackage] ??= [];
         for (final asset in assets) {
           list.add(AssetSyntax.fromJson(asset.toJson()));
         }
-        _syntax.assetsForLink = assetsForLinking;
+        _syntax.assetsForLinking = assetsForLinking;
     }
   }
 

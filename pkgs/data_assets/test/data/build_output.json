@@ -36,7 +36,7 @@
       "type": "data_assets/data"
     }
   ],
-  "assets_for_link": {
+  "assets_for_linking": {
     "package_with_linker": [
       {
         "encoding": {

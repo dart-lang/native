@@ -74,7 +74,7 @@ void main() {
           'type': 'my-asset-type',
         },
       ],
-      'assets_for_link': {
+      'assets_for_linking': {
         'package:linker1': [
           {
             'encoding': {'a-1': 'v-1'},

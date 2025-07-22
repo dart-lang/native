@@ -279,7 +279,7 @@ FieldsReturn _hookFields({
     if (hook == Hook.build) ...[
       for (final path in [
         ['assets_for_build'],
-        ['assets_for_link', 'package_with_linker'],
+        ['assets_for_linking', 'package_with_linker'],
       ]) ...[
         ([...path], expectOptionalFieldMissing),
         ([...path, 0], expectOptionalFieldMissing),
@@ -292,7 +292,7 @@ FieldsReturn _hookFields({
     if (inputOrOutput == InputOrOutput.output || hook == Hook.link) ['assets'],
     if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
       ['assets_for_build'],
-      ['assets_for_link', 'package_with_linker'],
+      ['assets_for_linking', 'package_with_linker'],
     ],
   ]) ...[
     ([...path], expectOptionalFieldMissing),
