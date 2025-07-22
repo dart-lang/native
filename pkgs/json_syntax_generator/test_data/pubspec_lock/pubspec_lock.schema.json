@@ -1,0 +1,196 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Pubspec Lock File Schema",
+    "description": "Schema for a Dart pubspec.lock file.",
+    "$ref": "#/definitions/PubspecLockFile",
+    "definitions": {
+        "PubspecLockFile": {
+            "type": "object",
+            "required": [
+                "sdks"
+            ],
+            "properties": {
+                "packages": {
+                    "type": "object",
+                    "description": "Details of the locked packages.",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Package"
+                    }
+                },
+                "sdks": {
+                    "$ref": "#/definitions/SDKs"
+                }
+            },
+            "additionalProperties": false
+        },
+        "Package": {
+            "type": "object",
+            "required": [
+                "dependency",
+                "description",
+                "source",
+                "version"
+            ],
+            "properties": {
+                "dependency": {
+                    "$ref": "#/definitions/DependencyType"
+                },
+                "description": {
+                    "$ref": "#/definitions/PackageDescription"
+                },
+                "source": {
+                    "$ref": "#/definitions/PackageSource"
+                },
+                "version": {
+                    "$ref": "#/definitions/PackageVersion"
+                }
+            },
+            "additionalProperties": false
+        },
+        "DependencyType": {
+            "type": "string",
+            "description": "The type of dependency.",
+            "anyOf": [
+                {
+                    "enum": [
+                        "transitive",
+                        "direct main"
+                    ]
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "PackageDescription": {
+            "type": "object",
+            "description": "Description of the package source."
+        },
+        "HostedPackageDescription": {
+            "description": "For hosted packages.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PackageDescription"
+                }
+            ],
+            "required": [
+                "name",
+                "sha256",
+                "url"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the package."
+                },
+                "sha256": {
+                    "type": "string",
+                    "description": "SHA256 checksum of the package."
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL of the package host."
+                }
+            },
+            "additionalProperties": false
+        },
+        "GitPackageDescription": {
+            "description": "For git packages.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PackageDescription"
+                }
+            ],
+            "required": [
+                "path",
+                "ref",
+                "resolved-ref",
+                "url"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Path within the git repository (if applicable)."
+                },
+                "ref": {
+                    "type": "string",
+                    "description": "Git reference (e.g., branch, tag, or commit hash)."
+                },
+                "resolved-ref": {
+                    "type": "string",
+                    "description": "Resolved git commit hash."
+                },
+                "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL of the git repository."
+                }
+            },
+            "additionalProperties": false
+        },
+        "PathPackageDescription": {
+            "description": "For path packages.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/PackageDescription"
+                }
+            ],
+            "required": [
+                "path",
+                "relative"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Absolute or relative path to the package."
+                },
+                "relative": {
+                    "type": "boolean",
+                    "description": "Indicates if the path is relative to the lockfile."
+                }
+            },
+            "additionalProperties": false
+        },
+        "PackageSource": {
+            "type": "string",
+            "description": "The source of the package.",
+            "anyOf": [
+                {
+                    "enum": [
+                        "hosted",
+                        "git",
+                        "path"
+                    ]
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "PackageVersion": {
+            "type": "string",
+            "description": "The locked version of the package."
+        },
+        "SDKs": {
+            "type": "object",
+            "description": "Details of the SDKs used.",
+            "required": [
+                "dart"
+            ],
+            "properties": {
+                "dart": {
+                    "$ref": "#/definitions/DartSDKVersion"
+                }
+            },
+            "additionalProperties": false
+        },
+        "DartSDKVersion": {
+            "type": "string",
+            "description": "The Dart SDK version constraint."
+        }
+    }
+}

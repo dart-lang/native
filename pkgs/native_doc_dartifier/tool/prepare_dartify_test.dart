@@ -59,7 +59,10 @@ void compileJavaPackage() {
 void generateDartSnippets() async {
   for (final snippet in snippets) {
     final sourceCode = snippet['code'] as String;
-    final dartCode = await dartifyNativeCode(sourceCode, bindingsPath);
+    final dartCode = await dartifyNativeCode(
+      sourceCode,
+      File(bindingsPath).absolute.path,
+    );
     final fileName = snippet['fileName'];
     final outputFile = File('$workingDir/$dartifiedSnippetsDir/$fileName');
     if (!outputFile.parent.existsSync()) {

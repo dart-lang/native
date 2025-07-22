@@ -4,13 +4,14 @@
 
 import 'dart:io';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'code_processor.dart';
 import 'prompts.dart';
 import 'public_abstractor.dart';
 
 Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
-  final file = File(bindingsPath);
+  final bindingsFile = File(bindingsPath);
 
-  if (!await file.exists()) {
+  if (!await bindingsFile.exists()) {
     stderr.writeln('File not found: $bindingsPath');
     exit(1);
   }
@@ -22,7 +23,7 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
     exit(1);
   }
 
-  final bindings = await file.readAsString();
+  final bindings = await bindingsFile.readAsString();
 
   final model = GenerativeModel(
     model: 'gemini-2.0-flash',
@@ -41,12 +42,35 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
     generateBindingsSummary(bindings),
   );
 
-  print('Prompt:\n${translatePrompt.prompt}\n');
+  final chatSession = model.startChat();
 
-  final content = [Content.text(translatePrompt.prompt)];
+  final response = await chatSession.sendMessage(
+    Content.text(translatePrompt.prompt),
+  );
+  var mainCode = translatePrompt.getParsedResponse(response.text ?? '');
+  var helperCode = '';
 
-  final response = await model.generateContent(content);
-  final dartCode = translatePrompt.getParsedResponse(response.text ?? '');
+  final codeProcessor = CodeProcessor();
+  mainCode = codeProcessor.addImports(mainCode, [
+    'package:jni/jni.dart',
+    bindingsFile.path,
+  ]);
 
-  return dartCode;
+  for (var i = 0; i < 3; i++) {
+    final errorMessage = await codeProcessor.analyzeCode(mainCode, helperCode);
+    if (errorMessage.isEmpty) {
+      break;
+    }
+    stderr.writeln('Dart analysis found issues: $errorMessage');
+    final fixPrompt = FixPrompt(mainCode, helperCode, errorMessage);
+    final fixResponse = await chatSession.sendMessage(
+      Content.text(fixPrompt.prompt),
+    );
+    final fixedCode = fixPrompt.getParsedResponse(fixResponse.text ?? '');
+
+    mainCode = fixedCode.mainCode;
+    helperCode = fixedCode.helperCode;
+  }
+  mainCode = codeProcessor.removeImports(mainCode);
+  return mainCode;
 }

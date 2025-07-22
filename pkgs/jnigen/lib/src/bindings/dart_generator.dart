@@ -1365,10 +1365,15 @@ ${modifier}final _$name = $_protectedExtension
 
     // Docs
     s.write('  /// from: `');
-    s.writeAll(node.modifiers.map((m) => '$m '));
-    s.write('${node.returnType} ${node.name}(');
-    s.writeAll(node.params.map((p) => '${p.type} ${p.name}'), ', ');
-    s.writeln(')`');
+    if (node.kotlinFunction != null) {
+      _writeKotlinSignature(node);
+      s.writeln('`');
+    } else {
+      s.writeAll(node.modifiers.map((m) => '$m '));
+      s.write('${node.returnType} ${node.name}(');
+      s.writeAll(node.params.map((p) => '${p.type} ${p.name}'), ', ');
+      s.writeln(')`');
+    }
     if (node.returnType is! PrimitiveType || node.isConstructor) {
       s.writeln(_releaseInstruction);
     }
@@ -1507,6 +1512,67 @@ ${modifier}final _$name = $_protectedExtension
     $returning;
   }
 ''');
+    }
+  }
+
+  void _writeKotlinSignature(Method node) {
+    final kotlinFunction = node.kotlinFunction!;
+    final typeParams = [
+      ...node.classDecl.allTypeParams,
+      ...node.typeParams,
+    ];
+
+    if (kotlinFunction.isPublic) {
+      s.write('public ');
+    }
+    if (kotlinFunction.isPrivate) {
+      s.write('private ');
+    }
+    if (kotlinFunction.isProtected) {
+      s.write('protected ');
+    }
+    if (kotlinFunction.isInternal) {
+      s.write('internal ');
+    }
+    if (kotlinFunction.isSuspend) {
+      s.write('suspend ');
+    }
+    if (kotlinFunction.isOperator) {
+      s.write('operator ');
+    }
+    s.write('fun ');
+    final whereClauses = <String>[];
+    if (kotlinFunction.typeParameters.isNotEmpty) {
+      s.write('<');
+      for (final t in kotlinFunction.typeParameters) {
+        final typeParameters = t.upperBounds
+            .map((bound) => '${t.name} : ${bound.toDocComment(typeParams)}');
+        if (typeParameters.length == 1) {
+          s.write(typeParameters.single);
+        } else {
+          s.write(t.name);
+          whereClauses.addAll(typeParameters);
+        }
+      }
+      s.write('> ');
+    }
+    s.write('${kotlinFunction.kotlinName}(');
+    s.writeAll(kotlinFunction.valueParameters.map((p) {
+      final KotlinType type;
+      final String prefix;
+      if (p.varargElementType != null) {
+        prefix = 'vararg ';
+        type = p.varargElementType!;
+      } else {
+        prefix = '';
+        type = p.type;
+      }
+      return '$prefix${p.name}: ${type.toDocComment(typeParams)}';
+    }), ', ');
+    s.write('): ${kotlinFunction.returnType.toDocComment(typeParams)}');
+    if (whereClauses.isNotEmpty) {
+      s.write(' where ');
+      s.writeAll(whereClauses, ', ');
     }
   }
 }

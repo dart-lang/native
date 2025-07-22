@@ -20,3 +20,11 @@
 - (void)setDone;
 - (void)setError:(NSError *)error;
 @end
+
+/// Helper class that contains a weak reference to a `DOBJCDartInputStreamAdapter`.
+@interface DOBJCDartInputStreamAdapterWeakHolder : NSObject
+
++ (instancetype)holderWithInputStreamAdapter:(DOBJCDartInputStreamAdapter *)adapter;
+@property(nonatomic, readonly, weak) DOBJCDartInputStreamAdapter* adapter;
+
+@end
