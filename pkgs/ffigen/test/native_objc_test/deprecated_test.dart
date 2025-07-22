@@ -4,22 +4,19 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-import 'dart:ffi';
+library;
+
 import 'dart:io';
 
-import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
-import 'package:ffigen/src/config_provider/config.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'util.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
-  final config = Config(
+  FfiGen(
     wrapperName: 'DeprecatedTestObjCLibrary',
     wrapperDocComment: 'Tests API deprecation',
     language: Language.objc,
@@ -70,8 +67,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'deprecatedUnnamedEnum',
     }),
     externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
-  );
-  FfiGen(logLevel: Level.SEVERE).run(config);
+  ).generate(Logger.root..level = Level.SEVERE);
   return File(
     path.join(
       packagePathForTests,

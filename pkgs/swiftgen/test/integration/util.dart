@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart' as fg;
+import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' as path;
 import 'package:swiftgen/src/util.dart';
@@ -75,7 +76,7 @@ class TestGenerator {
 // coverage:ignore-file
 ''',
     ),
-  ).generate();
+  ).generate(Logger.root..level = Level.SEVERE);
 
   Future<void> generateAndVerifyBindings() async {
     // Run the generation pipeline. This produces the swift compatability

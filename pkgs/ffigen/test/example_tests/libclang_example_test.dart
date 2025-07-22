@@ -27,7 +27,7 @@ void main() {
           'config.yaml',
         ),
       ).absolute;
-      late Config config;
+      late FfiGen config;
       late Library library;
       withChDir(configYaml.path, () {
         config = testConfigFromPath(configYaml.path);

@@ -1,3 +1,7 @@
+## 9.0.0-wip
+
+- Use ffigen 20.0.0
+
 ## 8.1.0
 
 - Bump minimum Dart version to 3.8.0.

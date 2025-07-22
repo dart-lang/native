@@ -12,10 +12,10 @@ import 'config.dart';
 import 'util.dart';
 
 extension SwiftGenGenerator on SwiftGen {
-  Future<void> generate() async {
+  Future<void> generate(Logger logger) async {
     Directory(absTempDir).createSync(recursive: true);
     await _generateObjCFile();
-    _generateDartFile();
+    _generateDartFile(logger);
   }
 
   String get absTempDir => p.absolute(tempDir.toFilePath());
@@ -36,39 +36,34 @@ extension SwiftGenGenerator on SwiftGen {
     ...input.compileArgs,
   ], absTempDir);
 
-  void _generateDartFile() {
-    final generator = fg.FfiGen(logLevel: Level.SEVERE);
-    generator.run(
-      fg.Config(
-        language: fg.Language.objc,
-        output: ffigen.output,
-        outputObjC: ffigen.outputObjC,
-        wrapperName: ffigen.wrapperName ?? outModule,
-        wrapperDocComment: ffigen.wrapperDocComment,
-        preamble: ffigen.preamble,
-        functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
-        structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
-        unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,
-        enumClassDecl: ffigen.enumClassDecl ?? fg.DeclarationFilters.excludeAll,
-        unnamedEnumConstants:
-            ffigen.unnamedEnumConstants ?? fg.DeclarationFilters.excludeAll,
-        globals: ffigen.globals ?? fg.DeclarationFilters.excludeAll,
-        macroDecl: ffigen.macroDecl ?? fg.DeclarationFilters.excludeAll,
-        typedefs: ffigen.typedefs ?? fg.DeclarationFilters.excludeAll,
-        objcInterfaces:
-            ffigen.objcInterfaces ?? fg.DeclarationFilters.excludeAll,
-        objcProtocols: ffigen.objcProtocols ?? fg.DeclarationFilters.excludeAll,
-        objcCategories:
-            ffigen.objcCategories ?? fg.DeclarationFilters.excludeAll,
-        entryPoints: [Uri.file(objcHeader)],
-        compilerOpts: [
-          ...fg.defaultCompilerOpts(),
-          '-Wno-nullability-completeness',
-        ],
-        interfaceModuleFunc: (_) => outModule,
-        protocolModuleFunc: (_) => outModule,
-        externalVersions: ffigen.externalVersions,
-      ),
-    );
+  void _generateDartFile(Logger logger) {
+    fg.FfiGen(
+      language: fg.Language.objc,
+      output: ffigen.output,
+      outputObjC: ffigen.outputObjC,
+      wrapperName: ffigen.wrapperName ?? outModule,
+      wrapperDocComment: ffigen.wrapperDocComment,
+      preamble: ffigen.preamble,
+      functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
+      structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
+      unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,
+      enumClassDecl: ffigen.enumClassDecl ?? fg.DeclarationFilters.excludeAll,
+      unnamedEnumConstants:
+          ffigen.unnamedEnumConstants ?? fg.DeclarationFilters.excludeAll,
+      globals: ffigen.globals ?? fg.DeclarationFilters.excludeAll,
+      macroDecl: ffigen.macroDecl ?? fg.DeclarationFilters.excludeAll,
+      typedefs: ffigen.typedefs ?? fg.DeclarationFilters.excludeAll,
+      objcInterfaces: ffigen.objcInterfaces ?? fg.DeclarationFilters.excludeAll,
+      objcProtocols: ffigen.objcProtocols ?? fg.DeclarationFilters.excludeAll,
+      objcCategories: ffigen.objcCategories ?? fg.DeclarationFilters.excludeAll,
+      entryPoints: [Uri.file(objcHeader)],
+      compilerOpts: [
+        ...fg.defaultCompilerOpts(),
+        '-Wno-nullability-completeness',
+      ],
+      interfaceModuleFunc: (_) => outModule,
+      protocolModuleFunc: (_) => outModule,
+      externalVersions: ffigen.externalVersions,
+    ).generate(logger);
   }
 }

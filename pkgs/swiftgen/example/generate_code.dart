@@ -10,8 +10,8 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
-  // TODO(https://github.com/dart-lang/native/issues/2371): Remove this.
-  Logger.root.onRecord.listen((record) {
+  final logger = Logger('swiftgen');
+  logger.onRecord.listen((record) {
     stderr.writeln('${record.level.name}: ${record.message}');
   });
 
@@ -52,7 +52,7 @@ Future<void> main() async {
 // coverage:ignore-file
 ''',
     ),
-  ).generate();
+  ).generate(logger);
 
   final result = Process.runSync('swiftc', [
     '-emit-library',
