@@ -23,22 +23,22 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// the [Stream].
   ///
   /// > [!IMPORTANT]
-  /// > [NSInputStream.read] must be called from a different thread or [Isolate]
+  /// > `NSInputStream.read` must be called from a different thread or [Isolate]
   /// > than the one that calls [toNSInputStream]. Otherwise,
-  /// > [NSInputStream.read] will deadlock waiting for data to be added from the
+  /// > `NSInputStream.read` will deadlock waiting for data to be added from the
   /// > [Stream].
   ///
   /// > [!IMPORTANT]
-  /// > [NSInputStream.read] must be called from a different thread or [Isolate]
+  /// > `NSInputStream.read` must be called from a different thread or [Isolate]
   /// > than the one that calls `toNSInputStream`. Otherwise,
-  /// > [NSInputStream.read] will deadlock waiting for data to be added from the
+  /// > `NSInputStream.read` will deadlock waiting for data to be added from the
   /// > [Stream].
   ///
   /// > [!IMPORTANT]
   /// > `toNSInputStream` creates a reference cycle between Dart and
   /// > Objective-C. Unless this cycle is broken, the [Isolate] calling
   /// > `toNSInputStream` will never exit. The cycle can be broken by calling
-  /// > [NSInputStream.close] or releasing the `NSInputStream` using
+  /// > `NSInputStream.close` or releasing the `NSInputStream` using
   /// > `NSInputStream.ref.release()`.
   NSInputStream toNSInputStream() {
     // Eagerly add data until `maxReadAheadSize` is buffered.

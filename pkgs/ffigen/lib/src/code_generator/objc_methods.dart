@@ -368,7 +368,7 @@ class ObjCMethod extends AstNode {
   }
 
   static String _paramToStr(Writer w, Parameter p) =>
-      '${p.isCovariant ? 'covariant ' : ''}${p.type.getDartType(w)} ${p.name}';
+      '${p.type.getDartType(w)} ${p.name}';
 
   static String _paramToNamed(Writer w, Parameter p) =>
       '${p.isNullable ? '' : 'required '}${_paramToStr(w, p)}';

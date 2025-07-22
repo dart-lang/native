@@ -60,11 +60,13 @@ void main() {
       final ChildClass child = ChildClass.alloc().init();
       final BaseClass base = child;
 
-      // Calling base.getSelf() should still go through ChildClass.getSelf, so
-      // the result will have a compile time type of BaseClass, but a runtime
-      // type of ChildClass.
+      // Calling base.getSelf() goes through BaseClass.getSelf on the Dart side,
+      // but is dynamically dispatched to the ObjC method ChildClass.getSelf. So
+      // the Dart wrapper object is a BaseClass, but the underlying ObjC object
+      // is a ChildClass.
       final BaseClass sameChild = base.getSelf();
-      expect(sameChild, isA<ChildClass>());
+      expect(sameChild, isA<BaseClass>());
+      expect(ChildClass.isInstance(sameChild), isTrue);
     });
   });
 }
