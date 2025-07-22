@@ -218,25 +218,19 @@ class BuildOutputSyntax extends HookOutputSyntax {
     required super.assets,
     required List<AssetSyntax>? assetsForBuild,
     required super.assetsForLink,
-    required Map<String, List<AssetSyntax>>? assetsForLinking,
     required super.dependencies,
     required super.failureDetails,
     required super.status,
     required super.timestamp,
   }) : super() {
     this.assetsForBuild = assetsForBuild;
-    this.assetsForLinking = assetsForLinking;
     json.sortOnKey();
   }
 
   /// Setup all fields for [BuildOutputSyntax] that are not in
   /// [HookOutputSyntax].
-  void setup({
-    required List<AssetSyntax>? assetsForBuild,
-    required Map<String, List<AssetSyntax>>? assetsForLinking,
-  }) {
+  void setup({required List<AssetSyntax>? assetsForBuild}) {
     this.assetsForBuild = assetsForBuild;
-    this.assetsForLinking = assetsForLinking;
     json.sortOnKey();
   }
 
@@ -328,7 +322,6 @@ class BuildOutputSyntax extends HookOutputSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateAssetsForBuild(),
-    ..._validateAssetsForLinking(),
     ..._validateExtraRulesBuildOutput(),
   ];
 

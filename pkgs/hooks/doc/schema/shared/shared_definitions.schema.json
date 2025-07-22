@@ -92,15 +92,6 @@
           "items": {
             "$ref": "#/definitions/Asset"
           }
-        },
-        "assets_for_linking": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Asset"
-            }
-          }
         }
       },
       "allOf": [
