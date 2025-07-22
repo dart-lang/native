@@ -103,6 +103,38 @@ void main() async {
     });
   });
 
+  test('link metadata', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('flag_app/');
+
+      // First, run `pub get`, we need pub to resolve our dependencies.
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      final buildResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      )).success;
+      expect(
+        _getNames(buildResult.encodedAssetsForLinking['fun_with_flags']!),
+        unorderedEquals(['assets/ca.txt', 'assets/fr.txt', 'assets/de.txt']),
+      );
+
+      final linkResult = (await link(
+        packageUri,
+        logger,
+        dartExecutable,
+        buildResult: buildResult,
+        buildAssetTypes: [BuildAssetType.data],
+      )).success;
+
+      expect(
+        _getNames(linkResult.encodedAssets),
+        unorderedEquals(['assets/fr.txt', 'assets/de.txt']),
+      );
+    });
+  });
+
   if (Platform.isMacOS || Platform.isWindows) {
     // https://github.com/dart-lang/native/issues/1376.
     return;

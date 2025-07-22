@@ -7,5 +7,5 @@ import 'package:meta/meta.dart' show RecordUse;
 
 class SingleFlag {
   @RecordUse()
-  String loadFlag(String country) => FlagLoader.load(country);
+  static String loadFlag(String country) => FlagLoader.load(country);
 }

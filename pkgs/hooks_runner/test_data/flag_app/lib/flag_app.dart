@@ -2,4 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-int calculate() => 6 * 7;
+import 'package:flag_enthusiast_1/flag_enthusiast_1.dart';
+import 'package:flag_enthusiast_2/flag_enthusiast_2.dart';
+
+String flagList() => [
+  SingleFlag.loadFlag('de'),
+  ...MultiFlag.loadFlag(['fr']),
+].join(', ');

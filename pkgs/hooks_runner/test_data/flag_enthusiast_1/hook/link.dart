@@ -5,6 +5,8 @@
 import 'package:fun_with_flags/src/hook.dart';
 import 'package:hooks/hooks.dart';
 
+// TODO(mosuem): Actually use the information from the usage recording after
+// it lands on stable https://github.com/dart-lang/sdk/issues/61166.
 void main(List<String> args) async {
   await link(args, (input, output) async {
     output.registerFlagUse(input.packageName, ['de']);
