@@ -133,6 +133,23 @@ set NSLocalizedDescriptionKey(NSString value) {
 }
 
 @ffi.Native<
+  instancetype Function(
+    ffi.Pointer<objc.ObjCObject>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObject>,
+    ffi.Pointer<objc.ObjCObject>,
+    ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+  )
+>()
+external instancetype _ObjectiveCBindings_protocolTrampoline_10z9f5k(
+  ffi.Pointer<objc.ObjCObject> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+  ffi.Pointer<objc.ObjCObject> arg2,
+  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+);
+
+@ffi.Native<
   ffi.UnsignedLong Function(
     ffi.Pointer<objc.ObjCObject>,
     ffi.Pointer<ffi.Void>,
@@ -3896,14 +3913,14 @@ extension NSEnumeratorMethods on NSEnumerator {
   int countByEnumeratingWithState(
     ffi.Pointer<NSFastEnumerationState> state, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-    required int count,
+    required int count$1,
   }) {
     return _objc_msgSend_1b5ysjl(
       this.ref.pointer,
       _sel_countByEnumeratingWithState_objects_count_,
       state,
       objects,
-      count,
+      count$1,
     );
   }
 
@@ -9348,13 +9365,13 @@ extension NSMutableArrayMethods on NSMutableArray {
   /// initWithObjects:count:
   NSMutableArray initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
-    required int count,
+    required int count$1,
   }) {
     final _ret = _objc_msgSend_zmbtbd(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_count_,
       objects,
-      count,
+      count$1,
     );
     return NSMutableArray.castFromPointer(_ret, retain: false, release: true);
   }
@@ -9806,13 +9823,13 @@ extension NSMutableDataMethods on NSMutableData {
 
   /// initWithBytes:length:
   NSMutableData initWithBytes(
-    ffi.Pointer<ffi.Void> bytes, {
+    ffi.Pointer<ffi.Void> bytes$1, {
     required int length,
   }) {
     final _ret = _objc_msgSend_3nbx5e(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytes_length_,
-      bytes,
+      bytes$1,
       length,
     );
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
@@ -9820,13 +9837,13 @@ extension NSMutableDataMethods on NSMutableData {
 
   /// initWithBytesNoCopy:length:
   NSMutableData initWithBytesNoCopy(
-    ffi.Pointer<ffi.Void> bytes, {
+    ffi.Pointer<ffi.Void> bytes$1, {
     required int length,
   }) {
     final _ret = _objc_msgSend_3nbx5e(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytesNoCopy_length_,
-      bytes,
+      bytes$1,
       length,
     );
     return NSMutableData.castFromPointer(_ret, retain: false, release: true);
@@ -9834,7 +9851,7 @@ extension NSMutableDataMethods on NSMutableData {
 
   /// initWithBytesNoCopy:length:deallocator:
   NSMutableData initWithBytesNoCopy$1(
-    ffi.Pointer<ffi.Void> bytes, {
+    ffi.Pointer<ffi.Void> bytes$1, {
     required int length,
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>?
     deallocator,
@@ -9847,7 +9864,7 @@ extension NSMutableDataMethods on NSMutableData {
     final _ret = _objc_msgSend_134vhyh(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytesNoCopy_length_deallocator_,
-      bytes,
+      bytes$1,
       length,
       deallocator?.ref.pointer ?? ffi.nullptr,
     );
@@ -9856,14 +9873,14 @@ extension NSMutableDataMethods on NSMutableData {
 
   /// initWithBytesNoCopy:length:freeWhenDone:
   NSMutableData initWithBytesNoCopy$2(
-    ffi.Pointer<ffi.Void> bytes, {
+    ffi.Pointer<ffi.Void> bytes$1, {
     required int length,
     required bool freeWhenDone,
   }) {
     final _ret = _objc_msgSend_161ne8y(
       this.ref.retainAndReturnPointer(),
       _sel_initWithBytesNoCopy_length_freeWhenDone_,
-      bytes,
+      bytes$1,
       length,
       freeWhenDone,
     );
@@ -10310,14 +10327,14 @@ extension NSMutableDictionaryMethods on NSMutableDictionary {
   NSMutableDictionary initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> forKeys,
-    required int count,
+    required int count$1,
   }) {
     final _ret = _objc_msgSend_1dydpdi(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_forKeys_count_,
       objects,
       forKeys,
-      count,
+      count$1,
     );
     return NSMutableDictionary.castFromPointer(
       _ret,
@@ -14792,14 +14809,14 @@ extension NSOrderedCollectionDifferenceMethods
   int countByEnumeratingWithState(
     ffi.Pointer<NSFastEnumerationState> state, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects,
-    required int count,
+    required int count$1,
   }) {
     return _objc_msgSend_1b5ysjl(
       this.ref.pointer,
       _sel_countByEnumeratingWithState_objects_count_,
       state,
       objects,
-      count,
+      count$1,
     );
   }
 
@@ -15403,7 +15420,7 @@ extension NSOrderedSetMethods on NSOrderedSet {
   /// initWithObjects:count:
   NSOrderedSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
-    required int count$1,
+    required int count,
   }) {
     objc.checkOsVersionInternal(
       'NSOrderedSet.initWithObjects:count:',
@@ -15414,7 +15431,7 @@ extension NSOrderedSetMethods on NSOrderedSet {
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_count_,
       objects,
-      count$1,
+      count,
     );
     return NSOrderedSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -17677,13 +17694,13 @@ extension NSSetMethods on NSSet {
   /// initWithObjects:count:
   NSSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
-    required int count$1,
+    required int count,
   }) {
     final _ret = _objc_msgSend_zmbtbd(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_count_,
       objects,
-      count$1,
+      count,
     );
     return NSSet.castFromPointer(_ret, retain: false, release: true);
   }
@@ -33084,6 +33101,263 @@ extension ObjCBlock_instancetype_ffiVoid_NSCoder_CallExtension
         );
 }
 
+instancetype
+_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+  ffi.Pointer<objc.ObjCObject> arg2,
+  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+) => block.ref.target
+    .cast<
+      ffi.NativeFunction<
+        instancetype Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObject> arg1,
+          ffi.Pointer<objc.ObjCObject> arg2,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+        )
+      >
+    >()
+    .asFunction<
+      instancetype Function(
+        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+      )
+    >()(arg0, arg1, arg2, arg3);
+ffi.Pointer<ffi.Void>
+_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable =
+    ffi.Pointer.fromFunction<
+          instancetype Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+          )
+        >(_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrTrampoline)
+        .cast();
+instancetype
+_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObject> arg1,
+  ffi.Pointer<objc.ObjCObject> arg2,
+  ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+) =>
+    (objc.getBlockClosure(block)
+        as instancetype Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        ))(arg0, arg1, arg2, arg3);
+ffi.Pointer<ffi.Void>
+_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable =
+    ffi.Pointer.fromFunction<
+          instancetype Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<objc.ObjCObject>,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+          )
+        >(_ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureTrampoline)
+        .cast();
+
+/// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>`.
+abstract final class ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    ffi.Pointer<objc.ObjCObject>? Function(
+      ffi.Pointer<ffi.Void>,
+      NSData,
+      NSString,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+    )
+  >
+  castFromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Pointer<objc.ObjCObject>? Function(
+          ffi.Pointer<ffi.Void>,
+          NSData,
+          NSString,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    ffi.Pointer<objc.ObjCObject>? Function(
+      ffi.Pointer<ffi.Void>,
+      NSData,
+      NSString,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        instancetype Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObject> arg1,
+          ffi.Pointer<objc.ObjCObject> arg2,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        ffi.Pointer<objc.ObjCObject>? Function(
+          ffi.Pointer<ffi.Void>,
+          NSData,
+          NSString,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        )
+      >(
+        objc.newPointerBlock(
+          _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_fnPtrCallable,
+          ptr.cast(),
+        ),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Pointer<objc.ObjCObject>? Function(
+      ffi.Pointer<ffi.Void>,
+      NSData,
+      NSString,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+    )
+  >
+  fromFunction(
+    Dartinstancetype? Function(
+      ffi.Pointer<ffi.Void>,
+      NSData,
+      NSString,
+      ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Pointer<objc.ObjCObject>? Function(
+          ffi.Pointer<ffi.Void>,
+          NSData,
+          NSString,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        )
+      >(
+        objc.newClosureBlock(
+          _ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObject> arg1,
+            ffi.Pointer<objc.ObjCObject> arg2,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+          ) =>
+              fn(
+                arg0,
+                NSData.castFromPointer(arg1, retain: true, release: true),
+                NSString.castFromPointer(arg2, retain: true, release: true),
+                arg3,
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject>? Function(ffi.Pointer<ffi.Void>, NSData, NSString, ffi.Pointer<ffi.Pointer<objc.ObjCObject>>)>`.
+extension ObjCBlock_instancetype_ffiVoid_NSData_NSString_NSError_CallExtension
+    on
+        objc.ObjCBlock<
+          ffi.Pointer<objc.ObjCObject>? Function(
+            ffi.Pointer<ffi.Void>,
+            NSData,
+            NSString,
+            ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+          )
+        > {
+  Dartinstancetype? call(
+    ffi.Pointer<ffi.Void> arg0,
+    NSData arg1,
+    NSString arg2,
+    ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  instancetype Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1,
+                    ffi.Pointer<objc.ObjCObject> arg2,
+                    ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+                  )
+                >
+              >()
+              .asFunction<
+                instancetype Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer, arg3)
+              .address ==
+          0
+      ? null
+      : objc.ObjCObjectBase(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  instancetype Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObject> arg1,
+                    ffi.Pointer<objc.ObjCObject> arg2,
+                    ffi.Pointer<ffi.Pointer<objc.ObjCObject>> arg3,
+                  )
+                >
+              >()
+              .asFunction<
+                instancetype Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  ffi.Pointer<objc.ObjCObject>,
+                  ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer, arg3),
+          retain: true,
+          release: true,
+        );
+}
+
 ffi.Pointer<objc.ObjCObject>
 _ObjCBlock_objcObjCObject_NSError_NSErrorUserInfoKey_fnPtrTrampoline(
   ffi.Pointer<objc.ObjCBlockImpl> block,
@@ -35001,6 +35275,23 @@ final _objc_msgSend_16f0drb = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
+      )
+    >();
+final _objc_msgSend_16fy0up = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Long Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObject>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
       )
     >();
 final _objc_msgSend_177cajs = objc.msgSendPointer

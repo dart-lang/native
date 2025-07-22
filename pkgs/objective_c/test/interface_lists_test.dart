@@ -42,12 +42,13 @@ void main() {
     Set<String> findBindings(RegExp re) =>
         bindings.map(re.firstMatch).nonNulls.map((match) => match[1]!).toSet();
 
+    Set<String> allClassNames() => findBindings(RegExp(r'^class ([^_]\w*) '));
+
     test('All code genned interfaces are included in the list', () {
-      final allClassNames = findBindings(RegExp(r'^class ([^_]\w*) '));
       expectSetsEqual(
         'generated classes',
         objCBuiltInInterfaces.values.toSet(),
-        allClassNames,
+        allClassNames(),
       );
     });
 
@@ -79,7 +80,7 @@ void main() {
     test('All code genned categories are included in the list', () {
       final allCategoryNames = findBindings(
         RegExp(r'^extension (\w+) on \w+ {'),
-      );
+      ).difference({for (final name in allClassNames()) '${name}Methods'});
       expectSetsEqual(
         'generated categories',
         objCBuiltInCategories,
