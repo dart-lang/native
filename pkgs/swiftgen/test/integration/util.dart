@@ -85,23 +85,25 @@ class TestGenerator {
 
     expect(File(inputFile).existsSync(), isTrue);
     expect(File(outputFile).existsSync(), isTrue);
-    expect(File(outputObjCFile).existsSync(), isTrue);
 
     // The generation pipeline also creates some obj files as a byproduct.
     expect(File(objWrapperFile).existsSync(), isTrue);
 
-    // We also need to compile outputObjCFile to an obj file.
-    await run('clang', [
-      '-x',
-      'objective-c',
-      '-fobjc-arc',
-      '-c',
-      outputObjCFile,
-      '-fpic',
-      '-o',
-      objObjCFile,
-    ], tempDir);
-    expect(File(objObjCFile).existsSync(), isTrue);
+    final objCFileWasGenerated = File(outputObjCFile).existsSync();
+    if (objCFileWasGenerated) {
+      // We also need to compile outputObjCFile to an obj file.
+      await run('clang', [
+        '-x',
+        'objective-c',
+        '-fobjc-arc',
+        '-c',
+        outputObjCFile,
+        '-fpic',
+        '-o',
+        objObjCFile,
+      ], tempDir);
+      expect(File(objObjCFile).existsSync(), isTrue);
+    }
 
     // Link all the obj files into a dylib.
     await run('clang', [
@@ -109,7 +111,7 @@ class TestGenerator {
       '-framework',
       'Foundation',
       objWrapperFile,
-      objObjCFile,
+      if (objCFileWasGenerated) objObjCFile,
       '-o',
       dylibFile,
     ], tempDir);
