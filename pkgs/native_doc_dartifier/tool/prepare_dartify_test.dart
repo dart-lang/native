@@ -79,16 +79,9 @@ import '../bindings.dart';
   ''';
     outputFile.writeAsStringSync(content);
 
-    final fixResult = Process.runSync('dart', [
-      'fix',
-      '--apply',
-      outputFile.absolute.path,
-    ]);
+    Process.runSync('dart', ['fix', '--apply', outputFile.absolute.path]);
 
-    final formatResult = Process.runSync('dart', [
-      'format',
-      outputFile.absolute.path,
-    ]);
+    Process.runSync('dart', ['format', outputFile.absolute.path]);
   }
 }
 
