@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
-import 'package:ffigen/src/context.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
@@ -41,8 +40,7 @@ void main() {
       nativeConfig,
     ) {
       final library = Library(
-        context: Context(
-          Logger.root,
+        context: testContext(
           FfiGen(
             Logger.root,
             ffiNativeConfig: nativeConfig,
