@@ -169,6 +169,7 @@ void logToArray(List<String> logArr, Level level) {
 FfiGen testConfig(String yamlBody, {String? filename}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
+    Logger.root,
     filename: filename,
     packageConfig: PackageConfig([
       Package(

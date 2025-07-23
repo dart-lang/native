@@ -28,12 +28,9 @@ class ApiAvailability {
     this.alwaysUnavailable = false,
     this.ios,
     this.macos,
-    ExternalVersions? externalVersions,
-    required Context context,
+    required ExternalVersions externalVersions,
   }) {
-    availability = _getAvailability(
-      externalVersions ?? context.config.externalVersions,
-    );
+    availability = _getAvailability(externalVersions);
   }
 
   static ApiAvailability fromCursor(
@@ -92,7 +89,7 @@ class ApiAvailability {
       alwaysUnavailable: alwaysUnavailable.value != 0,
       ios: ios,
       macos: macos,
-      context: context,
+      externalVersions: context.config.externalVersions,
     );
 
     for (var i = 0; i < platformsLength; ++i) {
