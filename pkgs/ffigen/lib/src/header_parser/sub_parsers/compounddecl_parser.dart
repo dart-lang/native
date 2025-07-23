@@ -263,7 +263,7 @@ void _compoundMembersVisitor(
           parsed.maxChildAlignment = align;
         }
 
-        final mt = cursor.toCodeGenType();
+        final mt = cursor.toCodeGenType(context);
         if (mt is IncompleteArray) {
           // TODO(https://github.com/dart-lang/ffigen/issues/68): Structs with
           // flexible Array Members are not supported.
@@ -308,7 +308,7 @@ void _compoundMembersVisitor(
         // otherwise they will be added in the next iteration.
         if (!cursor.isAnonymousRecordDecl()) break;
 
-        final mt = cursor.toCodeGenType();
+        final mt = cursor.toCodeGenType(context);
         if (mt.isIncompleteCompound) {
           parsed.incompleteCompoundMember = true;
         }
