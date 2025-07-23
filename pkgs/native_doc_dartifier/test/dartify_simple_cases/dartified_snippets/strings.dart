@@ -3,10 +3,12 @@
 import 'package:jni/jni.dart';
 import '../bindings.dart';
 
-String backAndForthStrings() {
+  
+bool backAndForthStrings() {
   final name = 'World'.toJString();
   final example = Example();
-  final greeting = example.greet(name)?.toDartString();
+  final greeting = example.greet(name);
   print(greeting);
-  return greeting!;
+  return greeting?.toDartString() == 'Hello World';
 }
+  

@@ -28,18 +28,18 @@ void main() {
   });
 
   test('Overloaded Methods and Constructors', () async {
-    expect(overloadedMethods(), equals(80));
+    expect(overloadedMethods(), isTrue);
   });
 
   test('Inner Class Call', () async {
-    expect(innerClassCall(), equals(120));
+    expect(innerClassCall(), isTrue);
   });
 
   test('Back and Forth Strings', () async {
-    expect(backAndForthStrings(), equals('Hello World'));
+    expect(backAndForthStrings(), isTrue);
   });
 
   test('identifiers has \$ and starts with "_"', () async {
-    expect(identifiersSpecialCases(), equals(3));
+    expect(identifiersSpecialCases(), isTrue);
   });
 }
