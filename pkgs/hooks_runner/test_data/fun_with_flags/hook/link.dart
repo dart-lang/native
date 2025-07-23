@@ -9,10 +9,7 @@ import 'package:hooks/hooks.dart';
 void main(List<String> args) {
   link(args, (input, output) async {
     print('Metadata: ${input.metadata}');
-    final usedFlags = input.metadata.entries
-        .where((entry) => entry.key.startsWith(prefix))
-        .expand((e) => e.value as List)
-        .map((e) => e as String)
+    final usedFlags = input.fetchUsedCountries
         .map((country) => 'package:fun_with_flags/assets/$country.txt')
         .toSet();
 

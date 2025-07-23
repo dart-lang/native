@@ -2,16 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:hooks/hooks.dart' show LinkOutputBuilder;
+import 'package:hooks/hooks.dart' show LinkInput, LinkOutputBuilder;
 
-const prefix = 'used_flags_';
+const _prefix = 'used_flags_';
 
-extension FlagsUsed on LinkOutputBuilder {
+extension FlagsUsedWrite on LinkOutputBuilder {
   /// Register a list of flags to be kept from treeshaking.
   ///
-  /// This uses the [callerPackageName] with the [prefix] to make a unique
+  /// This uses the [callerPackageName] with the [_prefix] to make a unique
   /// identifier for this list - that's how we avoid overwriting other
   /// packages flags.
-  void registerFlagUse(String callerPackageName, List<String> countries) =>
-      metadata.add('fun_with_flags', '$prefix$callerPackageName', countries);
+  void registerCountryUse(String callerPackageName, List<String> countries) =>
+      metadata.add('fun_with_flags', '$_prefix$callerPackageName', countries);
+}
+
+extension FlagsUsedRead on LinkInput {
+  Iterable<String> get fetchUsedCountries => metadata.entries
+      .where((entry) => entry.key.startsWith(_prefix))
+      .expand((e) => e.value as List)
+      .map((e) => e as String);
 }

@@ -9,6 +9,6 @@ import 'package:hooks/hooks.dart';
 // it lands on stable https://github.com/dart-lang/sdk/issues/61166.
 void main(List<String> args) async {
   await link(args, (input, output) async {
-    output.registerFlagUse(input.packageName, ['fr']);
+    output.registerCountryUse(input.packageName, ['fr']);
   });
 }
