@@ -115,10 +115,8 @@ mixin ObjCMethods {
     _methods = newMethods;
   }
 
-  String generateMethodBindings(Writer w, ObjCInterface target) => [
-    generateInstanceMethodBindings(w, target),
-    generateStaticMethodBindings(w, target),
-  ].join('\n');
+  String generateMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, null);
 
   String generateStaticMethodBindings(Writer w, ObjCInterface target) =>
       _generateMethods(w, target, true);
@@ -126,11 +124,11 @@ mixin ObjCMethods {
   String generateInstanceMethodBindings(Writer w, ObjCInterface target) =>
       _generateMethods(w, target, false);
 
-  String _generateMethods(Writer w, ObjCInterface target, bool staticMethods) {
+  String _generateMethods(Writer w, ObjCInterface target, bool? staticMethods) {
     final methodNamer = createMethodRenamer(w);
     return [
       for (final m in methods)
-        if (staticMethods == m.isClassMethod)
+        if (staticMethods == null || staticMethods == m.isClassMethod)
           m.generateBindings(w, target, methodNamer),
     ].join('\n');
   }
