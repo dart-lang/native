@@ -86,6 +86,7 @@ class Library {
       generateForPackageObjectiveC: generateForPackageObjectiveC,
       silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
+      context: context,
     );
 
     return Library._(bindings, writer, context);

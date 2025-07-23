@@ -132,7 +132,7 @@ List<Binding> parseToBindings(Context context) {
 
   // Build usr to CXCusror map from translation units.
   for (final rootCursor in tuCursors) {
-    buildUsrCursorDefinitionMap(rootCursor);
+    buildUsrCursorDefinitionMap(context, rootCursor);
   }
 
   // Parse definitions from translation units.
@@ -149,7 +149,7 @@ List<Binding> parseToBindings(Context context) {
   bindings.addAll(context.unnamedEnumConstants);
 
   // Parse all saved macros.
-  bindings.addAll(parseSavedMacros());
+  bindings.addAll(parseSavedMacros(context));
 
   clangCmdArgs.dispose(cmdLen);
   clang.clang_disposeIndex(index);
@@ -164,37 +164,51 @@ List<String> _findObjectiveCSysroot() => [
 @visibleForTesting
 List<Binding> transformBindings(List<Binding> bindings, Context context) {
   final config = context.config;
-  visit(CopyMethodsFromSuperTypesVisitation(), bindings);
-  visit(FixOverriddenMethodsVisitation(), bindings);
-  visit(FillMethodDependenciesVisitation(), bindings);
+  visit(context, CopyMethodsFromSuperTypesVisitation(), bindings);
+  visit(context, FixOverriddenMethodsVisitation(context), bindings);
+  visit(context, FillMethodDependenciesVisitation(), bindings);
 
-  final filterResults = visit(ApplyConfigFiltersVisitation(config), bindings);
-  final directlyIncluded = filterResults.directlyIncluded;
-  final included = directlyIncluded.union(filterResults.indirectlyIncluded);
+  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
+  visit(context, applyConfigFiltersVisitation, bindings);
+  final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
+  final included = directlyIncluded.union(
+    applyConfigFiltersVisitation.indirectlyIncluded,
+  );
 
-  final byValueCompounds = visit(
-    FindByValueCompoundsVisitation(),
-    FindByValueCompoundsVisitation.rootNodes(included),
-  ).byValueCompounds;
+  final findByValueCompoundsVisitation = FindByValueCompoundsVisitation();
   visit(
+    context,
+    findByValueCompoundsVisitation,
+    FindByValueCompoundsVisitation.rootNodes(included),
+  );
+  final byValueCompounds = findByValueCompoundsVisitation.byValueCompounds;
+  visit(
+    context,
     ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
     bindings,
   );
 
-  final transitives = visit(
-    FindTransitiveDepsVisitation(),
+  final findTransitiveDepsVisitation = FindTransitiveDepsVisitation();
+  visit(context, findTransitiveDepsVisitation, included);
+  final transitives = findTransitiveDepsVisitation.transitives;
+  final findDirectTransitiveDepsVisitation = FindDirectTransitiveDepsVisitation(
+    config,
     included,
-  ).transitives;
-  final directTransitives = visit(
-    FindDirectTransitiveDepsVisitation(config, included, directlyIncluded),
-    included,
-  ).directTransitives;
+    directlyIncluded,
+  );
+  visit(context, findDirectTransitiveDepsVisitation, included);
+  final directTransitives =
+      findDirectTransitiveDepsVisitation.directTransitives;
 
-  final finalBindings = visit(
-    ListBindingsVisitation(config, included, transitives, directTransitives),
-    bindings,
-  ).bindings;
-  visit(MarkBindingsVisitation(finalBindings), bindings);
+  final listBindingsVisitation = ListBindingsVisitation(
+    config,
+    included,
+    transitives,
+    directTransitives,
+  );
+  visit(context, listBindingsVisitation, bindings);
+  final finalBindings = listBindingsVisitation.bindings;
+  visit(context, MarkBindingsVisitation(finalBindings), bindings);
 
   final finalBindingsList = finalBindings.toList();
 
