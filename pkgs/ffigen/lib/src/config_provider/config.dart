@@ -193,8 +193,7 @@ abstract interface class FfiGen {
   /// before this version will not be generated.
   ExternalVersions get externalVersions;
 
-  factory FfiGen({
-    required Logger logger,
+  factory FfiGen(Logger logger, {
     Uri? filename,
     PackageConfig? packageConfig,
     Uri? libclangDylib,
@@ -246,7 +245,7 @@ abstract interface class FfiGen {
     bool Function(Declaration declaration)? isLeafFunctionFunc,
     bool Function(Declaration declaration)? enumShouldBeIntFunc,
     bool Function(Declaration declaration)? unnamedEnumsShouldBeIntFunc,
-    FfiNativeConfig ffiNativeConfig = const FfiNativeConfig(enabled: false),
+    FfiNativeConfig? ffiNativeConfig,
     bool ignoreSourceErrors = false,
     bool formatOutput = true,
     ExternalVersions externalVersions = const ExternalVersions(),
@@ -326,7 +325,7 @@ abstract interface class FfiGen {
     isLeafFunctionFunc: isLeafFunctionFunc ?? (_) => false,
     enumShouldBeIntFunc: enumShouldBeIntFunc ?? (_) => false,
     unnamedEnumsShouldBeIntFunc: unnamedEnumsShouldBeIntFunc ?? (_) => false,
-    ffiNativeConfig: ffiNativeConfig,
+    ffiNativeConfig: ffiNativeConfig ?? const FfiNativeConfig(enabled: false),
     ignoreSourceErrors: ignoreSourceErrors,
     formatOutput: formatOutput,
     externalVersions: externalVersions,

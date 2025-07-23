@@ -6,6 +6,7 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
+import '../test_utils.dart';
 
 void main() {
   group('subtyping', () {
@@ -20,6 +21,7 @@ void main() {
       List<ObjCProtocol> protocols,
     ) {
       final itf = ObjCInterface(
+        context: testContext(),
         usr: name,
         originalName: name,
         builtInFunctions: builtInFunctions,
@@ -38,6 +40,7 @@ void main() {
 
     ObjCProtocol makeProtocol(String name, List<ObjCProtocol> superProtocols) {
       final proto = ObjCProtocol(
+        context: testContext(),
         usr: name,
         originalName: name,
         builtInFunctions: builtInFunctions,
@@ -60,6 +63,7 @@ void main() {
     final child = makeInterface('Child', parent, [proto1, proto4]);
 
     ObjCBlock makeBlock(Type returnType, List<Type> argTypes) => ObjCBlock(
+      testContext(),
       returnType: returnType,
       params: [
         for (final t in argTypes) Parameter(type: t, objCConsumed: false),

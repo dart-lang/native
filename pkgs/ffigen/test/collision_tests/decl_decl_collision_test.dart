@@ -16,6 +16,7 @@ void main() {
     });
     test('declaration conflict', () {
       final config = FfiGen(
+        Logger.root,
         entryPoints: [],
         output: Uri(),
         functionDecl: DeclarationFilters.includeAll,
@@ -26,6 +27,7 @@ void main() {
         typedefs: DeclarationFilters.includeAll,
       );
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         bindings: transformBindings(config, [
           Struct(name: 'TestStruct'),
