@@ -193,7 +193,8 @@ abstract interface class FfiGen {
   /// before this version will not be generated.
   ExternalVersions get externalVersions;
 
-  factory FfiGen(Logger logger, {
+  factory FfiGen(
+    Logger logger, {
     Uri? filename,
     PackageConfig? packageConfig,
     Uri? libclangDylib,

@@ -16,9 +16,9 @@ import 'package:logging/logging.dart';
 void main() async {
   final actualJsonSchema =
       const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
-        YamlConfig.getsRootConfigSpec(Logger.root).generateJsonSchema(
-          strings.ffigenJsonSchemaId,
-        ),
+        YamlConfig.getsRootConfigSpec(
+          Logger.root,
+        ).generateJsonSchema(strings.ffigenJsonSchemaId),
       );
 
   final file = File(strings.ffigenJsonSchemaFileName);
