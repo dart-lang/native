@@ -88,14 +88,23 @@ class GitPackageDescriptionSyntax extends PackageDescriptionSyntax {
 
   List<String> _validateRef() => _reader.validate<String>('ref');
 
-  String get resolvedRef => _reader.get<String>('resolved-ref');
+  static final _resolvedRefPattern = RegExp(r'^[a-f0-9]{40}$');
+
+  String get resolvedRef => _reader.string('resolved-ref', _resolvedRefPattern);
 
   set _resolvedRef(String value) {
+    if (!_resolvedRefPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_resolvedRefPattern.pattern}.',
+      );
+    }
     json.setOrRemove('resolved-ref', value);
   }
 
   List<String> _validateResolvedRef() =>
-      _reader.validate<String>('resolved-ref');
+      _reader.validateString('resolved-ref', _resolvedRefPattern);
 
   String get url => _reader.get<String>('url');
 
@@ -146,21 +155,40 @@ class HostedPackageDescriptionSyntax extends PackageDescriptionSyntax {
     json.sortOnKey();
   }
 
-  String get name => _reader.get<String>('name');
+  static final _namePattern = RegExp(r'^[a-zA-Z_]\w*$');
+
+  String get name => _reader.string('name', _namePattern);
 
   set _name(String value) {
+    if (!_namePattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_namePattern.pattern}.',
+      );
+    }
     json.setOrRemove('name', value);
   }
 
-  List<String> _validateName() => _reader.validate<String>('name');
+  List<String> _validateName() => _reader.validateString('name', _namePattern);
 
-  String get sha256 => _reader.get<String>('sha256');
+  static final _sha256Pattern = RegExp(r'^[a-f0-9]{64}$');
+
+  String get sha256 => _reader.string('sha256', _sha256Pattern);
 
   set _sha256(String value) {
+    if (!_sha256Pattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_sha256Pattern.pattern}.',
+      );
+    }
     json.setOrRemove('sha256', value);
   }
 
-  List<String> _validateSha256() => _reader.validate<String>('sha256');
+  List<String> _validateSha256() =>
+      _reader.validateString('sha256', _sha256Pattern);
 
   String get url => _reader.get<String>('url');
 
@@ -241,13 +269,25 @@ class PackageSyntax extends JsonObjectSyntax {
 
   List<String> _validateSource() => _reader.validate<String>('source');
 
-  String get version => _reader.get<String>('version');
+  static final _versionPattern = RegExp(
+    r'^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.]+)?$',
+  );
+
+  String get version => _reader.string('version', _versionPattern);
 
   set _version(String value) {
+    if (!_versionPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_versionPattern.pattern}.',
+      );
+    }
     json.setOrRemove('version', value);
   }
 
-  List<String> _validateVersion() => _reader.validate<String>('version');
+  List<String> _validateVersion() =>
+      _reader.validateString('version', _versionPattern);
 
   @override
   List<String> validate() => [
@@ -606,6 +646,28 @@ class JsonReader {
     return result;
   }
 
+  String string(String key, RegExp? pattern) {
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      throwFormatException(value, String, [key], pattern: pattern);
+    }
+    return value;
+  }
+
+  List<String> validateString(String key, RegExp? pattern) {
+    final errors = validate<String>(key);
+    if (errors.isNotEmpty) {
+      return errors;
+    }
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      return [
+        errorString(value, String, [key], pattern: pattern),
+      ];
+    }
+    return [];
+  }
+
   List<String>? optionalStringList(String key) => optionalList<String>(key);
 
   List<String> validateOptionalStringList(String key) =>
@@ -651,23 +713,28 @@ class JsonReader {
   Never throwFormatException(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
-    throw FormatException(errorString(value, expectedType, pathExtension));
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
+    throw FormatException(
+      errorString(value, expectedType, pathExtension, pattern: pattern),
+    );
   }
 
   String errorString(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
     final pathString = _jsonPathToString(pathExtension);
     if (value == null) {
       return "No value was provided for '$pathString'."
           ' Expected a $expectedType.';
     }
+    final satisfying = pattern == null ? '' : ' satisfying ${pattern.pattern}';
     return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
-        ' Expected a $expectedType.';
+        ' Expected a $expectedType$satisfying.';
   }
 
   /// Traverses a JSON path, returns `null` if the path cannot be traversed.

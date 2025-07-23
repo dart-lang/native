@@ -19,6 +19,8 @@ void main() {
       loadYaml(pubspecFile.readAsStringSync()),
     );
     final parsed = PubspecLockFileSyntax.fromJson(json);
+    final errors = parsed.validate();
+    expect(errors, isEmpty);
     final package = parsed.packages!['dart_apitool']!;
     expect(package.source, PackageSourceSyntax.hosted);
 
@@ -26,6 +28,55 @@ void main() {
       package.description.json,
     );
     expect(description.sha256, isNotEmpty);
+  });
+
+  test('pubspec lock errors', () {
+    final packageRoot = findPackageRoot('pub_formats');
+    final pubspecFile = File.fromUri(
+      packageRoot.resolve('test_data/pubspec_lock_errors_1.yaml'),
+    );
+    final json = _convertYamlMapToJsonMap(
+      loadYaml(pubspecFile.readAsStringSync()),
+    );
+    final parsed = PubspecLockFileSyntax.fromJson(json);
+    final errors = parsed.validate();
+    // The errors inside the descriptions are not found due to
+    // https://github.com/dart-lang/native/issues/2440.
+    expect(errors, equals([]));
+
+    final package = parsed.packages!['dart_apitool']!;
+    expect(package.source, PackageSourceSyntax.hosted);
+
+    final description = HostedPackageDescriptionSyntax.fromJson(
+      package.description.json,
+    );
+    final errorsDescription = description.validate();
+    expect(
+      errorsDescription,
+      equals([
+        "Unexpected value 'not a valid name' (String) for 'name'. Expected a String satisfying ^[a-zA-Z_]\\w*\$.",
+        "Unexpected value 'not a valid sha' (String) for 'sha256'. Expected a String satisfying ^[a-f0-9]{64}\$.",
+      ]),
+    );
+    expect(() => description.sha256, throwsFormatException);
+
+    expect(
+      () => HostedPackageDescriptionSyntax(
+        name: 'my_package',
+        sha256:
+            '2fde1607386ab523f7a36bb3e7edb43bd58e6edaf2ffb29d8a6d578b297fdbbd',
+        url: 'https://pub.dev',
+      ),
+      isNot(throwsArgumentError),
+    );
+    expect(
+      () => HostedPackageDescriptionSyntax(
+        name: 'my_package',
+        sha256: 'notASha256',
+        url: 'https://pub.dev',
+      ),
+      throwsArgumentError,
+    );
   });
 }
 

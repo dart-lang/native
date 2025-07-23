@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Pubspec Lock File Schema",
-    "description": "Schema for a Dart pubspec.lock file.",
+    "description": "Schema for a Dart pubspec.lock file. Note that this is reverse engineered and not the source of truth for pubspec locks.",
     "$ref": "#/definitions/PubspecLockFile",
     "definitions": {
         "PubspecLockFile": {
@@ -82,11 +82,13 @@
             "properties": {
                 "name": {
                     "type": "string",
+                    "pattern": "^[a-zA-Z_]\\w*$",
                     "description": "Name of the package."
                 },
                 "sha256": {
                     "type": "string",
-                    "description": "SHA256 checksum of the package."
+                    "description": "SHA256 checksum of the package.",
+                    "pattern": "^[a-f0-9]{64}$"
                 },
                 "url": {
                     "type": "string",
@@ -121,7 +123,8 @@
                 },
                 "resolved-ref": {
                     "type": "string",
-                    "description": "Resolved git commit hash."
+                    "description": "Resolved git commit hash.",
+                    "pattern": "^[a-f0-9]{40}$"
                 },
                 "url": {
                     "type": "string",
@@ -173,7 +176,8 @@
         },
         "PackageVersion": {
             "type": "string",
-            "description": "The locked version of the package."
+            "description": "The locked version of the package.",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-zA-Z0-9.]+)?$"
         },
         "SDKs": {
             "type": "object",
