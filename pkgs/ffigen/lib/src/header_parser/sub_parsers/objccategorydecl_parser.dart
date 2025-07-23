@@ -46,7 +46,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
     return null;
   }
 
-  final parentInterface = itfCursor.type().toCodeGenType();
+  final parentInterface = itfCursor.type().toCodeGenType(context);
   if (parentInterface is! ObjCInterface) {
     logger.severe(
       'Interface of category $name is $parentInterface, '
