@@ -120,7 +120,7 @@ ${generateAsStub ? '' : _generateStaticMethods(w)}
       final extName = w.topLevelUniqueNamer.makeUnique('$name\$Methods');
       s.write('''
 extension $extName on $name {
-${generateMethodBindings(w, this, staticMethods: false)}
+${generateInstanceMethodBindings(w, this)}
 }
 
 ''');
@@ -143,7 +143,7 @@ ${generateMethodBindings(w, this, staticMethods: false)}
   }
 ''');
 
-    s.write(generateMethodBindings(w, this, staticMethods: true));
+    s.write(generateStaticMethodBindings(w, this));
 
     final newMethod = methods
         .where(

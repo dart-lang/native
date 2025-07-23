@@ -4992,19 +4992,6 @@ extension NSExtendedData on NSData {
 
 /// NSExtendedDate
 extension NSExtendedDate on NSDate {
-  /// timeIntervalSinceReferenceDate
-  static double getTimeIntervalSinceReferenceDate() {
-    return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(
-            _class_NSDate,
-            _sel_timeIntervalSinceReferenceDate,
-          )
-        : _objc_msgSend_1ukqyt8(
-            _class_NSDate,
-            _sel_timeIntervalSinceReferenceDate,
-          );
-  }
-
   /// compare:
   NSComparisonResult compare(NSDate other) {
     final _ret = _objc_msgSend_1ym6zyw(
@@ -5093,6 +5080,19 @@ extension NSExtendedDate on NSDate {
             _sel_timeIntervalSinceNow,
           )
         : _objc_msgSend_1ukqyt8(this.ref.pointer, _sel_timeIntervalSinceNow);
+  }
+
+  /// timeIntervalSinceReferenceDate
+  static double getTimeIntervalSinceReferenceDate() {
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_1ukqyt8Fpret(
+            _class_NSDate,
+            _sel_timeIntervalSinceReferenceDate,
+          )
+        : _objc_msgSend_1ukqyt8(
+            _class_NSDate,
+            _sel_timeIntervalSinceReferenceDate,
+          );
   }
 }
 
@@ -18904,29 +18904,6 @@ enum NSStringEnumerationOptions {
 
 /// NSStringExtensionMethods
 extension NSStringExtensionMethods on NSString {
-  /// availableStringEncodings
-  static ffi.Pointer<ffi.UnsignedLong> getAvailableStringEncodings() {
-    return _objc_msgSend_1h2q612(
-      _class_NSString,
-      _sel_availableStringEncodings,
-    );
-  }
-
-  /// defaultCStringEncoding
-  static int getDefaultCStringEncoding() {
-    return _objc_msgSend_xw2lbc(_class_NSString, _sel_defaultCStringEncoding);
-  }
-
-  /// localizedNameOfStringEncoding:
-  static NSString localizedNameOfStringEncoding(int encoding) {
-    final _ret = _objc_msgSend_14hpxwa(
-      _class_NSString,
-      _sel_localizedNameOfStringEncoding_,
-      encoding,
-    );
-    return NSString.castFromPointer(_ret, retain: true, release: true);
-  }
-
   /// UTF8String
   ffi.Pointer<ffi.Char> get UTF8String {
     return _objc_msgSend_1fuqfwb(this.ref.pointer, _sel_UTF8String);
@@ -20070,6 +20047,29 @@ extension NSStringExtensionMethods on NSString {
       encoding,
       error,
     );
+  }
+
+  /// availableStringEncodings
+  static ffi.Pointer<ffi.UnsignedLong> getAvailableStringEncodings() {
+    return _objc_msgSend_1h2q612(
+      _class_NSString,
+      _sel_availableStringEncodings,
+    );
+  }
+
+  /// defaultCStringEncoding
+  static int getDefaultCStringEncoding() {
+    return _objc_msgSend_xw2lbc(_class_NSString, _sel_defaultCStringEncoding);
+  }
+
+  /// localizedNameOfStringEncoding:
+  static NSString localizedNameOfStringEncoding(int encoding) {
+    final _ret = _objc_msgSend_14hpxwa(
+      _class_NSString,
+      _sel_localizedNameOfStringEncoding_,
+      encoding,
+    );
+    return NSString.castFromPointer(_ret, retain: true, release: true);
   }
 }
 

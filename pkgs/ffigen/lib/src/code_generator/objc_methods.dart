@@ -115,18 +115,22 @@ mixin ObjCMethods {
     _methods = newMethods;
   }
 
-  // If [staticMethods] is true only static methods will be generated, if it's
-  // false only instance methods will be generated, and if it's null all methods
-  // will be generated.
-  String generateMethodBindings(
-    Writer w,
-    ObjCInterface target, {
-    bool? staticMethods,
-  }) {
+  String generateMethodBindings(Writer w, ObjCInterface target) => [
+    generateInstanceMethodBindings(w, target),
+    generateStaticMethodBindings(w, target),
+  ].join('\n');
+
+  String generateStaticMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, true);
+
+  String generateInstanceMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, false);
+
+  String _generateMethods(Writer w, ObjCInterface target, bool staticMethods) {
     final methodNamer = createMethodRenamer(w);
     return [
       for (final m in methods)
-        if (staticMethods == null || staticMethods == m.isClassMethod)
+        if (staticMethods == m.isClassMethod)
           m.generateBindings(w, target, methodNamer),
     ].join('\n');
   }
