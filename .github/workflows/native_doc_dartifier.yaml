@@ -40,6 +40,9 @@ jobs:
       - name: Analyze code
         run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
+      - name: Compile Java code
+        run: dart run tool/compile_java.dart
+        if: always() && steps.install.outcome == 'success'
       - name: Run VM tests
         run: dart test --platform vm
         if: always() && steps.install.outcome == 'success'
