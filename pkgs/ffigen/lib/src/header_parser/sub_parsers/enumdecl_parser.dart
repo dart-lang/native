@@ -34,7 +34,9 @@ import 'unnamed_enumdecl_parser.dart';
   } else {
     enumName = '';
   }
-  var nativeType = clang.clang_getEnumDeclIntegerType(cursor).toCodeGenType();
+  var nativeType = clang
+      .clang_getEnumDeclIntegerType(cursor)
+      .toCodeGenType(context);
   // Change to unsigned type by default.
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
   var hasNegativeEnumConstants = false;
@@ -48,7 +50,7 @@ import 'unnamed_enumdecl_parser.dart';
   final decl = Declaration(usr: enumUsr, originalName: enumName);
   if (enumName.isEmpty) {
     logger.fine('Saving anonymous enum.');
-    final addedConstants = saveUnNamedEnum(cursor);
+    final addedConstants = saveUnNamedEnum(context, cursor);
     hasNegativeEnumConstants = addedConstants
         .where((c) => c.rawValue.startsWith('-'))
         .isNotEmpty;

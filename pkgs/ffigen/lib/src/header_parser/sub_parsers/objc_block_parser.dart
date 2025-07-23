@@ -12,12 +12,14 @@ ObjCBlock parseObjCBlock(Context context, clang_types.CXType cxtype) {
   // out a way of parsing ns_returns_retained and ns_consumed for blocks. Then
   // we can fill in the `objCConsumed` and `returnsRetained` fields below.
   final blk = clang.clang_getPointeeType(cxtype);
-  final returnType = clang.clang_getResultType(blk).toCodeGenType();
+  final returnType = clang.clang_getResultType(blk).toCodeGenType(context);
   final params = <Parameter>[];
   final numArgs = clang.clang_getNumArgTypes(blk);
   for (var i = 0; i < numArgs; ++i) {
     final type = clang.clang_getArgType(blk, i);
-    params.add(Parameter(type: type.toCodeGenType(), objCConsumed: false));
+    params.add(
+      Parameter(type: type.toCodeGenType(context), objCConsumed: false),
+    );
   }
   return ObjCBlock(
     context,

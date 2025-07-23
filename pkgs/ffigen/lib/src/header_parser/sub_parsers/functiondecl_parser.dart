@@ -37,7 +37,7 @@ List<Func> parseFunctionDeclaration(
   } else {
     logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');
 
-    final returnType = cursor.returnType().toCodeGenType();
+    final returnType = cursor.returnType().toCodeGenType(context);
 
     final parameters = <Parameter>[];
     var incompleteStructParameter = false;
@@ -48,7 +48,7 @@ List<Func> parseFunctionDeclaration(
 
       logger.finer('===== parameter: ${paramCursor.completeStringRepr()}');
 
-      final paramType = paramCursor.toCodeGenType();
+      final paramType = paramCursor.toCodeGenType(context);
       if (paramType.isIncompleteCompound) {
         incompleteStructParameter = true;
       } else if (paramType.baseType is UnimplementedType) {
