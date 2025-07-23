@@ -354,10 +354,12 @@ final class LinkInput extends HookInput {
   LinkInputAssets get assets => LinkInputAssets._(this);
 
   /// The metadata set to this link hook by dependent link hooks.
-  List<MetadataAsset> get metadata => assets.encodedInternalAssets
-      .where((e) => e.isMetadataAsset)
-      .map((e) => e.asMetadataAsset)
-      .toList();
+  Map<String, Object?> get metadata => Map.fromEntries(
+    assets.assetsFromLinking
+        .where((e) => e.isMetadataAsset)
+        .map((e) => e.asMetadataAsset)
+        .map((e) => MapEntry(e.key, e.value)),
+  );
 }
 
 /// The assets in [LinkInput.assets];
@@ -371,7 +373,7 @@ final class LinkInputAssets {
       EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.assets);
 
   /// The encoded assets from direct dependencies.
-  List<EncodedAsset> get encodedInternalAssets =>
+  List<EncodedAsset> get assetsFromLinking =>
       EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.assetsFromLinking);
 }
 
@@ -626,7 +628,7 @@ final class BuildOutputMetadataBuilder {
   }
 }
 
-/// The builder for [BuildOutputBuilder.metadata].
+/// The builder for [LinkOutputBuilder.metadata].
 final class LinkOutputMetadataBuilder {
   final LinkOutputBuilder _output;
 

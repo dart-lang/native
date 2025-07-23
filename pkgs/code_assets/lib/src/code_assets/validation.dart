@@ -91,7 +91,7 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   output.assets.encodedAssets,
   [
     ...output.assets.encodedAssetsForBuild,
-    ...output.assets.encodedAssetsForLinking.values.expand((l) => l),
+    ...output.assets.encodedAssetsForLinking.values.expand((assets) => assets),
   ],
   output,
   true,
@@ -105,7 +105,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
-  output.assets.encodedAssetsForLink.values.expand((l) => l),
+  output.assets.encodedAssetsForLink.values.expand((assets) => assets),
   output,
   false,
 );

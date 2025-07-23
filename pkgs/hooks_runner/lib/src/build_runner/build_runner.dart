@@ -266,7 +266,7 @@ class NativeAssetsBuildRunner {
     }
     var linkResult = hookResultUserDefines.success;
 
-    /// Key is packageName.
+    /// The key is the package name of the destination package.
     final globalAssetsForBuild = <String, Map<String, List<EncodedAsset>>>{};
     for (final package in buildPlan) {
       final dependencies = packageGraph!

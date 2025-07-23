@@ -53,6 +53,7 @@ export 'src/config.dart'
         LinkOutputBuilder,
         LinkOutputFailure,
         LinkOutputMaybeFailure,
+        LinkOutputMetadataBuilder,
         PackageMetadata,
         ToAppBundle,
         ToBuildHooks,

@@ -1,5 +1,5 @@
 name: flag_enthusiast_2
-description: Add and retrieve a data asset.
+description: A package with a high-level API to load multiple flags.
 
 publish_to: none
 
