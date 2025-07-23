@@ -31,7 +31,7 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
   }) async {
     String assetName(Uri assetUri) => assetUri
         .toFilePath(windows: false)
-        .substring(input.packageRoot.toFilePath().length);
+        .substring(input.packageRoot.toFilePath(windows: false).length);
 
     void addAsset(File file) {
       assets.data.add(
