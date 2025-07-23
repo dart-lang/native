@@ -21,6 +21,15 @@ Boolean overloadedMethods() {
   },
   {
     'code': '''
+Boolean useEnums() {
+    Example example = new Example();
+    Boolean isTrueUsage = example.enumValueToString(Operation.ADD) == "Addition";
+    return isTrueUsage;
+}''',
+    'fileName': 'enums.dart',
+  },
+  {
+    'code': '''
 Boolean implementInlineInterface() {
     Runnable runnable = new Runnable() {
         @Override

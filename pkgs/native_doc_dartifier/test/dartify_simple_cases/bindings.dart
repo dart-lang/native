@@ -82,8 +82,8 @@ class Accumulator extends jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Accumulator() => Accumulator.fromReference(
-    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-  );
+      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+    );
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -108,12 +108,12 @@ class Accumulator extends jni$_.JObject {
   /// from: `public void <init>(int initialValue)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Accumulator.new$1(int initialValue) => Accumulator.fromReference(
-    _new$1(
-      _class.reference.pointer,
-      _id_new$1 as jni$_.JMethodIDPtr,
-      initialValue,
-    ).reference,
-  );
+      _new$1(
+        _class.reference.pointer,
+        _id_new$1 as jni$_.JMethodIDPtr,
+        initialValue,
+      ).reference,
+    );
 
   static final _id_new$2 = _class.constructorId(r'(Lcom/Accumulator;)V');
 
@@ -299,9 +299,8 @@ final class $Accumulator$NullableType extends jni$_.JObjType<Accumulator?> {
   int get hashCode => ($Accumulator$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) =>
-      other.runtimeType == ($Accumulator$NullableType) &&
-      other is $Accumulator$NullableType;
+  bool operator ==(Object other) => other.runtimeType == ($Accumulator$NullableType) &&
+        other is $Accumulator$NullableType;
 }
 
 final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
@@ -333,8 +332,595 @@ final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
   int get hashCode => ($Accumulator$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) =>
-      other.runtimeType == ($Accumulator$Type) && other is $Accumulator$Type;
+  bool operator ==(Object other) => other.runtimeType == ($Accumulator$Type) &&
+        other is $Accumulator$Type;
+}
+
+/// from: `com.Accumulator$DoublingAccumulator`
+class Accumulator$DoublingAccumulator extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Accumulator$DoublingAccumulator> $type;
+
+  @jni$_.internal
+  Accumulator$DoublingAccumulator.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(
+    r'com/Accumulator$DoublingAccumulator',
+  );
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Accumulator$DoublingAccumulator$NullableType();
+  static const type = $Accumulator$DoublingAccumulator$Type();
+  static final _id_accumulator = _class.instanceFieldId(r'accumulator', r'I');
+
+  /// from: `public int accumulator`
+  int get accumulator => _id_accumulator.get(this, const jni$_.jintType());
+
+  /// from: `public int accumulator`
+  set accumulator(int value) =>
+      _id_accumulator.set(this, const jni$_.jintType(), value);
+
+  static final _id_new$ = _class.constructorId(r'(Lcom/Accumulator;)V');
+
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public void <init>(com.Accumulator $outerClass)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Accumulator$DoublingAccumulator(Accumulator $outerClass) {
+    final _$$outerClass = $outerClass.reference;
+    return Accumulator$DoublingAccumulator.fromReference(
+      _new$(
+        _class.reference.pointer,
+        _id_new$ as jni$_.JMethodIDPtr,
+        _$$outerClass.pointer,
+      ).reference,
+    );
+  }
+
+  static final _id_add = _class.instanceMethodId(r'add', r'(I)V');
+
+  static final _add =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
+
+  /// from: `public void add(int value)`
+  void add(int value) {
+    _add(reference.pointer, _id_add as jni$_.JMethodIDPtr, value).check();
+  }
+
+  static final _id_add$1 = _class.instanceMethodId(r'add', r'(II)V');
+
+  static final _add$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              int,
+            )
+          >();
+
+  /// from: `public void add(int value1, int value2)`
+  void add$1(int value1, int value2) {
+    _add$1(
+      reference.pointer,
+      _id_add$1 as jni$_.JMethodIDPtr,
+      value1,
+      value2,
+    ).check();
+  }
+
+  static final _id_add$2 = _class.instanceMethodId(r'add', r'(III)V');
+
+  static final _add$2 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32, jni$_.Int32, jni$_.Int32)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              int,
+              int,
+            )
+          >();
+
+  /// from: `public void add(int value1, int value2, int value3)`
+  void add$2(int value1, int value2, int value3) {
+    _add$2(
+      reference.pointer,
+      _id_add$2 as jni$_.JMethodIDPtr,
+      value1,
+      value2,
+      value3,
+    ).check();
+  }
+}
+
+final class $Accumulator$DoublingAccumulator$NullableType
+    extends jni$_.JObjType<Accumulator$DoublingAccumulator?> {
+  @jni$_.internal
+  const $Accumulator$DoublingAccumulator$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Accumulator$DoublingAccumulator;';
+
+  @jni$_.internal
+  @core$_.override
+  Accumulator$DoublingAccumulator? fromReference(jni$_.JReference reference) =>
+      reference.isNull
+          ? null
+          : Accumulator$DoublingAccumulator.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Accumulator$DoublingAccumulator?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Accumulator$DoublingAccumulator$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType ==
+            ($Accumulator$DoublingAccumulator$NullableType) &&
+        other is $Accumulator$DoublingAccumulator$NullableType;
+}
+
+final class $Accumulator$DoublingAccumulator$Type
+    extends jni$_.JObjType<Accumulator$DoublingAccumulator> {
+  @jni$_.internal
+  const $Accumulator$DoublingAccumulator$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Accumulator$DoublingAccumulator;';
+
+  @jni$_.internal
+  @core$_.override
+  Accumulator$DoublingAccumulator fromReference(jni$_.JReference reference) =>
+      Accumulator$DoublingAccumulator.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Accumulator$DoublingAccumulator?> get nullableType =>
+      const $Accumulator$DoublingAccumulator$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Accumulator$DoublingAccumulator$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType == ($Accumulator$DoublingAccumulator$Type) &&
+        other is $Accumulator$DoublingAccumulator$Type;
+}
+
+/// from: `com.Example`
+class Example extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Example> $type;
+
+  @jni$_.internal
+  Example.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(r'com/Example');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example$NullableType();
+  static const type = $Example$Type();
+  static final _id_has$$dollar$$sign = _class.staticFieldId(
+    r'has$dollar$sign',
+    r'I',
+  );
+
+  /// from: `static public int has$dollar$sign`
+  static int get has$$dollar$$sign =>
+      _id_has$$dollar$$sign.get(_class, const jni$_.jintType());
+
+  /// from: `static public int has$dollar$sign`
+  static set has$$dollar$$sign(int value) =>
+      _id_has$$dollar$$sign.set(_class, const jni$_.jintType(), value);
+
+  static final _id_$_startsWithUnderscore = _class.staticFieldId(
+    r'_startsWithUnderscore',
+    r'I',
+  );
+
+  /// from: `static public int _startsWithUnderscore`
+  static int get $_startsWithUnderscore =>
+      _id_$_startsWithUnderscore.get(_class, const jni$_.jintType());
+
+  /// from: `static public int _startsWithUnderscore`
+  static set $_startsWithUnderscore(int value) =>
+      _id_$_startsWithUnderscore.set(_class, const jni$_.jintType(), value);
+
+  static final _id_new$ = _class.constructorId(r'()V');
+
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Example() => Example.fromReference(
+      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+    );
+
+  static final _id_greet = _class.instanceMethodId(
+    r'greet',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _greet =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public java.lang.String greet(java.lang.String name)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? greet(jni$_.JString? name) {
+    final _$name = name?.reference ?? jni$_.jNullReference;
+    return _greet(
+      reference.pointer,
+      _id_greet as jni$_.JMethodIDPtr,
+      _$name.pointer,
+    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
+  }
+
+  static final _id_enumValueToString = _class.instanceMethodId(
+    r'enumValueToString',
+    r'(Lcom/Example$Operation;)Ljava/lang/String;',
+  );
+
+  static final _enumValueToString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public java.lang.String enumValueToString(com.Example$Operation operation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? enumValueToString(Example$Operation? operation) {
+    final _$operation = operation?.reference ?? jni$_.jNullReference;
+    return _enumValueToString(
+      reference.pointer,
+      _id_enumValueToString as jni$_.JMethodIDPtr,
+      _$operation.pointer,
+    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
+  }
+}
+
+final class $Example$NullableType extends jni$_.JObjType<Example?> {
+  @jni$_.internal
+  const $Example$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Example;';
+
+  @jni$_.internal
+  @core$_.override
+  Example? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : Example.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Example?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Example$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType == ($Example$NullableType) &&
+        other is $Example$NullableType;
+}
+
+final class $Example$Type extends jni$_.JObjType<Example> {
+  @jni$_.internal
+  const $Example$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Example;';
+
+  @jni$_.internal
+  @core$_.override
+  Example fromReference(jni$_.JReference reference) =>
+      Example.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Example?> get nullableType => const $Example$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Example$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType == ($Example$Type) && other is $Example$Type;
+}
+
+/// from: `com.Example$Operation`
+class Example$Operation extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<Example$Operation> $type;
+
+  @jni$_.internal
+  Example$Operation.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(r'com/Example$Operation');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $Example$Operation$NullableType();
+  static const type = $Example$Operation$Type();
+  static final _id_ADD = _class.staticFieldId(
+    r'ADD',
+    r'Lcom/Example$Operation;',
+  );
+
+  /// from: `static public final com.Example$Operation ADD`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Example$Operation get ADD =>
+      _id_ADD.get(_class, const $Example$Operation$Type());
+
+  static final _id_SUBTRACT = _class.staticFieldId(
+    r'SUBTRACT',
+    r'Lcom/Example$Operation;',
+  );
+
+  /// from: `static public final com.Example$Operation SUBTRACT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Example$Operation get SUBTRACT =>
+      _id_SUBTRACT.get(_class, const $Example$Operation$Type());
+
+  static final _id_values = _class.staticMethodId(
+    r'values',
+    r'()[Lcom/Example$Operation;',
+  );
+
+  static final _values =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `static public com.Example$Operation[] values()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JArray<Example$Operation?>? values() => _values(
+      _class.reference.pointer,
+      _id_values as jni$_.JMethodIDPtr,
+    ).object<jni$_.JArray<Example$Operation?>?>(
+      const jni$_.JArrayNullableType<Example$Operation?>(
+        $Example$Operation$NullableType(),
+      ),
+    );
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Lcom/Example$Operation;',
+  );
+
+  static final _valueOf =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `static public com.Example$Operation valueOf(java.lang.String name)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static Example$Operation? valueOf(jni$_.JString? name) {
+    final _$name = name?.reference ?? jni$_.jNullReference;
+    return _valueOf(
+      _class.reference.pointer,
+      _id_valueOf as jni$_.JMethodIDPtr,
+      _$name.pointer,
+    ).object<Example$Operation?>(const $Example$Operation$NullableType());
+  }
+}
+
+final class $Example$Operation$NullableType
+    extends jni$_.JObjType<Example$Operation?> {
+  @jni$_.internal
+  const $Example$Operation$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Example$Operation;';
+
+  @jni$_.internal
+  @core$_.override
+  Example$Operation? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : Example$Operation.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Example$Operation?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Example$Operation$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType == ($Example$Operation$NullableType) &&
+        other is $Example$Operation$NullableType;
+}
+
+final class $Example$Operation$Type extends jni$_.JObjType<Example$Operation> {
+  @jni$_.internal
+  const $Example$Operation$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/Example$Operation;';
+
+  @jni$_.internal
+  @core$_.override
+  Example$Operation fromReference(jni$_.JReference reference) =>
+      Example$Operation.fromReference(reference);
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<Example$Operation?> get nullableType =>
+      const $Example$Operation$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Example$Operation$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) => other.runtimeType == ($Example$Operation$Type) &&
+        other is $Example$Operation$Type;
 }
 
 /// from: `com.Runnable`
@@ -381,9 +967,9 @@ class Runnable extends jni$_.JObject {
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) => _$invokeMethod(
-    port,
-    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-  );
+      port,
+      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+    );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -475,9 +1061,8 @@ final class $Runnable$NullableType extends jni$_.JObjType<Runnable?> {
   int get hashCode => ($Runnable$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) =>
-      other.runtimeType == ($Runnable$NullableType) &&
-      other is $Runnable$NullableType;
+  bool operator ==(Object other) => other.runtimeType == ($Runnable$NullableType) &&
+        other is $Runnable$NullableType;
 }
 
 final class $Runnable$Type extends jni$_.JObjType<Runnable> {
@@ -508,6 +1093,5 @@ final class $Runnable$Type extends jni$_.JObjType<Runnable> {
   int get hashCode => ($Runnable$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) =>
-      other.runtimeType == ($Runnable$Type) && other is $Runnable$Type;
+  bool operator ==(Object other) => other.runtimeType == ($Runnable$Type) && other is $Runnable$Type;
 }
