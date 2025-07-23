@@ -105,7 +105,7 @@ Type getCodeGenType(
         context.bindingsIndex.addTypeToSeen(usr, type);
       }
     }
-    _fillFromCursorIfNeeded(type, cursor, pointerReference);
+    _fillFromCursorIfNeeded(context, type, cursor, pointerReference);
     return type;
   }
 
@@ -141,7 +141,7 @@ Type getCodeGenType(
       final numElements = clang.clang_getNumElements(cxtype);
       final elementType = clang
           .clang_getArrayElementType(cxtype)
-          .toCodeGenType(supportNonInlineArray: supportNonInlineArray);
+          .toCodeGenType(context, supportNonInlineArray: supportNonInlineArray);
       // Handle numElements being 0 as an incomplete array.
       return numElements == 0
           ? IncompleteArray(elementType)
@@ -153,7 +153,7 @@ Type getCodeGenType(
     case clang_types.CXTypeKind.CXType_IncompleteArray:
       // Primarily used for incomplete array in function parameters.
       return IncompleteArray(
-        clang.clang_getArrayElementType(cxtype).toCodeGenType(),
+        clang.clang_getArrayElementType(cxtype).toCodeGenType(context),
       );
     case clang_types.CXTypeKind.CXType_Bool:
       return BooleanType();
@@ -272,7 +272,7 @@ _CreateTypeFromCursorResult _createTypeFromCursor(
         _extractfromRecord(context, cxtype, cursor, pointerReference),
       );
     case clang_types.CXTypeKind.CXType_Enum:
-      final (enumClass, nativeType) = parseEnumDeclaration(context, cursor);
+      final (enumClass, nativeType) = parseEnumDeclaration(cursor, context);
       if (enumClass == null) {
         // Handle anonymous enum declarations within another declaration.
         return _CreateTypeFromCursorResult(nativeType, addToCache: false);
@@ -293,6 +293,7 @@ _CreateTypeFromCursorResult _createTypeFromCursor(
 }
 
 void _fillFromCursorIfNeeded(
+  Context context,
   Type? type,
   clang_types.CXCursor cursor,
   bool pointerReference,
@@ -302,10 +303,11 @@ void _fillFromCursorIfNeeded(
     fillCompoundMembersIfNeeded(
       type,
       cursor,
+      context,
       pointerReference: pointerReference,
     );
   } else if (type is ObjCInterface) {
-    fillObjCInterfaceMethodsIfNeeded(type, cursor);
+    fillObjCInterfaceMethodsIfNeeded(context, type, cursor);
   }
 }
 
@@ -351,9 +353,9 @@ Type? _extractfromRecord(
       return context.config.usrTypeMappings[declUsr]!;
     } else {
       final struct = parseCompoundDeclaration(
-        context,
         cursor,
         compoundType,
+        context,
         pointerReference: pointerReference,
       );
       return struct;
@@ -376,7 +378,7 @@ Type _extractFromFunctionProto(
   final totalArgs = clang.clang_getNumArgTypes(cxtype);
   for (var i = 0; i < totalArgs; i++) {
     final t = clang.clang_getArgType(cxtype, i);
-    final pt = t.toCodeGenType();
+    final pt = getCodeGenType(context, t);
 
     if (pt.isIncompleteCompound) {
       return UnimplementedType(
@@ -391,7 +393,7 @@ Type _extractFromFunctionProto(
 
   final functionType = FunctionType(
     parameters: parameters,
-    returnType: clang.clang_getResultType(cxtype).toCodeGenType(),
+    returnType: getCodeGenType(context, clang.clang_getResultType(cxtype)),
   );
   _parseAndMergeParamNames(context, functionType, cursor, maxRecursionDepth);
   return NativeFunc(functionType);
