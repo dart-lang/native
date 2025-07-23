@@ -18,7 +18,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 
 /// Adds a macro definition to be parsed later.
-void saveMacroDefinition(clang_types.CXCursor cursor, Context context) {
+void saveMacroDefinition(Context context, clang_types.CXCursor cursor) {
   final macroUsr = cursor.usr();
   final originalMacroName = cursor.spelling();
   final decl = Declaration(usr: macroUsr, originalName: originalMacroName);

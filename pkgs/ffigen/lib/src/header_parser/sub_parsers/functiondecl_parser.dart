@@ -11,8 +11,8 @@ import 'api_availability.dart';
 
 /// Parses a function declaration.
 List<Func> parseFunctionDeclaration(
-  clang_types.CXCursor cursor,
   Context context,
+  clang_types.CXCursor cursor,
 ) {
   final config = context.config;
   final logger = context.logger;
