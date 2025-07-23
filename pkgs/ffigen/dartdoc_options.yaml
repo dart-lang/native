@@ -1,0 +1,5 @@
+dartdoc:
+  categories:
+    Errors:
+      markdown: doc/errors.md
+      name: Common errors in ffigen

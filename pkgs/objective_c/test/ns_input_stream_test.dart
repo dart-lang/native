@@ -16,7 +16,7 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/objective_c_bindings_generated.dart'
-    show DartInputStreamAdapter;
+    show DartInputStreamAdapter, DartInputStreamAdapter$Methods;
 import 'package:test/test.dart';
 
 import 'util.dart';

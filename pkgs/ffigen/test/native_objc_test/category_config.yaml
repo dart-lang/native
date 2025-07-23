@@ -15,6 +15,7 @@ objc-categories:
     - CatImplementsProto
     - InstanceTypeCategory
     - InterfaceOnBuiltInType
+    - StaticAndInstanceMethodsWithSameNameCategory
 headers:
   entry-points:
     - 'category_test.h'
