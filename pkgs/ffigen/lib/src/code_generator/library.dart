@@ -4,13 +4,13 @@
 
 import 'dart:io';
 
-import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
 import '../config_provider/config.dart' show FfiGen;
 import '../config_provider/config_types.dart';
+import '../context.dart';
 
 import 'writer.dart';
 
@@ -20,12 +20,14 @@ class Library {
   final List<Binding> bindings;
 
   final Writer writer;
+  final Context context;
 
-  Library._(this.bindings, this.writer);
+  Library._(this.bindings, this.writer, this.context);
 
   static Library fromConfig({
     required FfiGen config,
     required List<Binding> bindings,
+    required Context context,
   }) => Library(
     name: config.wrapperName,
     description: config.wrapperDocComment,
@@ -37,6 +39,7 @@ class Library {
     nativeEntryPoints: config.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
+    context: context,
   );
 
   factory Library({
@@ -48,6 +51,7 @@ class Library {
     List<LibraryImport> libraryImports = const <LibraryImport>[],
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
+    required Context context,
   }) {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
@@ -84,7 +88,7 @@ class Library {
       nativeEntryPoints: nativeEntryPoints,
     );
 
-    return Library._(bindings, writer);
+    return Library._(bindings, writer, context);
   }
 
   /// Generates [file] by generating C bindings.
@@ -100,7 +104,9 @@ class Library {
         file.absolute.path,
       ], workingDirectory: file.parent.absolute.path);
       if (result.exitCode != 0) {
-        logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
+        context.logger.severe(
+          'Formatting failed\n${result.stdout}\n${result.stderr}',
+        );
       }
     }
   }

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -10,6 +11,8 @@ import 'utils.dart';
 import 'writer.dart';
 
 class ObjCCategory extends NoLookUpBinding with ObjCMethods {
+  @override
+  final Context context;
   final ObjCInterface parent;
   final ObjCInternalGlobal classObject;
 
@@ -22,6 +25,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     required this.parent,
     super.dartDoc,
     required this.builtInFunctions,
+    required this.context,
   }) : classObject = parent.classObject,
        super(name: name ?? originalName);
 

@@ -2,16 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../strings.dart' as strings;
 import 'unique_namer.dart';
 import 'utils.dart';
 
 /// To store generated String bindings.
 class Writer {
+  final Context context;
   final String? header;
 
   /// Holds bindings, which lookup symbols.
@@ -134,6 +135,7 @@ class Writer {
     required this.generateForPackageObjectiveC,
     required this.silenceEnumWarning,
     required this.nativeEntryPoints,
+    required this.context,
   }) {
     final globalLevelNames = noLookUpBindings.map((e) => e.name);
     final wrapperLevelNames = lookUpBindings.map((e) => e.name);
@@ -325,7 +327,7 @@ class Writer {
     // Warn about Enum usage in API surface.
     if (!silenceEnumWarning && usedEnumCTypes.isNotEmpty) {
       final names = usedEnumCTypes.map((e) => e.originalName).toList()..sort();
-      logger.severe(
+      context.logger.severe(
         'The integer type used for enums is '
         'implementation-defined. FFIgen tries to mimic the integer sizes '
         'chosen by the most common compilers for the various OS and '
@@ -360,7 +362,7 @@ class Writer {
       (element) => element is Constant && element.usr.contains('@macro@'),
     );
     if (hasMacroBindings) {
-      logger.info(
+      context.logger.info(
         'Removing all Macros from symbol file since they cannot '
         'be cross referenced reliably.',
       );

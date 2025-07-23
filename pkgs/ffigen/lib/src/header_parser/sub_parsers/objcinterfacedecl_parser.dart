@@ -45,6 +45,7 @@ Type? parseObjCInterfaceDeclaration(
 }
 
 void fillObjCInterfaceMethodsIfNeeded(
+  Context context,
   ObjCInterface itf,
   clang_types.CXCursor cursor,
 ) {
@@ -74,6 +75,7 @@ void fillObjCInterfaceMethodsIfNeeded(
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
         final (getter, setter) = parseObjCProperty(
+          context,
           child,
           itfDecl,
           config.objcInterfaces,
@@ -83,7 +85,9 @@ void fillObjCInterfaceMethodsIfNeeded(
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        itf.addMethod(parseObjCMethod(child, itfDecl, config.objcInterfaces));
+        itf.addMethod(
+          parseObjCMethod(context, child, itfDecl, config.objcInterfaces),
+        );
         break;
     }
   });
@@ -124,6 +128,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
 }
 
 (ObjCMethod?, ObjCMethod?) parseObjCProperty(
+  Context context,
   clang_types.CXCursor cursor,
   Declaration decl,
   DeclarationFilters filters,
@@ -133,12 +138,14 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
 
   final apiAvailability = ApiAvailability.fromCursor(cursor);
   if (apiAvailability.availability == Availability.none) {
-    logger.info('Omitting deprecated property ${decl.originalName}.$fieldName');
+    context.logger.info(
+      'Omitting deprecated property ${decl.originalName}.$fieldName',
+    );
     return (null, null);
   }
 
   if (fieldType.isIncompleteCompound) {
-    logger.warning(
+    context.logger.warning(
       'Property "$fieldName" in instance "${decl.originalName}" '
       'has incomplete type: $fieldType.',
     );
@@ -169,7 +176,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
     name: filters.renameMember(decl, fieldName),
   );
 
-  logger.fine(
+  context.logger.fine(
     '       > Property: '
     '$fieldType $fieldName ${cursor.completeStringRepr()}',
   );
@@ -218,6 +225,7 @@ void _parseSuperType(clang_types.CXCursor cursor, ObjCInterface itf) {
 }
 
 ObjCMethod? parseObjCMethod(
+  Context context,
   clang_types.CXCursor cursor,
   Declaration itfDecl,
   DeclarationFilters filters,

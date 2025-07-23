@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 
@@ -28,13 +29,17 @@ class ApiAvailability {
     this.ios,
     this.macos,
     ExternalVersions? externalVersions,
+    required Context context,
   }) {
     availability = _getAvailability(
-      externalVersions ?? config.externalVersions,
+      externalVersions ?? context.config.externalVersions,
     );
   }
 
-  static ApiAvailability fromCursor(clang_types.CXCursor cursor) {
+  static ApiAvailability fromCursor(
+    clang_types.CXCursor cursor,
+    Context context,
+  ) {
     final platformsLength = clang.clang_getCursorPlatformAvailability(
       cursor,
       nullptr,
@@ -87,6 +92,7 @@ class ApiAvailability {
       alwaysUnavailable: alwaysUnavailable.value != 0,
       ios: ios,
       macos: macos,
+      context: context,
     );
 
     for (var i = 0; i < platformsLength; ++i) {

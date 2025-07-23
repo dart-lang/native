@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
@@ -15,12 +14,14 @@ import 'unnamed_enumdecl_parser.dart';
 /// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
 /// is null for anonymous enums.
 (EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
-  Context context,
   clang_types.CXCursor cursor,
+  Context context,
 ) {
+  final config = context.config;
+  final logger = context.logger;
   EnumClass? enumClass;
   // Parse the cursor definition instead, if this is a forward declaration.
-  cursor = cursorIndex.getDefinition(cursor);
+  cursor = context.cursorIndex.getDefinition(cursor);
 
   final enumUsr = cursor.usr();
   final String enumName;
@@ -38,7 +39,7 @@ import 'unnamed_enumdecl_parser.dart';
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
   var hasNegativeEnumConstants = false;
 
-  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
     logger.info('Omitting deprecated enum $enumName');
     return (null, nativeType);
@@ -56,6 +57,7 @@ import 'unnamed_enumdecl_parser.dart';
     enumClass = EnumClass(
       usr: enumUsr,
       dartDoc: getCursorDocComment(
+        context,
         cursor,
         availability: apiAvailability.dartDoc,
       ),
@@ -63,7 +65,7 @@ import 'unnamed_enumdecl_parser.dart';
       name: config.enumClassDecl.rename(decl),
       nativeType: nativeType,
       generateAsInt: config.enumShouldBeInt(decl),
-      objCBuiltInFunctions: objCBuiltInFunctions,
+      objCBuiltInFunctions: context.objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
       try {
@@ -74,6 +76,7 @@ import 'unnamed_enumdecl_parser.dart';
             enumClass!.enumConstants.add(
               EnumConstant(
                 dartDoc: getCursorDocComment(
+                  context,
                   child,
                   indent: nesting.length + commentPrefix.length,
                 ),

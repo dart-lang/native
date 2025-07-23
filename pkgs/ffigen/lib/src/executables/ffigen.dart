@@ -112,6 +112,7 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
   }
   return YamlConfig.fromYaml(
     bindingsConfigMap,
+    logger,
     filename: pubspecFile.path,
     packageConfig: packageConfig,
   );
@@ -129,7 +130,7 @@ YamlConfig getConfigFromCustomYaml(
     exit(1);
   }
 
-  return YamlConfig.fromFile(yamlFile, packageConfig: packageConfig);
+  return YamlConfig.fromFile(yamlFile, logger, packageConfig: packageConfig);
 }
 
 /// Parses the cmd line arguments.

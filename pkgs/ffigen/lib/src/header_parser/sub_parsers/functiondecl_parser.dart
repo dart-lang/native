@@ -2,19 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
 
 /// Parses a function declaration.
 List<Func> parseFunctionDeclaration(
-  Context context,
   clang_types.CXCursor cursor,
+  Context context,
 ) {
+  final config = context.config;
+  final logger = context.logger;
+
   /// Multiple values are since there may be more than one instance of the
   /// same base C function with different variadic arguments.
   final funcs = <Func>[];
@@ -22,14 +24,14 @@ List<Func> parseFunctionDeclaration(
   final funcUsr = cursor.usr();
   final funcName = cursor.spelling();
 
-  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
     logger.info('Omitting deprecated function $funcName');
     return funcs;
   }
 
   final decl = Declaration(usr: funcUsr, originalName: funcName);
-  final cachedFunc = bindingsIndex.getSeenFunc(funcUsr);
+  final cachedFunc = context.bindingsIndex.getSeenFunc(funcUsr);
   if (cachedFunc != null) {
     funcs.add(cachedFunc);
   } else {
@@ -132,6 +134,7 @@ List<Func> parseFunctionDeclaration(
       funcs.add(
         Func(
           dartDoc: getCursorDocComment(
+            context,
             cursor,
             indent: nesting.length + commentPrefix.length,
             availability: apiAvailability.dartDoc,
@@ -154,7 +157,7 @@ List<Func> parseFunctionDeclaration(
         ),
       );
     }
-    bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
+    context.bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
   }
 
   return funcs;

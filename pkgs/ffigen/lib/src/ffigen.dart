@@ -8,6 +8,7 @@ import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 
 import 'config_provider.dart' show FfiGen;
+import 'context.dart';
 import 'header_parser.dart' show parse;
 
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);

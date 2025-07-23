@@ -20,9 +20,10 @@ ObjCBlock parseObjCBlock(Context context, clang_types.CXType cxtype) {
     params.add(Parameter(type: type.toCodeGenType(), objCConsumed: false));
   }
   return ObjCBlock(
+    context,
     returnType: returnType,
     params: params,
     returnsRetained: false,
-    builtInFunctions: objCBuiltInFunctions,
+    builtInFunctions: context.objCBuiltInFunctions,
   );
 }

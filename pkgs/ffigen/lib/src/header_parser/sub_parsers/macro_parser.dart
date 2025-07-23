@@ -12,56 +12,57 @@ import 'package:path/path.dart' as p;
 
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 
 /// Adds a macro definition to be parsed later.
-void saveMacroDefinition(clang_types.CXCursor cursor) {
+void saveMacroDefinition(clang_types.CXCursor cursor, Context context) {
   final macroUsr = cursor.usr();
   final originalMacroName = cursor.spelling();
   final decl = Declaration(usr: macroUsr, originalName: originalMacroName);
   if (clang.clang_Cursor_isMacroBuiltin(cursor) == 0 &&
       clang.clang_Cursor_isMacroFunctionLike(cursor) == 0) {
     // Parse macro only if it's not builtin or function-like.
-    logger.fine(
+    context.logger.fine(
       "++++ Saved Macro '$originalMacroName' for later : "
       '${cursor.completeStringRepr()}',
     );
-    final prefixedName = config.macroDecl.rename(decl);
-    bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
-    _saveMacro(prefixedName, macroUsr, originalMacroName);
+    final prefixedName = context.config.macroDecl.rename(decl);
+    context.bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
+    _saveMacro(prefixedName, macroUsr, originalMacroName, context);
   }
 }
 
 /// Saves a macro to be parsed later.
 ///
 /// Macros are parsed later in [parseSavedMacros()].
-void _saveMacro(String name, String usr, String originalName) {
-  savedMacros[name] = Macro(usr, originalName);
+void _saveMacro(String name, String usr, String originalName, Context context) {
+  context.savedMacros[name] = Macro(usr, originalName);
 }
 
 /// Macros cannot be parsed directly, so we create a new `.hpp` file in which
 /// they are assigned to a variable after which their value can be determined
 /// by evaluating the value of the variable.
-List<MacroConstant> parseSavedMacros() {
+List<MacroConstant> parseSavedMacros(Context context) {
   final bindings = <MacroConstant>[];
 
-  if (savedMacros.keys.isEmpty) {
+  if (context.savedMacros.keys.isEmpty) {
     return bindings;
   }
 
   // Create a file for parsing macros;
-  final file = createFileForMacros();
+  final file = createFileForMacros(context);
 
   final index = clang.clang_createIndex(0, 0);
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
   var cmdLen = 0;
 
-  final compilerOpts = config.compilerOpts;
+  final compilerOpts = context.config.compilerOpts;
   clangCmdArgs = createDynamicStringArray(compilerOpts);
 
-  cmdLen = config.compilerOpts.length;
+  cmdLen = context.config.compilerOpts.length;
   final tu = clang.clang_parseTranslationUnit(
     index,
     file.path.toNativeUtf8().cast(),
@@ -73,11 +74,13 @@ List<MacroConstant> parseSavedMacros() {
   );
 
   if (tu == nullptr) {
-    logger.severe('Unable to parse Macros.');
+    context.logger.severe('Unable to parse Macros.');
   } else {
-    logTuDiagnostics(tu, logger, file.path, logLevel: Level.FINEST);
+    logTuDiagnostics(tu, context, file.path, logLevel: Level.FINEST);
     final rootCursor = clang.clang_getTranslationUnitCursor(tu);
-    rootCursor.visitChildren((child) => _macroVariablevisitor(child, bindings));
+    rootCursor.visitChildren(
+      (child) => _macroVariablevisitor(child, bindings, context),
+    );
   }
 
   clang.clang_disposeTranslationUnit(tu);
@@ -92,6 +95,7 @@ List<MacroConstant> parseSavedMacros() {
 void _macroVariablevisitor(
   clang_types.CXCursor cursor,
   List<MacroConstant> bindings,
+  Context context,
 ) {
   MacroConstant? constant;
   try {
@@ -100,15 +104,17 @@ void _macroVariablevisitor(
         cursor.kind == clang_types.CXCursorKind.CXCursor_VarDecl) {
       final e = clang.clang_Cursor_Evaluate(cursor);
       final k = clang.clang_EvalResult_getKind(e);
-      logger.fine('macroVariablevisitor: ${cursor.completeStringRepr()}');
+      context.logger.fine(
+        'macroVariablevisitor: ${cursor.completeStringRepr()}',
+      );
 
       /// Get macro name, the variable name starts with '<macro-name>_'.
       final macroName = MacroVariableString.decode(cursor.spelling());
       switch (k) {
         case clang_types.CXEvalResultKind.CXEval_Int:
           constant = MacroConstant(
-            usr: savedMacros[macroName]!.usr,
-            originalName: savedMacros[macroName]!.originalName,
+            usr: context.savedMacros[macroName]!.usr,
+            originalName: context.savedMacros[macroName]!.originalName,
             name: macroName,
             rawType: 'int',
             rawValue: clang.clang_EvalResult_getAsLongLong(e).toString(),
@@ -116,8 +122,8 @@ void _macroVariablevisitor(
           break;
         case clang_types.CXEvalResultKind.CXEval_Float:
           constant = MacroConstant(
-            usr: savedMacros[macroName]!.usr,
-            originalName: savedMacros[macroName]!.originalName,
+            usr: context.savedMacros[macroName]!.usr,
+            originalName: context.savedMacros[macroName]!.originalName,
             name: macroName,
             rawType: 'double',
             rawValue: _writeDoubleAsString(
@@ -129,10 +135,11 @@ void _macroVariablevisitor(
           final rawValue = _getWrittenRepresentation(
             macroName,
             clang.clang_EvalResult_getAsStr(e),
+            context,
           );
           constant = MacroConstant(
-            usr: savedMacros[macroName]!.usr,
-            originalName: savedMacros[macroName]!.originalName,
+            usr: context.savedMacros[macroName]!.usr,
+            originalName: context.savedMacros[macroName]!.originalName,
             name: macroName,
             rawType: 'String',
             rawValue: "'$rawValue'",
@@ -146,8 +153,8 @@ void _macroVariablevisitor(
       }
     }
   } catch (e, s) {
-    logger.severe(e);
-    logger.severe(s);
+    context.logger.severe(e);
+    context.logger.severe(s);
     rethrow;
   }
 }
@@ -167,7 +174,7 @@ String? _generatedFileBaseName;
 late Set<String> _macroVarNames;
 
 /// Creates a temporary file for parsing macros in current directory.
-File createFileForMacros() {
+File createFileForMacros(Context context) {
   final fileNameBase = p.normalize(p.join(strings.tmpDir, 'temp_for_macros'));
   final fileExt = 'hpp';
 
@@ -187,18 +194,18 @@ File createFileForMacros() {
 
   // Write file contents.
   final sb = StringBuffer();
-  for (final h in config.entryPoints) {
+  for (final h in context.config.entryPoints) {
     final fullHeaderPath = File(h.toFilePath()).absolute.path;
     sb.writeln('#include "$fullHeaderPath"');
   }
 
   _macroVarNames = {};
-  for (final prefixedMacroName in savedMacros.keys) {
+  for (final prefixedMacroName in context.savedMacros.keys) {
     // Write macro.
     final macroVarName = MacroVariableString.encode(prefixedMacroName);
     sb.writeln(
       'auto $macroVarName = '
-      '${savedMacros[prefixedMacroName]!.originalName};',
+      '${context.savedMacros[prefixedMacroName]!.originalName};',
     );
     // Add to _macroVarNames.
     _macroVarNames.add(macroVarName);
@@ -206,9 +213,9 @@ File createFileForMacros() {
   final macroFileContent = sb.toString();
   // Log this generated file for debugging purpose.
   // We use the finest log because this file may be very big.
-  logger.finest('=====FILE FOR MACROS====');
-  logger.finest(macroFileContent);
-  logger.finest('========================');
+  context.logger.finest('=====FILE FOR MACROS====');
+  context.logger.finest(macroFileContent);
+  context.logger.finest('========================');
 
   file.writeAsStringSync(macroFileContent);
   return file;
@@ -238,7 +245,11 @@ class MacroVariableString {
 /// E.g- For a string "Hello\nWorld", The new line character is converted to \n.
 /// Note: The string is considered to be Utf8, but is treated as Extended ASCII,
 /// if the conversion fails.
-String _getWrittenRepresentation(String macroName, Pointer<Char> strPtr) {
+String _getWrittenRepresentation(
+  String macroName,
+  Pointer<Char> strPtr,
+  Context context,
+) {
   final sb = StringBuffer();
   try {
     // Consider string to be Utf8 encoded by default.
@@ -252,7 +263,7 @@ String _getWrittenRepresentation(String macroName, Pointer<Char> strPtr) {
   } catch (e) {
     // Handle string if it isn't Utf8. String is considered to be
     // Extended ASCII in this case.
-    logger.warning(
+    context.logger.warning(
       "Couldn't decode Macro string '$macroName' as Utf8, using "
       'ASCII instead.',
     );

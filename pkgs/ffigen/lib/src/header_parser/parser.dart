@@ -31,8 +31,9 @@ import 'utils.dart';
 
 /// Main entrypoint for header_parser.
 Library parse(Context context) => Library.fromConfig(
+  bindings: transformBindings(parseToBindings(context), context),
+  config: context.config,
   context: context,
-  bindings: transformBindings(context, parseToBindings(context)),
 );
 
 // =============================================================================
@@ -41,9 +42,8 @@ Library parse(Context context) => Library.fromConfig(
 
 /// Parses source files and returns the bindings.
 List<Binding> parseToBindings(Context context) {
-  final clang = context.clang;
-  final config = context.config;
   final index = clang.clang_createIndex(0, 0);
+  final config = context.config;
 
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
   final compilerOpts = <String>[
@@ -62,7 +62,7 @@ List<Binding> parseToBindings(Context context) {
     ...config.compilerOpts,
   ];
 
-  logger.fine('CompilerOpts used: $compilerOpts');
+  context.logger.fine('CompilerOpts used: $compilerOpts');
   clangCmdArgs = createDynamicStringArray(compilerOpts);
   final cmdLen = compilerOpts.length;
 
@@ -70,14 +70,14 @@ List<Binding> parseToBindings(Context context) {
   final bindings = <Binding>{};
 
   // Log all headers for user.
-  logger.info('Input Headers: ${config.entryPoints}');
+  context.logger.info('Input Headers: ${config.entryPoints}');
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
   for (final headerLocationUri in config.entryPoints) {
     final headerLocation = headerLocationUri.toFilePath();
-    logger.fine('Creating TranslationUnit for header: $headerLocation');
+    context.logger.fine('Creating TranslationUnit for header: $headerLocation');
 
     final tu = clang.clang_parseTranslationUnit(
       index,
@@ -96,28 +96,30 @@ List<Binding> parseToBindings(Context context) {
     );
 
     if (tu == nullptr) {
-      logger.severe(
+      context.logger.severe(
         "Skipped header/file: $headerLocation, couldn't parse source.",
       );
       // Skip parsing this header.
       continue;
     }
 
-    logTuDiagnostics(tu, logger, headerLocation);
+    logTuDiagnostics(tu, context, headerLocation);
     tuList.add(tu);
   }
 
-  if (hasSourceErrors) {
-    logger.warning('The compiler found warnings/errors in source files.');
-    logger.warning('This will likely generate invalid bindings.');
+  if (context.hasSourceErrors) {
+    context.logger.warning(
+      'The compiler found warnings/errors in source files.',
+    );
+    context.logger.warning('This will likely generate invalid bindings.');
     if (config.ignoreSourceErrors) {
-      logger.warning(
+      context.logger.warning(
         'Ignored source errors. (User supplied --ignore-source-errors)',
       );
     } else if (config.language == Language.objc) {
-      logger.warning('Ignored source errors. (ObjC)');
+      context.logger.warning('Ignored source errors. (ObjC)');
     } else {
-      logger.severe(
+      context.logger.severe(
         'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.',
       );
       exit(1);
@@ -135,7 +137,7 @@ List<Binding> parseToBindings(Context context) {
 
   // Parse definitions from translation units.
   for (final rootCursor in tuCursors) {
-    bindings.addAll(parseTranslationUnit(rootCursor));
+    bindings.addAll(parseTranslationUnit(context, rootCursor));
   }
 
   // Dispose translation units.
@@ -144,7 +146,7 @@ List<Binding> parseToBindings(Context context) {
   }
 
   // Add all saved unnamed enums.
-  bindings.addAll(unnamedEnumConstants);
+  bindings.addAll(context.unnamedEnumConstants);
 
   // Parse all saved macros.
   bindings.addAll(parseSavedMacros());
@@ -160,7 +162,7 @@ List<String> _findObjectiveCSysroot() => [
 ];
 
 @visibleForTesting
-List<Binding> transformBindings(Context context, List<Binding> bindings) {
+List<Binding> transformBindings(List<Binding> bindings, Context context) {
   final config = context.config;
   visit(CopyMethodsFromSuperTypesVisitation(), bindings);
   visit(FixOverriddenMethodsVisitation(), bindings);
@@ -207,8 +209,8 @@ List<Binding> transformBindings(Context context, List<Binding> bindings) {
   /// Handle any declaration-declaration name conflicts and emit warnings.
   final declConflictHandler = UniqueNamer();
   for (final b in finalBindingsList) {
-    _warnIfPrivateDeclaration(b);
-    _resolveIfNameConflicts(declConflictHandler, b);
+    _warnIfPrivateDeclaration(b, context.logger);
+    _resolveIfNameConflicts(declConflictHandler, b, context.logger);
   }
 
   // Override pack values according to config. We do this after declaration
@@ -226,7 +228,7 @@ List<Binding> transformBindings(Context context, List<Binding> bindings) {
 }
 
 /// Logs a warning if generated declaration will be private.
-void _warnIfPrivateDeclaration(Binding b) {
+void _warnIfPrivateDeclaration(Binding b, Logger logger) {
   if (b.name.startsWith('_') && !b.isInternal) {
     logger.warning(
       "Generated declaration '${b.name}' starts with '_' "
@@ -236,7 +238,7 @@ void _warnIfPrivateDeclaration(Binding b) {
 }
 
 /// Resolves name conflict(if any) and logs a warning.
-void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
+void _resolveIfNameConflicts(UniqueNamer namer, Binding b, Logger logger) {
   // Print warning if name was conflicting and has been changed.
   final oldName = b.name;
   b.name = namer.makeUnique(b.name);
