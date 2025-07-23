@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
@@ -15,6 +14,9 @@ ObjCProtocol? parseObjCProtocolDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
+  final logger = context.logger;
+  final config = context.config;
+  final bindingsIndex = context.bindingsIndex;
   if (cursor.kind != clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl) {
     return null;
   }
@@ -45,7 +47,7 @@ ObjCProtocol? parseObjCProtocolDeclaration(
     cursor = clang.clang_getCursorDefinition(selfSuperCursor);
   }
 
-  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
   logger.fine(
     '++++ Adding ObjC protocol: '
@@ -53,16 +55,18 @@ ObjCProtocol? parseObjCProtocolDeclaration(
   );
 
   final protocol = ObjCProtocol(
+    context: context,
     usr: usr,
     originalName: name,
     name: config.objcProtocols.rename(decl),
     lookupName: applyModulePrefix(name, config.protocolModule(decl)),
     dartDoc: getCursorDocComment(
+      context,
       cursor,
       fallbackComment: name,
       availability: apiAvailability.dartDoc,
     ),
-    builtInFunctions: objCBuiltInFunctions,
+    builtInFunctions: context.objCBuiltInFunctions,
     apiAvailability: apiAvailability,
   );
 
@@ -77,13 +81,14 @@ ObjCProtocol? parseObjCProtocolDeclaration(
         logger.fine(
           '       > Super protocol: ${declCursor.completeStringRepr()}',
         );
-        final superProtocol = parseObjCProtocolDeclaration(declCursor);
+        final superProtocol = parseObjCProtocolDeclaration(context, declCursor);
         if (superProtocol != null) {
           protocol.superProtocols.add(superProtocol);
         }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
         final (getter, setter) = parseObjCProperty(
+          context,
           child,
           decl,
           config.objcProtocols,

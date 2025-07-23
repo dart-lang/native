@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../type_extractor/extractor.dart';
 import '../utils.dart';
@@ -34,11 +33,15 @@ Typealias? parseTypedefDeclaration(
   clang_types.CXCursor cursor, {
   bool pointerReference = false,
 }) {
+  final logger = context.logger;
+  final config = context.config;
+  final bindingsIndex = context.bindingsIndex;
   final typedefName = cursor.spelling();
   final typedefUsr = cursor.usr();
   final decl = Declaration(usr: typedefUsr, originalName: typedefName);
   final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
   final s = getCodeGenType(
+    context,
     ct,
     pointerReference: pointerReference,
     originalCursor: cursor,
@@ -82,7 +85,7 @@ Typealias? parseTypedefDeclaration(
       originalName: typedefName,
       name: config.typedefs.rename(decl),
       type: s,
-      dartDoc: getCursorDocComment(cursor),
+      dartDoc: getCursorDocComment(context, cursor),
     );
   }
   return null;

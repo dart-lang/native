@@ -2,13 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../code_generator.dart';
-
+import '../context.dart';
 import 'ast.dart';
 
 class FixOverriddenMethodsVisitation extends Visitation {
+  final Context context;
+
+  FixOverriddenMethodsVisitation(this.context);
+
   @override
   void visitObjCInterface(ObjCInterface node) {
     // Visit the supertype, then perform all AST mutations, then visit the other
@@ -53,7 +55,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
     if (!superMethod.returnType.isSubtypeOf(method.returnType)) {
       // Types are unrelated, so this can't be sensibly fixed.
-      logger.severe(
+      context.logger.severe(
         '${node.originalName} is a subtype of ${superType.originalName} but '
         'the return types of their ${method.originalName} methods are '
         'unrelated',
@@ -62,7 +64,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     }
 
     superMethod.returnType = method.returnType;
-    logger.info(
+    context.logger.info(
       'Changed the return type of '
       '${superType.originalName}.${superMethod.originalName} to '
       '${method.returnType} to match ${node.originalName}',
@@ -86,6 +88,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     // In Dart, method arg types are contravariant, but ObjC allows them to be
     // covariant. So fix these cases by adding the `covariant` keyword to the
     // parameter.
+    final logger = context.logger;
     final n = method.params.length;
     if (n != superMethod.params.length) {
       logger.severe(
@@ -177,7 +180,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     final method = node.getSimilarMethod(rootMethod);
     if (method != null && method.kind == ObjCMethodKind.method) {
       method.kind = ObjCMethodKind.propertyGetter;
-      logger.info(
+      context.logger.info(
         'Converted ${node.originalName}.${method.originalName} to a getter',
       );
     }

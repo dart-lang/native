@@ -9,8 +9,8 @@ import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../code_generator.dart';
-import '../context.dart';
 import '../config_provider/config_types.dart';
+import '../context.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'type_extractor/extractor.dart';
 
@@ -39,7 +39,7 @@ void logTuDiagnostics(
     final diag = clang.clang_getDiagnostic(tu, i);
     if (clang.clang_getDiagnosticSeverity(diag) >=
         clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
-      hasSourceErrors = true;
+      context.hasSourceErrors = true;
     }
     final cxstring = clang.clang_formatDiagnostic(
       diag,
@@ -112,8 +112,8 @@ extension CXCursorExt on clang_types.CXCursor {
   }
 
   /// Get code_gen [Type] representation of [clang_types.CXType].
-  Type toCodeGenType() {
-    return getCodeGenType(type(), originalCursor: this);
+  Type toCodeGenType(Context context) {
+    return getCodeGenType(context, type(), originalCursor: this);
   }
 
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
@@ -293,7 +293,7 @@ String? getCursorDocComment(
   if (!context.reportedCommentRanges.add(currentCommentRange.toTuple())) {
     formattedDocComment = null;
   } else {
-    switch (config.commentType.length) {
+    switch (context.config.commentType.length) {
       case CommentLength.full:
         formattedDocComment = removeRawCommentMarkups(
           clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),
@@ -369,8 +369,12 @@ String? removeRawCommentMarkups(String? string) {
 
 extension CXTypeExt on clang_types.CXType {
   /// Get code_gen [Type] representation of [clang_types.CXType].
-  Type toCodeGenType({bool supportNonInlineArray = false}) {
-    return getCodeGenType(this, supportNonInlineArray: supportNonInlineArray);
+  Type toCodeGenType(Context context, {bool supportNonInlineArray = false}) {
+    return getCodeGenType(
+      context,
+      this,
+      supportNonInlineArray: supportNonInlineArray,
+    );
   }
 
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.

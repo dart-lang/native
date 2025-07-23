@@ -2,16 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
 
 /// Saves unnamed enums.
-List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
+List<Constant> saveUnNamedEnum(Context context, clang_types.CXCursor cursor) {
+  final logger = context.logger;
   final addedConstants = <Constant>[];
   cursor.visitChildren((child) {
     try {
@@ -20,7 +20,7 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
       );
       switch (clang.clang_getCursorKind(child)) {
         case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
-          final value = _addUnNamedEnumConstant(child);
+          final value = _addUnNamedEnumConstant(context, child);
           if (value != null) {
             addedConstants.add(value);
           }
@@ -41,8 +41,15 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
 }
 
 /// Adds the parameter to func in functiondecl_parser.dart.
-Constant? _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
-  final apiAvailability = ApiAvailability.fromCursor(cursor);
+Constant? _addUnNamedEnumConstant(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
+  final logger = context.logger;
+  final config = context.config;
+  final bindingsIndex = context.bindingsIndex;
+  final unnamedEnumConstants = context.unnamedEnumConstants;
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
     logger.info('Omitting deprecated unnamed enum value ${cursor.spelling()}');
     return null;
