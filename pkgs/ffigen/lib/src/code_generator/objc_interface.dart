@@ -117,7 +117,7 @@ ${generateAsStub ? '' : _generateStaticMethods(w)}
 ''');
 
     if (!generateAsStub) {
-      final extName = w.topLevelUniqueNamer.makeUnique('${name}Methods');
+      final extName = w.topLevelUniqueNamer.makeUnique('$name\$Methods');
       s.write('''
 extension $extName on $name {
 ${generateMethodBindings(w, this, staticMethods: false)}

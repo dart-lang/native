@@ -877,7 +877,7 @@ class DOBJCObservation extends NSObject {
   factory DOBJCObservation() => new$();
 }
 
-extension DOBJCObservationMethods on DOBJCObservation {
+extension DOBJCObservation$Methods on DOBJCObservation {
   /// autorelease
   DOBJCObservation autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -1045,7 +1045,7 @@ class DartInputStreamAdapter extends NSInputStream implements NSStreamDelegate {
   }
 }
 
-extension DartInputStreamAdapterMethods on DartInputStreamAdapter {
+extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
   /// addData:
   int addData(NSData data) {
     return _objc_msgSend_1vd1c5m(
@@ -1223,7 +1223,7 @@ class DartInputStreamAdapterWeakHolder extends NSObject {
   factory DartInputStreamAdapterWeakHolder() => new$();
 }
 
-extension DartInputStreamAdapterWeakHolderMethods
+extension DartInputStreamAdapterWeakHolder$Methods
     on DartInputStreamAdapterWeakHolder {
   /// adapter
   DartInputStreamAdapter get adapter {
@@ -1338,7 +1338,7 @@ class DartProtocol extends NSObject {
   factory DartProtocol() => new$();
 }
 
-extension DartProtocolMethods on DartProtocol {
+extension DartProtocol$Methods on DartProtocol {
   /// autorelease
   DartProtocol autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -1476,7 +1476,7 @@ class DartProtocolBuilder extends NSObject {
   factory DartProtocolBuilder() => new$();
 }
 
-extension DartProtocolBuilderMethods on DartProtocolBuilder {
+extension DartProtocolBuilder$Methods on DartProtocolBuilder {
   /// addProtocol:
   void addProtocol(Protocol protocol) {
     _objc_msgSend_xtuoz7(
@@ -1749,7 +1749,7 @@ class NSArray extends NSObject
   factory NSArray() => new$();
 }
 
-extension NSArrayMethods on NSArray {
+extension NSArray$Methods on NSArray {
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -2124,7 +2124,7 @@ class NSCharacterSet extends NSObject
   factory NSCharacterSet() => new$();
 }
 
-extension NSCharacterSetMethods on NSCharacterSet {
+extension NSCharacterSet$Methods on NSCharacterSet {
   /// autorelease
   NSCharacterSet autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -2284,7 +2284,7 @@ class NSCoder extends NSObject {
   factory NSCoder() => new$();
 }
 
-extension NSCoderMethods on NSCoder {
+extension NSCoder$Methods on NSCoder {
   /// decodeDataObject
   NSData? decodeDataObject() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_decodeDataObject);
@@ -2866,7 +2866,7 @@ class NSData extends NSObject
   factory NSData() => new$();
 }
 
-extension NSDataMethods on NSData {
+extension NSData$Methods on NSData {
   /// bytes
   ffi.Pointer<ffi.Void> get bytes {
     return _objc_msgSend_6ex6p5(this.ref.pointer, _sel_bytes);
@@ -3383,7 +3383,7 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
   factory NSDate() => new$();
 }
 
-extension NSDateMethods on NSDate {
+extension NSDate$Methods on NSDate {
   /// dateByAddingTimeInterval:
   NSDate dateByAddingTimeInterval(double ti) {
     objc.checkOsVersionInternal(
@@ -3677,7 +3677,7 @@ class NSDictionary extends NSObject
   factory NSDictionary() => new$();
 }
 
-extension NSDictionaryMethods on NSDictionary {
+extension NSDictionary$Methods on NSDictionary {
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -3908,7 +3908,7 @@ class NSEnumerator extends NSObject
   factory NSEnumerator() => new$();
 }
 
-extension NSEnumeratorMethods on NSEnumerator {
+extension NSEnumerator$Methods on NSEnumerator {
   /// countByEnumeratingWithState:objects:count:
   int countByEnumeratingWithState(
     ffi.Pointer<NSFastEnumerationState> state, {
@@ -4071,7 +4071,7 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
   factory NSError() => new$();
 }
 
-extension NSErrorMethods on NSError {
+extension NSError$Methods on NSError {
   /// code
   int get code {
     return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_code);
@@ -7200,7 +7200,7 @@ class NSIndexSet extends NSObject
   factory NSIndexSet() => new$();
 }
 
-extension NSIndexSetMethods on NSIndexSet {
+extension NSIndexSet$Methods on NSIndexSet {
   /// containsIndex:
   bool containsIndex(int value) {
     return _objc_msgSend_6peh6o(this.ref.pointer, _sel_containsIndex_, value);
@@ -7700,7 +7700,7 @@ class NSInputStream extends NSStream {
   }
 }
 
-extension NSInputStreamMethods on NSInputStream {
+extension NSInputStream$Methods on NSInputStream {
   /// getBuffer:length:
   bool getBuffer(
     ffi.Pointer<ffi.Pointer<ffi.Uint8>> buffer, {
@@ -7833,7 +7833,7 @@ class NSInvocation extends NSObject {
   factory NSInvocation() => new$();
 }
 
-extension NSInvocationMethods on NSInvocation {
+extension NSInvocation$Methods on NSInvocation {
   /// argumentsRetained
   bool get argumentsRetained {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_argumentsRetained);
@@ -8009,7 +8009,7 @@ class NSItemProvider extends NSObject implements NSCopying {
   factory NSItemProvider() => new$();
 }
 
-extension NSItemProviderMethods on NSItemProvider {
+extension NSItemProvider$Methods on NSItemProvider {
   /// autorelease
   NSItemProvider autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -8880,7 +8880,7 @@ class NSLocale extends NSObject implements NSCopying, NSSecureCoding {
   factory NSLocale() => new$();
 }
 
-extension NSLocaleMethods on NSLocale {
+extension NSLocale$Methods on NSLocale {
   /// autorelease
   NSLocale autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -9075,7 +9075,7 @@ class NSMethodSignature extends NSObject {
   factory NSMethodSignature() => new$();
 }
 
-extension NSMethodSignatureMethods on NSMethodSignature {
+extension NSMethodSignature$Methods on NSMethodSignature {
   /// frameLength
   int get frameLength {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_frameLength);
@@ -9285,7 +9285,7 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
   factory NSMutableArray() => new$();
 }
 
-extension NSMutableArrayMethods on NSMutableArray {
+extension NSMutableArray$Methods on NSMutableArray {
   /// addObject:
   void addObject(objc.ObjCObjectBase anObject) {
     _objc_msgSend_xtuoz7(
@@ -9716,7 +9716,7 @@ class NSMutableData extends NSData {
   factory NSMutableData() => new$();
 }
 
-extension NSMutableDataMethods on NSMutableData {
+extension NSMutableData$Methods on NSMutableData {
   /// compressedDataUsingAlgorithm:error:
   ///
   /// iOS: introduced 13.0.0
@@ -10035,7 +10035,7 @@ class NSMutableDictionary extends NSDictionary {
 
   @override
   void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
-      NSMutableDictionaryMethods(
+      NSMutableDictionary$Methods(
         this,
       ).setObject(value, forKey: NSCopying.castFrom(key));
 
@@ -10224,7 +10224,7 @@ class NSMutableDictionary extends NSDictionary {
   factory NSMutableDictionary() => new$();
 }
 
-extension NSMutableDictionaryMethods on NSMutableDictionary {
+extension NSMutableDictionary$Methods on NSMutableDictionary {
   /// init
   NSMutableDictionary init() {
     objc.checkOsVersionInternal(
@@ -10477,7 +10477,7 @@ class NSMutableIndexSet extends NSIndexSet {
   factory NSMutableIndexSet() => new$();
 }
 
-extension NSMutableIndexSetMethods on NSMutableIndexSet {
+extension NSMutableIndexSet$Methods on NSMutableIndexSet {
   /// addIndex:
   void addIndex(int value) {
     _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_addIndex_, value);
@@ -10914,7 +10914,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   factory NSMutableOrderedSet() => new$();
 }
 
-extension NSMutableOrderedSetMethods on NSMutableOrderedSet {
+extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
   /// init
   NSMutableOrderedSet init() {
     objc.checkOsVersionInternal(
@@ -11394,7 +11394,7 @@ class NSMutableSet extends NSSet {
   factory NSMutableSet() => new$();
 }
 
-extension NSMutableSetMethods on NSMutableSet {
+extension NSMutableSet$Methods on NSMutableSet {
   /// addObject:
   void addObject(objc.ObjCObjectBase object) {
     _objc_msgSend_xtuoz7(this.ref.pointer, _sel_addObject_, object.ref.pointer);
@@ -11784,7 +11784,7 @@ class NSMutableString extends NSString {
   factory NSMutableString() => new$();
 }
 
-extension NSMutableStringMethods on NSMutableString {
+extension NSMutableString$Methods on NSMutableString {
   /// autorelease
   NSMutableString autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -12235,7 +12235,7 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
   factory NSNotification() => new$();
 }
 
-extension NSNotificationMethods on NSNotification {
+extension NSNotification$Methods on NSNotification {
   /// autorelease
   NSNotification autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -12387,7 +12387,7 @@ class NSNumber extends NSValue {
   factory NSNumber() => new$();
 }
 
-extension NSNumberMethods on NSNumber {
+extension NSNumber$Methods on NSNumber {
   /// boolValue
   bool get boolValue {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_boolValue);
@@ -13142,7 +13142,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   factory NSObject() => new$();
 }
 
-extension NSObjectMethods on NSObject {
+extension NSObject$Methods on NSObject {
   /// autorelease
   NSObject autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -14595,7 +14595,7 @@ class NSOrderedCollectionChange extends NSObject {
   factory NSOrderedCollectionChange() => new$();
 }
 
-extension NSOrderedCollectionChangeMethods on NSOrderedCollectionChange {
+extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   int get associatedIndex {
@@ -14803,7 +14803,7 @@ class NSOrderedCollectionDifference extends NSObject
   factory NSOrderedCollectionDifference() => new$();
 }
 
-extension NSOrderedCollectionDifferenceMethods
+extension NSOrderedCollectionDifference$Methods
     on NSOrderedCollectionDifference {
   /// countByEnumeratingWithState:objects:count:
   int countByEnumeratingWithState(
@@ -15260,7 +15260,7 @@ class NSOrderedSet extends NSObject
   factory NSOrderedSet() => new$();
 }
 
-extension NSOrderedSetMethods on NSOrderedSet {
+extension NSOrderedSet$Methods on NSOrderedSet {
   /// count
   int get count {
     objc.checkOsVersionInternal(
@@ -15625,7 +15625,7 @@ class NSOutputStream extends NSStream {
   }
 }
 
-extension NSOutputStreamMethods on NSOutputStream {
+extension NSOutputStream$Methods on NSOutputStream {
   /// hasSpaceAvailable
   bool get hasSpaceAvailable {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_hasSpaceAvailable);
@@ -15756,7 +15756,7 @@ class NSPort extends NSObject implements NSCopying, NSCoding {
   factory NSPort() => new$();
 }
 
-extension NSPortMethods on NSPort {
+extension NSPort$Methods on NSPort {
   /// autorelease
   NSPort autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -16128,7 +16128,7 @@ class NSPortMessage extends NSObject {
   factory NSPortMessage() => new$();
 }
 
-extension NSPortMessageMethods on NSPortMessage {
+extension NSPortMessage$Methods on NSPortMessage {
   /// autorelease
   NSPortMessage autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -16381,7 +16381,7 @@ class NSProgress extends NSObject {
   factory NSProgress() => new$();
 }
 
-extension NSProgressMethods on NSProgress {
+extension NSProgress$Methods on NSProgress {
   /// addChild:withPendingUnitCount:
   void addChild(NSProgress child, {required int withPendingUnitCount}) {
     objc.checkOsVersionInternal(
@@ -17154,7 +17154,7 @@ class NSRunLoop extends NSObject {
   factory NSRunLoop() => new$();
 }
 
-extension NSRunLoopMethods on NSRunLoop {
+extension NSRunLoop$Methods on NSRunLoop {
   /// acceptInputForMode:beforeDate:
   void acceptInputForMode(NSString mode, {required NSDate beforeDate}) {
     _objc_msgSend_pfv6jd(
@@ -17615,7 +17615,7 @@ class NSSet extends NSObject
   factory NSSet() => new$();
 }
 
-extension NSSetMethods on NSSet {
+extension NSSet$Methods on NSSet {
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -17813,7 +17813,7 @@ class NSStream extends NSObject {
   factory NSStream() => new$();
 }
 
-extension NSStreamMethods on NSStream {
+extension NSStream$Methods on NSStream {
   /// autorelease
   NSStream autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -18448,7 +18448,7 @@ class NSString extends NSObject
   }
 }
 
-extension NSStringMethods on NSString {
+extension NSString$Methods on NSString {
   /// autorelease
   NSString autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -20241,7 +20241,7 @@ class NSTimer extends NSObject {
   factory NSTimer() => new$();
 }
 
-extension NSTimerMethods on NSTimer {
+extension NSTimer$Methods on NSTimer {
   /// autorelease
   NSTimer autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -20747,7 +20747,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   factory NSURL() => new$();
 }
 
-extension NSURLMethods on NSURL {
+extension NSURL$Methods on NSURL {
   /// absoluteString
   NSString? get absoluteString {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_absoluteString);
@@ -21480,7 +21480,7 @@ class NSURLHandle extends NSObject {
   factory NSURLHandle() => new$();
 }
 
-extension NSURLHandleMethods on NSURLHandle {
+extension NSURLHandle$Methods on NSURLHandle {
   /// autorelease
   NSURLHandle autorelease() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
@@ -21591,7 +21591,7 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
   factory NSValue() => new$();
 }
 
-extension NSValueMethods on NSValue {
+extension NSValue$Methods on NSValue {
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     _objc_msgSend_xtuoz7(
@@ -34784,7 +34784,7 @@ class Protocol extends objc.ObjCObjectBase {
   }
 }
 
-extension ProtocolMethods on Protocol {}
+extension Protocol$Methods on Protocol {}
 
 late final _class_DOBJCDartInputStreamAdapter = objc.getClass(
   "DOBJCDartInputStreamAdapter",

@@ -9,7 +9,7 @@
   methods instead of being part of the class. This shouldn't require any code
   changes unless you are using `show` or `hide` when importing the interface.
   - If you are using `show`/`hide` to show or hide a particular interface, eg
-    `Foo`, you'll now also need to show or hide `FooMethods`.
+    `Foo`, you'll now also need to show or hide `Foo$Methods`.
   - In rare cases the runtime type of the Dart wrapper object around the ObjC
     object may change, but the underlying ObjC object will still be the same.
 

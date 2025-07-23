@@ -23,11 +23,16 @@ const builtInTypes =
     '../ffigen/lib/src/code_generator/objc_built_in_types.dart';
 const interfaceListTest = 'test/interface_lists_test.dart';
 
-const privateClasses = <String>{
+const privateInterfaces = <String>{
   'DartInputStreamAdapter',
   'DartInputStreamAdapterWeakHolder',
   'DOBJCObservation',
 };
+
+final privateMethods = <String>{
+  for (final name in privateInterfaces) '$name\$Methods',
+};
+final privateClasses = privateInterfaces.union(privateMethods);
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;
@@ -177,7 +182,7 @@ ${elements.join('\n')}
   }
 
   final interfaces = writeDecls('objCBuiltInInterfaces', 'objc-interfaces');
-  exports.addAll([for (final name in interfaces) '${name}Methods']);
+  exports.addAll([for (final name in interfaces) '$name\$Methods']);
   writeDecls('objCBuiltInCompounds', 'structs');
   writeDecls('objCBuiltInEnums', 'enums');
   writeDecls('objCBuiltInProtocols', 'objc-protocols');

@@ -176,7 +176,7 @@ class NSMutableDictionary {
 
   @override
   void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
-      NSMutableDictionaryMethods(this).setObject(
+      NSMutableDictionary$Methods(this).setObject(
         value,
         forKey: NSCopying.castFrom(key),
       );

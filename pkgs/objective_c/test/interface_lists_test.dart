@@ -80,7 +80,7 @@ void main() {
     test('All code genned categories are included in the list', () {
       final allCategoryNames = findBindings(
         RegExp(r'^extension (\w+) on \w+ {'),
-      ).difference({for (final name in allClassNames()) '${name}Methods'});
+      );
       expectSetsEqual(
         'generated categories',
         objCBuiltInCategories,
