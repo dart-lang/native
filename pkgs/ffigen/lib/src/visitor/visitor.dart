@@ -2,17 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../code_generator.dart';
-
+import '../context.dart';
 import 'ast.dart';
 
 /// Wrapper around [Visitation] to be used by callers.
 final class Visitor {
-  Visitor(this._visitation, {bool debug = false}) : _debug = debug {
+  Visitor(this.context, this._visitation, {bool debug = false})
+    : _debug = debug {
     _visitation.visitor = this;
   }
+
+  final Context context;
 
   final Visitation _visitation;
   final _seen = <AstNode>{};
@@ -22,7 +23,7 @@ final class Visitor {
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) logger.info('${'  ' * _indentLevel++}$node');
+    if (_debug) context.logger.info('${'  ' * _indentLevel++}$node');
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);
@@ -89,10 +90,11 @@ abstract class Visitation {
 }
 
 T visit<T extends Visitation>(
+  Context context,
   T visitation,
   Iterable<AstNode> roots, {
   bool debug = false,
 }) {
-  Visitor(visitation, debug: debug).visitAll(roots);
+  Visitor(context, visitation, debug: debug).visitAll(roots);
   return visitation;
 }
