@@ -5,7 +5,7 @@
 final snippets = [
   {
     'code': '''
-int overloadedMethods() {
+Boolean overloadedMethods() {
     Accumulator acc1 = new Accumulator();
     acc1.add(10);
     acc1.add(10, 10);
@@ -15,20 +15,20 @@ int overloadedMethods() {
     acc2.add(acc1);
 
     Accumulator acc3 = new Accumulator(acc2);
-    return acc3.accumulator;
+    return acc3.accumulator == 80;
 }''',
     'fileName': 'overloaded_methods.dart',
   },
   {
     'code': '''
-int implementInlineInterface() {
+Boolean implementInlineInterface() {
     Runnable runnable = new Runnable() {
         @Override
         public int run() {
             return 0;
         }
     };
-    return runnable.run();
+    return runnable.run() == 0;
 }''',
     'fileName': 'implement_inline_interface.dart',
   },
@@ -43,9 +43,9 @@ public class RunnableClass implements Runnable {
     return 5;
   }
 }
-int implementNormalInterface() {
+Boolean implementNormalInterface() {
     Runnable runnable = new RunnableClass();
-    return runnable.run();
+    return runnable.run() == 5;
 }''',
     'fileName': 'implement_normal_interface.dart',
   },

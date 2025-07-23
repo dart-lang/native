@@ -27,14 +27,14 @@ void main() {
   });
 
   test('Overloaded Methods and Constructors', () async {
-    expect(overloadedMethods(), equals(80));
+    expect(overloadedMethods(), isTrue);
   });
 
   test('Implement Inline Interface', () async {
-    expect(implementInlineInterface(), equals(0));
+    expect(implementInlineInterface(), isTrue);
   });
 
   test('Implement Normal Interface', () async {
-    expect(implementNormalInterface(), equals(5));
+    expect(implementNormalInterface(), isTrue);
   });
 }
