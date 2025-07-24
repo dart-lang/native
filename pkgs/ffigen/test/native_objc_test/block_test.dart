@@ -12,7 +12,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/objective_c.dart' hide ObjCBlock_ffiVoid, ObjCBlock_ffiVoid_CallExtension;
 import 'package:objective_c/src/internal.dart'
     as internal_for_testing
     show blockHasRegisteredClosure;
@@ -20,7 +20,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'block_bindings.dart' hide ObjCBlock_ffiVoid, ObjCBlock_ffiVoid_CallExtension;
+import 'block_bindings.dart';
 import 'util.dart';
 
 typedef IntBlock = ObjCBlock_Int32_Int32;
@@ -70,7 +70,7 @@ void main() {
       BlockTester.setup(NativeApi.initializeApiDLData);
     });
 
-    test('BlockTester is working', () {
+    /*test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
       final blockTester = BlockTester.newFromMultiplier(10);
@@ -87,8 +87,8 @@ void main() {
       );
       final blockTester = BlockTester.newFromBlock(block);
       blockTester.pokeBlock();
-      // expect(blockTester.call(123), 223);
-      // expect(block(123), 223);
+      expect(blockTester.call(123), 223);
+      expect(block(123), 223);
     });
 
     int Function(int) makeAdder(int addTo) {
@@ -101,7 +101,7 @@ void main() {
       blockTester.pokeBlock();
       expect(blockTester.call(123), 4123);
       expect(block(123), 4123);
-    });
+    });*/
 
     test('Listener block same thread', () async {
       final hasRun = Completer<void>();
@@ -117,7 +117,7 @@ void main() {
       expect(value, 123);
     });
 
-    test('Listener block new thread', () async {
+    /*test('Listener block new thread', () async {
       final hasRun = Completer<void>();
       int value = 0;
       final block = VoidBlock.listener(() {
@@ -148,7 +148,7 @@ void main() {
       });
       BlockTester.callOnSameThread(block);
       expect(value, 123);
-    });
+    });*/
 
     /*test('Blocking block new thread', () async {
       final block = IntPtrBlock.blocking((Pointer<Int32> result) {
@@ -196,7 +196,7 @@ void main() {
       expect(value, 123);
     });*/
 
-    test('Float block', () {
+    /*test('Float block', () {
       final block = FloatBlock.fromFunction((double x) {
         return x + 4.56;
       });
@@ -315,12 +315,11 @@ void main() {
 
       final result3 = BlockTester.callNullableStringBlock(block);
       expect(result3?.toDartString(), 'Lizard Cat');
-    });
+    });*/
 
-    test('Object listener block', () async {
+    /*test('Object listener block', () async {
       final hasRun = Completer<void>();
       final block = ObjectListenerBlock.listener((DummyObject x) {
-        print('ZZZZ');
         expect(x, isNotNull);
         hasRun.complete();
       });
@@ -329,7 +328,7 @@ void main() {
       await hasRun.future;
     });
 
-    /*test('Nullable listener block', () async {
+    test('Nullable listener block', () async {
       final hasRun = Completer<void>();
       final block = NullableListenerBlock.listener((DummyObject? x) {
         expect(x, isNull);

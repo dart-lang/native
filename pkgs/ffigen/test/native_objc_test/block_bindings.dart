@@ -3024,7 +3024,6 @@ void _ObjCBlock_ffiVoid_DummyObject_sharedTrampoline(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCObject> arg0,
 ) {
-  print('QWERQWER');
   block.ref.trampoline
       .cast<
         ffi.NativeFunction<
