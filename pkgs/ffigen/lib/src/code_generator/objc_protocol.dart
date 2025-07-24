@@ -352,6 +352,10 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
   String? generateRetain(String value) =>
       '(__bridge id)(__bridge_retained void*)($value)';
 
+  @override
+  String? generateDartRetain(Writer w, String value) =>
+      '${ObjCBuiltInFunctions.objectRetain.gen(w)}($value)';
+
   bool _isSuperProtocolOf(ObjCProtocol protocol) {
     if (protocol == this) return true;
     for (final superProtocol in protocol.superProtocols) {

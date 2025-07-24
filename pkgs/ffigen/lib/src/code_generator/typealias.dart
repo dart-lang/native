@@ -196,6 +196,10 @@ class Typealias extends BindingType {
   String? generateRetain(String value) => type.generateRetain(value);
 
   @override
+  String? generateDartRetain(Writer w, String value) =>
+      type.generateDartRetain(w, value);
+
+  @override
   String cacheKey() => type.cacheKey();
 
   @override

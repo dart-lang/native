@@ -50,14 +50,6 @@ id objc_retainBlock(id);
 
 
 typedef void  (^ListenerTrampoline)();
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline _BlockTestObjCLibrary_wrapListenerBlock_1pl9qdv(ListenerTrampoline block) NS_RETURNS_RETAINED {
-  return ^void() {
-    objc_retainBlock(block);
-    block();
-  };
-}
-
 typedef void  (^BlockingTrampoline)(void * waiter);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline _BlockTestObjCLibrary_wrapBlockingBlock_1pl9qdv(
@@ -79,14 +71,6 @@ id  _BlockTestObjCLibrary_protocolTrampoline_1mbt9g9(id target, void * sel) {
 }
 
 typedef void  (^ListenerTrampoline_1)(struct objc_selector * arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline_1 _BlockTestObjCLibrary_wrapListenerBlock_1d9e4oe(ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
-  return ^void(struct objc_selector * arg0) {
-    objc_retainBlock(block);
-    block(arg0);
-  };
-}
-
 typedef void  (^BlockingTrampoline_1)(void * waiter, struct objc_selector * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_1 _BlockTestObjCLibrary_wrapBlockingBlock_1d9e4oe(
@@ -102,14 +86,6 @@ ListenerTrampoline_1 _BlockTestObjCLibrary_wrapBlockingBlock_1d9e4oe(
 }
 
 typedef void  (^ListenerTrampoline_2)(id arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline_2 _BlockTestObjCLibrary_wrapListenerBlock_f167m6(ListenerTrampoline_2 block) NS_RETURNS_RETAINED {
-  return ^void(id arg0) {
-    objc_retainBlock(block);
-    block(objc_retainBlock(arg0));
-  };
-}
-
 typedef void  (^BlockingTrampoline_2)(void * waiter, id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_2 _BlockTestObjCLibrary_wrapBlockingBlock_f167m6(
@@ -125,14 +101,6 @@ ListenerTrampoline_2 _BlockTestObjCLibrary_wrapBlockingBlock_f167m6(
 }
 
 typedef void  (^ListenerTrampoline_3)(id arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline_3 _BlockTestObjCLibrary_wrapListenerBlock_xtuoz7(ListenerTrampoline_3 block) NS_RETURNS_RETAINED {
-  return ^void(id arg0) {
-    objc_retainBlock(block);
-    block((__bridge id)(__bridge_retained void*)(arg0));
-  };
-}
-
 typedef void  (^BlockingTrampoline_3)(void * waiter, id arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_3 _BlockTestObjCLibrary_wrapBlockingBlock_xtuoz7(
@@ -148,14 +116,6 @@ ListenerTrampoline_3 _BlockTestObjCLibrary_wrapBlockingBlock_xtuoz7(
 }
 
 typedef void  (^ListenerTrampoline_4)(struct Vec2 arg0, Vec4 arg1, id arg2);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline_4 _BlockTestObjCLibrary_wrapListenerBlock_ru30ue(ListenerTrampoline_4 block) NS_RETURNS_RETAINED {
-  return ^void(struct Vec2 arg0, Vec4 arg1, id arg2) {
-    objc_retainBlock(block);
-    block(arg0, arg1, (__bridge id)(__bridge_retained void*)(arg2));
-  };
-}
-
 typedef void  (^BlockingTrampoline_4)(void * waiter, struct Vec2 arg0, Vec4 arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_4 _BlockTestObjCLibrary_wrapBlockingBlock_ru30ue(
@@ -171,14 +131,6 @@ ListenerTrampoline_4 _BlockTestObjCLibrary_wrapBlockingBlock_ru30ue(
 }
 
 typedef void  (^ListenerTrampoline_5)(int32_t arg0, Vec4 arg1, char * arg2);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline_5 _BlockTestObjCLibrary_wrapListenerBlock_li50va(ListenerTrampoline_5 block) NS_RETURNS_RETAINED {
-  return ^void(int32_t arg0, Vec4 arg1, char * arg2) {
-    objc_retainBlock(block);
-    block(arg0, arg1, arg2);
-  };
-}
-
 typedef void  (^BlockingTrampoline_5)(void * waiter, int32_t arg0, Vec4 arg1, char * arg2);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_5 _BlockTestObjCLibrary_wrapBlockingBlock_li50va(
@@ -194,14 +146,6 @@ ListenerTrampoline_5 _BlockTestObjCLibrary_wrapBlockingBlock_li50va(
 }
 
 typedef void  (^ListenerTrampoline_6)(int32_t * arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline_6 _BlockTestObjCLibrary_wrapListenerBlock_yhkuco(ListenerTrampoline_6 block) NS_RETURNS_RETAINED {
-  return ^void(int32_t * arg0) {
-    objc_retainBlock(block);
-    block(arg0);
-  };
-}
-
 typedef void  (^BlockingTrampoline_6)(void * waiter, int32_t * arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_6 _BlockTestObjCLibrary_wrapBlockingBlock_yhkuco(
@@ -217,14 +161,6 @@ ListenerTrampoline_6 _BlockTestObjCLibrary_wrapBlockingBlock_yhkuco(
 }
 
 typedef void  (^ListenerTrampoline_7)(int32_t arg0);
-__attribute__((visibility("default"))) __attribute__((used))
-ListenerTrampoline_7 _BlockTestObjCLibrary_wrapListenerBlock_1bqef4y(ListenerTrampoline_7 block) NS_RETURNS_RETAINED {
-  return ^void(int32_t arg0) {
-    objc_retainBlock(block);
-    block(arg0);
-  };
-}
-
 typedef void  (^BlockingTrampoline_7)(void * waiter, int32_t arg0);
 __attribute__((visibility("default"))) __attribute__((used))
 ListenerTrampoline_7 _BlockTestObjCLibrary_wrapBlockingBlock_1bqef4y(

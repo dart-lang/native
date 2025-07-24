@@ -141,6 +141,12 @@ class ObjCBlock extends BindingType {
     final closureCallable = w.topLevelUniqueNamer.makeUnique(
       '_${name}_closureCallable',
     );
+    final sharedTrampoline = w.topLevelUniqueNamer.makeUnique(
+      '_${name}_sharedTrampoline',
+    );
+    final sharedCallable = w.topLevelUniqueNamer.makeUnique(
+      '_${name}_sharedCallable',
+    );
     final listenerTrampoline = w.topLevelUniqueNamer.makeUnique(
       '_${name}_listenerTrampoline',
     );
@@ -163,6 +169,7 @@ class ObjCBlock extends BindingType {
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(w);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
     final getBlockClosure = ObjCBuiltInFunctions.getBlockClosure.gen(w);
+    final retainFn = ObjCBuiltInFunctions.objectRetain.gen(w);
     final releaseFn = ObjCBuiltInFunctions.objectRelease.gen(w);
     final objCContext = ObjCBuiltInFunctions.objCContext.gen(w);
     final signalWaiterFn = ObjCBuiltInFunctions.signalWaiter.gen(w);
@@ -194,7 +201,21 @@ $voidPtrCType $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
 
     if (hasListener) {
       // Write the listener trampoline function.
+      final retains = <String>['$retainFn(block.cast()).cast()'];
+      for (var i = 0; i < params.length; ++i) {
+        final param = params[i];
+        final argName = 'arg$i';
+        retains.add(param.type.generateDartRetain(w, argName) ?? argName);
+      }
       s.write('''
+$returnFfiDartType $sharedTrampoline(
+    $blockCType block, ${func.paramsFfiDartType}) {
+  block.ref.trampoline.cast<${func.trampNatFnCType}>()
+      .asFunction<${func.trampFfiDartType}>()(${retains.join(', ')});
+}
+${func.trampNatCallType} $sharedCallable =
+    ${func.trampNatCallType}.isolateGroupShared(
+        $sharedTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 $returnFfiDartType $listenerTrampoline(
     $blockCType block, ${func.paramsFfiDartType}) {
   ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
@@ -295,7 +316,6 @@ abstract final class $name {
       );
       final listenerConvFn =
           '(${func.paramsFfiDartType}) => $listenerConvFnInvocation';
-      final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
       s.write('''
@@ -311,11 +331,10 @@ abstract final class $name {
   /// until it is garbage collected by both Dart and ObjC.
   static $blockType listener(${func.dartType} fn,
           {bool keepIsolateAlive = true}) {
-    final raw = $newClosureBlock($listenerCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapListenerFn(raw);
-    $releaseFn(raw.cast());
-    return $blockType(wrapper, retain: false, release: true);
+    final tramp = $newClosureBlock($sharedCallable.nativeFunction.cast(),
+        $listenerConvFn, keepIsolateAlive,
+        trampoline: $listenerCallable.nativeFunction.cast());
+    return $blockType(tramp, retain: true, release: true);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -419,7 +438,6 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
       ...argsReceived,
     ].join(', ');
 
-    final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
     final listenerName = UniqueNamer.cSafeName(
       w.objCLevelUniqueNamer.makeUnique('ListenerTrampoline'),
@@ -431,14 +449,6 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
     return '''
 
 typedef ${returnType.getNativeType()} (^$listenerName)($argStr);
-__attribute__((visibility("default"))) __attribute__((used))
-$listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
-  return ^void($argStr) {
-    ${generateRetain('block')};
-    block(${retains.join(', ')});
-  };
-}
-
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
@@ -531,6 +541,10 @@ $ret $fnName(id target, $argRecv) {
 
   @override
   String? generateRetain(String value) => 'objc_retainBlock($value)';
+
+  @override
+  String? generateDartRetain(Writer w, String value) =>
+      '${ObjCBuiltInFunctions.blockRetain.gen(w)}($value.cast()).cast()';
 
   @override
   String toString() =>

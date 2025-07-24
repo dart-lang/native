@@ -95,6 +95,10 @@ class ObjCNullable extends Type {
   String? generateRetain(String value) => child.generateRetain(value);
 
   @override
+  String? generateDartRetain(Writer w, String value) =>
+      child.generateDartRetain(w, value);
+
+  @override
   String toString() => '$child?';
 
   @override

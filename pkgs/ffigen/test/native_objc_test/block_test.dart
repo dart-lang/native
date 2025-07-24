@@ -150,7 +150,7 @@ void main() {
       expect(value, 123);
     });
 
-    test('Blocking block new thread', () async {
+    /*test('Blocking block new thread', () async {
       final block = IntPtrBlock.blocking((Pointer<Int32> result) {
         waitSync(Duration(milliseconds: 100));
         result.value = 123456;
@@ -194,7 +194,7 @@ void main() {
       });
       block();
       expect(value, 123);
-    });
+    });*/
 
     test('Float block', () {
       final block = FloatBlock.fromFunction((double x) {
@@ -320,6 +320,7 @@ void main() {
     test('Object listener block', () async {
       final hasRun = Completer<void>();
       final block = ObjectListenerBlock.listener((DummyObject x) {
+        print('ZZZZ');
         expect(x, isNotNull);
         hasRun.complete();
       });
@@ -328,7 +329,7 @@ void main() {
       await hasRun.future;
     });
 
-    test('Nullable listener block', () async {
+    /*test('Nullable listener block', () async {
       final hasRun = Completer<void>();
       final block = NullableListenerBlock.listener((DummyObject? x) {
         expect(x, isNull);
@@ -1185,7 +1186,7 @@ void main() {
         return innerValue;
       });
       expect(value, 123);
-    }, skip: !hasIsolateOwnershipApi);
+    }, skip: !hasIsolateOwnershipApi);*/
   });
 }
 

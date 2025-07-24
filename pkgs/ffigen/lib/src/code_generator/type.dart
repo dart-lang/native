@@ -114,6 +114,10 @@ abstract class Type extends AstNode {
   /// Returns null if the Type does not need to be retained.
   String? generateRetain(String value) => null;
 
+  /// Returns generated Dart code that retains a reference to the given value.
+  /// Returns null if the Type does not need to be retained.
+  String? generateDartRetain(Writer w, String value) => null;
+
   /// Returns a human readable string representation of the Type. This is mostly
   /// just for debugging, but it may also be used for non-functional code (eg to
   /// name a variable or type in generated code).
@@ -229,6 +233,9 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String? generateRetain(String value) => null;
+
+  @override
+  String? generateDartRetain(Writer w, String value) => null;
 
   @override
   String toString() => originalName;

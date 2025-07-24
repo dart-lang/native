@@ -215,6 +215,10 @@ ${generateAsStub ? '' : _generateMethods(w)}
       '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
+  String? generateDartRetain(Writer w, String value) =>
+      '${ObjCBuiltInFunctions.objectRetain.gen(w)}($value)';
+
+  @override
   void visit(Visitation visitation) => visitation.visitObjCInterface(this);
 
   @override

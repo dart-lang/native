@@ -155,6 +155,10 @@ class ObjCObjectPointer extends PointerType {
       '(__bridge id)(__bridge_retained void*)($value)';
 
   @override
+  String? generateDartRetain(Writer w, String value) =>
+      '${ObjCBuiltInFunctions.objectRetain.gen(w)}($value)';
+
+  @override
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     // id/Object* is a supertype of all ObjC objects and blocks.
@@ -176,6 +180,10 @@ class ObjCBlockPointer extends ObjCObjectPointer {
 
   @override
   String? generateRetain(String value) => 'objc_retainBlock($value)';
+
+  @override
+  String? generateDartRetain(Writer w, String value) =>
+      '${ObjCBuiltInFunctions.blockRetain.gen(w)}($value.cast()).cast()';
 
   @override
   bool isSupertypeOf(Type other) {
