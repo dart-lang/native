@@ -322,7 +322,7 @@ function UploadFiles() {
                   </Button>
                 )}
               />
-              <Button width="full" onClick={onConfirm} loading={isLoading()}>
+              <Button flexGrow={1} onClick={onConfirm} loading={isLoading()}>
                 Confirm
               </Button>
             </HStack>
