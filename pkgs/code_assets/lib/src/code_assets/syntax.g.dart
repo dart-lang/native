@@ -1150,8 +1150,35 @@ class JsonReader {
     return result;
   }
 
+  List<String> validateMapStringElements<T extends Object?>(
+    Map<String, String?> map_,
+    String parentKey, {
+    RegExp? valuePattern,
+  }) {
+    final result = <String>[];
+    for (final MapEntry(:key, :value) in map_.entries) {
+      if (value != null &&
+          valuePattern != null &&
+          !valuePattern.hasMatch(value)) {
+        result.add(
+          errorString(value, T, [parentKey, key], pattern: valuePattern),
+        );
+      }
+    }
+    return result;
+  }
+
   String string(String key, RegExp? pattern) {
     final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      throwFormatException(value, String, [key], pattern: pattern);
+    }
+    return value;
+  }
+
+  String? optionalString(String key, RegExp? pattern) {
+    final value = get<String?>(key);
+    if (value == null) return null;
     if (pattern != null && !pattern.hasMatch(value)) {
       throwFormatException(value, String, [key], pattern: pattern);
     }
@@ -1164,6 +1191,21 @@ class JsonReader {
       return errors;
     }
     final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      return [
+        errorString(value, String, [key], pattern: pattern),
+      ];
+    }
+    return [];
+  }
+
+  List<String> validateOptionalString(String key, RegExp? pattern) {
+    final errors = validate<String?>(key);
+    if (errors.isNotEmpty) {
+      return errors;
+    }
+    final value = get<String?>(key);
+    if (value == null) return [];
     if (pattern != null && !pattern.hasMatch(value)) {
       return [
         errorString(value, String, [key], pattern: pattern),
@@ -1292,12 +1334,31 @@ extension<K extends Comparable<K>, V extends Object?> on Map<K, V> {
 
 void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
   if (map == null) return;
+  if (keyPattern == null) return;
   for (final key in map.keys) {
-    if (keyPattern != null && !keyPattern.hasMatch(key)) {
+    if (!keyPattern.hasMatch(key)) {
       throw ArgumentError.value(
         map,
         "Unexpected key '$key'."
         ' Expected a key satisfying ${keyPattern.pattern}.',
+      );
+    }
+  }
+}
+
+void _checkArgumentMapStringElements(
+  Map<String, String?>? map, {
+  RegExp? valuePattern,
+}) {
+  if (map == null) return;
+  if (valuePattern == null) return;
+  for (final entry in map.entries) {
+    final value = entry.value;
+    if (value != null && !valuePattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        map,
+        "Unexpected value '$value' under key '${entry.key}'."
+        ' Expected a value satisfying ${valuePattern.pattern}.',
       );
     }
   }
