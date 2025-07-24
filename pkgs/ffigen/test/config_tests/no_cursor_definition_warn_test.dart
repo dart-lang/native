@@ -28,7 +28,7 @@ ${strings.structs}:
     - 'D'
     - 'E'
         ''');
-      parse(config);
+      parse(testContext(config));
       logString = logArr.join('\n');
     });
     test('No warning for missing cursor definition.', () {

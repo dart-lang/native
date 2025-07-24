@@ -17,7 +17,8 @@ void main() {
       logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Nested Parsing Test'
 ${strings.output}: 'unused'
@@ -28,6 +29,7 @@ ${strings.structs}:
   ${strings.exclude}:
     - Struct2
         '''),
+        ),
       );
     });
 
@@ -102,6 +104,7 @@ Library expectedLibrary() {
     members: [CompoundMember(name: 'd', type: floatType)],
   );
   return Library(
+    context: testContext(),
     name: 'Bindings',
     bindings: [
       unnamedInternalStruct,

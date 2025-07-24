@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'https://github.com/dart-lang/ffigen/issues/384'
 ${strings.output}: 'unused'
@@ -25,6 +26,7 @@ ${strings.headers}:
     - '${absPath('test/header_parser_tests/regress_384_header_1.h')}'
     - '${absPath('test/header_parser_tests/regress_384_header_2.h')}'
         '''),
+        ),
       );
     });
 

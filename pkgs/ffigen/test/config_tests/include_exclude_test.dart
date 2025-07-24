@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -27,7 +28,7 @@ void main() {
           field: f,
           include: fieldsAndNameMap[f],
         );
-        final library = parse(config);
+        final library = parse(testContext(config));
         expect(library.getBinding(fieldsAndNameMap[f]!), isNotNull);
       });
       test('exclude $f', () {
@@ -35,7 +36,7 @@ void main() {
           field: f,
           exclude: fieldsAndNameMap[f],
         );
-        final library = parse(config);
+        final library = parse(testContext(config));
         expect(() => library.getBinding(fieldsAndNameMap[f]!), throwsException);
       });
     }
