@@ -663,7 +663,7 @@ sealed class AssetRouting {}
 ///  * [ToAppBundle]: From link hook to the application Bundle.
 sealed class LinkAssetRouting {}
 
-/// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the SDK
+/// Assets with this [AssetRouting] in the [HookOutput] will be sent to the SDK
 /// to be bundled with the app.
 final class ToAppBundle implements AssetRouting, LinkAssetRouting {
   /// Creates a [ToAppBundle].
@@ -689,7 +689,7 @@ final class ToBuildHooks implements AssetRouting {
   const ToBuildHooks();
 }
 
-/// Assets with this [AssetRouting] in the [BuildOutput] will be sent to the
+/// Assets with this [AssetRouting] in the [HookOutput] will be sent to the
 /// link hook of [packageName].
 ///
 /// The assets are only available to the link hook of [packageName].
