@@ -173,6 +173,8 @@ final class ObjCBlockImpl extends ffi.Struct {
 
   @ffi.Int64()
   external int dispose_port;
+
+  external ffi.Pointer<ffi.Void> trampoline;
 }
 
 final class ObjCObject extends ffi.Opaque {}

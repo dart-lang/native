@@ -28,6 +28,7 @@ typedef struct _ObjCBlockImpl {
   // Captured variables follow. These are specific to our use case.
   void *target;
   Dart_Port dispose_port;
+  void* trampoline;
 } ObjCBlockImpl;
 
 // Initialize the Dart API.
