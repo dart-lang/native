@@ -658,6 +658,9 @@ sealed class AssetRouting {}
 
 /// The destination for assets in the [LinkOutput].
 ///
+/// An asset can be either sent to other link hooks with [ToLinkHook] or
+/// directly to the application Bundle with [ToAppBundle].
+///
 /// Currently supported routings:
 ///  * [ToLinkHook]: From link hook to another depending link hook.
 ///  * [ToAppBundle]: From link hook to the application Bundle.
