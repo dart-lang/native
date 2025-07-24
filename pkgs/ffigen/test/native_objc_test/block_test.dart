@@ -20,7 +20,7 @@ import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
-import 'block_bindings.dart';
+import 'block_bindings.dart' hide ObjCBlock_ffiVoid, ObjCBlock_ffiVoid_CallExtension;
 import 'util.dart';
 
 typedef IntBlock = ObjCBlock_Int32_Int32;

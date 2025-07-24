@@ -31,6 +31,7 @@ dependencies:
   package_config: ^2.1.0
   path: ^1.8.0
   pub_semver: ^2.1.4
+  objective_c: ^8.1.0
   quiver: ^3.0.0
   yaml: ^3.0.0
   yaml_edit: ^2.0.3
@@ -40,7 +41,6 @@ dev_dependencies:
   dart_flutter_team_lints: ^2.0.0
   json_schema: ^5.1.1
   leak_tracker: ^10.0.7
-  objective_c: ^8.1.0
   test: ^1.26.2
 
 dependency_overrides:
