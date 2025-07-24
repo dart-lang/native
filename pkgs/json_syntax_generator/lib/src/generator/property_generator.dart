@@ -216,26 +216,37 @@ List<String> $validateName() => _reader.validate<$dartType>('$jsonKey');
     final validateName = property.validateName;
     final valueType = dartType.valueType;
 
+    final pattern = (dartType.keyType as StringDartType).pattern;
+    var keyPattern = '';
+
+    if (pattern != null) {
+      buffer.writeln('''
+static final _${fieldName}KeyPattern = RegExp(r'${pattern.pattern}');
+''');
+      keyPattern = 'keyPattern: _${fieldName}KeyPattern,';
+    }
+
     switch (valueType) {
       case MapDartType():
         buffer.writeln('''
 $dartType get $fieldName =>
-  _reader.optionalMap<${dartType.valueType}>('$jsonKey');
+  _reader.optionalMap<${dartType.valueType}>('$jsonKey', $keyPattern);
 
 set $setterName($dartType value) {
+  _checkArgumentMapKeys(value, $keyPattern);
   json.setOrRemove('$jsonKey', value);
   $sortOnKey
 }
 
 List<String> $validateName() =>
-  _reader.validateOptionalMap<${dartType.valueType}>('$jsonKey');
+  _reader.validateOptionalMap<${dartType.valueType}>('$jsonKey', $keyPattern);
 ''');
       case ListDartType():
         final itemType = valueType.itemType;
         final typeName = itemType.toString();
         buffer.writeln('''
 $dartType get $fieldName {
-  final jsonValue = _reader.optionalMap('$jsonKey');
+  final jsonValue = _reader.optionalMap('$jsonKey', $keyPattern);
   if (jsonValue == null) {
     return null;
   }
@@ -253,6 +264,7 @@ $dartType get $fieldName {
 }
 
 set $setterName($dartType value) {
+  _checkArgumentMapKeys(value, $keyPattern);
   if (value == null) {
     json.remove('$jsonKey');
   } else {
@@ -268,7 +280,7 @@ set $setterName($dartType value) {
 }
 
 List<String> $validateName() {
-  final mapErrors = _reader.validateOptionalMap('$jsonKey');
+  final mapErrors = _reader.validateOptionalMap('$jsonKey', $keyPattern);
   if (mapErrors.isNotEmpty) {
     return mapErrors;
   }
@@ -292,7 +304,7 @@ List<String> $validateName() {
         final typeName = itemType.toString();
         buffer.writeln('''
 $dartType get $fieldName {
-  final jsonValue = _reader.optionalMap('$jsonKey');
+  final jsonValue = _reader.optionalMap('$jsonKey', $keyPattern);
   if (jsonValue == null) {
     return null;
   }
@@ -306,6 +318,7 @@ $dartType get $fieldName {
 }
 
 set $setterName($dartType value) {
+  _checkArgumentMapKeys(value, $keyPattern);
   if (value == null) {
     json.remove('$jsonKey');
   } else {
@@ -317,7 +330,7 @@ set $setterName($dartType value) {
 }
 
 List<String> $validateName() {
-  final mapErrors = _reader.validateOptionalMap('$jsonKey');
+  final mapErrors = _reader.validateOptionalMap('$jsonKey', $keyPattern);
   if (mapErrors.isNotEmpty) {
     return mapErrors;
   }

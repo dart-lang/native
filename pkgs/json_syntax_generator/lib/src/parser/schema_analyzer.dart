@@ -327,8 +327,16 @@ class SchemaAnalyzer {
           dartType = StringDartType(isNullable: !required, pattern: pattern);
         }
       case SchemaType.object:
-        final additionalPropertiesSchema = schemas.additionalPropertiesSchemas;
+        final additionalPropertiesSchema =
+            schemas.additionalPropertiesSchemas.isNotEmpty
+            ? schemas.additionalPropertiesSchemas
+            : schemas.patternPropertiesSchemas.values.firstOrNull ??
+                  JsonSchemas._([]);
         if (schemas.generateMapOf) {
+          final keyDartType = StringDartType(
+            isNullable: false,
+            pattern: schemas.patternPropertiesSchemas.keys.firstOrNull,
+          );
           final additionalPropertiesType = additionalPropertiesSchema.type;
           switch (additionalPropertiesType) {
             case SchemaType.array:
@@ -339,6 +347,7 @@ class SchemaAnalyzer {
                   _analyzeClass(items);
                   final itemClass = _classes[items.className]!;
                   dartType = MapDartType(
+                    keyType: keyDartType,
                     valueType: ListDartType(
                       itemType: ClassDartType(
                         classInfo: itemClass,
@@ -358,11 +367,13 @@ class SchemaAnalyzer {
                 _analyzeClass(additionalPropertiesSchema);
                 final clazz = _classes[additionalPropertiesSchema.className]!;
                 dartType = MapDartType(
+                  keyType: keyDartType,
                   valueType: ClassDartType(classInfo: clazz, isNullable: false),
                   isNullable: !required,
                 );
               } else {
                 dartType = MapDartType(
+                  keyType: keyDartType,
                   valueType: const MapDartType(
                     valueType: ObjectDartType(isNullable: true),
                     isNullable: false,
@@ -592,6 +603,17 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
     return result.singleOrNull;
   }
 
+  Map<RegExp, JsonSchemas> get patternPropertiesSchemas {
+    final result = <RegExp, JsonSchemas>{};
+    for (final schema in _schemas) {
+      final additionalPropertiesSchema = schema.patternProperties;
+      for (final entry in additionalPropertiesSchema.entries) {
+        result[entry.key] = JsonSchemas(entry.value);
+      }
+    }
+    return result;
+  }
+
   bool get isNotEmpty => _schemas.isNotEmpty;
 
   List<List<JsonSchemas>> get anyOfs {
@@ -667,7 +689,8 @@ extension on JsonSchemas {
   bool get generateMapOf =>
       type == SchemaType.object &&
       (additionalPropertiesSchemas.isNotEmpty ||
-          additionalPropertiesBool == true);
+          additionalPropertiesBool == true ||
+          patternPropertiesSchemas.isNotEmpty);
 
   bool get generateSubClasses => generateSubClassesKey != null;
 

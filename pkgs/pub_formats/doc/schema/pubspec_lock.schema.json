@@ -170,8 +170,11 @@
         "packages": {
           "description": "Details of the locked packages.",
           "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/Package"
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-zA-Z_]\\w*$": {
+              "$ref": "#/definitions/Package"
+            }
           }
         },
         "sdks": {

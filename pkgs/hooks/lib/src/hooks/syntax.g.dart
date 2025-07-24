@@ -165,6 +165,7 @@ class BuildInputSyntax extends HookInputSyntax {
   }
 
   set _assets(Map<String, List<AssetSyntax>>? value) {
+    _checkArgumentMapKeys(value);
     if (value == null) {
       json.remove('assets');
     } else {
@@ -292,6 +293,7 @@ class BuildOutputSyntax extends HookOutputSyntax {
   }
 
   set assetsForLinking(Map<String, List<AssetSyntax>>? value) {
+    _checkArgumentMapKeys(value);
     if (value == null) {
       json.remove('assets_for_linking');
     } else {
@@ -1102,24 +1104,47 @@ class JsonReader {
     return result;
   }
 
-  Map<String, T> map$<T extends Object?>(String key) =>
-      _castMap<T>(get<Map<String, Object?>>(key), key);
+  Map<String, T> map$<T extends Object?>(String key, {RegExp? keyPattern}) {
+    final map = get<Map<String, Object?>>(key);
+    final keyErrors = _validateMapKeys(map, key, keyPattern: keyPattern);
+    if (keyErrors.isNotEmpty) {
+      throw FormatException(keyErrors.join('\n'));
+    }
+    return _castMap<T>(map, key);
+  }
 
-  List<String> validateMap<T extends Object?>(String key) {
+  List<String> validateMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
     final mapErrors = validate<Map<String, Object?>>(key);
     if (mapErrors.isNotEmpty) {
       return mapErrors;
     }
-    return _validateMapElements<T>(get<Map<String, Object?>>(key), key);
+    final map = get<Map<String, Object?>>(key);
+    return [
+      ..._validateMapKeys(map, key, keyPattern: keyPattern),
+      ..._validateMapElements<T>(map, key),
+    ];
   }
 
-  Map<String, T>? optionalMap<T extends Object?>(String key) =>
-      switch (get<Map<String, Object?>?>(key)) {
-        null => null,
-        final m => _castMap<T>(m, key),
-      };
+  Map<String, T>? optionalMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
+    final map = get<Map<String, Object?>?>(key);
+    if (map == null) return null;
+    final keyErrors = _validateMapKeys(map, key, keyPattern: keyPattern);
+    if (keyErrors.isNotEmpty) {
+      throw FormatException(keyErrors.join('\n'));
+    }
+    return _castMap<T>(map, key);
+  }
 
-  List<String> validateOptionalMap<T extends Object?>(String key) {
+  List<String> validateOptionalMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
     final mapErrors = validate<Map<String, Object?>?>(key);
     if (mapErrors.isNotEmpty) {
       return mapErrors;
@@ -1128,7 +1153,10 @@ class JsonReader {
     if (map == null) {
       return [];
     }
-    return _validateMapElements<T>(map, key);
+    return [
+      ..._validateMapKeys(map, key, keyPattern: keyPattern),
+      ..._validateMapElements<T>(map, key),
+    ];
   }
 
   /// [Map.cast] but with [FormatException]s.
@@ -1142,6 +1170,23 @@ class JsonReader {
       }
     }
     return map_.cast();
+  }
+
+  List<String> _validateMapKeys(
+    Map<String, Object?> map_,
+    String parentKey, {
+    required RegExp? keyPattern,
+  }) {
+    if (keyPattern == null) return [];
+    final result = <String>[];
+    for (final key in map_.keys) {
+      if (!keyPattern.hasMatch(key)) {
+        result.add(
+          keyErrorString(key, pattern: keyPattern, pathExtension: [parentKey]),
+        );
+      }
+    }
+    return result;
   }
 
   List<String> _validateMapElements<T extends Object?>(
@@ -1248,6 +1293,16 @@ class JsonReader {
         ' Expected a $expectedType$satisfying.';
   }
 
+  String keyErrorString(
+    String key, {
+    required RegExp pattern,
+    List<Object> pathExtension = const [],
+  }) {
+    final pathString = _jsonPathToString(pathExtension);
+    return "Unexpected key '$key' in '$pathString'."
+        ' Expected a key satisfying ${pattern.pattern}.';
+  }
+
   /// Traverses a JSON path, returns `null` if the path cannot be traversed.
   Object? tryTraverse(List<String> path) {
     Object? json = this.json;
@@ -1284,5 +1339,18 @@ extension<K extends Comparable<K>, V extends Object?> on Map<K, V> {
     }
     clear();
     addAll(result);
+  }
+}
+
+void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
+  if (map == null) return;
+  for (final key in map.keys) {
+    if (keyPattern != null && !keyPattern.hasMatch(key)) {
+      throw ArgumentError.value(
+        map,
+        "Unexpected key '$key'."
+        ' Expected a key satisfying ${keyPattern.pattern}.',
+      );
+    }
   }
 }

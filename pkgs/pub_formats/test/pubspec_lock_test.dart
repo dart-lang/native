@@ -49,13 +49,14 @@ void main() {
 
     final description = HostedPackageDescriptionSyntax.fromJson(
       package.description.json,
+      path: package.description.path,
     );
     final errorsDescription = description.validate();
     expect(
       errorsDescription,
       equals([
-        "Unexpected value 'not a valid name' (String) for 'name'. Expected a String satisfying ^[a-zA-Z_]\\w*\$.",
-        "Unexpected value 'not a valid sha' (String) for 'sha256'. Expected a String satisfying ^[a-f0-9]{64}\$.",
+        "Unexpected value 'not a valid name' (String) for 'dart_apitool.description.name'. Expected a String satisfying ^[a-zA-Z_]\\w*\$.",
+        "Unexpected value 'not a valid sha' (String) for 'dart_apitool.description.sha256'. Expected a String satisfying ^[a-f0-9]{64}\$.",
       ]),
     );
     expect(() => description.sha256, throwsFormatException);
@@ -74,6 +75,53 @@ void main() {
         name: 'my_package',
         sha256: 'notASha256',
         url: 'https://pub.dev',
+      ),
+      throwsArgumentError,
+    );
+  });
+
+  test('pubspec lock errors', () {
+    final packageRoot = findPackageRoot('pub_formats');
+    final pubspecFile = File.fromUri(
+      packageRoot.resolve('test_data/pubspec_lock_errors_2.yaml'),
+    );
+    final json = _convertYamlMapToJsonMap(
+      loadYaml(pubspecFile.readAsStringSync()),
+    );
+    final parsed = PubspecLockFileSyntax.fromJson(json);
+    final errors = parsed.validate();
+    expect(
+      errors,
+      equals([
+        "Unexpected key 'not a valid package name' in 'packages'. Expected a key satisfying ^[a-zA-Z_]\\w*\$.",
+      ]),
+    );
+
+    expect(() => parsed.packages, throwsFormatException);
+
+    final packageSyntax = PackageSyntax(
+      dependency: DependencyTypeSyntax.directMain,
+      description: HostedPackageDescriptionSyntax(
+        name: 'valid_package_name',
+        sha256:
+            '2fde1607386ab523f7a36bb3e7edb43bd58e6edaf2ffb29d8a6d578b297fdbbd',
+        url: 'https://pub.dev',
+      ),
+      source: PackageSourceSyntax.hosted,
+      version: '1.2.3',
+    );
+    final sdKsSyntax = SDKsSyntax(dart: '1.2.3');
+    expect(
+      () => PubspecLockFileSyntax(
+        sdks: sdKsSyntax,
+        packages: {'valid_package_name': packageSyntax},
+      ),
+      isNot(throwsArgumentError),
+    );
+    expect(
+      () => PubspecLockFileSyntax(
+        sdks: sdKsSyntax,
+        packages: {'not a valid package name': packageSyntax},
       ),
       throwsArgumentError,
     );
