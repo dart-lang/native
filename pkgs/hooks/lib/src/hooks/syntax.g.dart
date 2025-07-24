@@ -269,55 +269,6 @@ class BuildOutputSyntax extends HookOutputSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
-  Map<String, List<AssetSyntax>>? get assetsForLinking {
-    final jsonValue = _reader.optionalMap('assets_for_linking');
-    if (jsonValue == null) {
-      return null;
-    }
-    final result = <String, List<AssetSyntax>>{};
-    for (final MapEntry(:key, :value) in jsonValue.entries) {
-      result[key] = [
-        for (final (index, item) in (value as List<Object?>).indexed)
-          AssetSyntax.fromJson(
-            item as Map<String, Object?>,
-            path: [...path, key, index],
-          ),
-      ];
-    }
-    return result;
-  }
-
-  set assetsForLinking(Map<String, List<AssetSyntax>>? value) {
-    _checkArgumentMapKeys(value);
-    if (value == null) {
-      json.remove('assets_for_linking');
-    } else {
-      json['assets_for_linking'] = {
-        for (final MapEntry(:key, :value) in value.entries)
-          key: [for (final item in value) item.json],
-      };
-    }
-    json.sortOnKey();
-  }
-
-  List<String> _validateAssetsForLinking() {
-    final mapErrors = _reader.validateOptionalMap('assets_for_linking');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    final jsonValue = _reader.optionalMap('assets_for_linking');
-    if (jsonValue == null) {
-      return [];
-    }
-    final result = <String>[];
-    for (final list in assetsForLinking!.values) {
-      for (final element in list) {
-        result.addAll(element.validate());
-      }
-    }
-    return result;
-  }
-
   @override
   List<String> validate() => [
     ...super.validate(),
@@ -638,6 +589,7 @@ class HookOutputSyntax extends JsonObjectSyntax {
   }
 
   set assetsForLinking(Map<String, List<AssetSyntax>>? value) {
+    _checkArgumentMapKeys(value);
     if (value == null) {
       json.remove('assets_for_linking');
     } else {
