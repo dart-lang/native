@@ -121,10 +121,21 @@ mixin ObjCMethods {
     _methods = newMethods;
   }
 
-  String generateMethodBindings(Writer w, ObjCInterface target) {
+  String generateMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, null);
+
+  String generateStaticMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, true);
+
+  String generateInstanceMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, false);
+
+  String _generateMethods(Writer w, ObjCInterface target, bool? staticMethods) {
     final methodNamer = createMethodRenamer(w);
     return [
-      for (final m in methods) m.generateBindings(w, target, methodNamer),
+      for (final m in methods)
+        if (staticMethods == null || staticMethods == m.isClassMethod)
+          m.generateBindings(w, target, methodNamer),
     ].join('\n');
   }
 }
@@ -368,7 +379,7 @@ class ObjCMethod extends AstNode {
   }
 
   static String _paramToStr(Writer w, Parameter p) =>
-      '${p.isCovariant ? 'covariant ' : ''}${p.type.getDartType(w)} ${p.name}';
+      '${p.type.getDartType(w)} ${p.name}';
 
   static String _paramToNamed(Writer w, Parameter p) =>
       '${p.isNullable ? '' : 'required '}${_paramToStr(w, p)}';

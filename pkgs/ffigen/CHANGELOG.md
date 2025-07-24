@@ -4,8 +4,16 @@
   `Config` classes. Rename `FfiGen.run` to `.generate`, and make it an extension
   method on the `Config` class. So `FfiGen().run(config)` becomes
   `config.generate(logger)`.
-- `dart run ffigen <configYaml>` is now allowed, and is equivalent to
-  `dart run ffigen --config <configYaml>`.
+- __Breaking change__: Minor breaking change in the way that ObjC interface
+  methods are generated. Interface methods are now generated as extension
+  methods instead of being part of the class. This shouldn't require any code
+  changes unless you are using `show` or `hide` when importing the interface.
+  - If you are using `show`/`hide` to show or hide a particular interface, eg
+    `Foo`, you'll now also need to show or hide `Foo$Methods`.
+  - In rare cases the runtime type of the Dart wrapper object around the ObjC
+    object may change, but the underlying ObjC object will still be the same.
+    In any case, you should be using `Foo.isInstance(x)` instead of `x is Foo`
+    to check the runtime type of an ObjC object.
 
 ## 19.1.0
 

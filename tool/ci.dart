@@ -58,6 +58,7 @@ void main(List<String> arguments) async {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
+      'pkgs/pub_formats/tool/generate.dart',
     ];
     for (final generator in generators) {
       _runProcess('dart', [generator, '--set-exit-if-changed']);
@@ -83,7 +84,7 @@ void main(List<String> arguments) async {
           'pkgs/hooks/example/build/$exampleWithTest/',
         ),
         'dart',
-        ['--enable-experiment=native-assets', 'test'],
+        ['test'],
       );
     }
 
@@ -92,19 +93,14 @@ void main(List<String> arguments) async {
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      ['--enable-experiment=native-assets', 'run'],
+      ['run'],
     );
     _runProcess(
       workingDirectory: repositoryRoot.resolve(
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      [
-        '--enable-experiment=native-assets',
-        'build',
-        'cli',
-        'bin/native_add_app.dart',
-      ],
+      ['build', 'cli', 'bin/native_add_app.dart'],
     );
     _runProcess(
       repositoryRoot

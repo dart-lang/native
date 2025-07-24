@@ -15,8 +15,8 @@ import '../../ffigen.dart';
 
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 final logger = () {
-  final logger = Logger('ffigen.ffigen');
-  logger.onRecord.listen((record) {
+  final l = Logger('ffigen.ffigen');
+  l.onRecord.listen((record) {
     final levelStr = '[${record.level.name}]'.padRight(9);
     final log = '$levelStr: ${record.message}';
     if (record.level < Level.SEVERE) {
@@ -25,7 +25,7 @@ final logger = () {
       print('${_ansi.red}$log${_ansi.none}');
     }
   });
-  return logger;
+  return l;
 }();
 
 const compilerOpts = 'compiler-opts';
@@ -65,9 +65,8 @@ FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
   YamlConfig config;
 
   // Parse config from yaml.
-  final configOption = (result[conf] as String?) ?? result.rest.firstOrNull;
-  if (configOption != null) {
-    config = getConfigFromCustomYaml(configOption, packageConfig);
+  if (result.wasParsed(conf)) {
+    config = getConfigFromCustomYaml(result[conf] as String, packageConfig);
   } else {
     config = getConfigFromPubspec(packageConfig);
   }

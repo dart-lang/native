@@ -88,7 +88,10 @@ void main() {
 
       parent = BadOverrideChild();
       expect(parent.covariantArg(square).toDartString(), 'Rectangle: Square');
-      expect(() => parent.covariantArg(triangle), throwsA(isA<TypeError>()));
+      expect(
+        parent.covariantArg(triangle).toDartString(),
+        'Rectangle: Triangle',
+      );
     });
   });
 }

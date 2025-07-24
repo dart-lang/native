@@ -115,10 +115,20 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
       {bool retain = false, bool release = false}) :
       this._(other, retain: retain, release: release);
 
-${generateAsStub ? '' : _generateMethods(w)}
+${generateAsStub ? '' : _generateStaticMethods(w)}
 }
 
 ''');
+
+    if (!generateAsStub) {
+      final extName = w.topLevelUniqueNamer.makeUnique('$name\$Methods');
+      s.write('''
+extension $extName on $name {
+${generateInstanceMethodBindings(w, this)}
+}
+
+''');
+    }
 
     return BindingString(
       type: BindingStringType.objcInterface,
@@ -126,7 +136,7 @@ ${generateAsStub ? '' : _generateMethods(w)}
     );
   }
 
-  String _generateMethods(Writer w) {
+  String _generateStaticMethods(Writer w) {
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
     final s = StringBuffer();
 
@@ -136,7 +146,8 @@ ${generateAsStub ? '' : _generateMethods(w)}
     return ${_isKindOfClassMsgSend.invoke(w, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
   }
 ''');
-    s.write(generateMethodBindings(w, this));
+
+    s.write(generateStaticMethodBindings(w, this));
 
     final newMethod = methods
         .where(

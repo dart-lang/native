@@ -7,6 +7,8 @@
 - Bump minimum Dart version to 3.8.0.
 - Support the KVO pattern by adding `Observer`, `Observation`, and
   `NSObject.addObserver`.
+- Remove a reference cycle between Dart and the `NSInputStream` returned by
+  `toNSInputStream`.
 
 ## 8.0.0
 
