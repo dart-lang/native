@@ -28,6 +28,7 @@ void main(List<String> arguments) {
     Directory.fromUri(packageUri),
     Directory.fromUri(packageUri.resolve('../code_assets/')),
     Directory.fromUri(packageUri.resolve('../data_assets/')),
+    Directory.fromUri(packageUri.resolve('../pub_formats/')),
   ];
   for (final directory in directories) {
     final result = processDirectory(directory);

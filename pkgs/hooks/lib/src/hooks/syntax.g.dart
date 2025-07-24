@@ -1157,6 +1157,28 @@ class JsonReader {
     return result;
   }
 
+  String string(String key, RegExp? pattern) {
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      throwFormatException(value, String, [key], pattern: pattern);
+    }
+    return value;
+  }
+
+  List<String> validateString(String key, RegExp? pattern) {
+    final errors = validate<String>(key);
+    if (errors.isNotEmpty) {
+      return errors;
+    }
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      return [
+        errorString(value, String, [key], pattern: pattern),
+      ];
+    }
+    return [];
+  }
+
   List<String>? optionalStringList(String key) => optionalList<String>(key);
 
   List<String> validateOptionalStringList(String key) =>
@@ -1202,23 +1224,28 @@ class JsonReader {
   Never throwFormatException(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
-    throw FormatException(errorString(value, expectedType, pathExtension));
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
+    throw FormatException(
+      errorString(value, expectedType, pathExtension, pattern: pattern),
+    );
   }
 
   String errorString(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
     final pathString = _jsonPathToString(pathExtension);
     if (value == null) {
       return "No value was provided for '$pathString'."
           ' Expected a $expectedType.';
     }
+    final satisfying = pattern == null ? '' : ' satisfying ${pattern.pattern}';
     return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
-        ' Expected a $expectedType.';
+        ' Expected a $expectedType$satisfying.';
   }
 
   /// Traverses a JSON path, returns `null` if the path cannot be traversed.

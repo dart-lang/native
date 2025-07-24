@@ -162,6 +162,33 @@ List<String> $validateName() {
     final fieldName = property.name;
     final validateName = property.validateName;
 
+    if (dartType is StringDartType && dartType.pattern != null) {
+      if (dartType.isNullable) {
+        throw UnimplementedError();
+      }
+      final pattern = dartType.pattern!;
+      buffer.writeln('''
+static final _${fieldName}Pattern = RegExp(r'${pattern.pattern}');
+
+$dartType get $fieldName => _reader.string('$jsonKey', _${fieldName}Pattern);
+
+set $setterName($dartType value) {
+  if (!_${fieldName}Pattern.hasMatch(value)) {
+    throw ArgumentError.value(
+      value,
+      'value',
+      'Value does not satisify pattern: \${_${fieldName}Pattern.pattern}.',
+    );
+  }
+  json.setOrRemove('$jsonKey', value);
+  $sortOnKey
+}
+
+List<String> $validateName() => _reader.validateString('$jsonKey', _${fieldName}Pattern);
+''');
+      return;
+    }
+
     buffer.writeln('''
 $dartType get $fieldName => _reader.get<$dartType>('$jsonKey');
 

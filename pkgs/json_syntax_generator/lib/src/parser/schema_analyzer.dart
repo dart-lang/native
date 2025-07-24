@@ -320,7 +320,11 @@ class SchemaAnalyzer {
           final classInfo = _classes[schemas.className]!;
           dartType = ClassDartType(classInfo: classInfo, isNullable: !required);
         } else {
-          dartType = StringDartType(isNullable: !required);
+          if (schemas.patterns.length > 1) {
+            throw UnsupportedError('Only one pattern is supported.');
+          }
+          final pattern = schemas.patterns.firstOrNull;
+          dartType = StringDartType(isNullable: !required, pattern: pattern);
         }
       case SchemaType.object:
         final additionalPropertiesSchema = schemas.additionalPropertiesSchemas;
@@ -690,7 +694,20 @@ extension on JsonSchemas {
   bool get generateClass => type == SchemaType.object && !generateMapOf;
 
   /// Generate getters/setters as `Uri`.
-  bool get generateUri => type == SchemaType.string && patterns.isNotEmpty;
+  bool get generateUri {
+    if (!stringWithPattern) return false;
+    if (patterns.length != 1) return false;
+    final pattern = patterns.single;
+    if (pattern.pattern == '^(\\/|[A-Za-z]:)' ||
+        pattern.pattern == '^([A-Za-z])') {
+      // Patterns for a file path.
+      return true;
+    }
+    return false;
+  }
+
+  bool get stringWithPattern =>
+      type == SchemaType.string && patterns.isNotEmpty;
 
   static String? _pathToClassName(String path) {
     if (path.contains('#/definitions/')) {

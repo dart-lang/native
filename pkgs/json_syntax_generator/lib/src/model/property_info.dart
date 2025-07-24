@@ -49,7 +49,7 @@ class PropertyInfo {
 PropertyInfo(
   name: $name,
   jsonKey: $jsonKey,
-  type: $type,
+  type: ${type.toSerializedString()},
   isOverride: $isOverride,
   setterPrivate: $setterPrivate,
 )''';
