@@ -412,8 +412,8 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive,
   {VoidPtr? trampoline}) =>
     _newBlock(
       invoke,
-      trampoline ?? nullptr,
       _registerBlockClosure(fn, keepIsolateAlive),
+      trampoline ?? nullptr,
       _closureBlockDesc,
       _blockClosureDisposer.sendPort.nativePort,
       _blockHasCopyDispose,

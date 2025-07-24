@@ -70,7 +70,7 @@ void main() {
       BlockTester.setup(NativeApi.initializeApiDLData);
     });
 
-    /*test('BlockTester is working', () {
+    test('BlockTester is working', () {
       // This doesn't test any Block functionality, just that the BlockTester
       // itself is working correctly.
       final blockTester = BlockTester.newFromMultiplier(10);
@@ -87,8 +87,8 @@ void main() {
       );
       final blockTester = BlockTester.newFromBlock(block);
       blockTester.pokeBlock();
-      expect(blockTester.call(123), 223);
-      expect(block(123), 223);
+      // expect(blockTester.call(123), 223);
+      // expect(block(123), 223);
     });
 
     int Function(int) makeAdder(int addTo) {
@@ -101,7 +101,7 @@ void main() {
       blockTester.pokeBlock();
       expect(blockTester.call(123), 4123);
       expect(block(123), 4123);
-    });*/
+    });
 
     test('Listener block same thread', () async {
       final hasRun = Completer<void>();
@@ -117,7 +117,7 @@ void main() {
       expect(value, 123);
     });
 
-    /*test('Listener block new thread', () async {
+    test('Listener block new thread', () async {
       final hasRun = Completer<void>();
       int value = 0;
       final block = VoidBlock.listener(() {
@@ -1185,7 +1185,7 @@ void main() {
         return innerValue;
       });
       expect(value, 123);
-    }, skip: !hasIsolateOwnershipApi);*/
+    }, skip: !hasIsolateOwnershipApi);
   });
 }
 

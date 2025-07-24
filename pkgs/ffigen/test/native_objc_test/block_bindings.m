@@ -50,6 +50,13 @@ id objc_retainBlock(id);
 
 
 typedef void  (^ListenerTrampoline)();
+__attribute__((visibility("default"))) __attribute__((used))
+ListenerTrampoline _BlockTestObjCLibrary_wrapListenerBlock_1pl9qdv(ListenerTrampoline block) NS_RETURNS_RETAINED {
+  return ^void() {
+    objc_retainBlock(block);
+    block();
+  };
+}
 
 typedef void  (^BlockingTrampoline)(void * waiter);
 __attribute__((visibility("default"))) __attribute__((used))
