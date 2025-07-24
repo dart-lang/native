@@ -15,6 +15,7 @@ export default defineConfig({
       allow: [".."],
     },
   },
+  base: "/ffigenpad",
   build: {
     target: "esnext",
   },
