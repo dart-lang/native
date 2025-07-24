@@ -147,6 +147,14 @@ class MapDartType extends DartType {
   String toNonNullableString() => 'Map<$keyType, $valueType>';
 
   @override
+  String toSerializedString() {
+    final valueString = valueType.toSerializedString();
+    final keyString = keyType.toSerializedString();
+    final typeString = 'Map<$keyString, $valueString>';
+    return isNullable ? '$typeString?' : typeString;
+  }
+
+  @override
   bool operator ==(Object other) =>
       super == other &&
       other is MapDartType &&
