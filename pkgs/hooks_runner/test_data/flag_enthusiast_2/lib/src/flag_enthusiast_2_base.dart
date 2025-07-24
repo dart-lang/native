@@ -7,6 +7,6 @@ import 'package:meta/meta.dart' show RecordUse;
 
 class MultiFlag {
   @RecordUse()
-  static List<String> loadFlag(Iterable<String> countries) =>
+  static List<String> loadFlags(Iterable<String> countries) =>
       countries.map(FlagLoader.load).toList();
 }

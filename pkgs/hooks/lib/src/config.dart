@@ -353,7 +353,7 @@ final class LinkInput extends HookInput {
   /// The assets passed to `hook/link.dart`.
   LinkInputAssets get assets => LinkInputAssets._(this);
 
-  /// The metadata set to this link hook by dependent link hooks.
+  /// The metadata sent to this link hook by dependent link hooks.
   Map<String, Object?> get metadata => Map.fromEntries(
     assets.assetsFromLinking
         .where((e) => e.isMetadataAsset)

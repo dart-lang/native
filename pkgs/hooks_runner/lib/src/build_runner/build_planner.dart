@@ -156,7 +156,7 @@ class NativeAssetsBuildPlanner {
           hookType: Hook.link,
           cachedPlan: _linkHookPlan,
           setCachedPlan: (plan) => _linkHookPlan = plan,
-          reverseOrder: true, // Key difference here
+          reverseOrder: true, // Key difference from [makeBuildHookPlan]
         ),
       );
 

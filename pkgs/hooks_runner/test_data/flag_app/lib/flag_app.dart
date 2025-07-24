@@ -7,5 +7,5 @@ import 'package:flag_enthusiast_2/flag_enthusiast_2.dart';
 
 String flagList() => [
   SingleFlag.loadFlag('de'),
-  ...MultiFlag.loadFlag(['fr']),
+  ...MultiFlag.loadFlags(['fr']),
 ].join(', ');
