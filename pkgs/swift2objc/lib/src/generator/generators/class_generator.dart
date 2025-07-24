@@ -134,6 +134,7 @@ List<String> _generateClassProperties(ClassDeclaration declaration) => [
         ..._generateClassProperty(property),
     ];
 
+// TODO(https://github.com/dart-lang/native/pull/2056): Generate Class properties for constants (i.e let)
 List<String> _generateClassProperty(PropertyDeclaration property) {
   final header = StringBuffer();
 
