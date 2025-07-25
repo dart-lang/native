@@ -705,7 +705,7 @@ class JsonObjectSyntax {
 
   final List<Object> path;
 
-  JsonReader get _reader => JsonReader(json, path);
+  _JsonReader get _reader => _JsonReader(json, path);
 
   JsonObjectSyntax() : json = {}, path = const [];
 
@@ -714,7 +714,7 @@ class JsonObjectSyntax {
   List<String> validate() => [];
 }
 
-class JsonReader {
+class _JsonReader {
   /// The JSON Object this reader is reading.
   final Map<String, Object?> json;
 
@@ -725,7 +725,7 @@ class JsonReader {
   /// This is used to give more precise error messages.
   final List<Object> path;
 
-  JsonReader(this.json, this.path);
+  _JsonReader(this.json, this.path);
 
   T get<T extends Object?>(String key) {
     final value = json[key];
