@@ -46,7 +46,7 @@ abstract class ConfigSpec<TE extends Object?, RE extends Object?> {
     required this.result,
   });
 
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger});
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger);
 
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o);
 
@@ -76,8 +76,8 @@ abstract class ConfigSpec<TE extends Object?, RE extends Object?> {
   }
 
   /// Run validation on an object [value].
-  bool validate(dynamic value) {
-    return _validateNode(ConfigValue(path: [], value: value));
+  bool validate(dynamic value, Logger logger) {
+    return _validateNode(ConfigValue(path: [], value: value), logger);
   }
 
   /// Extract ConfigSpecNode from [value]. This will call the [transform] for
@@ -148,7 +148,7 @@ class ConfigValue<TE> {
   }
 
   /// Returns true if [value] is of Type [T].
-  bool checkType<T>({Logger? logger}) {
+  bool checkType<T>(Logger? logger) {
     if (value is! T) {
       logger?.severe(
         "Expected value of key '$pathString' to be of type"
@@ -218,8 +218,8 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
        allKeys = {for (final kv in entries) kv.key};
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
-    if (!o.checkType<Map<dynamic, dynamic>>(logger: logger)) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
+    if (!o.checkType<Map<dynamic, dynamic>>(logger)) {
       return false;
     }
 
@@ -244,10 +244,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
         path: path,
         value: inputMap[entry.key],
       );
-      if (!entry.valueConfigSpec._validateNode(
-        configSpecNode,
-        logger: logger,
-      )) {
+      if (!entry.valueConfigSpec._validateNode(configSpecNode, logger)) {
         result = false;
         continue;
       }
@@ -306,7 +303,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
 
   @override
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o) {
-    if (!o.checkType<Map<dynamic, dynamic>>(logger: null)) {
+    if (!o.checkType<Map<dynamic, dynamic>>(null)) {
       throw ConfigSpecExtractionError(o);
     }
 
@@ -347,10 +344,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
           path: path,
           value: inputMap[entry.key],
         );
-        if (!entry.valueConfigSpec._validateNode(
-          configSpecNode,
-          logger: null,
-        )) {
+        if (!entry.valueConfigSpec._validateNode(configSpecNode, null)) {
           throw ConfigSpecExtractionError(configSpecNode);
         }
         childExtracts[entry.key] =
@@ -428,8 +422,8 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
   });
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
-    if (!o.checkType<Map<dynamic, dynamic>>(logger: logger)) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
+    if (!o.checkType<Map<dynamic, dynamic>>(logger)) {
       return false;
     }
 
@@ -447,7 +441,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
       for (final (keyRegexp: keyRegexp, valueConfigSpec: valueConfigSpec)
           in keyValueConfigSpecs) {
         if (RegExp(keyRegexp, dotAll: true).hasMatch(key.toString()) &&
-            valueConfigSpec._validateNode(configSpecNode, logger: null)) {
+            valueConfigSpec._validateNode(configSpecNode, null)) {
           keyValueMatch = true;
           break;
         }
@@ -469,7 +463,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
               );
               continue;
             }
-            if (valueConfigSpec._validateNode(configSpecNode, logger: logger)) {
+            if (valueConfigSpec._validateNode(configSpecNode, logger)) {
               continue;
             }
           }
@@ -485,7 +479,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
 
   @override
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o) {
-    if (!o.checkType<Map<dynamic, dynamic>>(logger: null)) {
+    if (!o.checkType<Map<dynamic, dynamic>>(null)) {
       throw ConfigSpecExtractionError(o);
     }
 
@@ -500,7 +494,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
       for (final (keyRegexp: keyRegexp, valueConfigSpec: valueConfigSpec)
           in keyValueConfigSpecs) {
         if (RegExp(keyRegexp, dotAll: true).hasMatch(key.toString()) &&
-            valueConfigSpec._validateNode(configSpecNode, logger: null)) {
+            valueConfigSpec._validateNode(configSpecNode, null)) {
           childExtracts[key] =
               valueConfigSpec._extractNode(configSpecNode).value as CE;
           keyValueMatch = true;
@@ -551,8 +545,8 @@ class ListConfigSpec<CE extends Object?, RE extends Object?>
   });
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
-    if (!o.checkType<YamlList>(logger: logger)) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
+    if (!o.checkType<YamlList>(logger)) {
       return false;
     }
     final inputList = (o.value as YamlList).cast<dynamic>();
@@ -562,7 +556,7 @@ class ListConfigSpec<CE extends Object?, RE extends Object?>
         path: [...o.path, '[$i]'],
         value: input,
       );
-      if (!childConfigSpec._validateNode(configSpecNode, logger: logger)) {
+      if (!childConfigSpec._validateNode(configSpecNode, logger)) {
         result = false;
         continue;
       }
@@ -576,7 +570,7 @@ class ListConfigSpec<CE extends Object?, RE extends Object?>
 
   @override
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o) {
-    if (!o.checkType<YamlList>(logger: null)) {
+    if (!o.checkType<YamlList>(null)) {
       throw ConfigSpecExtractionError(o);
     }
     final inputList = (o.value as YamlList).cast<dynamic>();
@@ -586,7 +580,7 @@ class ListConfigSpec<CE extends Object?, RE extends Object?>
         path: [...o.path, i.toString()],
         value: input,
       );
-      if (!childConfigSpec._validateNode(configSpecNode, logger: null)) {
+      if (!childConfigSpec._validateNode(configSpecNode, null)) {
         throw ConfigSpecExtractionError(configSpecNode);
       }
       childExtracts.add(
@@ -625,8 +619,8 @@ class StringConfigSpec<RE extends Object?> extends ConfigSpec<String, RE> {
   }) : _regexp = pattern == null ? null : RegExp(pattern, dotAll: true);
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
-    if (!o.checkType<String>(logger: logger)) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
+    if (!o.checkType<String>(logger)) {
       return false;
     }
     if (!(_regexp?.hasMatch(o.value as String) ?? true)) {
@@ -644,7 +638,7 @@ class StringConfigSpec<RE extends Object?> extends ConfigSpec<String, RE> {
 
   @override
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o) {
-    if (!o.checkType<String>(logger: null)) {
+    if (!o.checkType<String>(null)) {
       throw ConfigSpecExtractionError(o);
     }
     return o
@@ -675,8 +669,8 @@ class IntConfigSpec<RE extends Object?> extends ConfigSpec<int, RE> {
   });
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
-    if (!o.checkType<int>(logger: logger)) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
+    if (!o.checkType<int>(logger)) {
       return false;
     }
     if (customValidation != null) {
@@ -687,7 +681,7 @@ class IntConfigSpec<RE extends Object?> extends ConfigSpec<int, RE> {
 
   @override
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o) {
-    if (!o.checkType<int>(logger: null)) {
+    if (!o.checkType<int>(null)) {
       throw ConfigSpecExtractionError(o);
     }
     return o
@@ -721,7 +715,7 @@ class EnumConfigSpec<CE extends Object?, RE extends Object?>
   });
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
     if (!allowedValues.contains(o.value)) {
       logger?.severe(
         "'${o.pathString}' must be one of the following - $allowedValues "
@@ -767,8 +761,8 @@ class BoolConfigSpec<RE> extends ConfigSpec<bool, RE> {
   });
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
-    if (!o.checkType<bool>(logger: logger)) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
+    if (!o.checkType<bool>(logger)) {
       return false;
     }
     if (customValidation != null) {
@@ -779,7 +773,7 @@ class BoolConfigSpec<RE> extends ConfigSpec<bool, RE> {
 
   @override
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o) {
-    if (!o.checkType<bool>(logger: null)) {
+    if (!o.checkType<bool>(null)) {
       throw ConfigSpecExtractionError(o);
     }
     return o
@@ -816,10 +810,10 @@ class OneOfConfigSpec<TE extends Object?, RE extends Object?>
   });
 
   @override
-  bool _validateNode(ConfigValue<Object?> o, {Logger? logger}) {
+  bool _validateNode(ConfigValue<Object?> o, Logger? logger) {
     // Running first time with no logs.
     for (final spec in childConfigSpecs) {
-      if (spec._validateNode(o, logger: null)) {
+      if (spec._validateNode(o, null)) {
         if (customValidation != null) {
           return customValidation!.call(o);
         }
@@ -833,7 +827,7 @@ class OneOfConfigSpec<TE extends Object?, RE extends Object?>
         'configSpec -',
       );
       for (final spec in childConfigSpecs) {
-        spec._validateNode(o, logger: logger);
+        spec._validateNode(o, logger);
       }
     }
     return false;
@@ -842,7 +836,7 @@ class OneOfConfigSpec<TE extends Object?, RE extends Object?>
   @override
   ConfigValue<RE> _extractNode(ConfigValue<Object?> o) {
     for (final spec in childConfigSpecs) {
-      if (spec._validateNode(o, logger: null)) {
+      if (spec._validateNode(o, null)) {
         return o
             .withValue(spec._extractNode(o).value as TE, o.rawValue)
             .transformOrThis(transform, result);

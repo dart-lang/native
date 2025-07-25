@@ -165,17 +165,21 @@ void logWarnings([Level level = Level.WARNING]) {
   });
 }
 
-void logToArray(List<String> logArr, Level level) {
+Logger logToArray(List<String> logArr, Level level) {
   Logger.root.level = level;
   Logger.root.onRecord.listen((record) {
+  });
+  final logger = Logger('ffigen.test');
+  logger.onRecord.listen((record) {
     logArr.add('${record.level.name.padRight(8)}: ${record.message}');
   });
+  return logger;
 }
 
-FfiGen testConfig(String yamlBody, {String? filename}) {
+FfiGen testConfig(String yamlBody, {String? filename, Logger? logger}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
-    Logger.root,
+    logger ?? Logger.root,
     filename: filename,
     packageConfig: PackageConfig([
       Package(

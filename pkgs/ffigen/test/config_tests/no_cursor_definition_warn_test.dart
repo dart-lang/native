@@ -14,7 +14,7 @@ void main() {
   group('no_cursor_definition_warn_test', () {
     setUpAll(() {
       final logArr = <String>[];
-      logToArray(logArr, Level.WARNING);
+      final logger = logToArray(logArr, Level.WARNING);
       final config = testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Warn for no cursor definition.'
@@ -27,8 +27,9 @@ ${strings.structs}:
   ${strings.include}:
     - 'D'
     - 'E'
-        ''');
-      parse(testContext(config));
+        ''',
+          logger: logger);
+      parse(Context(logger, config));
       logString = logArr.join('\n');
     });
     test('No warning for missing cursor definition.', () {

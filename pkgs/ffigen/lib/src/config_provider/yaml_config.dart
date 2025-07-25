@@ -333,7 +333,7 @@ class YamlConfig implements FfiGen {
     logger.finest('Config Map: $map');
 
     final ffigenConfigSpec = config._getRootConfigSpec(logger);
-    final result = ffigenConfigSpec.validate(map);
+    final result = ffigenConfigSpec.validate(map, logger);
     if (!result) {
       throw const FormatException('Invalid configurations provided.');
     }
