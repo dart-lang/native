@@ -2,8 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/code_generator/writer.dart';
+import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/context.dart';
 
 final dummyWriter = Writer(
   lookUpBindings: [],
@@ -14,6 +17,8 @@ final dummyWriter = Writer(
   silenceEnumWarning: true,
   generateForPackageObjectiveC: false,
   nativeAssetId: null,
+  context:
+      Context(Logger.root, FfiGen(Logger.root, output: Uri.file('unused'))),
 );
 
 /// Find compound having [name] in [library].
