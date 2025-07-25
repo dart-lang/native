@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
@@ -22,8 +23,7 @@ ${strings.ffiNative}:
 ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/comment_markup.h')}'
-''',
-      logger: logger);
+''', logger: logger);
     parse(Context(logger, config));
 
     final logStr = logArr.join('\n');

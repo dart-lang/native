@@ -167,8 +167,7 @@ void logWarnings([Level level = Level.WARNING]) {
 
 Logger logToArray(List<String> logArr, Level level) {
   Logger.root.level = level;
-  Logger.root.onRecord.listen((record) {
-  });
+  Logger.root.onRecord.listen((record) {});
   final logger = Logger('ffigen.test');
   logger.onRecord.listen((record) {
     logArr.add('${record.level.name.padRight(8)}: ${record.message}');

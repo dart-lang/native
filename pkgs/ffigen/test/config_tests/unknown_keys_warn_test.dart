@@ -25,8 +25,7 @@ ${strings.headers}:
 ${strings.typeMap}:
   'warn-2': 'warn'
   'warn-3': 'warn'
-        ''',
-      logger: logger);
+        ''', logger: logger);
       logString = logArr.join('\n');
     });
     test('Warn for unknown keys.', () {
