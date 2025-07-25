@@ -9,8 +9,8 @@ import 'package:meta/meta.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 
 enum Availability { none, some, all }
@@ -28,14 +28,15 @@ class ApiAvailability {
     this.alwaysUnavailable = false,
     this.ios,
     this.macos,
-    ExternalVersions? externalVersions,
+    required ExternalVersions externalVersions,
   }) {
-    availability = _getAvailability(
-      externalVersions ?? config.externalVersions,
-    );
+    availability = _getAvailability(externalVersions);
   }
 
-  static ApiAvailability fromCursor(clang_types.CXCursor cursor) {
+  static ApiAvailability fromCursor(
+    clang_types.CXCursor cursor,
+    Context context,
+  ) {
     final platformsLength = clang.clang_getCursorPlatformAvailability(
       cursor,
       nullptr,
@@ -88,6 +89,7 @@ class ApiAvailability {
       alwaysUnavailable: alwaysUnavailable.value != 0,
       ios: ios,
       macos: macos,
+      externalVersions: context.config.externalVersions,
     );
 
     for (var i = 0; i < platformsLength; ++i) {

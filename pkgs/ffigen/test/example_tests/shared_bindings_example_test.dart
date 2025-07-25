@@ -25,7 +25,7 @@ void main() {
           'a_shared_base.yaml',
         ),
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'example_shared_bindings.dart', [
         config.output.toFilePath(),
@@ -42,7 +42,7 @@ void main() {
           'base.yaml',
         ),
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
       matchLibrarySymbolFileWithExpected(
         library,
         'example_shared_bindings.yaml',

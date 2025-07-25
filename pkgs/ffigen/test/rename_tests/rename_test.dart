@@ -21,7 +21,8 @@ void main() {
       logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Rename Test'
 ${strings.output}: 'unused'
@@ -78,6 +79,7 @@ ${strings.typedefs}:
   ${strings.rename}:
     'Struct5_Alias': 'Struct5_Alias_Renamed'
     '''),
+        ),
       );
     });
 
@@ -207,6 +209,7 @@ Library expectedLibrary() {
     type: Struct(name: '${structPrefix}Struct5'),
   );
   return Library(
+    context: testContext(),
     name: 'Bindings',
     bindings: [
       Func(

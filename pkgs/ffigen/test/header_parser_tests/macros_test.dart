@@ -19,10 +19,12 @@ void main() {
       logWarnings(Level.WARNING);
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfigFromPath(
-          configPath(
-            path.join(packagePathForTests, 'test', 'header_parser_tests'),
-            'macros_config.yaml',
+        testContext(
+          testConfigFromPath(
+            configPath(
+              path.join(packagePathForTests, 'test', 'header_parser_tests'),
+              'macros_config.yaml',
+            ),
           ),
         ),
       );
@@ -146,6 +148,7 @@ void main() {
 
 Library expectedLibrary() {
   return Library(
+    context: testContext(),
     name: 'NativeLibrary',
     bindings: [
       Constant(name: 'TEST1', rawType: 'double', rawValue: '1.1'),

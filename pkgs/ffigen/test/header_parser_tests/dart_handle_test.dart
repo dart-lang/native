@@ -18,7 +18,8 @@ void main() {
     setUpAll(() {
       logWarnings();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Dart_Handle Test'
 ${strings.output}: 'unused'
@@ -30,6 +31,7 @@ ${strings.headers}:
   ${strings.includeDirectives}:
     - '**dart_handle.h'
         '''),
+        ),
       );
     });
     test('Expected Bindings', () {

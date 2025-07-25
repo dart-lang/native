@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Unions Test'
 ${strings.output}: 'unused'
@@ -25,6 +26,7 @@ ${strings.headers}:
     - '${absPath('test/header_parser_tests/unions.h')}'
 ${strings.ignoreSourceErrors}: true
         '''),
+        ),
       );
     });
 

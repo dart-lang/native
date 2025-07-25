@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Native Func Typedef Test.'
 ${strings.output}: 'unused'
@@ -24,6 +25,7 @@ ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/native_func_typedef.h')}'
         '''),
+        ),
       );
     });
 

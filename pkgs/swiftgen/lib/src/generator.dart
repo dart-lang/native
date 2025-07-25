@@ -38,6 +38,7 @@ extension SwiftGenGenerator on SwiftGen {
 
   void _generateDartFile(Logger logger) {
     fg.FfiGen(
+      logger,
       language: fg.Language.objc,
       output: ffigen.output,
       outputObjC: ffigen.outputObjC,
@@ -58,7 +59,7 @@ extension SwiftGenGenerator on SwiftGen {
       objcCategories: ffigen.objcCategories ?? fg.DeclarationFilters.excludeAll,
       entryPoints: [Uri.file(objcHeader)],
       compilerOpts: [
-        ...fg.defaultCompilerOpts(),
+        ...fg.defaultCompilerOpts(logger),
         '-Wno-nullability-completeness',
       ],
       interfaceModuleFunc: (_) => outModule,

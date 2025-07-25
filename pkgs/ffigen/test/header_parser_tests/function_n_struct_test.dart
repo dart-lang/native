@@ -18,7 +18,8 @@ void main() {
       logWarnings(Level.SEVERE);
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Function And Struct Test'
 ${strings.output}: 'unused'
@@ -27,6 +28,7 @@ ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/function_n_struct.h')}'
         '''),
+        ),
       );
     });
 
@@ -89,6 +91,7 @@ Library expectedLibrary() {
   );
   final struct3 = Struct(name: 'Struct3');
   return Library(
+    context: testContext(),
     name: 'Bindings',
     bindings: [
       struct1,

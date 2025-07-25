@@ -20,6 +20,7 @@ String generate({
   bool includeTransitiveObjCCategories = false,
 }) {
   FfiGen(
+    Logger.root,
     wrapperName: 'TransitiveTestObjCLibrary',
     wrapperDocComment: 'Tests transitive inclusion',
     language: Language.objc,

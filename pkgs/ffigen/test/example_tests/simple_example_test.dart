@@ -19,7 +19,7 @@ void main() {
       final config = testConfigFromPath(
         path.join(packagePathForTests, 'example', 'simple', 'config.yaml'),
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'example_simple.dart', [
         config.output.toFilePath(),

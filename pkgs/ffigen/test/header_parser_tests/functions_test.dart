@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Functions Test'
 ${strings.output}: 'unused'
@@ -39,6 +40,7 @@ ${strings.functions}:
 ${strings.preamble}: |
   // ignore_for_file: camel_case_types
         '''),
+        ),
       );
     });
     test('Expected Bindings', () {

@@ -17,7 +17,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'Bindings'
 ${strings.description}: 'Typedef Test'
 ${strings.output}: 'unused'
@@ -44,6 +45,7 @@ ${strings.typeMap}:
 ${strings.preamble}: |
   // ignore_for_file: unused_element, unused_field
         '''),
+        ),
       );
     });
 

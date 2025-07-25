@@ -31,7 +31,7 @@ void main() {
       late Library library;
       withChDir(configYaml.path, () {
         config = testConfigFromPath(configYaml.path);
-        library = parse(config);
+        library = parse(testContext(config));
       });
 
       matchLibraryWithExpected(library, 'example_libclang.dart', [

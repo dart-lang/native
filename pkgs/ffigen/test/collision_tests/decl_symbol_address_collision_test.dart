@@ -13,6 +13,7 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = Library(
+        context: testContext(),
         name: 'Bindings',
         header:
             '// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',

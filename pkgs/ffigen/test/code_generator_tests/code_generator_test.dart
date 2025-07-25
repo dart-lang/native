@@ -3,7 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
@@ -38,6 +40,13 @@ void main() {
       nativeConfig,
     ) {
       final library = Library(
+        context: testContext(
+          FfiGen(
+            Logger.root,
+            ffiNativeConfig: nativeConfig,
+            output: Uri.file('unused'),
+          ),
+        ),
         name: 'Bindings',
         header: licenseHeader,
         bindings: [
@@ -108,6 +117,7 @@ void main() {
 
     test('Struct Binding (primitives, pointers)', () {
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         header: licenseHeader,
         bindings: [
@@ -188,6 +198,7 @@ void main() {
         ],
       );
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         header: licenseHeader,
         bindings: [
@@ -216,6 +227,7 @@ void main() {
       final emptyGlobalStruct = Struct(name: 'EmptyStruct');
 
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         header: licenseHeader,
         bindings: [
@@ -259,6 +271,7 @@ void main() {
 
     test('constant', () {
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         bindings: [
@@ -271,6 +284,7 @@ void main() {
 
     test('enum_class', () {
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         bindings: [
@@ -289,6 +303,7 @@ void main() {
 
     test('enum_class with duplicates', () {
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         bindings: [
@@ -337,6 +352,7 @@ void main() {
         ],
       );
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         silenceEnumWarning: true,
@@ -417,6 +433,7 @@ void main() {
         ],
       );
       final lib = Library(
+        context: testContext(),
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         silenceEnumWarning: true,
@@ -427,6 +444,7 @@ void main() {
 
     test('Internal conflict resolution', () {
       final library = Library(
+        context: testContext(),
         name: 'init_dylib',
         header:
             '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
@@ -477,6 +495,7 @@ void main() {
     test('Adds Native symbol on mismatch', () {
       final nativeConfig = const FfiNativeConfig(enabled: true);
       final library = Library(
+        context: testContext(),
         name: 'init_dylib',
         header:
             '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
@@ -500,6 +519,7 @@ void main() {
   });
   test('boolean_dartBool', () {
     final library = Library(
+      context: testContext(),
       name: 'Bindings',
       header: licenseHeader,
       bindings: [
@@ -525,6 +545,7 @@ void main() {
   });
   test('Pack Structs', () {
     final library = Library(
+      context: testContext(),
       name: 'Bindings',
       header: licenseHeader,
       bindings: [
@@ -602,6 +623,7 @@ void main() {
       members: [CompoundMember(name: 'a', type: charType)],
     );
     final library = Library(
+      context: testContext(),
       name: 'Bindings',
       header: licenseHeader,
       bindings: [
@@ -661,6 +683,7 @@ void main() {
     final struct3 = Struct(name: 'Struct3');
     final struct3Typealias = Typealias(name: 'Struct3Typealias', type: struct3);
     final library = Library(
+      context: testContext(),
       name: 'Bindings',
       header:
           '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',

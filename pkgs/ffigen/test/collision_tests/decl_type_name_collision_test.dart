@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Decl type name collision test'
 ${strings.output}: 'unused'
@@ -26,6 +27,7 @@ ${strings.headers}:
 ${strings.preamble}: |
     // ignore_for_file: non_constant_identifier_names, 
         '''),
+        ),
       );
     });
 

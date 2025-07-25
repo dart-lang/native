@@ -9,6 +9,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:ffigen/src/context.dart' as ffigen;
 import 'package:ffigen/src/header_parser.dart' as ffigen;
 import 'package:logging/logging.dart';
 
@@ -52,14 +53,15 @@ void main(List<String> args) {
   });
 
   logger.info('Generating C wrappers');
-  final minimalConfig = ffigen.YamlConfig.fromFile(File('ffigen_exts.yaml'));
-  final minimalLibrary = ffigen.parse(minimalConfig);
+  final minimalConfig =
+      ffigen.YamlConfig.fromFile(File('ffigen_exts.yaml'), logger);
+  final minimalLibrary = ffigen.parse(ffigen.Context(logger, minimalConfig));
   generateCWrappers(minimalLibrary);
 
   logger.info('Generating FFI bindings for package:jni');
 
-  final config = ffigen.YamlConfig.fromFile(File('ffigen.yaml'));
-  final library = ffigen.parse(config);
+  final config = ffigen.YamlConfig.fromFile(File('ffigen.yaml'), logger);
+  final library = ffigen.parse(ffigen.Context(logger, config));
   final outputFile = File(config.output.toFilePath());
   library.generateFile(outputFile);
 

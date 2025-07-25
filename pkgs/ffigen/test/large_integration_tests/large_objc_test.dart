@@ -58,6 +58,7 @@ void main() {
       'large_objc_bindings.m',
     );
     final config = FfiGen(
+      Logger.root,
       wrapperName: 'LargeObjCLibrary',
       language: Language.objc,
       output: Uri.file(outFile),

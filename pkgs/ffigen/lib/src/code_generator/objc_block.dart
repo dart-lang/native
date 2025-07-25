@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../header_parser/data.dart' show bindingsIndex;
+
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -11,6 +12,7 @@ import 'unique_namer.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType {
+  final Context context;
   final ObjCBuiltInFunctions builtInFunctions;
   final Type returnType;
   final List<Parameter> params;
@@ -18,7 +20,8 @@ class ObjCBlock extends BindingType {
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
 
-  factory ObjCBlock({
+  factory ObjCBlock(
+    Context context, {
     required Type returnType,
     required List<Parameter> params,
     required bool returnsRetained,
@@ -35,12 +38,13 @@ class ObjCBlock extends BindingType {
 
     final usr = _getBlockUsr(returnType, renamedParams, returnsRetained);
 
-    final oldBlock = bindingsIndex.getSeenObjCBlock(usr);
+    final oldBlock = context.bindingsIndex.getSeenObjCBlock(usr);
     if (oldBlock != null) {
       return oldBlock;
     }
 
     final block = ObjCBlock._(
+      context,
       usr: usr,
       name: _getBlockName(returnType, renamedParams.map((a) => a.type)),
       returnType: returnType,
@@ -48,12 +52,13 @@ class ObjCBlock extends BindingType {
       returnsRetained: returnsRetained,
       builtInFunctions: builtInFunctions,
     );
-    bindingsIndex.addObjCBlockToSeen(usr, block);
+    context.bindingsIndex.addObjCBlockToSeen(usr, block);
 
     return block;
   }
 
-  ObjCBlock._({
+  ObjCBlock._(
+    this.context, {
     required String super.usr,
     required super.name,
     required this.returnType,

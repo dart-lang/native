@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -17,23 +18,26 @@ void main() {
     setUpAll(() {
       logWarnings();
       actual = parser.parse(
-        FfiGen(
-          output: Uri.file('unused'),
-          entryPoints: [
-            Uri.file(
-              path.join(
-                packagePathForTests,
-                'test',
-                'header_parser_tests',
-                'sort.h',
+        testContext(
+          FfiGen(
+            Logger.root,
+            output: Uri.file('unused'),
+            entryPoints: [
+              Uri.file(
+                path.join(
+                  packagePathForTests,
+                  'test',
+                  'header_parser_tests',
+                  'sort.h',
+                ),
               ),
-            ),
-          ],
-          structDecl: DeclarationFilters.includeAll,
-          unionDecl: DeclarationFilters.includeAll,
-          typedefs: DeclarationFilters.includeAll,
-          includeUnusedTypedefs: true,
-          sort: true,
+            ],
+            structDecl: DeclarationFilters.includeAll,
+            unionDecl: DeclarationFilters.includeAll,
+            typedefs: DeclarationFilters.includeAll,
+            includeUnusedTypedefs: true,
+            sort: true,
+          ),
         ),
       );
     });
