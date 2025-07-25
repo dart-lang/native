@@ -1,3 +1,7 @@
+## 0.20.0
+
+* Bump `hooks` to `0.20.0`.
+
 ## 0.19.4
 
 * Add doc comments to all public members.

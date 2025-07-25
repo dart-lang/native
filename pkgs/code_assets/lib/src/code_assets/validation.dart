@@ -91,8 +91,7 @@ Future<ValidationErrors> validateCodeAssetBuildOutput(
   output.assets.encodedAssets,
   [
     ...output.assets.encodedAssetsForBuild,
-    for (final assetList in output.assets.encodedAssetsForLinking.values)
-      ...assetList,
+    ...output.assets.encodedAssetsForLinking.values.expand((assets) => assets),
   ],
   output,
   true,
@@ -106,7 +105,7 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
   input,
   input.config.code,
   output.assets.encodedAssets,
-  [],
+  output.assets.encodedAssetsForLink.values.expand((assets) => assets),
   output,
   false,
 );
@@ -135,8 +134,8 @@ Future<ValidationErrors> validateCodeAssetInApplication(
 Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   HookInput input,
   CodeConfig codeConfig,
-  List<EncodedAsset> encodedAssetsBundled,
-  List<EncodedAsset> encodedAssetsNotBundled,
+  Iterable<EncodedAsset> encodedAssetsBundled,
+  Iterable<EncodedAsset> encodedAssetsNotBundled,
   HookOutput output,
   bool isBuild,
 ) async {

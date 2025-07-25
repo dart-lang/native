@@ -40,7 +40,7 @@ void runWindowsModuleDefinitionTests(List<Architecture> architectures) {
             outputFile: tempUri.resolve('output.json'),
             outputDirectoryShared: tempUri2,
           )
-          ..setupLink(assets: [], recordedUsesFile: null)
+          ..setupLink(assets: [], recordedUsesFile: null, assetsFromLinking: [])
           ..addExtension(
             CodeAssetExtension(
               targetOS: targetOS,

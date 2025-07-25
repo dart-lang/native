@@ -35,6 +35,10 @@ workspace:
   - pkgs/hooks_runner/test_data/reusable_dynamic_library
   - pkgs/hooks_runner/test_data/reuse_dynamic_library
   - pkgs/hooks_runner/test_data/simple_data_asset
+  - pkgs/hooks_runner/test_data/flag_app
+  - pkgs/hooks_runner/test_data/fun_with_flags
+  - pkgs/hooks_runner/test_data/flag_enthusiast_1
+  - pkgs/hooks_runner/test_data/flag_enthusiast_2
   - pkgs/hooks_runner/test_data/simple_link
   - pkgs/hooks_runner/test_data/some_dev_dep
   - pkgs/hooks_runner/test_data/system_library

@@ -87,6 +87,7 @@ void main() async {
         'extensions': {'code_assets': codeConfig},
         if (hookType == 'build') 'linking_enabled': false,
       },
+      if (hookType == 'link') 'assets_from_linking': [],
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
@@ -168,7 +169,7 @@ void main() async {
         outputFile: outFile,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupLink(assets: assets, recordedUsesFile: null)
+      ..setupLink(assets: assets, recordedUsesFile: null, assetsFromLinking: [])
       ..addExtension(
         CodeAssetExtension(
           targetOS: OS.android,

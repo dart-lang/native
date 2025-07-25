@@ -92,15 +92,6 @@
           "items": {
             "$ref": "#/definitions/Asset"
           }
-        },
-        "assets_for_linking": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Asset"
-            }
-          }
         }
       },
       "allOf": [
@@ -206,6 +197,15 @@
             "$ref": "#/definitions/Asset"
           }
         },
+        "assets_for_linking": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        },
         "dependencies": {
           "type": "array",
           "items": {
@@ -250,6 +250,12 @@
             "$ref": "#/definitions/Asset"
           }
         },
+        "assets_from_linking": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
         "resource_identifiers": {
           "$ref": "#/definitions/absolutePath"
         }
@@ -261,6 +267,7 @@
       ]
     },
     "LinkOutput": {
+      "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/HookOutput"
