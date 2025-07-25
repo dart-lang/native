@@ -14,6 +14,8 @@
     object may change, but the underlying ObjC object will still be the same.
     In any case, you should be using `Foo.isInstance(x)` instead of `x is Foo`
     to check the runtime type of an ObjC object.
+- Fix [a bug](https://github.com/dart-lang/native/issues/2419) where methods
+  copied from super types might not be renamed correctly.
 
 ## 19.1.0
 

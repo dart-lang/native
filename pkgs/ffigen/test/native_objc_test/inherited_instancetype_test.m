@@ -7,9 +7,14 @@
 @interface BaseClass : NSObject {}
 + (instancetype)create;
 - (instancetype)getSelf;
+
+// Regression test for https://github.com/dart-lang/native/issues/2419.
+- (instancetype) initRegress2419:(int32_t) i;
 @end
 
 @interface ChildClass : BaseClass {}
+- (instancetype) initRegress2419:(int32_t) i floatValue:(float) f;
+
 @property int32_t field;
 @end
 

@@ -30,6 +30,8 @@ mixin ObjCMethods {
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
+    assert(!method._added);
+    method._added = true;
     final oldMethod = getSimilarMethod(method);
     if (oldMethod != null) {
       _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
@@ -37,6 +39,11 @@ mixin ObjCMethods {
       _methods[method.key] = method;
       _order.add(method.key);
     }
+  }
+
+  void copyMethod(ObjCMethod method) {
+    assert(method._added);
+    addMethod(method.clone());
   }
 
   void visitMethods(Visitor visitor) {
@@ -194,7 +201,7 @@ class ObjCMethod extends AstNode {
   final String originalName;
   String name;
   String? dartMethodName;
-  late final String protocolMethodName;
+  final String protocolMethodName;
   final ObjCProperty? property;
   Type returnType;
   final List<Parameter> params;
@@ -204,10 +211,11 @@ class ObjCMethod extends AstNode {
   ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
   final ApiAvailability apiAvailability;
-  bool consumesSelfAttribute = false;
+  bool consumesSelfAttribute;
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
+  bool _added = false;
 
   @override
   void visitChildren(Visitor visitor) {
@@ -220,26 +228,65 @@ class ObjCMethod extends AstNode {
     visitor.visit(protocolBlock);
   }
 
-  ObjCMethod({
+  ObjCMethod._({
     required this.builtInFunctions,
+    required this.dartDoc,
     required this.originalName,
     required this.name,
-    this.property,
-    this.dartDoc,
+    required this.dartMethodName,
+    required this.protocolMethodName,
+    required this.property,
+    required this.returnType,
+    required this.params,
     required this.kind,
     required this.isClassMethod,
     required this.isOptional,
-    required this.returnType,
+    required this.ownershipAttribute,
     required this.family,
     required this.apiAvailability,
+    required this.consumesSelfAttribute,
+    required this.selObject,
+    required this.msgSend,
+    required this.protocolBlock,
+  });
+
+  ObjCMethod({
+    required ObjCBuiltInFunctions builtInFunctions,
+    required String originalName,
+    required String name,
+    ObjCProperty? property,
+    String? dartDoc,
+    required ObjCMethodKind kind,
+    required bool isClassMethod,
+    required bool isOptional,
+    required Type returnType,
+    required ObjCMethodFamily? family,
+    required ApiAvailability apiAvailability,
     List<Parameter>? params_,
-  }) : params = params_ ?? [],
-       selObject = builtInFunctions.getSelObject(originalName);
+  }) : this._(
+         builtInFunctions: builtInFunctions,
+         dartDoc: dartDoc,
+         originalName: originalName,
+         name: name,
+         dartMethodName: null,
+         protocolMethodName: name.replaceAll(':', '_'),
+         property: property,
+         returnType: returnType,
+         params: params_ ?? [],
+         kind: kind,
+         isClassMethod: isClassMethod,
+         isOptional: isOptional,
+         ownershipAttribute: null,
+         family: family,
+         apiAvailability: apiAvailability,
+         consumesSelfAttribute: false,
+         selObject: builtInFunctions.getSelObject(originalName),
+         msgSend: null,
+         protocolBlock: null,
+       );
 
   // Must be called after all params are added to the method.
   void finalizeParams() {
-    protocolMethodName = name.replaceAll(':', '_');
-
     // Split the name at the ':'. The first chunk is the name of the method, and
     // the rest of the chunks are named parameters. Eg NSString's
     //   - compare:options:range:
@@ -272,6 +319,30 @@ class ObjCMethod extends AstNode {
       name = protocolMethodName;
     }
   }
+
+  // Not a super deep clone. Only clones this object and its params. Other
+  // fields are identitcal. It's not necessary to call [finalizeParams] again.
+  ObjCMethod clone() => ObjCMethod._(
+    builtInFunctions: builtInFunctions,
+    dartDoc: dartDoc,
+    originalName: originalName,
+    name: name,
+    dartMethodName: dartMethodName,
+    protocolMethodName: protocolMethodName,
+    property: property,
+    returnType: returnType,
+    params: [for (final p in params) p.clone()],
+    kind: kind,
+    isClassMethod: isClassMethod,
+    isOptional: isOptional,
+    ownershipAttribute: ownershipAttribute,
+    family: family,
+    apiAvailability: apiAvailability,
+    consumesSelfAttribute: consumesSelfAttribute,
+    selObject: selObject,
+    msgSend: msgSend,
+    protocolBlock: protocolBlock,
+  );
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
