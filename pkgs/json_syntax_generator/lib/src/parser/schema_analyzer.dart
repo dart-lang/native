@@ -382,13 +382,50 @@ class SchemaAnalyzer {
                 );
               }
             case null:
-              if (schemas.additionalPropertiesBool != true) {
-                throw UnimplementedError(
-                  'Expected an object with arbitrary properties.',
+              if (schemas.additionalPropertiesBool == true) {
+                dartType = ClassDartType(
+                  classInfo: jsonObjectClassInfo,
+                  isNullable: !required,
                 );
+              } else {
+                final oneOfs = additionalPropertiesSchema.oneOfs;
+                if (oneOfs.length != 1) {
+                  throw UnimplementedError();
+                }
+                final oneOf = oneOfs.single;
+                if (oneOf.length != 2) {
+                  throw UnimplementedError();
+                }
+                final types = oneOf
+                    .map((e) => e.type)
+                    .whereType<SchemaType>()
+                    .toList();
+                if (types.length != 2) {
+                  throw UnimplementedError();
+                }
+                if (types.contains(SchemaType.string) &&
+                    types.contains(SchemaType.nullValue)) {
+                  final stringPattern = oneOf
+                      .where((e) => e.type == SchemaType.string)
+                      .single
+                      .patterns
+                      .firstOrNull;
+                  dartType = MapDartType(
+                    keyType: keyDartType,
+                    valueType: StringDartType(
+                      isNullable: true,
+                      pattern: stringPattern,
+                    ),
+                    isNullable: !required,
+                  );
+                } else {
+                  throw UnimplementedError();
+                }
               }
-              dartType = ClassDartType(
-                classInfo: jsonObjectClassInfo,
+            case SchemaType.string:
+              dartType = MapDartType(
+                keyType: keyDartType,
+                valueType: const StringDartType(isNullable: false),
                 isNullable: !required,
               );
             default:
@@ -622,6 +659,21 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
       final anyOf = schema.anyOf;
       final tempResult = <JsonSchemas>[];
       for (final option in anyOf) {
+        tempResult.add(JsonSchemas(option)._flatten());
+      }
+      if (tempResult.isNotEmpty) {
+        result.add(tempResult);
+      }
+    }
+    return result;
+  }
+
+  List<List<JsonSchemas>> get oneOfs {
+    final result = <List<JsonSchemas>>[];
+    for (final schema in _schemas) {
+      final oneOf = schema.oneOf;
+      final tempResult = <JsonSchemas>[];
+      for (final option in oneOf) {
         tempResult.add(JsonSchemas(option)._flatten());
       }
       if (tempResult.isNotEmpty) {

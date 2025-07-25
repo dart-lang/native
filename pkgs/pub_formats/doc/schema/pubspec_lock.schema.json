@@ -42,8 +42,7 @@
         },
         "url": {
           "description": "URL of the git repository.",
-          "type": "string",
-          "format": "uri"
+          "type": "string"
         }
       },
       "required": [
@@ -75,8 +74,7 @@
         },
         "url": {
           "description": "URL of the package host.",
-          "type": "string",
-          "format": "uri"
+          "type": "string"
         }
       },
       "required": [

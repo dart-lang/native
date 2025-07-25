@@ -8,4 +8,5 @@
 /// SDK, so when doing breaking changes please roll ASAP to the Dart SDK.
 library;
 
-export 'src/pubspec_lock_syntax.g.dart';
+export 'src/pubspec_syntax.g.dart' hide JsonObjectSyntax, JsonReader;
+export 'src/pubspec_lock_syntax.g.dart' hide JsonObjectSyntax, JsonReader;

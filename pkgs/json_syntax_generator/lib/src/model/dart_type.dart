@@ -62,7 +62,8 @@ class StringDartType extends SimpleDartType {
   @override
   String toSerializedString() {
     if (pattern != null) {
-      return '$typeName(pattern: ${pattern!.pattern})';
+      final typeString = '$typeName(pattern: ${pattern!.pattern})';
+      return isNullable ? '$typeString?' : typeString;
     }
     return typeName;
   }
