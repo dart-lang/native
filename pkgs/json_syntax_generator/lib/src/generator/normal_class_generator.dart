@@ -334,7 +334,7 @@ static const ${tagProperty}Value = '$tagValue';
       if (objectErrors.isEmpty) {
         final jsonValue = _reader.get<Map<String, Object?>?>('$jsonKey0');
         if (jsonValue != null) {
-          final reader = JsonReader(jsonValue, [...path, '$jsonKey0']);
+          final reader = _JsonReader(jsonValue, [...path, '$jsonKey0']);
           result.addAll(reader.validate<Object>('$jsonKey1'));
         }
       }

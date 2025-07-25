@@ -5,13 +5,15 @@
 /// Helper methods for the code generator that are added to the generated file.
 ///
 /// This simplifies the code generator.
+// TODO(https://github.com/dart-lang/native/issues/2447): At some time, move
+// this to a helper package to avoid copying.
 const helperLib = r'''
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
   final List<Object> path;
 
-  JsonReader get _reader => JsonReader(json, path);
+  _JsonReader get _reader => _JsonReader(json, path);
 
   JsonObjectSyntax() : json = {}, path = const [];
 
@@ -20,7 +22,7 @@ class JsonObjectSyntax {
   List<String> validate() => [];
 }
 
-class JsonReader {
+class _JsonReader {
   /// The JSON Object this reader is reading.
   final Map<String, Object?> json;
 
@@ -31,7 +33,7 @@ class JsonReader {
   /// This is used to give more precise error messages.
   final List<Object> path;
 
-  JsonReader(this.json, this.path);
+  _JsonReader(this.json, this.path);
 
   T get<T extends Object?>(String key) {
     final value = json[key];
