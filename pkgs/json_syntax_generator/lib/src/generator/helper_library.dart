@@ -5,6 +5,8 @@
 /// Helper methods for the code generator that are added to the generated file.
 ///
 /// This simplifies the code generator.
+// TODO(https://github.com/dart-lang/native/issues/2447): At some time, move
+// this to a helper package to avoid copying.
 const helperLib = r'''
 class JsonObjectSyntax {
   final Map<String, Object?> json;
