@@ -3,15 +3,11 @@
 
 import '../bindings.dart';
 
-bool overloadedMethods() {
-  final acc1 = Accumulator();
+bool innerClassCall() {
+  final acc1 = Accumulator$DoublingAccumulator(Accumulator());
   acc1.add(10);
   acc1.add$1(10, 10);
   acc1.add$2(10, 10, 10);
 
-  final acc2 = Accumulator.new$1(20);
-  acc2.add$3(acc1);
-
-  final acc3 = Accumulator.new$2(acc2);
-  return acc3.accumulator == 80;
+  return acc1.accumulator == 120;
 }

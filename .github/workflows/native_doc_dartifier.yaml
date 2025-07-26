@@ -40,9 +40,15 @@ jobs:
       - name: Analyze code
         run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
-      - name: Run pre-test tool
-        run: dart run tool/prepare_dartify_test.dart
+      - name: Compile Java code
+        run: dart run tool/compile_java.dart
         if: always() && steps.install.outcome == 'success'
       - name: Run VM tests
+        run: dart test --platform vm
+        if: always() && steps.install.outcome == 'success'
+      - name: Regenerate bindings and dartified snippets
+        run: dart run tool/prepare_dartify_test.dart
+        if: always() && steps.install.outcome == 'success'
+      - name: Run VM tests again
         run: dart test --platform vm
         if: always() && steps.install.outcome == 'success'
