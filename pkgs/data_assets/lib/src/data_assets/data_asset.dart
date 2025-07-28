@@ -47,7 +47,7 @@ final class DataAsset {
     assert(asset.isDataAsset);
     final syntaxNode = DataAssetEncodingSyntax.fromJson(
       asset.encoding,
-      path: asset.jsonPath ?? [],
+      path: asset.encodingJsonPath ?? [],
     );
     return DataAsset(
       file: syntaxNode.file,
