@@ -72,7 +72,7 @@ void main() async {
     };
     return {
       if (hookType == 'link')
-        'assets_from_building': [
+        'assets': [
           {
             'type': 'code_assets/code',
             'encoding': {
@@ -180,7 +180,7 @@ void main() async {
         outputDirectoryShared: outputDirectoryShared,
       )
       ..setupLink(
-        assetsFromBuilding: assets,
+        assets: assets,
         recordedUsesFile: null,
         assetsFromLinking: [
           CodeAsset(
@@ -295,10 +295,10 @@ void main() async {
     );
   });
 
-  test('LinkInput.assets_from_building.0.link_mode missing', () {
+  test('LinkInput.assets.0.link_mode missing', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
-      'assets_from_building',
+      'assets',
       0,
       'encoding',
     ]).remove('link_mode');
@@ -309,7 +309,7 @@ void main() async {
           (e) =>
               e is FormatException &&
               e.message.contains("""
-No value was provided for 'assets_from_building.0.encoding.link_mode'."""),
+No value was provided for 'assets.0.encoding.link_mode'."""),
         ),
       ),
     );

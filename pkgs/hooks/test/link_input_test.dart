@@ -52,7 +52,7 @@ void main() async {
       )
       ..config.addBuildAssetTypes(['asset-type-1', 'asset-type-2'])
       ..setupLink(
-        assetsFromBuilding: assets,
+        assets: assets,
         recordedUsesFile: null,
         assetsFromLinking: [],
       );

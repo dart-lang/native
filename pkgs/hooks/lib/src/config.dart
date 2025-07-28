@@ -366,9 +366,8 @@ final class LinkInputAssets {
   LinkInputAssets._(this._input);
 
   /// The encoded assets passed to `hook/link.dart`.
-  List<EncodedAsset> get encodedAssets => EncodedAssetSyntax._fromSyntax(
-    _input._syntaxLinkInput.assetsFromBuilding,
-  );
+  List<EncodedAsset> get encodedAssets =>
+      EncodedAssetSyntax._fromSyntax(_input._syntaxLinkInput.assets);
 
   /// The encoded assets from direct dependencies.
   List<EncodedAsset> get assetsFromLinking =>
@@ -382,14 +381,12 @@ final class LinkInputBuilder extends HookInputBuilder {
 
   /// Sets up the link input.
   void setupLink({
-    required List<EncodedAsset> assetsFromBuilding,
+    required List<EncodedAsset> assets,
     required List<EncodedAsset> assetsFromLinking,
     required Uri? recordedUsesFile,
   }) {
     _syntax.setup(
-      assetsFromBuilding: [
-        for (final asset in assetsFromBuilding) asset.toSyntax(),
-      ],
+      assets: [for (final asset in assets) asset.toSyntax()],
       assetsFromLinking: [
         for (final asset in assetsFromLinking) asset.toSyntax(),
       ],

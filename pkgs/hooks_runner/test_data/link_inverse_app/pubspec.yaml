@@ -10,10 +10,10 @@ environment:
   sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
-  link_inverse_package:
-    path: ../link_inverse_package
   data_assets: any
   hooks: any
+  link_inverse_package:
+    path: ../link_inverse_package
 
 dev_dependencies:
   lints: ^6.0.0

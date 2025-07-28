@@ -306,8 +306,7 @@ class NativeAssetsBuildRunner {
       );
 
       inputBuilder.setupLink(
-        assetsFromBuilding:
-            buildResult.encodedAssetsForLinking[package.name] ?? [],
+        assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
         assetsFromLinking: assetsFromLinking,
       );

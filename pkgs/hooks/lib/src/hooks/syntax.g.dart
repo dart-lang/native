@@ -751,7 +751,7 @@ class LinkInputSyntax extends HookInputSyntax {
   LinkInputSyntax.fromJson(super.json, {super.path}) : super.fromJson();
 
   LinkInputSyntax({
-    required List<AssetSyntax>? assetsFromBuilding,
+    required List<AssetSyntax>? assets,
     required List<AssetSyntax>? assetsFromLinking,
     required super.config,
     required super.outDirShared,
@@ -762,7 +762,7 @@ class LinkInputSyntax extends HookInputSyntax {
     required super.userDefines,
     super.path = const [],
   }) : super() {
-    _assetsFromBuilding = assetsFromBuilding;
+    _assets = assets;
     _assetsFromLinking = assetsFromLinking;
     _resourceIdentifiers = resourceIdentifiers;
     json.sortOnKey();
@@ -771,44 +771,44 @@ class LinkInputSyntax extends HookInputSyntax {
   /// Setup all fields for [LinkInputSyntax] that are not in
   /// [HookInputSyntax].
   void setup({
-    required List<AssetSyntax>? assetsFromBuilding,
+    required List<AssetSyntax>? assets,
     required List<AssetSyntax>? assetsFromLinking,
     required Uri? resourceIdentifiers,
   }) {
-    _assetsFromBuilding = assetsFromBuilding;
+    _assets = assets;
     _assetsFromLinking = assetsFromLinking;
     _resourceIdentifiers = resourceIdentifiers;
     json.sortOnKey();
   }
 
-  List<AssetSyntax>? get assetsFromBuilding {
-    final jsonValue = _reader.optionalList('assets_from_building');
+  List<AssetSyntax>? get assets {
+    final jsonValue = _reader.optionalList('assets');
     if (jsonValue == null) return null;
     return [
       for (final (index, element) in jsonValue.indexed)
         AssetSyntax.fromJson(
           element as Map<String, Object?>,
-          path: [...path, 'assets_from_building', index],
+          path: [...path, 'assets', index],
         ),
     ];
   }
 
-  set _assetsFromBuilding(List<AssetSyntax>? value) {
+  set _assets(List<AssetSyntax>? value) {
     if (value == null) {
-      json.remove('assets_from_building');
+      json.remove('assets');
     } else {
-      json['assets_from_building'] = [for (final item in value) item.json];
+      json['assets'] = [for (final item in value) item.json];
     }
   }
 
-  List<String> _validateAssetsFromBuilding() {
+  List<String> _validateAssets() {
     final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'assets_from_building',
+      'assets',
     );
     if (listErrors.isNotEmpty) {
       return listErrors;
     }
-    final elements = assetsFromBuilding;
+    final elements = assets;
     if (elements == null) {
       return [];
     }
@@ -861,7 +861,7 @@ class LinkInputSyntax extends HookInputSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAssetsFromBuilding(),
+    ..._validateAssets(),
     ..._validateAssetsFromLinking(),
     ..._validateResourceIdentifiers(),
   ];
