@@ -37,10 +37,11 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
     ),
   );
 
-  final translatePrompt = TranslatePrompt(
-    sourceCode,
-    generateBindingsSummary(bindings),
-  );
+  final bindingsSummary = generateBindingsSummary(bindings);
+  final tokenCount = await model.countTokens([Content.text(bindingsSummary)]);
+  print('Bindings Summary Tokens: ${tokenCount.totalTokens}');
+
+  final translatePrompt = TranslatePrompt(sourceCode, bindingsSummary);
 
   final chatSession = model.startChat();
 
