@@ -19,6 +19,15 @@
       "some_other_asset_type"
     ]
   },
+  "assets_from_linking": [
+    {
+      "encoding": {
+        "key": "foo",
+        "value": "bar"
+      },
+      "type": "hooks/metadata"
+    }
+  ],
   "out_dir_shared": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/shared/my_package/link/",
   "out_file": "/Users/dacoharkes/src/dacoharkes/playground/my_package/example/.dart_tool/hooks_runner/my_package/ca4e7d3d4e7b8912cbd24d9e8a6cecdc/output.json",
   "package_name": "my_package",
