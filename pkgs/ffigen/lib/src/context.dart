@@ -44,14 +44,14 @@ class Context {
 }
 
 /// The clang bindings.
-///
-/// Ideally this would be in the Context, but the plubming needed would be
-/// excessive. The point of putting globals in the Context is to allow multiple
-/// concurrent FfiGen runs without any risk of clobbering global state. The
-/// clang bindings are loaded from a dylib specified by the config, so it's
-/// possible that two different versions of clang could be loaded. But since we
-/// interact with clang through a stable API, there's no real danger of version
-/// skew. So the safest thing is to simply load clang the first time a Context
-/// is created, and reuse it for all subsequent runs.
+//
+// Ideally this would be in the Context, but the plumbing needed would be
+// excessive. The point of putting globals in the Context is to allow multiple
+// concurrent FfiGen runs without any risk of clobbering global state. The
+// clang bindings are loaded from a dylib specified by the config, so it's
+// possible that two different versions of clang could be loaded. But since we
+// interact with clang through a stable API, there's no real danger of version
+// skew. So the safest thing is to simply load clang the first time a Context
+// is created, and reuse it for all subsequent runs.
 Clang get clang => _clang!;
 Clang? _clang;
