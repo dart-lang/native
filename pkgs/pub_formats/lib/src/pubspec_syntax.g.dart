@@ -14,7 +14,7 @@ class DependencySourceSyntax extends JsonObjectSyntax {
   DependencySourceSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  DependencySourceSyntax() : super();
+  DependencySourceSyntax({super.path = const []}) : super();
 
   @override
   List<String> validate() => [...super.validate()];
@@ -27,7 +27,11 @@ class EnvironmentSyntax extends JsonObjectSyntax {
   EnvironmentSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  EnvironmentSyntax({required String? flutter, required String sdk}) : super() {
+  EnvironmentSyntax({
+    required String? flutter,
+    required String sdk,
+    super.path = const [],
+  }) : super() {
     _flutter = flutter;
     _sdk = sdk;
     json.sortOnKey();
@@ -63,8 +67,12 @@ class EnvironmentSyntax extends JsonObjectSyntax {
 class GitSyntax extends JsonObjectSyntax {
   GitSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  GitSyntax({required String? path$, required String? ref, required String url})
-    : super() {
+  GitSyntax({
+    required String? path$,
+    required String? ref,
+    required String url,
+    super.path = const [],
+  }) : super() {
     _path$ = path$;
     _ref = ref;
     _url = url;
@@ -111,7 +119,8 @@ class GitDependencySourceSyntax extends DependencySourceSyntax {
   GitDependencySourceSyntax.fromJson(super.json, {super.path})
     : super.fromJson();
 
-  GitDependencySourceSyntax({required GitSyntax git}) : super() {
+  GitDependencySourceSyntax({required GitSyntax git, super.path = const []})
+    : super() {
     _git = git;
     json.sortOnKey();
   }
@@ -150,8 +159,10 @@ class GitDependencySourceSyntax extends DependencySourceSyntax {
 class HooksSyntax extends JsonObjectSyntax {
   HooksSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  HooksSyntax({required Map<String, Map<String, Object?>>? userDefines})
-    : super() {
+  HooksSyntax({
+    required Map<String, Map<String, Object?>>? userDefines,
+    super.path = const [],
+  }) : super() {
     _userDefines = userDefines;
     json.sortOnKey();
   }
@@ -189,6 +200,7 @@ class HostedDependencySourceSyntax extends DependencySourceSyntax {
   HostedDependencySourceSyntax({
     required String? hosted,
     required String version,
+    super.path = const [],
   }) : super() {
     _hosted = hosted;
     _version = version;
@@ -244,7 +256,8 @@ class PathDependencySourceSyntax extends DependencySourceSyntax {
   PathDependencySourceSyntax.fromJson(super.json, {super.path})
     : super.fromJson();
 
-  PathDependencySourceSyntax({required String path$}) : super() {
+  PathDependencySourceSyntax({required String path$, super.path = const []})
+    : super() {
     _path$ = path$;
     json.sortOnKey();
   }
@@ -290,6 +303,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     required String? publishTo,
     required String? repository,
     required String? version,
+    super.path = const [],
   }) : super() {
     this.dependencies = dependencies;
     this.dependencyOverrides = dependencyOverrides;
@@ -673,7 +687,8 @@ class SdkDependencySourceSyntax extends DependencySourceSyntax {
   SdkDependencySourceSyntax.fromJson(super.json, {super.path})
     : super.fromJson();
 
-  SdkDependencySourceSyntax({required String sdk}) : super() {
+  SdkDependencySourceSyntax({required String sdk, super.path = const []})
+    : super() {
     _sdk = sdk;
     json.sortOnKey();
   }
@@ -707,7 +722,7 @@ class JsonObjectSyntax {
 
   _JsonReader get _reader => _JsonReader(json, path);
 
-  JsonObjectSyntax() : json = {}, path = const [];
+  JsonObjectSyntax({this.path = const []}) : json = {};
 
   JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 

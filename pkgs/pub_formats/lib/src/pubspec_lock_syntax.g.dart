@@ -51,6 +51,7 @@ class GitPackageDescriptionSyntax extends PackageDescriptionSyntax {
     required String ref,
     required String resolvedRef,
     required String url,
+    super.path = const [],
   }) : super() {
     _path$ = path$;
     _ref = ref;
@@ -137,6 +138,7 @@ class HostedPackageDescriptionSyntax extends PackageDescriptionSyntax {
     required String name,
     required String sha256,
     required String url,
+    super.path = const [],
   }) : super() {
     _name = name;
     _sha256 = sha256;
@@ -221,6 +223,7 @@ class PackageSyntax extends JsonObjectSyntax {
     required PackageDescriptionSyntax description,
     required PackageSourceSyntax source,
     required String version,
+    super.path = const [],
   }) : super() {
     _dependency = dependency;
     _description = description;
@@ -308,7 +311,7 @@ class PackageDescriptionSyntax extends JsonObjectSyntax {
   PackageDescriptionSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  PackageDescriptionSyntax() : super();
+  PackageDescriptionSyntax({super.path = const []}) : super();
 
   @override
   List<String> validate() => [...super.validate()];
@@ -354,8 +357,11 @@ class PathPackageDescriptionSyntax extends PackageDescriptionSyntax {
   PathPackageDescriptionSyntax.fromJson(super.json, {super.path})
     : super.fromJson();
 
-  PathPackageDescriptionSyntax({required String path$, required bool relative})
-    : super() {
+  PathPackageDescriptionSyntax({
+    required String path$,
+    required bool relative,
+    super.path = const [],
+  }) : super() {
     _path$ = path$;
     _relative = relative;
     json.sortOnKey();
@@ -403,6 +409,7 @@ class PubspecLockFileSyntax extends JsonObjectSyntax {
   PubspecLockFileSyntax({
     required Map<String, PackageSyntax>? packages,
     required SDKsSyntax sdks,
+    super.path = const [],
   }) : super() {
     _packages = packages;
     _sdks = sdks;
@@ -489,7 +496,7 @@ class PubspecLockFileSyntax extends JsonObjectSyntax {
 class SDKsSyntax extends JsonObjectSyntax {
   SDKsSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  SDKsSyntax({required String dart}) : super() {
+  SDKsSyntax({required String dart, super.path = const []}) : super() {
     _dart = dart;
     json.sortOnKey();
   }
@@ -516,7 +523,7 @@ class JsonObjectSyntax {
 
   _JsonReader get _reader => _JsonReader(json, path);
 
-  JsonObjectSyntax() : json = {}, path = const [];
+  JsonObjectSyntax({this.path = const []}) : json = {};
 
   JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 

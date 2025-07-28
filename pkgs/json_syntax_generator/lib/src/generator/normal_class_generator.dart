@@ -165,6 +165,7 @@ static const ${tagProperty}Value = '$tagValue';
         result.add('required $dartType $propertyName');
       }
     }
+    result.add('super.path = const []');
     return result;
   }
 

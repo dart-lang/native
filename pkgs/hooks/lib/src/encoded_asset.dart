@@ -69,16 +69,15 @@ extension EncodedAssetSyntaxExtension on EncodedAsset {
 
   /// Converts this [EncodedAsset] to a [AssetSyntax] node.
   AssetSyntax toSyntax() {
-    // TODO: Add optional json path argument to constructor that takes parts.
-    final syntaxNodeWithoutPath = AssetSyntax(
-      encoding: JsonObjectSyntax.fromJson(Map.of(encoding)),
-      type: type,
-    );
     final path = switch (encodingJsonPath) {
       // Remove the last element from the encoding path.
       final List<Object> l => l.sublist(0, l.length - 1),
       null => <Object>[],
     };
-    return AssetSyntax.fromJson(syntaxNodeWithoutPath.json, path: path);
+    return AssetSyntax(
+      encoding: JsonObjectSyntax.fromJson(Map.of(encoding)),
+      type: type,
+      path: path,
+    );
   }
 }
