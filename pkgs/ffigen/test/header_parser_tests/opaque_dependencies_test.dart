@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Opaque Dependencies Test'
 ${strings.output}: 'unused'
@@ -32,6 +33,7 @@ ${strings.unions}:
     - 'UE'
   ${strings.dependencyOnly}: ${strings.opaqueCompoundDependencies}
         '''),
+        ),
       );
     });
     test('Expected bindings', () {

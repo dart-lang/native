@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
@@ -11,6 +12,8 @@ import 'utils.dart';
 import 'writer.dart';
 
 class ObjCInterface extends BindingType with ObjCMethods {
+  @override
+  final Context context;
   ObjCInterface? superType;
   bool filled = false;
 
@@ -37,6 +40,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     super.dartDoc,
     required this.builtInFunctions,
     required this.apiAvailability,
+    required this.context,
   }) : lookupName = lookupName ?? originalName,
        super(
          name:

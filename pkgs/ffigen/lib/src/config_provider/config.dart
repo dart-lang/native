@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 
 import '../code_generator.dart';
@@ -192,7 +193,8 @@ abstract interface class FfiGen {
   /// before this version will not be generated.
   ExternalVersions get externalVersions;
 
-  factory FfiGen({
+  factory FfiGen(
+    Logger logger, {
     Uri? filename,
     PackageConfig? packageConfig,
     Uri? libclangDylib,
@@ -244,7 +246,7 @@ abstract interface class FfiGen {
     bool Function(Declaration declaration)? isLeafFunctionFunc,
     bool Function(Declaration declaration)? enumShouldBeIntFunc,
     bool Function(Declaration declaration)? unnamedEnumsShouldBeIntFunc,
-    FfiNativeConfig ffiNativeConfig = const FfiNativeConfig(enabled: false),
+    FfiNativeConfig? ffiNativeConfig,
     bool ignoreSourceErrors = false,
     bool formatOutput = true,
     ExternalVersions externalVersions = const ExternalVersions(),
@@ -252,7 +254,7 @@ abstract interface class FfiGen {
     filename: filename == null ? null : Uri.file(filename.toFilePath()),
     packageConfig: packageConfig,
     libclangDylib: Uri.file(
-      libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(),
+      libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(logger),
     ),
     output: Uri.file(output.toFilePath()),
     outputObjC: Uri.file(
@@ -262,7 +264,7 @@ abstract interface class FfiGen {
     language: language,
     entryPoints: entryPoints,
     shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-    compilerOpts: compilerOpts ?? defaultCompilerOpts(),
+    compilerOpts: compilerOpts ?? defaultCompilerOpts(logger),
     varArgFunctions: varArgFunctions,
     functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
     structDecl: structDecl ?? DeclarationFilters.excludeAll,
@@ -324,7 +326,7 @@ abstract interface class FfiGen {
     isLeafFunctionFunc: isLeafFunctionFunc ?? (_) => false,
     enumShouldBeIntFunc: enumShouldBeIntFunc ?? (_) => false,
     unnamedEnumsShouldBeIntFunc: unnamedEnumsShouldBeIntFunc ?? (_) => false,
-    ffiNativeConfig: ffiNativeConfig,
+    ffiNativeConfig: ffiNativeConfig ?? const FfiNativeConfig(enabled: false),
     ignoreSourceErrors: ignoreSourceErrors,
     formatOutput: formatOutput,
     externalVersions: externalVersions,

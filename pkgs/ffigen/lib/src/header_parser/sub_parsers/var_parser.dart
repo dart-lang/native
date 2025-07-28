@@ -2,18 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 
-final _logger = Logger('ffigen.header_parser.var_parser');
-
 /// Parses a global variable
-Global? parseVarDeclaration(clang_types.CXCursor cursor) {
+Global? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
+  final logger = context.logger;
+  final config = context.config;
+  final bindingsIndex = context.bindingsIndex;
   final name = cursor.spelling();
   final usr = cursor.usr();
   if (bindingsIndex.isSeenGlobalVar(usr)) {
@@ -21,21 +20,22 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
   }
   final decl = Declaration(usr: usr, originalName: name);
 
-  _logger.fine('++++ Adding Global: ${cursor.completeStringRepr()}');
+  logger.fine('++++ Adding Global: ${cursor.completeStringRepr()}');
 
   final cType = cursor.type();
 
   final type = cType.toCodeGenType(
+    context,
     // Native fields can be arrays, but if we use the lookup based method of
     // reading fields there's no way to turn a Pointer into an array.
     supportNonInlineArray: config.ffiNativeConfig.enabled,
   );
   if (type.baseType is UnimplementedType) {
-    _logger.fine(
+    logger.fine(
       '---- Removed Global, reason: unsupported type: '
       '${cursor.completeStringRepr()}',
     );
-    _logger.warning("Skipped global variable '$name', type not supported.");
+    logger.warning("Skipped global variable '$name', type not supported.");
     return null;
   }
 
@@ -44,7 +44,7 @@ Global? parseVarDeclaration(clang_types.CXCursor cursor) {
     name: config.globals.rename(decl),
     usr: usr,
     type: type,
-    dartDoc: getCursorDocComment(cursor),
+    dartDoc: getCursorDocComment(context, cursor),
     exposeSymbolAddress: config.globals.shouldIncludeSymbolAddress(decl),
     constant: cType.isConstQualified,
     nativeConfig: config.ffiNativeConfig,

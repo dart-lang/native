@@ -4,17 +4,22 @@
 
 import 'dart:collection';
 
-import 'package:logging/logging.dart';
-
-import '../code_generator.dart';
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
+import 'func.dart';
+import 'imports.dart';
+import 'native_type.dart';
+import 'objc_block.dart';
+import 'objc_built_in_functions.dart';
+import 'objc_interface.dart';
+import 'objc_nullable.dart';
+import 'pointer.dart';
+import 'type.dart';
+import 'typealias.dart';
 import 'unique_namer.dart';
 import 'utils.dart';
 import 'writer.dart';
-
-final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
   Map<String, ObjCMethod> _methods = <String, ObjCMethod>{};
@@ -27,6 +32,7 @@ mixin ObjCMethods {
   String get originalName;
   String get name;
   ObjCBuiltInFunctions get builtInFunctions;
+  Context get context;
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
@@ -67,7 +73,7 @@ mixin ObjCMethods {
 
     // Check the duplicate is the same method.
     if (!newMethod.sameAs(oldMethod)) {
-      _logger.severe(
+      context.logger.severe(
         'Duplicate methods with different signatures: '
         '$originalName.${newMethod.originalName}',
       );
@@ -189,6 +195,7 @@ class ObjCProperty extends AstNode {
 }
 
 class ObjCMethod extends AstNode {
+  final Context context;
   final ObjCBuiltInFunctions builtInFunctions;
   final String? dartDoc;
   final String originalName;
@@ -221,6 +228,7 @@ class ObjCMethod extends AstNode {
   }
 
   ObjCMethod({
+    required this.context,
     required this.builtInFunctions,
     required this.originalName,
     required this.name,
@@ -285,6 +293,7 @@ class ObjCMethod extends AstNode {
 
   void fillProtocolBlock() {
     protocolBlock ??= ObjCBlock(
+      context,
       returnType: returnType,
       params: [
         // First arg of the protocol block is a void pointer that we ignore.
