@@ -80,10 +80,10 @@ Compound? parseCompoundDeclaration(
   bool pointerReference = false,
 }) {
   // Set includer functions according to compoundType.
-  final config = context.config;
+  final className = _compoundTypeDebugName(compoundType);
   final configDecl = switch (compoundType) {
-    CompoundType.struct => config.structDecl,
-    CompoundType.union => config.unionDecl,
+    CompoundType.struct => context.config.structDecl,
+    CompoundType.union => context.config.unionDecl,
   };
 
   // Parse the cursor definition instead, if this is a forward declaration.
@@ -104,9 +104,7 @@ Compound? parseCompoundDeclaration(
 
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
-    context.logger.info(
-      'Omitting deprecated ${_compoundTypeDebugName(compoundType)} $declName',
-    );
+    context.logger.info('Omitting deprecated $className $declName');
     return null;
   }
 
@@ -115,9 +113,7 @@ Compound? parseCompoundDeclaration(
     cursor = context.cursorIndex.getDefinition(cursor);
     return Compound.fromType(
       type: compoundType,
-      name: context.incrementalNamer.name(
-        'Unnamed${_compoundTypeDebugName(compoundType)}',
-      ),
+      name: context.incrementalNamer.name('Unnamed$className'),
       usr: declUsr,
       dartDoc: getCursorDocComment(
         context,
@@ -130,8 +126,7 @@ Compound? parseCompoundDeclaration(
   } else {
     cursor = context.cursorIndex.getDefinition(cursor);
     context.logger.fine(
-      '++++ Adding ${_compoundTypeDebugName(compoundType)}: Name: $declName, '
-      '${cursor.completeStringRepr()}',
+      '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
     return Compound.fromType(
       type: compoundType,
@@ -160,6 +155,7 @@ void fillCompoundMembersIfNeeded(
 }) {
   if (compound.parsedDependencies) return;
   final compoundType = compound.compoundType;
+  final logger = context.logger;
 
   cursor = context.cursorIndex.getDefinition(cursor);
 
@@ -171,7 +167,7 @@ void fillCompoundMembersIfNeeded(
 
   cursor.visitChildren((cursor) => _compoundMembersVisitor(cursor, parsed));
 
-  context.logger.finest(
+  logger.finest(
     'Opaque: ${parsed.isIncomplete}, HasAttr: ${parsed.hasAttr}, '
     'AlignValue: ${parsed.alignment}, '
     'MaxChildAlignValue: ${parsed.maxChildAlignment}, '
@@ -180,47 +176,47 @@ void fillCompoundMembersIfNeeded(
   compound.pack = parsed.packValue;
 
   if (parsed.unimplementedMemberType) {
-    context.logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: member with '
       'unimplementedtype ${cursor.completeStringRepr()}',
     );
-    context.logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), struct member has an unsupported type.',
     );
   } else if (parsed.flexibleArrayMember) {
-    context.logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: incomplete array '
       'member ${cursor.completeStringRepr()}',
     );
-    context.logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Flexible array members not supported.',
     );
   } else if (parsed.bitFieldMember) {
-    context.logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: bitfield members '
       '${cursor.completeStringRepr()}',
     );
-    context.logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Bit Field members not supported.',
     );
   } else if (parsed.dartHandleMember && context.config.useDartHandle) {
-    context.logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: Dart_Handle member. '
       '${cursor.completeStringRepr()}',
     );
-    context.logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Dart_Handle member not supported.',
     );
   } else if (parsed.incompleteCompoundMember) {
-    context.logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: Incomplete Nested Struct '
       'member. ${cursor.completeStringRepr()}',
     );
-    context.logger.warning(
+    logger.warning(
       'Removed All $className Members from ${compound.name}'
       '(${compound.originalName}), Incomplete Nested Struct member not '
       'supported.',

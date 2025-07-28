@@ -212,38 +212,37 @@ _CreateTypeFromCursorResult _createTypeFromCursor(
   clang_types.CXCursor cursor,
   bool pointerReference,
 ) {
+  final logger = context.logger;
+  final config = context.config;
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
-      if (context.config.language == Language.objc &&
-          spelling == strings.objcBOOL) {
+      if (config.language == Language.objc && spelling == strings.objcBOOL) {
         // Objective C's BOOL type can be either bool or signed char, depending
         // on the platform. We want to present a consistent API to the user, and
         // those two types are ABI compatible, so just return bool regardless.
         return _CreateTypeFromCursorResult(BooleanType());
       }
       final usr = cursor.usr();
-      if (context.config.typedefTypeMappings.containsKey(spelling)) {
-        context.logger.fine('  Type $spelling mapped from type-map');
+      if (config.typedefTypeMappings.containsKey(spelling)) {
+        logger.fine('  Type $spelling mapped from type-map');
         return _CreateTypeFromCursorResult(
-          context.config.typedefTypeMappings[spelling]!,
+          config.typedefTypeMappings[spelling]!,
         );
       }
-      if (context.config.usrTypeMappings.containsKey(usr)) {
-        context.logger.fine('  Type $spelling mapped from usr');
-        return _CreateTypeFromCursorResult(
-          context.config.usrTypeMappings[usr]!,
-        );
+      if (config.usrTypeMappings.containsKey(usr)) {
+        logger.fine('  Type $spelling mapped from usr');
+        return _CreateTypeFromCursorResult(config.usrTypeMappings[usr]!);
       }
       // Get name from supported typedef name if config allows.
-      if (context.config.useSupportedTypedefs) {
+      if (config.useSupportedTypedefs) {
         if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
-          context.logger.fine('  Type Mapped from supported typedef');
+          logger.fine('  Type Mapped from supported typedef');
           return _CreateTypeFromCursorResult(
             NativeType(suportedTypedefToSuportedNativeType[spelling]!),
           );
         } else if (supportedTypedefToImportedType.containsKey(spelling)) {
-          context.logger.fine('  Type Mapped from supported typedef');
+          logger.fine('  Type Mapped from supported typedef');
           return _CreateTypeFromCursorResult(
             supportedTypedefToImportedType[spelling]!,
           );
@@ -317,9 +316,9 @@ Type? _extractfromRecord(
   clang_types.CXCursor cursor,
   bool pointerReference,
 ) {
-  context.logger.fine(
-    '${_padding}_extractfromRecord: ${cursor.completeStringRepr()}',
-  );
+  final logger = context.logger;
+  final config = context.config;
+  logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
 
   final cursorKind = clang.clang_getCursorKind(cursor);
   if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl ||
@@ -334,11 +333,11 @@ Type? _extractfromRecord(
     switch (cursorKind) {
       case clang_types.CXCursorKind.CXCursor_StructDecl:
         compoundType = CompoundType.struct;
-        compoundTypeMappings = context.config.structTypeMappings;
+        compoundTypeMappings = config.structTypeMappings;
         break;
       case clang_types.CXCursorKind.CXCursor_UnionDecl:
         compoundType = CompoundType.union;
-        compoundTypeMappings = context.config.unionTypeMappings;
+        compoundTypeMappings = config.unionTypeMappings;
         break;
       default:
         throw Exception('Unhandled compound type cursorkind.');
@@ -346,11 +345,11 @@ Type? _extractfromRecord(
 
     // Also add a struct binding, if its unseen.
     if (compoundTypeMappings.containsKey(declSpelling)) {
-      context.logger.fine('  Type Mapped from type-map');
+      logger.fine('  Type Mapped from type-map');
       return compoundTypeMappings[declSpelling]!;
-    } else if (context.config.usrTypeMappings.containsKey(declUsr)) {
-      context.logger.fine('  Type Mapped from usr');
-      return context.config.usrTypeMappings[declUsr]!;
+    } else if (config.usrTypeMappings.containsKey(declUsr)) {
+      logger.fine('  Type Mapped from usr');
+      return config.usrTypeMappings[declUsr]!;
     } else {
       final struct = parseCompoundDeclaration(
         cursor,
@@ -361,7 +360,7 @@ Type? _extractfromRecord(
       return struct;
     }
   }
-  context.logger.fine(
+  logger.fine(
     'typedeclarationCursorVisitor: _extractfromRecord: '
     'Not Implemented, ${cursor.completeStringRepr()}',
   );
@@ -393,7 +392,7 @@ Type _extractFromFunctionProto(
 
   final functionType = FunctionType(
     parameters: parameters,
-    returnType: getCodeGenType(context, clang.clang_getResultType(cxtype)),
+    returnType: clang.clang_getResultType(cxtype).toCodeGenType(context),
   );
   _parseAndMergeParamNames(context, functionType, cursor, maxRecursionDepth);
   return NativeFunc(functionType);
