@@ -46,7 +46,7 @@ void main() {
   test('identifiers has \$ and starts with "_"', () async {
     expect(identifiersSpecialCases(), isTrue);
   });
-  
+
   test('Implement Inline Interface', () async {
     expect(implementInlineInterface(), isTrue);
   });
