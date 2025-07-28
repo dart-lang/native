@@ -24,7 +24,7 @@ class AssetSyntax extends JsonObjectSyntax {
 
   AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  AssetSyntax({required String? type}) : super() {
+  AssetSyntax({required String? type, super.path = const []}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -52,6 +52,7 @@ class DataAssetEncodingSyntax extends JsonObjectSyntax {
     required Uri file,
     required String name,
     required String package,
+    super.path = const [],
   }) : super() {
     _file = file;
     _name = name;
@@ -100,8 +101,10 @@ class DataAssetNewSyntax extends AssetSyntax {
 
   DataAssetNewSyntax.fromJson(super.json, {super.path}) : super._fromJson();
 
-  DataAssetNewSyntax({required DataAssetEncodingSyntax? encoding})
-    : super(type: 'data_assets/data') {
+  DataAssetNewSyntax({
+    required DataAssetEncodingSyntax? encoding,
+    super.path = const [],
+  }) : super(type: 'data_assets/data') {
     _encoding = encoding;
     json.sortOnKey();
   }
@@ -155,7 +158,7 @@ class JsonObjectSyntax {
 
   _JsonReader get _reader => _JsonReader(json, path);
 
-  JsonObjectSyntax() : json = {}, path = const [];
+  JsonObjectSyntax({this.path = const []}) : json = {};
 
   JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 

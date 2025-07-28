@@ -33,7 +33,7 @@ void main(List<String> args) {
   var generatedCount = 0;
   var changedCount = 0;
 
-  for (final name in ['pubspec_lock', 'pubspec']) {
+  for (final name in ['pubspec_lock', 'pubspec', 'package_graph']) {
     final schemaFile = File.fromUri(
       packageRoot.resolve('doc/schema/${name}.schema.json'),
     );
@@ -44,6 +44,7 @@ void main(List<String> args) {
       schema,
       nameOverrides: {'path': 'path\$'},
       publicSetters: ['PubspecYamlFile'],
+      publicValidators: ['PubspecYamlFile'],
     ).analyze();
     final textDumpFile = File.fromUri(
       packageRoot.resolve('lib/src/${name}_syntax.g.txt'),

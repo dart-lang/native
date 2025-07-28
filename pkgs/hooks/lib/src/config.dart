@@ -277,10 +277,7 @@ final class BuildInputBuilder extends HookInputBuilder {
           ? null
           : {
               for (final MapEntry(:key, :value) in assets.entries)
-                key: [
-                  for (final asset in value)
-                    AssetSyntax.fromJson(asset.toJson()),
-                ],
+                key: [for (final asset in value) asset.toSyntax()],
             },
     );
   }
@@ -378,9 +375,7 @@ final class LinkInputBuilder extends HookInputBuilder {
     required Uri? recordedUsesFile,
   }) {
     _syntax.setup(
-      assets: [
-        for (final asset in assets) AssetSyntax.fromJson(asset.toJson()),
-      ],
+      assets: [for (final asset in assets) asset.toSyntax()],
       resourceIdentifiers: recordedUsesFile,
     );
   }
@@ -696,19 +691,17 @@ final class BuildOutputAssetsBuilder {
     switch (routing) {
       case ToAppBundle():
         final assets = _syntax.assets ?? [];
-        assets.add(AssetSyntax.fromJson(asset.toJson()));
+        assets.add(asset.toSyntax());
         _syntax.assets = assets;
       case ToBuildHooks():
         final assets = _syntax.assetsForBuild ?? [];
-        assets.add(AssetSyntax.fromJson(asset.toJson()));
+        assets.add(asset.toSyntax());
         _syntax.assetsForBuild = assets;
       case ToLinkHook():
         final packageName = routing.packageName;
         final assetsForLinking = _syntax.assetsForLinking ?? {};
         assetsForLinking[packageName] ??= [];
-        assetsForLinking[packageName]!.add(
-          AssetSyntax.fromJson(asset.toJson()),
-        );
+        assetsForLinking[packageName]!.add(asset.toSyntax());
         _syntax.assetsForLinking = assetsForLinking;
     }
   }
@@ -736,13 +729,13 @@ final class BuildOutputAssetsBuilder {
       case ToAppBundle():
         final list = _syntax.assets ?? [];
         for (final asset in assets) {
-          list.add(AssetSyntax.fromJson(asset.toJson()));
+          list.add(asset.toSyntax());
         }
         _syntax.assets = list;
       case ToBuildHooks():
         final list = _syntax.assetsForBuild ?? [];
         for (final asset in assets) {
-          list.add(AssetSyntax.fromJson(asset.toJson()));
+          list.add(asset.toSyntax());
         }
         _syntax.assetsForBuild = list;
       case ToLinkHook():
@@ -750,7 +743,7 @@ final class BuildOutputAssetsBuilder {
         final assetsForLinking = _syntax.assetsForLinking ?? {};
         final list = assetsForLinking[linkInPackage] ??= [];
         for (final asset in assets) {
-          list.add(AssetSyntax.fromJson(asset.toJson()));
+          list.add(asset.toSyntax());
         }
         _syntax.assetsForLinking = assetsForLinking;
     }
@@ -827,7 +820,7 @@ final class LinkOutputAssetsBuilder {
   /// ```
   void addEncodedAsset(EncodedAsset asset) {
     final list = _syntax.assets ?? [];
-    list.add(AssetSyntax.fromJson(asset.toJson()));
+    list.add(asset.toSyntax());
     _syntax.assets = list;
   }
 
@@ -847,7 +840,7 @@ final class LinkOutputAssetsBuilder {
   void addEncodedAssets(Iterable<EncodedAsset> assets) {
     final list = _syntax.assets ?? [];
     for (final asset in assets) {
-      list.add(AssetSyntax.fromJson(asset.toJson()));
+      list.add(asset.toSyntax());
     }
     _syntax.assets = list;
   }

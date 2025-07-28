@@ -6,6 +6,10 @@ import 'dart:io';
 
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
+
+import 'dartified_snippets/enums.dart';
+import 'dartified_snippets/implement_inline_interface.dart';
+import 'dartified_snippets/implement_normal_interface.dart';
 import 'dartified_snippets/overloaded_methods.dart';
 
 void main() {
@@ -25,6 +29,18 @@ void main() {
   });
 
   test('Overloaded Methods and Constructors', () async {
-    expect(overloadedMethods(), equals(80));
+    expect(overloadedMethods(), isTrue);
+  });
+
+  test('Implement Inline Interface', () async {
+    expect(implementInlineInterface(), isTrue);
+  });
+
+  test('Implement Normal Interface', () async {
+    expect(implementNormalInterface(), isTrue);
+  });
+
+  test('Use Enums', () async {
+    expect(useEnums(), isTrue);
   });
 }
