@@ -194,9 +194,7 @@
           "type": "string"
         },
         "name": {
-          "description": "The name of the package. Must be a valid Dart identifier.",
-          "type": "string",
-          "pattern": "^[a-zA-Z_]\\w*$"
+          "$ref": "#/definitions/packageName"
         },
         "publish_to": {
           "type": "string"
@@ -234,6 +232,11 @@
           "$ref": "#/definitions/DependencySource"
         }
       ]
+    },
+    "packageName": {
+      "description": "The name of the package. Must be a valid Dart identifier.",
+      "type": "string",
+      "pattern": "^[a-zA-Z_]\\w*$"
     }
   }
 }

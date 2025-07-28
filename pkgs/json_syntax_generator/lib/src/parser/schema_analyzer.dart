@@ -440,7 +440,7 @@ class SchemaAnalyzer {
         final itemType = items.type;
         switch (itemType) {
           case SchemaType.string:
-            if (items.patterns.isNotEmpty) {
+            if (items.generateUri) {
               dartType = ListDartType(
                 itemType: const UriDartType(isNullable: false),
                 isNullable: !required,
