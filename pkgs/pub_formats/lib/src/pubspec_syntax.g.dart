@@ -223,23 +223,13 @@ class HostedDependencySourceSyntax extends DependencySourceSyntax {
 
   List<String> _validateHosted() => _reader.validate<String?>('hosted');
 
-  static final _versionPattern = RegExp(r'^[<>=~^0-9. -]+$');
-
-  String get version => _reader.string('version', _versionPattern);
+  String get version => _reader.get<String>('version');
 
   set _version(String value) {
-    if (!_versionPattern.hasMatch(value)) {
-      throw ArgumentError.value(
-        value,
-        'value',
-        'Value does not satisify pattern: ${_versionPattern.pattern}.',
-      );
-    }
     json.setOrRemove('version', value);
   }
 
-  List<String> _validateVersion() =>
-      _reader.validateString('version', _versionPattern);
+  List<String> _validateVersion() => _reader.validate<String>('version');
 
   @override
   List<String> validate() => [

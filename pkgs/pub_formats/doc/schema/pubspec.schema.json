@@ -123,8 +123,7 @@
         },
         "version": {
           "description": "The version constraint for the package on the custom hosted server.",
-          "type": "string",
-          "pattern": "^[<>=~^0-9. -]+$"
+          "type": "string"
         }
       },
       "required": [
