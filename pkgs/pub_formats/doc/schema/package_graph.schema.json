@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/PackageGraphFile",
+  "title": "Package Graph JSON Schema",
+  "description": "Schema for a Dart package_graph.json file. Note that this is reverse engineered and not the source of truth.",
+  "definitions": {
+    "GraphPackage": {
+      "type": "object",
+      "properties": {
+        "dependencies": {
+          "description": "A list of package names this package directly depends on.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/packageName"
+          }
+        },
+        "devDependencies": {
+          "description": "A list of package names this package directly depends on for development.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/packageName"
+          }
+        },
+        "name": {
+          "$ref": "#/definitions/packageName"
+        },
+        "version": {
+          "description": "The semantic version of the package.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependencies",
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "PackageGraphFile": {
+      "type": "object",
+      "properties": {
+        "configVersion": {
+          "description": "Version of the package graph configuration.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "packages": {
+          "description": "Details of each package in the graph.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GraphPackage"
+          }
+        },
+        "roots": {
+          "description": "A list of root package names in the graph.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/packageName"
+          }
+        }
+      },
+      "required": [
+        "packages",
+        "roots"
+      ],
+      "additionalProperties": false
+    },
+    "packageName": {
+      "description": "The name of the package. Must be a valid Dart identifier.",
+      "type": "string",
+      "pattern": "^[a-zA-Z_]\\w*$"
+    }
+  }
+}

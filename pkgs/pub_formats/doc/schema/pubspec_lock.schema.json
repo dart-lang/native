@@ -63,9 +63,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "description": "Name of the package.",
-          "type": "string",
-          "pattern": "^[a-zA-Z_]\\w*$"
+          "$ref": "#/definitions/packageName"
         },
         "sha256": {
           "description": "SHA256 checksum of the package.",
@@ -196,6 +194,11 @@
         "dart"
       ],
       "additionalProperties": false
+    },
+    "packageName": {
+      "description": "The name of the package. Must be a valid Dart identifier.",
+      "type": "string",
+      "pattern": "^[a-zA-Z_]\\w*$"
     }
   }
 }

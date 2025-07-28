@@ -225,36 +225,47 @@ dynamic sortJson(dynamic data, String filePath) {
   return data;
 }
 
+int _compareTwoItems(dynamic a, dynamic b) {
+  if (a is Map && b is Map) {
+    return compareMaps(a, b);
+  }
+  if (a is String && b is String) {
+    return a.compareTo(b);
+  }
+  if (a is List && b is List) {
+    return compareLists(a, b);
+  }
+  if (a is int && b is int) {
+    return a.compareTo(b);
+  }
+  throw UnimplementedError('Not implemented to compare $a and $b.');
+}
+
 int compareMaps(Map<dynamic, dynamic> a, Map<dynamic, dynamic> b) {
   final aKeys = a.keys.toList();
   final bKeys = b.keys.toList();
   for (var i = 0; i < aKeys.length && i < bKeys.length; i++) {
-    final comparison = aKeys[i].toString().compareTo(bKeys[i].toString());
-    if (comparison != 0) {
-      return comparison;
+    final keyComparison = _compareTwoItems(aKeys[i], bKeys[i]);
+    if (keyComparison != 0) {
+      return keyComparison;
     }
     final aValue = a[aKeys[i]];
     final bValue = b[bKeys[i]];
-    if (aValue is String && bValue is String) {
-      final valueComparison = aValue.compareTo(bValue);
-      if (valueComparison != 0) {
-        return valueComparison;
-      } else {
-        continue;
-      }
+    final valueComparison = _compareTwoItems(aValue, bValue);
+    if (valueComparison != 0) {
+      return valueComparison;
     }
-    if (aValue is Map && bValue is Map) {
-      final valueComparison = compareMaps(aValue, bValue);
-      if (valueComparison != 0) {
-        return valueComparison;
-      } else {
-        continue;
-      }
-    }
-    if (aValue == bValue) {
-      continue;
-    }
-    throw UnimplementedError('Not implemented to compare $aValue and $bValue.');
   }
   return 0;
+}
+
+int compareLists(List<dynamic> a, List<dynamic> b) {
+  for (var i = 0; i < a.length && i < b.length; i++) {
+    final comparison = _compareTwoItems(a[i], b[i]);
+    if (comparison != 0) {
+      return comparison;
+    }
+  }
+  // If all common elements are equal, the shorter list comes first.
+  return a.length.compareTo(b.length);
 }
