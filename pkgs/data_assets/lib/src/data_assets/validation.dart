@@ -107,7 +107,7 @@ ValidationErrors _validateDataAssetSyntax(EncodedAsset encodedAsset) {
   }
   final syntaxNode = DataAssetEncodingSyntax.fromJson(
     encodedAsset.encoding,
-    path: encodedAsset.jsonPath ?? [],
+    path: encodedAsset.encodingJsonPath ?? [],
   );
   final syntaxErrors = syntaxNode.validate();
   if (syntaxErrors.isEmpty) {

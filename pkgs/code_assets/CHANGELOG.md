@@ -1,3 +1,7 @@
+## 0.19.5-wip
+
+- Bump `package:hooks` to 0.20.0.
+
 ## 0.19.4
 
 * Add doc comments to all public members.
