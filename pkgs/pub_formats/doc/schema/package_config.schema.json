@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/PackageConfigFile",
+  "title": "Package Config File Schema",
+  "description": "Schema for a Dart .dart_tool/package_config.json file. Note that this is reverse engineered and not the source of truth.",
+  "definitions": {
+    "PackageConfigEntry": {
+      "type": "object",
+      "properties": {
+        "languageVersion": {
+          "description": "The minimum Dart language version required by this package (e.g., '2.12', '3.0').",
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+$"
+        },
+        "name": {
+          "description": "The name of the package.",
+          "type": "string",
+          "pattern": "^[a-zA-Z_]\\w*$"
+        },
+        "packageUri": {
+          "description": "The URI relative to rootUri where Dart files for this package are found (typically 'lib/').",
+          "type": "string"
+        },
+        "rootUri": {
+          "description": "The root URI of the package, where its pubspec.yaml file is located. Can be a file URI or relative path.",
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "languageVersion",
+        "name",
+        "packageUri",
+        "rootUri"
+      ],
+      "additionalProperties": false
+    },
+    "PackageConfigFile": {
+      "type": "object",
+      "properties": {
+        "configVersion": {
+          "description": "The version of the package configuration format.",
+          "type": "integer"
+        },
+        "flutterRoot": {
+          "description": "The root URI of the Flutter SDK (if applicable).",
+          "type": "string",
+          "format": "uri"
+        },
+        "flutterVersion": {
+          "description": "The version of the Flutter SDK (if applicable).",
+          "type": "string"
+        },
+        "generator": {
+          "description": "The tool that generated this package configuration (e.g., 'pub').",
+          "type": "string"
+        },
+        "generatorVersion": {
+          "description": "The version of the generator tool.",
+          "type": "string"
+        },
+        "packages": {
+          "description": "A list of package configurations.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PackageConfigEntry"
+          }
+        },
+        "pubCache": {
+          "description": "The URI of the Pub cache directory.",
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "configVersion",
+        "packages"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
