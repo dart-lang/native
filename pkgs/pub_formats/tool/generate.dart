@@ -44,6 +44,7 @@ void main(List<String> args) {
       schema,
       nameOverrides: {'path': 'path\$'},
       publicSetters: ['PubspecYamlFile'],
+      publicValidators: ['PubspecYamlFile'],
     ).analyze();
     final textDumpFile = File.fromUri(
       packageRoot.resolve('lib/src/${name}_syntax.g.txt'),

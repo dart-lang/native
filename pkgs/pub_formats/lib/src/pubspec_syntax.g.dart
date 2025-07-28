@@ -353,7 +353,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateDependencies() {
+  List<String> validateDependencies() {
     final mapErrors = _reader.validateOptionalMap(
       'dependencies',
       keyPattern: _dependenciesKeyPattern,
@@ -403,7 +403,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateDependencyOverrides() {
+  List<String> validateDependencyOverrides() {
     final mapErrors = _reader.validateOptionalMap(
       'dependency_overrides',
       keyPattern: _dependencyOverridesKeyPattern,
@@ -429,7 +429,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateDescription() =>
+  List<String> validateDescription() =>
       _reader.validate<String?>('description');
 
   static final _devDependenciesKeyPattern = RegExp(r'^[a-zA-Z_]\w*$');
@@ -463,7 +463,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateDevDependencies() {
+  List<String> validateDevDependencies() {
     final mapErrors = _reader.validateOptionalMap(
       'dev_dependencies',
       keyPattern: _devDependenciesKeyPattern,
@@ -489,7 +489,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateDocumentation() =>
+  List<String> validateDocumentation() =>
       _reader.validate<String?>('documentation');
 
   EnvironmentSyntax get environment {
@@ -505,7 +505,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateEnvironment() {
+  List<String> validateEnvironment() {
     final mapErrors = _reader.validate<Map<String, Object?>>('environment');
     if (mapErrors.isNotEmpty) {
       return mapErrors;
@@ -546,7 +546,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateExecutables() {
+  List<String> validateExecutables() {
     final mapErrors = _reader.validateOptionalMap<String?>(
       'executables',
       keyPattern: _executablesKeyPattern,
@@ -572,7 +572,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateHomepage() => _reader.validate<String?>('homepage');
+  List<String> validateHomepage() => _reader.validate<String?>('homepage');
 
   HooksSyntax? get hooks {
     final jsonValue = _reader.optionalMap('hooks');
@@ -585,7 +585,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateHooks() {
+  List<String> validateHooks() {
     final mapErrors = _reader.validate<Map<String, Object?>?>('hooks');
     if (mapErrors.isNotEmpty) {
       return mapErrors;
@@ -600,7 +600,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateIssueTracker() =>
+  List<String> validateIssueTracker() =>
       _reader.validate<String?>('issue_tracker');
 
   static final _namePattern = RegExp(r'^[a-zA-Z_]\w*$');
@@ -619,7 +619,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateName() => _reader.validateString('name', _namePattern);
+  List<String> validateName() => _reader.validateString('name', _namePattern);
 
   String? get publishTo => _reader.get<String?>('publish_to');
 
@@ -628,7 +628,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validatePublishTo() => _reader.validate<String?>('publish_to');
+  List<String> validatePublishTo() => _reader.validate<String?>('publish_to');
 
   String? get repository => _reader.get<String?>('repository');
 
@@ -637,7 +637,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateRepository() => _reader.validate<String?>('repository');
+  List<String> validateRepository() => _reader.validate<String?>('repository');
 
   static final _versionPattern = RegExp(
     r'^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.]+)?(?:\+[a-zA-Z0-9.]+)?$',
@@ -657,26 +657,26 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     json.sortOnKey();
   }
 
-  List<String> _validateVersion() =>
+  List<String> validateVersion() =>
       _reader.validateOptionalString('version', _versionPattern);
 
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateDependencies(),
-    ..._validateDependencyOverrides(),
-    ..._validateDescription(),
-    ..._validateDevDependencies(),
-    ..._validateDocumentation(),
-    ..._validateEnvironment(),
-    ..._validateExecutables(),
-    ..._validateHomepage(),
-    ..._validateHooks(),
-    ..._validateIssueTracker(),
-    ..._validateName(),
-    ..._validatePublishTo(),
-    ..._validateRepository(),
-    ..._validateVersion(),
+    ...validateDependencies(),
+    ...validateDependencyOverrides(),
+    ...validateDescription(),
+    ...validateDevDependencies(),
+    ...validateDocumentation(),
+    ...validateEnvironment(),
+    ...validateExecutables(),
+    ...validateHomepage(),
+    ...validateHooks(),
+    ...validateIssueTracker(),
+    ...validateName(),
+    ...validatePublishTo(),
+    ...validateRepository(),
+    ...validateVersion(),
   ];
 
   @override
