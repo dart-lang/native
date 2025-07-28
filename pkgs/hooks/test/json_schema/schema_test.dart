@@ -40,7 +40,8 @@ _metadataAssetFields({
   required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
   for (final path in [
-    if (inputOrOutput == InputOrOutput.input && hook == Hook.link) ['assets'],
+    if (inputOrOutput == InputOrOutput.input && hook == Hook.link)
+      ['assets', 'assets_from_linking'],
     if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
       ['assets_for_build'],
       ['assets_for_linking', 'package_with_linker'],

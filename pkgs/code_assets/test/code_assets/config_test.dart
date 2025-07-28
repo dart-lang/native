@@ -72,7 +72,7 @@ void main() async {
     };
     return {
       if (hookType == 'link')
-        'assets': [
+        'assets_from_building': [
           {
             'type': 'code_assets/code',
             'encoding': {
@@ -87,6 +87,17 @@ void main() async {
         'extensions': {'code_assets': codeConfig},
         if (hookType == 'build') 'linking_enabled': false,
       },
+      if (hookType == 'link')
+        'assets_from_linking': [
+          {
+            'type': 'code_assets/code',
+            'encoding': {
+              'file': 'not there',
+              'id': 'package:my_package/name2',
+              'link_mode': {'type': 'dynamic_loading_bundle'},
+            },
+          },
+        ],
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
@@ -168,7 +179,18 @@ void main() async {
         outputFile: outFile,
         outputDirectoryShared: outputDirectoryShared,
       )
-      ..setupLink(assets: assets, recordedUsesFile: null)
+      ..setupLink(
+        assetsFromBuilding: assets,
+        recordedUsesFile: null,
+        assetsFromLinking: [
+          CodeAsset(
+            name: 'name2',
+            package: 'my_package',
+            file: Uri.file('not there'),
+            linkMode: DynamicLoadingBundled(),
+          ).encode(),
+        ],
+      )
       ..addExtension(
         CodeAssetExtension(
           targetOS: OS.android,
@@ -273,10 +295,10 @@ void main() async {
     );
   });
 
-  test('LinkInput.assets.0.link_mode missing', () {
+  test('LinkInput.assets_from_building.0.link_mode missing', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
-      'assets',
+      'assets_from_building',
       0,
       'encoding',
     ]).remove('link_mode');
@@ -286,9 +308,29 @@ void main() async {
         predicate(
           (e) =>
               e is FormatException &&
-              e.message.contains(
-                "No value was provided for 'assets.0.encoding.link_mode'.",
-              ),
+              e.message.contains("""
+No value was provided for 'assets_from_building.0.encoding.link_mode'."""),
+        ),
+      ),
+    );
+  });
+
+  test('LinkInput.assets_from_linking.0.encoding.key missing', () {
+    final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, [
+      'assets_from_linking',
+      0,
+      'encoding',
+    ]).remove('link_mode');
+    expect(
+      () =>
+          LinkInput(input).assets.assetsFromLinking.first.asCodeAsset.linkMode,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains("""
+No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
         ),
       ),
     );
