@@ -24,16 +24,12 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
 
-  @override
-  final ObjCBuiltInFunctions builtInFunctions;
-
   ObjCProtocol({
     super.usr,
     required String super.originalName,
     String? name,
     String? lookupName,
     super.dartDoc,
-    required this.builtInFunctions,
     required this.apiAvailability,
     required this.context,
   }) : lookupName = lookupName ?? originalName,
@@ -44,23 +40,28 @@ class ObjCProtocol extends BindingType with ObjCMethods {
        ),
        super(
          name:
-             builtInFunctions.getBuiltInProtocolName(originalName) ??
+             context.objCBuiltInFunctions.getBuiltInProtocolName(
+               originalName,
+             ) ??
              name ??
              originalName,
        ) {
-    _conformsTo = builtInFunctions.getSelObject('conformsToProtocol:');
-    _conformsToMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      Parameter(
-        name: 'protocol',
-        type: PointerType(objCProtocolType),
-        objCConsumed: false,
-      ),
-    ]);
+    _conformsTo = context.objCBuiltInFunctions.getSelObject(
+      'conformsToProtocol:',
+    );
+    _conformsToMsgSend = context.objCBuiltInFunctions
+        .getMsgSendFunc(BooleanType(), [
+          Parameter(
+            name: 'protocol',
+            type: PointerType(objCProtocolType),
+            objCConsumed: false,
+          ),
+        ]);
   }
 
   @override
   bool get isObjCImport =>
-      builtInFunctions.getBuiltInProtocolName(originalName) != null;
+      context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
   @override
   void sort() => sortMethods();
@@ -301,7 +302,7 @@ interface class $name extends $protocolBase $impls{
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    final wrapName = builtInFunctions.wrapperName;
+    final wrapName = context.objCBuiltInFunctions.wrapperName;
     final mainString =
         '''
 

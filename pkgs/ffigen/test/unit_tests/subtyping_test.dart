@@ -10,7 +10,6 @@ import '../test_utils.dart';
 
 void main() {
   group('subtyping', () {
-    final builtInFunctions = ObjCBuiltInFunctions('', false);
     final availability = ApiAvailability(
       externalVersions: const ExternalVersions(),
     );
@@ -24,7 +23,6 @@ void main() {
         context: testContext(),
         usr: name,
         originalName: name,
-        builtInFunctions: builtInFunctions,
         apiAvailability: availability,
       );
       if (superType != null) {
@@ -43,7 +41,6 @@ void main() {
         context: testContext(),
         usr: name,
         originalName: name,
-        builtInFunctions: builtInFunctions,
         apiAvailability: availability,
       );
       proto.superProtocols.addAll(superProtocols);
@@ -69,7 +66,6 @@ void main() {
         for (final t in argTypes) Parameter(type: t, objCConsumed: false),
       ],
       returnsRetained: false,
-      builtInFunctions: builtInFunctions,
     );
 
     group('ObjCInterface', () {

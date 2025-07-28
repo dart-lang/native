@@ -13,7 +13,6 @@ import 'writer.dart';
 
 class ObjCBlock extends BindingType {
   final Context context;
-  final ObjCBuiltInFunctions builtInFunctions;
   final Type returnType;
   final List<Parameter> params;
   final bool returnsRetained;
@@ -25,7 +24,6 @@ class ObjCBlock extends BindingType {
     required Type returnType,
     required List<Parameter> params,
     required bool returnsRetained,
-    required ObjCBuiltInFunctions builtInFunctions,
   }) {
     final renamedParams = [
       for (var i = 0; i < params.length; ++i)
@@ -50,7 +48,6 @@ class ObjCBlock extends BindingType {
       returnType: returnType,
       params: renamedParams,
       returnsRetained: returnsRetained,
-      builtInFunctions: builtInFunctions,
     );
     context.bindingsIndex.addObjCBlockToSeen(usr, block);
 
@@ -64,15 +61,15 @@ class ObjCBlock extends BindingType {
     required this.returnType,
     required this.params,
     required this.returnsRetained,
-    required this.builtInFunctions,
   }) : super(originalName: name) {
     if (hasListener) {
-      _blockWrappers = builtInFunctions.getBlockTrampolines(this);
+      _blockWrappers = context.objCBuiltInFunctions.getBlockTrampolines(this);
     }
   }
 
   void fillProtocolTrampoline() {
-    protocolTrampoline ??= builtInFunctions.getProtocolMethodTrampoline(this);
+    protocolTrampoline ??= context.objCBuiltInFunctions
+        .getProtocolMethodTrampoline(this);
   }
 
   // Generates a human readable name for the block based on the args and return

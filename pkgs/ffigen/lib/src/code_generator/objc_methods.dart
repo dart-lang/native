@@ -31,7 +31,6 @@ mixin ObjCMethods {
 
   String get originalName;
   String get name;
-  ObjCBuiltInFunctions get builtInFunctions;
   Context get context;
 
   void addMethod(ObjCMethod? method) {
@@ -196,7 +195,6 @@ class ObjCProperty extends AstNode {
 
 class ObjCMethod extends AstNode {
   final Context context;
-  final ObjCBuiltInFunctions builtInFunctions;
   final String? dartDoc;
   final String originalName;
   String name;
@@ -229,7 +227,6 @@ class ObjCMethod extends AstNode {
 
   ObjCMethod({
     required this.context,
-    required this.builtInFunctions,
     required this.originalName,
     required this.name,
     this.property,
@@ -242,7 +239,7 @@ class ObjCMethod extends AstNode {
     required this.apiAvailability,
     List<Parameter>? params_,
   }) : params = params_ ?? [],
-       selObject = builtInFunctions.getSelObject(originalName);
+       selObject = context.objCBuiltInFunctions.getSelObject(originalName);
 
   // Must be called after all params are added to the method.
   void finalizeParams() {
@@ -288,7 +285,7 @@ class ObjCMethod extends AstNode {
   bool get isInstanceMethod => !isClassMethod;
 
   void fillMsgSend() {
-    msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params);
+    msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(returnType, params);
   }
 
   void fillProtocolBlock() {
@@ -301,7 +298,6 @@ class ObjCMethod extends AstNode {
         ...params,
       ],
       returnsRetained: returnsRetained,
-      builtInFunctions: builtInFunctions,
     )..fillProtocolTrampoline();
   }
 

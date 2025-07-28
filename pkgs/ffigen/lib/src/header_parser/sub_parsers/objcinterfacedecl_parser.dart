@@ -41,7 +41,6 @@ Type? parseObjCInterfaceDeclaration(
       fallbackComment: itfName,
       availability: apiAvailability.dartDoc,
     ),
-    builtInFunctions: context.objCBuiltInFunctions,
     apiAvailability: apiAvailability,
   );
 }
@@ -198,7 +197,6 @@ void _parseSuperType(
       .toStringAndDispose();
   final getter = ObjCMethod(
     context: context,
-    builtInFunctions: context.objCBuiltInFunctions,
     originalName: getterName,
     name: getterName,
     property: property,
@@ -218,7 +216,6 @@ void _parseSuperType(
         .toStringAndDispose();
     setter = ObjCMethod(
       context: context,
-      builtInFunctions: context.objCBuiltInFunctions,
       originalName: setterName,
       name: setterName,
       property: property,
@@ -271,7 +268,6 @@ ObjCMethod? parseObjCMethod(
 
   final method = ObjCMethod(
     context: context,
-    builtInFunctions: context.objCBuiltInFunctions,
     originalName: methodName,
     name: filters.renameMember(itfDecl, methodName),
     dartDoc: getCursorDocComment(

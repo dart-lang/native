@@ -66,7 +66,6 @@ ObjCProtocol? parseObjCProtocolDeclaration(
       fallbackComment: name,
       availability: apiAvailability.dartDoc,
     ),
-    builtInFunctions: context.objCBuiltInFunctions,
     apiAvailability: apiAvailability,
   );
 

@@ -26,6 +26,5 @@ ObjCBlock parseObjCBlock(Context context, clang_types.CXType cxtype) {
     returnType: returnType,
     params: params,
     returnsRetained: false,
-    builtInFunctions: context.objCBuiltInFunctions,
   );
 }

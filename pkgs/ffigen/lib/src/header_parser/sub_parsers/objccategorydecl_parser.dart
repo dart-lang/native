@@ -66,7 +66,6 @@ ObjCCategory? parseObjCCategoryDeclaration(
       fallbackComment: name,
       availability: apiAvailability.dartDoc,
     ),
-    builtInFunctions: context.objCBuiltInFunctions,
     context: context,
   );
 

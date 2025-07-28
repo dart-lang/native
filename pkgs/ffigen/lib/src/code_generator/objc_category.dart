@@ -24,7 +24,6 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     String? name,
     required this.parent,
     super.dartDoc,
-    required this.builtInFunctions,
     required this.context,
   }) : classObject = parent.classObject,
        super(name: name ?? originalName);
@@ -39,10 +38,8 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
   }
 
   @override
-  bool get isObjCImport => builtInFunctions.isBuiltInCategory(originalName);
-
-  @override
-  final ObjCBuiltInFunctions builtInFunctions;
+  bool get isObjCImport =>
+      context.objCBuiltInFunctions.isBuiltInCategory(originalName);
 
   @override
   void sort() => sortMethods();

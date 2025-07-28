@@ -26,9 +26,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
   final subtypes = <ObjCInterface>[];
   final ApiAvailability apiAvailability;
 
-  @override
-  final ObjCBuiltInFunctions builtInFunctions;
-
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
 
@@ -38,13 +35,14 @@ class ObjCInterface extends BindingType with ObjCMethods {
     String? name,
     String? lookupName,
     super.dartDoc,
-    required this.builtInFunctions,
     required this.apiAvailability,
     required this.context,
   }) : lookupName = lookupName ?? originalName,
        super(
          name:
-             builtInFunctions.getBuiltInInterfaceName(originalName) ??
+             context.objCBuiltInFunctions.getBuiltInInterfaceName(
+               originalName,
+             ) ??
              name ??
              originalName,
        ) {
@@ -52,14 +50,19 @@ class ObjCInterface extends BindingType with ObjCMethods {
       '_class_$originalName',
       (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")',
     );
-    _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
-    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      Parameter(
-        name: 'clazz',
-        type: PointerType(objCObjectType),
-        objCConsumed: false,
-      ),
-    ]);
+    _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
+      'isKindOfClass:',
+    );
+    _isKindOfClassMsgSend = context.objCBuiltInFunctions.getMsgSendFunc(
+      BooleanType(),
+      [
+        Parameter(
+          name: 'clazz',
+          type: PointerType(objCObjectType),
+          objCConsumed: false,
+        ),
+      ],
+    );
   }
 
   void addProtocol(ObjCProtocol? proto) {
@@ -68,7 +71,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   @override
   bool get isObjCImport =>
-      builtInFunctions.getBuiltInInterfaceName(originalName) != null;
+      context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) !=
+      null;
 
   @override
   void sort() => sortMethods();
