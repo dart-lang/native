@@ -64,7 +64,7 @@ void main(List<String> args) {
         'HookOutput',
         'LinkOutput',
       ],
-      visbleUnionTagValues: ['Asset'],
+      publicUnionTagValues: ['Asset'],
     ).analyze();
     final textDumpFile = File.fromUri(
       packageUri.resolve('../$packageName/lib/src/$packageName/syntax.g.txt'),

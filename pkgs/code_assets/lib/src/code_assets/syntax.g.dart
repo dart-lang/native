@@ -14,7 +14,8 @@ class AndroidCodeConfigSyntax extends JsonObjectSyntax {
   AndroidCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  AndroidCodeConfigSyntax({required int targetNdkApi}) : super() {
+  AndroidCodeConfigSyntax({required int targetNdkApi, super.path = const []})
+    : super() {
     _targetNdkApi = targetNdkApi;
     json.sortOnKey();
   }
@@ -95,7 +96,7 @@ class AssetSyntax extends JsonObjectSyntax {
 
   AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  AssetSyntax({required String? type}) : super() {
+  AssetSyntax({required String? type, super.path = const []}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -124,6 +125,7 @@ class CCompilerConfigSyntax extends JsonObjectSyntax {
     required Uri cc,
     required Uri ld,
     required WindowsSyntax? windows,
+    super.path = const [],
   }) : super() {
     _ar = ar;
     _cc = cc;
@@ -199,6 +201,7 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     required MacOSCodeConfigSyntax? macOS,
     required ArchitectureSyntax targetArchitecture,
     required OSSyntax targetOs,
+    super.path = const [],
   }) : super() {
     _android = android;
     _cCompiler = cCompiler;
@@ -355,7 +358,7 @@ class CodeConfigSyntax extends JsonObjectSyntax {
       if (objectErrors.isEmpty) {
         final jsonValue = _reader.get<Map<String, Object?>?>('c_compiler');
         if (jsonValue != null) {
-          final reader = JsonReader(jsonValue, [...path, 'c_compiler']);
+          final reader = _JsonReader(jsonValue, [...path, 'c_compiler']);
           result.addAll(reader.validate<Object>('windows'));
         }
       }
@@ -370,7 +373,10 @@ class CodeConfigSyntax extends JsonObjectSyntax {
 class ConfigSyntax extends JsonObjectSyntax {
   ConfigSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  ConfigSyntax({required ConfigExtensionsSyntax? extensions}) : super() {
+  ConfigSyntax({
+    required ConfigExtensionsSyntax? extensions,
+    super.path = const [],
+  }) : super() {
     this.extensions = extensions;
     json.sortOnKey();
   }
@@ -408,7 +414,10 @@ class ConfigExtensionsSyntax extends JsonObjectSyntax {
   ConfigExtensionsSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  ConfigExtensionsSyntax({required CodeConfigSyntax? codeAssets}) : super() {
+  ConfigExtensionsSyntax({
+    required CodeConfigSyntax? codeAssets,
+    super.path = const [],
+  }) : super() {
     this.codeAssets = codeAssets;
     json.sortOnKey();
   }
@@ -446,6 +455,7 @@ class DeveloperCommandPromptSyntax extends JsonObjectSyntax {
   DeveloperCommandPromptSyntax({
     required List<String> arguments,
     required Uri script,
+    super.path = const [],
   }) : super() {
     _arguments = arguments;
     _script = script;
@@ -483,7 +493,8 @@ class DynamicLoadingBundleLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingBundleLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingBundleLinkModeSyntax() : super(type: 'dynamic_loading_bundle');
+  DynamicLoadingBundleLinkModeSyntax({super.path = const []})
+    : super(type: 'dynamic_loading_bundle');
 
   @override
   List<String> validate() => [...super.validate()];
@@ -503,7 +514,7 @@ class DynamicLoadingExecutableLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingExecutableLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingExecutableLinkModeSyntax()
+  DynamicLoadingExecutableLinkModeSyntax({super.path = const []})
     : super(type: 'dynamic_loading_executable');
 
   @override
@@ -526,7 +537,7 @@ class DynamicLoadingProcessLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingProcessLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingProcessLinkModeSyntax()
+  DynamicLoadingProcessLinkModeSyntax({super.path = const []})
     : super(type: 'dynamic_loading_process');
 
   @override
@@ -547,7 +558,7 @@ class DynamicLoadingSystemLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingSystemLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingSystemLinkModeSyntax({required Uri uri})
+  DynamicLoadingSystemLinkModeSyntax({required Uri uri, super.path = const []})
     : super(type: 'dynamic_loading_system') {
     _uri = uri;
     json.sortOnKey();
@@ -586,8 +597,11 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   IOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  IOSCodeConfigSyntax({required String targetSdk, required int targetVersion})
-    : super() {
+  IOSCodeConfigSyntax({
+    required String targetSdk,
+    required int targetVersion,
+    super.path = const [],
+  }) : super() {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
     json.sortOnKey();
@@ -648,7 +662,7 @@ class LinkModeSyntax extends JsonObjectSyntax {
   LinkModeSyntax._fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  LinkModeSyntax({required String type}) : super() {
+  LinkModeSyntax({required String type, super.path = const []}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -713,7 +727,8 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
   MacOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  MacOSCodeConfigSyntax({required int targetVersion}) : super() {
+  MacOSCodeConfigSyntax({required int targetVersion, super.path = const []})
+    : super() {
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
@@ -742,6 +757,7 @@ class NativeCodeAssetEncodingSyntax extends JsonObjectSyntax {
     required Uri? file,
     required String id,
     required LinkModeSyntax linkMode,
+    super.path = const [],
   }) : super() {
     _file = file;
     _id = id;
@@ -812,8 +828,10 @@ class NativeCodeAssetNewSyntax extends AssetSyntax {
   NativeCodeAssetNewSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  NativeCodeAssetNewSyntax({required NativeCodeAssetEncodingSyntax? encoding})
-    : super(type: 'code_assets/code') {
+  NativeCodeAssetNewSyntax({
+    required NativeCodeAssetEncodingSyntax? encoding,
+    super.path = const [],
+  }) : super(type: 'code_assets/code') {
     _encoding = encoding;
     json.sortOnKey();
   }
@@ -900,7 +918,7 @@ class OSSyntax {
 class StaticLinkModeSyntax extends LinkModeSyntax {
   StaticLinkModeSyntax.fromJson(super.json, {super.path}) : super._fromJson();
 
-  StaticLinkModeSyntax() : super(type: 'static');
+  StaticLinkModeSyntax({super.path = const []}) : super(type: 'static');
 
   @override
   List<String> validate() => [...super.validate()];
@@ -920,8 +938,10 @@ class WindowsSyntax extends JsonObjectSyntax {
   WindowsSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  WindowsSyntax({required DeveloperCommandPromptSyntax? developerCommandPrompt})
-    : super() {
+  WindowsSyntax({
+    required DeveloperCommandPromptSyntax? developerCommandPrompt,
+    super.path = const [],
+  }) : super() {
     _developerCommandPrompt = developerCommandPrompt;
     json.sortOnKey();
   }
@@ -964,16 +984,16 @@ class JsonObjectSyntax {
 
   final List<Object> path;
 
-  JsonReader get _reader => JsonReader(json, path);
+  _JsonReader get _reader => _JsonReader(json, path);
 
-  JsonObjectSyntax() : json = {}, path = const [];
+  JsonObjectSyntax({this.path = const []}) : json = {};
 
   JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 
   List<String> validate() => [];
 }
 
-class JsonReader {
+class _JsonReader {
   /// The JSON Object this reader is reading.
   final Map<String, Object?> json;
 
@@ -984,7 +1004,7 @@ class JsonReader {
   /// This is used to give more precise error messages.
   final List<Object> path;
 
-  JsonReader(this.json, this.path);
+  _JsonReader(this.json, this.path);
 
   T get<T extends Object?>(String key) {
     final value = json[key];
@@ -1052,24 +1072,47 @@ class JsonReader {
     return result;
   }
 
-  Map<String, T> map$<T extends Object?>(String key) =>
-      _castMap<T>(get<Map<String, Object?>>(key), key);
+  Map<String, T> map$<T extends Object?>(String key, {RegExp? keyPattern}) {
+    final map = get<Map<String, Object?>>(key);
+    final keyErrors = _validateMapKeys(map, key, keyPattern: keyPattern);
+    if (keyErrors.isNotEmpty) {
+      throw FormatException(keyErrors.join('\n'));
+    }
+    return _castMap<T>(map, key);
+  }
 
-  List<String> validateMap<T extends Object?>(String key) {
+  List<String> validateMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
     final mapErrors = validate<Map<String, Object?>>(key);
     if (mapErrors.isNotEmpty) {
       return mapErrors;
     }
-    return _validateMapElements<T>(get<Map<String, Object?>>(key), key);
+    final map = get<Map<String, Object?>>(key);
+    return [
+      ..._validateMapKeys(map, key, keyPattern: keyPattern),
+      ..._validateMapElements<T>(map, key),
+    ];
   }
 
-  Map<String, T>? optionalMap<T extends Object?>(String key) =>
-      switch (get<Map<String, Object?>?>(key)) {
-        null => null,
-        final m => _castMap<T>(m, key),
-      };
+  Map<String, T>? optionalMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
+    final map = get<Map<String, Object?>?>(key);
+    if (map == null) return null;
+    final keyErrors = _validateMapKeys(map, key, keyPattern: keyPattern);
+    if (keyErrors.isNotEmpty) {
+      throw FormatException(keyErrors.join('\n'));
+    }
+    return _castMap<T>(map, key);
+  }
 
-  List<String> validateOptionalMap<T extends Object?>(String key) {
+  List<String> validateOptionalMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
     final mapErrors = validate<Map<String, Object?>?>(key);
     if (mapErrors.isNotEmpty) {
       return mapErrors;
@@ -1078,7 +1121,10 @@ class JsonReader {
     if (map == null) {
       return [];
     }
-    return _validateMapElements<T>(map, key);
+    return [
+      ..._validateMapKeys(map, key, keyPattern: keyPattern),
+      ..._validateMapElements<T>(map, key),
+    ];
   }
 
   /// [Map.cast] but with [FormatException]s.
@@ -1094,6 +1140,23 @@ class JsonReader {
     return map_.cast();
   }
 
+  List<String> _validateMapKeys(
+    Map<String, Object?> map_,
+    String parentKey, {
+    required RegExp? keyPattern,
+  }) {
+    if (keyPattern == null) return [];
+    final result = <String>[];
+    for (final key in map_.keys) {
+      if (!keyPattern.hasMatch(key)) {
+        result.add(
+          keyErrorString(key, pattern: keyPattern, pathExtension: [parentKey]),
+        );
+      }
+    }
+    return result;
+  }
+
   List<String> _validateMapElements<T extends Object?>(
     Map<String, Object?> map_,
     String parentKey,
@@ -1105,6 +1168,70 @@ class JsonReader {
       }
     }
     return result;
+  }
+
+  List<String> validateMapStringElements<T extends Object?>(
+    Map<String, String?> map_,
+    String parentKey, {
+    RegExp? valuePattern,
+  }) {
+    final result = <String>[];
+    for (final MapEntry(:key, :value) in map_.entries) {
+      if (value != null &&
+          valuePattern != null &&
+          !valuePattern.hasMatch(value)) {
+        result.add(
+          errorString(value, T, [parentKey, key], pattern: valuePattern),
+        );
+      }
+    }
+    return result;
+  }
+
+  String string(String key, RegExp? pattern) {
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      throwFormatException(value, String, [key], pattern: pattern);
+    }
+    return value;
+  }
+
+  String? optionalString(String key, RegExp? pattern) {
+    final value = get<String?>(key);
+    if (value == null) return null;
+    if (pattern != null && !pattern.hasMatch(value)) {
+      throwFormatException(value, String, [key], pattern: pattern);
+    }
+    return value;
+  }
+
+  List<String> validateString(String key, RegExp? pattern) {
+    final errors = validate<String>(key);
+    if (errors.isNotEmpty) {
+      return errors;
+    }
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      return [
+        errorString(value, String, [key], pattern: pattern),
+      ];
+    }
+    return [];
+  }
+
+  List<String> validateOptionalString(String key, RegExp? pattern) {
+    final errors = validate<String?>(key);
+    if (errors.isNotEmpty) {
+      return errors;
+    }
+    final value = get<String?>(key);
+    if (value == null) return [];
+    if (pattern != null && !pattern.hasMatch(value)) {
+      return [
+        errorString(value, String, [key], pattern: pattern),
+      ];
+    }
+    return [];
   }
 
   List<String>? optionalStringList(String key) => optionalList<String>(key);
@@ -1152,23 +1279,38 @@ class JsonReader {
   Never throwFormatException(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
-    throw FormatException(errorString(value, expectedType, pathExtension));
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
+    throw FormatException(
+      errorString(value, expectedType, pathExtension, pattern: pattern),
+    );
   }
 
   String errorString(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
     final pathString = _jsonPathToString(pathExtension);
     if (value == null) {
       return "No value was provided for '$pathString'."
           ' Expected a $expectedType.';
     }
+    final satisfying = pattern == null ? '' : ' satisfying ${pattern.pattern}';
     return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
-        ' Expected a $expectedType.';
+        ' Expected a $expectedType$satisfying.';
+  }
+
+  String keyErrorString(
+    String key, {
+    required RegExp pattern,
+    List<Object> pathExtension = const [],
+  }) {
+    final pathString = _jsonPathToString(pathExtension);
+    return "Unexpected key '$key' in '$pathString'."
+        ' Expected a key satisfying ${pattern.pattern}.';
   }
 
   /// Traverses a JSON path, returns `null` if the path cannot be traversed.
@@ -1207,5 +1349,37 @@ extension<K extends Comparable<K>, V extends Object?> on Map<K, V> {
     }
     clear();
     addAll(result);
+  }
+}
+
+void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
+  if (map == null) return;
+  if (keyPattern == null) return;
+  for (final key in map.keys) {
+    if (!keyPattern.hasMatch(key)) {
+      throw ArgumentError.value(
+        map,
+        "Unexpected key '$key'."
+        ' Expected a key satisfying ${keyPattern.pattern}.',
+      );
+    }
+  }
+}
+
+void _checkArgumentMapStringElements(
+  Map<String, String?>? map, {
+  RegExp? valuePattern,
+}) {
+  if (map == null) return;
+  if (valuePattern == null) return;
+  for (final entry in map.entries) {
+    final value = entry.value;
+    if (value != null && !valuePattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        map,
+        "Unexpected value '$value' under key '${entry.key}'."
+        ' Expected a value satisfying ${valuePattern.pattern}.',
+      );
+    }
   }
 }

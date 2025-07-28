@@ -6,6 +6,8 @@
 ///
 /// For most use cases the YAML based API is simpler. See
 /// https://pub.dev/packages/ffigen for details.
+///
+/// {@category Errors}
 library;
 
 export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
@@ -13,10 +15,10 @@ export 'src/config_provider.dart'
     show
         CommentType,
         CompoundDependencies,
-        Config,
         Declaration,
         DeclarationFilters,
         ExternalVersions,
+        FfiGen,
         FfiNativeConfig,
         Language,
         PackingValue,
@@ -25,4 +27,4 @@ export 'src/config_provider.dart'
         Versions,
         YamlConfig,
         defaultCompilerOpts;
-export 'src/ffigen.dart' show FfiGen;
+export 'src/ffigen.dart' show FfiGenGenerator;

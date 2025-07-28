@@ -6,7 +6,11 @@ import 'dart:io';
 
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
+
+import 'dartified_snippets/enums.dart';
 import 'dartified_snippets/identifiers.dart';
+import 'dartified_snippets/implement_inline_interface.dart';
+import 'dartified_snippets/implement_normal_interface.dart';
 import 'dartified_snippets/inner_class.dart';
 import 'dartified_snippets/overloaded_methods.dart';
 import 'dartified_snippets/strings.dart';
@@ -41,5 +45,17 @@ void main() {
 
   test('identifiers has \$ and starts with "_"', () async {
     expect(identifiersSpecialCases(), isTrue);
+  });
+  
+  test('Implement Inline Interface', () async {
+    expect(implementInlineInterface(), isTrue);
+  });
+
+  test('Implement Normal Interface', () async {
+    expect(implementNormalInterface(), isTrue);
+  });
+
+  test('Use Enums', () async {
+    expect(useEnums(), isTrue);
   });
 }

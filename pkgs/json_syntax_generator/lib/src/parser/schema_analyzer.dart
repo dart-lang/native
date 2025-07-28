@@ -29,7 +29,6 @@ import '../model/schema_info.dart';
 ///   names and types.
 /// * Renaming with [nameOverrides].
 /// * Whether setters are public or not with [publicSetters].
-/// * Output sorting alphabetically or with [classSorting].
 class SchemaAnalyzer {
   final JsonSchema schema;
 
@@ -41,18 +40,13 @@ class SchemaAnalyzer {
   /// * renames as preferred.
   final Map<String, String> nameOverrides;
 
-  /// Optional custom ordering for the output classes.
-  ///
-  /// If `null`, then classes are sorted alphabetically.
-  final List<String>? classSorting;
-
   /// Generate public setters for these class names.
   final List<String> publicSetters;
 
   /// For subtypes of these classes, the union tag values are exposed.
   ///
   /// For example, if `Asset.type` is `NativeCodeAsset.typeValue`, then the
-  /// asset is a native code asset. Listing `Asset` in [visbleUnionTagValues]
+  /// asset is a native code asset. Listing `Asset` in [publicUnionTagValues]
   /// will add `static const typeValue = 'code_assets/code';`:
   ///
   /// ```dart
@@ -64,14 +58,19 @@ class SchemaAnalyzer {
   ///   String? get type => _reader.get<String?>('type');
   /// }
   /// ```
-  final List<String> visbleUnionTagValues;
+  final List<String> publicUnionTagValues;
+
+  /// Generate public validate methods for these classes.
+  ///
+  /// This enables validating individual fields.
+  final List<String> publicValidators;
 
   SchemaAnalyzer(
     this.schema, {
     this.nameOverrides = const {},
-    this.classSorting,
     this.publicSetters = const [],
-    this.visbleUnionTagValues = const [],
+    this.publicUnionTagValues = const [],
+    this.publicValidators = const [],
   });
 
   /// Accumulator for all classes during the analysis.
@@ -93,11 +92,7 @@ class SchemaAnalyzer {
         _analyzeClass(definitionSchemas, name: definitionKey);
       }
     }
-    if (classSorting != null) {
-      _classes.sortOnKey(keysSorted: classSorting);
-    } else {
-      _classes.sortOnKey();
-    }
+    _classes.sortOnKey();
     return SchemaInfo(classes: _classes.values.toList());
   }
 
@@ -145,6 +140,7 @@ class SchemaAnalyzer {
     }
     final propertyKeys = schemas.propertyKeys;
     final settersPrivate = !publicSetters.contains(typeName);
+    final validatorsPrivate = !publicValidators.contains(typeName);
 
     for (final propertyKey in propertyKeys) {
       if (propertyKey == r'$schema') continue;
@@ -168,6 +164,7 @@ class SchemaAnalyzer {
             type: dartType,
             isOverride: isOverride,
             setterPrivate: settersPrivate,
+            validatorPrivate: validatorsPrivate,
           ),
         );
       }
@@ -183,7 +180,7 @@ class SchemaAnalyzer {
       taggedUnionProperty: schemas.generateSubClasses
           ? schemas.generateSubClassesKey!
           : null,
-      visibleTaggedUnion: visbleUnionTagValues.contains(typeName),
+      visibleTaggedUnion: publicUnionTagValues.contains(typeName),
       extraValidation: extraValidation,
     );
     _classes[typeName] = classInfo;
@@ -320,11 +317,23 @@ class SchemaAnalyzer {
           final classInfo = _classes[schemas.className]!;
           dartType = ClassDartType(classInfo: classInfo, isNullable: !required);
         } else {
-          dartType = StringDartType(isNullable: !required);
+          if (schemas.patterns.length > 1) {
+            throw UnsupportedError('Only one pattern is supported.');
+          }
+          final pattern = schemas.patterns.firstOrNull;
+          dartType = StringDartType(isNullable: !required, pattern: pattern);
         }
       case SchemaType.object:
-        final additionalPropertiesSchema = schemas.additionalPropertiesSchemas;
+        final additionalPropertiesSchema =
+            schemas.additionalPropertiesSchemas.isNotEmpty
+            ? schemas.additionalPropertiesSchemas
+            : schemas.patternPropertiesSchemas.values.firstOrNull ??
+                  JsonSchemas._([]);
         if (schemas.generateMapOf) {
+          final keyDartType = StringDartType(
+            isNullable: false,
+            pattern: schemas.patternPropertiesSchemas.keys.firstOrNull,
+          );
           final additionalPropertiesType = additionalPropertiesSchema.type;
           switch (additionalPropertiesType) {
             case SchemaType.array:
@@ -335,6 +344,7 @@ class SchemaAnalyzer {
                   _analyzeClass(items);
                   final itemClass = _classes[items.className]!;
                   dartType = MapDartType(
+                    keyType: keyDartType,
                     valueType: ListDartType(
                       itemType: ClassDartType(
                         classInfo: itemClass,
@@ -351,25 +361,68 @@ class SchemaAnalyzer {
               final additionalPropertiesBool =
                   additionalPropertiesSchema.additionalPropertiesBool;
               if (additionalPropertiesBool != true) {
-                throw UnimplementedError(
-                  'Expected an object with arbitrary properties.',
+                _analyzeClass(additionalPropertiesSchema);
+                final clazz = _classes[additionalPropertiesSchema.className]!;
+                dartType = MapDartType(
+                  keyType: keyDartType,
+                  valueType: ClassDartType(classInfo: clazz, isNullable: false),
+                  isNullable: !required,
+                );
+              } else {
+                dartType = MapDartType(
+                  keyType: keyDartType,
+                  valueType: const MapDartType(
+                    valueType: ObjectDartType(isNullable: true),
+                    isNullable: false,
+                  ),
+                  isNullable: !required,
                 );
               }
-              dartType = MapDartType(
-                valueType: const MapDartType(
-                  valueType: ObjectDartType(isNullable: true),
-                  isNullable: false,
-                ),
-                isNullable: !required,
-              );
             case null:
-              if (schemas.additionalPropertiesBool != true) {
-                throw UnimplementedError(
-                  'Expected an object with arbitrary properties.',
+              if (schemas.additionalPropertiesBool == true) {
+                dartType = ClassDartType(
+                  classInfo: jsonObjectClassInfo,
+                  isNullable: !required,
                 );
+              } else {
+                final oneOfs = additionalPropertiesSchema.oneOfs;
+                if (oneOfs.length != 1) {
+                  throw UnimplementedError();
+                }
+                final oneOf = oneOfs.single;
+                if (oneOf.length != 2) {
+                  throw UnimplementedError();
+                }
+                final types = oneOf
+                    .map((e) => e.type)
+                    .whereType<SchemaType>()
+                    .toList();
+                if (types.length != 2) {
+                  throw UnimplementedError();
+                }
+                if (types.contains(SchemaType.string) &&
+                    types.contains(SchemaType.nullValue)) {
+                  final stringPattern = oneOf
+                      .where((e) => e.type == SchemaType.string)
+                      .single
+                      .patterns
+                      .firstOrNull;
+                  dartType = MapDartType(
+                    keyType: keyDartType,
+                    valueType: StringDartType(
+                      isNullable: true,
+                      pattern: stringPattern,
+                    ),
+                    isNullable: !required,
+                  );
+                } else {
+                  throw UnimplementedError();
+                }
               }
-              dartType = ClassDartType(
-                classInfo: jsonObjectClassInfo,
+            case SchemaType.string:
+              dartType = MapDartType(
+                keyType: keyDartType,
+                valueType: const StringDartType(isNullable: false),
                 isNullable: !required,
               );
             default:
@@ -421,7 +474,11 @@ class SchemaAnalyzer {
       return '';
     }
 
-    final parts = string.replaceAll('/', '_').split('_');
+    final parts = string
+        .replaceAll('/', '_')
+        .replaceAll(' ', '_')
+        .replaceAll('-', '_')
+        .split('_');
 
     String remapCapitalization(String input) => nameOverrides[input] ?? input;
 
@@ -580,6 +637,17 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
     return result.singleOrNull;
   }
 
+  Map<RegExp, JsonSchemas> get patternPropertiesSchemas {
+    final result = <RegExp, JsonSchemas>{};
+    for (final schema in _schemas) {
+      final additionalPropertiesSchema = schema.patternProperties;
+      for (final entry in additionalPropertiesSchema.entries) {
+        result[entry.key] = JsonSchemas(entry.value);
+      }
+    }
+    return result;
+  }
+
   bool get isNotEmpty => _schemas.isNotEmpty;
 
   List<List<JsonSchemas>> get anyOfs {
@@ -588,6 +656,21 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
       final anyOf = schema.anyOf;
       final tempResult = <JsonSchemas>[];
       for (final option in anyOf) {
+        tempResult.add(JsonSchemas(option)._flatten());
+      }
+      if (tempResult.isNotEmpty) {
+        result.add(tempResult);
+      }
+    }
+    return result;
+  }
+
+  List<List<JsonSchemas>> get oneOfs {
+    final result = <List<JsonSchemas>>[];
+    for (final schema in _schemas) {
+      final oneOf = schema.oneOf;
+      final tempResult = <JsonSchemas>[];
+      for (final option in oneOf) {
         tempResult.add(JsonSchemas(option)._flatten());
       }
       if (tempResult.isNotEmpty) {
@@ -655,7 +738,8 @@ extension on JsonSchemas {
   bool get generateMapOf =>
       type == SchemaType.object &&
       (additionalPropertiesSchemas.isNotEmpty ||
-          additionalPropertiesBool == true);
+          additionalPropertiesBool == true ||
+          patternPropertiesSchemas.isNotEmpty);
 
   bool get generateSubClasses => generateSubClassesKey != null;
 
@@ -682,7 +766,20 @@ extension on JsonSchemas {
   bool get generateClass => type == SchemaType.object && !generateMapOf;
 
   /// Generate getters/setters as `Uri`.
-  bool get generateUri => type == SchemaType.string && patterns.isNotEmpty;
+  bool get generateUri {
+    if (!stringWithPattern) return false;
+    if (patterns.length != 1) return false;
+    final pattern = patterns.single;
+    if (pattern.pattern == '^(\\/|[A-Za-z]:)' ||
+        pattern.pattern == '^([A-Za-z])') {
+      // Patterns for a file path.
+      return true;
+    }
+    return false;
+  }
+
+  bool get stringWithPattern =>
+      type == SchemaType.string && patterns.isNotEmpty;
 
   static String? _pathToClassName(String path) {
     if (path.contains('#/definitions/')) {

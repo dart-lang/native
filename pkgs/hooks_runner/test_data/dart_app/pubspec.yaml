@@ -12,3 +12,6 @@ dependencies:
     path: ../native_add
   native_subtract:
     path: ../native_subtract
+
+executables:
+  dart_app:

@@ -6,13 +6,27 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 import '../../ffigen.dart';
 
-final _logger = Logger('ffigen.ffigen');
+final _ansi = Ansi(Ansi.terminalSupportsAnsi);
+final _logger = () {
+  final logger = Logger('ffigen.ffigen');
+  logger.onRecord.listen((record) {
+    final levelStr = '[${record.level.name}]'.padRight(9);
+    final log = '$levelStr: ${record.message}';
+    if (record.level < Level.SEVERE) {
+      print(log);
+    } else {
+      print('${_ansi.red}$log${_ansi.none}');
+    }
+  });
+  return logger;
+}();
 
 const compilerOpts = 'compiler-opts';
 const ignoreSourceErrors = 'ignore-source-errors';
@@ -32,10 +46,10 @@ Future<void> main(List<String> args) async {
   // Parses the cmd args. This will print usage and exit if --help was passed.
   final argResult = getArgResults(args);
 
-  final ffigen = FfiGen(logLevel: _parseLogLevel(argResult));
+  Logger.root.level = _parseLogLevel(argResult);
 
   // Create a config object.
-  Config config;
+  FfiGen config;
   try {
     config = getConfig(argResult, await findPackageConfig(Directory.current));
   } on FormatException {
@@ -43,10 +57,10 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  ffigen.run(config);
+  config.generate(_logger);
 }
 
-Config getConfig(ArgResults result, PackageConfig? packageConfig) {
+FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
   _logger.info('Running in ${Directory.current}');
   YamlConfig config;
 

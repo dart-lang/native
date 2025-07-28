@@ -24,6 +24,8 @@ sealed class DartType {
   int get hashCode => isNullable.hashCode;
 
   String toNonNullableString();
+
+  String toSerializedString() => toString();
 }
 
 /// A simple Dart type.
@@ -46,13 +48,25 @@ sealed class SimpleDartType extends DartType {
 }
 
 class StringDartType extends SimpleDartType {
-  const StringDartType({required super.isNullable}) : super(typeName: 'String');
+  final RegExp? pattern;
+
+  const StringDartType({required super.isNullable, this.pattern})
+    : super(typeName: 'String');
 
   @override
   bool operator ==(Object other) => super == other && other is StringDartType;
 
   @override
   int get hashCode => Object.hash(super.hashCode, 'String');
+
+  @override
+  String toSerializedString() {
+    if (pattern != null) {
+      final typeString = '$typeName(pattern: ${pattern!.pattern})';
+      return isNullable ? '$typeString?' : typeString;
+    }
+    return typeName;
+  }
 }
 
 class IntDartType extends SimpleDartType {
@@ -132,6 +146,14 @@ class MapDartType extends DartType {
 
   @override
   String toNonNullableString() => 'Map<$keyType, $valueType>';
+
+  @override
+  String toSerializedString() {
+    final valueString = valueType.toSerializedString();
+    final keyString = keyType.toSerializedString();
+    final typeString = 'Map<$keyString, $valueString>';
+    return isNullable ? '$typeString?' : typeString;
+  }
 
   @override
   bool operator ==(Object other) =>

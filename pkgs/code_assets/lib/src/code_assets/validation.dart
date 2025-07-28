@@ -194,7 +194,7 @@ ValidationErrors _validateCodeAssetSyntax(EncodedAsset encodedAsset) {
   }
   final syntaxNode = NativeCodeAssetEncodingSyntax.fromJson(
     encodedAsset.encoding,
-    path: encodedAsset.jsonPath ?? [],
+    path: encodedAsset.encodingJsonPath ?? [],
   );
   final syntaxErrors = syntaxNode.validate();
   if (syntaxErrors.isEmpty) {

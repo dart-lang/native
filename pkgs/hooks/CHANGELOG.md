@@ -1,3 +1,8 @@
+## 0.20.0-wip
+
+* **Breaking change**  Rename `EncodedAsset.jsonPath` to
+  `EncodedAsset.encodingJsonPath`. This field only governs the `EncodedAsset.encoding` field, not the whole object.
+
 ## 0.19.5
 
 * Stop leaking unexported symbols.

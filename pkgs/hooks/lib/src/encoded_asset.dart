@@ -5,7 +5,6 @@
 import 'package:collection/collection.dart';
 
 import 'hooks/syntax.g.dart';
-import 'utils/json.dart';
 
 /// An encoded asset.
 ///
@@ -18,40 +17,32 @@ final class EncodedAsset {
   /// The json encoding of the asset.
   final UnmodifiableMapView<String, Object?> encoding;
 
-  /// The path of this object in a larger JSON.
+  /// The path of the [encoding] in a larger JSON.
   ///
   /// If provided, used for more precise error messages.
-  final List<Object>? jsonPath;
-
-  EncodedAsset._(this.type, this.encoding, {this.jsonPath});
+  final List<Object>? encodingJsonPath;
 
   /// Creates an [EncodedAsset].
-  EncodedAsset(this.type, Map<String, Object?> encoding, {this.jsonPath})
-    : encoding = UnmodifiableMapView(
-        // It would be better if `encoding` would be deep copied.
-        // https://github.com/dart-lang/native/issues/2045
-        Map.of(encoding),
-      );
+  EncodedAsset(
+    this.type,
+    Map<String, Object?> encoding, {
+    this.encodingJsonPath,
+  }) : encoding = UnmodifiableMapView(
+         // It would be better if `encoding` would be deep copied.
+         // https://github.com/dart-lang/native/issues/2045
+         Map.of(encoding),
+       );
 
   /// Decode an [EncodedAsset] from json.
   factory EncodedAsset.fromJson(
     Map<String, Object?> json, [
     List<Object>? path,
-  ]) {
-    final syntax_ = AssetSyntax.fromJson(json, path: path ?? []);
-    final encoding = Map<String, Object?>.of(syntax_.encoding?.json ?? {});
-    final path_ = syntax_.encoding != null ? [...?path, 'encoding'] : path;
-
-    return EncodedAsset._(
-      syntax_.type,
-      UnmodifiableMapView(encoding),
-      jsonPath: path_,
-    );
-  }
+  ]) => EncodedAssetSyntaxExtension.fromSyntax(
+    AssetSyntax.fromJson(json, path: path ?? []),
+  );
 
   /// Encode this [EncodedAsset] tojson.
-  Map<String, Object?> toJson() =>
-      {'encoding': Map.of(encoding)..sortOnKey(), _typeKey: type}..sortOnKey();
+  Map<String, Object?> toJson() => toSyntax().json;
 
   @override
   String toString() => 'EncodedAsset($type, $encoding)';
@@ -66,4 +57,27 @@ final class EncodedAsset {
       const DeepCollectionEquality().equals(encoding, other.encoding);
 }
 
-const String _typeKey = 'type';
+/// Extension methods for [EncodedAsset] to convert to and from syntax
+/// nodes.
+extension EncodedAssetSyntaxExtension on EncodedAsset {
+  /// Creates a [EncodedAsset] from a [AssetSyntax] node.
+  static EncodedAsset fromSyntax(AssetSyntax syntaxNode) => EncodedAsset(
+    syntaxNode.type,
+    syntaxNode.encoding?.json ?? {},
+    encodingJsonPath: syntaxNode.encoding?.path,
+  );
+
+  /// Converts this [EncodedAsset] to a [AssetSyntax] node.
+  AssetSyntax toSyntax() {
+    final path = switch (encodingJsonPath) {
+      // Remove the last element from the encoding path.
+      final List<Object> l => l.sublist(0, l.length - 1),
+      null => <Object>[],
+    };
+    return AssetSyntax(
+      encoding: JsonObjectSyntax.fromJson(Map.of(encoding)),
+      type: type,
+      path: path,
+    );
+  }
+}

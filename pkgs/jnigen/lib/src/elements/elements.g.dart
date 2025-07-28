@@ -265,6 +265,10 @@ KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
       flags: (json['flags'] as num).toInt(),
       isSuspend: json['isSuspend'] as bool,
       isOperator: json['isOperator'] as bool,
+      isPublic: json['isPublic'] as bool,
+      isPrivate: json['isPrivate'] as bool,
+      isProtected: json['isProtected'] as bool,
+      isInternal: json['isInternal'] as bool,
     );
 
 KotlinConstructor _$KotlinConstructorFromJson(Map<String, dynamic> json) =>

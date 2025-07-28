@@ -86,9 +86,9 @@ class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
   objc.ObjCObjectBase? _current;
 
   _NSArrayIterator(Iterable<objc.ObjCObjectBase> iterable)
-      : _iterable = iterable,
-        _length = iterable.length,
-        _index = 0;
+    : _iterable = iterable,
+      _length = iterable.length,
+      _index = 0;
 
   @override
   objc.ObjCObjectBase get current => _current!;
@@ -120,8 +120,8 @@ class NSDictionary with MapBase<NSCopying, objc.ObjCObjectBase> {
 
   /// Creates a [NSDictionary] from [entries].
   static NSDictionary fromEntries(
-          Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries) =>
-      NSMutableDictionary.fromEntries(entries);
+    Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
+  ) => NSMutableDictionary.fromEntries(entries);
 
   @override
   int get length => count;
@@ -158,7 +158,8 @@ class NSMutableDictionary {
 
   /// Creates a [NSMutableDictionary] from [entries].
   static NSMutableDictionary fromEntries(
-          Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries) =>
+    Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
+  ) =>
       NSMutableDictionary.dictionaryWithCapacity(entries.length)
         ..addEntries(entries);
 
@@ -175,7 +176,10 @@ class NSMutableDictionary {
 
   @override
   void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
-      setObject(value, forKey: NSCopying.castFrom(key));
+      NSMutableDictionary$Methods(this).setObject(
+        value,
+        forKey: NSCopying.castFrom(key),
+      );
 }
 
 class _NSDictionaryKeyIterable with Iterable<NSCopying> {

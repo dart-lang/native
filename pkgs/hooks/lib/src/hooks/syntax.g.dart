@@ -24,8 +24,11 @@ class AssetSyntax extends JsonObjectSyntax {
 
   AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  AssetSyntax({required JsonObjectSyntax? encoding, required String type})
-    : super() {
+  AssetSyntax({
+    required JsonObjectSyntax? encoding,
+    required String type,
+    super.path = const [],
+  }) : super() {
     _encoding = encoding;
     _type = type;
     json.sortOnKey();
@@ -73,7 +76,7 @@ class AssetSyntax extends JsonObjectSyntax {
       if (objectErrors.isEmpty) {
         final jsonValue = _reader.get<Map<String, Object?>?>('encoding');
         if (jsonValue != null) {
-          final reader = JsonReader(jsonValue, [...path, 'encoding']);
+          final reader = _JsonReader(jsonValue, [...path, 'encoding']);
           result.addAll(reader.validate<Object>('key'));
         }
       }
@@ -92,6 +95,7 @@ class BuildConfigSyntax extends ConfigSyntax {
     required super.buildAssetTypes,
     required super.extensions,
     required bool linkingEnabled,
+    super.path = const [],
   }) : super() {
     _linkingEnabled = linkingEnabled;
     json.sortOnKey();
@@ -134,6 +138,7 @@ class BuildInputSyntax extends HookInputSyntax {
     required super.packageName,
     required super.packageRoot,
     required super.userDefines,
+    super.path = const [],
   }) : super(config: config) {
     _assets = assets;
     json.sortOnKey();
@@ -165,6 +170,7 @@ class BuildInputSyntax extends HookInputSyntax {
   }
 
   set _assets(Map<String, List<AssetSyntax>>? value) {
+    _checkArgumentMapKeys(value);
     if (value == null) {
       json.remove('assets');
     } else {
@@ -221,6 +227,7 @@ class BuildOutputSyntax extends HookOutputSyntax {
     required super.failureDetails,
     required super.status,
     required super.timestamp,
+    super.path = const [],
   }) : super() {
     this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
@@ -292,6 +299,7 @@ class BuildOutputSyntax extends HookOutputSyntax {
   }
 
   set assetsForLinking(Map<String, List<AssetSyntax>>? value) {
+    _checkArgumentMapKeys(value);
     if (value == null) {
       json.remove('assets_for_linking');
     } else {
@@ -347,6 +355,7 @@ class ConfigSyntax extends JsonObjectSyntax {
   ConfigSyntax({
     required List<String> buildAssetTypes,
     required JsonObjectSyntax? extensions,
+    super.path = const [],
   }) : super() {
     this.buildAssetTypes = buildAssetTypes;
     this.extensions = extensions;
@@ -397,7 +406,8 @@ class FailureSyntax extends JsonObjectSyntax {
   FailureSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  FailureSyntax({required FailureTypeSyntax type}) : super() {
+  FailureSyntax({required FailureTypeSyntax type, super.path = const []})
+    : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -464,6 +474,7 @@ class HookInputSyntax extends JsonObjectSyntax {
     required String packageName,
     required Uri packageRoot,
     required UserDefinesSyntax? userDefines,
+    super.path = const [],
   }) : super() {
     this.config = config;
     this.outDirShared = outDirShared;
@@ -577,6 +588,7 @@ class HookOutputSyntax extends JsonObjectSyntax {
     required FailureSyntax? failureDetails,
     required OutputStatusSyntax? status,
     required String timestamp,
+    super.path = const [],
   }) : super() {
     this.assets = assets;
     this.dependencies = dependencies;
@@ -706,8 +718,10 @@ class HooksMetadataAssetSyntax extends AssetSyntax {
   HooksMetadataAssetSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  HooksMetadataAssetSyntax({required MetadataAssetEncodingSyntax encoding})
-    : super(type: 'hooks/metadata', encoding: encoding);
+  HooksMetadataAssetSyntax({
+    required MetadataAssetEncodingSyntax encoding,
+    super.path = const [],
+  }) : super(type: 'hooks/metadata', encoding: encoding);
 
   /// Setup all fields for [HooksMetadataAssetSyntax] that are not in
   /// [AssetSyntax].
@@ -748,6 +762,7 @@ class LinkInputSyntax extends HookInputSyntax {
     required super.packageRoot,
     required Uri? resourceIdentifiers,
     required super.userDefines,
+    super.path = const [],
   }) : super() {
     _assets = assets;
     _resourceIdentifiers = resourceIdentifiers;
@@ -828,6 +843,7 @@ class LinkOutputSyntax extends HookOutputSyntax {
     required super.failureDetails,
     required super.status,
     required super.timestamp,
+    super.path = const [],
   }) : super();
 
   @override
@@ -852,8 +868,11 @@ class MetadataAssetEncodingSyntax extends JsonObjectSyntax {
   MetadataAssetEncodingSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  MetadataAssetEncodingSyntax({required String key, required Object? value})
-    : super() {
+  MetadataAssetEncodingSyntax({
+    required String key,
+    required Object? value,
+    super.path = const [],
+  }) : super() {
     _key = key;
     _value = value;
     json.sortOnKey();
@@ -921,8 +940,10 @@ class UserDefinesSyntax extends JsonObjectSyntax {
   UserDefinesSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  UserDefinesSyntax({required UserDefinesSourceSyntax? workspacePubspec})
-    : super() {
+  UserDefinesSyntax({
+    required UserDefinesSourceSyntax? workspacePubspec,
+    super.path = const [],
+  }) : super() {
     _workspacePubspec = workspacePubspec;
     json.sortOnKey();
   }
@@ -967,6 +988,7 @@ class UserDefinesSourceSyntax extends JsonObjectSyntax {
   UserDefinesSourceSyntax({
     required Uri basePath,
     required JsonObjectSyntax defines,
+    super.path = const [],
   }) : super() {
     _basePath = basePath;
     _defines = defines;
@@ -1014,16 +1036,16 @@ class JsonObjectSyntax {
 
   final List<Object> path;
 
-  JsonReader get _reader => JsonReader(json, path);
+  _JsonReader get _reader => _JsonReader(json, path);
 
-  JsonObjectSyntax() : json = {}, path = const [];
+  JsonObjectSyntax({this.path = const []}) : json = {};
 
   JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 
   List<String> validate() => [];
 }
 
-class JsonReader {
+class _JsonReader {
   /// The JSON Object this reader is reading.
   final Map<String, Object?> json;
 
@@ -1034,7 +1056,7 @@ class JsonReader {
   /// This is used to give more precise error messages.
   final List<Object> path;
 
-  JsonReader(this.json, this.path);
+  _JsonReader(this.json, this.path);
 
   T get<T extends Object?>(String key) {
     final value = json[key];
@@ -1102,24 +1124,47 @@ class JsonReader {
     return result;
   }
 
-  Map<String, T> map$<T extends Object?>(String key) =>
-      _castMap<T>(get<Map<String, Object?>>(key), key);
+  Map<String, T> map$<T extends Object?>(String key, {RegExp? keyPattern}) {
+    final map = get<Map<String, Object?>>(key);
+    final keyErrors = _validateMapKeys(map, key, keyPattern: keyPattern);
+    if (keyErrors.isNotEmpty) {
+      throw FormatException(keyErrors.join('\n'));
+    }
+    return _castMap<T>(map, key);
+  }
 
-  List<String> validateMap<T extends Object?>(String key) {
+  List<String> validateMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
     final mapErrors = validate<Map<String, Object?>>(key);
     if (mapErrors.isNotEmpty) {
       return mapErrors;
     }
-    return _validateMapElements<T>(get<Map<String, Object?>>(key), key);
+    final map = get<Map<String, Object?>>(key);
+    return [
+      ..._validateMapKeys(map, key, keyPattern: keyPattern),
+      ..._validateMapElements<T>(map, key),
+    ];
   }
 
-  Map<String, T>? optionalMap<T extends Object?>(String key) =>
-      switch (get<Map<String, Object?>?>(key)) {
-        null => null,
-        final m => _castMap<T>(m, key),
-      };
+  Map<String, T>? optionalMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
+    final map = get<Map<String, Object?>?>(key);
+    if (map == null) return null;
+    final keyErrors = _validateMapKeys(map, key, keyPattern: keyPattern);
+    if (keyErrors.isNotEmpty) {
+      throw FormatException(keyErrors.join('\n'));
+    }
+    return _castMap<T>(map, key);
+  }
 
-  List<String> validateOptionalMap<T extends Object?>(String key) {
+  List<String> validateOptionalMap<T extends Object?>(
+    String key, {
+    RegExp? keyPattern,
+  }) {
     final mapErrors = validate<Map<String, Object?>?>(key);
     if (mapErrors.isNotEmpty) {
       return mapErrors;
@@ -1128,7 +1173,10 @@ class JsonReader {
     if (map == null) {
       return [];
     }
-    return _validateMapElements<T>(map, key);
+    return [
+      ..._validateMapKeys(map, key, keyPattern: keyPattern),
+      ..._validateMapElements<T>(map, key),
+    ];
   }
 
   /// [Map.cast] but with [FormatException]s.
@@ -1144,6 +1192,23 @@ class JsonReader {
     return map_.cast();
   }
 
+  List<String> _validateMapKeys(
+    Map<String, Object?> map_,
+    String parentKey, {
+    required RegExp? keyPattern,
+  }) {
+    if (keyPattern == null) return [];
+    final result = <String>[];
+    for (final key in map_.keys) {
+      if (!keyPattern.hasMatch(key)) {
+        result.add(
+          keyErrorString(key, pattern: keyPattern, pathExtension: [parentKey]),
+        );
+      }
+    }
+    return result;
+  }
+
   List<String> _validateMapElements<T extends Object?>(
     Map<String, Object?> map_,
     String parentKey,
@@ -1155,6 +1220,70 @@ class JsonReader {
       }
     }
     return result;
+  }
+
+  List<String> validateMapStringElements<T extends Object?>(
+    Map<String, String?> map_,
+    String parentKey, {
+    RegExp? valuePattern,
+  }) {
+    final result = <String>[];
+    for (final MapEntry(:key, :value) in map_.entries) {
+      if (value != null &&
+          valuePattern != null &&
+          !valuePattern.hasMatch(value)) {
+        result.add(
+          errorString(value, T, [parentKey, key], pattern: valuePattern),
+        );
+      }
+    }
+    return result;
+  }
+
+  String string(String key, RegExp? pattern) {
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      throwFormatException(value, String, [key], pattern: pattern);
+    }
+    return value;
+  }
+
+  String? optionalString(String key, RegExp? pattern) {
+    final value = get<String?>(key);
+    if (value == null) return null;
+    if (pattern != null && !pattern.hasMatch(value)) {
+      throwFormatException(value, String, [key], pattern: pattern);
+    }
+    return value;
+  }
+
+  List<String> validateString(String key, RegExp? pattern) {
+    final errors = validate<String>(key);
+    if (errors.isNotEmpty) {
+      return errors;
+    }
+    final value = get<String>(key);
+    if (pattern != null && !pattern.hasMatch(value)) {
+      return [
+        errorString(value, String, [key], pattern: pattern),
+      ];
+    }
+    return [];
+  }
+
+  List<String> validateOptionalString(String key, RegExp? pattern) {
+    final errors = validate<String?>(key);
+    if (errors.isNotEmpty) {
+      return errors;
+    }
+    final value = get<String?>(key);
+    if (value == null) return [];
+    if (pattern != null && !pattern.hasMatch(value)) {
+      return [
+        errorString(value, String, [key], pattern: pattern),
+      ];
+    }
+    return [];
   }
 
   List<String>? optionalStringList(String key) => optionalList<String>(key);
@@ -1202,23 +1331,38 @@ class JsonReader {
   Never throwFormatException(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
-    throw FormatException(errorString(value, expectedType, pathExtension));
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
+    throw FormatException(
+      errorString(value, expectedType, pathExtension, pattern: pattern),
+    );
   }
 
   String errorString(
     Object? value,
     Type expectedType,
-    List<Object> pathExtension,
-  ) {
+    List<Object> pathExtension, {
+    RegExp? pattern,
+  }) {
     final pathString = _jsonPathToString(pathExtension);
     if (value == null) {
       return "No value was provided for '$pathString'."
           ' Expected a $expectedType.';
     }
+    final satisfying = pattern == null ? '' : ' satisfying ${pattern.pattern}';
     return "Unexpected value '$value' (${value.runtimeType}) for '$pathString'."
-        ' Expected a $expectedType.';
+        ' Expected a $expectedType$satisfying.';
+  }
+
+  String keyErrorString(
+    String key, {
+    required RegExp pattern,
+    List<Object> pathExtension = const [],
+  }) {
+    final pathString = _jsonPathToString(pathExtension);
+    return "Unexpected key '$key' in '$pathString'."
+        ' Expected a key satisfying ${pattern.pattern}.';
   }
 
   /// Traverses a JSON path, returns `null` if the path cannot be traversed.
@@ -1257,5 +1401,37 @@ extension<K extends Comparable<K>, V extends Object?> on Map<K, V> {
     }
     clear();
     addAll(result);
+  }
+}
+
+void _checkArgumentMapKeys(Map<String, Object?>? map, {RegExp? keyPattern}) {
+  if (map == null) return;
+  if (keyPattern == null) return;
+  for (final key in map.keys) {
+    if (!keyPattern.hasMatch(key)) {
+      throw ArgumentError.value(
+        map,
+        "Unexpected key '$key'."
+        ' Expected a key satisfying ${keyPattern.pattern}.',
+      );
+    }
+  }
+}
+
+void _checkArgumentMapStringElements(
+  Map<String, String?>? map, {
+  RegExp? valuePattern,
+}) {
+  if (map == null) return;
+  if (valuePattern == null) return;
+  for (final entry in map.entries) {
+    final value = entry.value;
+    if (value != null && !valuePattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        map,
+        "Unexpected value '$value' under key '${entry.key}'."
+        ' Expected a value satisfying ${valuePattern.pattern}.',
+      );
+    }
   }
 }

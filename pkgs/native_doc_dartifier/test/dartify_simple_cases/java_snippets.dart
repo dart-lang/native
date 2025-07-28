@@ -49,4 +49,43 @@ Boolean identifiersSpecialCases(){
 }''',
     'fileName': 'identifiers.dart',
   },
+  {
+    'code': '''
+Boolean useEnums() {
+    Example example = new Example();
+    Boolean isTrueUsage = example.enumValueToString(Operation.ADD) == "Addition";
+    return isTrueUsage;
+}''',
+    'fileName': 'enums.dart',
+  },
+  {
+    'code': '''
+Boolean implementInlineInterface() {
+    Runnable runnable = new Runnable() {
+        @Override
+        public int run() {
+            return 0;
+        }
+    };
+    return runnable.run() == 0;
+}''',
+    'fileName': 'implement_inline_interface.dart',
+  },
+  {
+    'code': '''
+public class RunnableClass implements Runnable {
+
+  public RunnableClass() {}
+
+  @Override
+  public int run() {
+    return 5;
+  }
+}
+Boolean implementNormalInterface() {
+    Runnable runnable = new RunnableClass();
+    return runnable.run() == 5;
+}''',
+    'fileName': 'implement_normal_interface.dart',
+  },
 ];
