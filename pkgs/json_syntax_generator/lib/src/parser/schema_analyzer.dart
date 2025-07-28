@@ -29,7 +29,6 @@ import '../model/schema_info.dart';
 ///   names and types.
 /// * Renaming with [nameOverrides].
 /// * Whether setters are public or not with [publicSetters].
-/// * Output sorting alphabetically or with [classSorting].
 class SchemaAnalyzer {
   final JsonSchema schema;
 
@@ -41,18 +40,13 @@ class SchemaAnalyzer {
   /// * renames as preferred.
   final Map<String, String> nameOverrides;
 
-  /// Optional custom ordering for the output classes.
-  ///
-  /// If `null`, then classes are sorted alphabetically.
-  final List<String>? classSorting;
-
   /// Generate public setters for these class names.
   final List<String> publicSetters;
 
   /// For subtypes of these classes, the union tag values are exposed.
   ///
   /// For example, if `Asset.type` is `NativeCodeAsset.typeValue`, then the
-  /// asset is a native code asset. Listing `Asset` in [visbleUnionTagValues]
+  /// asset is a native code asset. Listing `Asset` in [publicUnionTagValues]
   /// will add `static const typeValue = 'code_assets/code';`:
   ///
   /// ```dart
@@ -64,14 +58,19 @@ class SchemaAnalyzer {
   ///   String? get type => _reader.get<String?>('type');
   /// }
   /// ```
-  final List<String> visbleUnionTagValues;
+  final List<String> publicUnionTagValues;
+
+  /// Generate public validate methods for these classes.
+  ///
+  /// This enables validating individual fields.
+  final List<String> publicValidators;
 
   SchemaAnalyzer(
     this.schema, {
     this.nameOverrides = const {},
-    this.classSorting,
     this.publicSetters = const [],
-    this.visbleUnionTagValues = const [],
+    this.publicUnionTagValues = const [],
+    this.publicValidators = const [],
   });
 
   /// Accumulator for all classes during the analysis.
@@ -93,11 +92,7 @@ class SchemaAnalyzer {
         _analyzeClass(definitionSchemas, name: definitionKey);
       }
     }
-    if (classSorting != null) {
-      _classes.sortOnKey(keysSorted: classSorting);
-    } else {
-      _classes.sortOnKey();
-    }
+    _classes.sortOnKey();
     return SchemaInfo(classes: _classes.values.toList());
   }
 
@@ -145,6 +140,7 @@ class SchemaAnalyzer {
     }
     final propertyKeys = schemas.propertyKeys;
     final settersPrivate = !publicSetters.contains(typeName);
+    final validatorsPrivate = !publicValidators.contains(typeName);
 
     for (final propertyKey in propertyKeys) {
       if (propertyKey == r'$schema') continue;
@@ -168,6 +164,7 @@ class SchemaAnalyzer {
             type: dartType,
             isOverride: isOverride,
             setterPrivate: settersPrivate,
+            validatorPrivate: validatorsPrivate,
           ),
         );
       }
@@ -183,7 +180,7 @@ class SchemaAnalyzer {
       taggedUnionProperty: schemas.generateSubClasses
           ? schemas.generateSubClassesKey!
           : null,
-      visibleTaggedUnion: visbleUnionTagValues.contains(typeName),
+      visibleTaggedUnion: publicUnionTagValues.contains(typeName),
       extraValidation: extraValidation,
     );
     _classes[typeName] = classInfo;
