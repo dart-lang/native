@@ -24,8 +24,11 @@ class AssetSyntax extends JsonObjectSyntax {
 
   AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  AssetSyntax({required JsonObjectSyntax? encoding, required String type})
-    : super() {
+  AssetSyntax({
+    required JsonObjectSyntax? encoding,
+    required String type,
+    super.path = const [],
+  }) : super() {
     _encoding = encoding;
     _type = type;
     json.sortOnKey();
@@ -92,6 +95,7 @@ class BuildConfigSyntax extends ConfigSyntax {
     required super.buildAssetTypes,
     required super.extensions,
     required bool linkingEnabled,
+    super.path = const [],
   }) : super() {
     _linkingEnabled = linkingEnabled;
     json.sortOnKey();
@@ -134,6 +138,7 @@ class BuildInputSyntax extends HookInputSyntax {
     required super.packageName,
     required super.packageRoot,
     required super.userDefines,
+    super.path = const [],
   }) : super(config: config) {
     _assets = assets;
     json.sortOnKey();
@@ -222,6 +227,7 @@ class BuildOutputSyntax extends HookOutputSyntax {
     required super.failureDetails,
     required super.status,
     required super.timestamp,
+    super.path = const [],
   }) : super() {
     this.assetsForBuild = assetsForBuild;
     this.assetsForLinking = assetsForLinking;
@@ -349,6 +355,7 @@ class ConfigSyntax extends JsonObjectSyntax {
   ConfigSyntax({
     required List<String> buildAssetTypes,
     required JsonObjectSyntax? extensions,
+    super.path = const [],
   }) : super() {
     this.buildAssetTypes = buildAssetTypes;
     this.extensions = extensions;
@@ -399,7 +406,8 @@ class FailureSyntax extends JsonObjectSyntax {
   FailureSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  FailureSyntax({required FailureTypeSyntax type}) : super() {
+  FailureSyntax({required FailureTypeSyntax type, super.path = const []})
+    : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -466,6 +474,7 @@ class HookInputSyntax extends JsonObjectSyntax {
     required String packageName,
     required Uri packageRoot,
     required UserDefinesSyntax? userDefines,
+    super.path = const [],
   }) : super() {
     this.config = config;
     this.outDirShared = outDirShared;
@@ -579,6 +588,7 @@ class HookOutputSyntax extends JsonObjectSyntax {
     required FailureSyntax? failureDetails,
     required OutputStatusSyntax? status,
     required String timestamp,
+    super.path = const [],
   }) : super() {
     this.assets = assets;
     this.dependencies = dependencies;
@@ -708,8 +718,10 @@ class HooksMetadataAssetSyntax extends AssetSyntax {
   HooksMetadataAssetSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  HooksMetadataAssetSyntax({required MetadataAssetEncodingSyntax encoding})
-    : super(type: 'hooks/metadata', encoding: encoding);
+  HooksMetadataAssetSyntax({
+    required MetadataAssetEncodingSyntax encoding,
+    super.path = const [],
+  }) : super(type: 'hooks/metadata', encoding: encoding);
 
   /// Setup all fields for [HooksMetadataAssetSyntax] that are not in
   /// [AssetSyntax].
@@ -750,6 +762,7 @@ class LinkInputSyntax extends HookInputSyntax {
     required super.packageRoot,
     required Uri? resourceIdentifiers,
     required super.userDefines,
+    super.path = const [],
   }) : super() {
     _assets = assets;
     _resourceIdentifiers = resourceIdentifiers;
@@ -830,6 +843,7 @@ class LinkOutputSyntax extends HookOutputSyntax {
     required super.failureDetails,
     required super.status,
     required super.timestamp,
+    super.path = const [],
   }) : super();
 
   @override
@@ -854,8 +868,11 @@ class MetadataAssetEncodingSyntax extends JsonObjectSyntax {
   MetadataAssetEncodingSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  MetadataAssetEncodingSyntax({required String key, required Object? value})
-    : super() {
+  MetadataAssetEncodingSyntax({
+    required String key,
+    required Object? value,
+    super.path = const [],
+  }) : super() {
     _key = key;
     _value = value;
     json.sortOnKey();
@@ -923,8 +940,10 @@ class UserDefinesSyntax extends JsonObjectSyntax {
   UserDefinesSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  UserDefinesSyntax({required UserDefinesSourceSyntax? workspacePubspec})
-    : super() {
+  UserDefinesSyntax({
+    required UserDefinesSourceSyntax? workspacePubspec,
+    super.path = const [],
+  }) : super() {
     _workspacePubspec = workspacePubspec;
     json.sortOnKey();
   }
@@ -969,6 +988,7 @@ class UserDefinesSourceSyntax extends JsonObjectSyntax {
   UserDefinesSourceSyntax({
     required Uri basePath,
     required JsonObjectSyntax defines,
+    super.path = const [],
   }) : super() {
     _basePath = basePath;
     _defines = defines;
@@ -1018,7 +1038,7 @@ class JsonObjectSyntax {
 
   _JsonReader get _reader => _JsonReader(json, path);
 
-  JsonObjectSyntax() : json = {}, path = const [];
+  JsonObjectSyntax({this.path = const []}) : json = {};
 
   JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 

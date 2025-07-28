@@ -14,7 +14,8 @@ class AndroidCodeConfigSyntax extends JsonObjectSyntax {
   AndroidCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  AndroidCodeConfigSyntax({required int targetNdkApi}) : super() {
+  AndroidCodeConfigSyntax({required int targetNdkApi, super.path = const []})
+    : super() {
     _targetNdkApi = targetNdkApi;
     json.sortOnKey();
   }
@@ -95,7 +96,7 @@ class AssetSyntax extends JsonObjectSyntax {
 
   AssetSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  AssetSyntax({required String? type}) : super() {
+  AssetSyntax({required String? type, super.path = const []}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -124,6 +125,7 @@ class CCompilerConfigSyntax extends JsonObjectSyntax {
     required Uri cc,
     required Uri ld,
     required WindowsSyntax? windows,
+    super.path = const [],
   }) : super() {
     _ar = ar;
     _cc = cc;
@@ -199,6 +201,7 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     required MacOSCodeConfigSyntax? macOS,
     required ArchitectureSyntax targetArchitecture,
     required OSSyntax targetOs,
+    super.path = const [],
   }) : super() {
     _android = android;
     _cCompiler = cCompiler;
@@ -370,7 +373,10 @@ class CodeConfigSyntax extends JsonObjectSyntax {
 class ConfigSyntax extends JsonObjectSyntax {
   ConfigSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
-  ConfigSyntax({required ConfigExtensionsSyntax? extensions}) : super() {
+  ConfigSyntax({
+    required ConfigExtensionsSyntax? extensions,
+    super.path = const [],
+  }) : super() {
     this.extensions = extensions;
     json.sortOnKey();
   }
@@ -408,7 +414,10 @@ class ConfigExtensionsSyntax extends JsonObjectSyntax {
   ConfigExtensionsSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  ConfigExtensionsSyntax({required CodeConfigSyntax? codeAssets}) : super() {
+  ConfigExtensionsSyntax({
+    required CodeConfigSyntax? codeAssets,
+    super.path = const [],
+  }) : super() {
     this.codeAssets = codeAssets;
     json.sortOnKey();
   }
@@ -446,6 +455,7 @@ class DeveloperCommandPromptSyntax extends JsonObjectSyntax {
   DeveloperCommandPromptSyntax({
     required List<String> arguments,
     required Uri script,
+    super.path = const [],
   }) : super() {
     _arguments = arguments;
     _script = script;
@@ -483,7 +493,8 @@ class DynamicLoadingBundleLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingBundleLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingBundleLinkModeSyntax() : super(type: 'dynamic_loading_bundle');
+  DynamicLoadingBundleLinkModeSyntax({super.path = const []})
+    : super(type: 'dynamic_loading_bundle');
 
   @override
   List<String> validate() => [...super.validate()];
@@ -503,7 +514,7 @@ class DynamicLoadingExecutableLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingExecutableLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingExecutableLinkModeSyntax()
+  DynamicLoadingExecutableLinkModeSyntax({super.path = const []})
     : super(type: 'dynamic_loading_executable');
 
   @override
@@ -526,7 +537,7 @@ class DynamicLoadingProcessLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingProcessLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingProcessLinkModeSyntax()
+  DynamicLoadingProcessLinkModeSyntax({super.path = const []})
     : super(type: 'dynamic_loading_process');
 
   @override
@@ -547,7 +558,7 @@ class DynamicLoadingSystemLinkModeSyntax extends LinkModeSyntax {
   DynamicLoadingSystemLinkModeSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  DynamicLoadingSystemLinkModeSyntax({required Uri uri})
+  DynamicLoadingSystemLinkModeSyntax({required Uri uri, super.path = const []})
     : super(type: 'dynamic_loading_system') {
     _uri = uri;
     json.sortOnKey();
@@ -586,8 +597,11 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
   IOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  IOSCodeConfigSyntax({required String targetSdk, required int targetVersion})
-    : super() {
+  IOSCodeConfigSyntax({
+    required String targetSdk,
+    required int targetVersion,
+    super.path = const [],
+  }) : super() {
     _targetSdk = targetSdk;
     _targetVersion = targetVersion;
     json.sortOnKey();
@@ -648,7 +662,7 @@ class LinkModeSyntax extends JsonObjectSyntax {
   LinkModeSyntax._fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  LinkModeSyntax({required String type}) : super() {
+  LinkModeSyntax({required String type, super.path = const []}) : super() {
     _type = type;
     json.sortOnKey();
   }
@@ -713,7 +727,8 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
   MacOSCodeConfigSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  MacOSCodeConfigSyntax({required int targetVersion}) : super() {
+  MacOSCodeConfigSyntax({required int targetVersion, super.path = const []})
+    : super() {
     _targetVersion = targetVersion;
     json.sortOnKey();
   }
@@ -742,6 +757,7 @@ class NativeCodeAssetEncodingSyntax extends JsonObjectSyntax {
     required Uri? file,
     required String id,
     required LinkModeSyntax linkMode,
+    super.path = const [],
   }) : super() {
     _file = file;
     _id = id;
@@ -812,8 +828,10 @@ class NativeCodeAssetNewSyntax extends AssetSyntax {
   NativeCodeAssetNewSyntax.fromJson(super.json, {super.path})
     : super._fromJson();
 
-  NativeCodeAssetNewSyntax({required NativeCodeAssetEncodingSyntax? encoding})
-    : super(type: 'code_assets/code') {
+  NativeCodeAssetNewSyntax({
+    required NativeCodeAssetEncodingSyntax? encoding,
+    super.path = const [],
+  }) : super(type: 'code_assets/code') {
     _encoding = encoding;
     json.sortOnKey();
   }
@@ -900,7 +918,7 @@ class OSSyntax {
 class StaticLinkModeSyntax extends LinkModeSyntax {
   StaticLinkModeSyntax.fromJson(super.json, {super.path}) : super._fromJson();
 
-  StaticLinkModeSyntax() : super(type: 'static');
+  StaticLinkModeSyntax({super.path = const []}) : super(type: 'static');
 
   @override
   List<String> validate() => [...super.validate()];
@@ -920,8 +938,10 @@ class WindowsSyntax extends JsonObjectSyntax {
   WindowsSyntax.fromJson(super.json, {super.path = const []})
     : super.fromJson();
 
-  WindowsSyntax({required DeveloperCommandPromptSyntax? developerCommandPrompt})
-    : super() {
+  WindowsSyntax({
+    required DeveloperCommandPromptSyntax? developerCommandPrompt,
+    super.path = const [],
+  }) : super() {
     _developerCommandPrompt = developerCommandPrompt;
     json.sortOnKey();
   }
@@ -966,7 +986,7 @@ class JsonObjectSyntax {
 
   _JsonReader get _reader => _JsonReader(json, path);
 
-  JsonObjectSyntax() : json = {}, path = const [];
+  JsonObjectSyntax({this.path = const []}) : json = {};
 
   JsonObjectSyntax.fromJson(this.json, {this.path = const []});
 
