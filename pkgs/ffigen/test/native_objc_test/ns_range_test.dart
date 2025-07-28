@@ -19,6 +19,7 @@ void main() {
     late final String bindings;
     setUpAll(() {
       FfiGen(
+        Logger.root,
         wrapperName: 'NSRangeTestObjCLibrary',
         language: Language.objc,
         output: Uri.file(

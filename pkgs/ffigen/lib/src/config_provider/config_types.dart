@@ -7,6 +7,7 @@ library;
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
@@ -358,9 +359,12 @@ class YamlMemberIncluder {
   }
 }
 
-List<String> defaultCompilerOpts({bool macIncludeStdLib = true}) => [
+List<String> defaultCompilerOpts(
+  Logger logger, {
+  bool macIncludeStdLib = true,
+}) => [
   if (Platform.isMacOS && macIncludeStdLib)
-    ...getCStandardLibraryHeadersForMac(),
+    ...getCStandardLibraryHeadersForMac(logger),
   if (Platform.isMacOS) '-Wno-nullability-completeness',
 ];
 
@@ -372,8 +376,8 @@ class CompilerOptsAuto {
     : macIncludeStdLib = macIncludeStdLib ?? true;
 
   /// Extracts compiler options based on OS and config.
-  List<String> extractCompilerOpts() {
-    return defaultCompilerOpts(macIncludeStdLib: macIncludeStdLib);
+  List<String> extractCompilerOpts(Logger logger) {
+    return defaultCompilerOpts(logger, macIncludeStdLib: macIncludeStdLib);
   }
 }
 

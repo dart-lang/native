@@ -17,7 +17,7 @@ import 'package:path/path.dart' as p;
 
 import '../test_utils.dart';
 
-void generateBindingsForCoverage(String testName) {
+void generateBindingsForCoverage(String testName, [Logger? logger]) {
   // The ObjC test bindings are generated in setup.dart (see #362), which means
   // that the ObjC related bits of ffigen are missed by test coverage. So this
   // function just regenerates those bindings. It doesn't test anything except
@@ -29,7 +29,7 @@ void generateBindingsForCoverage(String testName) {
     '${testName}_config.yaml',
   );
   final config = testConfig(File(path).readAsStringSync(), filename: path);
-  config.generate(Logger.root..level = Level.SEVERE);
+  config.generate(logger ?? (Logger.root..level = Level.SEVERE));
 }
 
 final _executeInternalCommand = () {

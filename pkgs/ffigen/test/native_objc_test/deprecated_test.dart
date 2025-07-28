@@ -17,6 +17,7 @@ import '../test_utils.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
   FfiGen(
+    Logger.root,
     wrapperName: 'DeprecatedTestObjCLibrary',
     wrapperDocComment: 'Tests API deprecation',
     language: Language.objc,

@@ -46,7 +46,7 @@ void main() {
       withChDir(configFile.path, () {
         config = testConfigFromPath(configFile.path);
       });
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       library.generateFile(outFile);
 
