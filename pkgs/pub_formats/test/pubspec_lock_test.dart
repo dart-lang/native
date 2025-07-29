@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_formats/pubspec_formats.dart';
+import 'package:pub_formats/pub_formats.dart';
 import 'package:test/test.dart';
 
 import 'helpers.dart';
