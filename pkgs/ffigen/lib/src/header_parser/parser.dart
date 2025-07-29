@@ -212,7 +212,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   final finalBindingsList = finalBindings.toList();
 
-  /// Sort bindings.
+  // Sort bindings.
   if (config.sort) {
     finalBindingsList.sortBy((b) => b.name);
     for (final b in finalBindingsList) {
@@ -220,12 +220,9 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     }
   }
 
-  /// Handle any declaration-declaration name conflicts and emit warnings.
-  final declConflictHandler = UniqueNamer();
-  for (final b in finalBindingsList) {
-    _warnIfPrivateDeclaration(b, context.logger);
-    _resolveIfNameConflicts(declConflictHandler, b, context.logger);
-  }
+  // Handle any declaration-declaration name conflicts and emit warnings.
+  visit(context, TopLevelRenamerVisitation(context), finalBindingsList);
+  visit(context, MemberRenamerVisitation(context), finalBindingsList);
 
   // Override pack values according to config. We do this after declaration
   // conflicts have been handled so that users can target the generated names.
@@ -239,27 +236,4 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   }
 
   return finalBindingsList;
-}
-
-/// Logs a warning if generated declaration will be private.
-void _warnIfPrivateDeclaration(Binding b, Logger logger) {
-  if (b.name.startsWith('_') && !b.isInternal) {
-    logger.warning(
-      "Generated declaration '${b.name}' starts with '_' "
-      'and therefore will be private.',
-    );
-  }
-}
-
-/// Resolves name conflict(if any) and logs a warning.
-void _resolveIfNameConflicts(UniqueNamer namer, Binding b, Logger logger) {
-  // Print warning if name was conflicting and has been changed.
-  final oldName = b.name;
-  b.name = namer.makeUnique(b.name);
-  if (oldName != b.name) {
-    logger.warning(
-      "Resolved name conflict: Declaration '$oldName' "
-      "and has been renamed to '${b.name}'.",
-    );
-  }
 }

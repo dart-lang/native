@@ -124,6 +124,9 @@ class FunctionType extends Type {
   }
 
   @override
+  void visit(Visitation visitation) => visitation.visitFuncType(this);
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(returnType);

@@ -103,19 +103,6 @@ class Writer {
   late String _symbolAddressVariableName;
   late String _symbolAddressLibraryVarName;
 
-  /// Initial namers set after running constructor. Namers are reset to this
-  /// initial state everytime [generate] is called.
-  late UniqueNamer _initialTopLevelUniqueNamer;
-  late UniqueNamer _initialWrapperLevelUniqueNamer;
-
-  /// Used by [Binding]s for generating required code.
-  late UniqueNamer _topLevelUniqueNamer;
-  UniqueNamer get topLevelUniqueNamer => _topLevelUniqueNamer;
-  late UniqueNamer _wrapperLevelUniqueNamer;
-  UniqueNamer get wrapperLevelUniqueNamer => _wrapperLevelUniqueNamer;
-  late UniqueNamer _objCLevelUniqueNamer;
-  UniqueNamer get objCLevelUniqueNamer => _objCLevelUniqueNamer;
-
   /// Set true after calling [generate]. Indicates if
   /// [generateSymbolOutputYamlMap] can be called.
   bool get canGenerateSymbolOutput => _canGenerateSymbolOutput;
@@ -140,8 +127,9 @@ class Writer {
     final globalLevelNames = noLookUpBindings.map((e) => e.name);
     final wrapperLevelNames = lookUpBindings.map((e) => e.name);
 
-    _initialTopLevelUniqueNamer = UniqueNamer()..markAllUsed(globalLevelNames);
-    _initialWrapperLevelUniqueNamer = UniqueNamer()
+    final initialTopLevelUniqueNamer = UniqueNamer()
+      ..markAllUsed(globalLevelNames);
+    final initialWrapperLevelUniqueNamer = UniqueNamer()
       ..markAllUsed(wrapperLevelNames);
     final allLevelsUniqueNamer = UniqueNamer()
       ..markAllUsed(globalLevelNames)
@@ -151,7 +139,7 @@ class Writer {
     _className = _resolveNameConflict(
       name: className,
       makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
+      markUsed: [initialWrapperLevelUniqueNamer, initialTopLevelUniqueNamer],
     );
 
     /// Library imports prefix should be unique unique among all names.
@@ -159,35 +147,30 @@ class Writer {
       lib.prefix = _resolveNameConflict(
         name: lib.prefix,
         makeUnique: allLevelsUniqueNamer,
-        markUsed: [
-          _initialWrapperLevelUniqueNamer,
-          _initialTopLevelUniqueNamer,
-        ],
+        markUsed: [initialWrapperLevelUniqueNamer, initialTopLevelUniqueNamer],
       );
     }
 
     /// [_lookupFuncIdentifier] should be unique in top level.
     _lookupFuncIdentifier = _resolveNameConflict(
       name: '_lookup',
-      makeUnique: _initialTopLevelUniqueNamer,
+      makeUnique: initialTopLevelUniqueNamer,
     );
 
     /// Resolve name conflicts of identifiers used for SymbolAddresses.
     _symbolAddressClassName = _resolveNameConflict(
       name: '_SymbolAddresses',
       makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
+      markUsed: [initialWrapperLevelUniqueNamer, initialTopLevelUniqueNamer],
     );
     _symbolAddressVariableName = _resolveNameConflict(
       name: 'addresses',
-      makeUnique: _initialWrapperLevelUniqueNamer,
+      makeUnique: initialWrapperLevelUniqueNamer,
     );
     _symbolAddressLibraryVarName = _resolveNameConflict(
       name: '_library',
-      makeUnique: _initialWrapperLevelUniqueNamer,
+      makeUnique: initialWrapperLevelUniqueNamer,
     );
-
-    _resetUniqueNamers();
   }
 
   /// Resolved name conflict using [makeUnique] and marks the result as used in
@@ -204,15 +187,6 @@ class Writer {
     return s;
   }
 
-  /// Resets the namers to initial state. Namers are reset before generating.
-  void _resetUniqueNamers() {
-    _topLevelUniqueNamer = UniqueNamer(parent: _initialTopLevelUniqueNamer);
-    _wrapperLevelUniqueNamer = UniqueNamer(
-      parent: _initialWrapperLevelUniqueNamer,
-    );
-    _objCLevelUniqueNamer = UniqueNamer();
-  }
-
   void markImportUsed(LibraryImport import) {
     _usedImports.add(import);
   }
@@ -224,9 +198,6 @@ class Writer {
     // We write the source first to determine which imports are actually
     // referenced. Headers and [s] are then combined into the final result.
     final result = StringBuffer();
-
-    // Reset unique namers to initial state.
-    _resetUniqueNamers();
 
     // Reset [usedEnumCTypes].
     usedEnumCTypes.clear();

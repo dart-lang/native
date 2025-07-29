@@ -19,6 +19,17 @@ class ObjCBlock extends BindingType {
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
 
+  late final String funcPtrTrampoline;
+  late final String closureTrampoline;
+  late final String funcPtrCallable;
+  late final String closureCallable;
+  late final String listenerTrampoline;
+  late final String listenerCallable;
+  late final String blockingTrampoline;
+  late final String blockingCallable;
+  late final String blockingListenerCallable;
+  late final String callExtension;
+
   factory ObjCBlock(
     Context context, {
     required Type returnType,
@@ -130,37 +141,6 @@ class ObjCBlock extends BindingType {
       Parameter(type: voidPtr, name: 'waiter', objCConsumed: false),
       ...params,
     ]);
-
-    final funcPtrTrampoline = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_fnPtrTrampoline',
-    );
-    final closureTrampoline = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_closureTrampoline',
-    );
-    final funcPtrCallable = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_fnPtrCallable',
-    );
-    final closureCallable = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_closureCallable',
-    );
-    final listenerTrampoline = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_listenerTrampoline',
-    );
-    final listenerCallable = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_listenerCallable',
-    );
-    final blockingTrampoline = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_blockingTrampoline',
-    );
-    final blockingCallable = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_blockingCallable',
-    );
-    final blockingListenerCallable = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_blockingListenerCallable',
-    );
-    final callExtension = w.topLevelUniqueNamer.makeUnique(
-      '${name}_CallExtension',
-    );
 
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(w);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(w);
@@ -423,12 +403,8 @@ ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
 
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
-    final listenerName = UniqueNamer.cSafeName(
-      w.objCLevelUniqueNamer.makeUnique('ListenerTrampoline'),
-    );
-    final blockingName = UniqueNamer.cSafeName(
-      w.objCLevelUniqueNamer.makeUnique('BlockingTrampoline'),
-    );
+    final listenerName = _blockWrappers!.listenerName;
+    final blockingName = _blockWrappers!.blockingName;
 
     return '''
 
@@ -474,9 +450,7 @@ $listenerName $blockingWrapper(
     final argRecv = argsReceived.join(', ');
     final argPass = argsPassed.join(', ');
     final fnName = protocolTrampoline!.func.name;
-    final block = UniqueNamer.cSafeName(
-      w.objCLevelUniqueNamer.makeUnique('ProtocolTrampoline'),
-    );
+    final block = protocolTrampoline!.nativeName;
     final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';
     final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';
     final blkGetter = '(($block)$msgSend(target, $getterSel, sel))';
@@ -489,6 +463,25 @@ $ret $fnName(id target, $argRecv) {
   return $blkGetter($argPass);
 }
 ''';
+  }
+
+  void fillInternalNames(UniqueNamer topLevelNamer) {
+    funcPtrTrampoline = topLevelNamer.makeUnique('_${name}_fnPtrTrampoline');
+    closureTrampoline = topLevelNamer.makeUnique('_${name}_closureTrampoline');
+    funcPtrCallable = topLevelNamer.makeUnique('_${name}_fnPtrCallable');
+    closureCallable = topLevelNamer.makeUnique('_${name}_closureCallable');
+    listenerTrampoline = topLevelNamer.makeUnique(
+      '_${name}_listenerTrampoline',
+    );
+    listenerCallable = topLevelNamer.makeUnique('_${name}_listenerCallable');
+    blockingTrampoline = topLevelNamer.makeUnique(
+      '_${name}_blockingTrampoline',
+    );
+    blockingCallable = topLevelNamer.makeUnique('_${name}_blockingCallable');
+    blockingListenerCallable = topLevelNamer.makeUnique(
+      '_${name}_blockingListenerCallable',
+    );
+    callExtension = topLevelNamer.makeUnique('${name}_CallExtension');
   }
 
   @override

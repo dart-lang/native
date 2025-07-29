@@ -94,13 +94,6 @@ class Typealias extends BindingType {
 
   @override
   BindingString toBindingString(Writer w) {
-    if (_ffiDartAliasName != null) {
-      _ffiDartAliasName = w.topLevelUniqueNamer.makeUnique(_ffiDartAliasName!);
-    }
-    if (dartAliasName != null) {
-      dartAliasName = w.topLevelUniqueNamer.makeUnique(dartAliasName!);
-    }
-
     final sb = StringBuffer();
     sb.write(makeDartDoc(dartDoc));
     sb.write('typedef $name = ${type.getCType(w)};\n');
@@ -114,6 +107,15 @@ class Typealias extends BindingType {
       type: BindingStringType.typeDef,
       string: sb.toString(),
     );
+  }
+
+  void fillAliasNames(UniqueNamer topLevelNamer) {
+    if (_ffiDartAliasName != null) {
+      _ffiDartAliasName = w.topLevelUniqueNamer.makeUnique(_ffiDartAliasName!);
+    }
+    if (dartAliasName != null) {
+      dartAliasName = w.topLevelUniqueNamer.makeUnique(dartAliasName!);
+    }
   }
 
   @override

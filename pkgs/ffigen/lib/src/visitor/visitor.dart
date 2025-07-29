@@ -82,11 +82,14 @@ abstract class Visitation {
   void visitGlobal(Global node) => visitLookUpBinding(node);
   void visitTypealias(Typealias node) => visitBindingType(node);
   void visitPointerType(PointerType node) => visitType(node);
+  void visitFuncType(FuncType node) => visitType(node);
+  void visitObjCBlockWrapperFuncs(ObjCBlockWrapperFuncs node) =>
+      visitAstNode(node);
   void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>
       visitAstNode(node);
 
   /// Default behavior for all visit methods.
-  void visitAstNode(AstNode node) => node..visitChildren(visitor);
+  void visitAstNode(AstNode node) => node.visitChildren(visitor);
 }
 
 T visit<T extends Visitation>(

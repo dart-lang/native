@@ -28,6 +28,7 @@ class Global extends LookUpBinding {
   final bool exposeSymbolAddress;
   final FfiNativeConfig nativeConfig;
   final bool constant;
+  String? _pointerName;
 
   Global({
     super.usr,
@@ -80,14 +81,12 @@ class Global extends LookUpBinding {
       }
     }
 
+    final pointerName = _pointerName ?? globalVarName;
+
     if (nativeConfig.enabled) {
       if (type case final ConstantArray arr) {
         s.writeln(makeArrayAnnotation(w, arr));
       }
-
-      final pointerName = type.sameDartAndFfiDartType
-          ? globalVarName
-          : w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
 
       s
         ..writeln(
@@ -117,10 +116,6 @@ class Global extends LookUpBinding {
         );
       }
     } else {
-      final pointerName = w.wrapperLevelUniqueNamer.makeUnique(
-        '_$globalVarName',
-      );
-
       s.write(
         'late final ${w.ffiLibraryPrefix}.Pointer<$cType> $pointerName = '
         "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n",
@@ -160,6 +155,12 @@ class Global extends LookUpBinding {
     }
 
     return BindingString(type: BindingStringType.global, string: s.toString());
+  }
+
+  void fillPointerName(UniqueNamer namer) {
+    _pointerName = nativeConfig.enabled && type.sameDartAndFfiDartType
+        ? globalVarName
+        : namer.makeUnique('_$globalVarName');
   }
 
   @override

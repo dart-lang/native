@@ -218,6 +218,8 @@ class ObjCBlockWrapperFuncs extends AstNode {
   final Func listenerWrapper;
   final Func blockingWrapper;
   bool objCBindingsGenerated = false;
+  late String listenerName;
+  late String blockingName;
 
   ObjCBlockWrapperFuncs(this.listenerWrapper, this.blockingWrapper);
 
@@ -227,12 +229,22 @@ class ObjCBlockWrapperFuncs extends AstNode {
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);
   }
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitObjCBlockWrapperFuncs(this);
+
+  void fillNativeNames(UniqueNamer objCNamer) {
+    listenerName = objCNamer.makeUnique('ListenerTrampoline');
+    blockingName = objCNamer.makeUnique('BlockingTrampoline');
+  }
 }
 
 /// A native trampoline function for a protocol method.
 class ObjCProtocolMethodTrampoline extends AstNode {
   final Func func;
   bool objCBindingsGenerated = false;
+  late String nativeName;
 
   ObjCProtocolMethodTrampoline(this.func);
 
@@ -245,6 +257,10 @@ class ObjCProtocolMethodTrampoline extends AstNode {
   @override
   void visit(Visitation visitation) =>
       visitation.visitObjCProtocolMethodTrampoline(this);
+
+  void fillNativeName(UniqueNamer objCNamer) {
+    nativeName = objCNamer.makeUnique('ProtocolTrampoline');
+  }
 }
 
 /// A function, global variable, or helper type defined in package:objective_c.

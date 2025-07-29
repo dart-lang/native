@@ -110,6 +110,22 @@ abstract class Compound extends BindingType {
   bool get isObjCImport =>
       objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
 
+  void renameMembers() {
+    // Adding [name] because dart doesn't allow class member to have the same
+    // name as the class.
+    final localUniqueNamer = UniqueNamer()..markUsed(name);
+
+    // Marking type names because dart doesn't allow class member to have the
+    // same name as a type name used internally.
+    for (final m in members) {
+      localUniqueNamer.markUsed(m.type.getFfiDartType(w));
+    }
+
+    for (final m in members) {
+      m.name = localUniqueNamer.makeUnique(m.name);
+    }
+  }
+
   @override
   BindingString toBindingString(Writer w) {
     final bindingType = isStruct
@@ -117,30 +133,18 @@ abstract class Compound extends BindingType {
         : BindingStringType.union;
 
     final s = StringBuffer();
-    final enclosingClassName = name;
     s.write(makeDartDoc(dartDoc));
 
-    /// Adding [enclosingClassName] because dart doesn't allow class member
-    /// to have the same name as the class.
-    final localUniqueNamer = UniqueNamer()..markUsed(enclosingClassName);
-
-    /// Marking type names because dart doesn't allow class member to have the
-    /// same name as a type name used internally.
-    for (final m in members) {
-      localUniqueNamer.markUsed(m.type.getFfiDartType(w));
-    }
-
-    /// Write @Packed(X) annotation if struct is packed.
+    // Write @Packed(X) annotation if struct is packed.
     if (isStruct && pack != null) {
       s.write('@${w.ffiLibraryPrefix}.Packed($pack)\n');
     }
     final dartClassName = isStruct ? 'Struct' : 'Union';
     // Write class declaration.
-    s.write('final class $enclosingClassName extends ');
+    s.write('final class $name extends ');
     s.write('${w.ffiLibraryPrefix}.${isOpaque ? 'Opaque' : dartClassName}{\n');
     const depth = '  ';
     for (final m in members) {
-      m.name = localUniqueNamer.makeUnique(m.name);
       if (m.dartDoc != null) {
         s.write('$depth/// ');
         s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
