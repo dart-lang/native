@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 import '../code_generator.dart';
 import '../context.dart';
 import '../strings.dart' as strings;
+import '../visitor/visitor.dart';
 import 'unique_namer.dart';
 import 'utils.dart';
 
@@ -38,10 +39,6 @@ class Writer {
   final bool generateForPackageObjectiveC;
 
   final List<String> nativeEntryPoints;
-
-  /// Tracks the enums for which enumType.getCType is called. Reset everytime
-  /// [generate] is called.
-  final usedEnumCTypes = <EnumClass>{};
 
   String? _ffiLibraryPrefix;
   String get ffiLibraryPrefix {
@@ -228,9 +225,6 @@ class Writer {
     // Reset unique namers to initial state.
     _resetUniqueNamers();
 
-    // Reset [usedEnumCTypes].
-    usedEnumCTypes.clear();
-
     // Write file header (if any).
     if (header != null) {
       result.writeln(header);
@@ -325,8 +319,12 @@ class Writer {
     result.write(s);
 
     // Warn about Enum usage in API surface.
-    if (!silenceEnumWarning && usedEnumCTypes.isNotEmpty) {
-      final names = usedEnumCTypes.map((e) => e.originalName).toList()..sort();
+    if (!silenceEnumWarning) {
+      final notEnums = _allBindings.whereType<Type>().where(
+        (b) => b.typealiasType is! EnumClass,
+      );
+      final usedEnums = visit(context, _FindEnumsVisitation(), notEnums).enums;
+      final names = usedEnums.map((e) => e.originalName).toList()..sort();
       context.logger.severe(
         'The integer type used for enums is '
         'implementation-defined. FFIgen tries to mimic the integer sizes '
@@ -582,4 +580,14 @@ class _SymbolAddressUnit {
   final bool native;
 
   _SymbolAddressUnit(this.type, this.name, this.ptrName, this.native);
+}
+
+class _FindEnumsVisitation extends Visitation {
+  final enums = <EnumClass>{};
+
+  @override
+  void visitEnumClass(EnumClass node) {
+    node.visitChildren(visitor);
+    enums.add(node);
+  }
 }
