@@ -18,14 +18,14 @@ class SyntaxGenerator {
   /// semantic Dart API that wraps a generated syntax.
   ///
   /// If the generated syntax is used directly, prefer `false`.
-  final bool requiredParameters;
+  final bool requireNullableParameters;
 
   final String header;
 
   SyntaxGenerator(
     this.schemaInfo, {
     this.header = '',
-    this.requiredParameters = false,
+    this.requireNullableParameters = false,
   });
 
   String generate() {
@@ -49,7 +49,7 @@ import 'dart:io';
           buffer.writeln(
             ClassGenerator(
               classInfo,
-              requiredParameters: requiredParameters,
+              requireNullableParameters: requireNullableParameters,
             ).generate(),
           );
         case EnumClassInfo():

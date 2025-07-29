@@ -13,9 +13,9 @@ class ClassGenerator {
   ///
   /// This is useful for ensuring that all fields are set when writing a
   /// semantic Dart API that wraps a generated syntax.
-  final bool requiredParameters;
+  final bool requireNullableParameters;
 
-  ClassGenerator(this.classInfo, {required this.requiredParameters});
+  ClassGenerator(this.classInfo, {required this.requireNullableParameters});
 
   String generate() {
     final buffer = StringBuffer();
@@ -151,8 +151,8 @@ static const ${tagProperty}Value = '$tagValue';
       final thisClassProperty = classInfo.getProperty(propertyName);
       final required =
           !(thisClassProperty ?? superClassProperty)!.type.isNullable ||
-              requiredParameters
-          ? 'required '
+              requireNullableParameters
+          ? 'required'
           : '';
 
       if (superClassProperty != null) {
