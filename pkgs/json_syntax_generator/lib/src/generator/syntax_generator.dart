@@ -12,9 +12,21 @@ import 'normal_class_generator.dart';
 class SyntaxGenerator {
   final SchemaInfo schemaInfo;
 
+  /// If `true`, also generate `required` named parameters for nullable fields.
+  ///
+  /// This is useful for ensuring that all fields are set when writing a
+  /// semantic Dart API that wraps a generated syntax.
+  ///
+  /// If the generated syntax is used directly, prefer `false`.
+  final bool requireNullableParameters;
+
   final String header;
 
-  SyntaxGenerator(this.schemaInfo, {this.header = ''});
+  SyntaxGenerator(
+    this.schemaInfo, {
+    this.header = '',
+    this.requireNullableParameters = false,
+  });
 
   String generate() {
     final buffer = StringBuffer();
@@ -34,7 +46,12 @@ import 'dart:io';
     for (final classInfo in schemaInfo.classes) {
       switch (classInfo) {
         case NormalClassInfo():
-          buffer.writeln(ClassGenerator(classInfo).generate());
+          buffer.writeln(
+            ClassGenerator(
+              classInfo,
+              requireNullableParameters: requireNullableParameters,
+            ).generate(),
+          );
         case EnumClassInfo():
           buffer.writeln(EnumGenerator(classInfo).generate());
       }

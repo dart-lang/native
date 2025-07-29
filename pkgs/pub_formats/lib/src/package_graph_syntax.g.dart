@@ -16,7 +16,7 @@ class GraphPackageSyntax extends JsonObjectSyntax {
 
   GraphPackageSyntax({
     required List<String> dependencies,
-    required List<String>? devDependencies,
+    List<String>? devDependencies,
     required String name,
     required String version,
     super.path = const [],
@@ -90,7 +90,7 @@ class PackageGraphFileSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   PackageGraphFileSyntax({
-    required int? configVersion,
+    int? configVersion,
     required List<GraphPackageSyntax> packages,
     required List<String> roots,
     super.path = const [],
