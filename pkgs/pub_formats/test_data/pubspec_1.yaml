@@ -26,6 +26,8 @@ dependencies:
     version: ^1.4.0
   some_hosted_dependency_2:
     version: ^1.4.0
+  some_hosted_dependency_3:
+    version: any
   some_path_dependency:
     path: ../some_path_dependency/
 
