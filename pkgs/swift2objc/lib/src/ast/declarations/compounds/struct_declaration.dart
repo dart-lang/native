@@ -35,10 +35,10 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
   List<InitializerDeclaration> initializers;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   StructDeclaration({
     required this.id,

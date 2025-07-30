@@ -31,10 +31,10 @@ class RawValueEnumDeclaration<T> extends AstNode
   bool hasObjCAnnotation;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   ReferredType rawValueType;
 

@@ -19,7 +19,7 @@ typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required List<PropertyDeclaration> properties,
   required List<MethodDeclaration> methods,
   required List<InitializerDeclaration> initializers,
-  required List<NestableDeclaration> nestedDeclarations,
+  required List<InnerNestableDeclaration> nestedDeclarations,
 });
 
 T _parseCompoundDeclaration<T extends CompoundDeclaration>(
@@ -78,7 +78,7 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
         .dedupeBy((m) => m.fullName),
   );
   compound.nestedDeclarations.addAll(
-    memberDeclarations.whereType<NestableDeclaration>(),
+    memberDeclarations.whereType<InnerNestableDeclaration>(),
   );
 
   compound.nestedDeclarations.fillNestingParents(compound);

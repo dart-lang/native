@@ -55,10 +55,10 @@ class ClassDeclaration extends AstNode
   List<InitializerDeclaration> initializers;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   ClassDeclaration({
     required this.id,

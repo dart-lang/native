@@ -31,7 +31,7 @@ extension AddIdSuffix on String {
 
 extension TopLevelOnly<T extends Declaration> on List<T> {
   List<Declaration> get topLevelOnly => where((declaration) {
-        if (declaration is NestableDeclaration) {
+        if (declaration is InnerNestableDeclaration) {
           return declaration.nestingParent == null;
         }
         return declaration is GlobalVariableDeclaration ||

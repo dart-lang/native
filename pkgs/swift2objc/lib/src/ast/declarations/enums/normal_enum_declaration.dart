@@ -27,10 +27,10 @@ class NormalEnumDeclaration extends AstNode implements EnumDeclaration {
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   NormalEnumDeclaration({
     required this.id,

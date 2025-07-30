@@ -30,7 +30,7 @@ class DeclaredType<T extends Declaration> extends AstNode
 
   String get name {
     final decl = declaration;
-    final parent = decl is NestableDeclaration ? decl.nestingParent : null;
+    final parent = decl is InnerNestableDeclaration ? decl.nestingParent : null;
     final nesting = parent != null ? '${parent.name}.' : '';
     return '$nesting${declaration.name}';
   }
