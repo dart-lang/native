@@ -69,7 +69,8 @@ Declaration transformDeclaration(
     return transformationMap[declaration]!;
   }
 
-  if (declaration is NestableDeclaration && declaration.nestingParent != null) {
+  if (declaration is InnerNestableDeclaration &&
+      declaration.nestingParent != null) {
     // It's important that nested declarations are only transformed in the
     // context of their parent, so that their parentNamer is correct.
     assert(nested);

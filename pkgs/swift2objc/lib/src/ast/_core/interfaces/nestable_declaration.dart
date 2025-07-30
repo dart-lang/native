@@ -6,12 +6,14 @@ import '../../ast_node.dart';
 import 'declaration.dart';
 
 /// A Swift entity that can contain other declarations.
-abstract interface class OuterNestableDeclaration implements Declaration, AstNode {
+abstract interface class OuterNestableDeclaration
+    implements Declaration, AstNode {
   abstract final List<InnerNestableDeclaration> nestedDeclarations;
 }
 
 /// A Swift entity that can be nested inside other declarations.
-abstract interface class InnerNestableDeclaration implements Declaration, AstNode {
+abstract interface class InnerNestableDeclaration
+    implements Declaration, AstNode {
   abstract OuterNestableDeclaration? nestingParent;
 }
 

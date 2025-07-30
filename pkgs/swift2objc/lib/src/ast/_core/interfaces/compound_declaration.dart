@@ -18,8 +18,8 @@ abstract interface class CompoundDeclaration
         Declaration,
         TypeParameterizable,
         ProtocolConformable,
-        InnerNestableDeclaration,
-        OuterNestableDeclaration {
+        OuterNestableDeclaration,
+        InnerNestableDeclaration {
   abstract List<PropertyDeclaration> properties;
   abstract List<MethodDeclaration> methods;
   abstract List<InitializerDeclaration> initializers;
