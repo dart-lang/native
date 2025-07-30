@@ -9,11 +9,13 @@ import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
+import '../ast/declarations/typealias_declaration.dart';
 import '../ast/visitor.dart';
 import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
+import 'transformers/transform_typealias.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration>;
 
@@ -79,6 +81,11 @@ Declaration transformDeclaration(
         parentNamer,
         transformationMap,
       ),
+    TypealiasDeclaration() => transformTypealias(
+      declaration,
+      parentNamer,
+      transformationMap,
+    ),
     _ => throw UnimplementedError(),
   };
 }

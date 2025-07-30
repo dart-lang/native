@@ -15,7 +15,8 @@ abstract interface class EnumDeclaration
         Declaration,
         TypeParameterizable,
         ProtocolConformable,
-        NestableDeclaration {
+        InnerNestableDeclaration,
+        OuterNestableDeclaration {
   abstract List<EnumCase> cases;
 }
 
