@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../_core/interfaces/declaration.dart';
+import '../_core/interfaces/nestable_declaration.dart';
 import '../_core/shared/referred_type.dart';
 import '../ast_node.dart';
 
@@ -31,3 +32,10 @@ class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
     visitor.visit(target);
   }
 }
+
+// TODO:
+//  - Fill nesting parent
+//  - Use referred type to refer to typealiases
+//  - Implement transformer
+//  - Add a test for aliases of non-trivial types
+//      eg a nullable or specialized generic
