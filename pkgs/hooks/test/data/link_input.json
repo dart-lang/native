@@ -20,6 +20,13 @@
         "value": "bar"
       },
       "type": "hooks/metadata"
+    },
+    {
+      "encoding": {
+        "key": "foo2",
+        "value": "bar2"
+      },
+      "type": "hooks/metadata"
     }
   ],
   "config": {
