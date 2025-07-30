@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 
 import 'writer.dart';
 
@@ -13,10 +14,10 @@ class HandleType extends Type {
   factory HandleType() => _handle;
 
   @override
-  String getCType(Writer w) => '${w.ffiLibraryPrefix}.Handle';
+  String getCType(Context context) => '${w.ffiLibraryPrefix}.Handle';
 
   @override
-  String getFfiDartType(Writer w) => 'Object';
+  String getFfiDartType(Context context) => 'Object';
 
   // The real native type is Dart_Handle, but that would mean importing
   // dart_api.h into the generated native code.

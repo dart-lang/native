@@ -100,6 +100,7 @@ class Func extends LookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     final enclosingFuncName = name;
+    final context = w.context;
 
     s.write(makeDartDoc(dartDoc));
 
@@ -110,32 +111,32 @@ class Func extends LookUpBinding {
     }
 
     final cType =
-        _exposedFunctionTypealias?.getCType(w) ??
+        _exposedFunctionTypealias?.getCType(context) ??
         functionType.getCType(w, writeArgumentNames: false);
     final dartType =
-        _exposedFunctionTypealias?.getFfiDartType(w) ??
+        _exposedFunctionTypealias?.getFfiDartType(context) ??
         functionType.getFfiDartType(w, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
     final funcVarName = w.wrapperLevelUniqueNamer.makeUnique('_$name');
-    final ffiReturnType = functionType.returnType.getFfiDartType(w);
+    final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
-        .map((p) => '${p.type.getFfiDartType(w)} ${p.name},\n')
+        .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
         .join('');
 
     late final String dartReturnType;
     late final String dartArgDeclString;
     late final String funcImplCall;
     if (needsWrapper) {
-      dartReturnType = functionType.returnType.getDartType(w);
+      dartReturnType = functionType.returnType.getDartType(context);
       dartArgDeclString = functionType.dartTypeParameters
-          .map((p) => '${p.type.getDartType(w)} ${p.name},\n')
+          .map((p) => '${p.type.getDartType(context)} ${p.name},\n')
           .join('');
 
       final argString = functionType.dartTypeParameters
           .map((p) {
             final type = p.type.convertDartTypeToFfiDartType(
-              w,
+              context,
               p.name,
               objCRetain: p.objCConsumed,
               objCAutorelease: false,
@@ -144,7 +145,7 @@ class Func extends LookUpBinding {
           })
           .join('');
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
-        w,
+        context,
         '$funcVarName($argString)',
         objCRetain: !objCReturnsRetained,
       );
@@ -159,8 +160,15 @@ class Func extends LookUpBinding {
 
     if (ffiNativeConfig.enabled) {
       final nativeFuncName = needsWrapper ? funcVarName : enclosingFuncName;
+      final annotation = makeNativeAnnotation(
+        w,
+        nativeType: cType,
+        dartName: nativeFuncName,
+        nativeSymbolName: _lookupName,
+        isLeaf: isLeaf,
+      );
       s.write('''
-${makeNativeAnnotation(w, nativeType: cType, dartName: nativeFuncName, nativeSymbolName: _lookupName, isLeaf: isLeaf)}
+$annotation
 external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 
 ''');
@@ -173,10 +181,9 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
 
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
+        final prefix = context.lib.ffiLibraryPrefix;
         w.symbolAddressWriter.addNativeSymbol(
-          type:
-              '${w.ffiLibraryPrefix}.Pointer<'
-              '${w.ffiLibraryPrefix}.NativeFunction<$cType>>',
+          type: '$prefix.Pointer<$prefix.NativeFunction<$cType>>',
           name: name,
         );
       }
@@ -194,10 +201,9 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
 
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
+        final prefix = context.lib.ffiLibraryPrefix;
         w.symbolAddressWriter.addSymbol(
-          type:
-              '${w.ffiLibraryPrefix}.Pointer<'
-              '${w.ffiLibraryPrefix}.NativeFunction<$cType>>',
+          type: '$prefix.Pointer<$prefix.NativeFunction<$cType>>',
           name: name,
           ptrName: funcPointerName,
         );

@@ -23,6 +23,7 @@ import '../visitor/fill_method_dependencies.dart';
 import '../visitor/find_transitive_deps.dart';
 import '../visitor/fix_overridden_methods.dart';
 import '../visitor/list_bindings.dart';
+import '../visitor/mark_imports.dart';
 import '../visitor/opaque_compounds.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'sub_parsers/macro_parser.dart';
@@ -209,6 +210,9 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   visit(context, listBindingsVisitation, bindings);
   final finalBindings = listBindingsVisitation.bindings;
   visit(context, MarkBindingsVisitation(finalBindings), bindings);
+
+  visit(context, MarkImportsVisitation(context), finalBindings);
+  context.libs.fillPrefixes();
 
   final finalBindingsList = finalBindings.toList();
 

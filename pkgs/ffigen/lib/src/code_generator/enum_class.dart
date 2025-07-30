@@ -4,6 +4,7 @@
 
 import 'package:collection/collection.dart';
 
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -264,17 +265,17 @@ class EnumClass extends BindingType {
   }
 
   @override
-  String getCType(Writer w) => nativeType.getCType(w);
+  String getCType(Context context) => nativeType.getCType(context);
 
   @override
-  String getFfiDartType(Writer w) => nativeType.getFfiDartType(w);
+  String getFfiDartType(Context context) => nativeType.getFfiDartType(context);
 
   @override
-  String getDartType(Writer w) {
+  String getDartType(Context context) {
     if (isObjCImport) {
       return '${w.objcPkgPrefix}.$name';
     } else if (generateAsInt) {
-      return nativeType.getDartType(w);
+      return nativeType.getDartType(context);
     } else {
       return name;
     }
@@ -290,11 +291,11 @@ class EnumClass extends BindingType {
   bool get sameDartAndFfiDartType => generateAsInt;
 
   @override
-  String? getDefaultValue(Writer w) => '0';
+  String? getDefaultValue(Context context) => '0';
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -302,11 +303,13 @@ class EnumClass extends BindingType {
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => sameDartAndFfiDartType ? value : '${getDartType(w)}.fromValue($value)';
+  }) => sameDartAndFfiDartType
+      ? value
+      : '${getDartType(context)}.fromValue($value)';
 
   @override
   void visitChildren(Visitor visitor) {

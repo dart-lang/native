@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../config_provider/config_types.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding.dart';
@@ -45,30 +46,30 @@ class Global extends LookUpBinding {
     final s = StringBuffer();
     final globalVarName = name;
     s.write(makeDartDoc(dartDoc));
-    final dartType = type.getDartType(w);
-    final ffiDartType = type.getFfiDartType(w);
+    final dartType = type.getDartType(context);
+    final ffiDartType = type.getFfiDartType(context);
 
     // Removing pointer reference for ConstantArray cType since we always wrap
     // globals with pointer below.
     final cType = (type is ConstantArray && !nativeConfig.enabled)
-        ? (type as ConstantArray).child.getCType(w)
-        : type.getCType(w);
+        ? (type as ConstantArray).child.getCType(context)
+        : type.getCType(context);
 
     void generateConvertingGetterAndSetter(String pointerValue) {
       final getValue = type.convertFfiDartTypeToDartType(
-        w,
+        context,
         pointerValue,
         objCRetain: true,
       );
       s.write('$dartType get $globalVarName => $getValue;\n\n');
       if (!constant) {
         final releaseOldValue = type.convertFfiDartTypeToDartType(
-          w,
+          context,
           pointerValue,
           objCRetain: false,
         );
         final newValue = type.convertDartTypeToFfiDartType(
-          w,
+          context,
           'value',
           objCRetain: true,
           objCAutorelease: false,

@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'type.dart';
-import 'writer.dart';
 
 /// A library import which will be written as an import in the generated file.
 class LibraryImport extends AstNode {
@@ -13,15 +13,12 @@ class LibraryImport extends AstNode {
   final String _importPath;
   final String? _importPathWhenImportedByPackageObjC;
 
-  String prefix;
-
-  LibraryImport(
+  const LibraryImport(
     this.name,
     this._importPath, {
     String? importPathWhenImportedByPackageObjC,
   }) : _importPathWhenImportedByPackageObjC =
-           importPathWhenImportedByPackageObjC,
-       prefix = name;
+           importPathWhenImportedByPackageObjC;
 
   @override
   bool operator ==(Object other) {
@@ -60,18 +57,16 @@ class ImportedType extends Type {
   });
 
   @override
-  String getCType(Writer w) {
-    w.markImportUsed(libraryImport);
+  String getCType(Context context) {
     return '${libraryImport.prefix}.$cType';
   }
 
   @override
-  String getFfiDartType(Writer w) {
+  String getFfiDartType(Context context) {
     if (importedDartType) {
-      w.markImportUsed(libraryImport);
       return '${libraryImport.prefix}.$dartType';
     } else {
-      return cType == dartType ? getCType(w) : dartType;
+      return cType == dartType ? getCType(context) : dartType;
     }
   }
 
@@ -85,7 +80,7 @@ class ImportedType extends Type {
   String toString() => '${libraryImport.name}.$cType';
 
   @override
-  String? getDefaultValue(Writer w) => defaultValue;
+  String? getDefaultValue(Context context) => defaultValue;
 
   @override
   void visitChildren(Visitor visitor) {
@@ -104,10 +99,10 @@ class SelfImportedType extends Type {
   SelfImportedType(this.cType, this.dartType, [this.defaultValue]);
 
   @override
-  String getCType(Writer w) => cType;
+  String getCType(Context context) => cType;
 
   @override
-  String getFfiDartType(Writer w) => dartType;
+  String getFfiDartType(Context context) => dartType;
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;
@@ -116,15 +111,18 @@ class SelfImportedType extends Type {
   String toString() => cType;
 }
 
-final ffiImport = LibraryImport('ffi', 'dart:ffi');
-final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
-final objcPkgImport = LibraryImport(
+const ffiImport = LibraryImport('ffi', 'dart:ffi');
+const ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
+const objcPkgImport = LibraryImport(
   'objc',
   'package:objective_c/objective_c.dart',
   importPathWhenImportedByPackageObjC: '../objective_c.dart',
 );
-final self = LibraryImport('self', '');
-final allLibraries = [ffiImport, ffiPkgImport, objcPkgImport, self];
+const selfImport = LibraryImport('self', '');
+const builtInLibraries = {
+  for (final l in [ffiImport, ffiPkgImport, objcPkgImport, selfImport])
+    l.name: l,
+};
 
 final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 

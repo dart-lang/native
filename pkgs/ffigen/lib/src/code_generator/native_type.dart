@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 
 import 'writer.dart';
 
@@ -67,10 +68,10 @@ class NativeType extends Type {
   factory NativeType(SupportedNativeType type) => _primitives[type]!;
 
   @override
-  String getCType(Writer w) => '${w.ffiLibraryPrefix}.$_cType';
+  String getCType(Context context) => '${w.ffiLibraryPrefix}.$_cType';
 
   @override
-  String getFfiDartType(Writer w) => _dartType;
+  String getFfiDartType(Context context) => _dartType;
 
   @override
   String getNativeType({String varName = ''}) => '$_nativeType $varName';
@@ -85,7 +86,7 @@ class NativeType extends Type {
   String cacheKey() => _cType;
 
   @override
-  String? getDefaultValue(Writer w) => _defaultValue;
+  String? getDefaultValue(Context context) => _defaultValue;
 }
 
 class BooleanType extends NativeType {

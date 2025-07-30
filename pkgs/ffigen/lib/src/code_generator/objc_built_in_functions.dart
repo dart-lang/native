@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -85,7 +86,7 @@ class ObjCBuiltInFunctions {
   ObjCInternalGlobal getSelObject(String methodName) {
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
-      (Writer w) => '${registerName.gen(w)}("$methodName")',
+      (Writer w) => '${registerName.gen(context)}("$methodName")',
     );
   }
 
@@ -253,7 +254,7 @@ class ObjCImport {
 
   const ObjCImport(this.name);
 
-  String gen(Writer w) => '${w.objcPkgPrefix}.$name';
+  String gen(Context context) => '${w.objcPkgPrefix}.$name';
 }
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.
@@ -306,7 +307,7 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
   BindingString toBindingString(Writer w) {
     final cType = NativeFunc(type).getCType(w, writeArgumentNames: false);
     final dartType = type.getFfiDartType(w, writeArgumentNames: false);
-    final pointer = variant.pointer.gen(w);
+    final pointer = variant.pointer.gen(context);
 
     final bindingString =
         '''
@@ -403,7 +404,7 @@ class ObjCMsgSendFunc extends AstNode {
         return normalCall;
       case ObjCMsgSendVariant.fpret:
         final fpretCall = _invoke(variantFunc!.name, target, sel, params);
-        return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
+        return '${useVariants.gen(context)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
         final stretCall = _invoke(
           variantFunc!.name,
@@ -412,7 +413,7 @@ class ObjCMsgSendFunc extends AstNode {
           params,
           structRetPtr: structRetPtr,
         );
-        return '${useVariants.gen(w)} ? $stretCall : '
+        return '${useVariants.gen(context)} ? $stretCall : '
             '$structRetPtr.ref = $normalCall';
     }
   }
