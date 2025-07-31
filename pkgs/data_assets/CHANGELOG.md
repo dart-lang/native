@@ -1,6 +1,6 @@
 ## 0.19.2-wip
 
-- Bump `package:hooks` to 0.20.0.
+- Bump `package:hooks` to 0.20.0-wip.
 
 ## 0.19.1
 
