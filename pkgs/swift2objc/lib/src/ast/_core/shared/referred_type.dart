@@ -3,10 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ast_node.dart';
+import '../../declarations/typealias_declaration.dart';
 import '../interfaces/declaration.dart';
 import '../interfaces/nestable_declaration.dart';
 import '../interfaces/objc_annotatable.dart';
-import '../../declarations/typealias_declaration.dart';
 
 /// Describes a type reference in declaration of Swift
 /// entities (e.g a method return type).

@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../_core/interfaces/declaration.dart';
 import '../_core/interfaces/nestable_declaration.dart';
 import '../_core/shared/referred_type.dart';
 import '../ast_node.dart';
@@ -33,9 +32,3 @@ class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
     visitor.visit(target);
   }
 }
-
-// TODO:
-//  - Fix bug where nested typealias is appearing both nested and global
-//  - Fix analysis
-//  - Add a test for aliases of non-trivial types
-//      eg a nullable or specialized generic

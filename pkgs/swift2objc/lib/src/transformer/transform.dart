@@ -15,7 +15,6 @@ import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
-import 'transformers/transform_typealias.dart';
 
 typedef TransformationMap = Map<Declaration, Declaration?>;
 
@@ -94,11 +93,7 @@ Declaration? maybeTransformDeclaration(
         parentNamer,
         transformationMap,
       ),
-    TypealiasDeclaration() => transformTypealias(
-        declaration,
-        parentNamer,
-        transformationMap,
-      ),
+    TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };
 }

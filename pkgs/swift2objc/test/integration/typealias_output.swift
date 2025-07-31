@@ -2,9 +2,6 @@
 
 import Foundation
 
-public typealias BarBarWrapper = BarWrapper;
-public typealias BarNullableWrapper = BarWrapper?;
-public typealias BarWrapper = MyClassWrapper;
 @objc public class MyClassWrapper: NSObject {
   var wrappedInstance: MyClass
 
@@ -16,21 +13,20 @@ public typealias BarWrapper = MyClassWrapper;
     return wrappedInstance.method1(x: x)
   }
 
-  @objc public func method2(x: BarWrapper) -> MyClassWrapper {
+  @objc public func method2(x: MyClassWrapper) -> MyClassWrapper {
     let result = wrappedInstance.method2(x: x.wrappedInstance)
     return MyClassWrapper(result)
   }
 
-  @objc public func method3(x: BarNullableWrapper) -> MyClassWrapper? {
+  @objc public func method3(x: MyClassWrapper?) -> MyClassWrapper? {
     let result = wrappedInstance.method3(x: x?.wrappedInstance)
     return result == nil ? nil : MyClassWrapper(result!)
   }
 
-  @objc public func method4(x: MyClassWrapper.BazWrapper) -> MyClassWrapper {
+  @objc public func method4(x: MyClassWrapper) -> MyClassWrapper {
     let result = wrappedInstance.method4(x: x.wrappedInstance)
     return MyClassWrapper(result)
   }
 
-  public typealias BazWrapper = BarWrapper;
 }
 
