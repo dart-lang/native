@@ -12,7 +12,7 @@ environment:
   sdk: '>=3.9.0-21.0.dev <4.0.0'
 
 dependencies:
-  code_assets: ^0.20.0-wip # Needed for OS for Target for KernelAssets.
+  code_assets: ^0.19.4-wip # Needed for OS for Target for KernelAssets.
   collection: ^1.19.1
   crypto: ^3.0.6
   file: ^7.0.1

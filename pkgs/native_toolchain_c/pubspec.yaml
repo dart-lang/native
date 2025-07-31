@@ -17,7 +17,7 @@ environment:
   sdk: '>=3.9.0-21.0.dev <4.0.0'
 
 dependencies:
-  code_assets: ^0.20.0-wip
+  code_assets: ^0.19.4-wip
   glob: ^2.1.1
   hooks: ^0.20.0-wip
   logging: ^1.3.0
