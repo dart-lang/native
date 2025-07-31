@@ -82,11 +82,6 @@ void main() async {
             },
           },
         ],
-      'config': {
-        'build_asset_types': ['code_assets/code'],
-        'extensions': {'code_assets': codeConfig},
-        if (hookType == 'build') 'linking_enabled': false,
-      },
       if (hookType == 'link')
         'assets_from_linking': [
           {
@@ -98,12 +93,38 @@ void main() async {
             },
           },
         ],
+      'config': {
+        'build_asset_types': ['code_assets/code'],
+        'extensions': {'code_assets': codeConfig},
+        if (hookType == 'build') 'linking_enabled': false,
+      },
       'out_dir_shared': outputDirectoryShared.toFilePath(),
       'out_file': outFile.toFilePath(),
       'package_name': packageName,
       'package_root': packageRootUri.toFilePath(),
     };
   }
+
+  // Full JSON to see where the config sits in the full JSON.
+  // When removing the non-hierarchical JSON, we can change this test to only
+  // check the nested key.
+  Map<String, Object> linkOutputJson() => {
+    'assets': [
+      {'some_key': 'some_value', 'type': 'some_asset_type'},
+      {'some_other_key': 'some_value', 'type': 'some_other_asset_type'},
+    ],
+    'assets_for_linking': {
+      'package_with_linker': [
+        {
+          'encoding': {'key': 'foo', 'value': 'bar'},
+          'type': 'hooks/metadata',
+        },
+      ],
+    },
+    'dependencies': ['/assets/data_2.json', '/assets/data_3.json'],
+    'status': 'success',
+    'timestamp': '2025-02-11 11:20:20.000',
+  };
 
   void expectCorrectCodeConfig(
     CodeConfig codeCondig, {
@@ -315,7 +336,7 @@ No value was provided for 'assets.0.encoding.link_mode'."""),
     );
   });
 
-  test('LinkInput.assets_from_linking.0.encoding.key missing', () {
+  test('LinkInput.assets_from_linking.0.encoding.link_mode missing', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
       'assets_from_linking',
@@ -331,6 +352,28 @@ No value was provided for 'assets.0.encoding.link_mode'."""),
               e is FormatException &&
               e.message.contains("""
 No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
+        ),
+      ),
+    );
+  });
+
+  test('LinkOutput.assets_for_linking.package_with_linker.0.type missing', () {
+    final input = linkOutputJson();
+    traverseJson<Map<String, Object?>>(input, [
+      'assets_for_linking',
+      'package_with_linker',
+      0,
+    ]).remove('type');
+    expect(
+      () =>
+          LinkOutput(input).assets.encodedAssetsForLink.values.first.first.type,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains(
+                "No value was provided for 'package_with_linker.0.type'.",
+              ),
         ),
       ),
     );

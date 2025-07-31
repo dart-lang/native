@@ -191,7 +191,7 @@ class NativeAssetsBuildPlanner {
 
       if (stronglyConnectedComponentWithNativeAssets.length > 1) {
         logger.severe(
-          'Cyclic dependency for native asset ${hookType.name}s in the '
+          'Cyclic dependency for ${hookType.name} hooks in the '
           'following packages: $stronglyConnectedComponentWithNativeAssets.',
         );
         return const Failure(HooksRunnerFailure.projectConfig);

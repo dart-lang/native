@@ -6,6 +6,8 @@ import 'package:hooks/hooks.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (input, output) async {
+    //This asset should never make it, as it is flowing in the wrong direction
+    //of the dependency tree.
     output.metadata.add('link_inverse_app', 'key', 'value');
   });
 }
