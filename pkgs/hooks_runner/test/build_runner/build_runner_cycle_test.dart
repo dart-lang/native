@@ -61,7 +61,7 @@ void main() async {
         expect(
           fullLog,
           contains(
-            'Cyclic dependency for native asset links in the following '
+            'Cyclic dependency for link hooks in the following '
             'packages: [cyclic_link_package_1, cyclic_link_package_2]',
           ),
         );
