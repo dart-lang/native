@@ -112,6 +112,7 @@ class NativeAssetsBuildPlanner {
   }
 
   BuildPlan? _buildHookPlan;
+  BuildPlan? _linkHookPlan;
 
   /// Plans in what order to run build hooks.
   ///
@@ -126,40 +127,84 @@ class NativeAssetsBuildPlanner {
   /// hooks, the [Result] is a [Failure] containing a
   /// [HooksRunnerFailure.projectConfig].
   Future<Result<BuildPlan, HooksRunnerFailure>> makeBuildHookPlan() async =>
-      _timeAsync('BuildPlanner.makeBuildHookPlan', () async {
-        if (_buildHookPlan != null) return Success(_buildHookPlan!);
-        final packagesWithNativeAssets = await packagesWithHook(Hook.build);
-        if (packagesWithNativeAssets.isEmpty) {
-          // Avoid calculating the package graph if there are no hooks.
-          return const Success([]);
-        }
-        final packageMap = {
-          for (final package in packagesWithNativeAssets) package.name: package,
-        };
-        final packagesToBuild = packageMap.keys.toSet();
-        final stronglyConnectedComponents = packageGraph
-            .computeStrongComponents();
-        final result = <Package>[];
-        for (final stronglyConnectedComponent in stronglyConnectedComponents) {
-          final stronglyConnectedComponentWithNativeAssets = [
-            for (final packageName in stronglyConnectedComponent)
-              if (packagesToBuild.contains(packageName)) packageName,
-          ];
-          if (stronglyConnectedComponentWithNativeAssets.length > 1) {
-            logger.severe(
-              'Cyclic dependency for native asset builds in the following '
-              'packages: $stronglyConnectedComponentWithNativeAssets.',
-            );
-            return const Failure(HooksRunnerFailure.projectConfig);
-          } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
-            result.add(
-              packageMap[stronglyConnectedComponentWithNativeAssets.single]!,
-            );
-          }
-        }
-        _buildHookPlan = result;
-        return Success(result);
-      });
+      _timeAsync(
+        'BuildPlanner.makeBuildHookPlan',
+        () async => _makeHookPlan(
+          hookType: Hook.build,
+          cachedPlan: _buildHookPlan,
+          setCachedPlan: (plan) => _buildHookPlan = plan,
+          reverseOrder: false,
+        ),
+      );
+
+  /// Plans in what order to run link hooks.
+  ///
+  /// [PackageLayout.runPackageName] provides the entry-point in the graph. The
+  /// hooks of packages not in the transitive dependencies of
+  /// [PackageLayout.runPackageName] will not be run.
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [BuildPlan], which is a list of
+  /// packages in the order their link hooks should be executed. On failure, if
+  /// a cyclic dependency is detected among packages with native asset link
+  /// hooks, the [Result] is a [Failure] containing a
+  /// [HooksRunnerFailure.projectConfig].
+  Future<Result<BuildPlan, HooksRunnerFailure>> makeLinkHookPlan() async =>
+      _timeAsync(
+        'BuildPlanner.makeLinkHookPlan',
+        () async => _makeHookPlan(
+          hookType: Hook.link,
+          cachedPlan: _linkHookPlan,
+          setCachedPlan: (plan) => _linkHookPlan = plan,
+          reverseOrder: true, // Key difference from [makeBuildHookPlan]
+        ),
+      );
+
+  Future<Result<BuildPlan, HooksRunnerFailure>> _makeHookPlan({
+    required Hook hookType,
+    required BuildPlan? cachedPlan,
+    required void Function(BuildPlan) setCachedPlan,
+    required bool reverseOrder,
+  }) async {
+    if (cachedPlan != null) return Success(cachedPlan);
+
+    final packagesWithNativeAssets = await packagesWithHook(hookType);
+    if (packagesWithNativeAssets.isEmpty) {
+      return const Success([]);
+    }
+
+    final packageMap = {
+      for (final package in packagesWithNativeAssets) package.name: package,
+    };
+    final packagesToProcess = packageMap.keys.toSet();
+
+    final stronglyConnectedComponents = reverseOrder
+        ? packageGraph.computeStrongComponents().reversed
+        : packageGraph.computeStrongComponents();
+
+    final result = <Package>[];
+    for (final stronglyConnectedComponent in stronglyConnectedComponents) {
+      final stronglyConnectedComponentWithNativeAssets = [
+        for (final packageName in stronglyConnectedComponent)
+          if (packagesToProcess.contains(packageName)) packageName,
+      ];
+
+      if (stronglyConnectedComponentWithNativeAssets.length > 1) {
+        logger.severe(
+          'Cyclic dependency for ${hookType.name} hooks in the '
+          'following packages: $stronglyConnectedComponentWithNativeAssets.',
+        );
+        return const Failure(HooksRunnerFailure.projectConfig);
+      } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
+        result.add(
+          packageMap[stronglyConnectedComponentWithNativeAssets.single]!,
+        );
+      }
+    }
+
+    setCachedPlan(result);
+    return Success(result);
+  }
 
   Future<T> _timeAsync<T>(
     String name,
@@ -181,8 +226,24 @@ class NativeAssetsBuildPlanner {
 /// dependencies.
 class PackageGraph {
   final Map<String, List<String>> map;
+  late final Map<String, List<String>> _inverseMap = _computeInverseMap(map);
 
   PackageGraph(this.map);
+
+  /// Instead of a map of package -> dependencies, get the map of package ->
+  /// dependents.
+  static Map<String, List<String>> _computeInverseMap(
+    Map<String, List<String>> graphMap,
+  ) {
+    final inverse = <String, List<String>>{};
+    for (final packageName in graphMap.keys) {
+      inverse.putIfAbsent(packageName, () => []);
+      for (final dependency in graphMap[packageName]!) {
+        inverse.putIfAbsent(dependency, () => []).add(packageName);
+      }
+    }
+    return inverse;
+  }
 
   factory PackageGraph.fromPackageGraphJsonString(
     String json,
@@ -221,6 +282,9 @@ class PackageGraph {
   }
 
   Iterable<String> neighborsOf(String vertex) => map[vertex] ?? [];
+
+  Iterable<String> inverseNeighborsOf(String vertex) =>
+      _inverseMap[vertex] ?? [];
 
   Iterable<String> get vertices => map.keys;
 

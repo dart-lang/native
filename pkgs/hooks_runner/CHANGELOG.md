@@ -1,6 +1,13 @@
-## 0.21.1-wip
+## 0.22.0-wip
 
-- Bump `package:hooks` to 0.20.0.
+* Bump `package:hooks` to 0.20.0.
+* Enable passing metadata from link hooks of a package to the link hooks in 
+  depending packages, by fixing the link hook execution order. This brings an
+  order in which the link hooks are run - reverse to the build hook run order.
+  Starting at the application link hook, then it's dependencies, and so on. This
+  enables us to pass information from on link hook to another as
+  `MetadataAsset`s - but also means that now link hooks must be invoked,
+  regardless of whether assets are sent to the from a build hook.
 
 ## 0.21.0
 

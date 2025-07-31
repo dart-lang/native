@@ -1,0 +1,19 @@
+name: link_inverse_app
+description: Part of two packages with native assets that try to pass assets upstream.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+
+dependencies:
+  data_assets: any
+  hooks: any
+  link_inverse_package:
+    path: ../link_inverse_package
+
+dev_dependencies:
+  lints: ^6.0.0
