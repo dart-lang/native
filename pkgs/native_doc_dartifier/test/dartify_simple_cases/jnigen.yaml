@@ -7,4 +7,8 @@ source_path:
   - "java"
 
 classes:
+  - "java.io"
   - "com"
+  - "java.time"
+  - "java.net"
+  - "java.text"
