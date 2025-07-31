@@ -16,12 +16,18 @@ sealed class ReferredType extends AstNode {
 
   abstract final String swiftType;
 
-  bool sameAs(ReferredType other);
+  bool _sameAs(ReferredType other);
 
   const ReferredType();
 
+  ReferredType get aliasedType;
+
   @override
   void visit(Visitation visitation) => visitation.visitReferredType(this);
+}
+
+extension ReferredTypeExt on ReferredType {
+  bool sameAs(ReferredType other) => aliasedType._sameAs(other.aliasedType);
 }
 
 /// Describes a reference of a declared type (user-defined or built-in).
@@ -50,7 +56,13 @@ class DeclaredType<T extends Declaration> extends AstNode
   String get swiftType => name;
 
   @override
-  bool sameAs(ReferredType other) => other is DeclaredType && other.id == id;
+  bool _sameAs(ReferredType other) => other is DeclaredType && other.id == id;
+
+  @override
+  ReferredType get aliasedType => switch (declaration) {
+        TypealiasDeclaration decl => decl.target.aliasedType,
+        _ => this,
+      };
 
   const DeclaredType({
     required this.id,
@@ -86,7 +98,10 @@ class GenericType extends AstNode implements ReferredType {
   String get swiftType => name;
 
   @override
-  bool sameAs(ReferredType other) => other is GenericType && other.id == id;
+  bool _sameAs(ReferredType other) => other is GenericType && other.id == id;
+
+  @override
+  ReferredType get aliasedType => this;
 
   const GenericType({
     required this.id,
@@ -111,8 +126,11 @@ class OptionalType extends AstNode implements ReferredType {
   String get swiftType => '$child?';
 
   @override
-  bool sameAs(ReferredType other) =>
+  bool _sameAs(ReferredType other) =>
       other is OptionalType && child.sameAs(other.child);
+
+  @override
+  ReferredType get aliasedType => OptionalType(child.aliasedType);
 
   OptionalType(this.child);
 
