@@ -32,7 +32,7 @@ void main() async {
         expect(
           fullLog,
           contains(
-            'Cyclic dependency for native asset builds in the following '
+            'Cyclic dependency for build hooks in the following '
             'packages: [cyclic_package_1, cyclic_package_2]',
           ),
         );
