@@ -38,6 +38,7 @@ dev_dependencies:
 executables:
   slidy: main
   fvm:
+  dart-apitool: main
 
 # Hook user-defines are specified in the pub workspace.
 hooks:

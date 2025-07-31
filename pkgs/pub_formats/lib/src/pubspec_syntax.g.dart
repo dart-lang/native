@@ -503,7 +503,9 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     return environment.validate();
   }
 
-  static final _executablesKeyPattern = RegExp(r'^[a-zA-Z_]\w*$');
+  static final _executablesKeyPattern = RegExp(
+    r'^[a-zA-Z_]\w*(-[a-zA-Z_]\w*)*$',
+  );
 
   static final _executablesValuePattern = RegExp(r'^[^/\\]*$');
 
