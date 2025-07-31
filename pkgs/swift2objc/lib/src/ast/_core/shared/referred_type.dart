@@ -6,6 +6,7 @@ import '../../ast_node.dart';
 import '../interfaces/declaration.dart';
 import '../interfaces/nestable_declaration.dart';
 import '../interfaces/objc_annotatable.dart';
+import '../../declarations/typealias_declaration.dart';
 
 /// Describes a type reference in declaration of Swift
 /// entities (e.g a method return type).
@@ -39,9 +40,11 @@ class DeclaredType<T extends Declaration> extends AstNode
   final List<ReferredType> typeParams;
 
   @override
-  bool get isObjCRepresentable =>
-      declaration is ObjCAnnotatable &&
-      (declaration as ObjCAnnotatable).hasObjCAnnotation;
+  bool get isObjCRepresentable => switch (declaration) {
+        TypealiasDeclaration decl => decl.target.isObjCRepresentable,
+        ObjCAnnotatable decl => decl.hasObjCAnnotation,
+        _ => false,
+      };
 
   @override
   String get swiftType => name;

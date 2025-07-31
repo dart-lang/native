@@ -10,17 +10,18 @@ import '../ast_node.dart';
 /// Describes the declaration of a Swift class.
 class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
   @override
-  String id;
+  final String id;
 
   @override
-  String name;
+  final String name;
+
+  final ReferredType target;
 
   @override
   OuterNestableDeclaration? nestingParent;
 
-  final ReferredType target;
-
-  TypealiasDeclaration(this.id, this.name, this.target);
+  TypealiasDeclaration(
+      {required this.id, required this.name, required this.target});
 
   @override
   void visit(Visitation visitation) =>
@@ -34,8 +35,7 @@ class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
 }
 
 // TODO:
-//  - Fill nesting parent
-//  - Use referred type to refer to typealiases
-//  - Implement transformer
+//  - Fix bug where nested typealias is appearing both nested and global
+//  - Fix analysis
 //  - Add a test for aliases of non-trivial types
 //      eg a nullable or specialized generic

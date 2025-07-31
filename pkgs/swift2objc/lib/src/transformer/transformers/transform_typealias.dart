@@ -11,15 +11,40 @@ import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
-import 'transform_function.dart';
-import 'transform_initializer.dart';
-import 'transform_variable.dart';
+import 'transform_referred_type.dart';
 
-TypealiasDeclaration transformTypealias(
+TypealiasDeclaration? transformTypealias(
+  TypealiasDeclaration originalTypealias,
+  UniqueNamer parentNamer,
+  TransformationMap transformationMap,
+) =>
+    transformationMap[originalTypealias] = _transformTypealias(
+      originalTypealias,
+      parentNamer,
+      transformationMap,
+    );
+
+TypealiasDeclaration? _transformTypealias(
   TypealiasDeclaration originalTypealias,
   UniqueNamer parentNamer,
   TransformationMap transformationMap,
 ) {
-  // Transform it if the target is not objc representable.
-  return originalTypealias;
+  if (originalTypealias.target.isObjCRepresentable) return null;
+
+  // return TypealiasDeclaration(
+  //   id: originalTypealias.id.addIdSuffix('wrapper'),
+  //   name: parentNamer.makeUnique(
+  //     '${originalTypealias.name}Wrapper',
+  //   ),
+  //   target: transformReferredType(
+  //     originalTypealias.target,
+  //     parentNamer,
+  //     transformationMap,
+  //   ),
+  // );
+  return transformReferredType(
+    originalTypealias.target,
+    parentNamer,
+    transformationMap,
+  );
 }
