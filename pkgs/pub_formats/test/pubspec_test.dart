@@ -59,7 +59,10 @@ void main() {
     expect(someSdkDependency2.sdk, equals('flutter'));
     expect(syntax.dependencyOverrides, isNull);
     expect(syntax.executables, isNotNull);
-    expect(syntax.executables, equals({'slidy': 'main', 'fvm': null}));
+    expect(
+      syntax.executables,
+      equals({'slidy': 'main', 'fvm': null, 'dart-apitool': 'main'}),
+    );
     expect(syntax.publishTo, equals('none'));
     expect(syntax.documentation, isNull);
     expect(syntax.issueTracker, isNull);
@@ -103,7 +106,7 @@ void main() {
     expect(
       syntaxError2.validate(),
       equals([
-        "Unexpected key 'invalid executable name' in 'executables'. Expected a key satisfying ^[a-zA-Z_]\\w*\$.",
+        "Unexpected key 'invalid executable name' in 'executables'. Expected a key satisfying ^[a-zA-Z_]\\w*(-[a-zA-Z_]\\w*)*\$.",
       ]),
     );
     expect(() => syntaxError2.executables, throwsFormatException);

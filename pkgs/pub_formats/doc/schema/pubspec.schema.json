@@ -41,7 +41,7 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^[a-zA-Z_]\\w*$": {
+        "^[a-zA-Z_]\\w*(-[a-zA-Z_]\\w*)*$": {
           "oneOf": [
             {
               "description": "If null, the main file is lib/<package_name>.dart.",
