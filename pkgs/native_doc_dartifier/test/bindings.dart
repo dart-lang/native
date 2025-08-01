@@ -155,12 +155,10 @@ class RandomAccessFile extends jni$_.JObject {
 
   /// from: `public final java.io.FileDescriptor getFD()`
   /// The returned object must be released after use, by calling the [release] method.
-  FileDescriptor? getFD() {
-    return _getFD(
-      reference.pointer,
-      _id_getFD as jni$_.JMethodIDPtr,
-    ).object<FileDescriptor?>(const $FileDescriptor$NullableType());
-  }
+  FileDescriptor? getFD() => _getFD(
+    reference.pointer,
+    _id_getFD as jni$_.JMethodIDPtr,
+  ).object<FileDescriptor?>(const $FileDescriptor$NullableType());
 
   static final _id_getChannel = _class.instanceMethodId(
     r'getChannel',
@@ -185,12 +183,10 @@ class RandomAccessFile extends jni$_.JObject {
 
   /// from: `public final java.nio.channels.FileChannel getChannel()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getChannel() {
-    return _getChannel(
-      reference.pointer,
-      _id_getChannel as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? getChannel() => _getChannel(
+    reference.pointer,
+    _id_getChannel as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_read = _class.instanceMethodId(r'read', r'()I');
 
@@ -211,9 +207,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read$1 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -371,13 +366,12 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public int skipBytes(int i)`
-  int skipBytes(int i) {
-    return _skipBytes(
-      reference.pointer,
-      _id_skipBytes as jni$_.JMethodIDPtr,
-      i,
-    ).integer;
-  }
+  int skipBytes(int i) =>
+      _skipBytes(
+        reference.pointer,
+        _id_skipBytes as jni$_.JMethodIDPtr,
+        i,
+      ).integer;
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -492,12 +486,11 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public native long getFilePointer()`
-  int getFilePointer() {
-    return _getFilePointer(
-      reference.pointer,
-      _id_getFilePointer as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int getFilePointer() =>
+      _getFilePointer(
+        reference.pointer,
+        _id_getFilePointer as jni$_.JMethodIDPtr,
+      ).long;
 
   static final _id_seek = _class.instanceMethodId(r'seek', r'(J)V');
 
@@ -543,9 +536,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public native long length()`
-  int length() {
-    return _length(reference.pointer, _id_length as jni$_.JMethodIDPtr).long;
-  }
+  int length() =>
+      _length(reference.pointer, _id_length as jni$_.JMethodIDPtr).long;
 
   static final _id_setLength = _class.instanceMethodId(r'setLength', r'(J)V');
 
@@ -621,12 +613,11 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final boolean readBoolean()`
-  bool readBoolean() {
-    return _readBoolean(
-      reference.pointer,
-      _id_readBoolean as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool readBoolean() =>
+      _readBoolean(
+        reference.pointer,
+        _id_readBoolean as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_readByte = _class.instanceMethodId(r'readByte', r'()B');
 
@@ -647,12 +638,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final byte readByte()`
-  int readByte() {
-    return _readByte(
-      reference.pointer,
-      _id_readByte as jni$_.JMethodIDPtr,
-    ).byte;
-  }
+  int readByte() =>
+      _readByte(reference.pointer, _id_readByte as jni$_.JMethodIDPtr).byte;
 
   static final _id_readUnsignedByte = _class.instanceMethodId(
     r'readUnsignedByte',
@@ -676,12 +663,11 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final int readUnsignedByte()`
-  int readUnsignedByte() {
-    return _readUnsignedByte(
-      reference.pointer,
-      _id_readUnsignedByte as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedByte() =>
+      _readUnsignedByte(
+        reference.pointer,
+        _id_readUnsignedByte as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readShort = _class.instanceMethodId(r'readShort', r'()S');
 
@@ -702,12 +688,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final short readShort()`
-  int readShort() {
-    return _readShort(
-      reference.pointer,
-      _id_readShort as jni$_.JMethodIDPtr,
-    ).short;
-  }
+  int readShort() =>
+      _readShort(reference.pointer, _id_readShort as jni$_.JMethodIDPtr).short;
 
   static final _id_readUnsignedShort = _class.instanceMethodId(
     r'readUnsignedShort',
@@ -731,12 +713,11 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final int readUnsignedShort()`
-  int readUnsignedShort() {
-    return _readUnsignedShort(
-      reference.pointer,
-      _id_readUnsignedShort as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedShort() =>
+      _readUnsignedShort(
+        reference.pointer,
+        _id_readUnsignedShort as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readChar = _class.instanceMethodId(r'readChar', r'()C');
 
@@ -757,12 +738,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final char readChar()`
-  int readChar() {
-    return _readChar(
-      reference.pointer,
-      _id_readChar as jni$_.JMethodIDPtr,
-    ).char;
-  }
+  int readChar() =>
+      _readChar(reference.pointer, _id_readChar as jni$_.JMethodIDPtr).char;
 
   static final _id_readInt = _class.instanceMethodId(r'readInt', r'()I');
 
@@ -783,12 +760,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final int readInt()`
-  int readInt() {
-    return _readInt(
-      reference.pointer,
-      _id_readInt as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readInt() =>
+      _readInt(reference.pointer, _id_readInt as jni$_.JMethodIDPtr).integer;
 
   static final _id_readLong = _class.instanceMethodId(r'readLong', r'()J');
 
@@ -809,12 +782,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final long readLong()`
-  int readLong() {
-    return _readLong(
-      reference.pointer,
-      _id_readLong as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int readLong() =>
+      _readLong(reference.pointer, _id_readLong as jni$_.JMethodIDPtr).long;
 
   static final _id_readFloat = _class.instanceMethodId(r'readFloat', r'()F');
 
@@ -835,12 +804,8 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final float readFloat()`
-  double readFloat() {
-    return _readFloat(
-      reference.pointer,
-      _id_readFloat as jni$_.JMethodIDPtr,
-    ).float;
-  }
+  double readFloat() =>
+      _readFloat(reference.pointer, _id_readFloat as jni$_.JMethodIDPtr).float;
 
   static final _id_readDouble = _class.instanceMethodId(r'readDouble', r'()D');
 
@@ -861,12 +826,11 @@ class RandomAccessFile extends jni$_.JObject {
           >();
 
   /// from: `public final double readDouble()`
-  double readDouble() {
-    return _readDouble(
-      reference.pointer,
-      _id_readDouble as jni$_.JMethodIDPtr,
-    ).doubleFloat;
-  }
+  double readDouble() =>
+      _readDouble(
+        reference.pointer,
+        _id_readDouble as jni$_.JMethodIDPtr,
+      ).doubleFloat;
 
   static final _id_readLine = _class.instanceMethodId(
     r'readLine',
@@ -891,12 +855,10 @@ class RandomAccessFile extends jni$_.JObject {
 
   /// from: `public final java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine() {
-    return _readLine(
-      reference.pointer,
-      _id_readLine as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine() => _readLine(
+    reference.pointer,
+    _id_readLine as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_readUTF = _class.instanceMethodId(
     r'readUTF',
@@ -921,12 +883,10 @@ class RandomAccessFile extends jni$_.JObject {
 
   /// from: `public final java.lang.String readUTF()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readUTF() {
-    return _readUTF(
-      reference.pointer,
-      _id_readUTF as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readUTF() => _readUTF(
+    reference.pointer,
+    _id_readUTF as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_writeBoolean = _class.instanceMethodId(
     r'writeBoolean',
@@ -1291,10 +1251,9 @@ final class $RandomAccessFile$NullableType
   int get hashCode => ($RandomAccessFile$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($RandomAccessFile$NullableType) &&
-        other is $RandomAccessFile$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($RandomAccessFile$NullableType) &&
+      other is $RandomAccessFile$NullableType;
 }
 
 final class $RandomAccessFile$Type extends jni$_.JObjType<RandomAccessFile> {
@@ -1326,10 +1285,9 @@ final class $RandomAccessFile$Type extends jni$_.JObjType<RandomAccessFile> {
   int get hashCode => ($RandomAccessFile$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($RandomAccessFile$Type) &&
-        other is $RandomAccessFile$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($RandomAccessFile$Type) &&
+      other is $RandomAccessFile$Type;
 }
 
 /// from: `java.io.BufferedInputStream`
@@ -1435,9 +1393,8 @@ class BufferedInputStream extends FilterInputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -1496,9 +1453,8 @@ class BufferedInputStream extends FilterInputStream {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_available = _class.instanceMethodId(r'available', r'()I');
 
@@ -1519,12 +1475,11 @@ class BufferedInputStream extends FilterInputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -1596,12 +1551,11 @@ class BufferedInputStream extends FilterInputStream {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -1656,10 +1610,9 @@ final class $BufferedInputStream$NullableType
   int get hashCode => ($BufferedInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedInputStream$NullableType) &&
-        other is $BufferedInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedInputStream$NullableType) &&
+      other is $BufferedInputStream$NullableType;
 }
 
 final class $BufferedInputStream$Type
@@ -1692,10 +1645,9 @@ final class $BufferedInputStream$Type
   int get hashCode => ($BufferedInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedInputStream$Type) &&
-        other is $BufferedInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedInputStream$Type) &&
+      other is $BufferedInputStream$Type;
 }
 
 /// from: `java.io.CharArrayReader`
@@ -1805,9 +1757,8 @@ class CharArrayReader extends Reader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -1899,9 +1850,8 @@ class CharArrayReader extends Reader {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_ready = _class.instanceMethodId(r'ready', r'()Z');
 
@@ -1922,9 +1872,8 @@ class CharArrayReader extends Reader {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_markSupported = _class.instanceMethodId(
     r'markSupported',
@@ -1948,12 +1897,11 @@ class CharArrayReader extends Reader {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -2056,10 +2004,9 @@ final class $CharArrayReader$NullableType
   int get hashCode => ($CharArrayReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($CharArrayReader$NullableType) &&
-        other is $CharArrayReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($CharArrayReader$NullableType) &&
+      other is $CharArrayReader$NullableType;
 }
 
 final class $CharArrayReader$Type extends jni$_.JObjType<CharArrayReader> {
@@ -2091,10 +2038,9 @@ final class $CharArrayReader$Type extends jni$_.JObjType<CharArrayReader> {
   int get hashCode => ($CharArrayReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($CharArrayReader$Type) &&
-        other is $CharArrayReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($CharArrayReader$Type) &&
+      other is $CharArrayReader$Type;
 }
 
 /// from: `java.io.ObjectOutputStream$PutField`
@@ -2498,10 +2444,9 @@ final class $ObjectOutputStream$PutField$NullableType
   int get hashCode => ($ObjectOutputStream$PutField$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectOutputStream$PutField$NullableType) &&
-        other is $ObjectOutputStream$PutField$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectOutputStream$PutField$NullableType) &&
+      other is $ObjectOutputStream$PutField$NullableType;
 }
 
 final class $ObjectOutputStream$PutField$Type
@@ -2534,10 +2479,9 @@ final class $ObjectOutputStream$PutField$Type
   int get hashCode => ($ObjectOutputStream$PutField$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectOutputStream$PutField$Type) &&
-        other is $ObjectOutputStream$PutField$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectOutputStream$PutField$Type) &&
+      other is $ObjectOutputStream$PutField$Type;
 }
 
 /// from: `java.io.PushbackInputStream`
@@ -2643,9 +2587,8 @@ class PushbackInputStream extends FilterInputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -2793,12 +2736,11 @@ class PushbackInputStream extends FilterInputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_skip = _class.instanceMethodId(r'skip', r'(J)J');
 
@@ -2821,9 +2763,8 @@ class PushbackInputStream extends FilterInputStream {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_markSupported = _class.instanceMethodId(
     r'markSupported',
@@ -2847,12 +2788,11 @@ class PushbackInputStream extends FilterInputStream {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -2955,10 +2895,9 @@ final class $PushbackInputStream$NullableType
   int get hashCode => ($PushbackInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PushbackInputStream$NullableType) &&
-        other is $PushbackInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PushbackInputStream$NullableType) &&
+      other is $PushbackInputStream$NullableType;
 }
 
 final class $PushbackInputStream$Type
@@ -2991,10 +2930,9 @@ final class $PushbackInputStream$Type
   int get hashCode => ($PushbackInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PushbackInputStream$Type) &&
-        other is $PushbackInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PushbackInputStream$Type) &&
+      other is $PushbackInputStream$Type;
 }
 
 /// from: `java.io.FilterReader`
@@ -3032,9 +2970,8 @@ class FilterReader extends Reader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -3093,9 +3030,8 @@ class FilterReader extends Reader {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_ready = _class.instanceMethodId(r'ready', r'()Z');
 
@@ -3116,9 +3052,8 @@ class FilterReader extends Reader {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_markSupported = _class.instanceMethodId(
     r'markSupported',
@@ -3142,12 +3077,11 @@ class FilterReader extends Reader {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -3249,10 +3183,9 @@ final class $FilterReader$NullableType extends jni$_.JObjType<FilterReader?> {
   int get hashCode => ($FilterReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterReader$NullableType) &&
-        other is $FilterReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterReader$NullableType) &&
+      other is $FilterReader$NullableType;
 }
 
 final class $FilterReader$Type extends jni$_.JObjType<FilterReader> {
@@ -3284,10 +3217,8 @@ final class $FilterReader$Type extends jni$_.JObjType<FilterReader> {
   int get hashCode => ($FilterReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterReader$Type) &&
-        other is $FilterReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterReader$Type) && other is $FilterReader$Type;
 }
 
 /// from: `java.io.DataOutputStream`
@@ -3775,9 +3706,8 @@ class DataOutputStream extends FilterOutputStream {
           >();
 
   /// from: `public final int size()`
-  int size() {
-    return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
-  }
+  int size() =>
+      _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
 
   static final _id_write1 = _class.instanceMethodId(r'write', r'([B)V');
 
@@ -3839,10 +3769,9 @@ final class $DataOutputStream$NullableType
   int get hashCode => ($DataOutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataOutputStream$NullableType) &&
-        other is $DataOutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataOutputStream$NullableType) &&
+      other is $DataOutputStream$NullableType;
 }
 
 final class $DataOutputStream$Type extends jni$_.JObjType<DataOutputStream> {
@@ -3874,10 +3803,9 @@ final class $DataOutputStream$Type extends jni$_.JObjType<DataOutputStream> {
   int get hashCode => ($DataOutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataOutputStream$Type) &&
-        other is $DataOutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataOutputStream$Type) &&
+      other is $DataOutputStream$Type;
 }
 
 /// from: `java.io.PipedInputStream`
@@ -3990,14 +3918,9 @@ class PipedInputStream extends InputStream {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory PipedInputStream.new$2() {
-    return PipedInputStream.fromReference(
-      _new$2(
-        _class.reference.pointer,
-        _id_new$2 as jni$_.JMethodIDPtr,
-      ).reference,
-    );
-  }
+  factory PipedInputStream.new$2() => PipedInputStream.fromReference(
+    _new$2(_class.reference.pointer, _id_new$2 as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$3 = _class.constructorId(r'(I)V');
 
@@ -4021,15 +3944,13 @@ class PipedInputStream extends InputStream {
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory PipedInputStream.new$3(int i) {
-    return PipedInputStream.fromReference(
-      _new$3(
-        _class.reference.pointer,
-        _id_new$3 as jni$_.JMethodIDPtr,
-        i,
-      ).reference,
-    );
-  }
+  factory PipedInputStream.new$3(int i) => PipedInputStream.fromReference(
+    _new$3(
+      _class.reference.pointer,
+      _id_new$3 as jni$_.JMethodIDPtr,
+      i,
+    ).reference,
+  );
 
   static final _id_connect = _class.instanceMethodId(
     r'connect',
@@ -4084,9 +4005,8 @@ class PipedInputStream extends InputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -4143,12 +4063,11 @@ class PipedInputStream extends InputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -4203,10 +4122,9 @@ final class $PipedInputStream$NullableType
   int get hashCode => ($PipedInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedInputStream$NullableType) &&
-        other is $PipedInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedInputStream$NullableType) &&
+      other is $PipedInputStream$NullableType;
 }
 
 final class $PipedInputStream$Type extends jni$_.JObjType<PipedInputStream> {
@@ -4238,10 +4156,9 @@ final class $PipedInputStream$Type extends jni$_.JObjType<PipedInputStream> {
   int get hashCode => ($PipedInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedInputStream$Type) &&
-        other is $PipedInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedInputStream$Type) &&
+      other is $PipedInputStream$Type;
 }
 
 /// from: `java.io.FilePermission`
@@ -4385,12 +4302,11 @@ class FilePermission extends jni$_.JObject {
           >();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(
-      reference.pointer,
-      _id_hashCode$1 as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int hashCode$1() =>
+      _hashCode$1(
+        reference.pointer,
+        _id_hashCode$1 as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_getActions = _class.instanceMethodId(
     r'getActions',
@@ -4415,12 +4331,10 @@ class FilePermission extends jni$_.JObject {
 
   /// from: `public java.lang.String getActions()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getActions() {
-    return _getActions(
-      reference.pointer,
-      _id_getActions as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getActions() => _getActions(
+    reference.pointer,
+    _id_getActions as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_newPermissionCollection = _class.instanceMethodId(
     r'newPermissionCollection',
@@ -4445,12 +4359,10 @@ class FilePermission extends jni$_.JObject {
 
   /// from: `public java.security.PermissionCollection newPermissionCollection()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? newPermissionCollection() {
-    return _newPermissionCollection(
-      reference.pointer,
-      _id_newPermissionCollection as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? newPermissionCollection() => _newPermissionCollection(
+    reference.pointer,
+    _id_newPermissionCollection as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 }
 
 final class $FilePermission$NullableType
@@ -4482,10 +4394,9 @@ final class $FilePermission$NullableType
   int get hashCode => ($FilePermission$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilePermission$NullableType) &&
-        other is $FilePermission$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilePermission$NullableType) &&
+      other is $FilePermission$NullableType;
 }
 
 final class $FilePermission$Type extends jni$_.JObjType<FilePermission> {
@@ -4517,10 +4428,9 @@ final class $FilePermission$Type extends jni$_.JObjType<FilePermission> {
   int get hashCode => ($FilePermission$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilePermission$Type) &&
-        other is $FilePermission$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilePermission$Type) &&
+      other is $FilePermission$Type;
 }
 
 /// from: `java.io.InvalidObjectException`
@@ -4602,10 +4512,9 @@ final class $InvalidObjectException$NullableType
   int get hashCode => ($InvalidObjectException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InvalidObjectException$NullableType) &&
-        other is $InvalidObjectException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InvalidObjectException$NullableType) &&
+      other is $InvalidObjectException$NullableType;
 }
 
 final class $InvalidObjectException$Type
@@ -4638,10 +4547,9 @@ final class $InvalidObjectException$Type
   int get hashCode => ($InvalidObjectException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InvalidObjectException$Type) &&
-        other is $InvalidObjectException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InvalidObjectException$Type) &&
+      other is $InvalidObjectException$Type;
 }
 
 /// from: `java.io.ObjectStreamField`
@@ -4773,12 +4681,10 @@ class ObjectStreamField extends jni$_.JObject {
 
   /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getName() {
-    return _getName(
-      reference.pointer,
-      _id_getName as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getName() => _getName(
+    reference.pointer,
+    _id_getName as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getType = _class.instanceMethodId(
     r'getType',
@@ -4803,12 +4709,10 @@ class ObjectStreamField extends jni$_.JObject {
 
   /// from: `public java.lang.Class<?> getType()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getType() {
-    return _getType(
-      reference.pointer,
-      _id_getType as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? getType() => _getType(
+    reference.pointer,
+    _id_getType as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_getTypeCode = _class.instanceMethodId(
     r'getTypeCode',
@@ -4832,12 +4736,11 @@ class ObjectStreamField extends jni$_.JObject {
           >();
 
   /// from: `public char getTypeCode()`
-  int getTypeCode() {
-    return _getTypeCode(
-      reference.pointer,
-      _id_getTypeCode as jni$_.JMethodIDPtr,
-    ).char;
-  }
+  int getTypeCode() =>
+      _getTypeCode(
+        reference.pointer,
+        _id_getTypeCode as jni$_.JMethodIDPtr,
+      ).char;
 
   static final _id_getTypeString = _class.instanceMethodId(
     r'getTypeString',
@@ -4862,12 +4765,10 @@ class ObjectStreamField extends jni$_.JObject {
 
   /// from: `public java.lang.String getTypeString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getTypeString() {
-    return _getTypeString(
-      reference.pointer,
-      _id_getTypeString as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getTypeString() => _getTypeString(
+    reference.pointer,
+    _id_getTypeString as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getOffset = _class.instanceMethodId(r'getOffset', r'()I');
 
@@ -4888,12 +4789,11 @@ class ObjectStreamField extends jni$_.JObject {
           >();
 
   /// from: `public int getOffset()`
-  int getOffset() {
-    return _getOffset(
-      reference.pointer,
-      _id_getOffset as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int getOffset() =>
+      _getOffset(
+        reference.pointer,
+        _id_getOffset as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_isPrimitive = _class.instanceMethodId(
     r'isPrimitive',
@@ -4917,12 +4817,11 @@ class ObjectStreamField extends jni$_.JObject {
           >();
 
   /// from: `public boolean isPrimitive()`
-  bool isPrimitive() {
-    return _isPrimitive(
-      reference.pointer,
-      _id_isPrimitive as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool isPrimitive() =>
+      _isPrimitive(
+        reference.pointer,
+        _id_isPrimitive as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_isUnshared = _class.instanceMethodId(r'isUnshared', r'()Z');
 
@@ -4943,12 +4842,11 @@ class ObjectStreamField extends jni$_.JObject {
           >();
 
   /// from: `public boolean isUnshared()`
-  bool isUnshared() {
-    return _isUnshared(
-      reference.pointer,
-      _id_isUnshared as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool isUnshared() =>
+      _isUnshared(
+        reference.pointer,
+        _id_isUnshared as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_compareTo = _class.instanceMethodId(
     r'compareTo',
@@ -5006,12 +4904,10 @@ class ObjectStreamField extends jni$_.JObject {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
-    return _toString$1(
-      reference.pointer,
-      _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$1() => _toString$1(
+    reference.pointer,
+    _id_toString$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 }
 
 final class $ObjectStreamField$NullableType
@@ -5043,10 +4939,9 @@ final class $ObjectStreamField$NullableType
   int get hashCode => ($ObjectStreamField$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamField$NullableType) &&
-        other is $ObjectStreamField$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamField$NullableType) &&
+      other is $ObjectStreamField$NullableType;
 }
 
 final class $ObjectStreamField$Type extends jni$_.JObjType<ObjectStreamField> {
@@ -5078,10 +4973,9 @@ final class $ObjectStreamField$Type extends jni$_.JObjType<ObjectStreamField> {
   int get hashCode => ($ObjectStreamField$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamField$Type) &&
-        other is $ObjectStreamField$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamField$Type) &&
+      other is $ObjectStreamField$Type;
 }
 
 /// from: `java.io.PrintWriter`
@@ -5577,12 +5471,11 @@ class PrintWriter extends Writer {
           >();
 
   /// from: `public boolean checkError()`
-  bool checkError() {
-    return _checkError(
-      reference.pointer,
-      _id_checkError as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool checkError() =>
+      _checkError(
+        reference.pointer,
+        _id_checkError as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -6573,13 +6466,11 @@ class PrintWriter extends Writer {
 
   /// from: `public java.io.PrintWriter append(char c)`
   /// The returned object must be released after use, by calling the [release] method.
-  PrintWriter? append$5(int c) {
-    return _append$5(
-      reference.pointer,
-      _id_append$5 as jni$_.JMethodIDPtr,
-      c,
-    ).object<PrintWriter?>(const $PrintWriter$NullableType());
-  }
+  PrintWriter? append$5(int c) => _append$5(
+    reference.pointer,
+    _id_append$5 as jni$_.JMethodIDPtr,
+    c,
+  ).object<PrintWriter?>(const $PrintWriter$NullableType());
 }
 
 final class $PrintWriter$NullableType extends jni$_.JObjType<PrintWriter?> {
@@ -6610,10 +6501,9 @@ final class $PrintWriter$NullableType extends jni$_.JObjType<PrintWriter?> {
   int get hashCode => ($PrintWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PrintWriter$NullableType) &&
-        other is $PrintWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PrintWriter$NullableType) &&
+      other is $PrintWriter$NullableType;
 }
 
 final class $PrintWriter$Type extends jni$_.JObjType<PrintWriter> {
@@ -6645,10 +6535,8 @@ final class $PrintWriter$Type extends jni$_.JObjType<PrintWriter> {
   int get hashCode => ($PrintWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PrintWriter$Type) &&
-        other is $PrintWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PrintWriter$Type) && other is $PrintWriter$Type;
 }
 
 /// from: `java.io.StreamCorruptedException`
@@ -6722,14 +6610,13 @@ class StreamCorruptedException extends ObjectStreamException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory StreamCorruptedException.new$5() {
-    return StreamCorruptedException.fromReference(
-      _new$5(
-        _class.reference.pointer,
-        _id_new$5 as jni$_.JMethodIDPtr,
-      ).reference,
-    );
-  }
+  factory StreamCorruptedException.new$5() =>
+      StreamCorruptedException.fromReference(
+        _new$5(
+          _class.reference.pointer,
+          _id_new$5 as jni$_.JMethodIDPtr,
+        ).reference,
+      );
 }
 
 final class $StreamCorruptedException$NullableType
@@ -6763,10 +6650,9 @@ final class $StreamCorruptedException$NullableType
   int get hashCode => ($StreamCorruptedException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StreamCorruptedException$NullableType) &&
-        other is $StreamCorruptedException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StreamCorruptedException$NullableType) &&
+      other is $StreamCorruptedException$NullableType;
 }
 
 final class $StreamCorruptedException$Type
@@ -6799,10 +6685,9 @@ final class $StreamCorruptedException$Type
   int get hashCode => ($StreamCorruptedException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StreamCorruptedException$Type) &&
-        other is $StreamCorruptedException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StreamCorruptedException$Type) &&
+      other is $StreamCorruptedException$Type;
 }
 
 /// from: `java.io.Externalizable`
@@ -6893,12 +6778,10 @@ class Externalizable extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -6990,13 +6873,10 @@ final class _$Externalizable with $Externalizable {
   final void Function(ObjectInput? objectInput) _readExternal;
   final bool readExternal$async;
 
-  void writeExternal(ObjectOutput? objectOutput) {
-    return _writeExternal(objectOutput);
-  }
+  void writeExternal(ObjectOutput? objectOutput) =>
+      _writeExternal(objectOutput);
 
-  void readExternal(ObjectInput? objectInput) {
-    return _readExternal(objectInput);
-  }
+  void readExternal(ObjectInput? objectInput) => _readExternal(objectInput);
 }
 
 final class $Externalizable$NullableType
@@ -7028,10 +6908,9 @@ final class $Externalizable$NullableType
   int get hashCode => ($Externalizable$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Externalizable$NullableType) &&
-        other is $Externalizable$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Externalizable$NullableType) &&
+      other is $Externalizable$NullableType;
 }
 
 final class $Externalizable$Type extends jni$_.JObjType<Externalizable> {
@@ -7063,10 +6942,9 @@ final class $Externalizable$Type extends jni$_.JObjType<Externalizable> {
   int get hashCode => ($Externalizable$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Externalizable$Type) &&
-        other is $Externalizable$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Externalizable$Type) &&
+      other is $Externalizable$Type;
 }
 
 /// from: `java.io.ObjectInputValidation`
@@ -7120,12 +6998,10 @@ class ObjectInputValidation extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -7199,9 +7075,7 @@ final class _$ObjectInputValidation with $ObjectInputValidation {
   final void Function() _validateObject;
   final bool validateObject$async;
 
-  void validateObject() {
-    return _validateObject();
-  }
+  void validateObject() => _validateObject();
 }
 
 final class $ObjectInputValidation$NullableType
@@ -7233,10 +7107,9 @@ final class $ObjectInputValidation$NullableType
   int get hashCode => ($ObjectInputValidation$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputValidation$NullableType) &&
-        other is $ObjectInputValidation$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputValidation$NullableType) &&
+      other is $ObjectInputValidation$NullableType;
 }
 
 final class $ObjectInputValidation$Type
@@ -7269,10 +7142,9 @@ final class $ObjectInputValidation$Type
   int get hashCode => ($ObjectInputValidation$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputValidation$Type) &&
-        other is $ObjectInputValidation$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputValidation$Type) &&
+      other is $ObjectInputValidation$Type;
 }
 
 /// from: `java.io.FilterOutputStream`
@@ -7491,10 +7363,9 @@ final class $FilterOutputStream$NullableType
   int get hashCode => ($FilterOutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterOutputStream$NullableType) &&
-        other is $FilterOutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterOutputStream$NullableType) &&
+      other is $FilterOutputStream$NullableType;
 }
 
 final class $FilterOutputStream$Type
@@ -7527,10 +7398,9 @@ final class $FilterOutputStream$Type
   int get hashCode => ($FilterOutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterOutputStream$Type) &&
-        other is $FilterOutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterOutputStream$Type) &&
+      other is $FilterOutputStream$Type;
 }
 
 /// from: `java.io.Reader`
@@ -7572,12 +7442,10 @@ class Reader extends jni$_.JObject {
 
   /// from: `static public java.io.Reader nullReader()`
   /// The returned object must be released after use, by calling the [release] method.
-  static Reader? nullReader() {
-    return _nullReader(
-      _class.reference.pointer,
-      _id_nullReader as jni$_.JMethodIDPtr,
-    ).object<Reader?>(const $Reader$NullableType());
-  }
+  static Reader? nullReader() => _nullReader(
+    _class.reference.pointer,
+    _id_nullReader as jni$_.JMethodIDPtr,
+  ).object<Reader?>(const $Reader$NullableType());
 
   static final _id_read = _class.instanceMethodId(
     r'read',
@@ -7631,9 +7499,8 @@ class Reader extends jni$_.JObject {
           >();
 
   /// from: `public int read()`
-  int read$1() {
-    return _read$1(reference.pointer, _id_read$1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read$1() =>
+      _read$1(reference.pointer, _id_read$1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read$2 = _class.instanceMethodId(r'read', r'([C)I');
 
@@ -7722,9 +7589,8 @@ class Reader extends jni$_.JObject {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_ready = _class.instanceMethodId(r'ready', r'()Z');
 
@@ -7745,9 +7611,8 @@ class Reader extends jni$_.JObject {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_markSupported = _class.instanceMethodId(
     r'markSupported',
@@ -7771,12 +7636,11 @@ class Reader extends jni$_.JObject {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -7911,10 +7775,9 @@ final class $Reader$NullableType extends jni$_.JObjType<Reader?> {
   int get hashCode => ($Reader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Reader$NullableType) &&
-        other is $Reader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Reader$NullableType) &&
+      other is $Reader$NullableType;
 }
 
 final class $Reader$Type extends jni$_.JObjType<Reader> {
@@ -7945,9 +7808,8 @@ final class $Reader$Type extends jni$_.JObjType<Reader> {
   int get hashCode => ($Reader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Reader$Type) && other is $Reader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Reader$Type) && other is $Reader$Type;
 }
 
 /// from: `java.io.PipedWriter`
@@ -8019,14 +7881,9 @@ class PipedWriter extends Writer {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory PipedWriter.new$1() {
-    return PipedWriter.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-      ).reference,
-    );
-  }
+  factory PipedWriter.new$1() => PipedWriter.fromReference(
+    _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_connect = _class.instanceMethodId(
     r'connect',
@@ -8197,10 +8054,9 @@ final class $PipedWriter$NullableType extends jni$_.JObjType<PipedWriter?> {
   int get hashCode => ($PipedWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedWriter$NullableType) &&
-        other is $PipedWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedWriter$NullableType) &&
+      other is $PipedWriter$NullableType;
 }
 
 final class $PipedWriter$Type extends jni$_.JObjType<PipedWriter> {
@@ -8232,10 +8088,8 @@ final class $PipedWriter$Type extends jni$_.JObjType<PipedWriter> {
   int get hashCode => ($PipedWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedWriter$Type) &&
-        other is $PipedWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedWriter$Type) && other is $PipedWriter$Type;
 }
 
 /// from: `java.io.Serializable`
@@ -8261,12 +8115,10 @@ class Serializable extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -8348,10 +8200,9 @@ final class $Serializable$NullableType extends jni$_.JObjType<Serializable?> {
   int get hashCode => ($Serializable$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Serializable$NullableType) &&
-        other is $Serializable$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Serializable$NullableType) &&
+      other is $Serializable$NullableType;
 }
 
 final class $Serializable$Type extends jni$_.JObjType<Serializable> {
@@ -8383,10 +8234,8 @@ final class $Serializable$Type extends jni$_.JObjType<Serializable> {
   int get hashCode => ($Serializable$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Serializable$Type) &&
-        other is $Serializable$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Serializable$Type) && other is $Serializable$Type;
 }
 
 /// from: `java.io.UncheckedIOException`
@@ -8504,12 +8353,10 @@ class UncheckedIOException extends jni$_.JObject {
 
   /// from: `public java.io.IOException getCause()`
   /// The returned object must be released after use, by calling the [release] method.
-  IOException? getCause() {
-    return _getCause(
-      reference.pointer,
-      _id_getCause as jni$_.JMethodIDPtr,
-    ).object<IOException?>(const $IOException$NullableType());
-  }
+  IOException? getCause() => _getCause(
+    reference.pointer,
+    _id_getCause as jni$_.JMethodIDPtr,
+  ).object<IOException?>(const $IOException$NullableType());
 }
 
 final class $UncheckedIOException$NullableType
@@ -8541,10 +8388,9 @@ final class $UncheckedIOException$NullableType
   int get hashCode => ($UncheckedIOException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($UncheckedIOException$NullableType) &&
-        other is $UncheckedIOException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($UncheckedIOException$NullableType) &&
+      other is $UncheckedIOException$NullableType;
 }
 
 final class $UncheckedIOException$Type
@@ -8577,10 +8423,9 @@ final class $UncheckedIOException$Type
   int get hashCode => ($UncheckedIOException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($UncheckedIOException$Type) &&
-        other is $UncheckedIOException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($UncheckedIOException$Type) &&
+      other is $UncheckedIOException$Type;
 }
 
 /// from: `java.io.SyncFailedException`
@@ -8662,10 +8507,9 @@ final class $SyncFailedException$NullableType
   int get hashCode => ($SyncFailedException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($SyncFailedException$NullableType) &&
-        other is $SyncFailedException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($SyncFailedException$NullableType) &&
+      other is $SyncFailedException$NullableType;
 }
 
 final class $SyncFailedException$Type
@@ -8698,10 +8542,9 @@ final class $SyncFailedException$Type
   int get hashCode => ($SyncFailedException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($SyncFailedException$Type) &&
-        other is $SyncFailedException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($SyncFailedException$Type) &&
+      other is $SyncFailedException$Type;
 }
 
 /// from: `java.io.ObjectInputStream$GetField`
@@ -8745,12 +8588,10 @@ class ObjectInputStream$GetField extends jni$_.JObject {
 
   /// from: `public abstract java.io.ObjectStreamClass getObjectStreamClass()`
   /// The returned object must be released after use, by calling the [release] method.
-  ObjectStreamClass? getObjectStreamClass() {
-    return _getObjectStreamClass(
-      reference.pointer,
-      _id_getObjectStreamClass as jni$_.JMethodIDPtr,
-    ).object<ObjectStreamClass?>(const $ObjectStreamClass$NullableType());
-  }
+  ObjectStreamClass? getObjectStreamClass() => _getObjectStreamClass(
+    reference.pointer,
+    _id_getObjectStreamClass as jni$_.JMethodIDPtr,
+  ).object<ObjectStreamClass?>(const $ObjectStreamClass$NullableType());
 
   static final _id_defaulted = _class.instanceMethodId(
     r'defaulted',
@@ -9136,10 +8977,9 @@ final class $ObjectInputStream$GetField$NullableType
   int get hashCode => ($ObjectInputStream$GetField$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputStream$GetField$NullableType) &&
-        other is $ObjectInputStream$GetField$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputStream$GetField$NullableType) &&
+      other is $ObjectInputStream$GetField$NullableType;
 }
 
 final class $ObjectInputStream$GetField$Type
@@ -9172,10 +9012,9 @@ final class $ObjectInputStream$GetField$Type
   int get hashCode => ($ObjectInputStream$GetField$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputStream$GetField$Type) &&
-        other is $ObjectInputStream$GetField$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputStream$GetField$Type) &&
+      other is $ObjectInputStream$GetField$Type;
 }
 
 /// from: `java.io.WriteAbortedException`
@@ -9275,12 +9114,10 @@ class WriteAbortedException extends ObjectStreamException {
 
   /// from: `public java.lang.String getMessage()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getMessage() {
-    return _getMessage(
-      reference.pointer,
-      _id_getMessage as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getMessage() => _getMessage(
+    reference.pointer,
+    _id_getMessage as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getCause = _class.instanceMethodId(
     r'getCause',
@@ -9305,12 +9142,10 @@ class WriteAbortedException extends ObjectStreamException {
 
   /// from: `public java.lang.Throwable getCause()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getCause() {
-    return _getCause(
-      reference.pointer,
-      _id_getCause as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? getCause() => _getCause(
+    reference.pointer,
+    _id_getCause as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 }
 
 final class $WriteAbortedException$NullableType
@@ -9342,10 +9177,9 @@ final class $WriteAbortedException$NullableType
   int get hashCode => ($WriteAbortedException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($WriteAbortedException$NullableType) &&
-        other is $WriteAbortedException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($WriteAbortedException$NullableType) &&
+      other is $WriteAbortedException$NullableType;
 }
 
 final class $WriteAbortedException$Type
@@ -9378,10 +9212,9 @@ final class $WriteAbortedException$Type
   int get hashCode => ($WriteAbortedException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($WriteAbortedException$Type) &&
-        other is $WriteAbortedException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($WriteAbortedException$Type) &&
+      other is $WriteAbortedException$Type;
 }
 
 /// from: `java.io.FilenameFilter`
@@ -9444,12 +9277,10 @@ class FilenameFilter extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -9520,9 +9351,7 @@ final class _$FilenameFilter with $FilenameFilter {
 
   final bool Function(File? file, jni$_.JString? string) _accept;
 
-  bool accept(File? file, jni$_.JString? string) {
-    return _accept(file, string);
-  }
+  bool accept(File? file, jni$_.JString? string) => _accept(file, string);
 }
 
 final class $FilenameFilter$NullableType
@@ -9554,10 +9383,9 @@ final class $FilenameFilter$NullableType
   int get hashCode => ($FilenameFilter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilenameFilter$NullableType) &&
-        other is $FilenameFilter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilenameFilter$NullableType) &&
+      other is $FilenameFilter$NullableType;
 }
 
 final class $FilenameFilter$Type extends jni$_.JObjType<FilenameFilter> {
@@ -9589,10 +9417,9 @@ final class $FilenameFilter$Type extends jni$_.JObjType<FilenameFilter> {
   int get hashCode => ($FilenameFilter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilenameFilter$Type) &&
-        other is $FilenameFilter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilenameFilter$Type) &&
+      other is $FilenameFilter$Type;
 }
 
 /// from: `java.io.ObjectInputFilter$FilterInfo`
@@ -9636,12 +9463,10 @@ class ObjectInputFilter$FilterInfo extends jni$_.JObject {
 
   /// from: `public abstract java.lang.Class<?> serialClass()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? serialClass() {
-    return _serialClass(
-      reference.pointer,
-      _id_serialClass as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? serialClass() => _serialClass(
+    reference.pointer,
+    _id_serialClass as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_arrayLength = _class.instanceMethodId(
     r'arrayLength',
@@ -9665,12 +9490,11 @@ class ObjectInputFilter$FilterInfo extends jni$_.JObject {
           >();
 
   /// from: `public abstract long arrayLength()`
-  int arrayLength() {
-    return _arrayLength(
-      reference.pointer,
-      _id_arrayLength as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int arrayLength() =>
+      _arrayLength(
+        reference.pointer,
+        _id_arrayLength as jni$_.JMethodIDPtr,
+      ).long;
 
   static final _id_depth = _class.instanceMethodId(r'depth', r'()J');
 
@@ -9691,9 +9515,8 @@ class ObjectInputFilter$FilterInfo extends jni$_.JObject {
           >();
 
   /// from: `public abstract long depth()`
-  int depth() {
-    return _depth(reference.pointer, _id_depth as jni$_.JMethodIDPtr).long;
-  }
+  int depth() =>
+      _depth(reference.pointer, _id_depth as jni$_.JMethodIDPtr).long;
 
   static final _id_references = _class.instanceMethodId(r'references', r'()J');
 
@@ -9714,12 +9537,8 @@ class ObjectInputFilter$FilterInfo extends jni$_.JObject {
           >();
 
   /// from: `public abstract long references()`
-  int references() {
-    return _references(
-      reference.pointer,
-      _id_references as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int references() =>
+      _references(reference.pointer, _id_references as jni$_.JMethodIDPtr).long;
 
   static final _id_streamBytes = _class.instanceMethodId(
     r'streamBytes',
@@ -9743,12 +9562,11 @@ class ObjectInputFilter$FilterInfo extends jni$_.JObject {
           >();
 
   /// from: `public abstract long streamBytes()`
-  int streamBytes() {
-    return _streamBytes(
-      reference.pointer,
-      _id_streamBytes as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int streamBytes() =>
+      _streamBytes(
+        reference.pointer,
+        _id_streamBytes as jni$_.JMethodIDPtr,
+      ).long;
 
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $ObjectInputFilter$FilterInfo> _$impls = {};
@@ -9756,12 +9574,10 @@ class ObjectInputFilter$FilterInfo extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -9876,25 +9692,15 @@ final class _$ObjectInputFilter$FilterInfo with $ObjectInputFilter$FilterInfo {
   final int Function() _references;
   final int Function() _streamBytes;
 
-  jni$_.JObject? serialClass() {
-    return _serialClass();
-  }
+  jni$_.JObject? serialClass() => _serialClass();
 
-  int arrayLength() {
-    return _arrayLength();
-  }
+  int arrayLength() => _arrayLength();
 
-  int depth() {
-    return _depth();
-  }
+  int depth() => _depth();
 
-  int references() {
-    return _references();
-  }
+  int references() => _references();
 
-  int streamBytes() {
-    return _streamBytes();
-  }
+  int streamBytes() => _streamBytes();
 }
 
 final class $ObjectInputFilter$FilterInfo$NullableType
@@ -9928,10 +9734,9 @@ final class $ObjectInputFilter$FilterInfo$NullableType
   int get hashCode => ($ObjectInputFilter$FilterInfo$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$FilterInfo$NullableType) &&
-        other is $ObjectInputFilter$FilterInfo$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$FilterInfo$NullableType) &&
+      other is $ObjectInputFilter$FilterInfo$NullableType;
 }
 
 final class $ObjectInputFilter$FilterInfo$Type
@@ -9964,10 +9769,9 @@ final class $ObjectInputFilter$FilterInfo$Type
   int get hashCode => ($ObjectInputFilter$FilterInfo$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$FilterInfo$Type) &&
-        other is $ObjectInputFilter$FilterInfo$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$FilterInfo$Type) &&
+      other is $ObjectInputFilter$FilterInfo$Type;
 }
 
 /// from: `java.io.PipedReader`
@@ -10074,14 +9878,9 @@ class PipedReader extends Reader {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory PipedReader.new$2() {
-    return PipedReader.fromReference(
-      _new$2(
-        _class.reference.pointer,
-        _id_new$2 as jni$_.JMethodIDPtr,
-      ).reference,
-    );
-  }
+  factory PipedReader.new$2() => PipedReader.fromReference(
+    _new$2(_class.reference.pointer, _id_new$2 as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$3 = _class.constructorId(r'(I)V');
 
@@ -10105,15 +9904,13 @@ class PipedReader extends Reader {
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory PipedReader.new$3(int i) {
-    return PipedReader.fromReference(
-      _new$3(
-        _class.reference.pointer,
-        _id_new$3 as jni$_.JMethodIDPtr,
-        i,
-      ).reference,
-    );
-  }
+  factory PipedReader.new$3(int i) => PipedReader.fromReference(
+    _new$3(
+      _class.reference.pointer,
+      _id_new$3 as jni$_.JMethodIDPtr,
+      i,
+    ).reference,
+  );
 
   static final _id_connect = _class.instanceMethodId(
     r'connect',
@@ -10167,9 +9964,8 @@ class PipedReader extends Reader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -10226,9 +10022,8 @@ class PipedReader extends Reader {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -10282,10 +10077,9 @@ final class $PipedReader$NullableType extends jni$_.JObjType<PipedReader?> {
   int get hashCode => ($PipedReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedReader$NullableType) &&
-        other is $PipedReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedReader$NullableType) &&
+      other is $PipedReader$NullableType;
 }
 
 final class $PipedReader$Type extends jni$_.JObjType<PipedReader> {
@@ -10317,10 +10111,8 @@ final class $PipedReader$Type extends jni$_.JObjType<PipedReader> {
   int get hashCode => ($PipedReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedReader$Type) &&
-        other is $PipedReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedReader$Type) && other is $PipedReader$Type;
 }
 
 /// from: `java.io.ByteArrayOutputStream`
@@ -10359,11 +10151,9 @@ class ByteArrayOutputStream extends OutputStream {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory ByteArrayOutputStream() {
-    return ByteArrayOutputStream.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory ByteArrayOutputStream() => ByteArrayOutputStream.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -10387,15 +10177,14 @@ class ByteArrayOutputStream extends OutputStream {
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory ByteArrayOutputStream.new$1(int i) {
-    return ByteArrayOutputStream.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-        i,
-      ).reference,
-    );
-  }
+  factory ByteArrayOutputStream.new$1(int i) =>
+      ByteArrayOutputStream.fromReference(
+        _new$1(
+          _class.reference.pointer,
+          _id_new$1 as jni$_.JMethodIDPtr,
+          i,
+        ).reference,
+      );
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -10570,12 +10359,10 @@ class ByteArrayOutputStream extends OutputStream {
 
   /// from: `public byte[] toByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? toByteArray() {
-    return _toByteArray(
-      reference.pointer,
-      _id_toByteArray as jni$_.JMethodIDPtr,
-    ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
-  }
+  jni$_.JByteArray? toByteArray() => _toByteArray(
+    reference.pointer,
+    _id_toByteArray as jni$_.JMethodIDPtr,
+  ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
 
   static final _id_size = _class.instanceMethodId(r'size', r'()I');
 
@@ -10596,9 +10383,8 @@ class ByteArrayOutputStream extends OutputStream {
           >();
 
   /// from: `public int size()`
-  int size() {
-    return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
-  }
+  int size() =>
+      _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
 
   static final _id_toString$1 = _class.instanceMethodId(
     r'toString',
@@ -10623,12 +10409,10 @@ class ByteArrayOutputStream extends OutputStream {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
-    return _toString$1(
-      reference.pointer,
-      _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$1() => _toString$1(
+    reference.pointer,
+    _id_toString$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_toString$2 = _class.instanceMethodId(
     r'toString',
@@ -10723,13 +10507,11 @@ class ByteArrayOutputStream extends OutputStream {
 
   /// from: `public java.lang.String toString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$4(int i) {
-    return _toString$4(
-      reference.pointer,
-      _id_toString$4 as jni$_.JMethodIDPtr,
-      i,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$4(int i) => _toString$4(
+    reference.pointer,
+    _id_toString$4 as jni$_.JMethodIDPtr,
+    i,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -10784,10 +10566,9 @@ final class $ByteArrayOutputStream$NullableType
   int get hashCode => ($ByteArrayOutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ByteArrayOutputStream$NullableType) &&
-        other is $ByteArrayOutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ByteArrayOutputStream$NullableType) &&
+      other is $ByteArrayOutputStream$NullableType;
 }
 
 final class $ByteArrayOutputStream$Type
@@ -10820,10 +10601,9 @@ final class $ByteArrayOutputStream$Type
   int get hashCode => ($ByteArrayOutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ByteArrayOutputStream$Type) &&
-        other is $ByteArrayOutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ByteArrayOutputStream$Type) &&
+      other is $ByteArrayOutputStream$Type;
 }
 
 /// from: `java.io.InterruptedIOException`
@@ -10875,11 +10655,9 @@ class InterruptedIOException extends IOException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory InterruptedIOException() {
-    return InterruptedIOException.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory InterruptedIOException() => InterruptedIOException.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new1 = _class.constructorId(r'(Ljava/lang/String;)V');
 
@@ -10944,10 +10722,9 @@ final class $InterruptedIOException$NullableType
   int get hashCode => ($InterruptedIOException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InterruptedIOException$NullableType) &&
-        other is $InterruptedIOException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InterruptedIOException$NullableType) &&
+      other is $InterruptedIOException$NullableType;
 }
 
 final class $InterruptedIOException$Type
@@ -10980,10 +10757,9 @@ final class $InterruptedIOException$Type
   int get hashCode => ($InterruptedIOException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InterruptedIOException$Type) &&
-        other is $InterruptedIOException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InterruptedIOException$Type) &&
+      other is $InterruptedIOException$Type;
 }
 
 /// from: `java.io.BufferedOutputStream`
@@ -11184,10 +10960,9 @@ final class $BufferedOutputStream$NullableType
   int get hashCode => ($BufferedOutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedOutputStream$NullableType) &&
-        other is $BufferedOutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedOutputStream$NullableType) &&
+      other is $BufferedOutputStream$NullableType;
 }
 
 final class $BufferedOutputStream$Type
@@ -11220,10 +10995,9 @@ final class $BufferedOutputStream$Type
   int get hashCode => ($BufferedOutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedOutputStream$Type) &&
-        other is $BufferedOutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedOutputStream$Type) &&
+      other is $BufferedOutputStream$Type;
 }
 
 /// from: `java.io.Console`
@@ -11265,12 +11039,10 @@ class Console extends jni$_.JObject {
 
   /// from: `public java.io.PrintWriter writer()`
   /// The returned object must be released after use, by calling the [release] method.
-  PrintWriter? writer() {
-    return _writer(
-      reference.pointer,
-      _id_writer as jni$_.JMethodIDPtr,
-    ).object<PrintWriter?>(const $PrintWriter$NullableType());
-  }
+  PrintWriter? writer() => _writer(
+    reference.pointer,
+    _id_writer as jni$_.JMethodIDPtr,
+  ).object<PrintWriter?>(const $PrintWriter$NullableType());
 
   static final _id_reader = _class.instanceMethodId(
     r'reader',
@@ -11295,12 +11067,10 @@ class Console extends jni$_.JObject {
 
   /// from: `public java.io.Reader reader()`
   /// The returned object must be released after use, by calling the [release] method.
-  Reader? reader() {
-    return _reader(
-      reference.pointer,
-      _id_reader as jni$_.JMethodIDPtr,
-    ).object<Reader?>(const $Reader$NullableType());
-  }
+  Reader? reader() => _reader(
+    reference.pointer,
+    _id_reader as jni$_.JMethodIDPtr,
+  ).object<Reader?>(const $Reader$NullableType());
 
   static final _id_format = _class.instanceMethodId(
     r'format',
@@ -11451,12 +11221,10 @@ class Console extends jni$_.JObject {
 
   /// from: `public java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine$1() {
-    return _readLine$1(
-      reference.pointer,
-      _id_readLine$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine$1() => _readLine$1(
+    reference.pointer,
+    _id_readLine$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_readPassword = _class.instanceMethodId(
     r'readPassword',
@@ -11523,12 +11291,10 @@ class Console extends jni$_.JObject {
 
   /// from: `public char[] readPassword()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JCharArray? readPassword$1() {
-    return _readPassword$1(
-      reference.pointer,
-      _id_readPassword$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
-  }
+  jni$_.JCharArray? readPassword$1() => _readPassword$1(
+    reference.pointer,
+    _id_readPassword$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
 
   static final _id_flush = _class.instanceMethodId(r'flush', r'()V');
 
@@ -11576,12 +11342,10 @@ class Console extends jni$_.JObject {
 
   /// from: `public java.nio.charset.Charset charset()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? charset() {
-    return _charset(
-      reference.pointer,
-      _id_charset as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? charset() => _charset(
+    reference.pointer,
+    _id_charset as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 }
 
 final class $Console$NullableType extends jni$_.JObjType<Console?> {
@@ -11612,10 +11376,9 @@ final class $Console$NullableType extends jni$_.JObjType<Console?> {
   int get hashCode => ($Console$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Console$NullableType) &&
-        other is $Console$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Console$NullableType) &&
+      other is $Console$NullableType;
 }
 
 final class $Console$Type extends jni$_.JObjType<Console> {
@@ -11646,9 +11409,8 @@ final class $Console$Type extends jni$_.JObjType<Console> {
   int get hashCode => ($Console$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Console$Type) && other is $Console$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Console$Type) && other is $Console$Type;
 }
 
 /// from: `java.io.ObjectOutputStream`
@@ -11850,14 +11612,12 @@ class ObjectOutputStream extends OutputStream {
 
   /// from: `public java.io.ObjectOutputStream$PutField putFields()`
   /// The returned object must be released after use, by calling the [release] method.
-  ObjectOutputStream$PutField? putFields() {
-    return _putFields(
-      reference.pointer,
-      _id_putFields as jni$_.JMethodIDPtr,
-    ).object<ObjectOutputStream$PutField?>(
-      const $ObjectOutputStream$PutField$NullableType(),
-    );
-  }
+  ObjectOutputStream$PutField? putFields() => _putFields(
+    reference.pointer,
+    _id_putFields as jni$_.JMethodIDPtr,
+  ).object<ObjectOutputStream$PutField?>(
+    const $ObjectOutputStream$PutField$NullableType(),
+  );
 
   static final _id_writeFields = _class.instanceMethodId(
     r'writeFields',
@@ -12411,10 +12171,9 @@ final class $ObjectOutputStream$NullableType
   int get hashCode => ($ObjectOutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectOutputStream$NullableType) &&
-        other is $ObjectOutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectOutputStream$NullableType) &&
+      other is $ObjectOutputStream$NullableType;
 }
 
 final class $ObjectOutputStream$Type
@@ -12447,10 +12206,9 @@ final class $ObjectOutputStream$Type
   int get hashCode => ($ObjectOutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectOutputStream$Type) &&
-        other is $ObjectOutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectOutputStream$Type) &&
+      other is $ObjectOutputStream$Type;
 }
 
 /// from: `java.io.Flushable`
@@ -12498,12 +12256,10 @@ class Flushable extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -12570,9 +12326,7 @@ final class _$Flushable with $Flushable {
   final void Function() _flush;
   final bool flush$async;
 
-  void flush() {
-    return _flush();
-  }
+  void flush() => _flush();
 }
 
 final class $Flushable$NullableType extends jni$_.JObjType<Flushable?> {
@@ -12603,10 +12357,9 @@ final class $Flushable$NullableType extends jni$_.JObjType<Flushable?> {
   int get hashCode => ($Flushable$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Flushable$NullableType) &&
-        other is $Flushable$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Flushable$NullableType) &&
+      other is $Flushable$NullableType;
 }
 
 final class $Flushable$Type extends jni$_.JObjType<Flushable> {
@@ -12638,9 +12391,8 @@ final class $Flushable$Type extends jni$_.JObjType<Flushable> {
   int get hashCode => ($Flushable$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Flushable$Type) && other is $Flushable$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Flushable$Type) && other is $Flushable$Type;
 }
 
 /// from: `java.io.DataOutput`
@@ -13089,12 +12841,10 @@ class DataOutput extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -13399,61 +13149,33 @@ final class _$DataOutput with $DataOutput {
   final void Function(jni$_.JString? string) _writeUTF;
   final bool writeUTF$async;
 
-  void write(int i) {
-    return _write(i);
-  }
+  void write(int i) => _write(i);
 
-  void write$1(jni$_.JByteArray? bs) {
-    return _write$1(bs);
-  }
+  void write$1(jni$_.JByteArray? bs) => _write$1(bs);
 
-  void write$2(jni$_.JByteArray? bs, int i, int i1) {
-    return _write$2(bs, i, i1);
-  }
+  void write$2(jni$_.JByteArray? bs, int i, int i1) => _write$2(bs, i, i1);
 
-  void writeBoolean(bool z) {
-    return _writeBoolean(z);
-  }
+  void writeBoolean(bool z) => _writeBoolean(z);
 
-  void writeByte(int i) {
-    return _writeByte(i);
-  }
+  void writeByte(int i) => _writeByte(i);
 
-  void writeShort(int i) {
-    return _writeShort(i);
-  }
+  void writeShort(int i) => _writeShort(i);
 
-  void writeChar(int i) {
-    return _writeChar(i);
-  }
+  void writeChar(int i) => _writeChar(i);
 
-  void writeInt(int i) {
-    return _writeInt(i);
-  }
+  void writeInt(int i) => _writeInt(i);
 
-  void writeLong(int j) {
-    return _writeLong(j);
-  }
+  void writeLong(int j) => _writeLong(j);
 
-  void writeFloat(double f) {
-    return _writeFloat(f);
-  }
+  void writeFloat(double f) => _writeFloat(f);
 
-  void writeDouble(double d) {
-    return _writeDouble(d);
-  }
+  void writeDouble(double d) => _writeDouble(d);
 
-  void writeBytes(jni$_.JString? string) {
-    return _writeBytes(string);
-  }
+  void writeBytes(jni$_.JString? string) => _writeBytes(string);
 
-  void writeChars(jni$_.JString? string) {
-    return _writeChars(string);
-  }
+  void writeChars(jni$_.JString? string) => _writeChars(string);
 
-  void writeUTF(jni$_.JString? string) {
-    return _writeUTF(string);
-  }
+  void writeUTF(jni$_.JString? string) => _writeUTF(string);
 }
 
 final class $DataOutput$NullableType extends jni$_.JObjType<DataOutput?> {
@@ -13484,10 +13206,9 @@ final class $DataOutput$NullableType extends jni$_.JObjType<DataOutput?> {
   int get hashCode => ($DataOutput$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataOutput$NullableType) &&
-        other is $DataOutput$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataOutput$NullableType) &&
+      other is $DataOutput$NullableType;
 }
 
 final class $DataOutput$Type extends jni$_.JObjType<DataOutput> {
@@ -13519,9 +13240,8 @@ final class $DataOutput$Type extends jni$_.JObjType<DataOutput> {
   int get hashCode => ($DataOutput$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataOutput$Type) && other is $DataOutput$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataOutput$Type) && other is $DataOutput$Type;
 }
 
 /// from: `java.io.BufferedWriter`
@@ -13807,10 +13527,9 @@ final class $BufferedWriter$NullableType
   int get hashCode => ($BufferedWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedWriter$NullableType) &&
-        other is $BufferedWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedWriter$NullableType) &&
+      other is $BufferedWriter$NullableType;
 }
 
 final class $BufferedWriter$Type extends jni$_.JObjType<BufferedWriter> {
@@ -13842,10 +13561,9 @@ final class $BufferedWriter$Type extends jni$_.JObjType<BufferedWriter> {
   int get hashCode => ($BufferedWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedWriter$Type) &&
-        other is $BufferedWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedWriter$Type) &&
+      other is $BufferedWriter$Type;
 }
 
 /// from: `java.io.StringWriter`
@@ -13884,11 +13602,9 @@ class StringWriter extends Writer {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory StringWriter() {
-    return StringWriter.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory StringWriter() => StringWriter.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -13912,15 +13628,13 @@ class StringWriter extends Writer {
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory StringWriter.new$1(int i) {
-    return StringWriter.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-        i,
-      ).reference,
-    );
-  }
+  factory StringWriter.new$1(int i) => StringWriter.fromReference(
+    _new$1(
+      _class.reference.pointer,
+      _id_new$1 as jni$_.JMethodIDPtr,
+      i,
+    ).reference,
+  );
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -14154,13 +13868,11 @@ class StringWriter extends Writer {
 
   /// from: `public java.io.StringWriter append(char c)`
   /// The returned object must be released after use, by calling the [release] method.
-  StringWriter? append$5(int c) {
-    return _append$5(
-      reference.pointer,
-      _id_append$5 as jni$_.JMethodIDPtr,
-      c,
-    ).object<StringWriter?>(const $StringWriter$NullableType());
-  }
+  StringWriter? append$5(int c) => _append$5(
+    reference.pointer,
+    _id_append$5 as jni$_.JMethodIDPtr,
+    c,
+  ).object<StringWriter?>(const $StringWriter$NullableType());
 
   static final _id_toString$1 = _class.instanceMethodId(
     r'toString',
@@ -14185,12 +13897,10 @@ class StringWriter extends Writer {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
-    return _toString$1(
-      reference.pointer,
-      _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$1() => _toString$1(
+    reference.pointer,
+    _id_toString$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getBuffer = _class.instanceMethodId(
     r'getBuffer',
@@ -14215,12 +13925,10 @@ class StringWriter extends Writer {
 
   /// from: `public java.lang.StringBuffer getBuffer()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getBuffer() {
-    return _getBuffer(
-      reference.pointer,
-      _id_getBuffer as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? getBuffer() => _getBuffer(
+    reference.pointer,
+    _id_getBuffer as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_flush = _class.instanceMethodId(r'flush', r'()V');
 
@@ -14297,10 +14005,9 @@ final class $StringWriter$NullableType extends jni$_.JObjType<StringWriter?> {
   int get hashCode => ($StringWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StringWriter$NullableType) &&
-        other is $StringWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StringWriter$NullableType) &&
+      other is $StringWriter$NullableType;
 }
 
 final class $StringWriter$Type extends jni$_.JObjType<StringWriter> {
@@ -14332,10 +14039,8 @@ final class $StringWriter$Type extends jni$_.JObjType<StringWriter> {
   int get hashCode => ($StringWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StringWriter$Type) &&
-        other is $StringWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StringWriter$Type) && other is $StringWriter$Type;
 }
 
 /// from: `java.io.FileOutputStream`
@@ -14660,12 +14365,10 @@ class FileOutputStream extends OutputStream {
 
   /// from: `public final java.io.FileDescriptor getFD()`
   /// The returned object must be released after use, by calling the [release] method.
-  FileDescriptor? getFD() {
-    return _getFD(
-      reference.pointer,
-      _id_getFD as jni$_.JMethodIDPtr,
-    ).object<FileDescriptor?>(const $FileDescriptor$NullableType());
-  }
+  FileDescriptor? getFD() => _getFD(
+    reference.pointer,
+    _id_getFD as jni$_.JMethodIDPtr,
+  ).object<FileDescriptor?>(const $FileDescriptor$NullableType());
 
   static final _id_getChannel = _class.instanceMethodId(
     r'getChannel',
@@ -14690,12 +14393,10 @@ class FileOutputStream extends OutputStream {
 
   /// from: `public java.nio.channels.FileChannel getChannel()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getChannel() {
-    return _getChannel(
-      reference.pointer,
-      _id_getChannel as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? getChannel() => _getChannel(
+    reference.pointer,
+    _id_getChannel as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 }
 
 final class $FileOutputStream$NullableType
@@ -14727,10 +14428,9 @@ final class $FileOutputStream$NullableType
   int get hashCode => ($FileOutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileOutputStream$NullableType) &&
-        other is $FileOutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileOutputStream$NullableType) &&
+      other is $FileOutputStream$NullableType;
 }
 
 final class $FileOutputStream$Type extends jni$_.JObjType<FileOutputStream> {
@@ -14762,10 +14462,9 @@ final class $FileOutputStream$Type extends jni$_.JObjType<FileOutputStream> {
   int get hashCode => ($FileOutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileOutputStream$Type) &&
-        other is $FileOutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileOutputStream$Type) &&
+      other is $FileOutputStream$Type;
 }
 
 /// from: `java.io.IOException`
@@ -14804,11 +14503,9 @@ class IOException extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory IOException() {
-    return IOException.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory IOException() => IOException.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$1 = _class.constructorId(r'(Ljava/lang/String;)V');
 
@@ -14945,10 +14642,9 @@ final class $IOException$NullableType extends jni$_.JObjType<IOException?> {
   int get hashCode => ($IOException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($IOException$NullableType) &&
-        other is $IOException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($IOException$NullableType) &&
+      other is $IOException$NullableType;
 }
 
 final class $IOException$Type extends jni$_.JObjType<IOException> {
@@ -14980,10 +14676,8 @@ final class $IOException$Type extends jni$_.JObjType<IOException> {
   int get hashCode => ($IOException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($IOException$Type) &&
-        other is $IOException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($IOException$Type) && other is $IOException$Type;
 }
 
 /// from: `java.io.PipedOutputStream`
@@ -15058,14 +14752,9 @@ class PipedOutputStream extends OutputStream {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory PipedOutputStream.new$1() {
-    return PipedOutputStream.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-      ).reference,
-    );
-  }
+  factory PipedOutputStream.new$1() => PipedOutputStream.fromReference(
+    _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_connect = _class.instanceMethodId(
     r'connect',
@@ -15238,10 +14927,9 @@ final class $PipedOutputStream$NullableType
   int get hashCode => ($PipedOutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedOutputStream$NullableType) &&
-        other is $PipedOutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedOutputStream$NullableType) &&
+      other is $PipedOutputStream$NullableType;
 }
 
 final class $PipedOutputStream$Type extends jni$_.JObjType<PipedOutputStream> {
@@ -15273,10 +14961,9 @@ final class $PipedOutputStream$Type extends jni$_.JObjType<PipedOutputStream> {
   int get hashCode => ($PipedOutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PipedOutputStream$Type) &&
-        other is $PipedOutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PipedOutputStream$Type) &&
+      other is $PipedOutputStream$Type;
 }
 
 /// from: `java.io.InputStreamReader`
@@ -15480,12 +15167,10 @@ class InputStreamReader extends Reader {
 
   /// from: `public java.lang.String getEncoding()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getEncoding() {
-    return _getEncoding(
-      reference.pointer,
-      _id_getEncoding as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getEncoding() => _getEncoding(
+    reference.pointer,
+    _id_getEncoding as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_read = _class.instanceMethodId(
     r'read',
@@ -15539,9 +15224,8 @@ class InputStreamReader extends Reader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -15598,9 +15282,8 @@ class InputStreamReader extends Reader {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -15655,10 +15338,9 @@ final class $InputStreamReader$NullableType
   int get hashCode => ($InputStreamReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InputStreamReader$NullableType) &&
-        other is $InputStreamReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InputStreamReader$NullableType) &&
+      other is $InputStreamReader$NullableType;
 }
 
 final class $InputStreamReader$Type extends jni$_.JObjType<InputStreamReader> {
@@ -15690,10 +15372,9 @@ final class $InputStreamReader$Type extends jni$_.JObjType<InputStreamReader> {
   int get hashCode => ($InputStreamReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InputStreamReader$Type) &&
-        other is $InputStreamReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InputStreamReader$Type) &&
+      other is $InputStreamReader$Type;
 }
 
 /// from: `java.io.File`
@@ -15916,12 +15597,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getName() {
-    return _getName(
-      reference.pointer,
-      _id_getName as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getName() => _getName(
+    reference.pointer,
+    _id_getName as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getParent = _class.instanceMethodId(
     r'getParent',
@@ -15946,12 +15625,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.lang.String getParent()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getParent() {
-    return _getParent(
-      reference.pointer,
-      _id_getParent as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getParent() => _getParent(
+    reference.pointer,
+    _id_getParent as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getParentFile = _class.instanceMethodId(
     r'getParentFile',
@@ -15976,12 +15653,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.io.File getParentFile()`
   /// The returned object must be released after use, by calling the [release] method.
-  File? getParentFile() {
-    return _getParentFile(
-      reference.pointer,
-      _id_getParentFile as jni$_.JMethodIDPtr,
-    ).object<File?>(const $File$NullableType());
-  }
+  File? getParentFile() => _getParentFile(
+    reference.pointer,
+    _id_getParentFile as jni$_.JMethodIDPtr,
+  ).object<File?>(const $File$NullableType());
 
   static final _id_getPath = _class.instanceMethodId(
     r'getPath',
@@ -16006,12 +15681,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.lang.String getPath()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getPath() {
-    return _getPath(
-      reference.pointer,
-      _id_getPath as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getPath() => _getPath(
+    reference.pointer,
+    _id_getPath as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_isAbsolute = _class.instanceMethodId(r'isAbsolute', r'()Z');
 
@@ -16032,12 +15705,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean isAbsolute()`
-  bool isAbsolute() {
-    return _isAbsolute(
-      reference.pointer,
-      _id_isAbsolute as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool isAbsolute() =>
+      _isAbsolute(
+        reference.pointer,
+        _id_isAbsolute as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_getAbsolutePath = _class.instanceMethodId(
     r'getAbsolutePath',
@@ -16062,12 +15734,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.lang.String getAbsolutePath()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getAbsolutePath() {
-    return _getAbsolutePath(
-      reference.pointer,
-      _id_getAbsolutePath as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getAbsolutePath() => _getAbsolutePath(
+    reference.pointer,
+    _id_getAbsolutePath as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getAbsoluteFile = _class.instanceMethodId(
     r'getAbsoluteFile',
@@ -16092,12 +15762,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.io.File getAbsoluteFile()`
   /// The returned object must be released after use, by calling the [release] method.
-  File? getAbsoluteFile() {
-    return _getAbsoluteFile(
-      reference.pointer,
-      _id_getAbsoluteFile as jni$_.JMethodIDPtr,
-    ).object<File?>(const $File$NullableType());
-  }
+  File? getAbsoluteFile() => _getAbsoluteFile(
+    reference.pointer,
+    _id_getAbsoluteFile as jni$_.JMethodIDPtr,
+  ).object<File?>(const $File$NullableType());
 
   static final _id_getCanonicalPath = _class.instanceMethodId(
     r'getCanonicalPath',
@@ -16122,12 +15790,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.lang.String getCanonicalPath()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getCanonicalPath() {
-    return _getCanonicalPath(
-      reference.pointer,
-      _id_getCanonicalPath as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getCanonicalPath() => _getCanonicalPath(
+    reference.pointer,
+    _id_getCanonicalPath as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getCanonicalFile = _class.instanceMethodId(
     r'getCanonicalFile',
@@ -16152,12 +15818,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.io.File getCanonicalFile()`
   /// The returned object must be released after use, by calling the [release] method.
-  File? getCanonicalFile() {
-    return _getCanonicalFile(
-      reference.pointer,
-      _id_getCanonicalFile as jni$_.JMethodIDPtr,
-    ).object<File?>(const $File$NullableType());
-  }
+  File? getCanonicalFile() => _getCanonicalFile(
+    reference.pointer,
+    _id_getCanonicalFile as jni$_.JMethodIDPtr,
+  ).object<File?>(const $File$NullableType());
 
   static final _id_toURL = _class.instanceMethodId(
     r'toURL',
@@ -16182,12 +15846,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.net.URL toURL()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? toURL() {
-    return _toURL(
-      reference.pointer,
-      _id_toURL as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? toURL() => _toURL(
+    reference.pointer,
+    _id_toURL as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_toURI = _class.instanceMethodId(
     r'toURI',
@@ -16212,12 +15874,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.net.URI toURI()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? toURI() {
-    return _toURI(
-      reference.pointer,
-      _id_toURI as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? toURI() => _toURI(
+    reference.pointer,
+    _id_toURI as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_canRead = _class.instanceMethodId(r'canRead', r'()Z');
 
@@ -16238,12 +15898,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean canRead()`
-  bool canRead() {
-    return _canRead(
-      reference.pointer,
-      _id_canRead as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool canRead() =>
+      _canRead(reference.pointer, _id_canRead as jni$_.JMethodIDPtr).boolean;
 
   static final _id_canWrite = _class.instanceMethodId(r'canWrite', r'()Z');
 
@@ -16264,12 +15920,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean canWrite()`
-  bool canWrite() {
-    return _canWrite(
-      reference.pointer,
-      _id_canWrite as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool canWrite() =>
+      _canWrite(reference.pointer, _id_canWrite as jni$_.JMethodIDPtr).boolean;
 
   static final _id_exists = _class.instanceMethodId(r'exists', r'()Z');
 
@@ -16290,9 +15942,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean exists()`
-  bool exists() {
-    return _exists(reference.pointer, _id_exists as jni$_.JMethodIDPtr).boolean;
-  }
+  bool exists() =>
+      _exists(reference.pointer, _id_exists as jni$_.JMethodIDPtr).boolean;
 
   static final _id_isDirectory = _class.instanceMethodId(
     r'isDirectory',
@@ -16316,12 +15967,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean isDirectory()`
-  bool isDirectory() {
-    return _isDirectory(
-      reference.pointer,
-      _id_isDirectory as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool isDirectory() =>
+      _isDirectory(
+        reference.pointer,
+        _id_isDirectory as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_isFile = _class.instanceMethodId(r'isFile', r'()Z');
 
@@ -16342,9 +15992,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean isFile()`
-  bool isFile() {
-    return _isFile(reference.pointer, _id_isFile as jni$_.JMethodIDPtr).boolean;
-  }
+  bool isFile() =>
+      _isFile(reference.pointer, _id_isFile as jni$_.JMethodIDPtr).boolean;
 
   static final _id_isHidden = _class.instanceMethodId(r'isHidden', r'()Z');
 
@@ -16365,12 +16014,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean isHidden()`
-  bool isHidden() {
-    return _isHidden(
-      reference.pointer,
-      _id_isHidden as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool isHidden() =>
+      _isHidden(reference.pointer, _id_isHidden as jni$_.JMethodIDPtr).boolean;
 
   static final _id_lastModified = _class.instanceMethodId(
     r'lastModified',
@@ -16394,12 +16039,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public long lastModified()`
-  int lastModified() {
-    return _lastModified(
-      reference.pointer,
-      _id_lastModified as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int lastModified() =>
+      _lastModified(
+        reference.pointer,
+        _id_lastModified as jni$_.JMethodIDPtr,
+      ).long;
 
   static final _id_length = _class.instanceMethodId(r'length', r'()J');
 
@@ -16420,9 +16064,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public long length()`
-  int length() {
-    return _length(reference.pointer, _id_length as jni$_.JMethodIDPtr).long;
-  }
+  int length() =>
+      _length(reference.pointer, _id_length as jni$_.JMethodIDPtr).long;
 
   static final _id_createNewFile = _class.instanceMethodId(
     r'createNewFile',
@@ -16446,12 +16089,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean createNewFile()`
-  bool createNewFile() {
-    return _createNewFile(
-      reference.pointer,
-      _id_createNewFile as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool createNewFile() =>
+      _createNewFile(
+        reference.pointer,
+        _id_createNewFile as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_delete = _class.instanceMethodId(r'delete', r'()Z');
 
@@ -16472,9 +16114,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean delete()`
-  bool delete() {
-    return _delete(reference.pointer, _id_delete as jni$_.JMethodIDPtr).boolean;
-  }
+  bool delete() =>
+      _delete(reference.pointer, _id_delete as jni$_.JMethodIDPtr).boolean;
 
   static final _id_deleteOnExit = _class.instanceMethodId(
     r'deleteOnExit',
@@ -16528,16 +16169,12 @@ class File extends jni$_.JObject {
 
   /// from: `public java.lang.String[] list()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JString?>? list() {
-    return _list(
-      reference.pointer,
-      _id_list as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<jni$_.JString?>?>(
-      const jni$_.JArrayNullableType<jni$_.JString?>(
-        jni$_.JStringNullableType(),
-      ),
-    );
-  }
+  jni$_.JArray<jni$_.JString?>? list() => _list(
+    reference.pointer,
+    _id_list as jni$_.JMethodIDPtr,
+  ).object<jni$_.JArray<jni$_.JString?>?>(
+    const jni$_.JArrayNullableType<jni$_.JString?>(jni$_.JStringNullableType()),
+  );
 
   static final _id_list$1 = _class.instanceMethodId(
     r'list',
@@ -16600,14 +16237,12 @@ class File extends jni$_.JObject {
 
   /// from: `public java.io.File[] listFiles()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<File?>? listFiles() {
-    return _listFiles(
-      reference.pointer,
-      _id_listFiles as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<File?>?>(
-      const jni$_.JArrayNullableType<File?>($File$NullableType()),
-    );
-  }
+  jni$_.JArray<File?>? listFiles() => _listFiles(
+    reference.pointer,
+    _id_listFiles as jni$_.JMethodIDPtr,
+  ).object<jni$_.JArray<File?>?>(
+    const jni$_.JArrayNullableType<File?>($File$NullableType()),
+  );
 
   static final _id_listFiles$1 = _class.instanceMethodId(
     r'listFiles',
@@ -16700,9 +16335,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean mkdir()`
-  bool mkdir() {
-    return _mkdir(reference.pointer, _id_mkdir as jni$_.JMethodIDPtr).boolean;
-  }
+  bool mkdir() =>
+      _mkdir(reference.pointer, _id_mkdir as jni$_.JMethodIDPtr).boolean;
 
   static final _id_mkdirs = _class.instanceMethodId(r'mkdirs', r'()Z');
 
@@ -16723,9 +16357,8 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean mkdirs()`
-  bool mkdirs() {
-    return _mkdirs(reference.pointer, _id_mkdirs as jni$_.JMethodIDPtr).boolean;
-  }
+  bool mkdirs() =>
+      _mkdirs(reference.pointer, _id_mkdirs as jni$_.JMethodIDPtr).boolean;
 
   static final _id_renameTo = _class.instanceMethodId(
     r'renameTo',
@@ -16784,13 +16417,12 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setLastModified(long j)`
-  bool setLastModified(int j) {
-    return _setLastModified(
-      reference.pointer,
-      _id_setLastModified as jni$_.JMethodIDPtr,
-      j,
-    ).boolean;
-  }
+  bool setLastModified(int j) =>
+      _setLastModified(
+        reference.pointer,
+        _id_setLastModified as jni$_.JMethodIDPtr,
+        j,
+      ).boolean;
 
   static final _id_setReadOnly = _class.instanceMethodId(
     r'setReadOnly',
@@ -16814,12 +16446,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setReadOnly()`
-  bool setReadOnly() {
-    return _setReadOnly(
-      reference.pointer,
-      _id_setReadOnly as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool setReadOnly() =>
+      _setReadOnly(
+        reference.pointer,
+        _id_setReadOnly as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_setWritable = _class.instanceMethodId(
     r'setWritable',
@@ -16846,14 +16477,13 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setWritable(boolean z, boolean z1)`
-  bool setWritable(bool z, bool z1) {
-    return _setWritable(
-      reference.pointer,
-      _id_setWritable as jni$_.JMethodIDPtr,
-      z ? 1 : 0,
-      z1 ? 1 : 0,
-    ).boolean;
-  }
+  bool setWritable(bool z, bool z1) =>
+      _setWritable(
+        reference.pointer,
+        _id_setWritable as jni$_.JMethodIDPtr,
+        z ? 1 : 0,
+        z1 ? 1 : 0,
+      ).boolean;
 
   static final _id_setWritable$1 = _class.instanceMethodId(
     r'setWritable',
@@ -16879,13 +16509,12 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setWritable(boolean z)`
-  bool setWritable$1(bool z) {
-    return _setWritable$1(
-      reference.pointer,
-      _id_setWritable$1 as jni$_.JMethodIDPtr,
-      z ? 1 : 0,
-    ).boolean;
-  }
+  bool setWritable$1(bool z) =>
+      _setWritable$1(
+        reference.pointer,
+        _id_setWritable$1 as jni$_.JMethodIDPtr,
+        z ? 1 : 0,
+      ).boolean;
 
   static final _id_setReadable = _class.instanceMethodId(
     r'setReadable',
@@ -16912,14 +16541,13 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setReadable(boolean z, boolean z1)`
-  bool setReadable(bool z, bool z1) {
-    return _setReadable(
-      reference.pointer,
-      _id_setReadable as jni$_.JMethodIDPtr,
-      z ? 1 : 0,
-      z1 ? 1 : 0,
-    ).boolean;
-  }
+  bool setReadable(bool z, bool z1) =>
+      _setReadable(
+        reference.pointer,
+        _id_setReadable as jni$_.JMethodIDPtr,
+        z ? 1 : 0,
+        z1 ? 1 : 0,
+      ).boolean;
 
   static final _id_setReadable$1 = _class.instanceMethodId(
     r'setReadable',
@@ -16945,13 +16573,12 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setReadable(boolean z)`
-  bool setReadable$1(bool z) {
-    return _setReadable$1(
-      reference.pointer,
-      _id_setReadable$1 as jni$_.JMethodIDPtr,
-      z ? 1 : 0,
-    ).boolean;
-  }
+  bool setReadable$1(bool z) =>
+      _setReadable$1(
+        reference.pointer,
+        _id_setReadable$1 as jni$_.JMethodIDPtr,
+        z ? 1 : 0,
+      ).boolean;
 
   static final _id_setExecutable = _class.instanceMethodId(
     r'setExecutable',
@@ -16978,14 +16605,13 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setExecutable(boolean z, boolean z1)`
-  bool setExecutable(bool z, bool z1) {
-    return _setExecutable(
-      reference.pointer,
-      _id_setExecutable as jni$_.JMethodIDPtr,
-      z ? 1 : 0,
-      z1 ? 1 : 0,
-    ).boolean;
-  }
+  bool setExecutable(bool z, bool z1) =>
+      _setExecutable(
+        reference.pointer,
+        _id_setExecutable as jni$_.JMethodIDPtr,
+        z ? 1 : 0,
+        z1 ? 1 : 0,
+      ).boolean;
 
   static final _id_setExecutable$1 = _class.instanceMethodId(
     r'setExecutable',
@@ -17011,13 +16637,12 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean setExecutable(boolean z)`
-  bool setExecutable$1(bool z) {
-    return _setExecutable$1(
-      reference.pointer,
-      _id_setExecutable$1 as jni$_.JMethodIDPtr,
-      z ? 1 : 0,
-    ).boolean;
-  }
+  bool setExecutable$1(bool z) =>
+      _setExecutable$1(
+        reference.pointer,
+        _id_setExecutable$1 as jni$_.JMethodIDPtr,
+        z ? 1 : 0,
+      ).boolean;
 
   static final _id_canExecute = _class.instanceMethodId(r'canExecute', r'()Z');
 
@@ -17038,12 +16663,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public boolean canExecute()`
-  bool canExecute() {
-    return _canExecute(
-      reference.pointer,
-      _id_canExecute as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool canExecute() =>
+      _canExecute(
+        reference.pointer,
+        _id_canExecute as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_listRoots = _class.staticMethodId(
     r'listRoots',
@@ -17068,14 +16692,12 @@ class File extends jni$_.JObject {
 
   /// from: `static public java.io.File[] listRoots()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<File?>? listRoots() {
-    return _listRoots(
-      _class.reference.pointer,
-      _id_listRoots as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<File?>?>(
-      const jni$_.JArrayNullableType<File?>($File$NullableType()),
-    );
-  }
+  static jni$_.JArray<File?>? listRoots() => _listRoots(
+    _class.reference.pointer,
+    _id_listRoots as jni$_.JMethodIDPtr,
+  ).object<jni$_.JArray<File?>?>(
+    const jni$_.JArrayNullableType<File?>($File$NullableType()),
+  );
 
   static final _id_getTotalSpace = _class.instanceMethodId(
     r'getTotalSpace',
@@ -17099,12 +16721,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public long getTotalSpace()`
-  int getTotalSpace() {
-    return _getTotalSpace(
-      reference.pointer,
-      _id_getTotalSpace as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int getTotalSpace() =>
+      _getTotalSpace(
+        reference.pointer,
+        _id_getTotalSpace as jni$_.JMethodIDPtr,
+      ).long;
 
   static final _id_getFreeSpace = _class.instanceMethodId(
     r'getFreeSpace',
@@ -17128,12 +16749,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public long getFreeSpace()`
-  int getFreeSpace() {
-    return _getFreeSpace(
-      reference.pointer,
-      _id_getFreeSpace as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int getFreeSpace() =>
+      _getFreeSpace(
+        reference.pointer,
+        _id_getFreeSpace as jni$_.JMethodIDPtr,
+      ).long;
 
   static final _id_getUsableSpace = _class.instanceMethodId(
     r'getUsableSpace',
@@ -17157,12 +16777,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public long getUsableSpace()`
-  int getUsableSpace() {
-    return _getUsableSpace(
-      reference.pointer,
-      _id_getUsableSpace as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int getUsableSpace() =>
+      _getUsableSpace(
+        reference.pointer,
+        _id_getUsableSpace as jni$_.JMethodIDPtr,
+      ).long;
 
   static final _id_createTempFile = _class.staticMethodId(
     r'createTempFile',
@@ -17338,12 +16957,11 @@ class File extends jni$_.JObject {
           >();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(
-      reference.pointer,
-      _id_hashCode$1 as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int hashCode$1() =>
+      _hashCode$1(
+        reference.pointer,
+        _id_hashCode$1 as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_toString$1 = _class.instanceMethodId(
     r'toString',
@@ -17368,12 +16986,10 @@ class File extends jni$_.JObject {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
-    return _toString$1(
-      reference.pointer,
-      _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$1() => _toString$1(
+    reference.pointer,
+    _id_toString$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_toPath = _class.instanceMethodId(
     r'toPath',
@@ -17398,28 +17014,18 @@ class File extends jni$_.JObject {
 
   /// from: `public java.nio.file.Path toPath()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? toPath() {
-    return _toPath(
-      reference.pointer,
-      _id_toPath as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? toPath() => _toPath(
+    reference.pointer,
+    _id_toPath as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
-  bool operator <(File? file) {
-    return compareTo(file) < 0;
-  }
+  bool operator <(File? file) => compareTo(file) < 0;
 
-  bool operator <=(File? file) {
-    return compareTo(file) <= 0;
-  }
+  bool operator <=(File? file) => compareTo(file) <= 0;
 
-  bool operator >(File? file) {
-    return compareTo(file) > 0;
-  }
+  bool operator >(File? file) => compareTo(file) > 0;
 
-  bool operator >=(File? file) {
-    return compareTo(file) >= 0;
-  }
+  bool operator >=(File? file) => compareTo(file) >= 0;
 }
 
 final class $File$NullableType extends jni$_.JObjType<File?> {
@@ -17450,10 +17056,8 @@ final class $File$NullableType extends jni$_.JObjType<File?> {
   int get hashCode => ($File$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($File$NullableType) &&
-        other is $File$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($File$NullableType) && other is $File$NullableType;
 }
 
 final class $File$Type extends jni$_.JObjType<File> {
@@ -17484,9 +17088,8 @@ final class $File$Type extends jni$_.JObjType<File> {
   int get hashCode => ($File$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($File$Type) && other is $File$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($File$Type) && other is $File$Type;
 }
 
 /// from: `java.io.IOError`
@@ -17567,10 +17170,9 @@ final class $IOError$NullableType extends jni$_.JObjType<IOError?> {
   int get hashCode => ($IOError$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($IOError$NullableType) &&
-        other is $IOError$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($IOError$NullableType) &&
+      other is $IOError$NullableType;
 }
 
 final class $IOError$Type extends jni$_.JObjType<IOError> {
@@ -17601,9 +17203,8 @@ final class $IOError$Type extends jni$_.JObjType<IOError> {
   int get hashCode => ($IOError$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($IOError$Type) && other is $IOError$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($IOError$Type) && other is $IOError$Type;
 }
 
 /// from: `java.io.ObjectStreamException`
@@ -17653,10 +17254,9 @@ final class $ObjectStreamException$NullableType
   int get hashCode => ($ObjectStreamException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamException$NullableType) &&
-        other is $ObjectStreamException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamException$NullableType) &&
+      other is $ObjectStreamException$NullableType;
 }
 
 final class $ObjectStreamException$Type
@@ -17689,10 +17289,9 @@ final class $ObjectStreamException$Type
   int get hashCode => ($ObjectStreamException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamException$Type) &&
-        other is $ObjectStreamException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamException$Type) &&
+      other is $ObjectStreamException$Type;
 }
 
 /// from: `java.io.FileFilter`
@@ -17750,12 +17349,10 @@ class FileFilter extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -17819,9 +17416,7 @@ final class _$FileFilter with $FileFilter {
 
   final bool Function(File? file) _accept;
 
-  bool accept(File? file) {
-    return _accept(file);
-  }
+  bool accept(File? file) => _accept(file);
 }
 
 final class $FileFilter$NullableType extends jni$_.JObjType<FileFilter?> {
@@ -17852,10 +17447,9 @@ final class $FileFilter$NullableType extends jni$_.JObjType<FileFilter?> {
   int get hashCode => ($FileFilter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileFilter$NullableType) &&
-        other is $FileFilter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileFilter$NullableType) &&
+      other is $FileFilter$NullableType;
 }
 
 final class $FileFilter$Type extends jni$_.JObjType<FileFilter> {
@@ -17887,9 +17481,8 @@ final class $FileFilter$Type extends jni$_.JObjType<FileFilter> {
   int get hashCode => ($FileFilter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileFilter$Type) && other is $FileFilter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileFilter$Type) && other is $FileFilter$Type;
 }
 
 /// from: `java.io.StringReader`
@@ -17960,9 +17553,8 @@ class StringReader extends Reader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -18021,9 +17613,8 @@ class StringReader extends Reader {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_ready = _class.instanceMethodId(r'ready', r'()Z');
 
@@ -18044,9 +17635,8 @@ class StringReader extends Reader {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_markSupported = _class.instanceMethodId(
     r'markSupported',
@@ -18070,12 +17660,11 @@ class StringReader extends Reader {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -18177,10 +17766,9 @@ final class $StringReader$NullableType extends jni$_.JObjType<StringReader?> {
   int get hashCode => ($StringReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StringReader$NullableType) &&
-        other is $StringReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StringReader$NullableType) &&
+      other is $StringReader$NullableType;
 }
 
 final class $StringReader$Type extends jni$_.JObjType<StringReader> {
@@ -18212,10 +17800,8 @@ final class $StringReader$Type extends jni$_.JObjType<StringReader> {
   int get hashCode => ($StringReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StringReader$Type) &&
-        other is $StringReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StringReader$Type) && other is $StringReader$Type;
 }
 
 /// from: `java.io.BufferedReader`
@@ -18321,9 +17907,8 @@ class BufferedReader extends Reader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -18384,12 +17969,10 @@ class BufferedReader extends Reader {
 
   /// from: `public java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine() {
-    return _readLine(
-      reference.pointer,
-      _id_readLine as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine() => _readLine(
+    reference.pointer,
+    _id_readLine as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_skip = _class.instanceMethodId(r'skip', r'(J)J');
 
@@ -18412,9 +17995,8 @@ class BufferedReader extends Reader {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_ready = _class.instanceMethodId(r'ready', r'()Z');
 
@@ -18435,9 +18017,8 @@ class BufferedReader extends Reader {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_markSupported = _class.instanceMethodId(
     r'markSupported',
@@ -18461,12 +18042,11 @@ class BufferedReader extends Reader {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -18562,12 +18142,10 @@ class BufferedReader extends Reader {
 
   /// from: `public java.util.stream.Stream<java.lang.String> lines()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? lines() {
-    return _lines(
-      reference.pointer,
-      _id_lines as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? lines() => _lines(
+    reference.pointer,
+    _id_lines as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 }
 
 final class $BufferedReader$NullableType
@@ -18599,10 +18177,9 @@ final class $BufferedReader$NullableType
   int get hashCode => ($BufferedReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedReader$NullableType) &&
-        other is $BufferedReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedReader$NullableType) &&
+      other is $BufferedReader$NullableType;
 }
 
 final class $BufferedReader$Type extends jni$_.JObjType<BufferedReader> {
@@ -18634,10 +18211,9 @@ final class $BufferedReader$Type extends jni$_.JObjType<BufferedReader> {
   int get hashCode => ($BufferedReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($BufferedReader$Type) &&
-        other is $BufferedReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($BufferedReader$Type) &&
+      other is $BufferedReader$Type;
 }
 
 /// from: `java.io.ObjectOutput`
@@ -19165,12 +18741,10 @@ class ObjectOutput extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -19519,73 +19093,39 @@ final class _$ObjectOutput with $ObjectOutput {
   final void Function(jni$_.JString? string) _writeUTF;
   final bool writeUTF$async;
 
-  void writeObject(jni$_.JObject? object) {
-    return _writeObject(object);
-  }
+  void writeObject(jni$_.JObject? object) => _writeObject(object);
 
-  void write(int i) {
-    return _write(i);
-  }
+  void write(int i) => _write(i);
 
-  void write$1(jni$_.JByteArray? bs) {
-    return _write$1(bs);
-  }
+  void write$1(jni$_.JByteArray? bs) => _write$1(bs);
 
-  void write$2(jni$_.JByteArray? bs, int i, int i1) {
-    return _write$2(bs, i, i1);
-  }
+  void write$2(jni$_.JByteArray? bs, int i, int i1) => _write$2(bs, i, i1);
 
-  void flush() {
-    return _flush();
-  }
+  void flush() => _flush();
 
-  void close() {
-    return _close();
-  }
+  void close() => _close();
 
-  void writeBoolean(bool z) {
-    return _writeBoolean(z);
-  }
+  void writeBoolean(bool z) => _writeBoolean(z);
 
-  void writeByte(int i) {
-    return _writeByte(i);
-  }
+  void writeByte(int i) => _writeByte(i);
 
-  void writeShort(int i) {
-    return _writeShort(i);
-  }
+  void writeShort(int i) => _writeShort(i);
 
-  void writeChar(int i) {
-    return _writeChar(i);
-  }
+  void writeChar(int i) => _writeChar(i);
 
-  void writeInt(int i) {
-    return _writeInt(i);
-  }
+  void writeInt(int i) => _writeInt(i);
 
-  void writeLong(int j) {
-    return _writeLong(j);
-  }
+  void writeLong(int j) => _writeLong(j);
 
-  void writeFloat(double f) {
-    return _writeFloat(f);
-  }
+  void writeFloat(double f) => _writeFloat(f);
 
-  void writeDouble(double d) {
-    return _writeDouble(d);
-  }
+  void writeDouble(double d) => _writeDouble(d);
 
-  void writeBytes(jni$_.JString? string) {
-    return _writeBytes(string);
-  }
+  void writeBytes(jni$_.JString? string) => _writeBytes(string);
 
-  void writeChars(jni$_.JString? string) {
-    return _writeChars(string);
-  }
+  void writeChars(jni$_.JString? string) => _writeChars(string);
 
-  void writeUTF(jni$_.JString? string) {
-    return _writeUTF(string);
-  }
+  void writeUTF(jni$_.JString? string) => _writeUTF(string);
 }
 
 final class $ObjectOutput$NullableType extends jni$_.JObjType<ObjectOutput?> {
@@ -19616,10 +19156,9 @@ final class $ObjectOutput$NullableType extends jni$_.JObjType<ObjectOutput?> {
   int get hashCode => ($ObjectOutput$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectOutput$NullableType) &&
-        other is $ObjectOutput$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectOutput$NullableType) &&
+      other is $ObjectOutput$NullableType;
 }
 
 final class $ObjectOutput$Type extends jni$_.JObjType<ObjectOutput> {
@@ -19651,10 +19190,8 @@ final class $ObjectOutput$Type extends jni$_.JObjType<ObjectOutput> {
   int get hashCode => ($ObjectOutput$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectOutput$Type) &&
-        other is $ObjectOutput$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectOutput$Type) && other is $ObjectOutput$Type;
 }
 
 /// from: `java.io.ObjectInputStream`
@@ -19729,12 +19266,10 @@ class ObjectInputStream extends InputStream {
 
   /// from: `public final java.lang.Object readObject()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? readObject() {
-    return _readObject(
-      reference.pointer,
-      _id_readObject as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? readObject() => _readObject(
+    reference.pointer,
+    _id_readObject as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_readUnshared = _class.instanceMethodId(
     r'readUnshared',
@@ -19759,12 +19294,10 @@ class ObjectInputStream extends InputStream {
 
   /// from: `public java.lang.Object readUnshared()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? readUnshared() {
-    return _readUnshared(
-      reference.pointer,
-      _id_readUnshared as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? readUnshared() => _readUnshared(
+    reference.pointer,
+    _id_readUnshared as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_defaultReadObject = _class.instanceMethodId(
     r'defaultReadObject',
@@ -19818,14 +19351,12 @@ class ObjectInputStream extends InputStream {
 
   /// from: `public java.io.ObjectInputStream$GetField readFields()`
   /// The returned object must be released after use, by calling the [release] method.
-  ObjectInputStream$GetField? readFields() {
-    return _readFields(
-      reference.pointer,
-      _id_readFields as jni$_.JMethodIDPtr,
-    ).object<ObjectInputStream$GetField?>(
-      const $ObjectInputStream$GetField$NullableType(),
-    );
-  }
+  ObjectInputStream$GetField? readFields() => _readFields(
+    reference.pointer,
+    _id_readFields as jni$_.JMethodIDPtr,
+  ).object<ObjectInputStream$GetField?>(
+    const $ObjectInputStream$GetField$NullableType(),
+  );
 
   static final _id_registerValidation = _class.instanceMethodId(
     r'registerValidation',
@@ -19882,9 +19413,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -19941,12 +19471,11 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -19993,12 +19522,11 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public boolean readBoolean()`
-  bool readBoolean() {
-    return _readBoolean(
-      reference.pointer,
-      _id_readBoolean as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool readBoolean() =>
+      _readBoolean(
+        reference.pointer,
+        _id_readBoolean as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_readByte = _class.instanceMethodId(r'readByte', r'()B');
 
@@ -20019,12 +19547,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public byte readByte()`
-  int readByte() {
-    return _readByte(
-      reference.pointer,
-      _id_readByte as jni$_.JMethodIDPtr,
-    ).byte;
-  }
+  int readByte() =>
+      _readByte(reference.pointer, _id_readByte as jni$_.JMethodIDPtr).byte;
 
   static final _id_readUnsignedByte = _class.instanceMethodId(
     r'readUnsignedByte',
@@ -20048,12 +19572,11 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public int readUnsignedByte()`
-  int readUnsignedByte() {
-    return _readUnsignedByte(
-      reference.pointer,
-      _id_readUnsignedByte as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedByte() =>
+      _readUnsignedByte(
+        reference.pointer,
+        _id_readUnsignedByte as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readChar = _class.instanceMethodId(r'readChar', r'()C');
 
@@ -20074,12 +19597,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public char readChar()`
-  int readChar() {
-    return _readChar(
-      reference.pointer,
-      _id_readChar as jni$_.JMethodIDPtr,
-    ).char;
-  }
+  int readChar() =>
+      _readChar(reference.pointer, _id_readChar as jni$_.JMethodIDPtr).char;
 
   static final _id_readShort = _class.instanceMethodId(r'readShort', r'()S');
 
@@ -20100,12 +19619,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public short readShort()`
-  int readShort() {
-    return _readShort(
-      reference.pointer,
-      _id_readShort as jni$_.JMethodIDPtr,
-    ).short;
-  }
+  int readShort() =>
+      _readShort(reference.pointer, _id_readShort as jni$_.JMethodIDPtr).short;
 
   static final _id_readUnsignedShort = _class.instanceMethodId(
     r'readUnsignedShort',
@@ -20129,12 +19644,11 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public int readUnsignedShort()`
-  int readUnsignedShort() {
-    return _readUnsignedShort(
-      reference.pointer,
-      _id_readUnsignedShort as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedShort() =>
+      _readUnsignedShort(
+        reference.pointer,
+        _id_readUnsignedShort as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readInt = _class.instanceMethodId(r'readInt', r'()I');
 
@@ -20155,12 +19669,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public int readInt()`
-  int readInt() {
-    return _readInt(
-      reference.pointer,
-      _id_readInt as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readInt() =>
+      _readInt(reference.pointer, _id_readInt as jni$_.JMethodIDPtr).integer;
 
   static final _id_readLong = _class.instanceMethodId(r'readLong', r'()J');
 
@@ -20181,12 +19691,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public long readLong()`
-  int readLong() {
-    return _readLong(
-      reference.pointer,
-      _id_readLong as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int readLong() =>
+      _readLong(reference.pointer, _id_readLong as jni$_.JMethodIDPtr).long;
 
   static final _id_readFloat = _class.instanceMethodId(r'readFloat', r'()F');
 
@@ -20207,12 +19713,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public float readFloat()`
-  double readFloat() {
-    return _readFloat(
-      reference.pointer,
-      _id_readFloat as jni$_.JMethodIDPtr,
-    ).float;
-  }
+  double readFloat() =>
+      _readFloat(reference.pointer, _id_readFloat as jni$_.JMethodIDPtr).float;
 
   static final _id_readDouble = _class.instanceMethodId(r'readDouble', r'()D');
 
@@ -20233,12 +19735,11 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public double readDouble()`
-  double readDouble() {
-    return _readDouble(
-      reference.pointer,
-      _id_readDouble as jni$_.JMethodIDPtr,
-    ).doubleFloat;
-  }
+  double readDouble() =>
+      _readDouble(
+        reference.pointer,
+        _id_readDouble as jni$_.JMethodIDPtr,
+      ).doubleFloat;
 
   static final _id_readFully = _class.instanceMethodId(r'readFully', r'([B)V');
 
@@ -20330,13 +19831,12 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public int skipBytes(int i)`
-  int skipBytes(int i) {
-    return _skipBytes(
-      reference.pointer,
-      _id_skipBytes as jni$_.JMethodIDPtr,
-      i,
-    ).integer;
-  }
+  int skipBytes(int i) =>
+      _skipBytes(
+        reference.pointer,
+        _id_skipBytes as jni$_.JMethodIDPtr,
+        i,
+      ).integer;
 
   static final _id_readLine = _class.instanceMethodId(
     r'readLine',
@@ -20361,12 +19861,10 @@ class ObjectInputStream extends InputStream {
 
   /// from: `public java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine() {
-    return _readLine(
-      reference.pointer,
-      _id_readLine as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine() => _readLine(
+    reference.pointer,
+    _id_readLine as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_readUTF = _class.instanceMethodId(
     r'readUTF',
@@ -20391,12 +19889,10 @@ class ObjectInputStream extends InputStream {
 
   /// from: `public java.lang.String readUTF()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readUTF() {
-    return _readUTF(
-      reference.pointer,
-      _id_readUTF as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readUTF() => _readUTF(
+    reference.pointer,
+    _id_readUTF as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getObjectInputFilter = _class.instanceMethodId(
     r'getObjectInputFilter',
@@ -20421,12 +19917,10 @@ class ObjectInputStream extends InputStream {
 
   /// from: `public final java.io.ObjectInputFilter getObjectInputFilter()`
   /// The returned object must be released after use, by calling the [release] method.
-  ObjectInputFilter? getObjectInputFilter() {
-    return _getObjectInputFilter(
-      reference.pointer,
-      _id_getObjectInputFilter as jni$_.JMethodIDPtr,
-    ).object<ObjectInputFilter?>(const $ObjectInputFilter$NullableType());
-  }
+  ObjectInputFilter? getObjectInputFilter() => _getObjectInputFilter(
+    reference.pointer,
+    _id_getObjectInputFilter as jni$_.JMethodIDPtr,
+  ).object<ObjectInputFilter?>(const $ObjectInputFilter$NullableType());
 
   static final _id_setObjectInputFilter = _class.instanceMethodId(
     r'setObjectInputFilter',
@@ -20513,9 +20007,8 @@ class ObjectInputStream extends InputStream {
           >();
 
   /// from: `public abstract long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 }
 
 final class $ObjectInputStream$NullableType
@@ -20547,10 +20040,9 @@ final class $ObjectInputStream$NullableType
   int get hashCode => ($ObjectInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputStream$NullableType) &&
-        other is $ObjectInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputStream$NullableType) &&
+      other is $ObjectInputStream$NullableType;
 }
 
 final class $ObjectInputStream$Type extends jni$_.JObjType<ObjectInputStream> {
@@ -20582,10 +20074,9 @@ final class $ObjectInputStream$Type extends jni$_.JObjType<ObjectInputStream> {
   int get hashCode => ($ObjectInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputStream$Type) &&
-        other is $ObjectInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputStream$Type) &&
+      other is $ObjectInputStream$Type;
 }
 
 /// from: `java.io.LineNumberInputStream`
@@ -20656,9 +20147,8 @@ class LineNumberInputStream extends FilterInputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -20717,9 +20207,8 @@ class LineNumberInputStream extends FilterInputStream {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_setLineNumber = _class.instanceMethodId(
     r'setLineNumber',
@@ -20775,12 +20264,11 @@ class LineNumberInputStream extends FilterInputStream {
           >();
 
   /// from: `public int getLineNumber()`
-  int getLineNumber() {
-    return _getLineNumber(
-      reference.pointer,
-      _id_getLineNumber as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int getLineNumber() =>
+      _getLineNumber(
+        reference.pointer,
+        _id_getLineNumber as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_available = _class.instanceMethodId(r'available', r'()I');
 
@@ -20801,12 +20289,11 @@ class LineNumberInputStream extends FilterInputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -20886,10 +20373,9 @@ final class $LineNumberInputStream$NullableType
   int get hashCode => ($LineNumberInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($LineNumberInputStream$NullableType) &&
-        other is $LineNumberInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($LineNumberInputStream$NullableType) &&
+      other is $LineNumberInputStream$NullableType;
 }
 
 final class $LineNumberInputStream$Type
@@ -20922,10 +20408,9 @@ final class $LineNumberInputStream$Type
   int get hashCode => ($LineNumberInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($LineNumberInputStream$Type) &&
-        other is $LineNumberInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($LineNumberInputStream$Type) &&
+      other is $LineNumberInputStream$Type;
 }
 
 /// from: `java.io.ByteArrayInputStream`
@@ -21035,9 +20520,8 @@ class ByteArrayInputStream extends InputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -21098,12 +20582,10 @@ class ByteArrayInputStream extends InputStream {
 
   /// from: `public byte[] readAllBytes()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? readAllBytes() {
-    return _readAllBytes(
-      reference.pointer,
-      _id_readAllBytes as jni$_.JMethodIDPtr,
-    ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
-  }
+  jni$_.JByteArray? readAllBytes() => _readAllBytes(
+    reference.pointer,
+    _id_readAllBytes as jni$_.JMethodIDPtr,
+  ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
 
   static final _id_readNBytes1 = _class.instanceMethodId(
     r'readNBytes',
@@ -21198,9 +20680,8 @@ class ByteArrayInputStream extends InputStream {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_available = _class.instanceMethodId(r'available', r'()I');
 
@@ -21221,12 +20702,11 @@ class ByteArrayInputStream extends InputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_markSupported = _class.instanceMethodId(
     r'markSupported',
@@ -21250,12 +20730,11 @@ class ByteArrayInputStream extends InputStream {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -21358,10 +20837,9 @@ final class $ByteArrayInputStream$NullableType
   int get hashCode => ($ByteArrayInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ByteArrayInputStream$NullableType) &&
-        other is $ByteArrayInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ByteArrayInputStream$NullableType) &&
+      other is $ByteArrayInputStream$NullableType;
 }
 
 final class $ByteArrayInputStream$Type
@@ -21394,10 +20872,9 @@ final class $ByteArrayInputStream$Type
   int get hashCode => ($ByteArrayInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ByteArrayInputStream$Type) &&
-        other is $ByteArrayInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ByteArrayInputStream$Type) &&
+      other is $ByteArrayInputStream$Type;
 }
 
 /// from: `java.io.StreamTokenizer`
@@ -21922,12 +21399,11 @@ class StreamTokenizer extends jni$_.JObject {
           >();
 
   /// from: `public int nextToken()`
-  int nextToken() {
-    return _nextToken(
-      reference.pointer,
-      _id_nextToken as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int nextToken() =>
+      _nextToken(
+        reference.pointer,
+        _id_nextToken as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_pushBack = _class.instanceMethodId(r'pushBack', r'()V');
 
@@ -21971,9 +21447,8 @@ class StreamTokenizer extends jni$_.JObject {
           >();
 
   /// from: `public int lineno()`
-  int lineno() {
-    return _lineno(reference.pointer, _id_lineno as jni$_.JMethodIDPtr).integer;
-  }
+  int lineno() =>
+      _lineno(reference.pointer, _id_lineno as jni$_.JMethodIDPtr).integer;
 
   static final _id_toString$1 = _class.instanceMethodId(
     r'toString',
@@ -21998,12 +21473,10 @@ class StreamTokenizer extends jni$_.JObject {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
-    return _toString$1(
-      reference.pointer,
-      _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$1() => _toString$1(
+    reference.pointer,
+    _id_toString$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 }
 
 final class $StreamTokenizer$NullableType
@@ -22035,10 +21508,9 @@ final class $StreamTokenizer$NullableType
   int get hashCode => ($StreamTokenizer$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StreamTokenizer$NullableType) &&
-        other is $StreamTokenizer$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StreamTokenizer$NullableType) &&
+      other is $StreamTokenizer$NullableType;
 }
 
 final class $StreamTokenizer$Type extends jni$_.JObjType<StreamTokenizer> {
@@ -22070,10 +21542,9 @@ final class $StreamTokenizer$Type extends jni$_.JObjType<StreamTokenizer> {
   int get hashCode => ($StreamTokenizer$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StreamTokenizer$Type) &&
-        other is $StreamTokenizer$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StreamTokenizer$Type) &&
+      other is $StreamTokenizer$Type;
 }
 
 /// from: `java.io.Serial`
@@ -22099,12 +21570,10 @@ class Serial extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -22186,10 +21655,9 @@ final class $Serial$NullableType extends jni$_.JObjType<Serial?> {
   int get hashCode => ($Serial$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Serial$NullableType) &&
-        other is $Serial$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Serial$NullableType) &&
+      other is $Serial$NullableType;
 }
 
 final class $Serial$Type extends jni$_.JObjType<Serial> {
@@ -22220,9 +21688,8 @@ final class $Serial$Type extends jni$_.JObjType<Serial> {
   int get hashCode => ($Serial$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Serial$Type) && other is $Serial$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Serial$Type) && other is $Serial$Type;
 }
 
 /// from: `java.io.LineNumberReader`
@@ -22363,12 +21830,11 @@ class LineNumberReader extends BufferedReader {
           >();
 
   /// from: `public int getLineNumber()`
-  int getLineNumber() {
-    return _getLineNumber(
-      reference.pointer,
-      _id_getLineNumber as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int getLineNumber() =>
+      _getLineNumber(
+        reference.pointer,
+        _id_getLineNumber as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_read1 = _class.instanceMethodId(r'read', r'()I');
 
@@ -22389,9 +21855,8 @@ class LineNumberReader extends BufferedReader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -22452,12 +21917,10 @@ class LineNumberReader extends BufferedReader {
 
   /// from: `public java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine() {
-    return _readLine(
-      reference.pointer,
-      _id_readLine as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine() => _readLine(
+    reference.pointer,
+    _id_readLine as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_skip = _class.instanceMethodId(r'skip', r'(J)J');
 
@@ -22480,9 +21943,8 @@ class LineNumberReader extends BufferedReader {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -22562,10 +22024,9 @@ final class $LineNumberReader$NullableType
   int get hashCode => ($LineNumberReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($LineNumberReader$NullableType) &&
-        other is $LineNumberReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($LineNumberReader$NullableType) &&
+      other is $LineNumberReader$NullableType;
 }
 
 final class $LineNumberReader$Type extends jni$_.JObjType<LineNumberReader> {
@@ -22597,10 +22058,9 @@ final class $LineNumberReader$Type extends jni$_.JObjType<LineNumberReader> {
   int get hashCode => ($LineNumberReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($LineNumberReader$Type) &&
-        other is $LineNumberReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($LineNumberReader$Type) &&
+      other is $LineNumberReader$Type;
 }
 
 /// from: `java.io.CharArrayWriter`
@@ -22639,11 +22099,9 @@ class CharArrayWriter extends Writer {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory CharArrayWriter() {
-    return CharArrayWriter.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory CharArrayWriter() => CharArrayWriter.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -22667,15 +22125,13 @@ class CharArrayWriter extends Writer {
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory CharArrayWriter.new$1(int i) {
-    return CharArrayWriter.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-        i,
-      ).reference,
-    );
-  }
+  factory CharArrayWriter.new$1(int i) => CharArrayWriter.fromReference(
+    _new$1(
+      _class.reference.pointer,
+      _id_new$1 as jni$_.JMethodIDPtr,
+      i,
+    ).reference,
+  );
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -22909,13 +22365,11 @@ class CharArrayWriter extends Writer {
 
   /// from: `public java.io.CharArrayWriter append(char c)`
   /// The returned object must be released after use, by calling the [release] method.
-  CharArrayWriter? append$5(int c) {
-    return _append$5(
-      reference.pointer,
-      _id_append$5 as jni$_.JMethodIDPtr,
-      c,
-    ).object<CharArrayWriter?>(const $CharArrayWriter$NullableType());
-  }
+  CharArrayWriter? append$5(int c) => _append$5(
+    reference.pointer,
+    _id_append$5 as jni$_.JMethodIDPtr,
+    c,
+  ).object<CharArrayWriter?>(const $CharArrayWriter$NullableType());
 
   static final _id_reset = _class.instanceMethodId(r'reset', r'()V');
 
@@ -22963,12 +22417,10 @@ class CharArrayWriter extends Writer {
 
   /// from: `public char[] toCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JCharArray? toCharArray() {
-    return _toCharArray(
-      reference.pointer,
-      _id_toCharArray as jni$_.JMethodIDPtr,
-    ).object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
-  }
+  jni$_.JCharArray? toCharArray() => _toCharArray(
+    reference.pointer,
+    _id_toCharArray as jni$_.JMethodIDPtr,
+  ).object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
 
   static final _id_size = _class.instanceMethodId(r'size', r'()I');
 
@@ -22989,9 +22441,8 @@ class CharArrayWriter extends Writer {
           >();
 
   /// from: `public int size()`
-  int size() {
-    return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
-  }
+  int size() =>
+      _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
 
   static final _id_toString$1 = _class.instanceMethodId(
     r'toString',
@@ -23016,12 +22467,10 @@ class CharArrayWriter extends Writer {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
-    return _toString$1(
-      reference.pointer,
-      _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$1() => _toString$1(
+    reference.pointer,
+    _id_toString$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_flush = _class.instanceMethodId(r'flush', r'()V');
 
@@ -23099,10 +22548,9 @@ final class $CharArrayWriter$NullableType
   int get hashCode => ($CharArrayWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($CharArrayWriter$NullableType) &&
-        other is $CharArrayWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($CharArrayWriter$NullableType) &&
+      other is $CharArrayWriter$NullableType;
 }
 
 final class $CharArrayWriter$Type extends jni$_.JObjType<CharArrayWriter> {
@@ -23134,10 +22582,9 @@ final class $CharArrayWriter$Type extends jni$_.JObjType<CharArrayWriter> {
   int get hashCode => ($CharArrayWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($CharArrayWriter$Type) &&
-        other is $CharArrayWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($CharArrayWriter$Type) &&
+      other is $CharArrayWriter$Type;
 }
 
 /// from: `java.io.EOFException`
@@ -23176,11 +22623,9 @@ class EOFException extends IOException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory EOFException() {
-    return EOFException.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory EOFException() => EOFException.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new1 = _class.constructorId(r'(Ljava/lang/String;)V');
 
@@ -23244,10 +22689,9 @@ final class $EOFException$NullableType extends jni$_.JObjType<EOFException?> {
   int get hashCode => ($EOFException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($EOFException$NullableType) &&
-        other is $EOFException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($EOFException$NullableType) &&
+      other is $EOFException$NullableType;
 }
 
 final class $EOFException$Type extends jni$_.JObjType<EOFException> {
@@ -23279,10 +22723,8 @@ final class $EOFException$Type extends jni$_.JObjType<EOFException> {
   int get hashCode => ($EOFException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($EOFException$Type) &&
-        other is $EOFException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($EOFException$Type) && other is $EOFException$Type;
 }
 
 /// from: `java.io.FileNotFoundException`
@@ -23321,11 +22763,9 @@ class FileNotFoundException extends IOException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory FileNotFoundException() {
-    return FileNotFoundException.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory FileNotFoundException() => FileNotFoundException.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new1 = _class.constructorId(r'(Ljava/lang/String;)V');
 
@@ -23390,10 +22830,9 @@ final class $FileNotFoundException$NullableType
   int get hashCode => ($FileNotFoundException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileNotFoundException$NullableType) &&
-        other is $FileNotFoundException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileNotFoundException$NullableType) &&
+      other is $FileNotFoundException$NullableType;
 }
 
 final class $FileNotFoundException$Type
@@ -23426,10 +22865,9 @@ final class $FileNotFoundException$Type
   int get hashCode => ($FileNotFoundException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileNotFoundException$Type) &&
-        other is $FileNotFoundException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileNotFoundException$Type) &&
+      other is $FileNotFoundException$Type;
 }
 
 /// from: `java.io.CharConversionException`
@@ -23470,11 +22908,9 @@ class CharConversionException extends IOException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory CharConversionException() {
-    return CharConversionException.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory CharConversionException() => CharConversionException.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new1 = _class.constructorId(r'(Ljava/lang/String;)V');
 
@@ -23541,10 +22977,9 @@ final class $CharConversionException$NullableType
   int get hashCode => ($CharConversionException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($CharConversionException$NullableType) &&
-        other is $CharConversionException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($CharConversionException$NullableType) &&
+      other is $CharConversionException$NullableType;
 }
 
 final class $CharConversionException$Type
@@ -23577,10 +23012,9 @@ final class $CharConversionException$Type
   int get hashCode => ($CharConversionException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($CharConversionException$Type) &&
-        other is $CharConversionException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($CharConversionException$Type) &&
+      other is $CharConversionException$Type;
 }
 
 /// from: `java.io.ObjectInputFilter$Config`
@@ -23624,12 +23058,10 @@ class ObjectInputFilter$Config extends jni$_.JObject {
 
   /// from: `static public java.io.ObjectInputFilter getSerialFilter()`
   /// The returned object must be released after use, by calling the [release] method.
-  static ObjectInputFilter? getSerialFilter() {
-    return _getSerialFilter(
-      _class.reference.pointer,
-      _id_getSerialFilter as jni$_.JMethodIDPtr,
-    ).object<ObjectInputFilter?>(const $ObjectInputFilter$NullableType());
-  }
+  static ObjectInputFilter? getSerialFilter() => _getSerialFilter(
+    _class.reference.pointer,
+    _id_getSerialFilter as jni$_.JMethodIDPtr,
+  ).object<ObjectInputFilter?>(const $ObjectInputFilter$NullableType());
 
   static final _id_setSerialFilter = _class.staticMethodId(
     r'setSerialFilter',
@@ -23688,12 +23120,10 @@ class ObjectInputFilter$Config extends jni$_.JObject {
 
   /// from: `static public java.util.function.BinaryOperator<java.io.ObjectInputFilter> getSerialFilterFactory()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject? getSerialFilterFactory() {
-    return _getSerialFilterFactory(
-      _class.reference.pointer,
-      _id_getSerialFilterFactory as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  static jni$_.JObject? getSerialFilterFactory() => _getSerialFilterFactory(
+    _class.reference.pointer,
+    _id_getSerialFilterFactory as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_setSerialFilterFactory = _class.staticMethodId(
     r'setSerialFilterFactory',
@@ -23794,10 +23224,9 @@ final class $ObjectInputFilter$Config$NullableType
   int get hashCode => ($ObjectInputFilter$Config$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$Config$NullableType) &&
-        other is $ObjectInputFilter$Config$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$Config$NullableType) &&
+      other is $ObjectInputFilter$Config$NullableType;
 }
 
 final class $ObjectInputFilter$Config$Type
@@ -23830,10 +23259,9 @@ final class $ObjectInputFilter$Config$Type
   int get hashCode => ($ObjectInputFilter$Config$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$Config$Type) &&
-        other is $ObjectInputFilter$Config$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$Config$Type) &&
+      other is $ObjectInputFilter$Config$Type;
 }
 
 /// from: `java.io.PushbackReader`
@@ -23939,9 +23367,8 @@ class PushbackReader extends FilterReader {
           >();
 
   /// from: `public int read()`
-  int read1() {
-    return _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
-  }
+  int read1() =>
+      _read1(reference.pointer, _id_read1 as jni$_.JMethodIDPtr).integer;
 
   static final _id_read3 = _class.instanceMethodId(r'read', r'([CII)I');
 
@@ -24089,9 +23516,8 @@ class PushbackReader extends FilterReader {
           >();
 
   /// from: `public boolean ready()`
-  bool ready() {
-    return _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
-  }
+  bool ready() =>
+      _ready(reference.pointer, _id_ready as jni$_.JMethodIDPtr).boolean;
 
   static final _id_mark = _class.instanceMethodId(r'mark', r'(I)V');
 
@@ -24163,12 +23589,11 @@ class PushbackReader extends FilterReader {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -24214,9 +23639,8 @@ class PushbackReader extends FilterReader {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 }
 
 final class $PushbackReader$NullableType
@@ -24248,10 +23672,9 @@ final class $PushbackReader$NullableType
   int get hashCode => ($PushbackReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PushbackReader$NullableType) &&
-        other is $PushbackReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PushbackReader$NullableType) &&
+      other is $PushbackReader$NullableType;
 }
 
 final class $PushbackReader$Type extends jni$_.JObjType<PushbackReader> {
@@ -24283,10 +23706,9 @@ final class $PushbackReader$Type extends jni$_.JObjType<PushbackReader> {
   int get hashCode => ($PushbackReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PushbackReader$Type) &&
-        other is $PushbackReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PushbackReader$Type) &&
+      other is $PushbackReader$Type;
 }
 
 /// from: `java.io.DataInput`
@@ -24395,13 +23817,12 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int skipBytes(int i)`
-  int skipBytes(int i) {
-    return _skipBytes(
-      reference.pointer,
-      _id_skipBytes as jni$_.JMethodIDPtr,
-      i,
-    ).integer;
-  }
+  int skipBytes(int i) =>
+      _skipBytes(
+        reference.pointer,
+        _id_skipBytes as jni$_.JMethodIDPtr,
+        i,
+      ).integer;
 
   static final _id_readBoolean = _class.instanceMethodId(
     r'readBoolean',
@@ -24425,12 +23846,11 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract boolean readBoolean()`
-  bool readBoolean() {
-    return _readBoolean(
-      reference.pointer,
-      _id_readBoolean as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool readBoolean() =>
+      _readBoolean(
+        reference.pointer,
+        _id_readBoolean as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_readByte = _class.instanceMethodId(r'readByte', r'()B');
 
@@ -24451,12 +23871,8 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract byte readByte()`
-  int readByte() {
-    return _readByte(
-      reference.pointer,
-      _id_readByte as jni$_.JMethodIDPtr,
-    ).byte;
-  }
+  int readByte() =>
+      _readByte(reference.pointer, _id_readByte as jni$_.JMethodIDPtr).byte;
 
   static final _id_readUnsignedByte = _class.instanceMethodId(
     r'readUnsignedByte',
@@ -24480,12 +23896,11 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int readUnsignedByte()`
-  int readUnsignedByte() {
-    return _readUnsignedByte(
-      reference.pointer,
-      _id_readUnsignedByte as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedByte() =>
+      _readUnsignedByte(
+        reference.pointer,
+        _id_readUnsignedByte as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readShort = _class.instanceMethodId(r'readShort', r'()S');
 
@@ -24506,12 +23921,8 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract short readShort()`
-  int readShort() {
-    return _readShort(
-      reference.pointer,
-      _id_readShort as jni$_.JMethodIDPtr,
-    ).short;
-  }
+  int readShort() =>
+      _readShort(reference.pointer, _id_readShort as jni$_.JMethodIDPtr).short;
 
   static final _id_readUnsignedShort = _class.instanceMethodId(
     r'readUnsignedShort',
@@ -24535,12 +23946,11 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int readUnsignedShort()`
-  int readUnsignedShort() {
-    return _readUnsignedShort(
-      reference.pointer,
-      _id_readUnsignedShort as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedShort() =>
+      _readUnsignedShort(
+        reference.pointer,
+        _id_readUnsignedShort as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readChar = _class.instanceMethodId(r'readChar', r'()C');
 
@@ -24561,12 +23971,8 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract char readChar()`
-  int readChar() {
-    return _readChar(
-      reference.pointer,
-      _id_readChar as jni$_.JMethodIDPtr,
-    ).char;
-  }
+  int readChar() =>
+      _readChar(reference.pointer, _id_readChar as jni$_.JMethodIDPtr).char;
 
   static final _id_readInt = _class.instanceMethodId(r'readInt', r'()I');
 
@@ -24587,12 +23993,8 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int readInt()`
-  int readInt() {
-    return _readInt(
-      reference.pointer,
-      _id_readInt as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readInt() =>
+      _readInt(reference.pointer, _id_readInt as jni$_.JMethodIDPtr).integer;
 
   static final _id_readLong = _class.instanceMethodId(r'readLong', r'()J');
 
@@ -24613,12 +24015,8 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract long readLong()`
-  int readLong() {
-    return _readLong(
-      reference.pointer,
-      _id_readLong as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int readLong() =>
+      _readLong(reference.pointer, _id_readLong as jni$_.JMethodIDPtr).long;
 
   static final _id_readFloat = _class.instanceMethodId(r'readFloat', r'()F');
 
@@ -24639,12 +24037,8 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract float readFloat()`
-  double readFloat() {
-    return _readFloat(
-      reference.pointer,
-      _id_readFloat as jni$_.JMethodIDPtr,
-    ).float;
-  }
+  double readFloat() =>
+      _readFloat(reference.pointer, _id_readFloat as jni$_.JMethodIDPtr).float;
 
   static final _id_readDouble = _class.instanceMethodId(r'readDouble', r'()D');
 
@@ -24665,12 +24059,11 @@ class DataInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract double readDouble()`
-  double readDouble() {
-    return _readDouble(
-      reference.pointer,
-      _id_readDouble as jni$_.JMethodIDPtr,
-    ).doubleFloat;
-  }
+  double readDouble() =>
+      _readDouble(
+        reference.pointer,
+        _id_readDouble as jni$_.JMethodIDPtr,
+      ).doubleFloat;
 
   static final _id_readLine = _class.instanceMethodId(
     r'readLine',
@@ -24695,12 +24088,10 @@ class DataInput extends jni$_.JObject {
 
   /// from: `public abstract java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine() {
-    return _readLine(
-      reference.pointer,
-      _id_readLine as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine() => _readLine(
+    reference.pointer,
+    _id_readLine as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_readUTF = _class.instanceMethodId(
     r'readUTF',
@@ -24725,12 +24116,10 @@ class DataInput extends jni$_.JObject {
 
   /// from: `public abstract java.lang.String readUTF()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readUTF() {
-    return _readUTF(
-      reference.pointer,
-      _id_readUTF as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readUTF() => _readUTF(
+    reference.pointer,
+    _id_readUTF as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $DataInput> _$impls = {};
@@ -24738,12 +24127,10 @@ class DataInput extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -24967,65 +24354,36 @@ final class _$DataInput with $DataInput {
   final jni$_.JString? Function() _readLine;
   final jni$_.JString? Function() _readUTF;
 
-  void readFully(jni$_.JByteArray? bs) {
-    return _readFully(bs);
-  }
+  void readFully(jni$_.JByteArray? bs) => _readFully(bs);
 
-  void readFully$1(jni$_.JByteArray? bs, int i, int i1) {
-    return _readFully$1(bs, i, i1);
-  }
+  void readFully$1(jni$_.JByteArray? bs, int i, int i1) =>
+      _readFully$1(bs, i, i1);
 
-  int skipBytes(int i) {
-    return _skipBytes(i);
-  }
+  int skipBytes(int i) => _skipBytes(i);
 
-  bool readBoolean() {
-    return _readBoolean();
-  }
+  bool readBoolean() => _readBoolean();
 
-  int readByte() {
-    return _readByte();
-  }
+  int readByte() => _readByte();
 
-  int readUnsignedByte() {
-    return _readUnsignedByte();
-  }
+  int readUnsignedByte() => _readUnsignedByte();
 
-  int readShort() {
-    return _readShort();
-  }
+  int readShort() => _readShort();
 
-  int readUnsignedShort() {
-    return _readUnsignedShort();
-  }
+  int readUnsignedShort() => _readUnsignedShort();
 
-  int readChar() {
-    return _readChar();
-  }
+  int readChar() => _readChar();
 
-  int readInt() {
-    return _readInt();
-  }
+  int readInt() => _readInt();
 
-  int readLong() {
-    return _readLong();
-  }
+  int readLong() => _readLong();
 
-  double readFloat() {
-    return _readFloat();
-  }
+  double readFloat() => _readFloat();
 
-  double readDouble() {
-    return _readDouble();
-  }
+  double readDouble() => _readDouble();
 
-  jni$_.JString? readLine() {
-    return _readLine();
-  }
+  jni$_.JString? readLine() => _readLine();
 
-  jni$_.JString? readUTF() {
-    return _readUTF();
-  }
+  jni$_.JString? readUTF() => _readUTF();
 }
 
 final class $DataInput$NullableType extends jni$_.JObjType<DataInput?> {
@@ -25056,10 +24414,9 @@ final class $DataInput$NullableType extends jni$_.JObjType<DataInput?> {
   int get hashCode => ($DataInput$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataInput$NullableType) &&
-        other is $DataInput$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataInput$NullableType) &&
+      other is $DataInput$NullableType;
 }
 
 final class $DataInput$Type extends jni$_.JObjType<DataInput> {
@@ -25091,9 +24448,8 @@ final class $DataInput$Type extends jni$_.JObjType<DataInput> {
   int get hashCode => ($DataInput$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataInput$Type) && other is $DataInput$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataInput$Type) && other is $DataInput$Type;
 }
 
 /// from: `java.io.Writer`
@@ -25135,12 +24491,10 @@ class Writer extends jni$_.JObject {
 
   /// from: `static public java.io.Writer nullWriter()`
   /// The returned object must be released after use, by calling the [release] method.
-  static Writer? nullWriter() {
-    return _nullWriter(
-      _class.reference.pointer,
-      _id_nullWriter as jni$_.JMethodIDPtr,
-    ).object<Writer?>(const $Writer$NullableType());
-  }
+  static Writer? nullWriter() => _nullWriter(
+    _class.reference.pointer,
+    _id_nullWriter as jni$_.JMethodIDPtr,
+  ).object<Writer?>(const $Writer$NullableType());
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -25404,13 +24758,11 @@ class Writer extends jni$_.JObject {
 
   /// from: `public java.io.Writer append(char c)`
   /// The returned object must be released after use, by calling the [release] method.
-  Writer? append$2(int c) {
-    return _append$2(
-      reference.pointer,
-      _id_append$2 as jni$_.JMethodIDPtr,
-      c,
-    ).object<Writer?>(const $Writer$NullableType());
-  }
+  Writer? append$2(int c) => _append$2(
+    reference.pointer,
+    _id_append$2 as jni$_.JMethodIDPtr,
+    c,
+  ).object<Writer?>(const $Writer$NullableType());
 
   static final _id_flush = _class.instanceMethodId(r'flush', r'()V');
 
@@ -25487,10 +24839,9 @@ final class $Writer$NullableType extends jni$_.JObjType<Writer?> {
   int get hashCode => ($Writer$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Writer$NullableType) &&
-        other is $Writer$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Writer$NullableType) &&
+      other is $Writer$NullableType;
 }
 
 final class $Writer$Type extends jni$_.JObjType<Writer> {
@@ -25521,9 +24872,8 @@ final class $Writer$Type extends jni$_.JObjType<Writer> {
   int get hashCode => ($Writer$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Writer$Type) && other is $Writer$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Writer$Type) && other is $Writer$Type;
 }
 
 /// from: `java.io.ObjectInput`
@@ -25565,12 +24915,10 @@ class ObjectInput extends jni$_.JObject {
 
   /// from: `public abstract java.lang.Object readObject()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? readObject() {
-    return _readObject(
-      reference.pointer,
-      _id_readObject as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? readObject() => _readObject(
+    reference.pointer,
+    _id_readObject as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_read = _class.instanceMethodId(r'read', r'()I');
 
@@ -25591,9 +24939,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read$1 = _class.instanceMethodId(r'read', r'([B)I');
 
@@ -25682,9 +25029,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_available = _class.instanceMethodId(r'available', r'()I');
 
@@ -25705,12 +25051,11 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -25825,13 +25170,12 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int skipBytes(int i)`
-  int skipBytes(int i) {
-    return _skipBytes(
-      reference.pointer,
-      _id_skipBytes as jni$_.JMethodIDPtr,
-      i,
-    ).integer;
-  }
+  int skipBytes(int i) =>
+      _skipBytes(
+        reference.pointer,
+        _id_skipBytes as jni$_.JMethodIDPtr,
+        i,
+      ).integer;
 
   static final _id_readBoolean = _class.instanceMethodId(
     r'readBoolean',
@@ -25855,12 +25199,11 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract boolean readBoolean()`
-  bool readBoolean() {
-    return _readBoolean(
-      reference.pointer,
-      _id_readBoolean as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool readBoolean() =>
+      _readBoolean(
+        reference.pointer,
+        _id_readBoolean as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_readByte = _class.instanceMethodId(r'readByte', r'()B');
 
@@ -25881,12 +25224,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract byte readByte()`
-  int readByte() {
-    return _readByte(
-      reference.pointer,
-      _id_readByte as jni$_.JMethodIDPtr,
-    ).byte;
-  }
+  int readByte() =>
+      _readByte(reference.pointer, _id_readByte as jni$_.JMethodIDPtr).byte;
 
   static final _id_readUnsignedByte = _class.instanceMethodId(
     r'readUnsignedByte',
@@ -25910,12 +25249,11 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int readUnsignedByte()`
-  int readUnsignedByte() {
-    return _readUnsignedByte(
-      reference.pointer,
-      _id_readUnsignedByte as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedByte() =>
+      _readUnsignedByte(
+        reference.pointer,
+        _id_readUnsignedByte as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readShort = _class.instanceMethodId(r'readShort', r'()S');
 
@@ -25936,12 +25274,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract short readShort()`
-  int readShort() {
-    return _readShort(
-      reference.pointer,
-      _id_readShort as jni$_.JMethodIDPtr,
-    ).short;
-  }
+  int readShort() =>
+      _readShort(reference.pointer, _id_readShort as jni$_.JMethodIDPtr).short;
 
   static final _id_readUnsignedShort = _class.instanceMethodId(
     r'readUnsignedShort',
@@ -25965,12 +25299,11 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int readUnsignedShort()`
-  int readUnsignedShort() {
-    return _readUnsignedShort(
-      reference.pointer,
-      _id_readUnsignedShort as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedShort() =>
+      _readUnsignedShort(
+        reference.pointer,
+        _id_readUnsignedShort as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readChar = _class.instanceMethodId(r'readChar', r'()C');
 
@@ -25991,12 +25324,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract char readChar()`
-  int readChar() {
-    return _readChar(
-      reference.pointer,
-      _id_readChar as jni$_.JMethodIDPtr,
-    ).char;
-  }
+  int readChar() =>
+      _readChar(reference.pointer, _id_readChar as jni$_.JMethodIDPtr).char;
 
   static final _id_readInt = _class.instanceMethodId(r'readInt', r'()I');
 
@@ -26017,12 +25346,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract int readInt()`
-  int readInt() {
-    return _readInt(
-      reference.pointer,
-      _id_readInt as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readInt() =>
+      _readInt(reference.pointer, _id_readInt as jni$_.JMethodIDPtr).integer;
 
   static final _id_readLong = _class.instanceMethodId(r'readLong', r'()J');
 
@@ -26043,12 +25368,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract long readLong()`
-  int readLong() {
-    return _readLong(
-      reference.pointer,
-      _id_readLong as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int readLong() =>
+      _readLong(reference.pointer, _id_readLong as jni$_.JMethodIDPtr).long;
 
   static final _id_readFloat = _class.instanceMethodId(r'readFloat', r'()F');
 
@@ -26069,12 +25390,8 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract float readFloat()`
-  double readFloat() {
-    return _readFloat(
-      reference.pointer,
-      _id_readFloat as jni$_.JMethodIDPtr,
-    ).float;
-  }
+  double readFloat() =>
+      _readFloat(reference.pointer, _id_readFloat as jni$_.JMethodIDPtr).float;
 
   static final _id_readDouble = _class.instanceMethodId(r'readDouble', r'()D');
 
@@ -26095,12 +25412,11 @@ class ObjectInput extends jni$_.JObject {
           >();
 
   /// from: `public abstract double readDouble()`
-  double readDouble() {
-    return _readDouble(
-      reference.pointer,
-      _id_readDouble as jni$_.JMethodIDPtr,
-    ).doubleFloat;
-  }
+  double readDouble() =>
+      _readDouble(
+        reference.pointer,
+        _id_readDouble as jni$_.JMethodIDPtr,
+      ).doubleFloat;
 
   static final _id_readLine = _class.instanceMethodId(
     r'readLine',
@@ -26125,12 +25441,10 @@ class ObjectInput extends jni$_.JObject {
 
   /// from: `public abstract java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine() {
-    return _readLine(
-      reference.pointer,
-      _id_readLine as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine() => _readLine(
+    reference.pointer,
+    _id_readLine as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_readUTF = _class.instanceMethodId(
     r'readUTF',
@@ -26155,12 +25469,10 @@ class ObjectInput extends jni$_.JObject {
 
   /// from: `public abstract java.lang.String readUTF()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readUTF() {
-    return _readUTF(
-      reference.pointer,
-      _id_readUTF as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readUTF() => _readUTF(
+    reference.pointer,
+    _id_readUTF as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $ObjectInput> _$impls = {};
@@ -26168,12 +25480,10 @@ class ObjectInput extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -26483,93 +25793,50 @@ final class _$ObjectInput with $ObjectInput {
   final jni$_.JString? Function() _readLine;
   final jni$_.JString? Function() _readUTF;
 
-  jni$_.JObject? readObject() {
-    return _readObject();
-  }
+  jni$_.JObject? readObject() => _readObject();
 
-  int read() {
-    return _read();
-  }
+  int read() => _read();
 
-  int read$1(jni$_.JByteArray? bs) {
-    return _read$1(bs);
-  }
+  int read$1(jni$_.JByteArray? bs) => _read$1(bs);
 
-  int read$2(jni$_.JByteArray? bs, int i, int i1) {
-    return _read$2(bs, i, i1);
-  }
+  int read$2(jni$_.JByteArray? bs, int i, int i1) => _read$2(bs, i, i1);
 
-  int skip(int j) {
-    return _skip(j);
-  }
+  int skip(int j) => _skip(j);
 
-  int available() {
-    return _available();
-  }
+  int available() => _available();
 
-  void close() {
-    return _close();
-  }
+  void close() => _close();
 
-  void readFully(jni$_.JByteArray? bs) {
-    return _readFully(bs);
-  }
+  void readFully(jni$_.JByteArray? bs) => _readFully(bs);
 
-  void readFully$1(jni$_.JByteArray? bs, int i, int i1) {
-    return _readFully$1(bs, i, i1);
-  }
+  void readFully$1(jni$_.JByteArray? bs, int i, int i1) =>
+      _readFully$1(bs, i, i1);
 
-  int skipBytes(int i) {
-    return _skipBytes(i);
-  }
+  int skipBytes(int i) => _skipBytes(i);
 
-  bool readBoolean() {
-    return _readBoolean();
-  }
+  bool readBoolean() => _readBoolean();
 
-  int readByte() {
-    return _readByte();
-  }
+  int readByte() => _readByte();
 
-  int readUnsignedByte() {
-    return _readUnsignedByte();
-  }
+  int readUnsignedByte() => _readUnsignedByte();
 
-  int readShort() {
-    return _readShort();
-  }
+  int readShort() => _readShort();
 
-  int readUnsignedShort() {
-    return _readUnsignedShort();
-  }
+  int readUnsignedShort() => _readUnsignedShort();
 
-  int readChar() {
-    return _readChar();
-  }
+  int readChar() => _readChar();
 
-  int readInt() {
-    return _readInt();
-  }
+  int readInt() => _readInt();
 
-  int readLong() {
-    return _readLong();
-  }
+  int readLong() => _readLong();
 
-  double readFloat() {
-    return _readFloat();
-  }
+  double readFloat() => _readFloat();
 
-  double readDouble() {
-    return _readDouble();
-  }
+  double readDouble() => _readDouble();
 
-  jni$_.JString? readLine() {
-    return _readLine();
-  }
+  jni$_.JString? readLine() => _readLine();
 
-  jni$_.JString? readUTF() {
-    return _readUTF();
-  }
+  jni$_.JString? readUTF() => _readUTF();
 }
 
 final class $ObjectInput$NullableType extends jni$_.JObjType<ObjectInput?> {
@@ -26600,10 +25867,9 @@ final class $ObjectInput$NullableType extends jni$_.JObjType<ObjectInput?> {
   int get hashCode => ($ObjectInput$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInput$NullableType) &&
-        other is $ObjectInput$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInput$NullableType) &&
+      other is $ObjectInput$NullableType;
 }
 
 final class $ObjectInput$Type extends jni$_.JObjType<ObjectInput> {
@@ -26635,10 +25901,8 @@ final class $ObjectInput$Type extends jni$_.JObjType<ObjectInput> {
   int get hashCode => ($ObjectInput$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInput$Type) &&
-        other is $ObjectInput$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInput$Type) && other is $ObjectInput$Type;
 }
 
 /// from: `java.io.ObjectInputFilter`
@@ -26866,12 +26130,10 @@ class ObjectInputFilter extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -27083,36 +26345,26 @@ final class _$ObjectInputFilter with $ObjectInputFilter {
 
   ObjectInputFilter$Status? checkInput(
     ObjectInputFilter$FilterInfo? filterInfo,
-  ) {
-    return _checkInput(filterInfo);
-  }
+  ) => _checkInput(filterInfo);
 
   ObjectInputFilter? allowFilter(
     jni$_.JObject? predicate,
     ObjectInputFilter$Status? status,
-  ) {
-    return _allowFilter(predicate, status);
-  }
+  ) => _allowFilter(predicate, status);
 
   ObjectInputFilter? rejectFilter(
     jni$_.JObject? predicate,
     ObjectInputFilter$Status? status,
-  ) {
-    return _rejectFilter(predicate, status);
-  }
+  ) => _rejectFilter(predicate, status);
 
   ObjectInputFilter? merge(
     ObjectInputFilter? objectInputFilter,
     ObjectInputFilter? objectInputFilter1,
-  ) {
-    return _merge(objectInputFilter, objectInputFilter1);
-  }
+  ) => _merge(objectInputFilter, objectInputFilter1);
 
   ObjectInputFilter? rejectUndecidedClass(
     ObjectInputFilter? objectInputFilter,
-  ) {
-    return _rejectUndecidedClass(objectInputFilter);
-  }
+  ) => _rejectUndecidedClass(objectInputFilter);
 }
 
 final class $ObjectInputFilter$NullableType
@@ -27144,10 +26396,9 @@ final class $ObjectInputFilter$NullableType
   int get hashCode => ($ObjectInputFilter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$NullableType) &&
-        other is $ObjectInputFilter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$NullableType) &&
+      other is $ObjectInputFilter$NullableType;
 }
 
 final class $ObjectInputFilter$Type extends jni$_.JObjType<ObjectInputFilter> {
@@ -27179,10 +26430,9 @@ final class $ObjectInputFilter$Type extends jni$_.JObjType<ObjectInputFilter> {
   int get hashCode => ($ObjectInputFilter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$Type) &&
-        other is $ObjectInputFilter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$Type) &&
+      other is $ObjectInputFilter$Type;
 }
 
 /// from: `java.io.UnsupportedEncodingException`
@@ -27223,11 +26473,13 @@ class UnsupportedEncodingException extends IOException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory UnsupportedEncodingException() {
-    return UnsupportedEncodingException.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory UnsupportedEncodingException() =>
+      UnsupportedEncodingException.fromReference(
+        _new$(
+          _class.reference.pointer,
+          _id_new$ as jni$_.JMethodIDPtr,
+        ).reference,
+      );
 
   static final _id_new1 = _class.constructorId(r'(Ljava/lang/String;)V');
 
@@ -27294,10 +26546,9 @@ final class $UnsupportedEncodingException$NullableType
   int get hashCode => ($UnsupportedEncodingException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($UnsupportedEncodingException$NullableType) &&
-        other is $UnsupportedEncodingException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($UnsupportedEncodingException$NullableType) &&
+      other is $UnsupportedEncodingException$NullableType;
 }
 
 final class $UnsupportedEncodingException$Type
@@ -27330,10 +26581,9 @@ final class $UnsupportedEncodingException$Type
   int get hashCode => ($UnsupportedEncodingException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($UnsupportedEncodingException$Type) &&
-        other is $UnsupportedEncodingException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($UnsupportedEncodingException$Type) &&
+      other is $UnsupportedEncodingException$Type;
 }
 
 /// from: `java.io.UTFDataFormatException`
@@ -27372,11 +26622,9 @@ class UTFDataFormatException extends IOException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory UTFDataFormatException() {
-    return UTFDataFormatException.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory UTFDataFormatException() => UTFDataFormatException.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new1 = _class.constructorId(r'(Ljava/lang/String;)V');
 
@@ -27441,10 +26689,9 @@ final class $UTFDataFormatException$NullableType
   int get hashCode => ($UTFDataFormatException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($UTFDataFormatException$NullableType) &&
-        other is $UTFDataFormatException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($UTFDataFormatException$NullableType) &&
+      other is $UTFDataFormatException$NullableType;
 }
 
 final class $UTFDataFormatException$Type
@@ -27477,10 +26724,9 @@ final class $UTFDataFormatException$Type
   int get hashCode => ($UTFDataFormatException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($UTFDataFormatException$Type) &&
-        other is $UTFDataFormatException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($UTFDataFormatException$Type) &&
+      other is $UTFDataFormatException$Type;
 }
 
 /// from: `java.io.DataInputStream`
@@ -27688,13 +26934,12 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final int skipBytes(int i)`
-  int skipBytes(int i) {
-    return _skipBytes(
-      reference.pointer,
-      _id_skipBytes as jni$_.JMethodIDPtr,
-      i,
-    ).integer;
-  }
+  int skipBytes(int i) =>
+      _skipBytes(
+        reference.pointer,
+        _id_skipBytes as jni$_.JMethodIDPtr,
+        i,
+      ).integer;
 
   static final _id_readBoolean = _class.instanceMethodId(
     r'readBoolean',
@@ -27718,12 +26963,11 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final boolean readBoolean()`
-  bool readBoolean() {
-    return _readBoolean(
-      reference.pointer,
-      _id_readBoolean as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool readBoolean() =>
+      _readBoolean(
+        reference.pointer,
+        _id_readBoolean as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_readByte = _class.instanceMethodId(r'readByte', r'()B');
 
@@ -27744,12 +26988,8 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final byte readByte()`
-  int readByte() {
-    return _readByte(
-      reference.pointer,
-      _id_readByte as jni$_.JMethodIDPtr,
-    ).byte;
-  }
+  int readByte() =>
+      _readByte(reference.pointer, _id_readByte as jni$_.JMethodIDPtr).byte;
 
   static final _id_readUnsignedByte = _class.instanceMethodId(
     r'readUnsignedByte',
@@ -27773,12 +27013,11 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final int readUnsignedByte()`
-  int readUnsignedByte() {
-    return _readUnsignedByte(
-      reference.pointer,
-      _id_readUnsignedByte as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedByte() =>
+      _readUnsignedByte(
+        reference.pointer,
+        _id_readUnsignedByte as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readShort = _class.instanceMethodId(r'readShort', r'()S');
 
@@ -27799,12 +27038,8 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final short readShort()`
-  int readShort() {
-    return _readShort(
-      reference.pointer,
-      _id_readShort as jni$_.JMethodIDPtr,
-    ).short;
-  }
+  int readShort() =>
+      _readShort(reference.pointer, _id_readShort as jni$_.JMethodIDPtr).short;
 
   static final _id_readUnsignedShort = _class.instanceMethodId(
     r'readUnsignedShort',
@@ -27828,12 +27063,11 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final int readUnsignedShort()`
-  int readUnsignedShort() {
-    return _readUnsignedShort(
-      reference.pointer,
-      _id_readUnsignedShort as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readUnsignedShort() =>
+      _readUnsignedShort(
+        reference.pointer,
+        _id_readUnsignedShort as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_readChar = _class.instanceMethodId(r'readChar', r'()C');
 
@@ -27854,12 +27088,8 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final char readChar()`
-  int readChar() {
-    return _readChar(
-      reference.pointer,
-      _id_readChar as jni$_.JMethodIDPtr,
-    ).char;
-  }
+  int readChar() =>
+      _readChar(reference.pointer, _id_readChar as jni$_.JMethodIDPtr).char;
 
   static final _id_readInt = _class.instanceMethodId(r'readInt', r'()I');
 
@@ -27880,12 +27110,8 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final int readInt()`
-  int readInt() {
-    return _readInt(
-      reference.pointer,
-      _id_readInt as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int readInt() =>
+      _readInt(reference.pointer, _id_readInt as jni$_.JMethodIDPtr).integer;
 
   static final _id_readLong = _class.instanceMethodId(r'readLong', r'()J');
 
@@ -27906,12 +27132,8 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final long readLong()`
-  int readLong() {
-    return _readLong(
-      reference.pointer,
-      _id_readLong as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int readLong() =>
+      _readLong(reference.pointer, _id_readLong as jni$_.JMethodIDPtr).long;
 
   static final _id_readFloat = _class.instanceMethodId(r'readFloat', r'()F');
 
@@ -27932,12 +27154,8 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final float readFloat()`
-  double readFloat() {
-    return _readFloat(
-      reference.pointer,
-      _id_readFloat as jni$_.JMethodIDPtr,
-    ).float;
-  }
+  double readFloat() =>
+      _readFloat(reference.pointer, _id_readFloat as jni$_.JMethodIDPtr).float;
 
   static final _id_readDouble = _class.instanceMethodId(r'readDouble', r'()D');
 
@@ -27958,12 +27176,11 @@ class DataInputStream extends FilterInputStream {
           >();
 
   /// from: `public final double readDouble()`
-  double readDouble() {
-    return _readDouble(
-      reference.pointer,
-      _id_readDouble as jni$_.JMethodIDPtr,
-    ).doubleFloat;
-  }
+  double readDouble() =>
+      _readDouble(
+        reference.pointer,
+        _id_readDouble as jni$_.JMethodIDPtr,
+      ).doubleFloat;
 
   static final _id_readLine = _class.instanceMethodId(
     r'readLine',
@@ -27988,12 +27205,10 @@ class DataInputStream extends FilterInputStream {
 
   /// from: `public final java.lang.String readLine()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readLine() {
-    return _readLine(
-      reference.pointer,
-      _id_readLine as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readLine() => _readLine(
+    reference.pointer,
+    _id_readLine as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_readUTF = _class.instanceMethodId(
     r'readUTF',
@@ -28018,12 +27233,10 @@ class DataInputStream extends FilterInputStream {
 
   /// from: `public final java.lang.String readUTF()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? readUTF() {
-    return _readUTF(
-      reference.pointer,
-      _id_readUTF as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? readUTF() => _readUTF(
+    reference.pointer,
+    _id_readUTF as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_readUTF$1 = _class.staticMethodId(
     r'readUTF',
@@ -28089,10 +27302,9 @@ final class $DataInputStream$NullableType
   int get hashCode => ($DataInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataInputStream$NullableType) &&
-        other is $DataInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataInputStream$NullableType) &&
+      other is $DataInputStream$NullableType;
 }
 
 final class $DataInputStream$Type extends jni$_.JObjType<DataInputStream> {
@@ -28124,10 +27336,9 @@ final class $DataInputStream$Type extends jni$_.JObjType<DataInputStream> {
   int get hashCode => ($DataInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($DataInputStream$Type) &&
-        other is $DataInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($DataInputStream$Type) &&
+      other is $DataInputStream$Type;
 }
 
 /// from: `java.io.ObjectStreamClass`
@@ -28251,12 +27462,10 @@ class ObjectStreamClass extends jni$_.JObject {
 
   /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getName() {
-    return _getName(
-      reference.pointer,
-      _id_getName as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getName() => _getName(
+    reference.pointer,
+    _id_getName as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_getSerialVersionUID = _class.instanceMethodId(
     r'getSerialVersionUID',
@@ -28280,12 +27489,11 @@ class ObjectStreamClass extends jni$_.JObject {
           >();
 
   /// from: `public long getSerialVersionUID()`
-  int getSerialVersionUID() {
-    return _getSerialVersionUID(
-      reference.pointer,
-      _id_getSerialVersionUID as jni$_.JMethodIDPtr,
-    ).long;
-  }
+  int getSerialVersionUID() =>
+      _getSerialVersionUID(
+        reference.pointer,
+        _id_getSerialVersionUID as jni$_.JMethodIDPtr,
+      ).long;
 
   static final _id_forClass = _class.instanceMethodId(
     r'forClass',
@@ -28310,12 +27518,10 @@ class ObjectStreamClass extends jni$_.JObject {
 
   /// from: `public java.lang.Class<?> forClass()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? forClass() {
-    return _forClass(
-      reference.pointer,
-      _id_forClass as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? forClass() => _forClass(
+    reference.pointer,
+    _id_forClass as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 
   static final _id_getFields = _class.instanceMethodId(
     r'getFields',
@@ -28340,16 +27546,14 @@ class ObjectStreamClass extends jni$_.JObject {
 
   /// from: `public java.io.ObjectStreamField[] getFields()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<ObjectStreamField?>? getFields() {
-    return _getFields(
-      reference.pointer,
-      _id_getFields as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<ObjectStreamField?>?>(
-      const jni$_.JArrayNullableType<ObjectStreamField?>(
-        $ObjectStreamField$NullableType(),
-      ),
-    );
-  }
+  jni$_.JArray<ObjectStreamField?>? getFields() => _getFields(
+    reference.pointer,
+    _id_getFields as jni$_.JMethodIDPtr,
+  ).object<jni$_.JArray<ObjectStreamField?>?>(
+    const jni$_.JArrayNullableType<ObjectStreamField?>(
+      $ObjectStreamField$NullableType(),
+    ),
+  );
 
   static final _id_getField = _class.instanceMethodId(
     r'getField',
@@ -28408,12 +27612,10 @@ class ObjectStreamClass extends jni$_.JObject {
 
   /// from: `public java.lang.String toString()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? toString$1() {
-    return _toString$1(
-      reference.pointer,
-      _id_toString$1 as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? toString$1() => _toString$1(
+    reference.pointer,
+    _id_toString$1 as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 }
 
 final class $ObjectStreamClass$NullableType
@@ -28445,10 +27647,9 @@ final class $ObjectStreamClass$NullableType
   int get hashCode => ($ObjectStreamClass$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamClass$NullableType) &&
-        other is $ObjectStreamClass$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamClass$NullableType) &&
+      other is $ObjectStreamClass$NullableType;
 }
 
 final class $ObjectStreamClass$Type extends jni$_.JObjType<ObjectStreamClass> {
@@ -28480,10 +27681,9 @@ final class $ObjectStreamClass$Type extends jni$_.JObjType<ObjectStreamClass> {
   int get hashCode => ($ObjectStreamClass$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamClass$Type) &&
-        other is $ObjectStreamClass$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamClass$Type) &&
+      other is $ObjectStreamClass$Type;
 }
 
 /// from: `java.io.StringBufferInputStream`
@@ -28556,9 +27756,8 @@ class StringBufferInputStream extends InputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -28617,9 +27816,8 @@ class StringBufferInputStream extends InputStream {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_available = _class.instanceMethodId(r'available', r'()I');
 
@@ -28640,12 +27838,11 @@ class StringBufferInputStream extends InputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_reset = _class.instanceMethodId(r'reset', r'()V');
 
@@ -28702,10 +27899,9 @@ final class $StringBufferInputStream$NullableType
   int get hashCode => ($StringBufferInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StringBufferInputStream$NullableType) &&
-        other is $StringBufferInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StringBufferInputStream$NullableType) &&
+      other is $StringBufferInputStream$NullableType;
 }
 
 final class $StringBufferInputStream$Type
@@ -28738,10 +27934,9 @@ final class $StringBufferInputStream$Type
   int get hashCode => ($StringBufferInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($StringBufferInputStream$Type) &&
-        other is $StringBufferInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($StringBufferInputStream$Type) &&
+      other is $StringBufferInputStream$Type;
 }
 
 /// from: `java.io.InvalidClassException`
@@ -28874,12 +28069,10 @@ class InvalidClassException extends ObjectStreamException {
 
   /// from: `public java.lang.String getMessage()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getMessage() {
-    return _getMessage(
-      reference.pointer,
-      _id_getMessage as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getMessage() => _getMessage(
+    reference.pointer,
+    _id_getMessage as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 }
 
 final class $InvalidClassException$NullableType
@@ -28911,10 +28104,9 @@ final class $InvalidClassException$NullableType
   int get hashCode => ($InvalidClassException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InvalidClassException$NullableType) &&
-        other is $InvalidClassException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InvalidClassException$NullableType) &&
+      other is $InvalidClassException$NullableType;
 }
 
 final class $InvalidClassException$Type
@@ -28947,10 +28139,9 @@ final class $InvalidClassException$Type
   int get hashCode => ($InvalidClassException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InvalidClassException$Type) &&
-        other is $InvalidClassException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InvalidClassException$Type) &&
+      other is $InvalidClassException$Type;
 }
 
 /// from: `java.io.SerializablePermission`
@@ -29075,10 +28266,9 @@ final class $SerializablePermission$NullableType
   int get hashCode => ($SerializablePermission$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($SerializablePermission$NullableType) &&
-        other is $SerializablePermission$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($SerializablePermission$NullableType) &&
+      other is $SerializablePermission$NullableType;
 }
 
 final class $SerializablePermission$Type
@@ -29111,10 +28301,9 @@ final class $SerializablePermission$Type
   int get hashCode => ($SerializablePermission$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($SerializablePermission$Type) &&
-        other is $SerializablePermission$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($SerializablePermission$Type) &&
+      other is $SerializablePermission$Type;
 }
 
 /// from: `java.io.FilterInputStream`
@@ -29152,9 +28341,8 @@ class FilterInputStream extends InputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read1 = _class.instanceMethodId(r'read', r'([B)I');
 
@@ -29243,9 +28431,8 @@ class FilterInputStream extends InputStream {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_available = _class.instanceMethodId(r'available', r'()I');
 
@@ -29266,12 +28453,11 @@ class FilterInputStream extends InputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -29366,12 +28552,11 @@ class FilterInputStream extends InputStream {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 }
 
 final class $FilterInputStream$NullableType
@@ -29403,10 +28588,9 @@ final class $FilterInputStream$NullableType
   int get hashCode => ($FilterInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterInputStream$NullableType) &&
-        other is $FilterInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterInputStream$NullableType) &&
+      other is $FilterInputStream$NullableType;
 }
 
 final class $FilterInputStream$Type extends jni$_.JObjType<FilterInputStream> {
@@ -29438,10 +28622,9 @@ final class $FilterInputStream$Type extends jni$_.JObjType<FilterInputStream> {
   int get hashCode => ($FilterInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterInputStream$Type) &&
-        other is $FilterInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterInputStream$Type) &&
+      other is $FilterInputStream$Type;
 }
 
 /// from: `java.io.OutputStreamWriter`
@@ -29645,12 +28828,10 @@ class OutputStreamWriter extends Writer {
 
   /// from: `public java.lang.String getEncoding()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString? getEncoding() {
-    return _getEncoding(
-      reference.pointer,
-      _id_getEncoding as jni$_.JMethodIDPtr,
-    ).object<jni$_.JString?>(const jni$_.JStringNullableType());
-  }
+  jni$_.JString? getEncoding() => _getEncoding(
+    reference.pointer,
+    _id_getEncoding as jni$_.JMethodIDPtr,
+  ).object<jni$_.JString?>(const jni$_.JStringNullableType());
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -29902,10 +29083,9 @@ final class $OutputStreamWriter$NullableType
   int get hashCode => ($OutputStreamWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($OutputStreamWriter$NullableType) &&
-        other is $OutputStreamWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($OutputStreamWriter$NullableType) &&
+      other is $OutputStreamWriter$NullableType;
 }
 
 final class $OutputStreamWriter$Type
@@ -29938,10 +29118,9 @@ final class $OutputStreamWriter$Type
   int get hashCode => ($OutputStreamWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($OutputStreamWriter$Type) &&
-        other is $OutputStreamWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($OutputStreamWriter$Type) &&
+      other is $OutputStreamWriter$Type;
 }
 
 /// from: `java.io.NotActiveException`
@@ -30013,14 +29192,9 @@ class NotActiveException extends ObjectStreamException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory NotActiveException.new$5() {
-    return NotActiveException.fromReference(
-      _new$5(
-        _class.reference.pointer,
-        _id_new$5 as jni$_.JMethodIDPtr,
-      ).reference,
-    );
-  }
+  factory NotActiveException.new$5() => NotActiveException.fromReference(
+    _new$5(_class.reference.pointer, _id_new$5 as jni$_.JMethodIDPtr).reference,
+  );
 }
 
 final class $NotActiveException$NullableType
@@ -30052,10 +29226,9 @@ final class $NotActiveException$NullableType
   int get hashCode => ($NotActiveException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($NotActiveException$NullableType) &&
-        other is $NotActiveException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($NotActiveException$NullableType) &&
+      other is $NotActiveException$NullableType;
 }
 
 final class $NotActiveException$Type
@@ -30088,10 +29261,9 @@ final class $NotActiveException$Type
   int get hashCode => ($NotActiveException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($NotActiveException$Type) &&
-        other is $NotActiveException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($NotActiveException$Type) &&
+      other is $NotActiveException$Type;
 }
 
 /// from: `java.io.OutputStream`
@@ -30133,12 +29305,10 @@ class OutputStream extends jni$_.JObject {
 
   /// from: `static public java.io.OutputStream nullOutputStream()`
   /// The returned object must be released after use, by calling the [release] method.
-  static OutputStream? nullOutputStream() {
-    return _nullOutputStream(
-      _class.reference.pointer,
-      _id_nullOutputStream as jni$_.JMethodIDPtr,
-    ).object<OutputStream?>(const $OutputStream$NullableType());
-  }
+  static OutputStream? nullOutputStream() => _nullOutputStream(
+    _class.reference.pointer,
+    _id_nullOutputStream as jni$_.JMethodIDPtr,
+  ).object<OutputStream?>(const $OutputStream$NullableType());
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -30306,10 +29476,9 @@ final class $OutputStream$NullableType extends jni$_.JObjType<OutputStream?> {
   int get hashCode => ($OutputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($OutputStream$NullableType) &&
-        other is $OutputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($OutputStream$NullableType) &&
+      other is $OutputStream$NullableType;
 }
 
 final class $OutputStream$Type extends jni$_.JObjType<OutputStream> {
@@ -30341,10 +29510,8 @@ final class $OutputStream$Type extends jni$_.JObjType<OutputStream> {
   int get hashCode => ($OutputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($OutputStream$Type) &&
-        other is $OutputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($OutputStream$Type) && other is $OutputStream$Type;
 }
 
 /// from: `java.io.PrintStream`
@@ -30822,12 +29989,11 @@ class PrintStream extends FilterOutputStream {
           >();
 
   /// from: `public boolean checkError()`
-  bool checkError() {
-    return _checkError(
-      reference.pointer,
-      _id_checkError as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool checkError() =>
+      _checkError(
+        reference.pointer,
+        _id_checkError as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_write = _class.instanceMethodId(r'write', r'(I)V');
 
@@ -31779,13 +30945,11 @@ class PrintStream extends FilterOutputStream {
 
   /// from: `public java.io.PrintStream append(char c)`
   /// The returned object must be released after use, by calling the [release] method.
-  PrintStream? append$2(int c) {
-    return _append$2(
-      reference.pointer,
-      _id_append$2 as jni$_.JMethodIDPtr,
-      c,
-    ).object<PrintStream?>(const $PrintStream$NullableType());
-  }
+  PrintStream? append$2(int c) => _append$2(
+    reference.pointer,
+    _id_append$2 as jni$_.JMethodIDPtr,
+    c,
+  ).object<PrintStream?>(const $PrintStream$NullableType());
 }
 
 final class $PrintStream$NullableType extends jni$_.JObjType<PrintStream?> {
@@ -31816,10 +30980,9 @@ final class $PrintStream$NullableType extends jni$_.JObjType<PrintStream?> {
   int get hashCode => ($PrintStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PrintStream$NullableType) &&
-        other is $PrintStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PrintStream$NullableType) &&
+      other is $PrintStream$NullableType;
 }
 
 final class $PrintStream$Type extends jni$_.JObjType<PrintStream> {
@@ -31851,10 +31014,8 @@ final class $PrintStream$Type extends jni$_.JObjType<PrintStream> {
   int get hashCode => ($PrintStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($PrintStream$Type) &&
-        other is $PrintStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($PrintStream$Type) && other is $PrintStream$Type;
 }
 
 /// from: `java.io.SequenceInputStream`
@@ -31968,12 +31129,11 @@ class SequenceInputStream extends InputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_read = _class.instanceMethodId(r'read', r'()I');
 
@@ -31994,9 +31154,8 @@ class SequenceInputStream extends InputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read2 = _class.instanceMethodId(r'read', r'([BII)I');
 
@@ -32087,10 +31246,9 @@ final class $SequenceInputStream$NullableType
   int get hashCode => ($SequenceInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($SequenceInputStream$NullableType) &&
-        other is $SequenceInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($SequenceInputStream$NullableType) &&
+      other is $SequenceInputStream$NullableType;
 }
 
 final class $SequenceInputStream$Type
@@ -32123,10 +31281,9 @@ final class $SequenceInputStream$Type
   int get hashCode => ($SequenceInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($SequenceInputStream$Type) &&
-        other is $SequenceInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($SequenceInputStream$Type) &&
+      other is $SequenceInputStream$Type;
 }
 
 /// from: `java.io.FilterWriter`
@@ -32320,10 +31477,9 @@ final class $FilterWriter$NullableType extends jni$_.JObjType<FilterWriter?> {
   int get hashCode => ($FilterWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterWriter$NullableType) &&
-        other is $FilterWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterWriter$NullableType) &&
+      other is $FilterWriter$NullableType;
 }
 
 final class $FilterWriter$Type extends jni$_.JObjType<FilterWriter> {
@@ -32355,10 +31511,8 @@ final class $FilterWriter$Type extends jni$_.JObjType<FilterWriter> {
   int get hashCode => ($FilterWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FilterWriter$Type) &&
-        other is $FilterWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FilterWriter$Type) && other is $FilterWriter$Type;
 }
 
 /// from: `java.io.FileWriter`
@@ -32751,10 +31905,9 @@ final class $FileWriter$NullableType extends jni$_.JObjType<FileWriter?> {
   int get hashCode => ($FileWriter$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileWriter$NullableType) &&
-        other is $FileWriter$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileWriter$NullableType) &&
+      other is $FileWriter$NullableType;
 }
 
 final class $FileWriter$Type extends jni$_.JObjType<FileWriter> {
@@ -32786,9 +31939,8 @@ final class $FileWriter$Type extends jni$_.JObjType<FileWriter> {
   int get hashCode => ($FileWriter$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileWriter$Type) && other is $FileWriter$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileWriter$Type) && other is $FileWriter$Type;
 }
 
 /// from: `java.io.OptionalDataException`
@@ -32853,10 +32005,9 @@ final class $OptionalDataException$NullableType
   int get hashCode => ($OptionalDataException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($OptionalDataException$NullableType) &&
-        other is $OptionalDataException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($OptionalDataException$NullableType) &&
+      other is $OptionalDataException$NullableType;
 }
 
 final class $OptionalDataException$Type
@@ -32889,10 +32040,9 @@ final class $OptionalDataException$Type
   int get hashCode => ($OptionalDataException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($OptionalDataException$Type) &&
-        other is $OptionalDataException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($OptionalDataException$Type) &&
+      other is $OptionalDataException$Type;
 }
 
 /// from: `java.io.FileInputStream`
@@ -33029,9 +32179,8 @@ class FileInputStream extends InputStream {
           >();
 
   /// from: `public int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read1 = _class.instanceMethodId(r'read', r'([B)I');
 
@@ -33122,12 +32271,10 @@ class FileInputStream extends InputStream {
 
   /// from: `public byte[] readAllBytes()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? readAllBytes() {
-    return _readAllBytes(
-      reference.pointer,
-      _id_readAllBytes as jni$_.JMethodIDPtr,
-    ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
-  }
+  jni$_.JByteArray? readAllBytes() => _readAllBytes(
+    reference.pointer,
+    _id_readAllBytes as jni$_.JMethodIDPtr,
+  ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
 
   static final _id_readNBytes = _class.instanceMethodId(
     r'readNBytes',
@@ -33154,13 +32301,11 @@ class FileInputStream extends InputStream {
 
   /// from: `public byte[] readNBytes(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? readNBytes(int i) {
-    return _readNBytes(
-      reference.pointer,
-      _id_readNBytes as jni$_.JMethodIDPtr,
-      i,
-    ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
-  }
+  jni$_.JByteArray? readNBytes(int i) => _readNBytes(
+    reference.pointer,
+    _id_readNBytes as jni$_.JMethodIDPtr,
+    i,
+  ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
 
   static final _id_skip = _class.instanceMethodId(r'skip', r'(J)J');
 
@@ -33183,9 +32328,8 @@ class FileInputStream extends InputStream {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_available = _class.instanceMethodId(r'available', r'()I');
 
@@ -33206,12 +32350,11 @@ class FileInputStream extends InputStream {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -33259,12 +32402,10 @@ class FileInputStream extends InputStream {
 
   /// from: `public final java.io.FileDescriptor getFD()`
   /// The returned object must be released after use, by calling the [release] method.
-  FileDescriptor? getFD() {
-    return _getFD(
-      reference.pointer,
-      _id_getFD as jni$_.JMethodIDPtr,
-    ).object<FileDescriptor?>(const $FileDescriptor$NullableType());
-  }
+  FileDescriptor? getFD() => _getFD(
+    reference.pointer,
+    _id_getFD as jni$_.JMethodIDPtr,
+  ).object<FileDescriptor?>(const $FileDescriptor$NullableType());
 
   static final _id_getChannel = _class.instanceMethodId(
     r'getChannel',
@@ -33289,12 +32430,10 @@ class FileInputStream extends InputStream {
 
   /// from: `public java.nio.channels.FileChannel getChannel()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? getChannel() {
-    return _getChannel(
-      reference.pointer,
-      _id_getChannel as jni$_.JMethodIDPtr,
-    ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
-  }
+  jni$_.JObject? getChannel() => _getChannel(
+    reference.pointer,
+    _id_getChannel as jni$_.JMethodIDPtr,
+  ).object<jni$_.JObject?>(const jni$_.JObjectNullableType());
 }
 
 final class $FileInputStream$NullableType
@@ -33326,10 +32465,9 @@ final class $FileInputStream$NullableType
   int get hashCode => ($FileInputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileInputStream$NullableType) &&
-        other is $FileInputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileInputStream$NullableType) &&
+      other is $FileInputStream$NullableType;
 }
 
 final class $FileInputStream$Type extends jni$_.JObjType<FileInputStream> {
@@ -33361,10 +32499,9 @@ final class $FileInputStream$Type extends jni$_.JObjType<FileInputStream> {
   int get hashCode => ($FileInputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileInputStream$Type) &&
-        other is $FileInputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileInputStream$Type) &&
+      other is $FileInputStream$Type;
 }
 
 /// from: `java.io.NotSerializableException`
@@ -33438,14 +32575,13 @@ class NotSerializableException extends ObjectStreamException {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory NotSerializableException.new$5() {
-    return NotSerializableException.fromReference(
-      _new$5(
-        _class.reference.pointer,
-        _id_new$5 as jni$_.JMethodIDPtr,
-      ).reference,
-    );
-  }
+  factory NotSerializableException.new$5() =>
+      NotSerializableException.fromReference(
+        _new$5(
+          _class.reference.pointer,
+          _id_new$5 as jni$_.JMethodIDPtr,
+        ).reference,
+      );
 }
 
 final class $NotSerializableException$NullableType
@@ -33479,10 +32615,9 @@ final class $NotSerializableException$NullableType
   int get hashCode => ($NotSerializableException$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($NotSerializableException$NullableType) &&
-        other is $NotSerializableException$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($NotSerializableException$NullableType) &&
+      other is $NotSerializableException$NullableType;
 }
 
 final class $NotSerializableException$Type
@@ -33515,10 +32650,9 @@ final class $NotSerializableException$Type
   int get hashCode => ($NotSerializableException$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($NotSerializableException$Type) &&
-        other is $NotSerializableException$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($NotSerializableException$Type) &&
+      other is $NotSerializableException$Type;
 }
 
 /// from: `java.io.Closeable`
@@ -33566,12 +32700,10 @@ class Closeable extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -33638,9 +32770,7 @@ final class _$Closeable with $Closeable {
   final void Function() _close;
   final bool close$async;
 
-  void close() {
-    return _close();
-  }
+  void close() => _close();
 }
 
 final class $Closeable$NullableType extends jni$_.JObjType<Closeable?> {
@@ -33671,10 +32801,9 @@ final class $Closeable$NullableType extends jni$_.JObjType<Closeable?> {
   int get hashCode => ($Closeable$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Closeable$NullableType) &&
-        other is $Closeable$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Closeable$NullableType) &&
+      other is $Closeable$NullableType;
 }
 
 final class $Closeable$Type extends jni$_.JObjType<Closeable> {
@@ -33706,9 +32835,8 @@ final class $Closeable$Type extends jni$_.JObjType<Closeable> {
   int get hashCode => ($Closeable$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Closeable$Type) && other is $Closeable$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Closeable$Type) && other is $Closeable$Type;
 }
 
 /// from: `java.io.FileDescriptor`
@@ -33777,11 +32905,9 @@ class FileDescriptor extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory FileDescriptor() {
-    return FileDescriptor.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory FileDescriptor() => FileDescriptor.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_valid = _class.instanceMethodId(r'valid', r'()Z');
 
@@ -33802,9 +32928,8 @@ class FileDescriptor extends jni$_.JObject {
           >();
 
   /// from: `public boolean valid()`
-  bool valid() {
-    return _valid(reference.pointer, _id_valid as jni$_.JMethodIDPtr).boolean;
-  }
+  bool valid() =>
+      _valid(reference.pointer, _id_valid as jni$_.JMethodIDPtr).boolean;
 
   static final _id_sync = _class.instanceMethodId(r'sync', r'()V');
 
@@ -33859,10 +32984,9 @@ final class $FileDescriptor$NullableType
   int get hashCode => ($FileDescriptor$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileDescriptor$NullableType) &&
-        other is $FileDescriptor$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileDescriptor$NullableType) &&
+      other is $FileDescriptor$NullableType;
 }
 
 final class $FileDescriptor$Type extends jni$_.JObjType<FileDescriptor> {
@@ -33894,10 +33018,9 @@ final class $FileDescriptor$Type extends jni$_.JObjType<FileDescriptor> {
   int get hashCode => ($FileDescriptor$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileDescriptor$Type) &&
-        other is $FileDescriptor$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileDescriptor$Type) &&
+      other is $FileDescriptor$Type;
 }
 
 /// from: `java.io.ObjectInputFilter$Status`
@@ -33971,16 +33094,14 @@ class ObjectInputFilter$Status extends jni$_.JObject {
 
   /// from: `static public java.io.ObjectInputFilter$Status[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<ObjectInputFilter$Status?>? values() {
-    return _values(
-      _class.reference.pointer,
-      _id_values as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<ObjectInputFilter$Status?>?>(
-      const jni$_.JArrayNullableType<ObjectInputFilter$Status?>(
-        $ObjectInputFilter$Status$NullableType(),
-      ),
-    );
-  }
+  static jni$_.JArray<ObjectInputFilter$Status?>? values() => _values(
+    _class.reference.pointer,
+    _id_values as jni$_.JMethodIDPtr,
+  ).object<jni$_.JArray<ObjectInputFilter$Status?>?>(
+    const jni$_.JArrayNullableType<ObjectInputFilter$Status?>(
+      $ObjectInputFilter$Status$NullableType(),
+    ),
+  );
 
   static final _id_valueOf = _class.staticMethodId(
     r'valueOf',
@@ -34050,10 +33171,9 @@ final class $ObjectInputFilter$Status$NullableType
   int get hashCode => ($ObjectInputFilter$Status$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$Status$NullableType) &&
-        other is $ObjectInputFilter$Status$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$Status$NullableType) &&
+      other is $ObjectInputFilter$Status$NullableType;
 }
 
 final class $ObjectInputFilter$Status$Type
@@ -34086,10 +33206,9 @@ final class $ObjectInputFilter$Status$Type
   int get hashCode => ($ObjectInputFilter$Status$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectInputFilter$Status$Type) &&
-        other is $ObjectInputFilter$Status$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectInputFilter$Status$Type) &&
+      other is $ObjectInputFilter$Status$Type;
 }
 
 /// from: `java.io.FileReader`
@@ -34316,10 +33435,9 @@ final class $FileReader$NullableType extends jni$_.JObjType<FileReader?> {
   int get hashCode => ($FileReader$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileReader$NullableType) &&
-        other is $FileReader$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileReader$NullableType) &&
+      other is $FileReader$NullableType;
 }
 
 final class $FileReader$Type extends jni$_.JObjType<FileReader> {
@@ -34351,9 +33469,8 @@ final class $FileReader$Type extends jni$_.JObjType<FileReader> {
   int get hashCode => ($FileReader$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($FileReader$Type) && other is $FileReader$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($FileReader$Type) && other is $FileReader$Type;
 }
 
 /// from: `java.io.ObjectStreamConstants`
@@ -34498,12 +33615,10 @@ class ObjectStreamConstants extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -34589,10 +33704,9 @@ final class $ObjectStreamConstants$NullableType
   int get hashCode => ($ObjectStreamConstants$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamConstants$NullableType) &&
-        other is $ObjectStreamConstants$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamConstants$NullableType) &&
+      other is $ObjectStreamConstants$NullableType;
 }
 
 final class $ObjectStreamConstants$Type
@@ -34625,10 +33739,9 @@ final class $ObjectStreamConstants$Type
   int get hashCode => ($ObjectStreamConstants$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($ObjectStreamConstants$Type) &&
-        other is $ObjectStreamConstants$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($ObjectStreamConstants$Type) &&
+      other is $ObjectStreamConstants$Type;
 }
 
 /// from: `java.io.InputStream`
@@ -34670,12 +33783,10 @@ class InputStream extends jni$_.JObject {
 
   /// from: `static public java.io.InputStream nullInputStream()`
   /// The returned object must be released after use, by calling the [release] method.
-  static InputStream? nullInputStream() {
-    return _nullInputStream(
-      _class.reference.pointer,
-      _id_nullInputStream as jni$_.JMethodIDPtr,
-    ).object<InputStream?>(const $InputStream$NullableType());
-  }
+  static InputStream? nullInputStream() => _nullInputStream(
+    _class.reference.pointer,
+    _id_nullInputStream as jni$_.JMethodIDPtr,
+  ).object<InputStream?>(const $InputStream$NullableType());
 
   static final _id_read = _class.instanceMethodId(r'read', r'()I');
 
@@ -34696,9 +33807,8 @@ class InputStream extends jni$_.JObject {
           >();
 
   /// from: `public abstract int read()`
-  int read() {
-    return _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
-  }
+  int read() =>
+      _read(reference.pointer, _id_read as jni$_.JMethodIDPtr).integer;
 
   static final _id_read$1 = _class.instanceMethodId(r'read', r'([B)I');
 
@@ -34789,12 +33899,10 @@ class InputStream extends jni$_.JObject {
 
   /// from: `public byte[] readAllBytes()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? readAllBytes() {
-    return _readAllBytes(
-      reference.pointer,
-      _id_readAllBytes as jni$_.JMethodIDPtr,
-    ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
-  }
+  jni$_.JByteArray? readAllBytes() => _readAllBytes(
+    reference.pointer,
+    _id_readAllBytes as jni$_.JMethodIDPtr,
+  ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
 
   static final _id_readNBytes = _class.instanceMethodId(
     r'readNBytes',
@@ -34821,13 +33929,11 @@ class InputStream extends jni$_.JObject {
 
   /// from: `public byte[] readNBytes(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? readNBytes(int i) {
-    return _readNBytes(
-      reference.pointer,
-      _id_readNBytes as jni$_.JMethodIDPtr,
-      i,
-    ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
-  }
+  jni$_.JByteArray? readNBytes(int i) => _readNBytes(
+    reference.pointer,
+    _id_readNBytes as jni$_.JMethodIDPtr,
+    i,
+  ).object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
 
   static final _id_readNBytes$1 = _class.instanceMethodId(
     r'readNBytes',
@@ -34889,9 +33995,8 @@ class InputStream extends jni$_.JObject {
           >();
 
   /// from: `public long skip(long j)`
-  int skip(int j) {
-    return _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
-  }
+  int skip(int j) =>
+      _skip(reference.pointer, _id_skip as jni$_.JMethodIDPtr, j).long;
 
   static final _id_skipNBytes = _class.instanceMethodId(r'skipNBytes', r'(J)V');
 
@@ -34941,12 +34046,11 @@ class InputStream extends jni$_.JObject {
           >();
 
   /// from: `public int available()`
-  int available() {
-    return _available(
-      reference.pointer,
-      _id_available as jni$_.JMethodIDPtr,
-    ).integer;
-  }
+  int available() =>
+      _available(
+        reference.pointer,
+        _id_available as jni$_.JMethodIDPtr,
+      ).integer;
 
   static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
@@ -35041,12 +34145,11 @@ class InputStream extends jni$_.JObject {
           >();
 
   /// from: `public boolean markSupported()`
-  bool markSupported() {
-    return _markSupported(
-      reference.pointer,
-      _id_markSupported as jni$_.JMethodIDPtr,
-    ).boolean;
-  }
+  bool markSupported() =>
+      _markSupported(
+        reference.pointer,
+        _id_markSupported as jni$_.JMethodIDPtr,
+      ).boolean;
 
   static final _id_transferTo = _class.instanceMethodId(
     r'transferTo',
@@ -35110,10 +34213,9 @@ final class $InputStream$NullableType extends jni$_.JObjType<InputStream?> {
   int get hashCode => ($InputStream$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InputStream$NullableType) &&
-        other is $InputStream$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InputStream$NullableType) &&
+      other is $InputStream$NullableType;
 }
 
 final class $InputStream$Type extends jni$_.JObjType<InputStream> {
@@ -35145,10 +34247,8 @@ final class $InputStream$Type extends jni$_.JObjType<InputStream> {
   int get hashCode => ($InputStream$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($InputStream$Type) &&
-        other is $InputStream$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($InputStream$Type) && other is $InputStream$Type;
 }
 
 /// from: `com.Accumulator`
@@ -35196,11 +34296,9 @@ class Accumulator extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumulator() {
-    return Accumulator.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory Accumulator() => Accumulator.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_new$1 = _class.constructorId(r'(I)V');
 
@@ -35224,15 +34322,13 @@ class Accumulator extends jni$_.JObject {
 
   /// from: `public void <init>(int initialValue)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Accumulator.new$1(int initialValue) {
-    return Accumulator.fromReference(
-      _new$1(
-        _class.reference.pointer,
-        _id_new$1 as jni$_.JMethodIDPtr,
-        initialValue,
-      ).reference,
-    );
-  }
+  factory Accumulator.new$1(int initialValue) => Accumulator.fromReference(
+    _new$1(
+      _class.reference.pointer,
+      _id_new$1 as jni$_.JMethodIDPtr,
+      initialValue,
+    ).reference,
+  );
 
   static final _id_new$2 = _class.constructorId(r'(Lcom/Accumulator;)V');
 
@@ -35418,10 +34514,9 @@ final class $Accumulator$NullableType extends jni$_.JObjType<Accumulator?> {
   int get hashCode => ($Accumulator$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Accumulator$NullableType) &&
-        other is $Accumulator$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$NullableType) &&
+      other is $Accumulator$NullableType;
 }
 
 final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
@@ -35453,10 +34548,8 @@ final class $Accumulator$Type extends jni$_.JObjType<Accumulator> {
   int get hashCode => ($Accumulator$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Accumulator$Type) &&
-        other is $Accumulator$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Accumulator$Type) && other is $Accumulator$Type;
 }
 
 /// from: `com.Example`
@@ -35521,11 +34614,9 @@ class Example extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory Example() {
-    return Example.fromReference(
-      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
-    );
-  }
+  factory Example() => Example.fromReference(
+    _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+  );
 
   static final _id_greet = _class.instanceMethodId(
     r'greet',
@@ -35624,10 +34715,9 @@ final class $Example$NullableType extends jni$_.JObjType<Example?> {
   int get hashCode => ($Example$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example$NullableType) &&
-        other is $Example$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Example$NullableType) &&
+      other is $Example$NullableType;
 }
 
 final class $Example$Type extends jni$_.JObjType<Example> {
@@ -35658,9 +34748,8 @@ final class $Example$Type extends jni$_.JObjType<Example> {
   int get hashCode => ($Example$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example$Type) && other is $Example$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Example$Type) && other is $Example$Type;
 }
 
 /// from: `com.Example$Operation`
@@ -35722,16 +34811,14 @@ class Example$Operation extends jni$_.JObject {
 
   /// from: `static public com.Example$Operation[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<Example$Operation?>? values() {
-    return _values(
-      _class.reference.pointer,
-      _id_values as jni$_.JMethodIDPtr,
-    ).object<jni$_.JArray<Example$Operation?>?>(
-      const jni$_.JArrayNullableType<Example$Operation?>(
-        $Example$Operation$NullableType(),
-      ),
-    );
-  }
+  static jni$_.JArray<Example$Operation?>? values() => _values(
+    _class.reference.pointer,
+    _id_values as jni$_.JMethodIDPtr,
+  ).object<jni$_.JArray<Example$Operation?>?>(
+    const jni$_.JArrayNullableType<Example$Operation?>(
+      $Example$Operation$NullableType(),
+    ),
+  );
 
   static final _id_valueOf = _class.staticMethodId(
     r'valueOf',
@@ -35797,10 +34884,9 @@ final class $Example$Operation$NullableType
   int get hashCode => ($Example$Operation$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example$Operation$NullableType) &&
-        other is $Example$Operation$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Example$Operation$NullableType) &&
+      other is $Example$Operation$NullableType;
 }
 
 final class $Example$Operation$Type extends jni$_.JObjType<Example$Operation> {
@@ -35832,10 +34918,9 @@ final class $Example$Operation$Type extends jni$_.JObjType<Example$Operation> {
   int get hashCode => ($Example$Operation$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Example$Operation$Type) &&
-        other is $Example$Operation$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Example$Operation$Type) &&
+      other is $Example$Operation$Type;
 }
 
 /// from: `com.Runnable`
@@ -35873,9 +34958,7 @@ class Runnable extends jni$_.JObject {
           >();
 
   /// from: `public abstract int run()`
-  int run() {
-    return _run(reference.pointer, _id_run as jni$_.JMethodIDPtr).integer;
-  }
+  int run() => _run(reference.pointer, _id_run as jni$_.JMethodIDPtr).integer;
 
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $Runnable> _$impls = {};
@@ -35883,12 +34966,10 @@ class Runnable extends jni$_.JObject {
     int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
+  ) => _$invokeMethod(
+    port,
+    jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+  );
 
   static final jni$_.Pointer<
     jni$_.NativeFunction<
@@ -35949,9 +35030,7 @@ final class _$Runnable with $Runnable {
 
   final int Function() _run;
 
-  int run() {
-    return _run();
-  }
+  int run() => _run();
 }
 
 final class $Runnable$NullableType extends jni$_.JObjType<Runnable?> {
@@ -35982,10 +35061,9 @@ final class $Runnable$NullableType extends jni$_.JObjType<Runnable?> {
   int get hashCode => ($Runnable$NullableType).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Runnable$NullableType) &&
-        other is $Runnable$NullableType;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Runnable$NullableType) &&
+      other is $Runnable$NullableType;
 }
 
 final class $Runnable$Type extends jni$_.JObjType<Runnable> {
@@ -36016,7 +35094,6 @@ final class $Runnable$Type extends jni$_.JObjType<Runnable> {
   int get hashCode => ($Runnable$Type).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($Runnable$Type) && other is $Runnable$Type;
-  }
+  bool operator ==(Object other) =>
+      other.runtimeType == ($Runnable$Type) && other is $Runnable$Type;
 }

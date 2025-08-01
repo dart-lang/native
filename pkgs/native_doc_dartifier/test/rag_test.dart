@@ -156,7 +156,7 @@ Boolean useEnums() {
     expect(ragSummary.contains('class Example'), isTrue);
 
     print('Query Results:');
-    for (var i = 0; i < documents[0]!.length; i++) {
+    for (var i = 0; i < documents[0].length; i++) {
       print(documents[0][i]!.split('\n')[0]);
     }
 
