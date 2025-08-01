@@ -34,10 +34,10 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
   List<InitializerDeclaration> initializers;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   ProtocolDeclaration({
     required this.id,

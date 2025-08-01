@@ -46,7 +46,7 @@ ClassDeclaration transformCompound(
   transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
       .map((nested) => transformDeclaration(
               nested, compoundNamer, transformationMap, nested: true)
-          as NestableDeclaration)
+          as InnerNestableDeclaration)
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
   transformedCompound.nestedDeclarations
