@@ -17,16 +17,7 @@ env:
   GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
 jobs:
-  run-chromadb-container:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Pull chromadb container
-        run: docker pull chromadb/chroma:0.5.16
-      - name: Run chromadb container
-        run: docker run -d --name chromadb-instance -p 8000:8000 chromadb/chroma:0.5.16
-
   analyze_and_test:
-    needs: run-chromadb-container
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,6 +27,11 @@ jobs:
       matrix:
         sdk: [stable]
     steps:
+      - name: Pull chromadb container
+        run: docker pull chromadb/chroma:0.5.16
+      - name: Run chromadb container
+        run: docker run -d --name chromadb-instance -p 8000:8000 chromadb/chroma:0.5.16
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
