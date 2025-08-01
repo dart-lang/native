@@ -21,6 +21,36 @@ Boolean overloadedMethods() {
   },
   {
     'code': '''
+Boolean innerClassCall() {
+    DoublingAccumulator acc1 = new DoublingAccumulator();
+    acc1.add(10);
+    acc1.add(10, 10);
+    acc1.add(10, 10, 10);
+
+    return acc1.accumulator == 120;
+}''',
+    'fileName': 'inner_class.dart',
+  },
+  {
+    'code': '''
+Boolean backAndForthStrings(){
+    String name = "World";
+    Example example = new Example();
+    String greeting = example.greet(name);
+    System.out.println(greeting);
+    return greeting == "Hello World";
+}''',
+    'fileName': 'strings.dart',
+  },
+  {
+    'code': '''
+Boolean identifiersSpecialCases(){
+    return Example.has\$dollar\$sign() + Example._startsWithUnderscore() == 3;
+}''',
+    'fileName': 'identifiers.dart',
+  },
+  {
+    'code': '''
 Boolean useEnums() {
     Example example = new Example();
     Boolean isTrueUsage = example.enumValueToString(Operation.ADD) == "Addition";
