@@ -74,12 +74,12 @@ void generateDartSnippets() async {
 
 void main() {
   try {
-    print('Generating bindings...');
-    generateBindings();
+    // print('Generating bindings...');
+    // generateBindings();
     print('Compiling Java package...');
     compileJavaPackage();
-    print('Generating Dart snippets...');
-    generateDartSnippets();
+    // print('Generating Dart snippets...');
+    // generateDartSnippets();
   } catch (e) {
     throw Exception('An error occurred: $e');
   }
