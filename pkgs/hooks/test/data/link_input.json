@@ -13,6 +13,22 @@
       "type": "hooks/metadata"
     }
   ],
+  "assets_from_linking": [
+    {
+      "encoding": {
+        "key": "foo",
+        "value": "bar"
+      },
+      "type": "hooks/metadata"
+    },
+    {
+      "encoding": {
+        "key": "foo2",
+        "value": "bar2"
+      },
+      "type": "hooks/metadata"
+    }
+  ],
   "config": {
     "build_asset_types": [
       "some_asset_type",

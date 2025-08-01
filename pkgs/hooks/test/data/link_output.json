@@ -10,6 +10,23 @@
       "type": "some_other_asset_type"
     }
   ],
+  "assets_for_linking": {
+    "package_with_linker": [
+      {
+        "encoding": {
+          "a_key": "some_value"
+        },
+        "type": "some_asset_type"
+      },
+      {
+        "encoding": {
+          "key": "foo",
+          "value": "bar"
+        },
+        "type": "hooks/metadata"
+      }
+    ]
+  },
   "dependencies": [
     "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_2.json",
     "/private/var/folders/2y/mngq9h194yzglt4kzttzfq6800klzg/T/0s5bKi/simple_link/assets/data_3.json"

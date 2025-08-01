@@ -185,11 +185,19 @@ final class LinkOutputCodeAssetBuilder {
 
   LinkOutputCodeAssetBuilder._(this._output);
 
-  /// Adds the given [asset] to the link hook output.
-  void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
+  /// Adds the given [asset] to the hook output with [routing].
+  void add(CodeAsset asset, {LinkAssetRouting routing = const ToAppBundle()}) =>
+      _output.addEncodedAsset(asset.encode(), routing: routing);
 
-  /// Adds the given [assets] to the link hook output.
-  void addAll(Iterable<CodeAsset> assets) => assets.forEach(add);
+  /// Adds the given [assets] to the hook output with [routing].
+  void addAll(
+    Iterable<CodeAsset> assets, {
+    LinkAssetRouting routing = const ToAppBundle(),
+  }) {
+    for (final asset in assets) {
+      add(asset, routing: routing);
+    }
+  }
 }
 
 /// Extension to initialize code specific configuration on link/build inputs.
