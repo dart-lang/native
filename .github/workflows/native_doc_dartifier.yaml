@@ -26,6 +26,7 @@ jobs:
         run: docker run -d --name chromadb-instance -p 8000:8000 chromadb/chroma:0.5.16
 
   analyze_and_test:
+    needs: run-chromadb-container
     runs-on: ubuntu-latest
     defaults:
       run:
