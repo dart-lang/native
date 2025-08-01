@@ -1,4 +1,4 @@
-## 0.20.0-wip
+## 0.20.0
 
 * **Breaking change**  Rename `EncodedAsset.jsonPath` to
   `EncodedAsset.encodingJsonPath`. This field only governs the `EncodedAsset.encoding` field, not the whole object.

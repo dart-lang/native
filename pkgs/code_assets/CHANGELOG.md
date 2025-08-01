@@ -1,4 +1,4 @@
-## 0.19.4-wip
+## 0.19.4
 
 - Bump `package:hooks` to 0.20.0.
 
