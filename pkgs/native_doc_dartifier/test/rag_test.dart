@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'dart:io';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:chromadb/chromadb.dart';
@@ -83,7 +84,7 @@ Future<void> main() async {
     );
 
     batchEmbededContent.add(batchResponse);
-    await Future.delayed(const Duration(minutes: 1));
+    await Future<void>.delayed(const Duration(minutes: 1));
   }
 
   final embeddings = <List<double>>[];
@@ -133,10 +134,8 @@ Boolean overloadedMethods() {
       print(documents[0][i]!.split('\n')[0]);
     }
 
-    print(
-      'Number of Tokens in the RAG Summary: '
-      '${await geminiModel.countTokens([Content.text(ragSummary)])}',
-    );
+    final tokens = await geminiModel.countTokens([Content.text(ragSummary)]);
+    print('Number of Tokens in the RAG Summary: ${tokens.totalTokens}');
   });
 
   test('Snippet that uses Example only', () async {
@@ -160,10 +159,8 @@ Boolean useEnums() {
       print(documents[0][i]!.split('\n')[0]);
     }
 
-    print(
-      'Number of Tokens in the RAG Summary: '
-      '${await geminiModel.countTokens([Content.text(ragSummary)])}',
-    );
+    final tokens = await geminiModel.countTokens([Content.text(ragSummary)]);
+    print('Number of Tokens in the RAG Summary: ${tokens.totalTokens}');
   });
 
   test('Snippet that uses both FileReader and BufferReader', () async {
@@ -196,10 +193,7 @@ public class ReadFile {
     for (var i = 0; i < documents[0].length; i++) {
       print(documents[0][i]!.split('\n')[0]);
     }
-
-    print(
-      'Number of Tokens in the RAG Summary: '
-      '${await geminiModel.countTokens([Content.text(ragSummary)])}',
-    );
+    final tokens = await geminiModel.countTokens([Content.text(ragSummary)]);
+    print('Number of Tokens in the RAG Summary: ${tokens.totalTokens}');
   });
 }
