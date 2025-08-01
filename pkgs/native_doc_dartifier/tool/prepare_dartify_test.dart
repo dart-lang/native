@@ -3,26 +3,26 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
-import 'package:native_doc_dartifier/src/dartify_code.dart';
-import '../test/dartify_simple_cases/java_snippets.dart';
+// import 'package:native_doc_dartifier/src/dartify_code.dart';
+// import '../test/dartify_simple_cases/java_snippets.dart';
 
 const workingDir = 'test/dartify_simple_cases';
 const javaPath = '$workingDir/java';
 const compileDirName = 'compiled';
-const dartifiedSnippetsDir = 'dartified_snippets';
-const bindingsPath = '$workingDir/bindings.dart';
+// const dartifiedSnippetsDir = 'dartified_snippets';
+// const bindingsPath = '$workingDir/bindings.dart';
 
-void generateBindings() {
-  final runJnigen = Process.runSync('dart', [
-    'run',
-    'jnigen',
-    '--config',
-    'jnigen.yaml',
-  ], workingDirectory: workingDir);
-  if (runJnigen.exitCode != 0) {
-    throw Exception('Failed to run jnigen: ${runJnigen.stderr}');
-  }
-}
+// void generateBindings() {
+//   final runJnigen = Process.runSync('dart', [
+//     'run',
+//     'jnigen',
+//     '--config',
+//     'jnigen.yaml',
+//   ], workingDirectory: workingDir);
+//   if (runJnigen.exitCode != 0) {
+//     throw Exception('Failed to run jnigen: ${runJnigen.stderr}');
+//   }
+// }
 
 void compileJavaPackage() {
   final directory = Directory(workingDir);
@@ -56,21 +56,21 @@ void compileJavaPackage() {
   }
 }
 
-void generateDartSnippets() async {
-  for (final snippet in snippets) {
-    final sourceCode = snippet['code'] as String;
-    final dartCode = await dartifyNativeCode(
-      sourceCode,
-      File(bindingsPath).absolute.path,
-    );
-    final fileName = snippet['fileName'];
-    final outputFile = File('$workingDir/$dartifiedSnippetsDir/$fileName');
-    if (!outputFile.parent.existsSync()) {
-      outputFile.parent.createSync(recursive: true);
-    }
-    outputFile.writeAsStringSync('import \'../bindings.dart\';\n\n$dartCode');
-  }
-}
+// void generateDartSnippets() async {
+//   for (final snippet in snippets) {
+//     final sourceCode = snippet['code'] as String;
+//     final dartCode = await dartifyNativeCode(
+//       sourceCode,
+//       File(bindingsPath).absolute.path,
+//     );
+//     final fileName = snippet['fileName'];
+//     final outputFile = File('$workingDir/$dartifiedSnippetsDir/$fileName');
+//     if (!outputFile.parent.existsSync()) {
+//       outputFile.parent.createSync(recursive: true);
+//     }
+//     outputFile.writeAsStringSync('import \'../bindings.dart\';\n\n$dartCode');
+//   }
+// }
 
 void main() {
   try {
