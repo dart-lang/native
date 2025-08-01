@@ -11,6 +11,7 @@ environment:
 dependencies:
   # path: ^1.8.0
   analyzer: ^7.4.5
+  chromadb: ^0.2.1
   google_generative_ai: ^0.4.7
   jni: ^0.14.2
 
