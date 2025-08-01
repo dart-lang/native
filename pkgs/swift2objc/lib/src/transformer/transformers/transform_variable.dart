@@ -1,5 +1,6 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/variable_declaration.dart';
+import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';

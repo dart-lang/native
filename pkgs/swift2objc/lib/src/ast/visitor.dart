@@ -4,24 +4,25 @@
 
 import 'package:logging/logging.dart';
 
-import '../ast/_core/interfaces/compound_declaration.dart';
-import '../ast/_core/interfaces/declaration.dart';
-import '../ast/_core/interfaces/enum_declaration.dart';
-import '../ast/_core/interfaces/function_declaration.dart';
-import '../ast/_core/interfaces/variable_declaration.dart';
-import '../ast/_core/shared/referred_type.dart';
-import '../ast/ast_node.dart';
-import '../ast/declarations/built_in/built_in_declaration.dart';
-import '../ast/declarations/compounds/class_declaration.dart';
-import '../ast/declarations/compounds/members/initializer_declaration.dart';
-import '../ast/declarations/compounds/members/method_declaration.dart';
-import '../ast/declarations/compounds/members/property_declaration.dart';
-import '../ast/declarations/compounds/protocol_declaration.dart';
-import '../ast/declarations/compounds/struct_declaration.dart';
-import '../ast/declarations/enums/associated_value_enum_declaration.dart';
-import '../ast/declarations/enums/normal_enum_declaration.dart';
-import '../ast/declarations/enums/raw_value_enum_declaration.dart';
-import '../ast/declarations/globals/globals.dart';
+import '_core/interfaces/compound_declaration.dart';
+import '_core/interfaces/declaration.dart';
+import '_core/interfaces/enum_declaration.dart';
+import '_core/interfaces/function_declaration.dart';
+import '_core/interfaces/variable_declaration.dart';
+import '_core/shared/referred_type.dart';
+import 'ast_node.dart';
+import 'declarations/built_in/built_in_declaration.dart';
+import 'declarations/compounds/class_declaration.dart';
+import 'declarations/compounds/members/initializer_declaration.dart';
+import 'declarations/compounds/members/method_declaration.dart';
+import 'declarations/compounds/members/property_declaration.dart';
+import 'declarations/compounds/protocol_declaration.dart';
+import 'declarations/compounds/struct_declaration.dart';
+import 'declarations/enums/associated_value_enum_declaration.dart';
+import 'declarations/enums/normal_enum_declaration.dart';
+import 'declarations/enums/raw_value_enum_declaration.dart';
+import 'declarations/globals/globals.dart';
+import 'declarations/typealias_declaration.dart';
 
 final _logger = Logger('swift2objc.visitor');
 
@@ -114,6 +115,8 @@ abstract class Visitation {
       visitEnumDeclaration(node);
   void visitRawValueEnumDeclaration<T>(RawValueEnumDeclaration<T> node) =>
       visitEnumDeclaration(node);
+  void visitTypealiasDeclaration(TypealiasDeclaration node) =>
+      visitDeclaration(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node.visitChildren(visitor);

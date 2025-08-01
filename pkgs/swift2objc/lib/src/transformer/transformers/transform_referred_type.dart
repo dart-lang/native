@@ -4,6 +4,7 @@
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/typealias_declaration.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 
@@ -20,8 +21,12 @@ ReferredType transformReferredType(
   if (type is GenericType) {
     throw UnimplementedError('Generic types are not supported yet');
   } else if (type is DeclaredType) {
+    final decl = type.declaration;
+    if (decl is TypealiasDeclaration) {
+      return transformReferredType(decl.target, globalNamer, transformationMap);
+    }
     return transformDeclaration(
-      type.declaration,
+      decl,
       globalNamer,
       transformationMap,
     ).asDeclaredType;

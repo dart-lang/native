@@ -10,6 +10,7 @@ import '../_core/utils.dart';
 import 'declaration_parsers/parse_compound_declaration.dart';
 import 'declaration_parsers/parse_function_declaration.dart';
 import 'declaration_parsers/parse_initializer_declaration.dart';
+import 'declaration_parsers/parse_typealias_declaration.dart';
 import 'declaration_parsers/parse_variable_declaration.dart';
 
 List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
@@ -56,6 +57,7 @@ Declaration parseDeclaration(
     'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
     'swift.func' => parseGlobalFunctionDeclaration(symbolJson, symbolgraph),
     'swift.var' => parseGlobalVariableDeclaration(symbolJson, symbolgraph),
+    'swift.typealias' => parseTypealiasDeclaration(symbolJson, symbolgraph),
     _ => throw Exception(
         'Symbol of type $symbolType is not implemented yet.',
       ),
