@@ -9,7 +9,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public func method1(x: Foo) -> Foo {
+  @objc public func method1(x: Foo) -> FooFoo {
     return wrappedInstance.method1(x: x)
   }
 
