@@ -259,6 +259,7 @@ class Writer {
         ..writeln("@$ffiLibraryPrefix.DefaultAsset('$nativeAssetId')")
         ..writeln('library;\n');
     }
+    result.writeln("import 'dart:isolate';");
 
     /// Write [lookUpBindings].
     if (lookUpBindings.isNotEmpty) {

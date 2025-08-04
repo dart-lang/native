@@ -150,8 +150,11 @@ class ObjCBlock extends BindingType {
     final listenerTrampoline = w.topLevelUniqueNamer.makeUnique(
       '_${name}_listenerTrampoline',
     );
-    final listenerCallable = w.topLevelUniqueNamer.makeUnique(
-      '_${name}_listenerCallable',
+    final listenerPort = w.topLevelUniqueNamer.makeUnique(
+      '_${name}_listenerPort',
+    );
+    final listenerSendPort = w.topLevelUniqueNamer.makeUnique(
+      '_${name}_listenerSendPort',
     );
     final blockingTrampoline = w.topLevelUniqueNamer.makeUnique(
       '_${name}_blockingTrampoline',
@@ -210,19 +213,21 @@ $voidPtrCType $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
       s.write('''
 $returnFfiDartType $sharedTrampoline(
     $blockCType block, ${func.paramsFfiDartType}) {
-  block.ref.trampoline.cast<${func.trampNatFnCType}>()
-      .asFunction<${func.trampFfiDartType}>()(${retains.join(', ')});
+  final msg = (${retains.join(', ')});
+  $listenerSendPort.send(msg);
 }
 ${func.trampNatCallType} $sharedCallable =
     ${func.trampNatCallType}.isolateGroupShared(
         $sharedTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-$returnFfiDartType $listenerTrampoline(
-    $blockCType block, ${func.paramsFfiDartType}) {
+$returnFfiDartType $listenerTrampoline(dynamic msg) {
+  final ${params.isEmpty ? '$blockCType block' : '($blockCType block, ${func.paramsFfiDartType})'} = msg;
   ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
   $releaseFn(block.cast());
 }
-${func.trampNatCallType} $listenerCallable = ${func.trampNatCallType}.listener(
-    $listenerTrampoline $exceptionalReturn)..keepIsolateAlive = false;
+final $listenerPort = RawReceivePort(
+    $listenerTrampoline)..keepIsolateAlive = false;
+@pragma('vm:shared')
+final $listenerSendPort = $listenerPort.sendPort;
 $returnFfiDartType $blockingTrampoline(
     $blockCType block, ${blockingFunc.paramsFfiDartType}) {
   try {
@@ -332,8 +337,8 @@ abstract final class $name {
   static $blockType listener(${func.dartType} fn,
           {bool keepIsolateAlive = true}) {
     final tramp = $newClosureBlock($sharedCallable.nativeFunction.cast(),
-        $listenerConvFn, keepIsolateAlive,
-        trampoline: $listenerCallable.nativeFunction.cast());
+        $listenerConvFn, keepIsolateAlive);
+    print('listener send port: ' + $listenerSendPort.toString());
     return $blockType(tramp, retain: true, release: true);
   }
 

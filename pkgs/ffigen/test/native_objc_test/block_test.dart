@@ -115,6 +115,7 @@ void main() {
 
       await hasRun.future;
       expect(value, 123);
+      print('test done: $value');
     });
 
     /*test('Listener block new thread', () async {
