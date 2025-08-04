@@ -1,4 +1,4 @@
-## 0.22.0-wip
+## 0.22.0
 
 * Bump `package:hooks` to 0.20.0.
 * Enable passing metadata from link hooks of a package to the link hooks in 
