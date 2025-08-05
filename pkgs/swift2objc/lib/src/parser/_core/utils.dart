@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../../ast/_core/interfaces/availability.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
@@ -75,6 +76,11 @@ bool parseSymbolHasObjcAnnotation(Json symbolJson) {
 bool parseIsOverriding(Json symbolJson) {
   return symbolJson['declarationFragments']
       .any((json) => matchFragment(json, 'keyword', 'override'));
+}
+
+List<AvailabilityInfo> parseAvailability(Json symbolJson) {
+  // TODO
+  return [];
 }
 
 final class ObsoleteException implements Exception {

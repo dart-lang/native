@@ -21,6 +21,7 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   return GlobalFunctionDeclaration(
     id: parseSymbolId(globalFunctionSymbolJson),
     name: parseSymbolName(globalFunctionSymbolJson),
+    availability: parseAvailability(globalFunctionSymbolJson),
     returnType: _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
     params: info.params,
     throws: info.throws,
@@ -38,6 +39,7 @@ MethodDeclaration parseMethodDeclaration(
   return MethodDeclaration(
       id: parseSymbolId(methodSymbolJson),
       name: parseSymbolName(methodSymbolJson),
+      availability: parseAvailability(methodSymbolJson),
       returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
       params: info.params,
       hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
