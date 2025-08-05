@@ -19,6 +19,7 @@ PropertyDeclaration parsePropertyDeclaration(
   return PropertyDeclaration(
     id: parseSymbolId(propertySymbolJson),
     name: parseSymbolName(propertySymbolJson),
+    availability: parseAvailability(propertySymbolJson),
     type: _parseVariableType(propertySymbolJson, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(propertySymbolJson),
     isConstant: info.constant,
@@ -41,6 +42,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
   return GlobalVariableDeclaration(
     id: parseSymbolId(variableSymbolJson),
     name: parseSymbolName(variableSymbolJson),
+    availability: parseAvailability(variableSymbolJson),
     type: _parseVariableType(variableSymbolJson, symbolgraph),
     isConstant: info.constant || !info.setter,
     throws: info.throws,

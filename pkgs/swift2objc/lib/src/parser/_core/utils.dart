@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../../ast/_core/interfaces/availability.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
@@ -61,21 +62,38 @@ String parseSymbolId(Json symbolJson) {
   return id;
 }
 
-String parseSymbolName(Json symbolJson) {
-  return symbolJson['declarationFragments']
-      .firstJsonWhereKey('kind', 'identifier')['spelling']
-      .get();
+String parseSymbolName(Json symbolJson) => symbolJson['declarationFragments']
+    .firstJsonWhereKey('kind', 'identifier')['spelling']
+    .get();
+
+bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
+    symbolJson['declarationFragments']
+        .any((json) => matchFragment(json, 'attribute', '@objc'));
+
+bool parseIsOverriding(Json symbolJson) => symbolJson['declarationFragments']
+    .any((json) => matchFragment(json, 'keyword', 'override'));
+
+List<AvailabilityInfo> parseAvailability(Json symbolJson) {
+  final availability = symbolJson['availability'];
+  if (!availability.exists) return const [];
+  return availability.map(_parseAvailabilityInfo).toList();
 }
 
-bool parseSymbolHasObjcAnnotation(Json symbolJson) {
-  return symbolJson['declarationFragments']
-      .any((json) => matchFragment(json, 'attribute', '@objc'));
-}
+AvailabilityInfo _parseAvailabilityInfo(Json json) => AvailabilityInfo(
+      domain: json['domain'].get(),
+      unavailable: json['isUnconditionallyUnavailable'].get<bool?>() ?? false,
+      introduced: _parseAvailabilityVersion(json['introduced']),
+      deprecated: _parseAvailabilityVersion(json['deprecated']),
+      obsoleted: _parseAvailabilityVersion(json['obsoleted']),
+    );
 
-bool parseIsOverriding(Json symbolJson) {
-  return symbolJson['declarationFragments']
-      .any((json) => matchFragment(json, 'keyword', 'override'));
-}
+AvailabilityVersion? _parseAvailabilityVersion(Json json) => !json.exists
+    ? null
+    : AvailabilityVersion(
+        major: json['major'].get(),
+        minor: json['minor'].get(),
+        patch: json['patch'].get(),
+      );
 
 final class ObsoleteException implements Exception {
   final String symbol;

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../ast/_core/interfaces/availability.dart';
 import '../../../ast/_core/interfaces/compound_declaration.dart';
 import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
@@ -16,6 +17,7 @@ import '../parse_declarations.dart';
 typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
   required String id,
   required String name,
+  required List<AvailabilityInfo> availability,
   required List<PropertyDeclaration> properties,
   required List<MethodDeclaration> methods,
   required List<InitializerDeclaration> initializers,
@@ -34,6 +36,7 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
   final compound = tearoffConstructor(
     id: compoundId,
     name: parseSymbolName(compoundSymbol.json),
+    availability: parseAvailability(compoundSymbol.json),
     methods: [],
     properties: [],
     initializers: [],

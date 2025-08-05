@@ -28,12 +28,14 @@ ClassDeclaration transformCompound(
   final wrappedCompoundInstance = PropertyDeclaration(
     id: originalCompound.id.addIdSuffix('wrappedInstance'),
     name: compoundNamer.makeUnique('wrappedInstance'),
+    availability: const [],
     type: originalCompound.asDeclaredType,
   );
 
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
+    availability: originalCompound.availability,
     hasObjCAnnotation: true,
     superClass: objectType,
     isWrapper: true,
