@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/parameterizable.dart';
@@ -18,6 +19,9 @@ class AssociatedValueEnumDeclaration extends AstNode
 
   @override
   String name;
+
+  @override
+  List<AvailabilityInfo> availability;
 
   @override
   covariant List<AssociatedValueEnumCase> cases;
@@ -37,6 +41,7 @@ class AssociatedValueEnumDeclaration extends AstNode
   AssociatedValueEnumDeclaration({
     required this.id,
     required this.name,
+    required this.availability,
     required this.cases,
     required this.typeParams,
     required this.conformedProtocols,
@@ -69,11 +74,15 @@ class AssociatedValueEnumCase extends AstNode
   String name;
 
   @override
+  List<AvailabilityInfo> availability;
+
+  @override
   covariant List<AssociatedValueParam> params;
 
   AssociatedValueEnumCase({
     required this.id,
     required this.name,
+    required this.availability,
     required this.params,
   });
 

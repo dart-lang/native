@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/can_async.dart';
 import '../../../_core/interfaces/can_throw.dart';
 import '../../../_core/interfaces/declaration.dart';
@@ -27,6 +28,9 @@ class InitializerDeclaration extends AstNode
 
   @override
   String get name => 'init';
+
+  @override
+  List<AvailabilityInfo> availability;
 
   @override
   bool hasObjCAnnotation;
@@ -55,6 +59,7 @@ class InitializerDeclaration extends AstNode
 
   InitializerDeclaration({
     required this.id,
+    required this.availability,
     required this.params,
     this.statements = const [],
     required this.hasObjCAnnotation,
