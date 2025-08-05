@@ -103,6 +103,7 @@ InitializerDeclaration buildWrapperInitializer(
 ) {
   return InitializerDeclaration(
     id: '',
+    availability: const [],
     params: [
       Parameter(
         name: '_',

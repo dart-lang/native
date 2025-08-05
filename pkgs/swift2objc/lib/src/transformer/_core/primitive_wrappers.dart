@@ -21,14 +21,17 @@ final _primitiveWrappers = List<(ReferredType, ReferredType)>.unmodifiable([
 ]);
 
 ReferredType _createWrapperClass(DeclaredType primitiveType) {
+  final availability = primitiveType.declaration.availability;
   final property = PropertyDeclaration(
     id: primitiveType.id.addIdSuffix('wrappedInstance'),
     name: 'wrappedInstance',
+    availability: availability,
     type: primitiveType,
   );
   return ClassDeclaration(
           id: primitiveType.id.addIdSuffix('wrapper'),
           name: '${primitiveType.name}Wrapper',
+          availability: availability,
           hasObjCAnnotation: true,
           superClass: objectType,
           isWrapper: true,

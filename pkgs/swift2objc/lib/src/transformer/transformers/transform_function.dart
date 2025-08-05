@@ -94,6 +94,7 @@ MethodDeclaration _transformFunction(
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
     name: wrapperMethodName,
+    availability: originalFunction.availability,
     returnType: type,
     params: transformedParams,
     hasObjCAnnotation: true,
