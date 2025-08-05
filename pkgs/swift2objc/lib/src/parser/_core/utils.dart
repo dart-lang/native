@@ -73,8 +73,11 @@ bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
 bool parseIsOverriding(Json symbolJson) => symbolJson['declarationFragments']
     .any((json) => matchFragment(json, 'keyword', 'override'));
 
-List<AvailabilityInfo> parseAvailability(Json symbolJson) =>
-    symbolJson['availability'].map(_parseAvailabilityInfo).toList();
+List<AvailabilityInfo> parseAvailability(Json symbolJson) {
+  final availability = symbolJson['availability'];
+  if (!availability.exists) return const [];
+  return availability.map(_parseAvailabilityInfo).toList();
+}
 
 AvailabilityInfo _parseAvailabilityInfo(Json json) => AvailabilityInfo(
       domain: json['domain'].get(),
