@@ -18,16 +18,21 @@ class AvailabilityInfo {
   AvailabilityInfo({
     required this.domain,
     required this.unavailable,
-    this.introduced,
-    this.deprecated,
-    this.obsoleted,
+    required this.introduced,
+    required this.deprecated,
+    required this.obsoleted,
   });
 }
 
 /// A version for availability.
 class AvailabilityVersion {
-  int? major;
+  int major;
   int? minor;
   int? patch;
-  AvailabilityVersion({this.major, this.minor, this.patch});
+
+  AvailabilityVersion(
+      {required this.major, required this.minor, required this.patch});
+
+  @override
+  String toString() => [major, minor, patch].nonNulls.join('.');
 }
