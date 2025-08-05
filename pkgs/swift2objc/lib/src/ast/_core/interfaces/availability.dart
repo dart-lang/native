@@ -10,14 +10,14 @@ abstract interface class Availability {
 /// The availability for a single domain.
 class AvailabilityInfo {
   String domain;
-  bool? unavailable;
+  bool unavailable;
   AvailabilityVersion? introduced;
   AvailabilityVersion? deprecated;
   AvailabilityVersion? obsoleted;
 
   AvailabilityInfo({
     required this.domain,
-    this.unavailable,
+    required this.unavailable,
     this.introduced,
     this.deprecated,
     this.obsoleted,
