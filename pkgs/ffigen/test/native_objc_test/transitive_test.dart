@@ -4,26 +4,23 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-import 'dart:ffi';
+library;
+
 import 'dart:io';
 
-import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
-import 'package:ffigen/src/config_provider/config.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'util.dart';
 
 String generate({
   bool includeTransitiveObjCInterfaces = false,
   bool includeTransitiveObjCProtocols = false,
   bool includeTransitiveObjCCategories = false,
 }) {
-  final config = Config(
+  FfiGen(
+    Logger.root,
     wrapperName: 'TransitiveTestObjCLibrary',
     wrapperDocComment: 'Tests transitive inclusion',
     language: Language.objc,
@@ -56,8 +53,7 @@ String generate({
     includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
     includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
     includeTransitiveObjCCategories: includeTransitiveObjCCategories,
-  );
-  FfiGen(logLevel: Level.SEVERE).run(config);
+  ).generate(Logger.root..level = Level.SEVERE);
   return File(
     path.join(
       packagePathForTests,
@@ -75,12 +71,12 @@ void main() {
     late String bindings;
 
     Inclusion incItf(String name) {
-      bool classDef = bindings.contains('class $name ');
-      bool stubWarn = bindings.contains('WARNING: $name is a stub.');
-      bool isInst = bindings.contains(
+      final classDef = bindings.contains('class $name ');
+      final stubWarn = bindings.contains('WARNING: $name is a stub.');
+      final isInst = bindings.contains(
         '/// Returns whether [obj] is an instance of [$name].',
       );
-      bool any = bindings.contains(RegExp('\\W$name\\W'));
+      final any = bindings.contains(RegExp('\\W$name\\W'));
       if (classDef && stubWarn && !isInst && any) return Inclusion.stubbed;
       if (classDef && !stubWarn && isInst && any) return Inclusion.included;
       if (!classDef && !stubWarn && !isInst && !any) return Inclusion.omitted;
@@ -90,12 +86,12 @@ void main() {
     }
 
     Inclusion incProto(String name) {
-      bool classDef = bindings.contains('class $name ');
-      bool stubWarn = bindings.contains('WARNING: $name is a stub.');
-      bool hasImpl = bindings.contains(
+      final classDef = bindings.contains('class $name ');
+      final stubWarn = bindings.contains('WARNING: $name is a stub.');
+      final hasImpl = bindings.contains(
         '/// Adds the implementation of the $name protocol',
       );
-      bool any = bindings.contains(RegExp('\\W$name\\W'));
+      final any = bindings.contains(RegExp('\\W$name\\W'));
       if (classDef && stubWarn && !hasImpl && any) return Inclusion.stubbed;
       if (classDef && !stubWarn && hasImpl && any) return Inclusion.included;
       if (!classDef && !stubWarn && !hasImpl && !any) return Inclusion.omitted;
@@ -105,8 +101,8 @@ void main() {
     }
 
     Inclusion incCat(String name) {
-      bool classDef = bindings.contains('extension $name ');
-      bool any = bindings.contains(RegExp('\\W$name\\W'));
+      final classDef = bindings.contains('extension $name ');
+      final any = bindings.contains(RegExp('\\W$name\\W'));
       if (classDef && any) return Inclusion.included;
       if (!classDef && !any) return Inclusion.omitted;
       throw Exception('Bad protocol: $name ($classDef, $any)');

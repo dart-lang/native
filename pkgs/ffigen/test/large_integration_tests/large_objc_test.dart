@@ -13,7 +13,6 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
@@ -58,7 +57,8 @@ void main() {
       'large_integration_tests',
       'large_objc_bindings.m',
     );
-    final config = Config(
+    final config = FfiGen(
+      Logger.root,
       wrapperName: 'LargeObjCLibrary',
       language: Language.objc,
       output: Uri.file(outFile),
@@ -101,7 +101,7 @@ void main() {
     );
 
     final timer = Stopwatch()..start();
-    FfiGen(logLevel: Level.SEVERE).run(config);
+    config.generate(Logger.root..level = Level.SEVERE);
     expect(File(outFile).existsSync(), isTrue);
     expect(File(outObjCFile).existsSync(), isTrue);
 

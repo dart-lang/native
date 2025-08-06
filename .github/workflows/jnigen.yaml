@@ -46,11 +46,14 @@ jobs:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
-        name: 'Check Java formatting with google-java-format'
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00
         with:
-          version: 'v1.24.0'
-          args: '--set-exit-if-changed'
+          distribution: 'zulu'
+          java-version: '17'
+          cache: maven
+      - uses: ./.github/actions/java-format-check
+        with:
+          working-directory: ./pkgs/jnigen
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -164,11 +167,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
-        name: 'Check Java formatting with google-java-format'
+      - uses: ./.github/actions/java-format-check
         with:
-          version: 'v1.24.0'
-          args: '--set-exit-if-changed'
+          working-directory: ./pkgs/jni
       - name: install clang tools & CMake
         run: |
           sudo apt-get update -y
@@ -447,6 +448,6 @@ jobs:
       - name: Coveralls finished
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
         with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc"
+          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.github_token }}
           parallel-finished: true

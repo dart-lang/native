@@ -1,5 +1,6 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/variable_declaration.dart';
+import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
@@ -92,6 +93,7 @@ Declaration _transformVariable(
     return MethodDeclaration(
       id: originalVariable.id,
       name: wrapperPropertyName,
+      availability: originalVariable.availability,
       returnType: type,
       params: [],
       hasObjCAnnotation: true,
@@ -110,6 +112,7 @@ Declaration _transformVariable(
   final transformedProperty = PropertyDeclaration(
     id: originalVariable.id,
     name: wrapperPropertyName,
+    availability: originalVariable.availability,
     type: transformedType,
     hasObjCAnnotation: true,
     hasSetter: shouldGenerateSetter,

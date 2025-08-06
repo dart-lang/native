@@ -40,6 +40,7 @@ Declaration transformInitializer(
     return MethodDeclaration(
       id: originalInitializer.id,
       name: '${originalInitializer.name}Wrapper',
+      availability: originalInitializer.availability,
       returnType: originalInitializer.isFailable
           ? OptionalType(methodReturnType)
           : methodReturnType,
@@ -59,6 +60,7 @@ Declaration transformInitializer(
 
   final transformedInitializer = InitializerDeclaration(
       id: originalInitializer.id,
+      availability: originalInitializer.availability,
       params: transformedParams,
       hasObjCAnnotation: true,
       isFailable: originalInitializer.isFailable,

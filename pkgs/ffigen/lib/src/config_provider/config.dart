@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 
 import '../code_generator.dart';
@@ -10,7 +11,7 @@ import 'config_types.dart';
 import 'spec_utils.dart';
 
 /// Provides configurations to other modules.
-abstract interface class Config {
+abstract interface class FfiGen {
   /// Input config filename, if any.
   Uri? get filename;
 
@@ -192,7 +193,8 @@ abstract interface class Config {
   /// before this version will not be generated.
   ExternalVersions get externalVersions;
 
-  factory Config({
+  factory FfiGen(
+    Logger logger, {
     Uri? filename,
     PackageConfig? packageConfig,
     Uri? libclangDylib,
@@ -200,7 +202,7 @@ abstract interface class Config {
     Uri? outputObjC,
     SymbolFile? symbolFile,
     Language language = Language.c,
-    required List<Uri> entryPoints,
+    List<Uri> entryPoints = const <Uri>[],
     bool Function(Uri header)? shouldIncludeHeaderFunc,
     List<String>? compilerOpts,
     Map<String, List<VarArgFunction>> varArgFunctions =
@@ -244,7 +246,7 @@ abstract interface class Config {
     bool Function(Declaration declaration)? isLeafFunctionFunc,
     bool Function(Declaration declaration)? enumShouldBeIntFunc,
     bool Function(Declaration declaration)? unnamedEnumsShouldBeIntFunc,
-    FfiNativeConfig ffiNativeConfig = const FfiNativeConfig(enabled: false),
+    FfiNativeConfig? ffiNativeConfig,
     bool ignoreSourceErrors = false,
     bool formatOutput = true,
     ExternalVersions externalVersions = const ExternalVersions(),
@@ -252,7 +254,7 @@ abstract interface class Config {
     filename: filename == null ? null : Uri.file(filename.toFilePath()),
     packageConfig: packageConfig,
     libclangDylib: Uri.file(
-      libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(),
+      libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(logger),
     ),
     output: Uri.file(output.toFilePath()),
     outputObjC: Uri.file(
@@ -262,7 +264,7 @@ abstract interface class Config {
     language: language,
     entryPoints: entryPoints,
     shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-    compilerOpts: compilerOpts ?? defaultCompilerOpts(),
+    compilerOpts: compilerOpts ?? defaultCompilerOpts(logger),
     varArgFunctions: varArgFunctions,
     functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
     structDecl: structDecl ?? DeclarationFilters.excludeAll,
@@ -324,7 +326,7 @@ abstract interface class Config {
     isLeafFunctionFunc: isLeafFunctionFunc ?? (_) => false,
     enumShouldBeIntFunc: enumShouldBeIntFunc ?? (_) => false,
     unnamedEnumsShouldBeIntFunc: unnamedEnumsShouldBeIntFunc ?? (_) => false,
-    ffiNativeConfig: ffiNativeConfig,
+    ffiNativeConfig: ffiNativeConfig ?? const FfiNativeConfig(enabled: false),
     ignoreSourceErrors: ignoreSourceErrors,
     formatOutput: formatOutput,
     externalVersions: externalVersions,
@@ -361,7 +363,7 @@ abstract interface class DeclarationFilters {
     shouldIncludeSymbolAddressFunc: shouldIncludeSymbolAddress ?? (_) => false,
     renameFunc: rename ?? (declaration) => declaration.originalName,
     renameMemberFunc: renameMember ?? (_, member) => member,
-    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, __) => true,
+    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, _) => true,
   );
 
   static final excludeAll = DeclarationFilters();

@@ -1,3 +1,19 @@
+## 0.17.1
+
+- Bump `package:hooks` and `package:code_assets`to 0.20.0.
+
+## 0.17.0
+
+* Fix treeshaking on mac.
+
+## 0.16.8
+
+* Support building assets for packages which are not the input package.
+
+## 0.16.7
+
+* Support Module Definitions for linking on Windows.
+
 ## 0.16.6
 
 * Support linking for Windows.

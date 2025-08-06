@@ -4,9 +4,10 @@
 
 import '../../ast_node.dart';
 import '../shared/referred_type.dart';
+import 'availability.dart';
 
 /// A common interface for all Swift entities declarations.
-abstract interface class Declaration implements AstNode {
+abstract interface class Declaration implements AstNode, Availability {
   abstract final String id;
   abstract final String name;
 }

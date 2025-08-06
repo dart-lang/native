@@ -1,3 +1,10 @@
+## 0.20.0
+
+* **Breaking change**  Rename `EncodedAsset.jsonPath` to
+  `EncodedAsset.encodingJsonPath`. This field only governs the `EncodedAsset.encoding` field, not the whole object.
+* Enable passing metadata from link hooks of a package to the link hooks in 
+  dependencies, by fixing the link hook execution order.
+
 ## 0.19.5
 
 * Stop leaking unexported symbols.

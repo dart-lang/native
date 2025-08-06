@@ -29,7 +29,7 @@ final class MetadataAsset {
     assert(asset.type == _type);
     final syntaxNode = MetadataAssetEncodingSyntax.fromJson(
       asset.encoding,
-      path: asset.jsonPath ?? [],
+      path: asset.encodingJsonPath ?? [],
     );
     return MetadataAsset(key: syntaxNode.key, value: syntaxNode.value);
   }

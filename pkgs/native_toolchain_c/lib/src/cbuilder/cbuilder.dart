@@ -53,6 +53,7 @@ class CBuilder extends CTool implements Builder {
 
   CBuilder.library({
     required super.name,
+    super.packageName,
     super.assetName,
     super.sources = const [],
     super.includes = const [],
@@ -81,6 +82,7 @@ class CBuilder extends CTool implements Builder {
 
   CBuilder.executable({
     required super.name,
+    super.packageName,
     super.sources = const [],
     super.includes = const [],
     super.forcedIncludes = const [],
@@ -203,7 +205,7 @@ class CBuilder extends CTool implements Builder {
       for (final route in routing) {
         output.assets.code.add(
           CodeAsset(
-            package: input.packageName,
+            package: packageName ?? input.packageName,
             name: assetName!,
             file: libUri,
             linkMode: linkMode,

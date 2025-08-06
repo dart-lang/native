@@ -58,6 +58,7 @@ void main(List<String> arguments) async {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
+      'pkgs/pub_formats/tool/generate.dart',
     ];
     for (final generator in generators) {
       _runProcess('dart', [generator, '--set-exit-if-changed']);
@@ -83,7 +84,7 @@ void main(List<String> arguments) async {
           'pkgs/hooks/example/build/$exampleWithTest/',
         ),
         'dart',
-        ['--enable-experiment=native-assets', 'test'],
+        ['test'],
       );
     }
 
@@ -92,19 +93,19 @@ void main(List<String> arguments) async {
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      ['--enable-experiment=native-assets', 'run'],
+      ['run'],
     );
     _runProcess(
       workingDirectory: repositoryRoot.resolve(
         'pkgs/hooks/example/build/native_add_app/',
       ),
       'dart',
-      ['--enable-experiment=native-assets', 'build', 'cli', 'bin/native_add_app.dart'],
+      ['build', 'cli', 'bin/native_add_app.dart'],
     );
     _runProcess(
       repositoryRoot
           .resolve(
-            'pkgs/hooks/example/build/native_add_app/build/cli/${Abi.current().toString().replaceAll('_', '-')}/bundle/bin/native_add_app${Platform.isWindows ? '.exe' : ''}',
+            'pkgs/hooks/example/build/native_add_app/build/cli/${Abi.current()}/bundle/bin/native_add_app${Platform.isWindows ? '.exe' : ''}',
           )
           .toFilePath(),
       [],
@@ -134,51 +135,50 @@ void main(List<String> arguments) async {
 }
 
 ArgParser makeArgParser() {
-  final parser =
-      ArgParser()
-        ..addFlag(
-          'help',
-          abbr: 'h',
-          negatable: false,
-          help: 'Prints this help message.',
-        )
-        ..addFlag(
-          'analyze',
-          defaultsTo: true,
-          help: 'Run `dart analyze` on the packages.',
-        )
-        ..addFlag(
-          'coverage',
-          defaultsTo: false,
-          help: 'Run `dart run coverage:test_with_coverage` on the packages.',
-        )
-        ..addFlag(
-          'example',
-          defaultsTo: true,
-          help: 'Run tests and executables for examples.',
-        )
-        ..addFlag(
-          'format',
-          defaultsTo: true,
-          help: 'Run `dart format` on the packages.',
-        )
-        ..addFlag(
-          'generate',
-          defaultsTo: true,
-          help: 'Run code generation scripts.',
-        )
-        ..addFlag(
-          'pub',
-          defaultsTo: false,
-          help:
-              'Run `dart pub get` on the root and non-workspace packages.\n'
-              'Run `dart pub global activate coverage`.',
-        )
-        ..addFlag(
-          'test',
-          defaultsTo: true,
-          help: 'Run `dart test` on the packages.',
-        );
+  final parser = ArgParser()
+    ..addFlag(
+      'help',
+      abbr: 'h',
+      negatable: false,
+      help: 'Prints this help message.',
+    )
+    ..addFlag(
+      'analyze',
+      defaultsTo: true,
+      help: 'Run `dart analyze` on the packages.',
+    )
+    ..addFlag(
+      'coverage',
+      defaultsTo: false,
+      help: 'Run `dart run coverage:test_with_coverage` on the packages.',
+    )
+    ..addFlag(
+      'example',
+      defaultsTo: true,
+      help: 'Run tests and executables for examples.',
+    )
+    ..addFlag(
+      'format',
+      defaultsTo: true,
+      help: 'Run `dart format` on the packages.',
+    )
+    ..addFlag(
+      'generate',
+      defaultsTo: true,
+      help: 'Run code generation scripts.',
+    )
+    ..addFlag(
+      'pub',
+      defaultsTo: false,
+      help:
+          'Run `dart pub get` on the root and non-workspace packages.\n'
+          'Run `dart pub global activate coverage`.',
+    )
+    ..addFlag(
+      'test',
+      defaultsTo: true,
+      help: 'Run `dart test` on the packages.',
+    );
   return parser;
 }
 
@@ -190,13 +190,12 @@ List<String> loadPackagesFromPubspec() {
     File.fromUri(repositoryRoot.resolve('pubspec.yaml')).readAsStringSync(),
   );
   final workspace = (pubspecYaml['workspace'] as List).cast<String>();
-  final packages =
-      workspace
-          .where(
-            (package) =>
-                !package.contains('test_data') && !package.contains('example'),
-          )
-          .toList();
+  final packages = workspace
+      .where(
+        (package) =>
+            !package.contains('test_data') && !package.contains('example'),
+      )
+      .toList();
   return packages;
 }
 

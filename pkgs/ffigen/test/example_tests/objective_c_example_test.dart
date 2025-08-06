@@ -23,7 +23,7 @@ void main() {
       final config = testConfigFromPath(
         path.join(packagePathForTests, 'example', 'objective_c', 'config.yaml'),
       );
-      final output = parse(config).generate();
+      final output = parse(testContext(config)).generate();
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.

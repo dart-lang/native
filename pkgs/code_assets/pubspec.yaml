@@ -3,7 +3,7 @@ description: >-
   This library contains the hook protocol specification for bundling native code
   with Dart packages.
 
-version: 0.19.4
+version: 0.19.5
 
 repository: https://github.com/dart-lang/native/tree/main/pkgs/code_assets
 
@@ -21,12 +21,14 @@ environment:
 
 dependencies:
   collection: ^1.19.1
-  hooks: ^0.19.5
+  hooks: ^0.20.0
 
 dev_dependencies:
   custom_lint: ^0.7.5
-  dart_flutter_team_lints: ^3.5.1
+  dart_flutter_team_lints: ^3.5.2
   json_schema: ^5.2.0 # May only be used in tool/ and test/json_schema/.
+  native_test_helpers:
+    path: ../native_test_helpers/
   repo_lint_rules:
     path: ../repo_lint_rules/
   test: ^1.25.15

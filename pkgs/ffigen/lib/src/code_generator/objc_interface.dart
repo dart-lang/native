@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
@@ -11,6 +12,8 @@ import 'utils.dart';
 import 'writer.dart';
 
 class ObjCInterface extends BindingType with ObjCMethods {
+  @override
+  final Context context;
   ObjCInterface? superType;
   bool filled = false;
 
@@ -23,9 +26,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
   final subtypes = <ObjCInterface>[];
   final ApiAvailability apiAvailability;
 
-  @override
-  final ObjCBuiltInFunctions builtInFunctions;
-
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
 
@@ -35,12 +35,14 @@ class ObjCInterface extends BindingType with ObjCMethods {
     String? name,
     String? lookupName,
     super.dartDoc,
-    required this.builtInFunctions,
     required this.apiAvailability,
+    required this.context,
   }) : lookupName = lookupName ?? originalName,
        super(
          name:
-             builtInFunctions.getBuiltInInterfaceName(originalName) ??
+             context.objCBuiltInFunctions.getBuiltInInterfaceName(
+               originalName,
+             ) ??
              name ??
              originalName,
        ) {
@@ -48,14 +50,19 @@ class ObjCInterface extends BindingType with ObjCMethods {
       '_class_$originalName',
       (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")',
     );
-    _isKindOfClass = builtInFunctions.getSelObject('isKindOfClass:');
-    _isKindOfClassMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      Parameter(
-        name: 'clazz',
-        type: PointerType(objCObjectType),
-        objCConsumed: false,
-      ),
-    ]);
+    _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
+      'isKindOfClass:',
+    );
+    _isKindOfClassMsgSend = context.objCBuiltInFunctions.getMsgSendFunc(
+      BooleanType(),
+      [
+        Parameter(
+          name: 'clazz',
+          type: PointerType(objCObjectType),
+          objCConsumed: false,
+        ),
+      ],
+    );
   }
 
   void addProtocol(ObjCProtocol? proto) {
@@ -64,7 +71,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   @override
   bool get isObjCImport =>
-      builtInFunctions.getBuiltInInterfaceName(originalName) != null;
+      context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) !=
+      null;
 
   @override
   void sort() => sortMethods();
@@ -111,10 +119,20 @@ class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
       {bool retain = false, bool release = false}) :
       this._(other, retain: retain, release: release);
 
-${generateAsStub ? '' : _generateMethods(w)}
+${generateAsStub ? '' : _generateStaticMethods(w)}
 }
 
 ''');
+
+    if (!generateAsStub) {
+      final extName = w.topLevelUniqueNamer.makeUnique('$name\$Methods');
+      s.write('''
+extension $extName on $name {
+${generateInstanceMethodBindings(w, this)}
+}
+
+''');
+    }
 
     return BindingString(
       type: BindingStringType.objcInterface,
@@ -122,7 +140,7 @@ ${generateAsStub ? '' : _generateMethods(w)}
     );
   }
 
-  String _generateMethods(Writer w) {
+  String _generateStaticMethods(Writer w) {
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
     final s = StringBuffer();
 
@@ -132,7 +150,8 @@ ${generateAsStub ? '' : _generateMethods(w)}
     return ${_isKindOfClassMsgSend.invoke(w, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
   }
 ''');
-    s.write(generateMethodBindings(w, this));
+
+    s.write(generateStaticMethodBindings(w, this));
 
     final newMethod = methods
         .where(

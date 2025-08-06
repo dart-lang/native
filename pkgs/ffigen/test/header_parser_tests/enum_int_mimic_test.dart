@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Enum int mimic test'
 ${strings.output}: 'unused'
@@ -27,6 +28,7 @@ ${strings.headers}:
     - '**enum_int_mimic.h'
 ${strings.ignoreSourceErrors}: true
         '''),
+        ),
       );
     });
 

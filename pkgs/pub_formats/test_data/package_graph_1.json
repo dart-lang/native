@@ -1,0 +1,41 @@
+{
+  "configVersion": 1,
+  "packages": [
+    {
+      "dependencies": [],
+      "devDependencies": [],
+      "name": "dart_lang_native_workspace",
+      "version": "0.0.0"
+    },
+    {
+      "dependencies": [
+        "collection",
+        "hooks"
+      ],
+      "devDependencies": [
+        "custom_lint",
+        "dart_flutter_team_lints",
+        "json_schema",
+        "native_test_helpers",
+        "repo_lint_rules",
+        "test"
+      ],
+      "name": "code_assets",
+      "version": "0.19.5-wip"
+    },
+    {
+      "dependencies": [
+        "collection",
+        "source_span",
+        "string_scanner",
+        "typed_data"
+      ],
+      "name": "http_parser",
+      "version": "4.1.2"
+    }
+  ],
+  "roots": [
+    "add_asset_link",
+    "app_with_asset_treeshaking"
+  ]
+}

@@ -42,11 +42,11 @@ void main() {
         ),
       ).absolute;
 
-      late Config config;
+      late FfiGen config;
       withChDir(configFile.path, () {
         config = testConfigFromPath(configFile.path);
       });
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       library.generateFile(outFile);
 

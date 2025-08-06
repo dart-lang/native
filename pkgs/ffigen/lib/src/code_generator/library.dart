@@ -4,16 +4,15 @@
 
 import 'dart:io';
 
-import 'package:logging/logging.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config;
+import '../code_generator/utils.dart';
+import '../config_provider/config.dart' show FfiGen;
 import '../config_provider/config_types.dart';
+import '../context.dart';
 
 import 'writer.dart';
-
-final _logger = Logger('ffigen.library');
 
 /// Container for all Bindings.
 class Library {
@@ -21,12 +20,14 @@ class Library {
   final List<Binding> bindings;
 
   final Writer writer;
+  final Context context;
 
-  Library._(this.bindings, this.writer);
+  Library._(this.bindings, this.writer, this.context);
 
   static Library fromConfig({
-    required Config config,
+    required FfiGen config,
     required List<Binding> bindings,
+    required Context context,
   }) => Library(
     name: config.wrapperName,
     description: config.wrapperDocComment,
@@ -38,6 +39,7 @@ class Library {
     nativeEntryPoints: config.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
+    context: context,
   );
 
   factory Library({
@@ -49,6 +51,7 @@ class Library {
     List<LibraryImport> libraryImports = const <LibraryImport>[],
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
+    required Context context,
   }) {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
@@ -83,9 +86,10 @@ class Library {
       generateForPackageObjectiveC: generateForPackageObjectiveC,
       silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
+      context: context,
     );
 
-    return Library._(bindings, writer);
+    return Library._(bindings, writer, context);
   }
 
   /// Generates [file] by generating C bindings.
@@ -96,12 +100,14 @@ class Library {
     if (!file.existsSync()) file.createSync(recursive: true);
     file.writeAsStringSync(generate());
     if (format) {
-      final result = Process.runSync(Platform.resolvedExecutable, [
+      final result = Process.runSync(dartExecutable, [
         'format',
         file.absolute.path,
       ], workingDirectory: file.parent.absolute.path);
       if (result.exitCode != 0) {
-        _logger.severe('Formatting failed\n${result.stdout}\n${result.stderr}');
+        context.logger.severe(
+          'Formatting failed\n${result.stdout}\n${result.stderr}',
+        );
       }
     }
   }

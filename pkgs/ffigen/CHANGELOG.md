@@ -1,10 +1,28 @@
-## 19.1.0-wip
+## 20.0.0-wip
+
+- __Breaking change__: Refactor the Dart API a bit, to merge the `FfiGen` and
+  `Config` classes. Rename `FfiGen.run` to `.generate`, and make it an extension
+  method on the `Config` class. So `FfiGen().run(config)` becomes
+  `config.generate(logger)`.
+- __Breaking change__: Minor breaking change in the way that ObjC interface
+  methods are generated. Interface methods are now generated as extension
+  methods instead of being part of the class. This shouldn't require any code
+  changes unless you are using `show` or `hide` when importing the interface.
+  - If you are using `show`/`hide` to show or hide a particular interface, eg
+    `Foo`, you'll now also need to show or hide `Foo$Methods`.
+  - In rare cases the runtime type of the Dart wrapper object around the ObjC
+    object may change, but the underlying ObjC object will still be the same.
+    In any case, you should be using `Foo.isInstance(x)` instead of `x is Foo`
+    to check the runtime type of an ObjC object.
+
+## 19.1.0
 
 - Bump minimum Dart version to 3.8.0.
 - Format using `dart format` so that the formatter uses the target package's
   Dart version and formatting options.
 - Add `_` to the list of Dart keywords, since it has special meaning in newer
   Dart versions.
+- Update to the latest lints.
 
 ## 19.0.0
 

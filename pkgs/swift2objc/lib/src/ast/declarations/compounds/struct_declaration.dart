@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
@@ -20,6 +21,9 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
   String name;
 
   @override
+  List<AvailabilityInfo> availability;
+
+  @override
   covariant List<PropertyDeclaration> properties;
 
   @override
@@ -35,14 +39,15 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
   List<InitializerDeclaration> initializers;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   StructDeclaration({
     required this.id,
     required this.name,
+    required this.availability,
     this.properties = const [],
     this.methods = const [],
     this.initializers = const [],

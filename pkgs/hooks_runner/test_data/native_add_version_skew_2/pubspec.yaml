@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.1
   ffigen: ^18.0.0
-  lints: ^5.1.1
+  lints: ^6.0.0
   some_dev_dep:
     path: ../some_dev_dep/
   test: ^1.25.15

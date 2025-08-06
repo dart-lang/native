@@ -11,7 +11,10 @@ environment:
 dependencies:
   # path: ^1.8.0
   analyzer: ^7.4.5
+  google_generative_ai: ^0.4.7
+  jni: ^0.14.2
 
 dev_dependencies:
-  dart_flutter_team_lints: ^3.5.1
+  dart_flutter_team_lints: ^3.5.2
+  jnigen: ^0.14.2
   test: ^1.26.0

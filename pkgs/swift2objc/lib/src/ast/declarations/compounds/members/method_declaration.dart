@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/function_declaration.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/overridable.dart';
@@ -18,6 +19,9 @@ class MethodDeclaration extends AstNode
 
   @override
   String name;
+
+  @override
+  List<AvailabilityInfo> availability;
 
   @override
   List<Parameter> params;
@@ -55,6 +59,7 @@ class MethodDeclaration extends AstNode
   MethodDeclaration(
       {required this.id,
       required this.name,
+      required this.availability,
       required this.returnType,
       required this.params,
       this.typeParams = const [],

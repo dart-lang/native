@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../header_parser/data.dart' show bindingsIndex;
+
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -11,18 +12,18 @@ import 'unique_namer.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType {
-  final ObjCBuiltInFunctions builtInFunctions;
+  final Context context;
   final Type returnType;
   final List<Parameter> params;
   final bool returnsRetained;
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
 
-  factory ObjCBlock({
+  factory ObjCBlock(
+    Context context, {
     required Type returnType,
     required List<Parameter> params,
     required bool returnsRetained,
-    required ObjCBuiltInFunctions builtInFunctions,
   }) {
     final renamedParams = [
       for (var i = 0; i < params.length; ++i)
@@ -35,39 +36,40 @@ class ObjCBlock extends BindingType {
 
     final usr = _getBlockUsr(returnType, renamedParams, returnsRetained);
 
-    final oldBlock = bindingsIndex.getSeenObjCBlock(usr);
+    final oldBlock = context.bindingsIndex.getSeenObjCBlock(usr);
     if (oldBlock != null) {
       return oldBlock;
     }
 
     final block = ObjCBlock._(
+      context,
       usr: usr,
       name: _getBlockName(returnType, renamedParams.map((a) => a.type)),
       returnType: returnType,
       params: renamedParams,
       returnsRetained: returnsRetained,
-      builtInFunctions: builtInFunctions,
     );
-    bindingsIndex.addObjCBlockToSeen(usr, block);
+    context.bindingsIndex.addObjCBlockToSeen(usr, block);
 
     return block;
   }
 
-  ObjCBlock._({
+  ObjCBlock._(
+    this.context, {
     required String super.usr,
     required super.name,
     required this.returnType,
     required this.params,
     required this.returnsRetained,
-    required this.builtInFunctions,
   }) : super(originalName: name) {
     if (hasListener) {
-      _blockWrappers = builtInFunctions.getBlockTrampolines(this);
+      _blockWrappers = context.objCBuiltInFunctions.getBlockTrampolines(this);
     }
   }
 
   void fillProtocolTrampoline() {
-    protocolTrampoline ??= builtInFunctions.getProtocolMethodTrampoline(this);
+    protocolTrampoline ??= context.objCBuiltInFunctions
+        .getProtocolMethodTrampoline(this);
   }
 
   // Generates a human readable name for the block based on the args and return

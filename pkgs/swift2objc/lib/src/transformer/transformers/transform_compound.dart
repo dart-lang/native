@@ -28,12 +28,14 @@ ClassDeclaration transformCompound(
   final wrappedCompoundInstance = PropertyDeclaration(
     id: originalCompound.id.addIdSuffix('wrappedInstance'),
     name: compoundNamer.makeUnique('wrappedInstance'),
+    availability: const [],
     type: originalCompound.asDeclaredType,
   );
 
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
+    availability: originalCompound.availability,
     hasObjCAnnotation: true,
     superClass: objectType,
     isWrapper: true,
@@ -44,9 +46,10 @@ ClassDeclaration transformCompound(
   transformationMap[originalCompound] = transformedCompound;
 
   transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
-      .map((nested) => transformDeclaration(
+      .map((nested) => maybeTransformDeclaration(
               nested, compoundNamer, transformationMap, nested: true)
-          as NestableDeclaration)
+          as InnerNestableDeclaration?)
+      .nonNulls
       .toList()
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
   transformedCompound.nestedDeclarations

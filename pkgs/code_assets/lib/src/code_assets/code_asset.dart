@@ -89,7 +89,7 @@ final class CodeAsset {
     assert(asset.isCodeAsset);
     final syntaxNode = NativeCodeAssetEncodingSyntax.fromJson(
       asset.encoding,
-      path: asset.jsonPath ?? [],
+      path: asset.encodingJsonPath ?? [],
     );
     return CodeAsset._(
       id: syntaxNode.id,

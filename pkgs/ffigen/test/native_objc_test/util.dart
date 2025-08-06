@@ -8,16 +8,16 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
 import 'package:leak_tracker/leak_tracker.dart' as leak_tracker;
-import 'package:logging/logging.dart' show Level;
+import 'package:logging/logging.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:objective_c/src/internal.dart'
     as internal_for_testing
-    show isValidClass, isValidBlock;
+    show isValidBlock, isValidClass;
 import 'package:path/path.dart' as p;
 
 import '../test_utils.dart';
 
-void generateBindingsForCoverage(String testName) {
+void generateBindingsForCoverage(String testName, [Logger? logger]) {
   // The ObjC test bindings are generated in setup.dart (see #362), which means
   // that the ObjC related bits of ffigen are missed by test coverage. So this
   // function just regenerates those bindings. It doesn't test anything except
@@ -29,7 +29,7 @@ void generateBindingsForCoverage(String testName) {
     '${testName}_config.yaml',
   );
   final config = testConfig(File(path).readAsStringSync(), filename: path);
-  FfiGen(logLevel: Level.SEVERE).run(config);
+  config.generate(logger ?? (Logger.root..level = Level.SEVERE));
 }
 
 final _executeInternalCommand = () {
@@ -39,6 +39,7 @@ final _executeInternalCommand = () {
           'Dart_ExecuteInternalCommand',
         )
         .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
+    // ignore: avoid_catching_errors
   } on ArgumentError {
     return null;
   }
@@ -57,7 +58,7 @@ void doGC() {
 // that we need to wait for quite a long time, which breaks autorelease pools.
 Future<void> flutterDoGC() async {
   await leak_tracker.forceGC();
-  await Future<void>.delayed(Duration(milliseconds: 500));
+  await Future<void>.delayed(const Duration(milliseconds: 500));
 }
 
 @Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')

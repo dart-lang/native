@@ -15,7 +15,8 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('declaration conflict', () {
-      final config = Config(
+      final config = FfiGen(
+        Logger.root,
         entryPoints: [],
         output: Uri(),
         functionDecl: DeclarationFilters.includeAll,
@@ -26,8 +27,9 @@ void main() {
         typedefs: DeclarationFilters.includeAll,
       );
       final library = Library(
+        context: testContext(),
         name: 'Bindings',
-        bindings: transformBindings(config, [
+        bindings: transformBindings([
           Struct(name: 'TestStruct'),
           Struct(name: 'TestStruct'),
           EnumClass(name: 'TestEnum'),
@@ -80,7 +82,7 @@ void main() {
             name: 'ffi\$1',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
-        ]),
+        ], testContext(config)),
       );
       matchLibraryWithExpected(
         library,

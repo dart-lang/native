@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 
@@ -11,6 +12,8 @@ import 'utils.dart';
 import 'writer.dart';
 
 class ObjCProtocol extends BindingType with ObjCMethods {
+  @override
+  final Context context;
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   final ObjCInternalGlobal _protocolPointer;
@@ -21,17 +24,14 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
 
-  @override
-  final ObjCBuiltInFunctions builtInFunctions;
-
   ObjCProtocol({
     super.usr,
     required String super.originalName,
     String? name,
     String? lookupName,
     super.dartDoc,
-    required this.builtInFunctions,
     required this.apiAvailability,
+    required this.context,
   }) : lookupName = lookupName ?? originalName,
        _protocolPointer = ObjCInternalGlobal(
          '_protocol_$originalName',
@@ -40,23 +40,28 @@ class ObjCProtocol extends BindingType with ObjCMethods {
        ),
        super(
          name:
-             builtInFunctions.getBuiltInProtocolName(originalName) ??
+             context.objCBuiltInFunctions.getBuiltInProtocolName(
+               originalName,
+             ) ??
              name ??
              originalName,
        ) {
-    _conformsTo = builtInFunctions.getSelObject('conformsToProtocol:');
-    _conformsToMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      Parameter(
-        name: 'protocol',
-        type: PointerType(objCProtocolType),
-        objCConsumed: false,
-      ),
-    ]);
+    _conformsTo = context.objCBuiltInFunctions.getSelObject(
+      'conformsToProtocol:',
+    );
+    _conformsToMsgSend = context.objCBuiltInFunctions
+        .getMsgSendFunc(BooleanType(), [
+          Parameter(
+            name: 'protocol',
+            type: PointerType(objCProtocolType),
+            objCConsumed: false,
+          ),
+        ]);
   }
 
   @override
   bool get isObjCImport =>
-      builtInFunctions.getBuiltInProtocolName(originalName) != null;
+      context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
   @override
   void sort() => sortMethods();
@@ -297,7 +302,7 @@ interface class $name extends $protocolBase $impls{
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    final wrapName = builtInFunctions.wrapperName;
+    final wrapName = context.objCBuiltInFunctions.wrapperName;
     final mainString =
         '''
 

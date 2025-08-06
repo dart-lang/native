@@ -1,12 +1,37 @@
-// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:swift2objc/swift2objc.dart' as swift2objc;
 import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
 import 'util.dart';
 
+/// Config options for swiftgen.
+class SwiftGen {
+  final Target target;
+  final SwiftGenInput input;
+
+  // TODO: Move these two to SwiftGenInput, and maybe rename that class.
+  final String? objcSwiftPreamble;
+  final Uri objcSwiftFile;
+
+  final Uri tempDir;
+  final String? outputModule;
+  final FfiGenConfig ffigen;
+
+  SwiftGen({
+    required this.target,
+    required this.input,
+    this.objcSwiftPreamble,
+    required this.objcSwiftFile,
+    Uri? tempDirectory,
+    this.outputModule,
+    required this.ffigen,
+  }) : tempDir = tempDirectory ?? createTempDirectory();
+}
+
+/// A target is a target triple string and an iOS/macOS SDK directory.
 class Target {
   String triple;
   Uri sdk;
@@ -16,46 +41,56 @@ class Target {
   static Future<Target> host() => getHostTarget();
 }
 
-abstract interface class ConfigInput {
+/// Describes the inputs to the swiftgen pipeline.
+abstract interface class SwiftGenInput {
   String get module;
-  swift2objc.InputConfig asSwift2ObjCConfig(Target target);
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target);
   Iterable<Uri> get files;
   Iterable<String> get compileArgs;
 }
 
-class SwiftFileInput implements ConfigInput {
+/// Input swift files that are already annotated with @objc.
+class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
   @override
   final String module;
 
   @override
   final List<Uri> files;
 
-  SwiftFileInput({
-    required this.module,
-    required this.files,
-  });
-
   @override
-  swift2objc.InputConfig asSwift2ObjCConfig(Target target) =>
-      swift2objc.FilesInputConfig(
-        files: files,
-        generatedModuleName: module,
-      );
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) => null;
+
+  ObjCCompatibleSwiftFileInput({required this.module, required this.files});
 
   @override
   Iterable<String> get compileArgs => const <String>[];
 }
 
-class SwiftModuleInput implements ConfigInput {
+class SwiftFileInput implements SwiftGenInput {
   @override
   final String module;
 
-  SwiftModuleInput({
-    required this.module,
-  });
+  @override
+  final List<Uri> files;
+
+  SwiftFileInput({required this.module, required this.files});
 
   @override
-  swift2objc.InputConfig asSwift2ObjCConfig(Target target) =>
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) =>
+      swift2objc.FilesInputConfig(files: files, generatedModuleName: module);
+
+  @override
+  Iterable<String> get compileArgs => const <String>[];
+}
+
+class SwiftModuleInput implements SwiftGenInput {
+  @override
+  final String module;
+
+  SwiftModuleInput({required this.module});
+
+  @override
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) =>
       swift2objc.ModuleInputConfig(
         module: module,
         target: target.triple,
@@ -69,19 +104,16 @@ class SwiftModuleInput implements ConfigInput {
   Iterable<String> get compileArgs => const <String>[];
 }
 
-class JsonFileInput implements ConfigInput {
+class JsonFileInput implements SwiftGenInput {
   @override
   final String module;
 
   final Uri jsonFile;
 
-  JsonFileInput({
-    required this.module,
-    required this.jsonFile,
-  });
+  JsonFileInput({required this.module, required this.jsonFile});
 
   @override
-  swift2objc.InputConfig asSwift2ObjCConfig(Target target) =>
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) =>
       swift2objc.JsonFileInputConfig(jsonFile: jsonFile);
 
   @override
@@ -91,55 +123,69 @@ class JsonFileInput implements ConfigInput {
   Iterable<String> get compileArgs => const <String>[];
 }
 
-/// Selected options from the ffigen Config object.
+/// Selected options from [ffigen.FfiGen].
 class FfiGenConfig {
-  /// Output file name.
+  /// [ffigen.FfiGen.output]
   final Uri output;
 
-  /// Output ObjC file name.
+  /// [ffigen.FfiGen.outputObjC]
   final Uri outputObjC;
 
-  /// Name of the wrapper class.
+  /// [ffigen.FfiGen.wrapperName]
+  /// Defaults to the swift module name.
   final String? wrapperName;
 
-  /// Doc comment for the wrapper class.
+  /// [ffigen.FfiGen.wrapperDocComment]
   final String? wrapperDocComment;
 
-  /// Header of the generated bindings.
+  /// [ffigen.FfiGen.preamble]
   final String? preamble;
 
-  /// Declaration filters for Functions.
+  /// [ffigen.FfiGen.functionDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? functionDecl;
 
-  /// Declaration filters for Structs.
+  /// [ffigen.FfiGen.structDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? structDecl;
 
-  /// Declaration filters for Unions.
+  /// [ffigen.FfiGen.unionDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? unionDecl;
 
-  /// Declaration filters for Enums.
+  /// [ffigen.FfiGen.enumClassDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? enumClassDecl;
 
-  /// Declaration filters for Unnamed enum constants.
+  /// [ffigen.FfiGen.unnamedEnumConstants]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? unnamedEnumConstants;
 
-  /// Declaration filters for Globals.
+  /// [ffigen.FfiGen.globals]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? globals;
 
-  /// Declaration filters for Macro constants.
+  /// [ffigen.FfiGen.macroDecl]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? macroDecl;
 
-  /// Declaration filters for Typedefs.
+  /// [ffigen.FfiGen.typedefs]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? typedefs;
 
-  /// Declaration filters for Objective C interfaces.
+  /// [ffigen.FfiGen.objcInterfaces]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? objcInterfaces;
 
-  /// Declaration filters for Objective C protocols.
+  /// [ffigen.FfiGen.objcProtocols]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? objcProtocols;
 
-  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
-  /// before this version will not be generated.
+  /// [ffigen.FfiGen.objcCategories]
+  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  final ffigen.DeclarationFilters? objcCategories;
+
+  /// [ffigen.FfiGen.externalVersions]
   final ffigen.ExternalVersions externalVersions;
 
   FfiGenConfig({
@@ -158,32 +204,7 @@ class FfiGenConfig {
     this.typedefs,
     this.objcInterfaces,
     this.objcProtocols,
+    this.objcCategories,
     this.externalVersions = const ffigen.ExternalVersions(),
-  });
-}
-
-class Config {
-  final Target target;
-
-  // Input. Either a swift file or a module.
-  final ConfigInput input;
-
-  // Intermediates.
-  final String? objcSwiftPreamble;
-  final Uri objcSwiftFile;
-  final Uri tempDir;
-
-  // Output file.
-  final String? outputModule;
-  final FfiGenConfig ffigen;
-
-  Config({
-    required this.target,
-    required this.input,
-    this.objcSwiftPreamble,
-    required this.objcSwiftFile,
-    required this.tempDir,
-    this.outputModule,
-    required this.ffigen,
   });
 }

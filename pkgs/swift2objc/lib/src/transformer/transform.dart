@@ -9,13 +9,14 @@ import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
+import '../ast/declarations/typealias_declaration.dart';
 import '../ast/visitor.dart';
 import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
-typedef TransformationMap = Map<Declaration, Declaration>;
+typedef TransformationMap = Map<Declaration, Declaration?>;
 
 Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
     visit(DependencyVisitation(), decls).topLevelDeclarations;
@@ -23,7 +24,7 @@ Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
 /// Transforms the given declarations into the desired ObjC wrapped declarations
 List<Declaration> transform(List<Declaration> declarations,
     {required bool Function(Declaration) filter}) {
-  final transformationMap = <Declaration, Declaration>{};
+  final transformationMap = <Declaration, Declaration?>{};
 
   final declarations0 = declarations.where(filter).toSet();
   declarations0.addAll(generateDependencies(declarations0));
@@ -45,9 +46,11 @@ List<Declaration> transform(List<Declaration> declarations,
       .toList();
 
   final transformedDeclarations = [
-    ...nonGlobals.map(
-      (decl) => transformDeclaration(decl, globalNamer, transformationMap),
-    ),
+    ...nonGlobals
+        .map(
+          (d) => maybeTransformDeclaration(d, globalNamer, transformationMap),
+        )
+        .nonNulls,
     if (globals.functions.isNotEmpty || globals.variables.isNotEmpty)
       transformGlobals(globals, globalNamer, transformationMap),
   ];
@@ -62,12 +65,23 @@ Declaration transformDeclaration(
   UniqueNamer parentNamer,
   TransformationMap transformationMap, {
   bool nested = false,
+}) =>
+    maybeTransformDeclaration(declaration, parentNamer, transformationMap,
+        nested: nested) ??
+    declaration;
+
+Declaration? maybeTransformDeclaration(
+  Declaration declaration,
+  UniqueNamer parentNamer,
+  TransformationMap transformationMap, {
+  bool nested = false,
 }) {
-  if (transformationMap[declaration] != null) {
-    return transformationMap[declaration]!;
+  if (transformationMap.containsKey(declaration)) {
+    return transformationMap[declaration];
   }
 
-  if (declaration is NestableDeclaration && declaration.nestingParent != null) {
+  if (declaration is InnerNestableDeclaration &&
+      declaration.nestingParent != null) {
     // It's important that nested declarations are only transformed in the
     // context of their parent, so that their parentNamer is correct.
     assert(nested);
@@ -79,6 +93,7 @@ Declaration transformDeclaration(
         parentNamer,
         transformationMap,
       ),
+    TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };
 }
@@ -88,5 +103,6 @@ List<Declaration> _getPrimitiveWrapperClasses(
   return transformationMap.entries
       .where((entry) => entry.key is BuiltInDeclaration)
       .map((entry) => entry.value)
+      .nonNulls
       .toList();
 }

@@ -24,11 +24,12 @@ void main() {
         'libclang',
         'include',
       );
-      final config = Config(
+      final config = FfiGen(
+        Logger.root,
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
-        compilerOpts: [...defaultCompilerOpts(), '-I$includeDir'],
+        compilerOpts: [...defaultCompilerOpts(Logger.root), '-I$includeDir'],
         commentType: CommentType(CommentStyle.doxygen, CommentLength.brief),
         entryPoints: [
           Uri.file(
@@ -63,7 +64,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       matchLibraryWithExpected(
         library,
@@ -77,7 +78,8 @@ void main() {
     });
 
     test('CJSON test', () {
-      final config = Config(
+      final config = FfiGen(
+        Logger.root,
         wrapperName: 'CJson',
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
@@ -101,7 +103,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'large_test_cjson.dart', [
         'test',
@@ -113,7 +115,8 @@ void main() {
     test('SQLite test', () {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
-      final config = Config(
+      final config = FfiGen(
+        Logger.root,
         wrapperName: 'SQLite',
         wrapperDocComment: 'Bindings to SQLite.',
         output: Uri.file('unused'),
@@ -145,7 +148,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'large_test_sqlite.dart', [
         'test',

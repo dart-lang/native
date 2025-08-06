@@ -211,6 +211,32 @@ class Clang {
         )
       >();
 
+  /// Retrieve a source location representing the first character within a
+  /// source range.
+  CXSourceLocation clang_getRangeStart(CXSourceRange range) {
+    return _clang_getRangeStart(range);
+  }
+
+  late final _clang_getRangeStartPtr =
+      _lookup<ffi.NativeFunction<CXSourceLocation Function(CXSourceRange)>>(
+        'clang_getRangeStart',
+      );
+  late final _clang_getRangeStart = _clang_getRangeStartPtr
+      .asFunction<CXSourceLocation Function(CXSourceRange)>();
+
+  /// Retrieve a source location representing the last character within a
+  /// source range.
+  CXSourceLocation clang_getRangeEnd(CXSourceRange range) {
+    return _clang_getRangeEnd(range);
+  }
+
+  late final _clang_getRangeEndPtr =
+      _lookup<ffi.NativeFunction<CXSourceLocation Function(CXSourceRange)>>(
+        'clang_getRangeEnd',
+      );
+  late final _clang_getRangeEnd = _clang_getRangeEndPtr
+      .asFunction<CXSourceLocation Function(CXSourceRange)>();
+
   /// Determine the number of diagnostics produced for the given
   /// translation unit.
   int clang_getNumDiagnostics(CXTranslationUnit Unit) {

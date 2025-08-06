@@ -8,6 +8,7 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
@@ -15,6 +16,11 @@ import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 export 'package:ffigen/src/config_provider/utils.dart';
+
+Context testContext([FfiGen? config]) => Context(
+  Logger.root,
+  config ?? FfiGen(Logger.root, output: Uri.file('unused')),
+);
 
 extension LibraryTestExt on Library {
   /// Get a [Binding]'s generated string with a given name.
@@ -159,16 +165,20 @@ void logWarnings([Level level = Level.WARNING]) {
   });
 }
 
-void logToArray(List<String> logArr, Level level) {
+Logger logToArray(List<String> logArr, Level level) {
   Logger.root.level = level;
-  Logger.root.onRecord.listen((record) {
+  Logger.root.onRecord.listen((record) {});
+  final logger = Logger('ffigen.test');
+  logger.onRecord.listen((record) {
     logArr.add('${record.level.name.padRight(8)}: ${record.message}');
   });
+  return logger;
 }
 
-Config testConfig(String yamlBody, {String? filename}) {
+FfiGen testConfig(String yamlBody, {String? filename, Logger? logger}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
+    logger ?? Logger.root,
     filename: filename,
     packageConfig: PackageConfig([
       Package(
@@ -181,7 +191,7 @@ Config testConfig(String yamlBody, {String? filename}) {
   );
 }
 
-Config testConfigFromPath(String path) {
+FfiGen testConfigFromPath(String path) {
   final file = File(path);
   final yamlBody = file.readAsStringSync();
   return testConfig(yamlBody, filename: path);

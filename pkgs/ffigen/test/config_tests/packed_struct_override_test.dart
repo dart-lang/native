@@ -50,7 +50,7 @@ ${strings.structs}:
     'PackedAttr': none
         ''');
 
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       expect((library.getBinding('NormalStruct1') as Struct).pack, 1);
       expect((library.getBinding('StructWithAttr') as Struct).pack, 2);
