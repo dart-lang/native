@@ -5,7 +5,7 @@ public class TestClass {
     return TestOtherClass()
   }
 
-  static func create() -> TestClass {
+  public static func create() -> TestClass {
     return TestClass()
   }
 }

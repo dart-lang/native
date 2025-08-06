@@ -41,6 +41,7 @@ extension SwiftGenGenerator on SwiftGen {
   Future<void> _generateObjCFile() => run('swiftc', [
     '-c',
     for (final uri in input.files) p.absolute(uri.toFilePath()),
+    p.absolute(objcSwiftFile.toFilePath()),
     '-module-name',
     outModule,
     '-emit-objc-header-path',
