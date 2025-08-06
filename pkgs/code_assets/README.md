@@ -6,6 +6,35 @@
 A library to use in build hooks (`hook/build.dart`) for building and bundling
 code assets.
 
+Code assets can be added in a build hook as follows:
+
+```dart
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
+
+void main(List<String> args) async {
+  await build(args, (input, output) async {
+    final packageName = input.packageName;
+    final assetPath = input.outputDirectory.resolve('...');
+
+    output.assets.code.add(
+      CodeAsset(
+        package: packageName,
+        name: '...',
+        linkMode: DynamicLoadingBundled(),
+        file: assetPath,
+      ),
+    );
+  });
+}
+```
+
+For more documentation of hooks, refer to the API docs of
+[`package:hooks`](https://pub.dev/packages/hooks).
+
+When compiling C, C++ or Objective-C code from source, consider using
+[`package:native_toolchain_c`](https://pub.dev/packages/native_toolchain_c).
+
 ## Status: In Preview
 
 **NOTE**: This package is currently in preview and published under the
