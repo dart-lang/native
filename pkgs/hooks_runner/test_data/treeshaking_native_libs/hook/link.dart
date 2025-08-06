@@ -10,7 +10,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 void main(List<String> arguments) async {
   await link(arguments, (input, output) async {
     final asset = input.assets.code.single;
-    final packageName = asset.id.split('/').first;
+    final packageName = asset.id.split('/').first.replaceAll('package:', '');
     final assetName = asset.id.split('/').skip(1).join('/');
     final linker = CLinker.library(
       name: packageName,
