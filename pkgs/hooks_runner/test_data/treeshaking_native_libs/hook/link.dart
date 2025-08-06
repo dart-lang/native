@@ -9,11 +9,14 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (input, output) async {
+    final asset = input.assets.code.single;
+    final packageName = asset.id.split('/').first;
+    final assetName = asset.id.split('/').skip(1).join('/');
     final linker = CLinker.library(
-      name: input.packageName,
-      assetName: input.assets.code.single.id.split('/').skip(1).join('/'),
+      name: packageName,
+      assetName: assetName,
       linkerOptions: LinkerOptions.treeshake(symbolsToKeep: ['add']),
-      sources: [input.assets.code.single.file!.toFilePath()],
+      sources: [asset.file!.toFilePath()],
     );
     await linker.run(
       input: input,
