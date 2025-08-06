@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-=======
-// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
->>>>>>> main
 
 import AVFAudio
 import Foundation
@@ -180,8 +174,30 @@ import Foundation
 @objc public class AVAudio3DVectorOrientationWrapper: NSObject {
   var wrappedInstance: AVAudio3DVectorOrientation
 
+  @objc public var forward: AVAudio3DPointWrapper {
+    get {
+      AVAudio3DPointWrapper(wrappedInstance.forward)
+    }
+    set {
+      wrappedInstance.forward = newValue.wrappedInstance
+    }
+  }
+
+  @objc public var up: AVAudio3DPointWrapper {
+    get {
+      AVAudio3DPointWrapper(wrappedInstance.up)
+    }
+    set {
+      wrappedInstance.up = newValue.wrappedInstance
+    }
+  }
+
   init(_ wrappedInstance: AVAudio3DVectorOrientation) {
     self.wrappedInstance = wrappedInstance
+  }
+
+  @objc init(forward: AVAudio3DPointWrapper, up: AVAudio3DPointWrapper) {
+    wrappedInstance = AVAudio3DVectorOrientation(forward: forward.wrappedInstance, up: up.wrappedInstance)
   }
 
   @objc override init() {
@@ -203,6 +219,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 14.0)
 @objc public class AVAudioVoiceProcessingOtherAudioDuckingConfigurationWrapper: NSObject {
   var wrappedInstance: AVAudioVoiceProcessingOtherAudioDuckingConfiguration
 
@@ -210,12 +227,14 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 14.0)
   @objc override init() {
     wrappedInstance = AVAudioVoiceProcessingOtherAudioDuckingConfiguration()
   }
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVAUPresetEventWrapper: NSObject {
   var wrappedInstance: AVAUPresetEvent
 
@@ -225,21 +244,25 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 14.0)
 @objc public class AVAudioApplicationWrapper: NSObject {
   var wrappedInstance: AVAudioApplication
 
+  @available(macOS, introduced: 14.0)
   @objc static public var muteStateKey: String {
     get {
       AVAudioApplication.muteStateKey
     }
   }
 
+  @available(macOS, introduced: 14.0)
   @objc static public var shared: AVAudioApplicationWrapper {
     get {
       AVAudioApplicationWrapper(AVAudioApplication.shared)
     }
   }
 
+  @available(macOS, introduced: 14.0)
   @objc public var isInputMuted: Bool {
     get {
       wrappedInstance.isInputMuted
@@ -250,15 +273,18 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 14.0)
   @objc public func setInputMuted(_ muted: Bool) throws {
     return try wrappedInstance.setInputMuted(muted)
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioBufferWrapper: NSObject {
   var wrappedInstance: AVAudioBuffer
 
+  @available(macOS, introduced: 10.10)
   @objc public var format: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.format)
@@ -271,6 +297,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioChannelLayoutWrapper: NSObject {
   var wrappedInstance: AVAudioChannelLayout
 
@@ -280,9 +307,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.11)
 @objc public class AVAudioCompressedBufferWrapper: NSObject {
   var wrappedInstance: AVAudioCompressedBuffer
 
+  @available(macOS, introduced: 10.11)
   @objc public var maximumPacketSize: Int {
     get {
       wrappedInstance.maximumPacketSize
@@ -295,10 +324,19 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.11)
 @objc public class AVAudioConnectionPointWrapper: NSObject {
   var wrappedInstance: AVAudioConnectionPoint
 
-  @objc public var node: AVAudioNodeWrapper? {
+  @available(macOS, introduced: 10.11)
+  @objc public var bus: AVAudioNodeBus {
+    get {
+      wrappedInstance.bus
+    }
+  }
+
+  @available(macOS, introduced: 10.11)
+  @objc public weak var node: AVAudioNodeWrapper? {
     get {
       wrappedInstance.node == nil ? nil : AVAudioNodeWrapper(wrappedInstance.node!)
     }
@@ -308,8 +346,14 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.11)
+  @objc init(node: AVAudioNodeWrapper, bus: AVAudioNodeBus) {
+    wrappedInstance = AVAudioConnectionPoint(node: node.wrappedInstance, bus: bus)
+  }
+
 }
 
+@available(macOS, introduced: 10.11)
 @objc public class AVAudioConverterWrapper: NSObject {
   var wrappedInstance: AVAudioConverter
 
@@ -331,6 +375,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var dither: Bool {
     get {
       wrappedInstance.dither
@@ -340,6 +385,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var downmix: Bool {
     get {
       wrappedInstance.downmix
@@ -349,6 +395,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var inputFormat: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.inputFormat)
@@ -361,12 +408,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var outputFormat: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.outputFormat)
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var primeInfo: AVAudioConverterPrimeInfoWrapper {
     get {
       AVAudioConverterPrimeInfoWrapper(wrappedInstance.primeInfo)
@@ -376,6 +425,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var sampleRateConverterAlgorithm: String? {
     get {
       wrappedInstance.sampleRateConverterAlgorithm
@@ -385,6 +435,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var sampleRateConverterQuality: Int {
     get {
       wrappedInstance.sampleRateConverterQuality
@@ -398,6 +449,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.11)
   @objc init?(from fromFormat: AVAudioFormatWrapper, to toFormat: AVAudioFormatWrapper) {
     if let instance = AVAudioConverter(from: fromFormat.wrappedInstance, to: toFormat.wrappedInstance) {
       wrappedInstance = instance
@@ -406,19 +458,23 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public func convert(to outputBuffer: AVAudioPCMBufferWrapper, from inputBuffer: AVAudioPCMBufferWrapper) throws {
     return try wrappedInstance.convert(to: outputBuffer.wrappedInstance, from: inputBuffer.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public func reset() {
     return wrappedInstance.reset()
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioEngineWrapper: NSObject {
   var wrappedInstance: AVAudioEngine
 
+  @available(macOS, introduced: 10.13)
   @objc public var isAutoShutdownEnabled: Bool {
     get {
       wrappedInstance.isAutoShutdownEnabled
@@ -428,36 +484,42 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var inputNode: AVAudioInputNodeWrapper {
     get {
       AVAudioInputNodeWrapper(wrappedInstance.inputNode)
     }
   }
 
+  @available(macOS, introduced: 10.13)
   @objc public var isInManualRenderingMode: Bool {
     get {
       wrappedInstance.isInManualRenderingMode
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var mainMixerNode: AVAudioMixerNodeWrapper {
     get {
       AVAudioMixerNodeWrapper(wrappedInstance.mainMixerNode)
     }
   }
 
+  @available(macOS, introduced: 10.13)
   @objc public var manualRenderingFormat: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.manualRenderingFormat)
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var outputNode: AVAudioOutputNodeWrapper {
     get {
       AVAudioOutputNodeWrapper(wrappedInstance.outputNode)
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var isRunning: Bool {
     get {
       wrappedInstance.isRunning
@@ -468,71 +530,109 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc override init() {
     wrappedInstance = AVAudioEngine()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func attach(_ node: AVAudioNodeWrapper) {
     return wrappedInstance.attach(node.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func connect(_ node1: AVAudioNodeWrapper, to node2: AVAudioNodeWrapper, format: AVAudioFormatWrapper?) {
     return wrappedInstance.connect(node1.wrappedInstance, to: node2.wrappedInstance, format: format?.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public func connect(_ node1: AVAudioNodeWrapper, to node2: AVAudioNodeWrapper, fromBus bus1: AVAudioNodeBus, toBus bus2: AVAudioNodeBus, format: AVAudioFormatWrapper?) {
+    return wrappedInstance.connect(node1.wrappedInstance, to: node2.wrappedInstance, fromBus: bus1, toBus: bus2, format: format?.wrappedInstance)
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public func detach(_ node: AVAudioNodeWrapper) {
     return wrappedInstance.detach(node.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.13)
   @objc public func disableManualRenderingMode() {
     return wrappedInstance.disableManualRenderingMode()
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public func disconnectMIDI(_ sourceNode: AVAudioNodeWrapper, from destinationNode: AVAudioNodeWrapper) {
     return wrappedInstance.disconnectMIDI(sourceNode.wrappedInstance, from: destinationNode.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public func disconnectMIDIInput(_ node: AVAudioNodeWrapper) {
     return wrappedInstance.disconnectMIDIInput(node.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public func disconnectMIDIOutput(_ node: AVAudioNodeWrapper) {
     return wrappedInstance.disconnectMIDIOutput(node.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func disconnectNodeInput(_ node: AVAudioNodeWrapper) {
     return wrappedInstance.disconnectNodeInput(node.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public func disconnectNodeInput(_ node: AVAudioNodeWrapper, bus: AVAudioNodeBus) {
+    return wrappedInstance.disconnectNodeInput(node.wrappedInstance, bus: bus)
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public func disconnectNodeOutput(_ node: AVAudioNodeWrapper) {
     return wrappedInstance.disconnectNodeOutput(node.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public func disconnectNodeOutput(_ node: AVAudioNodeWrapper, bus: AVAudioNodeBus) {
+    return wrappedInstance.disconnectNodeOutput(node.wrappedInstance, bus: bus)
+  }
+
+  @available(macOS, introduced: 10.11)
+  @objc public func inputConnectionPoint(for node: AVAudioNodeWrapper, inputBus bus: AVAudioNodeBus) -> AVAudioConnectionPointWrapper? {
+    let result = wrappedInstance.inputConnectionPoint(for: node.wrappedInstance, inputBus: bus)
+    return result == nil ? nil : AVAudioConnectionPointWrapper(result!)
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public func pause() {
     return wrappedInstance.pause()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func prepare() {
     return wrappedInstance.prepare()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func reset() {
     return wrappedInstance.reset()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func start() throws {
     return try wrappedInstance.start()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func stop() {
     return wrappedInstance.stop()
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioEnvironmentDistanceAttenuationParametersWrapper: NSObject {
   var wrappedInstance: AVAudioEnvironmentDistanceAttenuationParameters
 
+  @available(macOS, introduced: 10.10)
   @objc public var maximumDistance: Float {
     get {
       wrappedInstance.maximumDistance
@@ -542,6 +642,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var referenceDistance: Float {
     get {
       wrappedInstance.referenceDistance
@@ -551,6 +652,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var rolloffFactor: Float {
     get {
       wrappedInstance.rolloffFactor
@@ -566,15 +668,18 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioEnvironmentNodeWrapper: NSObject {
   var wrappedInstance: AVAudioEnvironmentNode
 
+  @available(macOS, introduced: 10.10)
   @objc public var distanceAttenuationParameters: AVAudioEnvironmentDistanceAttenuationParametersWrapper {
     get {
       AVAudioEnvironmentDistanceAttenuationParametersWrapper(wrappedInstance.distanceAttenuationParameters)
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var listenerAngularOrientation: AVAudio3DAngularOrientationWrapper {
     get {
       AVAudio3DAngularOrientationWrapper(wrappedInstance.listenerAngularOrientation)
@@ -584,6 +689,17 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 15.0)
+  @objc public var isListenerHeadTrackingEnabled: Bool {
+    get {
+      wrappedInstance.isListenerHeadTrackingEnabled
+    }
+    set {
+      wrappedInstance.isListenerHeadTrackingEnabled = newValue
+    }
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public var listenerPosition: AVAudio3DPointWrapper {
     get {
       AVAudio3DPointWrapper(wrappedInstance.listenerPosition)
@@ -593,6 +709,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var listenerVectorOrientation: AVAudio3DVectorOrientationWrapper {
     get {
       AVAudio3DVectorOrientationWrapper(wrappedInstance.listenerVectorOrientation)
@@ -602,6 +719,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public var nextAvailableInputBus: AVAudioNodeBus {
+    get {
+      wrappedInstance.nextAvailableInputBus
+    }
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public var outputVolume: Float {
     get {
       wrappedInstance.outputVolume
@@ -611,6 +736,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var reverbParameters: AVAudioEnvironmentReverbParametersWrapper {
     get {
       AVAudioEnvironmentReverbParametersWrapper(wrappedInstance.reverbParameters)
@@ -621,15 +747,18 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc override init() {
     wrappedInstance = AVAudioEnvironmentNode()
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioEnvironmentReverbParametersWrapper: NSObject {
   var wrappedInstance: AVAudioEnvironmentReverbParameters
 
+  @available(macOS, introduced: 10.10)
   @objc public var enable: Bool {
     get {
       wrappedInstance.enable
@@ -639,12 +768,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var filterParameters: AVAudioUnitEQFilterParametersWrapper {
     get {
       AVAudioUnitEQFilterParametersWrapper(wrappedInstance.filterParameters)
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var level: Float {
     get {
       wrappedInstance.level
@@ -660,24 +791,28 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioFileWrapper: NSObject {
   var wrappedInstance: AVAudioFile
 
+  @available(macOS, introduced: 10.10)
   @objc public var fileFormat: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.fileFormat)
     }
   }
 
-  @objc public var processingFormat: AVAudioFormatWrapper {
+  @available(macOS, introduced: 15.0)
+  @objc public var isOpen: Bool {
     get {
-      AVAudioFormatWrapper(wrappedInstance.processingFormat)
+      wrappedInstance.isOpen
     }
   }
 
-  @objc public var url: URL {
+  @available(macOS, introduced: 10.10)
+  @objc public var processingFormat: AVAudioFormatWrapper {
     get {
-      wrappedInstance.url
+      AVAudioFormatWrapper(wrappedInstance.processingFormat)
     }
   }
 
@@ -685,41 +820,49 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(forReading fileURL: URL) throws {
-    wrappedInstance = try AVAudioFile(forReading: fileURL)
+  @available(macOS, introduced: 15.0)
+  @objc public func close() {
+    return wrappedInstance.close()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func read(into buffer: AVAudioPCMBufferWrapper) throws {
     return try wrappedInstance.read(into: buffer.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func write(from buffer: AVAudioPCMBufferWrapper) throws {
     return try wrappedInstance.write(from: buffer.wrappedInstance)
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioFormatWrapper: NSObject {
   var wrappedInstance: AVAudioFormat
 
+  @available(macOS, introduced: 10.10)
   @objc public var channelLayout: AVAudioChannelLayoutWrapper? {
     get {
       wrappedInstance.channelLayout == nil ? nil : AVAudioChannelLayoutWrapper(wrappedInstance.channelLayout!)
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var isInterleaved: Bool {
     get {
       wrappedInstance.isInterleaved
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var sampleRate: Double {
     get {
       wrappedInstance.sampleRate
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var isStandard: Bool {
     get {
       wrappedInstance.isStandard
@@ -730,21 +873,18 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc init(standardFormatWithSampleRate sampleRate: Double, channelLayout layout: AVAudioChannelLayoutWrapper) {
     wrappedInstance = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channelLayout: layout.wrappedInstance)
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioIONodeWrapper: NSObject {
   var wrappedInstance: AVAudioIONode
 
-  @objc public var presentationLatency: TimeInterval {
-    get {
-      wrappedInstance.presentationLatency
-    }
-  }
-
+  @available(macOS, introduced: 10.15)
   @objc public var isVoiceProcessingEnabled: Bool {
     get {
       wrappedInstance.isVoiceProcessingEnabled
@@ -755,15 +895,18 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.15)
   @objc public func setVoiceProcessingEnabled(_ enabled: Bool) throws {
     return try wrappedInstance.setVoiceProcessingEnabled(enabled)
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioInputNodeWrapper: NSObject {
   var wrappedInstance: AVAudioInputNode
 
+  @available(macOS, introduced: 10.15)
   @objc public var isVoiceProcessingAGCEnabled: Bool {
     get {
       wrappedInstance.isVoiceProcessingAGCEnabled
@@ -773,6 +916,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.15)
   @objc public var isVoiceProcessingBypassed: Bool {
     get {
       wrappedInstance.isVoiceProcessingBypassed
@@ -782,6 +926,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.15)
   @objc public var isVoiceProcessingInputMuted: Bool {
     get {
       wrappedInstance.isVoiceProcessingInputMuted
@@ -791,6 +936,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 14.0)
   @objc public var voiceProcessingOtherAudioDuckingConfiguration: AVAudioVoiceProcessingOtherAudioDuckingConfigurationWrapper {
     get {
       AVAudioVoiceProcessingOtherAudioDuckingConfigurationWrapper(wrappedInstance.voiceProcessingOtherAudioDuckingConfiguration)
@@ -806,9 +952,18 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioMixerNodeWrapper: NSObject {
   var wrappedInstance: AVAudioMixerNode
 
+  @available(macOS, introduced: 10.10)
+  @objc public var nextAvailableInputBus: AVAudioNodeBus {
+    get {
+      wrappedInstance.nextAvailableInputBus
+    }
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public var outputVolume: Float {
     get {
       wrappedInstance.outputVolume
@@ -822,15 +977,18 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc override init() {
     wrappedInstance = AVAudioMixerNode()
   }
 
 }
 
+@available(macOS, introduced: 10.11)
 @objc public class AVAudioMixingDestinationWrapper: NSObject {
   var wrappedInstance: AVAudioMixingDestination
 
+  @available(macOS, introduced: 10.11)
   @objc public var connectionPoint: AVAudioConnectionPointWrapper {
     get {
       AVAudioConnectionPointWrapper(wrappedInstance.connectionPoint)
@@ -843,42 +1001,35 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioNodeWrapper: NSObject {
   var wrappedInstance: AVAudioNode
 
+  @available(macOS, introduced: 10.10)
   @objc public var engine: AVAudioEngineWrapper? {
     get {
       wrappedInstance.engine == nil ? nil : AVAudioEngineWrapper(wrappedInstance.engine!)
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var lastRenderTime: AVAudioTimeWrapper? {
     get {
       wrappedInstance.lastRenderTime == nil ? nil : AVAudioTimeWrapper(wrappedInstance.lastRenderTime!)
     }
   }
 
-  @objc public var latency: TimeInterval {
-    get {
-      wrappedInstance.latency
-    }
-  }
-
+  @available(macOS, introduced: 10.10)
   @objc public var numberOfInputs: Int {
     get {
       wrappedInstance.numberOfInputs
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var numberOfOutputs: Int {
     get {
       wrappedInstance.numberOfOutputs
-    }
-  }
-
-  @objc public var outputPresentationLatency: TimeInterval {
-    get {
-      wrappedInstance.outputPresentationLatency
     }
   }
 
@@ -886,12 +1037,41 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public func inputFormat(forBus bus: AVAudioNodeBus) -> AVAudioFormatWrapper {
+    let result = wrappedInstance.inputFormat(forBus: bus)
+    return AVAudioFormatWrapper(result)
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc public func name(forInputBus bus: AVAudioNodeBus) -> String? {
+    return wrappedInstance.name(forInputBus: bus)
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc public func name(forOutputBus bus: AVAudioNodeBus) -> String? {
+    return wrappedInstance.name(forOutputBus: bus)
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc public func outputFormat(forBus bus: AVAudioNodeBus) -> AVAudioFormatWrapper {
+    let result = wrappedInstance.outputFormat(forBus: bus)
+    return AVAudioFormatWrapper(result)
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc public func removeTap(onBus bus: AVAudioNodeBus) {
+    return wrappedInstance.removeTap(onBus: bus)
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public func reset() {
     return wrappedInstance.reset()
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioOutputNodeWrapper: NSObject {
   var wrappedInstance: AVAudioOutputNode
 
@@ -901,9 +1081,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioPCMBufferWrapper: NSObject {
   var wrappedInstance: AVAudioPCMBuffer
 
+  @available(macOS, introduced: 10.10)
   @objc public var stride: Int {
     get {
       wrappedInstance.stride
@@ -916,9 +1098,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.7)
 @objc public class AVAudioPlayerWrapper: NSObject {
   var wrappedInstance: AVAudioPlayer
 
+  @available(macOS, introduced: 10.13)
   @objc public var currentDevice: String? {
     get {
       wrappedInstance.currentDevice
@@ -928,27 +1112,7 @@ import Foundation
     }
   }
 
-  @objc public var currentTime: TimeInterval {
-    get {
-      wrappedInstance.currentTime
-    }
-    set {
-      wrappedInstance.currentTime = newValue
-    }
-  }
-
-  @objc public var deviceCurrentTime: TimeInterval {
-    get {
-      wrappedInstance.deviceCurrentTime
-    }
-  }
-
-  @objc public var duration: TimeInterval {
-    get {
-      wrappedInstance.duration
-    }
-  }
-
+  @available(macOS, introduced: 10.8)
   @objc public var enableRate: Bool {
     get {
       wrappedInstance.enableRate
@@ -958,12 +1122,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.12)
   @objc public var format: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.format)
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public var isMeteringEnabled: Bool {
     get {
       wrappedInstance.isMeteringEnabled
@@ -973,12 +1139,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public var numberOfChannels: Int {
     get {
       wrappedInstance.numberOfChannels
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public var numberOfLoops: Int {
     get {
       wrappedInstance.numberOfLoops
@@ -988,6 +1156,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public var pan: Float {
     get {
       wrappedInstance.pan
@@ -997,12 +1166,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public var isPlaying: Bool {
     get {
       wrappedInstance.isPlaying
     }
   }
 
+  @available(macOS, introduced: 10.8)
   @objc public var rate: Float {
     get {
       wrappedInstance.rate
@@ -1012,12 +1183,7 @@ import Foundation
     }
   }
 
-  @objc public var url: URL? {
-    get {
-      wrappedInstance.url
-    }
-  }
-
+  @available(macOS, introduced: 10.7)
   @objc public var volume: Float {
     get {
       wrappedInstance.volume
@@ -1031,55 +1197,48 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(contentsOf url: URL) throws {
-    wrappedInstance = try AVAudioPlayer(contentsOf: url)
-  }
-
-  @objc init(contentsOf url: URL, fileTypeHint utiString: String?) throws {
-    wrappedInstance = try AVAudioPlayer(contentsOf: url, fileTypeHint: utiString)
-  }
-
+  @available(macOS, introduced: 10.7)
   @objc public func averagePower(forChannel channelNumber: Int) -> Float {
     return wrappedInstance.averagePower(forChannel: channelNumber)
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func pause() {
     return wrappedInstance.pause()
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func peakPower(forChannel channelNumber: Int) -> Float {
     return wrappedInstance.peakPower(forChannel: channelNumber)
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func play() -> Bool {
     return wrappedInstance.play()
   }
 
-  @objc public func play(atTime time: TimeInterval) -> Bool {
-    return wrappedInstance.play(atTime: time)
-  }
-
+  @available(macOS, introduced: 10.7)
   @objc public func prepareToPlay() -> Bool {
     return wrappedInstance.prepareToPlay()
   }
 
-  @objc public func setVolume(_ volume: Float, fadeDuration duration: TimeInterval) {
-    return wrappedInstance.setVolume(volume, fadeDuration: duration)
-  }
-
+  @available(macOS, introduced: 10.7)
   @objc public func stop() {
     return wrappedInstance.stop()
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func updateMeters() {
     return wrappedInstance.updateMeters()
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioPlayerNodeWrapper: NSObject {
   var wrappedInstance: AVAudioPlayerNode
 
+  @available(macOS, introduced: 10.10)
   @objc public var isPlaying: Bool {
     get {
       wrappedInstance.isPlaying
@@ -1090,67 +1249,62 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc override init() {
     wrappedInstance = AVAudioPlayerNode()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func nodeTime(forPlayerTime playerTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper? {
     let result = wrappedInstance.nodeTime(forPlayerTime: playerTime.wrappedInstance)
     return result == nil ? nil : AVAudioTimeWrapper(result!)
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func pause() {
     return wrappedInstance.pause()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func play() {
     return wrappedInstance.play()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func play(at when: AVAudioTimeWrapper?) {
     return wrappedInstance.play(at: when?.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func playerTime(forNodeTime nodeTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper? {
     let result = wrappedInstance.playerTime(forNodeTime: nodeTime.wrappedInstance)
     return result == nil ? nil : AVAudioTimeWrapper(result!)
   }
 
-  @objc public func scheduleBuffer(_ buffer: AVAudioPCMBufferWrapper) async {
-    return await wrappedInstance.scheduleBuffer(buffer.wrappedInstance)
-  }
-
+  @available(macOS, introduced: 10.10)
   @objc public func scheduleFile(_ file: AVAudioFileWrapper, at when: AVAudioTimeWrapper?) async {
     return await wrappedInstance.scheduleFile(file.wrappedInstance, at: when?.wrappedInstance)
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func stop() {
     return wrappedInstance.stop()
   }
 
 }
 
+@available(macOS, introduced: 10.7)
 @objc public class AVAudioRecorderWrapper: NSObject {
   var wrappedInstance: AVAudioRecorder
 
-  @objc public var currentTime: TimeInterval {
-    get {
-      wrappedInstance.currentTime
-    }
-  }
-
-  @objc public var deviceCurrentTime: TimeInterval {
-    get {
-      wrappedInstance.deviceCurrentTime
-    }
-  }
-
+  @available(macOS, introduced: 10.12)
   @objc public var format: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.format)
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public var isMeteringEnabled: Bool {
     get {
       wrappedInstance.isMeteringEnabled
@@ -1160,15 +1314,10 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public var isRecording: Bool {
     get {
       wrappedInstance.isRecording
-    }
-  }
-
-  @objc public var url: URL {
-    get {
-      wrappedInstance.url
     }
   }
 
@@ -1176,59 +1325,53 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(url: URL, format: AVAudioFormatWrapper) throws {
-    wrappedInstance = try AVAudioRecorder(url: url, format: format.wrappedInstance)
-  }
-
+  @available(macOS, introduced: 10.7)
   @objc public func averagePower(forChannel channelNumber: Int) -> Float {
     return wrappedInstance.averagePower(forChannel: channelNumber)
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func deleteRecording() -> Bool {
     return wrappedInstance.deleteRecording()
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func pause() {
     return wrappedInstance.pause()
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func peakPower(forChannel channelNumber: Int) -> Float {
     return wrappedInstance.peakPower(forChannel: channelNumber)
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func prepareToRecord() -> Bool {
     return wrappedInstance.prepareToRecord()
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func record() -> Bool {
     return wrappedInstance.record()
   }
 
-  @objc public func record(atTime time: TimeInterval) -> Bool {
-    return wrappedInstance.record(atTime: time)
-  }
-
-  @objc public func record(atTime time: TimeInterval, forDuration duration: TimeInterval) -> Bool {
-    return wrappedInstance.record(atTime: time, forDuration: duration)
-  }
-
-  @objc public func record(forDuration duration: TimeInterval) -> Bool {
-    return wrappedInstance.record(forDuration: duration)
-  }
-
+  @available(macOS, introduced: 10.7)
   @objc public func stop() {
     return wrappedInstance.stop()
   }
 
+  @available(macOS, introduced: 10.7)
   @objc public func updateMeters() {
     return wrappedInstance.updateMeters()
   }
 
 }
 
+@available(macOS, introduced: 11.0)
 @objc public class AVAudioRoutingArbiterWrapper: NSObject {
   var wrappedInstance: AVAudioRoutingArbiter
 
+  @available(macOS, introduced: 11.0)
   @objc static public var shared: AVAudioRoutingArbiterWrapper {
     get {
       AVAudioRoutingArbiterWrapper(AVAudioRoutingArbiter.shared)
@@ -1239,39 +1382,25 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 11.0)
   @objc public func leave() {
     return wrappedInstance.leave()
   }
 
 }
 
+@available(macOS, introduced: 10.11)
 @objc public class AVAudioSequencerWrapper: NSObject {
   var wrappedInstance: AVAudioSequencer
 
-  @objc public var currentPositionInBeats: TimeInterval {
-    get {
-      wrappedInstance.currentPositionInBeats
-    }
-    set {
-      wrappedInstance.currentPositionInBeats = newValue
-    }
-  }
-
-  @objc public var currentPositionInSeconds: TimeInterval {
-    get {
-      wrappedInstance.currentPositionInSeconds
-    }
-    set {
-      wrappedInstance.currentPositionInSeconds = newValue
-    }
-  }
-
+  @available(macOS, introduced: 10.11)
   @objc public var isPlaying: Bool {
     get {
       wrappedInstance.isPlaying
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var rate: Float {
     get {
       wrappedInstance.rate
@@ -1281,6 +1410,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var tempoTrack: AVMusicTrackWrapper {
     get {
       AVMusicTrackWrapper(wrappedInstance.tempoTrack)
@@ -1291,172 +1421,199 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.11)
   @objc override init() {
     wrappedInstance = AVAudioSequencer()
   }
 
+  @available(macOS, introduced: 10.11)
   @objc init(audioEngine engine: AVAudioEngineWrapper) {
     wrappedInstance = AVAudioSequencer(audioEngine: engine.wrappedInstance)
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public func createAndAppendTrack() -> AVMusicTrackWrapper {
     let result = wrappedInstance.createAndAppendTrack()
     return AVMusicTrackWrapper(result)
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public func prepareToPlay() {
     return wrappedInstance.prepareToPlay()
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public func removeTrack(_ track: AVMusicTrackWrapper) -> Bool {
     return wrappedInstance.removeTrack(track.wrappedInstance)
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public func reverseEvents() {
     return wrappedInstance.reverseEvents()
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public func start() throws {
     return try wrappedInstance.start()
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public func stop() {
     return wrappedInstance.stop()
   }
 
-  @objc public func write(to fileURL: URL, smpteResolution resolution: Int, replaceExisting replace: Bool) throws {
-    return try wrappedInstance.write(to: fileURL, smpteResolution: resolution, replaceExisting: replace)
-  }
-
+  @available(macOS, introduced: 13.0)
   @objc public class InfoDictionaryKeyWrapper: NSObject {
     var wrappedInstance: AVAudioSequencer.InfoDictionaryKey
 
+    @available(macOS, introduced: 13.0)
     @objc static public var album: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.album)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var approximateDurationInSeconds: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.approximateDurationInSeconds)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var artist: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.artist)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var channelLayout: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.channelLayout)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var comments: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.comments)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var composer: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.composer)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var copyright: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.copyright)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var encodingApplication: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.encodingApplication)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var genre: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.genre)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var ISRC: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.ISRC)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var keySignature: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.keySignature)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var lyricist: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.lyricist)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var nominalBitRate: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.nominalBitRate)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var recordedDate: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.recordedDate)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var sourceBitDepth: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.sourceBitDepth)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var sourceEncoder: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.sourceEncoder)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var subTitle: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.subTitle)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var tempo: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.tempo)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var timeSignature: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.timeSignature)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var title: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.title)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var trackNumber: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.trackNumber)
       }
     }
 
+    @available(macOS, introduced: 13.0)
     @objc static public var year: AVAudioSequencerWrapper.InfoDictionaryKeyWrapper {
       get {
         InfoDictionaryKeyWrapper(AVAudioSequencer.InfoDictionaryKey.year)
@@ -1467,6 +1624,7 @@ import Foundation
       self.wrappedInstance = wrappedInstance
     }
 
+    @available(macOS, introduced: 13.0)
     @objc init(rawValue: String) {
       wrappedInstance = AVAudioSequencer.InfoDictionaryKey(rawValue: rawValue)
     }
@@ -1475,6 +1633,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.15)
 @objc public class AVAudioSinkNodeWrapper: NSObject {
   var wrappedInstance: AVAudioSinkNode
 
@@ -1484,6 +1643,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.15)
 @objc public class AVAudioSourceNodeWrapper: NSObject {
   var wrappedInstance: AVAudioSourceNode
 
@@ -1493,21 +1653,25 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioTimeWrapper: NSObject {
   var wrappedInstance: AVAudioTime
 
+  @available(macOS, introduced: 10.10)
   @objc public var isHostTimeValid: Bool {
     get {
       wrappedInstance.isHostTimeValid
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var sampleRate: Double {
     get {
       wrappedInstance.sampleRate
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var isSampleTimeValid: Bool {
     get {
       wrappedInstance.isSampleTimeValid
@@ -1518,6 +1682,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func extrapolateTime(fromAnchor anchorTime: AVAudioTimeWrapper) -> AVAudioTimeWrapper? {
     let result = wrappedInstance.extrapolateTime(fromAnchor: anchorTime.wrappedInstance)
     return result == nil ? nil : AVAudioTimeWrapper(result!)
@@ -1525,21 +1690,25 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitWrapper: NSObject {
   var wrappedInstance: AVAudioUnit
 
+  @available(macOS, introduced: 10.10)
   @objc public var manufacturerName: String {
     get {
       wrappedInstance.manufacturerName
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var name: String {
     get {
       wrappedInstance.name
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var version: Int {
     get {
       wrappedInstance.version
@@ -1550,87 +1719,83 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public func loadPreset(at url: URL) throws {
-    return try wrappedInstance.loadPreset(at: url)
-  }
-
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitComponentWrapper: NSObject {
   var wrappedInstance: AVAudioUnitComponent
 
-  @objc public var componentURL: URL? {
-    get {
-      wrappedInstance.componentURL
-    }
-  }
-
+  @available(macOS, introduced: 10.10)
   @objc public var hasCustomView: Bool {
     get {
       wrappedInstance.hasCustomView
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var hasMIDIInput: Bool {
     get {
       wrappedInstance.hasMIDIInput
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var hasMIDIOutput: Bool {
     get {
       wrappedInstance.hasMIDIOutput
     }
   }
 
-  @objc public var iconURL: URL? {
-    get {
-      wrappedInstance.iconURL
-    }
-  }
-
+  @available(macOS, introduced: 10.10)
   @objc public var localizedTypeName: String {
     get {
       wrappedInstance.localizedTypeName
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var manufacturerName: String {
     get {
       wrappedInstance.manufacturerName
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var name: String {
     get {
       wrappedInstance.name
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var passesAUVal: Bool {
     get {
       wrappedInstance.passesAUVal
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var isSandboxSafe: Bool {
     get {
       wrappedInstance.isSandboxSafe
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var typeName: String {
     get {
       wrappedInstance.typeName
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var version: Int {
     get {
       wrappedInstance.version
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var versionString: String {
     get {
       wrappedInstance.versionString
@@ -1641,12 +1806,14 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func supportsNumberInputChannels(_ numInputChannels: Int, outputChannels numOutputChannels: Int) -> Bool {
     return wrappedInstance.supportsNumberInputChannels(numInputChannels, outputChannels: numOutputChannels)
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitComponentManagerWrapper: NSObject {
   var wrappedInstance: AVAudioUnitComponentManager
 
@@ -1656,18 +1823,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitDelayWrapper: NSObject {
   var wrappedInstance: AVAudioUnitDelay
 
-  @objc public var delayTime: TimeInterval {
-    get {
-      wrappedInstance.delayTime
-    }
-    set {
-      wrappedInstance.delayTime = newValue
-    }
-  }
-
+  @available(macOS, introduced: 10.10)
   @objc public var feedback: Float {
     get {
       wrappedInstance.feedback
@@ -1677,6 +1837,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var lowPassCutoff: Float {
     get {
       wrappedInstance.lowPassCutoff
@@ -1686,6 +1847,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var wetDryMix: Float {
     get {
       wrappedInstance.wetDryMix
@@ -1701,9 +1863,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitDistortionWrapper: NSObject {
   var wrappedInstance: AVAudioUnitDistortion
 
+  @available(macOS, introduced: 10.10)
   @objc public var preGain: Float {
     get {
       wrappedInstance.preGain
@@ -1713,6 +1877,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var wetDryMix: Float {
     get {
       wrappedInstance.wetDryMix
@@ -1728,9 +1893,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitEQWrapper: NSObject {
   var wrappedInstance: AVAudioUnitEQ
 
+  @available(macOS, introduced: 10.10)
   @objc public var globalGain: Float {
     get {
       wrappedInstance.globalGain
@@ -1744,15 +1911,18 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
   @objc init(numberOfBands: Int) {
     wrappedInstance = AVAudioUnitEQ(numberOfBands: numberOfBands)
   }
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitEQFilterParametersWrapper: NSObject {
   var wrappedInstance: AVAudioUnitEQFilterParameters
 
+  @available(macOS, introduced: 10.10)
   @objc public var bandwidth: Float {
     get {
       wrappedInstance.bandwidth
@@ -1762,6 +1932,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var bypass: Bool {
     get {
       wrappedInstance.bypass
@@ -1771,6 +1942,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var frequency: Float {
     get {
       wrappedInstance.frequency
@@ -1780,6 +1952,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var gain: Float {
     get {
       wrappedInstance.gain
@@ -1795,9 +1968,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitEffectWrapper: NSObject {
   var wrappedInstance: AVAudioUnitEffect
 
+  @available(macOS, introduced: 10.10)
   @objc public var bypass: Bool {
     get {
       wrappedInstance.bypass
@@ -1813,9 +1988,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitGeneratorWrapper: NSObject {
   var wrappedInstance: AVAudioUnitGenerator
 
+  @available(macOS, introduced: 10.10)
   @objc public var bypass: Bool {
     get {
       wrappedInstance.bypass
@@ -1831,6 +2008,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitMIDIInstrumentWrapper: NSObject {
   var wrappedInstance: AVAudioUnitMIDIInstrument
 
@@ -1840,9 +2018,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitReverbWrapper: NSObject {
   var wrappedInstance: AVAudioUnitReverb
 
+  @available(macOS, introduced: 10.10)
   @objc public var wetDryMix: Float {
     get {
       wrappedInstance.wetDryMix
@@ -1858,9 +2038,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitSamplerWrapper: NSObject {
   var wrappedInstance: AVAudioUnitSampler
 
+  @available(macOS, introduced: 10.10)
   @objc public var globalTuning: Float {
     get {
       wrappedInstance.globalTuning
@@ -1870,6 +2052,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10, deprecated: 12.0)
   @objc public var masterGain: Float {
     get {
       wrappedInstance.masterGain
@@ -1879,6 +2062,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 12.0)
   @objc public var overallGain: Float {
     get {
       wrappedInstance.overallGain
@@ -1888,6 +2072,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var stereoPan: Float {
     get {
       wrappedInstance.stereoPan
@@ -1901,15 +2086,13 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public func loadInstrument(at instrumentURL: URL) throws {
-    return try wrappedInstance.loadInstrument(at: instrumentURL)
-  }
-
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitTimeEffectWrapper: NSObject {
   var wrappedInstance: AVAudioUnitTimeEffect
 
+  @available(macOS, introduced: 10.10)
   @objc public var bypass: Bool {
     get {
       wrappedInstance.bypass
@@ -1925,9 +2108,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitTimePitchWrapper: NSObject {
   var wrappedInstance: AVAudioUnitTimePitch
 
+  @available(macOS, introduced: 10.10)
   @objc public var overlap: Float {
     get {
       wrappedInstance.overlap
@@ -1937,6 +2122,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var pitch: Float {
     get {
       wrappedInstance.pitch
@@ -1946,6 +2132,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var rate: Float {
     get {
       wrappedInstance.rate
@@ -1961,9 +2148,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitVarispeedWrapper: NSObject {
   var wrappedInstance: AVAudioUnitVarispeed
 
+  @available(macOS, introduced: 10.10)
   @objc public var rate: Float {
     get {
       wrappedInstance.rate
@@ -1979,9 +2168,21 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVExtendedNoteOnEventWrapper: NSObject {
   var wrappedInstance: AVExtendedNoteOnEvent
 
+  @available(macOS, introduced: 13.0)
+  @objc public var duration: AVMusicTimeStamp {
+    get {
+      wrappedInstance.duration
+    }
+    set {
+      wrappedInstance.duration = newValue
+    }
+  }
+
+  @available(macOS, introduced: 13.0)
   @objc public var midiNote: Float {
     get {
       wrappedInstance.midiNote
@@ -1991,6 +2192,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public var velocity: Float {
     get {
       wrappedInstance.velocity
@@ -2006,9 +2208,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVExtendedTempoEventWrapper: NSObject {
   var wrappedInstance: AVExtendedTempoEvent
 
+  @available(macOS, introduced: 13.0)
   @objc public var tempo: Double {
     get {
       wrappedInstance.tempo
@@ -2022,12 +2226,14 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 13.0)
   @objc init(tempo: Double) {
     wrappedInstance = AVExtendedTempoEvent(tempo: tempo)
   }
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDIChannelEventWrapper: NSObject {
   var wrappedInstance: AVMIDIChannelEvent
 
@@ -2037,6 +2243,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDIChannelPressureEventWrapper: NSObject {
   var wrappedInstance: AVMIDIChannelPressureEvent
 
@@ -2046,6 +2253,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDIControlChangeEventWrapper: NSObject {
   var wrappedInstance: AVMIDIControlChangeEvent
 
@@ -2055,6 +2263,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDIMetaEventWrapper: NSObject {
   var wrappedInstance: AVMIDIMetaEvent
 
@@ -2064,8 +2273,19 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDINoteEventWrapper: NSObject {
   var wrappedInstance: AVMIDINoteEvent
+
+  @available(macOS, introduced: 13.0)
+  @objc public var duration: AVMusicTimeStamp {
+    get {
+      wrappedInstance.duration
+    }
+    set {
+      wrappedInstance.duration = newValue
+    }
+  }
 
   init(_ wrappedInstance: AVMIDINoteEvent) {
     self.wrappedInstance = wrappedInstance
@@ -2073,6 +2293,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDIPitchBendEventWrapper: NSObject {
   var wrappedInstance: AVMIDIPitchBendEvent
 
@@ -2082,30 +2303,18 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.10)
 @objc public class AVMIDIPlayerWrapper: NSObject {
   var wrappedInstance: AVMIDIPlayer
 
-  @objc public var currentPosition: TimeInterval {
-    get {
-      wrappedInstance.currentPosition
-    }
-    set {
-      wrappedInstance.currentPosition = newValue
-    }
-  }
-
-  @objc public var duration: TimeInterval {
-    get {
-      wrappedInstance.duration
-    }
-  }
-
+  @available(macOS, introduced: 10.10)
   @objc public var isPlaying: Bool {
     get {
       wrappedInstance.isPlaying
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public var rate: Float {
     get {
       wrappedInstance.rate
@@ -2119,20 +2328,19 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(contentsOf inURL: URL, soundBankURL bankURL: URL?) throws {
-    wrappedInstance = try AVMIDIPlayer(contentsOf: inURL, soundBankURL: bankURL)
-  }
-
+  @available(macOS, introduced: 10.10)
   @objc public func prepareToPlay() {
     return wrappedInstance.prepareToPlay()
   }
 
+  @available(macOS, introduced: 10.10)
   @objc public func stop() {
     return wrappedInstance.stop()
   }
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDIPolyPressureEventWrapper: NSObject {
   var wrappedInstance: AVMIDIPolyPressureEvent
 
@@ -2142,6 +2350,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDIProgramChangeEventWrapper: NSObject {
   var wrappedInstance: AVMIDIProgramChangeEvent
 
@@ -2151,6 +2360,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMIDISysexEventWrapper: NSObject {
   var wrappedInstance: AVMIDISysexEvent
 
@@ -2160,6 +2370,7 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMusicEventWrapper: NSObject {
   var wrappedInstance: AVMusicEvent
 
@@ -2169,9 +2380,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.11)
 @objc public class AVMusicTrackWrapper: NSObject {
   var wrappedInstance: AVMusicTrack
 
+  @available(macOS, introduced: 10.11)
   @objc public var destinationAudioUnit: AVAudioUnitWrapper? {
     get {
       wrappedInstance.destinationAudioUnit == nil ? nil : AVAudioUnitWrapper(wrappedInstance.destinationAudioUnit!)
@@ -2181,15 +2394,17 @@ import Foundation
     }
   }
 
-  @objc public var lengthInSeconds: TimeInterval {
+  @available(macOS, introduced: 10.11)
+  @objc public var lengthInBeats: AVMusicTimeStamp {
     get {
-      wrappedInstance.lengthInSeconds
+      wrappedInstance.lengthInBeats
     }
     set {
-      wrappedInstance.lengthInSeconds = newValue
+      wrappedInstance.lengthInBeats = newValue
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var isLoopingEnabled: Bool {
     get {
       wrappedInstance.isLoopingEnabled
@@ -2199,6 +2414,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var isMuted: Bool {
     get {
       wrappedInstance.isMuted
@@ -2208,6 +2424,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var numberOfLoops: Int {
     get {
       wrappedInstance.numberOfLoops
@@ -2217,6 +2434,17 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
+  @objc public var offsetTime: AVMusicTimeStamp {
+    get {
+      wrappedInstance.offsetTime
+    }
+    set {
+      wrappedInstance.offsetTime = newValue
+    }
+  }
+
+  @available(macOS, introduced: 10.11)
   @objc public var isSoloed: Bool {
     get {
       wrappedInstance.isSoloed
@@ -2226,12 +2454,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.11)
   @objc public var timeResolution: Int {
     get {
       wrappedInstance.timeResolution
     }
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public var usesAutomatedParameters: Bool {
     get {
       wrappedInstance.usesAutomatedParameters
@@ -2245,8 +2475,14 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 13.0)
+  @objc public func addEvent(_ event: AVMusicEventWrapper, at beat: AVMusicTimeStamp) {
+    return wrappedInstance.addEvent(event.wrappedInstance, at: beat)
+  }
+
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVMusicUserEventWrapper: NSObject {
   var wrappedInstance: AVMusicUserEvent
 
@@ -2256,9 +2492,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVParameterEventWrapper: NSObject {
   var wrappedInstance: AVParameterEvent
 
+  @available(macOS, introduced: 13.0)
   @objc public var value: Float {
     get {
       wrappedInstance.value
@@ -2274,9 +2512,11 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVSpeechSynthesisMarkerWrapper: NSObject {
   var wrappedInstance: AVSpeechSynthesisMarker
 
+  @available(macOS, introduced: 14.0)
   @objc public var bookmarkName: String {
     get {
       wrappedInstance.bookmarkName
@@ -2286,6 +2526,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public var byteSampleOffset: Int {
     get {
       wrappedInstance.byteSampleOffset
@@ -2295,6 +2536,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 14.0)
   @objc public var phoneme: String {
     get {
       wrappedInstance.phoneme
@@ -2308,16 +2550,19 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 14.0)
   @objc init(bookmarkName mark: String, atByteSampleOffset byteSampleOffset: Int) {
     wrappedInstance = AVSpeechSynthesisMarker(bookmarkName: mark, atByteSampleOffset: byteSampleOffset)
   }
 
+  @available(macOS, introduced: 14.0)
   @objc init(phonemeString phoneme: String, atByteSampleOffset byteSampleOffset: Int) {
     wrappedInstance = AVSpeechSynthesisMarker(phonemeString: phoneme, atByteSampleOffset: byteSampleOffset)
   }
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVSpeechSynthesisProviderAudioUnitWrapper: NSObject {
   var wrappedInstance: AVSpeechSynthesisProviderAudioUnit
 
@@ -2325,25 +2570,30 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public func cancelSpeechRequest() {
     return wrappedInstance.cancelSpeechRequest()
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public func synthesizeSpeechRequest(_ speechRequest: AVSpeechSynthesisProviderRequestWrapper) {
     return wrappedInstance.synthesizeSpeechRequest(speechRequest.wrappedInstance)
   }
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVSpeechSynthesisProviderRequestWrapper: NSObject {
   var wrappedInstance: AVSpeechSynthesisProviderRequest
 
+  @available(macOS, introduced: 13.0)
   @objc public var ssmlRepresentation: String {
     get {
       wrappedInstance.ssmlRepresentation
     }
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public var voice: AVSpeechSynthesisProviderVoiceWrapper {
     get {
       AVSpeechSynthesisProviderVoiceWrapper(wrappedInstance.voice)
@@ -2354,15 +2604,18 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 13.0)
   @objc init(ssmlRepresentation text: String, voice: AVSpeechSynthesisProviderVoiceWrapper) {
     wrappedInstance = AVSpeechSynthesisProviderRequest(ssmlRepresentation: text, voice: voice.wrappedInstance)
   }
 
 }
 
+@available(macOS, introduced: 13.0)
 @objc public class AVSpeechSynthesisProviderVoiceWrapper: NSObject {
   var wrappedInstance: AVSpeechSynthesisProviderVoice
 
+  @available(macOS, introduced: 13.0)
   @objc public var age: Int {
     get {
       wrappedInstance.age
@@ -2372,18 +2625,21 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public var identifier: String {
     get {
       wrappedInstance.identifier
     }
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public var name: String {
     get {
       wrappedInstance.name
     }
   }
 
+  @available(macOS, introduced: 13.0)
   @objc public var version: String {
     get {
       wrappedInstance.version
@@ -2397,33 +2653,39 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 13.0)
   @objc static public func updateSpeechVoices() {
     return AVSpeechSynthesisProviderVoice.updateSpeechVoices()
   }
 
 }
 
+@available(macOS, introduced: 10.14)
 @objc public class AVSpeechSynthesisVoiceWrapper: NSObject {
   var wrappedInstance: AVSpeechSynthesisVoice
 
+  @available(macOS, introduced: 10.14)
   @objc public var identifier: String {
     get {
       wrappedInstance.identifier
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public var language: String {
     get {
       wrappedInstance.language
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public var name: String {
     get {
       wrappedInstance.name
     }
   }
 
+  @available(macOS, introduced: 14.0)
   @objc public var voiceTraits: AVSpeechSynthesisVoiceWrapper.TraitsWrapper {
     get {
       TraitsWrapper(wrappedInstance.voiceTraits)
@@ -2434,6 +2696,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.14)
   @objc init?(identifier: String) {
     if let instance = AVSpeechSynthesisVoice(identifier: identifier) {
       wrappedInstance = instance
@@ -2442,6 +2705,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc init?(language languageCode: String?) {
     if let instance = AVSpeechSynthesisVoice(language: languageCode) {
       wrappedInstance = instance
@@ -2450,19 +2714,23 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc static public func currentLanguageCode() -> String {
     return AVSpeechSynthesisVoice.currentLanguageCode()
   }
 
+  @available(macOS, introduced: 14.0)
   @objc public class TraitsWrapper: NSObject {
     var wrappedInstance: AVSpeechSynthesisVoice.Traits
 
+    @available(macOS, introduced: 14.0)
     @objc static public var isNoveltyVoice: AVSpeechSynthesisVoiceWrapper.TraitsWrapper {
       get {
         TraitsWrapper(AVSpeechSynthesisVoice.Traits.isNoveltyVoice)
       }
     }
 
+    @available(macOS, introduced: 14.0)
     @objc static public var isPersonalVoice: AVSpeechSynthesisVoiceWrapper.TraitsWrapper {
       get {
         TraitsWrapper(AVSpeechSynthesisVoice.Traits.isPersonalVoice)
@@ -2487,15 +2755,18 @@ import Foundation
 
 }
 
+@available(macOS, introduced: 10.14)
 @objc public class AVSpeechSynthesizerWrapper: NSObject {
   var wrappedInstance: AVSpeechSynthesizer
 
+  @available(macOS, introduced: 10.14)
   @objc public var isPaused: Bool {
     get {
       wrappedInstance.isPaused
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public var isSpeaking: Bool {
     get {
       wrappedInstance.isSpeaking
@@ -2506,19 +2777,23 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public func continueSpeaking() -> Bool {
     return wrappedInstance.continueSpeaking()
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public func speak(_ utterance: AVSpeechUtteranceWrapper) {
     return wrappedInstance.speak(utterance.wrappedInstance)
   }
 
 }
 
+@available(macOS, introduced: 10.14)
 @objc public class AVSpeechUtteranceWrapper: NSObject {
   var wrappedInstance: AVSpeechUtterance
 
+  @available(macOS, introduced: 10.14)
   @objc public var pitchMultiplier: Float {
     get {
       wrappedInstance.pitchMultiplier
@@ -2528,24 +2803,7 @@ import Foundation
     }
   }
 
-  @objc public var postUtteranceDelay: TimeInterval {
-    get {
-      wrappedInstance.postUtteranceDelay
-    }
-    set {
-      wrappedInstance.postUtteranceDelay = newValue
-    }
-  }
-
-  @objc public var preUtteranceDelay: TimeInterval {
-    get {
-      wrappedInstance.preUtteranceDelay
-    }
-    set {
-      wrappedInstance.preUtteranceDelay = newValue
-    }
-  }
-
+  @available(macOS, introduced: 11.0)
   @objc public var prefersAssistiveTechnologySettings: Bool {
     get {
       wrappedInstance.prefersAssistiveTechnologySettings
@@ -2555,6 +2813,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public var rate: Float {
     get {
       wrappedInstance.rate
@@ -2564,12 +2823,14 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public var speechString: String {
     get {
       wrappedInstance.speechString
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public var voice: AVSpeechSynthesisVoiceWrapper? {
     get {
       wrappedInstance.voice == nil ? nil : AVSpeechSynthesisVoiceWrapper(wrappedInstance.voice!)
@@ -2579,6 +2840,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc public var volume: Float {
     get {
       wrappedInstance.volume
@@ -2592,6 +2854,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 13.0)
   @objc init?(ssmlRepresentation string: String) {
     if let instance = AVSpeechUtterance(ssmlRepresentation: string) {
       wrappedInstance = instance
@@ -2600,6 +2863,7 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc init(string: String) {
     wrappedInstance = AVSpeechUtterance(string: string)
   }
@@ -2607,30 +2871,35 @@ import Foundation
 }
 
 @objc public class GlobalsWrapper: NSObject {
+  @available(macOS, introduced: 10.9)
   @objc static public var AVAudioBitRateStrategy_ConstantWrapper: String {
     get {
       AVAudioBitRateStrategy_Constant
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVAudioBitRateStrategy_LongTermAverageWrapper: String {
     get {
       AVAudioBitRateStrategy_LongTermAverage
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVAudioBitRateStrategy_VariableWrapper: String {
     get {
       AVAudioBitRateStrategy_Variable
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVAudioBitRateStrategy_VariableConstrainedWrapper: String {
     get {
       AVAudioBitRateStrategy_VariableConstrained
     }
   }
 
+  @available(macOS, introduced: 10.13)
   @objc static public var AVAudioFileTypeKeyWrapper: String {
     get {
       AVAudioFileTypeKey
@@ -2643,210 +2912,245 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitManufacturerNameAppleWrapper: String {
     get {
       AVAudioUnitManufacturerNameApple
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeEffectWrapper: String {
     get {
       AVAudioUnitTypeEffect
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeFormatConverterWrapper: String {
     get {
       AVAudioUnitTypeFormatConverter
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeGeneratorWrapper: String {
     get {
       AVAudioUnitTypeGenerator
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeMIDIProcessorWrapper: String {
     get {
       AVAudioUnitTypeMIDIProcessor
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeMixerWrapper: String {
     get {
       AVAudioUnitTypeMixer
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeMusicDeviceWrapper: String {
     get {
       AVAudioUnitTypeMusicDevice
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeMusicEffectWrapper: String {
     get {
       AVAudioUnitTypeMusicEffect
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeOfflineEffectWrapper: String {
     get {
       AVAudioUnitTypeOfflineEffect
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypeOutputWrapper: String {
     get {
       AVAudioUnitTypeOutput
     }
   }
 
+  @available(macOS, introduced: 10.10)
   @objc static public var AVAudioUnitTypePannerWrapper: String {
     get {
       AVAudioUnitTypePanner
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVChannelLayoutKeyWrapper: String {
     get {
       AVChannelLayoutKey
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVEncoderAudioQualityForVBRKeyWrapper: String {
     get {
       AVEncoderAudioQualityForVBRKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVEncoderAudioQualityKeyWrapper: String {
     get {
       AVEncoderAudioQualityKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVEncoderBitDepthHintKeyWrapper: String {
     get {
       AVEncoderBitDepthHintKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVEncoderBitRateKeyWrapper: String {
     get {
       AVEncoderBitRateKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVEncoderBitRatePerChannelKeyWrapper: String {
     get {
       AVEncoderBitRatePerChannelKey
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVEncoderBitRateStrategyKeyWrapper: String {
     get {
       AVEncoderBitRateStrategyKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVFormatIDKeyWrapper: String {
     get {
       AVFormatIDKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVLinearPCMBitDepthKeyWrapper: String {
     get {
       AVLinearPCMBitDepthKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVLinearPCMIsBigEndianKeyWrapper: String {
     get {
       AVLinearPCMIsBigEndianKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVLinearPCMIsFloatKeyWrapper: String {
     get {
       AVLinearPCMIsFloatKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVLinearPCMIsNonInterleavedWrapper: String {
     get {
       AVLinearPCMIsNonInterleaved
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVNumberOfChannelsKeyWrapper: String {
     get {
       AVNumberOfChannelsKey
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVSampleRateConverterAlgorithmKeyWrapper: String {
     get {
       AVSampleRateConverterAlgorithmKey
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVSampleRateConverterAlgorithm_MasteringWrapper: String {
     get {
       AVSampleRateConverterAlgorithm_Mastering
     }
   }
 
+  @available(macOS, introduced: 10.12)
   @objc static public var AVSampleRateConverterAlgorithm_MinimumPhaseWrapper: String {
     get {
       AVSampleRateConverterAlgorithm_MinimumPhase
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVSampleRateConverterAlgorithm_NormalWrapper: String {
     get {
       AVSampleRateConverterAlgorithm_Normal
     }
   }
 
+  @available(macOS, introduced: 10.9)
   @objc static public var AVSampleRateConverterAudioQualityKeyWrapper: String {
     get {
       AVSampleRateConverterAudioQualityKey
     }
   }
 
+  @available(macOS, introduced: 10.7)
   @objc static public var AVSampleRateKeyWrapper: String {
     get {
       AVSampleRateKey
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc static public var AVSpeechSynthesisIPANotationAttributeWrapper: String {
     get {
       AVSpeechSynthesisIPANotationAttribute
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc static public var AVSpeechSynthesisVoiceIdentifierAlexWrapper: String {
     get {
       AVSpeechSynthesisVoiceIdentifierAlex
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc static public var AVSpeechUtteranceDefaultSpeechRateWrapper: Float {
     get {
       AVSpeechUtteranceDefaultSpeechRate
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc static public var AVSpeechUtteranceMaximumSpeechRateWrapper: Float {
     get {
       AVSpeechUtteranceMaximumSpeechRate
     }
   }
 
+  @available(macOS, introduced: 10.14)
   @objc static public var AVSpeechUtteranceMinimumSpeechRateWrapper: Float {
     get {
       AVSpeechUtteranceMinimumSpeechRate
@@ -2867,6 +3171,16 @@ import Foundation
   @objc static public func AVAudioMake3DPointWrapper(_ x: Float, _ y: Float, _ z: Float) -> AVAudio3DPointWrapper {
     let result = AVAudioMake3DPoint(x, y, z)
     return AVAudio3DPointWrapper(result)
+  }
+
+  @objc static public func AVAudioMake3DVectorWrapper(_ x: Float, _ y: Float, _ z: Float) -> AVAudio3DPointWrapper {
+    let result = AVAudioMake3DVector(x, y, z)
+    return AVAudio3DPointWrapper(result)
+  }
+
+  @objc static public func AVAudioMake3DVectorOrientationWrapper(_ forward: AVAudio3DPointWrapper, _ up: AVAudio3DPointWrapper) -> AVAudio3DVectorOrientationWrapper {
+    let result = AVAudioMake3DVectorOrientation(forward.wrappedInstance, up.wrappedInstance)
+    return AVAudio3DVectorOrientationWrapper(result)
   }
 
 }
