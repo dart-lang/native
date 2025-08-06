@@ -7,6 +7,9 @@
 
 /// Code asset support for hook authors.
 ///
+/// A code asset is an asset containing executable code which respects the
+/// native application binary interface (ABI).
+///
 /// Code assets can be added in a build hook as follows:
 ///
 /// ```dart

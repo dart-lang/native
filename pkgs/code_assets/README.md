@@ -6,6 +6,9 @@
 A library to use in build hooks (`hook/build.dart`) for building and bundling
 code assets.
 
+A code asset is an asset containing executable code which respects the native
+application binary interface (ABI).
+
 Code assets can be added in a build hook as follows:
 
 ```dart
