@@ -22,10 +22,8 @@ Future<void> main() async {
         '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk',
       ),
     ),
-    input: ObjCCompatibleSwiftFileInput(
-      module: 'AVFAudio',
-      files: [Uri.file('avf_audio_wrapper.swift')],
-    ),
+    input: SwiftModuleInput(module: 'AVFAudio'),
+    objcSwiftFile: Uri.file('avf_audio_wrapper.swift'),
     tempDirectory: Uri.directory('temp'),
     outputModule: 'AVFAudioWrapper',
     ffigen: FfiGenConfig(

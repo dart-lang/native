@@ -24,7 +24,7 @@ void main() {
     });
 
     test('method invocation', () {
-      final testClass = TestClass.create();
+      final testClass = TestClassWrapper.create();
       final testOtherClass = testClass.myMethod();
       expect(testOtherClass.times10WithX(123), 1230);
     });
