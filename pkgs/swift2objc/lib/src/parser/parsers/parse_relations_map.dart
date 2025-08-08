@@ -6,7 +6,6 @@ import 'dart:developer';
 
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
-import '../_core/utils.dart';
 
 ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
   final ParsedRelationsMap relationsMap;

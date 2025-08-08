@@ -4,14 +4,14 @@ import 'generators/class_generator.dart';
 
 String generate(
   List<Declaration> declarations, {
-  String? moduleName,
+  List<String> importedModuleNames = const [],
   String? preamble,
 }) {
   return '${[
     preamble,
     '',
-    if (moduleName != null) 'import $moduleName',
-    'import Foundation\n',
+    for (final moduleName in importedModuleNames) 'import $moduleName',
+    '',
     ...declarations.map((decl) => generateDeclaration(decl).join('\n')),
   ].nonNulls.join('\n')}\n';
 }

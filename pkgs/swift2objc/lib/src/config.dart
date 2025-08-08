@@ -17,9 +17,17 @@ class Command {
 
 /// Used to configure Swift2ObjC wrapper generation.
 class Config {
-  /// The input to generate a wrapper for.
+  /// The inputs to generate a wrapper for.
   /// See `FilesInputConfig` and `ModuleInputConfig`;
-  final InputConfig input;
+  final List<InputConfig> inputs;
+
+  /// The target to generate code for. If unspecified, defaults to host.
+  /// (e.g `x86_64-apple-ios17.0-simulator`)
+  final String? target;
+
+  /// The sdk to compile against. If unspecified, defaults to host.
+  /// (e.g `/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sd`)
+  final Uri? sdk;
 
   /// Specify where the wrapper swift file will be output.
   final Uri outputFile;
@@ -28,7 +36,7 @@ class Config {
   final String? preamble;
 
   /// Specify where to output the intermidiate files (i.g the symbolgraph json).
-  /// If this is null, a teemp directory will be generated in the system temp
+  /// If this is null, a temp directory will be generated in the system temp
   /// directory (using `Directory.systemTemp`) and then deleted.
   /// Specifying a temp directory would prevent the tool from deleting the
   /// intermediate files after generating the wrapper.
@@ -44,8 +52,10 @@ class Config {
   static bool _defaultInclude(Declaration _) => true;
 
   const Config(
-      {required this.input,
+      {required this.inputs,
       required this.outputFile,
+      this.target,
+      this.sdk,
       this.tempDir,
       this.preamble,
       this.include = Config._defaultInclude});
@@ -54,7 +64,8 @@ class Config {
 /// Used to specify the inputs in the `config` object.
 /// See `FilesInputConfig` and `ModuleInputConfig` for concrete implementation;
 sealed class InputConfig {
-  Command? get symbolgraphCommand;
+  bool get hasSymbolgraphCommand;
+  Command symbolgraphCommand(String target, String sdkPath);
 }
 
 /// Used to generate a objc wrapper for one or more swift files.
@@ -71,7 +82,10 @@ class FilesInputConfig implements InputConfig {
   });
 
   @override
-  Command? get symbolgraphCommand => Command(
+  bool get hasSymbolgraphCommand => true;
+
+  @override
+  Command symbolgraphCommand(String target, String sdkPath) => Command(
         executable: 'swiftc',
         args: [
           ...files.map((uri) => path.absolute(uri.path)),
@@ -80,7 +94,11 @@ class FilesInputConfig implements InputConfig {
           '-emit-symbol-graph-dir',
           '.',
           '-module-name',
-          generatedModuleName
+          generatedModuleName,
+          '-target',
+          target,
+          '-sdk',
+          sdkPath,
         ],
       );
 }
@@ -91,22 +109,15 @@ class ModuleInputConfig implements InputConfig {
   /// The swift module to generate a wrapper for.
   final String module;
 
-  /// The target to generate code for.
-  /// (e.g `x86_64-apple-ios17.0-simulator`)
-  final String target;
-
-  /// The sdk to compile against.
-  /// (e.g `/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sd`)
-  final Uri sdk;
-
   ModuleInputConfig({
     required this.module,
-    required this.target,
-    required this.sdk,
   });
 
   @override
-  Command? get symbolgraphCommand => Command(
+  bool get hasSymbolgraphCommand => true;
+
+  @override
+  Command symbolgraphCommand(String target, String sdkPath) => Command(
         executable: 'swift',
         args: [
           'symbolgraph-extract',
@@ -115,7 +126,7 @@ class ModuleInputConfig implements InputConfig {
           '-target',
           target,
           '-sdk',
-          path.absolute(sdk.path),
+          sdkPath,
           '-output-dir',
           '.',
         ],
@@ -130,5 +141,9 @@ class JsonFileInputConfig implements InputConfig {
   JsonFileInputConfig({required this.jsonFile});
 
   @override
-  Command? get symbolgraphCommand => null;
+  bool get hasSymbolgraphCommand => false;
+
+  @override
+  Command symbolgraphCommand(String target, String sdkPath) =>
+      throw UnsupportedError('JsonFileInputConfig has no symbolgraphCommand');
 }
