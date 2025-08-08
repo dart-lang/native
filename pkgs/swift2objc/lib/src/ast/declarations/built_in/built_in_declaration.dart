@@ -50,7 +50,6 @@ const _objectDecl =
 const _errorDecl = BuiltInDeclaration(id: 'c:objc(cs)NSError', name: 'NSError');
 const _affineTransformDecl = BuiltInDeclaration(
     id: 's:10Foundation15AffineTransformV', name: 'AffineTransform');
-const _arrayDecl = BuiltInDeclaration(id: 's:Sa', name: 'Array');
 const _calendarDecl =
     BuiltInDeclaration(id: 's:10Foundation8CalendarV', name: 'Calendar');
 const _characterSetDecl = BuiltInDeclaration(
@@ -61,7 +60,6 @@ const _dateComponentsDecl = BuiltInDeclaration(
     id: 's:10Foundation14DateComponentsV', name: 'DateComponents');
 const _dateIntervalDecl = BuiltInDeclaration(
     id: 's:10Foundation12DateIntervalV', name: 'DateInterval');
-const _dictionaryDecl = BuiltInDeclaration(id: 's:SD', name: 'Dictionary');
 const _indexPathDecl =
     BuiltInDeclaration(id: 's:10Foundation9IndexPathV', name: 'IndexPath');
 const _indexSetDecl =
@@ -70,7 +68,6 @@ const _localeDecl =
     BuiltInDeclaration(id: 's:10Foundation6LocaleV', name: 'Locale');
 const _notificationDecl = BuiltInDeclaration(
     id: 's:10Foundation12NotificationV', name: 'Notification');
-const _setDecl = BuiltInDeclaration(id: 's:Sh', name: 'Set');
 const _stringDecl = BuiltInDeclaration(id: 's:SS', name: 'String');
 const _timeZoneDecl =
     BuiltInDeclaration(id: 's:10Foundation8TimeZoneV', name: 'TimeZone');
@@ -85,7 +82,6 @@ const _uuidDecl = BuiltInDeclaration(id: 's:10Foundation4UUIDV', name: 'UUID');
 
 const builtInDeclarations = [
   _affineTransformDecl,
-  _arrayDecl,
   _boolDecl,
   _calendarDecl,
   _characterSetDecl,
@@ -93,7 +89,6 @@ const builtInDeclarations = [
   _dateComponentsDecl,
   _dateDecl,
   _dateIntervalDecl,
-  _dictionaryDecl,
   _doubleDecl,
   _errorDecl,
   _floatDecl,
@@ -103,7 +98,6 @@ const builtInDeclarations = [
   _localeDecl,
   _notificationDecl,
   _objectDecl,
-  _setDecl,
   _stringDecl,
   _timeZoneDecl,
   _urlComponentsDecl,

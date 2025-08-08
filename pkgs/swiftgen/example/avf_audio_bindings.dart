@@ -112,6 +112,7 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
       )
     >();
+late final _sel_data = objc.registerName("data");
 late final _sel_enableRate = objc.registerName("enableRate");
 final _objc_msgSend_91o635 = objc.msgSendPointer
     .cast<
@@ -235,8 +236,61 @@ final _objc_msgSend_v5hmet = objc.msgSendPointer
 late final _sel_isPlaying = objc.registerName("isPlaying");
 late final _sel_rate = objc.registerName("rate");
 late final _sel_setRate_ = objc.registerName("setRate:");
+late final _sel_url = objc.registerName("url");
 late final _sel_volume = objc.registerName("volume");
 late final _sel_setVolume_ = objc.registerName("setVolume:");
+typedef instancetype = ffi.Pointer<objc.ObjCObject>;
+typedef Dartinstancetype = objc.ObjCObjectBase;
+late final _sel_initWithContentsOf_error_ = objc.registerName(
+  "initWithContentsOf:error:",
+);
+final _objc_msgSend_1lhpu4m = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+      )
+    >();
+late final _sel_initWithContentsOf_fileTypeHint_error_ = objc.registerName(
+  "initWithContentsOf:fileTypeHint:error:",
+);
+final _objc_msgSend_1pnyuds = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+      )
+    >();
+late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
+late final _sel_initWithData_fileTypeHint_error_ = objc.registerName(
+  "initWithData:fileTypeHint:error:",
+);
 late final _sel_averagePowerForChannel_ = objc.registerName(
   "averagePowerForChannel:",
 );
@@ -297,8 +351,6 @@ late final _sel_play = objc.registerName("play");
 late final _sel_prepareToPlay = objc.registerName("prepareToPlay");
 late final _sel_stop = objc.registerName("stop");
 late final _sel_updateMeters = objc.registerName("updateMeters");
-typedef instancetype = ffi.Pointer<objc.ObjCObject>;
-typedef Dartinstancetype = objc.ObjCObjectBase;
 late final _sel_init = objc.registerName("init");
 late final _sel_new = objc.registerName("new");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
@@ -554,6 +606,18 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     );
   }
 
+  /// data
+  objc.NSData? get data {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayerWrapper.data',
+      macOS: (false, (10, 7, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_data);
+    return _ret.address == 0
+        ? null
+        : objc.NSData.castFromPointer(_ret, retain: true, release: true);
+  }
+
   /// enableRate
   bool get enableRate {
     objc.checkOsVersionInternal(
@@ -680,6 +744,18 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setRate_, value);
   }
 
+  /// url
+  objc.NSURL? get url {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayerWrapper.url',
+      macOS: (false, (10, 7, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_url);
+    return _ret.address == 0
+        ? null
+        : objc.NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
   /// volume
   double get volume {
     objc.checkOsVersionInternal(
@@ -698,6 +774,106 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     _objc_msgSend_v5hmet(this.ref.pointer, _sel_setVolume_, value);
+  }
+
+  /// initWithContentsOf:error:
+  AVAudioPlayerWrapper? initWithContentsOf(
+    objc.NSURL url$1, {
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  }) {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayerWrapper.initWithContentsOf:error:',
+      macOS: (false, (10, 7, 0)),
+    );
+    final _ret = _objc_msgSend_1lhpu4m(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithContentsOf_error_,
+      url$1.ref.pointer,
+      error,
+    );
+    return _ret.address == 0
+        ? null
+        : AVAudioPlayerWrapper.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
+  }
+
+  /// initWithContentsOf:fileTypeHint:error:
+  AVAudioPlayerWrapper? initWithContentsOf$1(
+    objc.NSURL url$1, {
+    objc.NSString? fileTypeHint,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  }) {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayerWrapper.initWithContentsOf:fileTypeHint:error:',
+      macOS: (false, (10, 9, 0)),
+    );
+    final _ret = _objc_msgSend_1pnyuds(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithContentsOf_fileTypeHint_error_,
+      url$1.ref.pointer,
+      fileTypeHint?.ref.pointer ?? ffi.nullptr,
+      error,
+    );
+    return _ret.address == 0
+        ? null
+        : AVAudioPlayerWrapper.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
+  }
+
+  /// initWithData:error:
+  AVAudioPlayerWrapper? initWithData(
+    objc.NSData data$1, {
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  }) {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayerWrapper.initWithData:error:',
+      macOS: (false, (10, 7, 0)),
+    );
+    final _ret = _objc_msgSend_1lhpu4m(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithData_error_,
+      data$1.ref.pointer,
+      error,
+    );
+    return _ret.address == 0
+        ? null
+        : AVAudioPlayerWrapper.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
+  }
+
+  /// initWithData:fileTypeHint:error:
+  AVAudioPlayerWrapper? initWithData$1(
+    objc.NSData data$1, {
+    objc.NSString? fileTypeHint,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  }) {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayerWrapper.initWithData:fileTypeHint:error:',
+      macOS: (false, (10, 9, 0)),
+    );
+    final _ret = _objc_msgSend_1pnyuds(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithData_fileTypeHint_error_,
+      data$1.ref.pointer,
+      fileTypeHint?.ref.pointer ?? ffi.nullptr,
+      error,
+    );
+    return _ret.address == 0
+        ? null
+        : AVAudioPlayerWrapper.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
   }
 
   /// averagePowerForChannel:

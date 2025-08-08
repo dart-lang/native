@@ -274,6 +274,11 @@ import Foundation
   }
 
   @available(macOS, introduced: 14.0)
+  @objc static public func requestRecordPermission() async -> Bool {
+    return await AVAudioApplication.requestRecordPermission()
+  }
+
+  @available(macOS, introduced: 14.0)
   @objc public func setInputMuted(_ muted: Bool) throws {
     return try wrappedInstance.setInputMuted(muted)
   }
@@ -399,6 +404,16 @@ import Foundation
   @objc public var inputFormat: AVAudioFormatWrapper {
     get {
       AVAudioFormatWrapper(wrappedInstance.inputFormat)
+    }
+  }
+
+  @available(macOS, introduced: 10.11)
+  @objc public var magicCookie: Data? {
+    get {
+      wrappedInstance.magicCookie
+    }
+    set {
+      wrappedInstance.magicCookie = newValue
     }
   }
 
@@ -816,8 +831,20 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public var url: URL {
+    get {
+      wrappedInstance.url
+    }
+  }
+
   init(_ wrappedInstance: AVAudioFile) {
     self.wrappedInstance = wrappedInstance
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc init(forReading fileURL: URL) throws {
+    wrappedInstance = try AVAudioFile(forReading: fileURL)
   }
 
   @available(macOS, introduced: 15.0)
@@ -852,6 +879,16 @@ import Foundation
   @objc public var isInterleaved: Bool {
     get {
       wrappedInstance.isInterleaved
+    }
+  }
+
+  @available(macOS, introduced: 10.12)
+  @objc public var magicCookie: Data? {
+    get {
+      wrappedInstance.magicCookie
+    }
+    set {
+      wrappedInstance.magicCookie = newValue
     }
   }
 
@@ -1112,6 +1149,13 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.7)
+  @objc public var data: Data? {
+    get {
+      wrappedInstance.data
+    }
+  }
+
   @available(macOS, introduced: 10.8)
   @objc public var enableRate: Bool {
     get {
@@ -1184,6 +1228,13 @@ import Foundation
   }
 
   @available(macOS, introduced: 10.7)
+  @objc public var url: URL? {
+    get {
+      wrappedInstance.url
+    }
+  }
+
+  @available(macOS, introduced: 10.7)
   @objc public var volume: Float {
     get {
       wrappedInstance.volume
@@ -1195,6 +1246,26 @@ import Foundation
 
   init(_ wrappedInstance: AVAudioPlayer) {
     self.wrappedInstance = wrappedInstance
+  }
+
+  @available(macOS, introduced: 10.7)
+  @objc init(contentsOf url: URL) throws {
+    wrappedInstance = try AVAudioPlayer(contentsOf: url)
+  }
+
+  @available(macOS, introduced: 10.9)
+  @objc init(contentsOf url: URL, fileTypeHint utiString: String?) throws {
+    wrappedInstance = try AVAudioPlayer(contentsOf: url, fileTypeHint: utiString)
+  }
+
+  @available(macOS, introduced: 10.7)
+  @objc init(data: Data) throws {
+    wrappedInstance = try AVAudioPlayer(data: data)
+  }
+
+  @available(macOS, introduced: 10.9)
+  @objc init(data: Data, fileTypeHint utiString: String?) throws {
+    wrappedInstance = try AVAudioPlayer(data: data, fileTypeHint: utiString)
   }
 
   @available(macOS, introduced: 10.7)
@@ -1321,8 +1392,20 @@ import Foundation
     }
   }
 
+  @available(macOS, introduced: 10.7)
+  @objc public var url: URL {
+    get {
+      wrappedInstance.url
+    }
+  }
+
   init(_ wrappedInstance: AVAudioRecorder) {
     self.wrappedInstance = wrappedInstance
+  }
+
+  @available(macOS, introduced: 10.12)
+  @objc init(url: URL, format: AVAudioFormatWrapper) throws {
+    wrappedInstance = try AVAudioRecorder(url: url, format: format.wrappedInstance)
   }
 
   @available(macOS, introduced: 10.7)
@@ -1460,6 +1543,11 @@ import Foundation
   @available(macOS, introduced: 10.11)
   @objc public func stop() {
     return wrappedInstance.stop()
+  }
+
+  @available(macOS, introduced: 10.11)
+  @objc public func write(to fileURL: URL, smpteResolution resolution: Int, replaceExisting replace: Bool) throws {
+    return try wrappedInstance.write(to: fileURL, smpteResolution: resolution, replaceExisting: replace)
   }
 
   @available(macOS, introduced: 13.0)
@@ -1719,11 +1807,23 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public func loadPreset(at url: URL) throws {
+    return try wrappedInstance.loadPreset(at: url)
+  }
+
 }
 
 @available(macOS, introduced: 10.10)
 @objc public class AVAudioUnitComponentWrapper: NSObject {
   var wrappedInstance: AVAudioUnitComponent
+
+  @available(macOS, introduced: 10.10, deprecated: 10.11)
+  @objc public var componentURL: URL? {
+    get {
+      wrappedInstance.componentURL
+    }
+  }
 
   @available(macOS, introduced: 10.10)
   @objc public var hasCustomView: Bool {
@@ -1743,6 +1843,13 @@ import Foundation
   @objc public var hasMIDIOutput: Bool {
     get {
       wrappedInstance.hasMIDIOutput
+    }
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc public var iconURL: URL? {
+    get {
+      wrappedInstance.iconURL
     }
   }
 
@@ -2016,6 +2123,11 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @available(macOS, introduced: 10.10)
+  @objc public func sendMIDISysExEvent(_ midiData: Data) {
+    return wrappedInstance.sendMIDISysExEvent(midiData)
+  }
+
 }
 
 @available(macOS, introduced: 10.10)
@@ -2084,6 +2196,11 @@ import Foundation
 
   init(_ wrappedInstance: AVAudioUnitSampler) {
     self.wrappedInstance = wrappedInstance
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc public func loadInstrument(at instrumentURL: URL) throws {
+    return try wrappedInstance.loadInstrument(at: instrumentURL)
   }
 
 }
@@ -2329,6 +2446,16 @@ import Foundation
   }
 
   @available(macOS, introduced: 10.10)
+  @objc init(contentsOf inURL: URL, soundBankURL bankURL: URL?) throws {
+    wrappedInstance = try AVMIDIPlayer(contentsOf: inURL, soundBankURL: bankURL)
+  }
+
+  @available(macOS, introduced: 10.10)
+  @objc init(data: Data, soundBankURL bankURL: URL?) throws {
+    wrappedInstance = try AVMIDIPlayer(data: data, soundBankURL: bankURL)
+  }
+
+  @available(macOS, introduced: 10.10)
   @objc public func prepareToPlay() {
     return wrappedInstance.prepareToPlay()
   }
@@ -2366,6 +2493,11 @@ import Foundation
 
   init(_ wrappedInstance: AVMIDISysexEvent) {
     self.wrappedInstance = wrappedInstance
+  }
+
+  @available(macOS, introduced: 13.0)
+  @objc init(data: Data) {
+    wrappedInstance = AVMIDISysexEvent(data: data)
   }
 
 }
@@ -2488,6 +2620,11 @@ import Foundation
 
   init(_ wrappedInstance: AVMusicUserEvent) {
     self.wrappedInstance = wrappedInstance
+  }
+
+  @available(macOS, introduced: 13.0)
+  @objc init(data: Data) {
+    wrappedInstance = AVMusicUserEvent(data: data)
   }
 
 }
