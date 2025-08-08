@@ -39,8 +39,7 @@ const _voidDecl = BuiltInDeclaration(id: 's:s4Voida', name: 'Void');
 
 // Certain types are toll-free bridged between Swift and ObjC. These types don't
 // need @objc compatible wrappers. There's no complete list of these types in
-// the documentation. The closest thing is this, but it's missing a lot of
-// entries, and also contains incorrect entries:
+// the documentation. The closest thing is this, but it's incomplete:
 // https://developer.apple.com/documentation/swift/working-with-foundation-types
 const _objectDecl =
     BuiltInDeclaration(id: 'c:objc(cs)NSObject', name: 'NSObject');
