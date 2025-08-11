@@ -92,7 +92,9 @@ void updateManifest(
                 '$partialProject/pubspec.yaml',
               ],
             ]) {
-              if (f.path.contains(denyString)) return false;
+              if (f.uri.toFilePath(windows: false).contains(denyString)) {
+                return false;
+              }
             }
 
             return true;
@@ -114,8 +116,6 @@ void updateManifest(
     manifestFile.writeAsStringSync(newContent);
     print('Generated ${manifestFile.uri} (content changed)');
     counts.changed++;
-    print(oldContentNormalized);
-    print(newContentNormalized);
   }
   counts.generated++;
 }
