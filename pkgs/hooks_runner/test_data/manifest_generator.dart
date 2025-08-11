@@ -80,7 +80,7 @@ void updateManifest(
     return;
   }
   final all = directory.listSync(recursive: true);
-  final dirPath = directory.uri.toFilePath();
+  final dirPath = directory.uri.toFilePath(windows: false);
   final files =
       all
           .whereType<File>()
@@ -97,7 +97,9 @@ void updateManifest(
 
             return true;
           })
-          .map((e) => e.path.replaceFirst(dirPath, ''))
+          .map(
+            (e) => e.uri.toFilePath(windows: false).replaceFirst(dirPath, ''),
+          )
           .toList()
         ..sort();
 
