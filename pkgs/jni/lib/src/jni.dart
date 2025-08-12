@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
@@ -14,6 +15,7 @@ import 'accessors.dart';
 import 'errors.dart';
 import 'jobject.dart';
 import 'jreference.dart';
+import 'plugin/generated_plugin.dart';
 import 'third_party/generated_bindings.dart';
 import 'types.dart';
 
@@ -212,22 +214,37 @@ abstract final class Jni {
   @internal
   static final env = GlobalJniEnv(_fetchGlobalEnv());
 
-  /// Returns current application context on Android.
-  static JReference getCachedApplicationContext() {
-    return JGlobalReference(_bindings.GetApplicationContext());
+  /// Android application context.
+  ///
+  /// Pass `PlatformDispatcher.instance.engineId` to the [engineId] field.
+  static JObject androidApplicationContext(int engineId) {
+    return JniPlugin.getApplicationContext(engineId);
   }
 
-  /// Returns current activity.
-  static JReference getCurrentActivity() =>
-      JGlobalReference(_bindings.GetCurrentActivity());
-
-  /// Get the initial classLoader of the application.
+  /// A stream of Android activities.
   ///
-  /// This is especially useful on Android, where
-  /// JNI threads cannot access application classes using
-  /// the usual `JniEnv.FindClass` method.
-  static JReference getApplicationClassLoader() =>
-      JGlobalReference(_bindings.GetClassLoader());
+  /// Pass `PlatformDispatcher.instance.engineId` to the [engineId] field.
+  static Stream<JObject?> androidActivities(int engineId) {
+    late final StreamController<JObject?> androidActivitiesController;
+    final activityListener = JniPlugin$ActivityListener.implement(
+      $JniPlugin$ActivityListener(
+        onActivityChanged: (activity) {
+          androidActivitiesController.add(activity);
+        },
+      ),
+    );
+    androidActivitiesController = StreamController(
+      sync: true,
+      onListen: () {
+        JniPlugin.addActivityListener(engineId, activityListener);
+      },
+      onCancel: () {
+        JniPlugin.removeActivityListener(engineId, activityListener);
+        activityListener.release();
+      },
+    );
+    return androidActivitiesController.stream;
+  }
 }
 
 /// Extensions for use by JNIgen generated code.
