@@ -95,7 +95,7 @@ jobs:
       - name: install clang tools
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y clang-format
+          sudo apt-get install -y clang-format-20
       - name: Install dependencies
         run: dart pub get
       - name: build in_app_java APK
