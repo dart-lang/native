@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
 import 'util.dart';
 
@@ -10,6 +11,11 @@ import 'util.dart';
 class SwiftGen {
   final Target target;
   final SwiftGenInput input;
+
+  // TODO: Move these two to SwiftGenInput, and maybe rename that class.
+  final String? objcSwiftPreamble;
+  final Uri objcSwiftFile;
+
   final Uri tempDir;
   final String? outputModule;
   final FfiGenConfig ffigen;
@@ -17,6 +23,8 @@ class SwiftGen {
   SwiftGen({
     required this.target,
     required this.input,
+    this.objcSwiftPreamble,
+    required this.objcSwiftFile,
     Uri? tempDirectory,
     this.outputModule,
     required this.ffigen,
@@ -36,6 +44,7 @@ class Target {
 /// Describes the inputs to the swiftgen pipeline.
 abstract interface class SwiftGenInput {
   String get module;
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target);
   Iterable<Uri> get files;
   Iterable<String> get compileArgs;
 }
@@ -48,7 +57,67 @@ class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
   @override
   final List<Uri> files;
 
+  @override
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) => null;
+
   ObjCCompatibleSwiftFileInput({required this.module, required this.files});
+
+  @override
+  Iterable<String> get compileArgs => const <String>[];
+}
+
+class SwiftFileInput implements SwiftGenInput {
+  @override
+  final String module;
+
+  @override
+  final List<Uri> files;
+
+  SwiftFileInput({required this.module, required this.files});
+
+  @override
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) =>
+      swift2objc.FilesInputConfig(files: files, generatedModuleName: module);
+
+  @override
+  Iterable<String> get compileArgs => const <String>[];
+}
+
+class SwiftModuleInput implements SwiftGenInput {
+  @override
+  final String module;
+
+  SwiftModuleInput({required this.module});
+
+  @override
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) =>
+      swift2objc.ModuleInputConfig(
+        module: module,
+        target: target.triple,
+        sdk: target.sdk,
+      );
+
+  @override
+  Iterable<Uri> get files => const <Uri>[];
+
+  @override
+  Iterable<String> get compileArgs => const <String>[];
+}
+
+class JsonFileInput implements SwiftGenInput {
+  @override
+  final String module;
+
+  final Uri jsonFile;
+
+  JsonFileInput({required this.module, required this.jsonFile});
+
+  @override
+  swift2objc.InputConfig? asSwift2ObjCConfig(Target target) =>
+      swift2objc.JsonFileInputConfig(jsonFile: jsonFile);
+
+  @override
+  Iterable<Uri> get files => [];
 
   @override
   Iterable<String> get compileArgs => const <String>[];
