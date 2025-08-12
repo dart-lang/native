@@ -55,6 +55,7 @@ void main(List<String> arguments) async {
 
   if (argResults['generate'] as bool) {
     const generators = [
+      'pkgs/hooks_runner/test_data/manifest_generator.dart',
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
