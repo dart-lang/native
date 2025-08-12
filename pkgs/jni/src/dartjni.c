@@ -444,9 +444,11 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     if (mustEnterIsolate) {
       Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
     }
-    result->object = ((jobject (*)(uint64_t, jobject, jobject))functionPtr)(
-        port, (*env)->NewGlobalRef(env, methodDescriptor),
-        (*env)->NewGlobalRef(env, args));
+    typedef jobject (*JniFunction)(uint64_t p, jobject md, jobject a);
+    JniFunction func_to_call = (JniFunction)functionPtr;
+    result->object =
+        func_to_call(port, (*env)->NewGlobalRef(env, methodDescriptor),
+                     (*env)->NewGlobalRef(env, args));
     if (mustEnterIsolate) {
       Dart_ExitIsolate_DL();
     }
