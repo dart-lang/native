@@ -5,8 +5,9 @@
 - **Breaking Change**: Made all of the type classes internal.
 - **Breaking Change**: Removed `Jni.getApplicationClassLoader()`,
   `Jni.getCurrentActivity()`, and `Jni.getCachedApplicationContext()`. Instead
-  use `Jni.applicationContext(engineId)` to access the application context and
-  listen to `Jni.activityStream(engineId)` to acccess the activity.
+  use `Jni.androidApplicationContext(engineId)` to access the application
+  context and listen to `Jni.androidActivities(engineId)` to acccess the
+  activity.
 - Update to the latest lints.
 
 ## 0.14.2

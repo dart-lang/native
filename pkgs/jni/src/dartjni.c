@@ -119,8 +119,36 @@ jobject GetClassLoader() {
   return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.classLoader);
 }
 
-// JNI Initialization
+#if defined(_WIN32)
+// Pre-initialization of critical section on windows - this is required because
+// there's no coordination between multiple isolates calling Spawn.
+//
+// Taken from https://stackoverflow.com/a/12858955
+CRITICAL_SECTION spawnLock = {0};
+BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
+                    DWORD fdwReason,      // reason for calling function
+                    LPVOID lpReserved) {  // reserved
+  switch (fdwReason) {
+    case DLL_PROCESS_ATTACH:
+      // Initialize once for each new process.
+      // Return FALSE to fail DLL load.
+      InitializeCriticalSection(&spawnLock);
+      break;
+    case DLL_THREAD_DETACH:
+      if (jniEnv != NULL) {
+        detach_thread(jniEnv);
+      }
+      break;
+    case DLL_PROCESS_DETACH:
+      // Perform any necessary cleanup.
+      DeleteCriticalSection(&spawnLock);
+      break;
+  }
+  return TRUE;  // Successful DLL_PROCESS_ATTACH.
+}
+#endif
 
+// JNI Initialization
 #if defined(__ANDROID__)
 JNIEXPORT void JNICALL
 Java_com_github_dart_1lang_jni_JniPlugin_setClassLoader(JNIEnv* env,
@@ -187,34 +215,6 @@ JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
   release_lock(&spawnLock);
 
   return JNI_OK;
-}
-#endif
-#if defined(_WIN32)
-// Pre-initialization of critical section on windows - this is required because
-// there's no coordination between multiple isolates calling Spawn.
-//
-// Taken from https://stackoverflow.com/a/12858955
-CRITICAL_SECTION spawnLock = {0};
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
-                    DWORD fdwReason,      // reason for calling function
-                    LPVOID lpReserved) {  // reserved
-  switch (fdwReason) {
-    case DLL_PROCESS_ATTACH:
-      // Initialize once for each new process.
-      // Return FALSE to fail DLL load.
-      InitializeCriticalSection(&spawnLock);
-      break;
-    case DLL_THREAD_DETACH:
-      if (jniEnv != NULL) {
-        detach_thread(jniEnv);
-      }
-      break;
-    case DLL_PROCESS_DETACH:
-      // Perform any necessary cleanup.
-      DeleteCriticalSection(&spawnLock);
-      break;
-  }
-  return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
 #endif
 
