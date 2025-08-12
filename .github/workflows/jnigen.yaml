@@ -90,12 +90,6 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
           cache: maven
-      ## Committed bindings are formatted with clang-format.
-      ## So this is required to format generated bindings identically
-      - name: install clang tools
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y clang-format
       - name: Install dependencies
         run: dart pub get
       - name: build in_app_java APK
@@ -172,8 +166,11 @@ jobs:
           working-directory: ./pkgs/jni
       - name: install clang tools & CMake
         run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
           sudo apt-get update -y
-          sudo apt-get install -y clang-format build-essential cmake
+          sudo apt-get install -y clang-format-20 build-essential cmake
       - run: flutter pub get
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
@@ -318,10 +315,6 @@ jobs:
         working-directory: ./pkgs/jnigen
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Setup clang format
-        uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
-        with:
-          brew: clang-format
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
           channel: 'stable'
@@ -419,7 +412,7 @@ jobs:
           java-version: '17'
       - run: |
           sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev clang-format
+          sudo apt-get install -y ninja-build libgtk-3-dev
       - run: flutter config --enable-linux-desktop
       - run: dart pub get
       - name: Generate full bindings
