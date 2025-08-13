@@ -73,7 +73,7 @@ class Context {
       if (directive is ImportDirective) {
         final uri = directive.uri.toString().replaceAll('\'', '');
         if (uri.startsWith('package:')) {
-          importedPackages.add(directive.uri.toString());
+          importedPackages.add(uri);
           final session = context.currentSession;
           final resolvedPackagePath = session.uriConverter.uriToPath(
             Uri.parse(uri),
