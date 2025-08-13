@@ -3,9 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:native_doc_dartifier/src/context.dart';
+
 import 'code_processor.dart';
+import 'context.dart';
 import 'prompts.dart';
 
 Future<String> dartifyNativeCode(String sourceCode, Context context) async {
@@ -43,8 +45,8 @@ Future<String> dartifyNativeCode(String sourceCode, Context context) async {
 
   final codeProcessor = CodeProcessor();
 
-  print('imported pkgs: ' + context.importedPackages.join(', '));
-  print('bindings file: ' + context.bindingsFileAbsolutePath);
+  print('imported pkgs: ${context.importedPackages.join(', ')}');
+  print('bindings file: ${context.bindingsFileAbsolutePath}');
   mainCode = codeProcessor.addImports(mainCode, [
     ...context.importedPackages,
     context.bindingsFileAbsolutePath,

@@ -10,9 +10,10 @@ import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
-import 'package:native_doc_dartifier/src/ast.dart';
-import 'package:native_doc_dartifier/src/public_abstractor.dart';
 import 'package:path/path.dart' as p;
+
+import 'ast.dart';
+import 'public_abstractor.dart';
 
 class Context {
   final String projectAbsolutePath;
@@ -67,7 +68,7 @@ class Context {
     final context = collection.contexts.first;
 
     final parseResult =
-        await context.currentSession.getParsedUnit(bindingsFileAbsolutePath)
+        context.currentSession.getParsedUnit(bindingsFileAbsolutePath)
             as ParsedUnitResult;
     for (final directive in parseResult.unit.directives) {
       if (directive is ImportDirective) {
@@ -99,9 +100,9 @@ class Context {
     if (resolvedLibraryResult is ResolvedLibraryResult) {
       final libraryElement = resolvedLibraryResult.element;
       final classesSummaries = <LibraryClassSummary>[];
-      libraryElement.exportedLibraries.forEach((library) {
-        library.classes.forEach((element) {
-          if (element.isPrivate) return;
+      for (final library in libraryElement.exportedLibraries) {
+        for (final element in library.classes) {
+          if (element.isPrivate) continue;
           classesSummaries.add(
             LibraryClassSummary(
               libraryName: libraryElement.identifier,
@@ -133,8 +134,8 @@ class Context {
                       .toList(),
             ),
           );
-        });
-      });
+        }
+      }
       return classesSummaries;
     } else {
       stderr.writeln(

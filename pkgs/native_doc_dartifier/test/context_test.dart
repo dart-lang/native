@@ -5,8 +5,8 @@
 import 'dart:io';
 
 import 'package:native_doc_dartifier/src/context.dart';
-import 'package:test/test.dart';
 import 'package:path/path.dart' as p;
+import 'package:test/test.dart';
 
 void main() {
   test('Get imported packages summary', () async {

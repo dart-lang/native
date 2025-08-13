@@ -4,8 +4,8 @@
 
 import 'dart:io';
 
-import 'package:native_doc_dartifier/src/dartify_code.dart';
 import 'package:native_doc_dartifier/src/context.dart';
+import 'package:native_doc_dartifier/src/dartify_code.dart';
 
 void main() async {
   const code = '''public void onClick() {
