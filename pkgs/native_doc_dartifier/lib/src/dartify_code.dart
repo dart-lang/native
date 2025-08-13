@@ -45,8 +45,6 @@ Future<String> dartifyNativeCode(String sourceCode, Context context) async {
 
   final codeProcessor = CodeProcessor();
 
-  print('imported pkgs: ${context.importedPackages.join(', ')}');
-  print('bindings file: ${context.bindingsFileAbsolutePath}');
   mainCode = codeProcessor.addImports(mainCode, [
     ...context.importedPackages,
     context.bindingsFileAbsolutePath,
