@@ -4,26 +4,17 @@
 
 import 'dart:io';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:native_doc_dartifier/src/context.dart';
 import 'code_processor.dart';
 import 'prompts.dart';
-import 'public_abstractor.dart';
 
-Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
-  final bindingsFile = File(bindingsPath);
-
-  if (!await bindingsFile.exists()) {
-    stderr.writeln('File not found: $bindingsPath');
-    exit(1);
-  }
-
+Future<String> dartifyNativeCode(String sourceCode, Context context) async {
   final apiKey = Platform.environment['GEMINI_API_KEY'];
 
   if (apiKey == null) {
     stderr.writeln(r'No $GEMINI_API_KEY environment variable');
     exit(1);
   }
-
-  final bindings = await bindingsFile.readAsString();
 
   final model = GenerativeModel(
     model: 'gemini-2.0-flash',
@@ -39,7 +30,7 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
 
   final translatePrompt = TranslatePrompt(
     sourceCode,
-    generateBindingsSummary(bindings),
+    context.toDartLikeRepresentation(),
   );
 
   final chatSession = model.startChat();
@@ -51,9 +42,12 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
   var helperCode = '';
 
   final codeProcessor = CodeProcessor();
+
+  print('imported pkgs: ' + context.importedPackages.join(', '));
+  print('bindings file: ' + context.bindingsFileAbsolutePath);
   mainCode = codeProcessor.addImports(mainCode, [
-    'package:jni/jni.dart',
-    bindingsFile.path,
+    ...context.importedPackages,
+    context.bindingsFileAbsolutePath,
   ]);
 
   for (var i = 0; i < 3; i++) {
@@ -71,6 +65,6 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
     mainCode = fixedCode.mainCode;
     helperCode = fixedCode.helperCode;
   }
-  mainCode = codeProcessor.removeImports(mainCode);
+  mainCode = codeProcessor.removeHelperCodeImport(mainCode);
   return mainCode;
 }
