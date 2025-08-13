@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:native_doc_dartifier/src/dartify_code.dart';
+import 'package:native_doc_dartifier/src/context.dart';
 
 void main() async {
   const code = '''public void onClick() {
@@ -30,7 +31,8 @@ void main() async {
   final bindingsPath = bindingsFile.absolute.path;
 
   try {
-    final dartCode = await dartifyNativeCode(code, bindingsPath);
+    final context = await Context.create(Directory.current.path, bindingsPath);
+    final dartCode = await dartifyNativeCode(code, context);
     print(dartCode);
   } catch (e) {
     stderr.writeln('Error: $e');
