@@ -53,7 +53,7 @@ class CodeProcessor {
   String addImports(String code, List<String> imports) {
     final buffer = StringBuffer();
     for (final import in imports) {
-      buffer.writeln("import '$import';");
+      buffer.writeln("import '${import.replaceAll('\'', '')}';");
     }
     buffer.writeln("import '$_helperCodeFileName';");
     buffer.writeln();
@@ -61,9 +61,14 @@ class CodeProcessor {
     return buffer.toString();
   }
 
-  String removeImports(String code) {
+  String removeHelperCodeImport(String code) {
     final lines = code.split('\n');
-    final filteredLines = lines.where((line) => !line.startsWith('import'));
+    final filteredLines =
+        lines
+            .where(
+              (line) => !line.startsWith('import \'$_helperCodeFileName\';'),
+            )
+            .toList();
     return filteredLines.join('\n');
   }
 
