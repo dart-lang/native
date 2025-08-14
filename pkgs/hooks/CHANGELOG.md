@@ -1,21 +1,25 @@
+## 0.20.1-wip
+
+- Update outdated documentation.
+
 ## 0.20.0
 
-* **Breaking change**  Rename `EncodedAsset.jsonPath` to
+- **Breaking change**  Rename `EncodedAsset.jsonPath` to
   `EncodedAsset.encodingJsonPath`. This field only governs the `EncodedAsset.encoding` field, not the whole object.
-* Enable passing metadata from link hooks of a package to the link hooks in 
+- Enable passing metadata from link hooks of a package to the link hooks in 
   dependencies, by fixing the link hook execution order.
 
 ## 0.19.5
 
-* Stop leaking unexported symbols.
+- Stop leaking unexported symbols.
 
 ## 0.19.4
 
-* Add doc comments to all public members.
+- Add doc comments to all public members.
 
 ## 0.19.3
 
-* Mark this package as in preview.
+- Mark this package as in preview.
 
 ## 0.19.1
 

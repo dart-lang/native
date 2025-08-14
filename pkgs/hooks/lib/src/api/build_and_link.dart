@@ -84,8 +84,6 @@ import '../validation.dart';
 ///         name: 'asset.txt',
 ///         file: assetPath,
 ///         linkMode: DynamicLoadingBundled(),
-///         os: input.config.code.targetOS,
-///         architecture: input.config.code.targetArchitecture,
 ///       ),
 ///     );
 ///   });

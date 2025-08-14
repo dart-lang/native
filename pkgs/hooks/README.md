@@ -5,6 +5,9 @@
 
 A library to use in build hooks (`hook/build.dart`).
 
+For more documentation on adding native code to your package, refer to the API
+docs of [`package:code_assets`](https://pub.dev/packages/code_assets).
+
 ## Status: In Preview
 
 **NOTE**: This package is currently in preview and published under the
