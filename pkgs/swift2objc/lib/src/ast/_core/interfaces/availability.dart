@@ -22,6 +22,13 @@ class AvailabilityInfo {
     required this.deprecated,
     required this.obsoleted,
   });
+
+  bool get isEmpty =>
+      domain == '*' &&
+      !unavailable &&
+      introduced == null &&
+      deprecated == null &&
+      obsoleted == null;
 }
 
 /// A version for availability.
