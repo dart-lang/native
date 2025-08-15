@@ -90,9 +90,3 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
     visitor.visit(node.nestingParent);
   }
 }
-
-// Include everything explicitly included
-// Include direct transitive deps as stubs
-//   func/method arg/return types
-//   propertie types
-//   entire super type chain, including protocols
