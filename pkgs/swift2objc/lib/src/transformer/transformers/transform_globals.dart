@@ -14,11 +14,13 @@ import '../transform.dart';
 import 'transform_function.dart';
 import 'transform_variable.dart';
 
-ClassDeclaration transformGlobals(
+ClassDeclaration? transformGlobals(
   Globals globals,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
+  if (globals.variables.isEmpty && globals.functions.isEmpty) return null;
+
   final transformedGlobals = ClassDeclaration(
     id: 'globals'.addIdSuffix('wrapper'),
     name: globalNamer.makeUnique('GlobalsWrapper'),
@@ -32,7 +34,7 @@ ClassDeclaration transformGlobals(
       .map((variable) => transformGlobalVariable(
             variable,
             globalNamer,
-            transformationMap,
+            state,
           ))
       .toList();
 
@@ -40,7 +42,7 @@ ClassDeclaration transformGlobals(
       .map((function) => transformGlobalFunction(
             function,
             globalNamer,
-            transformationMap,
+            state,
           ))
       .toList();
 

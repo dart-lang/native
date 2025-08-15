@@ -175,39 +175,33 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     applyConfigFiltersVisitation.indirectlyIncluded,
   );
 
-  final findByValueCompoundsVisitation = FindByValueCompoundsVisitation();
-  visit(
+  final byValueCompounds = visit(
     context,
-    findByValueCompoundsVisitation,
+    FindByValueCompoundsVisitation(),
     FindByValueCompoundsVisitation.rootNodes(included),
-  );
-  final byValueCompounds = findByValueCompoundsVisitation.byValueCompounds;
+  ).byValueCompounds;
   visit(
     context,
     ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
     bindings,
   );
 
-  final findTransitiveDepsVisitation = FindTransitiveDepsVisitation();
-  visit(context, findTransitiveDepsVisitation, included);
-  final transitives = findTransitiveDepsVisitation.transitives;
-  final findDirectTransitiveDepsVisitation = FindDirectTransitiveDepsVisitation(
-    config,
+  final transitives = visit(
+    context,
+    FindTransitiveDepsVisitation(),
     included,
-    directlyIncluded,
-  );
-  visit(context, findDirectTransitiveDepsVisitation, included);
-  final directTransitives =
-      findDirectTransitiveDepsVisitation.directTransitives;
+  ).transitives;
+  final directTransitives = visit(
+    context,
+    FindDirectTransitiveDepsVisitation(config, included, directlyIncluded),
+    included,
+  ).directTransitives;
 
-  final listBindingsVisitation = ListBindingsVisitation(
-    config,
-    included,
-    transitives,
-    directTransitives,
-  );
-  visit(context, listBindingsVisitation, bindings);
-  final finalBindings = listBindingsVisitation.bindings;
+  final finalBindings = visit(
+    context,
+    ListBindingsVisitation(config, included, transitives, directTransitives),
+    bindings,
+  ).bindings;
   visit(context, MarkBindingsVisitation(finalBindings), bindings);
 
   final finalBindingsList = finalBindings.toList();
