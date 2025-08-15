@@ -9,3 +9,6 @@ resolution: workspace
 
 environment:
   sdk: '>=3.8.0 <4.0.0'
+
+dependencies:
+  yaml: ^3.1.3
