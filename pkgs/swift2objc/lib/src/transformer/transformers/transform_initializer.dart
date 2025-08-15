@@ -17,7 +17,7 @@ Declaration transformInitializer(
   InitializerDeclaration originalInitializer,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   final transformedParams = originalInitializer.params
       .map(
@@ -27,15 +27,15 @@ Declaration transformInitializer(
           type: transformReferredType(
             param.type,
             globalNamer,
-            transformationMap,
+            state,
           ),
         ),
       )
       .toList();
 
   if (originalInitializer.async) {
-    final methodReturnType = transformReferredType(
-        wrappedClassInstance.type, globalNamer, transformationMap);
+    final methodReturnType =
+        transformReferredType(wrappedClassInstance.type, globalNamer, state);
 
     return MethodDeclaration(
       id: originalInitializer.id,

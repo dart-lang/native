@@ -24,7 +24,7 @@ Declaration? transformProperty(
   PropertyDeclaration originalProperty,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (disallowedMethods.contains(originalProperty.name)) {
     return null;
@@ -37,7 +37,7 @@ Declaration? transformProperty(
   return _transformVariable(
     originalProperty,
     globalNamer,
-    transformationMap,
+    state,
     property: true,
     wrapperPropertyName: originalProperty.name,
     variableReferenceExpression: '$propertySource.${originalProperty.name}',
@@ -47,12 +47,12 @@ Declaration? transformProperty(
 Declaration transformGlobalVariable(
   GlobalVariableDeclaration globalVariable,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   return _transformVariable(
     globalVariable,
     globalNamer,
-    transformationMap,
+    state,
     wrapperPropertyName: globalNamer.makeUnique(
       '${globalVariable.name}Wrapper',
     ),
@@ -65,7 +65,7 @@ Declaration transformGlobalVariable(
 Declaration _transformVariable(
   VariableDeclaration originalVariable,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap, {
+  TransformationState state, {
   bool property = false,
   required String wrapperPropertyName,
   required String variableReferenceExpression,
@@ -73,7 +73,7 @@ Declaration _transformVariable(
   final transformedType = transformReferredType(
     originalVariable.type,
     globalNamer,
-    transformationMap,
+    state,
   );
 
   final shouldGenerateSetter = originalVariable is PropertyDeclaration
@@ -91,7 +91,7 @@ Declaration _transformVariable(
     final resultName = localNamer.makeUnique('result');
 
     final (wrapperResult, type) = maybeWrapValue(
-        originalVariable.type, resultName, globalNamer, transformationMap,
+        originalVariable.type, resultName, globalNamer, state,
         shouldWrapPrimitives: originalVariable.throws);
 
     return MethodDeclaration(
@@ -140,7 +140,7 @@ Declaration _transformVariable(
     variableReferenceExpression,
     transformedProperty,
     globalNamer,
-    transformationMap,
+    state,
   );
   transformedProperty.getter = PropertyStatements(getterStatements);
 
@@ -150,7 +150,7 @@ Declaration _transformVariable(
       variableReferenceExpression,
       transformedProperty,
       globalNamer,
-      transformationMap,
+      state,
     );
     transformedProperty.setter = PropertyStatements(setterStatements);
   }
@@ -163,13 +163,13 @@ List<String> _generateGetterStatements(
   String variableReferenceExpression,
   PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   final (wrappedValue, wrapperType) = maybeWrapValue(
     originalVariable.type,
     variableReferenceExpression,
     globalNamer,
-    transformationMap,
+    state,
   );
 
   assert(wrapperType.sameAs(transformedProperty.type));
@@ -182,7 +182,7 @@ List<String> _generateSetterStatements(
   String variableReference,
   PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   final (unwrappedValue, unwrappedType) = maybeUnwrapValue(
     transformedProperty.type,
