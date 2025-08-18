@@ -13,7 +13,7 @@ version: 0.0.1-wip
 resolution: workspace
 
 environment:
-  sdk: '>=3.9.0-21.0.dev <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dev_dependencies:
   args: ^2.6.0
