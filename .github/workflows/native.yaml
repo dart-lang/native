@@ -41,7 +41,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        sdk: [dev]
+        sdk: [dev, stable]
 
     runs-on: ${{ matrix.os }}-latest
 

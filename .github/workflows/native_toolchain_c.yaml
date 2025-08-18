@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu]
-        sdk: [dev]
+        sdk: [dev, stable]
         package: [native_toolchain_c]
 
     runs-on: ${{ matrix.os }}-latest

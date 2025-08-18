@@ -9,7 +9,7 @@ repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks_runner
 resolution: workspace
 
 environment:
-  sdk: '>=3.9.0-21.0.dev <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
   code_assets: ^0.19.4 # Needed for OS for Target for KernelAssets.
