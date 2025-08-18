@@ -32,7 +32,9 @@ void main() async {
 
   test(
     'native_dynamic_linking build',
-    skip: Platform.isMacOS || Platform.isWindows
+    skip:
+        (Platform.isMacOS || Platform.isWindows) &&
+            Platform.environment['GITHUB_ACTIONS'] != null
         ? 'https://github.com/dart-lang/native/issues/2501'
         : false,
     () async {

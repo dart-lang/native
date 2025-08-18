@@ -68,7 +68,11 @@ void main(List<String> arguments) async {
 
   if (argResults['test'] as bool) {
     final testUris = getTestUris(packages);
-    _runProcess('dart', ['test', ...testUris]);
+    _runProcess('dart', [
+      'test',
+      if (Platform.environment['GITHUB_ACTIONS'] != null) '--reporter=github',
+      ...testUris,
+    ]);
   }
 
   if (argResults['example'] as bool) {
