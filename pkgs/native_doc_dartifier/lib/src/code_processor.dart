@@ -24,16 +24,13 @@ class CodeProcessor {
     ], runInShell: true);
 
     var errorMessage = '';
-    if (analysisResult.exitCode != 0) {
-      final allLines = analysisResult.stdout.toString().trim().split('\n');
-      final errorLines =
-          allLines.where((line) => line.trim().startsWith('error -')).toList();
 
-      errorMessage = errorLines.join('\n');
-      print(errorMessage);
-    } else {
-      print('Dart analysis completed successfully with no errors.');
-    }
+    final allLines = analysisResult.stdout.toString().trim().split('\n');
+    final errorLines =
+        allLines.where((line) => line.trim().startsWith('error -')).toList();
+
+    errorMessage = errorLines.join('\n');
+
     await _cleanUp();
     return errorMessage;
   }
@@ -50,10 +47,10 @@ class CodeProcessor {
     }
   }
 
-  String addImports(String code, List<String> imports) {
+  String addImports(String code, List<String> importedPackages) {
     final buffer = StringBuffer();
-    for (final import in imports) {
-      buffer.writeln("import '$import';");
+    for (final package in importedPackages) {
+      buffer.writeln("import '$package';");
     }
     buffer.writeln("import '$_helperCodeFileName';");
     buffer.writeln();
@@ -61,9 +58,14 @@ class CodeProcessor {
     return buffer.toString();
   }
 
-  String removeImports(String code) {
+  String removeHelperCodeImport(String code) {
     final lines = code.split('\n');
-    final filteredLines = lines.where((line) => !line.startsWith('import'));
+    final filteredLines =
+        lines
+            .where(
+              (line) => !line.startsWith('import \'$_helperCodeFileName\';'),
+            )
+            .toList();
     return filteredLines.join('\n');
   }
 
