@@ -487,21 +487,23 @@ sealed class HookOutputBuilder {
   ///
   /// If any of the files are modified after [BuildOutput.timestamp], the
   // build will be  re-run.
+  @Deprecated('Use dependencies.add() instead.')
   void addDependency(Uri uri) {
-    final dependencies = _syntax.dependencies ?? [];
     dependencies.add(uri);
-    _syntax.dependencies = dependencies;
   }
 
   /// Adds files used by this build.
   ///
   /// If any of the files are modified after [BuildOutput.timestamp], the
   // build will be  re-run.
+  @Deprecated('Use dependencies.addAll() instead.')
   void addDependencies(Iterable<Uri> uris) {
-    final dependencies = _syntax.dependencies ?? [];
     dependencies.addAll(uris);
-    _syntax.dependencies = dependencies;
   }
+
+  /// The dependencies builder for this hook output.
+  HookOutputDependenciesBuilder get dependencies =>
+      HookOutputDependenciesBuilder._(this);
 
   /// Sets the failure of this output.
   void setFailure(FailureType value) {
@@ -514,6 +516,33 @@ sealed class HookOutputBuilder {
         _ => FailureTypeSyntax.uncategorized,
       },
     );
+  }
+}
+
+/// The builder for [HookOutput.dependencies].
+class HookOutputDependenciesBuilder {
+  final HookOutputBuilder _output;
+
+  HookOutputDependenciesBuilder._(this._output);
+
+  /// Adds file used by this build.
+  ///
+  /// If any of the files are modified after [BuildOutput.timestamp], the
+  // build will be  re-run.
+  void add(Uri uri) {
+    final dependencies = _output._syntax.dependencies ?? [];
+    dependencies.add(uri);
+    _output._syntax.dependencies = dependencies;
+  }
+
+  /// Adds files used by this build.
+  ///
+  /// If any of the files are modified after [BuildOutput.timestamp], the
+  // build will be  re-run.
+  void addAll(Iterable<Uri> uris) {
+    final dependencies = _output._syntax.dependencies ?? [];
+    dependencies.addAll(uris);
+    _output._syntax.dependencies = dependencies;
   }
 }
 
