@@ -32,7 +32,7 @@ extension LinkInputCodeAssets on LinkInputAssets {
   /// NOTE: If the linker implementation depends on the contents of the files
   /// the code assets refer (e.g. looks at static archives and links them) then
   /// the linker script has to add those files as dependencies via
-  /// [HookOutputBuilder.addDependencies] to ensure the linker script will be
+  /// [HookOutputBuilder.dependencies] to ensure the linker script will be
   /// re-run if the content of the files changes.
   Iterable<CodeAsset> get code =>
       encodedAssets.where((e) => e.isCodeAsset).map(CodeAsset.fromEncoded);

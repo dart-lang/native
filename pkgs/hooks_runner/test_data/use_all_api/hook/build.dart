@@ -51,6 +51,6 @@ void main(List<String> args) async {
           ? const ToLinkHook('foo')
           : const ToAppBundle(),
     );
-    output.addDependency(input.packageRoot.resolve('x.txt'));
+    output.dependencies.add(input.packageRoot.resolve('x.txt'));
   });
 }

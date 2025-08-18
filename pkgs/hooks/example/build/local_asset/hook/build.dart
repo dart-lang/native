@@ -24,7 +24,7 @@ Future<void> main(List<String> args) async {
     // Insert code that downloads or builds the asset to `assetPath`.
     await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 
-    output.addDependencies([assetSourcePath]);
+    output.dependencies.add(assetSourcePath);
 
     output.assets.code.add(
       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.

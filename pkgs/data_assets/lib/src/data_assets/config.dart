@@ -42,7 +42,7 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
         ),
         routing: routing,
       );
-      addDependency(file.uri);
+      dependencies.add(file.uri);
     }
 
     for (final path in paths) {
@@ -52,7 +52,7 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
 
       if (await directory.exists()) {
         try {
-          addDependency(directory.uri);
+          dependencies.add(directory.uri);
           await for (final entity in directory.list(
             recursive: recursive,
             followLinks: false,
@@ -60,7 +60,7 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
             if (entity is File) {
               addAsset(entity);
             } else {
-              addDependency(entity.uri);
+              dependencies.add(entity.uri);
             }
           }
         } on FileSystemException catch (e) {

@@ -36,6 +36,6 @@ void main(List<String> args) async {
     output.assets.code.addAll(input.assets.code);
     output.assets.data.addAll(input.assets.data);
 
-    output.addDependency(input.packageRoot.resolve('x.txt'));
+    output.dependencies.add(input.packageRoot.resolve('x.txt'));
   });
 }
