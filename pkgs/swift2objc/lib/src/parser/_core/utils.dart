@@ -76,7 +76,10 @@ bool parseIsOverriding(Json symbolJson) => symbolJson['declarationFragments']
 List<AvailabilityInfo> parseAvailability(Json symbolJson) {
   final availability = symbolJson['availability'];
   if (!availability.exists) return const [];
-  return availability.map(_parseAvailabilityInfo).toList();
+  return availability
+      .map(_parseAvailabilityInfo)
+      .where((a) => !a.isEmpty)
+      .toList();
 }
 
 AvailabilityInfo _parseAvailabilityInfo(Json json) => AvailabilityInfo(
