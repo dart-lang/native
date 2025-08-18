@@ -118,16 +118,15 @@ Future<ValidationErrors> validateCodeAssetLinkOutput(
 Future<ValidationErrors> validateCodeAssetInApplication(
   List<EncodedAsset> assets,
 ) async {
-  final fileNameToEncodedAssetId = <String, Set<String>>{};
+  final codeAssets = <CodeAsset>[];
   for (final asset in assets) {
     if (!asset.isCodeAsset) continue;
-    _groupCodeAssetsByFilename(
-      CodeAsset.fromEncoded(asset),
-      fileNameToEncodedAssetId,
-    );
+    final codeAsset = CodeAsset.fromEncoded(asset);
+    codeAssets.add(codeAsset);
   }
   final errors = <String>[];
-  _validateNoDuplicateDylibNames(errors, fileNameToEncodedAssetId);
+  _validateNoDuplicateDylibNames(errors, codeAssets);
+  _validateNoDuplicateAssetIds(errors, codeAssets);
   return errors;
 }
 
@@ -140,9 +139,8 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
   bool isBuild,
 ) async {
   final errors = <String>[];
-  final idsBundled = <String>{};
-  final fileNameToEncodedAssetId = <String, Set<String>>{};
 
+  final codeAssetsBundled = <CodeAsset>[];
   for (final asset in encodedAssetsBundled) {
     if (!asset.isCodeAsset) continue;
     final syntaxErrors = _validateCodeAssetSyntax(asset);
@@ -150,22 +148,14 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       errors.addAll(syntaxErrors);
       continue;
     }
-    _validateCodeAsset(
-      input,
-      codeConfig,
-      CodeAsset.fromEncoded(asset),
-      errors,
-      idsBundled,
-      isBuild,
-      true,
-    );
-    _groupCodeAssetsByFilename(
-      CodeAsset.fromEncoded(asset),
-      fileNameToEncodedAssetId,
-    );
+    final codeAsset = CodeAsset.fromEncoded(asset);
+    _validateCodeAsset(input, codeConfig, codeAsset, errors, isBuild, true);
+    codeAssetsBundled.add(codeAsset);
   }
+  _validateNoDuplicateDylibNames(errors, codeAssetsBundled);
+  _validateNoDuplicateAssetIds(errors, codeAssetsBundled);
 
-  final idsNotBundled = <String>{};
+  final codeAssetsNotBundled = <CodeAsset>[];
   for (final asset in encodedAssetsNotBundled) {
     if (!asset.isCodeAsset) continue;
     final syntaxErrors = _validateCodeAssetSyntax(asset);
@@ -173,17 +163,13 @@ Future<ValidationErrors> _validateCodeAssetBuildOrLinkOutput(
       errors.addAll(syntaxErrors);
       continue;
     }
-    _validateCodeAsset(
-      input,
-      codeConfig,
-      CodeAsset.fromEncoded(asset),
-      errors,
-      idsNotBundled,
-      isBuild,
-      false,
-    );
+    final codeAsset = CodeAsset.fromEncoded(asset);
+    _validateCodeAsset(input, codeConfig, codeAsset, errors, isBuild, false);
+    codeAssetsNotBundled.add(codeAsset);
   }
-  _validateNoDuplicateDylibNames(errors, fileNameToEncodedAssetId);
+  _validateNoDuplicateDylibNames(errors, codeAssetsNotBundled);
+  _validateNoDuplicateAssetIds(errors, codeAssetsNotBundled);
+
   return errors;
 }
 
@@ -212,7 +198,6 @@ void _validateCodeAsset(
   CodeConfig codeConfig,
   CodeAsset codeAsset,
   ValidationErrors errors,
-  Set<String> ids,
   bool validateAssetId,
   bool validateLinkMode,
 ) {
@@ -220,9 +205,6 @@ void _validateCodeAsset(
   final prefix = 'package:${input.packageName}/';
   if (validateAssetId && !id.startsWith(prefix)) {
     errors.add('Code asset "$id" does not start with "$prefix".');
-  }
-  if (!ids.add(id)) {
-    errors.add('More than one code asset with same "$id" id.');
   }
 
   if (validateLinkMode) {
@@ -262,29 +244,50 @@ bool _mustHaveFile(LinkMode linkMode) => switch (linkMode) {
   _ => throw UnsupportedError('Unknown link mode: $linkMode.'),
 };
 
-void _groupCodeAssetsByFilename(
-  CodeAsset codeAsset,
-  Map<String, Set<String>> fileNameToEncodedAssetId,
-) {
-  final file = codeAsset.file;
-  if (file != null) {
-    final fileName = file.pathSegments.where((s) => s.isNotEmpty).last;
-    fileNameToEncodedAssetId[fileName] ??= {};
-    fileNameToEncodedAssetId[fileName]!.add(codeAsset.id);
-  }
-}
-
 void _validateNoDuplicateDylibNames(
   ValidationErrors errors,
-  Map<String, Set<String>> fileNameToEncodedAssetId,
+  List<CodeAsset> codeAssets,
 ) {
-  for (final fileName in fileNameToEncodedAssetId.keys) {
-    final assetIds = fileNameToEncodedAssetId[fileName]!;
-    if (assetIds.length > 1) {
-      final assetIdsString = assetIds.map((e) => '"$e"').join(', ');
+  final fileNameToAssets = <String, Set<CodeAsset>>{};
+  for (final codeAsset in codeAssets) {
+    final file = codeAsset.file;
+    if (file != null) {
+      final fileName = file.pathSegments.where((s) => s.isNotEmpty).last;
+      fileNameToAssets[fileName] ??= {};
+      fileNameToAssets[fileName]!.add(codeAsset);
+    }
+  }
+
+  for (final fileName in fileNameToAssets.keys) {
+    final assets = fileNameToAssets[fileName]!;
+    if (assets.length > 1) {
+      final assetIdsString = assets.map((e) => '"${e.id}"').join(', ');
       final error =
           'Duplicate dynamic library file name "$fileName" for the following'
           ' asset ids: $assetIdsString.';
+      errors.add(error);
+    }
+  }
+}
+
+void _validateNoDuplicateAssetIds(
+  ValidationErrors errors,
+  List<CodeAsset> codeAssets,
+) {
+  final assetIdToAssets = <String, Set<CodeAsset>>{};
+  for (final codeAsset in codeAssets) {
+    final assetId = codeAsset.id;
+    assetIdToAssets[assetId] ??= {};
+    assetIdToAssets[assetId]!.add(codeAsset);
+  }
+
+  for (final assetIds in assetIdToAssets.values) {
+    if (assetIds.length > 1) {
+      final assetId = assetIds.first.id;
+      final filesString = assetIds.map((e) => '"${e.file?.path}"').join(', ');
+      final error =
+          'Multiple assets with the same id: "$assetId". '
+          'The duplicate assets have the following files: $filesString.';
       errors.add(error);
     }
   }
