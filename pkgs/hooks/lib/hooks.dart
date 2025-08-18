@@ -39,6 +39,7 @@ export 'src/config.dart'
         HookInputUserDefines,
         HookOutput,
         HookOutputBuilder,
+        HookOutputDependenciesBuilder,
         HookOutputFailure,
         InfraError,
         LinkAssetRouting,
