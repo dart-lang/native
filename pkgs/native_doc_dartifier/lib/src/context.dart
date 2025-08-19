@@ -109,27 +109,27 @@ class Context {
               classDeclerationDisplay: element.displayString(),
               methodsDeclerationDisplay:
                   element.methods
-                      .takeWhile((m) => m.isPublic)
+                      .where((m) => m.isPublic)
                       .map((m) => m.displayString())
                       .toList(),
               fieldsDeclerationDisplay:
                   element.fields
-                      .takeWhile((f) => f.isPublic)
+                      .where((f) => f.isPublic)
                       .map((f) => f.displayString())
                       .toList(),
               gettersDeclerationDisplay:
                   element.getters
-                      .takeWhile((g) => g.isPublic)
+                      .where((g) => g.isPublic)
                       .map((g) => g.displayString())
                       .toList(),
               settersDeclerationDisplay:
                   element.setters
-                      .takeWhile((s) => s.isPublic)
+                      .where((s) => s.isPublic)
                       .map((s) => s.displayString())
                       .toList(),
               constructorsDeclerationDisplay:
                   element.constructors
-                      .takeWhile((c) => c.isPublic)
+                      .where((c) => c.isPublic)
                       .map((c) => c.displayString())
                       .toList(),
             ),
