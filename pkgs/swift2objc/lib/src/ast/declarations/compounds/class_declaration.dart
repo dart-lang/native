@@ -49,6 +49,9 @@ class ClassDeclaration extends AstNode
   /// If this class is a wrapper for another entity (class, struct, etc)
   bool isWrapper;
 
+  // Whether this is a stub wrapper.
+  bool isStub;
+
   /// An instance of the original entity that this class is wraping
   PropertyDeclaration? wrappedInstance;
 
@@ -77,6 +80,7 @@ class ClassDeclaration extends AstNode
     this.hasObjCAnnotation = false,
     this.superClass,
     this.isWrapper = false,
+    this.isStub = false,
     this.wrappedInstance,
     this.wrapperInitializer,
     this.initializers = const [],

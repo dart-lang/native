@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
+import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
@@ -14,22 +15,23 @@ import '../utils.dart';
 void main() {
   group('Unit test for filter', () {
     final thisDir = p.join(testDir, 'unit');
+    final inputFile = p.join(thisDir, 'filter_test_input.swift');
 
-    final file = p.join(thisDir, 'filter_test_input.swift');
-    test('A: Specific Files', () async {
-      final output = p.join(thisDir, 'filter_test_output_a.swift');
+    Future<void> runTest(String expectedOutputFile,
+        bool Function(Declaration declaration) include) async {
+      final output = p.join(thisDir, expectedOutputFile);
       final actualOutputFile = p.join(
         thisDir,
-        '${p.basenameWithoutExtension(output)}.test${p.extension(output)}',
+        '${p.basenameWithoutExtension(output)}.g.swift',
       );
 
       await generateWrapper(
         Config(
-          input: FilesInputConfig(files: [Uri.file(file)]),
+          input: FilesInputConfig(files: [Uri.file(inputFile)]),
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(thisDir).uri,
           preamble: '// Test preamble text',
-          include: (declaration) => declaration.name == 'Engine',
+          include: include,
         ),
       );
 
@@ -37,91 +39,45 @@ void main() {
       final expectedOutput = File(output).readAsStringSync();
 
       expectString(actualOutput, expectedOutput);
+      await expectValidSwift([inputFile, actualOutputFile]);
+    }
+
+    test('A: Filtering by name', () async {
+      await runTest('filter_test_output_a.swift',
+          (declaration) => declaration.name == 'Engine');
     });
 
-    test('B: Declarations of a specific type', () async {
-      final output = p.join(thisDir, 'filter_test_output_b.swift');
-      final actualOutputFile = p.join(
-        thisDir,
-        '${p.basenameWithoutExtension(output)}.test${p.extension(output)}',
-      );
-
-      await generateWrapper(
-        Config(
-          input: FilesInputConfig(files: [Uri.file(file)]),
-          outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(thisDir).uri,
-          preamble: '// Test preamble text',
-          include: (declaration) => declaration is ClassDeclaration,
-        ),
-      );
-
-      final actualOutput = await File(actualOutputFile).readAsString();
-      final expectedOutput = File(output).readAsStringSync();
-
-      expectString(actualOutput, expectedOutput);
+    test('B: Filtering by type', () async {
+      await runTest('filter_test_output_b.swift',
+          (declaration) => declaration is ClassDeclaration);
     });
 
     test('C: Nonexistent declaration', () async {
-      final output = p.join(thisDir, 'filter_test_output_c.swift');
-      final actualOutputFile = p.join(
-        thisDir,
-        '${p.basenameWithoutExtension(output)}.test${p.extension(output)}',
-      );
+      await runTest('filter_test_output_c.swift',
+          (declaration) => declaration.name == 'Ship');
+    });
 
-      await generateWrapper(
-        Config(
-          input: FilesInputConfig(files: [Uri.file(file)]),
-          outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(thisDir).uri,
-          preamble: '// Test preamble text',
-          // The following declaration does not exist,
-          // so none are produced in output
-          include: (declaration) => declaration.name == 'Ship',
-        ),
-      );
-
-      final actualOutput = await File(actualOutputFile).readAsString();
-      final expectedOutput = File(output).readAsStringSync();
-
-      expectString(actualOutput, expectedOutput);
+    test('D: Stubbed declarations', () async {
+      await runTest('filter_test_output_d.swift',
+          (declaration) => declaration.name == 'Vehicle');
     });
 
     tearDown(() {
-      if (File(p.join(thisDir, 'symbolgraph_module.abi.json')).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.abi.json')).deleteSync();
-      }
-      if (File(p.join(thisDir, 'symbolgraph_module.swiftdoc')).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.swiftdoc')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.swiftmodule'),
-      ).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.swiftmodule')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.swiftsource'),
-      ).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.swiftsource')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.symbols.json'),
-      ).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.symbols.json')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.swiftsourceinfo'),
-      ).existsSync()) {
-        File(
-          p.join(thisDir, 'symbolgraph_module.swiftsourceinfo'),
-        ).deleteSync();
+      void tryDelete(FileSystemEntity file) {
+        if (file is File && file.existsSync()) file.deleteSync();
       }
 
-      for (final file in Directory(
-        thisDir,
-      ).listSync().where((t) => p.extension(t.path, 2) == '.test.swift')) {
-        if (file is File) file.deleteSync();
-      }
+      tryDelete(File(p.join(thisDir, 'symbolgraph_module.abi.json')));
+      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftdoc')));
+      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftmodule')));
+      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftsource')));
+      tryDelete(File(p.join(thisDir, 'symbolgraph_module.symbols.json')));
+      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftsourceinfo')));
+
+      Directory(thisDir)
+          .listSync()
+          .where((t) => p.extension(t.path, 2) == '.g.swift')
+          .forEach(tryDelete);
     });
   });
 }
