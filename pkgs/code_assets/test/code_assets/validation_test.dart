@@ -56,7 +56,32 @@ void main() {
           linkModePreference: linkModePreference,
         ),
       );
-    return BuildInput(builder.json);
+    return builder.build();
+  }
+
+  LinkInputBuilder makeLinkInputBuilder() {
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: outDirSharedUri,
+      );
+    return inputBuilder;
+  }
+
+  LinkInput makeCodeLinkInput({
+    LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  }) {
+    final builder = makeLinkInputBuilder()
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.linux,
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: linkModePreference,
+        ),
+      );
+    return builder.build();
   }
 
   test('file not set', () async {
@@ -174,6 +199,105 @@ void main() {
       outputBuilder.build(),
     );
     expect(errors, contains(contains('Duplicate dynamic library file name')));
+  });
+
+  test('duplicate asset id', () async {
+    final input = makeCodeBuildInput();
+
+    final fileName = input.config.code.targetOS.dylibFileName('foo');
+    final assetFile = File.fromUri(outDirUri.resolve(fileName));
+    await assetFile.writeAsBytes([1, 2, 3]);
+    final fileName2 = input.config.code.targetOS.dylibFileName('bar');
+    final assetFile2 = File.fromUri(outDirUri.resolve(fileName2));
+    await assetFile2.writeAsBytes([1, 2, 3]);
+    final duplicateAssetIdAssets = [
+      CodeAsset(
+        package: input.packageName,
+        name: 'src/foo.dart',
+        file: assetFile.uri,
+        linkMode: DynamicLoadingBundled(),
+      ),
+      CodeAsset(
+        package: input.packageName,
+        name: 'src/foo.dart',
+        file: assetFile2.uri,
+        linkMode: DynamicLoadingBundled(),
+      ),
+    ];
+
+    {
+      final outputBuilder = BuildOutputBuilder();
+      outputBuilder.assets.code.addAll(duplicateAssetIdAssets);
+      final errors = await validateCodeAssetBuildOutput(
+        input,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final outputBuilder = BuildOutputBuilder();
+      outputBuilder.assets.code.addAll(
+        duplicateAssetIdAssets,
+        routing: const ToBuildHooks(),
+      );
+      final errors = await validateCodeAssetBuildOutput(
+        input,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final outputBuilder = BuildOutputBuilder();
+      outputBuilder.assets.code.addAll(
+        duplicateAssetIdAssets,
+        routing: const ToLinkHook('foo'),
+      );
+      final errors = await validateCodeAssetBuildOutput(
+        input,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final linkInput = makeCodeLinkInput();
+      final outputBuilder = LinkOutputBuilder();
+      outputBuilder.assets.code.addAll(duplicateAssetIdAssets);
+      final errors = await validateCodeAssetLinkOutput(
+        linkInput,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final linkInput = makeCodeLinkInput();
+      final outputBuilder = LinkOutputBuilder();
+      outputBuilder.assets.code.addAll(
+        duplicateAssetIdAssets,
+        routing: const ToLinkHook('foo'),
+      );
+      final errors = await validateCodeAssetLinkOutput(
+        linkInput,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final errors = await validateCodeAssetInApplication(
+        duplicateAssetIdAssets.map((e) => e.encode()).toList(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
   });
 
   group('BuildInput.config.code validation', () {

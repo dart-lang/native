@@ -14,7 +14,7 @@ import '../transform.dart';
 ReferredType transformReferredType(
   ReferredType type,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (type.isObjCRepresentable) return type;
 
@@ -23,16 +23,15 @@ ReferredType transformReferredType(
   } else if (type is DeclaredType) {
     final decl = type.declaration;
     if (decl is TypealiasDeclaration) {
-      return transformReferredType(decl.target, globalNamer, transformationMap);
+      return transformReferredType(decl.target, globalNamer, state);
     }
     return transformDeclaration(
       decl,
       globalNamer,
-      transformationMap,
+      state,
     ).asDeclaredType;
   } else if (type is OptionalType) {
-    return OptionalType(
-        transformReferredType(type.child, globalNamer, transformationMap));
+    return OptionalType(transformReferredType(type.child, globalNamer, state));
   } else {
     throw UnimplementedError('Unknown type: $type');
   }

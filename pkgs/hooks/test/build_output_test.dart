@@ -17,8 +17,8 @@ void main() {
     final builder = BuildOutputBuilder();
     final after = DateTime.now().roundDownToSeconds();
 
-    builder.addDependency(uris.first);
-    builder.addDependencies(uris.skip(1).toList());
+    builder.dependencies.add(uris.first);
+    builder.dependencies.addAll(uris.skip(1).toList());
 
     builder.assets.addEncodedAsset(assets.first);
     builder.assets.addEncodedAsset(

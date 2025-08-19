@@ -3,3 +3,4 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/find_package_root.dart';
+export 'src/yaml_to_json.dart';

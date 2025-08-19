@@ -1,3 +1,9 @@
+## 0.22.1-wip
+
+* Fix caches not being invalidated on (1) user-defines changing, (2) metadata
+  changing, and (3) assets sent to link hooks.
+  
+
 ## 0.22.0
 
 * Bump `package:hooks` to 0.20.0.

@@ -1,6 +1,10 @@
 ## 0.20.1-wip
 
 - Update outdated documentation.
+- Deprecate `HookOutputBuilder.addDependency` and
+  `HookOutputBuilder.addDependencies` in favor of
+  `HookOutputBuilder.dependencies.add` and
+  `HookOutputBuilder.dependencies.addAll`.  
 
 ## 0.20.0
 

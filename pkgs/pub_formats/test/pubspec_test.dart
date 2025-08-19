@@ -15,7 +15,7 @@ void main() {
     expect(syntax.name, equals('some_test_pubspec_package_name'));
     expect(syntax.description, equals('Test'));
     expect(syntax.version, equals('0.0.1-wip'));
-    expect(syntax.environment.sdk, equals('>=3.9.0-21.0.dev <4.0.0'));
+    expect(syntax.environment.sdk, equals('>=3.9.0 <4.0.0'));
     expect(syntax.environment.flutter, isNull);
     expect(syntax.dependencies, isNotEmpty);
     final somePathDependency = syntax.dependencies?['some_path_dependency'];

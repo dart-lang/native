@@ -1,3 +1,7 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
@@ -10,11 +14,13 @@ import '../transform.dart';
 import 'transform_function.dart';
 import 'transform_variable.dart';
 
-ClassDeclaration transformGlobals(
+ClassDeclaration? transformGlobals(
   Globals globals,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
+  if (globals.variables.isEmpty && globals.functions.isEmpty) return null;
+
   final transformedGlobals = ClassDeclaration(
     id: 'globals'.addIdSuffix('wrapper'),
     name: globalNamer.makeUnique('GlobalsWrapper'),
@@ -28,7 +34,7 @@ ClassDeclaration transformGlobals(
       .map((variable) => transformGlobalVariable(
             variable,
             globalNamer,
-            transformationMap,
+            state,
           ))
       .toList();
 
@@ -36,7 +42,7 @@ ClassDeclaration transformGlobals(
       .map((function) => transformGlobalFunction(
             function,
             globalNamer,
-            transformationMap,
+            state,
           ))
       .toList();
 

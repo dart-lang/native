@@ -129,3 +129,48 @@ class Setter {
     return '$staticPrefix$parameterType set $name($parameter)';
   }
 }
+
+class LibraryClassSummary {
+  final String libraryName;
+  final String classDeclerationDisplay;
+  final List<String> methodsDeclerationDisplay;
+  final List<String> fieldsDeclerationDisplay;
+  final List<String> gettersDeclerationDisplay;
+  final List<String> settersDeclerationDisplay;
+  final List<String> constructorsDeclerationDisplay;
+
+  LibraryClassSummary({
+    required this.libraryName,
+    required this.classDeclerationDisplay,
+    required this.methodsDeclerationDisplay,
+    required this.fieldsDeclerationDisplay,
+    required this.gettersDeclerationDisplay,
+    required this.settersDeclerationDisplay,
+    required this.constructorsDeclerationDisplay,
+  });
+
+  String toDartLikeRepresentaion() {
+    final buffer = StringBuffer();
+    if (libraryName.isNotEmpty) {
+      buffer.writeln('From: $libraryName');
+    }
+    buffer.writeln('$classDeclerationDisplay {');
+    for (final constructor in constructorsDeclerationDisplay) {
+      buffer.writeln('  $constructor');
+    }
+    for (final field in fieldsDeclerationDisplay) {
+      buffer.writeln('  $field');
+    }
+    for (final method in methodsDeclerationDisplay) {
+      buffer.writeln('  $method');
+    }
+    for (final getter in gettersDeclerationDisplay) {
+      buffer.writeln('  $getter');
+    }
+    for (final setter in settersDeclerationDisplay) {
+      buffer.writeln('  $setter');
+    }
+    buffer.writeln('}');
+    return buffer.toString();
+  }
+}

@@ -41,7 +41,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        sdk: [dev]
+        sdk: [dev, stable]
 
     runs-on: ${{ matrix.os }}-latest
 
@@ -67,8 +67,14 @@ jobs:
 
       - run: dart pub get
 
+      - name: Run pub get, analysis, formatting, generators, and tests.
+        # Don't run examples on stable, the experiment is not available on stable.
+        run: dart tool/ci.dart --pub --coverage --no-example
+        if: ${{ matrix.sdk == 'stable' }}
+
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
         run: dart tool/ci.dart --pub --coverage
+        if: ${{ matrix.sdk != 'stable' }}
 
       - name: Upload coverage
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b

@@ -77,25 +77,7 @@ void main([List<String>? args]) {
         expect(actualOutput, expectedOutput);
         expect(loggedErrors, 0);
 
-        // Try generating symbolgraph for input & output files
-        // to make sure the result compiles. Input file must be included cause
-        // it contains the definition of the entities the output code wraps.
-        final symbolgraphCommand = FilesInputConfig(
-          files: [Uri.file(inputFile), Uri.file(actualOutputFile)],
-          generatedModuleName: 'output_file_symbolgraph',
-        ).symbolgraphCommand!;
-
-        final processResult = await Process.run(
-          symbolgraphCommand.executable,
-          symbolgraphCommand.args,
-          workingDirectory: tempDir,
-        );
-
-        if (processResult.exitCode != 0) {
-          print(processResult.stdout);
-          print(processResult.stderr);
-        }
-        expect(processResult.exitCode, 0);
+        await expectValidSwift([inputFile, actualOutputFile]);
       });
     }
   });

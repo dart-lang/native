@@ -46,7 +46,7 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
 (ReferredType, bool) maybeGetPrimitiveWrapper(
   ReferredType type,
   bool shouldWrapPrimitives,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (type is! DeclaredType || !shouldWrapPrimitives) {
     return (type, false);
@@ -57,7 +57,7 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
     return (type, false);
   }
 
-  transformationMap[type.declaration] = (wrapper as DeclaredType).declaration;
+  state.map[type.declaration] = (wrapper as DeclaredType).declaration;
   return (wrapper, true);
 }
 
