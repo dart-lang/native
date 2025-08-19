@@ -27,16 +27,31 @@ class Class {
       getters = [],
       setters = [];
 
-  String toDartLikeRepresentaion() => '''
-${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}
-{
-${constructors.map((c) => '${c.toDartLikeRepresentaion()};').join('\n')}
-${fields.map((f) => '${f.toDartLikeRepresentaion()};').join('\n')}
-${methods.map((m) => '${m.toDartLikeRepresentaion()};').join('\n')}
-${getters.map((g) => '${g.toDartLikeRepresentaion()};').join('\n')}
-${setters.map((s) => '${s.toDartLikeRepresentaion()};').join('\n')}
-}
-''';
+  String toDartLikeRepresentaion() {
+    final classDecleration =
+        '${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}';
+
+    final buffer = StringBuffer();
+
+    buffer.writeln('$classDecleration {');
+    for (final constructor in constructors) {
+      buffer.writeln('  $constructor;');
+    }
+    for (final field in fields) {
+      buffer.writeln('  $field;');
+    }
+    for (final method in methods) {
+      buffer.writeln('  $method;');
+    }
+    for (final getter in getters) {
+      buffer.writeln('  $getter;');
+    }
+    for (final setter in setters) {
+      buffer.writeln('  $setter;');
+    }
+    buffer.writeln('}');
+    return buffer.toString();
+  }
 
   void addField(Field field) {
     fields.add(field);
@@ -130,6 +145,39 @@ class Setter {
   }
 }
 
+class LibrarySummary {
+  final String libraryName;
+  final List<LibraryClassSummary> classesSummaries;
+  final List<String> topLevelFunctions;
+  final List<String> topLevelVariables;
+
+  LibrarySummary({
+    required this.libraryName,
+    required this.classesSummaries,
+    required this.topLevelFunctions,
+    required this.topLevelVariables,
+  });
+
+  String toDartLikeRepresentation() {
+    final buffer = StringBuffer();
+    if (libraryName.isNotEmpty) {
+      buffer.writeln('From: $libraryName');
+    }
+    for (final function in topLevelFunctions) {
+      buffer.writeln('$function;');
+    }
+    for (final variable in topLevelVariables) {
+      buffer.writeln('$variable;');
+    }
+    buffer.writeln();
+    for (final classSummary in classesSummaries) {
+      buffer.writeln(classSummary.toDartLikeRepresentaion());
+      buffer.writeln();
+    }
+    return buffer.toString();
+  }
+}
+
 class LibraryClassSummary {
   final String libraryName;
   final String classDeclerationDisplay;
@@ -156,19 +204,19 @@ class LibraryClassSummary {
     }
     buffer.writeln('$classDeclerationDisplay {');
     for (final constructor in constructorsDeclerationDisplay) {
-      buffer.writeln('  $constructor');
+      buffer.writeln('  $constructor;');
     }
     for (final field in fieldsDeclerationDisplay) {
-      buffer.writeln('  $field');
+      buffer.writeln('  $field;');
     }
     for (final method in methodsDeclerationDisplay) {
-      buffer.writeln('  $method');
+      buffer.writeln('  $method;');
     }
     for (final getter in gettersDeclerationDisplay) {
-      buffer.writeln('  $getter');
+      buffer.writeln('  $getter;');
     }
     for (final setter in settersDeclerationDisplay) {
-      buffer.writeln('  $setter');
+      buffer.writeln('  $setter;');
     }
     buffer.writeln('}');
     return buffer.toString();

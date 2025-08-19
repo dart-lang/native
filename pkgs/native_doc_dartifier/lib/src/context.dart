@@ -4,11 +4,11 @@
 
 import 'dart:io';
 
-import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:path/path.dart' as p;
 
@@ -21,6 +21,8 @@ class Context {
   final List<String> importedPackages = [];
   final List<LibraryClassSummary> libraryClassesSummaries = [];
   final List<Class> bindingsSummary = [];
+  final List<String> topLevelFunctions = [];
+  final List<String> topLevelVariables = [];
 
   Context._({
     required this.projectAbsolutePath,
@@ -82,9 +84,21 @@ class Context {
 
           if (resolvedPackagePath != null) {
             print('Import URI: $uri -> Resolved Path: $resolvedPackagePath');
-            libraryClassesSummaries.addAll(
-              await _getLibrarySummary(context, resolvedPackagePath),
-            );
+            final resolvedPackage = await context.currentSession
+                .getResolvedLibrary(resolvedPackagePath);
+            if (resolvedPackage is ResolvedLibraryResult) {
+              final packageElement = resolvedPackage.element;
+              libraryClassesSummaries.addAll(
+                await _getLibrarySummary(
+                  packageElement.identifier,
+                  packageElement,
+                ),
+              );
+            } else {
+              stderr.writeln(
+                'Could not resolve library for path: $resolvedPackagePath',
+              );
+            }
           }
         }
       }
@@ -92,57 +106,60 @@ class Context {
   }
 
   Future<List<LibraryClassSummary>> _getLibrarySummary(
-    AnalysisContext context,
-    String libraryFileAbsolutePath,
+    String packageName,
+    LibraryElement libraryElement,
   ) async {
-    final resolvedLibraryResult = await context.currentSession
-        .getResolvedLibrary(libraryFileAbsolutePath);
-    if (resolvedLibraryResult is ResolvedLibraryResult) {
-      final libraryElement = resolvedLibraryResult.element;
-      final classesSummaries = <LibraryClassSummary>[];
-      for (final library in libraryElement.exportedLibraries) {
-        for (final element in library.classes) {
-          if (element.isPrivate) continue;
-          classesSummaries.add(
-            LibraryClassSummary(
-              libraryName: libraryElement.identifier,
-              classDeclerationDisplay: element.displayString(),
-              methodsDeclerationDisplay:
-                  element.methods
-                      .where((m) => m.isPublic)
-                      .map((m) => m.displayString())
-                      .toList(),
-              fieldsDeclerationDisplay:
-                  element.fields
-                      .where((f) => f.isPublic)
-                      .map((f) => f.displayString())
-                      .toList(),
-              gettersDeclerationDisplay:
-                  element.getters
-                      .where((g) => g.isPublic)
-                      .map((g) => g.displayString())
-                      .toList(),
-              settersDeclerationDisplay:
-                  element.setters
-                      .where((s) => s.isPublic)
-                      .map((s) => s.displayString())
-                      .toList(),
-              constructorsDeclerationDisplay:
-                  element.constructors
-                      .where((c) => c.isPublic)
-                      .map((c) => c.displayString())
-                      .toList(),
-            ),
-          );
-        }
-      }
-      return classesSummaries;
-    } else {
-      stderr.writeln(
-        'Could not resolve library for path: $libraryFileAbsolutePath',
+    final classesSummaries = <LibraryClassSummary>[];
+    for (final exportedLibrary in libraryElement.exportedLibraries) {
+      classesSummaries.addAll(
+        await _getLibrarySummary(packageName, exportedLibrary),
       );
-      return [];
     }
+    topLevelFunctions.addAll(
+      libraryElement.topLevelFunctions
+          .where((f) => f.isPublic)
+          .map((f) => f.displayString()),
+    );
+    topLevelVariables.addAll(
+      libraryElement.topLevelVariables
+          .where((v) => v.isPublic)
+          .map((v) => v.displayString()),
+    );
+    for (final classInstance in libraryElement.classes) {
+      if (classInstance.isPrivate) continue;
+      classesSummaries.add(
+        LibraryClassSummary(
+          libraryName: packageName,
+          classDeclerationDisplay: classInstance.displayString(),
+          methodsDeclerationDisplay:
+              classInstance.methods
+                  .where((m) => m.isPublic)
+                  .map((m) => m.displayString())
+                  .toList(),
+          fieldsDeclerationDisplay:
+              classInstance.fields
+                  .where((f) => f.isPublic)
+                  .map((f) => f.displayString())
+                  .toList(),
+          gettersDeclerationDisplay:
+              classInstance.getters
+                  .where((g) => g.isPublic)
+                  .map((g) => g.displayString())
+                  .toList(),
+          settersDeclerationDisplay:
+              classInstance.setters
+                  .where((s) => s.isPublic)
+                  .map((s) => s.displayString())
+                  .toList(),
+          constructorsDeclerationDisplay:
+              classInstance.constructors
+                  .where((c) => c.isPublic)
+                  .map((c) => c.displayString())
+                  .toList(),
+        ),
+      );
+    }
+    return classesSummaries;
   }
 
   String toDartLikeRepresentation() {

@@ -14,6 +14,9 @@ void main() {
       Directory.current.path,
       p.absolute('test/dartify_simple_cases/bindings.dart'),
     );
+
+    final file = File('output.txt');
+    await file.writeAsString(context.toDartLikeRepresentation());
     expect(context.importedPackages.contains('package:jni/jni.dart'), isTrue);
     expect(
       context.importedPackages.contains('package:jni/_internal.dart'),
