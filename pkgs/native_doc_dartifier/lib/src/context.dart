@@ -19,10 +19,8 @@ class Context {
   final String projectAbsolutePath;
   final String bindingsFileAbsolutePath;
   final List<String> importedPackages = [];
-  final List<LibraryClassSummary> libraryClassesSummaries = [];
+  final List<PackageSummary> packageSummaries = [];
   final List<Class> bindingsSummary = [];
-  final List<String> topLevelFunctions = [];
-  final List<String> topLevelVariables = [];
 
   Context._({
     required this.projectAbsolutePath,
@@ -88,12 +86,11 @@ class Context {
                 .getResolvedLibrary(resolvedPackagePath);
             if (resolvedPackage is ResolvedLibraryResult) {
               final packageElement = resolvedPackage.element;
-              libraryClassesSummaries.addAll(
-                await _getLibrarySummary(
-                  packageElement.identifier,
-                  packageElement,
-                ),
+              final packageSummary = PackageSummary(
+                packageName: packageElement.identifier,
               );
+              await _getLibrarySummary(packageSummary, packageElement);
+              packageSummaries.add(packageSummary);
             } else {
               stderr.writeln(
                 'Could not resolve library for path: $resolvedPackagePath',
@@ -105,31 +102,27 @@ class Context {
     }
   }
 
-  Future<List<LibraryClassSummary>> _getLibrarySummary(
-    String packageName,
+  Future<void> _getLibrarySummary(
+    PackageSummary packageSummary,
     LibraryElement libraryElement,
   ) async {
-    final classesSummaries = <LibraryClassSummary>[];
     for (final exportedLibrary in libraryElement.exportedLibraries) {
-      classesSummaries.addAll(
-        await _getLibrarySummary(packageName, exportedLibrary),
-      );
+      await _getLibrarySummary(packageSummary, exportedLibrary);
     }
-    topLevelFunctions.addAll(
+    packageSummary.topLevelFunctions.addAll(
       libraryElement.topLevelFunctions
           .where((f) => f.isPublic)
           .map((f) => f.displayString()),
     );
-    topLevelVariables.addAll(
+    packageSummary.topLevelVariables.addAll(
       libraryElement.topLevelVariables
           .where((v) => v.isPublic)
           .map((v) => v.displayString()),
     );
     for (final classInstance in libraryElement.classes) {
       if (classInstance.isPrivate) continue;
-      classesSummaries.add(
+      packageSummary.classesSummaries.add(
         LibraryClassSummary(
-          libraryName: packageName,
           classDeclerationDisplay: classInstance.displayString(),
           methodsDeclerationDisplay:
               classInstance.methods
@@ -159,16 +152,16 @@ class Context {
         ),
       );
     }
-    return classesSummaries;
+    return;
   }
 
   String toDartLikeRepresentation() {
     final buffer = StringBuffer();
     for (final classSummary in bindingsSummary) {
-      buffer.writeln(classSummary.toDartLikeRepresentaion());
+      buffer.writeln(classSummary.toDartLikeRepresentation());
     }
-    for (final libraryClassSummary in libraryClassesSummaries) {
-      buffer.writeln(libraryClassSummary.toDartLikeRepresentaion());
+    for (final packageSummary in packageSummaries) {
+      buffer.writeln(packageSummary.toDartLikeRepresentation());
     }
     final dartLikeRepresentation = buffer.toString().replaceAll('jni\$_.', '');
     return dartLikeRepresentation;

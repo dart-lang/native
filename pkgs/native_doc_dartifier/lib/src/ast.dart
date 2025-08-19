@@ -27,7 +27,7 @@ class Class {
       getters = [],
       setters = [];
 
-  String toDartLikeRepresentaion() {
+  String toDartLikeRepresentation() {
     final classDecleration =
         '${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}';
 
@@ -35,19 +35,19 @@ class Class {
 
     buffer.writeln('$classDecleration {');
     for (final constructor in constructors) {
-      buffer.writeln('  $constructor;');
+      buffer.writeln('  ${constructor.toDartLikeRepresentation()};');
     }
     for (final field in fields) {
-      buffer.writeln('  $field;');
+      buffer.writeln('  ${field.toDartLikeRepresentation()};');
     }
     for (final method in methods) {
-      buffer.writeln('  $method;');
+      buffer.writeln('  ${method.toDartLikeRepresentation()};');
     }
     for (final getter in getters) {
-      buffer.writeln('  $getter;');
+      buffer.writeln('  ${getter.toDartLikeRepresentation()};');
     }
     for (final setter in setters) {
-      buffer.writeln('  $setter;');
+      buffer.writeln('  ${setter.toDartLikeRepresentation()};');
     }
     buffer.writeln('}');
     return buffer.toString();
@@ -73,7 +73,8 @@ class Field {
 
   Field(this.name, this.type, {this.isStatic = false});
 
-  String toDartLikeRepresentaion() => '${isStatic ? 'static ' : ''}$type $name';
+  String toDartLikeRepresentation() =>
+      '${isStatic ? 'static ' : ''}$type $name';
 }
 
 class Method {
@@ -93,7 +94,7 @@ class Method {
     this.operatorKeyword = '',
   });
 
-  String toDartLikeRepresentaion() {
+  String toDartLikeRepresentation() {
     final staticPrefix = isStatic ? 'static ' : '';
     final operatorPrefix =
         operatorKeyword.isNotEmpty ? '$operatorKeyword ' : '';
@@ -111,7 +112,7 @@ class Constructor {
 
   Constructor(this.className, this.name, this.parameters, this.factoryKeyword);
 
-  String toDartLikeRepresentaion() {
+  String toDartLikeRepresentation() {
     final constructorName = name.isNotEmpty ? '$className.$name' : className;
     return '${factoryKeyword != null ? '$factoryKeyword ' : ''}'
         '$constructorName$parameters';
@@ -125,7 +126,7 @@ class Getter {
 
   Getter(this.name, this.returnType, this.isStatic);
 
-  String toDartLikeRepresentaion() {
+  String toDartLikeRepresentation() {
     final staticPrefix = isStatic ? 'static ' : '';
     return '$staticPrefix$returnType get $name';
   }
@@ -139,29 +140,24 @@ class Setter {
 
   Setter(this.name, this.parameterType, this.isStatic, this.parameter);
 
-  String toDartLikeRepresentaion() {
+  String toDartLikeRepresentation() {
     final staticPrefix = isStatic ? 'static ' : '';
     return '$staticPrefix$parameterType set $name($parameter)';
   }
 }
 
-class LibrarySummary {
-  final String libraryName;
-  final List<LibraryClassSummary> classesSummaries;
-  final List<String> topLevelFunctions;
-  final List<String> topLevelVariables;
+class PackageSummary {
+  final String packageName;
+  final List<LibraryClassSummary> classesSummaries = [];
+  final List<String> topLevelFunctions = [];
+  final List<String> topLevelVariables = [];
 
-  LibrarySummary({
-    required this.libraryName,
-    required this.classesSummaries,
-    required this.topLevelFunctions,
-    required this.topLevelVariables,
-  });
+  PackageSummary({required this.packageName});
 
   String toDartLikeRepresentation() {
     final buffer = StringBuffer();
-    if (libraryName.isNotEmpty) {
-      buffer.writeln('From: $libraryName');
+    if (packageName.isNotEmpty) {
+      buffer.writeln('// From: $packageName');
     }
     for (final function in topLevelFunctions) {
       buffer.writeln('$function;');
@@ -171,7 +167,8 @@ class LibrarySummary {
     }
     buffer.writeln();
     for (final classSummary in classesSummaries) {
-      buffer.writeln(classSummary.toDartLikeRepresentaion());
+      buffer.writeln('// From: $packageName');
+      buffer.writeln(classSummary.toDartLikeRepresentation());
       buffer.writeln();
     }
     return buffer.toString();
@@ -179,7 +176,6 @@ class LibrarySummary {
 }
 
 class LibraryClassSummary {
-  final String libraryName;
   final String classDeclerationDisplay;
   final List<String> methodsDeclerationDisplay;
   final List<String> fieldsDeclerationDisplay;
@@ -188,7 +184,6 @@ class LibraryClassSummary {
   final List<String> constructorsDeclerationDisplay;
 
   LibraryClassSummary({
-    required this.libraryName,
     required this.classDeclerationDisplay,
     required this.methodsDeclerationDisplay,
     required this.fieldsDeclerationDisplay,
@@ -197,11 +192,8 @@ class LibraryClassSummary {
     required this.constructorsDeclerationDisplay,
   });
 
-  String toDartLikeRepresentaion() {
+  String toDartLikeRepresentation() {
     final buffer = StringBuffer();
-    if (libraryName.isNotEmpty) {
-      buffer.writeln('From: $libraryName');
-    }
     buffer.writeln('$classDeclerationDisplay {');
     for (final constructor in constructorsDeclerationDisplay) {
       buffer.writeln('  $constructor;');
