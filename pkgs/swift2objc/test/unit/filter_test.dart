@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
@@ -12,7 +13,10 @@ import 'package:test/test.dart';
 
 import '../utils.dart';
 
-void main() {
+void main([List<String>? args]) {
+  final regen = args == null ? false :
+      (ArgParser()..addFlag('regen')).parse(args).flag('regen');
+
   group('Unit test for filter', () {
     final thisDir = p.join(testDir, 'unit');
     final inputFile = p.join(thisDir, 'filter_test_input.swift');
@@ -35,10 +39,14 @@ void main() {
         ),
       );
 
-      final actualOutput = await File(actualOutputFile).readAsString();
-      final expectedOutput = File(output).readAsStringSync();
+      if (regen) {
+        File(actualOutputFile).copySync(output);
+      } else {
+        final actualOutput = File(actualOutputFile).readAsStringSync();
+        final expectedOutput = File(output).readAsStringSync();
 
-      expectString(actualOutput, expectedOutput);
+        expectString(actualOutput, expectedOutput);
+      }
       await expectValidSwift([inputFile, actualOutputFile]);
     }
 
@@ -60,6 +68,30 @@ void main() {
     test('D: Stubbed declarations', () async {
       await runTest('filter_test_output_d.swift',
           (declaration) => declaration.name == 'Vehicle');
+    });
+
+    test('E: Nested declarations, child included, parent excluded', () async {
+      // Parent should be stubbed.
+      await runTest('filter_test_output_e.swift',
+          (declaration) => declaration.name == 'Door');
+    });
+
+    test('F: Nested declarations, child stubbed, parent excluded', () async {
+      // Parent should be stubbed.
+      await runTest('filter_test_output_f.swift',
+          (declaration) => declaration.name == 'openDoor');
+    });
+
+    test('G: Nested declarations, child excluded, parent included', () async {
+      // Child should be stubbed.
+      await runTest('filter_test_output_g.swift',
+          (declaration) => declaration.name == 'Garage');
+    });
+
+    test('H: Nested declarations, child excluded, parent stubbed', () async {
+      // Child should be omitted.
+      await runTest('filter_test_output_h.swift',
+          (declaration) => declaration.name == 'listGarageVehicles');
     });
 
     tearDown(() {

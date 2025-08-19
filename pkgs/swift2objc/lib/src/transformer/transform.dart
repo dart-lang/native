@@ -17,15 +17,15 @@ import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
 class TransformationState {
-  // Map from untransformed decleration to its transformed declaration, or null
-  // if there is generated code for the declaration.
-  final map = <Declaration, Declaration?>{};
-
   // All the bindings to be generated.
   final bindings = <Declaration>{};
 
   // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
+
+  // Map from untransformed decleration to its transformed declaration, or null
+  // if there is generated code for the declaration.
+  final map = <Declaration, Declaration?>{};
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -87,7 +87,9 @@ Declaration? maybeTransformDeclaration(
   TransformationState state, {
   bool nested = false,
 }) {
-  if (!state.bindings.contains(declaration)) return null;
+  if (!state.bindings.contains(declaration)) {
+    return null;
+  }
 
   if (state.map.containsKey(declaration)) {
     return state.map[declaration];
