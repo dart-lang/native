@@ -9,19 +9,69 @@ import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
 
 void main() {
-  test('Get imported packages summary', () async {
-    final context = await Context.create(
+  Context? context;
+  setUpAll(() async {
+    context = await Context.create(
       Directory.current.path,
       p.absolute('test/dartify_simple_cases/bindings.dart'),
     );
+    final logFile = File('output.txt');
+    await logFile.writeAsString(context!.toDartLikeRepresentation());
+  });
 
-    final file = File('output.txt');
-    await file.writeAsString(context.toDartLikeRepresentation());
-    expect(context.importedPackages.contains('package:jni/jni.dart'), isTrue);
+  test('Get imported packages only', () {
+    expect(context!.importedPackages.length, 2);
+    expect(context!.importedPackages.contains('package:jni/jni.dart'), isTrue);
     expect(
-      context.importedPackages.contains('package:jni/_internal.dart'),
+      context!.importedPackages.contains('package:jni/_internal.dart'),
       isTrue,
     );
-    expect(context.libraryClassesSummaries.isNotEmpty, isTrue);
+    expect(context!.importedPackages.contains('dart:core'), isFalse);
+  });
+
+  test('Get public classes from package', () {
+    final jniSummary = context!.packageSummaries.firstWhere(
+      (package) => package.packageName == 'package:jni/jni.dart',
+    );
+    expect(
+      jniSummary.classesSummaries.any(
+        (classSummary) => classSummary.classDeclerationDisplay.contains(
+          'class JArray<E extends JObject?>',
+        ),
+      ),
+      isTrue,
+    );
+
+    expect(
+      jniSummary.classesSummaries.any(
+        (classSummary) => classSummary.classDeclerationDisplay.contains(
+          'class JSet<\$E extends JObject?>',
+        ),
+      ),
+      isTrue,
+    );
+
+    expect(
+      jniSummary.classesSummaries.any(
+        (classSummary) => classSummary.classDeclerationDisplay.contains(
+          'class Arena implements Allocator',
+        ),
+      ),
+      isTrue,
+    );
+  });
+
+  test('Get top level functions', () {
+    final jniSummary = context!.packageSummaries.firstWhere(
+      (package) => package.packageName == 'package:jni/jni.dart',
+    );
+    expect(
+      jniSummary.topLevelFunctions.any(
+        (function) => function.contains(
+          'using<R>(R Function(Arena) computation, [Allocator wrappedAllocator = calloc])',
+        ),
+      ),
+      isTrue,
+    );
   });
 }
