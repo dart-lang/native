@@ -45,7 +45,7 @@ List<Declaration> transform(List<Declaration> declarations,
   state.bindings.addAll(listDecls.stubDecls);
 
   final globalNamer = UniqueNamer(
-    state.bindings.map((declaration) => declaration.name),
+    topLevelDecls.map((declaration) => declaration.name),
   );
 
   final globals = Globals(
