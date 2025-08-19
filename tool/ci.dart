@@ -401,22 +401,28 @@ Future<void> _runProcess(
     commandString = 'cd ${workingDirectory.toFilePath()} && $commandString';
   }
   print('+$commandString');
-  final result = await Process.run(
+  final process = await Process.start(
     executable,
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
-    stderrEncoding: utf8, // Make ✓ from `dart test` show up on GitHub UI.
-    stdoutEncoding: utf8,
   );
+  final stdoutSub = process.stdout.listen((List<int> data) {
+    final decoded = systemEncoding.decode(data);
+    stdout.write(decoded);
+  });
+  final stderrSub = process.stderr.listen((List<int> data) {
+    final decoded = systemEncoding.decode(data);
+    stderr.write(decoded);
+  });
 
-  if (result.stdout.toString().isNotEmpty) {
-    print(result.stdout);
-  }
-  if (result.stderr.toString().isNotEmpty) {
-    print(result.stderr);
-  }
-  if (result.exitCode != 0) {
-    print('+$commandString failed with exitCode ${result.exitCode}.');
-    exit(result.exitCode);
+  final (exitCode, _, _) = await (
+    process.exitCode,
+    stdoutSub.asFuture<void>(),
+    stderrSub.asFuture<void>(),
+  ).wait;
+
+  if (exitCode != 0) {
+    print('+$commandString failed with exitCode ${exitCode}.');
+    exit(exitCode);
   }
 }
