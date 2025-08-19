@@ -14,8 +14,9 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 void main([List<String>? args]) {
-  final regen = args == null ? false :
-      (ArgParser()..addFlag('regen')).parse(args).flag('regen');
+  final regen = args == null
+      ? false
+      : (ArgParser()..addFlag('regen')).parse(args).flag('regen');
 
   group('Unit test for filter', () {
     final thisDir = p.join(testDir, 'unit');
