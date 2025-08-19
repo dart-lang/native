@@ -34,21 +34,22 @@ class ListDeclsVisitation extends Visitation {
   ListDeclsVisitation(this.includes, this.directTransitives);
 
   @override
+  void visitDeclaration(Declaration node) {
+    // Already did all the children visitiing in the other visitors.
+  }
+
+  @override
   void visitGlobalFunctionDeclaration(GlobalFunctionDeclaration node) {
-    node.visitChildren(visitor);
     topLevelDecls.add(node);
   }
 
   @override
   void visitGlobalVariableDeclaration(GlobalVariableDeclaration node) {
-    node.visitChildren(visitor);
     topLevelDecls.add(node);
   }
 
   @override
   void visitCompoundDeclaration(CompoundDeclaration node) {
-    node.visitChildren(visitor);
-
     // Don't add nested classes etc to the top level declarations.
     if (node.nestingParent == null) topLevelDecls.add(node);
 
