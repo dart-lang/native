@@ -274,11 +274,6 @@ import Foundation
   }
 
   @available(macOS, introduced: 14.0)
-  @objc static public func requestRecordPermission() async -> Bool {
-    return await AVAudioApplication.requestRecordPermission()
-  }
-
-  @available(macOS, introduced: 14.0)
   @objc public func setInputMuted(_ muted: Bool) throws {
     return try wrappedInstance.setInputMuted(muted)
   }
