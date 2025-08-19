@@ -404,21 +404,12 @@ Future<void> _runProcess(
     executable,
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
+    // Support stderr and stdout directly to the output. This enables
+    // `dart test` and friends to replace the last line. Also those tools can
+    // detect properly if they run in an interactive terminal.
+    mode: ProcessStartMode.inheritStdio,
   );
-  final stdoutSub = process.stdout.listen((List<int> data) {
-    final decoded = systemEncoding.decode(data);
-    stdout.write(decoded);
-  });
-  final stderrSub = process.stderr.listen((List<int> data) {
-    final decoded = systemEncoding.decode(data);
-    stderr.write(decoded);
-  });
-
-  final (exitCode, _, _) = await (
-    process.exitCode,
-    stdoutSub.asFuture<void>(),
-    stderrSub.asFuture<void>(),
-  ).wait;
+  final exitCode = await process.exitCode;
 
   if (exitCode != 0) {
     print('+$commandString failed with exitCode ${exitCode}.');
