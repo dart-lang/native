@@ -50,7 +50,7 @@ void main() async {
       input,
       output,
     ) async {
-      output.addDependency(packageRootUri.resolve('foo'));
+      output.dependencies.add(packageRootUri.resolve('foo'));
     });
     final buildOutputUri = input.outputFile;
     expect(File.fromUri(buildOutputUri), exists);

@@ -16,28 +16,35 @@ import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
-typedef TransformationMap = Map<Declaration, Declaration?>;
-
-Set<Declaration> generateDependencies(Iterable<Declaration> decls) =>
-    visit(DependencyVisitation(), decls).topLevelDeclarations;
+class TransformationState {
+  final map = <Declaration, Declaration?>{};
+  final stubs = <Declaration>{};
+}
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
 List<Declaration> transform(List<Declaration> declarations,
     {required bool Function(Declaration) filter}) {
-  final transformationMap = <Declaration, Declaration?>{};
+  final state = TransformationState();
 
-  final declarations0 = declarations.where(filter).toSet();
-  declarations0.addAll(generateDependencies(declarations0));
+  final includes = visit(FindIncludesVisitation(filter), declarations).includes;
+  final directTransitives =
+      visit(FindDirectTransitiveDepsVisitation(includes), includes)
+          .directTransitives;
+  final allBindings = includes.union(directTransitives);
+  final listDecls =
+      visit(ListDeclsVisitation(includes, directTransitives), allBindings);
+  final topLevelDecls = listDecls.topLevelDecls;
+  state.stubs.addAll(listDecls.stubDecls);
 
   final globalNamer = UniqueNamer(
-    declarations0.map((declaration) => declaration.name),
+    topLevelDecls.map((declaration) => declaration.name),
   );
 
   final globals = Globals(
-    functions: declarations0.whereType<GlobalFunctionDeclaration>().toList(),
-    variables: declarations0.whereType<GlobalVariableDeclaration>().toList(),
+    functions: topLevelDecls.whereType<GlobalFunctionDeclaration>().toList(),
+    variables: topLevelDecls.whereType<GlobalVariableDeclaration>().toList(),
   );
-  final nonGlobals = declarations0
+  final nonGlobals = topLevelDecls
       .where(
         (declaration) =>
             declaration is! GlobalFunctionDeclaration &&
@@ -46,38 +53,34 @@ List<Declaration> transform(List<Declaration> declarations,
       .toList();
 
   final transformedDeclarations = [
-    ...nonGlobals
-        .map(
-          (d) => maybeTransformDeclaration(d, globalNamer, transformationMap),
-        )
-        .nonNulls,
-    if (globals.functions.isNotEmpty || globals.variables.isNotEmpty)
-      transformGlobals(globals, globalNamer, transformationMap),
-  ];
+    ...nonGlobals.map(
+      (d) => maybeTransformDeclaration(d, globalNamer, state),
+    ),
+    transformGlobals(globals, globalNamer, state),
+  ].nonNulls.toList();
 
-  return (transformedDeclarations +
-      _getPrimitiveWrapperClasses(transformationMap))
+  return (transformedDeclarations + _getPrimitiveWrapperClasses(state))
     ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 }
 
 Declaration transformDeclaration(
   Declaration declaration,
   UniqueNamer parentNamer,
-  TransformationMap transformationMap, {
+  TransformationState state, {
   bool nested = false,
 }) =>
-    maybeTransformDeclaration(declaration, parentNamer, transformationMap,
+    maybeTransformDeclaration(declaration, parentNamer, state,
         nested: nested) ??
     declaration;
 
 Declaration? maybeTransformDeclaration(
   Declaration declaration,
   UniqueNamer parentNamer,
-  TransformationMap transformationMap, {
+  TransformationState state, {
   bool nested = false,
 }) {
-  if (transformationMap.containsKey(declaration)) {
-    return transformationMap[declaration];
+  if (state.map.containsKey(declaration)) {
+    return state.map[declaration];
   }
 
   if (declaration is InnerNestableDeclaration &&
@@ -91,16 +94,15 @@ Declaration? maybeTransformDeclaration(
     ClassDeclaration() || StructDeclaration() => transformCompound(
         declaration as CompoundDeclaration,
         parentNamer,
-        transformationMap,
+        state,
       ),
     TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };
 }
 
-List<Declaration> _getPrimitiveWrapperClasses(
-    TransformationMap transformationMap) {
-  return transformationMap.entries
+List<Declaration> _getPrimitiveWrapperClasses(TransformationState state) {
+  return state.map.entries
       .where((entry) => entry.key is BuiltInDeclaration)
       .map((entry) => entry.value)
       .nonNulls

@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io' show Platform;
 
+import 'package:collection/collection.dart';
 import 'package:file/file.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
@@ -431,7 +432,8 @@ class NativeAssetsBuildRunner {
         final (hookKernelFile, hookHashes, didRecompile) =
             hookCompileResult.success;
 
-        final buildOutputFile = _fileSystem.file(input.outputFile);
+        final inputFile = _fileSystem.file(buildDirUri.resolve('input.json'));
+        final outputFile = _fileSystem.file(input.outputFile);
 
         final dependenciesHashFile = buildDirUri.resolve(
           'dependencies.dependencies_hash_file.json',
@@ -442,36 +444,66 @@ class NativeAssetsBuildRunner {
           task: _task,
         );
         final lastModifiedCutoffTime = DateTime.now();
-        if (await buildOutputFile.exists() &&
+        if (await inputFile.exists() &&
+            await outputFile.exists() &&
             await dependenciesHashes.exists()) {
-          final outputResult = await _readHookOutputFromUri(
-            hook,
-            buildOutputFile,
-            input.packageName,
-          );
-          if (outputResult.isFailure) {
-            return const Failure(HooksRunnerFailure.hookRun);
-          }
-          final output = outputResult.success;
-
-          final outdatedDependency = await dependenciesHashes
-              .findOutdatedDependency(hookEnvironment);
-          if (outdatedDependency == null && !didRecompile) {
+          final String? outdatedDependencyString;
+          if (didRecompile) {
             // Note, we can only rely on didRecompile as long as the hook
-            // compilations are not shared across different `BuildConfig`s.
-            logger.info(
-              'Skipping ${hook.name} for ${input.packageName}'
-              ' in ${buildDirUri.toFilePath()}.'
-              ' Last build on ${output.timestamp}.',
+            // compilations are not shared across different `BuildConfig`s. Once
+            // we start sharing compilations across different `BuildConfig`s,
+            // we'll need to actually hash the dill file (slow because it's big)
+            // or the dart sources.
+
+            // At least one of the Dart sources of the hook changed, rerun it.
+            outdatedDependencyString =
+                'Hook Dart sources and ${hookKernelFile.path}';
+          } else {
+            final inputResult = await _readHookInputFromUri(
+              hook,
+              inputFile,
+              input.packageName,
             );
-            // All build flags go into [outDir]. Therefore we do not have to
-            // check here whether the input is equal.
-            return Success((output, hookHashes.fileSystemEntities));
+            if (inputResult.isFailure) {
+              return const Failure(HooksRunnerFailure.hookRun);
+            }
+            final inputOld = inputResult.success;
+            if (!const DeepCollectionEquality().equals(
+              inputOld.json,
+              input.json,
+            )) {
+              outdatedDependencyString = 'Input changed';
+            } else {
+              final outputResult = await _readHookOutputFromUri(
+                hook,
+                outputFile,
+                input.packageName,
+              );
+              if (outputResult.isFailure) {
+                return const Failure(HooksRunnerFailure.hookRun);
+              }
+              final output = outputResult.success;
+
+              final outdatedDependency = await dependenciesHashes
+                  .findOutdatedDependency(hookEnvironment);
+              if (outdatedDependency != null) {
+                // At least one of the build output dependencies changed, rerun
+                // the hook.
+                outdatedDependencyString = outdatedDependency;
+              } else {
+                logger.info(
+                  'Skipping ${hook.name} for ${input.packageName}'
+                  ' in ${buildDirUri.toFilePath()}.'
+                  ' Last build on ${output.timestamp}.',
+                );
+                return Success((output, hookHashes.fileSystemEntities));
+              }
+            }
           }
           logger.info(
             'Rerunning ${hook.name} for ${input.packageName}'
             ' in ${buildDirUri.toFilePath()}. '
-            '${outdatedDependency ?? hookKernelFile.uri}',
+            '$outdatedDependencyString',
           );
         }
 
@@ -883,6 +915,36 @@ ${compileResult.stdout}
             return Success((planResult.success, planner.packageGraph));
         }
       });
+
+  Future<Result<HookInput, HooksRunnerFailure>> _readHookInputFromUri(
+    Hook hook,
+    File hookInputFile,
+    String packageName,
+  ) async {
+    final file = hookInputFile;
+    final fileContents = await file.readAsString();
+    logger.info('input.json contents:\n$fileContents');
+    final Map<String, Object?> hookInputJson;
+    try {
+      hookInputJson = jsonDecode(fileContents) as Map<String, Object?>;
+    } on FormatException catch (e) {
+      logger.severe('''
+Building assets for package:$packageName failed.
+${hookInputFile.uri.toFilePath()} contained a format error.
+
+Contents: $fileContents.
+${e.message}''');
+      return const Failure(HooksRunnerFailure.hookRun);
+    }
+    switch (hook) {
+      case Hook.build:
+        final buildInput = BuildInput(hookInputJson);
+        return Success(buildInput);
+      case Hook.link:
+        final linkInput = LinkInput(hookInputJson);
+        return Success(linkInput);
+    }
+  }
 
   Future<Result<HookOutput, HooksRunnerFailure>> _readHookOutputFromUri(
     Hook hook,

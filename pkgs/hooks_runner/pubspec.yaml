@@ -2,14 +2,14 @@ name: hooks_runner
 description: >-
   This package is the backend that invokes build hooks.
 
-version: 0.22.0
+version: 0.22.1-wip
 
 repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks_runner
 
 resolution: workspace
 
 environment:
-  sdk: '>=3.9.0-21.0.dev <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
   code_assets: ^0.19.4 # Needed for OS for Target for KernelAssets.
@@ -32,6 +32,8 @@ dev_dependencies:
   file_testing: ^3.0.2
   native_test_helpers:
     path: ../native_test_helpers/
+  pub_formats: # Used in tests.
+    path: ../pub_formats/
   repo_lint_rules:
     path: ../repo_lint_rules/
   test: ^1.25.15

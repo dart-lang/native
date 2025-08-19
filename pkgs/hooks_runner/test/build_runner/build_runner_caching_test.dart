@@ -7,7 +7,10 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks_runner/src/build_runner/build_runner.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:pub_formats/pub_formats.dart';
 import 'package:test/test.dart';
+import 'package:yaml/yaml.dart';
 
 import '../helpers.dart';
 import 'helpers.dart';
@@ -19,6 +22,8 @@ void main() async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
+      final pubspecUri = packageUri.resolve('pubspec.yaml');
+      final userDefines = UserDefines(workspacePubspec: pubspecUri);
 
       await runPubGet(workingDirectory: packageUri, logger: logger);
 
@@ -30,6 +35,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: [BuildAssetType.code],
+          userDefines: userDefines,
         )).success;
         expect(
           logMessages.join('\n'),
@@ -73,6 +79,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           buildAssetTypes: [BuildAssetType.code],
+          userDefines: userDefines,
         )).success;
         final hookUri = packageUri.resolve('hook/build.dart');
         expect(
@@ -96,6 +103,39 @@ void main() async {
           result.dependencies,
           contains(packageUri.resolve('src/native_add.c')),
         );
+      }
+
+      {
+        final pubspecFile = File.fromUri(pubspecUri);
+        final pubspec = PubspecYamlFileSyntax.fromJson(
+          convertYamlMapToJsonMap(
+            loadYaml(pubspecFile.readAsStringSync()) as YamlMap,
+          ),
+        );
+        pubspec.hooks = HooksSyntax(
+          userDefines: {
+            pubspec.name: {'key': 'value'},
+          },
+        );
+        pubspecFile.writeAsStringSync(
+          const JsonEncoder.withIndent('  ').convert(pubspec.json),
+        );
+        // Changing the user-defines (or any other input) should lead to a rerun
+        // build.
+        final logMessages = <String>[];
+        (await build(
+          packageUri,
+          logger,
+          dartExecutable,
+          capturedLogs: logMessages,
+          buildAssetTypes: [BuildAssetType.code],
+          userDefines: userDefines,
+        )).success;
+        expect(
+          logMessages.join('\n'),
+          isNot(contains('Skipping build for native_add')),
+        );
+        expect(logMessages.join('\n'), contains('Input changed'));
       }
     });
   });

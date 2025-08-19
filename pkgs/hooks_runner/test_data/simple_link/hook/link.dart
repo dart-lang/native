@@ -16,6 +16,6 @@ void shake(LinkOutputBuilder output, Iterable<DataAsset> assets) {
     output.assets.data.add(asset);
 
     // If the file changes we'd like to re-run the linker.
-    output.addDependency(asset.file);
+    output.dependencies.add(asset.file);
   }
 }

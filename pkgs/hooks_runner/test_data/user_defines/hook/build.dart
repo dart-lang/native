@@ -34,7 +34,7 @@ void main(List<String> arguments) async {
       );
     }
     final file = File.fromUri(someFile);
-    output.addDependency(file.uri);
+    output.dependencies.add(file.uri);
     output.assets.data.add(
       DataAsset(file: file.uri, name: 'data.json', package: input.packageName),
     );
