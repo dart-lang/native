@@ -10,6 +10,21 @@ import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
 import '../../ast/visitor.dart';
 
+class FindIncludesVisitation extends Visitation {
+  final bool Function(Declaration) filter;
+  final includes = <Declaration>{};
+
+  FindIncludesVisitation(this.filter);
+
+  @override
+  void visitDeclaration(Declaration node) {
+    if (filter(node)) {
+      includes.add(node);
+      node.visitChildren(visitor);
+    }
+  }
+}
+
 class ListDeclsVisitation extends Visitation {
   final Set<Declaration> includes;
   final Set<Declaration> directTransitives;

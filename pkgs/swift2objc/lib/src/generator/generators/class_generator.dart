@@ -13,7 +13,7 @@ import '../generator.dart';
 
 List<String> generateClass(ClassDeclaration declaration) {
   return [
-    if (declaration.isStub) _generateStubComment(declaration),
+    if (declaration.isStub) ..._generateStubComment(declaration),
     ...generateAvailability(declaration),
     '${_generateClassHeader(declaration)} {',
     ...[
@@ -27,11 +27,12 @@ List<String> generateClass(ClassDeclaration declaration) {
   ];
 }
 
-String _generateStubComment(ClassDeclaration declaration) {
+List<String> _generateStubComment(ClassDeclaration declaration) {
   final wrappedType = declaration.wrappedInstance!.type.swiftType;
-  return '''
-// This wrapper is a stub. To generate the full wrapper, add $wrappedType
-// to your config's include function.''';
+  return [
+    '// This wrapper is a stub. To generate the full wrapper, add $wrappedType',
+    "// to your config's include function.",
+  ];
 }
 
 String _generateClassHeader(ClassDeclaration declaration) {

@@ -63,6 +63,10 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
   });
 
   @override
+  void visit(Visitation visitation) =>
+      visitation.visitGlobalFunctionDeclaration(this);
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(params);
@@ -103,6 +107,10 @@ class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
     required this.throws,
     required this.async,
   }) : assert(!(throws && !isConstant));
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitGlobalVariableDeclaration(this);
 
   @override
   void visitChildren(Visitor visitor) {

@@ -26,7 +26,7 @@ List<Declaration> transform(List<Declaration> declarations,
     {required bool Function(Declaration) filter}) {
   final state = TransformationState();
 
-  final includes = declarations.where(filter).toSet();
+  final includes = visit(FindIncludesVisitation(filter), declarations).includes;
   final directTransitives =
       visit(FindDirectTransitiveDepsVisitation(includes), includes)
           .directTransitives;
