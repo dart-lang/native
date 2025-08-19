@@ -61,7 +61,9 @@ ArgParser makeArgParser() {
   for (final task in tasks) {
     parser.addFlag(
       task.name,
-      help: '${task.helpMessage} (defaults to ${task.defaultValue})',
+      help:
+          '${task.helpMessage}\n'
+          '(defaults to ${task.defaultValue})',
     );
   }
   return parser;
@@ -224,17 +226,25 @@ class TestTask extends Task {
     : super(
         name: 'test',
         defaultValue: true,
-        helpMessage: 'Run `dart test` on the packages.',
+        helpMessage:
+            'Run `dart test` on the packages.\n'
+            'Implied by --coverage.',
       );
+
+  @override
+  bool shouldRun(ArgResults argResults) {
+    return super.shouldRun(argResults) || coverageTask.shouldRun(argResults);
+  }
 
   @override
   Future<void> run({
     required List<String> packages,
     required ArgResults argResults,
   }) async {
-    final testUris = getTestUris(packages);
+    final testUris = getUriInPackage(packages, 'test');
     await _runProcess('dart', [
       'test',
+      if (coverageTask.shouldRun(argResults)) '--coverage=./coverage',
       if (Platform.environment['GITHUB_ACTIONS'] != null) '--reporter=github',
       ...testUris,
     ]);
@@ -308,7 +318,8 @@ class CoverageTask extends Task {
         name: 'coverage',
         defaultValue: false,
         helpMessage:
-            'Run `dart run coverage:test_with_coverage` on the packages.',
+            'Collect coverage information on the packages.\n'
+            'Implies --test.',
       );
 
   @override
@@ -316,23 +327,24 @@ class CoverageTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
-    final testUris = getTestUris(packages);
-    final scopeOutputs = [
-      for (final testUri in testUris) Uri.directory(testUri).pathSegments[1],
-    ];
     if (pubTask.shouldRun(argResults)) {
       await _runProcess('dart', ['pub', 'global', 'activate', 'coverage']);
     }
+    // Don't rerun the tests here. Instead, rely on the TestTask producing
+    // coverage information, and only format here.
+    final libUris = getUriInPackage(packages, 'lib');
     await _runProcess('dart', [
       'pub',
       'global',
       'run',
-      'coverage:test_with_coverage',
-      for (final scopeOutput in scopeOutputs) ...[
-        '--scope-output',
-        scopeOutput,
-      ],
-      ...testUris,
+      'coverage:format_coverage',
+      '--packages=.dart_tool/package_config.json',
+      for (final libUri in libUris) '--report-on=$libUri',
+      '--lcov',
+      '-o',
+      './coverage/lcov.info',
+      '-i',
+      './coverage/pkgs/',
     ]);
   }
 }
@@ -373,12 +385,12 @@ List<String> loadPackagesFromPubspec() {
   return packages;
 }
 
-List<String> getTestUris(List<String> packages) {
+List<String> getUriInPackage(List<String> packages, String subdir) {
   final testUris = <String>[];
   for (final package in packages) {
     final packageTestDirectory = Directory.fromUri(
       repositoryRoot.resolve(package /*might end without slash*/),
-    ).uri.resolve('test/');
+    ).uri.resolve('$subdir/');
     if (Directory.fromUri(packageTestDirectory).existsSync()) {
       final relativePath = packageTestDirectory.toFilePath().replaceAll(
         repositoryRoot.toFilePath(),
