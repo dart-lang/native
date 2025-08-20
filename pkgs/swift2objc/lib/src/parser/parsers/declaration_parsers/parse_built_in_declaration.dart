@@ -4,13 +4,9 @@
 
 import '../../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../_core/json.dart';
-import '../../_core/parsed_symbolgraph.dart';
-import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
-import '../parse_type.dart';
 
-BuiltInDeclaration? tryParseBuiltInDeclaration(
-    Json symbolJson) {
+BuiltInDeclaration? tryParseBuiltInDeclaration(Json symbolJson) {
   final id = parseSymbolId(symbolJson);
   if (!id.startsWith('c:objc(cs)')) return null;
   return BuiltInDeclaration(id: id, name: parseSymbolName(symbolJson));
