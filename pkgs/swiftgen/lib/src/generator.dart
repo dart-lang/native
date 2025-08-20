@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:ffigen/ffigen.dart' as fg;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
 import 'config.dart';
 import 'util.dart';
@@ -14,6 +15,10 @@ import 'util.dart';
 extension SwiftGenGenerator on SwiftGen {
   Future<void> generate(Logger logger) async {
     Directory(absTempDir).createSync(recursive: true);
+    final swift2objcConfig = input.asSwift2ObjCConfig(target);
+    if (swift2objcConfig != null) {
+      await _generateObjCSwiftFile(swift2objcConfig);
+    }
     await _generateObjCFile();
     _generateDartFile(logger);
   }
@@ -22,9 +27,21 @@ extension SwiftGenGenerator on SwiftGen {
   String get outModule => outputModule ?? input.module;
   String get objcHeader => p.join(absTempDir, '$outModule.h');
 
+  Future<void> _generateObjCSwiftFile(
+    swift2objc.InputConfig swift2objcConfig,
+  ) => swift2objc.generateWrapper(
+    swift2objc.Config(
+      input: swift2objcConfig,
+      outputFile: objcSwiftFile,
+      tempDir: tempDir,
+      preamble: objcSwiftPreamble,
+    ),
+  );
+
   Future<void> _generateObjCFile() => run('swiftc', [
     '-c',
     for (final uri in input.files) p.absolute(uri.toFilePath()),
+    p.absolute(objcSwiftFile.toFilePath()),
     '-module-name',
     outModule,
     '-emit-objc-header-path',
