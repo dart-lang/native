@@ -17,8 +17,15 @@ import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
 class TransformationState {
-  final map = <Declaration, Declaration?>{};
+  // All the bindings to be generated.
+  final bindings = <Declaration>{};
+
+  // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
+
+  // Map from untransformed decleration to its transformed declaration, or null
+  // if there is generated code for the declaration.
+  final map = <Declaration, Declaration?>{};
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -30,11 +37,12 @@ List<Declaration> transform(List<Declaration> declarations,
   final directTransitives =
       visit(FindDirectTransitiveDepsVisitation(includes), includes)
           .directTransitives;
-  final allBindings = includes.union(directTransitives);
+  state.bindings.addAll(includes.union(directTransitives));
   final listDecls =
-      visit(ListDeclsVisitation(includes, directTransitives), allBindings);
+      visit(ListDeclsVisitation(includes, directTransitives), state.bindings);
   final topLevelDecls = listDecls.topLevelDecls;
   state.stubs.addAll(listDecls.stubDecls);
+  state.bindings.addAll(listDecls.stubDecls);
 
   final globalNamer = UniqueNamer(
     topLevelDecls.map((declaration) => declaration.name),
@@ -79,6 +87,10 @@ Declaration? maybeTransformDeclaration(
   TransformationState state, {
   bool nested = false,
 }) {
+  if (!state.bindings.contains(declaration)) {
+    return null;
+  }
+
   if (state.map.containsKey(declaration)) {
     return state.map[declaration];
   }
