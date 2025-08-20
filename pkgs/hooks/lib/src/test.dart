@@ -20,12 +20,20 @@ import 'validation.dart';
 ///
 /// This is intended to be used from tests, e.g.:
 ///
-/// ```
-/// test('test my build hook', () async {
-///   await testBuildHook(
-///     ...
-///   );
-/// });
+/// <!-- file://./../../example/api/test_snippet.dart -->
+/// ```dart
+/// import 'package:hooks/src/test.dart';
+/// import 'package:test/test.dart';
+///
+/// void main() {
+///   test('test my build hook', () async {
+///     await testBuildHook(
+///       mainMethod: (args) {},
+///       check: (input, output) {},
+///       extensions: [],
+///     );
+///   });
+/// }
 /// ```
 ///
 /// The hook is run in isolation. No user-defines are read from the pubspec,

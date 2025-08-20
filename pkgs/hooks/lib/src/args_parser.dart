@@ -13,6 +13,8 @@
 /// value.
 ///
 /// Example usage:
+///
+/// <!-- no-source-file -->
 /// ```dart
 /// // If arguments is ['--verbose', '--config=dev_settings.json']
 /// String config1 = getInputArgument(arguments); // Returns 'dev_settings.json'
