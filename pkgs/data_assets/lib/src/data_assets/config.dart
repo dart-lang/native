@@ -27,10 +27,23 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
     List<String> paths, {
     required BuildInput input,
     bool recursive = false,
+    AssetRouting routing = const ToAppBundle(),
   }) async {
     String assetName(Uri assetUri) => assetUri
         .toFilePath(windows: false)
-        .substring(input.packageRoot.toFilePath().length);
+        .substring(input.packageRoot.toFilePath(windows: false).length);
+
+    void addAsset(File file) {
+      assets.data.add(
+        DataAsset(
+          package: input.packageName,
+          name: assetName(file.uri),
+          file: file.uri,
+        ),
+        routing: routing,
+      );
+      dependencies.add(file.uri);
+    }
 
     for (final path in paths) {
       final resolvedUri = input.packageRoot.resolve(path);
@@ -39,21 +52,16 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
 
       if (await directory.exists()) {
         try {
-          addDependency(directory.uri);
+          dependencies.add(directory.uri);
           await for (final entity in directory.list(
             recursive: recursive,
             followLinks: false,
           )) {
             if (entity is File) {
-              assets.data.add(
-                DataAsset(
-                  package: input.packageName,
-                  name: assetName(entity.uri),
-                  file: entity.uri,
-                ),
-              );
+              addAsset(entity);
+            } else {
+              dependencies.add(entity.uri);
             }
-            addDependency(entity.uri);
           }
         } on FileSystemException catch (e) {
           throw FileSystemException(
@@ -63,14 +71,7 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
           );
         }
       } else if (await file.exists()) {
-        assets.data.add(
-          DataAsset(
-            package: input.packageName,
-            name: assetName(file.uri),
-            file: file.uri,
-          ),
-        );
-        addDependency(file.uri);
+        addAsset(file);
       } else {
         throw FileSystemException(
           'Path does not exist',
@@ -140,10 +141,18 @@ final class LinkOutputDataAssetsBuilder {
   LinkOutputDataAssetsBuilder(this._output);
 
   /// Adds the given [asset] to the link hook output.
-  void add(DataAsset asset) => _output.addEncodedAsset(asset.encode());
+  void add(DataAsset asset, {LinkAssetRouting routing = const ToAppBundle()}) =>
+      _output.addEncodedAsset(asset.encode(), routing: routing);
 
   /// Adds the given [assets] to the link hook output.
-  void addAll(Iterable<DataAsset> assets) => assets.forEach(add);
+  void addAll(
+    Iterable<DataAsset> assets, {
+    LinkAssetRouting routing = const ToAppBundle(),
+  }) {
+    for (final asset in assets) {
+      add(asset, routing: routing);
+    }
+  }
 }
 
 /// Provides access to [DataAsset]s from a build hook output.

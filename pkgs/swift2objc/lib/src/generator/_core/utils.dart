@@ -1,5 +1,10 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:io';
 import 'package:path/path.dart' as path;
+import '../../ast/_core/interfaces/availability.dart';
 import '../../ast/_core/interfaces/can_async.dart';
 import '../../ast/_core/interfaces/can_throw.dart';
 import '../../ast/_core/interfaces/declaration.dart';
@@ -48,3 +53,20 @@ String generateAnnotations(Declaration decl) {
   }
   return annotations.toString();
 }
+
+List<String> generateAvailability(Declaration decl) =>
+    decl.availability.map(_generateAvailabilityInfo).toList();
+
+String _generateAvailabilityInfo(AvailabilityInfo info) =>
+    '@available(${_generateAvailabilityInfoList(info).join(', ')})';
+
+Iterable<String> _generateAvailabilityInfoList(AvailabilityInfo info) => [
+      info.domain,
+      info.unavailable ? 'unavailable' : null,
+      _generateAvailabilityVersion(info.introduced, 'introduced'),
+      _generateAvailabilityVersion(info.deprecated, 'deprecated'),
+      _generateAvailabilityVersion(info.obsoleted, 'obsoleted'),
+    ].nonNulls;
+
+String? _generateAvailabilityVersion(AvailabilityVersion? v, String key) =>
+    v == null ? null : '$key: $v';

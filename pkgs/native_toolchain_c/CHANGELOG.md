@@ -1,6 +1,6 @@
-## 0.17.1-wip
+## 0.17.1
 
-- Bump `package:hooks` to 0.20.0.
+- Bump `package:hooks` and `package:code_assets`to 0.20.0.
 
 ## 0.17.0
 

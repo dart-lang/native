@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
@@ -22,6 +23,9 @@ class ClassDeclaration extends AstNode
 
   @override
   String name;
+
+  @override
+  List<AvailabilityInfo> availability;
 
   @override
   covariant List<PropertyDeclaration> properties;
@@ -45,6 +49,9 @@ class ClassDeclaration extends AstNode
   /// If this class is a wrapper for another entity (class, struct, etc)
   bool isWrapper;
 
+  // Whether this is a stub wrapper.
+  bool isStub;
+
   /// An instance of the original entity that this class is wraping
   PropertyDeclaration? wrappedInstance;
 
@@ -55,14 +62,15 @@ class ClassDeclaration extends AstNode
   List<InitializerDeclaration> initializers;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   ClassDeclaration({
     required this.id,
     required this.name,
+    required this.availability,
     this.properties = const [],
     this.methods = const [],
     this.nestingParent,
@@ -72,6 +80,7 @@ class ClassDeclaration extends AstNode
     this.hasObjCAnnotation = false,
     this.superClass,
     this.isWrapper = false,
+    this.isStub = false,
     this.wrappedInstance,
     this.wrapperInitializer,
     this.initializers = const [],

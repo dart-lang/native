@@ -28,7 +28,7 @@ class EnvironmentSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   EnvironmentSyntax({
-    required String? flutter,
+    String? flutter,
     required String sdk,
     super.path = const [],
   }) : super() {
@@ -68,8 +68,8 @@ class GitSyntax extends JsonObjectSyntax {
   GitSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   GitSyntax({
-    required String? path$,
-    required String? ref,
+    String? path$,
+    String? ref,
     required String url,
     super.path = const [],
   }) : super() {
@@ -160,7 +160,7 @@ class HooksSyntax extends JsonObjectSyntax {
   HooksSyntax.fromJson(super.json, {super.path = const []}) : super.fromJson();
 
   HooksSyntax({
-    required Map<String, Map<String, Object?>>? userDefines,
+    Map<String, Map<String, Object?>>? userDefines,
     super.path = const [],
   }) : super() {
     _userDefines = userDefines;
@@ -198,7 +198,7 @@ class HostedDependencySourceSyntax extends DependencySourceSyntax {
     : super.fromJson();
 
   HostedDependencySourceSyntax({
-    required String? hosted,
+    String? hosted,
     required String version,
     super.path = const [],
   }) : super() {
@@ -223,23 +223,13 @@ class HostedDependencySourceSyntax extends DependencySourceSyntax {
 
   List<String> _validateHosted() => _reader.validate<String?>('hosted');
 
-  static final _versionPattern = RegExp(r'^[<>=~^0-9. -]+$');
-
-  String get version => _reader.string('version', _versionPattern);
+  String get version => _reader.get<String>('version');
 
   set _version(String value) {
-    if (!_versionPattern.hasMatch(value)) {
-      throw ArgumentError.value(
-        value,
-        'value',
-        'Value does not satisify pattern: ${_versionPattern.pattern}.',
-      );
-    }
     json.setOrRemove('version', value);
   }
 
-  List<String> _validateVersion() =>
-      _reader.validateString('version', _versionPattern);
+  List<String> _validateVersion() => _reader.validate<String>('version');
 
   @override
   List<String> validate() => [
@@ -289,20 +279,20 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   PubspecYamlFileSyntax({
-    required Map<String, DependencySourceSyntax>? dependencies,
-    required Map<String, DependencySourceSyntax>? dependencyOverrides,
-    required String? description,
-    required Map<String, DependencySourceSyntax>? devDependencies,
-    required String? documentation,
+    Map<String, DependencySourceSyntax>? dependencies,
+    Map<String, DependencySourceSyntax>? dependencyOverrides,
+    String? description,
+    Map<String, DependencySourceSyntax>? devDependencies,
+    String? documentation,
     required EnvironmentSyntax environment,
-    required Map<String, String?>? executables,
-    required String? homepage,
-    required HooksSyntax? hooks,
-    required String? issueTracker,
+    Map<String, String?>? executables,
+    String? homepage,
+    HooksSyntax? hooks,
+    String? issueTracker,
     required String name,
-    required String? publishTo,
-    required String? repository,
-    required String? version,
+    String? publishTo,
+    String? repository,
+    String? version,
     super.path = const [],
   }) : super() {
     this.dependencies = dependencies;
@@ -513,7 +503,9 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     return environment.validate();
   }
 
-  static final _executablesKeyPattern = RegExp(r'^[a-zA-Z_]\w*$');
+  static final _executablesKeyPattern = RegExp(
+    r'^[a-zA-Z_]\w*(-[a-zA-Z_]\w*)*$',
+  );
 
   static final _executablesValuePattern = RegExp(r'^[^/\\]*$');
 

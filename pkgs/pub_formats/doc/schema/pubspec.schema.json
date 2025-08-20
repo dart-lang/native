@@ -41,7 +41,7 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^[a-zA-Z_]\\w*$": {
+        "^[a-zA-Z_]\\w*(-[a-zA-Z_]\\w*)*$": {
           "oneOf": [
             {
               "description": "If null, the main file is lib/<package_name>.dart.",
@@ -123,8 +123,7 @@
         },
         "version": {
           "description": "The version constraint for the package on the custom hosted server.",
-          "type": "string",
-          "pattern": "^[<>=~^0-9. -]+$"
+          "type": "string"
         }
       },
       "required": [

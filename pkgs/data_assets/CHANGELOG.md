@@ -1,4 +1,8 @@
-## 0.19.2-wip
+## 0.19.3-wip
+
+- Added a library comment detailing how to use the package.
+
+## 0.19.2
 
 - Bump `package:hooks` to 0.20.0.
 

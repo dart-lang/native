@@ -2,37 +2,13 @@
 
 import Foundation
 
+// This wrapper is a stub. To generate the full wrapper, add Dimensions
+// to your config's include function.
 @objc public class DimensionsWrapper: NSObject {
   var wrappedInstance: Dimensions
 
-  @objc public var width: Double {
-    get {
-      wrappedInstance.width
-    }
-  }
-
-  @objc public var height: Double {
-    get {
-      wrappedInstance.height
-    }
-  }
-
-  @objc public var length: Double {
-    get {
-      wrappedInstance.length
-    }
-  }
-
   init(_ wrappedInstance: Dimensions) {
     self.wrappedInstance = wrappedInstance
-  }
-
-  @objc init(length: Double, width: Double, height: Double) {
-    wrappedInstance = Dimensions(length: length, width: width, height: height)
-  }
-
-  @objc public func displayDimensions() {
-    return wrappedInstance.displayDimensions()
   }
 
 }
@@ -81,31 +57,13 @@ import Foundation
 
 }
 
+// This wrapper is a stub. To generate the full wrapper, add Engine
+// to your config's include function.
 @objc public class EngineWrapper: NSObject {
   var wrappedInstance: Engine
 
-  @objc public var horsepower: Int {
-    get {
-      wrappedInstance.horsepower
-    }
-  }
-
-  @objc public var type: String {
-    get {
-      wrappedInstance.type
-    }
-  }
-
   init(_ wrappedInstance: Engine) {
     self.wrappedInstance = wrappedInstance
-  }
-
-  @objc init(type: String, horsepower: Int) {
-    wrappedInstance = Engine(type: type, horsepower: horsepower)
-  }
-
-  @objc public func displaySpecs() {
-    return wrappedInstance.displaySpecs()
   }
 
 }
@@ -127,6 +85,24 @@ import Foundation
 
   @objc public func listVehicles() {
     return wrappedInstance.listVehicles()
+  }
+
+  @objc public class DoorWrapper: NSObject {
+    var wrappedInstance: Garage.Door
+
+    @objc public var isOpen: Bool {
+      get {
+        wrappedInstance.isOpen
+      }
+      set {
+        wrappedInstance.isOpen = newValue
+      }
+    }
+
+    init(_ wrappedInstance: Garage.Door) {
+      self.wrappedInstance = wrappedInstance
+    }
+
   }
 
 }

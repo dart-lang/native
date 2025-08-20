@@ -224,7 +224,7 @@ class CBuilder extends CTool implements Builder {
         )
         .toList();
 
-    output.addDependencies({
+    output.dependencies.addAll({
       // Note: We use a Set here to deduplicate the dependencies.
       ...sources,
       ...includeFiles,

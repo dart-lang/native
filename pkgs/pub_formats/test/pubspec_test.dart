@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_formats/pubspec_formats.dart';
+import 'package:pub_formats/pub_formats.dart';
 import 'package:test/test.dart';
 
 import 'helpers.dart';
@@ -15,7 +15,7 @@ void main() {
     expect(syntax.name, equals('some_test_pubspec_package_name'));
     expect(syntax.description, equals('Test'));
     expect(syntax.version, equals('0.0.1-wip'));
-    expect(syntax.environment.sdk, equals('>=3.9.0-21.0.dev <4.0.0'));
+    expect(syntax.environment.sdk, equals('>=3.9.0 <4.0.0'));
     expect(syntax.environment.flutter, isNull);
     expect(syntax.dependencies, isNotEmpty);
     final somePathDependency = syntax.dependencies?['some_path_dependency'];
@@ -59,7 +59,10 @@ void main() {
     expect(someSdkDependency2.sdk, equals('flutter'));
     expect(syntax.dependencyOverrides, isNull);
     expect(syntax.executables, isNotNull);
-    expect(syntax.executables, equals({'slidy': 'main', 'fvm': null}));
+    expect(
+      syntax.executables,
+      equals({'slidy': 'main', 'fvm': null, 'dart-apitool': 'main'}),
+    );
     expect(syntax.publishTo, equals('none'));
     expect(syntax.documentation, isNull);
     expect(syntax.issueTracker, isNull);
@@ -103,7 +106,7 @@ void main() {
     expect(
       syntaxError2.validate(),
       equals([
-        "Unexpected key 'invalid executable name' in 'executables'. Expected a key satisfying ^[a-zA-Z_]\\w*\$.",
+        "Unexpected key 'invalid executable name' in 'executables'. Expected a key satisfying ^[a-zA-Z_]\\w*(-[a-zA-Z_]\\w*)*\$.",
       ]),
     );
     expect(() => syntaxError2.executables, throwsFormatException);

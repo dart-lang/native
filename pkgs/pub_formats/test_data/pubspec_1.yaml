@@ -10,7 +10,7 @@ version: 0.0.1-wip
 resolution: workspace
 
 environment:
-  sdk: '>=3.9.0-21.0.dev <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
   some_git_dependency:
@@ -26,6 +26,8 @@ dependencies:
     version: ^1.4.0
   some_hosted_dependency_2:
     version: ^1.4.0
+  some_hosted_dependency_3:
+    version: any
   some_path_dependency:
     path: ../some_path_dependency/
 
@@ -36,6 +38,7 @@ dev_dependencies:
 executables:
   slidy: main
   fvm:
+  dart-apitool: main
 
 # Hook user-defines are specified in the pub workspace.
 hooks:

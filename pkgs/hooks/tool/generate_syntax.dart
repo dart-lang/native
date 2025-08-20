@@ -90,6 +90,7 @@ void main(List<String> args) {
 
     final output = SyntaxGenerator(
       analyzedSchema,
+      requireNullableParameters: true,
       header:
           '''
 // This file is generated, do not edit.

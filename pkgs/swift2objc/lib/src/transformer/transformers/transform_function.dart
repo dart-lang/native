@@ -24,7 +24,7 @@ MethodDeclaration? transformMethod(
   MethodDeclaration originalMethod,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (disallowedMethods.contains(originalMethod.name)) {
     return null;
@@ -33,7 +33,7 @@ MethodDeclaration? transformMethod(
   return _transformFunction(
     originalMethod,
     globalNamer,
-    transformationMap,
+    state,
     wrapperMethodName: originalMethod.name,
     originalCallStatementGenerator: (arguments) {
       final methodSource = originalMethod.isStatic
@@ -47,12 +47,12 @@ MethodDeclaration? transformMethod(
 MethodDeclaration transformGlobalFunction(
   GlobalFunctionDeclaration globalFunction,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   return _transformFunction(
     globalFunction,
     globalNamer,
-    transformationMap,
+    state,
     wrapperMethodName: globalNamer.makeUnique(
       '${globalFunction.name}Wrapper',
     ),
@@ -66,7 +66,7 @@ MethodDeclaration transformGlobalFunction(
 MethodDeclaration _transformFunction(
   FunctionDeclaration originalFunction,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap, {
+  TransformationState state, {
   required String wrapperMethodName,
   required String Function(String arguments) originalCallStatementGenerator,
 }) {
@@ -78,7 +78,7 @@ MethodDeclaration _transformFunction(
           type: transformReferredType(
             param.type,
             globalNamer,
-            transformationMap,
+            state,
           ),
         ),
       )
@@ -88,12 +88,13 @@ MethodDeclaration _transformFunction(
   final resultName = localNamer.makeUnique('result');
 
   final (wrapperResult, type) = maybeWrapValue(
-      originalFunction.returnType, resultName, globalNamer, transformationMap,
+      originalFunction.returnType, resultName, globalNamer, state,
       shouldWrapPrimitives: originalFunction.throws);
 
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
     name: wrapperMethodName,
+    availability: originalFunction.availability,
     returnType: type,
     params: transformedParams,
     hasObjCAnnotation: true,
@@ -111,7 +112,7 @@ MethodDeclaration _transformFunction(
     localNamer,
     resultName,
     wrapperResult,
-    transformationMap,
+    state,
     originalCallGenerator: originalCallStatementGenerator,
   );
 
@@ -151,7 +152,7 @@ List<String> _generateStatements(
   UniqueNamer localNamer,
   String resultName,
   String wrappedResult,
-  TransformationMap transformationMap, {
+  TransformationState state, {
   required String Function(String arguments) originalCallGenerator,
 }) {
   final arguments = generateInvocationParams(

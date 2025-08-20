@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io' show Platform;
 
+import 'package:collection/collection.dart';
 import 'package:file/file.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
@@ -152,11 +153,11 @@ class NativeAssetsBuildRunner {
     /// Key is packageName.
     final globalAssetsForBuild = <String, List<EncodedAsset>>{};
     for (final package in buildPlan) {
-      final assetsForBuild = _assetsForBuildForPackage(
-        packageGraph: packageGraph!,
-        packageName: package.name,
-        globalAssetsForBuild: globalAssetsForBuild,
-      );
+      final dependencies = packageGraph!.neighborsOf(package.name).toSet();
+      final assetsForBuild = <String, List<EncodedAsset>>{
+        for (final entry in globalAssetsForBuild.entries)
+          if (dependencies.contains(entry.key)) entry.key: entry.value,
+      };
 
       final inputBuilder = BuildInputBuilder();
 
@@ -248,6 +249,17 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
+    final planResult = await _makePlan(
+      hook: Hook.link,
+      buildResult: buildResult,
+    );
+    if (planResult.isFailure) return planResult.asFailure;
+    final (buildPlan, packageGraph) = planResult.success;
+    if (buildPlan.isEmpty) {
+      // Return eagerly if there are no link hooks at all.
+      return Success(HookResult());
+    }
+
     final loadedUserDefines = await _loadedUserDefines;
     final hookResultUserDefines = await _checkUserDefines(loadedUserDefines);
     if (hookResultUserDefines.isFailure) {
@@ -255,14 +267,19 @@ class NativeAssetsBuildRunner {
     }
     var linkResult = hookResultUserDefines.success;
 
-    final planResult = await _makePlan(
-      hook: Hook.link,
-      buildResult: buildResult,
-    );
-    if (planResult.isFailure) return planResult.asFailure;
-    final (buildPlan, packageGraph) = planResult.success;
-
+    /// The key is the package name of the destination package.
+    final globalAssetsForLink = <String, Map<String, List<EncodedAsset>>>{};
     for (final package in buildPlan) {
+      final dependencies = packageGraph!
+          .inverseNeighborsOf(package.name)
+          .toSet();
+
+      final assetsFromLinking = (globalAssetsForLink[package.name] ?? {})
+          .entries
+          .where((entry) => dependencies.contains(entry.key))
+          .expand((e) => e.value)
+          .toList();
+
       final inputBuilder = LinkInputBuilder();
       for (final e in extensions) {
         e.setupLinkInput(inputBuilder);
@@ -288,9 +305,11 @@ class NativeAssetsBuildRunner {
         outputDirectoryShared: outDirSharedUri,
         userDefines: loadedUserDefines?[package.name],
       );
+
       inputBuilder.setupLink(
         assets: buildResult.encodedAssetsForLinking[package.name] ?? [],
         recordedUsesFile: resourcesFile?.uri,
+        assetsFromLinking: assetsFromLinking,
       );
 
       final input = inputBuilder.build();
@@ -299,7 +318,6 @@ class NativeAssetsBuildRunner {
         for (final e in extensions) ...await e.validateLinkInput(input),
       ];
       if (errors.isNotEmpty) {
-        print(input.assets.encodedAssets);
         _printErrors('Link input for ${package.name} contains errors', errors);
         return const Failure(HooksRunnerFailure.internal);
       }
@@ -318,9 +336,23 @@ class NativeAssetsBuildRunner {
         buildDirUri,
         outDirUri,
       );
-      if (result.isFailure) return result.asFailure;
+      if (result.isFailure) {
+        return result.asFailure;
+      }
       final (hookOutput, hookDeps) = result.success;
       linkResult = linkResult.copyAdd(hookOutput, hookDeps);
+
+      // Merge the assets into the global asset map.
+      (hookOutput as LinkOutput).assets.encodedAssetsForLink.forEach(
+        (packageName, assetsForPackage) => globalAssetsForLink.update(
+          packageName,
+          (current) => {
+            ...current,
+            ...{package.name: assetsForPackage},
+          },
+          ifAbsent: () => {package.name: assetsForPackage},
+        ),
+      );
     }
 
     final errors = [
@@ -400,7 +432,8 @@ class NativeAssetsBuildRunner {
         final (hookKernelFile, hookHashes, didRecompile) =
             hookCompileResult.success;
 
-        final buildOutputFile = _fileSystem.file(input.outputFile);
+        final inputFile = _fileSystem.file(buildDirUri.resolve('input.json'));
+        final outputFile = _fileSystem.file(input.outputFile);
 
         final dependenciesHashFile = buildDirUri.resolve(
           'dependencies.dependencies_hash_file.json',
@@ -411,36 +444,66 @@ class NativeAssetsBuildRunner {
           task: _task,
         );
         final lastModifiedCutoffTime = DateTime.now();
-        if (await buildOutputFile.exists() &&
+        if (await inputFile.exists() &&
+            await outputFile.exists() &&
             await dependenciesHashes.exists()) {
-          final outputResult = await _readHookOutputFromUri(
-            hook,
-            buildOutputFile,
-            input.packageName,
-          );
-          if (outputResult.isFailure) {
-            return const Failure(HooksRunnerFailure.hookRun);
-          }
-          final output = outputResult.success;
-
-          final outdatedDependency = await dependenciesHashes
-              .findOutdatedDependency(hookEnvironment);
-          if (outdatedDependency == null && !didRecompile) {
+          final String? outdatedDependencyString;
+          if (didRecompile) {
             // Note, we can only rely on didRecompile as long as the hook
-            // compilations are not shared across different `BuildConfig`s.
-            logger.info(
-              'Skipping ${hook.name} for ${input.packageName}'
-              ' in ${buildDirUri.toFilePath()}.'
-              ' Last build on ${output.timestamp}.',
+            // compilations are not shared across different `BuildConfig`s. Once
+            // we start sharing compilations across different `BuildConfig`s,
+            // we'll need to actually hash the dill file (slow because it's big)
+            // or the dart sources.
+
+            // At least one of the Dart sources of the hook changed, rerun it.
+            outdatedDependencyString =
+                'Hook Dart sources and ${hookKernelFile.path}';
+          } else {
+            final inputResult = await _readHookInputFromUri(
+              hook,
+              inputFile,
+              input.packageName,
             );
-            // All build flags go into [outDir]. Therefore we do not have to
-            // check here whether the input is equal.
-            return Success((output, hookHashes.fileSystemEntities));
+            if (inputResult.isFailure) {
+              return const Failure(HooksRunnerFailure.hookRun);
+            }
+            final inputOld = inputResult.success;
+            if (!const DeepCollectionEquality().equals(
+              inputOld.json,
+              input.json,
+            )) {
+              outdatedDependencyString = 'Input changed';
+            } else {
+              final outputResult = await _readHookOutputFromUri(
+                hook,
+                outputFile,
+                input.packageName,
+              );
+              if (outputResult.isFailure) {
+                return const Failure(HooksRunnerFailure.hookRun);
+              }
+              final output = outputResult.success;
+
+              final outdatedDependency = await dependenciesHashes
+                  .findOutdatedDependency(hookEnvironment);
+              if (outdatedDependency != null) {
+                // At least one of the build output dependencies changed, rerun
+                // the hook.
+                outdatedDependencyString = outdatedDependency;
+              } else {
+                logger.info(
+                  'Skipping ${hook.name} for ${input.packageName}'
+                  ' in ${buildDirUri.toFilePath()}.'
+                  ' Last build on ${output.timestamp}.',
+                );
+                return Success((output, hookHashes.fileSystemEntities));
+              }
+            }
           }
           logger.info(
             'Rerunning ${hook.name} for ${input.packageName}'
             ' in ${buildDirUri.toFilePath()}. '
-            '${outdatedDependency ?? hookKernelFile.uri}',
+            '$outdatedDependencyString',
           );
         }
 
@@ -784,23 +847,6 @@ ${compileResult.stdout}
     },
   );
 
-  /// Returns only the assets output as assetForBuild by the packages that are
-  /// the direct dependencies of [packageName].
-  Map<String, List<EncodedAsset>>? _assetsForBuildForPackage({
-    required PackageGraph packageGraph,
-    required String packageName,
-    Map<String, List<EncodedAsset>>? globalAssetsForBuild,
-  }) {
-    if (globalAssetsForBuild == null) {
-      return null;
-    }
-    final dependencies = packageGraph.neighborsOf(packageName).toSet();
-    return {
-      for (final entry in globalAssetsForBuild.entries)
-        if (dependencies.contains(entry.key)) entry.key: entry.value,
-    };
-  }
-
   Future<ValidationErrors> _validate(
     HookInput input,
     HookOutput output,
@@ -850,42 +896,55 @@ ${compileResult.stdout}
   Future<
     Result<(BuildPlan plan, PackageGraph? dependencyGraph), HooksRunnerFailure>
   >
-  _makePlan({required Hook hook, BuildResult? buildResult}) async => _timeAsync(
-    '_makePlan',
-    () async {
-      switch (hook) {
-        case Hook.build:
-          final planner = await _planner;
-          final planResult = await planner.makeBuildHookPlan();
-          if (planResult.isFailure) {
-            return planResult.asFailure;
-          }
-          return Success((planResult.success, planner.packageGraph));
-        case Hook.link:
-          // Link hooks are not run in any particular order.
-          // Link hooks are skipped if no assets for linking are provided.
-          final buildPlan = <Package>[];
-          final skipped = <String>[];
-          final encodedAssetsForLinking = buildResult!.encodedAssetsForLinking;
-          final planner = await _planner;
-          final packagesWithHook = await planner.packagesWithHook(Hook.link);
-          for (final package in packagesWithHook) {
-            if (encodedAssetsForLinking[package.name]?.isNotEmpty ?? false) {
-              buildPlan.add(package);
-            } else {
-              skipped.add(package.name);
+  _makePlan({required Hook hook, BuildResult? buildResult}) async =>
+      _timeAsync('_makePlan', () async {
+        switch (hook) {
+          case Hook.build:
+            final planner = await _planner;
+            final planResult = await planner.makeBuildHookPlan();
+            if (planResult.isFailure) {
+              return planResult.asFailure;
             }
-          }
-          if (skipped.isNotEmpty) {
-            logger.info(
-              'Skipping link hooks from ${skipped.join(', ')}'
-              ' due to no assets provided to link for these link hooks.',
-            );
-          }
-          return Success((buildPlan, null));
-      }
-    },
-  );
+            return Success((planResult.success, planner.packageGraph));
+          case Hook.link:
+            final planner = await _planner;
+            final planResult = await planner.makeLinkHookPlan();
+            if (planResult.isFailure) {
+              return planResult.asFailure;
+            }
+            return Success((planResult.success, planner.packageGraph));
+        }
+      });
+
+  Future<Result<HookInput, HooksRunnerFailure>> _readHookInputFromUri(
+    Hook hook,
+    File hookInputFile,
+    String packageName,
+  ) async {
+    final file = hookInputFile;
+    final fileContents = await file.readAsString();
+    logger.info('input.json contents:\n$fileContents');
+    final Map<String, Object?> hookInputJson;
+    try {
+      hookInputJson = jsonDecode(fileContents) as Map<String, Object?>;
+    } on FormatException catch (e) {
+      logger.severe('''
+Building assets for package:$packageName failed.
+${hookInputFile.uri.toFilePath()} contained a format error.
+
+Contents: $fileContents.
+${e.message}''');
+      return const Failure(HooksRunnerFailure.hookRun);
+    }
+    switch (hook) {
+      case Hook.build:
+        final buildInput = BuildInput(hookInputJson);
+        return Success(buildInput);
+      case Hook.link:
+        final linkInput = LinkInput(hookInputJson);
+        return Success(linkInput);
+    }
+  }
 
   Future<Result<HookOutput, HooksRunnerFailure>> _readHookOutputFromUri(
     Hook hook,

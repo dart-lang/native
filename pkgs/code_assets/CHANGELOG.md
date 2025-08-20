@@ -1,4 +1,10 @@
-## 0.19.5-wip
+## 0.19.6-wip
+
+- Added a library comment detailing how to use the package.
+- Fixed duplicate asset id detection with assets coming from both build and
+  link hooks.
+
+## 0.19.5
 
 - Bump `package:hooks` to 0.20.0.
 

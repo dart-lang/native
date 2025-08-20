@@ -35,6 +35,6 @@ void main(List<String> arguments) async {
           ? ToLinkHook(packageName)
           : const ToAppBundle(),
     );
-    output.addDependencies(tempBuildOutput.dependencies);
+    output.dependencies.addAll(tempBuildOutput.dependencies);
   });
 }

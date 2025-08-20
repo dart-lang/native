@@ -8,9 +8,12 @@ import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
 import 'dartified_snippets/enums.dart';
+import 'dartified_snippets/identifiers.dart';
 import 'dartified_snippets/implement_inline_interface.dart';
 import 'dartified_snippets/implement_normal_interface.dart';
+import 'dartified_snippets/inner_class.dart';
 import 'dartified_snippets/overloaded_methods.dart';
+import 'dartified_snippets/strings.dart';
 
 void main() {
   setUpAll(() {
@@ -30,6 +33,18 @@ void main() {
 
   test('Overloaded Methods and Constructors', () async {
     expect(overloadedMethods(), isTrue);
+  });
+
+  test('Inner Class Call', () async {
+    expect(innerClassCall(), isTrue);
+  });
+
+  test('Back and Forth Strings', () async {
+    expect(backAndForthStrings(), isTrue);
+  });
+
+  test('identifiers has \$ and starts with "_"', () async {
+    expect(identifiersSpecialCases(), isTrue);
   });
 
   test('Implement Inline Interface', () async {

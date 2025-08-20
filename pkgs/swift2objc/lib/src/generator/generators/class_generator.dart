@@ -13,6 +13,8 @@ import '../generator.dart';
 
 List<String> generateClass(ClassDeclaration declaration) {
   return [
+    if (declaration.isStub) ..._generateStubComment(declaration),
+    ...generateAvailability(declaration),
     '${_generateClassHeader(declaration)} {',
     ...[
       _generateClassWrappedInstance(declaration),
@@ -22,6 +24,14 @@ List<String> generateClass(ClassDeclaration declaration) {
       ..._generateNestedDeclarations(declaration),
     ].nonNulls.indent(),
     '}\n',
+  ];
+}
+
+List<String> _generateStubComment(ClassDeclaration declaration) {
+  final wrappedType = declaration.wrappedInstance!.type.swiftType;
+  return [
+    '// This wrapper is a stub. To generate the full wrapper, add $wrappedType',
+    "// to your config's include function.",
   ];
 }
 
@@ -88,6 +98,7 @@ List<String> _generateInitializer(InitializerDeclaration initializer) {
   header.write('(${generateParameters(initializer.params)})');
 
   return [
+    ...generateAvailability(initializer),
     '$header ${generateAnnotations(initializer)}{',
     ...initializer.statements.indent(),
     '}\n',
@@ -123,6 +134,7 @@ List<String> _generateClassMethod(MethodDeclaration method) {
   }
 
   return [
+    ...generateAvailability(method),
     '$header{',
     ...method.statements.indent(),
     '}\n',
@@ -167,6 +179,7 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   ];
 
   return [
+    ...generateAvailability(property),
     header.toString(),
     ...getterLines.indent(),
     if (property.hasSetter) ...setterLines.indent(),

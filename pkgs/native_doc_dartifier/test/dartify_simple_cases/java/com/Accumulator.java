@@ -1,6 +1,27 @@
 package com;
 
 public class Accumulator {
+
+    public class DoublingAccumulator {
+        public int accumulator;
+
+        public DoublingAccumulator() {
+            this.accumulator = 0;
+        }
+
+        public void add(int value) {
+            this.accumulator += value * 2;
+        }
+
+        public void add(int value1, int value2) {
+            this.accumulator += (value1 + value2) * 2;
+        }
+
+        public void add(int value1, int value2, int value3) {
+            this.accumulator += (value1 + value2 + value3) * 2;
+        }
+    }
+
     public int accumulator;
 
     public Accumulator() {

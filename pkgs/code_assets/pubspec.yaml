@@ -3,7 +3,7 @@ description: >-
   This library contains the hook protocol specification for bundling native code
   with Dart packages.
 
-version: 0.19.5-wip
+version: 0.19.6-wip
 
 repository: https://github.com/dart-lang/native/tree/main/pkgs/code_assets
 
@@ -17,11 +17,11 @@ topics:
 resolution: workspace
 
 environment:
-  sdk: '>=3.9.0-21.0.dev <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
   collection: ^1.19.1
-  hooks: ^0.20.0-wip
+  hooks: ^0.20.1-wip
 
 dev_dependencies:
   custom_lint: ^0.7.5

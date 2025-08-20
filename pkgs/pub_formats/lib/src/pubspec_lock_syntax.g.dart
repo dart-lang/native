@@ -407,7 +407,7 @@ class PubspecLockFileSyntax extends JsonObjectSyntax {
     : super.fromJson();
 
   PubspecLockFileSyntax({
-    required Map<String, PackageSyntax>? packages,
+    Map<String, PackageSyntax>? packages,
     required SDKsSyntax sdks,
     super.path = const [],
   }) : super() {

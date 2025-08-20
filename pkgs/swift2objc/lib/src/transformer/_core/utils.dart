@@ -8,6 +8,7 @@ import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/typealias_declaration.dart';
 import '../../transformer/_core/primitive_wrappers.dart';
 import '../transform.dart';
 import 'unique_namer.dart';
@@ -17,10 +18,10 @@ import 'unique_namer.dart';
 // that weird. Refactor this as part of the transformer refactor.
 
 (String value, ReferredType type) maybeWrapValue(ReferredType type,
-    String value, UniqueNamer globalNamer, TransformationMap transformationMap,
+    String value, UniqueNamer globalNamer, TransformationState state,
     {bool shouldWrapPrimitives = false}) {
   final (wrappedPrimitiveType, returnsWrappedPrimitive) =
-      maybeGetPrimitiveWrapper(type, shouldWrapPrimitives, transformationMap);
+      maybeGetPrimitiveWrapper(type, shouldWrapPrimitives, state);
   if (returnsWrappedPrimitive) {
     return (
       '${(wrappedPrimitiveType as DeclaredType).name}($value)',
@@ -35,10 +36,16 @@ import 'unique_namer.dart';
   if (type is GenericType) {
     throw UnimplementedError('Generic types are not implemented yet');
   } else if (type is DeclaredType) {
+    final declaration = type.declaration;
+    if (declaration is TypealiasDeclaration) {
+      return maybeWrapValue(declaration.target, value, globalNamer, state,
+          shouldWrapPrimitives: shouldWrapPrimitives);
+    }
+
     final transformedTypeDeclaration = transformDeclaration(
-      type.declaration,
+      declaration,
       globalNamer,
-      transformationMap,
+      state,
     );
 
     return (
@@ -47,7 +54,7 @@ import 'unique_namer.dart';
     );
   } else if (type is OptionalType) {
     final (newValue, newType) =
-        maybeWrapValue(type.child, '$value!', globalNamer, transformationMap);
+        maybeWrapValue(type.child, '$value!', globalNamer, state);
     return (
       '$value == nil ? nil : $newValue',
       OptionalType(newType),
@@ -72,6 +79,8 @@ import 'unique_namer.dart';
     if (declaration is ClassDeclaration) {
       final wrappedInstance = declaration.wrappedInstance!;
       return ('$value.${wrappedInstance.name}', wrappedInstance.type);
+    } else if (declaration is TypealiasDeclaration) {
+      return maybeUnwrapValue(declaration.target, value);
     } else {
       return (value, type);
     }
@@ -93,6 +102,7 @@ InitializerDeclaration buildWrapperInitializer(
 ) {
   return InitializerDeclaration(
     id: '',
+    availability: const [],
     params: [
       Parameter(
         name: '_',

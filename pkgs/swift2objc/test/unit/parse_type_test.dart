@@ -15,8 +15,10 @@ import 'package:swift2objc/src/parser/parsers/parse_type.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final classFoo = ClassDeclaration(id: 'Foo', name: 'Foo');
-  final classBar = ClassDeclaration(id: 'Bar', name: 'Bar');
+  final classFoo =
+      ClassDeclaration(id: 'Foo', name: 'Foo', availability: const []);
+  final classBar =
+      ClassDeclaration(id: 'Bar', name: 'Bar', availability: const []);
 
   final testDecls = <Declaration>[
     ...builtInDeclarations,
