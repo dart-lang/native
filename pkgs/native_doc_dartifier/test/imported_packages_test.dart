@@ -54,8 +54,46 @@ void main() {
     expect(
       jniSummary.classesSummaries.any(
         (classSummary) => classSummary.classDeclerationDisplay.contains(
+          'class JInteger extends JNumber',
+        ),
+      ),
+      isTrue,
+    );
+
+    expect(
+      jniSummary.classesSummaries.any(
+        (classSummary) => classSummary.classDeclerationDisplay.contains(
           'class Arena implements Allocator',
         ),
+      ),
+      isTrue,
+    );
+  });
+
+  test('Methods and Variables in classes', () {
+    final jniSummary = context!.packageSummaries.firstWhere(
+      (package) => package.packageName == 'package:jni/jni.dart',
+    );
+
+    final jArrayClass = jniSummary.classesSummaries.firstWhere(
+      (classSummary) => classSummary.classDeclerationDisplay.contains(
+        'class JArray<E extends JObject?>',
+      ),
+    );
+
+    expect(jArrayClass.fieldsDeclerationDisplay.isNotEmpty, isTrue);
+    expect(jArrayClass.methodsDeclerationDisplay.isNotEmpty, isTrue);
+
+    expect(
+      jArrayClass.fieldsDeclerationDisplay.any(
+        (field) => field.contains('JObjType<E> elementType'),
+      ),
+      isTrue,
+    );
+
+    expect(
+      jArrayClass.methodsDeclerationDisplay.any(
+        (method) => method.contains('E elementAt(int index)'),
       ),
       isTrue,
     );
