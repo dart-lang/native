@@ -23,6 +23,16 @@ class FindIncludesVisitation extends Visitation {
       node.visitChildren(visitor);
     }
   }
+
+  @override
+  void visitCompoundDeclaration(CompoundDeclaration node) {
+    visitDeclaration(node);
+
+    // Visit the nested declarations even if this declaration is filtered. That
+    // way the nested declarations may pass the filter (in which case this
+    // declaration would be stubbed).
+    node.nestedDeclarations.forEach(visitor.visit);
+  }
 }
 
 class ListDeclsVisitation extends Visitation {

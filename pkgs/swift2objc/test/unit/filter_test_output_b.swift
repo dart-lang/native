@@ -87,6 +87,24 @@ import Foundation
     return wrappedInstance.listVehicles()
   }
 
+  @objc public class DoorWrapper: NSObject {
+    var wrappedInstance: Garage.Door
+
+    @objc public var isOpen: Bool {
+      get {
+        wrappedInstance.isOpen
+      }
+      set {
+        wrappedInstance.isOpen = newValue
+      }
+    }
+
+    init(_ wrappedInstance: Garage.Door) {
+      self.wrappedInstance = wrappedInstance
+    }
+
+  }
+
 }
 
 @objc public class BicycleWrapper: NSObject {

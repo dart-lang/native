@@ -87,7 +87,9 @@ Declaration? maybeTransformDeclaration(
   TransformationState state, {
   bool nested = false,
 }) {
-  if (!state.bindings.contains(declaration)) return null;
+  if (!state.bindings.contains(declaration)) {
+    return null;
+  }
 
   if (state.map.containsKey(declaration)) {
     return state.map[declaration];
