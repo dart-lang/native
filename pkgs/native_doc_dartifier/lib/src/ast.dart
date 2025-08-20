@@ -29,6 +29,7 @@ class Class {
 
   String toDartLikeRepresentation() {
     final classDecleration =
+        // ignore: lines_longer_than_80_chars
         '${isInterface ? 'interface ' : ''}${isAbstract ? 'abstract ' : ''}class $name ${extendedClass.isNotEmpty ? 'extends $extendedClass ' : ''}${implementedInterfaces.isNotEmpty ? 'implements ${implementedInterfaces.join(', ')} ' : ''}';
 
     final buffer = StringBuffer();

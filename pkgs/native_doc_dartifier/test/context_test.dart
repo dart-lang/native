@@ -68,6 +68,7 @@ void main() {
     expect(
       jniSummary.topLevelFunctions.any(
         (function) => function.contains(
+          // ignore: lines_longer_than_80_chars
           'using<R>(R Function(Arena) computation, [Allocator wrappedAllocator = calloc])',
         ),
       ),
