@@ -39,8 +39,13 @@ void main() {
     bool randInclude(String kind, Declaration clazz, [String? method]) =>
         fnvHash32('$seed.$kind.${clazz.usr}.$method') <
         ((1 << 32) * inclusionRatio);
-    DeclarationFilters randomFilter(String kind) => DeclarationFilters(
-      shouldInclude: (Declaration clazz) => randInclude(kind, clazz),
+    DeclarationFilters randomFilter(
+      String kind, [
+      Set<String> forceIncludes = const {},
+    ]) => DeclarationFilters(
+      shouldInclude: (Declaration clazz) =>
+          forceIncludes.contains(clazz.originalName) ||
+          randInclude(kind, clazz),
       shouldIncludeMember: (Declaration clazz, String method) =>
           randInclude('$kind.memb', clazz, method),
     );
@@ -57,6 +62,10 @@ void main() {
       'large_integration_tests',
       'large_objc_bindings.m',
     );
+
+    // TODO(https://github.com/dart-lang/native/issues/2517): Remove this.
+    const forceIncludedProtocols = {'NSTextLocation'};
+
     final config = FfiGen(
       Logger.root,
       wrapperName: 'LargeObjCLibrary',
@@ -85,7 +94,7 @@ void main() {
       globals: randomFilter('globals'),
       typedefs: randomFilter('typedefs'),
       objcInterfaces: randomFilter('objcInterfaces'),
-      objcProtocols: randomFilter('objcProtocols'),
+      objcProtocols: randomFilter('objcProtocols', forceIncludedProtocols),
       objcCategories: randomFilter('objcCategories'),
       externalVersions: ExternalVersions(
         ios: Versions(min: Version(12, 0, 0)),
