@@ -605,11 +605,29 @@ final class BuildOutputAssets {
 /// adding specific asset types - which should be used by normal hook authors.
 /// For example
 ///
+/// <!-- file://./../../example/api/config_snippet_1.dart -->
 /// ```dart
-/// main(List<String> arguments) async {
-///   await build((input, output) {
-///     output.assets.code.add(CodeAsset(...));
-///     output.assets.data.add(DataAsset(...));
+/// import 'package:code_assets/code_assets.dart';
+/// import 'package:data_assets/data_assets.dart';
+/// import 'package:hooks/hooks.dart';
+///
+/// void main(List<String> arguments) async {
+///   await build(arguments, (input, output) async {
+///     output.assets.code.add(
+///       CodeAsset(
+///         name: 'my_code',
+///         file: Uri.file('path/to/file'),
+///         package: input.packageName,
+///         linkMode: DynamicLoadingBundled(),
+///       ),
+///     );
+///     output.assets.data.add(
+///       DataAsset(
+///         name: 'my_data',
+///         file: Uri.file('path/to/file'),
+///         package: input.packageName,
+///       ),
+///     );
 ///   });
 /// }
 /// ```
@@ -748,11 +766,29 @@ final class BuildOutputAssetsBuilder {
   /// Note to hook writers. Prefer using the `.add` method on the extension for
   /// the specific asset type being added:
   ///
+  /// <!-- file://./../../example/api/config_snippet_1.dart -->
   /// ```dart
-  /// main(List<String> arguments) async {
-  ///   await build((input, output) {
-  ///     output.assets.code.add(CodeAsset(...));
-  ///     output.assets.data.add(DataAsset(...));
+  /// import 'package:code_assets/code_assets.dart';
+  /// import 'package:data_assets/data_assets.dart';
+  /// import 'package:hooks/hooks.dart';
+  ///
+  /// void main(List<String> arguments) async {
+  ///   await build(arguments, (input, output) async {
+  ///     output.assets.code.add(
+  ///       CodeAsset(
+  ///         name: 'my_code',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///         linkMode: DynamicLoadingBundled(),
+  ///       ),
+  ///     );
+  ///     output.assets.data.add(
+  ///       DataAsset(
+  ///         name: 'my_data',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///       ),
+  ///     );
   ///   });
   /// }
   /// ```
@@ -785,11 +821,29 @@ final class BuildOutputAssetsBuilder {
   /// Note to hook writers. Prefer using the `.addAll` method on the extension
   /// for the specific asset type being added:
   ///
+  /// <!-- file://./../../example/api/config_snippet_3.dart -->
   /// ```dart
-  /// main(List<String> arguments) async {
-  ///   await build((input, output) {
-  ///     output.assets.code.addAll([CodeAsset(...), ...]);
-  ///     output.assets.data.addAll([DataAsset(...), ...]);
+  /// import 'package:code_assets/code_assets.dart';
+  /// import 'package:data_assets/data_assets.dart';
+  /// import 'package:hooks/hooks.dart';
+  ///
+  /// void main(List<String> arguments) async {
+  ///   await build(arguments, (input, output) async {
+  ///     output.assets.code.addAll([
+  ///       CodeAsset(
+  ///         name: 'my_code',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///         linkMode: DynamicLoadingBundled(),
+  ///       ),
+  ///     ]);
+  ///     output.assets.data.addAll([
+  ///       DataAsset(
+  ///         name: 'my_data',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///       ),
+  ///     ]);
   ///   });
   /// }
   /// ```
@@ -875,11 +929,29 @@ final class LinkOutputAssets {
 /// adding specific asset types - which should be used by normal hook authors.
 /// For example
 ///
+/// <!-- file://./../../example/api/config_snippet_2.dart -->
 /// ```dart
-/// main(List<String> arguments) async {
-///   await build((input, output) {
-///     output.assets.code.add(CodeAsset(...));
-///     output.assets.data.add(DataAsset(...));
+/// import 'package:code_assets/code_assets.dart';
+/// import 'package:data_assets/data_assets.dart';
+/// import 'package:hooks/hooks.dart';
+///
+/// void main(List<String> arguments) async {
+///   await link(arguments, (input, output) async {
+///     output.assets.code.add(
+///       CodeAsset(
+///         name: 'my_code',
+///         file: Uri.file('path/to/file'),
+///         package: input.packageName,
+///         linkMode: DynamicLoadingBundled(),
+///       ),
+///     );
+///     output.assets.data.add(
+///       DataAsset(
+///         name: 'my_data',
+///         file: Uri.file('path/to/file'),
+///         package: input.packageName,
+///       ),
+///     );
 ///   });
 /// }
 /// ```
@@ -905,11 +977,29 @@ final class LinkOutputAssetsBuilder {
   /// Note to hook writers. Prefer using the `.add` method on the extension for
   /// the specific asset type being added:
   ///
+  /// <!-- file://./../../example/api/config_snippet_2.dart -->
   /// ```dart
-  /// main(List<String> arguments) async {
-  ///   await build((input, output) {
-  ///     output.assets.code.add(CodeAsset(...));
-  ///     output.assets.data.add(DataAsset(...));
+  /// import 'package:code_assets/code_assets.dart';
+  /// import 'package:data_assets/data_assets.dart';
+  /// import 'package:hooks/hooks.dart';
+  ///
+  /// void main(List<String> arguments) async {
+  ///   await link(arguments, (input, output) async {
+  ///     output.assets.code.add(
+  ///       CodeAsset(
+  ///         name: 'my_code',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///         linkMode: DynamicLoadingBundled(),
+  ///       ),
+  ///     );
+  ///     output.assets.data.add(
+  ///       DataAsset(
+  ///         name: 'my_data',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///       ),
+  ///     );
   ///   });
   /// }
   /// ```
@@ -936,11 +1026,29 @@ final class LinkOutputAssetsBuilder {
   /// Note to hook writers. Prefer using the `.addAll` method on the extension
   /// for the specific asset type being added:
   ///
+  /// <!-- file://./../../example/api/config_snippet_4.dart -->
   /// ```dart
-  /// main(List<String> arguments) async {
-  ///   await build((input, output) {
-  ///     output.assets.code.addAll([CodeAsset(...), ...]);
-  ///     output.assets.data.addAll([DataAsset(...), ...]);
+  /// import 'package:code_assets/code_assets.dart';
+  /// import 'package:data_assets/data_assets.dart';
+  /// import 'package:hooks/hooks.dart';
+  ///
+  /// void main(List<String> arguments) async {
+  ///   await link(arguments, (input, output) async {
+  ///     output.assets.code.addAll([
+  ///       CodeAsset(
+  ///         name: 'my_code',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///         linkMode: DynamicLoadingBundled(),
+  ///       ),
+  ///     ]);
+  ///     output.assets.data.addAll([
+  ///       DataAsset(
+  ///         name: 'my_data',
+  ///         file: Uri.file('path/to/file'),
+  ///         package: input.packageName,
+  ///       ),
+  ///     ]);
   ///   });
   /// }
   /// ```
@@ -992,9 +1100,24 @@ final class HookConfig {
   /// asset extensions provide a to check [buildAssetTypes] for their own asset
   /// type. For example, `CodeAsset`s can be used as follows:
   ///
+  /// <!-- file://./../../example/api/config_snippet_5.dart -->
   /// ```dart
-  /// if (input.config.buildCodeAssets) {
-  ///   // Emit code asset.
+  /// import 'package:code_assets/code_assets.dart';
+  /// import 'package:hooks/hooks.dart';
+  ///
+  /// void main(List<String> arguments) async {
+  ///   await build(arguments, (input, output) async {
+  ///     if (input.config.buildCodeAssets) {
+  ///       output.assets.code.add(
+  ///         CodeAsset(
+  ///           name: 'my_code',
+  ///           file: Uri.file('path/to/file'),
+  ///           package: input.packageName,
+  ///           linkMode: DynamicLoadingBundled(),
+  ///         ),
+  ///       );
+  ///     }
+  ///   });
   /// }
   /// ```
   List<String> get buildAssetTypes => _syntax.buildAssetTypes;
