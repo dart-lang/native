@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -36,7 +37,7 @@ abstract class Compound extends BindingType {
   bool get isStruct => compoundType == CompoundType.struct;
   bool get isUnion => compoundType == CompoundType.union;
 
-  ObjCBuiltInFunctions? objCBuiltInFunctions;
+  final Context context;
 
   /// The way the native type is written in C source code. This isn't always the
   /// same as the originalName, because the type may need to be prefixed with
@@ -53,7 +54,7 @@ abstract class Compound extends BindingType {
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,
-    this.objCBuiltInFunctions,
+    required this.context,
     String? nativeType,
   }) : members = members ?? [],
        nativeType = nativeType ?? originalName ?? name;
@@ -67,7 +68,7 @@ abstract class Compound extends BindingType {
     int? pack,
     String? dartDoc,
     List<CompoundMember>? members,
-    ObjCBuiltInFunctions? objCBuiltInFunctions,
+    required Context context,
     String? nativeType,
   }) {
     switch (type) {
@@ -80,7 +81,7 @@ abstract class Compound extends BindingType {
           pack: pack,
           dartDoc: dartDoc,
           members: members,
-          objCBuiltInFunctions: objCBuiltInFunctions,
+          context: context,
           nativeType: nativeType,
         );
       case CompoundType.union:
@@ -92,7 +93,7 @@ abstract class Compound extends BindingType {
           pack: pack,
           dartDoc: dartDoc,
           members: members,
-          objCBuiltInFunctions: objCBuiltInFunctions,
+          context: context,
           nativeType: nativeType,
         );
     }
@@ -108,7 +109,7 @@ abstract class Compound extends BindingType {
 
   @override
   bool get isObjCImport =>
-      objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
+      context.objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
 
   @override
   BindingString toBindingString(Writer w) {

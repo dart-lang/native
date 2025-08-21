@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'type.dart';
@@ -13,15 +14,12 @@ class LibraryImport extends AstNode {
   final String _importPath;
   final String? _importPathWhenImportedByPackageObjC;
 
-  String prefix;
-
-  LibraryImport(
+  const LibraryImport(
     this.name,
     this._importPath, {
     String? importPathWhenImportedByPackageObjC,
   }) : _importPathWhenImportedByPackageObjC =
-           importPathWhenImportedByPackageObjC,
-       prefix = name;
+           importPathWhenImportedByPackageObjC;
 
   @override
   bool operator ==(Object other) {
@@ -116,15 +114,18 @@ class SelfImportedType extends Type {
   String toString() => cType;
 }
 
-final ffiImport = LibraryImport('ffi', 'dart:ffi');
-final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
-final objcPkgImport = LibraryImport(
+const ffiImport = LibraryImport('ffi', 'dart:ffi');
+const ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
+const objcPkgImport = LibraryImport(
   'objc',
   'package:objective_c/objective_c.dart',
   importPathWhenImportedByPackageObjC: '../objective_c.dart',
 );
-final self = LibraryImport('self', '');
-final allLibraries = [ffiImport, ffiPkgImport, objcPkgImport, self];
+const selfImport = LibraryImport('self', '');
+const builtInLibraries = {
+  for (final l in [ffiImport, ffiPkgImport, objcPkgImport, selfImport])
+    l.name: l,
+};
 
 final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 

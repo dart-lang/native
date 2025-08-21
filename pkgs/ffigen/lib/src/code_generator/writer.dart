@@ -28,7 +28,7 @@ class Writer {
   final String? nativeAssetId;
 
   /// Manages the `_SymbolAddress` class.
-  final symbolAddressWriter = SymbolAddressWriter();
+  final SymbolAddressWriter symbolAddressWriter;
 
   late String _className;
   String get className => _className;
@@ -42,59 +42,6 @@ class Writer {
   /// Tracks the enums for which enumType.getCType is called. Reset everytime
   /// [generate] is called.
   final usedEnumCTypes = <EnumClass>{};
-
-  String? _ffiLibraryPrefix;
-  String get ffiLibraryPrefix {
-    if (_ffiLibraryPrefix != null) {
-      return _ffiLibraryPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == ffiImport.name,
-      orElse: () => ffiImport,
-    );
-    _usedImports.add(import);
-    return _ffiLibraryPrefix = import.prefix;
-  }
-
-  String? _ffiPkgLibraryPrefix;
-  String get ffiPkgLibraryPrefix {
-    if (_ffiPkgLibraryPrefix != null) {
-      return _ffiPkgLibraryPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == ffiPkgImport.name,
-      orElse: () => ffiPkgImport,
-    );
-    _usedImports.add(import);
-    return _ffiPkgLibraryPrefix = import.prefix;
-  }
-
-  String? _objcPkgPrefix;
-  String get objcPkgPrefix {
-    if (_objcPkgPrefix != null) {
-      return _objcPkgPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == objcPkgImport.name,
-      orElse: () => objcPkgImport,
-    );
-    _usedImports.add(import);
-    return _objcPkgPrefix = import.prefix;
-  }
-
-  late String selfImportPrefix = () {
-    final import = _usedImports.firstWhere(
-      (element) => element.name == self.name,
-      orElse: () => self,
-    );
-    _usedImports.add(import);
-    return import.prefix;
-  }();
-
-  final Set<LibraryImport> _usedImports = {};
 
   late String _lookupFuncIdentifier;
   String get lookupFuncIdentifier => _lookupFuncIdentifier;
@@ -136,11 +83,15 @@ class Writer {
     required this.silenceEnumWarning,
     required this.nativeEntryPoints,
     required this.context,
-  }) {
+  }) : symbolAddressWriter = SymbolAddressWriter(context) {
     final globalLevelNames = noLookUpBindings.map((e) => e.name);
     final wrapperLevelNames = lookUpBindings.map((e) => e.name);
 
     _initialTopLevelUniqueNamer = UniqueNamer()..markAllUsed(globalLevelNames);
+    for (final lib in context.libs.used) {
+      _initialTopLevelUniqueNamer.markUsed(context.libs.prefix(lib));
+    }
+
     _initialWrapperLevelUniqueNamer = UniqueNamer()
       ..markAllUsed(wrapperLevelNames);
     final allLevelsUniqueNamer = UniqueNamer()
@@ -153,18 +104,6 @@ class Writer {
       makeUnique: allLevelsUniqueNamer,
       markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
     );
-
-    /// Library imports prefix should be unique unique among all names.
-    for (final lib in [...additionalImports, ...allLibraries]) {
-      lib.prefix = _resolveNameConflict(
-        name: lib.prefix,
-        makeUnique: allLevelsUniqueNamer,
-        markUsed: [
-          _initialWrapperLevelUniqueNamer,
-          _initialTopLevelUniqueNamer,
-        ],
-      );
-    }
 
     /// [_lookupFuncIdentifier] should be unique in top level.
     _lookupFuncIdentifier = _resolveNameConflict(
@@ -211,10 +150,6 @@ class Writer {
       parent: _initialWrapperLevelUniqueNamer,
     );
     _objCLevelUniqueNamer = UniqueNamer();
-  }
-
-  void markImportUsed(LibraryImport import) {
-    _usedImports.add(import);
   }
 
   /// Writes all bindings to a String.
@@ -506,12 +441,15 @@ id objc_retainBlock(id);
 
 /// Manages the generated `_SymbolAddress` class.
 class SymbolAddressWriter {
+  final Context context;
   final List<_SymbolAddressUnit> _addresses = [];
 
   /// Used to check if we need to generate `_SymbolAddress` class.
   bool get shouldGenerate => _addresses.isNotEmpty;
 
   bool get hasNonNativeAddress => _addresses.any((e) => !e.native);
+
+  SymbolAddressWriter(this.context);
 
   void addSymbol({
     required String type,
