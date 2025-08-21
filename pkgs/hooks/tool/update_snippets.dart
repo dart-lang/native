@@ -58,10 +58,10 @@ void updateSnippetsInFile(File file, Counts counts, List<String> errors) {
   final oldContent = file.readAsStringSync();
   var newContent = oldContent;
 
-  newContent = updateSnippets(oldContent, file.uri, errors);
+  final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
+  newContent = updateSnippets(oldContentNormalized, file.uri, errors);
 
   final newContentNormalized = newContent.replaceAll('\r\n', '\n');
-  final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
   if (newContentNormalized != oldContentNormalized) {
     file.writeAsStringSync(newContent);
     print('Updated snippets in ${file.uri} (content changed)');
