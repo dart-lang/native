@@ -19,7 +19,7 @@ void main(List<String> args) {
   final setExitIfChanged = argResults['set-exit-if-changed'] as bool;
 
   final counts = Counts();
-  final warnings = <String>[];
+  final errors = <String>[];
   final hooksPackageRoot = findPackageRoot('hooks');
   for (final package in ['hooks', 'code_assets', 'data_assets']) {
     final packageRoot = hooksPackageRoot.resolve('../$package/');
@@ -30,7 +30,7 @@ void main(List<String> args) {
         .where((e) => e.path.endsWith('.dart'));
 
     for (final file in files) {
-      updateSnippetsInFile(file, counts, warnings);
+      updateSnippetsInFile(file, counts, errors);
     }
   }
 
@@ -41,11 +41,11 @@ void main(List<String> args) {
     '${duration.toStringAsFixed(2)} seconds.',
   );
 
-  if (warnings.isNotEmpty) {
-    print('\nWarnings:');
-    for (final warning in warnings) {
-      print(warning);
+  if (errors.isNotEmpty) {
+    for (final error in errors) {
+      print(error);
     }
+    print('See pkgs/hooks/CONTRIBUTING.md for details.');
     exit(1);
   }
 
@@ -54,11 +54,11 @@ void main(List<String> args) {
   }
 }
 
-void updateSnippetsInFile(File file, Counts counts, List<String> warnings) {
+void updateSnippetsInFile(File file, Counts counts, List<String> errors) {
   final oldContent = file.readAsStringSync();
   var newContent = oldContent;
 
-  newContent = updateSnippets(oldContent, file.uri, warnings);
+  newContent = updateSnippets(oldContent, file.uri, errors);
 
   final newContentNormalized = newContent.replaceAll('\r\n', '\n');
   final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
@@ -75,7 +75,7 @@ class Counts {
   int changed = 0;
 }
 
-String updateSnippets(String oldContent, Uri fileUri, List<String> warnings) {
+String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
   final codeBlockRegex = RegExp(
     r'((?:\s*/// <!-- (?:file://(\S+)|(no-source-file)) -->\n)?)(\s*)/// ```(\w+)\n([\s\S]*?)(?=\n\s*/// ```)\n\s*/// ```',
     multiLine: true,
@@ -89,7 +89,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> warnings) {
     final language = match.group(5);
 
     if (language == null) {
-      warnings.add('Warning: Code block without language in $fileUri');
+      errors.add('Error: Code block without language in $fileUri.');
       return match.group(0)!;
     }
 
@@ -99,16 +99,14 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> warnings) {
       }
 
       if (filePath == null) {
-        warnings.add(
-          'Warning: Dart code block without file attribute in $fileUri',
-        );
+        errors.add('Error: Dart code without a source file in $fileUri.');
         return match.group(0)!;
       }
 
       final snippetUri = fileUri.resolve(filePath);
       final snippetFile = File.fromUri(snippetUri);
       if (!snippetFile.existsSync()) {
-        warnings.add('Error: Snippet file not found: $snippetUri');
+        errors.add('Error: Snippet file not found: $snippetUri.');
         return match.group(0)!;
       }
       final snippetContent = snippetFile.readAsStringSync();
