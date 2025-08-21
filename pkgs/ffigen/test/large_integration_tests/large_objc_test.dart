@@ -62,6 +62,10 @@ void main() {
       'large_integration_tests',
       'large_objc_bindings.m',
     );
+
+    // TODO(https://github.com/dart-lang/native/issues/2517): Remove this.
+    const forceIncludedProtocols = {'NSTextLocation'};
+
     final config = FfiGen(
       Logger.root,
       wrapperName: 'LargeObjCLibrary',
@@ -90,7 +94,7 @@ void main() {
       globals: randomFilter('globals'),
       typedefs: randomFilter('typedefs'),
       objcInterfaces: randomFilter('objcInterfaces'),
-      objcProtocols: randomFilter('objcProtocols', {'NSTextLocation'}),
+      objcProtocols: randomFilter('objcProtocols', forceIncludedProtocols),
       objcCategories: randomFilter('objcCategories'),
       externalVersions: ExternalVersions(
         ios: Versions(min: Version(12, 0, 0)),
