@@ -173,7 +173,10 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
       errors.add('Error: Snippet file not found: $snippetUri.');
       continue;
     }
-    final snippetContent = snippetFile.readAsStringSync();
+    final snippetContent = snippetFile.readAsStringSync().replaceAll(
+      '\r\n',
+      '\n',
+    );
 
     var newSnippetText = snippetContent;
     final anchorRegex = RegExp(
