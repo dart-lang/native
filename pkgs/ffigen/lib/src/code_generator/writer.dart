@@ -320,20 +320,22 @@ class Writer {
 
     // Warn about Enum usage in API surface.
     if (!silenceEnumWarning) {
-      final notEnums = _allBindings.whereType<Type>().where(
-        (b) => b.typealiasType is! EnumClass,
+      final notEnums = _allBindings.where(
+        (b) => b is! Type || (b as Type).typealiasType is! EnumClass,
       );
       final usedEnums = visit(context, _FindEnumsVisitation(), notEnums).enums;
-      final names = usedEnums.map((e) => e.originalName).toList()..sort();
-      context.logger.severe(
-        'The integer type used for enums is '
-        'implementation-defined. FFIgen tries to mimic the integer sizes '
-        'chosen by the most common compilers for the various OS and '
-        'architecture combinations. To prevent any crashes, remove the '
-        'enums from your API surface. To rely on the (unsafe!) mimicking, '
-        'you can silence this warning by adding silence-enum-warning: true '
-        'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
-      );
+      if (usedEnums.isNotEmpty) {
+        final names = usedEnums.map((e) => e.originalName).toList()..sort();
+        context.logger.severe(
+          'The integer type used for enums is '
+          'implementation-defined. FFIgen tries to mimic the integer sizes '
+          'chosen by the most common compilers for the various OS and '
+          'architecture combinations. To prevent any crashes, remove the '
+          'enums from your API surface. To rely on the (unsafe!) mimicking, '
+          'you can silence this warning by adding silence-enum-warning: true '
+          'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
+        );
+      }
     }
 
     _canGenerateSymbolOutput = true;
