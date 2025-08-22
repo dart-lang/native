@@ -268,7 +268,7 @@ class ExampleTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
-    final examplesWithTest = [
+    const examplesWithTest = [
       'pkgs/code_assets/example/build/host_name/',
       'pkgs/code_assets/example/build/sqlite_prebuilt/',
       'pkgs/hooks/example/build/download_asset/',
