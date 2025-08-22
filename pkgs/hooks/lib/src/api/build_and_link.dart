@@ -20,9 +20,10 @@ import '../validation.dart';
 ///
 /// Example using `package:native_toolchain_c`:
 ///
+/// <!-- file://./../../../example/api/build_snippet_1.dart -->
 /// ```dart
-/// import 'package:logging/logging.dart';
 /// import 'package:hooks/hooks.dart';
+/// import 'package:logging/logging.dart';
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 ///
 /// void main(List<String> args) async {
@@ -31,9 +32,7 @@ import '../validation.dart';
 ///     final cbuilder = CBuilder.library(
 ///       name: packageName,
 ///       assetName: '$packageName.dart',
-///       sources: [
-///         'src/$packageName.c',
-///       ],
+///       sources: ['src/$packageName.c'],
 ///     );
 ///     await cbuilder.run(
 ///       input: input,
@@ -48,6 +47,7 @@ import '../validation.dart';
 ///
 /// Example outputting assets manually:
 ///
+/// <!-- file://./../../../example/api/build_snippet_2.dart -->
 /// ```dart
 /// import 'dart:io';
 ///
@@ -59,12 +59,9 @@ import '../validation.dart';
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (input, output) async {
-///     if (input.config.code.linkModePreference ==
-///             LinkModePreference.static) {
+///     if (input.config.code.linkModePreference == LinkModePreference.static) {
 ///       // Simulate that this hook only supports dynamic libraries.
-///       throw UnsupportedError(
-///         'LinkModePreference.static is not supported.',
-///       );
+///       throw UnsupportedError('LinkModePreference.static is not supported.');
 ///     }
 ///
 ///     final packageName = input.packageName;
@@ -73,9 +70,7 @@ import '../validation.dart';
 ///     // Insert code that downloads or builds the asset to `assetPath`.
 ///     await File.fromUri(assetSourcePath).copy(assetPath.toFilePath());
 ///
-///     output.addDependencies([
-///       assetSourcePath,
-///     ]);
+///     output.dependencies.add(assetSourcePath);
 ///
 ///     output.assets.code.add(
 ///       // TODO: Change to DataAsset once the Dart/Flutter SDK can consume it.
@@ -146,14 +141,17 @@ Future<void> build(
 /// final application if included in the [LinkOutput].
 ///
 ///
+/// <!-- file://./../../../example/api/link_snippet.dart -->
 /// ```dart
+/// import 'package:data_assets/data_assets.dart';
 /// import 'package:hooks/hooks.dart';
 ///
 /// void main(List<String> args) async {
 ///   await link(args, (input, output) async {
-///     final dataEncodedAssets = input.assets
-///         .whereType<DataAsset>();
-///     output.addEncodedAssets(dataEncodedAssets);
+///     final dataEncodedAssets = input.assets.encodedAssets.where(
+///       (e) => e.isDataAsset,
+///     );
+///     output.assets.addEncodedAssets(dataEncodedAssets);
 ///   });
 /// }
 /// ```

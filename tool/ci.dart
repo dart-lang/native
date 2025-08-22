@@ -212,6 +212,7 @@ class GenerateTask extends Task {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
+      'pkgs/hooks/tool/update_snippets.dart',
       'pkgs/pub_formats/tool/generate.dart',
     ];
     for (final generator in generators) {
@@ -268,17 +269,16 @@ class ExampleTask extends Task {
     required ArgResults argResults,
   }) async {
     const examplesWithTest = [
-      'native_dynamic_linking',
-      'native_add_app',
-      'use_dart_api',
-      'download_asset',
-      'system_library',
+      'pkgs/code_assets/example/build/host_name/',
+      'pkgs/hooks/example/build/download_asset/',
+      'pkgs/hooks/example/build/native_add_app/',
+      'pkgs/hooks/example/build/native_dynamic_linking/',
+      'pkgs/hooks/example/build/system_library/',
+      'pkgs/hooks/example/build/use_dart_api/',
     ];
     for (final exampleWithTest in examplesWithTest) {
       await _runProcess(
-        workingDirectory: repositoryRoot.resolve(
-          'pkgs/hooks/example/build/$exampleWithTest/',
-        ),
+        workingDirectory: repositoryRoot.resolve(exampleWithTest),
         'dart',
         ['test'],
       );

@@ -12,6 +12,7 @@
 ///
 /// Data assets can be added in a build hook as follows:
 ///
+/// <!-- file://./../example/api/data_assets_snippet.dart -->
 /// ```dart
 /// import 'package:data_assets/data_assets.dart';
 /// import 'package:hooks/hooks.dart';
@@ -22,11 +23,7 @@
 ///     final assetPath = input.outputDirectory.resolve('...');
 ///
 ///     output.assets.data.add(
-///       DataAsset(
-///         package: packageName,
-///         name: '...',
-///         file: assetPath,
-///       ),
+///       DataAsset(package: packageName, name: '...', file: assetPath),
 ///     );
 ///   });
 /// }
