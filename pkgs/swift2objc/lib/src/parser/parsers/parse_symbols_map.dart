@@ -15,7 +15,9 @@ ParsedSymbolsMap parseSymbolsMap(Json symbolgraphJson) {
 
   for (final symbolJson in symbolgraphJson['symbols']) {
     final symbolId = parseSymbolId(symbolJson);
-    parsedSymbols[symbolId] = ParsedSymbol(json: symbolJson);
+    if (!parsedSymbols.containsKey(symbolId)) {
+      parsedSymbols[symbolId] = ParsedSymbol(json: symbolJson);
+    }
   }
 
   return parsedSymbols;

@@ -69,11 +69,11 @@ jobs:
 
       - name: Run pub get, analysis, formatting, generators, and tests.
         # Don't run examples on stable, the experiment is not available on stable.
-        run: dart tool/ci.dart --pub --coverage --no-example
+        run: dart tool/ci.dart --all --no-example
         if: ${{ matrix.sdk == 'stable' }}
 
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
-        run: dart tool/ci.dart --pub --coverage
+        run: dart tool/ci.dart --all
         if: ${{ matrix.sdk != 'stable' }}
 
       - name: Upload coverage

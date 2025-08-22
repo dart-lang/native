@@ -19,6 +19,7 @@ import 'syntax.g.dart';
 /// Native code assets can be accessed at runtime through native external
 /// functions via their asset [id]:
 ///
+/// <!-- file://./../../../example/api/code_asset_snippet.dart -->
 /// ```dart
 /// import 'dart:ffi';
 ///

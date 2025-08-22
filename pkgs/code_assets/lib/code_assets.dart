@@ -12,6 +12,7 @@
 ///
 /// Code assets can be added in a build hook as follows:
 ///
+/// <!-- file://./../example/api/code_assets_snippet.dart -->
 /// ```dart
 /// import 'package:code_assets/code_assets.dart';
 /// import 'package:hooks/hooks.dart';
