@@ -69,7 +69,9 @@ void main([List<String>? args]) {
 
         await generateWrapper(
           Config(
-            inputs: [FilesInputConfig(files: [Uri.file(inputFile)])],
+            inputs: [
+              FilesInputConfig(files: [Uri.file(inputFile)])
+            ],
             outputFile: Uri.file(actualOutputFile),
             tempDir: Directory(tempDir).uri,
             preamble: '// Test preamble text',
