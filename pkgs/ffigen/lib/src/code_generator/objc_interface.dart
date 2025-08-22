@@ -177,7 +177,7 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   String getDartType(Writer w) =>
-      isObjCImport ? '${w.objcPkgPrefix}.$name' : name;
+      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';

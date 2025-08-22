@@ -188,9 +188,10 @@ class Writer {
     // avoids duplicating the asset on every element.
     // Since the annotation goes on a `library;` directive, it needs to appear
     // before other definitions in the file.
+    final ffiPrefix = context.libs.prefix(ffiImport);
     if (ffiNativeBindings.isNotEmpty && nativeAssetId != null) {
       result
-        ..writeln("@$ffiLibraryPrefix.DefaultAsset('$nativeAssetId')")
+        ..writeln("@$ffiPrefix.DefaultAsset('$nativeAssetId')")
         ..writeln('library;\n');
     }
 
@@ -203,8 +204,8 @@ class Writer {
       // Write dylib.
       s.write('/// Holds the symbol lookup function.\n');
       s.write(
-        'final $ffiLibraryPrefix.Pointer<T> Function<T extends '
-        '$ffiLibraryPrefix.NativeType>(String symbolName) '
+        'final $ffiPrefix.Pointer<T> Function<T extends '
+        '$ffiPrefix.NativeType>(String symbolName) '
         '$lookupFuncIdentifier;\n',
       );
       s.write('\n');
@@ -212,15 +213,15 @@ class Writer {
       s.write(makeDartDoc('The symbols are looked up in [dynamicLibrary].'));
       // Write wrapper class constructor.
       s.write(
-        '$_className($ffiLibraryPrefix.DynamicLibrary dynamicLibrary): '
+        '$_className($ffiPrefix.DynamicLibrary dynamicLibrary): '
         '$lookupFuncIdentifier = dynamicLibrary.lookup;\n\n',
       );
       //Write doc comment for wrapper class named constructor.
       s.write(makeDartDoc('The symbols are looked up with [lookup].'));
       // Write wrapper class named constructor.
       s.write(
-        '$_className.fromLookup($ffiLibraryPrefix.Pointer<T> '
-        'Function<T extends $ffiLibraryPrefix.NativeType>('
+        '$_className.fromLookup($ffiPrefix.Pointer<T> '
+        'Function<T extends $ffiPrefix.NativeType>('
         'String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n',
       );
       for (final b in lookUpBindings) {
@@ -253,9 +254,9 @@ class Writer {
     }
 
     // Write neccesary imports.
-    for (final lib in _usedImports) {
+    for (final lib in context.libs.used) {
       final path = lib.importPath(generateForPackageObjectiveC);
-      result.write("import '$path' as ${lib.prefix};\n");
+      result.write("import '$path' as ${context.libs.prefix(lib)};\n");
     }
     result.write(s);
 
@@ -499,8 +500,8 @@ class SymbolAddressWriter {
         // up their address.
         // The name of address getter shadows the actual element in the library,
         // so we need to use a self-import.
-        final arg = '${w.selfImportPrefix}.${address.name}';
-        sb.writeln('${w.ffiLibraryPrefix}.Native.addressOf($arg);');
+        final arg = '${context.libs.prefix(selfImport)}.${address.name}';
+        sb.writeln('${context.libs.prefix(ffiImport)}.Native.addressOf($arg);');
       } else {
         // For other elements, the generator will write a private field of type
         // Pointer which we can reference here.

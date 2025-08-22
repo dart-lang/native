@@ -67,7 +67,7 @@ class NativeType extends Type {
   factory NativeType(SupportedNativeType type) => _primitives[type]!;
 
   @override
-  String getCType(Writer w) => '${w.ffiLibraryPrefix}.$_cType';
+  String getCType(Writer w) => '${w.context.libs.prefix(ffiImport)}.$_cType';
 
   @override
   String getFfiDartType(Writer w) => _dartType;

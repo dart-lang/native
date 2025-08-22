@@ -120,7 +120,7 @@ Compound? parseCompoundDeclaration(
         cursor,
         availability: apiAvailability.dartDoc,
       ),
-      objCBuiltInFunctions: context.objCBuiltInFunctions,
+      context: context,
       nativeType: cursor.type().spelling(),
     );
   } else {
@@ -138,7 +138,7 @@ Compound? parseCompoundDeclaration(
         cursor,
         availability: apiAvailability.dartDoc,
       ),
-      objCBuiltInFunctions: context.objCBuiltInFunctions,
+      context: context,
       nativeType: cursor.type().spelling(),
     );
   }

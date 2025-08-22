@@ -253,7 +253,7 @@ class ObjCImport {
 
   const ObjCImport(this.name);
 
-  String gen(Writer w) => '${w.objcPkgPrefix}.$name';
+  String gen(Writer w) => '${w.context.libs.prefix(objcPkgImport)}.$name';
 }
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.

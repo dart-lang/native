@@ -101,7 +101,7 @@ abstract class Compound extends BindingType {
 
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
-      return '${w.ffiLibraryPrefix}.Array<'
+      return '${context.libs.prefix(ffiImport)}.Array<'
           '${_getInlineArrayTypeString(type.child, w)}>';
     }
     return type.getCType(w);
@@ -109,7 +109,7 @@ abstract class Compound extends BindingType {
 
   @override
   bool get isObjCImport =>
-      context.objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
+      context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
 
   @override
   BindingString toBindingString(Writer w) {
@@ -132,13 +132,14 @@ abstract class Compound extends BindingType {
     }
 
     /// Write @Packed(X) annotation if struct is packed.
+    final ffiPrefix = context.libs.prefix(ffiImport);
     if (isStruct && pack != null) {
-      s.write('@${w.ffiLibraryPrefix}.Packed($pack)\n');
+      s.write('@$ffiPrefix.Packed($pack)\n');
     }
     final dartClassName = isStruct ? 'Struct' : 'Union';
     // Write class declaration.
     s.write('final class $enclosingClassName extends ');
-    s.write('${w.ffiLibraryPrefix}.${isOpaque ? 'Opaque' : dartClassName}{\n');
+    s.write('$ffiPrefix.${isOpaque ? 'Opaque' : dartClassName}{\n');
     const depth = '  ';
     for (final m in members) {
       m.name = localUniqueNamer.makeUnique(m.name);
@@ -181,10 +182,12 @@ abstract class Compound extends BindingType {
 
   @override
   String getCType(Writer w) {
-    final builtInName = objCBuiltInFunctions?.getBuiltInCompoundName(
+    final builtInName = context.objCBuiltInFunctions.getBuiltInCompoundName(
       originalName,
     );
-    return builtInName != null ? '${w.objcPkgPrefix}.$builtInName' : name;
+    return builtInName != null
+        ? '${context.libs.prefix(objcPkgImport)}.$builtInName'
+        : name;
   }
 
   @override

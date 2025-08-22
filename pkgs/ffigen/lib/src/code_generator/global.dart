@@ -8,6 +8,7 @@ import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
+import 'imports.dart';
 import 'pointer.dart';
 import 'type.dart';
 import 'utils.dart';
@@ -53,6 +54,8 @@ class Global extends LookUpBinding {
     final cType = (type is ConstantArray && !nativeConfig.enabled)
         ? (type as ConstantArray).child.getCType(w)
         : type.getCType(w);
+
+    final ptrType = '${w.context.libs.prefix(ffiImport)}.Pointer<$cType>';
 
     void generateConvertingGetterAndSetter(String pointerValue) {
       final getValue = type.convertFfiDartTypeToDartType(
@@ -111,10 +114,7 @@ class Global extends LookUpBinding {
       }
 
       if (exposeSymbolAddress) {
-        w.symbolAddressWriter.addNativeSymbol(
-          type: '${w.ffiLibraryPrefix}.Pointer<$cType>',
-          name: name,
-        );
+        w.symbolAddressWriter.addNativeSymbol(type: ptrType, name: name);
       }
     } else {
       final pointerName = w.wrapperLevelUniqueNamer.makeUnique(
@@ -122,14 +122,14 @@ class Global extends LookUpBinding {
       );
 
       s.write(
-        'late final ${w.ffiLibraryPrefix}.Pointer<$cType> $pointerName = '
+        'late final $ptrType $pointerName = '
         "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n",
       );
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
           s.write(
-            '${w.ffiLibraryPrefix}.Pointer<$cType> get $globalVarName =>'
+            '$ptrType get $globalVarName =>'
             ' $pointerName;\n\n',
           );
         } else {
@@ -152,7 +152,7 @@ class Global extends LookUpBinding {
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
         w.symbolAddressWriter.addSymbol(
-          type: '${w.ffiLibraryPrefix}.Pointer<$cType>',
+          type: ptrType,
           name: name,
           ptrName: pointerName,
         );

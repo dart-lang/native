@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'type.dart';
@@ -58,16 +57,12 @@ class ImportedType extends Type {
   });
 
   @override
-  String getCType(Writer w) {
-    w.markImportUsed(libraryImport);
-    return '${libraryImport.prefix}.$cType';
-  }
+  String getCType(Writer w) => '${w.context.libs.prefix(libraryImport)}.$cType';
 
   @override
   String getFfiDartType(Writer w) {
     if (importedDartType) {
-      w.markImportUsed(libraryImport);
-      return '${libraryImport.prefix}.$dartType';
+      return '${w.context.libs.prefix(libraryImport)}.$dartType';
     } else {
       return cType == dartType ? getCType(w) : dartType;
     }
@@ -122,7 +117,7 @@ const objcPkgImport = LibraryImport(
   importPathWhenImportedByPackageObjC: '../objective_c.dart',
 );
 const selfImport = LibraryImport('self', '');
-const builtInLibraries = {
+final builtInLibraries = {
   for (final l in [ffiImport, ffiPkgImport, objcPkgImport, selfImport])
     l.name: l,
 };
