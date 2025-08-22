@@ -270,6 +270,7 @@ class ExampleTask extends Task {
   }) async {
     const examplesWithTest = [
       'pkgs/code_assets/example/build/host_name/',
+      'pkgs/code_assets/example/build/sqlite_prebuilt/',
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',
