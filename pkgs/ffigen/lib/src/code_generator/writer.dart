@@ -254,7 +254,7 @@ class Writer {
     }
 
     // Write neccesary imports.
-    for (final lib in context.libs.used) {
+    for (final lib in context.libs.used.toList()..sortBy((l) => l.name)) {
       final path = lib.importPath(generateForPackageObjectiveC);
       result.write("import '$path' as ${context.libs.prefix(lib)};\n");
     }
