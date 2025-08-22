@@ -22,15 +22,19 @@ void main(List<String> args) async {
         );
       }
 
+      final file = await _downloadOrFindLibsqlite3(input.outputDirectoryShared);
       output.assets.code.add(
         // Asset ID: "package:sqlite_prebuilt/src/third_party/sqlite3.g.dart"
         CodeAsset(
           package: 'sqlite_prebuilt',
           name: 'src/third_party/sqlite3.g.dart',
           linkMode: DynamicLoadingBundled(),
-          file: await _downloadOrFindLibsqlite3(input.outputDirectoryShared),
+          file: file,
         ),
       );
+      if (Platform.isLinux || Platform.isMacOS) {
+        output.dependencies.add(file);
+      }
     }
   });
 }
@@ -46,7 +50,12 @@ const _windowsDownloadInfo = {
   ),
 };
 
-Future<Uri?> _downloadOrFindLibsqlite3(Uri outputDirectory) async {
+const _linuxPaths = {
+  Architecture.arm64: <String>[],
+  Architecture.x64: ['/usr/lib/x86_64-linux-gnu/libsqlite3.so'],
+};
+
+Future<Uri> _downloadOrFindLibsqlite3(Uri outputDirectory) async {
   switch (OS.current) {
     case OS.windows:
       final extractDir = Directory.fromUri(
@@ -101,6 +110,16 @@ Future<Uri?> _downloadOrFindLibsqlite3(Uri outputDirectory) async {
         throw Exception('Did not find sqlite3.dll in $extractDir');
       }
       return dll.uri;
+
+    case OS.linux:
+      // Most Linux distros come with a pre-installed libsqlite3.so.
+      final knownPaths = _linuxPaths[Architecture.current]!;
+      for (final knownPath in knownPaths) {
+        final file = File(knownPath);
+        if (file.existsSync()) {
+          return File(file.resolveSymbolicLinksSync()).uri;
+        }
+      }
 
     case OS.macOS:
       // No prebuilt binaries are downloadable on the SQLite website. Let's use
