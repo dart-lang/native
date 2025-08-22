@@ -270,7 +270,8 @@ class ExampleTask extends Task {
   }) async {
     final examplesWithTest = [
       'pkgs/code_assets/example/build/host_name/',
-      if (Platform.isMacOS) 'pkgs/code_assets/example/build/sqlite_prebuilt/',
+      if (Platform.isMacOS || Platform.isWindows)
+        'pkgs/code_assets/example/build/sqlite_prebuilt/',
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',
