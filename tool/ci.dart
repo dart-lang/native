@@ -212,6 +212,7 @@ class GenerateTask extends Task {
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
       'pkgs/hooks/tool/normalize.dart',
+      'pkgs/hooks/tool/update_snippets.dart',
       'pkgs/pub_formats/tool/generate.dart',
     ];
     for (final generator in generators) {
