@@ -21,12 +21,19 @@ import 'os.dart';
 ///
 /// This is intended to be used from tests, e.g.:
 ///
-/// ```
-/// test('test my build hook', () async {
-///   await testCodeBuildHook(
-///     ...
-///   );
-/// });
+/// <!-- file://./../../../example/api/test_snippet.dart -->
+/// ```dart
+/// import 'package:code_assets/code_assets.dart';
+/// import 'package:test/test.dart';
+///
+/// void main() {
+///   test('test my build hook', () async {
+///     await testCodeBuildHook(
+///       mainMethod: (args) {},
+///       check: (input, output) {},
+///     );
+///   });
+/// }
 /// ```
 ///
 /// The hook is run in isolation. No user-defines are read from the pubspec,
