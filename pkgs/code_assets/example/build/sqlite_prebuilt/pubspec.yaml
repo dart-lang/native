@@ -1,0 +1,21 @@
+name: sqlite_prebuilt
+description: An example for `package:code_assets` demonstrating how to bundle a pre-built sqlite3 dynamic library from the host system.
+version: 0.1.0
+repository: https://github.com/dart-lang/native/tree/main/pkgs/code_assets/example/build/sqlite_prebuilt
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  code_assets: any
+  ffi: ^2.1.4
+  hooks: any
+
+dev_dependencies:
+  ffigen: ^19.1.0
+  lints: ^6.0.0
+  test: ^1.25.15
