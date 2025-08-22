@@ -27,7 +27,7 @@ void main(List<String> args) {
     final files = Directory.fromUri(packageRoot)
         .listSync(recursive: true)
         .whereType<File>()
-        .where((e) => e.path.endsWith('.dart'));
+        .where((e) => e.path.endsWith('.dart') || e.path.endsWith('.md'));
 
     for (final file in files) {
       updateSnippetsInFile(file, counts, errors);
@@ -58,10 +58,10 @@ void updateSnippetsInFile(File file, Counts counts, List<String> errors) {
   final oldContent = file.readAsStringSync();
   var newContent = oldContent;
 
-  newContent = updateSnippets(oldContent, file.uri, errors);
+  final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
+  newContent = updateSnippets(oldContentNormalized, file.uri, errors);
 
   final newContentNormalized = newContent.replaceAll('\r\n', '\n');
-  final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
   if (newContentNormalized != oldContentNormalized) {
     file.writeAsStringSync(newContent);
     print('Updated snippets in ${file.uri} (content changed)');
@@ -76,67 +76,131 @@ class Counts {
 }
 
 String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
-  final codeBlockRegex = RegExp(
-    r'((?:\s*/// <!-- (?:file://(\S+)|(no-source-file)) -->\n)?)(\s*)/// ```(\w+)\n([\s\S]*?)(?=\n\s*/// ```)\n\s*/// ```',
+  var newContent = oldContent;
+
+  final markers = RegExp(
+    r'^([ \t]*/*[ ]?)```(\w*)',
     multiLine: true,
-  );
+  ).allMatches(oldContent);
 
-  return oldContent.replaceAllMapped(codeBlockRegex, (match) {
-    final fileLine = match.group(1);
-    final filePath = match.group(2);
-    final noSourceFile = match.group(3) != null;
-    final indent = match.group(4) ?? '';
-    final language = match.group(5);
+  if (markers.length % 2 != 0) {
+    final lastMarker = markers.last;
+    final line = oldContent.substring(0, lastMarker.start).split('\n').length;
+    errors.add('Error: Unmatched ``` in $fileUri at line $line.');
+  }
 
-    if (language == null) {
-      errors.add('Error: Code block without language in $fileUri.');
-      return match.group(0)!;
+  for (var i = markers.length - 2; i >= 0; i -= 2) {
+    final startMatch = markers.elementAt(i);
+    final endMatch = markers.elementAt(i + 1);
+
+    final prefix = startMatch.group(1)!;
+    final prefixWithoutSpace = prefix.endsWith(' ')
+        ? prefix.substring(0, prefix.length - 1)
+        : prefix;
+    final endPrefix = endMatch.group(1)!;
+
+    if (prefix != endPrefix) {
+      final line = oldContent.substring(0, startMatch.start).split('\n').length;
+      errors.add(
+        'Error: Mismatched prefixes for code block in $fileUri at line $line. '
+        'Start prefix: "$prefix", end prefix: "$endPrefix"',
+      );
+      continue;
     }
 
-    if (language == 'dart') {
-      if (noSourceFile) {
-        return match.group(0)!;
-      }
+    final contentStart = startMatch.end + 1;
+    final contentEnd = endMatch.start;
+    final content = oldContent.substring(contentStart, contentEnd);
+    final contentLines = content.split('\n');
 
-      if (filePath == null) {
-        errors.add('Error: Dart code without a source file in $fileUri.');
-        return match.group(0)!;
+    var prefixesConsistent = true;
+    for (var j = 0; j < contentLines.length; j++) {
+      final line = contentLines[j];
+      if (line.trim().isEmpty) continue;
+      // Allow for empty lines at the end of the content.
+      if (j == contentLines.length - 1 && line.isEmpty) continue;
+      if (!line.startsWith(prefixWithoutSpace)) {
+        final lineNumber =
+            oldContent.substring(0, startMatch.end).split('\n').length + j;
+        errors.add(
+          'Error: Inconsistent prefix in code block in $fileUri on line '
+          '$lineNumber. Expected prefix "$prefixWithoutSpace".',
+        );
+        prefixesConsistent = false;
+        break;
       }
+    }
+    if (!prefixesConsistent) continue;
 
-      final snippetUri = fileUri.resolve(filePath);
-      final snippetFile = File.fromUri(snippetUri);
-      if (!snippetFile.existsSync()) {
-        errors.add('Error: Snippet file not found: $snippetUri.');
-        return match.group(0)!;
-      }
-      final snippetContent = snippetFile.readAsStringSync();
+    final language = startMatch.group(2)!;
+    if (language != 'dart') continue;
 
-      var newContent = snippetContent;
-      final anchorRegex = RegExp(
-        r'// snippet-start\n([\s\S]*?)// snippet-end',
-        multiLine: true,
+    final blockStartIndex = startMatch.start;
+    final lastLineOfContentBefore =
+        oldContent.substring(0, blockStartIndex).split('\n').length - 2;
+    final lineBeforeText = oldContent.split('\n')[lastLineOfContentBefore];
+
+    final fileLineMatch = RegExp(
+      r'^(.*?)<!-- (?:file://./(\S+)|(no-source-file)) -->\s*$',
+    ).firstMatch(lineBeforeText);
+
+    if (fileLineMatch == null) {
+      final line = lastLineOfContentBefore + 1;
+      errors.add(
+        'Error: Did not find <!-- file://./... --> comment in $fileUri at line $line. ',
       );
-      final extractedMatch = anchorRegex.firstMatch(snippetContent);
-      if (extractedMatch != null) {
-        newContent = extractedMatch.group(1)!;
-      }
-
-      newContent = newContent.trim();
-
-      final newBlock = StringBuffer();
-      newBlock.write(fileLine ?? '');
-      newBlock.write('$indent/// ```$language\n');
-      newBlock.write(
-        newContent
-            .split('\n')
-            .map((line) => line.isEmpty ? '$indent///' : '$indent/// $line')
-            .join('\n'),
-      );
-      newBlock.write('\n$indent/// ```');
-
-      return newBlock.toString();
+      continue;
     }
 
-    return match.group(0)!;
-  });
+    final fileLinePrefix = fileLineMatch.group(1)!;
+    if (fileLinePrefix.trim() != prefix.trim()) {
+      final line = oldContent.substring(0, blockStartIndex).split('\n').length;
+      errors.add(
+        'Error: Mismatched prefix for file metadata comment at $fileUri:$line. '
+        'Expected "$prefix", found "$fileLinePrefix"',
+      );
+      continue;
+    }
+
+    final filePath = fileLineMatch.group(2);
+    final noSourceFile = fileLineMatch.group(3) != null;
+
+    if (noSourceFile || filePath == null) continue;
+
+    final snippetUri = fileUri.resolve(filePath);
+    final snippetFile = File.fromUri(snippetUri);
+    if (!snippetFile.existsSync()) {
+      errors.add('Error: Snippet file not found: $snippetUri.');
+      continue;
+    }
+    final snippetContent = snippetFile.readAsStringSync().replaceAll(
+      '\r\n',
+      '\n',
+    );
+
+    var newSnippetText = snippetContent;
+    final anchorRegex = RegExp(
+      r'// snippet-start\n([\s\S]*?)// snippet-end',
+      multiLine: true,
+    );
+    final extractedMatch = anchorRegex.firstMatch(snippetContent);
+    if (extractedMatch != null) {
+      newSnippetText = extractedMatch.group(1)!;
+    }
+    newSnippetText = newSnippetText.trim();
+
+    final newContentForBlock = newSnippetText
+        .split('\n')
+        .map((l) => l.isEmpty ? prefixWithoutSpace : '$prefix$l')
+        .join('\n');
+
+    final trailingNewline = content.endsWith('\n') ? '\n' : '';
+    newContent = newContent.replaceRange(
+      contentStart,
+      contentEnd,
+      '$newContentForBlock$trailingNewline',
+    );
+  }
+
+  return newContent;
 }
