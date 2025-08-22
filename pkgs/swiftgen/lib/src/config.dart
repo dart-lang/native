@@ -11,6 +11,7 @@ import 'util.dart';
 class SwiftGen {
   final Target target;
   final SwiftGenInput input;
+  final bool Function(swift2objc.Declaration declaration)? include;
 
   // TODO: Move these two to SwiftGenInput, and maybe rename that class.
   final String? objcSwiftPreamble;
@@ -23,6 +24,7 @@ class SwiftGen {
   SwiftGen({
     required this.target,
     required this.input,
+    this.include,
     this.objcSwiftPreamble,
     required this.objcSwiftFile,
     Uri? tempDirectory,

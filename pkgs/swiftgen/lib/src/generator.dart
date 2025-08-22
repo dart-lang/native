@@ -32,6 +32,7 @@ extension SwiftGenGenerator on SwiftGen {
   ) => swift2objc.generateWrapper(
     swift2objc.Config(
       input: swift2objcConfig,
+      include: include ?? (d) => true,
       outputFile: objcSwiftFile,
       tempDir: tempDir,
       preamble: objcSwiftPreamble,
