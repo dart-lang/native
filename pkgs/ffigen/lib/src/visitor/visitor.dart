@@ -84,6 +84,7 @@ abstract class Visitation {
   void visitPointerType(PointerType node) => visitType(node);
   void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>
       visitAstNode(node);
+  void visitImportedType(ImportedType node) => visitType(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node..visitChildren(visitor);

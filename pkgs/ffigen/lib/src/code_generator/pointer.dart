@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'writer.dart';
@@ -26,8 +27,8 @@ class PointerType extends Type {
   Type get baseType => child.baseType;
 
   @override
-  String getCType(Writer w) =>
-      '${w.ffiLibraryPrefix}.Pointer<${child.getCType(w)}>';
+  String getCType(Context context) =>
+      '${w.ffiLibraryPrefix}.Pointer<${child.getCType(context)}>';
 
   @override
   String getNativeType({String varName = ''}) =>
@@ -87,12 +88,12 @@ class ConstantArray extends PointerType {
   String cacheKey() => '${child.cacheKey()}[$length]';
 
   @override
-  String getCType(Writer w) {
+  String getCType(Context context) {
     if (useArrayType) {
-      return '${w.ffiLibraryPrefix}.Array<${child.getCType(w)}>';
+      return '${w.ffiLibraryPrefix}.Array<${child.getCType(context)}>';
     }
 
-    return super.getCType(w);
+    return super.getCType(context);
   }
 }
 
@@ -123,7 +124,8 @@ class ObjCObjectPointer extends PointerType {
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override
-  String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCObjectBase';
+  String getDartType(Context context) =>
+      '${context.libs.objcPkgPrefix}.ObjCObjectBase';
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
@@ -136,7 +138,7 @@ class ObjCObjectPointer extends PointerType {
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -144,11 +146,11 @@ class ObjCObjectPointer extends PointerType {
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => '${getDartType(w)}($value, retain: $objCRetain, release: true)';
+  }) => '${getDartType(context)}($value, retain: $objCRetain, release: true)';
 
   @override
   String? generateRetain(String value) =>
@@ -172,7 +174,8 @@ class ObjCBlockPointer extends ObjCObjectPointer {
   ObjCBlockPointer._() : super.__(objCBlockType);
 
   @override
-  String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCBlockBase';
+  String getDartType(Context context) =>
+      '${context.libs.objcPkgPrefix}.ObjCBlockBase';
 
   @override
   String? generateRetain(String value) => 'objc_retainBlock($value)';
@@ -193,7 +196,7 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
       super._();
 
   @override
-  String getDartType(Writer w) => protocols.first.getDartType(w);
+  String getDartType(Context context) => protocols.first.getDartType(context);
 
   @override
   bool isSupertypeOf(Type other) {
@@ -217,12 +220,12 @@ class ObjCObjectPointerWithProtocols extends ObjCObjectPointer {
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) => protocols.first.convertFfiDartTypeToDartType(
-    w,
+    context,
     value,
     objCRetain: objCRetain,
     objCEnclosingClass: objCEnclosingClass,

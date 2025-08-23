@@ -6,7 +6,8 @@ import 'dart:ffi';
 
 import 'package:logging/logging.dart';
 
-import 'code_generator.dart' show Constant, ObjCBuiltInFunctions;
+import 'code_generator.dart';
+import 'code_generator/unique_namer.dart';
 import 'config_provider.dart' show FfiGen;
 import 'header_parser/clang_bindings/clang_bindings.dart' show Clang;
 import 'header_parser/utils.dart';
@@ -19,19 +20,21 @@ class Context {
 
   final CursorIndex cursorIndex;
 
-  final BindingsIndex bindingsIndex = BindingsIndex();
+  final bindingsIndex = BindingsIndex();
 
-  final IncrementalNamer incrementalNamer = IncrementalNamer();
+  final incrementalNamer = IncrementalNamer();
 
-  final Map<String, Macro> savedMacros = {};
+  final savedMacros = <String, Macro>{};
 
-  final List<Constant> unnamedEnumConstants = [];
+  final unnamedEnumConstants = <Constant>[];
 
   final ObjCBuiltInFunctions objCBuiltInFunctions;
 
   bool hasSourceErrors = false;
 
-  Set<((String, int), (String, int))> reportedCommentRanges = {};
+  final reportedCommentRanges = <((String, int), (String, int))>{};
+
+  final libs = LibraryImports();
 
   Context(this.logger, this.config)
     : cursorIndex = CursorIndex(logger),
@@ -55,3 +58,42 @@ class Context {
 // is created, and reuse it for all subsequent runs.
 Clang get clang => _clang!;
 Clang? _clang;
+
+class LibraryImports {
+  String get ffiLibraryPrefix => prefix(ffiImport);
+  String get ffiPkgLibraryPrefix => prefix(ffiPkgImport);
+  String get objcPkgPrefix => prefix(objcPkgImport);
+  String get selfImportPrefix => prefix(selfImport);
+
+  final _canonicalImports = <String, LibraryImport>{};
+  LibraryImport canonicalize(LibraryImport lib) =>
+      builtInLibraries[lib.name] ?? (_canonicalImports[lib.name] ??= lib);
+
+  final _used = <LibraryImport>{builtInLibraries.values...};
+  void markUsed(LibraryImport lib) => _used.add(lib);
+  Iterable<LibraryImport> get used => _used;
+
+  bool _prefixesFilled = false;
+  final _prefixes = <LibraryImport, String>{};
+  void fillPrefixes() {
+    final namer = UniqueNamer();
+
+    for (final lib in _used) {
+      _prefixes[lib] = namer.makeUnique(lib.name);
+    }
+
+    _prefixesFilled = true;
+  }
+
+  String prefix(LibraryImport lib) {
+    assert(lib == canonicalize(lib));
+    if (!_prefixesFilled) {
+      // Before the prefixes have been filled, return a placeholder suitable for
+      // debugging or hashing, but intentionally invalid as generated code.
+      return '<${lib.name}>';
+    }
+    // If this null assert fails, it means that a library was used during code
+    // generation that wasn't visited by MarkImportsVisitation, which is a bug.
+    return _prefixes[lib]!;
+  }
+}

@@ -82,7 +82,7 @@ class Library {
       className: name,
       classDocComment: description,
       header: header,
-      additionalImports: libraryImports,
+      additionalImports: libraryImports.map(context.libs.canonicalize),
       generateForPackageObjectiveC: generateForPackageObjectiveC,
       silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,

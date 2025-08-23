@@ -371,11 +371,11 @@ class ObjCMethod extends AstNode {
     if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
       return '$instanceType?';
     }
-    return returnType.getDartType(w);
+    return returnType.getDartType(context);
   }
 
   static String _paramToStr(Writer w, Parameter p) =>
-      '${p.type.getDartType(w)} ${p.name}';
+      '${p.type.getDartType(context)} ${p.name}';
 
   static String _paramToNamed(Writer w, Parameter p) =>
       '${p.isNullable ? '' : 'required '}${_paramToStr(w, p)}';
@@ -403,7 +403,7 @@ class ObjCMethod extends AstNode {
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 
-    final targetType = target.getDartType(w);
+    final targetType = target.getDartType(context);
     final returnTypeStr = _getConvertedReturnType(w, targetType);
     final paramStr = _joinParamStr(w, params);
 
@@ -425,7 +425,7 @@ class ObjCMethod extends AstNode {
       }
     } else {
       targetStr = target.convertDartTypeToFfiDartType(
-        w,
+        context,
         'this',
         objCRetain: consumesSelf,
         objCAutorelease: false,
@@ -446,7 +446,7 @@ class ObjCMethod extends AstNode {
 
     // Implementation.
     final versionCheck = apiAvailability.runtimeCheck(
-      ObjCBuiltInFunctions.checkOsVersion.gen(w),
+      ObjCBuiltInFunctions.checkOsVersion.gen(context),
       '${target.originalName}.$originalName',
     );
     if (versionCheck != null) {
@@ -456,8 +456,8 @@ class ObjCMethod extends AstNode {
     final sel = selObject.name;
     if (isOptional) {
       s.write('''
-    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($targetStr, $sel)) {
-      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(context)}($targetStr, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(context)}(
           '${target.originalName}', '$originalName');
     }
 ''');
@@ -468,7 +468,7 @@ class ObjCMethod extends AstNode {
 
     final msgSendParams = params.map(
       (p) => p.type.convertDartTypeToFfiDartType(
-        w,
+        context,
         p.name,
         objCRetain: p.objCConsumed,
         objCAutorelease: false,
@@ -478,7 +478,7 @@ class ObjCMethod extends AstNode {
       assert(!convertReturn);
       final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
       final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
-      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(context);
       final invoke = msgSend!.invoke(
         w,
         targetStr,
@@ -501,7 +501,7 @@ class ObjCMethod extends AstNode {
       s.write(';\n');
       if (convertReturn) {
         final result = returnType.convertFfiDartTypeToDartType(
-          w,
+          context,
           '_ret',
           objCRetain: !returnsRetained,
           objCEnclosingClass: targetType,

@@ -50,7 +50,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     s.write('\n');
     s.write(makeDartDoc(dartDoc));
     s.write('''
-extension $name on ${parent.getDartType(w)} {
+extension $name on ${parent.getDartType(context)} {
 ${generateMethodBindings(w, parent)}
 }
 

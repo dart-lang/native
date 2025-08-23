@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 
@@ -103,12 +104,14 @@ class Typealias extends BindingType {
 
     final sb = StringBuffer();
     sb.write(makeDartDoc(dartDoc));
-    sb.write('typedef $name = ${type.getCType(w)};\n');
+    sb.write('typedef $name = ${type.getCType(context)};\n');
     if (_ffiDartAliasName != null) {
-      sb.write('typedef $_ffiDartAliasName = ${type.getFfiDartType(w)};\n');
+      sb.write(
+        'typedef $_ffiDartAliasName = ${type.getFfiDartType(context)};\n',
+      );
     }
     if (dartAliasName != null) {
-      sb.write('typedef $dartAliasName = ${type.getDartType(w)};\n');
+      sb.write('typedef $dartAliasName = ${type.getDartType(context)};\n');
     }
     return BindingString(
       type: BindingStringType.typeDef,
@@ -123,14 +126,15 @@ class Typealias extends BindingType {
   bool get isIncompleteCompound => type.isIncompleteCompound;
 
   @override
-  String getCType(Writer w) => generateBindings ? name : type.getCType(w);
+  String getCType(Context context) =>
+      generateBindings ? name : type.getCType(context);
 
   @override
   String getNativeType({String varName = ''}) =>
       type.getNativeType(varName: varName);
 
   @override
-  String getFfiDartType(Writer w) {
+  String getFfiDartType(Context context) {
     if (generateBindings) {
       if (_ffiDartAliasName != null) {
         return _ffiDartAliasName!;
@@ -138,24 +142,24 @@ class Typealias extends BindingType {
         return name;
       }
     }
-    return type.getFfiDartType(w);
+    return type.getFfiDartType(context);
   }
 
   @override
-  String getDartType(Writer w) {
+  String getDartType(Context context) {
     if (generateBindings) {
       if (dartAliasName != null) {
         return dartAliasName!;
       } else if (type.sameDartAndCType) {
-        return getFfiDartType(w);
+        return getFfiDartType(context);
       }
     }
-    return type.getDartType(w);
+    return type.getDartType(context);
   }
 
   @override
-  String getObjCBlockSignatureType(Writer w) =>
-      type.getObjCBlockSignatureType(w);
+  String getObjCBlockSignatureType(Context context) =>
+      type.getObjCBlockSignatureType(context);
 
   @override
   bool get sameFfiDartAndCType => type.sameFfiDartAndCType;
@@ -168,12 +172,12 @@ class Typealias extends BindingType {
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
   }) => type.convertDartTypeToFfiDartType(
-    w,
+    context,
     value,
     objCRetain: objCRetain,
     objCAutorelease: objCAutorelease,
@@ -181,12 +185,12 @@ class Typealias extends BindingType {
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) => type.convertFfiDartTypeToDartType(
-    w,
+    context,
     value,
     objCRetain: objCRetain,
     objCEnclosingClass: objCEnclosingClass,
@@ -199,7 +203,7 @@ class Typealias extends BindingType {
   String cacheKey() => type.cacheKey();
 
   @override
-  String? getDefaultValue(Writer w) => type.getDefaultValue(w);
+  String? getDefaultValue(Context context) => type.getDefaultValue(context);
 
   @override
   void visitChildren(Visitor visitor) {
@@ -232,7 +236,7 @@ class ObjCInstanceType extends Typealias {
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -240,13 +244,13 @@ class ObjCInstanceType extends Typealias {
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) => objCEnclosingClass == null
       ? super.convertFfiDartTypeToDartType(
-          w,
+          context,
           value,
           objCRetain: objCRetain,
           objCEnclosingClass: objCEnclosingClass,

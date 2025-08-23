@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
-
 import 'writer.dart';
 
 /// Type class for return types, variable types, etc.
@@ -47,23 +47,23 @@ abstract class Type extends AstNode {
 
   /// Returns the C type of the Type. This is the FFI compatible type that is
   /// passed to native code.
-  String getCType(Writer w) =>
+  String getCType(Context context) =>
       throw UnsupportedError('No mapping for type: $this');
 
   /// Returns the Dart type of the Type. This is the type that is passed from
   /// FFI to Dart code.
-  String getFfiDartType(Writer w) => getCType(w);
+  String getFfiDartType(Context context) => getCType(context);
 
   /// Returns the user type of the Type. This is the type that is presented to
   /// users by the ffigened API to users. For C bindings this is always the same
   /// as getFfiDartType. For ObjC bindings this refers to the wrapper object.
-  String getDartType(Writer w) => getFfiDartType(w);
+  String getDartType(Context context) => getFfiDartType(context);
 
   /// Returns the type to be used if this type appears in an ObjC block
   /// signature. By default it's the same as [getCType]. But for some types
   /// that's not enough to distinguish them (eg all ObjC objects have a C type
   /// of `Pointer<objc.ObjCObject>`), so we use [getDartType] instead.
-  String getObjCBlockSignatureType(Writer w) => getCType(w);
+  String getObjCBlockSignatureType(Context context) => getCType(context);
 
   /// Returns the C/ObjC type of the Type. This is the type as it appears in
   /// C/ObjC source code. It should not be used in Dart source code.
@@ -89,7 +89,7 @@ abstract class Type extends AstNode {
   /// [value] is the value to be converted. If [objCRetain] is true, the ObjC
   /// object will be reained (ref count incremented) during conversion.
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -104,7 +104,7 @@ abstract class Type extends AstNode {
   /// then [objCEnclosingClass] should be the name of the Dart wrapper class
   /// (this is used by instancetype).
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
@@ -130,7 +130,7 @@ abstract class Type extends AstNode {
   /// Returns a string of code that creates a default value for this type. For
   /// example, for int types this returns the string '0'. A null return means
   /// that default values aren't supported for this type, eg void.
-  String? getDefaultValue(Writer w) => null;
+  String? getDefaultValue(Context context) => null;
 
   @override
   void visit(Visitation visitation) => visitation.visitType(this);
@@ -193,13 +193,13 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   bool isSupertypeOf(Type other) => typealiasType == other.typealiasType;
 
   @override
-  String getFfiDartType(Writer w) => getCType(w);
+  String getFfiDartType(Context context) => getCType(context);
 
   @override
-  String getDartType(Writer w) => getFfiDartType(w);
+  String getDartType(Context context) => getFfiDartType(context);
 
   @override
-  String getObjCBlockSignatureType(Writer w) => getCType(w);
+  String getObjCBlockSignatureType(Context context) => getCType(context);
 
   @override
   String getNativeType({String varName = ''}) =>
@@ -213,7 +213,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -221,7 +221,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
@@ -237,7 +237,7 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   String cacheKey() => hashCode.toRadixString(36);
 
   @override
-  String? getDefaultValue(Writer w) => null;
+  String? getDefaultValue(Context context) => null;
 
   @override
   bool get isObjCImport => false;
