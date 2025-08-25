@@ -27,7 +27,7 @@ class PointerType extends Type {
 
   @override
   String getCType(Writer w) =>
-      '${w.ffiLibraryPrefix}.Pointer<${child.getCType(w)}>';
+      '${w.context.libs.prefix(ffiImport)}.Pointer<${child.getCType(w)}>';
 
   @override
   String getNativeType({String varName = ''}) =>
@@ -89,7 +89,7 @@ class ConstantArray extends PointerType {
   @override
   String getCType(Writer w) {
     if (useArrayType) {
-      return '${w.ffiLibraryPrefix}.Array<${child.getCType(w)}>';
+      return '${w.context.libs.prefix(ffiImport)}.Array<${child.getCType(w)}>';
     }
 
     return super.getCType(w);
@@ -123,7 +123,8 @@ class ObjCObjectPointer extends PointerType {
   ObjCObjectPointer._() : super._(objCObjectType);
 
   @override
-  String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCObjectBase';
+  String getDartType(Writer w) =>
+      '${w.context.libs.prefix(objcPkgImport)}.ObjCObjectBase';
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
@@ -172,7 +173,8 @@ class ObjCBlockPointer extends ObjCObjectPointer {
   ObjCBlockPointer._() : super.__(objCBlockType);
 
   @override
-  String getDartType(Writer w) => '${w.objcPkgPrefix}.ObjCBlockBase';
+  String getDartType(Writer w) =>
+      '${w.context.libs.prefix(objcPkgImport)}.ObjCBlockBase';
 
   @override
   String? generateRetain(String value) => 'objc_retainBlock($value)';

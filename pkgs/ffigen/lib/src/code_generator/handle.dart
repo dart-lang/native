@@ -13,7 +13,7 @@ class HandleType extends Type {
   factory HandleType() => _handle;
 
   @override
-  String getCType(Writer w) => '${w.ffiLibraryPrefix}.Handle';
+  String getCType(Writer w) => '${w.context.libs.prefix(ffiImport)}.Handle';
 
   @override
   String getFfiDartType(Writer w) => 'Object';

@@ -81,17 +81,20 @@ ${strings.headers}:
 }
 
 Library expectedLibrary() {
+  final context = testContext();
   final struct1 = Struct(
+    context: context,
     name: 'Struct1',
     members: [CompoundMember(name: 'a', type: intType)],
   );
   final struct2 = Struct(
+    context: context,
     name: 'Struct2',
     members: [CompoundMember(name: 'a', type: struct1)],
   );
-  final struct3 = Struct(name: 'Struct3');
+  final struct3 = Struct(context: context, name: 'Struct3');
   return Library(
-    context: testContext(),
+    context: context,
     name: 'Bindings',
     bindings: [
       struct1,
@@ -118,9 +121,10 @@ Library expectedLibrary() {
         ],
         returnType: NativeType(SupportedNativeType.voidType),
       ),
-      Struct(name: 'Struct4'),
-      Struct(name: 'Struct5'),
+      Struct(context: context, name: 'Struct4'),
+      Struct(context: context, name: 'Struct5'),
       Struct(
+        context: context,
         name: 'Struct6',
         members: [
           CompoundMember(
@@ -133,7 +137,7 @@ Library expectedLibrary() {
           ),
         ],
       ),
-      Struct(name: 'Struct7'),
+      Struct(context: context, name: 'Struct7'),
     ],
   );
 }

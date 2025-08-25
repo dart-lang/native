@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+import 'imports.dart';
 import 'pointer.dart';
 import 'type.dart';
 import 'unique_namer.dart';
@@ -53,7 +54,8 @@ String makeNativeAnnotation(
   }
 
   final combinedArgs = args.map((e) => '${e.$1}: ${e.$2}').join(', ');
-  return '@${w.ffiLibraryPrefix}.Native<$nativeType>($combinedArgs)';
+  final ffiPrefix = w.context.libs.prefix(ffiImport);
+  return '@$ffiPrefix.Native<$nativeType>($combinedArgs)';
 }
 
 String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
@@ -64,7 +66,8 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
     type = type.child;
   }
 
-  return '@${w.ffiLibraryPrefix}.Array.multi([${dimensions.join(', ')}])';
+  final ffiPrefix = w.context.libs.prefix(ffiImport);
+  return '@$ffiPrefix.Array.multi([${dimensions.join(', ')}])';
 }
 
 /// 32-bit FNV-1a hash function.

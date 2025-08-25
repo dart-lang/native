@@ -476,8 +476,8 @@ class ObjCMethod extends AstNode {
     );
     if (msgSend!.isStret) {
       assert(!convertReturn);
-      final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
-      final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
+      final calloc = '${context.libs.prefix(ffiPkgImport)}.calloc';
+      final sizeOf = '${context.libs.prefix(ffiImport)}.sizeOf';
       final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
       final invoke = msgSend!.invoke(
         w,
@@ -491,7 +491,7 @@ class ObjCMethod extends AstNode {
     $invoke;
     final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
         $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
-    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
+    return ${context.libs.prefix(ffiImport)}.Struct.create<$returnTypeStr>(_finalizable);
 ''');
     } else {
       if (returnType != voidType) {

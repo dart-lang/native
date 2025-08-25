@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -15,10 +16,8 @@ void main() {
   group('nested_parsing_test', () {
     setUpAll(() {
       logWarnings();
-      expected = expectedLibrary();
-      actual = parser.parse(
-        testContext(
-          testConfig('''
+      final context = testContext(
+        testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Nested Parsing Test'
 ${strings.output}: 'unused'
@@ -29,8 +28,9 @@ ${strings.structs}:
   ${strings.exclude}:
     - Struct2
         '''),
-        ),
       );
+      expected = expectedLibrary(context);
+      actual = parser.parse(context);
     });
 
     test('Total bindings count', () {
@@ -76,8 +76,9 @@ ${strings.structs}:
   });
 }
 
-Library expectedLibrary() {
+Library expectedLibrary(Context context) {
   final struct2 = Struct(
+    context: context,
     name: 'Struct2',
     members: [
       CompoundMember(name: 'e', type: intType),
@@ -85,6 +86,7 @@ Library expectedLibrary() {
     ],
   );
   final unnamedInternalStruct = Struct(
+    context: context,
     name: 'UnnamedStruct1',
     members: [
       CompoundMember(name: 'a', type: intType),
@@ -92,19 +94,22 @@ Library expectedLibrary() {
     ],
   );
   final unnamedUnion1 = Union(
+    context: context,
     name: 'UnnamedUnion1',
     members: [CompoundMember(name: 'a', type: floatType)],
   );
   final unnamedUnion2 = Union(
+    context: context,
     name: 'UnnamedUnion2',
     members: [CompoundMember(name: 'b', type: floatType)],
   );
   final unnamedUnion3 = Union(
+    context: context,
     name: 'UnnamedUnion3',
     members: [CompoundMember(name: 'd', type: floatType)],
   );
   return Library(
-    context: testContext(),
+    context: context,
     name: 'Bindings',
     bindings: [
       unnamedInternalStruct,
@@ -113,6 +118,7 @@ Library expectedLibrary() {
       unnamedUnion3,
       struct2,
       Struct(
+        context: context,
         name: 'Struct1',
         members: [
           CompoundMember(name: 'a', type: intType),
@@ -121,16 +127,18 @@ Library expectedLibrary() {
         ],
       ),
       Struct(
+        context: context,
         name: 'Struct3',
         members: [
           CompoundMember(name: 'a', type: intType),
           CompoundMember(name: 'b', type: unnamedInternalStruct),
         ],
       ),
-      Struct(name: 'EmptyStruct'),
-      Struct(name: 'Struct4'),
-      Struct(name: 'Struct5'),
+      Struct(context: context, name: 'EmptyStruct'),
+      Struct(context: context, name: 'Struct4'),
+      Struct(context: context, name: 'Struct5'),
       Struct(
+        context: context,
         name: 'Struct6',
         members: [
           CompoundMember(name: '', type: unnamedUnion1),
