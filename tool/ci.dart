@@ -33,10 +33,14 @@ void main(List<String> arguments) async {
     return;
   }
 
-  for (final task in tasks) {
-    if (task.shouldRun(argResults)) {
-      await task.run(packages: packages, argResults: argResults);
-    }
+  final tasksToRun = tasks.where((task) => task.shouldRun(argResults)).toList();
+  if (tasksToRun.isEmpty) {
+    print('No tasks specified. Please specify at least one task to run.');
+    exit(1);
+  }
+
+  for (final task in tasksToRun) {
+    await task.run(packages: packages, argResults: argResults);
   }
 }
 
@@ -59,12 +63,7 @@ ArgParser makeArgParser() {
       help: 'Disable all tasks. Overridden by --<task> flags.',
     );
   for (final task in tasks) {
-    parser.addFlag(
-      task.name,
-      help:
-          '${task.helpMessage}\n'
-          '(defaults to ${task.defaultValue})',
-    );
+    parser.addFlag(task.name, help: task.helpMessage);
   }
   return parser;
 }
@@ -84,20 +83,10 @@ abstract class Task {
   /// For example, a name of 'analyze' corresponds to the `--[no-]analyze` flag.
   final String name;
 
-  /// The default state of the task if no master flag (`--all` or `--none`) is
-  /// provided.
-  final bool defaultValue;
-
   /// The base help message for the task's command-line flag.
-  ///
-  /// The `(defaults to ...)` text is added automatically.
   final String helpMessage;
 
-  const Task({
-    required this.name,
-    required this.defaultValue,
-    required this.helpMessage,
-  });
+  const Task({required this.name, required this.helpMessage});
 
   bool shouldRun(ArgResults argResults) {
     final useNone = argResults['none'] as bool;
@@ -112,7 +101,7 @@ abstract class Task {
     if (useAll) {
       return true;
     }
-    return defaultValue;
+    return false;
   }
 
   Future<void> run({
@@ -128,7 +117,6 @@ class PubTask extends Task {
   const PubTask()
     : super(
         name: 'pub',
-        defaultValue: false,
         helpMessage:
             'Run `dart pub get` on the root and non-workspace packages.\n'
             'Run `dart pub global activate coverage`.',
@@ -155,7 +143,6 @@ class AnalyzeTask extends Task {
   const AnalyzeTask()
     : super(
         name: 'analyze',
-        defaultValue: true,
         helpMessage: 'Run `dart analyze` on the packages.',
       );
 
@@ -171,11 +158,7 @@ class AnalyzeTask extends Task {
 /// Checks for code formatting issues with `dart format`.
 class FormatTask extends Task {
   const FormatTask()
-    : super(
-        name: 'format',
-        defaultValue: true,
-        helpMessage: 'Run `dart format` on the packages.',
-      );
+    : super(name: 'format', helpMessage: 'Run `dart format` on the packages.');
 
   @override
   Future<void> run({
@@ -196,11 +179,7 @@ class FormatTask extends Task {
 /// This is used to keep generated files in sync with their sources.
 class GenerateTask extends Task {
   const GenerateTask()
-    : super(
-        name: 'generate',
-        defaultValue: true,
-        helpMessage: 'Run code generation scripts.',
-      );
+    : super(name: 'generate', helpMessage: 'Run code generation scripts.');
 
   @override
   Future<void> run({
@@ -226,7 +205,6 @@ class TestTask extends Task {
   const TestTask()
     : super(
         name: 'test',
-        defaultValue: true,
         helpMessage:
             'Run `dart test` on the packages.\n'
             'Implied by --coverage.',
@@ -259,7 +237,6 @@ class ExampleTask extends Task {
   const ExampleTask()
     : super(
         name: 'example',
-        defaultValue: true,
         helpMessage: 'Run tests and executables for examples.',
       );
 
@@ -317,7 +294,6 @@ class CoverageTask extends Task {
   const CoverageTask()
     : super(
         name: 'coverage',
-        defaultValue: false,
         helpMessage:
             'Collect coverage information on the packages.\n'
             'Implies --test.',
