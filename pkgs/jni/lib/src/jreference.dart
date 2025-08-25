@@ -92,9 +92,9 @@ final class JGlobalReference extends JReference {
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();
     final jobjectFinalizableHandle =
-        ProtectedJniExtensions.newJObjectFinalizableHandle(
+        InternalJniExtension.newJObjectFinalizableHandle(
             finalizable, finalizable.pointer, JObjectRefType.JNIGlobalRefType);
-    ProtectedJniExtensions.newBooleanFinalizableHandle(finalizable, isReleased);
+    InternalJniExtension.newBooleanFinalizableHandle(finalizable, isReleased);
     return JGlobalReference._(
         finalizable, jobjectFinalizableHandle, isReleased);
   }
@@ -108,7 +108,7 @@ final class JGlobalReference extends JReference {
       throw DoubleReleaseError();
     }
     _isReleased.value = true;
-    ProtectedJniExtensions.deleteFinalizableHandle(
+    InternalJniExtension.deleteFinalizableHandle(
         _jobjectFinalizableHandle, _finalizable);
   }
 

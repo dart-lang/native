@@ -84,7 +84,8 @@ export 'src/jarray.dart'
         $JShortArray$NullableType$,
         $JShortArray$Type$;
 export 'src/jimplementer.dart';
-export 'src/jni.dart' hide ProtectedJniExtensions, StringMethodsForJni;
+export 'src/jni.dart'
+    hide InternalJniExtension, ProtectedJniExtensions, StringMethodsForJni;
 export 'src/jobject.dart' hide $JObject$NullableType$, $JObject$Type$;
 export 'src/jreference.dart' hide ProtectedJReference;
 export 'src/jvalues.dart';

@@ -287,12 +287,19 @@ extension ProtectedJniExtensions on Jni {
     }
   }
 
+  static Pointer<T> Function<T extends NativeType>(String) get lookup =>
+      Jni._dylib.lookup;
+}
+
+/// Used only inside `package:jni`.
+@internal
+extension InternalJniExtension on Jni {
   static Dart_FinalizableHandle newJObjectFinalizableHandle(
     Object object,
     Pointer<Void> reference,
     JObjectRefType refType,
   ) {
-    ensureInitialized();
+    ProtectedJniExtensions.ensureInitialized();
     return Jni._bindings
         .newJObjectFinalizableHandle(object, reference, refType);
   }
@@ -301,18 +308,15 @@ extension ProtectedJniExtensions on Jni {
     Object object,
     Pointer<Bool> reference,
   ) {
-    ensureInitialized();
+    ProtectedJniExtensions.ensureInitialized();
     return Jni._bindings.newBooleanFinalizableHandle(object, reference);
   }
 
   static void deleteFinalizableHandle(
       Dart_FinalizableHandle finalizableHandle, Object object) {
-    ensureInitialized();
+    ProtectedJniExtensions.ensureInitialized();
     Jni._bindings.deleteFinalizableHandle(finalizableHandle, object);
   }
-
-  static Pointer<T> Function<T extends NativeType>(String) get lookup =>
-      Jni._dylib.lookup;
 }
 
 extension AdditionalEnvMethods on GlobalJniEnv {
