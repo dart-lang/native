@@ -7,7 +7,6 @@ import 'package:test/test.dart';
 
 void main() {
   test('version', () {
-    expect(version, isNotEmpty);
-    expect(version, startsWith('3.'));
+    expect(version, equals('3.50.4'));
   });
 }
