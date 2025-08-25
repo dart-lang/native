@@ -69,13 +69,7 @@ export 'src/nio/jbuffer.dart' show $JBuffer$NullableType$, $JBuffer$Type$;
 export 'src/nio/jbyte_buffer.dart'
     show $JByteBuffer$NullableType$, $JByteBuffer$Type$;
 export 'src/third_party/generated_bindings.dart'
-    show
-        Dart_FinalizableHandle,
-        JFieldIDPtr,
-        JMethodIDPtr,
-        JObjectPtr,
-        JThrowablePtr,
-        JniResult;
+    show JFieldIDPtr, JMethodIDPtr, JObjectPtr, JThrowablePtr, JniResult;
 export 'src/types.dart' show JTypeBase, lowestCommonSuperType, referenceType;
 export 'src/util/jiterator.dart'
     show $JIterator$NullableType$, $JIterator$Type$;
