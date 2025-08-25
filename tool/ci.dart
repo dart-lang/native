@@ -271,6 +271,7 @@ class ExampleTask extends Task {
     const examplesWithTest = [
       'pkgs/code_assets/example/build/host_name/',
       'pkgs/code_assets/example/build/sqlite_prebuilt/',
+      'pkgs/code_assets/example/build/sqlite/',
       'pkgs/hooks/example/build/download_asset/',
       'pkgs/hooks/example/build/native_add_app/',
       'pkgs/hooks/example/build/native_dynamic_linking/',
