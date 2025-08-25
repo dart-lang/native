@@ -7,40 +7,18 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
-/// Get the host name on Unix systems.
-///
-/// C signature: `int gethostname(char *name, size_t size);`
-@Native<Int Function(Pointer<Uint8>, Size)>(
-  symbol: 'gethostname',
-  assetId: 'package:host_name/src/host_name.dart',
-)
-external int _gethostnameUnix(Pointer<Uint8> name, int len);
-
-/// Get the host name on Windows systems.
-///
-/// C signature:
-///
-/// ```
-/// int gethostname(
-///   [out] char *name,
-///   [in]  int  namelen
-/// );
-/// ```
-@Native<Int Function(Pointer<Uint8>, Int)>(
-  symbol: 'gethostname',
-  assetId: 'package:host_name/src/host_name.dart',
-)
-external int _gethostnameWindows(Pointer<Uint8> name, int len);
+import 'third_party/unix.dart' as unix;
+import 'third_party/windows.dart' as windows;
 
 /// The machine's hostname.
 ///
 /// Returns `null` if looking up the machines host name fails.
 String? get hostName => using((arena) {
   const maxHostNameLength = 256;
-  final buffer = arena<Uint8>(maxHostNameLength);
+  final buffer = arena<Char>(maxHostNameLength);
   final result = Platform.isWindows
-      ? _gethostnameWindows(buffer, maxHostNameLength)
-      : _gethostnameUnix(buffer, maxHostNameLength);
+      ? windows.gethostname(buffer, maxHostNameLength)
+      : unix.gethostname(buffer, maxHostNameLength);
 
   if (result != 0) {
     // The `errno` or `WSAGetLastError` are not preserved currently.
