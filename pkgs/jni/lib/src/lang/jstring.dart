@@ -9,72 +9,62 @@ import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
-final class JStringNullableType extends JObjType<JString?> {
-  @internal
-  const JStringNullableType();
+@internal
+final class $JString$NullableType$ extends JType<JString?> {
+  const $JString$NullableType$();
 
-  @internal
   @override
   String get signature => 'Ljava/lang/String;';
 
-  @internal
   @override
   JString? fromReference(JReference reference) =>
       reference.isNull ? null : JString.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JString?> get nullableType => this;
+  JType<JString?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JStringNullableType).hashCode;
+  int get hashCode => ($JString$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JStringNullableType &&
-        other is JStringNullableType;
+    return other.runtimeType == $JString$NullableType$ &&
+        other is $JString$NullableType$;
   }
 }
 
-final class JStringType extends JObjType<JString> {
-  @internal
-  const JStringType();
+@internal
+final class $JString$Type$ extends JType<JString> {
+  const $JString$Type$();
 
-  @internal
   @override
   String get signature => 'Ljava/lang/String;';
 
-  @internal
   @override
   JString fromReference(JReference reference) =>
       JString.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JString?> get nullableType => const JStringNullableType();
+  JType<JString?> get nullableType => const $JString$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JStringType).hashCode;
+  int get hashCode => ($JString$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JStringType && other is JStringType;
+    return other.runtimeType == $JString$Type$ && other is $JString$Type$;
   }
 }
 
@@ -82,13 +72,13 @@ class JString extends JObject {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JString> $type = type;
+  final JType<JString> $type = type;
 
   /// The type which includes information such as the signature of this class.
-  static const JObjType<JString> type = JStringType();
+  static const JType<JString> type = $JString$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const JObjType<JString?> nullableType = JStringNullableType();
+  static const JType<JString?> nullableType = $JString$NullableType$();
 
   /// Construct a new [JString] with [reference] as its underlying reference.
   JString.fromReference(super.reference) : super.fromReference();

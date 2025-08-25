@@ -16,72 +16,62 @@ import 'jinteger.dart';
 import 'jlong.dart';
 import 'jshort.dart';
 
-final class JNumberNullableType extends JObjType<JNumber?> {
-  @internal
-  const JNumberNullableType();
+@internal
+final class $JNumber$NullableType$ extends JType<JNumber?> {
+  const $JNumber$NullableType$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Number;';
 
-  @internal
   @override
   JNumber? fromReference(JReference reference) =>
       reference.isNull ? null : JNumber.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JNumber?> get nullableType => this;
+  JType<JNumber?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => (JNumberNullableType).hashCode;
+  int get hashCode => ($JNumber$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JNumberNullableType &&
-        other is JNumberNullableType;
+    return other.runtimeType == $JNumber$NullableType$ &&
+        other is $JNumber$NullableType$;
   }
 }
 
-final class JNumberType extends JObjType<JNumber> {
-  @internal
-  const JNumberType();
+@internal
+final class $JNumber$Type$ extends JType<JNumber> {
+  const $JNumber$Type$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Number;';
 
-  @internal
   @override
   JNumber fromReference(JReference reference) =>
       JNumber.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JNumber?> get nullableType => const JNumberNullableType();
+  JType<JNumber?> get nullableType => const $JNumber$NullableType$();
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => (JNumberType).hashCode;
+  int get hashCode => ($JNumber$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JNumberType && other is JNumberType;
+    return other.runtimeType == $JNumber$Type$ && other is $JNumber$Type$;
   }
 }
 
@@ -89,7 +79,7 @@ class JNumber extends JObject {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JNumber> $type = type;
+  final JType<JNumber> $type = type;
 
   JNumber.fromReference(
     super.reference,
@@ -98,10 +88,11 @@ class JNumber extends JObject {
   static final _class = JClass.forName(r'java/lang/Number');
 
   /// The type which includes information such as the signature of this class.
-  static const type = JNumberType();
+  static const JType<JNumber> type = $JNumber$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JNumberNullableType();
+  static const JType<JNumber?> nullableType = $JNumber$NullableType$();
+
   static final _ctorId = _class.constructorId(r'()V');
 
   JNumber() : super.fromReference(_ctorId(_class, referenceType, []));

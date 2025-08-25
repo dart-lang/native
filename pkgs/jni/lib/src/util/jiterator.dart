@@ -8,85 +8,73 @@ import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
-final class JIteratorNullableType<$E extends JObject?>
-    extends JObjType<JIterator<$E>?> {
-  @internal
-  final JObjType<$E> E;
+@internal
+final class $JIterator$NullableType$<$E extends JObject?>
+    extends JType<JIterator<$E>?> {
+  final JType<$E> E;
 
-  @internal
-  const JIteratorNullableType(
+  const $JIterator$NullableType$(
     this.E,
   );
 
-  @internal
   @override
   String get signature => r'Ljava/util/Iterator;';
 
-  @internal
   @override
   JIterator<$E>? fromReference(JReference reference) =>
       reference.isNull ? null : JIterator<$E>.fromReference(E, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JIterator<$E>?> get nullableType => this;
+  JType<JIterator<$E>?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JIteratorNullableType, E);
+  int get hashCode => Object.hash($JIterator$NullableType$, E);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JIteratorNullableType<$E>) &&
-        other is JIteratorNullableType<$E> &&
+    return other.runtimeType == ($JIterator$NullableType$<$E>) &&
+        other is $JIterator$NullableType$<$E> &&
         E == other.E;
   }
 }
 
-final class JIteratorType<$E extends JObject?> extends JObjType<JIterator<$E>> {
-  @internal
-  final JObjType<$E> E;
+@internal
+final class $JIterator$Type$<$E extends JObject?> extends JType<JIterator<$E>> {
+  final JType<$E> E;
 
-  @internal
-  const JIteratorType(
+  const $JIterator$Type$(
     this.E,
   );
 
-  @internal
   @override
   String get signature => r'Ljava/util/Iterator;';
 
-  @internal
   @override
   JIterator<$E> fromReference(JReference reference) =>
       JIterator<$E>.fromReference(E, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JIterator<$E>?> get nullableType => JIteratorNullableType<$E>(E);
+  JType<JIterator<$E>?> get nullableType => $JIterator$NullableType$<$E>(E);
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JIteratorType, E);
+  int get hashCode => Object.hash($JIterator$Type$, E);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JIteratorType<$E>) &&
-        other is JIteratorType<$E> &&
+    return other.runtimeType == ($JIterator$Type$<$E>) &&
+        other is $JIterator$Type$<$E> &&
         E == other.E;
   }
 }
@@ -95,10 +83,10 @@ class JIterator<$E extends JObject?> extends JObject implements Iterator<$E> {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JIterator<$E>> $type;
+  final JType<JIterator<$E>> $type;
 
   @internal
-  final JObjType<$E> E;
+  final JType<$E> E;
 
   JIterator.fromReference(
     this.E,
@@ -109,17 +97,17 @@ class JIterator<$E extends JObject?> extends JObject implements Iterator<$E> {
   static final _class = JClass.forName(r'java/util/Iterator');
 
   /// The type which includes information such as the signature of this class.
-  static JIteratorType<$E> type<$E extends JObject?>(
-    JObjType<$E> E,
+  static JType<JIterator<$E>> type<$E extends JObject?>(
+    JType<$E> E,
   ) {
-    return JIteratorType<$E>(E);
+    return $JIterator$Type$<$E>(E);
   }
 
   /// The type which includes information such as the signature of this class.
-  static JIteratorNullableType<$E> nullableType<$E extends JObject?>(
-    JObjType<$E> E,
+  static JType<JIterator<$E>?> nullableType<$E extends JObject?>(
+    JType<$E> E,
   ) {
-    return JIteratorNullableType<$E>(E);
+    return $JIterator$NullableType$<$E>(E);
   }
 
   $E? _current;

@@ -200,8 +200,6 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     node.finalName = uniquifyName
         ? _renameConflict(topLevelNameCounts, className, _ElementKind.klass)
         : className;
-    node.typeClassName = '\$${node.finalName}\$Type';
-    node.nullableTypeClassName = '\$${node.finalName}\$NullableType';
 
     if (node.userDefinedName == null ||
         node.userDefinedName == node.finalName) {

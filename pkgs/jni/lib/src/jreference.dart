@@ -38,7 +38,7 @@ final class _JFinalizable implements Finalizable {
 abstract final class JReference implements Finalizable {
   final _JFinalizable _finalizable;
 
-  JReference(this._finalizable);
+  JReference._(this._finalizable);
 
   /// The underlying JNI reference.
   ///
@@ -85,15 +85,16 @@ final class JGlobalReference extends JReference {
   final Pointer<Bool> _isReleased;
 
   JGlobalReference._(
-      super._finalizable, this._jobjectFinalizableHandle, this._isReleased);
+      super.finalizable, this._jobjectFinalizableHandle, this._isReleased)
+      : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();
     final jobjectFinalizableHandle =
-        ProtectedJniExtensions.newJObjectFinalizableHandle(
+        InternalJniExtension.newJObjectFinalizableHandle(
             finalizable, finalizable.pointer, JObjectRefType.JNIGlobalRefType);
-    ProtectedJniExtensions.newBooleanFinalizableHandle(finalizable, isReleased);
+    InternalJniExtension.newBooleanFinalizableHandle(finalizable, isReleased);
     return JGlobalReference._(
         finalizable, jobjectFinalizableHandle, isReleased);
   }
@@ -107,7 +108,7 @@ final class JGlobalReference extends JReference {
       throw DoubleReleaseError();
     }
     _isReleased.value = true;
-    ProtectedJniExtensions.deleteFinalizableHandle(
+    InternalJniExtension.deleteFinalizableHandle(
         _jobjectFinalizableHandle, _finalizable);
   }
 
@@ -124,7 +125,7 @@ final JReference jNullReference = _JNullReference();
 
 @pragma('vm:deeply-immutable')
 final class _JNullReference extends JReference {
-  _JNullReference() : super(_JFinalizable(nullptr));
+  _JNullReference() : super._(_JFinalizable(nullptr));
 
   @override
   bool get isReleased => false;

@@ -5,12 +5,17 @@
 import 'dart:ffi';
 import 'dart:isolate';
 
+import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart' show internal;
 
-import '../jni.dart';
 import 'accessors.dart';
 import 'jni.dart';
+import 'jobject.dart';
+import 'jreference.dart';
+import 'lang/jstring.dart';
+import 'third_party/generated_bindings.dart';
 import 'types.dart';
+import 'util/jlist.dart';
 
 /// A builder that builds proxy objects that implement one or more interfaces.
 ///
@@ -109,7 +114,7 @@ class JImplementer extends JObject {
   /// added interfaces with the given implementations.
   ///
   /// Releases this implementer.
-  T implement<T extends JObject>(JObjType<T> type) {
+  T implement<T extends JObject>(JType<T> type) {
     return type.fromReference(implementReference());
   }
 

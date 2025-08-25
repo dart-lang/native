@@ -8,70 +8,61 @@ import '../jreference.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-final class JLongNullableType extends JObjType<JLong?> {
-  @internal
-  const JLongNullableType();
+@internal
+final class $JLong$NullableType$ extends JType<JLong?> {
+  const $JLong$NullableType$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Long;';
 
-  @internal
   @override
   JLong? fromReference(JReference reference) =>
       reference.isNull ? null : JLong.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberNullableType();
+  JType get superType => const $JNumber$NullableType$();
 
-  @internal
   @override
-  JObjType<JLong?> get nullableType => this;
+  JType<JLong?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JLongNullableType).hashCode;
+  int get hashCode => ($JLong$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JLongNullableType && other is JLongNullableType;
+    return other.runtimeType == $JLong$NullableType$ &&
+        other is $JLong$NullableType$;
   }
 }
 
-final class JLongType extends JObjType<JLong> {
-  @internal
-  const JLongType();
+@internal
+final class $JLong$Type$ extends JType<JLong> {
+  const $JLong$Type$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Long;';
 
-  @internal
   @override
   JLong fromReference(JReference reference) => JLong.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberType();
+  JType get superType => const $JNumber$Type$();
 
-  @internal
   @override
-  JObjType<JLong?> get nullableType => const JLongNullableType();
+  JType<JLong?> get nullableType => const $JLong$NullableType$();
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JLongType).hashCode;
+  int get hashCode => ($JLong$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JLongType && other is JLongType;
+    return other.runtimeType == $JLong$Type$ && other is $JLong$Type$;
   }
 }
 
@@ -79,17 +70,17 @@ class JLong extends JNumber {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JLong> $type = type;
+  final JType<JLong> $type = type;
 
   JLong.fromReference(
     super.reference,
   ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
-  static const type = JLongType();
+  static const JType<JLong> type = $JLong$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JLongNullableType();
+  static const JType<JLong?> nullableType = $JLong$NullableType$();
 
   static final _class = JClass.forName(r'java/lang/Long');
 

@@ -11,95 +11,81 @@ import '../jreference.dart';
 import '../types.dart';
 import 'jset.dart';
 
-final class JMapNullableType<$K extends JObject?, $V extends JObject?>
-    extends JObjType<JMap<$K, $V>?> {
-  @internal
-  final JObjType<$K> K;
+@internal
+final class $JMap$NullableType$<$K extends JObject?, $V extends JObject?>
+    extends JType<JMap<$K, $V>?> {
+  final JType<$K> K;
 
-  @internal
-  final JObjType<$V> V;
+  final JType<$V> V;
 
-  @internal
-  const JMapNullableType(
+  const $JMap$NullableType$(
     this.K,
     this.V,
   );
 
-  @internal
   @override
   String get signature => r'Ljava/util/Map;';
 
-  @internal
   @override
   JMap<$K, $V>? fromReference(JReference reference) =>
       reference.isNull ? null : JMap<$K, $V>.fromReference(K, V, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JMap<$K, $V>?> get nullableType => this;
+  JType<JMap<$K, $V>?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JMapNullableType, K, V);
+  int get hashCode => Object.hash($JMap$NullableType$, K, V);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JMapNullableType<$K, $V>) &&
-        other is JMapNullableType<$K, $V> &&
+    return other.runtimeType == ($JMap$NullableType$<$K, $V>) &&
+        other is $JMap$NullableType$<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
 }
 
-final class JMapType<$K extends JObject?, $V extends JObject?>
-    extends JObjType<JMap<$K, $V>> {
-  @internal
-  final JObjType<$K> K;
+@internal
+final class $JMap$Type$<$K extends JObject?, $V extends JObject?>
+    extends JType<JMap<$K, $V>> {
+  final JType<$K> K;
 
-  @internal
-  final JObjType<$V> V;
+  final JType<$V> V;
 
-  @internal
-  const JMapType(
+  const $JMap$Type$(
     this.K,
     this.V,
   );
 
-  @internal
   @override
   String get signature => r'Ljava/util/Map;';
 
-  @internal
   @override
   JMap<$K, $V> fromReference(JReference reference) =>
       JMap<$K, $V>.fromReference(K, V, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JMap<$K, $V>?> get nullableType => JMapNullableType<$K, $V>(K, V);
+  JType<JMap<$K, $V>?> get nullableType => $JMap$NullableType$<$K, $V>(K, V);
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JMapType, K, V);
+  int get hashCode => Object.hash($JMap$Type$, K, V);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JMapType<$K, $V>) &&
-        other is JMapType<$K, $V> &&
+    return other.runtimeType == ($JMap$Type$<$K, $V>) &&
+        other is $JMap$Type$<$K, $V> &&
         K == other.K &&
         V == other.V;
   }
@@ -110,13 +96,13 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JMap<$K, $V>> $type;
+  final JType<JMap<$K, $V>> $type;
 
   @internal
-  final JObjType<$K> K;
+  final JType<$K> K;
 
   @internal
-  final JObjType<$V> V;
+  final JType<$V> V;
 
   JMap.fromReference(
     this.K,
@@ -128,20 +114,20 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
   static final _class = JClass.forName(r'java/util/Map');
 
   /// The type which includes information such as the signature of this class.
-  static JMapType<$K, $V> type<$K extends JObject?, $V extends JObject?>(
-    JObjType<$K> K,
-    JObjType<$V> V,
+  static JType<JMap<$K, $V>> type<$K extends JObject?, $V extends JObject?>(
+    JType<$K> K,
+    JType<$V> V,
   ) {
-    return JMapType<$K, $V>(K, V);
+    return $JMap$Type$<$K, $V>(K, V);
   }
 
   /// The type which includes information such as the signature of this class.
-  static JMapNullableType<$K, $V>
+  static JType<JMap<$K, $V>?>
       nullableType<$K extends JObject?, $V extends JObject?>(
-    JObjType<$K> K,
-    JObjType<$V> V,
+    JType<$K> K,
+    JType<$V> V,
   ) {
-    return JMapNullableType<$K, $V>(K, V);
+    return $JMap$NullableType$<$K, $V>(K, V);
   }
 
   static final _hashMapClass = JClass.forName(r'java/util/HashMap');
@@ -221,7 +207,7 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
   static final _keysId =
       _class.instanceMethodId(r'keySet', r'()Ljava/util/Set;');
   @override
-  JSet<$K> get keys => _keysId(this, JSetType<$K>(K), [])!;
+  JSet<$K> get keys => _keysId(this, $JSet$Type$<$K>(K), [])!;
 
   static final _sizeId = _class.instanceMethodId(r'size', r'()I');
   @override
@@ -241,7 +227,7 @@ class JMap<$K extends JObject?, $V extends JObject?> extends JObject
 }
 
 extension ToJavaMap<K extends JObject?, V extends JObject?> on Map<K, V> {
-  JMap<K, V> toJMap(JObjType<K> keyType, JObjType<V> valueType) {
+  JMap<K, V> toJMap(JType<K> keyType, JType<V> valueType) {
     final map = JMap.hash(keyType, valueType);
     map.addAll(this);
     return map;

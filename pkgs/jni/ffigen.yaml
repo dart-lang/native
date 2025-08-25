@@ -72,6 +72,7 @@ structs:
     - 'CallbackResult'
   rename:
     ## opaque struct definitions, base types of jfieldID and jmethodID
+    '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'
     '_jfieldID': 'jfieldID_'
     '_jmethodID':
       'jmethodID_'

@@ -55,7 +55,7 @@ void run({required TestRunnerCallback testRunner}) {
     expect(
         () => rc
             .instanceMethodId('nextInt', '(I)I')
-            .call(r, const jintType(), [JValueInt(256)]),
+            .call(r, jint.type, [JValueInt(256)]),
         throwsA(isA<UseAfterReleaseError>()));
   });
 
@@ -65,7 +65,7 @@ void run({required TestRunnerCallback testRunner}) {
     expect(
         () => rc
             .instanceMethodId('nextInt', '(I)I')
-            .call(r, const jintType(), [JValueInt(-1)]),
+            .call(r, jint.type, [JValueInt(-1)]),
         throwsA(isA<JniException>()));
   });
 }

@@ -158,7 +158,7 @@ void run({required TestRunnerCallback testRunner}) {
     final byteClass = JByte.type.jClass;
     final parseByte =
         byteClass.staticMethodId('parseByte', '(Ljava/lang/String;)B');
-    final twelve = parseByte(byteClass, const jbyteType(), ['12'.toJString()]);
+    final twelve = parseByte(byteClass, jbyte.type, ['12'.toJString()]);
     expect(twelve, 12);
     byteClass.release();
   });

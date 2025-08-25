@@ -1,5 +1,6 @@
 ## 0.15.0-wip
 
+- Changed the names of internal type classes.
 - **Breaking Change**: Removed `exclude` from config.
 - Update to the latest lints.
 

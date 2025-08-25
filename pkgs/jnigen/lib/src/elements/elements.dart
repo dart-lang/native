@@ -146,16 +146,11 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   late String finalName;
 
   /// Name of the type class.
-  ///
-  /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  late String typeClassName;
+  String get typeClassName => '\$$finalName\$Type\$';
 
   /// Name of the nullable type class.
-  ///
-  /// Populated by [Renamer].
-  @JsonKey(includeFromJson: false)
-  late String nullableTypeClassName;
+  String get nullableTypeClassName => '\$$finalName\$NullableType\$';
 
   /// Type parameters including the ones from its outer classes.
   ///

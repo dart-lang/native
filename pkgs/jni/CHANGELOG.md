@@ -1,5 +1,8 @@
-## 0.14.3-wip
+## 0.15.0-wip
 
+- **Breaking Change**: Made `Jni.env` internal.
+- **Breaking Change**: Renamed `JObjType` to `JType`.
+- **Breaking Change**: Made all of the type classes internal.
 - Update to the latest lints.
 
 ## 0.14.2

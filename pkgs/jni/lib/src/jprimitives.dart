@@ -14,12 +14,11 @@ abstract final class jbyte extends JPrimitive {
   static const type = jbyteType();
 }
 
-final class jbyteType extends JType<jbyte>
+final class jbyteType extends JTypeBase<jbyte>
     with JCallable<jbyte, int>, JAccessible<jbyte, int> {
   @internal
   const jbyteType();
 
-  @internal
   @override
   final signature = 'B';
 
@@ -60,12 +59,11 @@ abstract final class jboolean extends JPrimitive {
   static const type = jbooleanType();
 }
 
-final class jbooleanType extends JType<jboolean>
+final class jbooleanType extends JTypeBase<jboolean>
     with JCallable<jboolean, bool>, JAccessible<jboolean, bool> {
   @internal
   const jbooleanType();
 
-  @internal
   @override
   final signature = 'Z';
 
@@ -106,12 +104,11 @@ abstract final class jchar extends JPrimitive {
   static const type = jcharType();
 }
 
-final class jcharType extends JType<jchar>
+final class jcharType extends JTypeBase<jchar>
     with JCallable<jchar, int>, JAccessible<jchar, int> {
   @internal
   const jcharType();
 
-  @internal
   @override
   final signature = 'C';
 
@@ -152,12 +149,11 @@ abstract final class jshort extends JPrimitive {
   static const type = jshortType();
 }
 
-final class jshortType extends JType<jshort>
+final class jshortType extends JTypeBase<jshort>
     with JCallable<jshort, int>, JAccessible<jshort, int> {
   @internal
   const jshortType();
 
-  @internal
   @override
   final signature = 'S';
 
@@ -198,7 +194,7 @@ abstract final class jint extends JPrimitive {
   static const type = jintType();
 }
 
-final class jintType extends JType<jint>
+final class jintType extends JTypeBase<jint>
     with JCallable<jint, int>, JAccessible<jint, int> {
   @internal
   const jintType();
@@ -243,7 +239,7 @@ abstract final class jlong extends JPrimitive {
   static const type = jlongType();
 }
 
-final class jlongType extends JType<jlong>
+final class jlongType extends JTypeBase<jlong>
     with JCallable<jlong, int>, JAccessible<jlong, int> {
   @internal
   const jlongType();
@@ -288,12 +284,11 @@ abstract final class jfloat extends JPrimitive {
   static const type = jfloatType();
 }
 
-final class jfloatType extends JType<jfloat>
+final class jfloatType extends JTypeBase<jfloat>
     with JCallable<jfloat, double>, JAccessible<jfloat, double> {
   @internal
   const jfloatType();
 
-  @internal
   @override
   final signature = 'F';
 
@@ -334,12 +329,11 @@ abstract final class jdouble extends JPrimitive {
   static const type = jdoubleType();
 }
 
-final class jdoubleType extends JType<jdouble>
+final class jdoubleType extends JTypeBase<jdouble>
     with JCallable<jdouble, double>, JAccessible<jdouble, double> {
   @internal
   const jdoubleType();
 
-  @internal
   @override
   final signature = 'D';
 
@@ -380,11 +374,10 @@ abstract final class jvoid extends JPrimitive {
   static const type = jvoidType();
 }
 
-final class jvoidType extends JType<jvoid> with JCallable<jvoid, void> {
+final class jvoidType extends JTypeBase<jvoid> with JCallable<jvoid, void> {
   @internal
   const jvoidType();
 
-  @internal
   @override
   final signature = 'V';
 

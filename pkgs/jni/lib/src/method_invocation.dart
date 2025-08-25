@@ -32,7 +32,7 @@ class MethodInvocation {
       argsAddress == 0
           ? null
           : JArray.fromReference(
-              const JObjectNullableType(),
+              const $JObject$NullableType$(),
               JGlobalReference(Pointer<Void>.fromAddress(argsAddress)),
             ),
     );

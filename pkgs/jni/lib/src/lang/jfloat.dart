@@ -9,71 +9,61 @@ import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-final class JFloatNullableType extends JObjType<JFloat?> {
-  @internal
-  const JFloatNullableType();
+@internal
+final class $JFloat$NullableType$ extends JType<JFloat?> {
+  const $JFloat$NullableType$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Float;';
 
-  @internal
   @override
   JFloat? fromReference(JReference reference) =>
       reference.isNull ? null : JFloat.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberNullableType();
+  JType get superType => const $JNumber$NullableType$();
 
-  @internal
   @override
-  JObjType<JFloat?> get nullableType => this;
+  JType<JFloat?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JFloatNullableType).hashCode;
+  int get hashCode => ($JFloat$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JFloatNullableType &&
-        other is JFloatNullableType;
+    return other.runtimeType == $JFloat$NullableType$ &&
+        other is $JFloat$NullableType$;
   }
 }
 
-final class JFloatType extends JObjType<JFloat> {
-  @internal
-  const JFloatType();
+@internal
+final class $JFloat$Type$ extends JType<JFloat> {
+  const $JFloat$Type$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Float;';
 
-  @internal
   @override
   JFloat fromReference(JReference reference) => JFloat.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberType();
+  JType get superType => const $JNumber$Type$();
 
-  @internal
   @override
-  JObjType<JFloat?> get nullableType => const JFloatNullableType();
+  JType<JFloat?> get nullableType => const $JFloat$NullableType$();
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JFloatType).hashCode;
+  int get hashCode => ($JFloat$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JFloatType && other is JFloatType;
+    return other.runtimeType == $JFloat$Type$ && other is $JFloat$Type$;
   }
 }
 
@@ -81,17 +71,17 @@ class JFloat extends JNumber {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JFloat> $type = type;
+  final JType<JFloat> $type = type;
 
   JFloat.fromReference(
     super.reference,
   ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
-  static const type = JFloatType();
+  static const JType<JFloat> type = $JFloat$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JFloatNullableType();
+  static const JType<JFloat?> nullableType = $JFloat$NullableType$();
 
   static final _class = JClass.forName(r'java/lang/Float');
 

@@ -12,84 +12,72 @@ import '../jreference.dart';
 import '../types.dart';
 import 'jiterator.dart';
 
-final class JSetNullableType<$E extends JObject?> extends JObjType<JSet<$E>?> {
-  @internal
-  final JObjType<$E> E;
+@internal
+final class $JSet$NullableType$<$E extends JObject?> extends JType<JSet<$E>?> {
+  final JType<$E> E;
 
-  @internal
-  const JSetNullableType(
+  const $JSet$NullableType$(
     this.E,
   );
 
-  @internal
   @override
   String get signature => r'Ljava/util/Set;';
 
-  @internal
   @override
   JSet<$E>? fromReference(JReference reference) =>
       reference.isNull ? null : JSet<$E>.fromReference(E, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JSet<$E>?> get nullableType => this;
+  JType<JSet<$E>?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JSetNullableType, E);
+  int get hashCode => Object.hash($JSet$NullableType$, E);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JSetNullableType<$E>) &&
-        other is JSetNullableType<$E> &&
+    return other.runtimeType == ($JSet$NullableType$<$E>) &&
+        other is $JSet$NullableType$<$E> &&
         E == other.E;
   }
 }
 
-final class JSetType<$E extends JObject?> extends JObjType<JSet<$E>> {
-  @internal
-  final JObjType<$E> E;
+@internal
+final class $JSet$Type$<$E extends JObject?> extends JType<JSet<$E>> {
+  final JType<$E> E;
 
-  @internal
-  const JSetType(
+  const $JSet$Type$(
     this.E,
   );
 
-  @internal
   @override
   String get signature => r'Ljava/util/Set;';
 
-  @internal
   @override
   JSet<$E> fromReference(JReference reference) =>
       JSet<$E>.fromReference(E, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JSet<$E>?> get nullableType => JSetNullableType<$E>(E);
+  JType<JSet<$E>?> get nullableType => $JSet$NullableType$<$E>(E);
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JSetType, E);
+  int get hashCode => Object.hash($JSet$Type$, E);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JSetType<$E>) &&
-        other is JSetType<$E> &&
+    return other.runtimeType == ($JSet$Type$<$E>) &&
+        other is $JSet$Type$<$E> &&
         E == other.E;
   }
 }
@@ -98,10 +86,10 @@ class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JSet<$E>> $type;
+  final JType<JSet<$E>> $type;
 
   @internal
-  final JObjType<$E> E;
+  final JType<$E> E;
 
   JSet.fromReference(
     this.E,
@@ -112,17 +100,17 @@ class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
   static final _class = JClass.forName(r'java/util/Set');
 
   /// The type which includes information such as the signature of this class.
-  static JSetType<$E> type<$E extends JObject?>(
-    JObjType<$E> E,
+  static JType<JSet<$E>> type<$E extends JObject?>(
+    JType<$E> E,
   ) {
-    return JSetType<$E>(E);
+    return $JSet$Type$<$E>(E);
   }
 
   /// The type which includes information such as the signature of this class.
-  static JSetNullableType<$E> nullableType<$E extends JObject?>(
-    JObjType<$E> E,
+  static JType<JSet<$E>?> nullableType<$E extends JObject?>(
+    JType<$E> E,
   ) {
-    return JSetNullableType<$E>(E);
+    return $JSet$NullableType$<$E>(E);
   }
 
   static final _hashSetClass = JClass.forName(r'java/util/HashSet');
@@ -202,7 +190,7 @@ class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
   static final _iteratorId =
       _class.instanceMethodId(r'iterator', r'()Ljava/util/Iterator;');
   @override
-  JIterator<$E> get iterator => _iteratorId(this, JIteratorType<$E>(E), [])!;
+  JIterator<$E> get iterator => _iteratorId(this, $JIterator$Type$<$E>(E), [])!;
 
   static final _sizeId = _class.instanceMethodId(r'size', r'()I');
   @override
@@ -262,7 +250,7 @@ class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
 }
 
 extension ToJavaSet<E extends JObject?> on Iterable<E> {
-  JSet<E> toJSet(JObjType<E> type) {
+  JSet<E> toJSet(JType<E> type) {
     final set = JSet.hash(type);
     set.addAll(this);
     return set;
