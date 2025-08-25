@@ -13,11 +13,6 @@ void main(List<String> arguments) async {
 
   final ArgResults argResults = parser.parse(arguments);
 
-  if (argResults['all'] as bool && argResults['none'] as bool) {
-    print('Error: --all and --none are mutually exclusive.');
-    exit(1);
-  }
-
   final packages = loadPackagesFromPubspec();
 
   if (argResults['help'] as bool) {
@@ -56,11 +51,6 @@ ArgParser makeArgParser() {
       'all',
       negatable: false,
       help: 'Enable all tasks. Overridden by --no-<task> flags.',
-    )
-    ..addFlag(
-      'none',
-      negatable: false,
-      help: 'Disable all tasks. Overridden by --<task> flags.',
     );
   for (final task in tasks) {
     parser.addFlag(task.name, help: task.helpMessage);
@@ -89,14 +79,10 @@ abstract class Task {
   const Task({required this.name, required this.helpMessage});
 
   bool shouldRun(ArgResults argResults) {
-    final useNone = argResults['none'] as bool;
     final useAll = argResults['all'] as bool;
 
     if (argResults.wasParsed(name)) {
       return argResults[name] as bool;
-    }
-    if (useNone) {
-      return false;
     }
     if (useAll) {
       return true;
