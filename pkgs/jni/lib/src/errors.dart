@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import '../_internal.dart';
 import 'third_party/generated_bindings.dart';
 
 // TODO(#567): Add the fact that [JException] is now a [JObject] to the
@@ -37,6 +38,7 @@ sealed class JniError extends Error {
 
   JniError(this.message);
 
+  @internal
   factory JniError.of(JniErrorCode status) {
     if (!_errors.containsKey(status)) {
       status = JniErrorCode.ERR;
