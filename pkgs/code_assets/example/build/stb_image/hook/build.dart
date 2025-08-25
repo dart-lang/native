@@ -14,6 +14,11 @@ void main(List<String> args) async {
         name: 'stb_image',
         assetName: 'src/third_party/stb_image.g.dart',
         sources: ['third_party/stb_image.c'],
+        defines: {
+          if (input.config.code.targetOS == OS.windows)
+            // Ensure symbols are exported in dll.
+            'STBIDEF': '__declspec(dllexport)',
+        },
       );
       await cbuilder.run(
         input: input,
