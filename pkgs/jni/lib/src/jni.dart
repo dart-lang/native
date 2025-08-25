@@ -209,6 +209,7 @@ abstract final class Jni {
   ///
   /// It provides an indirection over [JniEnv] so that it can be used from
   /// any thread, and always returns global object references.
+  @internal
   static final env = GlobalJniEnv(_fetchGlobalEnv());
 
   /// Returns current application context on Android.

@@ -8,7 +8,7 @@ import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' show internal;
 
 import 'jni.dart';
 import 'jobject.dart';
@@ -16,101 +16,87 @@ import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
 import 'types.dart';
 
-final class JArrayNullableType<E extends JObject?>
-    extends JObjType<JArray<E>?> {
-  @internal
-  final JObjType<E> elementType;
+@internal
+final class $JArray$NullableType$<E extends JObject?>
+    extends JType<JArray<E>?> {
+  final JType<E> elementType;
 
-  @internal
-  const JArrayNullableType(this.elementType);
+  const $JArray$NullableType$(this.elementType);
 
-  @internal
   @override
   String get signature => '[${elementType.signature}';
 
-  @internal
   @override
   JArray<E>? fromReference(JReference reference) =>
       reference.isNull ? null : JArray<E>.fromReference(elementType, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JArray<E>?> get nullableType => this;
+  JType<JArray<E>?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JArrayNullableType, elementType);
+  int get hashCode => Object.hash($JArray$NullableType$, elementType);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JArrayNullableType<E>) &&
-        other is JArrayNullableType<E> &&
+    return other.runtimeType == ($JArray$NullableType$<E>) &&
+        other is $JArray$NullableType$<E> &&
         elementType == other.elementType;
   }
 }
 
-final class JArrayType<E extends JObject?> extends JObjType<JArray<E>> {
-  @internal
-  final JObjType<E> elementType;
+@internal
+final class $JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
+  final JType<E> elementType;
 
-  @internal
-  const JArrayType(this.elementType);
+  const $JArray$Type$(this.elementType);
 
-  @internal
   @override
   String get signature => '[${elementType.signature}';
 
-  @internal
   @override
   JArray<E> fromReference(JReference reference) =>
       JArray<E>.fromReference(elementType, reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JArray<E>?> get nullableType => JArrayNullableType<E>(elementType);
+  JType<JArray<E>?> get nullableType => $JArray$NullableType$<E>(elementType);
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => Object.hash(JArrayType, elementType);
+  int get hashCode => Object.hash($JArray$Type$, elementType);
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == (JArrayType<E>) &&
-        other is JArrayType<E> &&
+    return other.runtimeType == ($JArray$Type$<E>) &&
+        other is $JArray$Type$<E> &&
         elementType == other.elementType;
   }
 }
 
 class JArray<E extends JObject?> extends JObject with Iterable<E> {
-  @internal
-  final JObjType<E> elementType;
+  final JType<E> elementType;
 
-  @internal
   @override
-  final JArrayType<E> $type;
+  final $JArray$Type$<E> $type;
 
   /// The type which includes information such as the signature of this class.
-  static JArrayType<E> type<E extends JObject?>(JObjType<E> innerType) =>
-      JArrayType<E>(innerType);
+  static $JArray$Type$<E> type<E extends JObject?>(JType<E> innerType) =>
+      $JArray$Type$<E>(innerType);
 
   /// The type which includes information such as the signature of this class.
-  static JArrayNullableType<E> nullableType<E extends JObject?>(
-          JObjType<E> innerType) =>
-      JArrayNullableType<E>(innerType);
+  static $JArray$NullableType$<E> nullableType<E extends JObject?>(
+          JType<E> innerType) =>
+      $JArray$NullableType$<E>(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
   JArray.fromReference(this.elementType, JReference reference)
@@ -122,7 +108,7 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
   /// The [length] must be a non-negative integer.
   /// For objects, [elementType] must be a nullable type as this constructor
   /// initializes all elements with `null`.
-  factory JArray(JObjType<E> elementType, int length) {
+  factory JArray(JType<E> elementType, int length) {
     RangeError.checkNotNegative(length);
     if (!elementType.isNullable) {
       throw ArgumentError.value(
@@ -136,7 +122,7 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
   }
 
   static JArray<$E> _newArray<$E extends JObject?>(
-      JObjType<$E> elementType, int length,
+      JType<$E> elementType, int length,
       [$E? fill]) {
     final classRef = elementType.jClass.reference;
     final fillRef = fill?.reference ?? jNullReference;
@@ -156,15 +142,15 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
   ///
   /// The [length] must be a non-negative integer.
   static JArray<$E> filled<$E extends JObject>(int length, $E fill,
-      {JObjType<$E>? E}) {
+      {JType<$E>? E}) {
     RangeError.checkNotNegative(length);
-    E ??= fill.$type as JObjType<$E>;
+    E ??= fill.$type as JType<$E>;
     return _newArray<$E>(E, length, fill);
   }
 
   /// Creates a [JArray] from `elements`.
   static JArray<$E> of<$E extends JObject?>(
-      JObjType<$E> elementType, Iterable<$E> elements) {
+      JType<$E> elementType, Iterable<$E> elements) {
     return _newArray<$E>(elementType, elements.length)
       ..setRange(0, elements.length, elements);
   }
@@ -180,8 +166,7 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
     if (pointer == nullptr) {
       return null as E;
     }
-    return (elementType as JObjType<E>)
-        .fromReference(JGlobalReference(pointer));
+    return (elementType as JType<E>).fromReference(JGlobalReference(pointer));
   }
 
   E operator [](int index) {
@@ -258,86 +243,78 @@ extension on Allocator {
   }
 }
 
-final class JBooleanArrayNullableType extends JObjType<JBooleanArray?> {
-  @internal
-  const JBooleanArrayNullableType();
+@internal
+final class $JBooleanArray$NullableType$ extends JType<JBooleanArray?> {
+  const $JBooleanArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[Z';
 
-  @internal
   @override
   JBooleanArray? fromReference(JReference reference) =>
       reference.isNull ? null : JBooleanArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JBooleanArray?> get nullableType => this;
+  JType<JBooleanArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JBooleanArrayNullableType).hashCode;
+  int get hashCode => ($JBooleanArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JBooleanArrayNullableType &&
-        other is JBooleanArrayNullableType;
+    return other.runtimeType == $JBooleanArray$NullableType$ &&
+        other is $JBooleanArray$NullableType$;
   }
 }
 
-final class JBooleanArrayType extends JObjType<JBooleanArray> {
-  @internal
-  const JBooleanArrayType();
+@internal
+final class $JBooleanArray$Type$ extends JType<JBooleanArray> {
+  const $JBooleanArray$Type$();
 
-  @internal
   @override
   String get signature => '[Z';
 
-  @internal
   @override
   JBooleanArray fromReference(JReference reference) =>
       JBooleanArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JBooleanArray?> get nullableType =>
-      const JBooleanArrayNullableType();
+  JType<JBooleanArray?> get nullableType =>
+      const $JBooleanArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JBooleanArrayType).hashCode;
+  int get hashCode => ($JBooleanArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JBooleanArrayType && other is JBooleanArrayType;
+    return other.runtimeType == $JBooleanArray$Type$ &&
+        other is $JBooleanArray$Type$;
   }
 }
 
 class JBooleanArray extends JObject with Iterable<bool> {
   @internal
   @override
-  final JBooleanArrayType $type;
+  final JType<JBooleanArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JBooleanArrayType();
+  static const JType<JBooleanArray> type = $JBooleanArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JBooleanArrayNullableType();
+  static const JType<JBooleanArray?> nullableType =
+      $JBooleanArray$NullableType$();
 
   /// Construct a new [JBooleanArray] with [reference] as its underlying
   /// reference.
@@ -399,72 +376,62 @@ class JBooleanArray extends JObject with Iterable<bool> {
   Iterator<bool> get iterator => _JArrayIterator(this);
 }
 
-final class JByteArrayNullableType extends JObjType<JByteArray?> {
-  @internal
-  const JByteArrayNullableType();
+@internal
+final class $JByteArray$NullableType$ extends JType<JByteArray?> {
+  const $JByteArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[B';
 
-  @internal
   @override
   JByteArray? fromReference(JReference reference) =>
       reference.isNull ? null : JByteArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JByteArray?> get nullableType => this;
+  JType<JByteArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JByteArrayNullableType).hashCode;
+  int get hashCode => ($JByteArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JByteArrayNullableType &&
-        other is JByteArrayNullableType;
+    return other.runtimeType == $JByteArray$NullableType$ &&
+        other is $JByteArray$NullableType$;
   }
 }
 
-final class JByteArrayType extends JObjType<JByteArray> {
-  @internal
-  const JByteArrayType();
+@internal
+final class $JByteArray$Type$ extends JType<JByteArray> {
+  const $JByteArray$Type$();
 
-  @internal
   @override
   String get signature => '[B';
 
-  @internal
   @override
   JByteArray fromReference(JReference reference) =>
       JByteArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JByteArray?> get nullableType => const JByteArrayNullableType();
+  JType<JByteArray?> get nullableType => const $JByteArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JByteArrayType).hashCode;
+  int get hashCode => ($JByteArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JByteArrayType && other is JByteArrayType;
+    return other.runtimeType == $JByteArray$Type$ && other is $JByteArray$Type$;
   }
 }
 
@@ -478,13 +445,13 @@ final class JByteArrayType extends JObjType<JByteArray> {
 class JByteArray extends JObject with Iterable<int> {
   @internal
   @override
-  final JByteArrayType $type;
+  final JType<JByteArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JByteArrayType();
+  static const JType<JByteArray> type = $JByteArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JByteArrayNullableType();
+  static const JType<JByteArray?> nullableType = $JByteArray$NullableType$();
 
   /// Construct a new [JByteArray] with [reference] as its underlying
   /// reference.
@@ -554,72 +521,62 @@ class JByteArray extends JObject with Iterable<int> {
   Iterator<int> get iterator => _JArrayIterator(this);
 }
 
-final class JCharArrayNullableType extends JObjType<JCharArray?> {
-  @internal
-  const JCharArrayNullableType();
+@internal
+final class $JCharArray$NullableType$ extends JType<JCharArray?> {
+  const $JCharArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[C';
 
-  @internal
   @override
   JCharArray? fromReference(JReference reference) =>
       reference.isNull ? null : JCharArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JCharArray?> get nullableType => this;
+  JType<JCharArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JCharArrayNullableType).hashCode;
+  int get hashCode => ($JCharArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JCharArrayNullableType &&
-        other is JCharArrayNullableType;
+    return other.runtimeType == $JCharArray$NullableType$ &&
+        other is $JCharArray$NullableType$;
   }
 }
 
-final class JCharArrayType extends JObjType<JCharArray> {
-  @internal
-  const JCharArrayType();
+@internal
+final class $JCharArray$Type$ extends JType<JCharArray> {
+  const $JCharArray$Type$();
 
-  @internal
   @override
   String get signature => '[C';
 
-  @internal
   @override
   JCharArray fromReference(JReference reference) =>
       JCharArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JCharArray?> get nullableType => const JCharArrayNullableType();
+  JType<JCharArray?> get nullableType => const $JCharArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JCharArrayType).hashCode;
+  int get hashCode => ($JCharArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JCharArrayType && other is JCharArrayType;
+    return other.runtimeType == $JCharArray$Type$ && other is $JCharArray$Type$;
   }
 }
 
@@ -630,13 +587,13 @@ final class JCharArrayType extends JObjType<JCharArray> {
 class JCharArray extends JObject with Iterable<int> {
   @internal
   @override
-  final JCharArrayType $type;
+  final JType<JCharArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JCharArrayType();
+  static const JType<JCharArray> type = $JCharArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JCharArrayNullableType();
+  static const JType<JCharArray?> nullableType = $JCharArray$NullableType$();
 
   /// Construct a new [JCharArray] with [reference] as its underlying
   /// reference.
@@ -696,85 +653,76 @@ class JCharArray extends JObject with Iterable<int> {
   Iterator<int> get iterator => _JArrayIterator(this);
 }
 
-final class JShortArrayNullableType extends JObjType<JShortArray?> {
-  @internal
-  const JShortArrayNullableType();
+@internal
+final class $JShortArray$NullableType$ extends JType<JShortArray?> {
+  const $JShortArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[S';
 
-  @internal
   @override
   JShortArray? fromReference(JReference reference) =>
       reference.isNull ? null : JShortArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JShortArray?> get nullableType => this;
+  JType<JShortArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JShortArrayNullableType).hashCode;
+  int get hashCode => ($JShortArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JShortArrayNullableType &&
-        other is JShortArrayNullableType;
+    return other.runtimeType == $JShortArray$NullableType$ &&
+        other is $JShortArray$NullableType$;
   }
 }
 
-final class JShortArrayType extends JObjType<JShortArray> {
-  @internal
-  const JShortArrayType();
+@internal
+final class $JShortArray$Type$ extends JType<JShortArray> {
+  const $JShortArray$Type$();
 
-  @internal
   @override
   String get signature => '[S';
 
-  @internal
   @override
   JShortArray fromReference(JReference reference) =>
       JShortArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JShortArray?> get nullableType => const JShortArrayNullableType();
+  JType<JShortArray?> get nullableType => const $JShortArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JShortArrayType).hashCode;
+  int get hashCode => ($JShortArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JShortArrayType && other is JShortArrayType;
+    return other.runtimeType == $JShortArray$Type$ &&
+        other is $JShortArray$Type$;
   }
 }
 
 class JShortArray extends JObject with Iterable<int> {
   @internal
   @override
-  final JShortArrayType $type;
+  final JType<JShortArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JShortArrayType();
+  static const JType<JShortArray> type = $JShortArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JShortArrayNullableType();
+  static const JType<JShortArray?> nullableType = $JShortArray$NullableType$();
 
   /// Construct a new [JShortArray] with [reference] as its underlying
   /// reference.
@@ -834,85 +782,75 @@ class JShortArray extends JObject with Iterable<int> {
   Iterator<int> get iterator => _JArrayIterator(this);
 }
 
-final class JIntArrayNullableType extends JObjType<JIntArray?> {
-  @internal
-  const JIntArrayNullableType();
+@internal
+final class $JIntArray$NullableType$ extends JType<JIntArray?> {
+  const $JIntArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[I';
 
-  @internal
   @override
   JIntArray? fromReference(JReference reference) =>
       reference.isNull ? null : JIntArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JIntArray?> get nullableType => this;
+  JType<JIntArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JIntArrayNullableType).hashCode;
+  int get hashCode => ($JIntArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JIntArrayNullableType &&
-        other is JIntArrayNullableType;
+    return other.runtimeType == $JIntArray$NullableType$ &&
+        other is $JIntArray$NullableType$;
   }
 }
 
-final class JIntArrayType extends JObjType<JIntArray> {
-  @internal
-  const JIntArrayType();
+@internal
+final class $JIntArray$Type$ extends JType<JIntArray> {
+  const $JIntArray$Type$();
 
-  @internal
   @override
   String get signature => '[I';
 
-  @internal
   @override
   JIntArray fromReference(JReference reference) =>
       JIntArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JIntArray?> get nullableType => const JIntArrayNullableType();
+  JType<JIntArray?> get nullableType => const $JIntArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JIntArrayType).hashCode;
+  int get hashCode => ($JIntArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JIntArrayType && other is JIntArrayType;
+    return other.runtimeType == $JIntArray$Type$ && other is $JIntArray$Type$;
   }
 }
 
 class JIntArray extends JObject with Iterable<int> {
   @internal
   @override
-  final JIntArrayType $type;
+  final JType<JIntArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JIntArrayType();
+  static const JType<JIntArray> type = $JIntArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JIntArrayNullableType();
+  static const JType<JIntArray?> nullableType = $JIntArray$NullableType$();
 
   /// Construct a new [JIntArray] with [reference] as its underlying
   /// reference.
@@ -972,85 +910,75 @@ class JIntArray extends JObject with Iterable<int> {
   Iterator<int> get iterator => _JArrayIterator(this);
 }
 
-final class JLongArrayNullableType extends JObjType<JLongArray?> {
-  @internal
-  const JLongArrayNullableType();
+@internal
+final class $JLongArray$NullableType$ extends JType<JLongArray?> {
+  const $JLongArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[J';
 
-  @internal
   @override
   JLongArray? fromReference(JReference reference) =>
       reference.isNull ? null : JLongArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JLongArray?> get nullableType => this;
+  JType<JLongArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JLongArrayNullableType).hashCode;
+  int get hashCode => ($JLongArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JLongArrayNullableType &&
-        other is JLongArrayNullableType;
+    return other.runtimeType == $JLongArray$NullableType$ &&
+        other is $JLongArray$NullableType$;
   }
 }
 
-final class JLongArrayType extends JObjType<JLongArray> {
-  @internal
-  const JLongArrayType();
+@internal
+final class $JLongArray$Type$ extends JType<JLongArray> {
+  const $JLongArray$Type$();
 
-  @internal
   @override
   String get signature => '[J';
 
-  @internal
   @override
   JLongArray fromReference(JReference reference) =>
       JLongArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JLongArray?> get nullableType => const JLongArrayNullableType();
+  JType<JLongArray?> get nullableType => const $JLongArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JLongArrayType).hashCode;
+  int get hashCode => ($JLongArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JLongArrayType && other is JLongArrayType;
+    return other.runtimeType == $JLongArray$Type$ && other is $JLongArray$Type$;
   }
 }
 
 class JLongArray extends JObject with Iterable<int> {
   @internal
   @override
-  final JLongArrayType $type;
+  final JType<JLongArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JLongArrayType();
+  static const JType<JLongArray> type = $JLongArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JLongArrayNullableType();
+  static const JType<JLongArray?> nullableType = $JLongArray$NullableType$();
 
   /// Construct a new [JLongArray] with [reference] as its underlying
   /// reference.
@@ -1110,85 +1038,76 @@ class JLongArray extends JObject with Iterable<int> {
   Iterator<int> get iterator => _JArrayIterator(this);
 }
 
-final class JFloatArrayNullableType extends JObjType<JFloatArray?> {
-  @internal
-  const JFloatArrayNullableType();
+@internal
+final class $JFloatArray$NullableType$ extends JType<JFloatArray?> {
+  const $JFloatArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[F';
 
-  @internal
   @override
   JFloatArray? fromReference(JReference reference) =>
       reference.isNull ? null : JFloatArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JFloatArray?> get nullableType => this;
+  JType<JFloatArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JFloatArrayNullableType).hashCode;
+  int get hashCode => ($JFloatArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JFloatArrayNullableType &&
-        other is JFloatArrayNullableType;
+    return other.runtimeType == $JFloatArray$NullableType$ &&
+        other is $JFloatArray$NullableType$;
   }
 }
 
-final class JFloatArrayType extends JObjType<JFloatArray> {
-  @internal
-  const JFloatArrayType();
+@internal
+final class $JFloatArray$Type$ extends JType<JFloatArray> {
+  const $JFloatArray$Type$();
 
-  @internal
   @override
   String get signature => '[F';
 
-  @internal
   @override
   JFloatArray fromReference(JReference reference) =>
       JFloatArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JFloatArray?> get nullableType => const JFloatArrayNullableType();
+  JType<JFloatArray?> get nullableType => const $JFloatArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JFloatArrayType).hashCode;
+  int get hashCode => ($JFloatArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JFloatArrayType && other is JFloatArrayType;
+    return other.runtimeType == $JFloatArray$Type$ &&
+        other is $JFloatArray$Type$;
   }
 }
 
 class JFloatArray extends JObject with Iterable<double> {
   @internal
   @override
-  final JFloatArrayType $type;
+  final JType<JFloatArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JFloatArrayType();
+  static const JType<JFloatArray> type = $JFloatArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JFloatArrayNullableType();
+  static const JType<JFloatArray?> nullableType = $JFloatArray$NullableType$();
 
   /// Construct a new [JFloatArray] with [reference] as its underlying
   /// reference.
@@ -1248,85 +1167,77 @@ class JFloatArray extends JObject with Iterable<double> {
   Iterator<double> get iterator => _JArrayIterator(this);
 }
 
-final class JDoubleArrayNullableType extends JObjType<JDoubleArray?> {
-  @internal
-  const JDoubleArrayNullableType();
+@internal
+final class $JDoubleArray$NullableType$ extends JType<JDoubleArray?> {
+  const $JDoubleArray$NullableType$();
 
-  @internal
   @override
   String get signature => '[D';
 
-  @internal
   @override
   JDoubleArray? fromReference(JReference reference) =>
       reference.isNull ? null : JDoubleArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JDoubleArray?> get nullableType => this;
+  JType<JDoubleArray?> get nullableType => this;
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JDoubleArrayNullableType).hashCode;
+  int get hashCode => ($JDoubleArray$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JDoubleArrayNullableType &&
-        other is JDoubleArrayNullableType;
+    return other.runtimeType == $JDoubleArray$NullableType$ &&
+        other is $JDoubleArray$NullableType$;
   }
 }
 
-final class JDoubleArrayType extends JObjType<JDoubleArray> {
-  @internal
-  const JDoubleArrayType();
+@internal
+final class $JDoubleArray$Type$ extends JType<JDoubleArray> {
+  const $JDoubleArray$Type$();
 
-  @internal
   @override
   String get signature => '[D';
 
-  @internal
   @override
   JDoubleArray fromReference(JReference reference) =>
       JDoubleArray.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JDoubleArray?> get nullableType => const JDoubleArrayNullableType();
+  JType<JDoubleArray?> get nullableType => const $JDoubleArray$NullableType$();
 
-  @internal
   @override
   final int superCount = 1;
 
   @override
-  int get hashCode => (JDoubleArrayType).hashCode;
+  int get hashCode => ($JDoubleArray$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JDoubleArrayType && other is JDoubleArrayType;
+    return other.runtimeType == $JDoubleArray$Type$ &&
+        other is $JDoubleArray$Type$;
   }
 }
 
 class JDoubleArray extends JObject with Iterable<double> {
   @internal
   @override
-  final JDoubleArrayType $type;
+  final JType<JDoubleArray> $type;
 
   /// The type which includes information such as the signature of this class.
-  static const type = JDoubleArrayType();
+  static const JType<JDoubleArray> type = $JDoubleArray$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JDoubleArrayNullableType();
+  static const JType<JDoubleArray?> nullableType =
+      $JDoubleArray$NullableType$();
 
   /// Construct a new [JDoubleArray] with [reference] as its underlying
   /// reference.

@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
@@ -294,7 +293,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             T: JString.type,
           )..releasedBy(arena);
           expect(grandParent, isA<GrandParent<JString>>());
-          expect(grandParent.$type, isA<$GrandParent$Type<JString>>());
+          expect(grandParent.$type, isA<$GrandParent$Type$<JString>>());
           expect(
             grandParent.value!.toDartString(releaseOriginal: true),
             'Hello',
@@ -412,10 +411,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         });
       });
       test('superclass count', () {
+        // ignore: invalid_use_of_internal_member
         expect(JObject.type.superCount, 0);
+        // ignore: invalid_use_of_internal_member
         expect(MyMap.type(JObject.type, JObject.type).superCount, 1);
+        // ignore: invalid_use_of_internal_member
         expect(StringKeyedMap.type(JObject.type).superCount, 2);
+        // ignore: invalid_use_of_internal_member
         expect(StringValuedMap.type(JObject.type).superCount, 2);
+        // ignore: invalid_use_of_internal_member
         expect(StringMap.type.superCount, 3);
       });
       test('nested generics', () {
@@ -503,7 +507,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
       });
@@ -516,7 +520,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'World');
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
@@ -532,7 +536,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JObject?>>());
-          expect(stack.$type, isA<$MyStack$Type<JObject?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JObject?>>());
           expect(
             stack
                 .pop()!
@@ -556,7 +560,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final stack = MyStack.fromArray(T: JString.type, array)!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
       });
@@ -575,7 +579,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
       });
@@ -864,7 +868,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           Future<$T> toDartFuture<$T extends JObject>(
             JObject future,
             // ignore: invalid_use_of_internal_member
-            JObjType<$T> T,
+            JType<$T> T,
           ) async {
             final receivePort = ReceivePort();
             await Isolate.spawn((sendPort) {
@@ -984,7 +988,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         isA<
             $R2250<$T> Function<$T extends JObject?>(
                 // ignore: invalid_use_of_internal_member
-                {required JObjType<$T> T,
+                {required JType<$T> T,
                 required void Function($T?) foo,
                 bool foo$async})>(),
       );

@@ -4,8 +4,8 @@
 
 import 'dart:ffi';
 
-import '../_internal.dart';
 import 'jobject.dart';
+import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
 
 void _fillJValue(Pointer<JValue> pos, dynamic arg) {

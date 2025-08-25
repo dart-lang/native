@@ -38,7 +38,7 @@ final class _JFinalizable implements Finalizable {
 abstract final class JReference implements Finalizable {
   final _JFinalizable _finalizable;
 
-  JReference(this._finalizable);
+  JReference._(this._finalizable);
 
   /// The underlying JNI reference.
   ///
@@ -85,7 +85,8 @@ final class JGlobalReference extends JReference {
   final Pointer<Bool> _isReleased;
 
   JGlobalReference._(
-      super._finalizable, this._jobjectFinalizableHandle, this._isReleased);
+      super.finalizable, this._jobjectFinalizableHandle, this._isReleased)
+      : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
     final finalizable = _JFinalizable(pointer);
@@ -124,7 +125,7 @@ final JReference jNullReference = _JNullReference();
 
 @pragma('vm:deeply-immutable')
 final class _JNullReference extends JReference {
-  _JNullReference() : super(_JFinalizable(nullptr));
+  _JNullReference() : super._(_JFinalizable(nullptr));
 
   @override
   bool get isReleased => false;
