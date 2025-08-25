@@ -7,14 +7,10 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
-/// Get the host name on Unix systems.
-///
-/// C signature: `int gethostname(char *name, size_t size);`
-@Native<Int Function(Pointer<Uint8>, Size)>(
-  symbol: 'gethostname',
-  assetId: 'package:host_name/src/host_name.dart',
-)
-external int _gethostnameUnix(Pointer<Uint8> name, int len);
+import 'unix.dart' as unix;
+
+int _gethostnameUnix(Pointer<Uint8> name, int len) =>
+    unix.gethostname(name.cast<Char>(), len);
 
 /// Get the host name on Windows systems.
 ///
