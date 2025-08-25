@@ -4,11 +4,11 @@
 
 import 'dart:io';
 
-import 'package:analyzer/dart/analysis/analysis_context.dart';
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:path/path.dart' as p;
 
@@ -19,7 +19,7 @@ class Context {
   final String projectAbsolutePath;
   final String bindingsFileAbsolutePath;
   final List<String> importedPackages = [];
-  final List<LibraryClassSummary> libraryClassesSummaries = [];
+  final List<PackageSummary> packageSummaries = [];
   final List<Class> bindingsSummary = [];
 
   Context._({
@@ -82,76 +82,86 @@ class Context {
 
           if (resolvedPackagePath != null) {
             print('Import URI: $uri -> Resolved Path: $resolvedPackagePath');
-            libraryClassesSummaries.addAll(
-              await _getLibrarySummary(context, resolvedPackagePath),
-            );
+            final resolvedPackage = await context.currentSession
+                .getResolvedLibrary(resolvedPackagePath);
+            if (resolvedPackage is ResolvedLibraryResult) {
+              final packageElement = resolvedPackage.element;
+              final packageSummary = PackageSummary(
+                packageName: packageElement.identifier,
+              );
+              await _getLibrarySummary(packageSummary, packageElement);
+              packageSummaries.add(packageSummary);
+            } else {
+              stderr.writeln(
+                'Could not resolve library for path: $resolvedPackagePath',
+              );
+            }
           }
         }
       }
     }
   }
 
-  Future<List<LibraryClassSummary>> _getLibrarySummary(
-    AnalysisContext context,
-    String libraryFileAbsolutePath,
+  Future<void> _getLibrarySummary(
+    PackageSummary packageSummary,
+    LibraryElement libraryElement,
   ) async {
-    final resolvedLibraryResult = await context.currentSession
-        .getResolvedLibrary(libraryFileAbsolutePath);
-    if (resolvedLibraryResult is ResolvedLibraryResult) {
-      final libraryElement = resolvedLibraryResult.element;
-      final classesSummaries = <LibraryClassSummary>[];
-      for (final library in libraryElement.exportedLibraries) {
-        for (final element in library.classes) {
-          if (element.isPrivate) continue;
-          classesSummaries.add(
-            LibraryClassSummary(
-              libraryName: libraryElement.identifier,
-              classDeclerationDisplay: element.displayString(),
-              methodsDeclerationDisplay:
-                  element.methods
-                      .takeWhile((m) => m.isPublic)
-                      .map((m) => m.displayString())
-                      .toList(),
-              fieldsDeclerationDisplay:
-                  element.fields
-                      .takeWhile((f) => f.isPublic)
-                      .map((f) => f.displayString())
-                      .toList(),
-              gettersDeclerationDisplay:
-                  element.getters
-                      .takeWhile((g) => g.isPublic)
-                      .map((g) => g.displayString())
-                      .toList(),
-              settersDeclerationDisplay:
-                  element.setters
-                      .takeWhile((s) => s.isPublic)
-                      .map((s) => s.displayString())
-                      .toList(),
-              constructorsDeclerationDisplay:
-                  element.constructors
-                      .takeWhile((c) => c.isPublic)
-                      .map((c) => c.displayString())
-                      .toList(),
-            ),
-          );
-        }
-      }
-      return classesSummaries;
-    } else {
-      stderr.writeln(
-        'Could not resolve library for path: $libraryFileAbsolutePath',
-      );
-      return [];
+    for (final exportedLibrary in libraryElement.exportedLibraries) {
+      await _getLibrarySummary(packageSummary, exportedLibrary);
     }
+    packageSummary.topLevelFunctions.addAll(
+      libraryElement.topLevelFunctions
+          .where((f) => f.isPublic)
+          .map((f) => f.displayString()),
+    );
+    packageSummary.topLevelVariables.addAll(
+      libraryElement.topLevelVariables
+          .where((v) => v.isPublic)
+          .map((v) => v.displayString()),
+    );
+    for (final classInstance in libraryElement.classes) {
+      if (classInstance.isPrivate) continue;
+      packageSummary.classesSummaries.add(
+        LibraryClassSummary(
+          classDeclerationDisplay: classInstance.displayString(),
+          methodsDeclerationDisplay:
+              classInstance.methods
+                  .where((m) => m.isPublic)
+                  .map((m) => m.displayString())
+                  .toList(),
+          fieldsDeclerationDisplay:
+              classInstance.fields
+                  .where((f) => f.isPublic)
+                  .map((f) => f.displayString())
+                  .toList(),
+          gettersDeclerationDisplay:
+              classInstance.getters
+                  .where((g) => g.isPublic)
+                  .map((g) => g.displayString())
+                  .toList(),
+          settersDeclerationDisplay:
+              classInstance.setters
+                  .where((s) => s.isPublic)
+                  .map((s) => s.displayString())
+                  .toList(),
+          constructorsDeclerationDisplay:
+              classInstance.constructors
+                  .where((c) => c.isPublic)
+                  .map((c) => c.displayString())
+                  .toList(),
+        ),
+      );
+    }
+    return;
   }
 
   String toDartLikeRepresentation() {
     final buffer = StringBuffer();
     for (final classSummary in bindingsSummary) {
-      buffer.writeln(classSummary.toDartLikeRepresentaion());
+      buffer.writeln(classSummary.toDartLikeRepresentation());
     }
-    for (final libraryClassSummary in libraryClassesSummaries) {
-      buffer.writeln(libraryClassSummary.toDartLikeRepresentaion());
+    for (final packageSummary in packageSummaries) {
+      buffer.writeln(packageSummary.toDartLikeRepresentation());
     }
     final dartLikeRepresentation = buffer.toString().replaceAll('jni\$_.', '');
     return dartLikeRepresentation;
