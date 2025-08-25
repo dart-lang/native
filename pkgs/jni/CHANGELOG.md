@@ -1,5 +1,10 @@
-## 0.14.3-wip
+## 0.15.0-wip
 
+- **Breaking Change**: Removed `Jni.getApplicationClassLoader()`,
+  `Jni.getCurrentActivity()`, and `Jni.getCachedApplicationContext()`. Instead
+  use `Jni.androidApplicationContext(engineId)` to access the application
+  context and listen to `Jni.androidActivities(engineId)` to acccess the
+  activity.
 - Update to the latest lints.
 
 ## 0.14.2
@@ -10,12 +15,13 @@
 
 ## 0.14.1
 
-- Updated `bin/setup.dart` to use Gradle instead of Maven for building Java sources. Added gradle executables 
-  and bootstrap jars [#2003](https://github.com/dart-lang/native/issues/2003)
-- Added `JObject.isInstanceOf` which checks whether a `JObject` is an instance 
+- Updated `bin/setup.dart` to use Gradle instead of Maven for building Java
+  sources. Added gradle executables and bootstrap jars
+  [#2003](https://github.com/dart-lang/native/issues/2003)
+- Added `JObject.isInstanceOf` which checks whether a `JObject` is an instance
   of a java class.
-- Fixed a [bug](https://github.com/dart-lang/native/issues/1908) where
-  Java interfaces implemented in on the main thread in Dart could deadlock when
+- Fixed a [bug](https://github.com/dart-lang/native/issues/1908) where Java
+  interfaces implemented in on the main thread in Dart could deadlock when
   invoked from the main thread outside the context of a Dart isolate.
 
 ## 0.14.0

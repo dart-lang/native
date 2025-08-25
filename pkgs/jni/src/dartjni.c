@@ -8,8 +8,9 @@
 
 #include "dartjni.h"
 
-#ifndef _WIN32
+#if !defined(_WIN32)
 pthread_key_t tlsKey;
+pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
 jclass FindClassUnchecked(const char* name) {
@@ -47,8 +48,6 @@ JniContext jni_context = {
     .jvm = NULL,
     .classLoader = NULL,
     .loadClassMethod = NULL,
-    .appContext = NULL,
-    .currentActivity = NULL,
 };
 
 JniContext* jni = &jni_context;
@@ -56,7 +55,7 @@ THREAD_LOCAL JNIEnv* jniEnv = NULL;
 JniExceptionMethods exceptionMethods;
 
 void init() {
-#ifndef _WIN32
+#if !defined(_WIN32)
   // Init TLS keys.
   pthread_key_create(&tlsKey, detach_thread);
 #endif
@@ -83,7 +82,7 @@ void init() {
 }
 
 void deinit() {
-#ifndef _WIN32
+#if !defined(_WIN32)
   // Delete TLS keys.
   pthread_key_delete(tlsKey);
 #endif
@@ -120,57 +119,7 @@ jobject GetClassLoader() {
   return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.classLoader);
 }
 
-FFI_PLUGIN_EXPORT
-jobject GetApplicationContext() {
-  attach_thread();
-  return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.appContext);
-}
-
-FFI_PLUGIN_EXPORT
-jobject GetCurrentActivity() {
-  attach_thread();
-  return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.currentActivity);
-}
-
-// JNI Initialization
-
-#ifdef __ANDROID__
-JNIEXPORT void JNICALL
-Java_com_github_dart_1lang_jni_JniPlugin_initializeJni(JNIEnv* env,
-                                                       jobject obj,
-                                                       jobject appContext,
-                                                       jobject classLoader) {
-  jniEnv = env;
-  (*env)->GetJavaVM(env, &jni_context.jvm);
-  jni_context.classLoader = (*env)->NewGlobalRef(env, classLoader);
-  jni_context.appContext = (*env)->NewGlobalRef(env, appContext);
-  jclass classLoaderClass = (*env)->GetObjectClass(env, classLoader);
-  jni_context.loadClassMethod =
-      (*env)->GetMethodID(env, classLoaderClass, "loadClass",
-                          "(Ljava/lang/String;)Ljava/lang/Class;");
-  init();
-}
-
-JNIEXPORT void JNICALL
-Java_com_github_dart_1lang_jni_JniPlugin_setJniActivity(JNIEnv* env,
-                                                        jobject obj,
-                                                        jobject activity,
-                                                        jobject context) {
-  jniEnv = env;
-  if (jni_context.currentActivity != NULL) {
-    (*env)->DeleteGlobalRef(env, jni_context.currentActivity);
-  }
-  jni_context.currentActivity = (*env)->NewGlobalRef(env, activity);
-  if (jni_context.appContext != NULL) {
-    (*env)->DeleteGlobalRef(env, jni_context.appContext);
-  }
-  jni_context.appContext = (*env)->NewGlobalRef(env, context);
-}
-
-// Sometimes you may get linker error trying to link JNI_CreateJavaVM APIs
-// on Android NDK. So IFDEF is required.
-#else
-#ifdef _WIN32
+#if defined(_WIN32)
 // Pre-initialization of critical section on windows - this is required because
 // there's no coordination between multiple isolates calling Spawn.
 //
@@ -197,9 +146,27 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
   }
   return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
-#else
-pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
+
+// JNI Initialization
+#if defined(__ANDROID__)
+JNIEXPORT void JNICALL
+Java_com_github_dart_1lang_jni_JniPlugin_setClassLoader(JNIEnv* env,
+                                                        jclass clazz,
+                                                        jobject classLoader) {
+  jniEnv = env;
+  (*env)->GetJavaVM(env, &jni_context.jvm);
+  jni_context.classLoader = (*env)->NewGlobalRef(env, classLoader);
+  jclass classLoaderClass = (*env)->GetObjectClass(env, classLoader);
+  jni_context.loadClassMethod =
+      (*env)->GetMethodID(env, classLoaderClass, "loadClass",
+                          "(Ljava/lang/String;)Ljava/lang/Class;");
+  init();
+}
+
+// Sometimes you may get linker error trying to link JNI_CreateJavaVM APIs
+// on Android NDK. So IFDEF is required.
+#else
 FFI_PLUGIN_EXPORT
 JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
   if (jni_context.jvm != NULL) {
@@ -477,9 +444,11 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     if (mustEnterIsolate) {
       Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
     }
-    result->object = ((jobject(*)(uint64_t, jobject, jobject))functionPtr)(
-        port, (*env)->NewGlobalRef(env, methodDescriptor),
-        (*env)->NewGlobalRef(env, args));
+    typedef jobject (*JniFunction)(uint64_t p, jobject md, jobject a);
+    JniFunction func_to_call = (JniFunction)functionPtr;
+    result->object =
+        func_to_call(port, (*env)->NewGlobalRef(env, methodDescriptor),
+                     (*env)->NewGlobalRef(env, args));
     if (mustEnterIsolate) {
       Dart_ExitIsolate_DL();
     }
