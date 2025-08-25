@@ -18,9 +18,7 @@ void main(List<String> args) async {
         name: dylibName,
         packageName: packageName,
         assetName: assetName,
-        sources: [
-          input.packageRoot.resolve('third_party/sqlite/sqlite3.c').path,
-        ],
+        sources: ['third_party/sqlite/sqlite3.c'],
       );
       await cbuilder.run(
         input: input,
