@@ -86,15 +86,16 @@ final class $JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
 class JArray<E extends JObject?> extends JObject with Iterable<E> {
   final JType<E> elementType;
 
+  @internal
   @override
-  final $JArray$Type$<E> $type;
+  final JType<JArray<E>> $type;
 
   /// The type which includes information such as the signature of this class.
-  static $JArray$Type$<E> type<E extends JObject?>(JType<E> innerType) =>
+  static JType<JArray<E>> type<E extends JObject?>(JType<E> innerType) =>
       $JArray$Type$<E>(innerType);
 
   /// The type which includes information such as the signature of this class.
-  static $JArray$NullableType$<E> nullableType<E extends JObject?>(
+  static JType<JArray<E>?> nullableType<E extends JObject?>(
           JType<E> innerType) =>
       $JArray$NullableType$<E>(innerType);
 
