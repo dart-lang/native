@@ -18,7 +18,7 @@ void main() {
   if (Platform.isWindows) {
     FfiGen().run(
       Config(
-        output: packageRoot.resolve('lib/src/windows.dart'),
+        output: packageRoot.resolve('lib/src/third_party/windows.dart'),
         entryPoints: [packageRoot.resolve('src/windows.h')],
         preamble: '''
 // This file includes parts which are Copyright (c) 1982-1986 Regents
@@ -33,7 +33,7 @@ void main() {
   } else {
     FfiGen().run(
       Config(
-        output: packageRoot.resolve('lib/src/unix.dart'),
+        output: packageRoot.resolve('lib/src/third_party/unix.dart'),
         entryPoints: [packageRoot.resolve('src/unix.h')],
         preamble: '''
 // Copyright (C) 1991-2022 Free Software Foundation, Inc.

@@ -7,8 +7,8 @@ import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 
-import 'unix.dart' as unix;
-import 'windows.dart' as windows;
+import 'third_party/unix.dart' as unix;
+import 'third_party/windows.dart' as windows;
 
 /// The machine's hostname.
 ///
