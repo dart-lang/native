@@ -4,7 +4,8 @@
 
 import 'dart:io';
 
-import '../_internal.dart';
+import 'package:meta/meta.dart' show internal;
+
 import 'third_party/generated_bindings.dart';
 
 // TODO(#567): Add the fact that [JException] is now a [JObject] to the
