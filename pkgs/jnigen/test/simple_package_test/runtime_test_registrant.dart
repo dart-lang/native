@@ -802,15 +802,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 await Future<void>.delayed(const Duration(milliseconds: 100));
               }
               expect(
-                Jni.env.IsInstanceOf(
-                  // ignore: invalid_use_of_internal_member
-                  runner.error!.reference.pointer,
+                runner.error!.isInstanceOf(
                   JClass.forName(
                     'java/lang/reflect/UndeclaredThrowableException',
-                  )
-                      // ignore: invalid_use_of_internal_member
-                      .reference
-                      .pointer,
+                  ),
                 ),
                 isTrue,
               );
@@ -819,15 +814,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
                   .instanceMethodId('getCause', '()Ljava/lang/Throwable;')
                   .call(runner.error!, JObject.type, []);
               expect(
-                Jni.env.IsInstanceOf(
-                  // ignore: invalid_use_of_internal_member
-                  cause.reference.pointer,
+                cause.isInstanceOf(
                   JClass.forName(
                     'com/github/dart_lang/jni/PortProxyBuilder\$DartException',
-                  )
-                      // ignore: invalid_use_of_internal_member
-                      .reference
-                      .pointer,
+                  ),
                 ),
                 isTrue,
               );
