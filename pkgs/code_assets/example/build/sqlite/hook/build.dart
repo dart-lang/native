@@ -9,17 +9,16 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final packageName = input.packageName;
     if (input.config.buildCodeAssets) {
-      const assetName = 'src/third_party/sqlite3.g.dart';
-      const dylibName = 'sqlite3';
-
       final cbuilder = CBuilder.library(
-        name: dylibName,
-        packageName: packageName,
-        assetName: assetName,
+        name: 'sqlite3',
+        assetName: 'src/third_party/sqlite3.g.dart',
         sources: ['third_party/sqlite/sqlite3.c'],
-        defines: {'SQLITE_API': '__declspec(dllexport)'},
+        defines: {
+          if (input.config.code.targetOS == OS.windows)
+            // Ensure symbols are exported in dll.
+            'SQLITE_API': '__declspec(dllexport)',
+        },
       );
       await cbuilder.run(
         input: input,
