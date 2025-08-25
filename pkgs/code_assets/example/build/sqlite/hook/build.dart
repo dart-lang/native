@@ -19,6 +19,7 @@ void main(List<String> args) async {
         packageName: packageName,
         assetName: assetName,
         sources: ['third_party/sqlite/sqlite3.c'],
+        defines: {'SQLITE_API': '__declspec(dllexport)'},
       );
       await cbuilder.run(
         input: input,
