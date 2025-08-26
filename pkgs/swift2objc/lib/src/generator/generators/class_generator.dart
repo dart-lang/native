@@ -46,8 +46,9 @@ String _generateClassHeader(ClassDeclaration declaration) {
 
   final superClassAndProtocols = [
     declaration.superClass?.declaration.name,
-    ...declaration.conformedProtocols
-        .map((protocol) => protocol.declaration.name),
+    ...declaration.conformedProtocols.map(
+      (protocol) => protocol.declaration.name,
+    ),
   ].nonNulls;
 
   if (superClassAndProtocols.isNotEmpty) {
@@ -105,8 +106,9 @@ List<String> _generateInitializer(InitializerDeclaration initializer) {
   ];
 }
 
-List<String> _generateClassMethods(ClassDeclaration declaration) =>
-    [for (final method in declaration.methods) ..._generateClassMethod(method)];
+List<String> _generateClassMethods(ClassDeclaration declaration) => [
+  for (final method in declaration.methods) ..._generateClassMethod(method),
+];
 
 List<String> _generateClassMethod(MethodDeclaration method) {
   final header = StringBuffer();
@@ -142,9 +144,9 @@ List<String> _generateClassMethod(MethodDeclaration method) {
 }
 
 List<String> _generateClassProperties(ClassDeclaration declaration) => [
-      for (final property in declaration.properties)
-        ..._generateClassProperty(property),
-    ];
+  for (final property in declaration.properties)
+    ..._generateClassProperty(property),
+];
 
 List<String> _generateClassProperty(PropertyDeclaration property) {
   final header = StringBuffer();
@@ -156,10 +158,7 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   if (property.isStatic) {
     header.write('static ');
   }
-  final prefixes = [
-    if (property.unowned) 'unowned',
-    if (property.weak) 'weak',
-  ];
+  final prefixes = [if (property.unowned) 'unowned', if (property.weak) 'weak'];
 
   var prefix = prefixes.isEmpty ? '' : '${prefixes.join(' ')} ';
   var propSwiftType = property.type.swiftType;
@@ -169,13 +168,13 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   final getterLines = [
     'get ${generateAnnotations(property)}{',
     ...(property.getter?.statements.indent() ?? <String>[]),
-    '}'
+    '}',
   ];
 
   final setterLines = [
     'set {',
     ...(property.setter?.statements.indent() ?? <String>[]),
-    '}'
+    '}',
   ];
 
   return [
@@ -188,6 +187,6 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
 }
 
 List<String> _generateNestedDeclarations(ClassDeclaration declaration) => [
-      for (final nested in declaration.nestedDeclarations)
-        ...generateDeclaration(nested),
-    ];
+  for (final nested in declaration.nestedDeclarations)
+    ...generateDeclaration(nested),
+];

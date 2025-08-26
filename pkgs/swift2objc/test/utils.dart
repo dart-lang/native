@@ -19,10 +19,7 @@ void expectString(String a, String b) {
 }
 
 String testDir = p.normalize(
-  p.join(
-    findPackageRoot('swift2objc').toFilePath(),
-    'test',
-  ),
+  p.join(findPackageRoot('swift2objc').toFilePath(), 'test'),
 );
 
 Future<void> expectValidSwift(List<String> files) async {

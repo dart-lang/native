@@ -29,10 +29,7 @@ Future<void> generateWrapper(Config config) async {
 
   final symbolgraphCommand = input.symbolgraphCommand;
   if (symbolgraphCommand != null) {
-    await _generateSymbolgraphJson(
-      symbolgraphCommand,
-      tempDir,
-    );
+    await _generateSymbolgraphJson(symbolgraphCommand, tempDir);
   }
 
   final symbolgraphFileName = switch (input) {
@@ -50,8 +47,10 @@ Future<void> generateWrapper(Config config) async {
   };
 
   final declarations = parseAst(symbolgraphJson);
-  final transformedDeclarations =
-      transform(declarations, filter: config.include);
+  final transformedDeclarations = transform(
+    declarations,
+    filter: config.include,
+  );
   final wrapperCode = generate(
     transformedDeclarations,
     moduleName: sourceModule,

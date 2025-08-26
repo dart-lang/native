@@ -37,8 +37,11 @@ class AvailabilityVersion {
   int? minor;
   int? patch;
 
-  AvailabilityVersion(
-      {required this.major, required this.minor, required this.patch});
+  AvailabilityVersion({
+    required this.major,
+    required this.minor,
+    required this.patch,
+  });
 
   @override
   String toString() => [major, minor, patch].nonNulls.join('.');
