@@ -15,10 +15,7 @@ class Globals {
   List<GlobalFunctionDeclaration> functions;
   List<GlobalVariableDeclaration> variables;
 
-  Globals({
-    required this.functions,
-    required this.variables,
-  });
+  Globals({required this.functions, required this.variables});
 }
 
 /// Describes a globally defined function.

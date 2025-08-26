@@ -84,9 +84,11 @@ class ClassDeclaration extends AstNode
     this.wrappedInstance,
     this.wrapperInitializer,
     this.initializers = const [],
-  }) : assert(superClass == null ||
-            superClass.declaration is ClassDeclaration ||
-            superClass.sameAs(objectType));
+  }) : assert(
+         superClass == null ||
+             superClass.declaration is ClassDeclaration ||
+             superClass.sameAs(objectType),
+       );
 
   @override
   void visit(Visitation visitation) => visitation.visitClassDeclaration(this);

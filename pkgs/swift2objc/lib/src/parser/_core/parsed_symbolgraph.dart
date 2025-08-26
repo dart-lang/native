@@ -39,7 +39,7 @@ enum ParsedRelationKind {
 
   static final _supportedRelationKindsMap = {
     for (final relationKind in ParsedRelationKind.values)
-      relationKind.name: relationKind
+      relationKind.name: relationKind,
   };
 
   static ParsedRelationKind? fromString(String relationKindString) =>

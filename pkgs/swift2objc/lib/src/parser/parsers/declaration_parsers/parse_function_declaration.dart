@@ -17,7 +17,9 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
   ParsedSymbolgraph symbolgraph,
 ) {
   final info = parseFunctionInfo(
-      globalFunctionSymbolJson['declarationFragments'], symbolgraph);
+    globalFunctionSymbolJson['declarationFragments'],
+    symbolgraph,
+  );
   return GlobalFunctionDeclaration(
     id: parseSymbolId(globalFunctionSymbolJson),
     name: parseSymbolName(globalFunctionSymbolJson),
@@ -34,19 +36,22 @@ MethodDeclaration parseMethodDeclaration(
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final info =
-      parseFunctionInfo(methodSymbolJson['declarationFragments'], symbolgraph);
+  final info = parseFunctionInfo(
+    methodSymbolJson['declarationFragments'],
+    symbolgraph,
+  );
   return MethodDeclaration(
-      id: parseSymbolId(methodSymbolJson),
-      name: parseSymbolName(methodSymbolJson),
-      availability: parseAvailability(methodSymbolJson),
-      returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
-      params: info.params,
-      hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
-      isStatic: isStatic,
-      throws: info.throws,
-      async: info.async,
-      mutating: info.mutating);
+    id: parseSymbolId(methodSymbolJson),
+    name: parseSymbolName(methodSymbolJson),
+    availability: parseAvailability(methodSymbolJson),
+    returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
+    params: info.params,
+    hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
+    isStatic: isStatic,
+    throws: info.throws,
+    async: info.async,
+    mutating: info.mutating,
+  );
 }
 
 typedef ParsedFunctionInfo = ({
@@ -133,11 +138,9 @@ ParsedFunctionInfo parseFunctionInfo(
       final (type, remainingTokens) = parseType(symbolgraph, tokens);
       tokens = remainingTokens;
 
-      parameters.add(Parameter(
-        name: externalParam,
-        internalName: internalParam,
-        type: type,
-      ));
+      parameters.add(
+        Parameter(name: externalParam, internalName: internalParam, type: type),
+      );
 
       final end = maybeConsume('text');
       if (end == ')') break;
@@ -161,7 +164,7 @@ ParsedFunctionInfo parseFunctionInfo(
     params: parameters,
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
-    mutating: prefixAnnotations.contains('mutating')
+    mutating: prefixAnnotations.contains('mutating'),
   );
 }
 
@@ -169,8 +172,9 @@ ReferredType _parseFunctionReturnType(
   Json methodSymbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final returnJson =
-      TokenList(methodSymbolJson['functionSignature']['returns']);
+  final returnJson = TokenList(
+    methodSymbolJson['functionSignature']['returns'],
+  );
   final (returnType, unparsed) = parseType(symbolgraph, returnJson);
   assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
   return returnType;

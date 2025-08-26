@@ -47,10 +47,10 @@ class DeclaredType<T extends Declaration> extends AstNode
 
   @override
   bool get isObjCRepresentable => switch (declaration) {
-        TypealiasDeclaration decl => decl.target.isObjCRepresentable,
-        ObjCAnnotatable decl => decl.hasObjCAnnotation,
-        _ => false,
-      };
+    TypealiasDeclaration decl => decl.target.isObjCRepresentable,
+    ObjCAnnotatable decl => decl.hasObjCAnnotation,
+    _ => false,
+  };
 
   @override
   String get swiftType => name;
@@ -60,9 +60,9 @@ class DeclaredType<T extends Declaration> extends AstNode
 
   @override
   ReferredType get aliasedType => switch (declaration) {
-        TypealiasDeclaration decl => decl.target.aliasedType,
-        _ => this,
-      };
+    TypealiasDeclaration decl => decl.target.aliasedType,
+    _ => this,
+  };
 
   const DeclaredType({
     required this.id,
@@ -103,10 +103,7 @@ class GenericType extends AstNode implements ReferredType {
   @override
   ReferredType get aliasedType => this;
 
-  const GenericType({
-    required this.id,
-    required this.name,
-  });
+  const GenericType({required this.id, required this.name});
 
   @override
   String toString() => name;

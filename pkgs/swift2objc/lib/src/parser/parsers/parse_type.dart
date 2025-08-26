@@ -15,11 +15,16 @@ import 'parse_declarations.dart';
 /// Returns the parsed type, and a Json slice of the remaining fragments that
 /// weren't part of the type.
 (ReferredType, TokenList) parseType(
-    ParsedSymbolgraph symbolgraph, TokenList fragments) {
+  ParsedSymbolgraph symbolgraph,
+  TokenList fragments,
+) {
   var (type, suffix) = _parsePrefixTypeExpression(symbolgraph, fragments);
   while (true) {
-    final (nextType, nextSuffix) =
-        _maybeParseSuffixTypeExpression(symbolgraph, type, suffix);
+    final (nextType, nextSuffix) = _maybeParseSuffixTypeExpression(
+      symbolgraph,
+      type,
+      suffix,
+    );
     if (nextType == null) break;
     type = nextType;
     suffix = nextSuffix;
@@ -31,7 +36,9 @@ import 'parse_declarations.dart';
 // at the beginning of the list of fragments). If we were parsing a programming
 // language, these would be things like `123` or `-x`.
 (ReferredType, TokenList) _parsePrefixTypeExpression(
-    ParsedSymbolgraph symbolgraph, TokenList fragments) {
+  ParsedSymbolgraph symbolgraph,
+  TokenList fragments,
+) {
   final token = fragments[0];
   final parselet = _prefixParsets[_tokenId(token)];
   if (parselet == null) throw Exception('Invalid type at "${token.path}"');
@@ -42,9 +49,10 @@ import 'parse_declarations.dart';
 // anything that isn't a prefix). If we were parsing a programming language,
 // these would be things like `x + y`, `z!`, or even `x ? y : z`.
 (ReferredType?, TokenList) _maybeParseSuffixTypeExpression(
-    ParsedSymbolgraph symbolgraph,
-    ReferredType prefixType,
-    TokenList fragments) {
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  TokenList fragments,
+) {
   if (fragments.isEmpty) return (null, fragments);
   final token = fragments[0];
   final parselet = _suffixParsets[_tokenId(token)];
@@ -63,17 +71,25 @@ String _tokenId(Json token) {
 // === Prefix parselets ===
 // ========================
 
-typedef PrefixParselet = (ReferredType, TokenList) Function(
-    ParsedSymbolgraph symbolgraph, Json token, TokenList fragments);
+typedef PrefixParselet =
+    (ReferredType, TokenList) Function(
+      ParsedSymbolgraph symbolgraph,
+      Json token,
+      TokenList fragments,
+    );
 
 (ReferredType, TokenList) _typeIdentifierParselet(
-    ParsedSymbolgraph symbolgraph, Json token, TokenList fragments) {
+  ParsedSymbolgraph symbolgraph,
+  Json token,
+  TokenList fragments,
+) {
   final id = token['preciseIdentifier'].get<String>();
   final symbol = symbolgraph.symbols[id];
 
   if (symbol == null) {
     throw Exception(
-        'The type at "${token.path}" does not exist among parsed symbols.');
+      'The type at "${token.path}" does not exist among parsed symbols.',
+    );
   }
 
   final type = parseDeclaration(symbol, symbolgraph).asDeclaredType;
@@ -81,7 +97,10 @@ typedef PrefixParselet = (ReferredType, TokenList) Function(
 }
 
 (ReferredType, TokenList) _tupleParselet(
-    ParsedSymbolgraph symbolgraph, Json token, TokenList fragments) {
+  ParsedSymbolgraph symbolgraph,
+  Json token,
+  TokenList fragments,
+) {
   final nextToken = fragments[0];
   if (_tokenId(nextToken) != 'text: )') {
     throw Exception('Tuples not supported yet, at ${token.path}');
@@ -98,18 +117,27 @@ Map<String, PrefixParselet> _prefixParsets = {
 // === Suffix parselets ===
 // ========================
 
-typedef SuffixParselet = (ReferredType, TokenList) Function(
-    ParsedSymbolgraph symbolgraph,
-    ReferredType prefixType,
-    Json token,
-    TokenList fragments);
+typedef SuffixParselet =
+    (ReferredType, TokenList) Function(
+      ParsedSymbolgraph symbolgraph,
+      ReferredType prefixType,
+      Json token,
+      TokenList fragments,
+    );
 
-(ReferredType, TokenList) _optionalParselet(ParsedSymbolgraph symbolgraph,
-        ReferredType prefixType, Json token, TokenList fragments) =>
-    (OptionalType(prefixType), fragments);
+(ReferredType, TokenList) _optionalParselet(
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  Json token,
+  TokenList fragments,
+) => (OptionalType(prefixType), fragments);
 
-(ReferredType, TokenList) _nestedTypeParselet(ParsedSymbolgraph symbolgraph,
-    ReferredType prefixType, Json token, TokenList fragments) {
+(ReferredType, TokenList) _nestedTypeParselet(
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  Json token,
+  TokenList fragments,
+) {
   // Parsing Foo.Bar. Foo is in prefixType, and the token is ".". Bar's ID
   // is a globally uniquely identifier. We don't need to use Foo as a namespace.
   // So we can actually completely discard Foo and just parse Bar.
