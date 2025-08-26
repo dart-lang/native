@@ -10,72 +10,62 @@ import '../jvalues.dart';
 import '../types.dart';
 import 'jbyte_buffer.dart';
 
-final class JBufferNullableType extends JObjType<JBuffer?> {
-  @internal
-  const JBufferNullableType();
+@internal
+final class $JBuffer$NullableType$ extends JType<JBuffer?> {
+  const $JBuffer$NullableType$();
 
-  @internal
   @override
   String get signature => r'Ljava/nio/Buffer;';
 
-  @internal
   @override
   JBuffer? fromReference(JReference reference) =>
       reference.isNull ? null : JBuffer.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JBuffer?> get nullableType => this;
+  JType<JBuffer?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => (JBufferNullableType).hashCode;
+  int get hashCode => ($JBuffer$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JBufferNullableType &&
-        other is JBufferNullableType;
+    return other.runtimeType == $JBuffer$NullableType$ &&
+        other is $JBuffer$NullableType$;
   }
 }
 
-final class JBufferType extends JObjType<JBuffer> {
-  @internal
-  const JBufferType();
+@internal
+final class $JBuffer$Type$ extends JType<JBuffer> {
+  const $JBuffer$Type$();
 
-  @internal
   @override
   String get signature => r'Ljava/nio/Buffer;';
 
-  @internal
   @override
   JBuffer fromReference(JReference reference) =>
       JBuffer.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JBuffer?> get nullableType => const JBufferNullableType();
+  JType<JBuffer?> get nullableType => const $JBuffer$NullableType$();
 
-  @internal
   @override
   final superCount = 1;
 
   @override
-  int get hashCode => (JBufferType).hashCode;
+  int get hashCode => ($JBuffer$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JBufferType && other is JBufferType;
+    return other.runtimeType == $JBuffer$Type$ && other is $JBuffer$Type$;
   }
 }
 
@@ -94,7 +84,7 @@ class JBuffer extends JObject {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JBuffer> $type = type;
+  final JType<JBuffer> $type = type;
 
   JBuffer.fromReference(
     super.reference,
@@ -103,10 +93,10 @@ class JBuffer extends JObject {
   static final _class = JClass.forName(r'java/nio/Buffer');
 
   /// The type which includes information such as the signature of this class.
-  static const type = JBufferType();
+  static const JType<JBuffer> type = $JBuffer$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JBufferNullableType();
+  static const JType<JBuffer?> nullableType = $JBuffer$NullableType$();
 
   static final _capacityId = _class.instanceMethodId(r'capacity', r'()I');
 
@@ -133,7 +123,7 @@ class JBuffer extends JObject {
   /// * `IllegalArgumentException` - If the preconditions on [newPosition] do
   ///   not hold.
   set position(int newPosition) {
-    _setPositionId(this, const JObjectType(), [JValueInt(newPosition)])
+    _setPositionId(this, const $JObject$Type$(), [JValueInt(newPosition)])
         .release();
   }
 
@@ -153,7 +143,7 @@ class JBuffer extends JObject {
   /// * `IllegalArgumentException` - If the preconditions on [newLimit] do not
   ///   hold.
   set limit(int newLimit) {
-    _setLimitId(this, const JObjectType(), [JValueInt(newLimit)]).release();
+    _setLimitId(this, const $JObject$Type$(), [JValueInt(newLimit)]).release();
   }
 
   static final _markId =
@@ -164,7 +154,7 @@ class JBuffer extends JObject {
   /// Mark is the index to which its [position] will be reset when the [reset]
   /// method is invoked.
   void mark() {
-    _markId(this, const JObjectType(), []).release();
+    _markId(this, const $JObject$Type$(), []).release();
   }
 
   static final _resetId =
@@ -175,7 +165,7 @@ class JBuffer extends JObject {
   /// Throws:
   /// * `InvalidMarkException` - If the mark has not been set
   void reset() {
-    _resetId(this, const JObjectType(), []).release();
+    _resetId(this, const $JObject$Type$(), []).release();
   }
 
   static final _clearId =
@@ -186,7 +176,7 @@ class JBuffer extends JObject {
   /// The [position] is set to zero, the [limit] is set to
   /// the [capacity], and the mark is discarded.
   void clear() {
-    _clearId(this, const JObjectType(), []).release();
+    _clearId(this, const $JObject$Type$(), []).release();
   }
 
   static final _flipId =
@@ -197,7 +187,7 @@ class JBuffer extends JObject {
   /// The limit is set to the current [position] and then the [position] is set
   /// to zero. If the mark is defined then it is discarded.
   void flip() {
-    _flipId(this, const JObjectType(), []).release();
+    _flipId(this, const $JObject$Type$(), []).release();
   }
 
   static final _rewindId =
@@ -207,7 +197,7 @@ class JBuffer extends JObject {
   ///
   /// The [position] is set to zero and the mark is discarded.
   void rewind() {
-    _rewindId(this, const JObjectType(), []).release();
+    _rewindId(this, const $JObject$Type$(), []).release();
   }
 
   static final _remainingId = _class.instanceMethodId(r'remaining', r'()I');
@@ -261,7 +251,7 @@ class JBuffer extends JObject {
   /// * `UnsupportedOperationException` - If this buffer is not backed by an
   ///   accessible array
   JObject get array {
-    return _arrayId(this, const JObjectType(), [])!;
+    return _arrayId(this, const $JObject$Type$(), [])!;
   }
 
   static final _arrayOffsetId = _class.instanceMethodId(r'arrayOffset', r'()I');

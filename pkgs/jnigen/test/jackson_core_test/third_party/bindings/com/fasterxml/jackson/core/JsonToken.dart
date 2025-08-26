@@ -60,7 +60,7 @@ import 'package:jni/jni.dart' as jni$_;
 class JsonToken extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<JsonToken> $type;
+  final jni$_.JType<JsonToken> $type;
 
   @jni$_.internal
   JsonToken.fromReference(
@@ -72,8 +72,11 @@ class JsonToken extends jni$_.JObject {
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $JsonToken$NullableType();
-  static const type = $JsonToken$Type();
+  static const jni$_.JType<JsonToken?> nullableType =
+      $JsonToken$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JsonToken> type = $JsonToken$Type$();
   static final _id_NOT_AVAILABLE = _class.staticFieldId(
     r'NOT_AVAILABLE',
     r'Lcom/fasterxml/jackson/core/JsonToken;',
@@ -90,7 +93,7 @@ class JsonToken extends jni$_.JObject {
   /// they can not block to wait for more data to parse and
   /// must return something.
   static JsonToken get NOT_AVAILABLE =>
-      _id_NOT_AVAILABLE.get(_class, const $JsonToken$Type());
+      _id_NOT_AVAILABLE.get(_class, const $JsonToken$Type$());
 
   static final _id_START_OBJECT = _class.staticFieldId(
     r'START_OBJECT',
@@ -103,7 +106,7 @@ class JsonToken extends jni$_.JObject {
   /// START_OBJECT is returned when encountering '{'
   /// which signals starting of an Object value.
   static JsonToken get START_OBJECT =>
-      _id_START_OBJECT.get(_class, const $JsonToken$Type());
+      _id_START_OBJECT.get(_class, const $JsonToken$Type$());
 
   static final _id_END_OBJECT = _class.staticFieldId(
     r'END_OBJECT',
@@ -116,7 +119,7 @@ class JsonToken extends jni$_.JObject {
   /// END_OBJECT is returned when encountering '}'
   /// which signals ending of an Object value
   static JsonToken get END_OBJECT =>
-      _id_END_OBJECT.get(_class, const $JsonToken$Type());
+      _id_END_OBJECT.get(_class, const $JsonToken$Type$());
 
   static final _id_START_ARRAY = _class.staticFieldId(
     r'START_ARRAY',
@@ -129,7 +132,7 @@ class JsonToken extends jni$_.JObject {
   /// START_ARRAY is returned when encountering '['
   /// which signals starting of an Array value
   static JsonToken get START_ARRAY =>
-      _id_START_ARRAY.get(_class, const $JsonToken$Type());
+      _id_START_ARRAY.get(_class, const $JsonToken$Type$());
 
   static final _id_END_ARRAY = _class.staticFieldId(
     r'END_ARRAY',
@@ -142,7 +145,7 @@ class JsonToken extends jni$_.JObject {
   /// END_ARRAY is returned when encountering ']'
   /// which signals ending of an Array value
   static JsonToken get END_ARRAY =>
-      _id_END_ARRAY.get(_class, const $JsonToken$Type());
+      _id_END_ARRAY.get(_class, const $JsonToken$Type$());
 
   static final _id_FIELD_NAME = _class.staticFieldId(
     r'FIELD_NAME',
@@ -155,7 +158,7 @@ class JsonToken extends jni$_.JObject {
   /// FIELD_NAME is returned when a String token is encountered
   /// as a field name (same lexical value, different function)
   static JsonToken get FIELD_NAME =>
-      _id_FIELD_NAME.get(_class, const $JsonToken$Type());
+      _id_FIELD_NAME.get(_class, const $JsonToken$Type$());
 
   static final _id_VALUE_EMBEDDED_OBJECT = _class.staticFieldId(
     r'VALUE_EMBEDDED_OBJECT',
@@ -174,7 +177,7 @@ class JsonToken extends jni$_.JObject {
   /// only by readers that expose other kinds of source (like
   /// <code>JsonNode</code>-based JSON trees, Maps, Lists and such).
   static JsonToken get VALUE_EMBEDDED_OBJECT =>
-      _id_VALUE_EMBEDDED_OBJECT.get(_class, const $JsonToken$Type());
+      _id_VALUE_EMBEDDED_OBJECT.get(_class, const $JsonToken$Type$());
 
   static final _id_VALUE_STRING = _class.staticFieldId(
     r'VALUE_STRING',
@@ -188,7 +191,7 @@ class JsonToken extends jni$_.JObject {
   /// in value context (array element, field value, or root-level
   /// stand-alone value)
   static JsonToken get VALUE_STRING =>
-      _id_VALUE_STRING.get(_class, const $JsonToken$Type());
+      _id_VALUE_STRING.get(_class, const $JsonToken$Type$());
 
   static final _id_VALUE_NUMBER_INT = _class.staticFieldId(
     r'VALUE_NUMBER_INT',
@@ -205,7 +208,7 @@ class JsonToken extends jni$_.JObject {
   /// or, for binary formats, is indicated as integral number
   /// by internal representation).
   static JsonToken get VALUE_NUMBER_INT =>
-      _id_VALUE_NUMBER_INT.get(_class, const $JsonToken$Type());
+      _id_VALUE_NUMBER_INT.get(_class, const $JsonToken$Type$());
 
   static final _id_VALUE_NUMBER_FLOAT = _class.staticFieldId(
     r'VALUE_NUMBER_FLOAT',
@@ -221,7 +224,7 @@ class JsonToken extends jni$_.JObject {
   /// to one or more digits (or, for non-textual formats,
   /// has internal floating-point representation).
   static JsonToken get VALUE_NUMBER_FLOAT =>
-      _id_VALUE_NUMBER_FLOAT.get(_class, const $JsonToken$Type());
+      _id_VALUE_NUMBER_FLOAT.get(_class, const $JsonToken$Type$());
 
   static final _id_VALUE_TRUE = _class.staticFieldId(
     r'VALUE_TRUE',
@@ -234,7 +237,7 @@ class JsonToken extends jni$_.JObject {
   /// VALUE_TRUE is returned when encountering literal "true" in
   /// value context
   static JsonToken get VALUE_TRUE =>
-      _id_VALUE_TRUE.get(_class, const $JsonToken$Type());
+      _id_VALUE_TRUE.get(_class, const $JsonToken$Type$());
 
   static final _id_VALUE_FALSE = _class.staticFieldId(
     r'VALUE_FALSE',
@@ -247,7 +250,7 @@ class JsonToken extends jni$_.JObject {
   /// VALUE_FALSE is returned when encountering literal "false" in
   /// value context
   static JsonToken get VALUE_FALSE =>
-      _id_VALUE_FALSE.get(_class, const $JsonToken$Type());
+      _id_VALUE_FALSE.get(_class, const $JsonToken$Type$());
 
   static final _id_VALUE_NULL = _class.staticFieldId(
     r'VALUE_NULL',
@@ -260,7 +263,7 @@ class JsonToken extends jni$_.JObject {
   /// VALUE_NULL is returned when encountering literal "null" in
   /// value context
   static JsonToken get VALUE_NULL =>
-      _id_VALUE_NULL.get(_class, const $JsonToken$Type());
+      _id_VALUE_NULL.get(_class, const $JsonToken$Type$());
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -284,8 +287,8 @@ class JsonToken extends jni$_.JObject {
   static jni$_.JArray<JsonToken?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
         .object<jni$_.JArray<JsonToken?>?>(
-            const jni$_.JArrayNullableType<JsonToken?>(
-                $JsonToken$NullableType()));
+            const jni$_.$JArray$NullableType$<JsonToken?>(
+                $JsonToken$NullableType$()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -312,7 +315,7 @@ class JsonToken extends jni$_.JObject {
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
             _$name.pointer)
-        .object<JsonToken?>(const $JsonToken$NullableType());
+        .object<JsonToken?>(const $JsonToken$NullableType$());
   }
 
   static final _id_id = _class.instanceMethodId(
@@ -358,7 +361,7 @@ class JsonToken extends jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? asString() {
     return _asString(reference.pointer, _id_asString as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_asCharArray = _class.instanceMethodId(
@@ -383,7 +386,7 @@ class JsonToken extends jni$_.JObject {
   jni$_.JCharArray? asCharArray() {
     return _asCharArray(
             reference.pointer, _id_asCharArray as jni$_.JMethodIDPtr)
-        .object<jni$_.JCharArray?>(const jni$_.JCharArrayNullableType());
+        .object<jni$_.JCharArray?>(const jni$_.$JCharArray$NullableType$());
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
@@ -408,7 +411,7 @@ class JsonToken extends jni$_.JObject {
   jni$_.JByteArray? asByteArray() {
     return _asByteArray(
             reference.pointer, _id_asByteArray as jni$_.JMethodIDPtr)
-        .object<jni$_.JByteArray?>(const jni$_.JByteArrayNullableType());
+        .object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
   }
 
   static final _id_isNumeric = _class.instanceMethodId(
@@ -559,9 +562,9 @@ class JsonToken extends jni$_.JObject {
   }
 }
 
-final class $JsonToken$NullableType extends jni$_.JObjType<JsonToken?> {
+final class $JsonToken$NullableType$ extends jni$_.JType<JsonToken?> {
   @jni$_.internal
-  const $JsonToken$NullableType();
+  const $JsonToken$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -576,29 +579,29 @@ final class $JsonToken$NullableType extends jni$_.JObjType<JsonToken?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonToken?> get nullableType => this;
+  jni$_.JType<JsonToken?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonToken$NullableType).hashCode;
+  int get hashCode => ($JsonToken$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonToken$NullableType) &&
-        other is $JsonToken$NullableType;
+    return other.runtimeType == ($JsonToken$NullableType$) &&
+        other is $JsonToken$NullableType$;
   }
 }
 
-final class $JsonToken$Type extends jni$_.JObjType<JsonToken> {
+final class $JsonToken$Type$ extends jni$_.JType<JsonToken> {
   @jni$_.internal
-  const $JsonToken$Type();
+  const $JsonToken$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -612,22 +615,21 @@ final class $JsonToken$Type extends jni$_.JObjType<JsonToken> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JsonToken?> get nullableType =>
-      const $JsonToken$NullableType();
+  jni$_.JType<JsonToken?> get nullableType => const $JsonToken$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JsonToken$Type).hashCode;
+  int get hashCode => ($JsonToken$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JsonToken$Type) && other is $JsonToken$Type;
+    return other.runtimeType == ($JsonToken$Type$) && other is $JsonToken$Type$;
   }
 }
