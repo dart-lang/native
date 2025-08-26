@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
@@ -13,11 +14,13 @@ void main() {
   test('Do not publish samples', () {
     final packageRoot = findPackageRoot('hooks');
 
-    final dryRunResult = Process.runSync('dart', [
-      'pub',
-      'publish',
-      '--dry-run',
-    ], workingDirectory: packageRoot.toFilePath());
+    final dryRunResult = Process.runSync(
+      'dart',
+      ['pub', 'publish', '--dry-run'],
+      workingDirectory: packageRoot.toFilePath(),
+      stdoutEncoding: utf8,
+      stderrEncoding: utf8,
+    );
     printOnFailure(dryRunResult.stderr as String);
     printOnFailure(dryRunResult.stdout as String);
     expect(
