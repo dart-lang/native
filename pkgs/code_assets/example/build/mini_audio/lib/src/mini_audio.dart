@@ -29,7 +29,7 @@ final class MiniAudio {
 
   /// Plays a sound from the given [filePath].
   void playSound(String filePath) => using((arena) {
-    final filePath_ = filePath.toNativeUtf8();
+    final filePath_ = filePath.toNativeUtf8(allocator: arena);
     ma_engine_play_sound(_engine, filePath_.cast(), nullptr);
   });
 }
