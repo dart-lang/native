@@ -19,6 +19,6 @@ dependencies:
     path: ../reusable_dynamic_library/
 
 dev_dependencies:
-  ffigen: ^18.0.0
+  ffigen: ^19.1.0
   lints: ^6.0.0
   test: ^1.21.0

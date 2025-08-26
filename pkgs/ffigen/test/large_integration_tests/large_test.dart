@@ -24,8 +24,10 @@ void main() {
         'libclang',
         'include',
       );
+      final logArr = <String>[];
+      final logger = logToArray(logArr, Level.SEVERE);
       final config = FfiGen(
-        Logger.root,
+        logger,
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
@@ -75,6 +77,44 @@ void main() {
         codeNormalizer: (code) =>
             code.replaceAll(RegExp('[^\n]*///[^\n]*@[^\n]*\n'), ''),
       );
+
+      const expectedEnumWarnings = [
+        'CXAvailabilityKind',
+        'CXCallingConv',
+        'CXChildVisitResult',
+        'CXCompletionChunkKind',
+        'CXCursorKind',
+        'CXDiagnosticSeverity',
+        'CXErrorCode',
+        'CXEvalResultKind',
+        'CXIdxAttrKind',
+        'CXIdxEntityCXXTemplateKind',
+        'CXIdxEntityKind',
+        'CXIdxEntityLanguage',
+        'CXIdxEntityRefKind',
+        'CXIdxObjCContainerKind',
+        'CXLanguageKind',
+        'CXLinkageKind',
+        'CXLoadDiag_Error',
+        'CXPrintingPolicyProperty',
+        'CXRefQualifierKind',
+        'CXResult',
+        'CXSymbolRole',
+        'CXTLSKind',
+        'CXTUResourceUsageKind',
+        'CXTemplateArgumentKind',
+        'CXTokenKind',
+        'CXTypeKind',
+        'CXTypeNullabilityKind',
+        'CXVisibilityKind',
+        'CXVisitorResult',
+        'CX_CXXAccessSpecifier',
+        'CX_StorageClass',
+      ];
+      final actualLogs = logArr.join('\n');
+      for (final e in expectedEnumWarnings) {
+        expect(actualLogs, contains(e));
+      }
     });
 
     test('CJSON test', () {
