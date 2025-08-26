@@ -14,6 +14,7 @@ public class Field {
   public String name;
   public TypeUsage type;
   public Object defaultValue;
+  public String descriptor;
 
   public JavaDocComment javadoc;
   public List<JavaAnnotation> annotations = new ArrayList<>();

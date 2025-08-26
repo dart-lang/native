@@ -30,9 +30,10 @@ String _toJavaBinaryName(String kotlinBinaryName) {
       binaryName;
 }
 
-/// A [Visitor] that adds the the information from Kotlin's metadata to the Java
-/// classes and methods.
-class KotlinProcessor extends Visitor<Classes, void> with TopLevelVisitor {
+/// An [ElementVisitor] that adds the the information from Kotlin's metadata to
+/// the Java classes and methods.
+class KotlinProcessor extends ElementVisitor<Classes, void>
+    with TopLevelVisitor {
   @override
   final GenerationStage stage = GenerationStage.kotlinProcessor;
 
@@ -45,20 +46,21 @@ class KotlinProcessor extends Visitor<Classes, void> with TopLevelVisitor {
   }
 }
 
-class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
+class _KotlinClassProcessor extends ElementVisitor<ClassDecl, void> {
   @override
   void visit(ClassDecl node) {
     if (node.kotlinClass == null && node.kotlinPackage == null) {
       return;
     }
     // This [ClassDecl] is actually a Kotlin class.
-    if (node.kotlinClass != null) {
-      for (var i = 0; i < node.kotlinClass!.typeParameters.length; ++i) {
-        node.typeParams[i].accept(
-            _KotlinTypeParamProcessor(node.kotlinClass!.typeParameters[i]));
+    if (node.kotlinClass case final kotlinClass?) {
+      node.originalName = kotlinClass.name;
+      for (var i = 0; i < kotlinClass.typeParameters.length; ++i) {
+        node.typeParams[i]
+            .accept(_KotlinTypeParamProcessor(kotlinClass.typeParameters[i]));
       }
       if (node.superclass case final superClass?) {
-        final kotlinSuperTypes = node.kotlinClass!.superTypes.where(
+        final kotlinSuperTypes = kotlinClass.superTypes.where(
           (superType) =>
               _toJavaBinaryName(superType.name ?? '') == superClass.name,
         );
@@ -131,13 +133,14 @@ void _processParams(
   }
 }
 
-class _KotlinMethodProcessor extends Visitor<Method, void> {
+class _KotlinMethodProcessor extends ElementVisitor<Method, void> {
   final KotlinFunction function;
 
   _KotlinMethodProcessor(this.function);
 
   @override
   void visit(Method node) {
+    node.originalName = function.name;
     _processParams(node.params, function.valueParameters);
     node.kotlinFunction = function;
     for (var i = 0; i < node.typeParams.length; ++i) {
@@ -171,7 +174,7 @@ class _KotlinMethodProcessor extends Visitor<Method, void> {
   }
 }
 
-class _KotlinConstructorProcessor extends Visitor<Method, void> {
+class _KotlinConstructorProcessor extends ElementVisitor<Method, void> {
   final KotlinConstructor constructor;
 
   _KotlinConstructorProcessor(this.constructor);
@@ -182,7 +185,7 @@ class _KotlinConstructorProcessor extends Visitor<Method, void> {
   }
 }
 
-class _KotlinGetterProcessor extends Visitor<Method, void> {
+class _KotlinGetterProcessor extends ElementVisitor<Method, void> {
   final KotlinProperty getter;
 
   _KotlinGetterProcessor(this.getter);
@@ -193,7 +196,7 @@ class _KotlinGetterProcessor extends Visitor<Method, void> {
   }
 }
 
-class _KotlinSetterProcessor extends Visitor<Method, void> {
+class _KotlinSetterProcessor extends ElementVisitor<Method, void> {
   final KotlinProperty setter;
 
   _KotlinSetterProcessor(this.setter);
@@ -207,29 +210,31 @@ class _KotlinSetterProcessor extends Visitor<Method, void> {
   }
 }
 
-class _KotlinPropertyProcessor extends Visitor<Field, void> {
+class _KotlinPropertyProcessor extends ElementVisitor<Field, void> {
   final KotlinProperty property;
 
   _KotlinPropertyProcessor(this.property);
 
   @override
   void visit(Field node) {
+    node.originalName = property.kotlinName;
     node.type.accept(_KotlinTypeProcessor(property.returnType));
   }
 }
 
-class _KotlinParamProcessor extends Visitor<Param, void> {
+class _KotlinParamProcessor extends ElementVisitor<Param, void> {
   final KotlinValueParameter kotlinParam;
 
   _KotlinParamProcessor(this.kotlinParam);
 
   @override
   void visit(Param node) {
+    node.originalName = kotlinParam.name;
     node.type.accept(_KotlinTypeProcessor(kotlinParam.type));
   }
 }
 
-class _KotlinTypeParamProcessor extends Visitor<TypeParam, void> {
+class _KotlinTypeParamProcessor extends ElementVisitor<TypeParam, void> {
   final KotlinTypeParameter kotlinTypeParam;
 
   _KotlinTypeParamProcessor(this.kotlinTypeParam);
@@ -251,7 +256,7 @@ class _KotlinTypeParamProcessor extends Visitor<TypeParam, void> {
   }
 }
 
-class _KotlinTypeProcessor extends TypeVisitor<void> {
+class _KotlinTypeProcessor extends TypeVisitor<void> with DefaultNonPrimitive {
   final KotlinType kotlinType;
 
   _KotlinTypeProcessor(this.kotlinType);

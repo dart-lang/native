@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-package com.github.dart_lang.jnigen.inheritance;
+package com.github.dart_lang.jnigen.overrides;
 
-public interface BaseInterface {
-  String foo();
+public interface JustAChillDuck {
+  void duck();
 }

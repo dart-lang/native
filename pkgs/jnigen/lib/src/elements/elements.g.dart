@@ -143,6 +143,7 @@ Field _$FieldFromJson(Map<String, dynamic> json) => Field(
           const {},
       name: json['name'] as String,
       type: ReferredType.fromJson(json['type'] as Map<String, dynamic>),
+      descriptor: json['descriptor'] as String?,
       defaultValue: json['defaultValue'],
     );
 
@@ -359,3 +360,11 @@ KotlinValueParameter _$KotlinValueParameterFromJson(
           : KotlinType.fromJson(
               json['varargElementType'] as Map<String, dynamic>),
     );
+
+const _$TypeKindEnumMap = {
+  TypeKind.primitive: 'PRIMITIVE',
+  TypeKind.typeVariable: 'TYPE_VARIABLE',
+  TypeKind.wildcard: 'WILDCARD',
+  TypeKind.declared: 'DECLARED',
+  TypeKind.array: 'ARRAY',
+};
