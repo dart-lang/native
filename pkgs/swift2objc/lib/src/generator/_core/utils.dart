@@ -11,16 +11,18 @@ import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 
 String generateParameters(List<Parameter> params) {
-  return params.map((param) {
-    final String labels;
-    if (param.internalName != null) {
-      labels = '${param.name} ${param.internalName}';
-    } else {
-      labels = param.name;
-    }
+  return params
+      .map((param) {
+        final String labels;
+        if (param.internalName != null) {
+          labels = '${param.name} ${param.internalName}';
+        } else {
+          labels = param.name;
+        }
 
-    return '$labels: ${param.type.swiftType}';
-  }).join(', ');
+        return '$labels: ${param.type.swiftType}';
+      })
+      .join(', ');
 }
 
 extension Indentation on Iterable<String> {
@@ -31,10 +33,7 @@ extension Indentation on Iterable<String> {
   }
 }
 
-void outputNextToFile({
-  required String filePath,
-  required String content,
-}) {
+void outputNextToFile({required String filePath, required String content}) {
   final segments = path.split(filePath);
   segments.removeLast();
   segments.add('output.swift');
@@ -61,12 +60,12 @@ String _generateAvailabilityInfo(AvailabilityInfo info) =>
     '@available(${_generateAvailabilityInfoList(info).join(', ')})';
 
 Iterable<String> _generateAvailabilityInfoList(AvailabilityInfo info) => [
-      info.domain,
-      info.unavailable ? 'unavailable' : null,
-      _generateAvailabilityVersion(info.introduced, 'introduced'),
-      _generateAvailabilityVersion(info.deprecated, 'deprecated'),
-      _generateAvailabilityVersion(info.obsoleted, 'obsoleted'),
-    ].nonNulls;
+  info.domain,
+  info.unavailable ? 'unavailable' : null,
+  _generateAvailabilityVersion(info.introduced, 'introduced'),
+  _generateAvailabilityVersion(info.deprecated, 'deprecated'),
+  _generateAvailabilityVersion(info.obsoleted, 'obsoleted'),
+].nonNulls;
 
 String? _generateAvailabilityVersion(AvailabilityVersion? v, String key) =>
     v == null ? null : '$key: $v';

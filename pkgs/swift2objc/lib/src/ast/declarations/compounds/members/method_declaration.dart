@@ -51,26 +51,23 @@ class MethodDeclaration extends AstNode
 
   bool mutating;
 
-  String get fullName => [
-        name,
-        for (final p in params) p.name,
-      ].join(':');
+  String get fullName => [name, for (final p in params) p.name].join(':');
 
-  MethodDeclaration(
-      {required this.id,
-      required this.name,
-      required this.availability,
-      required this.returnType,
-      required this.params,
-      this.typeParams = const [],
-      this.hasObjCAnnotation = false,
-      this.statements = const [],
-      this.isStatic = false,
-      this.isOverriding = false,
-      this.throws = false,
-      this.async = false,
-      this.mutating = false})
-      : assert(!isStatic || !isOverriding);
+  MethodDeclaration({
+    required this.id,
+    required this.name,
+    required this.availability,
+    required this.returnType,
+    required this.params,
+    this.typeParams = const [],
+    this.hasObjCAnnotation = false,
+    this.statements = const [],
+    this.isStatic = false,
+    this.isOverriding = false,
+    this.throws = false,
+    this.async = false,
+    this.mutating = false,
+  }) : assert(!isStatic || !isOverriding);
 
   @override
   void visit(Visitation visitation) => visitation.visitMethodDeclaration(this);

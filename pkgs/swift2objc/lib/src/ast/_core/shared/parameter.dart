@@ -11,11 +11,7 @@ class Parameter extends AstNode {
   String? internalName;
   ReferredType type;
 
-  Parameter({
-    required this.name,
-    this.internalName,
-    required this.type,
-  });
+  Parameter({required this.name, this.internalName, required this.type});
 
   @override
   String toString() => '$name $internalName: $type';

@@ -23,7 +23,7 @@ class TokenList extends Iterable<Json> {
   final int _end;
 
   TokenList._(this._list, this._start, this._end)
-      : assert(0 <= _start && _start <= _end && _end <= _list.length);
+    : assert(0 <= _start && _start <= _end && _end <= _list.length);
 
   factory TokenList(Json fragments) {
     final list = [for (final token in fragments) ...splitToken(token)];
@@ -85,7 +85,10 @@ class TokenList extends Iterable<Json> {
   }
 
   TokenList slice(int startIndex, [int? endIndex]) => TokenList._(
-      _list, startIndex + _start, endIndex != null ? endIndex + _start : _end);
+    _list,
+    startIndex + _start,
+    endIndex != null ? endIndex + _start : _end,
+  );
 
   @override
   String toString() => _list.getRange(_start, _end).toString();

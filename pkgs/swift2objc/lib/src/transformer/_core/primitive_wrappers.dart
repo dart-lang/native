@@ -29,15 +29,15 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
     type: primitiveType,
   );
   return ClassDeclaration(
-          id: primitiveType.id.addIdSuffix('wrapper'),
-          name: '${primitiveType.name}Wrapper',
-          availability: availability,
-          hasObjCAnnotation: true,
-          superClass: objectType,
-          isWrapper: true,
-          wrappedInstance: property,
-          wrapperInitializer: buildWrapperInitializer(property))
-      .asDeclaredType;
+    id: primitiveType.id.addIdSuffix('wrapper'),
+    name: '${primitiveType.name}Wrapper',
+    availability: availability,
+    hasObjCAnnotation: true,
+    superClass: objectType,
+    isWrapper: true,
+    wrappedInstance: property,
+    wrapperInitializer: buildWrapperInitializer(property),
+  ).asDeclaredType;
 }
 
 // Support Optional primitives as return Type

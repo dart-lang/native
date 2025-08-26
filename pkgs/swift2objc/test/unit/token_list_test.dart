@@ -13,7 +13,9 @@ void main() {
       [...tokens.map((t) => t['spelling'])].toString();
 
   test('Slicing', () {
-    final list = TokenList(Json(jsonDecode('''
+    final list = TokenList(
+      Json(
+        jsonDecode('''
 [
   { "spelling": "a" },
   { "spelling": "b" },
@@ -22,7 +24,9 @@ void main() {
   { "spelling": "e" },
   { "spelling": "f" }
 ]
-''')));
+'''),
+      ),
+    );
 
     expect(list.length, 6);
     expect(list.slice(3).length, 3);
@@ -44,10 +48,11 @@ void main() {
 
     expect(list.indexWhere((tok) => tok['spelling'].get<String>() == 'd'), 3);
     expect(
-        list
-            .slice(2, 4)
-            .indexWhere((tok) => tok['spelling'].get<String>() == 'd'),
-        1);
+      list
+          .slice(2, 4)
+          .indexWhere((tok) => tok['spelling'].get<String>() == 'd'),
+      1,
+    );
   });
 
   test('Split one token', () {
@@ -57,27 +62,41 @@ void main() {
     expect(spelling(split('{ "kind": "text", "spelling": "" }')), '[""]');
     expect(spelling(split('{ "kind": "text", "spelling": "    " }')), '[""]');
     expect(spelling(split('{ "kind": "text", "spelling": "?" }')), '["?"]');
-    expect(spelling(split('{ "kind": "text", "spelling": "???" }')),
-        '["?", "?", "?"]');
     expect(
-        spelling(split('{ "kind": "text", "spelling": "()" }')), '["(", ")"]');
-    expect(spelling(split('{ "kind": "text", "spelling": " ?) ->  () " }')),
-        '["?", ")", "->", "(", ")"]');
-    expect(spelling(split('{ "kind": "typeIdentifier", "spelling": "?)" }')),
-        '["?)"]');
+      spelling(split('{ "kind": "text", "spelling": "???" }')),
+      '["?", "?", "?"]',
+    );
+    expect(
+      spelling(split('{ "kind": "text", "spelling": "()" }')),
+      '["(", ")"]',
+    );
+    expect(
+      spelling(split('{ "kind": "text", "spelling": " ?) ->  () " }')),
+      '["?", ")", "->", "(", ")"]',
+    );
+    expect(
+      spelling(split('{ "kind": "typeIdentifier", "spelling": "?)" }')),
+      '["?)"]',
+    );
 
     // splitToken gives up as soon as it finds a non-matching prefix. Ideally
     // we'd keep splitting out any other tokens we find in the text, but that's
     // more complicated to implement (we're writing a full tokenizer at that
     // point), and we haven't seen a symbolgraph where that's necessary yet.
-    expect(spelling(split('{ "kind": "text", "spelling": "?)>-??" }')),
-        '["?", ")", ">-??"]');
-    expect(spelling(split('{ "kind": "text", "spelling": "?)abc??" }')),
-        '["?", ")", "abc??"]');
+    expect(
+      spelling(split('{ "kind": "text", "spelling": "?)>-??" }')),
+      '["?", ")", ">-??"]',
+    );
+    expect(
+      spelling(split('{ "kind": "text", "spelling": "?)abc??" }')),
+      '["?", ")", "abc??"]',
+    );
   });
 
   test('Split list', () {
-    final list = TokenList(Json(jsonDecode('''
+    final list = TokenList(
+      Json(
+        jsonDecode('''
 [
   { "kind": "text", "spelling": "a" },
   { "kind": "text", "spelling": "?(" },
@@ -89,10 +108,14 @@ void main() {
   { "kind": "typeIdentifier", "spelling": "?(" },
   { "kind": "text", "spelling": "e" }
 ]
-''')));
+'''),
+      ),
+    );
 
-    expect(spelling(list),
-        '["a", "?", "(", "b", "c", "?", ")", "?", ",", "d", "?(", "e"]');
+    expect(
+      spelling(list),
+      '["a", "?", "(", "b", "c", "?", ")", "?", ",", "d", "?(", "e"]',
+    );
 
     // If kind != "text", the token isn't changed.
     expect(list[10].toString(), '{"kind":"typeIdentifier","spelling":"?("}');

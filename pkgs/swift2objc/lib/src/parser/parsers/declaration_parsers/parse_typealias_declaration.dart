@@ -10,7 +10,9 @@ import '../../_core/utils.dart';
 import '../parse_type.dart';
 
 TypealiasDeclaration? parseTypealiasDeclaration(
-    Json typealiasSymbolJson, ParsedSymbolgraph symbolgraph) {
+  Json typealiasSymbolJson,
+  ParsedSymbolgraph symbolgraph,
+) {
   final id = parseSymbolId(typealiasSymbolJson);
   final name = parseSymbolName(typealiasSymbolJson);
   final availability = parseAvailability(typealiasSymbolJson);
@@ -29,5 +31,9 @@ TypealiasDeclaration? parseTypealiasDeclaration(
   if (remaining.isNotEmpty) throw malformedException;
 
   return TypealiasDeclaration(
-      id: id, name: name, availability: availability, target: target);
+    id: id,
+    name: name,
+    availability: availability,
+    target: target,
+  );
 }

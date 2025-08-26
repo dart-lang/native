@@ -29,17 +29,22 @@ class TransformationState {
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
-List<Declaration> transform(List<Declaration> declarations,
-    {required bool Function(Declaration) filter}) {
+List<Declaration> transform(
+  List<Declaration> declarations, {
+  required bool Function(Declaration) filter,
+}) {
   final state = TransformationState();
 
   final includes = visit(FindIncludesVisitation(filter), declarations).includes;
-  final directTransitives =
-      visit(FindDirectTransitiveDepsVisitation(includes), includes)
-          .directTransitives;
+  final directTransitives = visit(
+    FindDirectTransitiveDepsVisitation(includes),
+    includes,
+  ).directTransitives;
   state.bindings.addAll(includes.union(directTransitives));
-  final listDecls =
-      visit(ListDeclsVisitation(includes, directTransitives), state.bindings);
+  final listDecls = visit(
+    ListDeclsVisitation(includes, directTransitives),
+    state.bindings,
+  );
   final topLevelDecls = listDecls.topLevelDecls;
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
@@ -61,9 +66,7 @@ List<Declaration> transform(List<Declaration> declarations,
       .toList();
 
   final transformedDeclarations = [
-    ...nonGlobals.map(
-      (d) => maybeTransformDeclaration(d, globalNamer, state),
-    ),
+    ...nonGlobals.map((d) => maybeTransformDeclaration(d, globalNamer, state)),
     transformGlobals(globals, globalNamer, state),
   ].nonNulls.toList();
 
@@ -77,8 +80,12 @@ Declaration transformDeclaration(
   TransformationState state, {
   bool nested = false,
 }) =>
-    maybeTransformDeclaration(declaration, parentNamer, state,
-        nested: nested) ??
+    maybeTransformDeclaration(
+      declaration,
+      parentNamer,
+      state,
+      nested: nested,
+    ) ??
     declaration;
 
 Declaration? maybeTransformDeclaration(
@@ -104,10 +111,10 @@ Declaration? maybeTransformDeclaration(
 
   return switch (declaration) {
     ClassDeclaration() || StructDeclaration() => transformCompound(
-        declaration as CompoundDeclaration,
-        parentNamer,
-        state,
-      ),
+      declaration as CompoundDeclaration,
+      parentNamer,
+      state,
+    ),
     TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };

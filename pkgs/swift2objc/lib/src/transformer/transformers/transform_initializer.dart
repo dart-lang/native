@@ -24,18 +24,17 @@ Declaration transformInitializer(
         (param) => Parameter(
           name: param.name,
           internalName: param.internalName,
-          type: transformReferredType(
-            param.type,
-            globalNamer,
-            state,
-          ),
+          type: transformReferredType(param.type, globalNamer, state),
         ),
       )
       .toList();
 
   if (originalInitializer.async) {
-    final methodReturnType =
-        transformReferredType(wrappedClassInstance.type, globalNamer, state);
+    final methodReturnType = transformReferredType(
+      wrappedClassInstance.type,
+      globalNamer,
+      state,
+    );
 
     return MethodDeclaration(
       id: originalInitializer.id,
@@ -59,17 +58,18 @@ Declaration transformInitializer(
   }
 
   final transformedInitializer = InitializerDeclaration(
-      id: originalInitializer.id,
-      availability: originalInitializer.availability,
-      params: transformedParams,
-      hasObjCAnnotation: true,
-      isFailable: originalInitializer.isFailable,
-      throws: originalInitializer.throws,
-      async: originalInitializer.async,
-      // Because the wrapper class extends NSObject that has an initializer with
-      // no parameters. If we make a similar parameterless initializer we need
-      // to add `override` keyword.
-      isOverriding: transformedParams.isEmpty);
+    id: originalInitializer.id,
+    availability: originalInitializer.availability,
+    params: transformedParams,
+    hasObjCAnnotation: true,
+    isFailable: originalInitializer.isFailable,
+    throws: originalInitializer.throws,
+    async: originalInitializer.async,
+    // Because the wrapper class extends NSObject that has an initializer with
+    // no parameters. If we make a similar parameterless initializer we need
+    // to add `override` keyword.
+    isOverriding: transformedParams.isEmpty,
+  );
 
   transformedInitializer.statements = _generateInitializerStatements(
     originalInitializer,
@@ -86,7 +86,10 @@ List<String> _generateInitializerStatements(
   InitializerDeclaration transformedInitializer,
 ) {
   final (instanceConstruction, localNamer) = _generateInstanceConstruction(
-      originalInitializer, wrappedClassInstance, transformedInitializer.params);
+    originalInitializer,
+    wrappedClassInstance,
+    transformedInitializer.params,
+  );
   if (originalInitializer.isFailable) {
     final instance = localNamer.makeUnique('instance');
     return [
@@ -108,7 +111,10 @@ List<String> _generateMethodStatements(
   List<Parameter> transformedParams,
 ) {
   final (instanceConstruction, localNamer) = _generateInstanceConstruction(
-      originalInitializer, wrappedClassInstance, transformedParams);
+    originalInitializer,
+    wrappedClassInstance,
+    transformedParams,
+  );
   final instance = localNamer.makeUnique('instance');
   if (originalInitializer.isFailable) {
     return [
@@ -133,7 +139,10 @@ List<String> _generateMethodStatements(
 ) {
   final localNamer = UniqueNamer();
   final arguments = generateInvocationParams(
-      localNamer, originalInitializer.params, transformedParams);
+    localNamer,
+    originalInitializer.params,
+    transformedParams,
+  );
   var instanceConstruction =
       '${wrappedClassInstance.type.swiftType}($arguments)';
   if (originalInitializer.async) {

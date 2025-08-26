@@ -15,24 +15,26 @@ import 'package:swift2objc/src/parser/parsers/parse_type.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final classFoo =
-      ClassDeclaration(id: 'Foo', name: 'Foo', availability: const []);
-  final classBar =
-      ClassDeclaration(id: 'Bar', name: 'Bar', availability: const []);
+  final classFoo = ClassDeclaration(
+    id: 'Foo',
+    name: 'Foo',
+    availability: const [],
+  );
+  final classBar = ClassDeclaration(
+    id: 'Bar',
+    name: 'Bar',
+    availability: const [],
+  );
 
-  final testDecls = <Declaration>[
-    ...builtInDeclarations,
-    classFoo,
-    classBar,
-  ];
+  final testDecls = <Declaration>[...builtInDeclarations, classFoo, classBar];
   final parsedSymbols = ParsedSymbolgraph({
     for (final decl in testDecls)
       decl.id: ParsedSymbol(json: Json(null), declaration: decl),
   }, {});
 
   test('Type identifier', () {
-    final fragments = Json(jsonDecode(
-      '''
+    final fragments = Json(
+      jsonDecode('''
       [
         {
           "kind": "typeIdentifier",
@@ -40,8 +42,8 @@ void main() {
           "preciseIdentifier": "s:Si"
         }
       ]
-      ''',
-    ));
+      '''),
+    );
 
     final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
@@ -50,16 +52,16 @@ void main() {
   });
 
   test('Empty tuple', () {
-    final fragments = Json(jsonDecode(
-      '''
+    final fragments = Json(
+      jsonDecode('''
       [
         {
           "kind": "text",
           "spelling": "()"
         }
       ]
-      ''',
-    ));
+      '''),
+    );
 
     final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
@@ -68,8 +70,8 @@ void main() {
   });
 
   test('Optional', () {
-    final fragments = Json(jsonDecode(
-      '''
+    final fragments = Json(
+      jsonDecode('''
       [
         {
           "kind": "typeIdentifier",
@@ -81,8 +83,8 @@ void main() {
           "spelling": "?"
         }
       ]
-      ''',
-    ));
+      '''),
+    );
 
     final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
@@ -91,8 +93,8 @@ void main() {
   });
 
   test('Nested type', () {
-    final fragments = Json(jsonDecode(
-      '''
+    final fragments = Json(
+      jsonDecode('''
       [
         {
           "kind": "typeIdentifier",
@@ -109,8 +111,8 @@ void main() {
           "preciseIdentifier": "Bar"
         }
       ]
-      ''',
-    ));
+      '''),
+    );
 
     final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
@@ -123,8 +125,8 @@ void main() {
     // row. Nested OptionalTypes don't really make sense though. So in future if
     // we start collapsing nested OptionalTypes, change this test to use a
     // different suffix type.
-    final fragments = Json(jsonDecode(
-      '''
+    final fragments = Json(
+      jsonDecode('''
       [
         {
           "kind": "typeIdentifier",
@@ -144,20 +146,22 @@ void main() {
           "spelling": "?"
         }
       ]
-      ''',
-    ));
+      '''),
+    );
 
     final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 
     expect(type.sameAs(OptionalType(intType)), isFalse);
     expect(
-        type.sameAs(OptionalType(OptionalType(OptionalType(intType)))), isTrue);
+      type.sameAs(OptionalType(OptionalType(OptionalType(intType)))),
+      isTrue,
+    );
     expect(remaining.length, 0);
   });
 
   test('Stop parsing when we find a non-type token', () {
-    final fragments = Json(jsonDecode(
-      '''
+    final fragments = Json(
+      jsonDecode('''
       [
         {
           "kind": "typeIdentifier",
@@ -178,8 +182,8 @@ void main() {
           "preciseIdentifier": "s:Si"
         }
       ]
-      ''',
-    ));
+      '''),
+    );
 
     final (type, remaining) = parseType(parsedSymbols, TokenList(fragments));
 

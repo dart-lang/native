@@ -52,10 +52,7 @@ class InitializerDeclaration extends AstNode
   @override
   List<String> statements;
 
-  String get fullName => [
-        name,
-        for (final p in params) p.name,
-      ].join(':');
+  String get fullName => [name, for (final p in params) p.name].join(':');
 
   InitializerDeclaration({
     required this.id,

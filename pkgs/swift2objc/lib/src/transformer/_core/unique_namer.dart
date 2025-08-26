@@ -8,13 +8,13 @@ class UniqueNamer {
   final Set<String> _usedNames;
 
   UniqueNamer([Iterable<String> usedNames = const <String>[]])
-      : _usedNames = usedNames.toSet();
+    : _usedNames = usedNames.toSet();
 
   UniqueNamer.inCompound(CompoundDeclaration compoundDeclaration)
-      : _usedNames = {
-          ...compoundDeclaration.methods.map((method) => method.name),
-          ...compoundDeclaration.properties.map((property) => property.name),
-        };
+    : _usedNames = {
+        ...compoundDeclaration.methods.map((method) => method.name),
+        ...compoundDeclaration.properties.map((property) => property.name),
+      };
 
   String makeUnique(String name) {
     if (name.isEmpty) {

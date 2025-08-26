@@ -7,7 +7,8 @@ import 'package:test/test.dart';
 void main() {
   group('Variable Valid json', () {
     test('Variable with getter', () {
-      final json = Json(jsonDecode('''[
+      final json = Json(
+        jsonDecode('''[
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -33,7 +34,8 @@ void main() {
                     "kind": "text",
                     "spelling": " { get }"
                 }
-            ]'''));
+            ]'''),
+      );
 
       final info = parsePropertyInfo(json);
 
@@ -41,7 +43,8 @@ void main() {
     });
 
     test('Variable Computed', () {
-      final json = Json(jsonDecode('''[
+      final json = Json(
+        jsonDecode('''[
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -75,7 +78,8 @@ void main() {
                     "kind": "text",
                     "spelling": " }"
                 }
-            ]'''));
+            ]'''),
+      );
 
       final info = parsePropertyInfo(json);
 
@@ -83,7 +87,8 @@ void main() {
     });
 
     test('Variable with getter and setter', () {
-      final json = Json(jsonDecode('''[
+      final json = Json(
+        jsonDecode('''[
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -125,7 +130,8 @@ void main() {
                     "kind": "text",
                     "spelling": " }"
                 }
-            ]'''));
+            ]'''),
+      );
 
       final info = parsePropertyInfo(json);
 
@@ -136,7 +142,8 @@ void main() {
     test('Constant variable', () {});
 
     test('Async Get Variable', () {
-      final json = Json(jsonDecode('''[
+      final json = Json(
+        jsonDecode('''[
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -178,7 +185,8 @@ void main() {
                     "kind": "text",
                     "spelling": " }"
                 }
-            ]'''));
+            ]'''),
+      );
 
       final info = parsePropertyInfo(json);
 
@@ -187,7 +195,8 @@ void main() {
     });
 
     test('Mutating Variable', () {
-      final json = Json(jsonDecode('''[
+      final json = Json(
+        jsonDecode('''[
                 {
                     "kind": "keyword",
                     "spelling": "var"
@@ -237,7 +246,8 @@ void main() {
                     "kind": "text",
                     "spelling": " }"
                 }
-            ]'''));
+            ]'''),
+      );
 
       final info = parsePropertyInfo(json);
 
@@ -247,7 +257,8 @@ void main() {
     });
 
     test('Async Throws Get Variable', () {
-      final json = Json(jsonDecode('''
+      final json = Json(
+        jsonDecode('''
 [
                 {
                     "kind": "keyword",
@@ -298,7 +309,8 @@ void main() {
                     "kind": "text",
                     "spelling": " }"
                 }
-            ]'''));
+            ]'''),
+      );
 
       final info = parsePropertyInfo(json);
       expect(info.getter, isTrue);

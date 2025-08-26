@@ -3,6 +3,4 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Certain methods are not allowed to be overriden in swift.
-const disallowedMethods = {
-  'hashValue',
-};
+const disallowedMethods = {'hashValue'};
