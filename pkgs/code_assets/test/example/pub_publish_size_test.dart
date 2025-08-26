@@ -17,7 +17,7 @@ void main() {
       'pub',
       'publish',
       '--dry-run',
-    ], workingDirectory: packageRoot.path);
+    ], workingDirectory: packageRoot.toFilePath());
     expect(dryRunResult.exitCode, 0);
     expect(
       dryRunResult.stdout,
