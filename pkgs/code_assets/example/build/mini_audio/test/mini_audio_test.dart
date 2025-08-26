@@ -6,7 +6,11 @@ import 'package:mini_audio/mini_audio.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('version', () {
+  test('start and stop engine', () {
+    // We don't want to commit a wav file or want to play a wav file when a
+    // developer runs unit tests. So, only test starting and stopping the
+    // engine. This should cover that the build hook works and the functions in
+    // the dylib are visible and can be invoked.
     final engine = MiniAudio();
     engine.uninit();
   });

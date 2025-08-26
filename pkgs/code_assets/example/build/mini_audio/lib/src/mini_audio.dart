@@ -15,9 +15,11 @@ final class MiniAudio {
   /// Initializes the miniaudio engine.
   MiniAudio() {
     _engine = malloc();
-    final initResult = ma_engine_init(nullptr, _engine);
-    if (initResult != ma_result.MA_SUCCESS) {
-      throw Exception('Failed to initialize miniaudio engine: $initResult.');
+    final result = ma_engine_init(nullptr, _engine);
+    if (result != ma_result.MA_SUCCESS) {
+      throw MiniAudioException(
+        'Failed to initialize miniaudio engine: ${result.name}.',
+      );
     }
   }
 
@@ -30,6 +32,18 @@ final class MiniAudio {
   /// Plays a sound from the given [filePath].
   void playSound(String filePath) => using((arena) {
     final filePath_ = filePath.toNativeUtf8(allocator: arena);
-    ma_engine_play_sound(_engine, filePath_.cast(), nullptr);
+    final result = ma_engine_play_sound(_engine, filePath_.cast(), nullptr);
+    if (result != ma_result.MA_SUCCESS) {
+      throw MiniAudioException('Failed to play audio: ${result.name}}.');
+    }
   });
+}
+
+/// An exception that is thrown when an error occurs in the mini_audio library.
+final class MiniAudioException implements Exception {
+  /// The error message.
+  final String message;
+
+  /// Creates a new instance of the exception.
+  MiniAudioException(this.message);
 }
