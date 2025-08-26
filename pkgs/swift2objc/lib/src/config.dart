@@ -13,10 +13,7 @@ class Command {
   final String executable;
   final List<String> args;
 
-  Command({
-    required this.executable,
-    required this.args,
-  });
+  Command({required this.executable, required this.args});
 }
 
 /// Used to configure Swift2ObjC wrapper generation.
@@ -30,7 +27,7 @@ class Config {
   final String? target;
 
   /// The sdk to compile against. If unspecified, defaults to host.
-  /// (e.g `/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sd`)
+  /// (e.g `/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk`)
   final Uri? sdk;
 
   /// Specify where the wrapper swift file will be output.
@@ -55,14 +52,15 @@ class Config {
 
   static bool _defaultInclude(Declaration _) => true;
 
-  const Config(
-      {required this.inputs,
-      required this.outputFile,
-      this.target,
-      this.sdk,
-      this.tempDir,
-      this.preamble,
-      this.include = Config._defaultInclude});
+  const Config({
+    required this.inputs,
+    required this.outputFile,
+    this.target,
+    this.sdk,
+    this.tempDir,
+    this.preamble,
+    this.include = Config._defaultInclude,
+  });
 }
 
 /// Used to specify the inputs in the `config` object.
@@ -90,21 +88,21 @@ class FilesInputConfig implements InputConfig {
 
   @override
   Command symbolgraphCommand(String target, String sdkPath) => Command(
-        executable: 'swiftc',
-        args: [
-          ...files.map((uri) => path.absolute(uri.path)),
-          '-emit-module',
-          '-emit-symbol-graph',
-          '-emit-symbol-graph-dir',
-          '.',
-          '-module-name',
-          generatedModuleName,
-          '-target',
-          target,
-          '-sdk',
-          sdkPath,
-        ],
-      );
+    executable: 'swiftc',
+    args: [
+      ...files.map((uri) => path.absolute(uri.path)),
+      '-emit-module',
+      '-emit-symbol-graph',
+      '-emit-symbol-graph-dir',
+      '.',
+      '-module-name',
+      generatedModuleName,
+      '-target',
+      target,
+      '-sdk',
+      sdkPath,
+    ],
+  );
 }
 
 /// Used to generate a objc wrapper for a built-in swift module.
@@ -113,28 +111,26 @@ class ModuleInputConfig implements InputConfig {
   /// The swift module to generate a wrapper for.
   final String module;
 
-  ModuleInputConfig({
-    required this.module,
-  });
+  ModuleInputConfig({required this.module});
 
   @override
   bool get hasSymbolgraphCommand => true;
 
   @override
   Command symbolgraphCommand(String target, String sdkPath) => Command(
-        executable: 'swift',
-        args: [
-          'symbolgraph-extract',
-          '-module-name',
-          module,
-          '-target',
-          target,
-          '-sdk',
-          sdkPath,
-          '-output-dir',
-          '.',
-        ],
-      );
+    executable: 'swift',
+    args: [
+      'symbolgraph-extract',
+      '-module-name',
+      module,
+      '-target',
+      target,
+      '-sdk',
+      sdkPath,
+      '-output-dir',
+      '.',
+    ],
+  );
 }
 
 /// Used to generate wrappers directly from a JSON symbolgraph, for debugging.

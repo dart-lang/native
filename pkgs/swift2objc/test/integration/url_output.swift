@@ -347,18 +347,18 @@ import Foundation
 
 }
 
-@objc public class EnumerationOptionsWrapper1: NSObject {
+@objc public class EnumerationOptionsWrapper: NSObject {
   var wrappedInstance: EnumerationOptions
 
-  @objc static public var longestEffectiveRangeNotRequired: EnumerationOptionsWrapper1 {
+  @objc static public var longestEffectiveRangeNotRequired: EnumerationOptionsWrapper {
     get {
-      EnumerationOptionsWrapper1(EnumerationOptions.longestEffectiveRangeNotRequired)
+      EnumerationOptionsWrapper(EnumerationOptions.longestEffectiveRangeNotRequired)
     }
   }
 
-  @objc static public var reverse: EnumerationOptionsWrapper1 {
+  @objc static public var reverse: EnumerationOptionsWrapper {
     get {
-      EnumerationOptionsWrapper1(EnumerationOptions.reverse)
+      EnumerationOptionsWrapper(EnumerationOptions.reverse)
     }
   }
 
@@ -494,61 +494,61 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper4: NSObject {
+@objc public class OptionsWrapper1: NSObject {
   var wrappedInstance: Options
 
   @available(macOS, introduced: 10.9)
-  @objc static public var matchFirst: OptionsWrapper4 {
+  @objc static public var matchFirst: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.matchFirst)
+      OptionsWrapper1(Options.matchFirst)
     }
   }
 
   @available(macOS, introduced: 10.9)
-  @objc static public var matchLast: OptionsWrapper4 {
+  @objc static public var matchLast: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.matchLast)
+      OptionsWrapper1(Options.matchLast)
     }
   }
 
   @available(macOS, introduced: 10.9)
-  @objc static public var matchNextTime: OptionsWrapper4 {
+  @objc static public var matchNextTime: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.matchNextTime)
+      OptionsWrapper1(Options.matchNextTime)
     }
   }
 
   @available(macOS, introduced: 10.9)
-  @objc static public var matchNextTimePreservingSmallerUnits: OptionsWrapper4 {
+  @objc static public var matchNextTimePreservingSmallerUnits: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.matchNextTimePreservingSmallerUnits)
+      OptionsWrapper1(Options.matchNextTimePreservingSmallerUnits)
     }
   }
 
   @available(macOS, introduced: 10.9)
-  @objc static public var matchPreviousTimePreservingSmallerUnits: OptionsWrapper4 {
+  @objc static public var matchPreviousTimePreservingSmallerUnits: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.matchPreviousTimePreservingSmallerUnits)
+      OptionsWrapper1(Options.matchPreviousTimePreservingSmallerUnits)
     }
   }
 
   @available(macOS, introduced: 10.9)
-  @objc static public var matchStrictly: OptionsWrapper4 {
+  @objc static public var matchStrictly: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.matchStrictly)
+      OptionsWrapper1(Options.matchStrictly)
     }
   }
 
   @available(macOS, introduced: 10.9)
-  @objc static public var searchBackwards: OptionsWrapper4 {
+  @objc static public var searchBackwards: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.searchBackwards)
+      OptionsWrapper1(Options.searchBackwards)
     }
   }
 
-  @objc static public var wrapComponents: OptionsWrapper4 {
+  @objc static public var wrapComponents: OptionsWrapper1 {
     get {
-      OptionsWrapper4(Options.wrapComponents)
+      OptionsWrapper1(Options.wrapComponents)
     }
   }
 
@@ -809,25 +809,25 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper6: NSObject {
+@objc public class OptionsWrapper9: NSObject {
   var wrappedInstance: Options
 
-  @objc static public var caseInsensitive: OptionsWrapper6 {
+  @objc static public var caseInsensitive: OptionsWrapper9 {
     get {
-      OptionsWrapper6(Options.caseInsensitive)
+      OptionsWrapper9(Options.caseInsensitive)
     }
   }
 
-  @objc static public var diacriticInsensitive: OptionsWrapper6 {
+  @objc static public var diacriticInsensitive: OptionsWrapper9 {
     get {
-      OptionsWrapper6(Options.diacriticInsensitive)
+      OptionsWrapper9(Options.diacriticInsensitive)
     }
   }
 
   @available(macOS, introduced: 10.6)
-  @objc static public var normalized: OptionsWrapper6 {
+  @objc static public var normalized: OptionsWrapper9 {
     get {
-      OptionsWrapper6(Options.normalized)
+      OptionsWrapper9(Options.normalized)
     }
   }
 
@@ -922,46 +922,46 @@ import Foundation
 
 }
 
-@objc public class ReadingOptionsWrapper: NSObject {
+@objc public class ReadingOptionsWrapper3: NSObject {
   var wrappedInstance: ReadingOptions
 
   @available(macOS, introduced: 10.0, deprecated: 100000)
-  @objc static public var dataReadingMapped: ReadingOptionsWrapper {
+  @objc static public var dataReadingMapped: ReadingOptionsWrapper3 {
     get {
-      ReadingOptionsWrapper(ReadingOptions.dataReadingMapped)
+      ReadingOptionsWrapper3(ReadingOptions.dataReadingMapped)
     }
   }
 
   @available(macOS, introduced: 10.7)
-  @objc static public var alwaysMapped: ReadingOptionsWrapper {
+  @objc static public var alwaysMapped: ReadingOptionsWrapper3 {
     get {
-      ReadingOptionsWrapper(ReadingOptions.alwaysMapped)
+      ReadingOptionsWrapper3(ReadingOptions.alwaysMapped)
     }
   }
 
-  @objc static public var mappedIfSafe: ReadingOptionsWrapper {
+  @objc static public var mappedIfSafe: ReadingOptionsWrapper3 {
     get {
-      ReadingOptionsWrapper(ReadingOptions.mappedIfSafe)
+      ReadingOptionsWrapper3(ReadingOptions.mappedIfSafe)
     }
   }
 
-  @objc static public var uncached: ReadingOptionsWrapper {
+  @objc static public var uncached: ReadingOptionsWrapper3 {
     get {
-      ReadingOptionsWrapper(ReadingOptions.uncached)
-    }
-  }
-
-  @available(macOS, introduced: 10.0, deprecated: 100000)
-  @objc static public var mappedRead: ReadingOptionsWrapper {
-    get {
-      ReadingOptionsWrapper(ReadingOptions.mappedRead)
+      ReadingOptionsWrapper3(ReadingOptions.uncached)
     }
   }
 
   @available(macOS, introduced: 10.0, deprecated: 100000)
-  @objc static public var uncachedRead: ReadingOptionsWrapper {
+  @objc static public var mappedRead: ReadingOptionsWrapper3 {
     get {
-      ReadingOptionsWrapper(ReadingOptions.uncachedRead)
+      ReadingOptionsWrapper3(ReadingOptions.mappedRead)
+    }
+  }
+
+  @available(macOS, introduced: 10.0, deprecated: 100000)
+  @objc static public var uncachedRead: ReadingOptionsWrapper3 {
+    get {
+      ReadingOptionsWrapper3(ReadingOptions.uncachedRead)
     }
   }
 
@@ -1015,61 +1015,61 @@ import Foundation
 
 }
 
-@objc public class WritingOptionsWrapper: NSObject {
+@objc public class WritingOptionsWrapper3: NSObject {
   var wrappedInstance: WritingOptions
 
   @available(macOS, introduced: 10.0, deprecated: 100000)
-  @objc static public var atomicWrite: WritingOptionsWrapper {
+  @objc static public var atomicWrite: WritingOptionsWrapper3 {
     get {
-      WritingOptionsWrapper(WritingOptions.atomicWrite)
+      WritingOptionsWrapper3(WritingOptions.atomicWrite)
     }
   }
 
-  @objc static public var atomic: WritingOptionsWrapper {
+  @objc static public var atomic: WritingOptionsWrapper3 {
     get {
-      WritingOptionsWrapper(WritingOptions.atomic)
-    }
-  }
-
-  @available(macOS, introduced: 11.0)
-  @objc static public var completeFileProtection: WritingOptionsWrapper {
-    get {
-      WritingOptionsWrapper(WritingOptions.completeFileProtection)
+      WritingOptionsWrapper3(WritingOptions.atomic)
     }
   }
 
   @available(macOS, introduced: 11.0)
-  @objc static public var completeFileProtectionUnlessOpen: WritingOptionsWrapper {
+  @objc static public var completeFileProtection: WritingOptionsWrapper3 {
     get {
-      WritingOptionsWrapper(WritingOptions.completeFileProtectionUnlessOpen)
+      WritingOptionsWrapper3(WritingOptions.completeFileProtection)
     }
   }
 
   @available(macOS, introduced: 11.0)
-  @objc static public var completeFileProtectionUntilFirstUserAuthentication: WritingOptionsWrapper {
+  @objc static public var completeFileProtectionUnlessOpen: WritingOptionsWrapper3 {
     get {
-      WritingOptionsWrapper(WritingOptions.completeFileProtectionUntilFirstUserAuthentication)
+      WritingOptionsWrapper3(WritingOptions.completeFileProtectionUnlessOpen)
     }
   }
 
   @available(macOS, introduced: 11.0)
-  @objc static public var fileProtectionMask: WritingOptionsWrapper {
+  @objc static public var completeFileProtectionUntilFirstUserAuthentication: WritingOptionsWrapper3 {
     get {
-      WritingOptionsWrapper(WritingOptions.fileProtectionMask)
+      WritingOptionsWrapper3(WritingOptions.completeFileProtectionUntilFirstUserAuthentication)
     }
   }
 
   @available(macOS, introduced: 11.0)
-  @objc static public var noFileProtection: WritingOptionsWrapper {
+  @objc static public var fileProtectionMask: WritingOptionsWrapper3 {
     get {
-      WritingOptionsWrapper(WritingOptions.noFileProtection)
+      WritingOptionsWrapper3(WritingOptions.fileProtectionMask)
+    }
+  }
+
+  @available(macOS, introduced: 11.0)
+  @objc static public var noFileProtection: WritingOptionsWrapper3 {
+    get {
+      WritingOptionsWrapper3(WritingOptions.noFileProtection)
     }
   }
 
   @available(macOS, introduced: 10.8)
-  @objc static public var withoutOverwriting: WritingOptionsWrapper {
+  @objc static public var withoutOverwriting: WritingOptionsWrapper3 {
     get {
-      WritingOptionsWrapper(WritingOptions.withoutOverwriting)
+      WritingOptionsWrapper3(WritingOptions.withoutOverwriting)
     }
   }
 
@@ -1206,18 +1206,18 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper1: NSObject {
+@objc public class OptionsWrapper5: NSObject {
   var wrappedInstance: Options
 
-  @objc static public var deliverImmediately: OptionsWrapper1 {
+  @objc static public var deliverImmediately: OptionsWrapper5 {
     get {
-      OptionsWrapper1(Options.deliverImmediately)
+      OptionsWrapper5(Options.deliverImmediately)
     }
   }
 
-  @objc static public var postToAllSessions: OptionsWrapper1 {
+  @objc static public var postToAllSessions: OptionsWrapper5 {
     get {
-      OptionsWrapper1(Options.postToAllSessions)
+      OptionsWrapper5(Options.postToAllSessions)
     }
   }
 
@@ -1268,32 +1268,32 @@ import Foundation
 
 }
 
-@objc public class ReadingOptionsWrapper3: NSObject {
+@objc public class ReadingOptionsWrapper2: NSObject {
   var wrappedInstance: ReadingOptions
 
   @available(macOS, introduced: 10.10)
-  @objc static public var forUploading: ReadingOptionsWrapper3 {
+  @objc static public var forUploading: ReadingOptionsWrapper2 {
     get {
-      ReadingOptionsWrapper3(ReadingOptions.forUploading)
+      ReadingOptionsWrapper2(ReadingOptions.forUploading)
     }
   }
 
   @available(macOS, introduced: 10.10)
-  @objc static public var immediatelyAvailableMetadataOnly: ReadingOptionsWrapper3 {
+  @objc static public var immediatelyAvailableMetadataOnly: ReadingOptionsWrapper2 {
     get {
-      ReadingOptionsWrapper3(ReadingOptions.immediatelyAvailableMetadataOnly)
+      ReadingOptionsWrapper2(ReadingOptions.immediatelyAvailableMetadataOnly)
     }
   }
 
-  @objc static public var resolvesSymbolicLink: ReadingOptionsWrapper3 {
+  @objc static public var resolvesSymbolicLink: ReadingOptionsWrapper2 {
     get {
-      ReadingOptionsWrapper3(ReadingOptions.resolvesSymbolicLink)
+      ReadingOptionsWrapper2(ReadingOptions.resolvesSymbolicLink)
     }
   }
 
-  @objc static public var withoutChanges: ReadingOptionsWrapper3 {
+  @objc static public var withoutChanges: ReadingOptionsWrapper2 {
     get {
-      ReadingOptionsWrapper3(ReadingOptions.withoutChanges)
+      ReadingOptionsWrapper2(ReadingOptions.withoutChanges)
     }
   }
 
@@ -1313,37 +1313,37 @@ import Foundation
 
 }
 
-@objc public class WritingOptionsWrapper1: NSObject {
+@objc public class WritingOptionsWrapper: NSObject {
   var wrappedInstance: WritingOptions
 
   @available(macOS, introduced: 10.10)
-  @objc static public var contentIndependentMetadataOnly: WritingOptionsWrapper1 {
+  @objc static public var contentIndependentMetadataOnly: WritingOptionsWrapper {
     get {
-      WritingOptionsWrapper1(WritingOptions.contentIndependentMetadataOnly)
+      WritingOptionsWrapper(WritingOptions.contentIndependentMetadataOnly)
     }
   }
 
-  @objc static public var forDeleting: WritingOptionsWrapper1 {
+  @objc static public var forDeleting: WritingOptionsWrapper {
     get {
-      WritingOptionsWrapper1(WritingOptions.forDeleting)
+      WritingOptionsWrapper(WritingOptions.forDeleting)
     }
   }
 
-  @objc static public var forMerging: WritingOptionsWrapper1 {
+  @objc static public var forMerging: WritingOptionsWrapper {
     get {
-      WritingOptionsWrapper1(WritingOptions.forMerging)
+      WritingOptionsWrapper(WritingOptions.forMerging)
     }
   }
 
-  @objc static public var forMoving: WritingOptionsWrapper1 {
+  @objc static public var forMoving: WritingOptionsWrapper {
     get {
-      WritingOptionsWrapper1(WritingOptions.forMoving)
+      WritingOptionsWrapper(WritingOptions.forMoving)
     }
   }
 
-  @objc static public var forReplacing: WritingOptionsWrapper1 {
+  @objc static public var forReplacing: WritingOptionsWrapper {
     get {
-      WritingOptionsWrapper1(WritingOptions.forReplacing)
+      WritingOptionsWrapper(WritingOptions.forReplacing)
     }
   }
 
@@ -1482,20 +1482,20 @@ import Foundation
 }
 
 @available(macOS, introduced: 10.6)
-@objc public class ReadingOptionsWrapper2: NSObject {
+@objc public class ReadingOptionsWrapper: NSObject {
   var wrappedInstance: ReadingOptions
 
   @available(macOS, introduced: 10.6)
-  @objc static public var immediate: ReadingOptionsWrapper2 {
+  @objc static public var immediate: ReadingOptionsWrapper {
     get {
-      ReadingOptionsWrapper2(ReadingOptions.immediate)
+      ReadingOptionsWrapper(ReadingOptions.immediate)
     }
   }
 
   @available(macOS, introduced: 10.6)
-  @objc static public var withoutMapping: ReadingOptionsWrapper2 {
+  @objc static public var withoutMapping: ReadingOptionsWrapper {
     get {
-      ReadingOptionsWrapper2(ReadingOptions.withoutMapping)
+      ReadingOptionsWrapper(ReadingOptions.withoutMapping)
     }
   }
 
@@ -1516,20 +1516,20 @@ import Foundation
 }
 
 @available(macOS, introduced: 10.6)
-@objc public class WritingOptionsWrapper2: NSObject {
+@objc public class WritingOptionsWrapper1: NSObject {
   var wrappedInstance: WritingOptions
 
   @available(macOS, introduced: 10.6)
-  @objc static public var atomic: WritingOptionsWrapper2 {
+  @objc static public var atomic: WritingOptionsWrapper1 {
     get {
-      WritingOptionsWrapper2(WritingOptions.atomic)
+      WritingOptionsWrapper1(WritingOptions.atomic)
     }
   }
 
   @available(macOS, introduced: 10.6)
-  @objc static public var withNameUpdating: WritingOptionsWrapper2 {
+  @objc static public var withNameUpdating: WritingOptionsWrapper1 {
     get {
-      WritingOptionsWrapper2(WritingOptions.withNameUpdating)
+      WritingOptionsWrapper1(WritingOptions.withNameUpdating)
     }
   }
 
@@ -1549,104 +1549,104 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper11: NSObject {
+@objc public class OptionsWrapper10: NSObject {
   var wrappedInstance: Options
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withColonSeparatorInTime: OptionsWrapper11 {
+  @objc static public var withColonSeparatorInTime: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withColonSeparatorInTime)
+      OptionsWrapper10(Options.withColonSeparatorInTime)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withColonSeparatorInTimeZone: OptionsWrapper11 {
+  @objc static public var withColonSeparatorInTimeZone: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withColonSeparatorInTimeZone)
+      OptionsWrapper10(Options.withColonSeparatorInTimeZone)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withDashSeparatorInDate: OptionsWrapper11 {
+  @objc static public var withDashSeparatorInDate: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withDashSeparatorInDate)
+      OptionsWrapper10(Options.withDashSeparatorInDate)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withDay: OptionsWrapper11 {
+  @objc static public var withDay: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withDay)
+      OptionsWrapper10(Options.withDay)
     }
   }
 
   @available(macOS, introduced: 10.13)
-  @objc static public var withFractionalSeconds: OptionsWrapper11 {
+  @objc static public var withFractionalSeconds: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withFractionalSeconds)
+      OptionsWrapper10(Options.withFractionalSeconds)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withFullDate: OptionsWrapper11 {
+  @objc static public var withFullDate: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withFullDate)
+      OptionsWrapper10(Options.withFullDate)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withFullTime: OptionsWrapper11 {
+  @objc static public var withFullTime: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withFullTime)
+      OptionsWrapper10(Options.withFullTime)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withInternetDateTime: OptionsWrapper11 {
+  @objc static public var withInternetDateTime: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withInternetDateTime)
+      OptionsWrapper10(Options.withInternetDateTime)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withMonth: OptionsWrapper11 {
+  @objc static public var withMonth: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withMonth)
+      OptionsWrapper10(Options.withMonth)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withSpaceBetweenDateAndTime: OptionsWrapper11 {
+  @objc static public var withSpaceBetweenDateAndTime: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withSpaceBetweenDateAndTime)
+      OptionsWrapper10(Options.withSpaceBetweenDateAndTime)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withTime: OptionsWrapper11 {
+  @objc static public var withTime: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withTime)
+      OptionsWrapper10(Options.withTime)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withTimeZone: OptionsWrapper11 {
+  @objc static public var withTimeZone: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withTimeZone)
+      OptionsWrapper10(Options.withTimeZone)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withWeekOfYear: OptionsWrapper11 {
+  @objc static public var withWeekOfYear: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withWeekOfYear)
+      OptionsWrapper10(Options.withWeekOfYear)
     }
   }
 
   @available(macOS, introduced: 10.12)
-  @objc static public var withYear: OptionsWrapper11 {
+  @objc static public var withYear: OptionsWrapper10 {
     get {
-      OptionsWrapper11(Options.withYear)
+      OptionsWrapper10(Options.withYear)
     }
   }
 
@@ -1837,34 +1837,34 @@ import Foundation
 }
 
 @available(macOS, introduced: 10.7)
-@objc public class WritingOptionsWrapper3: NSObject {
+@objc public class WritingOptionsWrapper2: NSObject {
   var wrappedInstance: WritingOptions
 
   @available(macOS, introduced: 10.7)
-  @objc static public var fragmentsAllowed: WritingOptionsWrapper3 {
+  @objc static public var fragmentsAllowed: WritingOptionsWrapper2 {
     get {
-      WritingOptionsWrapper3(WritingOptions.fragmentsAllowed)
+      WritingOptionsWrapper2(WritingOptions.fragmentsAllowed)
     }
   }
 
   @available(macOS, introduced: 10.7)
-  @objc static public var prettyPrinted: WritingOptionsWrapper3 {
+  @objc static public var prettyPrinted: WritingOptionsWrapper2 {
     get {
-      WritingOptionsWrapper3(WritingOptions.prettyPrinted)
+      WritingOptionsWrapper2(WritingOptions.prettyPrinted)
     }
   }
 
   @available(macOS, introduced: 10.13)
-  @objc static public var sortedKeys: WritingOptionsWrapper3 {
+  @objc static public var sortedKeys: WritingOptionsWrapper2 {
     get {
-      WritingOptionsWrapper3(WritingOptions.sortedKeys)
+      WritingOptionsWrapper2(WritingOptions.sortedKeys)
     }
   }
 
   @available(macOS, introduced: 10.15)
-  @objc static public var withoutEscapingSlashes: WritingOptionsWrapper3 {
+  @objc static public var withoutEscapingSlashes: WritingOptionsWrapper2 {
     get {
-      WritingOptionsWrapper3(WritingOptions.withoutEscapingSlashes)
+      WritingOptionsWrapper2(WritingOptions.withoutEscapingSlashes)
     }
   }
 
@@ -1929,36 +1929,36 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper2: NSObject {
+@objc public class OptionsWrapper3: NSObject {
   var wrappedInstance: Options
 
-  @objc static public var joinNames: OptionsWrapper2 {
+  @objc static public var joinNames: OptionsWrapper3 {
     get {
-      OptionsWrapper2(Options.joinNames)
+      OptionsWrapper3(Options.joinNames)
     }
   }
 
-  @objc static public var omitOther: OptionsWrapper2 {
+  @objc static public var omitOther: OptionsWrapper3 {
     get {
-      OptionsWrapper2(Options.omitOther)
+      OptionsWrapper3(Options.omitOther)
     }
   }
 
-  @objc static public var omitPunctuation: OptionsWrapper2 {
+  @objc static public var omitPunctuation: OptionsWrapper3 {
     get {
-      OptionsWrapper2(Options.omitPunctuation)
+      OptionsWrapper3(Options.omitPunctuation)
     }
   }
 
-  @objc static public var omitWhitespace: OptionsWrapper2 {
+  @objc static public var omitWhitespace: OptionsWrapper3 {
     get {
-      OptionsWrapper2(Options.omitWhitespace)
+      OptionsWrapper3(Options.omitWhitespace)
     }
   }
 
-  @objc static public var omitWords: OptionsWrapper2 {
+  @objc static public var omitWords: OptionsWrapper3 {
     get {
-      OptionsWrapper2(Options.omitWords)
+      OptionsWrapper3(Options.omitWords)
     }
   }
 
@@ -1979,20 +1979,20 @@ import Foundation
 }
 
 @available(macOS, introduced: 10.5)
-@objc public class OptionsWrapper7: NSObject {
+@objc public class OptionsWrapper4: NSObject {
   var wrappedInstance: Options
 
   @available(macOS, introduced: 10.5)
-  @objc static public var deallocateReceiveRight: OptionsWrapper7 {
+  @objc static public var deallocateReceiveRight: OptionsWrapper4 {
     get {
-      OptionsWrapper7(Options.deallocateReceiveRight)
+      OptionsWrapper4(Options.deallocateReceiveRight)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var deallocateSendRight: OptionsWrapper7 {
+  @objc static public var deallocateSendRight: OptionsWrapper4 {
     get {
-      OptionsWrapper7(Options.deallocateSendRight)
+      OptionsWrapper4(Options.deallocateSendRight)
     }
   }
 
@@ -2152,20 +2152,20 @@ import Foundation
 }
 
 @available(macOS, introduced: 10.2)
-@objc public class OptionsWrapper: NSObject {
+@objc public class OptionsWrapper7: NSObject {
   var wrappedInstance: Options
 
   @available(macOS, introduced: 10.9)
-  @objc static public var listenForConnections: OptionsWrapper {
+  @objc static public var listenForConnections: OptionsWrapper7 {
     get {
-      OptionsWrapper(Options.listenForConnections)
+      OptionsWrapper7(Options.listenForConnections)
     }
   }
 
   @available(macOS, introduced: 10.2)
-  @objc static public var noAutoRename: OptionsWrapper {
+  @objc static public var noAutoRename: OptionsWrapper7 {
     get {
-      OptionsWrapper(Options.noAutoRename)
+      OptionsWrapper7(Options.noAutoRename)
     }
   }
 
@@ -2264,13 +2264,13 @@ import Foundation
 }
 
 @available(macOS, introduced: 10.11)
-@objc public class OptionsWrapper8: NSObject {
+@objc public class OptionsWrapper2: NSObject {
   var wrappedInstance: Options
 
   @available(macOS, introduced: 10.11)
-  @objc static public var phonetic: OptionsWrapper8 {
+  @objc static public var phonetic: OptionsWrapper2 {
     get {
-      OptionsWrapper8(Options.phonetic)
+      OptionsWrapper2(Options.phonetic)
     }
   }
 
@@ -2290,90 +2290,90 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper9: NSObject {
+@objc public class OptionsWrapper: NSObject {
   var wrappedInstance: Options
 
   @available(macOS, introduced: 10.5)
-  @objc static public var cStringPersonality: OptionsWrapper9 {
+  @objc static public var cStringPersonality: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.cStringPersonality)
+      OptionsWrapper(Options.cStringPersonality)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var copyIn: OptionsWrapper9 {
+  @objc static public var copyIn: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.copyIn)
+      OptionsWrapper(Options.copyIn)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var integerPersonality: OptionsWrapper9 {
+  @objc static public var integerPersonality: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.integerPersonality)
+      OptionsWrapper(Options.integerPersonality)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var machVirtualMemory: OptionsWrapper9 {
+  @objc static public var machVirtualMemory: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.machVirtualMemory)
+      OptionsWrapper(Options.machVirtualMemory)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var mallocMemory: OptionsWrapper9 {
+  @objc static public var mallocMemory: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.mallocMemory)
+      OptionsWrapper(Options.mallocMemory)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var objectPersonality: OptionsWrapper9 {
+  @objc static public var objectPersonality: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.objectPersonality)
+      OptionsWrapper(Options.objectPersonality)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var objectPointerPersonality: OptionsWrapper9 {
+  @objc static public var objectPointerPersonality: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.objectPointerPersonality)
+      OptionsWrapper(Options.objectPointerPersonality)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var opaqueMemory: OptionsWrapper9 {
+  @objc static public var opaqueMemory: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.opaqueMemory)
+      OptionsWrapper(Options.opaqueMemory)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var opaquePersonality: OptionsWrapper9 {
+  @objc static public var opaquePersonality: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.opaquePersonality)
+      OptionsWrapper(Options.opaquePersonality)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var strongMemory: OptionsWrapper9 {
+  @objc static public var strongMemory: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.strongMemory)
+      OptionsWrapper(Options.strongMemory)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var structPersonality: OptionsWrapper9 {
+  @objc static public var structPersonality: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.structPersonality)
+      OptionsWrapper(Options.structPersonality)
     }
   }
 
   @available(macOS, introduced: 10.8)
-  @objc static public var weakMemory: OptionsWrapper9 {
+  @objc static public var weakMemory: OptionsWrapper {
     get {
-      OptionsWrapper9(Options.weakMemory)
+      OptionsWrapper(Options.weakMemory)
     }
   }
 
@@ -2424,48 +2424,48 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper5: NSObject {
+@objc public class OptionsWrapper11: NSObject {
   var wrappedInstance: Options
 
-  @objc static public var allowCommentsAndWhitespace: OptionsWrapper5 {
+  @objc static public var allowCommentsAndWhitespace: OptionsWrapper11 {
     get {
-      OptionsWrapper5(Options.allowCommentsAndWhitespace)
+      OptionsWrapper11(Options.allowCommentsAndWhitespace)
     }
   }
 
-  @objc static public var anchorsMatchLines: OptionsWrapper5 {
+  @objc static public var anchorsMatchLines: OptionsWrapper11 {
     get {
-      OptionsWrapper5(Options.anchorsMatchLines)
+      OptionsWrapper11(Options.anchorsMatchLines)
     }
   }
 
-  @objc static public var caseInsensitive: OptionsWrapper5 {
+  @objc static public var caseInsensitive: OptionsWrapper11 {
     get {
-      OptionsWrapper5(Options.caseInsensitive)
+      OptionsWrapper11(Options.caseInsensitive)
     }
   }
 
-  @objc static public var dotMatchesLineSeparators: OptionsWrapper5 {
+  @objc static public var dotMatchesLineSeparators: OptionsWrapper11 {
     get {
-      OptionsWrapper5(Options.dotMatchesLineSeparators)
+      OptionsWrapper11(Options.dotMatchesLineSeparators)
     }
   }
 
-  @objc static public var ignoreMetacharacters: OptionsWrapper5 {
+  @objc static public var ignoreMetacharacters: OptionsWrapper11 {
     get {
-      OptionsWrapper5(Options.ignoreMetacharacters)
+      OptionsWrapper11(Options.ignoreMetacharacters)
     }
   }
 
-  @objc static public var useUnicodeWordBoundaries: OptionsWrapper5 {
+  @objc static public var useUnicodeWordBoundaries: OptionsWrapper11 {
     get {
-      OptionsWrapper5(Options.useUnicodeWordBoundaries)
+      OptionsWrapper11(Options.useUnicodeWordBoundaries)
     }
   }
 
-  @objc static public var useUnixLineSeparators: OptionsWrapper5 {
+  @objc static public var useUnixLineSeparators: OptionsWrapper11 {
     get {
-      OptionsWrapper5(Options.useUnixLineSeparators)
+      OptionsWrapper11(Options.useUnixLineSeparators)
     }
   }
 
@@ -2722,68 +2722,68 @@ import Foundation
 
 }
 
-@objc public class EnumerationOptionsWrapper: NSObject {
+@objc public class EnumerationOptionsWrapper1: NSObject {
   var wrappedInstance: EnumerationOptions
 
   @available(macOS, introduced: 11.0)
-  @objc static public var byCaretPositions: EnumerationOptionsWrapper {
+  @objc static public var byCaretPositions: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.byCaretPositions)
+      EnumerationOptionsWrapper1(EnumerationOptions.byCaretPositions)
     }
   }
 
-  @objc static public var byComposedCharacterSequences: EnumerationOptionsWrapper {
+  @objc static public var byComposedCharacterSequences: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.byComposedCharacterSequences)
+      EnumerationOptionsWrapper1(EnumerationOptions.byComposedCharacterSequences)
     }
   }
 
   @available(macOS, introduced: 11.0)
-  @objc static public var byDeletionClusters: EnumerationOptionsWrapper {
+  @objc static public var byDeletionClusters: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.byDeletionClusters)
+      EnumerationOptionsWrapper1(EnumerationOptions.byDeletionClusters)
     }
   }
 
-  @objc static public var byLines: EnumerationOptionsWrapper {
+  @objc static public var byLines: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.byLines)
+      EnumerationOptionsWrapper1(EnumerationOptions.byLines)
     }
   }
 
-  @objc static public var byParagraphs: EnumerationOptionsWrapper {
+  @objc static public var byParagraphs: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.byParagraphs)
+      EnumerationOptionsWrapper1(EnumerationOptions.byParagraphs)
     }
   }
 
-  @objc static public var bySentences: EnumerationOptionsWrapper {
+  @objc static public var bySentences: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.bySentences)
+      EnumerationOptionsWrapper1(EnumerationOptions.bySentences)
     }
   }
 
-  @objc static public var byWords: EnumerationOptionsWrapper {
+  @objc static public var byWords: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.byWords)
+      EnumerationOptionsWrapper1(EnumerationOptions.byWords)
     }
   }
 
-  @objc static public var localized: EnumerationOptionsWrapper {
+  @objc static public var localized: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.localized)
+      EnumerationOptionsWrapper1(EnumerationOptions.localized)
     }
   }
 
-  @objc static public var reverse: EnumerationOptionsWrapper {
+  @objc static public var reverse: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.reverse)
+      EnumerationOptionsWrapper1(EnumerationOptions.reverse)
     }
   }
 
-  @objc static public var substringNotRequired: EnumerationOptionsWrapper {
+  @objc static public var substringNotRequired: EnumerationOptionsWrapper1 {
     get {
-      EnumerationOptionsWrapper(EnumerationOptions.substringNotRequired)
+      EnumerationOptionsWrapper1(EnumerationOptions.substringNotRequired)
     }
   }
 
@@ -3070,168 +3070,168 @@ import Foundation
 
 }
 
-@objc public class OptionsWrapper10: NSObject {
+@objc public class OptionsWrapper8: NSObject {
   var wrappedInstance: Options
 
-  @objc static public var documentIncludeContentTypeDeclaration: OptionsWrapper10 {
+  @objc static public var documentIncludeContentTypeDeclaration: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.documentIncludeContentTypeDeclaration)
+      OptionsWrapper8(Options.documentIncludeContentTypeDeclaration)
     }
   }
 
-  @objc static public var documentTidyHTML: OptionsWrapper10 {
+  @objc static public var documentTidyHTML: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.documentTidyHTML)
+      OptionsWrapper8(Options.documentTidyHTML)
     }
   }
 
-  @objc static public var documentTidyXML: OptionsWrapper10 {
+  @objc static public var documentTidyXML: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.documentTidyXML)
+      OptionsWrapper8(Options.documentTidyXML)
     }
   }
 
-  @objc static public var documentValidate: OptionsWrapper10 {
+  @objc static public var documentValidate: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.documentValidate)
+      OptionsWrapper8(Options.documentValidate)
     }
   }
 
-  @objc static public var documentXInclude: OptionsWrapper10 {
+  @objc static public var documentXInclude: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.documentXInclude)
+      OptionsWrapper8(Options.documentXInclude)
     }
   }
 
-  @objc static public var nodeCompactEmptyElement: OptionsWrapper10 {
+  @objc static public var nodeCompactEmptyElement: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeCompactEmptyElement)
+      OptionsWrapper8(Options.nodeCompactEmptyElement)
     }
   }
 
-  @objc static public var nodeExpandEmptyElement: OptionsWrapper10 {
+  @objc static public var nodeExpandEmptyElement: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeExpandEmptyElement)
+      OptionsWrapper8(Options.nodeExpandEmptyElement)
     }
   }
 
-  @objc static public var nodeIsCDATA: OptionsWrapper10 {
+  @objc static public var nodeIsCDATA: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeIsCDATA)
+      OptionsWrapper8(Options.nodeIsCDATA)
     }
   }
 
-  @objc static public var nodeLoadExternalEntitiesAlways: OptionsWrapper10 {
+  @objc static public var nodeLoadExternalEntitiesAlways: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeLoadExternalEntitiesAlways)
+      OptionsWrapper8(Options.nodeLoadExternalEntitiesAlways)
     }
   }
 
-  @objc static public var nodeLoadExternalEntitiesNever: OptionsWrapper10 {
+  @objc static public var nodeLoadExternalEntitiesNever: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeLoadExternalEntitiesNever)
+      OptionsWrapper8(Options.nodeLoadExternalEntitiesNever)
     }
   }
 
-  @objc static public var nodeLoadExternalEntitiesSameOriginOnly: OptionsWrapper10 {
+  @objc static public var nodeLoadExternalEntitiesSameOriginOnly: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeLoadExternalEntitiesSameOriginOnly)
+      OptionsWrapper8(Options.nodeLoadExternalEntitiesSameOriginOnly)
     }
   }
 
-  @objc static public var nodeNeverEscapeContents: OptionsWrapper10 {
+  @objc static public var nodeNeverEscapeContents: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeNeverEscapeContents)
+      OptionsWrapper8(Options.nodeNeverEscapeContents)
     }
   }
 
-  @objc static public var nodePreserveAll: OptionsWrapper10 {
+  @objc static public var nodePreserveAll: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveAll)
+      OptionsWrapper8(Options.nodePreserveAll)
     }
   }
 
-  @objc static public var nodePreserveAttributeOrder: OptionsWrapper10 {
+  @objc static public var nodePreserveAttributeOrder: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveAttributeOrder)
+      OptionsWrapper8(Options.nodePreserveAttributeOrder)
     }
   }
 
-  @objc static public var nodePreserveCDATA: OptionsWrapper10 {
+  @objc static public var nodePreserveCDATA: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveCDATA)
+      OptionsWrapper8(Options.nodePreserveCDATA)
     }
   }
 
-  @objc static public var nodePreserveCharacterReferences: OptionsWrapper10 {
+  @objc static public var nodePreserveCharacterReferences: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveCharacterReferences)
+      OptionsWrapper8(Options.nodePreserveCharacterReferences)
     }
   }
 
-  @objc static public var nodePreserveDTD: OptionsWrapper10 {
+  @objc static public var nodePreserveDTD: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveDTD)
+      OptionsWrapper8(Options.nodePreserveDTD)
     }
   }
 
-  @objc static public var nodePreserveEmptyElements: OptionsWrapper10 {
+  @objc static public var nodePreserveEmptyElements: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveEmptyElements)
+      OptionsWrapper8(Options.nodePreserveEmptyElements)
     }
   }
 
-  @objc static public var nodePreserveEntities: OptionsWrapper10 {
+  @objc static public var nodePreserveEntities: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveEntities)
+      OptionsWrapper8(Options.nodePreserveEntities)
     }
   }
 
-  @objc static public var nodePreserveNamespaceOrder: OptionsWrapper10 {
+  @objc static public var nodePreserveNamespaceOrder: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveNamespaceOrder)
+      OptionsWrapper8(Options.nodePreserveNamespaceOrder)
     }
   }
 
-  @objc static public var nodePreservePrefixes: OptionsWrapper10 {
+  @objc static public var nodePreservePrefixes: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreservePrefixes)
+      OptionsWrapper8(Options.nodePreservePrefixes)
     }
   }
 
-  @objc static public var nodePreserveQuotes: OptionsWrapper10 {
+  @objc static public var nodePreserveQuotes: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveQuotes)
+      OptionsWrapper8(Options.nodePreserveQuotes)
     }
   }
 
-  @objc static public var nodePreserveWhitespace: OptionsWrapper10 {
+  @objc static public var nodePreserveWhitespace: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePreserveWhitespace)
+      OptionsWrapper8(Options.nodePreserveWhitespace)
     }
   }
 
-  @objc static public var nodePrettyPrint: OptionsWrapper10 {
+  @objc static public var nodePrettyPrint: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePrettyPrint)
+      OptionsWrapper8(Options.nodePrettyPrint)
     }
   }
 
-  @objc static public var nodePromoteSignificantWhitespace: OptionsWrapper10 {
+  @objc static public var nodePromoteSignificantWhitespace: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodePromoteSignificantWhitespace)
+      OptionsWrapper8(Options.nodePromoteSignificantWhitespace)
     }
   }
 
-  @objc static public var nodeUseDoubleQuotes: OptionsWrapper10 {
+  @objc static public var nodeUseDoubleQuotes: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeUseDoubleQuotes)
+      OptionsWrapper8(Options.nodeUseDoubleQuotes)
     }
   }
 
-  @objc static public var nodeUseSingleQuotes: OptionsWrapper10 {
+  @objc static public var nodeUseSingleQuotes: OptionsWrapper8 {
     get {
-      OptionsWrapper10(Options.nodeUseSingleQuotes)
+      OptionsWrapper8(Options.nodeUseSingleQuotes)
     }
   }
 
@@ -3252,13 +3252,13 @@ import Foundation
 }
 
 @available(macOS, introduced: 10.8)
-@objc public class OptionsWrapper3: NSObject {
+@objc public class OptionsWrapper6: NSObject {
   var wrappedInstance: Options
 
   @available(macOS, introduced: 10.8)
-  @objc static public var privileged: OptionsWrapper3 {
+  @objc static public var privileged: OptionsWrapper6 {
     get {
-      OptionsWrapper3(Options.privileged)
+      OptionsWrapper6(Options.privileged)
     }
   }
 
@@ -3700,7 +3700,7 @@ import Foundation
   @available(watchOS, introduced: 2.0)
   @available(iOS, introduced: 8.0)
   @available(tvOS, introduced: 9.0)
-  @objc init(_ value: Double) {
+  @objc init(_ value: Int) {
     wrappedInstance = Decimal(value)
   }
 
@@ -3736,14 +3736,6 @@ import Foundation
   @available(watchOS, introduced: 2.0)
   @available(iOS, introduced: 8.0)
   @available(tvOS, introduced: 9.0)
-  @objc public func negate() {
-    return wrappedInstance.negate()
-  }
-
-  @available(macOS, introduced: 10.10)
-  @available(watchOS, introduced: 2.0)
-  @available(iOS, introduced: 8.0)
-  @available(tvOS, introduced: 9.0)
   @objc public func isEqual(to other: DecimalWrapper) -> Bool {
     return wrappedInstance.isEqual(to: other.wrappedInstance)
   }
@@ -3772,6 +3764,10 @@ import Foundation
   @available(tvOS, introduced: 15.0)
   @objc public func formatted() -> String {
     return wrappedInstance.formatted()
+  }
+
+  @objc public func negate() {
+    return wrappedInstance.negate()
   }
 
   @available(macOS, introduced: 12.0)
@@ -4274,104 +4270,104 @@ import Foundation
 
 }
 
-@objc public class KeyWrapper: NSObject {
+@objc public class KeyWrapper1: NSObject {
   var wrappedInstance: Key
 
   @available(macOS, introduced: 12.0)
-  @objc static public var alternateDescription: KeyWrapper {
+  @objc static public var alternateDescription: KeyWrapper1 {
     get {
-      KeyWrapper(Key.alternateDescription)
+      KeyWrapper1(Key.alternateDescription)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var imageURL: KeyWrapper {
+  @objc static public var imageURL: KeyWrapper1 {
     get {
-      KeyWrapper(Key.imageURL)
+      KeyWrapper1(Key.imageURL)
     }
   }
 
   @available(macOS, introduced: 14.0)
-  @objc static public var agreeWithArgument: KeyWrapper {
+  @objc static public var agreeWithArgument: KeyWrapper1 {
     get {
-      KeyWrapper(Key.agreeWithArgument)
+      KeyWrapper1(Key.agreeWithArgument)
     }
   }
 
   @available(macOS, introduced: 14.0)
-  @objc static public var agreeWithConcept: KeyWrapper {
+  @objc static public var agreeWithConcept: KeyWrapper1 {
     get {
-      KeyWrapper(Key.agreeWithConcept)
+      KeyWrapper1(Key.agreeWithConcept)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var inflectionAlternative: KeyWrapper {
+  @objc static public var inflectionAlternative: KeyWrapper1 {
     get {
-      KeyWrapper(Key.inflectionAlternative)
+      KeyWrapper1(Key.inflectionAlternative)
     }
   }
 
   @available(macOS, introduced: 14.0)
-  @objc static public var referentConcept: KeyWrapper {
+  @objc static public var referentConcept: KeyWrapper1 {
     get {
-      KeyWrapper(Key.referentConcept)
+      KeyWrapper1(Key.referentConcept)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var inflectionRule: KeyWrapper {
+  @objc static public var inflectionRule: KeyWrapper1 {
     get {
-      KeyWrapper(Key.inflectionRule)
+      KeyWrapper1(Key.inflectionRule)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var inlinePresentationIntent: KeyWrapper {
+  @objc static public var inlinePresentationIntent: KeyWrapper1 {
     get {
-      KeyWrapper(Key.inlinePresentationIntent)
+      KeyWrapper1(Key.inlinePresentationIntent)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var languageIdentifier: KeyWrapper {
+  @objc static public var languageIdentifier: KeyWrapper1 {
     get {
-      KeyWrapper(Key.languageIdentifier)
+      KeyWrapper1(Key.languageIdentifier)
     }
   }
 
   @available(macOS, introduced: 15.0)
-  @objc static public var localizedNumberFormat: KeyWrapper {
+  @objc static public var localizedNumberFormat: KeyWrapper1 {
     get {
-      KeyWrapper(Key.localizedNumberFormat)
+      KeyWrapper1(Key.localizedNumberFormat)
     }
   }
 
   @available(macOS, introduced: 13.0)
-  @objc static public var markdownSourcePosition: KeyWrapper {
+  @objc static public var markdownSourcePosition: KeyWrapper1 {
     get {
-      KeyWrapper(Key.markdownSourcePosition)
+      KeyWrapper1(Key.markdownSourcePosition)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var morphology: KeyWrapper {
+  @objc static public var morphology: KeyWrapper1 {
     get {
-      KeyWrapper(Key.morphology)
+      KeyWrapper1(Key.morphology)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var presentationIntentAttributeName: KeyWrapper {
+  @objc static public var presentationIntentAttributeName: KeyWrapper1 {
     get {
-      KeyWrapper(Key.presentationIntentAttributeName)
+      KeyWrapper1(Key.presentationIntentAttributeName)
     }
   }
 
   @available(macOS, introduced: 12.0)
-  @objc static public var replacementIndex: KeyWrapper {
+  @objc static public var replacementIndex: KeyWrapper1 {
     get {
-      KeyWrapper(Key.replacementIndex)
+      KeyWrapper1(Key.replacementIndex)
     }
   }
 
@@ -5569,125 +5565,125 @@ import Foundation
 
 }
 
-@objc public class KeyWrapper1: NSObject {
+@objc public class KeyWrapper: NSObject {
   var wrappedInstance: Key
 
   @available(macOS, introduced: 10.6)
-  @objc static public var alternateQuotationBeginDelimiterKey: KeyWrapper1 {
+  @objc static public var alternateQuotationBeginDelimiterKey: KeyWrapper {
     get {
-      KeyWrapper1(Key.alternateQuotationBeginDelimiterKey)
+      KeyWrapper(Key.alternateQuotationBeginDelimiterKey)
     }
   }
 
   @available(macOS, introduced: 10.6)
-  @objc static public var alternateQuotationEndDelimiterKey: KeyWrapper1 {
+  @objc static public var alternateQuotationEndDelimiterKey: KeyWrapper {
     get {
-      KeyWrapper1(Key.alternateQuotationEndDelimiterKey)
+      KeyWrapper(Key.alternateQuotationEndDelimiterKey)
     }
   }
 
-  @objc static public var calendar: KeyWrapper1 {
+  @objc static public var calendar: KeyWrapper {
     get {
-      KeyWrapper1(Key.calendar)
+      KeyWrapper(Key.calendar)
     }
   }
 
-  @objc static public var collationIdentifier: KeyWrapper1 {
+  @objc static public var collationIdentifier: KeyWrapper {
     get {
-      KeyWrapper1(Key.collationIdentifier)
-    }
-  }
-
-  @available(macOS, introduced: 10.6)
-  @objc static public var collatorIdentifier: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.collatorIdentifier)
-    }
-  }
-
-  @objc static public var countryCode: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.countryCode)
-    }
-  }
-
-  @objc static public var currencyCode: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.currencyCode)
-    }
-  }
-
-  @objc static public var currencySymbol: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.currencySymbol)
-    }
-  }
-
-  @objc static public var decimalSeparator: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.decimalSeparator)
-    }
-  }
-
-  @objc static public var exemplarCharacterSet: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.exemplarCharacterSet)
-    }
-  }
-
-  @objc static public var groupingSeparator: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.groupingSeparator)
-    }
-  }
-
-  @objc static public var identifier: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.identifier)
-    }
-  }
-
-  @objc static public var languageCode: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.languageCode)
-    }
-  }
-
-  @objc static public var measurementSystem: KeyWrapper1 {
-    get {
-      KeyWrapper1(Key.measurementSystem)
+      KeyWrapper(Key.collationIdentifier)
     }
   }
 
   @available(macOS, introduced: 10.6)
-  @objc static public var quotationBeginDelimiterKey: KeyWrapper1 {
+  @objc static public var collatorIdentifier: KeyWrapper {
     get {
-      KeyWrapper1(Key.quotationBeginDelimiterKey)
+      KeyWrapper(Key.collatorIdentifier)
+    }
+  }
+
+  @objc static public var countryCode: KeyWrapper {
+    get {
+      KeyWrapper(Key.countryCode)
+    }
+  }
+
+  @objc static public var currencyCode: KeyWrapper {
+    get {
+      KeyWrapper(Key.currencyCode)
+    }
+  }
+
+  @objc static public var currencySymbol: KeyWrapper {
+    get {
+      KeyWrapper(Key.currencySymbol)
+    }
+  }
+
+  @objc static public var decimalSeparator: KeyWrapper {
+    get {
+      KeyWrapper(Key.decimalSeparator)
+    }
+  }
+
+  @objc static public var exemplarCharacterSet: KeyWrapper {
+    get {
+      KeyWrapper(Key.exemplarCharacterSet)
+    }
+  }
+
+  @objc static public var groupingSeparator: KeyWrapper {
+    get {
+      KeyWrapper(Key.groupingSeparator)
+    }
+  }
+
+  @objc static public var identifier: KeyWrapper {
+    get {
+      KeyWrapper(Key.identifier)
+    }
+  }
+
+  @objc static public var languageCode: KeyWrapper {
+    get {
+      KeyWrapper(Key.languageCode)
+    }
+  }
+
+  @objc static public var measurementSystem: KeyWrapper {
+    get {
+      KeyWrapper(Key.measurementSystem)
     }
   }
 
   @available(macOS, introduced: 10.6)
-  @objc static public var quotationEndDelimiterKey: KeyWrapper1 {
+  @objc static public var quotationBeginDelimiterKey: KeyWrapper {
     get {
-      KeyWrapper1(Key.quotationEndDelimiterKey)
+      KeyWrapper(Key.quotationBeginDelimiterKey)
     }
   }
 
-  @objc static public var scriptCode: KeyWrapper1 {
+  @available(macOS, introduced: 10.6)
+  @objc static public var quotationEndDelimiterKey: KeyWrapper {
     get {
-      KeyWrapper1(Key.scriptCode)
+      KeyWrapper(Key.quotationEndDelimiterKey)
     }
   }
 
-  @objc static public var usesMetricSystem: KeyWrapper1 {
+  @objc static public var scriptCode: KeyWrapper {
     get {
-      KeyWrapper1(Key.usesMetricSystem)
+      KeyWrapper(Key.scriptCode)
     }
   }
 
-  @objc static public var variantCode: KeyWrapper1 {
+  @objc static public var usesMetricSystem: KeyWrapper {
     get {
-      KeyWrapper1(Key.variantCode)
+      KeyWrapper(Key.usesMetricSystem)
+    }
+  }
+
+  @objc static public var variantCode: KeyWrapper {
+    get {
+      KeyWrapper(Key.variantCode)
     }
   }
 
@@ -8215,30 +8211,30 @@ import Foundation
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var NSHashTableCopyInWrapper: OptionsWrapper9 {
+  @objc static public var NSHashTableCopyInWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSHashTableCopyIn)
+      OptionsWrapper(NSHashTableCopyIn)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var NSHashTableObjectPointerPersonalityWrapper: OptionsWrapper9 {
+  @objc static public var NSHashTableObjectPointerPersonalityWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSHashTableObjectPointerPersonality)
+      OptionsWrapper(NSHashTableObjectPointerPersonality)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var NSHashTableStrongMemoryWrapper: OptionsWrapper9 {
+  @objc static public var NSHashTableStrongMemoryWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSHashTableStrongMemory)
+      OptionsWrapper(NSHashTableStrongMemory)
     }
   }
 
   @available(macOS, introduced: 10.8)
-  @objc static public var NSHashTableWeakMemoryWrapper: OptionsWrapper9 {
+  @objc static public var NSHashTableWeakMemoryWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSHashTableWeakMemory)
+      OptionsWrapper(NSHashTableWeakMemory)
     }
   }
 
@@ -8369,30 +8365,30 @@ import Foundation
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var NSMapTableCopyInWrapper: OptionsWrapper9 {
+  @objc static public var NSMapTableCopyInWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSMapTableCopyIn)
+      OptionsWrapper(NSMapTableCopyIn)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var NSMapTableObjectPointerPersonalityWrapper: OptionsWrapper9 {
+  @objc static public var NSMapTableObjectPointerPersonalityWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSMapTableObjectPointerPersonality)
+      OptionsWrapper(NSMapTableObjectPointerPersonality)
     }
   }
 
   @available(macOS, introduced: 10.5)
-  @objc static public var NSMapTableStrongMemoryWrapper: OptionsWrapper9 {
+  @objc static public var NSMapTableStrongMemoryWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSMapTableStrongMemory)
+      OptionsWrapper(NSMapTableStrongMemory)
     }
   }
 
   @available(macOS, introduced: 10.8)
-  @objc static public var NSMapTableWeakMemoryWrapper: OptionsWrapper9 {
+  @objc static public var NSMapTableWeakMemoryWrapper: OptionsWrapper {
     get {
-      OptionsWrapper9(NSMapTableWeakMemory)
+      OptionsWrapper(NSMapTableWeakMemory)
     }
   }
 
@@ -9795,15 +9791,15 @@ import Foundation
     }
   }
 
-  @objc static public var NSNotificationDeliverImmediatelyWrapper: OptionsWrapper1 {
+  @objc static public var NSNotificationDeliverImmediatelyWrapper: OptionsWrapper5 {
     get {
-      OptionsWrapper1(NSNotificationDeliverImmediately)
+      OptionsWrapper5(NSNotificationDeliverImmediately)
     }
   }
 
-  @objc static public var NSNotificationPostToAllSessionsWrapper: OptionsWrapper1 {
+  @objc static public var NSNotificationPostToAllSessionsWrapper: OptionsWrapper5 {
     get {
-      OptionsWrapper1(NSNotificationPostToAllSessions)
+      OptionsWrapper5(NSNotificationPostToAllSessions)
     }
   }
 
@@ -21118,7 +21114,7 @@ import Foundation
 @available(watchOS, introduced: 8.0)
 @available(iOS, introduced: 15.0)
 @available(tvOS, introduced: 15.0)
-@objc public class AsyncBytesWrapper1: NSObject {
+@objc public class AsyncBytesWrapper2: NSObject {
   var wrappedInstance: AsyncBytes
 
   @available(macOS, introduced: 12.0)
@@ -21159,7 +21155,7 @@ import Foundation
   @available(watchOS, introduced: 8.0)
   @available(iOS, introduced: 15.0)
   @available(tvOS, introduced: 15.0)
-  @objc public func makeAsyncIterator() -> AsyncBytesWrapper1.AsyncIteratorWrapper {
+  @objc public func makeAsyncIterator() -> AsyncBytesWrapper2.AsyncIteratorWrapper {
     let result = wrappedInstance.makeAsyncIterator()
     return AsyncIteratorWrapper(result)
   }
@@ -21210,9 +21206,9 @@ import Foundation
   @available(watchOS, introduced: 9.0)
   @available(iOS, introduced: 16.0)
   @available(tvOS, introduced: 16.0)
-  @objc public var parseStrategy: ParseStrategyWrapper {
+  @objc public var parseStrategy: ParseStrategyWrapper1 {
     get {
-      ParseStrategyWrapper(wrappedInstance.parseStrategy)
+      ParseStrategyWrapper1(wrappedInstance.parseStrategy)
     }
   }
 
@@ -21340,16 +21336,16 @@ import Foundation
 @available(watchOS, introduced: 9.0)
 @available(iOS, introduced: 16.0)
 @available(tvOS, introduced: 16.0)
-@objc public class ParseStrategyWrapper: NSObject {
+@objc public class ParseStrategyWrapper1: NSObject {
   var wrappedInstance: ParseStrategy
 
   @available(macOS, introduced: 13.0)
   @available(watchOS, introduced: 9.0)
   @available(iOS, introduced: 16.0)
   @available(tvOS, introduced: 16.0)
-  @objc static public var url: ParseStrategyWrapper {
+  @objc static public var url: ParseStrategyWrapper1 {
     get {
-      ParseStrategyWrapper(ParseStrategy.url)
+      ParseStrategyWrapper1(ParseStrategy.url)
     }
   }
 
@@ -21371,7 +21367,7 @@ import Foundation
 @available(watchOS, introduced: 2.0)
 @available(iOS, introduced: 8.0)
 @available(tvOS, introduced: 9.0)
-@objc public class IteratorWrapper: NSObject {
+@objc public class IteratorWrapper1: NSObject {
   var wrappedInstance: Iterator
 
   init(_ wrappedInstance: Iterator) {
@@ -23195,7 +23191,7 @@ import Foundation
 @available(watchOS, introduced: 8.0)
 @available(iOS, introduced: 15.0)
 @available(tvOS, introduced: 15.0)
-@objc public class ParseStrategyWrapper1: NSObject {
+@objc public class ParseStrategyWrapper: NSObject {
   var wrappedInstance: ParseStrategy
 
   @available(macOS, introduced: 12.0)
@@ -23784,9 +23780,9 @@ import Foundation
   @available(watchOS, introduced: 8.0)
   @available(iOS, introduced: 15.0)
   @available(tvOS, introduced: 15.0)
-  @objc public var parseStrategy: ParseStrategyWrapper1 {
+  @objc public var parseStrategy: ParseStrategyWrapper {
     get {
-      ParseStrategyWrapper1(wrappedInstance.parseStrategy)
+      ParseStrategyWrapper(wrappedInstance.parseStrategy)
     }
   }
 
@@ -24337,9 +24333,9 @@ import Foundation
   @available(watchOS, introduced: 9)
   @available(iOS, introduced: 16)
   @available(tvOS, introduced: 16)
-  @objc public var languageComponents: LanguageWrapper.ComponentsWrapper {
+  @objc public var languageComponents: LanguageWrapper.ComponentsWrapper1 {
     get {
-      ComponentsWrapper(wrappedInstance.languageComponents)
+      ComponentsWrapper1(wrappedInstance.languageComponents)
     }
     set {
       wrappedInstance.languageComponents = newValue.wrappedInstance
@@ -29132,7 +29128,7 @@ import Foundation
   @available(watchOS, introduced: 9)
   @available(iOS, introduced: 16)
   @available(tvOS, introduced: 16)
-  @objc init(components: LanguageWrapper.ComponentsWrapper) {
+  @objc init(components: LanguageWrapper.ComponentsWrapper1) {
     wrappedInstance = Language(components: components.wrappedInstance)
   }
 
@@ -29164,7 +29160,7 @@ import Foundation
   @available(watchOS, introduced: 9)
   @available(iOS, introduced: 16)
   @available(tvOS, introduced: 16)
-  @objc public class ComponentsWrapper: NSObject {
+  @objc public class ComponentsWrapper1: NSObject {
     var wrappedInstance: Language.Components
 
     @available(macOS, introduced: 13)
@@ -30745,7 +30741,7 @@ import Foundation
 @available(watchOS, introduced: 2.0)
 @available(iOS, introduced: 8.0)
 @available(tvOS, introduced: 9.0)
-@objc public class IteratorWrapper1: NSObject {
+@objc public class IteratorWrapper: NSObject {
   var wrappedInstance: Iterator
 
   init(_ wrappedInstance: Iterator) {
@@ -30758,7 +30754,7 @@ import Foundation
 @available(watchOS, introduced: 8.0)
 @available(iOS, introduced: 15.0)
 @available(tvOS, introduced: 15.0)
-@objc public class AsyncBytesWrapper2: NSObject {
+@objc public class AsyncBytesWrapper: NSObject {
   var wrappedInstance: AsyncBytes
 
   @available(macOS, introduced: 12.0)
@@ -30799,7 +30795,7 @@ import Foundation
   @available(watchOS, introduced: 8.0)
   @available(iOS, introduced: 15.0)
   @available(tvOS, introduced: 15.0)
-  @objc public func makeAsyncIterator() -> AsyncBytesWrapper2.IteratorWrapper {
+  @objc public func makeAsyncIterator() -> AsyncBytesWrapper.IteratorWrapper {
     let result = wrappedInstance.makeAsyncIterator()
     return IteratorWrapper(result)
   }
@@ -30823,7 +30819,7 @@ import Foundation
 @available(watchOS, introduced: 8.0)
 @available(iOS, introduced: 15.0)
 @available(tvOS, introduced: 15.0)
-@objc public class AsyncBytesWrapper: NSObject {
+@objc public class AsyncBytesWrapper1: NSObject {
   var wrappedInstance: AsyncBytes
 
   @available(macOS, introduced: 12.0)
@@ -30874,7 +30870,7 @@ import Foundation
   @available(watchOS, introduced: 8.0)
   @available(iOS, introduced: 15.0)
   @available(tvOS, introduced: 15.0)
-  @objc public func makeAsyncIterator() -> AsyncBytesWrapper.IteratorWrapper {
+  @objc public func makeAsyncIterator() -> AsyncBytesWrapper1.IteratorWrapper {
     let result = wrappedInstance.makeAsyncIterator()
     return IteratorWrapper(result)
   }
@@ -31087,7 +31083,7 @@ import Foundation
     @available(watchOS, introduced: 6.0)
     @available(iOS, introduced: 13.0)
     @available(tvOS, introduced: 13.0)
-    @objc static public func seconds(_ s: Double) -> SchedulerTimeTypeWrapper1.StrideWrapper {
+    @objc static public func seconds(_ s: Int) -> SchedulerTimeTypeWrapper1.StrideWrapper {
       let result = SchedulerTimeType.Stride.seconds(s)
       return StrideWrapper(result)
     }
@@ -31391,7 +31387,7 @@ import Foundation
     @available(watchOS, introduced: 6.0)
     @available(iOS, introduced: 13.0)
     @available(tvOS, introduced: 13.0)
-    @objc static public func seconds(_ s: Int) -> SchedulerTimeTypeWrapper.StrideWrapper {
+    @objc static public func seconds(_ s: Double) -> SchedulerTimeTypeWrapper.StrideWrapper {
       let result = SchedulerTimeType.Stride.seconds(s)
       return StrideWrapper(result)
     }

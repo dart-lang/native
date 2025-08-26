@@ -32,7 +32,7 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
     );
 
     for (final id in [sourceId, targetId]) {
-      (relationsMap[id] ??= []).add(relation);
+      (relationsMap[id] ??= {})[relation.json.toString()] = relation;
     }
   }
 

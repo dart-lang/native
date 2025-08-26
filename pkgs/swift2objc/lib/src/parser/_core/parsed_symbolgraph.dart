@@ -6,41 +6,34 @@ import '../../ast/_core/interfaces/declaration.dart';
 import 'json.dart';
 
 typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
-typedef ParsedRelationsMap = Map<String, List<ParsedRelation>>;
+typedef ParsedRelationsMap = Map<String, Map<String, ParsedRelation>>;
 
 class ParsedSymbolgraph {
   final ParsedSymbolsMap symbols;
   final ParsedRelationsMap relations;
 
   ParsedSymbolgraph({ParsedSymbolsMap? symbols, ParsedRelationsMap? relations})
-      : symbols = symbols ?? {},
-        relations = relations ?? {};
+    : symbols = symbols ?? {},
+      relations = relations ?? {};
 
   /// Merge other into this.
   ///
-  /// Throws if there are symbols or relations with the same ID that aren't
-  /// identical.
+  /// Throws if there are symbols with the same ID that aren't identical.
   void merge(ParsedSymbolgraph other) {
     for (final MapEntry(key: id, value: symbol) in other.symbols.entries) {
       if (symbols.containsKey(id)) {
         // TODO: Throw a more useful error.
-        // TODO: Store the encoded json somewhere so we don't have to constantly
-        // re-encode it.
         assert(symbols[id]!.json.toString() == symbol.json.toString());
       } else {
         symbols[id] = symbol;
       }
     }
 
-    for (final MapEntry(key: id, value: relationList)
+    for (final MapEntry(key: id, value: relationMap)
         in other.relations.entries) {
-      final dest = relations[id] ??= [];
-      for (final relation in relationList) {
-        // TODO: Change the way relations are stored to avoid O(n) scan here.
-        final relationJson = relation.json.toString();
-        if (!dest.any((r) => r.json.toString() == relationJson)) {
-          dest.add(relation);
-        }
+      final dest = relations[id] ??= {};
+      for (final MapEntry(key: encoded, value: relation) in relationMap.entries) {
+        dest[encoded] ??= relation;
       }
     }
   }
@@ -72,7 +65,7 @@ enum ParsedRelationKind {
 
   static final _supportedRelationKindsMap = {
     for (final relationKind in ParsedRelationKind.values)
-      relationKind.name: relationKind
+      relationKind.name: relationKind,
   };
 
   static ParsedRelationKind? fromString(String relationKindString) =>

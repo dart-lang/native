@@ -53,9 +53,10 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 ReferredType _parseVariableType(
   Json propertySymbolJson,
   ParsedSymbolgraph symbolgraph,
-) =>
-    parseTypeAfterSeparator(
-        TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
+) => parseTypeAfterSeparator(
+  TokenList(propertySymbolJson['names']['subHeading']),
+  symbolgraph,
+);
 
 bool _parseVariableIsConstant(Json fragmentsJson) {
   final declarationKeyword = fragmentsJson.firstWhere(
@@ -97,7 +98,7 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
     lazy: _findKeywordInFragments(json, 'lazy'),
     getter: getter,
     setter: setter,
-    mutating: _findKeywordInFragments(json, 'mutating')
+    mutating: _findKeywordInFragments(json, 'mutating'),
   );
 }
 
@@ -107,10 +108,12 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
     return (true, false);
   }
 
-  final hasExplicitSetter =
-      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'set'));
-  final hasExplicitGetter =
-      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'get'));
+  final hasExplicitSetter = fragmentsJson.any(
+    (frag) => matchFragment(frag, 'keyword', 'set'),
+  );
+  final hasExplicitGetter = fragmentsJson.any(
+    (frag) => matchFragment(frag, 'keyword', 'get'),
+  );
 
   if (hasExplicitGetter) {
     if (hasExplicitSetter) {

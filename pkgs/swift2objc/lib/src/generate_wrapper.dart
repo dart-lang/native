@@ -8,8 +8,6 @@ import 'package:path/path.dart' as path;
 
 import 'config.dart';
 import 'generator/generator.dart';
-import 'parser/_core/parsed_symbolgraph.dart';
-import 'parser/_core/utils.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
 import 'utils.dart';
@@ -44,7 +42,9 @@ Future<void> generateWrapper(Config config) async {
     if (input.hasSymbolgraphCommand) {
       await _generateSymbolgraphJson(
         input.symbolgraphCommand(
-            await target(), path.absolute((await sdkPath()).path)),
+          await target(),
+          path.absolute((await sdkPath()).path),
+        ),
         tempDir,
       );
     }
@@ -66,9 +66,11 @@ Future<void> generateWrapper(Config config) async {
     mergedSymbolgraph.merge(parseSymbolgraph(symbolgraphJson));
   }
 
-  final declarations = parseAst(mergedSymbolgraph);
-  final transformedDeclarations =
-      transform(declarations, filter: config.include);
+  final declarations = parseDeclarations(mergedSymbolgraph);
+  final transformedDeclarations = transform(
+    declarations,
+    filter: config.include,
+  );
   final wrapperCode = generate(
     transformedDeclarations,
     importedModuleNames: sourceModules.nonNulls.toList(),

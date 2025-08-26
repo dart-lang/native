@@ -2,21 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../ast/_core/interfaces/declaration.dart';
 import '_core/json.dart';
 import '_core/parsed_symbolgraph.dart';
 
-import 'parsers/parse_declarations.dart';
 import 'parsers/parse_relations_map.dart';
 import 'parsers/parse_symbols_map.dart';
 
-ParsedSymbolgraph parseSymbolgraph(Json symbolgraphJson) => ParsedSymbolgraph(
-      symbols: parseSymbolsMap(symbolgraphJson),
-      relations: parseRelationsMap(symbolgraphJson),
-    );
+export '_core/parsed_symbolgraph.dart';
+export '_core/utils.dart';
+export 'parsers/parse_declarations.dart';
 
-List<Declaration> parseAst(ParsedSymbolgraph symbolgraph) =>
-    parseDeclarations(symbolgraph);
+ParsedSymbolgraph parseSymbolgraph(Json symbolgraphJson) => ParsedSymbolgraph(
+  symbols: parseSymbolsMap(symbolgraphJson),
+  relations: parseRelationsMap(symbolgraphJson),
+);
 
 String? parseModuleName(Json symbolgraphJson) =>
     symbolgraphJson['module']['name'].get();

@@ -11,20 +11,22 @@ String generate(
   List<String> importedModuleNames = const [],
   String? preamble,
 }) {
-  return '${[
+  final lines = [
     preamble,
     '',
     for (final moduleName in importedModuleNames) 'import $moduleName',
     '',
     ...declarations.map((decl) => generateDeclaration(decl).join('\n')),
-  ].nonNulls.join('\n')}\n';
+    '',
+  ];
+  return lines.nonNulls.join('\n');
 }
 
 List<String> generateDeclaration(Declaration declaration) {
   return switch (declaration) {
     ClassDeclaration() => generateClass(declaration),
     _ => throw UnimplementedError(
-        "$declaration generation isn't implemented yet",
-      ),
+      "$declaration generation isn't implemented yet",
+    ),
   };
 }

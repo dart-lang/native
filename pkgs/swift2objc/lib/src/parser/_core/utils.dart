@@ -29,20 +29,20 @@ extension AddIdSuffix on String {
 
 extension TopLevelOnly<T extends Declaration> on List<T> {
   List<Declaration> get topLevelOnly => where((declaration) {
-        if (declaration is InnerNestableDeclaration) {
-          return declaration.nestingParent == null;
-        }
-        return declaration is GlobalVariableDeclaration ||
-            declaration is GlobalFunctionDeclaration;
-      }).toList();
+    if (declaration is InnerNestableDeclaration) {
+      return declaration.nestingParent == null;
+    }
+    return declaration is GlobalVariableDeclaration ||
+        declaration is GlobalFunctionDeclaration;
+  }).toList();
 }
 
 /// If `fragment['kind'] == kind`, returns `fragment['spelling']`. Otherwise
 /// returns null.
 String? getSpellingForKind(Json fragment, String kind) =>
     fragment['kind'].get<String?>() == kind
-        ? fragment['spelling'].get<String?>()
-        : null;
+    ? fragment['spelling'].get<String?>()
+    : null;
 
 /// Matches fragments, which look like `{"kind": "foo", "spelling": "bar"}`.
 bool matchFragment(Json fragment, String kind, String spelling) =>
@@ -64,8 +64,9 @@ String parseSymbolName(Json symbolJson) => symbolJson['declarationFragments']
     .get();
 
 bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
-    symbolJson['declarationFragments']
-        .any((json) => matchFragment(json, 'attribute', '@objc'));
+    symbolJson['declarationFragments'].any(
+      (json) => matchFragment(json, 'attribute', '@objc'),
+    );
 
 bool parseIsOverriding(Json symbolJson) => symbolJson['declarationFragments']
     .any((json) => matchFragment(json, 'keyword', 'override'));
@@ -80,12 +81,12 @@ List<AvailabilityInfo> parseAvailability(Json symbolJson) {
 }
 
 AvailabilityInfo _parseAvailabilityInfo(Json json) => AvailabilityInfo(
-      domain: json['domain'].get(),
-      unavailable: json['isUnconditionallyUnavailable'].get<bool?>() ?? false,
-      introduced: _parseAvailabilityVersion(json['introduced']),
-      deprecated: _parseAvailabilityVersion(json['deprecated']),
-      obsoleted: _parseAvailabilityVersion(json['obsoleted']),
-    );
+  domain: json['domain'].get(),
+  unavailable: json['isUnconditionallyUnavailable'].get<bool?>() ?? false,
+  introduced: _parseAvailabilityVersion(json['introduced']),
+  deprecated: _parseAvailabilityVersion(json['deprecated']),
+  obsoleted: _parseAvailabilityVersion(json['obsoleted']),
+);
 
 AvailabilityVersion? _parseAvailabilityVersion(Json json) => !json.exists
     ? null
@@ -124,10 +125,13 @@ ReferredType parseTypeAfterSeparator(
   ParsedSymbolgraph symbolgraph,
 ) {
   // fragments = [..., ': ', type tokens...]
-  final separatorIndex =
-      fragments.indexWhere((token) => matchFragment(token, 'text', ':'));
-  final (type, suffix) =
-      parseType(symbolgraph, fragments.slice(separatorIndex + 1));
+  final separatorIndex = fragments.indexWhere(
+    (token) => matchFragment(token, 'text', ':'),
+  );
+  final (type, suffix) = parseType(
+    symbolgraph,
+    fragments.slice(separatorIndex + 1),
+  );
   assert(suffix.isEmpty, '$suffix');
   return type;
 }
