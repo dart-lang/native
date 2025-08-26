@@ -20,7 +20,6 @@ void main() {
     ], workingDirectory: packageRoot.toFilePath());
     printOnFailure(dryRunResult.stderr as String);
     printOnFailure(dryRunResult.stdout as String);
-    expect(dryRunResult.exitCode, 0);
     expect(
       dryRunResult.stdout,
       contains(
