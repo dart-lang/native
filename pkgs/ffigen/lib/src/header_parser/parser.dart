@@ -205,7 +205,8 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   ).bindings;
   visit(context, MarkBindingsVisitation(finalBindings), bindings);
 
-  visit(context, MarkImportsVisitation(context), finalBindings);
+  print(finalBindings.map((b) => '${b.runtimeType}\t${b.name}').join('\n'));
+  visit(context, MarkImportsVisitation(context), finalBindings, debug: true);
   context.libs.fillPrefixes();
 
   final finalBindingsList = finalBindings.toList();

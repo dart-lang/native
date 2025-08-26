@@ -546,6 +546,8 @@ $ret $fnName(id target, $argRecv) {
     visitor.visitAll(params);
     visitor.visit(_blockWrappers);
     visitor.visit(protocolTrampoline);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
   }
 
   @override

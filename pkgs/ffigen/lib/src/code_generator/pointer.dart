@@ -47,6 +47,7 @@ class PointerType extends Type {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(child);
+    visitor.visit(ffiImport);
   }
 
   @override
@@ -162,6 +163,12 @@ class ObjCObjectPointer extends PointerType {
     return other is ObjCObjectPointer ||
         other is ObjCInterface ||
         other is ObjCBlock;
+  }
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(objcPkgImport);
   }
 }
 

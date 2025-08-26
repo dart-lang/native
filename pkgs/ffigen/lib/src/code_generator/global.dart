@@ -166,6 +166,7 @@ class Global extends LookUpBinding {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(type);
+    visitor.visit(ffiImport);
   }
 
   @override

@@ -401,5 +401,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
     visitor.visit(_conformsTo);
     visitor.visit(_conformsToMsgSend);
     visitMethods(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
   }
 }

@@ -21,6 +21,7 @@ import 'dart:collection';
 import 'dart:ffi' as ffi;
 import '../objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
+import '' as self;
 
 @ffi.Native<ffi.Pointer<objc.ObjCObject>>(symbol: 'NSKeyValueChangeIndexesKey')
 external ffi.Pointer<objc.ObjCObject> _NSKeyValueChangeIndexesKey;

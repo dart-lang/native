@@ -81,6 +81,9 @@ class ImportedType extends Type {
   String? getDefaultValue(Writer w) => defaultValue;
 
   @override
+  void visit(Visitation visitation) => visitation.visitImportedType(this);
+
+  @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(libraryImport);

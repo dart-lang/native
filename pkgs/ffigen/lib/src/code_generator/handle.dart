@@ -28,4 +28,10 @@ class HandleType extends Type {
 
   @override
   String toString() => 'Handle';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+  }
 }

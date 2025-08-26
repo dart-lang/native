@@ -200,6 +200,8 @@ abstract class Compound extends BindingType {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(members);
+    visitor.visit(ffiImport);
+    if (isObjCImport) visitor.visit(objcPkgImport);
   }
 
   @override

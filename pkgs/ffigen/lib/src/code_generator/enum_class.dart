@@ -312,6 +312,7 @@ class EnumClass extends BindingType {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(nativeType);
+    if (isObjCImport) visitor.visit(objcPkgImport);
   }
 
   @override

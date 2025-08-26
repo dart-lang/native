@@ -104,6 +104,7 @@ class ObjCNullable extends Type {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(child);
+    visitor.visit(ffiImport);
   }
 
   @override

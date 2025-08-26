@@ -129,6 +129,7 @@ class FunctionType extends Type {
     visitor.visit(returnType);
     visitor.visitAll(parameters);
     visitor.visitAll(varArgParameters);
+    visitor.visit(ffiImport);
   }
 
   @override

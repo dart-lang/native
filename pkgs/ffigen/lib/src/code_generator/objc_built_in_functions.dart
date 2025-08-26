@@ -226,6 +226,7 @@ class ObjCBlockWrapperFuncs extends AstNode {
     super.visitChildren(visitor);
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);
+    visitor.visit(objcPkgImport);
   }
 }
 
@@ -240,6 +241,7 @@ class ObjCProtocolMethodTrampoline extends AstNode {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(func);
+    visitor.visit(objcPkgImport);
   }
 
   @override
@@ -320,6 +322,7 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(type);
+    visitor.visit(objcPkgImport);
   }
 }
 
@@ -432,5 +435,6 @@ class ObjCMsgSendFunc extends AstNode {
     super.visitChildren(visitor);
     visitor.visit(normalFunc);
     visitor.visit(variantFunc);
+    visitor.visit(objcPkgImport);
   }
 }

@@ -86,6 +86,12 @@ class NativeType extends Type {
 
   @override
   String? getDefaultValue(Writer w) => _defaultValue;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+  }
 }
 
 class BooleanType extends NativeType {

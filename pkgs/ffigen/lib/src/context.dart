@@ -78,7 +78,7 @@ class LibraryImports {
 
   Iterable<LibraryImport> get used => _used;
 
-  final _used = <LibraryImport>{...builtInLibraries.values};
+  final _used = <LibraryImport>{};
 
   // Call after all used imports have been marked by [markUsed]. Fills the
   // library prefixes used for codegen.
@@ -104,6 +104,7 @@ class LibraryImports {
     }
     // If this null assert fails, it means that a library was used during code
     // generation that wasn't visited by MarkImportsVisitation, which is a bug.
+    print('>>>>>> ${lib.name}');
     return _prefixes[lib]!;
   }
 }
