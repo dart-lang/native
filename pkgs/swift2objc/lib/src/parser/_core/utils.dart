@@ -15,9 +15,6 @@ import 'json.dart';
 import 'parsed_symbolgraph.dart';
 import 'token_list.dart';
 
-typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
-typedef ParsedRelationsMap = Map<String, List<ParsedRelation>>;
-
 Json readJsonFile(String jsonFilePath) {
   final jsonStr = File(jsonFilePath).readAsStringSync();
   return Json(jsonDecode(jsonStr));

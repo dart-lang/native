@@ -4,13 +4,46 @@
 
 import '../../ast/_core/interfaces/declaration.dart';
 import 'json.dart';
-import 'utils.dart';
+
+typedef ParsedSymbolsMap = Map<String, ParsedSymbol>;
+typedef ParsedRelationsMap = Map<String, List<ParsedRelation>>;
 
 class ParsedSymbolgraph {
   final ParsedSymbolsMap symbols;
   final ParsedRelationsMap relations;
 
-  ParsedSymbolgraph(this.symbols, this.relations);
+  ParsedSymbolgraph({ParsedSymbolsMap? symbols, ParsedRelationsMap? relations})
+      : symbols = symbols ?? {},
+        relations = relations ?? {};
+
+  /// Merge other into this.
+  ///
+  /// Throws if there are symbols or relations with the same ID that aren't
+  /// identical.
+  void merge(ParsedSymbolgraph other) {
+    for (final MapEntry(key: id, value: symbol) in other.symbols.entries) {
+      if (symbols.containsKey(id)) {
+        // TODO: Throw a more useful error.
+        // TODO: Store the encoded json somewhere so we don't have to constantly
+        // re-encode it.
+        assert(symbols[id]!.json.toString() == symbol.json.toString());
+      } else {
+        symbols[id] = symbol;
+      }
+    }
+
+    for (final MapEntry(key: id, value: relationList)
+        in other.relations.entries) {
+      final dest = relations[id] ??= [];
+      for (final relation in relationList) {
+        // TODO: Change the way relations are stored to avoid O(n) scan here.
+        final relationJson = relation.json.toString();
+        if (!dest.any((r) => r.json.toString() == relationJson)) {
+          dest.add(relation);
+        }
+      }
+    }
+  }
 }
 
 class ParsedSymbol {

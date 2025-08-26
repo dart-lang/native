@@ -5,6 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:swift2objc/src/utils.dart';
+
 import 'config.dart';
 
 Future<void> run(
@@ -24,29 +26,9 @@ Future<void> run(
   }
 }
 
-Future<String> runGetStdout(String executable, List<String> arguments) async {
-  final process = await Process.start(executable, arguments);
-  final s = StringBuffer();
-  process.stdout.transform(utf8.decoder).listen(s.write);
-  process.stderr.listen(stderr.add);
-  if ((await process.exitCode) != 0) {
-    throw ProcessException(executable, arguments);
-  }
-  return s.toString();
-}
-
-Future<String> getHostTriple() async {
-  final info =
-      json.decode(await runGetStdout('swiftc', ['-print-target-info'])) as Map;
-  final target = info['target'] as Map;
-  return target['triple'] as String;
-}
-
-Future<Uri> getHostSdk() async =>
-    Uri.directory((await runGetStdout('xcrun', ['--show-sdk-path'])).trim());
-
-Future<Target> getHostTarget() async =>
-    Target(triple: await getHostTriple(), sdk: await getHostSdk());
+Future<Target> hostTarget = () async {
+  return Target(triple: await hostTriple, sdk: await hostSdk);
+}();
 
 Uri createTempDirectory() =>
     Uri.directory(Directory.systemTemp.createTempSync().path);
