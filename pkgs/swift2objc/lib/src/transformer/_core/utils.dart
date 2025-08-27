@@ -112,6 +112,7 @@ InitializerDeclaration buildWrapperInitializer(
 ) {
   return InitializerDeclaration(
     id: '',
+    source: wrappedClassInstance.source,
     availability: const [],
     params: [
       Parameter(

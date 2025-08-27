@@ -33,10 +33,7 @@ Future<void> generateWrapper(Config config) async {
   final sourceModules = <String?>[];
   final mergedSymbolgraph = ParsedSymbolgraph();
 
-  final allInputConfigs = [
-    ModuleInputConfig(module: 'Foundation'),
-    ...config.inputs,
-  ];
+  final allInputConfigs = [...config.inputs, builtInInputConfig];
 
   for (final input in allInputConfigs) {
     if (input.hasSymbolgraphCommand) {
@@ -63,7 +60,7 @@ Future<void> generateWrapper(Config config) async {
       ModuleInputConfig() => input.module,
       JsonFileInputConfig() => parseModuleName(symbolgraphJson),
     });
-    mergedSymbolgraph.merge(parseSymbolgraph(symbolgraphJson));
+    mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
   }
 
   final declarations = parseDeclarations(mergedSymbolgraph);

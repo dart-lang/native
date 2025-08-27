@@ -23,7 +23,7 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 // Hard coded sets of declarations to include, for tests where that matters.
-final _includes = <String, Set<String>>{
+const _includes = <String, Set<String>>{
   // 'url': {'urlFunc', 'NSURL'},
 };
 
@@ -70,7 +70,7 @@ void main([List<String>? args]) {
         await generateWrapper(
           Config(
             inputs: [
-              FilesInputConfig(files: [Uri.file(inputFile)])
+              FilesInputConfig(files: [Uri.file(inputFile)]),
             ],
             outputFile: Uri.file(actualOutputFile),
             tempDir: Directory(tempDir).uri,
@@ -85,7 +85,7 @@ void main([List<String>? args]) {
         expect(actualOutput, expectedOutput);
 
         // await expectValidSwift([inputFile, actualOutputFile]);
-      }, timeout: Timeout(const Duration(minutes: 2)));
+      }, timeout: const Timeout(Duration(minutes: 2)));
     }
   });
 }

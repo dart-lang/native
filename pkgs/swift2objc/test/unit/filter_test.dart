@@ -20,21 +20,26 @@ void main([List<String>? args]) {
 
   group('Unit test for filter', () {
     final thisDir = p.join(testDir, 'unit');
+    final tempDir = p.join(thisDir, 'temp');
     final inputFile = p.join(thisDir, 'filter_test_input.swift');
 
-    Future<void> runTest(String expectedOutputFile,
-        bool Function(Declaration declaration) include) async {
+    Future<void> runTest(
+      String expectedOutputFile,
+      bool Function(Declaration declaration) include,
+    ) async {
       final output = p.join(thisDir, expectedOutputFile);
       final actualOutputFile = p.join(
-        thisDir,
+        tempDir,
         '${p.basenameWithoutExtension(output)}.g.swift',
       );
 
       await generateWrapper(
         Config(
-          inputs: [FilesInputConfig(files: [Uri.file(inputFile)])],
+          inputs: [
+            FilesInputConfig(files: [Uri.file(inputFile)]),
+          ],
           outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(thisDir).uri,
+          tempDir: Directory(tempDir).uri,
           preamble: '// Test preamble text',
           include: include,
         ),
@@ -52,65 +57,63 @@ void main([List<String>? args]) {
     }
 
     test('A: Filtering by name', () async {
-      await runTest('filter_test_output_a.swift',
-          (declaration) => declaration.name == 'Engine');
+      await runTest(
+        'filter_test_output_a.swift',
+        (declaration) => declaration.name == 'Engine',
+      );
     });
 
     test('B: Filtering by type', () async {
-      await runTest('filter_test_output_b.swift',
-          (declaration) => declaration is ClassDeclaration);
+      await runTest(
+        'filter_test_output_b.swift',
+        (declaration) => declaration is ClassDeclaration,
+      );
     });
 
     test('C: Nonexistent declaration', () async {
-      await runTest('filter_test_output_c.swift',
-          (declaration) => declaration.name == 'Ship');
+      await runTest(
+        'filter_test_output_c.swift',
+        (declaration) => declaration.name == 'Ship',
+      );
     });
 
     test('D: Stubbed declarations', () async {
-      await runTest('filter_test_output_d.swift',
-          (declaration) => declaration.name == 'Vehicle');
+      await runTest(
+        'filter_test_output_d.swift',
+        (declaration) => declaration.name == 'Vehicle',
+      );
     });
 
     test('E: Nested declarations, child included, parent excluded', () async {
       // Parent should be stubbed.
-      await runTest('filter_test_output_e.swift',
-          (declaration) => declaration.name == 'Door');
+      await runTest(
+        'filter_test_output_e.swift',
+        (declaration) => declaration.name == 'Door',
+      );
     });
 
     test('F: Nested declarations, child stubbed, parent excluded', () async {
       // Parent should be stubbed.
-      await runTest('filter_test_output_f.swift',
-          (declaration) => declaration.name == 'openDoor');
+      await runTest(
+        'filter_test_output_f.swift',
+        (declaration) => declaration.name == 'openDoor',
+      );
     });
 
     test('G: Nested declarations, child excluded, parent included', () async {
       // Child should be stubbed.
-      await runTest('filter_test_output_g.swift',
-          (declaration) => declaration.name == 'Garage');
+      await runTest(
+        'filter_test_output_g.swift',
+        (declaration) => declaration.name == 'Garage',
+      );
     });
 
     test('H: Nested declarations, child excluded, parent stubbed', () async {
       // Child should be omitted.
-      await runTest('filter_test_output_h.swift',
-          (declaration) => declaration.name == 'listGarageVehicles');
-    });
-
-    tearDown(() {
-      void tryDelete(FileSystemEntity file) {
-        if (file is File && file.existsSync()) file.deleteSync();
-      }
-
-      tryDelete(File(p.join(thisDir, 'symbolgraph_module.abi.json')));
-      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftdoc')));
-      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftmodule')));
-      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftsource')));
-      tryDelete(File(p.join(thisDir, 'symbolgraph_module.symbols.json')));
-      tryDelete(File(p.join(thisDir, 'symbolgraph_module.swiftsourceinfo')));
-
-      Directory(thisDir)
-          .listSync()
-          .where((t) => p.extension(t.path, 2) == '.g.swift')
-          .forEach(tryDelete);
+      await runTest(
+        'filter_test_output_h.swift',
+        (declaration) => declaration.name == 'listGarageVehicles',
+      );
     });
   });
 }

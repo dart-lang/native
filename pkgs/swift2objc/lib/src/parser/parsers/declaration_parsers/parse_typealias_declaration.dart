@@ -3,20 +3,19 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/declarations/typealias_declaration.dart';
-import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 import '../parse_type.dart';
 
 TypealiasDeclaration? parseTypealiasDeclaration(
-  Json typealiasSymbolJson,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final id = parseSymbolId(typealiasSymbolJson);
-  final name = parseSymbolName(typealiasSymbolJson);
-  final availability = parseAvailability(typealiasSymbolJson);
-  final declarationFragments = typealiasSymbolJson['declarationFragments'];
+  final id = parseSymbolId(symbol.json);
+  final name = parseSymbolName(symbol.json);
+  final availability = parseAvailability(symbol.json);
+  final declarationFragments = symbol.json['declarationFragments'];
 
   final malformedException = Exception(
     'Malformed typealias at ${declarationFragments.path}: '
@@ -33,6 +32,7 @@ TypealiasDeclaration? parseTypealiasDeclaration(
   return TypealiasDeclaration(
     id: id,
     name: name,
+    source: symbol.source,
     availability: availability,
     target: target,
   );

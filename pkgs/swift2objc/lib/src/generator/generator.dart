@@ -10,17 +10,14 @@ String generate(
   List<Declaration> declarations, {
   List<String> importedModuleNames = const [],
   String? preamble,
-}) {
-  final lines = [
-    preamble,
-    '',
-    for (final moduleName in importedModuleNames) 'import $moduleName',
-    '',
-    ...declarations.map((decl) => generateDeclaration(decl).join('\n')),
-    '',
-  ];
-  return lines.nonNulls.join('\n');
-}
+}) => [
+  preamble,
+  '',
+  for (final moduleName in importedModuleNames) 'import $moduleName',
+  '',
+  ...declarations.map((decl) => generateDeclaration(decl).join('\n')),
+  '',
+].nonNulls.join('\n');
 
 List<String> generateDeclaration(Declaration declaration) {
   return switch (declaration) {

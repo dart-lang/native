@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
 import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
@@ -18,6 +19,9 @@ class RawValueEnumDeclaration<T> extends AstNode
 
   @override
   String name;
+
+  @override
+  InputConfig? source;
 
   @override
   List<AvailabilityInfo> availability;
@@ -45,6 +49,7 @@ class RawValueEnumDeclaration<T> extends AstNode
   RawValueEnumDeclaration({
     required this.id,
     required this.name,
+    required this.source,
     required this.availability,
     required this.cases,
     required this.typeParams,
@@ -80,6 +85,9 @@ class RawValueEnumCase<T> extends AstNode implements EnumCase {
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
   List<AvailabilityInfo> availability;
 
   T rawValue;
@@ -87,6 +95,7 @@ class RawValueEnumCase<T> extends AstNode implements EnumCase {
   RawValueEnumCase({
     required this.id,
     required this.name,
+    required this.source,
     required this.availability,
     required this.rawValue,
   });

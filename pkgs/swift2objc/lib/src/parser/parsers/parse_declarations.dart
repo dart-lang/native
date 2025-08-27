@@ -53,29 +53,29 @@ Declaration parseDeclaration(
     'swift.class' => parseClassDeclaration(parsedSymbol, symbolgraph),
     'swift.struct' => parseStructDeclaration(parsedSymbol, symbolgraph),
     'swift.method' => parseMethodDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: false,
     ),
     'swift.type.method' => parseMethodDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: true,
     ),
     'swift.property' => parsePropertyDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: false,
     ),
     'swift.type.property' => parsePropertyDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: true,
     ),
-    'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
-    'swift.func' => parseGlobalFunctionDeclaration(symbolJson, symbolgraph),
-    'swift.var' => parseGlobalVariableDeclaration(symbolJson, symbolgraph),
-    'swift.typealias' => parseTypealiasDeclaration(symbolJson, symbolgraph),
+    'swift.init' => parseInitializerDeclaration(parsedSymbol, symbolgraph),
+    'swift.func' => parseGlobalFunctionDeclaration(parsedSymbol, symbolgraph),
+    'swift.var' => parseGlobalVariableDeclaration(parsedSymbol, symbolgraph),
+    'swift.typealias' => parseTypealiasDeclaration(parsedSymbol, symbolgraph),
     _ => throw Exception('Symbol of type $symbolType is not implemented yet.'),
   };
 

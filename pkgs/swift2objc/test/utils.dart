@@ -6,8 +6,8 @@ import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' as p;
-import 'package:swift2objc/swift2objc.dart';
 import 'package:swift2objc/src/utils.dart';
+import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
 final _whitespace = RegExp(r'\s+');
@@ -20,10 +20,7 @@ void expectString(String a, String b) {
 }
 
 String testDir = p.normalize(
-  p.join(
-    findPackageRoot('swift2objc').toFilePath(),
-    'test',
-  ),
+  p.join(findPackageRoot('swift2objc').toFilePath(), 'test'),
 );
 
 Future<void> expectValidSwift(List<String> files) async {
@@ -33,7 +30,7 @@ Future<void> expectValidSwift(List<String> files) async {
   final symbolgraphCommand = FilesInputConfig(
     files: files.map(Uri.file).toList(),
     generatedModuleName: 'output_file_symbolgraph',
-  ).symbolgraphCommand(await hostTarget, (await hostSdk).path)!;
+  ).symbolgraphCommand(await hostTarget, (await hostSdk).path);
 
   final processResult = await Process.run(
     symbolgraphCommand.executable,

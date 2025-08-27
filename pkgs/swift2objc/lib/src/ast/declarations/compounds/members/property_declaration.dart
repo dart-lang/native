@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../../config.dart';
 import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
@@ -18,6 +19,9 @@ class PropertyDeclaration extends AstNode
 
   @override
   String name;
+
+  @override
+  InputConfig? source;
 
   @override
   List<AvailabilityInfo> availability;
@@ -55,6 +59,7 @@ class PropertyDeclaration extends AstNode
   PropertyDeclaration({
     required this.id,
     required this.name,
+    required this.source,
     required this.availability,
     required this.type,
     this.hasSetter = false,
