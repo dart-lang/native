@@ -147,3 +147,5 @@ class JsonFileInputConfig implements InputConfig {
   Command symbolgraphCommand(String target, String sdkPath) =>
       throw UnsupportedError('JsonFileInputConfig has no symbolgraphCommand');
 }
+
+const builtInInputConfig = ModuleInputConfig(module: 'Foundation');

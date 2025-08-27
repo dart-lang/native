@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
 import 'util.dart';
 
@@ -30,7 +31,10 @@ class Target {
 
   Target({required this.triple, required this.sdk});
 
-  static Future<Target> host() => getHostTarget();
+  static Future<Target> host() async => Target(
+    triple: await swift2objc.hostTarget,
+    sdk: await swift2objc.hostSdk,
+  );
 }
 
 /// Describes the inputs to the swiftgen pipeline.

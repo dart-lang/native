@@ -5,8 +5,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'config.dart';
-
 Future<String> _runStdout(String executable, List<String> arguments) async {
   final process = await Process.start(executable, arguments);
   final s = StringBuffer();
@@ -28,5 +26,3 @@ Future<String> hostTarget = () async {
 Future<Uri> hostSdk = () async {
   return Uri.directory((await _runStdout('xcrun', ['--show-sdk-path'])).trim());
 }();
-
-const builtInInputConfig = ModuleInputConfig(module: 'Foundation');

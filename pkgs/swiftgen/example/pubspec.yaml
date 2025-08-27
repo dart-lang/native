@@ -28,3 +28,5 @@ dependency_overrides:
     path: ../../ffigen/
   objective_c:
     path: ../../objective_c/
+  swift2objc:
+    path: ../../swift2objc/
