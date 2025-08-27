@@ -8,8 +8,8 @@ import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:test/test.dart';
 
 void main() {
-  // These examples are referenced to in resources external to this repository
-  // such as:
+  // These examples are referenced in resources external to this repository such
+  // as:
   // - https://dart.dev The Dart website.
   // - https://pub.dev/packages/ The example tab of packages.
   // - https://pub.dev/documentation/ The package API references.
