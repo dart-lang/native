@@ -23,97 +23,92 @@ void main([List<String>? args]) {
     final tempDir = p.join(thisDir, 'temp');
     final inputFile = p.join(thisDir, 'filter_test_input.swift');
 
-    Future<void> runTest(
+    void filterTest(
+      String name,
       String expectedOutputFile,
       bool Function(Declaration declaration) include,
-    ) async {
-      final output = p.join(thisDir, expectedOutputFile);
-      final actualOutputFile = p.join(
-        tempDir,
-        '${p.basenameWithoutExtension(output)}.g.swift',
-      );
+    ) {
+      test('A: Filtering by name', () async {
+        final output = p.join(thisDir, expectedOutputFile);
+        final actualOutputFile = p.join(
+          tempDir,
+          '${p.basenameWithoutExtension(output)}.g.swift',
+        );
 
-      await generateWrapper(
-        Config(
-          inputs: [
-            FilesInputConfig(files: [Uri.file(inputFile)]),
-          ],
-          outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(tempDir).uri,
-          preamble: '// Test preamble text',
-          include: include,
-        ),
-      );
+        await generateWrapper(
+          Config(
+            inputs: [
+              FilesInputConfig(files: [Uri.file(inputFile)]),
+            ],
+            outputFile: Uri.file(actualOutputFile),
+            tempDir: Directory(tempDir).uri,
+            preamble: '// Test preamble text',
+            include: include,
+          ),
+        );
 
-      if (regen) {
-        File(actualOutputFile).copySync(output);
-      } else {
-        final actualOutput = File(actualOutputFile).readAsStringSync();
-        final expectedOutput = File(output).readAsStringSync();
+        if (regen) {
+          File(actualOutputFile).copySync(output);
+        } else {
+          final actualOutput = File(actualOutputFile).readAsStringSync();
+          final expectedOutput = File(output).readAsStringSync();
 
-        expectString(actualOutput, expectedOutput);
-      }
-      await expectValidSwift([inputFile, actualOutputFile]);
+          expectString(actualOutput, expectedOutput);
+        }
+        await expectValidSwift([inputFile, actualOutputFile]);
+      }, timeout: const Timeout(Duration(minutes: 2)));
     }
 
-    test('A: Filtering by name', () async {
-      await runTest(
-        'filter_test_output_a.swift',
-        (declaration) => declaration.name == 'Engine',
-      );
-    });
+    filterTest(
+      'A: Filtering by name',
+      'filter_test_output_a.swift',
+      (declaration) => declaration.name == 'Engine',
+    );
 
-    test('B: Filtering by type', () async {
-      await runTest(
-        'filter_test_output_b.swift',
-        (declaration) => declaration is ClassDeclaration,
-      );
-    });
+    filterTest(
+      'B: Filtering by type',
+      'filter_test_output_b.swift',
+      (declaration) => declaration is ClassDeclaration,
+    );
 
-    test('C: Nonexistent declaration', () async {
-      await runTest(
-        'filter_test_output_c.swift',
-        (declaration) => declaration.name == 'Ship',
-      );
-    });
+    filterTest(
+      'C: Nonexistent declaration',
+      'filter_test_output_c.swift',
+      (declaration) => declaration.name == 'Ship',
+    );
 
-    test('D: Stubbed declarations', () async {
-      await runTest(
-        'filter_test_output_d.swift',
-        (declaration) => declaration.name == 'Vehicle',
-      );
-    });
+    filterTest(
+      'D: Stubbed declarations',
+      'filter_test_output_d.swift',
+      (declaration) => declaration.name == 'Vehicle',
+    );
 
-    test('E: Nested declarations, child included, parent excluded', () async {
-      // Parent should be stubbed.
-      await runTest(
-        'filter_test_output_e.swift',
-        (declaration) => declaration.name == 'Door',
-      );
-    });
+    // Parent should be stubbed.
+    filterTest(
+      'E: Nested declarations, child included, parent excluded',
+      'filter_test_output_e.swift',
+      (declaration) => declaration.name == 'Door',
+    );
 
-    test('F: Nested declarations, child stubbed, parent excluded', () async {
-      // Parent should be stubbed.
-      await runTest(
-        'filter_test_output_f.swift',
-        (declaration) => declaration.name == 'openDoor',
-      );
-    });
+    // Parent should be stubbed.
+    filterTest(
+      'F: Nested declarations, child stubbed, parent excluded',
+      'filter_test_output_f.swift',
+      (declaration) => declaration.name == 'openDoor',
+    );
 
-    test('G: Nested declarations, child excluded, parent included', () async {
-      // Child should be stubbed.
-      await runTest(
-        'filter_test_output_g.swift',
-        (declaration) => declaration.name == 'Garage',
-      );
-    });
+    // Child should be stubbed.
+    filterTest(
+      'G: Nested declarations, child excluded, parent included',
+      'filter_test_output_g.swift',
+      (declaration) => declaration.name == 'Garage',
+    );
 
-    test('H: Nested declarations, child excluded, parent stubbed', () async {
-      // Child should be omitted.
-      await runTest(
-        'filter_test_output_h.swift',
-        (declaration) => declaration.name == 'listGarageVehicles',
-      );
-    });
+    // Child should be omitted.
+    filterTest(
+      'H: Nested declarations, child excluded, parent stubbed',
+      'filter_test_output_h.swift',
+      (declaration) => declaration.name == 'listGarageVehicles',
+    );
   });
 }
