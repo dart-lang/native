@@ -37,7 +37,6 @@ class ParsedSymbolgraph {
     for (final MapEntry(key: id, value: symbol) in other.symbols.entries) {
       final old = symbols[id];
       if (old != null) {
-        // TODO: When is old.json.exists necessary?
         if (old.json.exists && old.json.toString() != symbol.json.toString()) {
           throw SymbolIdCollisionError(old, symbol);
         }
