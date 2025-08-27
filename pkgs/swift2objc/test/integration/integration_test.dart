@@ -22,11 +22,6 @@ import 'package:test/test.dart';
 
 import '../utils.dart';
 
-// Hard coded sets of declarations to include, for tests where that matters.
-const _includes = <String, Set<String>>{
-  // 'url': {'urlFunc', 'NSURL'},
-};
-
 void main([List<String>? args]) {
   const inputSuffix = '_input.swift';
   const outputSuffix = '_output.swift';
@@ -53,7 +48,7 @@ void main([List<String>? args]) {
 
   var loggedErrors = 0;
   Logger.root.onRecord.listen((record) {
-    // stderr.writeln('${record.level.name}: ${record.message}');
+    stderr.writeln('${record.level.name}: ${record.message}');
     if (record.level >= Level.WARNING) ++loggedErrors;
   });
 
@@ -75,7 +70,6 @@ void main([List<String>? args]) {
             outputFile: Uri.file(actualOutputFile),
             tempDir: Directory(tempDir).uri,
             preamble: '// Test preamble text',
-            include: (d) => _includes[name]?.contains(d.name) ?? true,
           ),
         );
 
@@ -83,8 +77,9 @@ void main([List<String>? args]) {
         final expectedOutput = File(expectedOutputFile).readAsStringSync();
 
         expect(actualOutput, expectedOutput);
+        expect(loggedErrors, 0);
 
-        // await expectValidSwift([inputFile, actualOutputFile]);
+        await expectValidSwift([inputFile, actualOutputFile]);
       }, timeout: const Timeout(Duration(minutes: 2)));
     }
   });

@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../ast/_core/interfaces/declaration.dart';
+import '../../utils.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 import 'declaration_parsers/parse_built_in_declaration.dart';
@@ -89,7 +90,9 @@ Declaration? tryParseDeclaration(
   try {
     return parseDeclaration(parsedSymbol, symbolgraph);
   } catch (e) {
-    Logger.root.severe('$e');
+    if (parsedSymbol.source != builtInInputConfig) {
+      Logger.root.severe('$e');
+    }
   }
   return null;
 }
