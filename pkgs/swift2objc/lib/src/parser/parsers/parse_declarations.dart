@@ -5,7 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../ast/_core/interfaces/declaration.dart';
-import '../../utils.dart';
+import '../../config.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 import 'declaration_parsers/parse_built_in_declaration.dart';

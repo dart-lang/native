@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:path/path.dart' as p;
-import 'package:swift2objc/src/utils.dart';
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
