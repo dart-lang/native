@@ -15,7 +15,7 @@ void main() {
     final packageRoot = findPackageRoot('hooks');
 
     final dryRunResult = Process.runSync(
-      'dart',
+      Platform.executable,
       ['pub', 'publish', '--dry-run'],
       workingDirectory: packageRoot.toFilePath(),
       stdoutEncoding: utf8,

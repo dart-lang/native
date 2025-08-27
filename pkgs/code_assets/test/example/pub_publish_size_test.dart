@@ -15,7 +15,7 @@ void main() {
     final packageRoot = findPackageRoot('code_assets');
 
     final dryRunResult = Process.runSync(
-      'dart',
+      Platform.executable,
       ['pub', 'publish', '--dry-run'],
       workingDirectory: packageRoot.toFilePath(),
       stdoutEncoding: utf8,
