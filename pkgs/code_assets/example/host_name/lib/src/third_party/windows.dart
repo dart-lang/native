@@ -1,4 +1,7 @@
-// TODO
+// This file includes parts which are Copyright (c) 1982-1986 Regents
+// of the University of California.  All rights reserved.  The
+// Berkeley Software License Agreement specifies the terms and
+// conditions for redistribution.
 
 // AUTO GENERATED FILE, DO NOT EDIT.
 //

@@ -6,9 +6,7 @@ import 'package:ffi/ffi.dart';
 
 import 'third_party/sqlite3.g.dart';
 
-/// The machine's hostname.
-///
-/// Returns `null` if looking up the machines host name fails.
+/// The version of SQLite.
 String get version {
   final nativeString = sqlite3_libversion();
   return nativeString.cast<Utf8>().toDartString();
