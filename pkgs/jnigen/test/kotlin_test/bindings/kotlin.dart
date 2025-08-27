@@ -44,7 +44,7 @@ import 'package:jni/jni.dart' as jni$_;
 class CanDoA extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<CanDoA> $type;
+  final jni$_.JType<CanDoA> $type;
 
   @jni$_.internal
   CanDoA.fromReference(
@@ -56,8 +56,10 @@ class CanDoA extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoA');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $CanDoA$NullableType();
-  static const type = $CanDoA$Type();
+  static const jni$_.JType<CanDoA?> nullableType = $CanDoA$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<CanDoA> type = $CanDoA$Type$();
   static final _id_doA = _class.instanceMethodId(
     r'doA',
     r'()V',
@@ -182,9 +184,9 @@ final class _$CanDoA with $CanDoA {
   }
 }
 
-final class $CanDoA$NullableType extends jni$_.JObjType<CanDoA?> {
+final class $CanDoA$NullableType$ extends jni$_.JType<CanDoA?> {
   @jni$_.internal
-  const $CanDoA$NullableType();
+  const $CanDoA$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -199,29 +201,29 @@ final class $CanDoA$NullableType extends jni$_.JObjType<CanDoA?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<CanDoA?> get nullableType => this;
+  jni$_.JType<CanDoA?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($CanDoA$NullableType).hashCode;
+  int get hashCode => ($CanDoA$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($CanDoA$NullableType) &&
-        other is $CanDoA$NullableType;
+    return other.runtimeType == ($CanDoA$NullableType$) &&
+        other is $CanDoA$NullableType$;
   }
 }
 
-final class $CanDoA$Type extends jni$_.JObjType<CanDoA> {
+final class $CanDoA$Type$ extends jni$_.JType<CanDoA> {
   @jni$_.internal
-  const $CanDoA$Type();
+  const $CanDoA$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -234,22 +236,22 @@ final class $CanDoA$Type extends jni$_.JObjType<CanDoA> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<CanDoA?> get nullableType => const $CanDoA$NullableType();
+  jni$_.JType<CanDoA?> get nullableType => const $CanDoA$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($CanDoA$Type).hashCode;
+  int get hashCode => ($CanDoA$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($CanDoA$Type) && other is $CanDoA$Type;
+    return other.runtimeType == ($CanDoA$Type$) && other is $CanDoA$Type$;
   }
 }
 
@@ -257,7 +259,7 @@ final class $CanDoA$Type extends jni$_.JObjType<CanDoA> {
 class CanDoB extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<CanDoB> $type;
+  final jni$_.JType<CanDoB> $type;
 
   @jni$_.internal
   CanDoB.fromReference(
@@ -269,8 +271,10 @@ class CanDoB extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoB');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $CanDoB$NullableType();
-  static const type = $CanDoB$Type();
+  static const jni$_.JType<CanDoB?> nullableType = $CanDoB$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<CanDoB> type = $CanDoB$Type$();
   static final _id_doB = _class.instanceMethodId(
     r'doB',
     r'()V',
@@ -395,9 +399,9 @@ final class _$CanDoB with $CanDoB {
   }
 }
 
-final class $CanDoB$NullableType extends jni$_.JObjType<CanDoB?> {
+final class $CanDoB$NullableType$ extends jni$_.JType<CanDoB?> {
   @jni$_.internal
-  const $CanDoB$NullableType();
+  const $CanDoB$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -412,29 +416,29 @@ final class $CanDoB$NullableType extends jni$_.JObjType<CanDoB?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<CanDoB?> get nullableType => this;
+  jni$_.JType<CanDoB?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($CanDoB$NullableType).hashCode;
+  int get hashCode => ($CanDoB$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($CanDoB$NullableType) &&
-        other is $CanDoB$NullableType;
+    return other.runtimeType == ($CanDoB$NullableType$) &&
+        other is $CanDoB$NullableType$;
   }
 }
 
-final class $CanDoB$Type extends jni$_.JObjType<CanDoB> {
+final class $CanDoB$Type$ extends jni$_.JType<CanDoB> {
   @jni$_.internal
-  const $CanDoB$Type();
+  const $CanDoB$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -447,22 +451,22 @@ final class $CanDoB$Type extends jni$_.JObjType<CanDoB> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<CanDoB?> get nullableType => const $CanDoB$NullableType();
+  jni$_.JType<CanDoB?> get nullableType => const $CanDoB$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($CanDoB$Type).hashCode;
+  int get hashCode => ($CanDoB$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($CanDoB$Type) && other is $CanDoB$Type;
+    return other.runtimeType == ($CanDoB$Type$) && other is $CanDoB$Type$;
   }
 }
 
@@ -470,10 +474,10 @@ final class $CanDoB$Type extends jni$_.JObjType<CanDoB> {
 class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Measure<$T>> $type;
+  final jni$_.JType<Measure<$T>> $type;
 
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
   Measure.fromReference(
@@ -486,18 +490,19 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Measure');
 
   /// The type which includes information such as the signature of this class.
-  static $Measure$NullableType<$T> nullableType<$T extends jni$_.JObject>(
-    jni$_.JObjType<$T> T,
+  static jni$_.JType<Measure<$T>?> nullableType<$T extends jni$_.JObject>(
+    jni$_.JType<$T> T,
   ) {
-    return $Measure$NullableType<$T>(
+    return $Measure$NullableType$<$T>(
       T,
     );
   }
 
-  static $Measure$Type<$T> type<$T extends jni$_.JObject>(
-    jni$_.JObjType<$T> T,
+  /// The type which includes information such as the signature of this class.
+  static jni$_.JType<Measure<$T>> type<$T extends jni$_.JObject>(
+    jni$_.JType<$T> T,
   ) {
-    return $Measure$Type<$T>(
+    return $Measure$Type$<$T>(
       T,
     );
   }
@@ -576,13 +581,13 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
   }
 }
 
-final class $Measure$NullableType<$T extends jni$_.JObject>
-    extends jni$_.JObjType<Measure<$T>?> {
+final class $Measure$NullableType$<$T extends jni$_.JObject>
+    extends jni$_.JType<Measure<$T>?> {
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  const $Measure$NullableType(
+  const $Measure$NullableType$(
     this.T,
   );
 
@@ -600,34 +605,34 @@ final class $Measure$NullableType<$T extends jni$_.JObject>
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Measure<$T>?> get nullableType => this;
+  jni$_.JType<Measure<$T>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Measure$NullableType, T);
+  int get hashCode => Object.hash($Measure$NullableType$, T);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Measure$NullableType<$T>) &&
-        other is $Measure$NullableType<$T> &&
+    return other.runtimeType == ($Measure$NullableType$<$T>) &&
+        other is $Measure$NullableType$<$T> &&
         T == other.T;
   }
 }
 
-final class $Measure$Type<$T extends jni$_.JObject>
-    extends jni$_.JObjType<Measure<$T>> {
+final class $Measure$Type$<$T extends jni$_.JObject>
+    extends jni$_.JType<Measure<$T>> {
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  const $Measure$Type(
+  const $Measure$Type$(
     this.T,
   );
 
@@ -644,23 +649,23 @@ final class $Measure$Type<$T extends jni$_.JObject>
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Measure<$T>?> get nullableType => $Measure$NullableType<$T>(T);
+  jni$_.JType<Measure<$T>?> get nullableType => $Measure$NullableType$<$T>(T);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Measure$Type, T);
+  int get hashCode => Object.hash($Measure$Type$, T);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Measure$Type<$T>) &&
-        other is $Measure$Type<$T> &&
+    return other.runtimeType == ($Measure$Type$<$T>) &&
+        other is $Measure$Type$<$T> &&
         T == other.T;
   }
 }
@@ -669,7 +674,7 @@ final class $Measure$Type<$T extends jni$_.JObject>
 class MeasureUnit extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<MeasureUnit> $type;
+  final jni$_.JType<MeasureUnit> $type;
 
   @jni$_.internal
   MeasureUnit.fromReference(
@@ -681,8 +686,11 @@ class MeasureUnit extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/MeasureUnit');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $MeasureUnit$NullableType();
-  static const type = $MeasureUnit$Type();
+  static const jni$_.JType<MeasureUnit?> nullableType =
+      $MeasureUnit$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<MeasureUnit> type = $MeasureUnit$Type$();
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',
     r'()Ljava/lang/String;',
@@ -704,7 +712,7 @@ class MeasureUnit extends jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString getSign() {
     return _getSign(reference.pointer, _id_getSign as jni$_.JMethodIDPtr)
-        .object<jni$_.JString>(const jni$_.JStringType());
+        .object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_getCoefficient = _class.instanceMethodId(
@@ -764,7 +772,7 @@ class MeasureUnit extends jni$_.JObject {
       if ($d == r'getSign()Ljava/lang/String;') {
         final $r = _$impls[$p]!.getSign();
         return ($r as jni$_.JObject?)
-                ?.as(const jni$_.JObjectType())
+                ?.as(const jni$_.$JObject$Type$())
                 .reference
                 .toPointer() ??
             jni$_.nullptr;
@@ -844,9 +852,9 @@ final class _$MeasureUnit with $MeasureUnit {
   }
 }
 
-final class $MeasureUnit$NullableType extends jni$_.JObjType<MeasureUnit?> {
+final class $MeasureUnit$NullableType$ extends jni$_.JType<MeasureUnit?> {
   @jni$_.internal
-  const $MeasureUnit$NullableType();
+  const $MeasureUnit$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -861,29 +869,29 @@ final class $MeasureUnit$NullableType extends jni$_.JObjType<MeasureUnit?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<MeasureUnit?> get nullableType => this;
+  jni$_.JType<MeasureUnit?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($MeasureUnit$NullableType).hashCode;
+  int get hashCode => ($MeasureUnit$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MeasureUnit$NullableType) &&
-        other is $MeasureUnit$NullableType;
+    return other.runtimeType == ($MeasureUnit$NullableType$) &&
+        other is $MeasureUnit$NullableType$;
   }
 }
 
-final class $MeasureUnit$Type extends jni$_.JObjType<MeasureUnit> {
+final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
   @jni$_.internal
-  const $MeasureUnit$Type();
+  const $MeasureUnit$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -897,24 +905,24 @@ final class $MeasureUnit$Type extends jni$_.JObjType<MeasureUnit> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<MeasureUnit?> get nullableType =>
-      const $MeasureUnit$NullableType();
+  jni$_.JType<MeasureUnit?> get nullableType =>
+      const $MeasureUnit$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($MeasureUnit$Type).hashCode;
+  int get hashCode => ($MeasureUnit$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($MeasureUnit$Type) &&
-        other is $MeasureUnit$Type;
+    return other.runtimeType == ($MeasureUnit$Type$) &&
+        other is $MeasureUnit$Type$;
   }
 }
 
@@ -923,16 +931,16 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
     $U extends jni$_.JObject, $V extends jni$_.JObject?> extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>> $type;
+  final jni$_.JType<Nullability$InnerClass<$T, $U, $V>> $type;
 
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  final jni$_.JObjType<$U> U;
+  final jni$_.JType<$U> U;
 
   @jni$_.internal
-  final jni$_.JObjType<$V> V;
+  final jni$_.JType<$V> V;
 
   @jni$_.internal
   Nullability$InnerClass.fromReference(
@@ -947,30 +955,31 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
       r'com/github/dart_lang/jnigen/Nullability$InnerClass');
 
   /// The type which includes information such as the signature of this class.
-  static $Nullability$InnerClass$NullableType<$T, $U, $V> nullableType<
+  static jni$_.JType<Nullability$InnerClass<$T, $U, $V>?> nullableType<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject,
       $V extends jni$_.JObject?>(
-    jni$_.JObjType<$T> T,
-    jni$_.JObjType<$U> U,
-    jni$_.JObjType<$V> V,
+    jni$_.JType<$T> T,
+    jni$_.JType<$U> U,
+    jni$_.JType<$V> V,
   ) {
-    return $Nullability$InnerClass$NullableType<$T, $U, $V>(
+    return $Nullability$InnerClass$NullableType$<$T, $U, $V>(
       T,
       U,
       V,
     );
   }
 
-  static $Nullability$InnerClass$Type<$T, $U, $V> type<
+  /// The type which includes information such as the signature of this class.
+  static jni$_.JType<Nullability$InnerClass<$T, $U, $V>> type<
       $T extends jni$_.JObject?,
       $U extends jni$_.JObject,
       $V extends jni$_.JObject?>(
-    jni$_.JObjType<$T> T,
-    jni$_.JObjType<$U> U,
-    jni$_.JObjType<$V> V,
+    jni$_.JType<$T> T,
+    jni$_.JType<$U> U,
+    jni$_.JType<$V> V,
   ) {
-    return $Nullability$InnerClass$Type<$T, $U, $V>(
+    return $Nullability$InnerClass$Type$<$T, $U, $V>(
       T,
       U,
       V,
@@ -996,18 +1005,18 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   factory Nullability$InnerClass(
     Nullability<$T?, $U> $outerClass, {
-    jni$_.JObjType<$T>? T,
-    jni$_.JObjType<$U>? U,
-    required jni$_.JObjType<$V> V,
+    jni$_.JType<$T>? T,
+    jni$_.JType<$U>? U,
+    required jni$_.JType<$V> V,
   }) {
     T ??= jni$_.lowestCommonSuperType([
-      ($outerClass.$type as $Nullability$Type<core$_.dynamic, core$_.dynamic>)
+      ($outerClass.$type as $Nullability$Type$<core$_.dynamic, core$_.dynamic>)
           .T,
-    ]) as jni$_.JObjType<$T>;
+    ]) as jni$_.JType<$T>;
     U ??= jni$_.lowestCommonSuperType([
-      ($outerClass.$type as $Nullability$Type<core$_.dynamic, core$_.dynamic>)
+      ($outerClass.$type as $Nullability$Type$<core$_.dynamic, core$_.dynamic>)
           .U,
-    ]) as jni$_.JObjType<$U>;
+    ]) as jni$_.JType<$U>;
     final _$$outerClass = $outerClass.reference;
     return Nullability$InnerClass<$T, $U, $V>.fromReference(
         T,
@@ -1057,20 +1066,20 @@ class Nullability$InnerClass<$T extends jni$_.JObject?,
   }
 }
 
-final class $Nullability$InnerClass$NullableType<$T extends jni$_.JObject?,
+final class $Nullability$InnerClass$NullableType$<$T extends jni$_.JObject?,
         $U extends jni$_.JObject, $V extends jni$_.JObject?>
-    extends jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>?> {
+    extends jni$_.JType<Nullability$InnerClass<$T, $U, $V>?> {
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  final jni$_.JObjType<$U> U;
+  final jni$_.JType<$U> U;
 
   @jni$_.internal
-  final jni$_.JObjType<$V> V;
+  final jni$_.JType<$V> V;
 
   @jni$_.internal
-  const $Nullability$InnerClass$NullableType(
+  const $Nullability$InnerClass$NullableType$(
     this.T,
     this.U,
     this.V,
@@ -1095,11 +1104,11 @@ final class $Nullability$InnerClass$NullableType<$T extends jni$_.JObject?,
             );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>?> get nullableType => this;
+  jni$_.JType<Nullability$InnerClass<$T, $U, $V>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
@@ -1107,33 +1116,33 @@ final class $Nullability$InnerClass$NullableType<$T extends jni$_.JObject?,
 
   @core$_.override
   int get hashCode =>
-      Object.hash($Nullability$InnerClass$NullableType, T, U, V);
+      Object.hash($Nullability$InnerClass$NullableType$, T, U, V);
 
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType ==
-            ($Nullability$InnerClass$NullableType<$T, $U, $V>) &&
-        other is $Nullability$InnerClass$NullableType<$T, $U, $V> &&
+            ($Nullability$InnerClass$NullableType$<$T, $U, $V>) &&
+        other is $Nullability$InnerClass$NullableType$<$T, $U, $V> &&
         T == other.T &&
         U == other.U &&
         V == other.V;
   }
 }
 
-final class $Nullability$InnerClass$Type<$T extends jni$_.JObject?,
+final class $Nullability$InnerClass$Type$<$T extends jni$_.JObject?,
         $U extends jni$_.JObject, $V extends jni$_.JObject?>
-    extends jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>> {
+    extends jni$_.JType<Nullability$InnerClass<$T, $U, $V>> {
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  final jni$_.JObjType<$U> U;
+  final jni$_.JType<$U> U;
 
   @jni$_.internal
-  final jni$_.JObjType<$V> V;
+  final jni$_.JType<$V> V;
 
   @jni$_.internal
-  const $Nullability$InnerClass$Type(
+  const $Nullability$InnerClass$Type$(
     this.T,
     this.U,
     this.V,
@@ -1156,24 +1165,24 @@ final class $Nullability$InnerClass$Type<$T extends jni$_.JObject?,
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Nullability$InnerClass<$T, $U, $V>?> get nullableType =>
-      $Nullability$InnerClass$NullableType<$T, $U, $V>(T, U, V);
+  jni$_.JType<Nullability$InnerClass<$T, $U, $V>?> get nullableType =>
+      $Nullability$InnerClass$NullableType$<$T, $U, $V>(T, U, V);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Nullability$InnerClass$Type, T, U, V);
+  int get hashCode => Object.hash($Nullability$InnerClass$Type$, T, U, V);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Nullability$InnerClass$Type<$T, $U, $V>) &&
-        other is $Nullability$InnerClass$Type<$T, $U, $V> &&
+    return other.runtimeType == ($Nullability$InnerClass$Type$<$T, $U, $V>) &&
+        other is $Nullability$InnerClass$Type$<$T, $U, $V> &&
         T == other.T &&
         U == other.U &&
         V == other.V;
@@ -1185,13 +1194,13 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Nullability<$T, $U>> $type;
+  final jni$_.JType<Nullability<$T, $U>> $type;
 
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  final jni$_.JObjType<$U> U;
+  final jni$_.JType<$U> U;
 
   @jni$_.internal
   Nullability.fromReference(
@@ -1205,23 +1214,24 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Nullability');
 
   /// The type which includes information such as the signature of this class.
-  static $Nullability$NullableType<$T, $U>
+  static jni$_.JType<Nullability<$T, $U>?>
       nullableType<$T extends jni$_.JObject?, $U extends jni$_.JObject>(
-    jni$_.JObjType<$T> T,
-    jni$_.JObjType<$U> U,
+    jni$_.JType<$T> T,
+    jni$_.JType<$U> U,
   ) {
-    return $Nullability$NullableType<$T, $U>(
+    return $Nullability$NullableType$<$T, $U>(
       T,
       U,
     );
   }
 
-  static $Nullability$Type<$T, $U>
+  /// The type which includes information such as the signature of this class.
+  static jni$_.JType<Nullability<$T, $U>>
       type<$T extends jni$_.JObject?, $U extends jni$_.JObject>(
-    jni$_.JObjType<$T> T,
-    jni$_.JObjType<$U> U,
+    jni$_.JType<$T> T,
+    jni$_.JType<$U> U,
   ) {
-    return $Nullability$Type<$T, $U>(
+    return $Nullability$Type$<$T, $U>(
       T,
       U,
     );
@@ -1256,12 +1266,12 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     $T object,
     $U object1,
     $U? object2, {
-    required jni$_.JObjType<$T> T,
-    jni$_.JObjType<$U>? U,
+    required jni$_.JType<$T> T,
+    jni$_.JType<$U>? U,
   }) {
     U ??= jni$_.lowestCommonSuperType([
       object1.$type,
-    ]) as jni$_.JObjType<$U>;
+    ]) as jni$_.JType<$U>;
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1.reference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
@@ -1394,8 +1404,8 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   Nullability<jni$_.JObject?, jni$_.JObject> self() {
     return _self(reference.pointer, _id_self as jni$_.JMethodIDPtr)
         .object<Nullability<jni$_.JObject?, jni$_.JObject>>(
-            const $Nullability$Type<jni$_.JObject?, jni$_.JObject>(
-                jni$_.JObjectNullableType(), jni$_.JObjectType()));
+            const $Nullability$Type$<jni$_.JObject?, jni$_.JObject>(
+                jni$_.$JObject$NullableType$(), jni$_.$JObject$Type$()));
   }
 
   static final _id_hello = _class.instanceMethodId(
@@ -1419,7 +1429,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString hello() {
     return _hello(reference.pointer, _id_hello as jni$_.JMethodIDPtr)
-        .object<jni$_.JString>(const jni$_.JStringType());
+        .object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_nullableHello = _class.instanceMethodId(
@@ -1444,7 +1454,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_list = _class.instanceMethodId(
@@ -1469,7 +1479,8 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   jni$_.JList<jni$_.JObject?> list() {
     return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
         .object<jni$_.JList<jni$_.JObject?>>(
-            const jni$_.JListType<jni$_.JObject?>(jni$_.JObjectNullableType()));
+            const jni$_.$JList$Type$<jni$_.JObject?>(
+                jni$_.$JObject$NullableType$()));
   }
 
   static final _id_methodGenericEcho = _class.instanceMethodId(
@@ -1492,11 +1503,11 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericEcho<$V extends jni$_.JObject>(
     $V object, {
-    jni$_.JObjType<$V>? V,
+    jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
       object.$type,
-    ]) as jni$_.JObjType<$V>;
+    ]) as jni$_.JType<$V>;
     final _$object = object.reference;
     return _methodGenericEcho(reference.pointer,
             _id_methodGenericEcho as jni$_.JMethodIDPtr, _$object.pointer)
@@ -1523,7 +1534,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericNullableEcho<$V extends jni$_.JObject?>(
     $V object, {
-    required jni$_.JObjType<$V> V,
+    required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _methodGenericNullableEcho(
@@ -1613,7 +1624,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     final _$list = list.reference;
     return _firstOf(reference.pointer, _id_firstOf as jni$_.JMethodIDPtr,
             _$list.pointer)
-        .object<jni$_.JString>(const jni$_.JStringType());
+        .object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_firstOfNullable = _class.instanceMethodId(
@@ -1640,7 +1651,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     final _$list = list.reference;
     return _firstOfNullable(reference.pointer,
             _id_firstOfNullable as jni$_.JMethodIDPtr, _$list.pointer)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_classGenericFirstOf = _class.instanceMethodId(
@@ -1720,11 +1731,11 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOf<$V extends jni$_.JObject>(
     jni$_.JList<$V> list, {
-    jni$_.JObjType<$V>? V,
+    jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
-      (list.$type as jni$_.JListType<core$_.dynamic>).E,
-    ]) as jni$_.JObjType<$V>;
+      (list.$type as jni$_.$JList$Type$<core$_.dynamic>).E,
+    ]) as jni$_.JType<$V>;
     final _$list = list.reference;
     return _methodGenericFirstOf(reference.pointer,
             _id_methodGenericFirstOf as jni$_.JMethodIDPtr, _$list.pointer)
@@ -1752,11 +1763,11 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   $V methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list, {
-    jni$_.JObjType<$V>? V,
+    jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
-      (list.$type as jni$_.JListType<core$_.dynamic>).E,
-    ]) as jni$_.JObjType<$V>;
+      (list.$type as jni$_.$JList$Type$<core$_.dynamic>).E,
+    ]) as jni$_.JType<$V>;
     final _$list = list.reference;
     return _methodGenericFirstOfNullable(
             reference.pointer,
@@ -1790,7 +1801,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     return _stringListOf(reference.pointer,
             _id_stringListOf as jni$_.JMethodIDPtr, _$string.pointer)
         .object<jni$_.JList<jni$_.JString>>(
-            const jni$_.JListType<jni$_.JString>(jni$_.JStringType()));
+            const jni$_.$JList$Type$<jni$_.JString>(jni$_.$JString$Type$()));
   }
 
   static final _id_nullableListOf = _class.instanceMethodId(
@@ -1818,7 +1829,8 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     return _nullableListOf(reference.pointer,
             _id_nullableListOf as jni$_.JMethodIDPtr, _$string.pointer)
         .object<jni$_.JList<jni$_.JString?>>(
-            const jni$_.JListType<jni$_.JString?>(jni$_.JStringNullableType()));
+            const jni$_.$JList$Type$<jni$_.JString?>(
+                jni$_.$JString$NullableType$()));
   }
 
   static final _id_classGenericListOf = _class.instanceMethodId(
@@ -1845,7 +1857,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
     final _$object = object.reference;
     return _classGenericListOf(reference.pointer,
             _id_classGenericListOf as jni$_.JMethodIDPtr, _$object.pointer)
-        .object<jni$_.JList<$U>>(jni$_.JListType<$U>(U));
+        .object<jni$_.JList<$U>>(jni$_.$JList$Type$<$U>(U));
   }
 
   static final _id_classGenericNullableListOf = _class.instanceMethodId(
@@ -1875,7 +1887,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
             reference.pointer,
             _id_classGenericNullableListOf as jni$_.JMethodIDPtr,
             _$object.pointer)
-        .object<jni$_.JList<$T>>(jni$_.JListType<$T>(T));
+        .object<jni$_.JList<$T>>(jni$_.$JList$Type$<$T>(T));
   }
 
   static final _id_methodGenericListOf = _class.instanceMethodId(
@@ -1898,15 +1910,15 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericListOf<$V extends jni$_.JObject>(
     $V object, {
-    jni$_.JObjType<$V>? V,
+    jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
       object.$type,
-    ]) as jni$_.JObjType<$V>;
+    ]) as jni$_.JType<$V>;
     final _$object = object.reference;
     return _methodGenericListOf(reference.pointer,
             _id_methodGenericListOf as jni$_.JMethodIDPtr, _$object.pointer)
-        .object<jni$_.JList<$V>>(jni$_.JListType<$V>(V));
+        .object<jni$_.JList<$V>>(jni$_.$JList$Type$<$V>(V));
   }
 
   static final _id_methodGenericNullableListOf = _class.instanceMethodId(
@@ -1930,14 +1942,14 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V> methodGenericNullableListOf<$V extends jni$_.JObject?>(
     $V object, {
-    required jni$_.JObjType<$V> V,
+    required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _methodGenericNullableListOf(
             reference.pointer,
             _id_methodGenericNullableListOf as jni$_.JMethodIDPtr,
             _$object.pointer)
-        .object<jni$_.JList<$V>>(jni$_.JListType<$V>(V));
+        .object<jni$_.JList<$V>>(jni$_.$JList$Type$<$V>(V));
   }
 
   static final _id_methodWithVarArgs = _class.instanceMethodId(
@@ -1985,11 +1997,11 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// from: `public fun <V> methodWithWhere(element: V): kotlin.Int where V : com.github.dart_lang.jnigen.CanDoA, V : com.github.dart_lang.jnigen.CanDoB`
   int methodWithWhere<$V extends jni$_.JObject>(
     $V canDoA, {
-    jni$_.JObjType<$V>? V,
+    jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
       canDoA.$type,
-    ]) as jni$_.JObjType<$V>;
+    ]) as jni$_.JType<$V>;
     final _$canDoA = canDoA.reference;
     return _methodWithWhere(reference.pointer,
             _id_methodWithWhere as jni$_.JMethodIDPtr, _$canDoA.pointer)
@@ -1997,16 +2009,16 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   }
 }
 
-final class $Nullability$NullableType<$T extends jni$_.JObject?,
-    $U extends jni$_.JObject> extends jni$_.JObjType<Nullability<$T, $U>?> {
+final class $Nullability$NullableType$<$T extends jni$_.JObject?,
+    $U extends jni$_.JObject> extends jni$_.JType<Nullability<$T, $U>?> {
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  final jni$_.JObjType<$U> U;
+  final jni$_.JType<$U> U;
 
   @jni$_.internal
-  const $Nullability$NullableType(
+  const $Nullability$NullableType$(
     this.T,
     this.U,
   );
@@ -2027,38 +2039,38 @@ final class $Nullability$NullableType<$T extends jni$_.JObject?,
             );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Nullability<$T, $U>?> get nullableType => this;
+  jni$_.JType<Nullability<$T, $U>?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Nullability$NullableType, T, U);
+  int get hashCode => Object.hash($Nullability$NullableType$, T, U);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Nullability$NullableType<$T, $U>) &&
-        other is $Nullability$NullableType<$T, $U> &&
+    return other.runtimeType == ($Nullability$NullableType$<$T, $U>) &&
+        other is $Nullability$NullableType$<$T, $U> &&
         T == other.T &&
         U == other.U;
   }
 }
 
-final class $Nullability$Type<$T extends jni$_.JObject?,
-    $U extends jni$_.JObject> extends jni$_.JObjType<Nullability<$T, $U>> {
+final class $Nullability$Type$<$T extends jni$_.JObject?,
+    $U extends jni$_.JObject> extends jni$_.JType<Nullability<$T, $U>> {
   @jni$_.internal
-  final jni$_.JObjType<$T> T;
+  final jni$_.JType<$T> T;
 
   @jni$_.internal
-  final jni$_.JObjType<$U> U;
+  final jni$_.JType<$U> U;
 
   @jni$_.internal
-  const $Nullability$Type(
+  const $Nullability$Type$(
     this.T,
     this.U,
   );
@@ -2077,24 +2089,24 @@ final class $Nullability$Type<$T extends jni$_.JObject?,
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Nullability<$T, $U>?> get nullableType =>
-      $Nullability$NullableType<$T, $U>(T, U);
+  jni$_.JType<Nullability<$T, $U>?> get nullableType =>
+      $Nullability$NullableType$<$T, $U>(T, U);
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => Object.hash($Nullability$Type, T, U);
+  int get hashCode => Object.hash($Nullability$Type$, T, U);
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Nullability$Type<$T, $U>) &&
-        other is $Nullability$Type<$T, $U> &&
+    return other.runtimeType == ($Nullability$Type$<$T, $U>) &&
+        other is $Nullability$Type$<$T, $U> &&
         T == other.T &&
         U == other.U;
   }
@@ -2104,7 +2116,7 @@ final class $Nullability$Type<$T extends jni$_.JObject?,
 class Operators extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Operators> $type;
+  final jni$_.JType<Operators> $type;
 
   @jni$_.internal
   Operators.fromReference(
@@ -2116,8 +2128,11 @@ class Operators extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Operators');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Operators$NullableType();
-  static const type = $Operators$Type();
+  static const jni$_.JType<Operators?> nullableType =
+      $Operators$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Operators> type = $Operators$Type$();
   static final _id_new$ = _class.constructorId(
     r'(I)V',
   );
@@ -2211,7 +2226,7 @@ class Operators extends jni$_.JObject {
     final _$operators = operators.reference;
     return _plus(reference.pointer, _id_plus as jni$_.JMethodIDPtr,
             _$operators.pointer)
-        .object<Operators>(const $Operators$Type());
+        .object<Operators>(const $Operators$Type$());
   }
 
   static final _id_plus$1 = _class.instanceMethodId(
@@ -2235,7 +2250,7 @@ class Operators extends jni$_.JObject {
     int i,
   ) {
     return _plus$1(reference.pointer, _id_plus$1 as jni$_.JMethodIDPtr, i)
-        .object<Operators>(const $Operators$Type());
+        .object<Operators>(const $Operators$Type$());
   }
 
   static final _id_minus = _class.instanceMethodId(
@@ -2262,7 +2277,7 @@ class Operators extends jni$_.JObject {
     final _$operators = operators.reference;
     return _minus(reference.pointer, _id_minus as jni$_.JMethodIDPtr,
             _$operators.pointer)
-        .object<Operators>(const $Operators$Type());
+        .object<Operators>(const $Operators$Type$());
   }
 
   static final _id_times = _class.instanceMethodId(
@@ -2289,7 +2304,7 @@ class Operators extends jni$_.JObject {
     final _$operators = operators.reference;
     return _times(reference.pointer, _id_times as jni$_.JMethodIDPtr,
             _$operators.pointer)
-        .object<Operators>(const $Operators$Type());
+        .object<Operators>(const $Operators$Type$());
   }
 
   static final _id_div = _class.instanceMethodId(
@@ -2316,7 +2331,7 @@ class Operators extends jni$_.JObject {
     final _$operators = operators.reference;
     return _div(reference.pointer, _id_div as jni$_.JMethodIDPtr,
             _$operators.pointer)
-        .object<Operators>(const $Operators$Type());
+        .object<Operators>(const $Operators$Type$());
   }
 
   static final _id_rem = _class.instanceMethodId(
@@ -2343,7 +2358,7 @@ class Operators extends jni$_.JObject {
     final _$operators = operators.reference;
     return _rem(reference.pointer, _id_rem as jni$_.JMethodIDPtr,
             _$operators.pointer)
-        .object<Operators>(const $Operators$Type());
+        .object<Operators>(const $Operators$Type$());
   }
 
   static final _id_get = _class.instanceMethodId(
@@ -2465,9 +2480,9 @@ class Operators extends jni$_.JObject {
   }
 }
 
-final class $Operators$NullableType extends jni$_.JObjType<Operators?> {
+final class $Operators$NullableType$ extends jni$_.JType<Operators?> {
   @jni$_.internal
-  const $Operators$NullableType();
+  const $Operators$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -2482,29 +2497,29 @@ final class $Operators$NullableType extends jni$_.JObjType<Operators?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Operators?> get nullableType => this;
+  jni$_.JType<Operators?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Operators$NullableType).hashCode;
+  int get hashCode => ($Operators$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Operators$NullableType) &&
-        other is $Operators$NullableType;
+    return other.runtimeType == ($Operators$NullableType$) &&
+        other is $Operators$NullableType$;
   }
 }
 
-final class $Operators$Type extends jni$_.JObjType<Operators> {
+final class $Operators$Type$ extends jni$_.JType<Operators> {
   @jni$_.internal
-  const $Operators$Type();
+  const $Operators$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -2518,23 +2533,22 @@ final class $Operators$Type extends jni$_.JObjType<Operators> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Operators?> get nullableType =>
-      const $Operators$NullableType();
+  jni$_.JType<Operators?> get nullableType => const $Operators$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Operators$Type).hashCode;
+  int get hashCode => ($Operators$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Operators$Type) && other is $Operators$Type;
+    return other.runtimeType == ($Operators$Type$) && other is $Operators$Type$;
   }
 }
 
@@ -2542,20 +2556,22 @@ final class $Operators$Type extends jni$_.JObjType<Operators> {
 class Speed extends Measure<SpeedUnit> {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Speed> $type;
+  final jni$_.JType<Speed> $type;
 
   @jni$_.internal
   Speed.fromReference(
     jni$_.JReference reference,
   )   : $type = type,
-        super.fromReference(const $SpeedUnit$Type(), reference);
+        super.fromReference(const $SpeedUnit$Type$(), reference);
 
   static final _class =
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Speed');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Speed$NullableType();
-  static const type = $Speed$Type();
+  static const jni$_.JType<Speed?> nullableType = $Speed$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Speed> type = $Speed$Type$();
   static final _id_new$ = _class.constructorId(
     r'(FLcom/github/dart_lang/jnigen/SpeedUnit;)V',
   );
@@ -2630,7 +2646,7 @@ class Speed extends Measure<SpeedUnit> {
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit getUnit$1() {
     return _getUnit$1(reference.pointer, _id_getUnit$1 as jni$_.JMethodIDPtr)
-        .object<SpeedUnit>(const $SpeedUnit$Type());
+        .object<SpeedUnit>(const $SpeedUnit$Type$());
   }
 
   static final _id_toString$1 = _class.instanceMethodId(
@@ -2654,7 +2670,7 @@ class Speed extends Measure<SpeedUnit> {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
     return _toString$1(reference.pointer, _id_toString$1 as jni$_.JMethodIDPtr)
-        .object<jni$_.JString>(const jni$_.JStringType());
+        .object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_component1 = _class.instanceMethodId(
@@ -2701,7 +2717,7 @@ class Speed extends Measure<SpeedUnit> {
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit component2() {
     return _component2(reference.pointer, _id_component2 as jni$_.JMethodIDPtr)
-        .object<SpeedUnit>(const $SpeedUnit$Type());
+        .object<SpeedUnit>(const $SpeedUnit$Type$());
   }
 
   static final _id_copy = _class.instanceMethodId(
@@ -2732,7 +2748,7 @@ class Speed extends Measure<SpeedUnit> {
     final _$speedUnit = speedUnit.reference;
     return _copy(reference.pointer, _id_copy as jni$_.JMethodIDPtr, f,
             _$speedUnit.pointer)
-        .object<Speed>(const $Speed$Type());
+        .object<Speed>(const $Speed$Type$());
   }
 
   static final _id_hashCode$1 = _class.instanceMethodId(
@@ -2785,9 +2801,9 @@ class Speed extends Measure<SpeedUnit> {
   }
 }
 
-final class $Speed$NullableType extends jni$_.JObjType<Speed?> {
+final class $Speed$NullableType$ extends jni$_.JType<Speed?> {
   @jni$_.internal
-  const $Speed$NullableType();
+  const $Speed$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -2802,30 +2818,30 @@ final class $Speed$NullableType extends jni$_.JObjType<Speed?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType =>
-      const $Measure$Type<SpeedUnit>($SpeedUnit$Type());
+  jni$_.JType get superType =>
+      const $Measure$Type$<SpeedUnit>($SpeedUnit$Type$());
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Speed?> get nullableType => this;
+  jni$_.JType<Speed?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 2;
 
   @core$_.override
-  int get hashCode => ($Speed$NullableType).hashCode;
+  int get hashCode => ($Speed$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Speed$NullableType) &&
-        other is $Speed$NullableType;
+    return other.runtimeType == ($Speed$NullableType$) &&
+        other is $Speed$NullableType$;
   }
 }
 
-final class $Speed$Type extends jni$_.JObjType<Speed> {
+final class $Speed$Type$ extends jni$_.JType<Speed> {
   @jni$_.internal
-  const $Speed$Type();
+  const $Speed$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -2838,23 +2854,23 @@ final class $Speed$Type extends jni$_.JObjType<Speed> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType =>
-      const $Measure$Type<SpeedUnit>($SpeedUnit$Type());
+  jni$_.JType get superType =>
+      const $Measure$Type$<SpeedUnit>($SpeedUnit$Type$());
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Speed?> get nullableType => const $Speed$NullableType();
+  jni$_.JType<Speed?> get nullableType => const $Speed$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 2;
 
   @core$_.override
-  int get hashCode => ($Speed$Type).hashCode;
+  int get hashCode => ($Speed$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Speed$Type) && other is $Speed$Type;
+    return other.runtimeType == ($Speed$Type$) && other is $Speed$Type$;
   }
 }
 
@@ -2862,7 +2878,7 @@ final class $Speed$Type extends jni$_.JObjType<Speed> {
 class SpeedUnit extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<SpeedUnit> $type;
+  final jni$_.JType<SpeedUnit> $type;
 
   @jni$_.internal
   SpeedUnit.fromReference(
@@ -2874,8 +2890,11 @@ class SpeedUnit extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SpeedUnit');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $SpeedUnit$NullableType();
-  static const type = $SpeedUnit$Type();
+  static const jni$_.JType<SpeedUnit?> nullableType =
+      $SpeedUnit$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<SpeedUnit> type = $SpeedUnit$Type$();
   static final _id_KmPerHour = _class.staticFieldId(
     r'KmPerHour',
     r'Lcom/github/dart_lang/jnigen/SpeedUnit;',
@@ -2884,7 +2903,7 @@ class SpeedUnit extends jni$_.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit KmPerHour`
   /// The returned object must be released after use, by calling the [release] method.
   static SpeedUnit get KmPerHour =>
-      _id_KmPerHour.get(_class, const $SpeedUnit$Type());
+      _id_KmPerHour.get(_class, const $SpeedUnit$Type$());
 
   static final _id_MetrePerSec = _class.staticFieldId(
     r'MetrePerSec',
@@ -2894,7 +2913,7 @@ class SpeedUnit extends jni$_.JObject {
   /// from: `static public final com.github.dart_lang.jnigen.SpeedUnit MetrePerSec`
   /// The returned object must be released after use, by calling the [release] method.
   static SpeedUnit get MetrePerSec =>
-      _id_MetrePerSec.get(_class, const $SpeedUnit$Type());
+      _id_MetrePerSec.get(_class, const $SpeedUnit$Type$());
 
   static final _id_getSign = _class.instanceMethodId(
     r'getSign',
@@ -2917,7 +2936,7 @@ class SpeedUnit extends jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString getSign() {
     return _getSign(reference.pointer, _id_getSign as jni$_.JMethodIDPtr)
-        .object<jni$_.JString>(const jni$_.JStringType());
+        .object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
   static final _id_getCoefficient = _class.instanceMethodId(
@@ -2966,8 +2985,8 @@ class SpeedUnit extends jni$_.JObject {
   static jni$_.JArray<SpeedUnit?>? values() {
     return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
         .object<jni$_.JArray<SpeedUnit?>?>(
-            const jni$_.JArrayNullableType<SpeedUnit?>(
-                $SpeedUnit$NullableType()));
+            const jni$_.$JArray$NullableType$<SpeedUnit?>(
+                $SpeedUnit$NullableType$()));
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -2994,13 +3013,13 @@ class SpeedUnit extends jni$_.JObject {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
             _$string.pointer)
-        .object<SpeedUnit?>(const $SpeedUnit$NullableType());
+        .object<SpeedUnit?>(const $SpeedUnit$NullableType$());
   }
 }
 
-final class $SpeedUnit$NullableType extends jni$_.JObjType<SpeedUnit?> {
+final class $SpeedUnit$NullableType$ extends jni$_.JType<SpeedUnit?> {
   @jni$_.internal
-  const $SpeedUnit$NullableType();
+  const $SpeedUnit$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -3015,29 +3034,29 @@ final class $SpeedUnit$NullableType extends jni$_.JObjType<SpeedUnit?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<SpeedUnit?> get nullableType => this;
+  jni$_.JType<SpeedUnit?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($SpeedUnit$NullableType).hashCode;
+  int get hashCode => ($SpeedUnit$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SpeedUnit$NullableType) &&
-        other is $SpeedUnit$NullableType;
+    return other.runtimeType == ($SpeedUnit$NullableType$) &&
+        other is $SpeedUnit$NullableType$;
   }
 }
 
-final class $SpeedUnit$Type extends jni$_.JObjType<SpeedUnit> {
+final class $SpeedUnit$Type$ extends jni$_.JType<SpeedUnit> {
   @jni$_.internal
-  const $SpeedUnit$Type();
+  const $SpeedUnit$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -3051,23 +3070,22 @@ final class $SpeedUnit$Type extends jni$_.JObjType<SpeedUnit> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<SpeedUnit?> get nullableType =>
-      const $SpeedUnit$NullableType();
+  jni$_.JType<SpeedUnit?> get nullableType => const $SpeedUnit$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($SpeedUnit$Type).hashCode;
+  int get hashCode => ($SpeedUnit$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SpeedUnit$Type) && other is $SpeedUnit$Type;
+    return other.runtimeType == ($SpeedUnit$Type$) && other is $SpeedUnit$Type$;
   }
 }
 
@@ -3075,7 +3093,7 @@ final class $SpeedUnit$Type extends jni$_.JObjType<SpeedUnit> {
 class SuspendFun extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<SuspendFun> $type;
+  final jni$_.JType<SuspendFun> $type;
 
   @jni$_.internal
   SuspendFun.fromReference(
@@ -3087,8 +3105,11 @@ class SuspendFun extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFun');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $SuspendFun$NullableType();
-  static const type = $SuspendFun$Type();
+  static const jni$_.JType<SuspendFun?> nullableType =
+      $SuspendFun$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<SuspendFun> type = $SuspendFun$Type$();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -3139,7 +3160,7 @@ class SuspendFun extends jni$_.JObject {
             reference.pointer,
             _id_sayHelloWithoutDelay as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
     final jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3149,7 +3170,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -3157,7 +3178,7 @@ class SuspendFun extends jni$_.JObject {
       $o = $r;
     }
     return $o.as<jni$_.JString>(
-      const jni$_.JStringType(),
+      const jni$_.$JString$Type$(),
       releaseOriginal: true,
     );
   }
@@ -3186,7 +3207,7 @@ class SuspendFun extends jni$_.JObject {
 
     final $r = _failWithoutDelay(reference.pointer,
             _id_failWithoutDelay as jni$_.JMethodIDPtr, _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
     final jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3196,7 +3217,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -3204,7 +3225,7 @@ class SuspendFun extends jni$_.JObject {
       $o = $r;
     }
     return $o.as<jni$_.JString>(
-      const jni$_.JStringType(),
+      const jni$_.$JString$Type$(),
       releaseOriginal: true,
     );
   }
@@ -3233,7 +3254,7 @@ class SuspendFun extends jni$_.JObject {
 
     final $r = _fail(reference.pointer, _id_fail as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
     final jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3243,7 +3264,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -3251,7 +3272,7 @@ class SuspendFun extends jni$_.JObject {
       $o = $r;
     }
     return $o.as<jni$_.JString>(
-      const jni$_.JStringType(),
+      const jni$_.$JString$Type$(),
       releaseOriginal: true,
     );
   }
@@ -3280,7 +3301,7 @@ class SuspendFun extends jni$_.JObject {
 
     final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
     final jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3290,7 +3311,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -3298,7 +3319,7 @@ class SuspendFun extends jni$_.JObject {
       $o = $r;
     }
     return $o.as<jni$_.JString>(
-      const jni$_.JStringType(),
+      const jni$_.$JString$Type$(),
       releaseOriginal: true,
     );
   }
@@ -3338,7 +3359,7 @@ class SuspendFun extends jni$_.JObject {
             _id_sayHello$1 as jni$_.JMethodIDPtr,
             _$string.pointer,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
     final jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3348,7 +3369,7 @@ class SuspendFun extends jni$_.JObject {
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -3356,7 +3377,7 @@ class SuspendFun extends jni$_.JObject {
       $o = $r;
     }
     return $o.as<jni$_.JString>(
-      const jni$_.JStringType(),
+      const jni$_.$JString$Type$(),
       releaseOriginal: true,
     );
   }
@@ -3391,7 +3412,7 @@ class SuspendFun extends jni$_.JObject {
             _id_nullableHello as jni$_.JMethodIDPtr,
             z ? 1 : 0,
             _$continuation.pointer)
-        .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
     _$continuation.release();
     final jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3403,7 +3424,7 @@ class SuspendFun extends jni$_.JObject {
               jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -3411,7 +3432,7 @@ class SuspendFun extends jni$_.JObject {
       $o = $r;
     }
     return $o?.as<jni$_.JString?>(
-      const jni$_.JStringNullableType(),
+      const jni$_.$JString$NullableType$(),
       releaseOriginal: true,
     );
   }
@@ -3446,7 +3467,7 @@ class SuspendFun extends jni$_.JObject {
             _id_nullableHelloWithoutDelay as jni$_.JMethodIDPtr,
             z ? 1 : 0,
             _$continuation.pointer)
-        .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
     _$continuation.release();
     final jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3458,7 +3479,7 @@ class SuspendFun extends jni$_.JObject {
               jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -3466,15 +3487,15 @@ class SuspendFun extends jni$_.JObject {
       $o = $r;
     }
     return $o?.as<jni$_.JString?>(
-      const jni$_.JStringNullableType(),
+      const jni$_.$JString$NullableType$(),
       releaseOriginal: true,
     );
   }
 }
 
-final class $SuspendFun$NullableType extends jni$_.JObjType<SuspendFun?> {
+final class $SuspendFun$NullableType$ extends jni$_.JType<SuspendFun?> {
   @jni$_.internal
-  const $SuspendFun$NullableType();
+  const $SuspendFun$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -3489,29 +3510,29 @@ final class $SuspendFun$NullableType extends jni$_.JObjType<SuspendFun?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<SuspendFun?> get nullableType => this;
+  jni$_.JType<SuspendFun?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($SuspendFun$NullableType).hashCode;
+  int get hashCode => ($SuspendFun$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SuspendFun$NullableType) &&
-        other is $SuspendFun$NullableType;
+    return other.runtimeType == ($SuspendFun$NullableType$) &&
+        other is $SuspendFun$NullableType$;
   }
 }
 
-final class $SuspendFun$Type extends jni$_.JObjType<SuspendFun> {
+final class $SuspendFun$Type$ extends jni$_.JType<SuspendFun> {
   @jni$_.internal
-  const $SuspendFun$Type();
+  const $SuspendFun$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -3525,23 +3546,24 @@ final class $SuspendFun$Type extends jni$_.JObjType<SuspendFun> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<SuspendFun?> get nullableType =>
-      const $SuspendFun$NullableType();
+  jni$_.JType<SuspendFun?> get nullableType =>
+      const $SuspendFun$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($SuspendFun$Type).hashCode;
+  int get hashCode => ($SuspendFun$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($SuspendFun$Type) && other is $SuspendFun$Type;
+    return other.runtimeType == ($SuspendFun$Type$) &&
+        other is $SuspendFun$Type$;
   }
 }
 

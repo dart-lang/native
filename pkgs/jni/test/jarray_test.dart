@@ -6,6 +6,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:jni/jni.dart';
+import 'package:jni/src/third_party/generated_bindings.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
