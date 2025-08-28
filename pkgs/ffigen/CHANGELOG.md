@@ -1,4 +1,4 @@
-## 20.0.0-wip
+## 20.0.0
 
 - __Breaking change__: Refactor the Dart API a bit, to merge the `FfiGen` and
   `Config` classes. Rename `FfiGen.run` to `.generate`, and make it an extension
