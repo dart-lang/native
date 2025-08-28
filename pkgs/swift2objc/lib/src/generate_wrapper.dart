@@ -36,9 +36,9 @@ Future<void> generateWrapper(Config config) async {
   final allInputConfigs = [...config.inputs, builtInInputConfig];
 
   for (final input in allInputConfigs) {
-    if (input.hasSymbolgraphCommand) {
+    if (input is HasSymbolgraphCommand) {
       await _generateSymbolgraphJson(
-        input.symbolgraphCommand(
+        (input as HasSymbolgraphCommand).symbolgraphCommand(
           await target(),
           path.absolute((await sdkPath()).path),
         ),

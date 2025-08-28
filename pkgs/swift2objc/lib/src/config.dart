@@ -64,14 +64,15 @@ class Config {
 }
 
 /// Used to specify the inputs in the `config` object.
-/// See `FilesInputConfig` and `ModuleInputConfig` for concrete implementation;
-sealed class InputConfig {
-  bool get hasSymbolgraphCommand;
+sealed class InputConfig {}
+
+/// Used for `InputConfig`s that use a command to generate their symbolgraph.
+abstract interface class HasSymbolgraphCommand {
   Command symbolgraphCommand(String target, String sdkPath);
 }
 
 /// Used to generate a objc wrapper for one or more swift files.
-class FilesInputConfig implements InputConfig {
+class FilesInputConfig implements InputConfig, HasSymbolgraphCommand {
   /// The swift file(s) to generate a wrapper for.
   final List<Uri> files;
 
@@ -82,9 +83,6 @@ class FilesInputConfig implements InputConfig {
     required this.files,
     this.generatedModuleName = 'symbolgraph_module',
   });
-
-  @override
-  bool get hasSymbolgraphCommand => true;
 
   @override
   Command symbolgraphCommand(String target, String sdkPath) => Command(
@@ -107,14 +105,11 @@ class FilesInputConfig implements InputConfig {
 
 /// Used to generate a objc wrapper for a built-in swift module.
 /// (e.g, AVFoundation)
-class ModuleInputConfig implements InputConfig {
+class ModuleInputConfig implements InputConfig, HasSymbolgraphCommand {
   /// The swift module to generate a wrapper for.
   final String module;
 
   const ModuleInputConfig({required this.module});
-
-  @override
-  bool get hasSymbolgraphCommand => true;
 
   @override
   Command symbolgraphCommand(String target, String sdkPath) => Command(
@@ -139,13 +134,6 @@ class JsonFileInputConfig implements InputConfig {
   final Uri jsonFile;
 
   const JsonFileInputConfig({required this.jsonFile});
-
-  @override
-  bool get hasSymbolgraphCommand => false;
-
-  @override
-  Command symbolgraphCommand(String target, String sdkPath) =>
-      throw UnsupportedError('JsonFileInputConfig has no symbolgraphCommand');
 }
 
 const builtInInputConfig = ModuleInputConfig(module: 'Foundation');
