@@ -9,6 +9,7 @@
 library;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
@@ -21,11 +22,21 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 Future<int> run(String exe, List<String> args) async {
-  final process = await Process.start(
-    exe,
-    args,
-    mode: ProcessStartMode.inheritStdio,
-  );
+  final process =
+      await Process.start(
+        exe,
+        args,
+
+        // mode: ProcessStartMode.inheritStdio,
+      ).then((process) {
+        process.stdout
+            .transform(utf8.decoder)
+            .forEach((s) => printOnFailure('  $s'));
+        process.stderr
+            .transform(utf8.decoder)
+            .forEach((s) => printOnFailure('  $s'));
+        return process;
+      });
   return await process.exitCode;
 }
 
@@ -110,17 +121,23 @@ void main() {
     );
 
     final timer = Stopwatch()..start();
-    config.generate(Logger.root..level = Level.SEVERE);
+    config.generate(
+      Logger.root
+        ..level = Level.SEVERE
+        ..onRecord.listen((record) {
+          printOnFailure('${record.level.name.padRight(8)}: ${record.message}');
+        }),
+    );
     expect(File(outFile).existsSync(), isTrue);
     expect(File(outObjCFile).existsSync(), isTrue);
 
-    print('\n\t\tFfigen generation: ${timer.elapsed}\n');
+    printOnFailure('\n\t\tFfigen generation: ${timer.elapsed}\n');
     timer.reset();
 
     // Verify Dart bindings pass analysis.
     expect(await run('dart', ['analyze', outFile]), 0);
 
-    print('\n\t\tAnalyze dart: ${timer.elapsed}\n');
+    printOnFailure('\n\t\tAnalyze dart: ${timer.elapsed}\n');
     timer.reset();
 
     // Verify ObjC bindings compile.
@@ -140,7 +157,7 @@ void main() {
       0,
     );
 
-    print('\n\t\tCompile ObjC: ${timer.elapsed}\n');
+    printOnFailure('\n\t\tCompile ObjC: ${timer.elapsed}\n');
     timer.reset();
   });
 }
