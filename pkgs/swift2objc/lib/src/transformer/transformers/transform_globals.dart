@@ -24,6 +24,7 @@ ClassDeclaration? transformGlobals(
   final transformedGlobals = ClassDeclaration(
     id: 'globals'.addIdSuffix('wrapper'),
     name: globalNamer.makeUnique('GlobalsWrapper'),
+    source: null,
     availability: const [],
     hasObjCAnnotation: true,
     superClass: objectType,

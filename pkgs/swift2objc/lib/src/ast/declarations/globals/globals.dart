@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
 import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/function_declaration.dart';
 import '../../_core/interfaces/variable_declaration.dart';
@@ -27,6 +28,9 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -50,6 +54,7 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
   GlobalFunctionDeclaration({
     required this.id,
     required this.name,
+    required this.source,
     required this.availability,
     required this.params,
     required this.returnType,
@@ -81,6 +86,9 @@ class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -98,6 +106,7 @@ class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
   GlobalVariableDeclaration({
     required this.id,
     required this.name,
+    required this.source,
     required this.availability,
     required this.type,
     required this.isConstant,

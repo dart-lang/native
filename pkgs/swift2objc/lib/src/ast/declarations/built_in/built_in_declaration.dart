@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
 import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/objc_annotatable.dart';
@@ -15,6 +16,9 @@ class BuiltInDeclaration extends AstNode
 
   @override
   final String name;
+
+  @override
+  InputConfig? get source => null;
 
   @override
   List<AvailabilityInfo> get availability => const [];

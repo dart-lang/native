@@ -101,6 +101,7 @@ Declaration _transformVariable(
     return MethodDeclaration(
       id: originalVariable.id,
       name: wrapperPropertyName,
+      source: originalVariable.source,
       availability: originalVariable.availability,
       returnType: type,
       params: [],
@@ -120,6 +121,7 @@ Declaration _transformVariable(
   final transformedProperty = PropertyDeclaration(
     id: originalVariable.id,
     name: wrapperPropertyName,
+    source: originalVariable.source,
     availability: originalVariable.availability,
     type: transformedType,
     hasObjCAnnotation: true,

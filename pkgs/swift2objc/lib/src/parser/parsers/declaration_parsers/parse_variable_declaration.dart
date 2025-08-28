@@ -11,17 +11,18 @@ import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
-  Json propertySymbolJson,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final info = parsePropertyInfo(propertySymbolJson['declarationFragments']);
+  final info = parsePropertyInfo(symbol.json['declarationFragments']);
   return PropertyDeclaration(
-    id: parseSymbolId(propertySymbolJson),
-    name: parseSymbolName(propertySymbolJson),
-    availability: parseAvailability(propertySymbolJson),
-    type: _parseVariableType(propertySymbolJson, symbolgraph),
-    hasObjCAnnotation: parseSymbolHasObjcAnnotation(propertySymbolJson),
+    id: parseSymbolId(symbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
+    type: _parseVariableType(symbol.json, symbolgraph),
+    hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isConstant: info.constant,
     isStatic: isStatic,
     throws: info.throws,
@@ -34,16 +35,17 @@ PropertyDeclaration parsePropertyDeclaration(
 }
 
 GlobalVariableDeclaration parseGlobalVariableDeclaration(
-  Json variableSymbolJson,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final info = parsePropertyInfo(variableSymbolJson['declarationFragments']);
+  final info = parsePropertyInfo(symbol.json['declarationFragments']);
   return GlobalVariableDeclaration(
-    id: parseSymbolId(variableSymbolJson),
-    name: parseSymbolName(variableSymbolJson),
-    availability: parseAvailability(variableSymbolJson),
-    type: _parseVariableType(variableSymbolJson, symbolgraph),
+    id: parseSymbolId(symbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
+    type: _parseVariableType(symbol.json, symbolgraph),
     isConstant: info.constant || !info.setter,
     throws: info.throws,
     async: info.async,
@@ -51,10 +53,10 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 }
 
 ReferredType _parseVariableType(
-  Json propertySymbolJson,
+  Json symbolJson,
   ParsedSymbolgraph symbolgraph,
 ) => parseTypeAfterSeparator(
-  TokenList(propertySymbolJson['names']['subHeading']),
+  TokenList(symbolJson['names']['subHeading']),
   symbolgraph,
 );
 

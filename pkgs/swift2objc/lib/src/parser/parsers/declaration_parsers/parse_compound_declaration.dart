@@ -10,6 +10,7 @@ import '../../../ast/declarations/compounds/members/initializer_declaration.dart
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
+import '../../../config.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
@@ -18,6 +19,7 @@ typedef CompoundTearOff<T extends CompoundDeclaration> =
     T Function({
       required String id,
       required String name,
+      required InputConfig? source,
       required List<AvailabilityInfo> availability,
       required List<PropertyDeclaration> properties,
       required List<MethodDeclaration> methods,
@@ -26,25 +28,27 @@ typedef CompoundTearOff<T extends CompoundDeclaration> =
     });
 
 T _parseCompoundDeclaration<T extends CompoundDeclaration>(
-  ParsedSymbol compoundSymbol,
+  ParsedSymbol symbol,
   CompoundTearOff<T> tearoffConstructor,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final compoundId = parseSymbolId(compoundSymbol.json);
+  final compoundId = parseSymbolId(symbol.json);
 
-  final compoundRelations = symbolgraph.relations[compoundId] ?? [];
+  final compoundRelations =
+      symbolgraph.relations[compoundId]?.values.toList() ?? [];
 
   final compound = tearoffConstructor(
     id: compoundId,
-    name: parseSymbolName(compoundSymbol.json),
-    availability: parseAvailability(compoundSymbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
     methods: [],
     properties: [],
     initializers: [],
     nestedDeclarations: [],
   );
 
-  compoundSymbol.declaration = compound;
+  symbol.declaration = compound;
 
   final memberDeclarations = compoundRelations
       .where((relation) {

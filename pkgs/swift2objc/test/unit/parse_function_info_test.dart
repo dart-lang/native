@@ -15,9 +15,9 @@ import 'package:test/test.dart';
 void main() {
   final parsedSymbols = {
     for (final decl in builtInDeclarations)
-      decl.id: ParsedSymbol(json: Json(null), declaration: decl),
+      decl.id: ParsedSymbol(source: null, json: Json(null), declaration: decl),
   };
-  final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
+  final emptySymbolgraph = ParsedSymbolgraph(symbols: parsedSymbols);
   group('Function Valid json', () {
     void expectEqualParams(
       List<Parameter> actualParams,

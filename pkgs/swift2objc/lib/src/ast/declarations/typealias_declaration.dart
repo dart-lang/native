@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../config.dart';
 import '../_core/interfaces/availability.dart';
 import '../_core/interfaces/nestable_declaration.dart';
 import '../_core/shared/referred_type.dart';
@@ -16,6 +17,9 @@ class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
   final String name;
 
   @override
+  InputConfig? source;
+
+  @override
   List<AvailabilityInfo> availability;
 
   final ReferredType target;
@@ -26,6 +30,7 @@ class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
   TypealiasDeclaration({
     required this.id,
     required this.name,
+    required this.source,
     required this.target,
     required this.availability,
   });
