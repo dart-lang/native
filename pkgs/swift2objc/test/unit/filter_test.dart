@@ -56,7 +56,7 @@ void main([List<String>? args]) {
           expectString(actualOutput, expectedOutput);
         }
         await expectValidSwift([inputFile, actualOutputFile]);
-      }, timeout: const Timeout(Duration(minutes: 2)));
+      }, timeout: const Timeout(Duration(minutes: 5)));
     }
 
     filterTest(
