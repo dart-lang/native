@@ -5,6 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../../ast/_core/interfaces/declaration.dart';
+import '../../config.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 import 'declaration_parsers/parse_built_in_declaration.dart';
@@ -53,29 +54,29 @@ Declaration parseDeclaration(
     'swift.class' => parseClassDeclaration(parsedSymbol, symbolgraph),
     'swift.struct' => parseStructDeclaration(parsedSymbol, symbolgraph),
     'swift.method' => parseMethodDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: false,
     ),
     'swift.type.method' => parseMethodDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: true,
     ),
     'swift.property' => parsePropertyDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: false,
     ),
     'swift.type.property' => parsePropertyDeclaration(
-      symbolJson,
+      parsedSymbol,
       symbolgraph,
       isStatic: true,
     ),
-    'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
-    'swift.func' => parseGlobalFunctionDeclaration(symbolJson, symbolgraph),
-    'swift.var' => parseGlobalVariableDeclaration(symbolJson, symbolgraph),
-    'swift.typealias' => parseTypealiasDeclaration(symbolJson, symbolgraph),
+    'swift.init' => parseInitializerDeclaration(parsedSymbol, symbolgraph),
+    'swift.func' => parseGlobalFunctionDeclaration(parsedSymbol, symbolgraph),
+    'swift.var' => parseGlobalVariableDeclaration(parsedSymbol, symbolgraph),
+    'swift.typealias' => parseTypealiasDeclaration(parsedSymbol, symbolgraph),
     _ => throw Exception('Symbol of type $symbolType is not implemented yet.'),
   };
 
@@ -89,7 +90,9 @@ Declaration? tryParseDeclaration(
   try {
     return parseDeclaration(parsedSymbol, symbolgraph);
   } catch (e) {
-    Logger.root.severe('$e');
+    if (parsedSymbol.source != builtInInputConfig) {
+      Logger.root.severe('$e');
+    }
   }
   return null;
 }

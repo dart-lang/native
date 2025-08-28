@@ -64,7 +64,9 @@ void main([List<String>? args]) {
 
         await generateWrapper(
           Config(
-            input: FilesInputConfig(files: [Uri.file(inputFile)]),
+            inputs: [
+              FilesInputConfig(files: [Uri.file(inputFile)]),
+            ],
             outputFile: Uri.file(actualOutputFile),
             tempDir: Directory(tempDir).uri,
             preamble: '// Test preamble text',
@@ -78,7 +80,7 @@ void main([List<String>? args]) {
         expect(loggedErrors, 0);
 
         await expectValidSwift([inputFile, actualOutputFile]);
-      });
+      }, timeout: const Timeout(Duration(minutes: 2)));
     }
   });
 }

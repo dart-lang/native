@@ -9,14 +9,14 @@ import '../../_core/utils.dart';
 import 'parse_function_declaration.dart';
 
 InitializerDeclaration parseInitializerDeclaration(
-  Json initializerSymbolJson,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final id = parseSymbolId(initializerSymbolJson);
+  final id = parseSymbolId(symbol.json);
 
   // Initializers don't have `functionSignature` field in symbolgraph like
   // methods do, so we have our only option is to use `declarationFragments`.
-  final declarationFragments = initializerSymbolJson['declarationFragments'];
+  final declarationFragments = symbol.json['declarationFragments'];
 
   // All initializers should start with an `init` keyword.
   if (!matchFragment(declarationFragments[0], 'keyword', 'init')) {
@@ -27,10 +27,11 @@ InitializerDeclaration parseInitializerDeclaration(
 
   return InitializerDeclaration(
     id: id,
-    availability: parseAvailability(initializerSymbolJson),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
     params: info.params,
-    hasObjCAnnotation: parseSymbolHasObjcAnnotation(initializerSymbolJson),
-    isOverriding: parseIsOverriding(initializerSymbolJson),
+    hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
+    isOverriding: parseIsOverriding(symbol.json),
     isFailable: parseIsFailableInit(id, declarationFragments),
     throws: info.throws,
     async: info.async,

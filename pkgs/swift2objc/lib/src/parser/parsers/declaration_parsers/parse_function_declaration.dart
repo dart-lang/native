@@ -13,18 +13,19 @@ import '../../_core/utils.dart';
 import '../parse_type.dart';
 
 GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
-  Json globalFunctionSymbolJson,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
   final info = parseFunctionInfo(
-    globalFunctionSymbolJson['declarationFragments'],
+    symbol.json['declarationFragments'],
     symbolgraph,
   );
   return GlobalFunctionDeclaration(
-    id: parseSymbolId(globalFunctionSymbolJson),
-    name: parseSymbolName(globalFunctionSymbolJson),
-    availability: parseAvailability(globalFunctionSymbolJson),
-    returnType: _parseFunctionReturnType(globalFunctionSymbolJson, symbolgraph),
+    id: parseSymbolId(symbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
+    returnType: _parseFunctionReturnType(symbol.json, symbolgraph),
     params: info.params,
     throws: info.throws,
     async: info.async,
@@ -32,21 +33,22 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
 }
 
 MethodDeclaration parseMethodDeclaration(
-  Json methodSymbolJson,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
   final info = parseFunctionInfo(
-    methodSymbolJson['declarationFragments'],
+    symbol.json['declarationFragments'],
     symbolgraph,
   );
   return MethodDeclaration(
-    id: parseSymbolId(methodSymbolJson),
-    name: parseSymbolName(methodSymbolJson),
-    availability: parseAvailability(methodSymbolJson),
-    returnType: _parseFunctionReturnType(methodSymbolJson, symbolgraph),
+    id: parseSymbolId(symbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
+    returnType: _parseFunctionReturnType(symbol.json, symbolgraph),
     params: info.params,
-    hasObjCAnnotation: parseSymbolHasObjcAnnotation(methodSymbolJson),
+    hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isStatic: isStatic,
     throws: info.throws,
     async: info.async,
@@ -169,12 +171,10 @@ ParsedFunctionInfo parseFunctionInfo(
 }
 
 ReferredType _parseFunctionReturnType(
-  Json methodSymbolJson,
+  Json symbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final returnJson = TokenList(
-    methodSymbolJson['functionSignature']['returns'],
-  );
+  final returnJson = TokenList(symbolJson['functionSignature']['returns']);
   final (returnType, unparsed) = parseType(symbolgraph, returnJson);
   assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
   return returnType;

@@ -40,7 +40,10 @@ class Target {
 
   Target({required this.triple, required this.sdk});
 
-  static Future<Target> host() => getHostTarget();
+  static Future<Target> host() async => Target(
+    triple: await swift2objc.hostTarget,
+    sdk: await swift2objc.hostSdk,
+  );
 }
 
 /// Describes the inputs to the swiftgen pipeline.

@@ -11,3 +11,4 @@ export 'src/config.dart'
         JsonFileInputConfig,
         ModuleInputConfig;
 export 'src/generate_wrapper.dart';
+export 'src/utils.dart';

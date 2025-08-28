@@ -2,23 +2,22 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../ast/declarations/built_in/built_in_declaration.dart';
+import '../../config.dart';
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 
-ParsedSymbolsMap parseSymbolsMap(Json symbolgraphJson) {
-  final parsedSymbols = {
-    for (final decl in builtInDeclarations)
-      decl.id: ParsedSymbol(json: Json(null), declaration: decl),
-  };
-
+ParsedSymbolsMap parseSymbolsMap(InputConfig source, Json symbolgraphJson) {
+  final symbols = <String, ParsedSymbol>{};
   for (final symbolJson in symbolgraphJson['symbols']) {
-    final symbolId = parseSymbolId(symbolJson);
-    if (!parsedSymbols.containsKey(symbolId)) {
-      parsedSymbols[symbolId] = ParsedSymbol(json: symbolJson);
-    }
+    final id = parseSymbolId(symbolJson);
+    final symbol = ParsedSymbol(source: source, json: symbolJson);
+    // TODO(https://github.com/dart-lang/native/issues/2544): Reenable this.
+    // final old = symbols[id];
+    // if (old != null && old.json.toString() != symbol.json.toString()) {
+    //   throw SymbolIdCollisionError(old, symbol);
+    // }
+    symbols[id] = symbol;
   }
-
-  return parsedSymbols;
+  return symbols;
 }

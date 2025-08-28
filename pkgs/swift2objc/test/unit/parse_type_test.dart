@@ -18,19 +18,27 @@ void main() {
   final classFoo = ClassDeclaration(
     id: 'Foo',
     name: 'Foo',
+    source: null,
     availability: const [],
   );
   final classBar = ClassDeclaration(
     id: 'Bar',
     name: 'Bar',
+    source: null,
     availability: const [],
   );
 
   final testDecls = <Declaration>[...builtInDeclarations, classFoo, classBar];
-  final parsedSymbols = ParsedSymbolgraph({
-    for (final decl in testDecls)
-      decl.id: ParsedSymbol(json: Json(null), declaration: decl),
-  }, {});
+  final parsedSymbols = ParsedSymbolgraph(
+    symbols: {
+      for (final decl in testDecls)
+        decl.id: ParsedSymbol(
+          source: null,
+          json: Json(null),
+          declaration: decl,
+        ),
+    },
+  );
 
   test('Type identifier', () {
     final fragments = Json(
