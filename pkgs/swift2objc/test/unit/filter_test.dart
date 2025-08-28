@@ -28,7 +28,7 @@ void main([List<String>? args]) {
       String expectedOutputFile,
       bool Function(Declaration declaration) include,
     ) {
-      test('A: Filtering by name', () async {
+      test(name, () async {
         final output = p.join(thisDir, expectedOutputFile);
         final actualOutputFile = p.join(
           tempDir,
