@@ -5,6 +5,11 @@ environment:
 
 workspace:
   - pkgs/code_assets
+  - pkgs/code_assets/example/host_name
+  - pkgs/code_assets/example/mini_audio
+  - pkgs/code_assets/example/sqlite
+  - pkgs/code_assets/example/sqlite_prebuilt
+  - pkgs/code_assets/example/stb_image
   - pkgs/data_assets
   - pkgs/hooks
   - pkgs/hooks_runner
@@ -19,13 +24,17 @@ workspace:
   - pkgs/hooks_runner/test_data/depend_on_fail_build
   - pkgs/hooks_runner/test_data/depend_on_fail_build_app
   - pkgs/hooks_runner/test_data/dev_dependency_with_hook
-  - pkgs/hooks_runner/test_data/link_inverse_app
-  - pkgs/hooks_runner/test_data/link_inverse_package
   - pkgs/hooks_runner/test_data/drop_dylib_link
   - pkgs/hooks_runner/test_data/fail_build
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version_link
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version_linker
+  - pkgs/hooks_runner/test_data/flag_app
+  - pkgs/hooks_runner/test_data/flag_enthusiast_1
+  - pkgs/hooks_runner/test_data/flag_enthusiast_2
+  - pkgs/hooks_runner/test_data/fun_with_flags
+  - pkgs/hooks_runner/test_data/link_inverse_app
+  - pkgs/hooks_runner/test_data/link_inverse_package
   - pkgs/hooks_runner/test_data/native_add
   - pkgs/hooks_runner/test_data/native_add_add_source
   - pkgs/hooks_runner/test_data/native_add_duplicate
@@ -39,10 +48,6 @@ workspace:
   - pkgs/hooks_runner/test_data/reusable_dynamic_library
   - pkgs/hooks_runner/test_data/reuse_dynamic_library
   - pkgs/hooks_runner/test_data/simple_data_asset
-  - pkgs/hooks_runner/test_data/flag_app
-  - pkgs/hooks_runner/test_data/fun_with_flags
-  - pkgs/hooks_runner/test_data/flag_enthusiast_1
-  - pkgs/hooks_runner/test_data/flag_enthusiast_2
   - pkgs/hooks_runner/test_data/simple_link
   - pkgs/hooks_runner/test_data/some_dev_dep
   - pkgs/hooks_runner/test_data/system_library
@@ -66,8 +71,8 @@ workspace:
   - pkgs/hooks/example/link/package_with_assets
   - pkgs/json_syntax_generator
   - pkgs/native_test_helpers
-  - pkgs/pub_formats
   - pkgs/native_toolchain_c
+  - pkgs/pub_formats
   - pkgs/repo_lint_rules
 
 # Hook user-defines are specified in the pub workspace.

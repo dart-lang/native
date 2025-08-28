@@ -44,7 +44,7 @@ import 'package:jni/jni.dart' as jni$_;
 class Notifications extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Notifications> $type;
+  final jni$_.JType<Notifications> $type;
 
   @jni$_.internal
   Notifications.fromReference(
@@ -56,8 +56,11 @@ class Notifications extends jni$_.JObject {
       jni$_.JClass.forName(r'com/example/notification_plugin/Notifications');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Notifications$NullableType();
-  static const type = $Notifications$Type();
+  static const jni$_.JType<Notifications?> nullableType =
+      $Notifications$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Notifications> type = $Notifications$Type$();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -129,9 +132,9 @@ class Notifications extends jni$_.JObject {
   }
 }
 
-final class $Notifications$NullableType extends jni$_.JObjType<Notifications?> {
+final class $Notifications$NullableType$ extends jni$_.JType<Notifications?> {
   @jni$_.internal
-  const $Notifications$NullableType();
+  const $Notifications$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -146,29 +149,29 @@ final class $Notifications$NullableType extends jni$_.JObjType<Notifications?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Notifications?> get nullableType => this;
+  jni$_.JType<Notifications?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Notifications$NullableType).hashCode;
+  int get hashCode => ($Notifications$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Notifications$NullableType) &&
-        other is $Notifications$NullableType;
+    return other.runtimeType == ($Notifications$NullableType$) &&
+        other is $Notifications$NullableType$;
   }
 }
 
-final class $Notifications$Type extends jni$_.JObjType<Notifications> {
+final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   @jni$_.internal
-  const $Notifications$Type();
+  const $Notifications$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -182,23 +185,23 @@ final class $Notifications$Type extends jni$_.JObjType<Notifications> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Notifications?> get nullableType =>
-      const $Notifications$NullableType();
+  jni$_.JType<Notifications?> get nullableType =>
+      const $Notifications$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Notifications$Type).hashCode;
+  int get hashCode => ($Notifications$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Notifications$Type) &&
-        other is $Notifications$Type;
+    return other.runtimeType == ($Notifications$Type$) &&
+        other is $Notifications$Type$;
   }
 }

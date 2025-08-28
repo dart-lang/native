@@ -4,53 +4,11 @@
 
 // ignore_for_file: library_private_types_in_public_api
 
-import 'dart:ffi';
 import 'dart:io';
 
-import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 
-extension on String {
-  /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
-  Pointer<Char> toNativeChars(Allocator allocator) {
-    return toNativeUtf8(allocator: allocator).cast<Char>();
-  }
-}
-
-// An example of calling JNI methods using low level primitives.
-// GlobalJniEnv is a thin abstraction over JNIEnv in JNI C API.
-//
-// For a more ergonomic API for common use cases of calling methods and
-// accessing fields, see next examples using JObject and JClass.
-String toJavaStringUsingEnv(int n) => using((arena) {
-      final env = Jni.env;
-      final cls = env.FindClass("java/lang/String".toNativeChars(arena));
-      final mId = env.GetStaticMethodID(cls, "valueOf".toNativeChars(arena),
-          "(I)Ljava/lang/String;".toNativeChars(arena));
-      final i = arena<JValue>();
-      i.ref.i = n;
-      final res = env.CallStaticObjectMethodA(cls, mId, i);
-      final str = env.toDartString(res);
-      env.DeleteGlobalRef(res);
-      env.DeleteGlobalRef(cls);
-      return str;
-    });
-
-int randomUsingEnv(int n) => using((arena) {
-      final env = Jni.env;
-      final randomCls = env.FindClass("java/util/Random".toNativeChars(arena));
-      final ctor = env.GetMethodID(
-          randomCls, "<init>".toNativeChars(arena), "()V".toNativeChars(arena));
-      final random = env.NewObject(randomCls, ctor);
-      final nextInt = env.GetMethodID(randomCls, "nextInt".toNativeChars(arena),
-          "(I)I".toNativeChars(arena));
-      final res =
-          env.CallIntMethodA(random, nextInt, toJValues([n], allocator: arena));
-      env.DeleteGlobalRef(randomCls);
-      env.DeleteGlobalRef(random);
-      return res;
-    });
 double randomDouble() {
   final math = JClass.forName("java/lang/Math");
   final random =
@@ -108,9 +66,6 @@ void main() {
     Jni.spawn();
   }
   final examples = [
-    Example("String.valueOf(1332)", () => toJavaStringUsingEnv(1332)),
-    Example("Generate random number", () => randomUsingEnv(180),
-        runInitially: false),
     Example("Math.random()", () => randomDouble(), runInitially: false),
     if (Platform.isAndroid) ...[
       Example("Minutes of usage since reboot",

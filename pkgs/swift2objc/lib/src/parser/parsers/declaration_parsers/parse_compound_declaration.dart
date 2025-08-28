@@ -14,15 +14,16 @@ import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
 
-typedef CompoundTearOff<T extends CompoundDeclaration> = T Function({
-  required String id,
-  required String name,
-  required List<AvailabilityInfo> availability,
-  required List<PropertyDeclaration> properties,
-  required List<MethodDeclaration> methods,
-  required List<InitializerDeclaration> initializers,
-  required List<InnerNestableDeclaration> nestedDeclarations,
-});
+typedef CompoundTearOff<T extends CompoundDeclaration> =
+    T Function({
+      required String id,
+      required String name,
+      required List<AvailabilityInfo> availability,
+      required List<PropertyDeclaration> properties,
+      required List<MethodDeclaration> methods,
+      required List<InitializerDeclaration> initializers,
+      required List<InnerNestableDeclaration> nestedDeclarations,
+    });
 
 T _parseCompoundDeclaration<T extends CompoundDeclaration>(
   ParsedSymbol compoundSymbol,
@@ -46,39 +47,35 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
   compoundSymbol.declaration = compound;
 
   final memberDeclarations = compoundRelations
-      .where(
-        (relation) {
-          final isMembershipRelation =
-              relation.kind == ParsedRelationKind.memberOf;
-          final isMemeberOfCompound = relation.targetId == compoundId;
-          return isMembershipRelation && isMemeberOfCompound;
-        },
-      )
-      .map(
-        (relation) {
-          final memberSymbol = symbolgraph.symbols[relation.sourceId];
-          if (memberSymbol == null) {
-            return null;
-          }
-          return tryParseDeclaration(memberSymbol, symbolgraph);
-        },
-      )
+      .where((relation) {
+        final isMembershipRelation =
+            relation.kind == ParsedRelationKind.memberOf;
+        final isMemeberOfCompound = relation.targetId == compoundId;
+        return isMembershipRelation && isMemeberOfCompound;
+      })
+      .map((relation) {
+        final memberSymbol = symbolgraph.symbols[relation.sourceId];
+        if (memberSymbol == null) {
+          return null;
+        }
+        return tryParseDeclaration(memberSymbol, symbolgraph);
+      })
       .nonNulls
       .dedupeBy((decl) => decl.id)
       .toList();
 
   compound.methods.addAll(
-    memberDeclarations
-        .whereType<MethodDeclaration>()
-        .dedupeBy((m) => m.fullName),
+    memberDeclarations.whereType<MethodDeclaration>().dedupeBy(
+      (m) => m.fullName,
+    ),
   );
   compound.properties.addAll(
     memberDeclarations.whereType<PropertyDeclaration>(),
   );
   compound.initializers.addAll(
-    memberDeclarations
-        .whereType<InitializerDeclaration>()
-        .dedupeBy((m) => m.fullName),
+    memberDeclarations.whereType<InitializerDeclaration>().dedupeBy(
+      (m) => m.fullName,
+    ),
   );
   compound.nestedDeclarations.addAll(
     memberDeclarations.whereType<InnerNestableDeclaration>(),

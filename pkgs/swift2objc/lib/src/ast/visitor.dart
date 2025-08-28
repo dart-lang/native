@@ -109,8 +109,8 @@ abstract class Visitation {
       visitCompoundDeclaration(node);
   void visitEnumDeclaration(EnumDeclaration node) => visitDeclaration(node);
   void visitAssociatedValueEnumDeclaration(
-          AssociatedValueEnumDeclaration node) =>
-      visitEnumDeclaration(node);
+    AssociatedValueEnumDeclaration node,
+  ) => visitEnumDeclaration(node);
   void visitNormalEnumDeclaration(NormalEnumDeclaration node) =>
       visitEnumDeclaration(node);
   void visitRawValueEnumDeclaration<T>(RawValueEnumDeclaration<T> node) =>
@@ -122,8 +122,11 @@ abstract class Visitation {
   void visitAstNode(AstNode node) => node.visitChildren(visitor);
 }
 
-T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots,
-    {bool debug = false}) {
+T visit<T extends Visitation>(
+  T visitation,
+  Iterable<AstNode> roots, {
+  bool debug = false,
+}) {
   Visitor(visitation, debug: debug).visitAll(roots);
   return visitation;
 }

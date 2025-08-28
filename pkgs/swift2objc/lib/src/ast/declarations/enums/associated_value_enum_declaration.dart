@@ -104,10 +104,7 @@ class AssociatedValueParam extends AstNode implements Parameter {
   @override
   covariant Null internalName;
 
-  AssociatedValueParam({
-    required this.name,
-    required this.type,
-  });
+  AssociatedValueParam({required this.name, required this.type});
 
   @override
   void visitChildren(Visitor visitor) {

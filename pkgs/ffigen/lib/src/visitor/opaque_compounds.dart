@@ -21,7 +21,7 @@ class FindByValueCompoundsVisitation extends Visitation {
 
   @override
   void visitPointerType(PointerType node) {
-    if (node.child.typealiasType is Compound) {
+    if (node.child.typealiasType is Compound && node is! ConstantArray) {
       // Don't visit compounds through pointers. We're only interested in
       // compounds that are referred to by value.
     } else {

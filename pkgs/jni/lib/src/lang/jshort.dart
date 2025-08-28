@@ -9,71 +9,61 @@ import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-final class JShortNullableType extends JObjType<JShort?> {
-  @internal
-  const JShortNullableType();
+@internal
+final class $JShort$NullableType$ extends JType<JShort?> {
+  const $JShort$NullableType$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Short;';
 
-  @internal
   @override
   JShort? fromReference(JReference reference) =>
       reference.isNull ? null : JShort.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberNullableType();
+  JType get superType => const $JNumber$NullableType$();
 
-  @internal
   @override
-  JObjType<JShort?> get nullableType => this;
+  JType<JShort?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JShortNullableType).hashCode;
+  int get hashCode => ($JShort$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JShortNullableType &&
-        other is JShortNullableType;
+    return other.runtimeType == $JShort$NullableType$ &&
+        other is $JShort$NullableType$;
   }
 }
 
-final class JShortType extends JObjType<JShort> {
-  @internal
-  const JShortType();
+@internal
+final class $JShort$Type$ extends JType<JShort> {
+  const $JShort$Type$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Short;';
 
-  @internal
   @override
   JShort fromReference(JReference reference) => JShort.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberType();
+  JType get superType => const $JNumber$Type$();
 
-  @internal
   @override
-  JObjType<JShort?> get nullableType => const JShortNullableType();
+  JType<JShort?> get nullableType => const $JShort$NullableType$();
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JShortType).hashCode;
+  int get hashCode => ($JShort$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JShortType && other is JShortType;
+    return other.runtimeType == $JShort$Type$ && other is $JShort$Type$;
   }
 }
 
@@ -81,17 +71,17 @@ class JShort extends JNumber {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JShort> $type = type;
+  final JType<JShort> $type = type;
 
   JShort.fromReference(
     super.reference,
   ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
-  static const type = JShortType();
+  static const JType<JShort> type = $JShort$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JShortNullableType();
+  static const JType<JShort?> nullableType = $JShort$NullableType$();
 
   static final _class = JClass.forName(r'java/lang/Short');
 

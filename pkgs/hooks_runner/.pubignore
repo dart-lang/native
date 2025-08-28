@@ -11,4 +11,9 @@ pubspec.lock
 coverage/
 
 # Additional pub ignores
+doc/
+example/*/*
 test_data/
+test/
+tool/
+

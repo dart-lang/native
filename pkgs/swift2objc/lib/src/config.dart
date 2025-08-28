@@ -13,10 +13,7 @@ class Command {
   final String executable;
   final List<String> args;
 
-  Command({
-    required this.executable,
-    required this.args,
-  });
+  Command({required this.executable, required this.args});
 }
 
 /// Used to configure Swift2ObjC wrapper generation.
@@ -47,12 +44,13 @@ class Config {
 
   static bool _defaultInclude(Declaration _) => true;
 
-  const Config(
-      {required this.input,
-      required this.outputFile,
-      this.tempDir,
-      this.preamble,
-      this.include = Config._defaultInclude});
+  const Config({
+    required this.input,
+    required this.outputFile,
+    this.tempDir,
+    this.preamble,
+    this.include = Config._defaultInclude,
+  });
 }
 
 /// Used to specify the inputs in the `config` object.
@@ -76,17 +74,17 @@ class FilesInputConfig implements InputConfig {
 
   @override
   Command? get symbolgraphCommand => Command(
-        executable: 'swiftc',
-        args: [
-          ...files.map((uri) => path.absolute(uri.path)),
-          '-emit-module',
-          '-emit-symbol-graph',
-          '-emit-symbol-graph-dir',
-          '.',
-          '-module-name',
-          generatedModuleName
-        ],
-      );
+    executable: 'swiftc',
+    args: [
+      ...files.map((uri) => path.absolute(uri.path)),
+      '-emit-module',
+      '-emit-symbol-graph',
+      '-emit-symbol-graph-dir',
+      '.',
+      '-module-name',
+      generatedModuleName,
+    ],
+  );
 }
 
 /// Used to generate a objc wrapper for a built-in swift module.
@@ -111,19 +109,19 @@ class ModuleInputConfig implements InputConfig {
 
   @override
   Command? get symbolgraphCommand => Command(
-        executable: 'swift',
-        args: [
-          'symbolgraph-extract',
-          '-module-name',
-          module,
-          '-target',
-          target,
-          '-sdk',
-          path.absolute(sdk.path),
-          '-output-dir',
-          '.',
-        ],
-      );
+    executable: 'swift',
+    args: [
+      'symbolgraph-extract',
+      '-module-name',
+      module,
+      '-target',
+      target,
+      '-sdk',
+      path.absolute(sdk.path),
+      '-output-dir',
+      '.',
+    ],
+  );
 }
 
 /// Used to generate wrappers directly from a JSON symbolgraph, for debugging.

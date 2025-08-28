@@ -1,4 +1,4 @@
-## 0.20.1-wip
+## 0.20.1
 
 - Update outdated documentation.
 - Deprecate `HookOutputBuilder.addDependency` and

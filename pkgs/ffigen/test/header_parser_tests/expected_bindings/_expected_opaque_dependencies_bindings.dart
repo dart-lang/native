@@ -59,10 +59,20 @@ final class D extends ffi.Struct {
   external ffi.Pointer<NoDefinitionStructInD> nds;
 }
 
+final class DArray extends ffi.Struct {
+  @ffi.Int()
+  external int a;
+
+  external ffi.Pointer<NoDefinitionStructInD> nds;
+}
+
 final class E extends ffi.Struct {
   external ffi.Pointer<C> c;
 
   external D d;
+
+  @ffi.Array.multi([10])
+  external ffi.Array<DArray> dArray;
 }
 
 final class UA extends ffi.Opaque {}
@@ -76,8 +86,16 @@ final class UD extends ffi.Union {
   external int a;
 }
 
+final class UDArray extends ffi.Union {
+  @ffi.Int()
+  external int a;
+}
+
 final class UE extends ffi.Union {
   external ffi.Pointer<UC> c;
 
   external UD d;
+
+  @ffi.Array.multi([10])
+  external ffi.Array<UDArray> dArray;
 }

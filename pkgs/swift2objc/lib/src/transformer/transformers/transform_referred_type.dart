@@ -25,11 +25,7 @@ ReferredType transformReferredType(
     if (decl is TypealiasDeclaration) {
       return transformReferredType(decl.target, globalNamer, state);
     }
-    return transformDeclaration(
-      decl,
-      globalNamer,
-      state,
-    ).asDeclaredType;
+    return transformDeclaration(decl, globalNamer, state).asDeclaredType;
   } else if (type is OptionalType) {
     return OptionalType(transformReferredType(type.child, globalNamer, state));
   } else {
