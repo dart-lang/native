@@ -15,23 +15,25 @@ import 'util.dart';
 extension SwiftGenGenerator on SwiftGen {
   Future<void> generate(Logger logger) async {
     Directory(absTempDir).createSync(recursive: true);
-    final swift2objcConfig = input.asSwift2ObjCConfig(target);
-    if (swift2objcConfig != null) {
-      await _generateObjCSwiftFile(swift2objcConfig);
+    final swift2objcConfigs = inputs
+        .map((input) => input.swift2ObjCConfig)
+        .nonNulls
+        .toList();
+    if (swift2objcConfigs.isNotEmpty) {
+      await _generateObjCSwiftFile(swift2objcConfigs);
     }
     await _generateObjCFile();
     _generateDartFile(logger);
   }
 
   String get absTempDir => p.absolute(tempDir.toFilePath());
-  String get outModule => outputModule ?? input.module;
-  String get objcHeader => p.join(absTempDir, '$outModule.h');
+  String get objcHeader => p.join(absTempDir, '$outputModule.h');
 
   Future<void> _generateObjCSwiftFile(
-    swift2objc.InputConfig swift2objcConfig,
+    List<swift2objc.InputConfig> swift2objcConfigs,
   ) => swift2objc.generateWrapper(
     swift2objc.Config(
-      input: swift2objcConfig,
+      inputs: swift2objcConfigs,
       include: include ?? (d) => true,
       outputFile: objcSwiftFile,
       tempDir: tempDir,
@@ -41,17 +43,17 @@ extension SwiftGenGenerator on SwiftGen {
 
   Future<void> _generateObjCFile() => run('swiftc', [
     '-c',
-    for (final uri in input.files) p.absolute(uri.toFilePath()),
+    for (final input in inputs)
+      for (final uri in input.files) p.absolute(uri.toFilePath()),
     p.absolute(objcSwiftFile.toFilePath()),
     '-module-name',
-    outModule,
+    outputModule,
     '-emit-objc-header-path',
     objcHeader,
     '-target',
     target.triple,
     '-sdk',
     p.absolute(target.sdk.toFilePath()),
-    ...input.compileArgs,
   ], absTempDir);
 
   void _generateDartFile(Logger logger) {
@@ -60,7 +62,7 @@ extension SwiftGenGenerator on SwiftGen {
       language: fg.Language.objc,
       output: ffigen.output,
       outputObjC: ffigen.outputObjC,
-      wrapperName: ffigen.wrapperName ?? outModule,
+      wrapperName: ffigen.wrapperName ?? outputModule,
       wrapperDocComment: ffigen.wrapperDocComment,
       preamble: ffigen.preamble,
       functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
@@ -80,8 +82,8 @@ extension SwiftGenGenerator on SwiftGen {
         ...fg.defaultCompilerOpts(logger),
         '-Wno-nullability-completeness',
       ],
-      interfaceModuleFunc: (_) => outModule,
-      protocolModuleFunc: (_) => outModule,
+      interfaceModuleFunc: (_) => outputModule,
+      protocolModuleFunc: (_) => outputModule,
       externalVersions: ffigen.externalVersions,
     ).generate(logger);
   }

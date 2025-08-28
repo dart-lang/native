@@ -7,7 +7,8 @@ import '../../_core/json.dart';
 import '../../_core/utils.dart';
 
 BuiltInDeclaration? tryParseBuiltInDeclaration(Json symbolJson) {
-  final id = parseSymbolId(symbolJson);
-  if (!id.startsWith('c:objc(cs)')) return null;
-  return BuiltInDeclaration(id: id, name: parseSymbolName(symbolJson));
+  return null;
+  // final id = parseSymbolId(symbolJson);
+  // if (!id.startsWith('c:objc(cs)')) return null;
+  // return BuiltInDeclaration(id: id, name: parseSymbolName(symbolJson));
 }

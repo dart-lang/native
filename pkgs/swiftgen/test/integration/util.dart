@@ -55,10 +55,9 @@ class TestGenerator {
 
   Future<void> generateBindings() async => SwiftGen(
     target: await hostTarget,
-    input: SwiftFileInput(
-      module: name,
-      files: [Uri.file(inputFile)],
-    ),
+    inputs: [
+      SwiftFileInput(module: name, files: [Uri.file(inputFile)]),
+    ],
     objcSwiftFile: Uri.file(wrapperFile),
     tempDirectory: Directory(tempDir).uri,
     ffigen: FfiGenConfig(
@@ -138,7 +137,9 @@ class TestGenerator {
     expect(File(dylibFile).existsSync(), isTrue);
 
     // Expect that the bindings match.
-    expect(File(outputFile).readAsStringSync(),
-        File(actualOutputFile).readAsStringSync());
+    expect(
+      File(outputFile).readAsStringSync(),
+      File(actualOutputFile).readAsStringSync(),
+    );
   }
 }

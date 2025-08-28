@@ -15,9 +15,7 @@ Future<void> main() async {
     stderr.writeln('${record.level.name}: ${record.message}');
   });
 
-  final includes = {
-    'AVAudioPlayer'
-  };
+  final includes = {'AVAudioPlayer'};
 
   await SwiftGen(
     target: Target(
@@ -26,8 +24,9 @@ Future<void> main() async {
         '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk',
       ),
     ),
-    input: SwiftModuleInput(module: 'AVFAudio'),
+    inputs: [SwiftModuleInput(module: 'AVFAudio')],
     include: (d) {
+      print('>>>>>> ${d.name}');
       return includes.contains(d.name);
     },
     objcSwiftFile: Uri.file('avf_audio_wrapper.swift'),

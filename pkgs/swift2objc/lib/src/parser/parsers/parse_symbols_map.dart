@@ -12,6 +12,7 @@ ParsedSymbolsMap parseSymbolsMap(InputConfig source, Json symbolgraphJson) {
   for (final symbolJson in symbolgraphJson['symbols']) {
     final id = parseSymbolId(symbolJson);
     final symbol = ParsedSymbol(source: source, json: symbolJson);
+    print(id);
     // TODO(https://github.com/dart-lang/native/issues/2544): Reenable this.
     // final old = symbols[id];
     // if (old != null && old.json.toString() != symbol.json.toString()) {
