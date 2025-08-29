@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
-import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
@@ -41,11 +40,7 @@ void main() {
     ) {
       final library = Library(
         context: testContext(
-          FfiGen(
-            Logger.root,
-            ffiNativeConfig: nativeConfig,
-            output: Uri.file('unused'),
-          ),
+          FfiGen(ffiNativeConfig: nativeConfig, output: Uri.file('unused')),
         ),
         name: 'Bindings',
         header: licenseHeader,

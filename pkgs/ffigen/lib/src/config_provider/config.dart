@@ -2,12 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../code_generator.dart';
 import 'config_impl.dart';
 import 'config_types.dart';
-import 'spec_utils.dart';
 
 /// Provides configurations to other modules.
 abstract interface class FfiGen {
@@ -15,7 +12,7 @@ abstract interface class FfiGen {
   Uri? get filename;
 
   /// Path to the clang library.
-  Uri get libclangDylib;
+  Uri? get libclangDylib;
 
   /// Output file name.
   Uri get output;
@@ -37,7 +34,7 @@ abstract interface class FfiGen {
   bool shouldIncludeHeader(Uri header);
 
   /// CommandLine Arguments to pass to clang_compiler.
-  List<String> get compilerOpts;
+  List<String>? get compilerOpts;
 
   /// VarArg function handling.
   Map<String, List<VarArgFunction>> get varArgFunctions;
@@ -189,10 +186,8 @@ abstract interface class FfiGen {
   /// before this version will not be generated.
   ExternalVersions get externalVersions;
 
-  factory FfiGen(
-    Logger logger, {
+  factory FfiGen({
     Uri? filename,
-    Uri? libclangDylib,
     required Uri output,
     Uri? outputObjC,
     SymbolFile? symbolFile,
@@ -247,9 +242,6 @@ abstract interface class FfiGen {
     ExternalVersions externalVersions = const ExternalVersions(),
   }) => ConfigImpl(
     filename: filename == null ? null : Uri.file(filename.toFilePath()),
-    libclangDylib: Uri.file(
-      libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(logger),
-    ),
     output: Uri.file(output.toFilePath()),
     outputObjC: Uri.file(
       outputObjC?.toFilePath() ?? '${output.toFilePath()}.m',
@@ -258,7 +250,7 @@ abstract interface class FfiGen {
     language: language,
     entryPoints: entryPoints,
     shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-    compilerOpts: compilerOpts ?? defaultCompilerOpts(logger),
+    compilerOpts: compilerOpts,
     varArgFunctions: varArgFunctions,
     functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
     structDecl: structDecl ?? DeclarationFilters.excludeAll,

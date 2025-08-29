@@ -72,7 +72,6 @@ void main() {
     const forceIncludedProtocols = {'NSTextLocation'};
 
     final config = FfiGen(
-      Logger.root,
       wrapperName: 'LargeObjCLibrary',
       language: Language.objc,
       output: Uri.file(outFile),
@@ -116,7 +115,7 @@ void main() {
 
     final timer = Stopwatch()..start();
     config.generate(
-      Logger.root
+      logger: Logger.root
         ..level = Level.SEVERE
         ..onRecord.listen((record) {
           printOnFailure('${record.level.name.padRight(8)}: ${record.message}');

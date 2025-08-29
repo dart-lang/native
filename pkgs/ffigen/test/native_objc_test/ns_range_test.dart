@@ -19,7 +19,6 @@ void main() {
     late final String bindings;
     setUpAll(() {
       FfiGen(
-        Logger.root,
         wrapperName: 'NSRangeTestObjCLibrary',
         language: Language.objc,
         output: Uri.file(
@@ -42,7 +41,7 @@ void main() {
         ],
         formatOutput: false,
         objcInterfaces: DeclarationFilters.include({'SFTranscriptionSegment'}),
-      ).generate(Logger.root..level = Level.SEVERE);
+      ).generate(logger: Logger.root..level = Level.SEVERE);
       bindings = File(
         path.join(
           packagePathForTests,

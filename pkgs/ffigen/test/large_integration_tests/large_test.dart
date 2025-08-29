@@ -25,9 +25,8 @@ void main() {
         'include',
       );
       final logArr = <String>[];
-      final logger = logToArray(logArr, Level.SEVERE);
+      logToArray(logArr, Level.SEVERE);
       final config = FfiGen(
-        logger,
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
@@ -119,7 +118,6 @@ void main() {
 
     test('CJSON test', () {
       final config = FfiGen(
-        Logger.root,
         wrapperName: 'CJson',
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
@@ -156,7 +154,6 @@ void main() {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
       final config = FfiGen(
-        Logger.root,
         wrapperName: 'SQLite',
         wrapperDocComment: 'Bindings to SQLite.',
         output: Uri.file('unused'),
