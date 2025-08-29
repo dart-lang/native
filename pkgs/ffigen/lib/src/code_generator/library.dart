@@ -35,7 +35,7 @@ class Library {
     header: config.preamble,
     generateForPackageObjectiveC: config.generateForPackageObjectiveC,
     libraryImports: config.libraryImports.values.toList(),
-    silenceEnumWarning: config.silenceEnumWarning,
+    silenceEnumWarning: config.enums.silenceWarning,
     nativeEntryPoints: config.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),

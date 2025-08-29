@@ -63,38 +63,29 @@ class FfiGenConfig {
   /// [ffigen.FfiGenerator.output]
   final Uri output;
 
-  /// [ffigen.FfiGenerator.outputObjC]
   final Uri outputObjC;
 
-  /// [ffigen.FfiGenerator.wrapperName]
-  /// Defaults to the swift module name.
   final String? wrapperName;
 
-  /// [ffigen.FfiGenerator.wrapperDocComment]
   final String? wrapperDocComment;
 
-  /// [ffigen.FfiGenerator.preamble]
   final String? preamble;
 
-  /// [ffigen.FfiGenerator.functionDecl]
+  /// [ffigen.FfiGenerator.functions]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? functionDecl;
+  final ffigen.Functions? functionDecl;
 
-  /// [ffigen.FfiGenerator.structDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? structDecl;
+  final ffigen.Structs? structDecl;
 
   /// [ffigen.FfiGenerator.unionDecl]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? unionDecl;
 
-  /// [ffigen.FfiGenerator.enumClassDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? enumClassDecl;
+  final ffigen.Enums? enumClassDecl;
 
   /// [ffigen.FfiGenerator.unnamedEnumConstants]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? unnamedEnumConstants;
+  final ffigen.UnnamedEnums? unnamedEnumConstants;
 
   /// [ffigen.FfiGenerator.globals]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]

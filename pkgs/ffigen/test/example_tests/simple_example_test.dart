@@ -22,7 +22,7 @@ void main() {
       final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'example_simple.dart', [
-        config.output.toFilePath(),
+        config.output.dartFile.toFilePath(),
       ]);
     });
   });

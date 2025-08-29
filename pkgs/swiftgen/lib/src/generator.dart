@@ -39,28 +39,34 @@ extension SwiftGenGenerator on SwiftGen {
   void _generateDartFile(Logger logger) {
     fg.FfiGenerator(
       language: fg.Language.objc,
-      output: ffigen.output,
-      outputObjC: ffigen.outputObjC,
-      wrapperName: ffigen.wrapperName ?? outModule,
-      wrapperDocComment: ffigen.wrapperDocComment,
-      preamble: ffigen.preamble,
-      functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
-      structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
+      output: fg.Output(
+        dartFile: ffigen.output,
+        objectiveCFile: ffigen.outputObjC,
+        preamble: ffigen.preamble,
+      ),
+      bindingStyle: fg.DynamicLibraryBindings(
+        wrapperName: ffigen.wrapperName ?? outModule,
+        wrapperDocComment: ffigen.wrapperDocComment,
+      ),
+      functions: ffigen.functionDecl ?? fg.Functions.excludeAll,
+      structs: ffigen.structDecl ?? fg.Structs.excludeAll,
       unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,
-      enumClassDecl: ffigen.enumClassDecl ?? fg.DeclarationFilters.excludeAll,
+      enums: ffigen.enumClassDecl ?? fg.Enums.excludeAll,
       unnamedEnumConstants:
-          ffigen.unnamedEnumConstants ?? fg.DeclarationFilters.excludeAll,
+          ffigen.unnamedEnumConstants ?? fg.UnnamedEnums.excludeAll,
       globals: ffigen.globals ?? fg.DeclarationFilters.excludeAll,
       macroDecl: ffigen.macroDecl ?? fg.DeclarationFilters.excludeAll,
       typedefs: ffigen.typedefs ?? fg.DeclarationFilters.excludeAll,
       objcInterfaces: ffigen.objcInterfaces ?? fg.DeclarationFilters.excludeAll,
       objcProtocols: ffigen.objcProtocols ?? fg.DeclarationFilters.excludeAll,
       objcCategories: ffigen.objcCategories ?? fg.DeclarationFilters.excludeAll,
-      entryPoints: [Uri.file(objcHeader)],
-      compilerOpts: [
-        ...fg.defaultCompilerOpts(logger),
-        '-Wno-nullability-completeness',
-      ],
+      headers: fg.Headers(
+        entryPoints: [Uri.file(objcHeader)],
+        compilerOpts: [
+          ...fg.defaultCompilerOpts(logger),
+          '-Wno-nullability-completeness',
+        ],
+      ),
       interfaceModule: (_) => outModule,
       protocolModule: (_) => outModule,
       externalVersions: ffigen.externalVersions,

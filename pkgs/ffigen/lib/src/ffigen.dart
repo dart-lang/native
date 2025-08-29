@@ -24,8 +24,8 @@ extension FfiGenGenerator on FfiGenerator {
     final library = parse(context);
 
     // Generate files for the parsed bindings.
-    final gen = File(output.toFilePath());
-    library.generateFile(gen, format: formatOutput);
+    final gen = File(config.output.toFilePath());
+    library.generateFile(gen, format: config.formatOutput);
     logger.info(
       _successPen('Finished, Bindings generated in ${gen.absolute.path}'),
     );
@@ -40,11 +40,11 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
-    if (symbolFile != null) {
-      final symbolFileGen = File(symbolFile!.output.toFilePath());
+    if (config.symbolFile != null) {
+      final symbolFileGen = File(config.symbolFile!.output.toFilePath());
       library.generateSymbolOutputFile(
         symbolFileGen,
-        symbolFile!.importPath.toString(),
+        config.symbolFile!.importPath.toString(),
       );
       logger.info(
         _successPen(

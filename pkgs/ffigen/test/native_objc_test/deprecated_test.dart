@@ -17,28 +17,34 @@ import '../test_utils.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
   FfiGenerator(
-    wrapperName: 'DeprecatedTestObjCLibrary',
-    wrapperDocComment: 'Tests API deprecation',
-    language: Language.objc,
-    output: Uri.file(
-      path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'deprecated_bindings.dart',
-      ),
+    bindingStyle: const DynamicLibraryBindings(
+      wrapperName: 'DeprecatedTestObjCLibrary',
+      wrapperDocComment: 'Tests API deprecation',
     ),
-    entryPoints: [
-      Uri.file(
+    language: Language.objc,
+    output: Output(
+      dartFile: Uri.file(
         path.join(
           packagePathForTests,
           'test',
           'native_objc_test',
-          'deprecated_test.m',
+          'deprecated_bindings.dart',
         ),
       ),
-    ],
-    formatOutput: false,
+      format: false,
+    ),
+    headers: Headers(
+      entryPoints: [
+        Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'deprecated_test.m',
+          ),
+        ),
+      ],
+    ),
     includeTransitiveObjCCategories: false,
     objcInterfaces: DeclarationFilters.include({
       'DeprecatedInterfaceMethods',
@@ -52,17 +58,11 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'DeprecatedCategoryMethods',
       'DeprecatedCategory',
     }),
-    functionDecl: DeclarationFilters.include({
-      'normalFunction',
-      'deprecatedFunction',
-    }),
-    structDecl: DeclarationFilters.include({
-      'NormalStruct',
-      'DeprecatedStruct',
-    }),
+    functions: Functions.include({'normalFunction', 'deprecatedFunction'}),
+    structs: Structs.include({'NormalStruct', 'DeprecatedStruct'}),
     unionDecl: DeclarationFilters.include({'NormalUnion', 'DeprecatedUnion'}),
-    enumClassDecl: DeclarationFilters.include({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnumConstants: DeclarationFilters.include({
+    enums: Enums.include({'NormalEnum', 'DeprecatedEnum'}),
+    unnamedEnumConstants: UnnamedEnums.include({
       'normalUnnamedEnum',
       'deprecatedUnnamedEnum',
     }),

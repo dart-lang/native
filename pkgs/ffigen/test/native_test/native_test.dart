@@ -53,7 +53,7 @@ void main() {
       try {
         final actual = outFile.readAsStringSync().replaceAll('\r', '');
         final expected = File(
-          path.join(config.output.toFilePath()),
+          path.join(config.output.dartFile.toFilePath()),
         ).readAsStringSync().replaceAll('\r', '');
         expect(actual, expected);
         if (outFile.existsSync()) {

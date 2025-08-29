@@ -17,8 +17,10 @@ import 'package:yaml/yaml.dart' as yaml;
 
 export 'package:ffigen/src/config_provider/utils.dart';
 
-Context testContext([FfiGenerator? generator]) =>
-    Context(Logger.root, generator ?? FfiGenerator(output: Uri.file('unused')));
+Context testContext([FfiGenerator? generator]) => Context(
+  Logger.root,
+  generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
+);
 
 extension LibraryTestExt on Library {
   /// Get a [Binding]'s generated string with a given name.

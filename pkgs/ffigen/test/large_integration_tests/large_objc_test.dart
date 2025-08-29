@@ -72,29 +72,66 @@ void main() {
     const forceIncludedProtocols = {'NSTextLocation'};
 
     final generator = FfiGenerator(
-      wrapperName: 'LargeObjCLibrary',
+      bindingStyle: const DynamicLibraryBindings(
+        wrapperName: 'LargeObjCLibrary',
+      ),
       language: Language.objc,
-      output: Uri.file(outFile),
-      outputObjC: Uri.file(outObjCFile),
-      entryPoints: [
-        Uri.file(
-          path.join(
-            packagePathForTests,
-            'test',
-            'large_integration_tests',
-            'large_objc_test.h',
+      headers: Headers(
+        entryPoints: [
+          Uri.file(
+            path.join(
+              packagePathForTests,
+              'test',
+              'large_integration_tests',
+              'large_objc_test.h',
+            ),
           ),
-        ),
-      ],
-      formatOutput: false,
+        ],
+      ),
+      output: Output(
+        dartFile: Uri.file(outFile),
+        objectiveCFile: Uri.file(outObjCFile),
+        format: false,
+        preamble: '''
+// ignore_for_file: camel_case_types
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_non_null_assertion
+// ignore_for_file: unused_element
+// ignore_for_file: unused_field
+''',
+      ),
       includeTransitiveObjCInterfaces: false,
       includeTransitiveObjCProtocols: false,
       includeTransitiveObjCCategories: false,
-      functionDecl: randomFilter('functionDecl'),
-      structDecl: randomFilter('structDecl'),
+      functions: () {
+        final filter = randomFilter('functionDecl');
+        return Functions(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
+      structs: () {
+        final filter = randomFilter('structDecl');
+        return Structs(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
       unionDecl: randomFilter('unionDecl'),
-      enumClassDecl: randomFilter('enumClassDecl'),
-      unnamedEnumConstants: randomFilter('unnamedEnumConstants'),
+      enums: () {
+        final filter = randomFilter('enums');
+        return Enums(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
+      unnamedEnumConstants: () {
+        final filter = randomFilter('unnamedEnumConstants');
+        return UnnamedEnums(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
       globals: randomFilter('globals'),
       typedefs: randomFilter('typedefs'),
       objcInterfaces: randomFilter('objcInterfaces'),
@@ -104,13 +141,6 @@ void main() {
         ios: Versions(min: Version(12, 0, 0)),
         macos: Versions(min: Version(10, 14, 0)),
       ),
-      preamble: '''
-// ignore_for_file: camel_case_types
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: unnecessary_non_null_assertion
-// ignore_for_file: unused_element
-// ignore_for_file: unused_field
-''',
     );
 
     final timer = Stopwatch()..start();
