@@ -26,7 +26,7 @@ void main() {
       );
       final logArr = <String>[];
       logToArray(logArr, Level.SEVERE);
-      final config = FfiGen(
+      final generator = FfiGenerator(
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
@@ -68,7 +68,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(testContext(config));
+      final library = parse(testContext(generator));
 
       matchLibraryWithExpected(
         library,
@@ -120,7 +120,7 @@ void main() {
     });
 
     test('CJSON test', () {
-      final config = FfiGen(
+      final generator = FfiGenerator(
         wrapperName: 'CJson',
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
@@ -144,7 +144,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(testContext(config));
+      final library = parse(testContext(generator));
 
       matchLibraryWithExpected(library, 'large_test_cjson.dart', [
         'test',
@@ -156,7 +156,7 @@ void main() {
     test('SQLite test', () {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
-      final config = FfiGen(
+      final generator = FfiGenerator(
         wrapperName: 'SQLite',
         wrapperDocComment: 'Bindings to SQLite.',
         output: Uri.file('unused'),
@@ -188,7 +188,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(testContext(config));
+      final library = parse(testContext(generator));
 
       matchLibraryWithExpected(library, 'large_test_sqlite.dart', [
         'test',

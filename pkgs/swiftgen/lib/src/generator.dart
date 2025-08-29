@@ -37,7 +37,7 @@ extension SwiftGenGenerator on SwiftGen {
   ], absTempDir);
 
   void _generateDartFile(Logger logger) {
-    fg.FfiGen(
+    fg.FfiGenerator(
       language: fg.Language.objc,
       output: ffigen.output,
       outputObjC: ffigen.outputObjC,

@@ -7,13 +7,13 @@ import 'dart:io';
 import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 
-import 'config_provider.dart' show Config, FfiGen;
+import 'config_provider.dart' show Config, FfiGenerator;
 import 'context.dart';
 import 'header_parser.dart' show parse;
 
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
-extension FfiGenGenerator on FfiGen {
+extension FfiGenGenerator on FfiGenerator {
   /// Runs the entire generation pipeline for the given config.
   void generate({required Logger? logger, Uri? libclangDylib}) {
     logger ??= Logger.detached('dev/null')..level = Level.OFF;
