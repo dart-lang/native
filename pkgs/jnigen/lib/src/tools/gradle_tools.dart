@@ -68,6 +68,8 @@ class GradleTools {
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, String targetDir) async {
+    // TODO(https://github.com/dart-lang/native/issues/2579): Make this use
+    // gradle as well, instead of manually downloading deps via http.
     for (final dep in deps) {
       final targetFile = File(join(targetDir, dep.filename()));
       await targetFile.parent.create(recursive: true);
@@ -75,6 +77,7 @@ class GradleTools {
       await targetFile
           .writeAsBytes(await http.readBytes(Uri.parse(sourceJarLocation)));
     }
+    await _runGradleCommand(deps, extractSources: true, targetDir);
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
@@ -126,6 +129,19 @@ class GradleTools {
     }
     
     tasks.register<Copy>("copyJars") {
+      from(configurations.runtimeClasspath)
+      into("$targetDir")
+    }
+
+    tasks.register<Copy>("extractSourceJars") {
+      duplicatesStrategy = DuplicatesStrategy.INCLUDE
+      val sourcesDir = fileTree("$targetDir")
+      sourcesDir.forEach {
+        if (it.name.endsWith(".jar")) {
+          from(zipTree(it))
+          into("$targetDir")
+        }
+      }      
       from(configurations.runtimeClasspath)
       into("$targetDir")
     }
