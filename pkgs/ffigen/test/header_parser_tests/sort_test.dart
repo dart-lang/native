@@ -20,16 +20,18 @@ void main() {
         testContext(
           FfiGenerator(
             output: Uri.file('unused'),
-            entryPoints: [
-              Uri.file(
-                path.join(
-                  packagePathForTests,
-                  'test',
-                  'header_parser_tests',
-                  'sort.h',
+            headers: Headers(
+              entryPoints: [
+                Uri.file(
+                  path.join(
+                    packagePathForTests,
+                    'test',
+                    'header_parser_tests',
+                    'sort.h',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
             structDecl: DeclarationFilters.includeAll,
             unionDecl: DeclarationFilters.includeAll,
             typedefs: DeclarationFilters.includeAll,

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ffi';
+
 import 'package:logging/logging.dart';
 
 import '../code_generator.dart';
@@ -12,6 +14,11 @@ import 'config_types.dart';
 /// headers.
 // TODO: Add a code snippet example.
 final class FfiGenerator {
+  final BindingStyle bindingStyle;
+
+  /// The configuration for header parsing of [FfiGenerator].
+  final Headers headers;
+
   /// Input config filename, if any.
   final Uri? filename;
 
@@ -31,18 +38,6 @@ final class FfiGenerator {
 
   /// Language that ffigen is consuming.
   final Language language;
-
-  /// Path to headers. May not contain globs.
-  final List<Uri> entryPoints;
-
-  /// Whether to include a specific header. This exists in addition to
-  /// [entryPoints] to allow filtering of transitively included headers.
-  final bool Function(Uri header) shouldIncludeHeader;
-
-  static bool _shouldIncludeHeaderDefault(Uri header) => true;
-
-  /// CommandLine Arguments to pass to clang_compiler.
-  final List<String>? compilerOpts;
 
   /// VarArg function handling.
   final Map<String, List<VarArgFunction>> varArgFunctions;
@@ -194,12 +189,6 @@ final class FfiGenerator {
 
   static String? _protocolModuleDefault(Declaration declaration) => null;
 
-  /// Name of the wrapper class.
-  final String wrapperName;
-
-  /// Doc comment for the wrapper class.
-  final String? wrapperDocComment;
-
   /// Header of the generated bindings.
   final String? preamble;
 
@@ -232,12 +221,6 @@ final class FfiGenerator {
 
   static bool _unnamedEnumsShouldBeIntDefault(Declaration declaration) => false;
 
-  /// Config options for @Native annotations.
-  final FfiNativeConfig ffiNativeConfig;
-
-  /// Where to ignore compiler warnings/errors in source header files.
-  final bool ignoreSourceErrors;
-
   /// Whether to format the output file.
   final bool formatOutput;
 
@@ -246,14 +229,13 @@ final class FfiGenerator {
   final ExternalVersions externalVersions;
 
   FfiGenerator({
+    this.bindingStyle = const NativeExternalBindings(),
+    this.headers = const Headers(),
     this.filename,
     required this.output,
     this.outputObjC,
     this.symbolFile,
     this.language = Language.c,
-    this.entryPoints = const <Uri>[],
-    this.shouldIncludeHeader = _shouldIncludeHeaderDefault,
-    this.compilerOpts,
     this.varArgFunctions = const <String, List<VarArgFunction>>{},
     this.functionDecl = DeclarationFilters.excludeAll,
     this.structDecl = DeclarationFilters.excludeAll,
@@ -285,8 +267,6 @@ final class FfiGenerator {
     this.structPackingOverride = _structPackingOverrideDefault,
     this.interfaceModule = _interfaceModuleDefault,
     this.protocolModule = _protocolModuleDefault,
-    this.wrapperName = 'NativeLibrary',
-    this.wrapperDocComment,
     this.preamble,
     this.useDartHandle = true,
     this.silenceEnumWarning = false,
@@ -294,8 +274,6 @@ final class FfiGenerator {
     this.isLeafFunction = _isLeafFunctionDefault,
     this.enumShouldBeInt = _enumShouldBeIntDefault,
     this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
-    this.ffiNativeConfig = const FfiNativeConfig(enabled: false),
-    this.ignoreSourceErrors = false,
     this.formatOutput = true,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
@@ -309,7 +287,94 @@ final class FfiGenerator {
   }
 }
 
+/// The configuration for header parsing of [FfiGenerator].
+final class Headers {
+  /// Path to headers. May not contain globs.
+  final List<Uri> entryPoints;
+
+  /// Whether to include a specific header. This exists in addition to
+  /// [entryPoints] to allow filtering of transitively included headers.
+  final bool Function(Uri header) shouldInclude;
+
+  static bool _shouldIncludeDefault(Uri header) => true;
+
+  /// CommandLine Arguments to pass to clang_compiler.
+  final List<String>? compilerOpts;
+
+  /// Where to ignore compiler warnings/errors in source header files.
+  final bool ignoreSourceErrors;
+
+  const Headers({
+    this.entryPoints = const [],
+    this.shouldInclude = _shouldIncludeDefault,
+    this.compilerOpts,
+    this.ignoreSourceErrors = false,
+  });
+}
+
+/// The style of `dart:ffi` bindings to generate.
+///
+/// Either static bindings ([NativeExternalBindings]) or dynamic bindings
+///  ([DynamicLibraryBindings]).
+sealed class BindingStyle {}
+
+/// Generate bindings with [Native] external functions.
+final class NativeExternalBindings implements BindingStyle {
+  /// The asset id to use for the [Native] annotations.
+  ///
+  /// If omitted, it will not be generated.
+  final String? assetId;
+
+  const NativeExternalBindings({this.assetId});
+}
+
+/// Generate bindings which take a [DynamicLibrary] or [DynamicLibrary.lookup]
+/// parameter.
+///
+/// Generates a wrapper class which takes takes a [DynamicLibrary] or lookup
+/// function in its constructor.
+///
+/// To generate static bindings use [NativeExternalBindings].
+final class DynamicLibraryBindings implements BindingStyle {
+  /// Name of the wrapper class.
+  final String wrapperName;
+
+  /// Doc comment for the wrapper class.
+  final String? wrapperDocComment;
+
+  const DynamicLibraryBindings({
+    this.wrapperName = 'NativeLibrary',
+    this.wrapperDocComment,
+  });
+}
+
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
+  String get wrapperName => switch (bindingStyle) {
+    final DynamicLibraryBindings e => e.wrapperName,
+    _ => 'DoesNotExist',
+  };
+
+  String? get wrapperDocComment => switch (bindingStyle) {
+    final DynamicLibraryBindings e => e.wrapperDocComment,
+    _ => null,
+  };
+
+  FfiNativeConfig get ffiNativeConfig => FfiNativeConfig(
+    enabled: bindingStyle is NativeExternalBindings,
+    assetId: switch (bindingStyle) {
+      final NativeExternalBindings e => e.assetId,
+      _ => null,
+    },
+  );
+
+  bool shouldIncludeHeader(Uri header) => ffiGen.headers.shouldInclude(header);
+
+  bool get ignoreSourceErrors => ffiGen.headers.ignoreSourceErrors;
+
+  List<String>? get compilerOpts => ffiGen.headers.compilerOpts;
+
+  List<Uri> get entryPoints => ffiGen.headers.entryPoints;
+
   Map<String, LibraryImport> get libraryImports => ffiGen._libraryImports;
 
   Map<String, ImportedType> get typedefTypeMappings =>

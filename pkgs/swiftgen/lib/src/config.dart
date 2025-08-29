@@ -66,11 +66,8 @@ class FfiGenConfig {
   /// [ffigen.FfiGenerator.outputObjC]
   final Uri outputObjC;
 
-  /// [ffigen.FfiGenerator.wrapperName]
-  /// Defaults to the swift module name.
   final String? wrapperName;
 
-  /// [ffigen.FfiGenerator.wrapperDocComment]
   final String? wrapperDocComment;
 
   /// [ffigen.FfiGenerator.preamble]

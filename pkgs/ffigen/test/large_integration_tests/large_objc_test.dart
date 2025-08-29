@@ -72,20 +72,24 @@ void main() {
     const forceIncludedProtocols = {'NSTextLocation'};
 
     final generator = FfiGenerator(
-      wrapperName: 'LargeObjCLibrary',
+      bindingStyle: const DynamicLibraryBindings(
+        wrapperName: 'LargeObjCLibrary',
+      ),
       language: Language.objc,
       output: Uri.file(outFile),
       outputObjC: Uri.file(outObjCFile),
-      entryPoints: [
-        Uri.file(
-          path.join(
-            packagePathForTests,
-            'test',
-            'large_integration_tests',
-            'large_objc_test.h',
+      headers: Headers(
+        entryPoints: [
+          Uri.file(
+            path.join(
+              packagePathForTests,
+              'test',
+              'large_integration_tests',
+              'large_objc_test.h',
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
       formatOutput: false,
       includeTransitiveObjCInterfaces: false,
       includeTransitiveObjCProtocols: false,

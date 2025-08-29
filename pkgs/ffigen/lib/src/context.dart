@@ -41,7 +41,7 @@ class Context {
     : config = Config(generator),
       cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
-        generator.wrapperName,
+        Config(generator).wrapperName,
         generator.generateForPackageObjectiveC,
       ) {
     final libclangDylibPath =

@@ -1237,14 +1237,23 @@ final class YamlConfig {
   }
 
   FfiGenerator configAdapter() => FfiGenerator(
+    bindingStyle: ffiNativeConfig.enabled
+        ? NativeExternalBindings(assetId: ffiNativeConfig.assetId)
+        : DynamicLibraryBindings(
+            wrapperName: wrapperName,
+            wrapperDocComment: wrapperDocComment,
+          ),
+    headers: Headers(
+      compilerOpts: compilerOpts,
+      entryPoints: entryPoints,
+      shouldInclude: shouldIncludeHeader,
+      ignoreSourceErrors: ignoreSourceErrors,
+    ),
     output: output,
     filename: filename,
     outputObjC: outputObjC,
     symbolFile: symbolFile,
     language: language,
-    entryPoints: entryPoints,
-    shouldIncludeHeader: shouldIncludeHeader,
-    compilerOpts: compilerOpts,
     varArgFunctions: varArgFunctions,
     functionDecl: functionDecl.configAdapter(),
     structDecl: structDecl.configAdapter(),
@@ -1276,8 +1285,6 @@ final class YamlConfig {
     structPackingOverride: structPackingOverride,
     interfaceModule: interfaceModule,
     protocolModule: protocolModule,
-    wrapperName: wrapperName,
-    wrapperDocComment: wrapperDocComment,
     preamble: preamble,
     useDartHandle: useDartHandle,
     silenceEnumWarning: silenceEnumWarning,
@@ -1285,8 +1292,6 @@ final class YamlConfig {
     isLeafFunction: isLeafFunction,
     enumShouldBeInt: enumShouldBeInt,
     unnamedEnumsShouldBeInt: unnamedEnumsShouldBeInt,
-    ffiNativeConfig: ffiNativeConfig,
-    ignoreSourceErrors: ignoreSourceErrors,
     formatOutput: formatOutput,
     externalVersions: externalVersions,
     // ignore: deprecated_member_use_from_same_package

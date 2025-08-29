@@ -20,8 +20,10 @@ String generate({
   bool includeTransitiveObjCCategories = false,
 }) {
   FfiGenerator(
-    wrapperName: 'TransitiveTestObjCLibrary',
-    wrapperDocComment: 'Tests transitive inclusion',
+    bindingStyle: const DynamicLibraryBindings(
+      wrapperName: 'TransitiveTestObjCLibrary',
+      wrapperDocComment: 'Tests transitive inclusion',
+    ),
     language: Language.objc,
     output: Uri.file(
       path.join(
@@ -31,16 +33,18 @@ String generate({
         'transitive_bindings.dart',
       ),
     ),
-    entryPoints: [
-      Uri.file(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'transitive_test.h',
+    headers: Headers(
+      entryPoints: [
+        Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'transitive_test.h',
+          ),
         ),
-      ),
-    ],
+      ],
+    ),
     formatOutput: false,
     objcInterfaces: DeclarationFilters.include({
       'DirectlyIncluded',

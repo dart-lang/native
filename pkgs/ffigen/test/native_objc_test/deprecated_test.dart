@@ -17,8 +17,10 @@ import '../test_utils.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
   FfiGenerator(
-    wrapperName: 'DeprecatedTestObjCLibrary',
-    wrapperDocComment: 'Tests API deprecation',
+    bindingStyle: const DynamicLibraryBindings(
+      wrapperName: 'DeprecatedTestObjCLibrary',
+      wrapperDocComment: 'Tests API deprecation',
+    ),
     language: Language.objc,
     output: Uri.file(
       path.join(
@@ -28,16 +30,18 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         'deprecated_bindings.dart',
       ),
     ),
-    entryPoints: [
-      Uri.file(
-        path.join(
-          packagePathForTests,
-          'test',
-          'native_objc_test',
-          'deprecated_test.m',
+    headers: Headers(
+      entryPoints: [
+        Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'deprecated_test.m',
+          ),
         ),
-      ),
-    ],
+      ],
+    ),
     formatOutput: false,
     includeTransitiveObjCCategories: false,
     objcInterfaces: DeclarationFilters.include({

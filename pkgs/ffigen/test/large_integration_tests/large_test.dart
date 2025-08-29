@@ -27,35 +27,39 @@ void main() {
       final logArr = <String>[];
       logToArray(logArr, Level.SEVERE);
       final generator = FfiGenerator(
-        wrapperName: 'LibClang',
-        wrapperDocComment: 'Bindings to LibClang.',
+        bindingStyle: const DynamicLibraryBindings(
+          wrapperName: 'LibClang',
+          wrapperDocComment: 'Bindings to LibClang.',
+        ),
         output: Uri.file('unused'),
-        compilerOpts: [...defaultCompilerOpts(Logger.root), '-I$includeDir'],
         commentType: const CommentType(
           CommentStyle.doxygen,
           CommentLength.brief,
         ),
-        entryPoints: [
-          Uri.file(
-            path.join(
-              packagePathForTests,
-              'third_party',
-              'libclang',
-              'include',
-              'clang-c',
-              'Index.h',
+        headers: Headers(
+          compilerOpts: [...defaultCompilerOpts(Logger.root), '-I$includeDir'],
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'third_party',
+                'libclang',
+                'include',
+                'clang-c',
+                'Index.h',
+              ),
             ),
-          ),
-        ],
-        shouldIncludeHeader: (Uri header) => [
-          'BuildSystem.h',
-          'CXCompilationDatabase.h',
-          'CXErrorCode.h',
-          'CXString.h',
-          'Documentation.h',
-          'FataErrorHandler.h',
-          'Index.h',
-        ].any((filename) => header.pathSegments.last == filename),
+          ],
+          shouldInclude: (Uri header) => [
+            'BuildSystem.h',
+            'CXCompilationDatabase.h',
+            'CXErrorCode.h',
+            'CXString.h',
+            'Documentation.h',
+            'FataErrorHandler.h',
+            'Index.h',
+          ].any((filename) => header.pathSegments.last == filename),
+        ),
         functionDecl: DeclarationFilters.includeAll,
         structDecl: DeclarationFilters.includeAll,
         enumClassDecl: DeclarationFilters.includeAll,
@@ -121,21 +125,24 @@ void main() {
 
     test('CJSON test', () {
       final generator = FfiGenerator(
-        wrapperName: 'CJson',
-        wrapperDocComment: 'Bindings to Cjson.',
+        bindingStyle: const DynamicLibraryBindings(
+          wrapperName: 'CJson',
+          wrapperDocComment: 'Bindings to Cjson.',
+        ),
         output: Uri.file('unused'),
-        entryPoints: [
-          Uri.file(
-            path.join(
-              packagePathForTests,
-              'third_party',
-              'cjson_library',
-              'cJSON.h',
+        headers: Headers(
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'third_party',
+                'cjson_library',
+                'cJSON.h',
+              ),
             ),
-          ),
-        ],
-        shouldIncludeHeader: (Uri header) =>
-            header.pathSegments.last == 'cJSON.h',
+          ],
+          shouldInclude: (Uri header) => header.pathSegments.last == 'cJSON.h',
+        ),
         functionDecl: DeclarationFilters.includeAll,
         structDecl: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
@@ -157,22 +164,26 @@ void main() {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
       final generator = FfiGenerator(
-        wrapperName: 'SQLite',
-        wrapperDocComment: 'Bindings to SQLite.',
+        bindingStyle: const DynamicLibraryBindings(
+          wrapperName: 'SQLite',
+          wrapperDocComment: 'Bindings to SQLite.',
+        ),
         output: Uri.file('unused'),
         commentType: const CommentType(CommentStyle.any, CommentLength.full),
-        entryPoints: [
-          Uri.file(
-            path.join(
-              packagePathForTests,
-              'third_party',
-              'sqlite',
-              'sqlite3.h',
+        headers: Headers(
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'third_party',
+                'sqlite',
+                'sqlite3.h',
+              ),
             ),
-          ),
-        ],
-        shouldIncludeHeader: (Uri header) =>
-            header.pathSegments.last == 'sqlite3.h',
+          ],
+          shouldInclude: (Uri header) =>
+              header.pathSegments.last == 'sqlite3.h',
+        ),
         functionDecl: DeclarationFilters(
           shouldInclude: (declaration) => !{
             'sqlite3_vmprintf',

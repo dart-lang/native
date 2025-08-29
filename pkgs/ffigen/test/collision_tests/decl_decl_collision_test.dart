@@ -16,7 +16,6 @@ void main() {
     });
     test('declaration conflict', () {
       final generator = FfiGenerator(
-        entryPoints: [],
         output: Uri(),
         functionDecl: DeclarationFilters.includeAll,
         structDecl: DeclarationFilters.includeAll,

@@ -13,14 +13,18 @@ library;
 export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
 export 'src/config_provider.dart'
     show
+        BindingStyle,
         CommentType,
         CompoundDependencies,
         Declaration,
         DeclarationFilters,
+        DynamicLibraryBindings,
         ExternalVersions,
         FfiGenerator,
         FfiNativeConfig,
+        Headers,
         Language,
+        NativeExternalBindings,
         PackingValue,
         SymbolFile,
         VarArgFunction,

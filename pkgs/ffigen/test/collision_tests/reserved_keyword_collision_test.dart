@@ -20,16 +20,19 @@ void main() {
         testContext(
           FfiGenerator(
             output: Uri.file('unused'),
-            entryPoints: [
-              Uri.file(
-                path.join(
-                  packagePathForTests,
-                  'test',
-                  'collision_tests',
-                  'reserved_keyword_collision.h',
+            bindingStyle: const DynamicLibraryBindings(),
+            headers: Headers(
+              entryPoints: [
+                Uri.file(
+                  path.join(
+                    packagePathForTests,
+                    'test',
+                    'collision_tests',
+                    'reserved_keyword_collision.h',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
             structDecl: DeclarationFilters.includeAll,
             unionDecl: DeclarationFilters.includeAll,
             enumClassDecl: DeclarationFilters.includeAll,

@@ -41,8 +41,10 @@ extension SwiftGenGenerator on SwiftGen {
       language: fg.Language.objc,
       output: ffigen.output,
       outputObjC: ffigen.outputObjC,
-      wrapperName: ffigen.wrapperName ?? outModule,
-      wrapperDocComment: ffigen.wrapperDocComment,
+      bindingStyle: fg.DynamicLibraryBindings(
+        wrapperName: ffigen.wrapperName ?? outModule,
+        wrapperDocComment: ffigen.wrapperDocComment,
+      ),
       preamble: ffigen.preamble,
       functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
       structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
@@ -56,11 +58,13 @@ extension SwiftGenGenerator on SwiftGen {
       objcInterfaces: ffigen.objcInterfaces ?? fg.DeclarationFilters.excludeAll,
       objcProtocols: ffigen.objcProtocols ?? fg.DeclarationFilters.excludeAll,
       objcCategories: ffigen.objcCategories ?? fg.DeclarationFilters.excludeAll,
-      entryPoints: [Uri.file(objcHeader)],
-      compilerOpts: [
-        ...fg.defaultCompilerOpts(logger),
-        '-Wno-nullability-completeness',
-      ],
+      headers: fg.Headers(
+        entryPoints: [Uri.file(objcHeader)],
+        compilerOpts: [
+          ...fg.defaultCompilerOpts(logger),
+          '-Wno-nullability-completeness',
+        ],
+      ),
       interfaceModule: (_) => outModule,
       protocolModule: (_) => outModule,
       externalVersions: ffigen.externalVersions,

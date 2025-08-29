@@ -41,7 +41,9 @@ void main() {
       final library = Library(
         context: testContext(
           FfiGenerator(
-            ffiNativeConfig: nativeConfig,
+            bindingStyle: nativeConfig.enabled
+                ? const NativeExternalBindings()
+                : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
             output: Uri.file('unused'),
           ),
         ),
