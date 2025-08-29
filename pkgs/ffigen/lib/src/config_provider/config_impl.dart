@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:package_config/package_config.dart';
-
 import '../code_generator.dart';
 import 'config.dart';
 import 'config_types.dart';
@@ -11,9 +9,6 @@ import 'config_types.dart';
 class ConfigImpl implements FfiGen {
   @override
   final Uri? filename;
-
-  @override
-  final PackageConfig? packageConfig;
 
   @override
   final Uri libclangDylib;
@@ -189,7 +184,6 @@ class ConfigImpl implements FfiGen {
 
   ConfigImpl({
     required this.filename,
-    required this.packageConfig,
     required this.libclangDylib,
     required this.output,
     required this.outputObjC,
