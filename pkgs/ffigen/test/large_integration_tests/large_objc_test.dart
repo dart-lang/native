@@ -22,21 +22,15 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 Future<int> run(String exe, List<String> args) async {
-  final process =
-      await Process.start(
-        exe,
-        args,
-
-        // mode: ProcessStartMode.inheritStdio,
-      ).then((process) {
-        process.stdout
-            .transform(utf8.decoder)
-            .forEach((s) => printOnFailure('  $s'));
-        process.stderr
-            .transform(utf8.decoder)
-            .forEach((s) => printOnFailure('  $s'));
-        return process;
-      });
+  final process = await Process.start(exe, args).then((process) {
+    process.stdout
+        .transform(utf8.decoder)
+        .forEach((s) => printOnFailure('  $s'));
+    process.stderr
+        .transform(utf8.decoder)
+        .forEach((s) => printOnFailure('  $s'));
+    return process;
+  });
   return await process.exitCode;
 }
 
