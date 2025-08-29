@@ -325,7 +325,15 @@ final class NativeExternalBindings implements BindingStyle {
   /// If omitted, it will not be generated.
   final String? assetId;
 
-  const NativeExternalBindings({this.assetId});
+  /// Not the name of the wrapper class!
+  // TODO(https://github.com/dart-lang/native/issues/2580): Can we get rid of
+  // this?
+  final String wrapperName;
+
+  const NativeExternalBindings({
+    this.assetId,
+    this.wrapperName = 'NativeLibrary',
+  });
 }
 
 /// Generate bindings which take a [DynamicLibrary] or [DynamicLibrary.lookup]
@@ -351,7 +359,7 @@ final class DynamicLibraryBindings implements BindingStyle {
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   String get wrapperName => switch (bindingStyle) {
     final DynamicLibraryBindings e => e.wrapperName,
-    _ => 'DoesNotExist',
+    final NativeExternalBindings e => e.wrapperName,
   };
 
   String? get wrapperDocComment => switch (bindingStyle) {
