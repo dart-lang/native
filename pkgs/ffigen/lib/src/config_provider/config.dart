@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:logging/logging.dart';
-import 'package:package_config/package_config.dart';
 
 import '../code_generator.dart';
 import 'config_impl.dart';
@@ -14,9 +13,6 @@ import 'spec_utils.dart';
 abstract interface class FfiGen {
   /// Input config filename, if any.
   Uri? get filename;
-
-  /// Package config.
-  PackageConfig? get packageConfig;
 
   /// Path to the clang library.
   Uri get libclangDylib;
@@ -196,7 +192,6 @@ abstract interface class FfiGen {
   factory FfiGen(
     Logger logger, {
     Uri? filename,
-    PackageConfig? packageConfig,
     Uri? libclangDylib,
     required Uri output,
     Uri? outputObjC,
@@ -252,7 +247,6 @@ abstract interface class FfiGen {
     ExternalVersions externalVersions = const ExternalVersions(),
   }) => ConfigImpl(
     filename: filename == null ? null : Uri.file(filename.toFilePath()),
-    packageConfig: packageConfig,
     libclangDylib: Uri.file(
       libclangDylib?.toFilePath() ?? findDylibAtDefaultLocations(logger),
     ),

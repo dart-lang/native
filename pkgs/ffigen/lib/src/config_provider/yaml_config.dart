@@ -27,7 +27,6 @@ class YamlConfig implements FfiGen {
   final Uri? filename;
 
   /// Package config.
-  @override
   final PackageConfig? packageConfig;
 
   /// Path to the clang library.
