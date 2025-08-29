@@ -17,7 +17,7 @@ class Command {
 }
 
 /// Used to configure Swift2ObjC wrapper generation.
-class Config {
+class Swift2ObjCGenerator {
   /// The inputs to generate a wrapper for.
   /// See `FilesInputConfig` and `ModuleInputConfig`;
   final List<InputConfig> inputs;
@@ -52,14 +52,14 @@ class Config {
 
   static bool _defaultInclude(Declaration _) => true;
 
-  const Config({
+  const Swift2ObjCGenerator({
     required this.inputs,
     required this.outputFile,
     this.target,
     this.sdk,
     this.tempDir,
     this.preamble,
-    this.include = Config._defaultInclude,
+    this.include = Swift2ObjCGenerator._defaultInclude,
   });
 }
 

@@ -11,6 +11,7 @@ import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/declarations/typealias_declaration.dart';
 import '../ast/visitor.dart';
+import '../context.dart';
 import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
@@ -30,18 +31,25 @@ class TransformationState {
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
 List<Declaration> transform(
+  Context context,
   List<Declaration> declarations, {
   required bool Function(Declaration) filter,
 }) {
   final state = TransformationState();
 
-  final includes = visit(FindIncludesVisitation(filter), declarations).includes;
+  final includes = visit(
+    context,
+    FindIncludesVisitation(filter),
+    declarations,
+  ).includes;
   final directTransitives = visit(
+    context,
     FindDirectTransitiveDepsVisitation(includes),
     includes,
   ).directTransitives;
   state.bindings.addAll(includes.union(directTransitives));
   final listDecls = visit(
+    context,
     ListDeclsVisitation(includes, directTransitives),
     state.bindings,
   );

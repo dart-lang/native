@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
@@ -35,17 +36,15 @@ void main([List<String>? args]) {
           '${p.basenameWithoutExtension(output)}.g.swift',
         );
 
-        await generateWrapper(
-          Config(
-            inputs: [
-              FilesInputConfig(files: [Uri.file(inputFile)]),
-            ],
-            outputFile: Uri.file(actualOutputFile),
-            tempDir: Directory(tempDir).uri,
-            preamble: '// Test preamble text',
-            include: include,
-          ),
-        );
+        await Swift2ObjCGenerator(
+          inputs: [
+            FilesInputConfig(files: [Uri.file(inputFile)]),
+          ],
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(tempDir).uri,
+          preamble: '// Test preamble text',
+          include: include,
+        ).generate(logger: Logger.root);
 
         if (regen) {
           File(actualOutputFile).copySync(output);

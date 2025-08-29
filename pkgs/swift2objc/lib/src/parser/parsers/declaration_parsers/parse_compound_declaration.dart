@@ -11,6 +11,7 @@ import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
 import '../../../config.dart';
+import '../../../context.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import '../parse_declarations.dart';
@@ -28,6 +29,7 @@ typedef CompoundTearOff<T extends CompoundDeclaration> =
     });
 
 T _parseCompoundDeclaration<T extends CompoundDeclaration>(
+  Context context,
   ParsedSymbol symbol,
   CompoundTearOff<T> tearoffConstructor,
   ParsedSymbolgraph symbolgraph,
@@ -62,7 +64,7 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
         if (memberSymbol == null) {
           return null;
         }
-        return tryParseDeclaration(memberSymbol, symbolgraph);
+        return tryParseDeclaration(context, memberSymbol, symbolgraph);
       })
       .nonNulls
       .dedupeBy((decl) => decl.id)
@@ -91,10 +93,12 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
 }
 
 ClassDeclaration parseClassDeclaration(
+  Context context,
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
   return _parseCompoundDeclaration(
+    context,
     classSymbol,
     ClassDeclaration.new,
     symbolgraph,
@@ -102,10 +106,12 @@ ClassDeclaration parseClassDeclaration(
 }
 
 StructDeclaration parseStructDeclaration(
+  Context context,
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
   return _parseCompoundDeclaration(
+    context,
     classSymbol,
     StructDeclaration.new,
     symbolgraph,

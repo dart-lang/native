@@ -5,6 +5,7 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
+import '../../context.dart';
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/token_list.dart';
@@ -15,12 +16,18 @@ import 'parse_declarations.dart';
 /// Returns the parsed type, and a Json slice of the remaining fragments that
 /// weren't part of the type.
 (ReferredType, TokenList) parseType(
+  Context context,
   ParsedSymbolgraph symbolgraph,
   TokenList fragments,
 ) {
-  var (type, suffix) = _parsePrefixTypeExpression(symbolgraph, fragments);
+  var (type, suffix) = _parsePrefixTypeExpression(
+    context,
+    symbolgraph,
+    fragments,
+  );
   while (true) {
     final (nextType, nextSuffix) = _maybeParseSuffixTypeExpression(
+      context,
       symbolgraph,
       type,
       suffix,
@@ -36,19 +43,21 @@ import 'parse_declarations.dart';
 // at the beginning of the list of fragments). If we were parsing a programming
 // language, these would be things like `123` or `-x`.
 (ReferredType, TokenList) _parsePrefixTypeExpression(
+  Context context,
   ParsedSymbolgraph symbolgraph,
   TokenList fragments,
 ) {
   final token = fragments[0];
   final parselet = _prefixParsets[_tokenId(token)];
   if (parselet == null) throw Exception('Invalid type at "${token.path}"');
-  return parselet(symbolgraph, token, fragments.slice(1));
+  return parselet(context, symbolgraph, token, fragments.slice(1));
 }
 
 // Suffix expressions are infix operators or suffix operators (basically
 // anything that isn't a prefix). If we were parsing a programming language,
 // these would be things like `x + y`, `z!`, or even `x ? y : z`.
 (ReferredType?, TokenList) _maybeParseSuffixTypeExpression(
+  Context context,
   ParsedSymbolgraph symbolgraph,
   ReferredType prefixType,
   TokenList fragments,
@@ -57,7 +66,7 @@ import 'parse_declarations.dart';
   final token = fragments[0];
   final parselet = _suffixParsets[_tokenId(token)];
   if (parselet == null) return (null, fragments);
-  return parselet(symbolgraph, prefixType, token, fragments.slice(1));
+  return parselet(context, symbolgraph, prefixType, token, fragments.slice(1));
 }
 
 // For most tokens, we only care about the kind. But some tokens just have a
@@ -73,12 +82,14 @@ String _tokenId(Json token) {
 
 typedef PrefixParselet =
     (ReferredType, TokenList) Function(
+      Context context,
       ParsedSymbolgraph symbolgraph,
       Json token,
       TokenList fragments,
     );
 
 (ReferredType, TokenList) _typeIdentifierParselet(
+  Context context,
   ParsedSymbolgraph symbolgraph,
   Json token,
   TokenList fragments,
@@ -92,11 +103,12 @@ typedef PrefixParselet =
     );
   }
 
-  final type = parseDeclaration(symbol, symbolgraph).asDeclaredType;
+  final type = parseDeclaration(context, symbol, symbolgraph).asDeclaredType;
   return (type, fragments);
 }
 
 (ReferredType, TokenList) _tupleParselet(
+  Context context,
   ParsedSymbolgraph symbolgraph,
   Json token,
   TokenList fragments,
@@ -119,6 +131,7 @@ Map<String, PrefixParselet> _prefixParsets = {
 
 typedef SuffixParselet =
     (ReferredType, TokenList) Function(
+      Context context,
       ParsedSymbolgraph symbolgraph,
       ReferredType prefixType,
       Json token,
@@ -126,6 +139,7 @@ typedef SuffixParselet =
     );
 
 (ReferredType, TokenList) _optionalParselet(
+  Context context,
   ParsedSymbolgraph symbolgraph,
   ReferredType prefixType,
   Json token,
@@ -133,6 +147,7 @@ typedef SuffixParselet =
 ) => (OptionalType(prefixType), fragments);
 
 (ReferredType, TokenList) _nestedTypeParselet(
+  Context context,
   ParsedSymbolgraph symbolgraph,
   ReferredType prefixType,
   Json token,
@@ -141,7 +156,7 @@ typedef SuffixParselet =
   // Parsing Foo.Bar. Foo is in prefixType, and the token is ".". Bar's ID
   // is a globally uniquely identifier. We don't need to use Foo as a namespace.
   // So we can actually completely discard Foo and just parse Bar.
-  return parseType(symbolgraph, fragments);
+  return parseType(context, symbolgraph, fragments);
 }
 
 Map<String, SuffixParselet> _suffixParsets = {

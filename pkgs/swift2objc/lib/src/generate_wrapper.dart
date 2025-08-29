@@ -4,16 +4,31 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 
 import 'config.dart';
+import 'context.dart';
 import 'generator/generator.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
 import 'utils.dart';
 
-/// Used to generate the wrapper swift file.
-Future<void> generateWrapper(Config config) async {
+extension Swift2ObjCGeneratorMethod on Swift2ObjCGenerator {
+  /// Used to generate the wrapper swift file.
+  Future<void> generate({required Logger? logger}) => _generateWrapper(
+    this,
+    Context(
+      logger ?? Logger.detached('dev/null')
+        ..level = Level.OFF,
+    ),
+  );
+}
+
+Future<void> _generateWrapper(
+  Swift2ObjCGenerator config,
+  Context context,
+) async {
   final Directory tempDir;
   final bool deleteTempDirWhenDone;
 
@@ -63,8 +78,9 @@ Future<void> generateWrapper(Config config) async {
     mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
   }
 
-  final declarations = parseDeclarations(mergedSymbolgraph);
+  final declarations = parseDeclarations(context, mergedSymbolgraph);
   final transformedDeclarations = transform(
+    context,
     declarations,
     filter: config.include,
   );
