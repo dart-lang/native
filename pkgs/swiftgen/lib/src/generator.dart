@@ -38,7 +38,6 @@ extension SwiftGenGenerator on SwiftGen {
 
   void _generateDartFile(Logger logger) {
     fg.FfiGen(
-      logger,
       language: fg.Language.objc,
       output: ffigen.output,
       outputObjC: ffigen.outputObjC,
@@ -65,6 +64,6 @@ extension SwiftGenGenerator on SwiftGen {
       interfaceModuleFunc: (_) => outModule,
       protocolModuleFunc: (_) => outModule,
       externalVersions: ffigen.externalVersions,
-    ).generate(logger);
+    ).generate(logger: logger);
   }
 }
