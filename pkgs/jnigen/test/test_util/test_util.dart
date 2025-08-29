@@ -87,8 +87,11 @@ void comparePaths(String path1, String path2) {
   if (diffProc.exitCode != 0) {
     final originalDiff = diffProc.stdout;
     log.warning(
-        'Paths $path1 and $path2 differ, Running dart format on $path1.');
+      'Paths $path1 and $path2 differ, Running dart format on $path1 '
+      'and $path2.',
+    );
     Process.runSync('dart', ['format', path1]);
+    Process.runSync('dart', ['format', path2]);
     final fallbackDiffProc =
         Process.runSync('git', [...diffCommand, path1, path2]);
     if (fallbackDiffProc.exitCode != 0) {
