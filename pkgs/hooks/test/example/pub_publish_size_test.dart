@@ -15,7 +15,7 @@ void main() {
     final packageRoot = findPackageRoot('hooks');
 
     final dryRunResult = Process.runSync(
-      Platform.executable,
+      Platform.resolvedExecutable,
       ['pub', 'publish', '--dry-run'],
       workingDirectory: packageRoot.toFilePath(),
       stdoutEncoding: utf8,
