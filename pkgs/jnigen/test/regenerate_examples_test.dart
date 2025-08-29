@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
+// Random comment to trigger CI!
+
 /// Generates bindings using jnigen config in [exampleName] and compares
 /// them to provided reference outputs.
 ///
