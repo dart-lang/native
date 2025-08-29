@@ -50,7 +50,6 @@ class NativeLibrary {
   late final _sumPtr = _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>('sum');
   late final _sum = _sumPtr.asFunction<int Function(int, int)>();
 }
-}
 ```
 ## Using this package
 - Add `ffigen` under `dev_dependencies` in your `pubspec.yaml` (run `dart pub add -d ffigen`).
