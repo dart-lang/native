@@ -59,7 +59,7 @@ List<Binding> parseToBindings(Context context) {
     ],
 
     // Add the user options last so they can override any other options.
-    ...config.compilerOpts,
+    ...context.compilerOpts,
   ];
 
   context.logger.fine('CompilerOpts used: $compilerOpts');

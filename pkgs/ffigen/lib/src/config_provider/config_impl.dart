@@ -11,7 +11,7 @@ class ConfigImpl implements FfiGen {
   final Uri? filename;
 
   @override
-  final Uri libclangDylib;
+  Uri? get libclangDylib => null;
 
   @override
   final Uri output;
@@ -33,7 +33,7 @@ class ConfigImpl implements FfiGen {
   final bool Function(Uri header) shouldIncludeHeaderFunc;
 
   @override
-  final List<String> compilerOpts;
+  final List<String>? compilerOpts;
 
   @override
   final Map<String, List<VarArgFunction>> varArgFunctions;
@@ -184,7 +184,6 @@ class ConfigImpl implements FfiGen {
 
   ConfigImpl({
     required this.filename,
-    required this.libclangDylib,
     required this.output,
     required this.outputObjC,
     required this.symbolFile,

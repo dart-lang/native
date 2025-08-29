@@ -57,7 +57,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  config.generate(logger);
+  config.generate(logger: logger);
 }
 
 FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {

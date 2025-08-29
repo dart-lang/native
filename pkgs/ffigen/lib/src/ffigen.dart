@@ -15,8 +15,9 @@ final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 extension FfiGenGenerator on FfiGen {
   /// Runs the entire generation pipeline for the given config.
-  void generate(Logger logger) {
-    final context = Context(logger, this);
+  void generate({required Logger? logger, Uri? libclangDylib}) {
+    logger ??= Logger.detached('dev/null')..level = Level.OFF;
+    final context = Context(logger, this, libclangDylib: libclangDylib);
 
     // Parse the bindings according to config object provided.
     final library = parse(context);

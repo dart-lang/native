@@ -16,7 +16,6 @@ void main() {
     });
     test('declaration conflict', () {
       final config = FfiGen(
-        Logger.root,
         entryPoints: [],
         output: Uri(),
         functionDecl: DeclarationFilters.includeAll,

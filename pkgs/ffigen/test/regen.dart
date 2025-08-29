@@ -22,7 +22,7 @@ $ dart run test/setup.dart && dart run test/regen.dart && dart test
 void _regenConfig(Logger logger, String yamlConfigPath) {
   final path = p.join(packagePathForTests, yamlConfigPath);
   withChDir(path, () {
-    testConfigFromPath(path).generate(logger);
+    testConfigFromPath(path).generate(logger: logger);
   });
 }
 

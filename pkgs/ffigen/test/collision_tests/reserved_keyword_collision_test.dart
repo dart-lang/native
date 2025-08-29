@@ -19,7 +19,6 @@ void main() {
       final library = parser.parse(
         testContext(
           FfiGen(
-            Logger.root,
             output: Uri.file('unused'),
             entryPoints: [
               Uri.file(
