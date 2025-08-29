@@ -17,8 +17,7 @@ final dummyWriter = Writer(
   silenceEnumWarning: true,
   generateForPackageObjectiveC: false,
   nativeAssetId: null,
-  context:
-      Context(Logger.root, FfiGen(Logger.root, output: Uri.file('unused'))),
+  context: Context(Logger.root, FfiGen(output: Uri.file('unused'))),
 );
 
 /// Find compound having [name] in [library].
