@@ -188,8 +188,6 @@ final class FfiGenerator {
   /// rather than a real Dart enum.
   final bool Function(Declaration declaration) unnamedEnumsShouldBeInt;
 
-  static bool _unnamedEnumsShouldBeIntDefault(Declaration declaration) => false;
-
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
   final ExternalVersions externalVersions;
@@ -231,7 +229,7 @@ final class FfiGenerator {
     this.useDartHandle = true,
     this.silenceEnumWarning = false,
     this.enumShouldBeInt = _enumShouldBeIntDefault,
-    this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
+    this.unnamedEnumsShouldBeInt = _enumShouldBeIntDefault,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
