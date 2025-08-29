@@ -141,7 +141,7 @@ void _parseSuperType(
   Context context,
   clang_types.CXCursor cursor,
   Declaration decl,
-  DeclarationFiltersConfig filters,
+  DeclarationFilters filters,
 ) {
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType(context);
@@ -239,7 +239,7 @@ ObjCMethod? parseObjCMethod(
   Context context,
   clang_types.CXCursor cursor,
   Declaration itfDecl,
-  DeclarationFiltersConfig filters,
+  DeclarationFilters filters,
 ) {
   final logger = context.logger;
   final methodName = cursor.spelling();

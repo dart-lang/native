@@ -32,10 +32,9 @@ final class FfiGen {
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
-  final bool Function(Uri header)? shouldIncludeHeader;
+  final bool Function(Uri header) shouldIncludeHeader;
 
-  bool _shouldIncludeHeader(Uri header) =>
-      shouldIncludeHeader?.call(header) ?? true;
+  static bool _shouldIncludeHeaderDefault(Uri header) => true;
 
   /// CommandLine Arguments to pass to clang_compiler.
   final List<String>? compilerOpts;
@@ -44,68 +43,37 @@ final class FfiGen {
   final Map<String, List<VarArgFunction>> varArgFunctions;
 
   /// Declaration filters for Functions.
-  final DeclarationFilters? functionDecl;
-
-  DeclarationFilters get _functionDecl =>
-      functionDecl ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters functionDecl;
 
   /// Declaration filters for Structs.
-  final DeclarationFilters? structDecl;
-
-  DeclarationFilters get _structDecl =>
-      structDecl ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters structDecl;
 
   /// Declaration filters for Unions.
-  final DeclarationFilters? unionDecl;
-
-  DeclarationFilters get _unionDecl =>
-      unionDecl ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters unionDecl;
 
   /// Declaration filters for Enums.
-  final DeclarationFilters? enumClassDecl;
-
-  DeclarationFilters get _enumClassDecl =>
-      enumClassDecl ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters enumClassDecl;
 
   /// Declaration filters for Unnamed enum constants.
-  final DeclarationFilters? unnamedEnumConstants;
-
-  DeclarationFilters get _unnamedEnumConstants =>
-      unnamedEnumConstants ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters unnamedEnumConstants;
 
   /// Declaration filters for Globals.
-  final DeclarationFilters? globals;
-
-  DeclarationFilters get _globals => globals ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters globals;
 
   /// Declaration filters for Macro constants.
-  final DeclarationFilters? macroDecl;
-
-  DeclarationFilters get _macroDecl =>
-      macroDecl ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters macroDecl;
 
   /// Declaration filters for Typedefs.
-  final DeclarationFilters? typedefs;
-
-  DeclarationFilters get _typedefs => typedefs ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters typedefs;
 
   /// Declaration filters for Objective C interfaces.
-  final DeclarationFilters? objcInterfaces;
-
-  DeclarationFilters get _objcInterfaces =>
-      objcInterfaces ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters objcInterfaces;
 
   /// Declaration filters for Objective C protocols.
-  final DeclarationFilters? objcProtocols;
-
-  DeclarationFilters get _objcProtocols =>
-      objcProtocols ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters objcProtocols;
 
   /// Declaration filters for Objective C categories.
-  final DeclarationFilters? objcCategories;
-
-  DeclarationFilters get _objcCategories =>
-      objcCategories ?? DeclarationFilters.excludeAll;
+  final DeclarationFilters objcCategories;
 
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnusedTypedefs;
@@ -206,22 +174,20 @@ final class FfiGen {
   final CompoundDependencies unionDependencies;
 
   /// Whether, and how, to override struct packing for the given struct.
-  final PackingValue? Function(Declaration declaration)? structPackingOverride;
+  final PackingValue? Function(Declaration declaration) structPackingOverride;
 
-  PackingValue? _structPackingOverride(Declaration declaration) =>
-      structPackingOverride?.call(declaration);
+  static PackingValue? _structPackingOverrideDefault(Declaration declaration) =>
+      null;
 
   /// The module that the ObjC interface belongs to.
-  final String? Function(Declaration declaration)? interfaceModule;
+  final String? Function(Declaration declaration) interfaceModule;
 
-  String? _interfaceModule(Declaration declaration) =>
-      interfaceModule?.call(declaration);
+  static String? _interfaceModuleDefault(Declaration declaration) => null;
 
   /// The module that the ObjC protocol belongs to.
-  final String? Function(Declaration declaration)? protocolModule;
+  final String? Function(Declaration declaration) protocolModule;
 
-  String? _protocolModule(Declaration declaration) =>
-      protocolModule?.call(declaration);
+  static String? _protocolModuleDefault(Declaration declaration) => null;
 
   /// Name of the wrapper class.
   final String wrapperName;
@@ -239,30 +205,27 @@ final class FfiGen {
   final bool silenceEnumWarning;
 
   /// Whether to expose the function typedef for a given function.
-  final bool Function(Declaration declaration)? shouldExposeFunctionTypedef;
+  final bool Function(Declaration declaration) shouldExposeFunctionTypedef;
 
-  bool _shouldExposeFunctionTypedef(Declaration declaration) =>
-      shouldExposeFunctionTypedef?.call(declaration) ?? false;
+  static bool _shouldExposeFunctionTypedefDefault(Declaration declaration) =>
+      false;
 
   /// Whether the given function is a leaf function.
-  final bool Function(Declaration declaration)? isLeafFunction;
+  final bool Function(Declaration declaration) isLeafFunction;
 
-  bool _isLeafFunction(Declaration declaration) =>
-      isLeafFunction?.call(declaration) ?? false;
+  static bool _isLeafFunctionDefault(Declaration declaration) => false;
 
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
-  final bool Function(Declaration declaration)? enumShouldBeInt;
+  final bool Function(Declaration declaration) enumShouldBeInt;
 
-  bool _enumShouldBeInt(Declaration declaration) =>
-      enumShouldBeInt?.call(declaration) ?? false;
+  static bool _enumShouldBeIntDefault(Declaration declaration) => false;
 
   /// Whether to generate the given unnamed enum as a series of int constants,
   /// rather than a real Dart enum.
-  final bool Function(Declaration declaration)? unnamedEnumsShouldBeInt;
+  final bool Function(Declaration declaration) unnamedEnumsShouldBeInt;
 
-  bool _unnamedEnumsShouldBeInt(Declaration declaration) =>
-      unnamedEnumsShouldBeInt?.call(declaration) ?? false;
+  static bool _unnamedEnumsShouldBeIntDefault(Declaration declaration) => false;
 
   /// Config options for @Native annotations.
   final FfiNativeConfig ffiNativeConfig;
@@ -284,20 +247,20 @@ final class FfiGen {
     this.symbolFile,
     this.language = Language.c,
     this.entryPoints = const <Uri>[],
-    this.shouldIncludeHeader,
+    this.shouldIncludeHeader = _shouldIncludeHeaderDefault,
     this.compilerOpts,
     this.varArgFunctions = const <String, List<VarArgFunction>>{},
-    this.functionDecl,
-    this.structDecl,
-    this.unionDecl,
-    this.enumClassDecl,
-    this.unnamedEnumConstants,
-    this.globals,
-    this.macroDecl,
-    this.typedefs,
-    this.objcInterfaces,
-    this.objcProtocols,
-    this.objcCategories,
+    this.functionDecl = DeclarationFilters.excludeAll,
+    this.structDecl = DeclarationFilters.excludeAll,
+    this.unionDecl = DeclarationFilters.excludeAll,
+    this.enumClassDecl = DeclarationFilters.excludeAll,
+    this.unnamedEnumConstants = DeclarationFilters.excludeAll,
+    this.globals = DeclarationFilters.excludeAll,
+    this.macroDecl = DeclarationFilters.excludeAll,
+    this.typedefs = DeclarationFilters.excludeAll,
+    this.objcInterfaces = DeclarationFilters.excludeAll,
+    this.objcProtocols = DeclarationFilters.excludeAll,
+    this.objcCategories = DeclarationFilters.excludeAll,
     this.includeUnusedTypedefs = false,
     this.includeTransitiveObjCInterfaces = false,
     this.includeTransitiveObjCProtocols = false,
@@ -314,18 +277,18 @@ final class FfiGen {
     this.commentType = const CommentType.def(),
     this.structDependencies = CompoundDependencies.full,
     this.unionDependencies = CompoundDependencies.full,
-    this.structPackingOverride,
-    this.interfaceModule,
-    this.protocolModule,
+    this.structPackingOverride = _structPackingOverrideDefault,
+    this.interfaceModule = _interfaceModuleDefault,
+    this.protocolModule = _protocolModuleDefault,
     this.wrapperName = 'NativeLibrary',
     this.wrapperDocComment,
     this.preamble,
     this.useDartHandle = true,
     this.silenceEnumWarning = false,
-    this.shouldExposeFunctionTypedef,
-    this.isLeafFunction,
-    this.enumShouldBeInt,
-    this.unnamedEnumsShouldBeInt,
+    this.shouldExposeFunctionTypedef = _shouldExposeFunctionTypedefDefault,
+    this.isLeafFunction = _isLeafFunctionDefault,
+    this.enumShouldBeInt = _enumShouldBeIntDefault,
+    this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
     this.ffiNativeConfig = const FfiNativeConfig(enabled: false),
     this.ignoreSourceErrors = false,
     this.formatOutput = true,
@@ -335,8 +298,6 @@ final class FfiGen {
 }
 
 extension type Config(FfiGen ffiGen) implements FfiGen {
-  bool shouldIncludeHeader(Uri header) => ffiGen._shouldIncludeHeader(header);
-
   Map<String, LibraryImport> get libraryImports => ffiGen._libraryImports;
 
   Map<String, ImportedType> get typedefTypeMappings =>
@@ -351,116 +312,56 @@ extension type Config(FfiGen ffiGen) implements FfiGen {
       ffiGen._nativeTypeMappings;
 
   Uri get outputObjC => ffiGen._outputObjC;
-
-  DeclarationFiltersConfig get functionDecl =>
-      DeclarationFiltersConfig(ffiGen._functionDecl);
-  DeclarationFiltersConfig get structDecl =>
-      DeclarationFiltersConfig(ffiGen._structDecl);
-  DeclarationFiltersConfig get unionDecl =>
-      DeclarationFiltersConfig(ffiGen._unionDecl);
-  DeclarationFiltersConfig get enumClassDecl =>
-      DeclarationFiltersConfig(ffiGen._enumClassDecl);
-  DeclarationFiltersConfig get unnamedEnumConstants =>
-      DeclarationFiltersConfig(ffiGen._unnamedEnumConstants);
-  DeclarationFiltersConfig get globals =>
-      DeclarationFiltersConfig(ffiGen._globals);
-  DeclarationFiltersConfig get macroDecl =>
-      DeclarationFiltersConfig(ffiGen._macroDecl);
-  DeclarationFiltersConfig get typedefs =>
-      DeclarationFiltersConfig(ffiGen._typedefs);
-  DeclarationFiltersConfig get objcInterfaces =>
-      DeclarationFiltersConfig(ffiGen._objcInterfaces);
-  DeclarationFiltersConfig get objcProtocols =>
-      DeclarationFiltersConfig(ffiGen._objcProtocols);
-  DeclarationFiltersConfig get objcCategories =>
-      DeclarationFiltersConfig(ffiGen._objcCategories);
-
-  PackingValue? structPackingOverride(Declaration declaration) =>
-      ffiGen._structPackingOverride(declaration);
-
-  String? interfaceModule(Declaration declaration) =>
-      ffiGen._interfaceModule(declaration);
-
-  String? protocolModule(Declaration declaration) =>
-      ffiGen._protocolModule(declaration);
-
-  bool shouldExposeFunctionTypedef(Declaration declaration) =>
-      ffiGen._shouldExposeFunctionTypedef(declaration);
-
-  bool isLeafFunction(Declaration declaration) =>
-      ffiGen._isLeafFunction(declaration);
-
-  bool enumShouldBeInt(Declaration declaration) =>
-      ffiGen._enumShouldBeInt(declaration);
-
-  bool unnamedEnumsShouldBeInt(Declaration declaration) =>
-      ffiGen._unnamedEnumsShouldBeInt(declaration);
 }
 
 final class DeclarationFilters {
   /// Checks if a name is allowed by a filter.
-  final bool Function(Declaration declaration)? shouldInclude;
-
-  bool _shouldInclude(Declaration declaration) =>
-      shouldInclude?.call(declaration) ?? false;
+  final bool Function(Declaration declaration) shouldInclude;
 
   /// Checks if the symbol address should be included for this name.
-  final bool Function(Declaration declaration)? shouldIncludeSymbolAddress;
+  final bool Function(Declaration declaration) shouldIncludeSymbolAddress;
 
-  bool _shouldIncludeSymbolAddress(Declaration declaration) =>
-      shouldIncludeSymbolAddress?.call(declaration) ?? false;
+  static bool _shouldIncludeDefault(Declaration declaration) => false;
 
   /// Applies renaming and returns the result.
-  final String Function(Declaration declaration)? rename;
+  final String Function(Declaration declaration) rename;
 
-  String _rename(Declaration declaration) =>
-      rename?.call(declaration) ?? declaration.originalName;
+  static String _renameDefault(Declaration declaration) =>
+      declaration.originalName;
 
   /// Applies member renaming and returns the result. Used for struct/union
   /// fields, enum elements, function params, and ObjC
   /// interface/protocol/category methods/properties.
-  final String Function(Declaration declaration, String member)? renameMember;
+  final String Function(Declaration declaration, String member) renameMember;
 
-  String _renameMember(Declaration declaration, String member) =>
-      renameMember?.call(declaration, member) ?? member;
+  static String _renameMemberDefault(Declaration declaration, String member) =>
+      member;
 
   /// Whether a member of a declaration should be included. Used for ObjC
   /// interface/protocol/category methods/properties.
-  final bool Function(Declaration declaration, String member)?
+  final bool Function(Declaration declaration, String member)
   shouldIncludeMember;
 
-  bool _shouldIncludeMember(Declaration declaration, String member) =>
-      shouldIncludeMember?.call(declaration, member) ?? true;
+  static bool _shouldIncludeMemberDefault(
+    Declaration declaration,
+    String member,
+  ) => true;
 
   const DeclarationFilters({
-    this.shouldInclude,
-    this.shouldIncludeSymbolAddress,
-    this.rename,
-    this.renameMember,
-    this.shouldIncludeMember,
+    this.shouldInclude = _shouldIncludeDefault,
+    this.shouldIncludeSymbolAddress = _shouldIncludeDefault,
+    this.rename = _renameDefault,
+    this.renameMember = _renameMemberDefault,
+    this.shouldIncludeMember = _shouldIncludeMemberDefault,
   });
 
   static const excludeAll = DeclarationFilters();
-  static final includeAll = DeclarationFilters(shouldInclude: (_) => true);
+
+  static const includeAll = DeclarationFilters(shouldInclude: _includeAll);
+
+  static bool _includeAll(Declaration d) => true;
 
   static DeclarationFilters include(Set<String> names) => DeclarationFilters(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
-}
-
-extension type DeclarationFiltersConfig(DeclarationFilters filters)
-    implements DeclarationFilters {
-  bool shouldInclude(Declaration declaration) =>
-      filters._shouldInclude(declaration);
-
-  bool shouldIncludeSymbolAddress(Declaration declaration) =>
-      filters._shouldIncludeSymbolAddress(declaration);
-
-  String rename(Declaration declaration) => filters._rename(declaration);
-
-  String renameMember(Declaration declaration, String member) =>
-      filters._renameMember(declaration, member);
-
-  bool shouldIncludeMember(Declaration declaration, String member) =>
-      filters._shouldIncludeMember(declaration, member);
 }
