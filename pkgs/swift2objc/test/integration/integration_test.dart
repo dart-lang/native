@@ -62,16 +62,14 @@ void main([List<String>? args]) {
             ? expectedOutputFile
             : path.join(tempDir, '$name$outputSuffix');
 
-        await generateWrapper(
-          Config(
-            inputs: [
-              FilesInputConfig(files: [Uri.file(inputFile)]),
-            ],
-            outputFile: Uri.file(actualOutputFile),
-            tempDir: Directory(tempDir).uri,
-            preamble: '// Test preamble text',
-          ),
-        );
+        await Swift2ObjCGenerator(
+          inputs: [
+            FilesInputConfig(files: [Uri.file(inputFile)]),
+          ],
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(tempDir).uri,
+          preamble: '// Test preamble text',
+        ).generate(logger: Logger.root);
 
         final actualOutput = await File(actualOutputFile).readAsString();
         final expectedOutput = File(expectedOutputFile).readAsStringSync();

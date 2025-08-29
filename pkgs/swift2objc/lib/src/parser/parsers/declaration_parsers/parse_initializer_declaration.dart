@@ -3,12 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
+import '../../../context.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 import 'parse_function_declaration.dart';
 
 InitializerDeclaration parseInitializerDeclaration(
+  Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -23,7 +25,7 @@ InitializerDeclaration parseInitializerDeclaration(
     throw Exception('Invalid initializer at ${declarationFragments.path}: $id');
   }
 
-  final info = parseFunctionInfo(declarationFragments, symbolgraph);
+  final info = parseFunctionInfo(context, declarationFragments, symbolgraph);
 
   return InitializerDeclaration(
     id: id,
