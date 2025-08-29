@@ -36,7 +36,7 @@ void main() {
             structDecl: DeclarationFilters.includeAll,
             unionDecl: DeclarationFilters.includeAll,
             enumClassDecl: DeclarationFilters.includeAll,
-            functionDecl: DeclarationFilters.includeAll,
+            functions: Functions.includeAll,
             globals: DeclarationFilters.includeAll,
             typedefs: DeclarationFilters.includeAll,
             includeUnusedTypedefs: true,

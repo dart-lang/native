@@ -31,11 +31,8 @@ final class FfiGenerator {
   /// Language that ffigen is consuming.
   final Language language;
 
-  /// VarArg function handling.
-  final Map<String, List<VarArgFunction>> varArgFunctions;
-
   /// Declaration filters for Functions.
-  final DeclarationFilters functionDecl;
+  final Functions functions;
 
   /// Declaration filters for Structs.
   final DeclarationFilters structDecl;
@@ -181,17 +178,6 @@ final class FfiGenerator {
   /// Whether to silence warning for enum integer type mimicking.
   final bool silenceEnumWarning;
 
-  /// Whether to expose the function typedef for a given function.
-  final bool Function(Declaration declaration) shouldExposeFunctionTypedef;
-
-  static bool _shouldExposeFunctionTypedefDefault(Declaration declaration) =>
-      false;
-
-  /// Whether the given function is a leaf function.
-  final bool Function(Declaration declaration) isLeafFunction;
-
-  static bool _isLeafFunctionDefault(Declaration declaration) => false;
-
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
   final bool Function(Declaration declaration) enumShouldBeInt;
@@ -214,8 +200,7 @@ final class FfiGenerator {
     required this.output,
     this.filename,
     this.language = Language.c,
-    this.varArgFunctions = const <String, List<VarArgFunction>>{},
-    this.functionDecl = DeclarationFilters.excludeAll,
+    this.functions = Functions.excludeAll,
     this.structDecl = DeclarationFilters.excludeAll,
     this.unionDecl = DeclarationFilters.excludeAll,
     this.enumClassDecl = DeclarationFilters.excludeAll,
@@ -245,8 +230,6 @@ final class FfiGenerator {
     this.protocolModule = _protocolModuleDefault,
     this.useDartHandle = true,
     this.silenceEnumWarning = false,
-    this.shouldExposeFunctionTypedef = _shouldExposeFunctionTypedefDefault,
-    this.isLeafFunction = _isLeafFunctionDefault,
     this.enumShouldBeInt = _enumShouldBeIntDefault,
     this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
     this.externalVersions = const ExternalVersions(),
@@ -428,12 +411,10 @@ final class DeclarationFilters {
   /// Checks if the symbol address should be included for this name.
   final bool Function(Declaration declaration) shouldIncludeSymbolAddress;
 
-  static bool _shouldIncludeDefault(Declaration declaration) => false;
-
   /// Applies renaming and returns the result.
   final String Function(Declaration declaration) rename;
 
-  static String _renameDefault(Declaration declaration) =>
+  static String _useOriginalName(Declaration declaration) =>
       declaration.originalName;
 
   /// Applies member renaming and returns the result. Used for struct/union
@@ -441,34 +422,70 @@ final class DeclarationFilters {
   /// interface/protocol/category methods/properties.
   final String Function(Declaration declaration, String member) renameMember;
 
-  static String _renameMemberDefault(Declaration declaration, String member) =>
-      member;
+  static String _useMemberOriginalName(
+    Declaration declaration,
+    String member,
+  ) => member;
 
   /// Whether a member of a declaration should be included. Used for ObjC
   /// interface/protocol/category methods/properties.
   final bool Function(Declaration declaration, String member)
   shouldIncludeMember;
 
-  static bool _shouldIncludeMemberDefault(
-    Declaration declaration,
-    String member,
-  ) => true;
+  static bool _includeAllMembers(Declaration declaration, String member) =>
+      true;
 
   const DeclarationFilters({
-    this.shouldInclude = _shouldIncludeDefault,
-    this.shouldIncludeSymbolAddress = _shouldIncludeDefault,
-    this.rename = _renameDefault,
-    this.renameMember = _renameMemberDefault,
-    this.shouldIncludeMember = _shouldIncludeMemberDefault,
+    this.shouldInclude = _excludeAll,
+    this.shouldIncludeSymbolAddress = _excludeAll,
+    this.rename = _useOriginalName,
+    this.renameMember = _useMemberOriginalName,
+    this.shouldIncludeMember = _includeAllMembers,
   });
 
   static const excludeAll = DeclarationFilters();
 
   static const includeAll = DeclarationFilters(shouldInclude: _includeAll);
 
-  static bool _includeAll(Declaration d) => true;
-
   static DeclarationFilters include(Set<String> names) => DeclarationFilters(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }
+
+final class Functions extends DeclarationFilters {
+  /// VarArg function handling.
+  final Map<String, List<VarArgFunction>> varArgs;
+
+  /// Whether to expose the function typedef for a given function.
+  final bool Function(Declaration declaration) exposeTypedef;
+
+  static bool _exposeTypedefDefault(Declaration declaration) => false;
+
+  /// Whether the given function is a leaf function.
+  final bool Function(Declaration declaration) isLeaf;
+
+  static bool _isLeafDefault(Declaration declaration) => false;
+
+  const Functions({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.varArgs = const <String, List<VarArgFunction>>{},
+    this.exposeTypedef = _exposeTypedefDefault,
+    this.isLeaf = _isLeafDefault,
+  });
+
+  static const excludeAll = Functions(shouldInclude: _excludeAll);
+
+  static const includeAll = Functions(shouldInclude: _includeAll);
+
+  static Functions include(Set<String> names) => Functions(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+bool _excludeAll(Declaration declaration) => false;
+
+bool _includeAll(Declaration d) => true;

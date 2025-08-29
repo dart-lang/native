@@ -48,7 +48,7 @@ extension SwiftGenGenerator on SwiftGen {
         wrapperName: ffigen.wrapperName ?? outModule,
         wrapperDocComment: ffigen.wrapperDocComment,
       ),
-      functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
+      functions: ffigen.functionDecl ?? fg.Functions.excludeAll,
       structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
       unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,
       enumClassDecl: ffigen.enumClassDecl ?? fg.DeclarationFilters.excludeAll,

@@ -103,7 +103,13 @@ void main() {
       includeTransitiveObjCInterfaces: false,
       includeTransitiveObjCProtocols: false,
       includeTransitiveObjCCategories: false,
-      functionDecl: randomFilter('functionDecl'),
+      functions: () {
+        final filter = randomFilter('functionDecl');
+        return Functions(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
       structDecl: randomFilter('structDecl'),
       unionDecl: randomFilter('unionDecl'),
       enumClassDecl: randomFilter('enumClassDecl'),

@@ -30,7 +30,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitEnumClass(EnumClass node) => _visitImpl(node, config.enumClassDecl);
 
   @override
-  void visitFunc(Func node) => _visitImpl(node, config.functionDecl);
+  void visitFunc(Func node) => _visitImpl(node, config.functions);
 
   @override
   void visitMacroConstant(MacroConstant node) =>

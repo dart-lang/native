@@ -58,10 +58,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'DeprecatedCategoryMethods',
       'DeprecatedCategory',
     }),
-    functionDecl: DeclarationFilters.include({
-      'normalFunction',
-      'deprecatedFunction',
-    }),
+    functionDecl: Functions.include({'normalFunction', 'deprecatedFunction'}),
     structDecl: DeclarationFilters.include({
       'NormalStruct',
       'DeprecatedStruct',

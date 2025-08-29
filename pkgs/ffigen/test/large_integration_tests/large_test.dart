@@ -65,7 +65,7 @@ void main() {
             'Index.h',
           ].any((filename) => header.pathSegments.last == filename),
         ),
-        functionDecl: DeclarationFilters.includeAll,
+        functions: Functions.includeAll,
         structDecl: DeclarationFilters.includeAll,
         enumClassDecl: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
@@ -150,7 +150,7 @@ void main() {
           ],
           shouldInclude: (Uri header) => header.pathSegments.last == 'cJSON.h',
         ),
-        functionDecl: DeclarationFilters.includeAll,
+        functions: Functions.includeAll,
         structDecl: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
@@ -193,7 +193,7 @@ void main() {
           shouldInclude: (Uri header) =>
               header.pathSegments.last == 'sqlite3.h',
         ),
-        functionDecl: DeclarationFilters(
+        functions: Functions(
           shouldInclude: (declaration) => !{
             'sqlite3_vmprintf',
             'sqlite3_vsnprintf',

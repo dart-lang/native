@@ -71,9 +71,9 @@ class FfiGenConfig {
 
   final String? preamble;
 
-  /// [ffigen.FfiGenerator.functionDecl]
+  /// [ffigen.FfiGenerator.functions]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? functionDecl;
+  final ffigen.Functions? functionDecl;
 
   /// [ffigen.FfiGenerator.structDecl]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
