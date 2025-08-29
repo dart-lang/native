@@ -4,7 +4,7 @@ on:
   # Run on PRs and pushes to the default branch, in either the ffigen directory,
   # or the objective_c directory.
   push:
-    branches: [main, stable]
+    # No `branches:` to enable stacked PRs on GitHub.
     paths:
       - '.github/workflows/ffigen.yml'
       - 'pkgs/ffigen/**'
