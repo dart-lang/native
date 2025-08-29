@@ -250,7 +250,7 @@ abstract interface class FfiGen {
     language: language,
     entryPoints: entryPoints,
     shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-    compilerOpts: compilerOpts /*?? defaultCompilerOpts(logger)*/,
+    compilerOpts: compilerOpts,
     varArgFunctions: varArgFunctions,
     functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
     structDecl: structDecl ?? DeclarationFilters.excludeAll,
