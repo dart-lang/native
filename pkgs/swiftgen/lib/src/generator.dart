@@ -39,13 +39,15 @@ extension SwiftGenGenerator on SwiftGen {
   void _generateDartFile(Logger logger) {
     fg.FfiGenerator(
       language: fg.Language.objc,
-      output: ffigen.output,
-      outputObjC: ffigen.outputObjC,
+      output: fg.Output(
+        dartFile: ffigen.output,
+        objectiveCFile: ffigen.outputObjC,
+        preamble: ffigen.preamble,
+      ),
       bindingStyle: fg.DynamicLibraryBindings(
         wrapperName: ffigen.wrapperName ?? outModule,
         wrapperDocComment: ffigen.wrapperDocComment,
       ),
-      preamble: ffigen.preamble,
       functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
       structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
       unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,

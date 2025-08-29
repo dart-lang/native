@@ -64,7 +64,7 @@ void main(List<String> args) {
   final config =
       ffigen.YamlConfig.fromFile(File('ffigen.yaml'), logger).configAdapter();
   final library = ffigen.parse(ffigen.Context(logger, config));
-  final outputFile = File(config.output.toFilePath());
+  final outputFile = File(config.output.dartFile.toFilePath());
   library.generateFile(outputFile);
 
   logger.info('Generating Dart extensions');

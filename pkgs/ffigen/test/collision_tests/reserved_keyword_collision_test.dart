@@ -19,7 +19,7 @@ void main() {
       final library = parser.parse(
         testContext(
           FfiGenerator(
-            output: Uri.file('unused'),
+            output: Output(dartFile: Uri.file('unused'), sort: true),
             bindingStyle: const DynamicLibraryBindings(),
             headers: Headers(
               entryPoints: [
@@ -40,7 +40,6 @@ void main() {
             globals: DeclarationFilters.includeAll,
             typedefs: DeclarationFilters.includeAll,
             includeUnusedTypedefs: true,
-            sort: true,
           ),
         ),
       );

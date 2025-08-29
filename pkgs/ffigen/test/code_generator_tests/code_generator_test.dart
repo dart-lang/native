@@ -44,7 +44,7 @@ void main() {
             bindingStyle: nativeConfig.enabled
                 ? const NativeExternalBindings()
                 : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
-            output: Uri.file('unused'),
+            output: Output(dartFile: Uri.file('unused')),
           ),
         ),
         name: 'Bindings',

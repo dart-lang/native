@@ -63,14 +63,12 @@ class FfiGenConfig {
   /// [ffigen.FfiGenerator.output]
   final Uri output;
 
-  /// [ffigen.FfiGenerator.outputObjC]
   final Uri outputObjC;
 
   final String? wrapperName;
 
   final String? wrapperDocComment;
 
-  /// [ffigen.FfiGenerator.preamble]
   final String? preamble;
 
   /// [ffigen.FfiGenerator.functionDecl]

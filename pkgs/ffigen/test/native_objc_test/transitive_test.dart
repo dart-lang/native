@@ -25,13 +25,16 @@ String generate({
       wrapperDocComment: 'Tests transitive inclusion',
     ),
     language: Language.objc,
-    output: Uri.file(
-      path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'transitive_bindings.dart',
+    output: Output(
+      dartFile: Uri.file(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'transitive_bindings.dart',
+        ),
       ),
+      format: false,
     ),
     headers: Headers(
       entryPoints: [
@@ -45,7 +48,6 @@ String generate({
         ),
       ],
     ),
-    formatOutput: false,
     objcInterfaces: DeclarationFilters.include({
       'DirectlyIncluded',
       'DirectlyIncludedWithProtocol',

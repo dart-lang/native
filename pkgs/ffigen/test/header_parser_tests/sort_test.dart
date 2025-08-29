@@ -19,7 +19,7 @@ void main() {
       actual = parser.parse(
         testContext(
           FfiGenerator(
-            output: Uri.file('unused'),
+            output: Output(dartFile: Uri.file('unused'), sort: true),
             headers: Headers(
               entryPoints: [
                 Uri.file(
@@ -36,7 +36,6 @@ void main() {
             unionDecl: DeclarationFilters.includeAll,
             typedefs: DeclarationFilters.includeAll,
             includeUnusedTypedefs: true,
-            sort: true,
           ),
         ),
       );

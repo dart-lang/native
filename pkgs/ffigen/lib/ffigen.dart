@@ -25,6 +25,7 @@ export 'src/config_provider.dart'
         Headers,
         Language,
         NativeExternalBindings,
+        Output,
         PackingValue,
         SymbolFile,
         VarArgFunction,

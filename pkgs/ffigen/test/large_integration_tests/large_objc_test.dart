@@ -76,8 +76,6 @@ void main() {
         wrapperName: 'LargeObjCLibrary',
       ),
       language: Language.objc,
-      output: Uri.file(outFile),
-      outputObjC: Uri.file(outObjCFile),
       headers: Headers(
         entryPoints: [
           Uri.file(
@@ -90,7 +88,18 @@ void main() {
           ),
         ],
       ),
-      formatOutput: false,
+      output: Output(
+        dartFile: Uri.file(outFile),
+        objectiveCFile: Uri.file(outObjCFile),
+        format: false,
+        preamble: '''
+// ignore_for_file: camel_case_types
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: unnecessary_non_null_assertion
+// ignore_for_file: unused_element
+// ignore_for_file: unused_field
+''',
+      ),
       includeTransitiveObjCInterfaces: false,
       includeTransitiveObjCProtocols: false,
       includeTransitiveObjCCategories: false,
@@ -108,13 +117,6 @@ void main() {
         ios: Versions(min: Version(12, 0, 0)),
         macos: Versions(min: Version(10, 14, 0)),
       ),
-      preamble: '''
-// ignore_for_file: camel_case_types
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: unnecessary_non_null_assertion
-// ignore_for_file: unused_element
-// ignore_for_file: unused_field
-''',
     );
 
     final timer = Stopwatch()..start();

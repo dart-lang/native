@@ -22,13 +22,16 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       wrapperDocComment: 'Tests API deprecation',
     ),
     language: Language.objc,
-    output: Uri.file(
-      path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'deprecated_bindings.dart',
+    output: Output(
+      dartFile: Uri.file(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'deprecated_bindings.dart',
+        ),
       ),
+      format: false,
     ),
     headers: Headers(
       entryPoints: [
@@ -42,7 +45,6 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         ),
       ],
     ),
-    formatOutput: false,
     includeTransitiveObjCCategories: false,
     objcInterfaces: DeclarationFilters.include({
       'DeprecatedInterfaceMethods',

@@ -19,22 +19,14 @@ final class FfiGenerator {
   /// The configuration for header parsing of [FfiGenerator].
   final Headers headers;
 
+  /// The configuration for outputting bindings.
+  final Output output;
+
   /// Input config filename, if any.
   final Uri? filename;
 
   /// Path to the clang library.
   final Uri? libclangDylib;
-
-  /// Output file name.
-  final Uri output;
-
-  /// Output ObjC file name.
-  final Uri? outputObjC;
-
-  Uri get _outputObjC => outputObjC ?? Uri.file('${output.toFilePath()}.m');
-
-  /// Symbol file config.
-  final SymbolFile? symbolFile;
 
   /// Language that ffigen is consuming.
   final Language language;
@@ -103,9 +95,6 @@ final class FfiGenerator {
   /// itself.
   final bool generateForPackageObjectiveC;
 
-  /// If generated bindings should be sorted alphabetically.
-  final bool sort;
-
   /// If typedef of supported types(int8_t) should be directly used.
   final bool useSupportedTypedefs;
 
@@ -164,9 +153,6 @@ final class FfiGenerator {
         ),
       );
 
-  /// Extracted Doc comment type.
-  final CommentType commentType;
-
   /// Whether structs that are dependencies should be included.
   final CompoundDependencies structDependencies;
 
@@ -188,9 +174,6 @@ final class FfiGenerator {
   final String? Function(Declaration declaration) protocolModule;
 
   static String? _protocolModuleDefault(Declaration declaration) => null;
-
-  /// Header of the generated bindings.
-  final String? preamble;
 
   /// If `Dart_Handle` should be mapped with Handle/Object.
   final bool useDartHandle;
@@ -221,9 +204,6 @@ final class FfiGenerator {
 
   static bool _unnamedEnumsShouldBeIntDefault(Declaration declaration) => false;
 
-  /// Whether to format the output file.
-  final bool formatOutput;
-
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
   final ExternalVersions externalVersions;
@@ -231,10 +211,8 @@ final class FfiGenerator {
   FfiGenerator({
     this.bindingStyle = const NativeExternalBindings(),
     this.headers = const Headers(),
-    this.filename,
     required this.output,
-    this.outputObjC,
-    this.symbolFile,
+    this.filename,
     this.language = Language.c,
     this.varArgFunctions = const <String, List<VarArgFunction>>{},
     this.functionDecl = DeclarationFilters.excludeAll,
@@ -253,7 +231,6 @@ final class FfiGenerator {
     this.includeTransitiveObjCProtocols = false,
     this.includeTransitiveObjCCategories = true,
     this.generateForPackageObjectiveC = false,
-    this.sort = false,
     this.useSupportedTypedefs = true,
     this.libraryImports = const <LibraryImport>[],
     this.usrTypeMappings = const <String, ImportedType>{},
@@ -261,20 +238,17 @@ final class FfiGenerator {
     this.structTypeMappings = const <ImportedType>[],
     this.unionTypeMappings = const <ImportedType>[],
     this.nativeTypeMappings = const <ImportedType>[],
-    this.commentType = const CommentType.def(),
     this.structDependencies = CompoundDependencies.full,
     this.unionDependencies = CompoundDependencies.full,
     this.structPackingOverride = _structPackingOverrideDefault,
     this.interfaceModule = _interfaceModuleDefault,
     this.protocolModule = _protocolModuleDefault,
-    this.preamble,
     this.useDartHandle = true,
     this.silenceEnumWarning = false,
     this.shouldExposeFunctionTypedef = _shouldExposeFunctionTypedefDefault,
     this.isLeafFunction = _isLeafFunctionDefault,
     this.enumShouldBeInt = _enumShouldBeIntDefault,
     this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
-    this.formatOutput = true,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
@@ -309,6 +283,42 @@ final class Headers {
     this.shouldInclude = _shouldIncludeDefault,
     this.compilerOpts,
     this.ignoreSourceErrors = false,
+  });
+}
+
+final class Output {
+  /// Output file name.
+  final Uri dartFile;
+
+  /// Output ObjC file name.
+  final Uri? objectiveCFile;
+
+  Uri get _objectiveCFile =>
+      objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
+
+  /// Symbol file config.
+  final SymbolFile? symbolFile;
+
+  /// If generated bindings should be sorted alphabetically.
+  final bool sort;
+
+  /// Extracted Doc comment type.
+  final CommentType commentType;
+
+  /// Header of the generated bindings.
+  final String? preamble;
+
+  /// Whether to format the output file.
+  final bool format;
+
+  Output({
+    required this.dartFile,
+    this.objectiveCFile,
+    this.symbolFile,
+    this.sort = false,
+    this.commentType = const CommentType.def(),
+    this.preamble,
+    this.format = true,
   });
 }
 
@@ -383,6 +393,20 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   List<Uri> get entryPoints => ffiGen.headers.entryPoints;
 
+  Uri get output => ffiGen.output.dartFile;
+
+  Uri get outputObjC => ffiGen.output._objectiveCFile;
+
+  SymbolFile? get symbolFile => ffiGen.output.symbolFile;
+
+  bool get sort => ffiGen.output.sort;
+
+  CommentType get commentType => ffiGen.output.commentType;
+
+  String? get preamble => ffiGen.output.preamble;
+
+  bool get formatOutput => ffiGen.output.format;
+
   Map<String, LibraryImport> get libraryImports => ffiGen._libraryImports;
 
   Map<String, ImportedType> get typedefTypeMappings =>
@@ -395,8 +419,6 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   Map<String, ImportedType> get nativeTypeMappings =>
       ffiGen._nativeTypeMappings;
-
-  Uri get outputObjC => ffiGen._outputObjC;
 }
 
 final class DeclarationFilters {

@@ -16,7 +16,7 @@ void main() {
     });
     test('declaration conflict', () {
       final generator = FfiGenerator(
-        output: Uri(),
+        output: Output(dartFile: Uri.file('unused')),
         functionDecl: DeclarationFilters.includeAll,
         structDecl: DeclarationFilters.includeAll,
         enumClassDecl: DeclarationFilters.includeAll,

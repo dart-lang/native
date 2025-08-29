@@ -23,13 +23,16 @@ void main() {
           wrapperName: 'NSRangeTestObjCLibrary',
         ),
         language: Language.objc,
-        output: Uri.file(
-          path.join(
-            packagePathForTests,
-            'test',
-            'native_objc_test',
-            'ns_range_bindings.dart',
+        output: Output(
+          dartFile: Uri.file(
+            path.join(
+              packagePathForTests,
+              'test',
+              'native_objc_test',
+              'ns_range_bindings.dart',
+            ),
           ),
+          format: false,
         ),
         headers: Headers(
           entryPoints: [
@@ -43,7 +46,6 @@ void main() {
             ),
           ],
         ),
-        formatOutput: false,
         objcInterfaces: DeclarationFilters.include({'SFTranscriptionSegment'}),
       ).generate(logger: Logger.root..level = Level.SEVERE);
       bindings = File(

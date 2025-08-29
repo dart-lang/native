@@ -31,10 +31,15 @@ void main() {
           wrapperName: 'LibClang',
           wrapperDocComment: 'Bindings to LibClang.',
         ),
-        output: Uri.file('unused'),
-        commentType: const CommentType(
-          CommentStyle.doxygen,
-          CommentLength.brief,
+        output: Output(
+          dartFile: Uri.file('unused'),
+          commentType: const CommentType(
+            CommentStyle.doxygen,
+            CommentLength.brief,
+          ),
+          preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
         ),
         headers: Headers(
           compilerOpts: [...defaultCompilerOpts(Logger.root), '-I$includeDir'],
@@ -68,9 +73,6 @@ void main() {
         typedefTypeMappings: [
           ImportedType(ffiImport, 'Int64', 'int', 'time_t'),
         ],
-        preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
       );
       final library = parse(testContext(generator));
 
@@ -129,7 +131,12 @@ void main() {
           wrapperName: 'CJson',
           wrapperDocComment: 'Bindings to Cjson.',
         ),
-        output: Uri.file('unused'),
+        output: Output(
+          dartFile: Uri.file('unused'),
+          preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
+        ),
         headers: Headers(
           entryPoints: [
             Uri.file(
@@ -147,9 +154,6 @@ void main() {
         structDecl: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
-        preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
       );
       final library = parse(testContext(generator));
 
@@ -168,8 +172,13 @@ void main() {
           wrapperName: 'SQLite',
           wrapperDocComment: 'Bindings to SQLite.',
         ),
-        output: Uri.file('unused'),
-        commentType: const CommentType(CommentStyle.any, CommentLength.full),
+        output: Output(
+          dartFile: Uri.file('unused'),
+          commentType: const CommentType(CommentStyle.any, CommentLength.full),
+          preamble: '''
+// ignore_for_file: camel_case_types, non_constant_identifier_names
+''',
+        ),
         headers: Headers(
           entryPoints: [
             Uri.file(
@@ -195,9 +204,6 @@ void main() {
         globals: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
-        preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
       );
       final library = parse(testContext(generator));
 
