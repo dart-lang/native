@@ -61,8 +61,8 @@ extension SwiftGenGenerator on SwiftGen {
         ...fg.defaultCompilerOpts(logger),
         '-Wno-nullability-completeness',
       ],
-      interfaceModuleFunc: (_) => outModule,
-      protocolModuleFunc: (_) => outModule,
+      interfaceModule: (_) => outModule,
+      protocolModule: (_) => outModule,
       externalVersions: ffigen.externalVersions,
     ).generate(logger: logger);
   }

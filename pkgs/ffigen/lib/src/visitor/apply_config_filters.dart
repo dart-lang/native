@@ -3,17 +3,17 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show DeclarationFilters, FfiGen;
+import '../config_provider/config.dart' show Config, DeclarationFiltersConfig;
 
 import 'ast.dart';
 
 class ApplyConfigFiltersVisitation extends Visitation {
-  final FfiGen config;
+  final Config config;
   final directlyIncluded = <Binding>{};
   final indirectlyIncluded = <Binding>{};
   ApplyConfigFiltersVisitation(this.config);
 
-  void _visitImpl(Binding node, DeclarationFilters filters) {
+  void _visitImpl(Binding node, DeclarationFiltersConfig filters) {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (config.usrTypeMappings.containsKey(node.usr)) return;

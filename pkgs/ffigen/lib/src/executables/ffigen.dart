@@ -83,7 +83,7 @@ FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
 
   config.formatOutput = result[format] as bool;
 
-  return config;
+  return config.configAdapter();
 }
 
 /// Extracts configuration from pubspec file.

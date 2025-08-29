@@ -31,7 +31,10 @@ void main() {
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
         compilerOpts: [...defaultCompilerOpts(Logger.root), '-I$includeDir'],
-        commentType: CommentType(CommentStyle.doxygen, CommentLength.brief),
+        commentType: const CommentType(
+          CommentStyle.doxygen,
+          CommentLength.brief,
+        ),
         entryPoints: [
           Uri.file(
             path.join(
@@ -44,7 +47,7 @@ void main() {
             ),
           ),
         ],
-        shouldIncludeHeaderFunc: (Uri header) => [
+        shouldIncludeHeader: (Uri header) => [
           'BuildSystem.h',
           'CXCompilationDatabase.h',
           'CXErrorCode.h',
@@ -131,7 +134,7 @@ void main() {
             ),
           ),
         ],
-        shouldIncludeHeaderFunc: (Uri header) =>
+        shouldIncludeHeader: (Uri header) =>
             header.pathSegments.last == 'cJSON.h',
         functionDecl: DeclarationFilters.includeAll,
         structDecl: DeclarationFilters.includeAll,
@@ -157,7 +160,7 @@ void main() {
         wrapperName: 'SQLite',
         wrapperDocComment: 'Bindings to SQLite.',
         output: Uri.file('unused'),
-        commentType: CommentType(CommentStyle.any, CommentLength.full),
+        commentType: const CommentType(CommentStyle.any, CommentLength.full),
         entryPoints: [
           Uri.file(
             path.join(
@@ -168,7 +171,7 @@ void main() {
             ),
           ),
         ],
-        shouldIncludeHeaderFunc: (Uri header) =>
+        shouldIncludeHeader: (Uri header) =>
             header.pathSegments.last == 'sqlite3.h',
         functionDecl: DeclarationFilters(
           shouldInclude: (declaration) => !{
