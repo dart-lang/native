@@ -82,7 +82,7 @@ Compound? parseCompoundDeclaration(
   // Set includer functions according to compoundType.
   final className = _compoundTypeDebugName(compoundType);
   final configDecl = switch (compoundType) {
-    CompoundType.struct => context.config.structDecl,
+    CompoundType.struct => context.config.structs,
     CompoundType.union => context.config.unionDecl,
   };
 
@@ -287,7 +287,7 @@ void _compoundMembersVisitor(
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: cursor.spelling(),
-            name: config.structDecl.renameMember(decl, cursor.spelling()),
+            name: config.structs.renameMember(decl, cursor.spelling()),
             type: mt,
           ),
         );
@@ -322,7 +322,7 @@ void _compoundMembersVisitor(
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: spelling,
-            name: config.structDecl.renameMember(decl, spelling),
+            name: config.structs.renameMember(decl, spelling),
             type: mt,
           ),
         );

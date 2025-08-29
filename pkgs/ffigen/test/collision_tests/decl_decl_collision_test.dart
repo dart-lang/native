@@ -18,8 +18,8 @@ void main() {
       final generator = FfiGenerator(
         output: Output(dartFile: Uri.file('unused')),
         functions: Functions.includeAll,
-        structDecl: DeclarationFilters.includeAll,
-        enumClassDecl: DeclarationFilters.includeAll,
+        structs: Structs.includeAll,
+        enums: Enums.includeAll,
         globals: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,

@@ -64,9 +64,9 @@ import 'unnamed_enumdecl_parser.dart';
         availability: apiAvailability.dartDoc,
       ),
       originalName: enumName,
-      name: config.enumClassDecl.rename(decl),
+      name: config.enums.rename(decl),
       nativeType: nativeType,
-      generateAsInt: config.enumShouldBeInt(decl),
+      generateAsInt: config.enums.shouldBeInt(decl),
       objCBuiltInFunctions: context.objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
@@ -83,7 +83,7 @@ import 'unnamed_enumdecl_parser.dart';
                   indent: nesting.length + commentPrefix.length,
                 ),
                 originalName: child.spelling(),
-                name: config.enumClassDecl.renameMember(decl, child.spelling()),
+                name: config.enums.renameMember(decl, child.spelling()),
                 value: enumIntValue,
               ),
             );

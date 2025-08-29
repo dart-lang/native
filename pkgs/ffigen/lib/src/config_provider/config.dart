@@ -35,13 +35,13 @@ final class FfiGenerator {
   final Functions functions;
 
   /// Declaration filters for Structs.
-  final DeclarationFilters structDecl;
+  final Structs structs;
 
   /// Declaration filters for Unions.
   final DeclarationFilters unionDecl;
 
   /// Declaration filters for Enums.
-  final DeclarationFilters enumClassDecl;
+  final Enums enums;
 
   /// Declaration filters for Unnamed enum constants.
   final DeclarationFilters unnamedEnumConstants;
@@ -150,17 +150,8 @@ final class FfiGenerator {
         ),
       );
 
-  /// Whether structs that are dependencies should be included.
-  final CompoundDependencies structDependencies;
-
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies unionDependencies;
-
-  /// Whether, and how, to override struct packing for the given struct.
-  final PackingValue? Function(Declaration declaration) structPackingOverride;
-
-  static PackingValue? _structPackingOverrideDefault(Declaration declaration) =>
-      null;
 
   /// The module that the ObjC interface belongs to.
   final String? Function(Declaration declaration) interfaceModule;
@@ -175,18 +166,11 @@ final class FfiGenerator {
   /// If `Dart_Handle` should be mapped with Handle/Object.
   final bool useDartHandle;
 
-  /// Whether to silence warning for enum integer type mimicking.
-  final bool silenceEnumWarning;
-
-  /// Whether to generate the given enum as a series of int constants, rather
-  /// than a real Dart enum.
-  final bool Function(Declaration declaration) enumShouldBeInt;
-
-  static bool _enumShouldBeIntDefault(Declaration declaration) => false;
-
   /// Whether to generate the given unnamed enum as a series of int constants,
   /// rather than a real Dart enum.
   final bool Function(Declaration declaration) unnamedEnumsShouldBeInt;
+
+  static bool _unnamedEnumsShouldBeIntDefault(Declaration declaration) => false;
 
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
@@ -199,9 +183,9 @@ final class FfiGenerator {
     this.filename,
     this.language = Language.c,
     this.functions = Functions.excludeAll,
-    this.structDecl = DeclarationFilters.excludeAll,
+    this.structs = const Structs(),
     this.unionDecl = DeclarationFilters.excludeAll,
-    this.enumClassDecl = DeclarationFilters.excludeAll,
+    this.enums = const Enums(),
     this.unnamedEnumConstants = DeclarationFilters.excludeAll,
     this.globals = DeclarationFilters.excludeAll,
     this.macroDecl = DeclarationFilters.excludeAll,
@@ -221,15 +205,11 @@ final class FfiGenerator {
     this.structTypeMappings = const <ImportedType>[],
     this.unionTypeMappings = const <ImportedType>[],
     this.nativeTypeMappings = const <ImportedType>[],
-    this.structDependencies = CompoundDependencies.full,
     this.unionDependencies = CompoundDependencies.full,
-    this.structPackingOverride = _structPackingOverrideDefault,
     this.interfaceModule = _interfaceModuleDefault,
     this.protocolModule = _protocolModuleDefault,
     this.useDartHandle = true,
-    this.silenceEnumWarning = false,
-    this.enumShouldBeInt = _enumShouldBeIntDefault,
-    this.unnamedEnumsShouldBeInt = _enumShouldBeIntDefault,
+    this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
@@ -480,6 +460,63 @@ final class Functions extends DeclarationFilters {
   static const includeAll = Functions(shouldInclude: _includeAll);
 
   static Functions include(Set<String> names) => Functions(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class Enums extends DeclarationFilters {
+  /// Whether to generate the given enum as a series of int constants, rather
+  /// than a real Dart enum.
+  final bool Function(Declaration declaration) shouldBeInt;
+
+  static bool _shouldBeIntDefault(Declaration declaration) => false;
+
+  /// Whether to silence warning for enum integer type mimicking.
+  final bool silenceWarning;
+
+  const Enums({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.shouldBeInt = _shouldBeIntDefault,
+    this.silenceWarning = false,
+  });
+
+  static const excludeAll = Enums(shouldInclude: _excludeAll);
+
+  static const includeAll = Enums(shouldInclude: _includeAll);
+
+  static Enums include(Set<String> names) => Enums(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class Structs extends DeclarationFilters {
+  /// Whether structs that are dependencies should be included.
+  final CompoundDependencies dependencies;
+
+  /// Whether, and how, to override struct packing for the given struct.
+  final PackingValue? Function(Declaration declaration) packingOverride;
+
+  static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
+
+  const Structs({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.dependencies = CompoundDependencies.full,
+    this.packingOverride = _packingOverrideDefault,
+  });
+
+  static const excludeAll = Structs(shouldInclude: _excludeAll);
+
+  static const includeAll = Structs(shouldInclude: _includeAll);
+
+  static Structs include(Set<String> names) => Structs(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }

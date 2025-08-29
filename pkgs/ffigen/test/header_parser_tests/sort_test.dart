@@ -32,7 +32,7 @@ void main() {
                 ),
               ],
             ),
-            structDecl: DeclarationFilters.includeAll,
+            structs: Structs.includeAll,
             unionDecl: DeclarationFilters.includeAll,
             typedefs: DeclarationFilters.includeAll,
             includeUnusedTypedefs: true,

@@ -75,17 +75,13 @@ class FfiGenConfig {
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.Functions? functionDecl;
 
-  /// [ffigen.FfiGenerator.structDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? structDecl;
+  final ffigen.Structs? structDecl;
 
   /// [ffigen.FfiGenerator.unionDecl]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.DeclarationFilters? unionDecl;
 
-  /// [ffigen.FfiGenerator.enumClassDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? enumClassDecl;
+  final ffigen.Enums? enumClassDecl;
 
   /// [ffigen.FfiGenerator.unnamedEnumConstants]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]

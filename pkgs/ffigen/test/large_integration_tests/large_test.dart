@@ -66,8 +66,8 @@ void main() {
           ].any((filename) => header.pathSegments.last == filename),
         ),
         functions: Functions.includeAll,
-        structDecl: DeclarationFilters.includeAll,
-        enumClassDecl: DeclarationFilters.includeAll,
+        structs: Structs.includeAll,
+        enums: Enums.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
         typedefTypeMappings: [
@@ -151,7 +151,7 @@ void main() {
           shouldInclude: (Uri header) => header.pathSegments.last == 'cJSON.h',
         ),
         functions: Functions.includeAll,
-        structDecl: DeclarationFilters.includeAll,
+        structs: Structs.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,
       );
@@ -200,7 +200,7 @@ void main() {
             'sqlite3_str_vappendf',
           }.contains(declaration.originalName),
         ),
-        structDecl: DeclarationFilters.includeAll,
+        structs: Structs.includeAll,
         globals: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
         typedefs: DeclarationFilters.includeAll,

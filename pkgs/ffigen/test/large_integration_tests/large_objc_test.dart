@@ -110,9 +110,21 @@ void main() {
           shouldIncludeMember: filter.shouldIncludeMember,
         );
       }(),
-      structDecl: randomFilter('structDecl'),
+      structs: () {
+        final filter = randomFilter('structDecl');
+        return Structs(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
       unionDecl: randomFilter('unionDecl'),
-      enumClassDecl: randomFilter('enumClassDecl'),
+      enums: () {
+        final filter = randomFilter('enums');
+        return Enums(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
       unnamedEnumConstants: randomFilter('unnamedEnumConstants'),
       globals: randomFilter('globals'),
       typedefs: randomFilter('typedefs'),

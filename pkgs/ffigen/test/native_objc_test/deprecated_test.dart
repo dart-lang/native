@@ -59,12 +59,9 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'DeprecatedCategory',
     }),
     functions: Functions.include({'normalFunction', 'deprecatedFunction'}),
-    structDecl: DeclarationFilters.include({
-      'NormalStruct',
-      'DeprecatedStruct',
-    }),
+    structs: Structs.include({'NormalStruct', 'DeprecatedStruct'}),
     unionDecl: DeclarationFilters.include({'NormalUnion', 'DeprecatedUnion'}),
-    enumClassDecl: DeclarationFilters.include({'NormalEnum', 'DeprecatedEnum'}),
+    enums: Enums.include({'NormalEnum', 'DeprecatedEnum'}),
     unnamedEnumConstants: DeclarationFilters.include({
       'normalUnnamedEnum',
       'deprecatedUnnamedEnum',
