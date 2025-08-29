@@ -18,7 +18,7 @@ void main() {
   group('NSRange', () {
     late final String bindings;
     setUpAll(() {
-      FfiGen(
+      FfiGenerator(
         wrapperName: 'NSRangeTestObjCLibrary',
         language: Language.objc,
         output: Uri.file(

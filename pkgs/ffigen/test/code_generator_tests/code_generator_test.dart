@@ -40,7 +40,10 @@ void main() {
     ) {
       final library = Library(
         context: testContext(
-          FfiGen(ffiNativeConfig: nativeConfig, output: Uri.file('unused')),
+          FfiGenerator(
+            ffiNativeConfig: nativeConfig,
+            output: Uri.file('unused'),
+          ),
         ),
         name: 'Bindings',
         header: licenseHeader,

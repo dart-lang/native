@@ -2,11 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:logging/logging.dart';
+
 import '../code_generator.dart';
+import '../ffigen.dart';
 import 'config_types.dart';
 
-/// Provides configurations to other modules.
-final class FfiGen {
+/// The generator that generates bindings for `dart:ffi` from C and Objective-C
+/// headers.
+// TODO: Add a code snippet example.
+final class FfiGenerator {
   /// Input config filename, if any.
   final Uri? filename;
 
@@ -240,7 +245,7 @@ final class FfiGen {
   /// before this version will not be generated.
   final ExternalVersions externalVersions;
 
-  FfiGen({
+  FfiGenerator({
     this.filename,
     required this.output,
     this.outputObjC,
@@ -295,9 +300,16 @@ final class FfiGen {
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
+
+  /// Run this generator.
+  void generate({required Logger? logger, Uri? libclangDylib}) {
+    return FfiGenGenerator(
+      this,
+    ).generate(logger: logger, libclangDylib: libclangDylib);
+  }
 }
 
-extension type Config(FfiGen ffiGen) implements FfiGen {
+extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   Map<String, LibraryImport> get libraryImports => ffiGen._libraryImports;
 
   Map<String, ImportedType> get typedefTypeMappings =>

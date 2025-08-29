@@ -18,7 +18,7 @@ void main() {
       logWarnings();
       actual = parser.parse(
         testContext(
-          FfiGen(
+          FfiGenerator(
             output: Uri.file('unused'),
             entryPoints: [
               Uri.file(

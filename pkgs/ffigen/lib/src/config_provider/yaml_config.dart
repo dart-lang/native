@@ -1236,7 +1236,7 @@ final class YamlConfig {
     );
   }
 
-  FfiGen configAdapter() => FfiGen(
+  FfiGenerator configAdapter() => FfiGenerator(
     output: output,
     filename: filename,
     outputObjC: outputObjC,

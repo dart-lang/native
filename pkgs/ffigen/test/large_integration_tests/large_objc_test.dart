@@ -71,7 +71,7 @@ void main() {
     // TODO(https://github.com/dart-lang/native/issues/2517): Remove this.
     const forceIncludedProtocols = {'NSTextLocation'};
 
-    final config = FfiGen(
+    final generator = FfiGenerator(
       wrapperName: 'LargeObjCLibrary',
       language: Language.objc,
       output: Uri.file(outFile),
@@ -114,7 +114,7 @@ void main() {
     );
 
     final timer = Stopwatch()..start();
-    config.generate(
+    generator.generate(
       logger: Logger.root
         ..level = Level.SEVERE
         ..onRecord.listen((record) {

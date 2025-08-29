@@ -37,15 +37,15 @@ class Context {
 
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
 
-  Context(this.logger, FfiGen config, {Uri? libclangDylib})
-    : config = Config(config),
+  Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
+    : config = Config(generator),
       cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
-        config.wrapperName,
-        config.generateForPackageObjectiveC,
+        generator.wrapperName,
+        generator.generateForPackageObjectiveC,
       ) {
     final libclangDylibPath =
-        config.libclangDylib?.toFilePath() ??
+        generator.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);
     _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
