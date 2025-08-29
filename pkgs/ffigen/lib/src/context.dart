@@ -7,7 +7,7 @@ import 'dart:ffi';
 import 'package:logging/logging.dart';
 
 import 'code_generator.dart' show Constant, ObjCBuiltInFunctions;
-import 'config_provider.dart' show FfiGen;
+import 'config_provider/config.dart';
 import 'config_provider/config_types.dart';
 import 'config_provider/spec_utils.dart';
 import 'header_parser/clang_bindings/clang_bindings.dart' show Clang;
@@ -17,7 +17,7 @@ import 'header_parser/utils.dart';
 class Context {
   final Logger logger;
 
-  final FfiGen config;
+  final Config config;
 
   final CursorIndex cursorIndex;
 
@@ -37,8 +37,9 @@ class Context {
 
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
 
-  Context(this.logger, this.config, {Uri? libclangDylib})
-    : cursorIndex = CursorIndex(logger),
+  Context(this.logger, FfiGen config, {Uri? libclangDylib})
+    : config = Config(config),
+      cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
         config.wrapperName,
         config.generateForPackageObjectiveC,

@@ -49,7 +49,7 @@ ${strings.preamble}: |
         ''')
                 as yaml.YamlMap,
             Logger.root,
-          ),
+          ).configAdapter(),
         ),
       );
     });

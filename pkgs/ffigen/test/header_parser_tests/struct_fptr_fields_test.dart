@@ -30,7 +30,7 @@ ${strings.headers}:
         ''')
                 as yaml.YamlMap,
             Logger.root,
-          ),
+          ).configAdapter(),
         ),
       );
     });

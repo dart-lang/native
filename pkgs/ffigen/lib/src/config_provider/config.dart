@@ -3,357 +3,363 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import 'config_impl.dart';
 import 'config_types.dart';
 
 /// Provides configurations to other modules.
-abstract interface class FfiGen {
+final class FfiGen {
   /// Input config filename, if any.
-  Uri? get filename;
+  final Uri? filename;
 
   /// Path to the clang library.
-  Uri? get libclangDylib;
+  final Uri? libclangDylib;
 
   /// Output file name.
-  Uri get output;
+  final Uri output;
 
   /// Output ObjC file name.
-  Uri get outputObjC;
+  final Uri? outputObjC;
+
+  Uri get _outputObjC => outputObjC ?? Uri.file('${output.toFilePath()}.m');
 
   /// Symbol file config.
-  SymbolFile? get symbolFile;
+  final SymbolFile? symbolFile;
 
   /// Language that ffigen is consuming.
-  Language get language;
+  final Language language;
 
   /// Path to headers. May not contain globs.
-  List<Uri> get entryPoints;
+  final List<Uri> entryPoints;
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
-  bool shouldIncludeHeader(Uri header);
+  final bool Function(Uri header) shouldIncludeHeader;
+
+  static bool _shouldIncludeHeaderDefault(Uri header) => true;
 
   /// CommandLine Arguments to pass to clang_compiler.
-  List<String>? get compilerOpts;
+  final List<String>? compilerOpts;
 
   /// VarArg function handling.
-  Map<String, List<VarArgFunction>> get varArgFunctions;
+  final Map<String, List<VarArgFunction>> varArgFunctions;
 
   /// Declaration filters for Functions.
-  DeclarationFilters get functionDecl;
+  final DeclarationFilters functionDecl;
 
   /// Declaration filters for Structs.
-  DeclarationFilters get structDecl;
+  final DeclarationFilters structDecl;
 
   /// Declaration filters for Unions.
-  DeclarationFilters get unionDecl;
+  final DeclarationFilters unionDecl;
 
   /// Declaration filters for Enums.
-  DeclarationFilters get enumClassDecl;
+  final DeclarationFilters enumClassDecl;
 
   /// Declaration filters for Unnamed enum constants.
-  DeclarationFilters get unnamedEnumConstants;
+  final DeclarationFilters unnamedEnumConstants;
 
   /// Declaration filters for Globals.
-  DeclarationFilters get globals;
+  final DeclarationFilters globals;
 
   /// Declaration filters for Macro constants.
-  DeclarationFilters get macroDecl;
+  final DeclarationFilters macroDecl;
 
   /// Declaration filters for Typedefs.
-  DeclarationFilters get typedefs;
+  final DeclarationFilters typedefs;
 
   /// Declaration filters for Objective C interfaces.
-  DeclarationFilters get objcInterfaces;
+  final DeclarationFilters objcInterfaces;
 
   /// Declaration filters for Objective C protocols.
-  DeclarationFilters get objcProtocols;
+  final DeclarationFilters objcProtocols;
 
   /// Declaration filters for Objective C categories.
-  DeclarationFilters get objcCategories;
+  final DeclarationFilters objcCategories;
 
   /// If enabled, unused typedefs will also be generated.
-  bool get includeUnusedTypedefs;
+  final bool includeUnusedTypedefs;
 
   /// If enabled, Objective C interfaces that are not explicitly included by
   /// the [DeclarationFilters], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included interfaces will be generated as stubs instead.
-  bool get includeTransitiveObjCInterfaces;
+  final bool includeTransitiveObjCInterfaces;
 
   /// If enabled, Objective C protocols that are not explicitly included by
   /// the [DeclarationFilters], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included protocols will not be generated at all.
-  bool get includeTransitiveObjCProtocols;
+  final bool includeTransitiveObjCProtocols;
 
   /// If enabled, Objective C categories that are not explicitly included by
   /// the [DeclarationFilters], but extend interfaces that are included,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included categories will not be generated at all.
-  bool get includeTransitiveObjCCategories;
+  final bool includeTransitiveObjCCategories;
 
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
   /// package:objective_c (the default) or code genned like any other class.
   /// This is necessary because package:objective_c can't import NSObject from
   /// itself.
-  bool get generateForPackageObjectiveC;
+  final bool generateForPackageObjectiveC;
 
   /// If generated bindings should be sorted alphabetically.
-  bool get sort;
+  final bool sort;
 
   /// If typedef of supported types(int8_t) should be directly used.
-  bool get useSupportedTypedefs;
+  final bool useSupportedTypedefs;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
-  Map<String, LibraryImport> get libraryImports;
+  final List<LibraryImport> libraryImports;
+
+  Map<String, LibraryImport> get _libraryImports =>
+      Map<String, LibraryImport>.fromEntries(
+        libraryImports.map(
+          (import) => MapEntry<String, LibraryImport>(import.name, import),
+        ),
+      );
 
   /// Stores all the symbol file maps name to ImportedType mappings specified by
   /// user.
-  Map<String, ImportedType> get usrTypeMappings;
+  final Map<String, ImportedType> usrTypeMappings;
 
   /// Stores typedef name to ImportedType mappings specified by user.
-  Map<String, ImportedType> get typedefTypeMappings;
+  final List<ImportedType> typedefTypeMappings;
+
+  Map<String, ImportedType> get _typedefTypeMappings =>
+      Map<String, ImportedType>.fromEntries(
+        typedefTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
   /// Stores struct name to ImportedType mappings specified by user.
-  Map<String, ImportedType> get structTypeMappings;
+  final List<ImportedType> structTypeMappings;
+
+  Map<String, ImportedType> get _structTypeMappings =>
+      Map<String, ImportedType>.fromEntries(
+        structTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
   /// Stores union name to ImportedType mappings specified by user.
-  Map<String, ImportedType> get unionTypeMappings;
+  final List<ImportedType> unionTypeMappings;
+
+  Map<String, ImportedType> get _unionTypeMappings =>
+      Map<String, ImportedType>.fromEntries(
+        unionTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
   /// Stores native int name to ImportedType mappings specified by user.
-  Map<String, ImportedType> get nativeTypeMappings;
+  final List<ImportedType> nativeTypeMappings;
+
+  Map<String, ImportedType> get _nativeTypeMappings =>
+      Map<String, ImportedType>.fromEntries(
+        nativeTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
   /// Extracted Doc comment type.
-  CommentType get commentType;
+  final CommentType commentType;
 
   /// Whether structs that are dependencies should be included.
-  CompoundDependencies get structDependencies;
+  final CompoundDependencies structDependencies;
 
   /// Whether unions that are dependencies should be included.
-  CompoundDependencies get unionDependencies;
+  final CompoundDependencies unionDependencies;
 
   /// Whether, and how, to override struct packing for the given struct.
-  PackingValue? structPackingOverride(Declaration declaration);
+  final PackingValue? Function(Declaration declaration) structPackingOverride;
+
+  static PackingValue? _structPackingOverrideDefault(Declaration declaration) =>
+      null;
 
   /// The module that the ObjC interface belongs to.
-  String? interfaceModule(Declaration declaration);
+  final String? Function(Declaration declaration) interfaceModule;
+
+  static String? _interfaceModuleDefault(Declaration declaration) => null;
 
   /// The module that the ObjC protocol belongs to.
-  String? protocolModule(Declaration declaration);
+  final String? Function(Declaration declaration) protocolModule;
+
+  static String? _protocolModuleDefault(Declaration declaration) => null;
 
   /// Name of the wrapper class.
-  String get wrapperName;
+  final String wrapperName;
 
   /// Doc comment for the wrapper class.
-  String? get wrapperDocComment;
+  final String? wrapperDocComment;
 
   /// Header of the generated bindings.
-  String? get preamble;
+  final String? preamble;
 
   /// If `Dart_Handle` should be mapped with Handle/Object.
-  bool get useDartHandle;
+  final bool useDartHandle;
 
   /// Whether to silence warning for enum integer type mimicking.
-  bool get silenceEnumWarning;
+  final bool silenceEnumWarning;
 
   /// Whether to expose the function typedef for a given function.
-  bool shouldExposeFunctionTypedef(Declaration declaration);
+  final bool Function(Declaration declaration) shouldExposeFunctionTypedef;
+
+  static bool _shouldExposeFunctionTypedefDefault(Declaration declaration) =>
+      false;
 
   /// Whether the given function is a leaf function.
-  bool isLeafFunction(Declaration declaration);
+  final bool Function(Declaration declaration) isLeafFunction;
+
+  static bool _isLeafFunctionDefault(Declaration declaration) => false;
 
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
-  bool enumShouldBeInt(Declaration declaration);
+  final bool Function(Declaration declaration) enumShouldBeInt;
+
+  static bool _enumShouldBeIntDefault(Declaration declaration) => false;
 
   /// Whether to generate the given unnamed enum as a series of int constants,
   /// rather than a real Dart enum.
-  bool unnamedEnumsShouldBeInt(Declaration declaration);
+  final bool Function(Declaration declaration) unnamedEnumsShouldBeInt;
+
+  static bool _unnamedEnumsShouldBeIntDefault(Declaration declaration) => false;
 
   /// Config options for @Native annotations.
-  FfiNativeConfig get ffiNativeConfig;
+  final FfiNativeConfig ffiNativeConfig;
 
   /// Where to ignore compiler warnings/errors in source header files.
-  bool get ignoreSourceErrors;
+  final bool ignoreSourceErrors;
 
   /// Whether to format the output file.
-  bool get formatOutput;
+  final bool formatOutput;
 
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
-  ExternalVersions get externalVersions;
+  final ExternalVersions externalVersions;
 
-  factory FfiGen({
-    Uri? filename,
-    required Uri output,
-    Uri? outputObjC,
-    SymbolFile? symbolFile,
-    Language language = Language.c,
-    List<Uri> entryPoints = const <Uri>[],
-    bool Function(Uri header)? shouldIncludeHeaderFunc,
-    List<String>? compilerOpts,
-    Map<String, List<VarArgFunction>> varArgFunctions =
-        const <String, List<VarArgFunction>>{},
-    DeclarationFilters? functionDecl,
-    DeclarationFilters? structDecl,
-    DeclarationFilters? unionDecl,
-    DeclarationFilters? enumClassDecl,
-    DeclarationFilters? unnamedEnumConstants,
-    DeclarationFilters? globals,
-    DeclarationFilters? macroDecl,
-    DeclarationFilters? typedefs,
-    DeclarationFilters? objcInterfaces,
-    DeclarationFilters? objcProtocols,
-    DeclarationFilters? objcCategories,
-    bool includeUnusedTypedefs = false,
-    bool includeTransitiveObjCInterfaces = false,
-    bool includeTransitiveObjCProtocols = false,
-    bool includeTransitiveObjCCategories = true,
-    bool generateForPackageObjectiveC = false,
-    bool sort = false,
-    bool useSupportedTypedefs = true,
-    List<LibraryImport> libraryImports = const <LibraryImport>[],
-    Map<String, ImportedType> usrTypeMappings = const <String, ImportedType>{},
-    List<ImportedType> typedefTypeMappings = const <ImportedType>[],
-    List<ImportedType> structTypeMappings = const <ImportedType>[],
-    List<ImportedType> unionTypeMappings = const <ImportedType>[],
-    List<ImportedType> nativeTypeMappings = const <ImportedType>[],
-    CommentType? commentType,
-    CompoundDependencies structDependencies = CompoundDependencies.full,
-    CompoundDependencies unionDependencies = CompoundDependencies.full,
-    PackingValue? Function(Declaration declaration)? structPackingOverrideFunc,
-    String? Function(Declaration declaration)? interfaceModuleFunc,
-    String? Function(Declaration declaration)? protocolModuleFunc,
-    String wrapperName = 'NativeLibrary',
-    String? wrapperDocComment,
-    String? preamble,
-    bool useDartHandle = true,
-    bool silenceEnumWarning = false,
-    bool Function(Declaration declaration)? shouldExposeFunctionTypedefFunc,
-    bool Function(Declaration declaration)? isLeafFunctionFunc,
-    bool Function(Declaration declaration)? enumShouldBeIntFunc,
-    bool Function(Declaration declaration)? unnamedEnumsShouldBeIntFunc,
-    FfiNativeConfig? ffiNativeConfig,
-    bool ignoreSourceErrors = false,
-    bool formatOutput = true,
-    ExternalVersions externalVersions = const ExternalVersions(),
-  }) => ConfigImpl(
-    filename: filename == null ? null : Uri.file(filename.toFilePath()),
-    output: Uri.file(output.toFilePath()),
-    outputObjC: Uri.file(
-      outputObjC?.toFilePath() ?? '${output.toFilePath()}.m',
-    ),
-    symbolFile: symbolFile,
-    language: language,
-    entryPoints: entryPoints,
-    shouldIncludeHeaderFunc: shouldIncludeHeaderFunc ?? (_) => true,
-    compilerOpts: compilerOpts,
-    varArgFunctions: varArgFunctions,
-    functionDecl: functionDecl ?? DeclarationFilters.excludeAll,
-    structDecl: structDecl ?? DeclarationFilters.excludeAll,
-    unionDecl: unionDecl ?? DeclarationFilters.excludeAll,
-    enumClassDecl: enumClassDecl ?? DeclarationFilters.excludeAll,
-    unnamedEnumConstants: unnamedEnumConstants ?? DeclarationFilters.excludeAll,
-    globals: globals ?? DeclarationFilters.excludeAll,
-    macroDecl: macroDecl ?? DeclarationFilters.excludeAll,
-    typedefs: typedefs ?? DeclarationFilters.excludeAll,
-    objcInterfaces: objcInterfaces ?? DeclarationFilters.excludeAll,
-    objcProtocols: objcProtocols ?? DeclarationFilters.excludeAll,
-    objcCategories: objcCategories ?? DeclarationFilters.excludeAll,
-    includeUnusedTypedefs: includeUnusedTypedefs,
-    includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
-    includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
-    includeTransitiveObjCCategories: includeTransitiveObjCCategories,
-    generateForPackageObjectiveC: generateForPackageObjectiveC,
-    sort: sort,
-    useSupportedTypedefs: useSupportedTypedefs,
-    libraryImports: Map<String, LibraryImport>.fromEntries(
-      libraryImports.map(
-        (import) => MapEntry<String, LibraryImport>(import.name, import),
-      ),
-    ),
-    usrTypeMappings: usrTypeMappings,
-    typedefTypeMappings: Map<String, ImportedType>.fromEntries(
-      typedefTypeMappings.map(
-        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-      ),
-    ),
-    structTypeMappings: Map<String, ImportedType>.fromEntries(
-      structTypeMappings.map(
-        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-      ),
-    ),
-    unionTypeMappings: Map<String, ImportedType>.fromEntries(
-      unionTypeMappings.map(
-        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-      ),
-    ),
-    nativeTypeMappings: Map<String, ImportedType>.fromEntries(
-      nativeTypeMappings.map(
-        (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-      ),
-    ),
-    commentType: commentType ?? CommentType.def(),
-    structDependencies: structDependencies,
-    unionDependencies: unionDependencies,
-    structPackingOverrideFunc: structPackingOverrideFunc ?? (_) => null,
-    interfaceModuleFunc: interfaceModuleFunc ?? (_) => null,
-    protocolModuleFunc: protocolModuleFunc ?? (_) => null,
-    wrapperName: wrapperName,
-    wrapperDocComment: wrapperDocComment,
-    preamble: preamble,
-    useDartHandle: useDartHandle,
-    silenceEnumWarning: silenceEnumWarning,
-    shouldExposeFunctionTypedefFunc:
-        shouldExposeFunctionTypedefFunc ?? (_) => false,
-    isLeafFunctionFunc: isLeafFunctionFunc ?? (_) => false,
-    enumShouldBeIntFunc: enumShouldBeIntFunc ?? (_) => false,
-    unnamedEnumsShouldBeIntFunc: unnamedEnumsShouldBeIntFunc ?? (_) => false,
-    ffiNativeConfig: ffiNativeConfig ?? const FfiNativeConfig(enabled: false),
-    ignoreSourceErrors: ignoreSourceErrors,
-    formatOutput: formatOutput,
-    externalVersions: externalVersions,
-  );
+  FfiGen({
+    this.filename,
+    required this.output,
+    this.outputObjC,
+    this.symbolFile,
+    this.language = Language.c,
+    this.entryPoints = const <Uri>[],
+    this.shouldIncludeHeader = _shouldIncludeHeaderDefault,
+    this.compilerOpts,
+    this.varArgFunctions = const <String, List<VarArgFunction>>{},
+    this.functionDecl = DeclarationFilters.excludeAll,
+    this.structDecl = DeclarationFilters.excludeAll,
+    this.unionDecl = DeclarationFilters.excludeAll,
+    this.enumClassDecl = DeclarationFilters.excludeAll,
+    this.unnamedEnumConstants = DeclarationFilters.excludeAll,
+    this.globals = DeclarationFilters.excludeAll,
+    this.macroDecl = DeclarationFilters.excludeAll,
+    this.typedefs = DeclarationFilters.excludeAll,
+    this.objcInterfaces = DeclarationFilters.excludeAll,
+    this.objcProtocols = DeclarationFilters.excludeAll,
+    this.objcCategories = DeclarationFilters.excludeAll,
+    this.includeUnusedTypedefs = false,
+    this.includeTransitiveObjCInterfaces = false,
+    this.includeTransitiveObjCProtocols = false,
+    this.includeTransitiveObjCCategories = true,
+    this.generateForPackageObjectiveC = false,
+    this.sort = false,
+    this.useSupportedTypedefs = true,
+    this.libraryImports = const <LibraryImport>[],
+    this.usrTypeMappings = const <String, ImportedType>{},
+    this.typedefTypeMappings = const <ImportedType>[],
+    this.structTypeMappings = const <ImportedType>[],
+    this.unionTypeMappings = const <ImportedType>[],
+    this.nativeTypeMappings = const <ImportedType>[],
+    this.commentType = const CommentType.def(),
+    this.structDependencies = CompoundDependencies.full,
+    this.unionDependencies = CompoundDependencies.full,
+    this.structPackingOverride = _structPackingOverrideDefault,
+    this.interfaceModule = _interfaceModuleDefault,
+    this.protocolModule = _protocolModuleDefault,
+    this.wrapperName = 'NativeLibrary',
+    this.wrapperDocComment,
+    this.preamble,
+    this.useDartHandle = true,
+    this.silenceEnumWarning = false,
+    this.shouldExposeFunctionTypedef = _shouldExposeFunctionTypedefDefault,
+    this.isLeafFunction = _isLeafFunctionDefault,
+    this.enumShouldBeInt = _enumShouldBeIntDefault,
+    this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
+    this.ffiNativeConfig = const FfiNativeConfig(enabled: false),
+    this.ignoreSourceErrors = false,
+    this.formatOutput = true,
+    this.externalVersions = const ExternalVersions(),
+    @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
+  });
 }
 
-abstract interface class DeclarationFilters {
+extension type Config(FfiGen ffiGen) implements FfiGen {
+  Map<String, LibraryImport> get libraryImports => ffiGen._libraryImports;
+
+  Map<String, ImportedType> get typedefTypeMappings =>
+      ffiGen._typedefTypeMappings;
+
+  Map<String, ImportedType> get structTypeMappings =>
+      ffiGen._structTypeMappings;
+
+  Map<String, ImportedType> get unionTypeMappings => ffiGen._unionTypeMappings;
+
+  Map<String, ImportedType> get nativeTypeMappings =>
+      ffiGen._nativeTypeMappings;
+
+  Uri get outputObjC => ffiGen._outputObjC;
+}
+
+final class DeclarationFilters {
   /// Checks if a name is allowed by a filter.
-  bool shouldInclude(Declaration declaration);
+  final bool Function(Declaration declaration) shouldInclude;
 
   /// Checks if the symbol address should be included for this name.
-  bool shouldIncludeSymbolAddress(Declaration declaration);
+  final bool Function(Declaration declaration) shouldIncludeSymbolAddress;
+
+  static bool _shouldIncludeDefault(Declaration declaration) => false;
 
   /// Applies renaming and returns the result.
-  String rename(Declaration declaration);
+  final String Function(Declaration declaration) rename;
+
+  static String _renameDefault(Declaration declaration) =>
+      declaration.originalName;
 
   /// Applies member renaming and returns the result. Used for struct/union
   /// fields, enum elements, function params, and ObjC
   /// interface/protocol/category methods/properties.
-  String renameMember(Declaration declaration, String member);
+  final String Function(Declaration declaration, String member) renameMember;
+
+  static String _renameMemberDefault(Declaration declaration, String member) =>
+      member;
 
   /// Whether a member of a declaration should be included. Used for ObjC
   /// interface/protocol/category methods/properties.
-  bool shouldIncludeMember(Declaration declaration, String member);
+  final bool Function(Declaration declaration, String member)
+  shouldIncludeMember;
 
-  factory DeclarationFilters({
-    bool Function(Declaration declaration)? shouldInclude,
-    bool Function(Declaration declaration)? shouldIncludeSymbolAddress,
-    String Function(Declaration declaration)? rename,
-    String Function(Declaration declaration, String member)? renameMember,
-    bool Function(Declaration declaration, String member)? shouldIncludeMember,
-  }) => DeclarationFiltersImpl(
-    shouldIncludeFunc: shouldInclude ?? (_) => false,
-    shouldIncludeSymbolAddressFunc: shouldIncludeSymbolAddress ?? (_) => false,
-    renameFunc: rename ?? (declaration) => declaration.originalName,
-    renameMemberFunc: renameMember ?? (_, member) => member,
-    shouldIncludeMemberFunc: shouldIncludeMember ?? (_, _) => true,
-  );
+  static bool _shouldIncludeMemberDefault(
+    Declaration declaration,
+    String member,
+  ) => true;
 
-  static final excludeAll = DeclarationFilters();
-  static final includeAll = DeclarationFilters(shouldInclude: (_) => true);
+  const DeclarationFilters({
+    this.shouldInclude = _shouldIncludeDefault,
+    this.shouldIncludeSymbolAddress = _shouldIncludeDefault,
+    this.rename = _renameDefault,
+    this.renameMember = _renameMemberDefault,
+    this.shouldIncludeMember = _shouldIncludeMemberDefault,
+  });
+
+  static const excludeAll = DeclarationFilters();
+
+  static const includeAll = DeclarationFilters(shouldInclude: _includeAll);
+
+  static bool _includeAll(Declaration d) => true;
 
   static DeclarationFilters include(Set<String> names) => DeclarationFilters(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),

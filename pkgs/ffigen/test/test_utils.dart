@@ -186,7 +186,7 @@ FfiGen testConfig(String yamlBody, {String? filename, Logger? logger}) {
         ),
       ),
     ]),
-  );
+  ).configAdapter();
 }
 
 FfiGen testConfigFromPath(String path) {
