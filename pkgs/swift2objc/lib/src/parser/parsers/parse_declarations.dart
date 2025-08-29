@@ -39,7 +39,7 @@ Declaration parseDeclaration(
 
   final symbolJson = parsedSymbol.json;
 
-  final builtIn = tryParseBuiltInDeclaration(symbolJson);
+  final builtIn = tryParseBuiltInDeclaration(parsedSymbol);
   if (builtIn != null) {
     return parsedSymbol.declaration = builtIn;
   }

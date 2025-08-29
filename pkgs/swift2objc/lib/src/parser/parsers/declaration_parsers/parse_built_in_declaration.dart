@@ -3,11 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/declarations/built_in/built_in_declaration.dart';
-import '../../_core/json.dart';
+import '../../../config.dart';
+import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/utils.dart';
 
-BuiltInDeclaration? tryParseBuiltInDeclaration(Json symbolJson) {
-  final id = parseSymbolId(symbolJson);
+BuiltInDeclaration? tryParseBuiltInDeclaration(ParsedSymbol parsedSymbol) {
+  if (parsedSymbol.source != builtInInputConfig) return null;
+  final id = parseSymbolId(parsedSymbol.json);
   if (!id.startsWith('c:objc(cs)')) return null;
-  return BuiltInDeclaration(id: id, name: parseSymbolName(symbolJson));
+  return BuiltInDeclaration(id: id, name: parseSymbolName(parsedSymbol.json));
 }
