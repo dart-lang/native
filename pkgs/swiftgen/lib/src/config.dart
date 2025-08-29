@@ -85,7 +85,7 @@ class FfiGenConfig {
 
   /// [ffigen.FfiGenerator.unnamedEnumConstants]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? unnamedEnumConstants;
+  final ffigen.UnnamedEnums? unnamedEnumConstants;
 
   /// [ffigen.FfiGenerator.globals]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]

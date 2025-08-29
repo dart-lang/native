@@ -31,6 +31,7 @@ export 'src/config_provider.dart'
         PackingValue,
         Structs,
         SymbolFile,
+        UnnamedEnums,
         VarArgFunction,
         Versions,
         YamlConfig,

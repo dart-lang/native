@@ -62,7 +62,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
     structs: Structs.include({'NormalStruct', 'DeprecatedStruct'}),
     unionDecl: DeclarationFilters.include({'NormalUnion', 'DeprecatedUnion'}),
     enums: Enums.include({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnumConstants: DeclarationFilters.include({
+    unnamedEnumConstants: UnnamedEnums.include({
       'normalUnnamedEnum',
       'deprecatedUnnamedEnum',
     }),

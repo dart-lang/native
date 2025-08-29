@@ -1293,7 +1293,11 @@ final class YamlConfig {
       shouldBeInt: enumShouldBeInt,
     ),
     unionDecl: unionDecl.configAdapter(),
-    unnamedEnumConstants: unnamedEnumConstants.configAdapter(),
+    unnamedEnumConstants: UnnamedEnums(
+      shouldInclude: _unnamedEnumConstants.shouldInclude,
+      rename: _unnamedEnumConstants.rename,
+      shouldBeInt: unnamedEnumsShouldBeInt,
+    ),
     globals: globals.configAdapter(),
     macroDecl: macroDecl.configAdapter(),
     typedefs: typedefs.configAdapter(),
@@ -1317,7 +1321,6 @@ final class YamlConfig {
     protocolModule: protocolModule,
     useDartHandle: useDartHandle,
 
-    unnamedEnumsShouldBeInt: unnamedEnumsShouldBeInt,
     externalVersions: externalVersions,
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,

@@ -44,7 +44,7 @@ final class FfiGenerator {
   final Enums enums;
 
   /// Declaration filters for Unnamed enum constants.
-  final DeclarationFilters unnamedEnumConstants;
+  final UnnamedEnums unnamedEnumConstants;
 
   /// Declaration filters for Globals.
   final DeclarationFilters globals;
@@ -166,12 +166,6 @@ final class FfiGenerator {
   /// If `Dart_Handle` should be mapped with Handle/Object.
   final bool useDartHandle;
 
-  /// Whether to generate the given unnamed enum as a series of int constants,
-  /// rather than a real Dart enum.
-  final bool Function(Declaration declaration) unnamedEnumsShouldBeInt;
-
-  static bool _unnamedEnumsShouldBeIntDefault(Declaration declaration) => false;
-
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
   final ExternalVersions externalVersions;
@@ -186,7 +180,7 @@ final class FfiGenerator {
     this.structs = const Structs(),
     this.unionDecl = DeclarationFilters.excludeAll,
     this.enums = const Enums(),
-    this.unnamedEnumConstants = DeclarationFilters.excludeAll,
+    this.unnamedEnumConstants = UnnamedEnums.excludeAll,
     this.globals = DeclarationFilters.excludeAll,
     this.macroDecl = DeclarationFilters.excludeAll,
     this.typedefs = DeclarationFilters.excludeAll,
@@ -209,7 +203,6 @@ final class FfiGenerator {
     this.interfaceModule = _interfaceModuleDefault,
     this.protocolModule = _protocolModuleDefault,
     this.useDartHandle = true,
-    this.unnamedEnumsShouldBeInt = _unnamedEnumsShouldBeIntDefault,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
@@ -489,6 +482,31 @@ final class Enums extends DeclarationFilters {
   static const includeAll = Enums(shouldInclude: _includeAll);
 
   static Enums include(Set<String> names) => Enums(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class UnnamedEnums extends DeclarationFilters {
+  /// Whether to generate the given enum as a series of int constants, rather
+  /// than a real Dart enum.
+  final bool Function(Declaration declaration) shouldBeInt;
+
+  static bool _shouldBeIntDefault(Declaration declaration) => false;
+
+  const UnnamedEnums({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.shouldBeInt = _shouldBeIntDefault,
+  });
+
+  static const excludeAll = UnnamedEnums(shouldInclude: _excludeAll);
+
+  static const includeAll = UnnamedEnums(shouldInclude: _includeAll);
+
+  static UnnamedEnums include(Set<String> names) => UnnamedEnums(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }
