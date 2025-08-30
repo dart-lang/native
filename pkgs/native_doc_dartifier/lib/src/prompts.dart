@@ -154,7 +154,7 @@ also provide your thinking process. Explain your approach to fixing the errors, 
 1.  **Use Previous Bindings:** Please use the JNIgen bindings to correctly resolve the remaining errors, for example use the correct class name, or use the correct method with the given number and types of parameters.
 2.  **Prioritize Helper File:** Make changes to the **helper Dart file** first.
 3.  **Modify Main File as a Last Resort:** Only alter the **main Dart file** if the problems cannot be resolved within the helper file.
-4.  **Minimalist Fixes:** Add only the code necessary to fix the remaining errors in the **helper Dart file**. Do not write a complete or fully initialized implementation.
+4.  **Minimalist Fixes:** Add only the code necessary to fix the remaining errors in the **helper Dart file**. Do not write a complete or fully initialized implementation for example you can initialize missing declerations like (late final Foo;).
 5.  **Valid Dart Syntax:** Ensure all generated Dart code is valid. Avoid using backslashes (`\\`) before dollar signs (`\$`).
 
 ---
