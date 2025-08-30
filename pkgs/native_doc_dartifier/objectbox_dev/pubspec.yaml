@@ -1,0 +1,10 @@
+name: objectbox_dev
+description: objectbox dev dependency.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.7.0 <4.0.0"
+
+dev_dependencies:
+  objectbox_generator: ^4.3.0
