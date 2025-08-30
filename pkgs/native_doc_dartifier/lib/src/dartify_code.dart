@@ -50,11 +50,22 @@ Future<String> dartifyNativeCode(String sourceCode, Context context) async {
     context.bindingsFileAbsolutePath,
   ]);
 
+  var bestResult = mainCode;
+  var currentBestErrorCount = double.maxFinite.toInt();
+
   for (var i = 0; i < 3; i++) {
-    final errorMessage = await codeProcessor.analyzeCode(mainCode, helperCode);
-    if (errorMessage.isEmpty) {
-      break;
+    final errorMessages = await codeProcessor.analyzeCode(mainCode, helperCode);
+    final errorMessage = errorMessages.join('\n\n');
+    final numberOfErrors = errorMessages.length;
+
+    if (numberOfErrors < currentBestErrorCount) {
+      currentBestErrorCount = numberOfErrors;
+      bestResult = mainCode;
+      if (numberOfErrors == 0) {
+        break;
+      }
     }
+
     stderr.writeln('Dart analysis found issues: $errorMessage');
     final fixPrompt = FixPrompt(mainCode, helperCode, errorMessage);
     final fixResponse = await chatSession.sendMessage(
@@ -65,6 +76,6 @@ Future<String> dartifyNativeCode(String sourceCode, Context context) async {
     mainCode = fixedCode.mainCode;
     helperCode = fixedCode.helperCode;
   }
-  mainCode = codeProcessor.removeHelperCodeImport(mainCode);
-  return mainCode;
+  bestResult = codeProcessor.removeHelperCodeImport(mainCode);
+  return bestResult;
 }
