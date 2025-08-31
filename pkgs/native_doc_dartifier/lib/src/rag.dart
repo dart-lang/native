@@ -21,7 +21,7 @@ class RAG {
 
   Future<List<String>> queryRAG(
     String javaSnippet, {
-    int numRetrievedDocs = 10,
+    int numRetrievedDocs = 20,
   }) async {
     final apiKey = Platform.environment['GEMINI_API_KEY'];
     if (apiKey == null) {
@@ -73,6 +73,8 @@ class RAG {
       model: 'gemini-embedding-001',
     );
 
+    // TODO: Check if the documents already exist in the RAG and skip
+    // adding them instead of clearing all and re-adding them.
     print('Clearing existing RAG documents...');
     _classSummaryBox.removeAll();
 

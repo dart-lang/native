@@ -32,7 +32,7 @@ Future<String> dartifyNativeCode(String sourceCode, Context context) async {
 
   final translatePrompt = TranslatePrompt(
     sourceCode,
-    context.toDartLikeRepresentation(),
+    await context.toDartLikeRepresentation(sourceCode),
   );
 
   final chatSession = model.startChat();
