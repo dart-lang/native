@@ -1,0 +1,125 @@
+import 'dart:io';
+
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:objectbox_dev/objectbox.g.dart';
+import 'package:objectbox_dev/rag_models.dart';
+
+class RAG {
+  static final RAG _instance = RAG._internal();
+  static RAG get instance => _instance;
+  late final Store _store;
+  late final Box<ClassSummaryRAGModel> _classSummaryBox;
+
+  RAG._internal() {
+    _store = openStore();
+    _classSummaryBox = _store.box<ClassSummaryRAGModel>();
+  }
+
+  void close() {
+    _store.close();
+  }
+
+  Future<List<String>> queryRAG(
+    String javaSnippet, {
+    int numRetrievedDocs = 10,
+  }) async {
+    final apiKey = Platform.environment['GEMINI_API_KEY'];
+    if (apiKey == null) {
+      stderr.writeln(r'No $GEMINI_API_KEY environment variable');
+      exit(1);
+    }
+
+    final embeddingModel = GenerativeModel(
+      apiKey: apiKey,
+      model: 'gemini-embedding-001',
+    );
+
+    final queryEmbeddings = await embeddingModel
+        .embedContent(Content.text(javaSnippet))
+        .then((embedContent) => embedContent.embedding.values);
+
+    // The Database makes use of HNSW algorithm for embeddings search which
+    // is O(log n) in search time complexity better than O(n).
+    // but the tradeoff that it gets the approximate nearest neighbors
+    // instead of the exact ones
+    // so make it to return approx 100 nearest neighbors and then get the top K.
+    final query =
+        _classSummaryBox
+            .query(
+              ClassSummaryRAGModel_.embeddings.nearestNeighborsF32(
+                queryEmbeddings,
+                100,
+              ),
+            )
+            .build();
+    query.limit = numRetrievedDocs;
+    final resultWithScore = query.findWithScores();
+    print('RAG query returned ${resultWithScore.length} results.');
+    final result = resultWithScore.map((e) => e.object.summary).toList();
+
+    query.close();
+    return result;
+  }
+
+  Future<void> addAllDocumentsToRag(List<String> classesSummary) async {
+    final apiKey = Platform.environment['GEMINI_API_KEY'];
+    if (apiKey == null) {
+      stderr.writeln(r'No $GEMINI_API_KEY environment variable');
+      exit(1);
+    }
+
+    final embeddingModel = GenerativeModel(
+      apiKey: apiKey,
+      model: 'gemini-embedding-001',
+    );
+
+    print('Clearing existing RAG documents...');
+    _classSummaryBox.removeAll();
+
+    const batchSize = 100;
+    final batchEmbededContent = <BatchEmbedContentsResponse>[];
+
+    for (var i = 0; i < classesSummary.length; i += batchSize) {
+      final upperbound =
+          i + batchSize < classesSummary.length
+              ? i + batchSize
+              : classesSummary.length;
+      print('Processing batch from $i to $upperbound...');
+      final batch = classesSummary.sublist(
+        i,
+        i + batchSize > classesSummary.length
+            ? classesSummary.length
+            : i + batchSize,
+      );
+
+      final batchResponse = await embeddingModel.batchEmbedContents(
+        List.generate(
+          batch.length,
+          (index) => EmbedContentRequest(Content.text(batch[index])),
+        ),
+      );
+
+      batchEmbededContent.add(batchResponse);
+
+      // Quota limit is 100 requests per minute
+      await Future<void>.delayed(const Duration(minutes: 1));
+    }
+
+    final embeddings = <List<double>>[];
+    for (final response in batchEmbededContent) {
+      for (final embedContent in response.embeddings) {
+        embeddings.add(embedContent.values);
+      }
+    }
+
+    final classSummaries = <ClassSummaryRAGModel>[];
+    for (var i = 0; i < classesSummary.length; i++) {
+      classSummaries.add(
+        ClassSummaryRAGModel(classesSummary[i], embeddings[i]),
+      );
+    }
+    _classSummaryBox.putMany(classSummaries);
+
+    print('Added ${classesSummary.length} documents to the RAG.');
+  }
+}
