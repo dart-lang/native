@@ -31,6 +31,10 @@ jobs:
       - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
         with:
           channel: ${{ matrix.sdk }}
+
+      - name: Download ObjectBox DB .so file
+        run: bash <(curl -s https://raw.githubusercontent.com/objectbox/objectbox-dart/main/install.sh)
+
       - id: install
         name: Install dependencies
         run: flutter pub get
