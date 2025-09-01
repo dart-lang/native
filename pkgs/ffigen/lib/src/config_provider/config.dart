@@ -14,6 +14,7 @@ import 'config_types.dart';
 /// headers.
 // TODO: Add a code snippet example.
 final class FfiGenerator {
+  /// The style of bindings to generate.
   final BindingStyle bindingStyle;
 
   /// The configuration for header parsing of [FfiGenerator].
@@ -29,28 +30,28 @@ final class FfiGenerator {
   /// Language that ffigen is consuming.
   final Language language;
 
-  /// Declaration filters for Functions.
+  /// Configuration for functions.
   final Functions functions;
 
-  /// Declaration filters for Structs.
+  /// Configuration for structs.
   final Structs structs;
 
-  /// Declaration filters for Unions.
+  /// Configuration for unions.
   final Unions unions;
 
-  /// Declaration filters for Enums.
+  /// Configuration for enums.
   final Enums enums;
 
-  /// Declaration filters for Unnamed enum constants.
+  /// Configuration for unnamed enum constants.
   final UnnamedEnums unnamedEnums;
 
-  /// Declaration filters for Globals.
+  /// Configuration for globals.
   final Declarations globals;
 
-  /// Declaration filters for Macro constants.
+  /// Configuration for macro constants.
   final Declarations macros;
 
-  /// Declaration filters for Typedefs.
+  /// Configuration for typedefs.
   final Typedefs typedefs;
 
   /// Objective-C specific configuration.
@@ -133,29 +134,30 @@ final class Headers {
   });
 }
 
+/// Configuration for outputting bindings.
 final class Output {
-  /// Output file name.
+  /// The output Dart file for the generated bindings.
   final Uri dartFile;
 
-  /// Output ObjC file name.
+  /// The output Objective-C file for the generated Objective-C bindings.
   final Uri? objectiveCFile;
 
   Uri get _objectiveCFile =>
       objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
 
-  /// Symbol file config.
+  /// The config for the symbol file.
   final SymbolFile? symbolFile;
 
-  /// If generated bindings should be sorted alphabetically.
+  /// Whether to sort the generated bindings alphabetically.
   final bool sort;
 
-  /// Extracted Doc comment type.
+  /// The type of comments to generate.
   final CommentType commentType;
 
-  /// Header of the generated bindings.
+  /// The preamble to add to the generated bindings.
   final String? preamble;
 
-  /// Whether to format the output file.
+  /// Whether to format the generated bindings.
   final bool format;
 
   Output({
@@ -212,6 +214,402 @@ final class DynamicLibraryBindings implements BindingStyle {
     this.wrapperDocComment,
   });
 }
+
+/// Configuration for declarations.
+final class Declarations {
+  /// Checks if a name is allowed by a filter.
+  final bool Function(Declaration declaration) shouldInclude;
+
+  /// Checks if the symbol address should be included for this name.
+  final bool Function(Declaration declaration) shouldIncludeSymbolAddress;
+
+  /// Applies renaming and returns the result.
+  final String Function(Declaration declaration) rename;
+
+  static String _useOriginalName(Declaration declaration) =>
+      declaration.originalName;
+
+  /// Applies member renaming and returns the result. Used for struct/union
+  /// fields, enum elements, function params, and ObjC
+  /// interface/protocol/category methods/properties.
+  final String Function(Declaration declaration, String member) renameMember;
+
+  static String _useMemberOriginalName(
+    Declaration declaration,
+    String member,
+  ) => member;
+
+  /// Whether a member of a declaration should be included. Used for ObjC
+  /// interface/protocol/category methods/properties.
+  final bool Function(Declaration declaration, String member)
+  shouldIncludeMember;
+
+  static bool _includeAllMembers(Declaration declaration, String member) =>
+      true;
+
+  const Declarations({
+    this.shouldInclude = _excludeAll,
+    this.shouldIncludeSymbolAddress = _excludeAll,
+    this.rename = _useOriginalName,
+    this.renameMember = _useMemberOriginalName,
+    this.shouldIncludeMember = _includeAllMembers,
+  });
+
+  static const excludeAll = Declarations();
+
+  static const includeAll = Declarations(shouldInclude: _includeAll);
+
+  static Declarations include(Set<String> names) => Declarations(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for globals.
+final class Globals extends Declarations {
+  const Globals({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+  });
+
+  static const excludeAll = Globals(shouldInclude: _excludeAll);
+
+  static const includeAll = Globals(shouldInclude: _includeAll);
+
+  static Globals include(Set<String> names) => Globals(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configures how Macros are handled.
+final class Macros extends Declarations {
+  const Macros({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+  });
+
+  static const excludeAll = Macros(shouldInclude: _excludeAll);
+
+  static const includeAll = Macros(shouldInclude: _includeAll);
+
+  static Macros include(Set<String> names) => Macros(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for Objective-C.
+final class ObjectiveC {
+  /// Declaration filters for Objective C interfaces.
+  final ObjCInterfaces interfaces;
+
+  /// Declaration filters for Objective C protocols.
+  final ObjCProtocols protocols;
+
+  /// Declaration filters for Objective C categories.
+  final ObjCCategories categories;
+
+  /// Undocumented option that changes code generation for package:objective_c.
+  /// The main difference is whether NSObject etc are imported from
+  /// package:objective_c (the default) or code genned like any other class.
+  /// This is necessary because package:objective_c can't import NSObject from
+  /// itself.
+  @Deprecated('Only for internal use.')
+  final bool generateForPackageObjectiveC;
+
+  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
+  /// before this version will not be generated.
+  final ExternalVersions externalVersions;
+
+  const ObjectiveC({
+    this.interfaces = ObjCInterfaces.excludeAll,
+    this.protocols = ObjCProtocols.excludeAll,
+    this.categories = ObjCCategories.excludeAll,
+    this.externalVersions = const ExternalVersions(),
+    @Deprecated('Only for internal use.')
+    this.generateForPackageObjectiveC = false,
+  });
+}
+
+/// Configuration for function declarations.
+final class Functions extends Declarations {
+  /// VarArg function handling.
+  final Map<String, List<VarArgFunction>> varArgs;
+
+  /// Whether to expose the function typedef for a given function.
+  final bool Function(Declaration declaration) exposeTypedef;
+
+  static bool _exposeTypedefDefault(Declaration declaration) => false;
+
+  /// Whether the given function is a leaf function.
+  final bool Function(Declaration declaration) isLeaf;
+
+  static bool _isLeafDefault(Declaration declaration) => false;
+
+  const Functions({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.varArgs = const <String, List<VarArgFunction>>{},
+    this.exposeTypedef = _exposeTypedefDefault,
+    this.isLeaf = _isLeafDefault,
+  });
+
+  static const excludeAll = Functions(shouldInclude: _excludeAll);
+
+  static const includeAll = Functions(shouldInclude: _includeAll);
+
+  static Functions include(Set<String> names) => Functions(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for enum declarations.
+final class Enums extends Declarations {
+  /// Whether to generate the given enum as a series of int constants, rather
+  /// than a real Dart enum.
+  final bool Function(Declaration declaration) shouldBeInt;
+
+  static bool _shouldBeIntDefault(Declaration declaration) => false;
+
+  /// Whether to silence warning for enum integer type mimicking.
+  final bool silenceWarning;
+
+  const Enums({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.shouldBeInt = _shouldBeIntDefault,
+    this.silenceWarning = false,
+  });
+
+  static const excludeAll = Enums(shouldInclude: _excludeAll);
+
+  static const includeAll = Enums(shouldInclude: _includeAll);
+
+  static Enums include(Set<String> names) => Enums(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for unnamed enum constants.
+final class UnnamedEnums extends Declarations {
+  /// Whether to generate the given enum as a series of int constants, rather
+  /// than a real Dart enum.
+  final bool Function(Declaration declaration) shouldBeInt;
+
+  static bool _shouldBeIntDefault(Declaration declaration) => false;
+
+  const UnnamedEnums({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.shouldBeInt = _shouldBeIntDefault,
+  });
+
+  static const excludeAll = UnnamedEnums(shouldInclude: _excludeAll);
+
+  static const includeAll = UnnamedEnums(shouldInclude: _includeAll);
+
+  static UnnamedEnums include(Set<String> names) => UnnamedEnums(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for struct declarations.
+final class Structs extends Declarations {
+  /// Whether structs that are dependencies should be included.
+  final CompoundDependencies dependencies;
+
+  /// Whether, and how, to override struct packing for the given struct.
+  final PackingValue? Function(Declaration declaration) packingOverride;
+
+  static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
+
+  /// Stores struct name to ImportedType mappings specified by user.
+  final List<ImportedType> typeMappings;
+
+  const Structs({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.dependencies = CompoundDependencies.full,
+    this.packingOverride = _packingOverrideDefault,
+    this.typeMappings = const <ImportedType>[],
+  });
+
+  static const excludeAll = Structs(shouldInclude: _excludeAll);
+
+  static const includeAll = Structs(shouldInclude: _includeAll);
+
+  static Structs include(Set<String> names) => Structs(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for union declarations.
+final class Unions extends Declarations {
+  /// Whether unions that are dependencies should be included.
+  final CompoundDependencies dependencies;
+
+  /// Stores union name to ImportedType mappings specified by user.
+  final List<ImportedType> typeMappings;
+
+  const Unions({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.dependencies = CompoundDependencies.full,
+    this.typeMappings = const <ImportedType>[],
+  });
+
+  static const excludeAll = Unions(shouldInclude: _excludeAll);
+
+  static const includeAll = Unions(shouldInclude: _includeAll);
+
+  static Unions include(Set<String> names) => Unions(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for typedefs.
+final class Typedefs extends Declarations {
+  /// If typedef of supported types(int8_t) should be directly used.
+  final bool useSupportedTypedefs;
+
+  /// If enabled, unused typedefs will also be generated.
+  final bool includeUnused;
+
+  /// Stores typedef name to ImportedType mappings specified by user.
+  final List<ImportedType> typeMappings;
+
+  const Typedefs({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.useSupportedTypedefs = true,
+    this.includeUnused = false,
+    this.typeMappings = const <ImportedType>[],
+  });
+
+  static const Typedefs excludeAll = Typedefs(shouldInclude: _excludeAll);
+
+  static const Typedefs includeAll = Typedefs(shouldInclude: _includeAll);
+
+  static Typedefs include(Set<String> names) => Typedefs(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for Objective-C interfaces.
+final class ObjCInterfaces extends Declarations {
+  /// If enabled, Objective C interfaces that are not explicitly included by
+  /// the [Declarations], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included interfaces will be generated as stubs instead.
+  final bool includeTransitive;
+
+  /// The module that the ObjC interface belongs to.
+  final String? Function(Declaration declaration) module;
+
+  static String? _moduleDefault(Declaration declaration) => null;
+
+  const ObjCInterfaces({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.includeTransitive = false,
+    this.module = _moduleDefault,
+  });
+
+  static const excludeAll = ObjCInterfaces(shouldInclude: _excludeAll);
+
+  static const includeAll = ObjCInterfaces(shouldInclude: _includeAll);
+
+  static ObjCInterfaces include(Set<String> names) => ObjCInterfaces(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for Objective-C protocols.
+final class ObjCProtocols extends Declarations {
+  /// If enabled, Objective C protocols that are not explicitly included by
+  /// the [Declarations], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included protocols will not be generated at all.
+  final bool includeTransitive;
+
+  /// The module that the ObjC protocol belongs to.
+  final String? Function(Declaration declaration) module;
+
+  static String? _moduleDefault(Declaration declaration) => null;
+
+  const ObjCProtocols({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.includeTransitive = false,
+    this.module = _moduleDefault,
+  });
+
+  static const excludeAll = ObjCProtocols(shouldInclude: _excludeAll);
+
+  static const includeAll = ObjCProtocols(shouldInclude: _includeAll);
+
+  static ObjCProtocols include(Set<String> names) => ObjCProtocols(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+/// Configuration for Objective-C categories.
+final class ObjCCategories extends Declarations {
+  /// If enabled, Objective C categories that are not explicitly included by
+  /// the [Declarations], but extend interfaces that are included,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included categories will not be generated at all.
+  final bool includeTransitive;
+
+  const ObjCCategories({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.includeTransitive = true,
+  });
+
+  static const excludeAll = ObjCCategories(shouldInclude: _excludeAll);
+
+  static const includeAll = ObjCCategories(shouldInclude: _includeAll);
+
+  static ObjCCategories include(Set<String> names) => ObjCCategories(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+bool _excludeAll(Declaration declaration) => false;
+
+bool _includeAll(Declaration d) => true;
 
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   ObjectiveC get _objectiveC => ffiGen.objectiveC ?? const ObjectiveC();
@@ -309,386 +707,3 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   Map<String, ImportedType> get nativeTypeMappings =>
       ffiGen._nativeTypeMappings;
 }
-
-final class Declarations {
-  /// Checks if a name is allowed by a filter.
-  final bool Function(Declaration declaration) shouldInclude;
-
-  /// Checks if the symbol address should be included for this name.
-  final bool Function(Declaration declaration) shouldIncludeSymbolAddress;
-
-  /// Applies renaming and returns the result.
-  final String Function(Declaration declaration) rename;
-
-  static String _useOriginalName(Declaration declaration) =>
-      declaration.originalName;
-
-  /// Applies member renaming and returns the result. Used for struct/union
-  /// fields, enum elements, function params, and ObjC
-  /// interface/protocol/category methods/properties.
-  final String Function(Declaration declaration, String member) renameMember;
-
-  static String _useMemberOriginalName(
-    Declaration declaration,
-    String member,
-  ) => member;
-
-  /// Whether a member of a declaration should be included. Used for ObjC
-  /// interface/protocol/category methods/properties.
-  final bool Function(Declaration declaration, String member)
-  shouldIncludeMember;
-
-  static bool _includeAllMembers(Declaration declaration, String member) =>
-      true;
-
-  const Declarations({
-    this.shouldInclude = _excludeAll,
-    this.shouldIncludeSymbolAddress = _excludeAll,
-    this.rename = _useOriginalName,
-    this.renameMember = _useMemberOriginalName,
-    this.shouldIncludeMember = _includeAllMembers,
-  });
-
-  static const excludeAll = Declarations();
-
-  static const includeAll = Declarations(shouldInclude: _includeAll);
-
-  static Declarations include(Set<String> names) => Declarations(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class Globals extends Declarations {
-  const Globals({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-  });
-
-  static const excludeAll = Globals(shouldInclude: _excludeAll);
-
-  static const includeAll = Globals(shouldInclude: _includeAll);
-
-  static Globals include(Set<String> names) => Globals(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class Macros extends Declarations {
-  const Macros({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-  });
-
-  static const excludeAll = Macros(shouldInclude: _excludeAll);
-
-  static const includeAll = Macros(shouldInclude: _includeAll);
-
-  static Macros include(Set<String> names) => Macros(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class ObjectiveC {
-  /// Declaration filters for Objective C interfaces.
-  final ObjCInterfaces interfaces;
-
-  /// Declaration filters for Objective C protocols.
-  final ObjCProtocols protocols;
-
-  /// Declaration filters for Objective C categories.
-  final ObjCCategories categories;
-
-  /// Undocumented option that changes code generation for package:objective_c.
-  /// The main difference is whether NSObject etc are imported from
-  /// package:objective_c (the default) or code genned like any other class.
-  /// This is necessary because package:objective_c can't import NSObject from
-  /// itself.
-  @Deprecated('Only for internal use.')
-  final bool generateForPackageObjectiveC;
-
-  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
-  /// before this version will not be generated.
-  final ExternalVersions externalVersions;
-
-  const ObjectiveC({
-    this.interfaces = ObjCInterfaces.excludeAll,
-    this.protocols = ObjCProtocols.excludeAll,
-    this.categories = ObjCCategories.excludeAll,
-    this.externalVersions = const ExternalVersions(),
-    @Deprecated('Only for internal use.')
-    this.generateForPackageObjectiveC = false,
-  });
-}
-
-final class Functions extends Declarations {
-  /// VarArg function handling.
-  final Map<String, List<VarArgFunction>> varArgs;
-
-  /// Whether to expose the function typedef for a given function.
-  final bool Function(Declaration declaration) exposeTypedef;
-
-  static bool _exposeTypedefDefault(Declaration declaration) => false;
-
-  /// Whether the given function is a leaf function.
-  final bool Function(Declaration declaration) isLeaf;
-
-  static bool _isLeafDefault(Declaration declaration) => false;
-
-  const Functions({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.varArgs = const <String, List<VarArgFunction>>{},
-    this.exposeTypedef = _exposeTypedefDefault,
-    this.isLeaf = _isLeafDefault,
-  });
-
-  static const excludeAll = Functions(shouldInclude: _excludeAll);
-
-  static const includeAll = Functions(shouldInclude: _includeAll);
-
-  static Functions include(Set<String> names) => Functions(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class Enums extends Declarations {
-  /// Whether to generate the given enum as a series of int constants, rather
-  /// than a real Dart enum.
-  final bool Function(Declaration declaration) shouldBeInt;
-
-  static bool _shouldBeIntDefault(Declaration declaration) => false;
-
-  /// Whether to silence warning for enum integer type mimicking.
-  final bool silenceWarning;
-
-  const Enums({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.shouldBeInt = _shouldBeIntDefault,
-    this.silenceWarning = false,
-  });
-
-  static const excludeAll = Enums(shouldInclude: _excludeAll);
-
-  static const includeAll = Enums(shouldInclude: _includeAll);
-
-  static Enums include(Set<String> names) => Enums(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class UnnamedEnums extends Declarations {
-  /// Whether to generate the given enum as a series of int constants, rather
-  /// than a real Dart enum.
-  final bool Function(Declaration declaration) shouldBeInt;
-
-  static bool _shouldBeIntDefault(Declaration declaration) => false;
-
-  const UnnamedEnums({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.shouldBeInt = _shouldBeIntDefault,
-  });
-
-  static const excludeAll = UnnamedEnums(shouldInclude: _excludeAll);
-
-  static const includeAll = UnnamedEnums(shouldInclude: _includeAll);
-
-  static UnnamedEnums include(Set<String> names) => UnnamedEnums(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class Structs extends Declarations {
-  /// Whether structs that are dependencies should be included.
-  final CompoundDependencies dependencies;
-
-  /// Whether, and how, to override struct packing for the given struct.
-  final PackingValue? Function(Declaration declaration) packingOverride;
-
-  static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
-
-  /// Stores struct name to ImportedType mappings specified by user.
-  final List<ImportedType> typeMappings;
-
-  const Structs({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.dependencies = CompoundDependencies.full,
-    this.packingOverride = _packingOverrideDefault,
-    this.typeMappings = const <ImportedType>[],
-  });
-
-  static const excludeAll = Structs(shouldInclude: _excludeAll);
-
-  static const includeAll = Structs(shouldInclude: _includeAll);
-
-  static Structs include(Set<String> names) => Structs(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class Unions extends Declarations {
-  /// Whether unions that are dependencies should be included.
-  final CompoundDependencies dependencies;
-
-  /// Stores union name to ImportedType mappings specified by user.
-  final List<ImportedType> typeMappings;
-
-  const Unions({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.dependencies = CompoundDependencies.full,
-    this.typeMappings = const <ImportedType>[],
-  });
-
-  static const excludeAll = Unions(shouldInclude: _excludeAll);
-
-  static const includeAll = Unions(shouldInclude: _includeAll);
-
-  static Unions include(Set<String> names) => Unions(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class Typedefs extends Declarations {
-  /// If typedef of supported types(int8_t) should be directly used.
-  final bool useSupportedTypedefs;
-
-  /// If enabled, unused typedefs will also be generated.
-  final bool includeUnused;
-
-  /// Stores typedef name to ImportedType mappings specified by user.
-  final List<ImportedType> typeMappings;
-
-  const Typedefs({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.useSupportedTypedefs = true,
-    this.includeUnused = false,
-    this.typeMappings = const <ImportedType>[],
-  });
-
-  static const Typedefs excludeAll = Typedefs(shouldInclude: _excludeAll);
-
-  static const Typedefs includeAll = Typedefs(shouldInclude: _includeAll);
-
-  static Typedefs include(Set<String> names) => Typedefs(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class ObjCInterfaces extends Declarations {
-  /// If enabled, Objective C interfaces that are not explicitly included by
-  /// the [Declarations], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included interfaces will be generated as stubs instead.
-  final bool includeTransitive;
-
-  /// The module that the ObjC interface belongs to.
-  final String? Function(Declaration declaration) module;
-
-  static String? _moduleDefault(Declaration declaration) => null;
-
-  const ObjCInterfaces({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.includeTransitive = false,
-    this.module = _moduleDefault,
-  });
-
-  static const excludeAll = ObjCInterfaces(shouldInclude: _excludeAll);
-
-  static const includeAll = ObjCInterfaces(shouldInclude: _includeAll);
-
-  static ObjCInterfaces include(Set<String> names) => ObjCInterfaces(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class ObjCProtocols extends Declarations {
-  /// If enabled, Objective C protocols that are not explicitly included by
-  /// the [Declarations], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included protocols will not be generated at all.
-  final bool includeTransitive;
-
-  /// The module that the ObjC protocol belongs to.
-  final String? Function(Declaration declaration) module;
-
-  static String? _moduleDefault(Declaration declaration) => null;
-
-  const ObjCProtocols({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.includeTransitive = false,
-    this.module = _moduleDefault,
-  });
-
-  static const excludeAll = ObjCProtocols(shouldInclude: _excludeAll);
-
-  static const includeAll = ObjCProtocols(shouldInclude: _includeAll);
-
-  static ObjCProtocols include(Set<String> names) => ObjCProtocols(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-final class ObjCCategories extends Declarations {
-  /// If enabled, Objective C categories that are not explicitly included by
-  /// the [Declarations], but extend interfaces that are included,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included categories will not be generated at all.
-  final bool includeTransitive;
-
-  const ObjCCategories({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.includeTransitive = true,
-  });
-
-  static const excludeAll = ObjCCategories(shouldInclude: _excludeAll);
-
-  static const includeAll = ObjCCategories(shouldInclude: _includeAll);
-
-  static ObjCCategories include(Set<String> names) => ObjCCategories(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
-}
-
-bool _excludeAll(Declaration declaration) => false;
-
-bool _includeAll(Declaration d) => true;
