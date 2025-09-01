@@ -1261,7 +1261,6 @@ final class YamlConfig {
       preamble: preamble,
       format: formatOutput,
     ),
-    filename: filename,
     language: language,
     functions: Functions(
       shouldInclude: functionDecl.shouldInclude,

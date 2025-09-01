@@ -22,9 +22,6 @@ final class FfiGenerator {
   /// The configuration for outputting bindings.
   final Output output;
 
-  /// Input config filename, if any.
-  final Uri? filename;
-
   /// Path to the clang library.
   final Uri? libclangDylib;
 
@@ -137,7 +134,6 @@ final class FfiGenerator {
     this.bindingStyle = const NativeExternalBindings(),
     this.headers = const Headers(),
     required this.output,
-    this.filename,
     this.language = Language.c,
     this.functions = Functions.excludeAll,
     this.structs = Structs.excludeAll,
