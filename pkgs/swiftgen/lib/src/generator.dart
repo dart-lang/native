@@ -13,14 +13,15 @@ import 'config.dart';
 import 'util.dart';
 
 extension SwiftGenGenerator on SwiftGenerator {
-  Future<void> generate(Logger logger) async {
+  Future<void> generate({required Logger? logger}) async {
+    logger ??= Logger.detached('dev/null')..level = Level.OFF;
     Directory(absTempDir).createSync(recursive: true);
     final swift2objcConfigs = inputs
         .map((input) => input.swift2ObjCConfig)
         .nonNulls
         .toList();
     if (swift2objcConfigs.isNotEmpty) {
-      await _generateObjCSwiftFile(swift2objcConfigs);
+      await _generateObjCSwiftFile(swift2objcConfigs, logger);
     }
     await _generateObjCFile();
     _generateDartFile(logger);
@@ -31,15 +32,14 @@ extension SwiftGenGenerator on SwiftGenerator {
 
   Future<void> _generateObjCSwiftFile(
     List<swift2objc.InputConfig> swift2objcConfigs,
-  ) => swift2objc.generateWrapper(
-    swift2objc.Config(
-      inputs: swift2objcConfigs,
-      include: include ?? (d) => true,
-      outputFile: objcSwiftFile,
-      tempDir: tempDir,
-      preamble: objcSwiftPreamble,
-    ),
-  );
+    Logger logger,
+  ) => swift2objc.Swift2ObjCGenerator(
+    inputs: swift2objcConfigs,
+    include: include ?? (d) => true,
+    outputFile: objcSwiftFile,
+    tempDir: tempDir,
+    preamble: objcSwiftPreamble,
+  ).generate(logger: logger);
 
   Future<void> _generateObjCFile() => run('swiftc', [
     '-c',

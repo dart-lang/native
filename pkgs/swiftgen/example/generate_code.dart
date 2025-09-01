@@ -15,8 +15,6 @@ Future<void> main() async {
     stderr.writeln('${record.level.name}: ${record.message}');
   });
 
-  final includes = {'AVAudioPlayer'};
-
   await SwiftGenerator(
     target: Target(
       triple: 'x86_64-apple-macosx14.0',
@@ -25,10 +23,7 @@ Future<void> main() async {
       ),
     ),
     inputs: [SwiftModuleInput(module: 'AVFAudio')],
-    include: (d) {
-      print('>>>>>> ${d.name}');
-      return includes.contains(d.name);
-    },
+    include: (d) => d.name == 'AVAudioPlayer',
     objcSwiftFile: Uri.file('avf_audio_wrapper.swift'),
     tempDirectory: Uri.directory('temp'),
     outputModule: 'AVFAudioWrapper',
@@ -56,7 +51,7 @@ Future<void> main() async {
 // coverage:ignore-file
 ''',
     ),
-  ).generate(logger);
+  ).generate(logger: logger);
 
   final result = Process.runSync('swiftc', [
     '-emit-library',

@@ -42,7 +42,7 @@ class TestGenerator {
   TestGenerator(this.name) {
     testDir = path.absolute(path.join(pkgDir, 'test/integration'));
     tempDir = path.join(testDir, 'temp');
-    inputFile = path.join(testDir, '${name}.swift');
+    inputFile = path.join(testDir, '$name.swift');
     wrapperFile = path.join(tempDir, '${name}_wrapper.swift');
     outputFile = path.join(tempDir, '${name}_output.dart');
     outputObjCFile = path.join(tempDir, '${name}_output.m');
@@ -53,13 +53,14 @@ class TestGenerator {
     actualOutputFile = path.join(testDir, '${name}_bindings.dart');
   }
 
-  Future<void> generateBindings() async => SwiftGen(
+  Future<void> generateBindings() async => await SwiftGenerator(
     target: await hostTarget,
     inputs: [
       SwiftFileInput(module: name, files: [Uri.file(inputFile)]),
     ],
     objcSwiftFile: Uri.file(wrapperFile),
     tempDirectory: Directory(tempDir).uri,
+    outputModule: name,
     ffigen: FfiGenConfig(
       output: Uri.file(outputFile),
       outputObjC: Uri.file(outputObjCFile),
@@ -80,7 +81,7 @@ class TestGenerator {
 // coverage:ignore-file
 ''',
     ),
-  ).generate(Logger.root..level = Level.SEVERE);
+  ).generate(logger: Logger.root..level = Level.SEVERE);
 
   Future<void> generateAndVerifyBindings() async {
     // Run the generation pipeline. This produces the swift compatability
