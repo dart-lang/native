@@ -177,9 +177,9 @@ Type getCodeGenType(
       if (typeSpellKey.startsWith('const ')) {
         typeSpellKey = typeSpellKey.replaceFirst('const ', '');
       }
-      if (context.config.nativeTypeMappings.containsKey(typeSpellKey)) {
+      if (context.config.importedIntegers.containsKey(typeSpellKey)) {
         context.logger.fine('  Type $typeSpellKey mapped from type-map.');
-        return context.config.nativeTypeMappings[typeSpellKey]!;
+        return context.config.importedIntegers[typeSpellKey]!;
       } else if (cxTypeKindToImportedTypes.containsKey(typeSpellKey)) {
         return cxTypeKindToImportedTypes[typeSpellKey]!;
       } else {
@@ -230,9 +230,9 @@ _CreateTypeFromCursorResult _createTypeFromCursor(
           config.typedefTypeMappings[spelling]!,
         );
       }
-      if (config.usrTypeMappings.containsKey(usr)) {
+      if (config.importedTypesByUsr.containsKey(usr)) {
         logger.fine('  Type $spelling mapped from usr');
-        return _CreateTypeFromCursorResult(config.usrTypeMappings[usr]!);
+        return _CreateTypeFromCursorResult(config.importedTypesByUsr[usr]!);
       }
       // Get name from supported typedef name if config allows.
       if (config.typedefs.useSupportedTypedefs) {
@@ -347,9 +347,9 @@ Type? _extractfromRecord(
     if (compoundTypeMappings.containsKey(declSpelling)) {
       logger.fine('  Type Mapped from type-map');
       return compoundTypeMappings[declSpelling]!;
-    } else if (config.usrTypeMappings.containsKey(declUsr)) {
+    } else if (config.importedTypesByUsr.containsKey(declUsr)) {
       logger.fine('  Type Mapped from usr');
-      return config.usrTypeMappings[declUsr]!;
+      return config.importedTypesByUsr[declUsr]!;
     } else {
       final struct = parseCompoundDeclaration(
         cursor,

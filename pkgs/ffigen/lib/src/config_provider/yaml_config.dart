@@ -1280,7 +1280,7 @@ final class YamlConfig {
       dependencies: _structDependencies,
       packingOverride: (decl) =>
           _structPackingOverride.getOverridenPackValue(decl.originalName),
-      typeMappings: structTypeMappings.values.toList(),
+      imported: structTypeMappings.values.toList(),
     ),
     enums: Enums(
       shouldInclude: _enumClassDecl.shouldInclude,
@@ -1298,7 +1298,7 @@ final class YamlConfig {
       rename: _unionDecl.rename,
       renameMember: _unionDecl.renameMember,
       dependencies: _unionDependencies,
-      typeMappings: unionTypeMappings.values.toList(),
+      imported: unionTypeMappings.values.toList(),
     ),
     unnamedEnums: UnnamedEnums(
       shouldInclude: _unnamedEnumConstants.shouldInclude,
@@ -1313,7 +1313,7 @@ final class YamlConfig {
       renameMember: typedefs.renameMember,
       useSupportedTypedefs: useSupportedTypedefs,
       includeUnused: includeUnusedTypedefs,
-      typeMappings: typedefTypeMappings.values.toList(),
+      imported: typedefTypeMappings.values.toList(),
     ),
     objectiveC: language == Language.objc
         ? ObjectiveC(
@@ -1352,8 +1352,8 @@ final class YamlConfig {
           )
         : null,
     libraryImports: libraryImports.values.toList(),
-    usrTypeMappings: usrTypeMappings,
-    nativeTypeMappings: nativeTypeMappings.values.toList(),
+    importedTypesByUsr: usrTypeMappings,
+    importedIntegers: nativeTypeMappings.values.toList(),
     useDartHandle: useDartHandle,
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,

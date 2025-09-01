@@ -71,7 +71,7 @@ void main() {
         macros: Macros.includeAll,
         typedefs: Typedefs(
           shouldInclude: (_) => true,
-          typeMappings: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
+          imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
         ),
       );
       final library = parse(testContext(generator));

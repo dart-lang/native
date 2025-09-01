@@ -57,16 +57,22 @@ final class FfiGenerator {
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
+  // TODO: Can we omit this and take it from all ImportedTypes?
   final List<LibraryImport> libraryImports;
 
-  /// Stores all the symbol file maps name to [ImportedType] mappings specified
-  /// by user.
-  final Map<String, ImportedType> usrTypeMappings;
+  /// Types imported from other Dart files, specified via the
+  /// unique-resource-identifer used in Clang.
+  ///
+  /// Applies to all kinds of definitions.
+  // TODO: Can we add `usr` to `Definition` and serve the use case that way?
+  final Map<String, ImportedType> importedTypesByUsr;
 
-  /// Stores native int name to ImportedType mappings specified by user.
-  final List<ImportedType> nativeTypeMappings;
+  /// Integer types imported from other Dart files.
+  // TODO: Should we move this under `integers: Integers(...)`?
+  final List<ImportedType> importedIntegers;
 
   /// If `Dart_Handle` should be mapped with Handle/Object.
+  // TODO: Can we remove this?
   final bool useDartHandle;
 
   const FfiGenerator({
@@ -82,8 +88,8 @@ final class FfiGenerator {
     this.typedefs = Typedefs.excludeAll,
     this.objectiveC,
     this.libraryImports = const <LibraryImport>[],
-    this.usrTypeMappings = const <String, ImportedType>{},
-    this.nativeTypeMappings = const <ImportedType>[],
+    this.importedTypesByUsr = const <String, ImportedType>{},
+    this.importedIntegers = const <ImportedType>[],
     this.useDartHandle = true,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
@@ -427,8 +433,8 @@ final class Structs extends Declarations {
 
   static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
 
-  /// Stores struct name to ImportedType mappings specified by user.
-  final List<ImportedType> typeMappings;
+  /// Structs imported from other Dart files.
+  final List<ImportedType> imported;
 
   const Structs({
     super.rename,
@@ -438,7 +444,7 @@ final class Structs extends Declarations {
     super.shouldIncludeSymbolAddress,
     this.dependencies = CompoundDependencies.opaque,
     this.packingOverride = _packingOverrideDefault,
-    this.typeMappings = const <ImportedType>[],
+    this.imported = const <ImportedType>[],
   });
 
   static const excludeAll = Structs(shouldInclude: _excludeAll);
@@ -455,8 +461,8 @@ final class Unions extends Declarations {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies dependencies;
 
-  /// Stores union name to ImportedType mappings specified by user.
-  final List<ImportedType> typeMappings;
+  /// Unions imported from other Dart files.
+  final List<ImportedType> imported;
 
   const Unions({
     super.rename,
@@ -465,7 +471,7 @@ final class Unions extends Declarations {
     super.shouldIncludeMember,
     super.shouldIncludeSymbolAddress,
     this.dependencies = CompoundDependencies.opaque,
-    this.typeMappings = const <ImportedType>[],
+    this.imported = const <ImportedType>[],
   });
 
   static const excludeAll = Unions(shouldInclude: _excludeAll);
@@ -485,8 +491,8 @@ final class Typedefs extends Declarations {
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
-  /// Stores typedef name to ImportedType mappings specified by user.
-  final List<ImportedType> typeMappings;
+  /// Typedefs imported from other Dart files.
+  final List<ImportedType> imported;
 
   const Typedefs({
     super.rename,
@@ -496,7 +502,7 @@ final class Typedefs extends Declarations {
     super.shouldIncludeSymbolAddress,
     this.useSupportedTypedefs = true,
     this.includeUnused = false,
-    this.typeMappings = const <ImportedType>[],
+    this.imported = const <ImportedType>[],
   });
 
   static const Typedefs excludeAll = Typedefs(shouldInclude: _excludeAll);
@@ -622,7 +628,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   Protocols get objcProtocols => _objectiveC.protocols;
   ExternalVersions get externalVersions => _objectiveC.externalVersions;
   bool get useDartHandle => ffiGen.useDartHandle;
-  Map<String, ImportedType> get usrTypeMappings => ffiGen.usrTypeMappings;
+  Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
   String get wrapperName => switch (ffiGen.output.bindingStyle) {
     final DynamicLibraryBindings e => e.wrapperName,
     final NativeExternalBindings e => e.wrapperName,
@@ -674,14 +680,14 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get typedefTypeMappings =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.typedefs.typeMappings.map(
+        ffiGen.typedefs.imported.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
 
   Map<String, ImportedType> get structTypeMappings =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.structs.typeMappings.map(
+        ffiGen.structs.imported.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
@@ -689,15 +695,15 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get unionTypeMappings =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.unions.typeMappings.map(
+        ffiGen.unions.imported.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
 
   // Override declarative user spec with what FFIgen internals expect.
-  Map<String, ImportedType> get nativeTypeMappings =>
+  Map<String, ImportedType> get importedIntegers =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.nativeTypeMappings.map(
+        ffiGen.importedIntegers.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );

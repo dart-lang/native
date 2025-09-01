@@ -16,7 +16,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void _visitImpl(Binding node, Declarations filters) {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
-    if (config.usrTypeMappings.containsKey(node.usr)) return;
+    if (config.importedTypesByUsr.containsKey(node.usr)) return;
     if (filters.shouldInclude(node)) directlyIncluded.add(node);
   }
 
