@@ -53,22 +53,10 @@ final class FfiGenerator {
   /// Declaration filters for Typedefs.
   final Typedefs typedefs;
 
-  /// Declaration filters for Objective C interfaces.
-  final ObjCInterfaces objcInterfaces;
-
-  /// Declaration filters for Objective C protocols.
-  final ObjCProtocols objcProtocols;
-
-  /// Declaration filters for Objective C categories.
-  final ObjCCategories objcCategories;
-
-  /// Undocumented option that changes code generation for package:objective_c.
-  /// The main difference is whether NSObject etc are imported from
-  /// package:objective_c (the default) or code genned like any other class.
-  /// This is necessary because package:objective_c can't import NSObject from
-  /// itself.
-  @Deprecated('Only for internal use.')
-  final bool generateForPackageObjectiveC;
+  /// Objective-C specific configuration.
+  ///
+  /// If `null`, will only generate for C.
+  final ObjectiveC? objectiveC;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
@@ -91,13 +79,9 @@ final class FfiGenerator {
   /// If `Dart_Handle` should be mapped with Handle/Object.
   final bool useDartHandle;
 
-  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
-  /// before this version will not be generated.
-  final ExternalVersions externalVersions;
-
   const FfiGenerator({
-    this.bindingStyle = const NativeExternalBindings(),
     this.headers = const Headers(),
+    this.bindingStyle = const NativeExternalBindings(),
     required this.output,
     this.language = Language.c,
     this.functions = Functions.excludeAll,
@@ -108,17 +92,12 @@ final class FfiGenerator {
     this.globals = Globals.excludeAll,
     this.macros = Macros.excludeAll,
     this.typedefs = Typedefs.excludeAll,
-    this.objcInterfaces = ObjCInterfaces.excludeAll,
-    this.objcProtocols = ObjCProtocols.excludeAll,
-    this.objcCategories = ObjCCategories.excludeAll,
+    this.objectiveC,
     this.libraryImports = const <LibraryImport>[],
     this.usrTypeMappings = const <String, ImportedType>{},
     this.nativeTypeMappings = const <ImportedType>[],
     this.useDartHandle = true,
-    this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
-    @Deprecated('Only for internal use.')
-    this.generateForPackageObjectiveC = false,
   });
 
   /// Run this generator.
@@ -235,16 +214,26 @@ final class DynamicLibraryBindings implements BindingStyle {
 }
 
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
+  ObjectiveC get _objectiveC => ffiGen.objectiveC ?? const ObjectiveC();
   bool get includeTransitiveObjCInterfaces =>
-      ffiGen.objcInterfaces.includeTransitive;
+      _objectiveC.interfaces.includeTransitive;
   bool get includeTransitiveObjCProtocols =>
-      ffiGen.objcProtocols.includeTransitive;
+      _objectiveC.protocols.includeTransitive;
   bool get includeTransitiveObjCCategories =>
-      ffiGen.objcCategories.includeTransitive;
+      _objectiveC.categories.includeTransitive;
   String? Function(Declaration declaration) get interfaceModule =>
-      ffiGen.objcInterfaces.module;
+      (declaration) => _objectiveC.interfaces.module(declaration);
   String? Function(Declaration declaration) get protocolModule =>
-      ffiGen.objcProtocols.module;
+      (declaration) => _objectiveC.protocols.module(declaration);
+  bool get generateForPackageObjectiveC =>
+      // ignore: deprecated_member_use_from_same_package
+      _objectiveC.generateForPackageObjectiveC;
+  ObjCCategories get objcCategories => _objectiveC.categories;
+  ObjCInterfaces get objcInterfaces => _objectiveC.interfaces;
+  ObjCProtocols get objcProtocols => _objectiveC.protocols;
+  ExternalVersions get externalVersions => _objectiveC.externalVersions;
+  bool get useDartHandle => ffiGen.useDartHandle;
+  Map<String, ImportedType> get usrTypeMappings => ffiGen.usrTypeMappings;
   String get wrapperName => switch (bindingStyle) {
     final DynamicLibraryBindings e => e.wrapperName,
     final NativeExternalBindings e => e.wrapperName,
@@ -369,9 +358,73 @@ final class Declarations {
   );
 }
 
-typedef Globals = Declarations;
+final class Globals extends Declarations {
+  const Globals({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+  });
 
-typedef Macros = Declarations;
+  static const excludeAll = Globals(shouldInclude: _excludeAll);
+
+  static const includeAll = Globals(shouldInclude: _includeAll);
+
+  static Globals include(Set<String> names) => Globals(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class Macros extends Declarations {
+  const Macros({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+  });
+
+  static const excludeAll = Macros(shouldInclude: _excludeAll);
+
+  static const includeAll = Macros(shouldInclude: _includeAll);
+
+  static Macros include(Set<String> names) => Macros(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class ObjectiveC {
+  /// Declaration filters for Objective C interfaces.
+  final ObjCInterfaces interfaces;
+
+  /// Declaration filters for Objective C protocols.
+  final ObjCProtocols protocols;
+
+  /// Declaration filters for Objective C categories.
+  final ObjCCategories categories;
+
+  /// Undocumented option that changes code generation for package:objective_c.
+  /// The main difference is whether NSObject etc are imported from
+  /// package:objective_c (the default) or code genned like any other class.
+  /// This is necessary because package:objective_c can't import NSObject from
+  /// itself.
+  @Deprecated('Only for internal use.')
+  final bool generateForPackageObjectiveC;
+
+  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
+  /// before this version will not be generated.
+  final ExternalVersions externalVersions;
+
+  const ObjectiveC({
+    this.interfaces = ObjCInterfaces.excludeAll,
+    this.protocols = ObjCProtocols.excludeAll,
+    this.categories = ObjCCategories.excludeAll,
+    this.externalVersions = const ExternalVersions(),
+    @Deprecated('Only for internal use.')
+    this.generateForPackageObjectiveC = false,
+  });
+}
 
 final class Functions extends Declarations {
   /// VarArg function handling.

@@ -56,19 +56,23 @@ extension SwiftGenGenerator on SwiftGen {
       globals: ffigen.globals ?? fg.Declarations.excludeAll,
       macros: ffigen.macros ?? fg.Declarations.excludeAll,
       typedefs: ffigen.typedefs ?? fg.Typedefs.excludeAll,
-      objcInterfaces:
-          ffigen.objcInterfaces ??
-          fg.ObjCInterfaces(
-            shouldInclude: (declaration) => false,
-            module: (_) => outputModule,
-          ),
-      objcProtocols:
-          ffigen.objcProtocols ??
-          fg.ObjCProtocols(
-            shouldInclude: (declaration) => false,
-            module: (_) => outputModule,
-          ),
-      objcCategories: ffigen.objcCategories ?? fg.ObjCCategories.excludeAll,
+      objectiveC: fg.ObjectiveC(
+        interfaces:
+            ffigen.objcInterfaces ??
+            fg.ObjCInterfaces(
+              shouldInclude: (declaration) => false,
+              module: (_) => outputModule,
+            ),
+        protocols:
+            ffigen.objcProtocols ??
+            fg.ObjCProtocols(
+              shouldInclude: (declaration) => false,
+              module: (_) => outputModule,
+            ),
+        categories: ffigen.objcCategories ?? fg.ObjCCategories.excludeAll,
+
+        externalVersions: ffigen.externalVersions,
+      ),
       headers: fg.Headers(
         entryPoints: [Uri.file(objcHeader)],
         compilerOpts: [
@@ -76,7 +80,6 @@ extension SwiftGenGenerator on SwiftGen {
           '-Wno-nullability-completeness',
         ],
       ),
-      externalVersions: ffigen.externalVersions,
     ).generate(logger: logger);
   }
 }

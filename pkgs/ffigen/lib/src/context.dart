@@ -43,7 +43,7 @@ class Context {
       objCBuiltInFunctions = ObjCBuiltInFunctions(
         Config(generator).wrapperName,
         // ignore: deprecated_member_use_from_same_package
-        generator.generateForPackageObjectiveC,
+        generator.objectiveC?.generateForPackageObjectiveC ?? false,
       ) {
     final libclangDylibPath =
         // ignore: deprecated_member_use_from_same_package

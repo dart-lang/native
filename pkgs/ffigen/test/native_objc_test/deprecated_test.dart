@@ -45,24 +45,27 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         ),
       ],
     ),
-    objcInterfaces: ObjCInterfaces(
-      shouldInclude: (decl) => {
-        'DeprecatedInterfaceMethods',
-        'DeprecatedInterface',
-      }.contains(decl.originalName),
-    ),
-    objcProtocols: ObjCProtocols(
-      shouldInclude: (decl) => {
-        'DeprecatedProtocolMethods',
-        'DeprecatedProtocol',
-      }.contains(decl.originalName),
-    ),
-    objcCategories: ObjCCategories(
-      shouldInclude: (decl) => {
-        'DeprecatedCategoryMethods',
-        'DeprecatedCategory',
-      }.contains(decl.originalName),
-      includeTransitive: false,
+    objectiveC: ObjectiveC(
+      interfaces: ObjCInterfaces(
+        shouldInclude: (decl) => {
+          'DeprecatedInterfaceMethods',
+          'DeprecatedInterface',
+        }.contains(decl.originalName),
+      ),
+      protocols: ObjCProtocols(
+        shouldInclude: (decl) => {
+          'DeprecatedProtocolMethods',
+          'DeprecatedProtocol',
+        }.contains(decl.originalName),
+      ),
+      categories: ObjCCategories(
+        shouldInclude: (decl) => {
+          'DeprecatedCategoryMethods',
+          'DeprecatedCategory',
+        }.contains(decl.originalName),
+        includeTransitive: false,
+      ),
+      externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
     functions: Functions.include({'normalFunction', 'deprecatedFunction'}),
     structs: Structs.include({'NormalStruct', 'DeprecatedStruct'}),
@@ -72,7 +75,6 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'normalUnnamedEnum',
       'deprecatedUnnamedEnum',
     }),
-    externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
   ).generate(logger: Logger.root..level = Level.SEVERE);
   return File(
     path.join(

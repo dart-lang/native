@@ -137,33 +137,35 @@ void main() {
       }(),
       globals: randomFilter('globals'),
       typedefs: Typedefs(shouldInclude: randomFilter('typedefs').shouldInclude),
-      objcInterfaces: () {
-        final filter = randomFilter('objcInterfaces');
-        return ObjCInterfaces(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
-          includeTransitive: false,
-        );
-      }(),
-      objcProtocols: () {
-        final filter = randomFilter('objcProtocols', forceIncludedProtocols);
-        return ObjCProtocols(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
-          includeTransitive: false,
-        );
-      }(),
-      objcCategories: () {
-        final filter = randomFilter('objcCategories');
-        return ObjCCategories(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
-          includeTransitive: false,
-        );
-      }(),
-      externalVersions: ExternalVersions(
-        ios: Versions(min: Version(12, 0, 0)),
-        macos: Versions(min: Version(10, 14, 0)),
+      objectiveC: ObjectiveC(
+        interfaces: () {
+          final filter = randomFilter('objcInterfaces');
+          return ObjCInterfaces(
+            shouldInclude: filter.shouldInclude,
+            shouldIncludeMember: filter.shouldIncludeMember,
+            includeTransitive: false,
+          );
+        }(),
+        protocols: () {
+          final filter = randomFilter('objcProtocols', forceIncludedProtocols);
+          return ObjCProtocols(
+            shouldInclude: filter.shouldInclude,
+            shouldIncludeMember: filter.shouldIncludeMember,
+            includeTransitive: false,
+          );
+        }(),
+        categories: () {
+          final filter = randomFilter('objcCategories');
+          return ObjCCategories(
+            shouldInclude: filter.shouldInclude,
+            shouldIncludeMember: filter.shouldIncludeMember,
+            includeTransitive: false,
+          );
+        }(),
+        externalVersions: ExternalVersions(
+          ios: Versions(min: Version(12, 0, 0)),
+          macos: Versions(min: Version(10, 14, 0)),
+        ),
       ),
     );
 

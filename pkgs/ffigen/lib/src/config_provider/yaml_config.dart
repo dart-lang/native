@@ -1316,40 +1316,47 @@ final class YamlConfig {
       includeUnused: includeUnusedTypedefs,
       typeMappings: typedefTypeMappings.values.toList(),
     ),
-    objcInterfaces: ObjCInterfaces(
-      shouldInclude: objcInterfaces.shouldInclude,
-      shouldIncludeSymbolAddress: objcInterfaces.shouldIncludeSymbolAddress,
-      shouldIncludeMember: objcInterfaces.shouldIncludeMember,
-      rename: objcInterfaces.rename,
-      renameMember: objcInterfaces.renameMember,
-      includeTransitive: includeTransitiveObjCInterfaces,
-      module: interfaceModule,
-    ),
-    objcProtocols: ObjCProtocols(
-      shouldInclude: objcProtocols.shouldInclude,
-      shouldIncludeSymbolAddress: objcProtocols.shouldIncludeSymbolAddress,
-      shouldIncludeMember: objcProtocols.shouldIncludeMember,
-      rename: objcProtocols.rename,
-      renameMember: objcProtocols.renameMember,
-      includeTransitive: includeTransitiveObjCProtocols,
-      module: protocolModule,
-    ),
-    objcCategories: ObjCCategories(
-      shouldInclude: objcCategories.shouldInclude,
-      shouldIncludeSymbolAddress: objcCategories.shouldIncludeSymbolAddress,
-      shouldIncludeMember: objcCategories.shouldIncludeMember,
-      rename: objcCategories.rename,
-      renameMember: objcCategories.renameMember,
-      includeTransitive: includeTransitiveObjCCategories,
-    ),
+    objectiveC: language == Language.objc
+        ? ObjectiveC(
+            interfaces: ObjCInterfaces(
+              shouldInclude: objcInterfaces.shouldInclude,
+              shouldIncludeSymbolAddress:
+                  objcInterfaces.shouldIncludeSymbolAddress,
+              shouldIncludeMember: objcInterfaces.shouldIncludeMember,
+              rename: objcInterfaces.rename,
+              renameMember: objcInterfaces.renameMember,
+              includeTransitive: includeTransitiveObjCInterfaces,
+              module: interfaceModule,
+            ),
+            protocols: ObjCProtocols(
+              shouldInclude: objcProtocols.shouldInclude,
+              shouldIncludeSymbolAddress:
+                  objcProtocols.shouldIncludeSymbolAddress,
+              shouldIncludeMember: objcProtocols.shouldIncludeMember,
+              rename: objcProtocols.rename,
+              renameMember: objcProtocols.renameMember,
+              includeTransitive: includeTransitiveObjCProtocols,
+              module: protocolModule,
+            ),
+            categories: ObjCCategories(
+              shouldInclude: objcCategories.shouldInclude,
+              shouldIncludeSymbolAddress:
+                  objcCategories.shouldIncludeSymbolAddress,
+              shouldIncludeMember: objcCategories.shouldIncludeMember,
+              rename: objcCategories.rename,
+              renameMember: objcCategories.renameMember,
+              includeTransitive: includeTransitiveObjCCategories,
+            ),
+            externalVersions: externalVersions,
+            // ignore: deprecated_member_use_from_same_package
+            generateForPackageObjectiveC: generateForPackageObjectiveC,
+          )
+        : null,
     libraryImports: libraryImports.values.toList(),
     usrTypeMappings: usrTypeMappings,
     nativeTypeMappings: nativeTypeMappings.values.toList(),
     useDartHandle: useDartHandle,
-    externalVersions: externalVersions,
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,
-    // ignore: deprecated_member_use_from_same_package
-    generateForPackageObjectiveC: generateForPackageObjectiveC,
   );
 }

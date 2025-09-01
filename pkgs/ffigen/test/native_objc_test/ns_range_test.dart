@@ -46,9 +46,11 @@ void main() {
             ),
           ],
         ),
-        objcInterfaces: ObjCInterfaces(
-          shouldInclude: (decl) =>
-              {'SFTranscriptionSegment'}.contains(decl.originalName),
+        objectiveC: ObjectiveC(
+          interfaces: ObjCInterfaces(
+            shouldInclude: (decl) =>
+                {'SFTranscriptionSegment'}.contains(decl.originalName),
+          ),
         ),
       ).generate(logger: Logger.root..level = Level.SEVERE);
       bindings = File(

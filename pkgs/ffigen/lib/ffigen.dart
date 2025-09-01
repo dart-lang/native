@@ -32,6 +32,7 @@ export 'src/config_provider.dart'
         ObjCCategories,
         ObjCInterfaces,
         ObjCProtocols,
+        ObjectiveC,
         Output,
         PackingValue,
         Structs,
