@@ -66,13 +66,6 @@ final class FfiGenerator {
   /// Stores native int name to ImportedType mappings specified by user.
   final List<ImportedType> nativeTypeMappings;
 
-  Map<String, ImportedType> get _nativeTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        nativeTypeMappings.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
-
   /// If `Dart_Handle` should be mapped with Handle/Object.
   final bool useDartHandle;
 
@@ -703,7 +696,11 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get nativeTypeMappings =>
-      ffiGen._nativeTypeMappings;
+      Map<String, ImportedType>.fromEntries(
+        ffiGen.nativeTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
   Language get language => objectiveC != null ? Language.objc : Language.c;
 }
