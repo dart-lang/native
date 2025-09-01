@@ -136,16 +136,16 @@ final class FfiGenerator {
   /// before this version will not be generated.
   final ExternalVersions externalVersions;
 
-  FfiGenerator({
+  const FfiGenerator({
     this.bindingStyle = const NativeExternalBindings(),
     this.headers = const Headers(),
     required this.output,
     this.filename,
     this.language = Language.c,
     this.functions = Functions.excludeAll,
-    this.structs = const Structs(),
+    this.structs = Structs.excludeAll,
     this.unions = Unions.excludeAll,
-    this.enums = const Enums(),
+    this.enums = Enums.excludeAll,
     this.unnamedEnumConstants = UnnamedEnums.excludeAll,
     this.globals = DeclarationFilters.excludeAll,
     this.macroDecl = DeclarationFilters.excludeAll,
