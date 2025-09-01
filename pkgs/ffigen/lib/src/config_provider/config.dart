@@ -74,13 +74,6 @@ final class FfiGenerator {
   /// and pkg_ffi.
   final List<LibraryImport> libraryImports;
 
-  Map<String, LibraryImport> get _libraryImports =>
-      Map<String, LibraryImport>.fromEntries(
-        libraryImports.map(
-          (import) => MapEntry<String, LibraryImport>(import.name, import),
-        ),
-      );
-
   /// Stores all the symbol file maps name to ImportedType mappings specified by
   /// user.
   final Map<String, ImportedType> usrTypeMappings;
@@ -88,32 +81,11 @@ final class FfiGenerator {
   /// Stores typedef name to ImportedType mappings specified by user.
   final List<ImportedType> typedefTypeMappings;
 
-  Map<String, ImportedType> get _typedefTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        typedefTypeMappings.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
-
   /// Stores struct name to ImportedType mappings specified by user.
   final List<ImportedType> structTypeMappings;
 
-  Map<String, ImportedType> get _structTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        structTypeMappings.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
-
   /// Stores union name to ImportedType mappings specified by user.
   final List<ImportedType> unionTypeMappings;
-
-  Map<String, ImportedType> get _unionTypeMappings =>
-      Map<String, ImportedType>.fromEntries(
-        unionTypeMappings.map(
-          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
-        ),
-      );
 
   /// Stores native int name to ImportedType mappings specified by user.
   final List<ImportedType> nativeTypeMappings;
@@ -325,16 +297,38 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   bool get formatOutput => ffiGen.output.format;
 
-  Map<String, LibraryImport> get libraryImports => ffiGen._libraryImports;
+  // Override declarative user spec with what FFIgen internals expect.
+  Map<String, LibraryImport> get libraryImports =>
+      Map<String, LibraryImport>.fromEntries(
+        ffiGen.libraryImports.map(
+          (import) => MapEntry<String, LibraryImport>(import.name, import),
+        ),
+      );
 
+  // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get typedefTypeMappings =>
-      ffiGen._typedefTypeMappings;
+      Map<String, ImportedType>.fromEntries(
+        ffiGen.typedefTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
   Map<String, ImportedType> get structTypeMappings =>
-      ffiGen._structTypeMappings;
+      Map<String, ImportedType>.fromEntries(
+        ffiGen.structTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
-  Map<String, ImportedType> get unionTypeMappings => ffiGen._unionTypeMappings;
+  // Override declarative user spec with what FFIgen internals expect.
+  Map<String, ImportedType> get unionTypeMappings =>
+      Map<String, ImportedType>.fromEntries(
+        ffiGen.unionTypeMappings.map(
+          (import) => MapEntry<String, ImportedType>(import.nativeType, import),
+        ),
+      );
 
+  // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get nativeTypeMappings =>
       ffiGen._nativeTypeMappings;
 }
