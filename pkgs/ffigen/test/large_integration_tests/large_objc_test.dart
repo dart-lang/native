@@ -41,19 +41,21 @@ void main() {
     // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
     const inclusionRatio = 0.1;
     const seed = 1234;
-    bool randInclude(String kind, Declaration clazz, [String? method]) =>
-        fnvHash32('$seed.$kind.${clazz.usr}.$method') <
+    bool randInclude(String kind, Declaration declaration, [String? member]) =>
+        fnvHash32('$seed.$kind.${declaration.usr}.$member') <
         ((1 << 32) * inclusionRatio);
-    Declarations randomFilter(
+    bool Function(Declaration clazz) includeRandom(
       String kind, [
       Set<String> forceIncludes = const {},
-    ]) => Declarations(
-      include: (Declaration clazz) =>
-          forceIncludes.contains(clazz.originalName) ||
-          randInclude(kind, clazz),
-      includeMember: (Declaration clazz, String method) =>
-          randInclude('$kind.memb', clazz, method),
-    );
+    ]) =>
+        (Declaration declaration) =>
+            forceIncludes.contains(declaration.originalName) ||
+            randInclude(kind, declaration);
+    bool Function(Declaration declaration, String member) includeMemberRandom(
+      String kind,
+    ) =>
+        (Declaration clazz, String method) =>
+            randInclude('$kind.memb', clazz, method);
 
     final outFile = path.join(
       packagePathForTests,
@@ -98,49 +100,38 @@ void main() {
 ''',
       ),
       functions: () {
-        return Functions(include: randomFilter('functionDecl').include);
+        return Functions(include: includeRandom('functionDecl'));
       }(),
       structs: () {
-        return Structs(include: randomFilter('structDecl').include);
+        return Structs(include: includeRandom('structDecl'));
       }(),
       unions: () {
-        return Unions(include: randomFilter('unionDecl').include);
+        return Unions(include: includeRandom('unionDecl'));
       }(),
       enums: () {
-        return Enums(include: randomFilter('enums').include);
+        return Enums(include: includeRandom('enums'));
       }(),
       unnamedEnums: () {
-        return UnnamedEnums(
-          include: randomFilter('unnamedEnumConstants').include,
-        );
+        return UnnamedEnums(include: includeRandom('unnamedEnumConstants'));
       }(),
-      globals: randomFilter('globals'),
-      typedefs: Typedefs(include: randomFilter('typedefs').include),
+      globals: Globals(include: includeRandom('globals')),
+      typedefs: Typedefs(include: includeRandom('typedefs')),
       objectiveC: ObjectiveC(
-        interfaces: () {
-          final filter = randomFilter('objcInterfaces');
-          return Interfaces(
-            include: filter.include,
-            includeMember: filter.includeMember,
-            includeTransitive: false,
-          );
-        }(),
-        protocols: () {
-          final filter = randomFilter('objcProtocols', forceIncludedProtocols);
-          return Protocols(
-            include: filter.include,
-            includeMember: filter.includeMember,
-            includeTransitive: false,
-          );
-        }(),
-        categories: () {
-          final filter = randomFilter('objcCategories');
-          return Categories(
-            include: filter.include,
-            includeMember: filter.includeMember,
-            includeTransitive: false,
-          );
-        }(),
+        interfaces: Interfaces(
+          include: includeRandom('objcInterfaces'),
+          includeMember: includeMemberRandom('objcInterfaces'),
+          includeTransitive: false,
+        ),
+        protocols: Protocols(
+          include: includeRandom('objcProtocols', forceIncludedProtocols),
+          includeMember: includeMemberRandom('objcProtocols'),
+          includeTransitive: false,
+        ),
+        categories: Categories(
+          include: includeRandom('objcCategories'),
+          includeMember: includeMemberRandom('objcCategories'),
+          includeTransitive: false,
+        ),
         externalVersions: ExternalVersions(
           ios: Versions(min: Version(12, 0, 0)),
           macos: Versions(min: Version(10, 14, 0)),

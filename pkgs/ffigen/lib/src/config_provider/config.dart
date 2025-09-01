@@ -24,10 +24,10 @@ final class FfiGenerator {
   final Functions functions;
 
   /// Configuration for globals.
-  final Declarations globals;
+  final Globals globals;
 
   /// Configuration for macro constants.
-  final Declarations macros;
+  final Macros macros;
 
   /// Configuration for structs.
   final Structs structs;

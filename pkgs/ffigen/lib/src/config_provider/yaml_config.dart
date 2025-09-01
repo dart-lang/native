@@ -1304,8 +1304,12 @@ final class YamlConfig {
         false => EnumStyle.dartEnum,
       },
     ),
-    globals: globals.configAdapter(),
-    macros: macroDecl.configAdapter(),
+    globals: Globals(
+      include: globals.shouldInclude,
+      includeSymbolAddress: globals.shouldIncludeSymbolAddress,
+      rename: globals.rename,
+    ),
+    macros: Macros(include: macroDecl.shouldInclude, rename: macroDecl.rename),
     typedefs: Typedefs(
       include: typedefs.shouldInclude,
       rename: typedefs.rename,
