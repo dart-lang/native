@@ -132,6 +132,13 @@ final class Declarations {
   /// Checks if a name is allowed by a filter.
   final bool Function(Declaration declaration) include;
 
+  /// Whether a member of a declaration should be included. Used for ObjC
+  /// interface/protocol/category methods/properties.
+  final bool Function(Declaration declaration, String member) includeMember;
+
+  static bool _includeAllMembers(Declaration declaration, String member) =>
+      true;
+
   /// Checks if the symbol address should be included for this name.
   final bool Function(Declaration declaration) includeSymbolAddress;
 
@@ -151,19 +158,12 @@ final class Declarations {
     String member,
   ) => member;
 
-  /// Whether a member of a declaration should be included. Used for ObjC
-  /// interface/protocol/category methods/properties.
-  final bool Function(Declaration declaration, String member) includeMember;
-
-  static bool _includeAllMembers(Declaration declaration, String member) =>
-      true;
-
   const Declarations({
     this.include = _excludeAll,
+    this.includeMember = _includeAllMembers,
     this.includeSymbolAddress = _excludeAll,
     this.rename = _useOriginalName,
     this.renameMember = _useMemberOriginalName,
-    this.includeMember = _includeAllMembers,
   });
 }
 
@@ -171,7 +171,7 @@ final class Declarations {
 final class Enums extends Declarations {
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
-  final EnumStyle Function(Declaration declaration) asInt;
+  final EnumStyle Function(Declaration declaration) style;
 
   static EnumStyle _styleDefault(Declaration declaration) => EnumStyle.dartEnum;
 
@@ -179,12 +179,12 @@ final class Enums extends Declarations {
   final bool silenceWarning;
 
   const Enums({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
-    this.asInt = _styleDefault,
+    super.rename,
+    super.renameMember,
+    this.style = _styleDefault,
     this.silenceWarning = false,
   });
 
@@ -196,13 +196,19 @@ final class Enums extends Declarations {
       Enums(include: (Declaration decl) => names.contains(decl.originalName));
 }
 
-enum EnumStyle { dartEnum, integers }
+/// Configuration for how to generate enums.
+enum EnumStyle {
+  /// Generate a real Dart enum.
+  dartEnum,
+
+  /// Generate the given enum as a series of int constants.
+  ///
+  /// Useful when enum values are also used as bit masks.
+  intConstants,
+}
 
 /// Configuration for function declarations.
 final class Functions extends Declarations {
-  /// VarArg function handling.
-  final Map<String, List<VarArgFunction>> varArgs;
-
   /// Whether to expose the function typedef for a given function.
   final bool Function(Declaration declaration) includeTypedef;
 
@@ -213,15 +219,18 @@ final class Functions extends Declarations {
 
   static bool _isLeafDefault(Declaration declaration) => false;
 
+  /// VarArg function handling.
+  final Map<String, List<VarArgFunction>> varArgs;
+
   const Functions({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
-    this.varArgs = const <String, List<VarArgFunction>>{},
+    super.rename,
+    super.renameMember,
     this.includeTypedef = _includeTypedefDefault,
     this.isLeaf = _isLeafDefault,
+    this.varArgs = const <String, List<VarArgFunction>>{},
   });
 
   static const excludeAll = Functions(include: _excludeAll);
@@ -262,23 +271,23 @@ final class Structs extends Declarations {
   /// Whether structs that are dependencies should be included.
   final CompoundDependencies dependencies;
 
+  /// Structs imported from other Dart files.
+  final List<ImportedType> imported;
+
   /// Whether, and how, to override struct packing for the given struct.
   final PackingValue? Function(Declaration declaration) packingOverride;
 
   static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
 
-  /// Structs imported from other Dart files.
-  final List<ImportedType> imported;
-
   const Structs({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
+    super.rename,
+    super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
-    this.packingOverride = _packingOverrideDefault,
     this.imported = const <ImportedType>[],
+    this.packingOverride = _packingOverrideDefault,
   });
 
   static const excludeAll = Structs(include: _excludeAll);
@@ -291,21 +300,21 @@ final class Structs extends Declarations {
 
 /// Configuration for typedefs.
 final class Typedefs extends Declarations {
-  /// If typedef of supported types(int8_t) should be directly used.
-  final bool useSupportedTypedefs;
+  /// Typedefs imported from other Dart files.
+  final List<ImportedType> imported;
 
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
-  /// Typedefs imported from other Dart files.
-  final List<ImportedType> imported;
+  /// If typedef of supported types(int8_t) should be directly used.
+  final bool useSupportedTypedefs;
 
   const Typedefs({
     super.rename,
     super.include,
-    this.useSupportedTypedefs = true,
-    this.includeUnused = false,
     this.imported = const <ImportedType>[],
+    this.includeUnused = false,
+    this.useSupportedTypedefs = true,
   });
 
   static const Typedefs excludeAll = Typedefs(include: _excludeAll);
@@ -326,11 +335,11 @@ final class Unions extends Declarations {
   final List<ImportedType> imported;
 
   const Unions({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
+    super.rename,
+    super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
     this.imported = const <ImportedType>[],
   });
@@ -352,11 +361,11 @@ final class UnnamedEnums extends Declarations {
   static EnumStyle _styleDefault(Declaration declaration) => EnumStyle.dartEnum;
 
   const UnnamedEnums({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
+    super.rename,
+    super.renameMember,
     this.style = _styleDefault,
   });
 
@@ -411,11 +420,11 @@ final class Categories extends Declarations {
   final bool includeTransitive;
 
   const Categories({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
+    super.rename,
+    super.renameMember,
     this.includeTransitive = true,
   });
 
@@ -442,11 +451,11 @@ final class Interfaces extends Declarations {
   static String? _moduleDefault(Declaration declaration) => null;
 
   const Interfaces({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
+    super.rename,
+    super.renameMember,
     this.includeTransitive = false,
     this.module = _moduleDefault,
   });
@@ -474,11 +483,11 @@ final class Protocols extends Declarations {
   static String? _moduleDefault(Declaration declaration) => null;
 
   const Protocols({
-    super.rename,
-    super.renameMember,
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
+    super.rename,
+    super.renameMember,
     this.includeTransitive = false,
     this.module = _moduleDefault,
   });

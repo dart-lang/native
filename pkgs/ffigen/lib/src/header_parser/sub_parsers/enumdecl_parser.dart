@@ -67,7 +67,7 @@ import 'unnamed_enumdecl_parser.dart';
       originalName: enumName,
       name: config.enums.rename(decl),
       nativeType: nativeType,
-      generateAsInt: config.enums.asInt(decl) == EnumStyle.integers,
+      generateAsInt: config.enums.style(decl) == EnumStyle.intConstants,
       objCBuiltInFunctions: context.objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {

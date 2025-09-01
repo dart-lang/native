@@ -1289,8 +1289,8 @@ final class YamlConfig {
       rename: _enumClassDecl.rename,
       renameMember: _enumClassDecl.renameMember,
       silenceWarning: silenceEnumWarning,
-      asInt: (e) => switch (enumShouldBeInt(e)) {
-        true => EnumStyle.integers,
+      style: (e) => switch (enumShouldBeInt(e)) {
+        true => EnumStyle.intConstants,
         false => EnumStyle.dartEnum,
       },
     ),
@@ -1307,7 +1307,7 @@ final class YamlConfig {
       include: _unnamedEnumConstants.shouldInclude,
       rename: _unnamedEnumConstants.rename,
       style: (e) => switch (enumShouldBeInt(e)) {
-        true => EnumStyle.integers,
+        true => EnumStyle.intConstants,
         false => EnumStyle.dartEnum,
       },
     ),
