@@ -59,17 +59,17 @@ extension SwiftGenGenerator on SwiftGen {
       objectiveC: fg.ObjectiveC(
         interfaces:
             ffigen.objcInterfaces ??
-            fg.ObjCInterfaces(
+            fg.Interfaces(
               shouldInclude: (declaration) => false,
               module: (_) => outputModule,
             ),
         protocols:
             ffigen.objcProtocols ??
-            fg.ObjCProtocols(
+            fg.Protocols(
               shouldInclude: (declaration) => false,
               module: (_) => outputModule,
             ),
-        categories: ffigen.objcCategories ?? fg.ObjCCategories.excludeAll,
+        categories: ffigen.objcCategories ?? fg.Categories.excludeAll,
 
         externalVersions: ffigen.externalVersions,
       ),

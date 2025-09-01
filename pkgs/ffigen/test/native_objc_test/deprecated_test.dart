@@ -45,19 +45,19 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ],
     ),
     objectiveC: ObjectiveC(
-      interfaces: ObjCInterfaces(
+      interfaces: Interfaces(
         shouldInclude: (decl) => {
           'DeprecatedInterfaceMethods',
           'DeprecatedInterface',
         }.contains(decl.originalName),
       ),
-      protocols: ObjCProtocols(
+      protocols: Protocols(
         shouldInclude: (decl) => {
           'DeprecatedProtocolMethods',
           'DeprecatedProtocol',
         }.contains(decl.originalName),
       ),
-      categories: ObjCCategories(
+      categories: Categories(
         shouldInclude: (decl) => {
           'DeprecatedCategoryMethods',
           'DeprecatedCategory',

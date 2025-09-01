@@ -35,7 +35,7 @@ Future<void> main() async {
         ios: fg.Versions(min: Version(12, 0, 0)),
         macos: fg.Versions(min: Version(10, 14, 0)),
       ),
-      objcInterfaces: fg.ObjCInterfaces(
+      objcInterfaces: fg.Interfaces(
         shouldInclude: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
       ),
       preamble: '''

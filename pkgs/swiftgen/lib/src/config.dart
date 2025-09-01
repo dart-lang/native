@@ -112,18 +112,18 @@ class FfiGenConfig {
 
   /// [ffigen.ObjectiveC.interfaces]
   ///
-  /// Defaults to [ffigen.ObjCInterfaces.excludeAll]
-  final ffigen.ObjCInterfaces? objcInterfaces;
+  /// Defaults to [ffigen.Interfaces.excludeAll]
+  final ffigen.Interfaces? objcInterfaces;
 
   /// [ffigen.ObjectiveC.protocols]
   ///
-  /// Defaults to [ffigen.ObjCProtocols.excludeAll]
-  final ffigen.ObjCProtocols? objcProtocols;
+  /// Defaults to [ffigen.Protocols.excludeAll]
+  final ffigen.Protocols? objcProtocols;
 
   /// [ffigen.ObjectiveC.categories]
   ///s
-  /// Defaults to [ffigen.ObjCCategories.excludeAll]
-  final ffigen.ObjCCategories? objcCategories;
+  /// Defaults to [ffigen.Categories.excludeAll]
+  final ffigen.Categories? objcCategories;
 
   /// [ffigen.ObjectiveC.externalVersions]
   final ffigen.ExternalVersions externalVersions;

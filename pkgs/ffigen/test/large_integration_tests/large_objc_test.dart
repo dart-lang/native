@@ -139,7 +139,7 @@ void main() {
       objectiveC: ObjectiveC(
         interfaces: () {
           final filter = randomFilter('objcInterfaces');
-          return ObjCInterfaces(
+          return Interfaces(
             shouldInclude: filter.shouldInclude,
             shouldIncludeMember: filter.shouldIncludeMember,
             includeTransitive: false,
@@ -147,7 +147,7 @@ void main() {
         }(),
         protocols: () {
           final filter = randomFilter('objcProtocols', forceIncludedProtocols);
-          return ObjCProtocols(
+          return Protocols(
             shouldInclude: filter.shouldInclude,
             shouldIncludeMember: filter.shouldIncludeMember,
             includeTransitive: false,
@@ -155,7 +155,7 @@ void main() {
         }(),
         categories: () {
           final filter = randomFilter('objcCategories');
-          return ObjCCategories(
+          return Categories(
             shouldInclude: filter.shouldInclude,
             shouldIncludeMember: filter.shouldIncludeMember,
             includeTransitive: false,

@@ -48,7 +48,7 @@ String generate({
       ],
     ),
     objectiveC: ObjectiveC(
-      interfaces: ObjCInterfaces(
+      interfaces: Interfaces(
         shouldInclude: (decl) => {
           'DirectlyIncluded',
           'DirectlyIncludedWithProtocol',
@@ -56,12 +56,12 @@ String generate({
         }.contains(decl.originalName),
         includeTransitive: includeTransitiveObjCInterfaces,
       ),
-      protocols: ObjCProtocols(
+      protocols: Protocols(
         shouldInclude: (decl) =>
             {'DirectlyIncludedProtocol'}.contains(decl.originalName),
         includeTransitive: includeTransitiveObjCProtocols,
       ),
-      categories: ObjCCategories(
+      categories: Categories(
         shouldInclude: (decl) =>
             {'DirectlyIncludedCategory'}.contains(decl.originalName),
         includeTransitive: includeTransitiveObjCCategories,

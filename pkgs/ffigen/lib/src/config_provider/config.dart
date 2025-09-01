@@ -303,13 +303,13 @@ final class Macros extends Declarations {
 /// Configuration for Objective-C.
 final class ObjectiveC {
   /// Declaration filters for Objective-C interfaces.
-  final ObjCInterfaces interfaces;
+  final Interfaces interfaces;
 
   /// Declaration filters for Objective-C protocols.
-  final ObjCProtocols protocols;
+  final Protocols protocols;
 
   /// Declaration filters for Objective-C categories.
-  final ObjCCategories categories;
+  final Categories categories;
 
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
@@ -324,9 +324,9 @@ final class ObjectiveC {
   final ExternalVersions externalVersions;
 
   const ObjectiveC({
-    this.interfaces = ObjCInterfaces.excludeAll,
-    this.protocols = ObjCProtocols.excludeAll,
-    this.categories = ObjCCategories.excludeAll,
+    this.interfaces = Interfaces.excludeAll,
+    this.protocols = Protocols.excludeAll,
+    this.categories = Categories.excludeAll,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only for internal use.')
     this.generateForPackageObjectiveC = false,
@@ -516,7 +516,7 @@ final class Typedefs extends Declarations {
 }
 
 /// Configuration for Objective-C interfaces.
-final class ObjCInterfaces extends Declarations {
+final class Interfaces extends Declarations {
   /// If enabled, Objective-C interfaces that are not explicitly included by
   /// the [Declarations], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
@@ -528,7 +528,7 @@ final class ObjCInterfaces extends Declarations {
 
   static String? _moduleDefault(Declaration declaration) => null;
 
-  const ObjCInterfaces({
+  const Interfaces({
     super.rename,
     super.renameMember,
     super.shouldInclude,
@@ -538,17 +538,17 @@ final class ObjCInterfaces extends Declarations {
     this.module = _moduleDefault,
   });
 
-  static const excludeAll = ObjCInterfaces(shouldInclude: _excludeAll);
+  static const excludeAll = Interfaces(shouldInclude: _excludeAll);
 
-  static const includeAll = ObjCInterfaces(shouldInclude: _includeAll);
+  static const includeAll = Interfaces(shouldInclude: _includeAll);
 
-  static ObjCInterfaces include(Set<String> names) => ObjCInterfaces(
+  static Interfaces include(Set<String> names) => Interfaces(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
 /// Configuration for Objective-C protocols.
-final class ObjCProtocols extends Declarations {
+final class Protocols extends Declarations {
   /// If enabled, Objective-C protocols that are not explicitly included by
   /// the [Declarations], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
@@ -560,7 +560,7 @@ final class ObjCProtocols extends Declarations {
 
   static String? _moduleDefault(Declaration declaration) => null;
 
-  const ObjCProtocols({
+  const Protocols({
     super.rename,
     super.renameMember,
     super.shouldInclude,
@@ -570,24 +570,24 @@ final class ObjCProtocols extends Declarations {
     this.module = _moduleDefault,
   });
 
-  static const excludeAll = ObjCProtocols(shouldInclude: _excludeAll);
+  static const excludeAll = Protocols(shouldInclude: _excludeAll);
 
-  static const includeAll = ObjCProtocols(shouldInclude: _includeAll);
+  static const includeAll = Protocols(shouldInclude: _includeAll);
 
-  static ObjCProtocols include(Set<String> names) => ObjCProtocols(
+  static Protocols include(Set<String> names) => Protocols(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
 /// Configuration for Objective-C categories.
-final class ObjCCategories extends Declarations {
+final class Categories extends Declarations {
   /// If enabled, Objective-C categories that are not explicitly included by
   /// the [Declarations], but extend interfaces that are included,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included categories will not be generated at all.
   final bool includeTransitive;
 
-  const ObjCCategories({
+  const Categories({
     super.rename,
     super.renameMember,
     super.shouldInclude,
@@ -596,11 +596,11 @@ final class ObjCCategories extends Declarations {
     this.includeTransitive = true,
   });
 
-  static const excludeAll = ObjCCategories(shouldInclude: _excludeAll);
+  static const excludeAll = Categories(shouldInclude: _excludeAll);
 
-  static const includeAll = ObjCCategories(shouldInclude: _includeAll);
+  static const includeAll = Categories(shouldInclude: _includeAll);
 
-  static ObjCCategories include(Set<String> names) => ObjCCategories(
+  static Categories include(Set<String> names) => Categories(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }
@@ -624,9 +624,9 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   bool get generateForPackageObjectiveC =>
       // ignore: deprecated_member_use_from_same_package
       _objectiveC.generateForPackageObjectiveC;
-  ObjCCategories get objcCategories => _objectiveC.categories;
-  ObjCInterfaces get objcInterfaces => _objectiveC.interfaces;
-  ObjCProtocols get objcProtocols => _objectiveC.protocols;
+  Categories get objcCategories => _objectiveC.categories;
+  Interfaces get objcInterfaces => _objectiveC.interfaces;
+  Protocols get objcProtocols => _objectiveC.protocols;
   ExternalVersions get externalVersions => _objectiveC.externalVersions;
   bool get useDartHandle => ffiGen.useDartHandle;
   Map<String, ImportedType> get usrTypeMappings => ffiGen.usrTypeMappings;

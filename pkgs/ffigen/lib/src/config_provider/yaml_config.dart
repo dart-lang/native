@@ -1317,7 +1317,7 @@ final class YamlConfig {
     ),
     objectiveC: language == Language.objc
         ? ObjectiveC(
-            interfaces: ObjCInterfaces(
+            interfaces: Interfaces(
               shouldInclude: objcInterfaces.shouldInclude,
               shouldIncludeSymbolAddress:
                   objcInterfaces.shouldIncludeSymbolAddress,
@@ -1327,7 +1327,7 @@ final class YamlConfig {
               includeTransitive: includeTransitiveObjCInterfaces,
               module: interfaceModule,
             ),
-            protocols: ObjCProtocols(
+            protocols: Protocols(
               shouldInclude: objcProtocols.shouldInclude,
               shouldIncludeSymbolAddress:
                   objcProtocols.shouldIncludeSymbolAddress,
@@ -1337,7 +1337,7 @@ final class YamlConfig {
               includeTransitive: includeTransitiveObjCProtocols,
               module: protocolModule,
             ),
-            categories: ObjCCategories(
+            categories: Categories(
               shouldInclude: objcCategories.shouldInclude,
               shouldIncludeSymbolAddress:
                   objcCategories.shouldIncludeSymbolAddress,
