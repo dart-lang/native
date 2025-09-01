@@ -37,7 +37,7 @@ void main() {
             unions: Unions.includeAll,
             enums: Enums.includeAll,
             functions: Functions.includeAll,
-            globals: DeclarationFilters.includeAll,
+            globals: Globals.includeAll,
             typedefs: Typedefs(
               shouldInclude: (Declaration decl) => true,
               includeUnused: true,

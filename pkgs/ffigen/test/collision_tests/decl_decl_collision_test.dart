@@ -20,8 +20,8 @@ void main() {
         functions: Functions.includeAll,
         structs: Structs.includeAll,
         enums: Enums.includeAll,
-        globals: DeclarationFilters.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
+        globals: Globals.includeAll,
+        macroDecl: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
       final library = Library(

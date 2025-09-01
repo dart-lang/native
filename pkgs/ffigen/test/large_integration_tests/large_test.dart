@@ -68,7 +68,7 @@ void main() {
         functions: Functions.includeAll,
         structs: Structs.includeAll,
         enums: Enums.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
+        macroDecl: Macros.includeAll,
         typedefs: Typedefs(
           shouldInclude: (_) => true,
           typeMappings: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
@@ -152,7 +152,7 @@ void main() {
         ),
         functions: Functions.includeAll,
         structs: Structs.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
+        macroDecl: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
       final library = parse(testContext(generator));
@@ -201,8 +201,8 @@ void main() {
           }.contains(declaration.originalName),
         ),
         structs: Structs.includeAll,
-        globals: DeclarationFilters.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
+        globals: Globals.includeAll,
+        macroDecl: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
       final library = parse(testContext(generator));

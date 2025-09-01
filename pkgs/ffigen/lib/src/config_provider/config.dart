@@ -45,10 +45,10 @@ final class FfiGenerator {
   final UnnamedEnums unnamedEnums;
 
   /// Declaration filters for Globals.
-  final DeclarationFilters globals;
+  final Declarations globals;
 
   /// Declaration filters for Macro constants.
-  final DeclarationFilters macroDecl;
+  final Declarations macroDecl;
 
   /// Declaration filters for Typedefs.
   final Typedefs typedefs;
@@ -105,8 +105,8 @@ final class FfiGenerator {
     this.unions = Unions.excludeAll,
     this.enums = Enums.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
-    this.globals = DeclarationFilters.excludeAll,
-    this.macroDecl = DeclarationFilters.excludeAll,
+    this.globals = Globals.excludeAll,
+    this.macroDecl = Macros.excludeAll,
     this.typedefs = Typedefs.excludeAll,
     this.objcInterfaces = ObjCInterfaces.excludeAll,
     this.objcProtocols = ObjCProtocols.excludeAll,
@@ -321,7 +321,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
       ffiGen._nativeTypeMappings;
 }
 
-final class DeclarationFilters {
+final class Declarations {
   /// Checks if a name is allowed by a filter.
   final bool Function(Declaration declaration) shouldInclude;
 
@@ -352,7 +352,7 @@ final class DeclarationFilters {
   static bool _includeAllMembers(Declaration declaration, String member) =>
       true;
 
-  const DeclarationFilters({
+  const Declarations({
     this.shouldInclude = _excludeAll,
     this.shouldIncludeSymbolAddress = _excludeAll,
     this.rename = _useOriginalName,
@@ -360,16 +360,20 @@ final class DeclarationFilters {
     this.shouldIncludeMember = _includeAllMembers,
   });
 
-  static const excludeAll = DeclarationFilters();
+  static const excludeAll = Declarations();
 
-  static const includeAll = DeclarationFilters(shouldInclude: _includeAll);
+  static const includeAll = Declarations(shouldInclude: _includeAll);
 
-  static DeclarationFilters include(Set<String> names) => DeclarationFilters(
+  static Declarations include(Set<String> names) => Declarations(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
-final class Functions extends DeclarationFilters {
+typedef Globals = Declarations;
+
+typedef Macros = Declarations;
+
+final class Functions extends Declarations {
   /// VarArg function handling.
   final Map<String, List<VarArgFunction>> varArgs;
 
@@ -403,7 +407,7 @@ final class Functions extends DeclarationFilters {
   );
 }
 
-final class Enums extends DeclarationFilters {
+final class Enums extends Declarations {
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
   final bool Function(Declaration declaration) shouldBeInt;
@@ -432,7 +436,7 @@ final class Enums extends DeclarationFilters {
   );
 }
 
-final class UnnamedEnums extends DeclarationFilters {
+final class UnnamedEnums extends Declarations {
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
   final bool Function(Declaration declaration) shouldBeInt;
@@ -457,7 +461,7 @@ final class UnnamedEnums extends DeclarationFilters {
   );
 }
 
-final class Structs extends DeclarationFilters {
+final class Structs extends Declarations {
   /// Whether structs that are dependencies should be included.
   final CompoundDependencies dependencies;
 
@@ -489,7 +493,7 @@ final class Structs extends DeclarationFilters {
   );
 }
 
-final class Unions extends DeclarationFilters {
+final class Unions extends Declarations {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies dependencies;
 
@@ -515,7 +519,7 @@ final class Unions extends DeclarationFilters {
   );
 }
 
-final class Typedefs extends DeclarationFilters {
+final class Typedefs extends Declarations {
   /// If typedef of supported types(int8_t) should be directly used.
   final bool useSupportedTypedefs;
 
@@ -545,9 +549,9 @@ final class Typedefs extends DeclarationFilters {
   );
 }
 
-final class ObjCInterfaces extends DeclarationFilters {
+final class ObjCInterfaces extends Declarations {
   /// If enabled, Objective C interfaces that are not explicitly included by
-  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// the [Declarations], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included interfaces will be generated as stubs instead.
   final bool includeTransitive;
@@ -576,9 +580,9 @@ final class ObjCInterfaces extends DeclarationFilters {
   );
 }
 
-final class ObjCProtocols extends DeclarationFilters {
+final class ObjCProtocols extends Declarations {
   /// If enabled, Objective C protocols that are not explicitly included by
-  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// the [Declarations], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included protocols will not be generated at all.
   final bool includeTransitive;
@@ -607,9 +611,9 @@ final class ObjCProtocols extends DeclarationFilters {
   );
 }
 
-final class ObjCCategories extends DeclarationFilters {
+final class ObjCCategories extends Declarations {
   /// If enabled, Objective C categories that are not explicitly included by
-  /// the [DeclarationFilters], but extend interfaces that are included,
+  /// the [Declarations], but extend interfaces that are included,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included categories will not be generated at all.
   final bool includeTransitive;

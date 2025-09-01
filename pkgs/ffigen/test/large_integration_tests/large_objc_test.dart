@@ -44,10 +44,10 @@ void main() {
     bool randInclude(String kind, Declaration clazz, [String? method]) =>
         fnvHash32('$seed.$kind.${clazz.usr}.$method') <
         ((1 << 32) * inclusionRatio);
-    DeclarationFilters randomFilter(
+    Declarations randomFilter(
       String kind, [
       Set<String> forceIncludes = const {},
-    ]) => DeclarationFilters(
+    ]) => Declarations(
       shouldInclude: (Declaration clazz) =>
           forceIncludes.contains(clazz.originalName) ||
           randInclude(kind, clazz),

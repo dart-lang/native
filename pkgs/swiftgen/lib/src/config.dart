@@ -72,43 +72,43 @@ class FfiGenConfig {
   final String? preamble;
 
   /// [ffigen.FfiGenerator.functions]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  /// Defaults to [ffigen.Declarations.excludeAll]
   final ffigen.Functions? functionDecl;
 
   final ffigen.Structs? structDecl;
 
   /// [ffigen.FfiGenerator.unions]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  /// Defaults to [ffigen.Declarations.excludeAll]
   final ffigen.Unions? unionDecl;
 
   final ffigen.Enums? enumClassDecl;
 
   /// [ffigen.FfiGenerator.unnamedEnums]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  /// Defaults to [ffigen.Declarations.excludeAll]
   final ffigen.UnnamedEnums? unnamedEnumConstants;
 
   /// [ffigen.FfiGenerator.globals]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? globals;
+  /// Defaults to [ffigen.Declarations.excludeAll]
+  final ffigen.Declarations? globals;
 
   /// [ffigen.FfiGenerator.macroDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? macroDecl;
+  /// Defaults to [ffigen.Declarations.excludeAll]
+  final ffigen.Declarations? macroDecl;
 
   /// [ffigen.FfiGenerator.typedefs]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  /// Defaults to [ffigen.Declarations.excludeAll]
   final ffigen.Typedefs? typedefs;
 
   /// [ffigen.FfiGenerator.objcInterfaces]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  /// Defaults to [ffigen.Declarations.excludeAll]
   final ffigen.ObjCInterfaces? objcInterfaces;
 
   /// [ffigen.FfiGenerator.objcProtocols]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  /// Defaults to [ffigen.Declarations.excludeAll]
   final ffigen.ObjCProtocols? objcProtocols;
 
   /// [ffigen.FfiGenerator.objcCategories]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
+  /// Defaults to [ffigen.Declarations.excludeAll]
   final ffigen.ObjCCategories? objcCategories;
 
   /// [ffigen.FfiGenerator.externalVersions]

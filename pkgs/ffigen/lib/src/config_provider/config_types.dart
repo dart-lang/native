@@ -144,8 +144,8 @@ final class YamlDeclarationFilters {
   bool shouldIncludeMember(Declaration declaration, String member) =>
       _memberIncluder.shouldInclude(declaration.originalName, member);
 
-  DeclarationFilters configAdapter() {
-    return DeclarationFilters(
+  Declarations configAdapter() {
+    return Declarations(
       shouldInclude: shouldInclude,
       shouldIncludeSymbolAddress: shouldIncludeSymbolAddress,
       shouldIncludeMember: shouldIncludeMember,
