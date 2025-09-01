@@ -48,7 +48,7 @@ final class FfiGenerator {
   final Declarations globals;
 
   /// Declaration filters for Macro constants.
-  final Declarations macroDecl;
+  final Declarations macros;
 
   /// Declaration filters for Typedefs.
   final Typedefs typedefs;
@@ -106,7 +106,7 @@ final class FfiGenerator {
     this.enums = Enums.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.globals = Globals.excludeAll,
-    this.macroDecl = Macros.excludeAll,
+    this.macros = Macros.excludeAll,
     this.typedefs = Typedefs.excludeAll,
     this.objcInterfaces = ObjCInterfaces.excludeAll,
     this.objcProtocols = ObjCProtocols.excludeAll,

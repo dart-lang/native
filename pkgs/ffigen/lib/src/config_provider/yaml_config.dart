@@ -1307,7 +1307,7 @@ final class YamlConfig {
       shouldBeInt: unnamedEnumsShouldBeInt,
     ),
     globals: globals.configAdapter(),
-    macroDecl: macroDecl.configAdapter(),
+    macros: macroDecl.configAdapter(),
     typedefs: Typedefs(
       shouldInclude: typedefs.shouldInclude,
       rename: typedefs.rename,

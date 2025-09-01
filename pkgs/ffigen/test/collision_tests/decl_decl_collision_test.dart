@@ -21,7 +21,7 @@ void main() {
         structs: Structs.includeAll,
         enums: Enums.includeAll,
         globals: Globals.includeAll,
-        macroDecl: Macros.includeAll,
+        macros: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
       final library = Library(

@@ -68,7 +68,7 @@ void main() {
         functions: Functions.includeAll,
         structs: Structs.includeAll,
         enums: Enums.includeAll,
-        macroDecl: Macros.includeAll,
+        macros: Macros.includeAll,
         typedefs: Typedefs(
           shouldInclude: (_) => true,
           typeMappings: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
@@ -152,7 +152,7 @@ void main() {
         ),
         functions: Functions.includeAll,
         structs: Structs.includeAll,
-        macroDecl: Macros.includeAll,
+        macros: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
       final library = parse(testContext(generator));
@@ -202,7 +202,7 @@ void main() {
         ),
         structs: Structs.includeAll,
         globals: Globals.includeAll,
-        macroDecl: Macros.includeAll,
+        macros: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
       final library = parse(testContext(generator));

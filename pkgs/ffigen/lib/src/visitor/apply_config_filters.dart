@@ -34,7 +34,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitMacroConstant(MacroConstant node) =>
-      _visitImpl(node, config.macroDecl);
+      _visitImpl(node, config.macros);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
