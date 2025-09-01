@@ -18,10 +18,7 @@ extension Swift2ObjCGeneratorMethod on Swift2ObjCGenerator {
   /// Used to generate the wrapper swift file.
   Future<void> generate({required Logger? logger}) => _generateWrapper(
     this,
-    Context(
-      logger ?? Logger.detached('dev/null')
-        ..level = Level.OFF,
-    ),
+    Context(logger ?? (Logger.detached('dev/null')..level = Level.OFF)),
   );
 }
 

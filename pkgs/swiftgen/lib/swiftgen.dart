@@ -3,5 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/config.dart'
-    show FfiGenConfig, ObjCCompatibleSwiftFileInput, SwiftGen, Target;
+    show
+        FfiGenConfig,
+        JsonFileInput,
+        ObjCCompatibleSwiftFileInput,
+        SwiftFileInput,
+        SwiftGenerator,
+        SwiftModuleInput,
+        Target;
 export 'src/generator.dart' show SwiftGenGenerator;

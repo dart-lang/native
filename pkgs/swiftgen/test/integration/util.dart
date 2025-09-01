@@ -23,11 +23,14 @@ String objCTestDylib = path.join(
   'objective_c.dylib',
 );
 
+Future<Target> hostTarget = Target.host();
+
 class TestGenerator {
   final String name;
   late final String testDir;
   late final String tempDir;
   late final String inputFile;
+  late final String wrapperFile;
   late final String outputFile;
   late final String outputObjCFile;
   late final String objInputFile;
@@ -39,7 +42,8 @@ class TestGenerator {
   TestGenerator(this.name) {
     testDir = path.absolute(path.join(pkgDir, 'test/integration'));
     tempDir = path.join(testDir, 'temp');
-    inputFile = path.join(testDir, '${name}_wrapper.swift');
+    inputFile = path.join(testDir, '$name.swift');
+    wrapperFile = path.join(tempDir, '${name}_wrapper.swift');
     outputFile = path.join(tempDir, '${name}_output.dart');
     outputObjCFile = path.join(tempDir, '${name}_output.m');
     objInputFile = path.join(tempDir, '$name.o');
@@ -49,13 +53,14 @@ class TestGenerator {
     actualOutputFile = path.join(testDir, '${name}_bindings.dart');
   }
 
-  Future<void> generateBindings() async => SwiftGen(
-    target: await Target.host(),
-    input: ObjCCompatibleSwiftFileInput(
-      module: name,
-      files: [Uri.file(inputFile)],
-    ),
+  Future<void> generateBindings() async => await SwiftGenerator(
+    target: await hostTarget,
+    inputs: [
+      SwiftFileInput(module: name, files: [Uri.file(inputFile)]),
+    ],
+    objcSwiftFile: Uri.file(wrapperFile),
     tempDirectory: Directory(tempDir).uri,
+    outputModule: name,
     ffigen: FfiGenConfig(
       output: Uri.file(outputFile),
       outputObjC: Uri.file(outputObjCFile),
@@ -76,7 +81,7 @@ class TestGenerator {
 // coverage:ignore-file
 ''',
     ),
-  ).generate(Logger.root..level = Level.SEVERE);
+  ).generate(logger: Logger.root..level = Level.SEVERE);
 
   Future<void> generateAndVerifyBindings() async {
     // Run the generation pipeline. This produces the swift compatability
@@ -84,35 +89,58 @@ class TestGenerator {
     await generateBindings();
 
     expect(File(inputFile).existsSync(), isTrue);
+    expect(File(wrapperFile).existsSync(), isTrue);
     expect(File(outputFile).existsSync(), isTrue);
-    expect(File(outputObjCFile).existsSync(), isTrue);
 
-    // The generation pipeline also creates some obj files as a byproduct.
-    expect(File(objWrapperFile).existsSync(), isTrue);
+    // The generation pipeline also an obj file as a byproduct.
+    expect(File(objInputFile).existsSync(), isTrue);
 
-    // We also need to compile outputObjCFile to an obj file.
-    await run('clang', [
-      '-x',
-      'objective-c',
-      '-fobjc-arc',
+    final target = await hostTarget;
+    await run('swiftc', [
       '-c',
-      outputObjCFile,
-      '-fpic',
-      '-o',
-      objObjCFile,
+      inputFile,
+      wrapperFile,
+      '-module-name',
+      name,
+      '-target',
+      target.triple,
+      '-sdk',
+      path.absolute(target.sdk.toFilePath()),
     ], tempDir);
-    expect(File(objObjCFile).existsSync(), isTrue);
+
+    final hasOutputObjCFile = File(outputObjCFile).existsSync();
+    if (hasOutputObjCFile) {
+      // We also need to compile outputObjCFile to an obj file.
+      await run('clang', [
+        '-x',
+        'objective-c',
+        '-fobjc-arc',
+        '-c',
+        outputObjCFile,
+        '-fpic',
+        '-o',
+        objObjCFile,
+      ], tempDir);
+      expect(File(objObjCFile).existsSync(), isTrue);
+    }
 
     // Link all the obj files into a dylib.
     await run('clang', [
       '-shared',
       '-framework',
       'Foundation',
+      objInputFile,
       objWrapperFile,
-      objObjCFile,
+      if (hasOutputObjCFile) objObjCFile,
       '-o',
       dylibFile,
     ], tempDir);
     expect(File(dylibFile).existsSync(), isTrue);
+
+    // Expect that the bindings match.
+    expect(
+      File(outputFile).readAsStringSync(),
+      File(actualOutputFile).readAsStringSync(),
+    );
   }
 }
