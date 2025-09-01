@@ -33,7 +33,7 @@ void main() {
               ],
             ),
             structs: Structs.includeAll,
-            unionDecl: DeclarationFilters.includeAll,
+            unions: Unions.includeAll,
             typedefs: Typedefs.includeAll,
             includeUnusedTypedefs: true,
           ),

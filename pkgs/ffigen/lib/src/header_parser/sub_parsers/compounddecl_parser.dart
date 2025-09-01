@@ -83,7 +83,7 @@ Compound? parseCompoundDeclaration(
   final className = _compoundTypeDebugName(compoundType);
   final configDecl = switch (compoundType) {
     CompoundType.struct => context.config.structs,
-    CompoundType.union => context.config.unionDecl,
+    CompoundType.union => context.config.unions,
   };
 
   // Parse the cursor definition instead, if this is a forward declaration.
@@ -244,6 +244,10 @@ void _compoundMembersVisitor(
 ) {
   final context = parsed.context;
   final config = context.config;
+  final compoundConf = switch (parsed.compound.compoundType) {
+    CompoundType.struct => config.structs,
+    CompoundType.union => config.unions,
+  };
   final decl = Declaration(
     usr: parsed.compound.usr,
     originalName: parsed.compound.originalName,
@@ -287,7 +291,7 @@ void _compoundMembersVisitor(
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: cursor.spelling(),
-            name: config.structs.renameMember(decl, cursor.spelling()),
+            name: compoundConf.renameMember(decl, cursor.spelling()),
             type: mt,
           ),
         );
@@ -322,7 +326,7 @@ void _compoundMembersVisitor(
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: spelling,
-            name: config.structs.renameMember(decl, spelling),
+            name: compoundConf.renameMember(decl, spelling),
             type: mt,
           ),
         );

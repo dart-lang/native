@@ -1292,7 +1292,14 @@ final class YamlConfig {
       silenceWarning: silenceEnumWarning,
       shouldBeInt: enumShouldBeInt,
     ),
-    unionDecl: unionDecl.configAdapter(),
+    unions: Unions(
+      shouldInclude: _unionDecl.shouldInclude,
+      shouldIncludeSymbolAddress: _unionDecl.shouldIncludeSymbolAddress,
+      shouldIncludeMember: _unionDecl.shouldIncludeMember,
+      rename: _unionDecl.rename,
+      renameMember: _unionDecl.renameMember,
+      dependencies: _unionDependencies,
+    ),
     unnamedEnumConstants: UnnamedEnums(
       shouldInclude: _unnamedEnumConstants.shouldInclude,
       rename: _unnamedEnumConstants.rename,
@@ -1340,7 +1347,6 @@ final class YamlConfig {
     structTypeMappings: structTypeMappings.values.toList(),
     unionTypeMappings: unionTypeMappings.values.toList(),
     nativeTypeMappings: nativeTypeMappings.values.toList(),
-    unionDependencies: unionDependencies,
     useDartHandle: useDartHandle,
     externalVersions: externalVersions,
     // ignore: deprecated_member_use_from_same_package

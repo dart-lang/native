@@ -38,7 +38,7 @@ final class FfiGenerator {
   final Structs structs;
 
   /// Declaration filters for Unions.
-  final DeclarationFilters unionDecl;
+  final Unions unions;
 
   /// Declaration filters for Enums.
   final Enums enums;
@@ -129,9 +129,6 @@ final class FfiGenerator {
         ),
       );
 
-  /// Whether unions that are dependencies should be included.
-  final CompoundDependencies unionDependencies;
-
   /// If `Dart_Handle` should be mapped with Handle/Object.
   final bool useDartHandle;
 
@@ -147,7 +144,7 @@ final class FfiGenerator {
     this.language = Language.c,
     this.functions = Functions.excludeAll,
     this.structs = const Structs(),
-    this.unionDecl = DeclarationFilters.excludeAll,
+    this.unions = Unions.excludeAll,
     this.enums = const Enums(),
     this.unnamedEnumConstants = UnnamedEnums.excludeAll,
     this.globals = DeclarationFilters.excludeAll,
@@ -164,7 +161,6 @@ final class FfiGenerator {
     this.structTypeMappings = const <ImportedType>[],
     this.unionTypeMappings = const <ImportedType>[],
     this.nativeTypeMappings = const <ImportedType>[],
-    this.unionDependencies = CompoundDependencies.full,
     this.useDartHandle = true,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
@@ -508,6 +504,28 @@ final class Structs extends DeclarationFilters {
   static const includeAll = Structs(shouldInclude: _includeAll);
 
   static Structs include(Set<String> names) => Structs(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class Unions extends DeclarationFilters {
+  /// Whether unions that are dependencies should be included.
+  final CompoundDependencies dependencies;
+
+  const Unions({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.dependencies = CompoundDependencies.full,
+  });
+
+  static const excludeAll = Unions(shouldInclude: _excludeAll);
+
+  static const includeAll = Unions(shouldInclude: _includeAll);
+
+  static Unions include(Set<String> names) => Unions(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
 }

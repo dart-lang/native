@@ -24,7 +24,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitStruct(Struct node) => _visitImpl(node, config.structs);
 
   @override
-  void visitUnion(Union node) => _visitImpl(node, config.unionDecl);
+  void visitUnion(Union node) => _visitImpl(node, config.unions);
 
   @override
   void visitEnumClass(EnumClass node) => _visitImpl(node, config.enums);

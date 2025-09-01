@@ -50,7 +50,7 @@ extension SwiftGenGenerator on SwiftGen {
       ),
       functions: ffigen.functionDecl ?? fg.Functions.excludeAll,
       structs: ffigen.structDecl ?? fg.Structs.excludeAll,
-      unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,
+      unions: ffigen.unionDecl ?? fg.Unions.excludeAll,
       enums: ffigen.enumClassDecl ?? fg.Enums.excludeAll,
       unnamedEnumConstants:
           ffigen.unnamedEnumConstants ?? fg.UnnamedEnums.excludeAll,

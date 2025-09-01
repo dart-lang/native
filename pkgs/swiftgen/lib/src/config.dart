@@ -77,9 +77,9 @@ class FfiGenConfig {
 
   final ffigen.Structs? structDecl;
 
-  /// [ffigen.FfiGenerator.unionDecl]
+  /// [ffigen.FfiGenerator.unions]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? unionDecl;
+  final ffigen.Unions? unionDecl;
 
   final ffigen.Enums? enumClassDecl;
 

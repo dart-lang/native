@@ -114,7 +114,13 @@ void main() {
           shouldIncludeMember: filter.shouldIncludeMember,
         );
       }(),
-      unionDecl: randomFilter('unionDecl'),
+      unions: () {
+        final filter = randomFilter('unionDecl');
+        return Unions(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+        );
+      }(),
       enums: () {
         final filter = randomFilter('enums');
         return Enums(

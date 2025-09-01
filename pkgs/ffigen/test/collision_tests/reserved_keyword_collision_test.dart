@@ -34,7 +34,7 @@ void main() {
               ],
             ),
             structs: Structs.includeAll,
-            unionDecl: DeclarationFilters.includeAll,
+            unions: Unions.includeAll,
             enums: Enums.includeAll,
             functions: Functions.includeAll,
             globals: DeclarationFilters.includeAll,

@@ -62,5 +62,5 @@ class ClearOpaqueCompoundMembersVisitation extends Visitation {
       _visitImpl(node, config.structs.dependencies);
 
   @override
-  void visitUnion(Union node) => _visitImpl(node, config.unionDependencies);
+  void visitUnion(Union node) => _visitImpl(node, config.unions.dependencies);
 }
