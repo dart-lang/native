@@ -6,6 +6,7 @@ import '../../../ast/_core/shared/parameter.dart';
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
+import '../../../context.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
@@ -13,10 +14,12 @@ import '../../_core/utils.dart';
 import '../parse_type.dart';
 
 GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
+  Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
   final info = parseFunctionInfo(
+    context,
     symbol.json['declarationFragments'],
     symbolgraph,
   );
@@ -25,7 +28,7 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(symbol.json, symbolgraph),
+    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     throws: info.throws,
     async: info.async,
@@ -33,11 +36,13 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
 }
 
 MethodDeclaration parseMethodDeclaration(
+  Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
   final info = parseFunctionInfo(
+    context,
     symbol.json['declarationFragments'],
     symbolgraph,
   );
@@ -46,7 +51,7 @@ MethodDeclaration parseMethodDeclaration(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(symbol.json, symbolgraph),
+    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isStatic: isStatic,
@@ -64,6 +69,7 @@ typedef ParsedFunctionInfo = ({
 });
 
 ParsedFunctionInfo parseFunctionInfo(
+  Context context,
   Json declarationFragments,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -137,7 +143,7 @@ ParsedFunctionInfo parseFunctionInfo(
       }
 
       if (sep != ':') throw malformedInitializerException;
-      final (type, remainingTokens) = parseType(symbolgraph, tokens);
+      final (type, remainingTokens) = parseType(context, symbolgraph, tokens);
       tokens = remainingTokens;
 
       parameters.add(
@@ -171,11 +177,12 @@ ParsedFunctionInfo parseFunctionInfo(
 }
 
 ReferredType _parseFunctionReturnType(
+  Context context,
   Json symbolJson,
   ParsedSymbolgraph symbolgraph,
 ) {
   final returnJson = TokenList(symbolJson['functionSignature']['returns']);
-  final (returnType, unparsed) = parseType(symbolgraph, returnJson);
+  final (returnType, unparsed) = parseType(context, symbolgraph, returnJson);
   assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
   return returnType;
 }

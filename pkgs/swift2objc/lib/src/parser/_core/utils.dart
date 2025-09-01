@@ -10,6 +10,7 @@ import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../../context.dart';
 import '../parsers/parse_type.dart';
 import 'json.dart';
 import 'parsed_symbolgraph.dart';
@@ -121,6 +122,7 @@ extension Deduper<T> on Iterable<T> {
 }
 
 ReferredType parseTypeAfterSeparator(
+  Context context,
   TokenList fragments,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -129,6 +131,7 @@ ReferredType parseTypeAfterSeparator(
     (token) => matchFragment(token, 'text', ':'),
   );
   final (type, suffix) = parseType(
+    context,
     symbolgraph,
     fragments.slice(separatorIndex + 1),
   );
