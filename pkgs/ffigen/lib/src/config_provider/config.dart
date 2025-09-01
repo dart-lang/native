@@ -150,7 +150,6 @@ final class FfiGenerator {
     this.objcInterfaces = ObjCInterfaces.excludeAll,
     this.objcProtocols = ObjCProtocols.excludeAll,
     this.objcCategories = ObjCCategories.excludeAll,
-    this.generateForPackageObjectiveC = false,
     this.libraryImports = const <LibraryImport>[],
     this.usrTypeMappings = const <String, ImportedType>{},
     this.typedefTypeMappings = const <ImportedType>[],
@@ -160,6 +159,8 @@ final class FfiGenerator {
     this.useDartHandle = true,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
+    @Deprecated('Only for internal use.')
+    this.generateForPackageObjectiveC = false,
   });
 
   /// Run this generator.

@@ -1340,7 +1340,6 @@ final class YamlConfig {
       renameMember: objcCategories.renameMember,
       includeTransitive: includeTransitiveObjCCategories,
     ),
-    generateForPackageObjectiveC: generateForPackageObjectiveC,
     libraryImports: libraryImports.values.toList(),
     usrTypeMappings: usrTypeMappings,
     typedefTypeMappings: typedefTypeMappings.values.toList(),
@@ -1351,5 +1350,7 @@ final class YamlConfig {
     externalVersions: externalVersions,
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,
+    // ignore: deprecated_member_use_from_same_package
+    generateForPackageObjectiveC: generateForPackageObjectiveC,
   );
 }
