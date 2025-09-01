@@ -33,7 +33,7 @@ void main() {
             CommentStyle.doxygen,
             CommentLength.brief,
           ),
-          bindingStyle: const DynamicLibraryBindings(
+          style: const DynamicLibraryBindings(
             wrapperName: 'LibClang',
             wrapperDocComment: 'Bindings to LibClang.',
           ),
@@ -132,7 +132,7 @@ void main() {
       final generator = FfiGenerator(
         output: Output(
           dartFile: Uri.file('unused'),
-          bindingStyle: const DynamicLibraryBindings(
+          style: const DynamicLibraryBindings(
             wrapperName: 'CJson',
             wrapperDocComment: 'Bindings to Cjson.',
           ),
@@ -173,7 +173,7 @@ void main() {
       final generator = FfiGenerator(
         output: Output(
           dartFile: Uri.file('unused'),
-          bindingStyle: const DynamicLibraryBindings(
+          style: const DynamicLibraryBindings(
             wrapperName: 'SQLite',
             wrapperDocComment: 'Bindings to SQLite.',
           ),

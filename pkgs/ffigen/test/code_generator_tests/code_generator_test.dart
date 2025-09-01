@@ -43,7 +43,7 @@ void main() {
           FfiGenerator(
             output: Output(
               dartFile: Uri.file('unused'),
-              bindingStyle: nativeConfig.enabled
+              style: nativeConfig.enabled
                   ? const NativeExternalBindings()
                   : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
             ),

@@ -27,7 +27,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         ),
       ),
       format: false,
-      bindingStyle: const DynamicLibraryBindings(
+      style: const DynamicLibraryBindings(
         wrapperName: 'DeprecatedTestObjCLibrary',
         wrapperDocComment: 'Tests API deprecation',
       ),

@@ -29,7 +29,7 @@ void main() {
             ),
           ),
           format: false,
-          bindingStyle: const DynamicLibraryBindings(
+          style: const DynamicLibraryBindings(
             wrapperName: 'NSRangeTestObjCLibrary',
           ),
         ),

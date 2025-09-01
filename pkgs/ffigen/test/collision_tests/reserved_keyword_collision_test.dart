@@ -22,7 +22,7 @@ void main() {
             output: Output(
               dartFile: Uri.file('unused'),
               sort: true,
-              bindingStyle: const DynamicLibraryBindings(),
+              style: const DynamicLibraryBindings(),
             ),
 
             headers: Headers(

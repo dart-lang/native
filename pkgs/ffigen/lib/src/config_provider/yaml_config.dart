@@ -1251,7 +1251,7 @@ final class YamlConfig {
       commentType: commentType,
       preamble: preamble,
       format: formatOutput,
-      bindingStyle: ffiNativeConfig.enabled
+      style: ffiNativeConfig.enabled
           ? NativeExternalBindings(
               assetId: ffiNativeConfig.assetId,
               wrapperName: wrapperName,
@@ -1289,7 +1289,10 @@ final class YamlConfig {
       rename: _enumClassDecl.rename,
       renameMember: _enumClassDecl.renameMember,
       silenceWarning: silenceEnumWarning,
-      asInt: enumShouldBeInt,
+      asInt: (e) => switch (enumShouldBeInt(e)) {
+        true => EnumStyle.integers,
+        false => EnumStyle.dartEnum,
+      },
     ),
     unions: Unions(
       include: _unionDecl.shouldInclude,
@@ -1303,7 +1306,10 @@ final class YamlConfig {
     unnamedEnums: UnnamedEnums(
       include: _unnamedEnumConstants.shouldInclude,
       rename: _unnamedEnumConstants.rename,
-      shouldBeInt: unnamedEnumsShouldBeInt,
+      style: (e) => switch (enumShouldBeInt(e)) {
+        true => EnumStyle.integers,
+        false => EnumStyle.dartEnum,
+      },
     ),
     globals: globals.configAdapter(),
     macros: macroDecl.configAdapter(),

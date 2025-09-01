@@ -42,7 +42,7 @@ extension SwiftGenGenerator on SwiftGen {
         dartFile: ffigen.output,
         objectiveCFile: ffigen.outputObjC,
         preamble: ffigen.preamble,
-        bindingStyle: fg.DynamicLibraryBindings(
+        style: fg.DynamicLibraryBindings(
           wrapperName: ffigen.wrapperName ?? outModule,
           wrapperDocComment: ffigen.wrapperDocComment,
         ),

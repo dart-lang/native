@@ -29,9 +29,9 @@ ${strings.headers}:
 
     final logStr = logArr.join('\n');
     test('asset-id is correctly set', () {
-      expect(config.output.bindingStyle is NativeExternalBindings, true);
+      expect(config.output.style is NativeExternalBindings, true);
       expect(
-        (config.output.bindingStyle as NativeExternalBindings).assetId,
+        (config.output.style as NativeExternalBindings).assetId,
         'myasset',
       );
     });

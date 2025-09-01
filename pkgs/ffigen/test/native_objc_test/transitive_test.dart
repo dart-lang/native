@@ -30,7 +30,7 @@ String generate({
         ),
       ),
       format: false,
-      bindingStyle: const DynamicLibraryBindings(
+      style: const DynamicLibraryBindings(
         wrapperName: 'TransitiveTestObjCLibrary',
         wrapperDocComment: 'Tests transitive inclusion',
       ),

@@ -154,7 +154,7 @@ final class Output {
   final bool format;
 
   /// The style of bindings to generate.
-  final BindingStyle bindingStyle;
+  final BindingStyle style;
 
   Output({
     required this.dartFile,
@@ -164,7 +164,7 @@ final class Output {
     this.commentType = const CommentType.def(),
     this.preamble,
     this.format = true,
-    this.bindingStyle = const NativeExternalBindings(),
+    this.style = const NativeExternalBindings(),
   });
 }
 
@@ -349,9 +349,9 @@ final class Enums extends Declarations {
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
   // TODO: Make EnumStyle.
-  final bool Function(Declaration declaration) asInt;
+  final EnumStyle Function(Declaration declaration) asInt;
 
-  static bool _asIntDefault(Declaration declaration) => false;
+  static EnumStyle _styleDefault(Declaration declaration) => EnumStyle.dartEnum;
 
   /// Whether to silence warning for enum integer type mimicking.
   final bool silenceWarning;
@@ -362,7 +362,7 @@ final class Enums extends Declarations {
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
-    this.asInt = _asIntDefault,
+    this.asInt = _styleDefault,
     this.silenceWarning = false,
   });
 
@@ -378,10 +378,9 @@ final class Enums extends Declarations {
 final class UnnamedEnums extends Declarations {
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
-  // TODO: Make EnumStyle.
-  final bool Function(Declaration declaration) shouldBeInt;
+  final EnumStyle Function(Declaration declaration) style;
 
-  static bool _asIntDefault(Declaration declaration) => false;
+  static EnumStyle _styleDefault(Declaration declaration) => EnumStyle.dartEnum;
 
   const UnnamedEnums({
     super.rename,
@@ -389,7 +388,7 @@ final class UnnamedEnums extends Declarations {
     super.include,
     super.includeMember,
     super.includeSymbolAddress,
-    this.shouldBeInt = _asIntDefault,
+    this.style = _styleDefault,
   });
 
   static const excludeAll = UnnamedEnums(include: _excludeAll);
@@ -551,6 +550,8 @@ final class Protocols extends Declarations {
   );
 }
 
+enum EnumStyle { dartEnum, integers }
+
 /// Configuration for Objective-C categories.
 final class Categories extends Declarations {
   /// If enabled, Objective-C categories that are not explicitly included by
@@ -602,19 +603,19 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   ExternalVersions get externalVersions => _objectiveC.externalVersions;
   bool get useDartHandle => ffiGen.useDartHandle;
   Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
-  String get wrapperName => switch (ffiGen.output.bindingStyle) {
+  String get wrapperName => switch (ffiGen.output.style) {
     final DynamicLibraryBindings e => e.wrapperName,
     final NativeExternalBindings e => e.wrapperName,
   };
 
-  String? get wrapperDocComment => switch (ffiGen.output.bindingStyle) {
+  String? get wrapperDocComment => switch (ffiGen.output.style) {
     final DynamicLibraryBindings e => e.wrapperDocComment,
     _ => null,
   };
 
   FfiNativeConfig get ffiNativeConfig => FfiNativeConfig(
-    enabled: ffiGen.output.bindingStyle is NativeExternalBindings,
-    assetId: switch (ffiGen.output.bindingStyle) {
+    enabled: ffiGen.output.style is NativeExternalBindings,
+    assetId: switch (ffiGen.output.style) {
       final NativeExternalBindings e => e.assetId,
       _ => null,
     },
