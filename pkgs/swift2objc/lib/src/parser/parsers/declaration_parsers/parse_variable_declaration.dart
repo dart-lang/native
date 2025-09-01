@@ -5,12 +5,14 @@
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
+import '../../../context.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
+  Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
@@ -21,7 +23,7 @@ PropertyDeclaration parsePropertyDeclaration(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    type: _parseVariableType(symbol.json, symbolgraph),
+    type: _parseVariableType(context, symbol.json, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isConstant: info.constant,
     isStatic: isStatic,
@@ -35,6 +37,7 @@ PropertyDeclaration parsePropertyDeclaration(
 }
 
 GlobalVariableDeclaration parseGlobalVariableDeclaration(
+  Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
@@ -45,7 +48,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    type: _parseVariableType(symbol.json, symbolgraph),
+    type: _parseVariableType(context, symbol.json, symbolgraph),
     isConstant: info.constant || !info.setter,
     throws: info.throws,
     async: info.async,
@@ -53,9 +56,11 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 }
 
 ReferredType _parseVariableType(
+  Context context,
   Json symbolJson,
   ParsedSymbolgraph symbolgraph,
 ) => parseTypeAfterSeparator(
+  context,
   TokenList(symbolJson['names']['subHeading']),
   symbolgraph,
 );
