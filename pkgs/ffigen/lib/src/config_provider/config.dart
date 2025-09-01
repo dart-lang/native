@@ -53,7 +53,7 @@ final class FfiGenerator {
   final DeclarationFilters macroDecl;
 
   /// Declaration filters for Typedefs.
-  final DeclarationFilters typedefs;
+  final Typedefs typedefs;
 
   /// Declaration filters for Objective C interfaces.
   final DeclarationFilters objcInterfaces;
@@ -91,9 +91,6 @@ final class FfiGenerator {
   /// This is necessary because package:objective_c can't import NSObject from
   /// itself.
   final bool generateForPackageObjectiveC;
-
-  /// If typedef of supported types(int8_t) should be directly used.
-  final bool useSupportedTypedefs;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
@@ -183,7 +180,7 @@ final class FfiGenerator {
     this.unnamedEnumConstants = UnnamedEnums.excludeAll,
     this.globals = DeclarationFilters.excludeAll,
     this.macroDecl = DeclarationFilters.excludeAll,
-    this.typedefs = DeclarationFilters.excludeAll,
+    this.typedefs = Typedefs.excludeAll,
     this.objcInterfaces = DeclarationFilters.excludeAll,
     this.objcProtocols = DeclarationFilters.excludeAll,
     this.objcCategories = DeclarationFilters.excludeAll,
@@ -192,7 +189,6 @@ final class FfiGenerator {
     this.includeTransitiveObjCProtocols = false,
     this.includeTransitiveObjCCategories = true,
     this.generateForPackageObjectiveC = false,
-    this.useSupportedTypedefs = true,
     this.libraryImports = const <LibraryImport>[],
     this.usrTypeMappings = const <String, ImportedType>{},
     this.typedefTypeMappings = const <ImportedType>[],
@@ -537,6 +533,28 @@ final class Structs extends DeclarationFilters {
   static Structs include(Set<String> names) => Structs(
     shouldInclude: (Declaration decl) => names.contains(decl.originalName),
   );
+}
+
+final class Typedefs extends DeclarationFilters {
+  /// If typedef of supported types(int8_t) should be directly used.
+  final bool useSupportedTypedefs;
+
+  const Typedefs({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.useSupportedTypedefs = true,
+  });
+
+  static const Typedefs excludeAll = Typedefs(shouldInclude: _excludeAll);
+
+  static const Typedefs includeAll = Typedefs(shouldInclude: _includeAll);
+
+  static Typedefs include(Set<String> names) => Typedefs(
+        shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+      );
 }
 
 bool _excludeAll(Declaration declaration) => false;

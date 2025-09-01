@@ -22,7 +22,7 @@ void main() {
         enums: Enums.includeAll,
         globals: DeclarationFilters.includeAll,
         macroDecl: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
+        typedefs: Typedefs.includeAll,
       );
       final library = Library(
         context: testContext(),

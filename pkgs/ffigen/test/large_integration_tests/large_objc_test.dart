@@ -14,6 +14,7 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
@@ -133,7 +134,7 @@ void main() {
         );
       }(),
       globals: randomFilter('globals'),
-      typedefs: randomFilter('typedefs'),
+      typedefs: Typedefs(shouldInclude: randomFilter('typedefs').shouldInclude),
       objcInterfaces: randomFilter('objcInterfaces'),
       objcProtocols: randomFilter('objcProtocols', forceIncludedProtocols),
       objcCategories: randomFilter('objcCategories'),

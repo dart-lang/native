@@ -34,7 +34,7 @@ void main() {
             ),
             structs: Structs.includeAll,
             unionDecl: DeclarationFilters.includeAll,
-            typedefs: DeclarationFilters.includeAll,
+            typedefs: Typedefs.includeAll,
             includeUnusedTypedefs: true,
           ),
         ),

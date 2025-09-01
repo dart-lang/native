@@ -38,7 +38,7 @@ void main() {
             enums: Enums.includeAll,
             functions: Functions.includeAll,
             globals: DeclarationFilters.includeAll,
-            typedefs: DeclarationFilters.includeAll,
+            typedefs: Typedefs.includeAll,
             includeUnusedTypedefs: true,
           ),
         ),

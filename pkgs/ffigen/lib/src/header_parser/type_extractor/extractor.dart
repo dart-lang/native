@@ -235,7 +235,7 @@ _CreateTypeFromCursorResult _createTypeFromCursor(
         return _CreateTypeFromCursorResult(config.usrTypeMappings[usr]!);
       }
       // Get name from supported typedef name if config allows.
-      if (config.useSupportedTypedefs) {
+      if (config.typedefs.useSupportedTypedefs) {
         if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
           logger.fine('  Type Mapped from supported typedef');
           return _CreateTypeFromCursorResult(
