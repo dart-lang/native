@@ -19,8 +19,12 @@ void main() {
       final library = parser.parse(
         testContext(
           FfiGenerator(
-            output: Output(dartFile: Uri.file('unused'), sort: true),
-            bindingStyle: const DynamicLibraryBindings(),
+            output: Output(
+              dartFile: Uri.file('unused'),
+              sort: true,
+              bindingStyle: const DynamicLibraryBindings(),
+            ),
+
             headers: Headers(
               entryPoints: [
                 Uri.file(

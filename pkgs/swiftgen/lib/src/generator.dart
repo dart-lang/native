@@ -43,11 +43,12 @@ extension SwiftGenGenerator on SwiftGen {
         dartFile: ffigen.output,
         objectiveCFile: ffigen.outputObjC,
         preamble: ffigen.preamble,
+        bindingStyle: fg.DynamicLibraryBindings(
+          wrapperName: ffigen.wrapperName ?? outModule,
+          wrapperDocComment: ffigen.wrapperDocComment,
+        ),
       ),
-      bindingStyle: fg.DynamicLibraryBindings(
-        wrapperName: ffigen.wrapperName ?? outModule,
-        wrapperDocComment: ffigen.wrapperDocComment,
-      ),
+
       functions: ffigen.functions ?? fg.Functions.excludeAll,
       structs: ffigen.structs ?? fg.Structs.excludeAll,
       unions: ffigen.unions ?? fg.Unions.excludeAll,

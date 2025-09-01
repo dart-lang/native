@@ -19,9 +19,6 @@ void main() {
     late final String bindings;
     setUpAll(() {
       FfiGenerator(
-        bindingStyle: const DynamicLibraryBindings(
-          wrapperName: 'NSRangeTestObjCLibrary',
-        ),
         language: Language.objc,
         output: Output(
           dartFile: Uri.file(
@@ -33,6 +30,9 @@ void main() {
             ),
           ),
           format: false,
+          bindingStyle: const DynamicLibraryBindings(
+            wrapperName: 'NSRangeTestObjCLibrary',
+          ),
         ),
         headers: Headers(
           entryPoints: [

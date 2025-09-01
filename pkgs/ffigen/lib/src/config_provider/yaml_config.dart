@@ -1237,15 +1237,6 @@ final class YamlConfig {
   }
 
   FfiGenerator configAdapter() => FfiGenerator(
-    bindingStyle: ffiNativeConfig.enabled
-        ? NativeExternalBindings(
-            assetId: ffiNativeConfig.assetId,
-            wrapperName: wrapperName,
-          )
-        : DynamicLibraryBindings(
-            wrapperName: wrapperName,
-            wrapperDocComment: wrapperDocComment,
-          ),
     headers: Headers(
       compilerOpts: compilerOpts,
       entryPoints: entryPoints,
@@ -1260,6 +1251,15 @@ final class YamlConfig {
       commentType: commentType,
       preamble: preamble,
       format: formatOutput,
+      bindingStyle: ffiNativeConfig.enabled
+          ? NativeExternalBindings(
+              assetId: ffiNativeConfig.assetId,
+              wrapperName: wrapperName,
+            )
+          : DynamicLibraryBindings(
+              wrapperName: wrapperName,
+              wrapperDocComment: wrapperDocComment,
+            ),
     ),
     language: language,
     functions: Functions(

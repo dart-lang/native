@@ -14,9 +14,6 @@ import 'config_types.dart';
 /// headers.
 // TODO: Add a code snippet example.
 final class FfiGenerator {
-  /// The style of bindings to generate.
-  final BindingStyle bindingStyle;
-
   /// The configuration for header parsing of [FfiGenerator].
   final Headers headers;
 
@@ -82,7 +79,6 @@ final class FfiGenerator {
 
   const FfiGenerator({
     this.headers = const Headers(),
-    this.bindingStyle = const NativeExternalBindings(),
     required this.output,
     this.language = Language.c,
     this.functions = Functions.excludeAll,
@@ -160,6 +156,9 @@ final class Output {
   /// Whether to format the generated bindings.
   final bool format;
 
+  /// The style of bindings to generate.
+  final BindingStyle bindingStyle;
+
   Output({
     required this.dartFile,
     this.objectiveCFile,
@@ -168,6 +167,7 @@ final class Output {
     this.commentType = const CommentType.def(),
     this.preamble,
     this.format = true,
+    this.bindingStyle = const NativeExternalBindings(),
   });
 }
 
@@ -632,19 +632,19 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   ExternalVersions get externalVersions => _objectiveC.externalVersions;
   bool get useDartHandle => ffiGen.useDartHandle;
   Map<String, ImportedType> get usrTypeMappings => ffiGen.usrTypeMappings;
-  String get wrapperName => switch (bindingStyle) {
+  String get wrapperName => switch (ffiGen.output.bindingStyle) {
     final DynamicLibraryBindings e => e.wrapperName,
     final NativeExternalBindings e => e.wrapperName,
   };
 
-  String? get wrapperDocComment => switch (bindingStyle) {
+  String? get wrapperDocComment => switch (ffiGen.output.bindingStyle) {
     final DynamicLibraryBindings e => e.wrapperDocComment,
     _ => null,
   };
 
   FfiNativeConfig get ffiNativeConfig => FfiNativeConfig(
-    enabled: bindingStyle is NativeExternalBindings,
-    assetId: switch (bindingStyle) {
+    enabled: ffiGen.output.bindingStyle is NativeExternalBindings,
+    assetId: switch (ffiGen.output.bindingStyle) {
       final NativeExternalBindings e => e.assetId,
       _ => null,
     },

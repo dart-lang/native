@@ -27,15 +27,15 @@ void main() {
       final logArr = <String>[];
       logToArray(logArr, Level.SEVERE);
       final generator = FfiGenerator(
-        bindingStyle: const DynamicLibraryBindings(
-          wrapperName: 'LibClang',
-          wrapperDocComment: 'Bindings to LibClang.',
-        ),
         output: Output(
           dartFile: Uri.file('unused'),
           commentType: const CommentType(
             CommentStyle.doxygen,
             CommentLength.brief,
+          ),
+          bindingStyle: const DynamicLibraryBindings(
+            wrapperName: 'LibClang',
+            wrapperDocComment: 'Bindings to LibClang.',
           ),
           preamble: '''
 // ignore_for_file: camel_case_types, non_constant_identifier_names
@@ -127,12 +127,12 @@ void main() {
 
     test('CJSON test', () {
       final generator = FfiGenerator(
-        bindingStyle: const DynamicLibraryBindings(
-          wrapperName: 'CJson',
-          wrapperDocComment: 'Bindings to Cjson.',
-        ),
         output: Output(
           dartFile: Uri.file('unused'),
+          bindingStyle: const DynamicLibraryBindings(
+            wrapperName: 'CJson',
+            wrapperDocComment: 'Bindings to Cjson.',
+          ),
           preamble: '''
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
@@ -168,12 +168,12 @@ void main() {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
       final generator = FfiGenerator(
-        bindingStyle: const DynamicLibraryBindings(
-          wrapperName: 'SQLite',
-          wrapperDocComment: 'Bindings to SQLite.',
-        ),
         output: Output(
           dartFile: Uri.file('unused'),
+          bindingStyle: const DynamicLibraryBindings(
+            wrapperName: 'SQLite',
+            wrapperDocComment: 'Bindings to SQLite.',
+          ),
           commentType: const CommentType(CommentStyle.any, CommentLength.full),
           preamble: '''
 // ignore_for_file: camel_case_types, non_constant_identifier_names

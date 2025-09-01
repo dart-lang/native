@@ -20,10 +20,6 @@ String generate({
   bool includeTransitiveObjCCategories = false,
 }) {
   FfiGenerator(
-    bindingStyle: const DynamicLibraryBindings(
-      wrapperName: 'TransitiveTestObjCLibrary',
-      wrapperDocComment: 'Tests transitive inclusion',
-    ),
     language: Language.objc,
     output: Output(
       dartFile: Uri.file(
@@ -35,6 +31,10 @@ String generate({
         ),
       ),
       format: false,
+      bindingStyle: const DynamicLibraryBindings(
+        wrapperName: 'TransitiveTestObjCLibrary',
+        wrapperDocComment: 'Tests transitive inclusion',
+      ),
     ),
     headers: Headers(
       entryPoints: [

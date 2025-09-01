@@ -72,9 +72,6 @@ void main() {
     const forceIncludedProtocols = {'NSTextLocation'};
 
     final generator = FfiGenerator(
-      bindingStyle: const DynamicLibraryBindings(
-        wrapperName: 'LargeObjCLibrary',
-      ),
       language: Language.objc,
       headers: Headers(
         entryPoints: [
@@ -92,6 +89,9 @@ void main() {
         dartFile: Uri.file(outFile),
         objectiveCFile: Uri.file(outObjCFile),
         format: false,
+        bindingStyle: const DynamicLibraryBindings(
+          wrapperName: 'LargeObjCLibrary',
+        ),
         preamble: '''
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
