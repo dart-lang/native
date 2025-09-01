@@ -1281,6 +1281,7 @@ final class YamlConfig {
       dependencies: _structDependencies,
       packingOverride: (decl) =>
           _structPackingOverride.getOverridenPackValue(decl.originalName),
+      typeMappings: structTypeMappings.values.toList(),
     ),
     enums: Enums(
       shouldInclude: _enumClassDecl.shouldInclude,
@@ -1298,6 +1299,7 @@ final class YamlConfig {
       rename: _unionDecl.rename,
       renameMember: _unionDecl.renameMember,
       dependencies: _unionDependencies,
+      typeMappings: unionTypeMappings.values.toList(),
     ),
     unnamedEnumConstants: UnnamedEnums(
       shouldInclude: _unnamedEnumConstants.shouldInclude,
@@ -1312,6 +1314,7 @@ final class YamlConfig {
       renameMember: typedefs.renameMember,
       useSupportedTypedefs: useSupportedTypedefs,
       includeUnused: includeUnusedTypedefs,
+      typeMappings: typedefTypeMappings.values.toList(),
     ),
     objcInterfaces: ObjCInterfaces(
       shouldInclude: objcInterfaces.shouldInclude,
@@ -1341,9 +1344,6 @@ final class YamlConfig {
     ),
     libraryImports: libraryImports.values.toList(),
     usrTypeMappings: usrTypeMappings,
-    typedefTypeMappings: typedefTypeMappings.values.toList(),
-    structTypeMappings: structTypeMappings.values.toList(),
-    unionTypeMappings: unionTypeMappings.values.toList(),
     nativeTypeMappings: nativeTypeMappings.values.toList(),
     useDartHandle: useDartHandle,
     externalVersions: externalVersions,

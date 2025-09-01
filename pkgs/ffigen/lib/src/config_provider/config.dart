@@ -78,15 +78,6 @@ final class FfiGenerator {
   /// user.
   final Map<String, ImportedType> usrTypeMappings;
 
-  /// Stores typedef name to ImportedType mappings specified by user.
-  final List<ImportedType> typedefTypeMappings;
-
-  /// Stores struct name to ImportedType mappings specified by user.
-  final List<ImportedType> structTypeMappings;
-
-  /// Stores union name to ImportedType mappings specified by user.
-  final List<ImportedType> unionTypeMappings;
-
   /// Stores native int name to ImportedType mappings specified by user.
   final List<ImportedType> nativeTypeMappings;
 
@@ -122,9 +113,6 @@ final class FfiGenerator {
     this.objcCategories = ObjCCategories.excludeAll,
     this.libraryImports = const <LibraryImport>[],
     this.usrTypeMappings = const <String, ImportedType>{},
-    this.typedefTypeMappings = const <ImportedType>[],
-    this.structTypeMappings = const <ImportedType>[],
-    this.unionTypeMappings = const <ImportedType>[],
     this.nativeTypeMappings = const <ImportedType>[],
     this.useDartHandle = true,
     this.externalVersions = const ExternalVersions(),
@@ -308,14 +296,14 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get typedefTypeMappings =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.typedefTypeMappings.map(
+        ffiGen.typedefs.typeMappings.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
 
   Map<String, ImportedType> get structTypeMappings =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.structTypeMappings.map(
+        ffiGen.structs.typeMappings.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
@@ -323,7 +311,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get unionTypeMappings =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.unionTypeMappings.map(
+        ffiGen.unions.typeMappings.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
@@ -478,6 +466,9 @@ final class Structs extends DeclarationFilters {
 
   static PackingValue? _packingOverrideDefault(Declaration declaration) => null;
 
+  /// Stores struct name to ImportedType mappings specified by user.
+  final List<ImportedType> typeMappings;
+
   const Structs({
     super.rename,
     super.renameMember,
@@ -486,6 +477,7 @@ final class Structs extends DeclarationFilters {
     super.shouldIncludeSymbolAddress,
     this.dependencies = CompoundDependencies.full,
     this.packingOverride = _packingOverrideDefault,
+    this.typeMappings = const <ImportedType>[],
   });
 
   static const excludeAll = Structs(shouldInclude: _excludeAll);
@@ -501,6 +493,9 @@ final class Unions extends DeclarationFilters {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies dependencies;
 
+  /// Stores union name to ImportedType mappings specified by user.
+  final List<ImportedType> typeMappings;
+
   const Unions({
     super.rename,
     super.renameMember,
@@ -508,6 +503,7 @@ final class Unions extends DeclarationFilters {
     super.shouldIncludeMember,
     super.shouldIncludeSymbolAddress,
     this.dependencies = CompoundDependencies.full,
+    this.typeMappings = const <ImportedType>[],
   });
 
   static const excludeAll = Unions(shouldInclude: _excludeAll);
@@ -526,6 +522,9 @@ final class Typedefs extends DeclarationFilters {
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnused;
 
+  /// Stores typedef name to ImportedType mappings specified by user.
+  final List<ImportedType> typeMappings;
+
   const Typedefs({
     super.rename,
     super.renameMember,
@@ -534,6 +533,7 @@ final class Typedefs extends DeclarationFilters {
     super.shouldIncludeSymbolAddress,
     this.useSupportedTypedefs = true,
     this.includeUnused = false,
+    this.typeMappings = const <ImportedType>[],
   });
 
   static const Typedefs excludeAll = Typedefs(shouldInclude: _excludeAll);

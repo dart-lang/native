@@ -69,10 +69,10 @@ void main() {
         structs: Structs.includeAll,
         enums: Enums.includeAll,
         macroDecl: DeclarationFilters.includeAll,
-        typedefs: Typedefs.includeAll,
-        typedefTypeMappings: [
-          ImportedType(ffiImport, 'Int64', 'int', 'time_t'),
-        ],
+        typedefs: Typedefs(
+          shouldInclude: (_) => true,
+          typeMappings: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
+        ),
       );
       final library = parse(testContext(generator));
 
