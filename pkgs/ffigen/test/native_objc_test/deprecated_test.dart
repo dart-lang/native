@@ -17,7 +17,6 @@ import '../test_utils.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
   FfiGenerator(
-    language: Language.objc,
     output: Output(
       dartFile: Uri.file(
         path.join(

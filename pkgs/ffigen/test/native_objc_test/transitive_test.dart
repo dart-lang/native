@@ -20,7 +20,6 @@ String generate({
   bool includeTransitiveObjCCategories = false,
 }) {
   FfiGenerator(
-    language: Language.objc,
     output: Output(
       dartFile: Uri.file(
         path.join(

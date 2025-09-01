@@ -24,9 +24,6 @@ final class FfiGenerator {
   @Deprecated('Only visible for YamlConfig plumbing.')
   final Uri? libclangDylib;
 
-  /// Language that ffigen is consuming.
-  final Language language;
-
   /// Configuration for functions.
   final Functions functions;
 
@@ -80,7 +77,6 @@ final class FfiGenerator {
   const FfiGenerator({
     this.headers = const Headers(),
     required this.output,
-    this.language = Language.c,
     this.functions = Functions.excludeAll,
     this.structs = Structs.excludeAll,
     this.unions = Unions.excludeAll,
@@ -706,4 +702,6 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get nativeTypeMappings =>
       ffiGen._nativeTypeMappings;
+
+  Language get language => objectiveC != null ? Language.objc : Language.c;
 }

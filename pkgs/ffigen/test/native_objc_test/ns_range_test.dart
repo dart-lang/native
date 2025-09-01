@@ -19,7 +19,6 @@ void main() {
     late final String bindings;
     setUpAll(() {
       FfiGenerator(
-        language: Language.objc,
         output: Output(
           dartFile: Uri.file(
             path.join(

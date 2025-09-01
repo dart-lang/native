@@ -1261,7 +1261,6 @@ final class YamlConfig {
               wrapperDocComment: wrapperDocComment,
             ),
     ),
-    language: language,
     functions: Functions(
       shouldInclude: functionDecl.shouldInclude,
       shouldIncludeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
