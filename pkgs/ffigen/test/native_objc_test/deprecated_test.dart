@@ -46,19 +46,19 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
     ),
     objectiveC: ObjectiveC(
       interfaces: Interfaces(
-        shouldInclude: (decl) => {
+        include: (decl) => {
           'DeprecatedInterfaceMethods',
           'DeprecatedInterface',
         }.contains(decl.originalName),
       ),
       protocols: Protocols(
-        shouldInclude: (decl) => {
+        include: (decl) => {
           'DeprecatedProtocolMethods',
           'DeprecatedProtocol',
         }.contains(decl.originalName),
       ),
       categories: Categories(
-        shouldInclude: (decl) => {
+        include: (decl) => {
           'DeprecatedCategoryMethods',
           'DeprecatedCategory',
         }.contains(decl.originalName),
@@ -66,11 +66,11 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       ),
       externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
     ),
-    functions: Functions.include({'normalFunction', 'deprecatedFunction'}),
-    structs: Structs.include({'NormalStruct', 'DeprecatedStruct'}),
-    unions: Unions.include({'NormalUnion', 'DeprecatedUnion'}),
-    enums: Enums.include({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnums: UnnamedEnums.include({
+    functions: Functions.includeSet({'normalFunction', 'deprecatedFunction'}),
+    structs: Structs.includeSet({'NormalStruct', 'DeprecatedStruct'}),
+    unions: Unions.includeSet({'NormalUnion', 'DeprecatedUnion'}),
+    enums: Enums.includeSet({'NormalEnum', 'DeprecatedEnum'}),
+    unnamedEnums: UnnamedEnums.includeSet({
       'normalUnnamedEnum',
       'deprecatedUnnamedEnum',
     }),

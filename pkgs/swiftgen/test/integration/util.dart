@@ -60,7 +60,7 @@ class TestGenerator {
       output: Uri.file(outputFile),
       outputObjC: Uri.file(outputObjCFile),
       objcInterfaces: fg.Interfaces(
-        shouldInclude: (decl) => decl.originalName.startsWith('Test'),
+        include: (decl) => decl.originalName.startsWith('Test'),
       ),
       preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file

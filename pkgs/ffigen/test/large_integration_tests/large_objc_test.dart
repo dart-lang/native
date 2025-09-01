@@ -48,10 +48,10 @@ void main() {
       String kind, [
       Set<String> forceIncludes = const {},
     ]) => Declarations(
-      shouldInclude: (Declaration clazz) =>
+      include: (Declaration clazz) =>
           forceIncludes.contains(clazz.originalName) ||
           randInclude(kind, clazz),
-      shouldIncludeMember: (Declaration clazz, String method) =>
+      includeMember: (Declaration clazz, String method) =>
           randInclude('$kind.memb', clazz, method),
     );
 
@@ -102,62 +102,62 @@ void main() {
       functions: () {
         final filter = randomFilter('functionDecl');
         return Functions(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
+          include: filter.include,
+          includeMember: filter.includeMember,
         );
       }(),
       structs: () {
         final filter = randomFilter('structDecl');
         return Structs(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
+          include: filter.include,
+          includeMember: filter.includeMember,
         );
       }(),
       unions: () {
         final filter = randomFilter('unionDecl');
         return Unions(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
+          include: filter.include,
+          includeMember: filter.includeMember,
         );
       }(),
       enums: () {
         final filter = randomFilter('enums');
         return Enums(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
+          include: filter.include,
+          includeMember: filter.includeMember,
         );
       }(),
       unnamedEnums: () {
         final filter = randomFilter('unnamedEnumConstants');
         return UnnamedEnums(
-          shouldInclude: filter.shouldInclude,
-          shouldIncludeMember: filter.shouldIncludeMember,
+          include: filter.include,
+          includeMember: filter.includeMember,
         );
       }(),
       globals: randomFilter('globals'),
-      typedefs: Typedefs(shouldInclude: randomFilter('typedefs').shouldInclude),
+      typedefs: Typedefs(include: randomFilter('typedefs').include),
       objectiveC: ObjectiveC(
         interfaces: () {
           final filter = randomFilter('objcInterfaces');
           return Interfaces(
-            shouldInclude: filter.shouldInclude,
-            shouldIncludeMember: filter.shouldIncludeMember,
+            include: filter.include,
+            includeMember: filter.includeMember,
             includeTransitive: false,
           );
         }(),
         protocols: () {
           final filter = randomFilter('objcProtocols', forceIncludedProtocols);
           return Protocols(
-            shouldInclude: filter.shouldInclude,
-            shouldIncludeMember: filter.shouldIncludeMember,
+            include: filter.include,
+            includeMember: filter.includeMember,
             includeTransitive: false,
           );
         }(),
         categories: () {
           final filter = randomFilter('objcCategories');
           return Categories(
-            shouldInclude: filter.shouldInclude,
-            shouldIncludeMember: filter.shouldIncludeMember,
+            include: filter.include,
+            includeMember: filter.includeMember,
             includeTransitive: false,
           );
         }(),

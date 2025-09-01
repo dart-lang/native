@@ -43,7 +43,7 @@ void main() {
             functions: Functions.includeAll,
             globals: Globals.includeAll,
             typedefs: Typedefs(
-              shouldInclude: (Declaration decl) => true,
+              include: (Declaration decl) => true,
               includeUnused: true,
             ),
           ),

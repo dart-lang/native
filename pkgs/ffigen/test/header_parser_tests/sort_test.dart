@@ -35,7 +35,7 @@ void main() {
             structs: Structs.includeAll,
             unions: Unions.includeAll,
             typedefs: Typedefs(
-              shouldInclude: (Declaration decl) => true,
+              include: (Declaration decl) => true,
               includeUnused: true,
             ),
           ),

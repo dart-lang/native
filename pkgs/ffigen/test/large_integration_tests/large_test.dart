@@ -55,7 +55,7 @@ void main() {
               ),
             ),
           ],
-          shouldInclude: (Uri header) => [
+          include: (Uri header) => [
             'BuildSystem.h',
             'CXCompilationDatabase.h',
             'CXErrorCode.h',
@@ -70,7 +70,7 @@ void main() {
         enums: Enums.includeAll,
         macros: Macros.includeAll,
         typedefs: Typedefs(
-          shouldInclude: (_) => true,
+          include: (_) => true,
           imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
         ),
       );
@@ -148,7 +148,7 @@ void main() {
               ),
             ),
           ],
-          shouldInclude: (Uri header) => header.pathSegments.last == 'cJSON.h',
+          include: (Uri header) => header.pathSegments.last == 'cJSON.h',
         ),
         functions: Functions.includeAll,
         structs: Structs.includeAll,
@@ -190,11 +190,10 @@ void main() {
               ),
             ),
           ],
-          shouldInclude: (Uri header) =>
-              header.pathSegments.last == 'sqlite3.h',
+          include: (Uri header) => header.pathSegments.last == 'sqlite3.h',
         ),
         functions: Functions(
-          shouldInclude: (declaration) => !{
+          include: (declaration) => !{
             'sqlite3_vmprintf',
             'sqlite3_vsnprintf',
             'sqlite3_str_vappendf',

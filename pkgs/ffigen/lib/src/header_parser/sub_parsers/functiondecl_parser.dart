@@ -147,10 +147,8 @@ List<Func> parseFunctionDeclaration(
           varArgParameters: vaFunc.types
               .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
               .toList(),
-          exposeSymbolAddress: config.functions.shouldIncludeSymbolAddress(
-            decl,
-          ),
-          exposeFunctionTypedefs: config.functions.exposeTypedef(decl),
+          exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
+          exposeFunctionTypedefs: config.functions.includeTypedef(decl),
           isLeaf: config.functions.isLeaf(decl),
           objCReturnsRetained: objCReturnsRetained,
           ffiNativeConfig: config.ffiNativeConfig,

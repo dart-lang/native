@@ -36,7 +36,7 @@ Future<void> main() async {
         macos: fg.Versions(min: Version(10, 14, 0)),
       ),
       objcInterfaces: fg.Interfaces(
-        shouldInclude: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
+        include: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
       ),
       preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file

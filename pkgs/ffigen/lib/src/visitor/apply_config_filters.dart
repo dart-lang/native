@@ -17,7 +17,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
     if (config.importedTypesByUsr.containsKey(node.usr)) return;
-    if (filters.shouldInclude(node)) directlyIncluded.add(node);
+    if (filters.include(node)) directlyIncluded.add(node);
   }
 
   @override
@@ -41,7 +41,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (node.unavailable) return;
 
     node.filterMethods(
-      (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName),
+      (m) => config.objcInterfaces.includeMember(node, m.originalName),
     );
     _visitImpl(node, config.objcInterfaces);
 
@@ -57,7 +57,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitObjCCategory(ObjCCategory node) {
     node.filterMethods((m) {
       if (node.shouldCopyMethodToInterface(m)) return false;
-      return config.objcCategories.shouldIncludeMember(node, m.originalName);
+      return config.objcCategories.includeMember(node, m.originalName);
     });
     _visitImpl(node, config.objcCategories);
   }
@@ -73,7 +73,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
       // copied to any interfaces that implement the protocol.
       if (m.isClassMethod) return false;
 
-      return config.objcProtocols.shouldIncludeMember(node, m.originalName);
+      return config.objcProtocols.includeMember(node, m.originalName);
     });
     _visitImpl(node, config.objcProtocols);
   }

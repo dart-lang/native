@@ -109,11 +109,12 @@ final class Headers {
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
-  final bool Function(Uri header) shouldInclude;
+  final bool Function(Uri header) include;
 
-  static bool _shouldIncludeDefault(Uri header) => true;
+  static bool _includeDefault(Uri header) => true;
 
   /// CommandLine Arguments to pass to clang_compiler.
+  // TODO: Rename to compilerOptions.
   final List<String>? compilerOpts;
 
   /// Where to ignore compiler warnings/errors in source header files.
@@ -121,7 +122,7 @@ final class Headers {
 
   const Headers({
     this.entryPoints = const [],
-    this.shouldInclude = _shouldIncludeDefault,
+    this.include = _includeDefault,
     this.compilerOpts,
     this.ignoreSourceErrors = false,
   });
@@ -215,10 +216,10 @@ final class DynamicLibraryBindings implements BindingStyle {
 /// Configuration for declarations.
 final class Declarations {
   /// Checks if a name is allowed by a filter.
-  final bool Function(Declaration declaration) shouldInclude;
+  final bool Function(Declaration declaration) include;
 
   /// Checks if the symbol address should be included for this name.
-  final bool Function(Declaration declaration) shouldIncludeSymbolAddress;
+  final bool Function(Declaration declaration) includeSymbolAddress;
 
   /// Applies renaming and returns the result.
   final String Function(Declaration declaration) rename;
@@ -238,65 +239,42 @@ final class Declarations {
 
   /// Whether a member of a declaration should be included. Used for ObjC
   /// interface/protocol/category methods/properties.
-  final bool Function(Declaration declaration, String member)
-  shouldIncludeMember;
+  final bool Function(Declaration declaration, String member) includeMember;
 
   static bool _includeAllMembers(Declaration declaration, String member) =>
       true;
 
   const Declarations({
-    this.shouldInclude = _excludeAll,
-    this.shouldIncludeSymbolAddress = _excludeAll,
+    this.include = _excludeAll,
+    this.includeSymbolAddress = _excludeAll,
     this.rename = _useOriginalName,
     this.renameMember = _useMemberOriginalName,
-    this.shouldIncludeMember = _includeAllMembers,
+    this.includeMember = _includeAllMembers,
   });
-
-  static const excludeAll = Declarations();
-
-  static const includeAll = Declarations(shouldInclude: _includeAll);
-
-  static Declarations include(Set<String> names) => Declarations(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
 }
 
 /// Configuration for globals.
 final class Globals extends Declarations {
-  const Globals({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-  });
+  const Globals({super.rename, super.include, super.includeSymbolAddress});
 
-  static const excludeAll = Globals(shouldInclude: _excludeAll);
+  static const excludeAll = Globals(include: _excludeAll);
 
-  static const includeAll = Globals(shouldInclude: _includeAll);
+  static const includeAll = Globals(include: _includeAll);
 
-  static Globals include(Set<String> names) => Globals(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Globals includeSet(Set<String> names) =>
+      Globals(include: (Declaration decl) => names.contains(decl.originalName));
 }
 
 /// Configuration for macros.
 final class Macros extends Declarations {
-  const Macros({
-    super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-  });
+  const Macros({super.rename, super.include, super.includeSymbolAddress});
 
-  static const excludeAll = Macros(shouldInclude: _excludeAll);
+  static const excludeAll = Macros(include: _excludeAll);
 
-  static const includeAll = Macros(shouldInclude: _includeAll);
+  static const includeAll = Macros(include: _includeAll);
 
-  static Macros include(Set<String> names) => Macros(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Macros includeSet(Set<String> names) =>
+      Macros(include: (Declaration decl) => names.contains(decl.originalName));
 }
 
 /// Configuration for Objective-C.
@@ -338,9 +316,9 @@ final class Functions extends Declarations {
   final Map<String, List<VarArgFunction>> varArgs;
 
   /// Whether to expose the function typedef for a given function.
-  final bool Function(Declaration declaration) exposeTypedef;
+  final bool Function(Declaration declaration) includeTypedef;
 
-  static bool _exposeTypedefDefault(Declaration declaration) => false;
+  static bool _includeTypedefDefault(Declaration declaration) => false;
 
   /// Whether the given function is a leaf function.
   final bool Function(Declaration declaration) isLeaf;
@@ -350,20 +328,20 @@ final class Functions extends Declarations {
   const Functions({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
     this.varArgs = const <String, List<VarArgFunction>>{},
-    this.exposeTypedef = _exposeTypedefDefault,
+    this.includeTypedef = _includeTypedefDefault,
     this.isLeaf = _isLeafDefault,
   });
 
-  static const excludeAll = Functions(shouldInclude: _excludeAll);
+  static const excludeAll = Functions(include: _excludeAll);
 
-  static const includeAll = Functions(shouldInclude: _includeAll);
+  static const includeAll = Functions(include: _includeAll);
 
-  static Functions include(Set<String> names) => Functions(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  static Functions includeSet(Set<String> names) => Functions(
+    include: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
@@ -371,9 +349,10 @@ final class Functions extends Declarations {
 final class Enums extends Declarations {
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
-  final bool Function(Declaration declaration) shouldBeInt;
+  // TODO: Make EnumStyle.
+  final bool Function(Declaration declaration) asInt;
 
-  static bool _shouldBeIntDefault(Declaration declaration) => false;
+  static bool _asIntDefault(Declaration declaration) => false;
 
   /// Whether to silence warning for enum integer type mimicking.
   final bool silenceWarning;
@@ -381,45 +360,45 @@ final class Enums extends Declarations {
   const Enums({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.shouldBeInt = _shouldBeIntDefault,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
+    this.asInt = _asIntDefault,
     this.silenceWarning = false,
   });
 
-  static const excludeAll = Enums(shouldInclude: _excludeAll);
+  static const excludeAll = Enums(include: _excludeAll);
 
-  static const includeAll = Enums(shouldInclude: _includeAll);
+  static const includeAll = Enums(include: _includeAll);
 
-  static Enums include(Set<String> names) => Enums(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Enums includeSet(Set<String> names) =>
+      Enums(include: (Declaration decl) => names.contains(decl.originalName));
 }
 
 /// Configuration for unnamed enum constants.
 final class UnnamedEnums extends Declarations {
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
+  // TODO: Make EnumStyle.
   final bool Function(Declaration declaration) shouldBeInt;
 
-  static bool _shouldBeIntDefault(Declaration declaration) => false;
+  static bool _asIntDefault(Declaration declaration) => false;
 
   const UnnamedEnums({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
-    this.shouldBeInt = _shouldBeIntDefault,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
+    this.shouldBeInt = _asIntDefault,
   });
 
-  static const excludeAll = UnnamedEnums(shouldInclude: _excludeAll);
+  static const excludeAll = UnnamedEnums(include: _excludeAll);
 
-  static const includeAll = UnnamedEnums(shouldInclude: _includeAll);
+  static const includeAll = UnnamedEnums(include: _includeAll);
 
-  static UnnamedEnums include(Set<String> names) => UnnamedEnums(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  static UnnamedEnums includeSet(Set<String> names) => UnnamedEnums(
+    include: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
@@ -439,21 +418,20 @@ final class Structs extends Declarations {
   const Structs({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
     this.dependencies = CompoundDependencies.opaque,
     this.packingOverride = _packingOverrideDefault,
     this.imported = const <ImportedType>[],
   });
 
-  static const excludeAll = Structs(shouldInclude: _excludeAll);
+  static const excludeAll = Structs(include: _excludeAll);
 
-  static const includeAll = Structs(shouldInclude: _includeAll);
+  static const includeAll = Structs(include: _includeAll);
 
-  static Structs include(Set<String> names) => Structs(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Structs includeSet(Set<String> names) =>
+      Structs(include: (Declaration decl) => names.contains(decl.originalName));
 }
 
 /// Configuration for union declarations.
@@ -467,20 +445,19 @@ final class Unions extends Declarations {
   const Unions({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
     this.dependencies = CompoundDependencies.opaque,
     this.imported = const <ImportedType>[],
   });
 
-  static const excludeAll = Unions(shouldInclude: _excludeAll);
+  static const excludeAll = Unions(include: _excludeAll);
 
-  static const includeAll = Unions(shouldInclude: _includeAll);
+  static const includeAll = Unions(include: _includeAll);
 
-  static Unions include(Set<String> names) => Unions(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Unions includeSet(Set<String> names) =>
+      Unions(include: (Declaration decl) => names.contains(decl.originalName));
 }
 
 /// Configuration for typedefs.
@@ -496,21 +473,18 @@ final class Typedefs extends Declarations {
 
   const Typedefs({
     super.rename,
-    super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
+    super.include,
     this.useSupportedTypedefs = true,
     this.includeUnused = false,
     this.imported = const <ImportedType>[],
   });
 
-  static const Typedefs excludeAll = Typedefs(shouldInclude: _excludeAll);
+  static const Typedefs excludeAll = Typedefs(include: _excludeAll);
 
-  static const Typedefs includeAll = Typedefs(shouldInclude: _includeAll);
+  static const Typedefs includeAll = Typedefs(include: _includeAll);
 
-  static Typedefs include(Set<String> names) => Typedefs(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  static Typedefs includeSet(Set<String> names) => Typedefs(
+    include: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
@@ -530,19 +504,19 @@ final class Interfaces extends Declarations {
   const Interfaces({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
     this.includeTransitive = false,
     this.module = _moduleDefault,
   });
 
-  static const excludeAll = Interfaces(shouldInclude: _excludeAll);
+  static const excludeAll = Interfaces(include: _excludeAll);
 
-  static const includeAll = Interfaces(shouldInclude: _includeAll);
+  static const includeAll = Interfaces(include: _includeAll);
 
-  static Interfaces include(Set<String> names) => Interfaces(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  static Interfaces includeSet(Set<String> names) => Interfaces(
+    include: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
@@ -562,19 +536,19 @@ final class Protocols extends Declarations {
   const Protocols({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
     this.includeTransitive = false,
     this.module = _moduleDefault,
   });
 
-  static const excludeAll = Protocols(shouldInclude: _excludeAll);
+  static const excludeAll = Protocols(include: _excludeAll);
 
-  static const includeAll = Protocols(shouldInclude: _includeAll);
+  static const includeAll = Protocols(include: _includeAll);
 
-  static Protocols include(Set<String> names) => Protocols(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  static Protocols includeSet(Set<String> names) => Protocols(
+    include: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
@@ -589,18 +563,18 @@ final class Categories extends Declarations {
   const Categories({
     super.rename,
     super.renameMember,
-    super.shouldInclude,
-    super.shouldIncludeMember,
-    super.shouldIncludeSymbolAddress,
+    super.include,
+    super.includeMember,
+    super.includeSymbolAddress,
     this.includeTransitive = true,
   });
 
-  static const excludeAll = Categories(shouldInclude: _excludeAll);
+  static const excludeAll = Categories(include: _excludeAll);
 
-  static const includeAll = Categories(shouldInclude: _includeAll);
+  static const includeAll = Categories(include: _includeAll);
 
-  static Categories include(Set<String> names) => Categories(
-    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  static Categories includeSet(Set<String> names) => Categories(
+    include: (Declaration decl) => names.contains(decl.originalName),
   );
 }
 
@@ -647,7 +621,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
     },
   );
 
-  bool shouldIncludeHeader(Uri header) => ffiGen.headers.shouldInclude(header);
+  bool shouldIncludeHeader(Uri header) => ffiGen.headers.include(header);
 
   bool get ignoreSourceErrors => ffiGen.headers.ignoreSourceErrors;
 

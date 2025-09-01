@@ -78,7 +78,7 @@ class FfiGenConfig {
 
   /// [ffigen.FfiGenerator.structs]
   ///
-  /// Defaults to [ffigen.Declarations.excludeAll]
+  /// Defaults to [ffigen.Structs.excludeAll]
   final ffigen.Structs? structs;
 
   /// [ffigen.FfiGenerator.unions]
@@ -88,7 +88,7 @@ class FfiGenConfig {
 
   /// [ffigen.FfiGenerator.enums]
   ///
-  /// Defaults to [ffigen.Declarations.excludeAll]
+  /// Defaults to [ffigen.Enums.excludeAll]
   final ffigen.Enums? enums;
 
   /// [ffigen.FfiGenerator.unnamedEnums]
@@ -97,7 +97,7 @@ class FfiGenConfig {
   final ffigen.UnnamedEnums? unnamedEnums;
 
   /// [ffigen.FfiGenerator.globals]
-  /// Defaults to [ffigen.Declarations.excludeAll]
+  /// Defaults to [ffigen.Globals.excludeAll]
   final ffigen.Globals? globals;
 
   /// [ffigen.FfiGenerator.macros]

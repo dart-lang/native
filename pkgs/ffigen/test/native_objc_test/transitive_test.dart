@@ -49,7 +49,7 @@ String generate({
     ),
     objectiveC: ObjectiveC(
       interfaces: Interfaces(
-        shouldInclude: (decl) => {
+        include: (decl) => {
           'DirectlyIncluded',
           'DirectlyIncludedWithProtocol',
           'DirectlyIncludedIntForCat',
@@ -57,12 +57,12 @@ String generate({
         includeTransitive: includeTransitiveObjCInterfaces,
       ),
       protocols: Protocols(
-        shouldInclude: (decl) =>
+        include: (decl) =>
             {'DirectlyIncludedProtocol'}.contains(decl.originalName),
         includeTransitive: includeTransitiveObjCProtocols,
       ),
       categories: Categories(
-        shouldInclude: (decl) =>
+        include: (decl) =>
             {'DirectlyIncludedCategory'}.contains(decl.originalName),
         includeTransitive: includeTransitiveObjCCategories,
       ),

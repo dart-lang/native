@@ -47,7 +47,7 @@ void main() {
         ),
         objectiveC: ObjectiveC(
           interfaces: Interfaces(
-            shouldInclude: (decl) =>
+            include: (decl) =>
                 {'SFTranscriptionSegment'}.contains(decl.originalName),
           ),
         ),

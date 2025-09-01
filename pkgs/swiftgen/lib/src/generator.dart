@@ -53,20 +53,20 @@ extension SwiftGenGenerator on SwiftGen {
       unions: ffigen.unions ?? fg.Unions.excludeAll,
       enums: ffigen.enums ?? fg.Enums.excludeAll,
       unnamedEnums: ffigen.unnamedEnums ?? fg.UnnamedEnums.excludeAll,
-      globals: ffigen.globals ?? fg.Declarations.excludeAll,
-      macros: ffigen.macros ?? fg.Declarations.excludeAll,
+      globals: ffigen.globals ?? fg.Globals.excludeAll,
+      macros: ffigen.macros ?? fg.Macros.excludeAll,
       typedefs: ffigen.typedefs ?? fg.Typedefs.excludeAll,
       objectiveC: fg.ObjectiveC(
         interfaces:
             ffigen.objcInterfaces ??
             fg.Interfaces(
-              shouldInclude: (declaration) => false,
+              include: (declaration) => false,
               module: (_) => outputModule,
             ),
         protocols:
             ffigen.objcProtocols ??
             fg.Protocols(
-              shouldInclude: (declaration) => false,
+              include: (declaration) => false,
               module: (_) => outputModule,
             ),
         categories: ffigen.objcCategories ?? fg.Categories.excludeAll,
