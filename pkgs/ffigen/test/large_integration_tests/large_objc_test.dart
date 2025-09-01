@@ -98,38 +98,20 @@ void main() {
 ''',
       ),
       functions: () {
-        final filter = randomFilter('functionDecl');
-        return Functions(
-          include: filter.include,
-          includeMember: filter.includeMember,
-        );
+        return Functions(include: randomFilter('functionDecl').include);
       }(),
       structs: () {
-        final filter = randomFilter('structDecl');
-        return Structs(
-          include: filter.include,
-          includeMember: filter.includeMember,
-        );
+        return Structs(include: randomFilter('structDecl').include);
       }(),
       unions: () {
-        final filter = randomFilter('unionDecl');
-        return Unions(
-          include: filter.include,
-          includeMember: filter.includeMember,
-        );
+        return Unions(include: randomFilter('unionDecl').include);
       }(),
       enums: () {
-        final filter = randomFilter('enums');
-        return Enums(
-          include: filter.include,
-          includeMember: filter.includeMember,
-        );
+        return Enums(include: randomFilter('enums').include);
       }(),
       unnamedEnums: () {
-        final filter = randomFilter('unnamedEnumConstants');
         return UnnamedEnums(
-          include: filter.include,
-          includeMember: filter.includeMember,
+          include: randomFilter('unnamedEnumConstants').include,
         );
       }(),
       globals: randomFilter('globals'),

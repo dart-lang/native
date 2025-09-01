@@ -132,8 +132,10 @@ final class Declarations {
   /// Checks if a name is allowed by a filter.
   final bool Function(Declaration declaration) include;
 
-  /// Whether a member of a declaration should be included. Used for ObjC
-  /// interface/protocol/category methods/properties.
+  /// Whether a member of a declaration should be included.
+  ///
+  /// Only used for [Categories], [Interfaces], and [Protocols] methods and
+  /// properties.
   final bool Function(Declaration declaration, String member) includeMember;
 
   static bool _includeAllMembers(Declaration declaration, String member) =>
@@ -180,7 +182,6 @@ final class Enums extends Declarations {
 
   const Enums({
     super.include,
-    super.includeMember,
     super.includeSymbolAddress,
     super.rename,
     super.renameMember,
@@ -224,7 +225,6 @@ final class Functions extends Declarations {
 
   const Functions({
     super.include,
-    super.includeMember,
     super.includeSymbolAddress,
     super.rename,
     super.renameMember,
@@ -281,7 +281,6 @@ final class Structs extends Declarations {
 
   const Structs({
     super.include,
-    super.includeMember,
     super.includeSymbolAddress,
     super.rename,
     super.renameMember,
@@ -336,7 +335,6 @@ final class Unions extends Declarations {
 
   const Unions({
     super.include,
-    super.includeMember,
     super.includeSymbolAddress,
     super.rename,
     super.renameMember,
@@ -362,7 +360,6 @@ final class UnnamedEnums extends Declarations {
 
   const UnnamedEnums({
     super.include,
-    super.includeMember,
     super.includeSymbolAddress,
     super.rename,
     super.renameMember,
