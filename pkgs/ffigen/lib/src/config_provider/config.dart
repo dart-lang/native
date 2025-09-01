@@ -23,6 +23,7 @@ final class FfiGenerator {
   final Output output;
 
   /// Path to the clang library.
+  @Deprecated('Only visible for YamlConfig plumbing.')
   final Uri? libclangDylib;
 
   /// Language that ffigen is consuming.
@@ -66,6 +67,7 @@ final class FfiGenerator {
   /// package:objective_c (the default) or code genned like any other class.
   /// This is necessary because package:objective_c can't import NSObject from
   /// itself.
+  @Deprecated('Only for internal use.')
   final bool generateForPackageObjectiveC;
 
   /// Stores all the library imports specified by user including those for ffi

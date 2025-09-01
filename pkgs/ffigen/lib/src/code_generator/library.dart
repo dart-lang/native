@@ -33,6 +33,7 @@ class Library {
     description: config.wrapperDocComment,
     bindings: bindings,
     header: config.preamble,
+    // ignore: deprecated_member_use_from_same_package
     generateForPackageObjectiveC: config.generateForPackageObjectiveC,
     libraryImports: config.libraryImports.values.toList(),
     silenceEnumWarning: config.enums.silenceWarning,

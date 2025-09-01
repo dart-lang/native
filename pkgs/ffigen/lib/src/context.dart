@@ -42,9 +42,11 @@ class Context {
       cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
         Config(generator).wrapperName,
+        // ignore: deprecated_member_use_from_same_package
         generator.generateForPackageObjectiveC,
       ) {
     final libclangDylibPath =
+        // ignore: deprecated_member_use_from_same_package
         generator.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);
