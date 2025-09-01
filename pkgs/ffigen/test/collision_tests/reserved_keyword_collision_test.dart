@@ -38,8 +38,10 @@ void main() {
             enums: Enums.includeAll,
             functions: Functions.includeAll,
             globals: DeclarationFilters.includeAll,
-            typedefs: Typedefs.includeAll,
-            includeUnusedTypedefs: true,
+            typedefs: Typedefs(
+              shouldInclude: (Declaration decl) => true,
+              includeUnused: true,
+            ),
           ),
         ),
       );

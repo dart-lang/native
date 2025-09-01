@@ -64,9 +64,6 @@ final class FfiGenerator {
   /// Declaration filters for Objective C categories.
   final ObjCCategories objcCategories;
 
-  /// If enabled, unused typedefs will also be generated.
-  final bool includeUnusedTypedefs;
-
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
   /// package:objective_c (the default) or code genned like any other class.
@@ -153,7 +150,6 @@ final class FfiGenerator {
     this.objcInterfaces = ObjCInterfaces.excludeAll,
     this.objcProtocols = ObjCProtocols.excludeAll,
     this.objcCategories = ObjCCategories.excludeAll,
-    this.includeUnusedTypedefs = false,
     this.generateForPackageObjectiveC = false,
     this.libraryImports = const <LibraryImport>[],
     this.usrTypeMappings = const <String, ImportedType>{},
@@ -534,6 +530,9 @@ final class Typedefs extends DeclarationFilters {
   /// If typedef of supported types(int8_t) should be directly used.
   final bool useSupportedTypedefs;
 
+  /// If enabled, unused typedefs will also be generated.
+  final bool includeUnused;
+
   const Typedefs({
     super.rename,
     super.renameMember,
@@ -541,6 +540,7 @@ final class Typedefs extends DeclarationFilters {
     super.shouldIncludeMember,
     super.shouldIncludeSymbolAddress,
     this.useSupportedTypedefs = true,
+    this.includeUnused = false,
   });
 
   static const Typedefs excludeAll = Typedefs(shouldInclude: _excludeAll);

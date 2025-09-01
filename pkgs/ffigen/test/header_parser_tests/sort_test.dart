@@ -34,8 +34,10 @@ void main() {
             ),
             structs: Structs.includeAll,
             unions: Unions.includeAll,
-            typedefs: Typedefs.includeAll,
-            includeUnusedTypedefs: true,
+            typedefs: Typedefs(
+              shouldInclude: (Declaration decl) => true,
+              includeUnused: true,
+            ),
           ),
         ),
       );

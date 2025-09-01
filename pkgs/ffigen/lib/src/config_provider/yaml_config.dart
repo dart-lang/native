@@ -1312,6 +1312,7 @@ final class YamlConfig {
       rename: typedefs.rename,
       renameMember: typedefs.renameMember,
       useSupportedTypedefs: useSupportedTypedefs,
+      includeUnused: includeUnusedTypedefs,
     ),
     objcInterfaces: ObjCInterfaces(
       shouldInclude: objcInterfaces.shouldInclude,
@@ -1339,7 +1340,6 @@ final class YamlConfig {
       renameMember: objcCategories.renameMember,
       includeTransitive: includeTransitiveObjCCategories,
     ),
-    includeUnusedTypedefs: includeUnusedTypedefs,
     generateForPackageObjectiveC: generateForPackageObjectiveC,
     libraryImports: libraryImports.values.toList(),
     usrTypeMappings: usrTypeMappings,
