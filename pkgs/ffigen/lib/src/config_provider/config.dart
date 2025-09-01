@@ -441,7 +441,7 @@ final class Structs extends Declarations {
     super.shouldInclude,
     super.shouldIncludeMember,
     super.shouldIncludeSymbolAddress,
-    this.dependencies = CompoundDependencies.full,
+    this.dependencies = CompoundDependencies.opaque,
     this.packingOverride = _packingOverrideDefault,
     this.typeMappings = const <ImportedType>[],
   });
@@ -469,7 +469,7 @@ final class Unions extends Declarations {
     super.shouldInclude,
     super.shouldIncludeMember,
     super.shouldIncludeSymbolAddress,
-    this.dependencies = CompoundDependencies.full,
+    this.dependencies = CompoundDependencies.opaque,
     this.typeMappings = const <ImportedType>[],
   });
 
