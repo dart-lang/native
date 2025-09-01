@@ -1238,7 +1238,7 @@ final class YamlConfig {
 
   FfiGenerator configAdapter() => FfiGenerator(
     headers: Headers(
-      compilerOpts: compilerOpts,
+      compilerOptions: compilerOpts,
       entryPoints: entryPoints,
       include: shouldIncludeHeader,
       ignoreSourceErrors: ignoreSourceErrors,

@@ -114,8 +114,7 @@ final class Headers {
   static bool _includeDefault(Uri header) => true;
 
   /// CommandLine Arguments to pass to clang_compiler.
-  // TODO: Rename to compilerOptions.
-  final List<String>? compilerOpts;
+  final List<String>? compilerOptions;
 
   /// Where to ignore compiler warnings/errors in source header files.
   final bool ignoreSourceErrors;
@@ -123,7 +122,7 @@ final class Headers {
   const Headers({
     this.entryPoints = const [],
     this.include = _includeDefault,
-    this.compilerOpts,
+    this.compilerOptions,
     this.ignoreSourceErrors = false,
   });
 }
@@ -625,7 +624,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   bool get ignoreSourceErrors => ffiGen.headers.ignoreSourceErrors;
 
-  List<String>? get compilerOpts => ffiGen.headers.compilerOpts;
+  List<String>? get compilerOpts => ffiGen.headers.compilerOptions;
 
   List<Uri> get entryPoints => ffiGen.headers.entryPoints;
 

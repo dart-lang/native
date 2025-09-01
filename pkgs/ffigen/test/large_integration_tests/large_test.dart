@@ -42,7 +42,10 @@ void main() {
 ''',
         ),
         headers: Headers(
-          compilerOpts: [...defaultCompilerOpts(Logger.root), '-I$includeDir'],
+          compilerOptions: [
+            ...defaultCompilerOpts(Logger.root),
+            '-I$includeDir',
+          ],
           entryPoints: [
             Uri.file(
               path.join(

@@ -75,7 +75,7 @@ extension SwiftGenGenerator on SwiftGen {
       ),
       headers: fg.Headers(
         entryPoints: [Uri.file(objcHeader)],
-        compilerOpts: [
+        compilerOptions: [
           ...fg.defaultCompilerOpts(logger),
           '-Wno-nullability-completeness',
         ],
