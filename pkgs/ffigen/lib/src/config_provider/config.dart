@@ -21,6 +21,8 @@ final class FfiGenerator {
   final Output output;
 
   /// Path to the clang library.
+  ///
+  /// Only visible for YamlConfig plumbing.
   @Deprecated('Only visible for YamlConfig plumbing.')
   final Uri? libclangDylib;
 
@@ -57,8 +59,8 @@ final class FfiGenerator {
   /// and pkg_ffi.
   final List<LibraryImport> libraryImports;
 
-  /// Stores all the symbol file maps name to ImportedType mappings specified by
-  /// user.
+  /// Stores all the symbol file maps name to [ImportedType] mappings specified
+  /// by user.
   final Map<String, ImportedType> usrTypeMappings;
 
   /// Stores native int name to ImportedType mappings specified by user.
@@ -170,7 +172,7 @@ final class Output {
 /// The style of `dart:ffi` bindings to generate.
 ///
 /// Either static bindings ([NativeExternalBindings]) or dynamic bindings
-///  ([DynamicLibraryBindings]).
+/// ([DynamicLibraryBindings]).
 sealed class BindingStyle {}
 
 /// Generate bindings with [Native] external functions.
@@ -180,7 +182,7 @@ final class NativeExternalBindings implements BindingStyle {
   /// If omitted, it will not be generated.
   final String? assetId;
 
-  /// Not the name of the wrapper class!
+  /// The prefix for the generated Objective-C functions.
   // TODO(https://github.com/dart-lang/native/issues/2580): Can we get rid of
   // this?
   final String wrapperName;
@@ -279,7 +281,7 @@ final class Globals extends Declarations {
   );
 }
 
-/// Configures how Macros are handled.
+/// Configuration for macros.
 final class Macros extends Declarations {
   const Macros({
     super.rename,
@@ -300,13 +302,13 @@ final class Macros extends Declarations {
 
 /// Configuration for Objective-C.
 final class ObjectiveC {
-  /// Declaration filters for Objective C interfaces.
+  /// Declaration filters for Objective-C interfaces.
   final ObjCInterfaces interfaces;
 
-  /// Declaration filters for Objective C protocols.
+  /// Declaration filters for Objective-C protocols.
   final ObjCProtocols protocols;
 
-  /// Declaration filters for Objective C categories.
+  /// Declaration filters for Objective-C categories.
   final ObjCCategories categories;
 
   /// Undocumented option that changes code generation for package:objective_c.
@@ -317,8 +319,8 @@ final class ObjectiveC {
   @Deprecated('Only for internal use.')
   final bool generateForPackageObjectiveC;
 
-  /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
-  /// before this version will not be generated.
+  /// Minimum target versions for Objective-C APIs, per OS. APIs that were
+  /// deprecated before this version will not be generated.
   final ExternalVersions externalVersions;
 
   const ObjectiveC({
@@ -515,13 +517,13 @@ final class Typedefs extends Declarations {
 
 /// Configuration for Objective-C interfaces.
 final class ObjCInterfaces extends Declarations {
-  /// If enabled, Objective C interfaces that are not explicitly included by
+  /// If enabled, Objective-C interfaces that are not explicitly included by
   /// the [Declarations], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included interfaces will be generated as stubs instead.
   final bool includeTransitive;
 
-  /// The module that the ObjC interface belongs to.
+  /// The module that the Objective-C interface belongs to.
   final String? Function(Declaration declaration) module;
 
   static String? _moduleDefault(Declaration declaration) => null;
@@ -547,13 +549,13 @@ final class ObjCInterfaces extends Declarations {
 
 /// Configuration for Objective-C protocols.
 final class ObjCProtocols extends Declarations {
-  /// If enabled, Objective C protocols that are not explicitly included by
+  /// If enabled, Objective-C protocols that are not explicitly included by
   /// the [Declarations], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included protocols will not be generated at all.
   final bool includeTransitive;
 
-  /// The module that the ObjC protocol belongs to.
+  /// The module that the Objective-C protocol belongs to.
   final String? Function(Declaration declaration) module;
 
   static String? _moduleDefault(Declaration declaration) => null;
@@ -579,7 +581,7 @@ final class ObjCProtocols extends Declarations {
 
 /// Configuration for Objective-C categories.
 final class ObjCCategories extends Declarations {
-  /// If enabled, Objective C categories that are not explicitly included by
+  /// If enabled, Objective-C categories that are not explicitly included by
   /// the [Declarations], but extend interfaces that are included,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included categories will not be generated at all.
