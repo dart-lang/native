@@ -1272,7 +1272,6 @@ final class YamlConfig {
     ),
     structs: Structs(
       include: _structDecl.shouldInclude,
-      includeSymbolAddress: _structDecl.shouldIncludeSymbolAddress,
       rename: _structDecl.rename,
       renameMember: _structDecl.renameMember,
       dependencies: _structDependencies,
@@ -1282,7 +1281,6 @@ final class YamlConfig {
     ),
     enums: Enums(
       include: _enumClassDecl.shouldInclude,
-      includeSymbolAddress: _enumClassDecl.shouldIncludeSymbolAddress,
       rename: _enumClassDecl.rename,
       renameMember: _enumClassDecl.renameMember,
       silenceWarning: silenceEnumWarning,
@@ -1293,7 +1291,6 @@ final class YamlConfig {
     ),
     unions: Unions(
       include: _unionDecl.shouldInclude,
-      includeSymbolAddress: _unionDecl.shouldIncludeSymbolAddress,
       rename: _unionDecl.rename,
       renameMember: _unionDecl.renameMember,
       dependencies: _unionDependencies,

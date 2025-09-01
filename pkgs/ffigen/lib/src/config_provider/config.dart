@@ -182,7 +182,6 @@ final class Enums extends Declarations {
 
   const Enums({
     super.include,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.style = _styleDefault,
@@ -256,7 +255,7 @@ final class Globals extends Declarations {
 
 /// Configuration for macros.
 final class Macros extends Declarations {
-  const Macros({super.rename, super.include, super.includeSymbolAddress});
+  const Macros({super.rename, super.include});
 
   static const excludeAll = Macros(include: _excludeAll);
 
@@ -281,7 +280,6 @@ final class Structs extends Declarations {
 
   const Structs({
     super.include,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
@@ -335,7 +333,6 @@ final class Unions extends Declarations {
 
   const Unions({
     super.include,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
@@ -360,7 +357,6 @@ final class UnnamedEnums extends Declarations {
 
   const UnnamedEnums({
     super.include,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.style = _styleDefault,
