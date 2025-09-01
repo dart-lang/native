@@ -42,7 +42,7 @@ final class FfiGenerator {
   final Enums enums;
 
   /// Declaration filters for Unnamed enum constants.
-  final UnnamedEnums unnamedEnumConstants;
+  final UnnamedEnums unnamedEnums;
 
   /// Declaration filters for Globals.
   final DeclarationFilters globals;
@@ -104,7 +104,7 @@ final class FfiGenerator {
     this.structs = Structs.excludeAll,
     this.unions = Unions.excludeAll,
     this.enums = Enums.excludeAll,
-    this.unnamedEnumConstants = UnnamedEnums.excludeAll,
+    this.unnamedEnums = UnnamedEnums.excludeAll,
     this.globals = DeclarationFilters.excludeAll,
     this.macroDecl = DeclarationFilters.excludeAll,
     this.typedefs = Typedefs.excludeAll,

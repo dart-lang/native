@@ -1301,7 +1301,7 @@ final class YamlConfig {
       dependencies: _unionDependencies,
       typeMappings: unionTypeMappings.values.toList(),
     ),
-    unnamedEnumConstants: UnnamedEnums(
+    unnamedEnums: UnnamedEnums(
       shouldInclude: _unnamedEnumConstants.shouldInclude,
       rename: _unnamedEnumConstants.rename,
       shouldBeInt: unnamedEnumsShouldBeInt,

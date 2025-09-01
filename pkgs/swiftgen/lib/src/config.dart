@@ -83,7 +83,7 @@ class FfiGenConfig {
 
   final ffigen.Enums? enumClassDecl;
 
-  /// [ffigen.FfiGenerator.unnamedEnumConstants]
+  /// [ffigen.FfiGenerator.unnamedEnums]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
   final ffigen.UnnamedEnums? unnamedEnumConstants;
 

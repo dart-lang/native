@@ -128,7 +128,7 @@ void main() {
           shouldIncludeMember: filter.shouldIncludeMember,
         );
       }(),
-      unnamedEnumConstants: () {
+      unnamedEnums: () {
         final filter = randomFilter('unnamedEnumConstants');
         return UnnamedEnums(
           shouldInclude: filter.shouldInclude,

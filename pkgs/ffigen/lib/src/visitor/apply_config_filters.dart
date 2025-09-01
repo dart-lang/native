@@ -80,7 +80,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      _visitImpl(node, config.unnamedEnumConstants);
+      _visitImpl(node, config.unnamedEnums);
 
   @override
   void visitGlobal(Global node) => _visitImpl(node, config.globals);
