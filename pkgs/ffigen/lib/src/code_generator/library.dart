@@ -8,7 +8,7 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
-import '../config_provider/config.dart' show FfiGen;
+import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
 import '../context.dart';
 
@@ -25,7 +25,7 @@ class Library {
   Library._(this.bindings, this.writer, this.context);
 
   static Library fromConfig({
-    required FfiGen config,
+    required Config config,
     required List<Binding> bindings,
     required Context context,
   }) => Library(

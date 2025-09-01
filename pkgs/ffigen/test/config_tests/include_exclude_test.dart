@@ -43,7 +43,7 @@ void main() {
   });
 }
 
-FfiGen _makeFieldIncludeExcludeConfig({
+FfiGenerator _makeFieldIncludeExcludeConfig({
   required String field,
   String? include,
   String? exclude,

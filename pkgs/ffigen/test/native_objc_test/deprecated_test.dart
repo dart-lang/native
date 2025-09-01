@@ -16,8 +16,7 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
-  FfiGen(
-    Logger.root,
+  FfiGenerator(
     wrapperName: 'DeprecatedTestObjCLibrary',
     wrapperDocComment: 'Tests API deprecation',
     language: Language.objc,
@@ -68,7 +67,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'deprecatedUnnamedEnum',
     }),
     externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
-  ).generate(Logger.root..level = Level.SEVERE);
+  ).generate(logger: Logger.root..level = Level.SEVERE);
   return File(
     path.join(
       packagePathForTests,

@@ -37,6 +37,9 @@ class LibraryImport extends AstNode {
     if (!generateForPackageObjectiveC) return _importPath;
     return _importPathWhenImportedByPackageObjC ?? _importPath;
   }
+
+  @override
+  String toString() => '$name $_importPath';
 }
 
 /// An imported type which will be used in the generated code.

@@ -12,7 +12,7 @@ import 'package:swift2objc/swift2objc.dart' as swift2objc;
 import 'config.dart';
 import 'util.dart';
 
-extension SwiftGenGenerator on SwiftGen {
+extension SwiftGenGenerator on SwiftGenerator {
   Future<void> generate(Logger logger) async {
     Directory(absTempDir).createSync(recursive: true);
     final swift2objcConfigs = inputs
@@ -57,8 +57,7 @@ extension SwiftGenGenerator on SwiftGen {
   ], absTempDir);
 
   void _generateDartFile(Logger logger) {
-    fg.FfiGen(
-      logger,
+    fg.FfiGenerator(
       language: fg.Language.objc,
       output: ffigen.output,
       outputObjC: ffigen.outputObjC,
@@ -82,9 +81,9 @@ extension SwiftGenGenerator on SwiftGen {
         ...fg.defaultCompilerOpts(logger),
         '-Wno-nullability-completeness',
       ],
-      interfaceModuleFunc: (_) => outputModule,
-      protocolModuleFunc: (_) => outputModule,
+      interfaceModule: (_) => outputModule,
+      protocolModule: (_) => outputModule,
       externalVersions: ffigen.externalVersions,
-    ).generate(logger);
+    ).generate(logger: logger);
   }
 }

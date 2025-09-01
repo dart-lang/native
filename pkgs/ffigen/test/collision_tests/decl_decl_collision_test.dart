@@ -15,8 +15,7 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('declaration conflict', () {
-      final config = FfiGen(
-        Logger.root,
+      final generator = FfiGenerator(
         entryPoints: [],
         output: Uri(),
         functionDecl: DeclarationFilters.includeAll,
@@ -82,7 +81,7 @@ void main() {
             name: 'ffi\$1',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
-        ], testContext(config)),
+        ], testContext(generator)),
       );
       matchLibraryWithExpected(
         library,

@@ -18,7 +18,7 @@ export 'src/config_provider.dart'
         Declaration,
         DeclarationFilters,
         ExternalVersions,
-        FfiGen,
+        FfiGenerator,
         FfiNativeConfig,
         Language,
         PackingValue,
@@ -27,4 +27,3 @@ export 'src/config_provider.dart'
         Versions,
         YamlConfig,
         defaultCompilerOpts;
-export 'src/ffigen.dart' show FfiGenGenerator;

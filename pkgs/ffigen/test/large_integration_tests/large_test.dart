@@ -25,14 +25,16 @@ void main() {
         'include',
       );
       final logArr = <String>[];
-      final logger = logToArray(logArr, Level.SEVERE);
-      final config = FfiGen(
-        logger,
+      logToArray(logArr, Level.SEVERE);
+      final generator = FfiGenerator(
         wrapperName: 'LibClang',
         wrapperDocComment: 'Bindings to LibClang.',
         output: Uri.file('unused'),
         compilerOpts: [...defaultCompilerOpts(Logger.root), '-I$includeDir'],
-        commentType: CommentType(CommentStyle.doxygen, CommentLength.brief),
+        commentType: const CommentType(
+          CommentStyle.doxygen,
+          CommentLength.brief,
+        ),
         entryPoints: [
           Uri.file(
             path.join(
@@ -45,7 +47,7 @@ void main() {
             ),
           ),
         ],
-        shouldIncludeHeaderFunc: (Uri header) => [
+        shouldIncludeHeader: (Uri header) => [
           'BuildSystem.h',
           'CXCompilationDatabase.h',
           'CXErrorCode.h',
@@ -66,7 +68,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(testContext(config));
+      final library = parse(testContext(generator));
 
       matchLibraryWithExpected(
         library,
@@ -118,8 +120,7 @@ void main() {
     });
 
     test('CJSON test', () {
-      final config = FfiGen(
-        Logger.root,
+      final generator = FfiGenerator(
         wrapperName: 'CJson',
         wrapperDocComment: 'Bindings to Cjson.',
         output: Uri.file('unused'),
@@ -133,7 +134,7 @@ void main() {
             ),
           ),
         ],
-        shouldIncludeHeaderFunc: (Uri header) =>
+        shouldIncludeHeader: (Uri header) =>
             header.pathSegments.last == 'cJSON.h',
         functionDecl: DeclarationFilters.includeAll,
         structDecl: DeclarationFilters.includeAll,
@@ -143,7 +144,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(testContext(config));
+      final library = parse(testContext(generator));
 
       matchLibraryWithExpected(library, 'large_test_cjson.dart', [
         'test',
@@ -155,12 +156,11 @@ void main() {
     test('SQLite test', () {
       // Excluding functions that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
-      final config = FfiGen(
-        Logger.root,
+      final generator = FfiGenerator(
         wrapperName: 'SQLite',
         wrapperDocComment: 'Bindings to SQLite.',
         output: Uri.file('unused'),
-        commentType: CommentType(CommentStyle.any, CommentLength.full),
+        commentType: const CommentType(CommentStyle.any, CommentLength.full),
         entryPoints: [
           Uri.file(
             path.join(
@@ -171,7 +171,7 @@ void main() {
             ),
           ),
         ],
-        shouldIncludeHeaderFunc: (Uri header) =>
+        shouldIncludeHeader: (Uri header) =>
             header.pathSegments.last == 'sqlite3.h',
         functionDecl: DeclarationFilters(
           shouldInclude: (declaration) => !{
@@ -188,7 +188,7 @@ void main() {
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 ''',
       );
-      final library = parse(testContext(config));
+      final library = parse(testContext(generator));
 
       matchLibraryWithExpected(library, 'large_test_sqlite.dart', [
         'test',

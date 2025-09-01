@@ -59,10 +59,10 @@ List<MacroConstant> parseSavedMacros(Context context) {
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
   var cmdLen = 0;
 
-  final compilerOpts = context.config.compilerOpts;
+  final compilerOpts = context.compilerOpts;
   clangCmdArgs = createDynamicStringArray(compilerOpts);
 
-  cmdLen = context.config.compilerOpts.length;
+  cmdLen = context.compilerOpts.length;
   final tu = clang.clang_parseTranslationUnit(
     index,
     file.path.toNativeUtf8().cast(),

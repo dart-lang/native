@@ -27,15 +27,15 @@ void main() {
           'config.yaml',
         ),
       ).absolute;
-      late FfiGen config;
+      late FfiGenerator generator;
       late Library library;
       withChDir(configYaml.path, () {
-        config = testConfigFromPath(configYaml.path);
-        library = parse(testContext(config));
+        generator = testConfigFromPath(configYaml.path);
+        library = parse(testContext(generator));
       });
 
       matchLibraryWithExpected(library, 'example_libclang.dart', [
-        config.output.toFilePath(),
+        generator.output.toFilePath(),
       ]);
     });
   });

@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'test_utils.dart';
@@ -22,7 +21,7 @@ $ dart run test/setup.dart && dart run test/regen.dart && dart test
 void _regenConfig(Logger logger, String yamlConfigPath) {
   final path = p.join(packagePathForTests, yamlConfigPath);
   withChDir(path, () {
-    testConfigFromPath(path).generate(logger);
+    testConfigFromPath(path).generate(logger: logger);
   });
 }
 

@@ -5,10 +5,10 @@
 export 'src/ast/_core/interfaces/declaration.dart';
 export 'src/config.dart'
     show
-        Config,
         FilesInputConfig,
         InputConfig,
         JsonFileInputConfig,
-        ModuleInputConfig;
+        ModuleInputConfig,
+        Swift2ObjCGenerator;
 export 'src/generate_wrapper.dart';
 export 'src/utils.dart';

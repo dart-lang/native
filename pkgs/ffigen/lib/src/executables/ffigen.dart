@@ -49,18 +49,21 @@ Future<void> main(List<String> args) async {
   Logger.root.level = _parseLogLevel(argResult);
 
   // Create a config object.
-  FfiGen config;
+  FfiGenerator generator;
   try {
-    config = getConfig(argResult, await findPackageConfig(Directory.current));
+    generator = getGenerator(
+      argResult,
+      await findPackageConfig(Directory.current),
+    );
   } on FormatException {
     logger.severe('Please fix configuration errors and re-run the tool.');
     exit(1);
   }
 
-  config.generate(logger);
+  generator.generate(logger: logger);
 }
 
-FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
+FfiGenerator getGenerator(ArgResults result, PackageConfig? packageConfig) {
   logger.info('Running in ${Directory.current}');
   YamlConfig config;
 
@@ -83,7 +86,7 @@ FfiGen getConfig(ArgResults result, PackageConfig? packageConfig) {
 
   config.formatOutput = result[format] as bool;
 
-  return config;
+  return config.configAdapter();
 }
 
 /// Extracts configuration from pubspec file.

@@ -4,15 +4,18 @@
 
 import 'dart:convert';
 
+import 'package:logging/logging.dart';
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
+import 'package:swift2objc/src/context.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_function_declaration.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final context = Context(Logger.root);
   final parsedSymbols = {
     for (final decl in builtInDeclarations)
       decl.id: ParsedSymbol(source: null, json: Json(null), declaration: decl),
@@ -63,7 +66,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [
         Parameter(
@@ -117,7 +120,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [
         Parameter(
@@ -156,7 +159,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
@@ -175,7 +178,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
@@ -209,7 +212,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
@@ -235,7 +238,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
@@ -254,7 +257,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
@@ -288,7 +291,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
@@ -318,7 +321,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
@@ -340,7 +343,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isTrue);
@@ -374,7 +377,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
@@ -412,7 +415,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
@@ -507,7 +510,7 @@ void main() {
         '''),
       );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expect(info.throws, isTrue);
       expect(info.mutating, isTrue);
@@ -534,7 +537,7 @@ void main() {
       );
 
       expect(
-        () => parseFunctionInfo(json, emptySymbolgraph),
+        () => parseFunctionInfo(context, json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
@@ -554,7 +557,7 @@ void main() {
       );
 
       expect(
-        () => parseFunctionInfo(json, emptySymbolgraph),
+        () => parseFunctionInfo(context, json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
@@ -577,7 +580,7 @@ void main() {
       );
 
       expect(
-        () => parseFunctionInfo(json, emptySymbolgraph),
+        () => parseFunctionInfo(context, json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });

@@ -18,8 +18,7 @@ void main() {
     test('reserved keyword collision', () {
       final library = parser.parse(
         testContext(
-          FfiGen(
-            Logger.root,
+          FfiGenerator(
             output: Uri.file('unused'),
             entryPoints: [
               Uri.file(

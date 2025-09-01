@@ -17,7 +17,7 @@ Future<void> main() async {
 
   final includes = {'AVAudioPlayer'};
 
-  await SwiftGen(
+  await SwiftGenerator(
     target: Target(
       triple: 'x86_64-apple-macosx14.0',
       sdk: Uri.directory(

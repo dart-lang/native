@@ -19,8 +19,7 @@ String generate({
   bool includeTransitiveObjCProtocols = false,
   bool includeTransitiveObjCCategories = false,
 }) {
-  FfiGen(
-    Logger.root,
+  FfiGenerator(
     wrapperName: 'TransitiveTestObjCLibrary',
     wrapperDocComment: 'Tests transitive inclusion',
     language: Language.objc,
@@ -53,7 +52,7 @@ String generate({
     includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
     includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
     includeTransitiveObjCCategories: includeTransitiveObjCCategories,
-  ).generate(Logger.root..level = Level.SEVERE);
+  ).generate(logger: Logger.root..level = Level.SEVERE);
   return File(
     path.join(
       packagePathForTests,
