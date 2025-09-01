@@ -101,9 +101,6 @@ void main() {
 // ignore_for_file: unused_field
 ''',
       ),
-      includeTransitiveObjCInterfaces: false,
-      includeTransitiveObjCProtocols: false,
-      includeTransitiveObjCCategories: false,
       functions: () {
         final filter = randomFilter('functionDecl');
         return Functions(
@@ -135,9 +132,30 @@ void main() {
       }(),
       globals: randomFilter('globals'),
       typedefs: Typedefs(shouldInclude: randomFilter('typedefs').shouldInclude),
-      objcInterfaces: randomFilter('objcInterfaces'),
-      objcProtocols: randomFilter('objcProtocols', forceIncludedProtocols),
-      objcCategories: randomFilter('objcCategories'),
+      objcInterfaces: () {
+        final filter = randomFilter('objcInterfaces');
+        return ObjCInterfaces(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+          includeTransitive: false,
+        );
+      }(),
+      objcProtocols: () {
+        final filter = randomFilter('objcProtocols', forceIncludedProtocols);
+        return ObjCProtocols(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+          includeTransitive: false,
+        );
+      }(),
+      objcCategories: () {
+        final filter = randomFilter('objcCategories');
+        return ObjCCategories(
+          shouldInclude: filter.shouldInclude,
+          shouldIncludeMember: filter.shouldIncludeMember,
+          includeTransitive: false,
+        );
+      }(),
       externalVersions: ExternalVersions(
         ios: Versions(min: Version(12, 0, 0)),
         macos: Versions(min: Version(10, 14, 0)),

@@ -56,34 +56,16 @@ final class FfiGenerator {
   final Typedefs typedefs;
 
   /// Declaration filters for Objective C interfaces.
-  final DeclarationFilters objcInterfaces;
+  final ObjCInterfaces objcInterfaces;
 
   /// Declaration filters for Objective C protocols.
-  final DeclarationFilters objcProtocols;
+  final ObjCProtocols objcProtocols;
 
   /// Declaration filters for Objective C categories.
-  final DeclarationFilters objcCategories;
+  final ObjCCategories objcCategories;
 
   /// If enabled, unused typedefs will also be generated.
   final bool includeUnusedTypedefs;
-
-  /// If enabled, Objective C interfaces that are not explicitly included by
-  /// the [DeclarationFilters], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included interfaces will be generated as stubs instead.
-  final bool includeTransitiveObjCInterfaces;
-
-  /// If enabled, Objective C protocols that are not explicitly included by
-  /// the [DeclarationFilters], but are transitively included by other bindings,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included protocols will not be generated at all.
-  final bool includeTransitiveObjCProtocols;
-
-  /// If enabled, Objective C categories that are not explicitly included by
-  /// the [DeclarationFilters], but extend interfaces that are included,
-  /// will be code-genned as if they were included. If disabled, these
-  /// transitively included categories will not be generated at all.
-  final bool includeTransitiveObjCCategories;
 
   /// Undocumented option that changes code generation for package:objective_c.
   /// The main difference is whether NSObject etc are imported from
@@ -150,16 +132,6 @@ final class FfiGenerator {
   /// Whether unions that are dependencies should be included.
   final CompoundDependencies unionDependencies;
 
-  /// The module that the ObjC interface belongs to.
-  final String? Function(Declaration declaration) interfaceModule;
-
-  static String? _interfaceModuleDefault(Declaration declaration) => null;
-
-  /// The module that the ObjC protocol belongs to.
-  final String? Function(Declaration declaration) protocolModule;
-
-  static String? _protocolModuleDefault(Declaration declaration) => null;
-
   /// If `Dart_Handle` should be mapped with Handle/Object.
   final bool useDartHandle;
 
@@ -181,13 +153,10 @@ final class FfiGenerator {
     this.globals = DeclarationFilters.excludeAll,
     this.macroDecl = DeclarationFilters.excludeAll,
     this.typedefs = Typedefs.excludeAll,
-    this.objcInterfaces = DeclarationFilters.excludeAll,
-    this.objcProtocols = DeclarationFilters.excludeAll,
-    this.objcCategories = DeclarationFilters.excludeAll,
+    this.objcInterfaces = ObjCInterfaces.excludeAll,
+    this.objcProtocols = ObjCProtocols.excludeAll,
+    this.objcCategories = ObjCCategories.excludeAll,
     this.includeUnusedTypedefs = false,
-    this.includeTransitiveObjCInterfaces = false,
-    this.includeTransitiveObjCProtocols = false,
-    this.includeTransitiveObjCCategories = true,
     this.generateForPackageObjectiveC = false,
     this.libraryImports = const <LibraryImport>[],
     this.usrTypeMappings = const <String, ImportedType>{},
@@ -196,8 +165,6 @@ final class FfiGenerator {
     this.unionTypeMappings = const <ImportedType>[],
     this.nativeTypeMappings = const <ImportedType>[],
     this.unionDependencies = CompoundDependencies.full,
-    this.interfaceModule = _interfaceModuleDefault,
-    this.protocolModule = _protocolModuleDefault,
     this.useDartHandle = true,
     this.externalVersions = const ExternalVersions(),
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
@@ -317,6 +284,16 @@ final class DynamicLibraryBindings implements BindingStyle {
 }
 
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
+  bool get includeTransitiveObjCInterfaces =>
+      ffiGen.objcInterfaces.includeTransitive;
+  bool get includeTransitiveObjCProtocols =>
+      ffiGen.objcProtocols.includeTransitive;
+  bool get includeTransitiveObjCCategories =>
+      ffiGen.objcCategories.includeTransitive;
+  String? Function(Declaration declaration) get interfaceModule =>
+      ffiGen.objcInterfaces.module;
+  String? Function(Declaration declaration) get protocolModule =>
+      ffiGen.objcProtocols.module;
   String get wrapperName => switch (bindingStyle) {
     final DynamicLibraryBindings e => e.wrapperName,
     final NativeExternalBindings e => e.wrapperName,
@@ -553,8 +530,95 @@ final class Typedefs extends DeclarationFilters {
   static const Typedefs includeAll = Typedefs(shouldInclude: _includeAll);
 
   static Typedefs include(Set<String> names) => Typedefs(
-        shouldInclude: (Declaration decl) => names.contains(decl.originalName),
-      );
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class ObjCInterfaces extends DeclarationFilters {
+  /// If enabled, Objective C interfaces that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included interfaces will be generated as stubs instead.
+  final bool includeTransitive;
+
+  /// The module that the ObjC interface belongs to.
+  final String? Function(Declaration declaration) module;
+
+  static String? _moduleDefault(Declaration declaration) => null;
+
+  const ObjCInterfaces({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.includeTransitive = false,
+    this.module = _moduleDefault,
+  });
+
+  static const excludeAll = ObjCInterfaces(shouldInclude: _excludeAll);
+
+  static const includeAll = ObjCInterfaces(shouldInclude: _includeAll);
+
+  static ObjCInterfaces include(Set<String> names) => ObjCInterfaces(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class ObjCProtocols extends DeclarationFilters {
+  /// If enabled, Objective C protocols that are not explicitly included by
+  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included protocols will not be generated at all.
+  final bool includeTransitive;
+
+  /// The module that the ObjC protocol belongs to.
+  final String? Function(Declaration declaration) module;
+
+  static String? _moduleDefault(Declaration declaration) => null;
+
+  const ObjCProtocols({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.includeTransitive = false,
+    this.module = _moduleDefault,
+  });
+
+  static const excludeAll = ObjCProtocols(shouldInclude: _excludeAll);
+
+  static const includeAll = ObjCProtocols(shouldInclude: _includeAll);
+
+  static ObjCProtocols include(Set<String> names) => ObjCProtocols(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
+}
+
+final class ObjCCategories extends DeclarationFilters {
+  /// If enabled, Objective C categories that are not explicitly included by
+  /// the [DeclarationFilters], but extend interfaces that are included,
+  /// will be code-genned as if they were included. If disabled, these
+  /// transitively included categories will not be generated at all.
+  final bool includeTransitive;
+
+  const ObjCCategories({
+    super.rename,
+    super.renameMember,
+    super.shouldInclude,
+    super.shouldIncludeMember,
+    super.shouldIncludeSymbolAddress,
+    this.includeTransitive = true,
+  });
+
+  static const excludeAll = ObjCCategories(shouldInclude: _excludeAll);
+
+  static const includeAll = ObjCCategories(shouldInclude: _includeAll);
+
+  static ObjCCategories include(Set<String> names) => ObjCCategories(
+    shouldInclude: (Declaration decl) => names.contains(decl.originalName),
+  );
 }
 
 bool _excludeAll(Declaration declaration) => false;

@@ -45,19 +45,25 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
         ),
       ],
     ),
-    includeTransitiveObjCCategories: false,
-    objcInterfaces: DeclarationFilters.include({
-      'DeprecatedInterfaceMethods',
-      'DeprecatedInterface',
-    }),
-    objcProtocols: DeclarationFilters.include({
-      'DeprecatedProtocolMethods',
-      'DeprecatedProtocol',
-    }),
-    objcCategories: DeclarationFilters.include({
-      'DeprecatedCategoryMethods',
-      'DeprecatedCategory',
-    }),
+    objcInterfaces: ObjCInterfaces(
+      shouldInclude: (decl) => {
+        'DeprecatedInterfaceMethods',
+        'DeprecatedInterface',
+      }.contains(decl.originalName),
+    ),
+    objcProtocols: ObjCProtocols(
+      shouldInclude: (decl) => {
+        'DeprecatedProtocolMethods',
+        'DeprecatedProtocol',
+      }.contains(decl.originalName),
+    ),
+    objcCategories: ObjCCategories(
+      shouldInclude: (decl) => {
+        'DeprecatedCategoryMethods',
+        'DeprecatedCategory',
+      }.contains(decl.originalName),
+      includeTransitive: false,
+    ),
     functions: Functions.include({'normalFunction', 'deprecatedFunction'}),
     structs: Structs.include({'NormalStruct', 'DeprecatedStruct'}),
     unionDecl: DeclarationFilters.include({'NormalUnion', 'DeprecatedUnion'}),

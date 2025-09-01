@@ -48,16 +48,24 @@ String generate({
         ),
       ],
     ),
-    objcInterfaces: DeclarationFilters.include({
-      'DirectlyIncluded',
-      'DirectlyIncludedWithProtocol',
-      'DirectlyIncludedIntForCat',
-    }),
-    objcProtocols: DeclarationFilters.include({'DirectlyIncludedProtocol'}),
-    objcCategories: DeclarationFilters.include({'DirectlyIncludedCategory'}),
-    includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
-    includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
-    includeTransitiveObjCCategories: includeTransitiveObjCCategories,
+    objcInterfaces: ObjCInterfaces(
+      shouldInclude: (decl) => {
+        'DirectlyIncluded',
+        'DirectlyIncludedWithProtocol',
+        'DirectlyIncludedIntForCat',
+      }.contains(decl.originalName),
+      includeTransitive: includeTransitiveObjCInterfaces,
+    ),
+    objcProtocols: ObjCProtocols(
+      shouldInclude:
+          (decl) => {'DirectlyIncludedProtocol'}.contains(decl.originalName),
+      includeTransitive: includeTransitiveObjCProtocols,
+    ),
+    objcCategories: ObjCCategories(
+      shouldInclude:
+          (decl) => {'DirectlyIncludedCategory'}.contains(decl.originalName),
+      includeTransitive: includeTransitiveObjCCategories,
+    ),
   ).generate(logger: Logger.root..level = Level.SEVERE);
   return File(
     path.join(
