@@ -56,10 +56,20 @@ extension SwiftGenGenerator on SwiftGen {
           ffigen.unnamedEnumConstants ?? fg.UnnamedEnums.excludeAll,
       globals: ffigen.globals ?? fg.DeclarationFilters.excludeAll,
       macroDecl: ffigen.macroDecl ?? fg.DeclarationFilters.excludeAll,
-      typedefs: ffigen.typedefs ?? fg.DeclarationFilters.excludeAll,
-      objcInterfaces: ffigen.objcInterfaces ?? fg.DeclarationFilters.excludeAll,
-      objcProtocols: ffigen.objcProtocols ?? fg.DeclarationFilters.excludeAll,
-      objcCategories: ffigen.objcCategories ?? fg.DeclarationFilters.excludeAll,
+      typedefs: ffigen.typedefs ?? fg.Typedefs.excludeAll,
+      objcInterfaces:
+          ffigen.objcInterfaces ??
+          fg.ObjCInterfaces(
+            shouldInclude: (declaration) => false,
+            module: (_) => outputModule,
+          ),
+      objcProtocols:
+          ffigen.objcProtocols ??
+          fg.ObjCProtocols(
+            shouldInclude: (declaration) => false,
+            module: (_) => outputModule,
+          ),
+      objcCategories: ffigen.objcCategories ?? fg.ObjCCategories.excludeAll,
       headers: fg.Headers(
         entryPoints: [Uri.file(objcHeader)],
         compilerOpts: [
@@ -67,8 +77,6 @@ extension SwiftGenGenerator on SwiftGen {
           '-Wno-nullability-completeness',
         ],
       ),
-      interfaceModule: (_) => outModule,
-      protocolModule: (_) => outModule,
       externalVersions: ffigen.externalVersions,
     ).generate(logger: logger);
   }

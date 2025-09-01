@@ -34,6 +34,7 @@ export 'src/config_provider.dart'
         PackingValue,
         Structs,
         SymbolFile,
+        Typedefs,
         UnnamedEnums,
         VarArgFunction,
         Versions,

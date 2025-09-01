@@ -97,19 +97,19 @@ class FfiGenConfig {
 
   /// [ffigen.FfiGenerator.typedefs]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? typedefs;
+  final ffigen.Typedefs? typedefs;
 
   /// [ffigen.FfiGenerator.objcInterfaces]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcInterfaces;
+  final ffigen.ObjCInterfaces? objcInterfaces;
 
   /// [ffigen.FfiGenerator.objcProtocols]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcProtocols;
+  final ffigen.ObjCProtocols? objcProtocols;
 
   /// [ffigen.FfiGenerator.objcCategories]
   /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcCategories;
+  final ffigen.ObjCCategories? objcCategories;
 
   /// [ffigen.FfiGenerator.externalVersions]
   final ffigen.ExternalVersions externalVersions;

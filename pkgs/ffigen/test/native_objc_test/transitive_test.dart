@@ -57,13 +57,13 @@ String generate({
       includeTransitive: includeTransitiveObjCInterfaces,
     ),
     objcProtocols: ObjCProtocols(
-      shouldInclude:
-          (decl) => {'DirectlyIncludedProtocol'}.contains(decl.originalName),
+      shouldInclude: (decl) =>
+          {'DirectlyIncludedProtocol'}.contains(decl.originalName),
       includeTransitive: includeTransitiveObjCProtocols,
     ),
     objcCategories: ObjCCategories(
-      shouldInclude:
-          (decl) => {'DirectlyIncludedCategory'}.contains(decl.originalName),
+      shouldInclude: (decl) =>
+          {'DirectlyIncludedCategory'}.contains(decl.originalName),
       includeTransitive: includeTransitiveObjCCategories,
     ),
   ).generate(logger: Logger.root..level = Level.SEVERE);

@@ -59,7 +59,7 @@ class TestGenerator {
     ffigen: FfiGenConfig(
       output: Uri.file(outputFile),
       outputObjC: Uri.file(outputObjCFile),
-      objcInterfaces: fg.DeclarationFilters(
+      objcInterfaces: fg.ObjCInterfaces(
         shouldInclude: (decl) => decl.originalName.startsWith('Test'),
       ),
       preamble: '''
