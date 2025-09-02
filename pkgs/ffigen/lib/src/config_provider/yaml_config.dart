@@ -1254,6 +1254,7 @@ final class YamlConfig {
       style: ffiNativeConfig.enabled
           ? NativeExternalBindings(
               assetId: ffiNativeConfig.assetId,
+              // ignore: deprecated_member_use_from_same_package
               wrapperName: wrapperName,
             )
           : DynamicLibraryBindings(
@@ -1277,6 +1278,7 @@ final class YamlConfig {
       dependencies: _structDependencies,
       packingOverride: (decl) =>
           _structPackingOverride.getOverridenPackValue(decl.originalName),
+      // ignore: deprecated_member_use_from_same_package
       imported: structTypeMappings.values.toList(),
     ),
     enums: Enums(
@@ -1294,6 +1296,7 @@ final class YamlConfig {
       rename: _unionDecl.rename,
       renameMember: _unionDecl.renameMember,
       dependencies: _unionDependencies,
+      // ignore: deprecated_member_use_from_same_package
       imported: unionTypeMappings.values.toList(),
     ),
     unnamedEnums: UnnamedEnums(
@@ -1315,6 +1318,7 @@ final class YamlConfig {
       rename: typedefs.rename,
       useSupportedTypedefs: useSupportedTypedefs,
       includeUnused: includeUnusedTypedefs,
+      // ignore: deprecated_member_use_from_same_package
       imported: typedefTypeMappings.values.toList(),
     ),
     objectiveC: language == Language.objc
@@ -1350,9 +1354,12 @@ final class YamlConfig {
             generateForPackageObjectiveC: generateForPackageObjectiveC,
           )
         : null,
+    // ignore: deprecated_member_use_from_same_package
     libraryImports: libraryImports.values.toList(),
+    // ignore: deprecated_member_use_from_same_package
     importedTypesByUsr: usrTypeMappings,
     importedIntegers: nativeTypeMappings.values.toList(),
+    // ignore: deprecated_member_use_from_same_package
     useDartHandle: useDartHandle,
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,

@@ -50,23 +50,35 @@ final class FfiGenerator {
   // TODO: Should we move this under `integers: Integers(...)`?
   final List<ImportedType> importedIntegers;
 
+  /// The configuration for outputting bindings.
+  final Output output;
+
   /// Types imported from other Dart files, specified via the
   /// unique-resource-identifer used in Clang.
   ///
   /// Applies to all kinds of definitions.
-  // TODO: Can we add `usr` to `Definition` and serve the use case that way?
+  // TODO(https://github.com/dart-lang/native/issues/2596): Remove this.
+  @Deprecated(
+    'Will be folded into imported fields of the various declarations. See '
+    'https://github.com/dart-lang/native/issues/2596.',
+  )
   final Map<String, ImportedType> importedTypesByUsr;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
-  // TODO: Can we omit this and take it from all ImportedTypes?
+  // TODO(https://github.com/dart-lang/native/issues/2597): Remove this.
+  @Deprecated(
+    'In the future, this shoud be inferred from ImportedTypes. See '
+    'https://github.com/dart-lang/native/issues/2597.',
+  )
   final List<LibraryImport> libraryImports;
 
-  /// The configuration for outputting bindings.
-  final Output output;
-
-  /// If `Dart_Handle` should be mapped with Handle/Object.
-  // TODO: Can we remove this?
+  /// Whether `Dart_Handle` should be mapped with Handle/Object.
+  // TODO(https://github.com/dart-lang/native/issues/2594): Remove this.
+  @Deprecated(
+    'Will be removed in a future version. Please reply in '
+    'https://github.com/dart-lang/native/issues/2594 if you rely on this.',
+  )
   final bool useDartHandle;
 
   /// Path to the clang library.
@@ -86,10 +98,22 @@ final class FfiGenerator {
     this.unions = Unions.excludeAll,
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
-    this.importedIntegers = const <ImportedType>[],
-    this.importedTypesByUsr = const <String, ImportedType>{},
-    this.libraryImports = const <LibraryImport>[],
     required this.output,
+    this.importedIntegers = const <ImportedType>[],
+    @Deprecated(
+      'Will be folded into imported fields of the various declarations. See '
+      'https://github.com/dart-lang/native/issues/2596.',
+    )
+    this.importedTypesByUsr = const <String, ImportedType>{},
+    @Deprecated(
+      'In the future, this shoud be inferred from ImportedTypes. See '
+      'https://github.com/dart-lang/native/issues/2597.',
+    )
+    this.libraryImports = const <LibraryImport>[],
+    @Deprecated(
+      'Will be removed in a future version. Please reply in '
+      'https://github.com/dart-lang/native/issues/2594 if you rely on this.',
+    )
     this.useDartHandle = true,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
@@ -271,6 +295,11 @@ final class Structs extends Declarations {
   final CompoundDependencies dependencies;
 
   /// Structs imported from other Dart files.
+  // TODO(https://github.com/dart-lang/native/issues/2595): Change type.
+  @Deprecated(
+    'This field will change type. See '
+    'https://github.com/dart-lang/native/issues/2595.',
+  )
   final List<ImportedType> imported;
 
   /// Whether, and how, to override struct packing for the given struct.
@@ -283,6 +312,10 @@ final class Structs extends Declarations {
     super.rename,
     super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
+    @Deprecated(
+      'This field will change type. See '
+      'https://github.com/dart-lang/native/issues/2595.',
+    )
     this.imported = const <ImportedType>[],
     this.packingOverride = _packingOverrideDefault,
   });
@@ -298,6 +331,10 @@ final class Structs extends Declarations {
 /// Configuration for typedefs.
 final class Typedefs extends Declarations {
   /// Typedefs imported from other Dart files.
+  @Deprecated(
+    'This field will change type. See '
+    'https://github.com/dart-lang/native/issues/2595.',
+  )
   final List<ImportedType> imported;
 
   /// If enabled, unused typedefs will also be generated.
@@ -309,6 +346,10 @@ final class Typedefs extends Declarations {
   const Typedefs({
     super.rename,
     super.include,
+    @Deprecated(
+      'This field will change type. See '
+      'https://github.com/dart-lang/native/issues/2595.',
+    )
     this.imported = const <ImportedType>[],
     this.includeUnused = false,
     this.useSupportedTypedefs = true,
@@ -329,6 +370,10 @@ final class Unions extends Declarations {
   final CompoundDependencies dependencies;
 
   /// Unions imported from other Dart files.
+  @Deprecated(
+    'This field will change type. See '
+    'https://github.com/dart-lang/native/issues/2595.',
+  )
   final List<ImportedType> imported;
 
   const Unions({
@@ -336,6 +381,10 @@ final class Unions extends Declarations {
     super.rename,
     super.renameMember,
     this.dependencies = CompoundDependencies.opaque,
+    @Deprecated(
+      'This field will change type. See '
+      'https://github.com/dart-lang/native/issues/2595.',
+    )
     this.imported = const <ImportedType>[],
   });
 
@@ -549,12 +598,13 @@ final class NativeExternalBindings implements BindingStyle {
   final String? assetId;
 
   /// The prefix for the generated Objective-C functions.
-  // TODO(https://github.com/dart-lang/native/issues/2580): Can we get rid of
-  // this?
+  // TODO(https://github.com/dart-lang/native/issues/2580): Remove this.
+  @Deprecated('Will be replaced by a hash.')
   final String wrapperName;
 
   const NativeExternalBindings({
     this.assetId,
+    @Deprecated('Will be replaced by a hash.')
     this.wrapperName = 'NativeLibrary',
   });
 }
@@ -598,10 +648,13 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   Interfaces get objcInterfaces => _objectiveC.interfaces;
   Protocols get objcProtocols => _objectiveC.protocols;
   ExternalVersions get externalVersions => _objectiveC.externalVersions;
+  // ignore: deprecated_member_use_from_same_package
   bool get useDartHandle => ffiGen.useDartHandle;
+  // ignore: deprecated_member_use_from_same_package
   Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
   String get wrapperName => switch (ffiGen.output.style) {
     final DynamicLibraryBindings e => e.wrapperName,
+    // ignore: deprecated_member_use_from_same_package
     final NativeExternalBindings e => e.wrapperName,
   };
 
@@ -643,6 +696,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, LibraryImport> get libraryImports =>
       Map<String, LibraryImport>.fromEntries(
+        // ignore: deprecated_member_use_from_same_package
         ffiGen.libraryImports.map(
           (import) => MapEntry<String, LibraryImport>(import.name, import),
         ),
@@ -651,6 +705,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get typedefTypeMappings =>
       Map<String, ImportedType>.fromEntries(
+        // ignore: deprecated_member_use_from_same_package
         ffiGen.typedefs.imported.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
@@ -658,6 +713,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   Map<String, ImportedType> get structTypeMappings =>
       Map<String, ImportedType>.fromEntries(
+        // ignore: deprecated_member_use_from_same_package
         ffiGen.structs.imported.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
@@ -666,6 +722,7 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get unionTypeMappings =>
       Map<String, ImportedType>.fromEntries(
+        // ignore: deprecated_member_use_from_same_package
         ffiGen.unions.imported.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),

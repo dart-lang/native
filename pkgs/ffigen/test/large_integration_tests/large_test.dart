@@ -74,6 +74,7 @@ void main() {
         macros: Macros.includeAll,
         typedefs: Typedefs(
           include: (_) => true,
+          // ignore: deprecated_member_use_from_same_package
           imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
         ),
       );
