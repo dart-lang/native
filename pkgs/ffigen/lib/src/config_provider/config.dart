@@ -26,6 +26,9 @@ final class FfiGenerator {
   /// Configuration for globals.
   final Globals globals;
 
+  /// Configuration for integer types.
+  final Integers integers;
+
   /// Configuration for macro constants.
   final Macros macros;
 
@@ -45,10 +48,6 @@ final class FfiGenerator {
   ///
   /// If `null`, will only generate for C.
   final ObjectiveC? objectiveC;
-
-  /// Integer types imported from other Dart files.
-  // TODO: Should we move this under `integers: Integers(...)`?
-  final List<ImportedType> importedIntegers;
 
   /// The configuration for outputting bindings.
   final Output output;
@@ -92,6 +91,7 @@ final class FfiGenerator {
     this.enums = Enums.excludeAll,
     this.functions = Functions.excludeAll,
     this.globals = Globals.excludeAll,
+    this.integers = const Integers(),
     this.macros = Macros.excludeAll,
     this.structs = Structs.excludeAll,
     this.typedefs = Typedefs.excludeAll,
@@ -99,7 +99,6 @@ final class FfiGenerator {
     this.unnamedEnums = UnnamedEnums.excludeAll,
     this.objectiveC,
     required this.output,
-    this.importedIntegers = const <ImportedType>[],
     @Deprecated(
       'Will be folded into imported fields of the various declarations. See '
       'https://github.com/dart-lang/native/issues/2596.',
@@ -275,6 +274,25 @@ final class Globals extends Declarations {
 
   static Globals includeSet(Set<String> names) =>
       Globals(include: (Declaration decl) => names.contains(decl.originalName));
+}
+
+/// Configuration for integer types.
+final class Integers {
+  /// Integer types imported from other Dart files.
+  // TODO(https://github.com/dart-lang/native/issues/2595): Change type.
+  @Deprecated(
+    'This field will change type. See '
+    'https://github.com/dart-lang/native/issues/2595.',
+  )
+  final List<ImportedType> imported;
+
+  const Integers({
+    @Deprecated(
+      'This field will change type. See '
+      'https://github.com/dart-lang/native/issues/2595.',
+    )
+    this.imported = const <ImportedType>[],
+  });
 }
 
 /// Configuration for macros.
@@ -731,7 +749,8 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get importedIntegers =>
       Map<String, ImportedType>.fromEntries(
-        ffiGen.importedIntegers.map(
+        // ignore: deprecated_member_use_from_same_package
+        ffiGen.integers.imported.map(
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );

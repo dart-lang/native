@@ -25,6 +25,7 @@ export 'src/config_provider.dart'
         Functions,
         Globals,
         Headers,
+        Integers,
         Interfaces,
         Macros,
         NativeExternalBindings,

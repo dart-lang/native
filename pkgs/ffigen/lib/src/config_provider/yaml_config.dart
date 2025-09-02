@@ -1358,7 +1358,8 @@ final class YamlConfig {
     libraryImports: libraryImports.values.toList(),
     // ignore: deprecated_member_use_from_same_package
     importedTypesByUsr: usrTypeMappings,
-    importedIntegers: nativeTypeMappings.values.toList(),
+    // ignore: deprecated_member_use_from_same_package
+    integers: Integers(imported: nativeTypeMappings.values.toList()),
     // ignore: deprecated_member_use_from_same_package
     useDartHandle: useDartHandle,
     // ignore: deprecated_member_use_from_same_package
