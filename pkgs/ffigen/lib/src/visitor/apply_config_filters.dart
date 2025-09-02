@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config, DeclarationFilters;
+import '../config_provider/config.dart' show Config, Declarations;
 
 import 'ast.dart';
 
@@ -13,35 +13,35 @@ class ApplyConfigFiltersVisitation extends Visitation {
   final indirectlyIncluded = <Binding>{};
   ApplyConfigFiltersVisitation(this.config);
 
-  void _visitImpl(Binding node, DeclarationFilters filters) {
+  void _visitImpl(Binding node, Declarations filters) {
     node.visitChildren(visitor);
     if (node.originalName == '') return;
-    if (config.usrTypeMappings.containsKey(node.usr)) return;
-    if (filters.shouldInclude(node)) directlyIncluded.add(node);
+    if (config.importedTypesByUsr.containsKey(node.usr)) return;
+    if (filters.include(node)) directlyIncluded.add(node);
   }
 
   @override
-  void visitStruct(Struct node) => _visitImpl(node, config.structDecl);
+  void visitStruct(Struct node) => _visitImpl(node, config.structs);
 
   @override
-  void visitUnion(Union node) => _visitImpl(node, config.unionDecl);
+  void visitUnion(Union node) => _visitImpl(node, config.unions);
 
   @override
-  void visitEnumClass(EnumClass node) => _visitImpl(node, config.enumClassDecl);
+  void visitEnumClass(EnumClass node) => _visitImpl(node, config.enums);
 
   @override
-  void visitFunc(Func node) => _visitImpl(node, config.functionDecl);
+  void visitFunc(Func node) => _visitImpl(node, config.functions);
 
   @override
   void visitMacroConstant(MacroConstant node) =>
-      _visitImpl(node, config.macroDecl);
+      _visitImpl(node, config.macros);
 
   @override
   void visitObjCInterface(ObjCInterface node) {
     if (node.unavailable) return;
 
     node.filterMethods(
-      (m) => config.objcInterfaces.shouldIncludeMember(node, m.originalName),
+      (m) => config.objcInterfaces.includeMember(node, m.originalName),
     );
     _visitImpl(node, config.objcInterfaces);
 
@@ -57,7 +57,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
   void visitObjCCategory(ObjCCategory node) {
     node.filterMethods((m) {
       if (node.shouldCopyMethodToInterface(m)) return false;
-      return config.objcCategories.shouldIncludeMember(node, m.originalName);
+      return config.objcCategories.includeMember(node, m.originalName);
     });
     _visitImpl(node, config.objcCategories);
   }
@@ -73,14 +73,14 @@ class ApplyConfigFiltersVisitation extends Visitation {
       // copied to any interfaces that implement the protocol.
       if (m.isClassMethod) return false;
 
-      return config.objcProtocols.shouldIncludeMember(node, m.originalName);
+      return config.objcProtocols.includeMember(node, m.originalName);
     });
     _visitImpl(node, config.objcProtocols);
   }
 
   @override
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
-      _visitImpl(node, config.unnamedEnumConstants);
+      _visitImpl(node, config.unnamedEnums);
 
   @override
   void visitGlobal(Global node) => _visitImpl(node, config.globals);

@@ -19,22 +19,25 @@ void main() {
       actual = parser.parse(
         testContext(
           FfiGenerator(
-            output: Uri.file('unused'),
-            entryPoints: [
-              Uri.file(
-                path.join(
-                  packagePathForTests,
-                  'test',
-                  'header_parser_tests',
-                  'sort.h',
+            output: Output(dartFile: Uri.file('unused'), sort: true),
+            headers: Headers(
+              entryPoints: [
+                Uri.file(
+                  path.join(
+                    packagePathForTests,
+                    'test',
+                    'header_parser_tests',
+                    'sort.h',
+                  ),
                 ),
-              ),
-            ],
-            structDecl: DeclarationFilters.includeAll,
-            unionDecl: DeclarationFilters.includeAll,
-            typedefs: DeclarationFilters.includeAll,
-            includeUnusedTypedefs: true,
-            sort: true,
+              ],
+            ),
+            structs: Structs.includeAll,
+            unions: Unions.includeAll,
+            typedefs: Typedefs(
+              include: (Declaration decl) => true,
+              includeUnused: true,
+            ),
           ),
         ),
       );

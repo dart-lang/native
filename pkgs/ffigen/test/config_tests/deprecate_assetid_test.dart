@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:ffigen/src/strings.dart' as strings;
@@ -28,7 +29,11 @@ ${strings.headers}:
 
     final logStr = logArr.join('\n');
     test('asset-id is correctly set', () {
-      expect(config.ffiNativeConfig.assetId, 'myasset');
+      expect(config.output.style is NativeExternalBindings, true);
+      expect(
+        (config.output.style as NativeExternalBindings).assetId,
+        'myasset',
+      );
     });
 
     test('Deprecation Warning is logged', () {

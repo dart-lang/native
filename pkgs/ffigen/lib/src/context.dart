@@ -41,10 +41,12 @@ class Context {
     : config = Config(generator),
       cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
-        generator.wrapperName,
-        generator.generateForPackageObjectiveC,
+        Config(generator).wrapperName,
+        // ignore: deprecated_member_use_from_same_package
+        generator.objectiveC?.generateForPackageObjectiveC ?? false,
       ) {
     final libclangDylibPath =
+        // ignore: deprecated_member_use_from_same_package
         generator.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);

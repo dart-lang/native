@@ -41,19 +41,21 @@ void main() {
     // TODO(https://github.com/dart-lang/sdk/issues/56247): Remove this.
     const inclusionRatio = 0.1;
     const seed = 1234;
-    bool randInclude(String kind, Declaration clazz, [String? method]) =>
-        fnvHash32('$seed.$kind.${clazz.usr}.$method') <
+    bool randInclude(String kind, Declaration declaration, [String? member]) =>
+        fnvHash32('$seed.$kind.${declaration.usr}.$member') <
         ((1 << 32) * inclusionRatio);
-    DeclarationFilters randomFilter(
+    bool Function(Declaration clazz) includeRandom(
       String kind, [
       Set<String> forceIncludes = const {},
-    ]) => DeclarationFilters(
-      shouldInclude: (Declaration clazz) =>
-          forceIncludes.contains(clazz.originalName) ||
-          randInclude(kind, clazz),
-      shouldIncludeMember: (Declaration clazz, String method) =>
-          randInclude('$kind.memb', clazz, method),
-    );
+    ]) =>
+        (Declaration declaration) =>
+            forceIncludes.contains(declaration.originalName) ||
+            randInclude(kind, declaration);
+    bool Function(Declaration declaration, String member) includeMemberRandom(
+      String kind,
+    ) =>
+        (Declaration clazz, String method) =>
+            randInclude('$kind.memb', clazz, method);
 
     final outFile = path.join(
       packagePathForTests,
@@ -72,45 +74,69 @@ void main() {
     const forceIncludedProtocols = {'NSTextLocation'};
 
     final generator = FfiGenerator(
-      wrapperName: 'LargeObjCLibrary',
-      language: Language.objc,
-      output: Uri.file(outFile),
-      outputObjC: Uri.file(outObjCFile),
-      entryPoints: [
-        Uri.file(
-          path.join(
-            packagePathForTests,
-            'test',
-            'large_integration_tests',
-            'large_objc_test.h',
+      headers: Headers(
+        entryPoints: [
+          Uri.file(
+            path.join(
+              packagePathForTests,
+              'test',
+              'large_integration_tests',
+              'large_objc_test.h',
+            ),
           ),
-        ),
-      ],
-      formatOutput: false,
-      includeTransitiveObjCInterfaces: false,
-      includeTransitiveObjCProtocols: false,
-      includeTransitiveObjCCategories: false,
-      functionDecl: randomFilter('functionDecl'),
-      structDecl: randomFilter('structDecl'),
-      unionDecl: randomFilter('unionDecl'),
-      enumClassDecl: randomFilter('enumClassDecl'),
-      unnamedEnumConstants: randomFilter('unnamedEnumConstants'),
-      globals: randomFilter('globals'),
-      typedefs: randomFilter('typedefs'),
-      objcInterfaces: randomFilter('objcInterfaces'),
-      objcProtocols: randomFilter('objcProtocols', forceIncludedProtocols),
-      objcCategories: randomFilter('objcCategories'),
-      externalVersions: ExternalVersions(
-        ios: Versions(min: Version(12, 0, 0)),
-        macos: Versions(min: Version(10, 14, 0)),
+        ],
       ),
-      preamble: '''
+      output: Output(
+        dartFile: Uri.file(outFile),
+        objectiveCFile: Uri.file(outObjCFile),
+        format: false,
+        style: const DynamicLibraryBindings(wrapperName: 'LargeObjCLibrary'),
+        preamble: '''
 // ignore_for_file: camel_case_types
 // ignore_for_file: non_constant_identifier_names
 // ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 ''',
+      ),
+      functions: () {
+        return Functions(include: includeRandom('functionDecl'));
+      }(),
+      structs: () {
+        return Structs(include: includeRandom('structDecl'));
+      }(),
+      unions: () {
+        return Unions(include: includeRandom('unionDecl'));
+      }(),
+      enums: () {
+        return Enums(include: includeRandom('enums'));
+      }(),
+      unnamedEnums: () {
+        return UnnamedEnums(include: includeRandom('unnamedEnumConstants'));
+      }(),
+      globals: Globals(include: includeRandom('globals')),
+      typedefs: Typedefs(include: includeRandom('typedefs')),
+      objectiveC: ObjectiveC(
+        interfaces: Interfaces(
+          include: includeRandom('objcInterfaces'),
+          includeMember: includeMemberRandom('objcInterfaces'),
+          includeTransitive: false,
+        ),
+        protocols: Protocols(
+          include: includeRandom('objcProtocols', forceIncludedProtocols),
+          includeMember: includeMemberRandom('objcProtocols'),
+          includeTransitive: false,
+        ),
+        categories: Categories(
+          include: includeRandom('objcCategories'),
+          includeMember: includeMemberRandom('objcCategories'),
+          includeTransitive: false,
+        ),
+        externalVersions: ExternalVersions(
+          ios: Versions(min: Version(12, 0, 0)),
+          macos: Versions(min: Version(10, 14, 0)),
+        ),
+      ),
     );
 
     final timer = Stopwatch()..start();
