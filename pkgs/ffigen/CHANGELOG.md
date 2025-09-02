@@ -1,4 +1,4 @@
-## 20.0.0-wip
+## 20.0.0-dev.0
 
 - __Breaking change__: Completely rewrite the public Dart API for FFIgen.
   The new API is focused on a declartive configuration: `FfiGenerate(...)` with
