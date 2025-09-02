@@ -5,13 +5,17 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:logging/logging.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  FfiGen().run(
-    Config(
+  final generator = FfiGenerator(
+    headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
-      output: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
+    ),
+    functions: Functions.includeSet({'sqlite3_libversion'}),
+    output: Output(
+      dartFile: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
       preamble: '''
 // The author disclaims copyright to this source code.  In place of
 // a legal notice, here is a blessing:
@@ -21,13 +25,9 @@ void main() {
 //    May you share freely, never taking more than you give.
 
 ''',
-      ffiNativeConfig: const FfiNativeConfig(enabled: true),
-      functionDecl: DeclarationFilters(
-        shouldInclude: (declaration) {
-          const include = {'sqlite3_libversion'};
-          return include.contains(declaration.originalName);
-        },
-      ),
     ),
+  );
+  generator.generate(
+    logger: Logger('')..onRecord.listen((record) => print(record.message)),
   );
 }

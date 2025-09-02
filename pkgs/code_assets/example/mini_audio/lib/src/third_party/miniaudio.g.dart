@@ -63,8 +63,6 @@ ma_result ma_engine_play_sound(
   ffi.Pointer<ma_sound> pGroup,
 ) => ma_result.fromValue(_ma_engine_play_sound(pEngine, pFilePath, pGroup));
 
-final class ma_context extends ffi.Opaque {}
-
 final class ma_device extends ffi.Opaque {}
 
 enum ma_result {
@@ -360,64 +358,6 @@ enum ma_mono_expansion_mode {
   }
 }
 
-final class ma_device_notification extends ffi.Opaque {}
-
-final class UnnamedUnion1 extends ffi.Union {
-  @ffi.Int()
-  external int i;
-
-  @ffi.Array.multi([256])
-  external ffi.Array<ffi.Char> s;
-
-  external ffi.Pointer<ffi.Void> p;
-}
-
-final class ma_device_id extends ffi.Union {
-  @ffi.Array.multi([64])
-  external ffi.Array<ffi.UnsignedShort> wasapi;
-
-  @ffi.Array.multi([16])
-  external ffi.Array<ffi.UnsignedChar> dsound;
-
-  @ffi.UnsignedInt()
-  external int winmm;
-
-  @ffi.Array.multi([256])
-  external ffi.Array<ffi.Char> alsa;
-
-  @ffi.Array.multi([256])
-  external ffi.Array<ffi.Char> pulse;
-
-  @ffi.Int()
-  external int jack;
-
-  @ffi.Array.multi([256])
-  external ffi.Array<ffi.Char> coreaudio;
-
-  @ffi.Array.multi([256])
-  external ffi.Array<ffi.Char> sndio;
-
-  @ffi.Array.multi([256])
-  external ffi.Array<ffi.Char> audio4;
-
-  @ffi.Array.multi([64])
-  external ffi.Array<ffi.Char> oss;
-
-  @ffi.Int()
-  external int aaudio;
-
-  @ffi.UnsignedInt()
-  external int opensl;
-
-  @ffi.Array.multi([32])
-  external ffi.Array<ffi.Char> webaudio;
-
-  external UnnamedUnion1 custom;
-
-  @ffi.Int()
-  external int nullbackend;
-}
-
 final class ma_resource_manager extends ffi.Opaque {}
 
 final class ma_stack extends ffi.Opaque {}
@@ -620,89 +560,4 @@ final class ma_engine extends ffi.Struct {
 
 final class ma_sound extends ffi.Opaque {}
 
-final class ma_engine_config extends ffi.Struct {
-  external ffi.Pointer<ma_resource_manager> pResourceManager;
-
-  external ffi.Pointer<ma_context> pContext;
-
-  external ffi.Pointer<ma_device> pDevice;
-
-  external ffi.Pointer<ma_device_id> pPlaybackDeviceID;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<ma_device> pDevice,
-        ffi.Pointer<ffi.Void> pOutput,
-        ffi.Pointer<ffi.Void> pInput,
-        ffi.UnsignedInt frameCount,
-      )
-    >
-  >
-  dataCallback;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<ma_device_notification> pNotification)
-    >
-  >
-  notificationCallback;
-
-  external ffi.Pointer<ma_log> pLog;
-
-  @ffi.UnsignedInt()
-  external int listenerCount;
-
-  @ffi.UnsignedInt()
-  external int channels;
-
-  @ffi.UnsignedInt()
-  external int sampleRate;
-
-  @ffi.UnsignedInt()
-  external int periodSizeInFrames;
-
-  @ffi.UnsignedInt()
-  external int periodSizeInMilliseconds;
-
-  @ffi.UnsignedInt()
-  external int gainSmoothTimeInFrames;
-
-  @ffi.UnsignedInt()
-  external int gainSmoothTimeInMilliseconds;
-
-  @ffi.UnsignedInt()
-  external int defaultVolumeSmoothTimeInPCMFrames;
-
-  @ffi.UnsignedInt()
-  external int preMixStackSizeInBytes;
-
-  external ma_allocation_callbacks allocationCallbacks;
-
-  @ffi.UnsignedInt()
-  external int noAutoStart;
-
-  @ffi.UnsignedInt()
-  external int noDevice;
-
-  @ffi.UnsignedInt()
-  external int monoExpansionModeAsInt;
-
-  ma_mono_expansion_mode get monoExpansionMode =>
-      ma_mono_expansion_mode.fromValue(monoExpansionModeAsInt);
-
-  external ffi.Pointer<ffi.Void> pResourceManagerVFS;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<ffi.Void> pUserData,
-        ffi.Pointer<ffi.Float> pFramesOut,
-        ffi.UnsignedLongLong frameCount,
-      )
-    >
-  >
-  onProcess;
-
-  external ffi.Pointer<ffi.Void> pProcessUserData;
-}
+final class ma_engine_config extends ffi.Opaque {}
