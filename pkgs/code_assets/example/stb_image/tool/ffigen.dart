@@ -5,13 +5,17 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:logging/logging.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  FfiGen().run(
-    Config(
+  final generator = FfiGenerator(
+    headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/stb_image.h')],
-      output: packageRoot.resolve('lib/src/third_party/stb_image.g.dart'),
+    ),
+    functions: Functions.includeSet({'stbi_info'}),
+    output: Output(
+      dartFile: packageRoot.resolve('lib/src/third_party/stb_image.g.dart'),
       preamble: '''
 // This is free and unencumbered software released into the public domain.
 // Anyone is free to copy, modify, publish, use, compile, sell, or distribute this
@@ -30,13 +34,9 @@ void main() {
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ''',
-      ffiNativeConfig: const FfiNativeConfig(enabled: true),
-      functionDecl: DeclarationFilters(
-        shouldInclude: (declaration) {
-          const include = {'stbi_info'};
-          return include.contains(declaration.originalName);
-        },
-      ),
     ),
+  );
+  generator.generate(
+    logger: Logger('')..onRecord.listen((record) => print(record.message)),
   );
 }

@@ -5,36 +5,37 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:logging/logging.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  const ffiNativeConfig = FfiNativeConfig(
-    enabled: true,
+  const bindingStyle = NativeExternalBindings(
     assetId: 'package:host_name/src/host_name.dart',
   );
-  final functionDeclarationFilter = DeclarationFilters(
-    shouldInclude: (declaration) => declaration.originalName == 'gethostname',
-  );
+  final functions = Functions.includeSet({'gethostname'});
+  final FfiGenerator generator;
   if (Platform.isWindows) {
-    FfiGen().run(
-      Config(
-        output: packageRoot.resolve('lib/src/third_party/windows.dart'),
-        entryPoints: [packageRoot.resolve('src/windows.h')],
+    generator = FfiGenerator(
+      headers: Headers(entryPoints: [packageRoot.resolve('src/windows.h')]),
+      functions: functions,
+      output: Output(
+        dartFile: packageRoot.resolve('lib/src/third_party/windows.dart'),
+        style: bindingStyle,
         preamble: '''
 // This file includes parts which are Copyright (c) 1982-1986 Regents
 // of the University of California.  All rights reserved.  The
 // Berkeley Software License Agreement specifies the terms and
 // conditions for redistribution.
 ''',
-        functionDecl: functionDeclarationFilter,
-        ffiNativeConfig: ffiNativeConfig,
       ),
     );
   } else {
-    FfiGen().run(
-      Config(
-        output: packageRoot.resolve('lib/src/third_party/unix.dart'),
-        entryPoints: [packageRoot.resolve('src/unix.h')],
+    generator = FfiGenerator(
+      headers: Headers(entryPoints: [packageRoot.resolve('src/unix.h')]),
+      functions: functions,
+      output: Output(
+        dartFile: packageRoot.resolve('lib/src/third_party/unix.dart'),
+        style: bindingStyle,
         preamble: '''
 // Copyright (C) 1991-2022 Free Software Foundation, Inc.
 // This file is part of the GNU C Library.
@@ -53,9 +54,10 @@ void main() {
 // License along with the GNU C Library; if not, see
 // <https://www.gnu.org/licenses/>.
 ''',
-        functionDecl: functionDeclarationFilter,
-        ffiNativeConfig: ffiNativeConfig,
       ),
     );
   }
+  generator.generate(
+    logger: Logger('')..onRecord.listen((record) => print(record.message)),
+  );
 }

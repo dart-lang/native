@@ -5,44 +5,27 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
+import 'package:logging/logging.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  FfiGen().run(
-    Config(
+  final generator = FfiGenerator(
+    headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/miniaudio.h')],
-      output: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
-      ffiNativeConfig: const FfiNativeConfig(enabled: true),
-      silenceEnumWarning: true,
-      functionDecl: DeclarationFilters(
-        shouldInclude: (declaration) {
-          const include = {
-            'ma_engine_init',
-            'ma_engine_play_sound',
-            'ma_engine_uninit',
-          };
-          return include.contains(declaration.originalName);
-        },
-      ),
-      structDecl: DeclarationFilters(
-        shouldInclude: (declaration) {
-          const include = {
-            'ma_engine_config',
-            'ma_engine',
-            'ma_node_input_bus',
-            'ma_sound_group',
-            'ma_spatializer_listener',
-          };
-          return include.contains(declaration.originalName);
-        },
-      ),
-      enumClassDecl: DeclarationFilters(
-        shouldInclude: (declaration) {
-          const include = {'ma_result'};
-          return include.contains(declaration.originalName);
-        },
-      ),
-      structDependencies: CompoundDependencies.opaque,
+    ),
+    functions: Functions.includeSet({
+      'ma_engine_init',
+      'ma_engine_play_sound',
+      'ma_engine_uninit',
+    }),
+    structs: Structs.includeSet({'ma_engine'}),
+    enums: Enums(
+      include: (declaration) =>
+          {'ma_result'}.contains(declaration.originalName),
+      silenceWarning: true,
+    ),
+    output: Output(
+      dartFile: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
       preamble: '''
 // This is free and unencumbered software released into the public domain.
 //
@@ -69,5 +52,8 @@ void main() {
 // ignore_for_file: unused_field
 ''',
     ),
+  );
+  generator.generate(
+    logger: Logger('')..onRecord.listen((record) => print(record.message)),
   );
 }
