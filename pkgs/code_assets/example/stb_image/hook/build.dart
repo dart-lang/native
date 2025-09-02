@@ -10,7 +10,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildCodeAssets) {
-      final cbuilder = CBuilder.library(
+      final builder = CBuilder.library(
         name: 'stb_image',
         assetName: 'src/third_party/stb_image.g.dart',
         sources: ['third_party/stb_image.c'],
@@ -20,7 +20,7 @@ void main(List<String> args) async {
             'STBIDEF': '__declspec(dllexport)',
         },
       );
-      await cbuilder.run(
+      await builder.run(
         input: input,
         output: output,
         logger: Logger('')
