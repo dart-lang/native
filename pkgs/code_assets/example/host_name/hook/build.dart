@@ -8,8 +8,7 @@ import 'package:hooks/hooks.dart';
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildCodeAssets) {
-      final targetOS = input.config.code.targetOS;
-      switch (targetOS) {
+      switch (input.config.code.targetOS) {
         case OS.android || OS.iOS || OS.linux || OS.macOS:
           output.assets.code.add(
             CodeAsset(
@@ -26,8 +25,8 @@ void main(List<String> args) async {
               linkMode: DynamicLoadingSystem(Uri.file('ws2_32.dll')),
             ),
           );
-        default:
-          throw UnsupportedError('Unsupported OS: ${targetOS.name}.');
+        case final os:
+          throw UnsupportedError('Unsupported OS: ${os.name}.');
       }
     }
   });
