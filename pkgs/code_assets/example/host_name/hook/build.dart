@@ -8,22 +8,26 @@ import 'package:hooks/hooks.dart';
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildCodeAssets) {
-      final linkMode = switch (input.config.code.targetOS) {
-        OS.android => LookupInProcess(),
-        OS.iOS => LookupInProcess(),
-        OS.linux => LookupInProcess(),
-        OS.macOS => LookupInProcess(),
-        OS.windows => DynamicLoadingSystem(Uri.file('ws2_32.dll')),
-        final os => throw UnsupportedError('Unsupported OS: ${os.name}.'),
-      };
-      output.assets.code.add(
-        // Asset ID: "package:host_name/src/host_name.dart"
-        CodeAsset(
-          package: 'host_name',
-          name: 'src/host_name.dart',
-          linkMode: linkMode,
-        ),
-      );
+      switch (input.config.code.targetOS) {
+        case OS.android || OS.iOS || OS.linux || OS.macOS:
+          output.assets.code.add(
+            CodeAsset(
+              package: 'host_name',
+              name: 'src/third_party/unix.dart',
+              linkMode: LookupInProcess(),
+            ),
+          );
+        case OS.windows:
+          output.assets.code.add(
+            CodeAsset(
+              package: 'host_name',
+              name: 'src/third_party/windows.dart',
+              linkMode: DynamicLoadingSystem(Uri.file('ws2_32.dll')),
+            ),
+          );
+        case final os:
+          throw UnsupportedError('Unsupported OS: ${os.name}.');
+      }
     }
   });
 }

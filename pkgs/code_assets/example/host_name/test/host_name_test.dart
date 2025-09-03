@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('test host name', () {
-    expect(hostName, isNotNull);
-    expect(hostName, isNotEmpty);
+    expect(getHostName(), isNotNull);
+    expect(getHostName(), isNotEmpty);
   });
 }
