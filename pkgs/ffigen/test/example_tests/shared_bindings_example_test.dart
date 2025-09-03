@@ -28,7 +28,7 @@ void main() {
       final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'example_shared_bindings.dart', [
-        config.output.toFilePath(),
+        config.output.dartFile.toFilePath(),
       ]);
     });
 
@@ -46,8 +46,8 @@ void main() {
       matchLibrarySymbolFileWithExpected(
         library,
         'example_shared_bindings.yaml',
-        [config.symbolFile!.output.toFilePath()],
-        config.symbolFile!.importPath.toString(),
+        [config.output.symbolFile!.output.toFilePath()],
+        config.output.symbolFile!.importPath.toString(),
       );
     });
   });

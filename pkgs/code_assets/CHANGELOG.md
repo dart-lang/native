@@ -1,3 +1,7 @@
+## 0.19.7
+
+- Bump examples to use `package:ffigen` 20.0.0-dev.0.
+
 ## 0.19.6
 
 - Added a library comment detailing how to use the package.

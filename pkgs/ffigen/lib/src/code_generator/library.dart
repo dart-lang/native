@@ -33,9 +33,11 @@ class Library {
     description: config.wrapperDocComment,
     bindings: bindings,
     header: config.preamble,
-    generateForPackageObjectiveC: config.generateForPackageObjectiveC,
+    generateForPackageObjectiveC:
+        // ignore: deprecated_member_use_from_same_package
+        config.objectiveC?.generateForPackageObjectiveC ?? false,
     libraryImports: config.libraryImports.values.toList(),
-    silenceEnumWarning: config.silenceEnumWarning,
+    silenceEnumWarning: config.enums.silenceWarning,
     nativeEntryPoints: config.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),

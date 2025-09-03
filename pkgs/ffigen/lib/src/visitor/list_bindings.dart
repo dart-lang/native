@@ -105,7 +105,7 @@ class ListBindingsVisitation extends Visitation {
   void visitTypealias(Typealias node) {
     _visitImpl(
       node,
-      config.includeUnusedTypedefs
+      config.typedefs.includeUnused
           ? _IncludeBehavior.configOnly
           : _IncludeBehavior.configAndTransitive,
     );

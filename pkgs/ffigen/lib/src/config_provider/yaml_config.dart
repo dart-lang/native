@@ -1237,58 +1237,131 @@ final class YamlConfig {
   }
 
   FfiGenerator configAdapter() => FfiGenerator(
-    output: output,
-    filename: filename,
-    outputObjC: outputObjC,
-    symbolFile: symbolFile,
-    language: language,
-    entryPoints: entryPoints,
-    shouldIncludeHeader: shouldIncludeHeader,
-    compilerOpts: compilerOpts,
-    varArgFunctions: varArgFunctions,
-    functionDecl: functionDecl.configAdapter(),
-    structDecl: structDecl.configAdapter(),
-    unionDecl: unionDecl.configAdapter(),
-    enumClassDecl: enumClassDecl.configAdapter(),
-    unnamedEnumConstants: unnamedEnumConstants.configAdapter(),
-    globals: globals.configAdapter(),
-    macroDecl: macroDecl.configAdapter(),
-    typedefs: typedefs.configAdapter(),
-    objcInterfaces: objcInterfaces.configAdapter(),
-    objcProtocols: objcProtocols.configAdapter(),
-    objcCategories: objcCategories.configAdapter(),
-    includeUnusedTypedefs: includeUnusedTypedefs,
-    includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
-    includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
-    includeTransitiveObjCCategories: includeTransitiveObjCCategories,
-    generateForPackageObjectiveC: generateForPackageObjectiveC,
-    sort: sort,
-    useSupportedTypedefs: useSupportedTypedefs,
+    headers: Headers(
+      compilerOptions: compilerOpts,
+      entryPoints: entryPoints,
+      include: shouldIncludeHeader,
+      ignoreSourceErrors: ignoreSourceErrors,
+    ),
+    output: Output(
+      dartFile: output,
+      objectiveCFile: outputObjC,
+      symbolFile: symbolFile,
+      sort: sort,
+      commentType: commentType,
+      preamble: preamble,
+      format: formatOutput,
+      style: ffiNativeConfig.enabled
+          ? NativeExternalBindings(
+              assetId: ffiNativeConfig.assetId,
+              // ignore: deprecated_member_use_from_same_package
+              wrapperName: wrapperName,
+            )
+          : DynamicLibraryBindings(
+              wrapperName: wrapperName,
+              wrapperDocComment: wrapperDocComment,
+            ),
+    ),
+    functions: Functions(
+      include: functionDecl.shouldInclude,
+      includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
+      rename: functionDecl.rename,
+      renameMember: functionDecl.renameMember,
+      varArgs: varArgFunctions,
+      includeTypedef: shouldExposeFunctionTypedef,
+      isLeaf: isLeafFunction,
+    ),
+    structs: Structs(
+      include: _structDecl.shouldInclude,
+      rename: _structDecl.rename,
+      renameMember: _structDecl.renameMember,
+      dependencies: _structDependencies,
+      packingOverride: (decl) =>
+          _structPackingOverride.getOverridenPackValue(decl.originalName),
+      // ignore: deprecated_member_use_from_same_package
+      imported: structTypeMappings.values.toList(),
+    ),
+    enums: Enums(
+      include: _enumClassDecl.shouldInclude,
+      rename: _enumClassDecl.rename,
+      renameMember: _enumClassDecl.renameMember,
+      silenceWarning: silenceEnumWarning,
+      style: (e) => switch (enumShouldBeInt(e)) {
+        true => EnumStyle.intConstants,
+        false => EnumStyle.dartEnum,
+      },
+    ),
+    unions: Unions(
+      include: _unionDecl.shouldInclude,
+      rename: _unionDecl.rename,
+      renameMember: _unionDecl.renameMember,
+      dependencies: _unionDependencies,
+      // ignore: deprecated_member_use_from_same_package
+      imported: unionTypeMappings.values.toList(),
+    ),
+    unnamedEnums: UnnamedEnums(
+      include: _unnamedEnumConstants.shouldInclude,
+      rename: _unnamedEnumConstants.rename,
+      style: (e) => switch (enumShouldBeInt(e)) {
+        true => EnumStyle.intConstants,
+        false => EnumStyle.dartEnum,
+      },
+    ),
+    globals: Globals(
+      include: globals.shouldInclude,
+      includeSymbolAddress: globals.shouldIncludeSymbolAddress,
+      rename: globals.rename,
+    ),
+    macros: Macros(include: macroDecl.shouldInclude, rename: macroDecl.rename),
+    typedefs: Typedefs(
+      include: typedefs.shouldInclude,
+      rename: typedefs.rename,
+      useSupportedTypedefs: useSupportedTypedefs,
+      includeUnused: includeUnusedTypedefs,
+      // ignore: deprecated_member_use_from_same_package
+      imported: typedefTypeMappings.values.toList(),
+    ),
+    objectiveC: language == Language.objc
+        ? ObjectiveC(
+            interfaces: Interfaces(
+              include: objcInterfaces.shouldInclude,
+              includeSymbolAddress: objcInterfaces.shouldIncludeSymbolAddress,
+              includeMember: objcInterfaces.shouldIncludeMember,
+              rename: objcInterfaces.rename,
+              renameMember: objcInterfaces.renameMember,
+              includeTransitive: includeTransitiveObjCInterfaces,
+              module: interfaceModule,
+            ),
+            protocols: Protocols(
+              include: objcProtocols.shouldInclude,
+              includeSymbolAddress: objcProtocols.shouldIncludeSymbolAddress,
+              includeMember: objcProtocols.shouldIncludeMember,
+              rename: objcProtocols.rename,
+              renameMember: objcProtocols.renameMember,
+              includeTransitive: includeTransitiveObjCProtocols,
+              module: protocolModule,
+            ),
+            categories: Categories(
+              include: objcCategories.shouldInclude,
+              includeSymbolAddress: objcCategories.shouldIncludeSymbolAddress,
+              includeMember: objcCategories.shouldIncludeMember,
+              rename: objcCategories.rename,
+              renameMember: objcCategories.renameMember,
+              includeTransitive: includeTransitiveObjCCategories,
+            ),
+            externalVersions: externalVersions,
+            // ignore: deprecated_member_use_from_same_package
+            generateForPackageObjectiveC: generateForPackageObjectiveC,
+          )
+        : null,
+    // ignore: deprecated_member_use_from_same_package
     libraryImports: libraryImports.values.toList(),
-    usrTypeMappings: usrTypeMappings,
-    typedefTypeMappings: typedefTypeMappings.values.toList(),
-    structTypeMappings: structTypeMappings.values.toList(),
-    unionTypeMappings: unionTypeMappings.values.toList(),
-    nativeTypeMappings: nativeTypeMappings.values.toList(),
-    commentType: commentType,
-    structDependencies: structDependencies,
-    unionDependencies: unionDependencies,
-    structPackingOverride: structPackingOverride,
-    interfaceModule: interfaceModule,
-    protocolModule: protocolModule,
-    wrapperName: wrapperName,
-    wrapperDocComment: wrapperDocComment,
-    preamble: preamble,
+    // ignore: deprecated_member_use_from_same_package
+    importedTypesByUsr: usrTypeMappings,
+    // ignore: deprecated_member_use_from_same_package
+    integers: Integers(imported: nativeTypeMappings.values.toList()),
+    // ignore: deprecated_member_use_from_same_package
     useDartHandle: useDartHandle,
-    silenceEnumWarning: silenceEnumWarning,
-    shouldExposeFunctionTypedef: shouldExposeFunctionTypedef,
-    isLeafFunction: isLeafFunction,
-    enumShouldBeInt: enumShouldBeInt,
-    unnamedEnumsShouldBeInt: unnamedEnumsShouldBeInt,
-    ffiNativeConfig: ffiNativeConfig,
-    ignoreSourceErrors: ignoreSourceErrors,
-    formatOutput: formatOutput,
-    externalVersions: externalVersions,
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,
   );

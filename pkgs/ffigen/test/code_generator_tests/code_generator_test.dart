@@ -41,8 +41,12 @@ void main() {
       final library = Library(
         context: testContext(
           FfiGenerator(
-            ffiNativeConfig: nativeConfig,
-            output: Uri.file('unused'),
+            output: Output(
+              dartFile: Uri.file('unused'),
+              style: nativeConfig.enabled
+                  ? const NativeExternalBindings()
+                  : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
+            ),
           ),
         ),
         name: 'Bindings',

@@ -19,25 +19,33 @@ void main() {
       final library = parser.parse(
         testContext(
           FfiGenerator(
-            output: Uri.file('unused'),
-            entryPoints: [
-              Uri.file(
-                path.join(
-                  packagePathForTests,
-                  'test',
-                  'collision_tests',
-                  'reserved_keyword_collision.h',
+            output: Output(
+              dartFile: Uri.file('unused'),
+              sort: true,
+              style: const DynamicLibraryBindings(),
+            ),
+
+            headers: Headers(
+              entryPoints: [
+                Uri.file(
+                  path.join(
+                    packagePathForTests,
+                    'test',
+                    'collision_tests',
+                    'reserved_keyword_collision.h',
+                  ),
                 ),
-              ),
-            ],
-            structDecl: DeclarationFilters.includeAll,
-            unionDecl: DeclarationFilters.includeAll,
-            enumClassDecl: DeclarationFilters.includeAll,
-            functionDecl: DeclarationFilters.includeAll,
-            globals: DeclarationFilters.includeAll,
-            typedefs: DeclarationFilters.includeAll,
-            includeUnusedTypedefs: true,
-            sort: true,
+              ],
+            ),
+            structs: Structs.includeAll,
+            unions: Unions.includeAll,
+            enums: Enums.includeAll,
+            functions: Functions.includeAll,
+            globals: Globals.includeAll,
+            typedefs: Typedefs(
+              include: (Declaration decl) => true,
+              includeUnused: true,
+            ),
           ),
         ),
       );

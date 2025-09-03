@@ -144,11 +144,11 @@ final class YamlDeclarationFilters {
   bool shouldIncludeMember(Declaration declaration, String member) =>
       _memberIncluder.shouldInclude(declaration.originalName, member);
 
-  DeclarationFilters configAdapter() {
-    return DeclarationFilters(
-      shouldInclude: shouldInclude,
-      shouldIncludeSymbolAddress: shouldIncludeSymbolAddress,
-      shouldIncludeMember: shouldIncludeMember,
+  Declarations configAdapter() {
+    return Declarations(
+      include: shouldInclude,
+      includeSymbolAddress: shouldIncludeSymbolAddress,
+      includeMember: shouldIncludeMember,
       rename: rename,
       renameMember: renameMember,
     );

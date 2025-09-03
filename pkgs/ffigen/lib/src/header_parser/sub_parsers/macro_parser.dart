@@ -29,7 +29,7 @@ void saveMacroDefinition(Context context, clang_types.CXCursor cursor) {
       "++++ Saved Macro '$originalMacroName' for later : "
       '${cursor.completeStringRepr()}',
     );
-    final prefixedName = context.config.macroDecl.rename(decl);
+    final prefixedName = context.config.macros.rename(decl);
     context.bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName, context);
   }

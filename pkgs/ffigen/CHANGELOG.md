@@ -1,9 +1,13 @@
-## 20.0.0-wip
+## 20.0.0-dev.0
 
-- __Breaking change__: Refactor the Dart API a bit, to merge the `FfiGen` and
-  `Config` classes. Rename `FfiGen.run` to `.generate`, and make it an extension
-  method on the `Config` class. So `FfiGen().run(config)` becomes
-  `config.generate(logger)`.
+- __Breaking change__: Completely rewrite the public Dart API for FFIgen.
+  The new API is focused on a declartive configuration: `FfiGenerate(...)` with
+  a `generate()` method. The configuration describes everything w.r.t. to the
+  FFIgen input and output. The generate method takes context parameters such as
+  a logger and path to libclang.
+  With this breaking change, also some defaults changed: (1) `@Native` bindings
+  are now the default, and (2) struct/unions refered to by pointer will be
+  generated as `Opaque` by default.
 - __Breaking change__: Minor breaking change in the way that ObjC interface
   methods are generated. Interface methods are now generated as extension
   methods instead of being part of the class. This shouldn't require any code

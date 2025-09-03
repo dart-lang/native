@@ -35,7 +35,7 @@ void main() {
       });
 
       matchLibraryWithExpected(library, 'example_libclang.dart', [
-        generator.output.toFilePath(),
+        generator.output.dartFile.toFilePath(),
       ]);
     });
   });

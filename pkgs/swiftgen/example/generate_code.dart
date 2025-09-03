@@ -30,12 +30,14 @@ Future<void> main() async {
     ffigen: FfiGenConfig(
       output: Uri.file('avf_audio_bindings.dart'),
       outputObjC: Uri.file('avf_audio_wrapper.m'),
-      externalVersions: fg.ExternalVersions(
-        ios: fg.Versions(min: Version(12, 0, 0)),
-        macos: fg.Versions(min: Version(10, 14, 0)),
-      ),
-      objcInterfaces: fg.DeclarationFilters(
-        shouldInclude: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
+      objectiveC: fg.ObjectiveC(
+        externalVersions: fg.ExternalVersions(
+          ios: fg.Versions(min: Version(12, 0, 0)),
+          macos: fg.Versions(min: Version(10, 14, 0)),
+        ),
+        interfaces: fg.Interfaces(
+          include: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
+        ),
       ),
       preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file

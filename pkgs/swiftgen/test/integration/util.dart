@@ -64,8 +64,10 @@ class TestGenerator {
     ffigen: FfiGenConfig(
       output: Uri.file(outputFile),
       outputObjC: Uri.file(outputObjCFile),
-      objcInterfaces: fg.DeclarationFilters(
-        shouldInclude: (decl) => decl.originalName.startsWith('Test'),
+      objectiveC: fg.ObjectiveC(
+        interfaces: fg.Interfaces(
+          include: (decl) => decl.originalName.startsWith('Test'),
+        ),
       ),
       preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file

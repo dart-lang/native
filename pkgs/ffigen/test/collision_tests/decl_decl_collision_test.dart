@@ -16,14 +16,13 @@ void main() {
     });
     test('declaration conflict', () {
       final generator = FfiGenerator(
-        entryPoints: [],
-        output: Uri(),
-        functionDecl: DeclarationFilters.includeAll,
-        structDecl: DeclarationFilters.includeAll,
-        enumClassDecl: DeclarationFilters.includeAll,
-        globals: DeclarationFilters.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
+        output: Output(dartFile: Uri.file('unused')),
+        functions: Functions.includeAll,
+        structs: Structs.includeAll,
+        enums: Enums.includeAll,
+        globals: Globals.includeAll,
+        macros: Macros.includeAll,
+        typedefs: Typedefs.includeAll,
       );
       final library = Library(
         context: testContext(),

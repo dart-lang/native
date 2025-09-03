@@ -58,32 +58,56 @@ extension SwiftGenGenerator on SwiftGenerator {
 
   void _generateDartFile(Logger logger) {
     fg.FfiGenerator(
-      language: fg.Language.objc,
-      output: ffigen.output,
-      outputObjC: ffigen.outputObjC,
-      wrapperName: ffigen.wrapperName ?? outputModule,
-      wrapperDocComment: ffigen.wrapperDocComment,
-      preamble: ffigen.preamble,
-      functionDecl: ffigen.functionDecl ?? fg.DeclarationFilters.excludeAll,
-      structDecl: ffigen.structDecl ?? fg.DeclarationFilters.excludeAll,
-      unionDecl: ffigen.unionDecl ?? fg.DeclarationFilters.excludeAll,
-      enumClassDecl: ffigen.enumClassDecl ?? fg.DeclarationFilters.excludeAll,
-      unnamedEnumConstants:
-          ffigen.unnamedEnumConstants ?? fg.DeclarationFilters.excludeAll,
-      globals: ffigen.globals ?? fg.DeclarationFilters.excludeAll,
-      macroDecl: ffigen.macroDecl ?? fg.DeclarationFilters.excludeAll,
-      typedefs: ffigen.typedefs ?? fg.DeclarationFilters.excludeAll,
-      objcInterfaces: ffigen.objcInterfaces ?? fg.DeclarationFilters.excludeAll,
-      objcProtocols: ffigen.objcProtocols ?? fg.DeclarationFilters.excludeAll,
-      objcCategories: ffigen.objcCategories ?? fg.DeclarationFilters.excludeAll,
-      entryPoints: [Uri.file(objcHeader)],
-      compilerOpts: [
-        ...fg.defaultCompilerOpts(logger),
-        '-Wno-nullability-completeness',
-      ],
-      interfaceModule: (_) => outputModule,
-      protocolModule: (_) => outputModule,
-      externalVersions: ffigen.externalVersions,
+      output: fg.Output(
+        dartFile: ffigen.output,
+        objectiveCFile: ffigen.outputObjC,
+        preamble: ffigen.preamble,
+        style: fg.DynamicLibraryBindings(
+          wrapperName: ffigen.wrapperName ?? outputModule,
+          wrapperDocComment: ffigen.wrapperDocComment,
+        ),
+      ),
+
+      functions: ffigen.functions,
+      structs: ffigen.structs,
+      unions: ffigen.unions,
+      enums: ffigen.enums,
+      unnamedEnums: ffigen.unnamedEnums,
+      globals: ffigen.globals,
+      integers: ffigen.integers,
+      macros: ffigen.macros,
+      typedefs: ffigen.typedefs,
+      objectiveC: fg.ObjectiveC(
+        interfaces: fg.Interfaces(
+          include: ffigen.objectiveC.interfaces.include,
+          includeMember: ffigen.objectiveC.interfaces.includeMember,
+          includeSymbolAddress:
+              ffigen.objectiveC.interfaces.includeSymbolAddress,
+          rename: ffigen.objectiveC.interfaces.rename,
+          renameMember: ffigen.objectiveC.interfaces.renameMember,
+          includeTransitive: ffigen.objectiveC.interfaces.includeTransitive,
+          module: (_) => outputModule,
+        ),
+        protocols: fg.Protocols(
+          include: ffigen.objectiveC.protocols.include,
+          includeMember: ffigen.objectiveC.protocols.includeMember,
+          includeSymbolAddress:
+              ffigen.objectiveC.protocols.includeSymbolAddress,
+          rename: ffigen.objectiveC.protocols.rename,
+          renameMember: ffigen.objectiveC.protocols.renameMember,
+          includeTransitive: ffigen.objectiveC.protocols.includeTransitive,
+          module: (_) => outputModule,
+        ),
+        categories: ffigen.objectiveC.categories,
+        externalVersions: ffigen.objectiveC.externalVersions,
+      ),
+      headers: fg.Headers(
+        entryPoints: [Uri.file(objcHeader)],
+        compilerOptions: [
+          ...fg.defaultCompilerOpts(logger),
+          '-Wno-nullability-completeness',
+        ],
+      ),
     ).generate(logger: logger);
   }
 }

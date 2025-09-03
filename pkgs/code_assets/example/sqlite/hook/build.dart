@@ -10,7 +10,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildCodeAssets) {
-      final cbuilder = CBuilder.library(
+      final builder = CBuilder.library(
         name: 'sqlite3',
         assetName: 'src/third_party/sqlite3.g.dart',
         sources: ['third_party/sqlite/sqlite3.c'],
@@ -20,7 +20,7 @@ void main(List<String> args) async {
             'SQLITE_API': '__declspec(dllexport)',
         },
       );
-      await cbuilder.run(
+      await builder.run(
         input: input,
         output: output,
         logger: Logger('')
