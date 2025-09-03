@@ -224,6 +224,7 @@ class ObjCMethod extends AstNode {
     visitor.visit(msgSend);
     visitor.visit(protocolBlock);
     visitor.visit(ffiImport);
+    visitor.visit(ffiPkgImport);
     visitor.visit(objcPkgImport);
   }
 

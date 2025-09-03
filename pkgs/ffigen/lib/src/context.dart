@@ -115,7 +115,7 @@ class LibraryImports {
     }
     // If this null assert fails, it means that a library was used during code
     // generation that wasn't visited by MarkImportsVisitation, which is a bug.
-    print('>>>>>> ${lib.name}');
+    if (_prefixes[lib] == null) print('>>>>>> ${lib.name}');
     return _prefixes[lib]!;
   }
 }

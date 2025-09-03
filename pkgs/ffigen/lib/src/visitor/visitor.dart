@@ -66,7 +66,6 @@ abstract class Visitation {
   void visitBinding(Binding node) => visitAstNode(node);
   void visitLookUpBinding(LookUpBinding node) => visitBinding(node);
   void visitNoLookUpBinding(NoLookUpBinding node) => visitBinding(node);
-  void visitLibraryImport(NoLookUpBinding node) => visitBinding(node);
   void visitObjCInterface(ObjCInterface node) => visitBindingType(node);
   void visitObjCProtocol(ObjCProtocol node) => visitNoLookUpBinding(node);
   void visitObjCCategory(ObjCCategory node) => visitNoLookUpBinding(node);
@@ -85,6 +84,7 @@ abstract class Visitation {
   void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>
       visitAstNode(node);
   void visitImportedType(ImportedType node) => visitType(node);
+  void visitLibraryImport(LibraryImport node) => visitAstNode(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node..visitChildren(visitor);

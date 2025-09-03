@@ -37,6 +37,9 @@ class LibraryImport extends AstNode {
 
   @override
   String toString() => '$name $_importPath';
+
+  @override
+  void visit(Visitation visitation) => visitation.visitLibraryImport(this);
 }
 
 /// An imported type which will be used in the generated code.
