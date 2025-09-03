@@ -20,6 +20,7 @@ import 'dart:convert';
 class Json extends Iterable<Json> {
   final List<String> pathSegments;
   final dynamic _json;
+  String? _encoded;
 
   String get path => pathSegments.join('/');
 
@@ -103,7 +104,7 @@ class Json extends Iterable<Json> {
   }
 
   @override
-  String toString() => jsonEncode(_json);
+  String toString() => _encoded ??= jsonEncode(_json);
 }
 
 class _JsonIterator implements Iterator<Json> {

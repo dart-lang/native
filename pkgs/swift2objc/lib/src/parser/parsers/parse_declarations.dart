@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../ast/_core/interfaces/declaration.dart';
+import '../../config.dart';
+import '../../context.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 import 'declaration_parsers/parse_built_in_declaration.dart';
@@ -14,11 +14,14 @@ import 'declaration_parsers/parse_initializer_declaration.dart';
 import 'declaration_parsers/parse_typealias_declaration.dart';
 import 'declaration_parsers/parse_variable_declaration.dart';
 
-List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
+List<Declaration> parseDeclarations(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+) {
   final declarations = <Declaration>[];
 
   for (final symbol in symbolgraph.symbols.values) {
-    final declaration = tryParseDeclaration(symbol, symbolgraph);
+    final declaration = tryParseDeclaration(context, symbol, symbolgraph);
     if (declaration != null) {
       declarations.add(declaration);
     }
@@ -29,6 +32,7 @@ List<Declaration> parseDeclarations(ParsedSymbolgraph symbolgraph) {
 
 // TODO(https://github.com/dart-lang/native/issues/1815): Support for extensions
 Declaration parseDeclaration(
+  Context context,
   ParsedSymbol parsedSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
@@ -38,7 +42,7 @@ Declaration parseDeclaration(
 
   final symbolJson = parsedSymbol.json;
 
-  final builtIn = tryParseBuiltInDeclaration(symbolJson);
+  final builtIn = tryParseBuiltInDeclaration(parsedSymbol);
   if (builtIn != null) {
     return parsedSymbol.declaration = builtIn;
   }
@@ -50,36 +54,73 @@ Declaration parseDeclaration(
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 
   parsedSymbol.declaration = switch (symbolType) {
-    'swift.class' => parseClassDeclaration(parsedSymbol, symbolgraph),
-    'swift.struct' => parseStructDeclaration(parsedSymbol, symbolgraph),
-    'swift.method' =>
-      parseMethodDeclaration(symbolJson, symbolgraph, isStatic: false),
-    'swift.type.method' =>
-      parseMethodDeclaration(symbolJson, symbolgraph, isStatic: true),
-    'swift.property' =>
-      parsePropertyDeclaration(symbolJson, symbolgraph, isStatic: false),
-    'swift.type.property' =>
-      parsePropertyDeclaration(symbolJson, symbolgraph, isStatic: true),
-    'swift.init' => parseInitializerDeclaration(symbolJson, symbolgraph),
-    'swift.func' => parseGlobalFunctionDeclaration(symbolJson, symbolgraph),
-    'swift.var' => parseGlobalVariableDeclaration(symbolJson, symbolgraph),
-    'swift.typealias' => parseTypealiasDeclaration(symbolJson, symbolgraph),
-    _ => throw Exception(
-        'Symbol of type $symbolType is not implemented yet.',
-      ),
+    'swift.class' => parseClassDeclaration(context, parsedSymbol, symbolgraph),
+    'swift.struct' => parseStructDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+    ),
+    'swift.method' => parseMethodDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: false,
+    ),
+    'swift.type.method' => parseMethodDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: true,
+    ),
+    'swift.property' => parsePropertyDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: false,
+    ),
+    'swift.type.property' => parsePropertyDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: true,
+    ),
+    'swift.init' => parseInitializerDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+    ),
+    'swift.func' => parseGlobalFunctionDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+    ),
+    'swift.var' => parseGlobalVariableDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+    ),
+    'swift.typealias' => parseTypealiasDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+    ),
+    _ => throw Exception('Symbol of type $symbolType is not implemented yet.'),
   };
 
   return parsedSymbol.declaration!;
 }
 
 Declaration? tryParseDeclaration(
+  Context context,
   ParsedSymbol parsedSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
   try {
-    return parseDeclaration(parsedSymbol, symbolgraph);
+    return parseDeclaration(context, parsedSymbol, symbolgraph);
   } catch (e) {
-    Logger.root.severe('$e');
+    if (parsedSymbol.source != builtInInputConfig) {
+      context.logger.severe('$e');
+    }
   }
   return null;
 }

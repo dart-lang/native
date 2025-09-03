@@ -18,16 +18,19 @@ import 'path_finder.dart';
 enum Language { c, objc }
 
 class CommentType {
-  CommentStyle style;
-  CommentLength length;
-  CommentType(this.style, this.length);
+  final CommentStyle style;
+  final CommentLength length;
+
+  const CommentType(this.style, this.length);
 
   /// Sets default style as [CommentStyle.doxygen], default length as
   /// [CommentLength.full].
-  CommentType.def() : style = CommentStyle.doxygen, length = CommentLength.full;
+  const CommentType.def()
+    : style = CommentStyle.doxygen,
+      length = CommentLength.full;
 
   /// Disables any comments.
-  CommentType.none()
+  const CommentType.none()
     : style = CommentStyle.doxygen,
       length = CommentLength.none;
 }
@@ -99,7 +102,7 @@ class GlobHeaderFilter extends HeaderIncludeFilter {
 
 /// A generic declaration config, used for Functions, Structs, Enums, Macros,
 /// unnamed Enums and Globals.
-class YamlDeclarationFilters implements DeclarationFilters {
+final class YamlDeclarationFilters {
   final YamlIncluder _includer;
   final YamlRenamer _renamer;
   final YamlMemberRenamer _memberRenamer;
@@ -122,29 +125,34 @@ class YamlDeclarationFilters implements DeclarationFilters {
        _memberIncluder = memberIncluder ?? YamlMemberIncluder();
 
   /// Applies renaming and returns the result.
-  @override
   String rename(Declaration declaration) =>
       _renamer.rename(declaration.originalName);
 
   /// Applies member renaming and returns the result.
-  @override
   String renameMember(Declaration declaration, String member) =>
       _memberRenamer.rename(declaration.originalName, member);
 
   /// Checks if a name is allowed by a filter.
-  @override
   bool shouldInclude(Declaration declaration) =>
       _includer.shouldInclude(declaration.originalName, excludeAllByDefault);
 
   /// Checks if the symbol address should be included for this name.
-  @override
   bool shouldIncludeSymbolAddress(Declaration declaration) =>
       _symbolAddressIncluder.shouldInclude(declaration.originalName);
 
   /// Checks if a member is allowed by a filter.
-  @override
   bool shouldIncludeMember(Declaration declaration, String member) =>
       _memberIncluder.shouldInclude(declaration.originalName, member);
+
+  Declarations configAdapter() {
+    return Declarations(
+      include: shouldInclude,
+      includeSymbolAddress: shouldIncludeSymbolAddress,
+      includeMember: shouldIncludeMember,
+      rename: rename,
+      renameMember: renameMember,
+    );
+  }
 }
 
 /// Matches `$<single_digit_int>`, value can be accessed in group 1 of match.

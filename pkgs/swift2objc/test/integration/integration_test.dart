@@ -62,14 +62,14 @@ void main([List<String>? args]) {
             ? expectedOutputFile
             : path.join(tempDir, '$name$outputSuffix');
 
-        await generateWrapper(
-          Config(
-            input: FilesInputConfig(files: [Uri.file(inputFile)]),
-            outputFile: Uri.file(actualOutputFile),
-            tempDir: Directory(tempDir).uri,
-            preamble: '// Test preamble text',
-          ),
-        );
+        await Swift2ObjCGenerator(
+          inputs: [
+            FilesInputConfig(files: [Uri.file(inputFile)]),
+          ],
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(tempDir).uri,
+          preamble: '// Test preamble text',
+        ).generate(logger: Logger.root);
 
         final actualOutput = await File(actualOutputFile).readAsString();
         final expectedOutput = File(expectedOutputFile).readAsStringSync();
@@ -78,7 +78,7 @@ void main([List<String>? args]) {
         expect(loggedErrors, 0);
 
         await expectValidSwift([inputFile, actualOutputFile]);
-      });
+      }, timeout: const Timeout(Duration(minutes: 2)));
     }
   });
 }

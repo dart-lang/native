@@ -84,19 +84,24 @@ Declaration _transformVariable(
   if (originalVariable.throws || originalVariable.async) {
     final prefix = [
       if (originalVariable.throws) 'try',
-      if (originalVariable.async) 'await'
+      if (originalVariable.async) 'await',
     ].join(' ');
 
     final localNamer = UniqueNamer();
     final resultName = localNamer.makeUnique('result');
 
     final (wrapperResult, type) = maybeWrapValue(
-        originalVariable.type, resultName, globalNamer, state,
-        shouldWrapPrimitives: originalVariable.throws);
+      originalVariable.type,
+      resultName,
+      globalNamer,
+      state,
+      shouldWrapPrimitives: originalVariable.throws,
+    );
 
     return MethodDeclaration(
       id: originalVariable.id,
       name: wrapperPropertyName,
+      source: originalVariable.source,
       availability: originalVariable.availability,
       returnType: type,
       params: [],
@@ -116,6 +121,7 @@ Declaration _transformVariable(
   final transformedProperty = PropertyDeclaration(
     id: originalVariable.id,
     name: wrapperPropertyName,
+    source: originalVariable.source,
     availability: originalVariable.availability,
     type: transformedType,
     hasObjCAnnotation: true,
@@ -129,10 +135,12 @@ Declaration _transformVariable(
     unowned: originalVariable is PropertyDeclaration
         ? originalVariable.unowned
         : false,
-    lazy:
-        originalVariable is PropertyDeclaration ? originalVariable.lazy : false,
-    weak:
-        originalVariable is PropertyDeclaration ? originalVariable.weak : false,
+    lazy: originalVariable is PropertyDeclaration
+        ? originalVariable.lazy
+        : false,
+    weak: originalVariable is PropertyDeclaration
+        ? originalVariable.weak
+        : false,
   );
 
   final getterStatements = _generateGetterStatements(
@@ -189,8 +197,10 @@ List<String> _generateSetterStatements(
     'newValue',
   );
 
-  assert(unwrappedType.sameAs(originalVariable.type),
-      '$unwrappedType\tvs\t${originalVariable.type}');
+  assert(
+    unwrappedType.sameAs(originalVariable.type),
+    '$unwrappedType\tvs\t${originalVariable.type}',
+  );
 
   return ['$variableReference = $unwrappedValue'];
 }

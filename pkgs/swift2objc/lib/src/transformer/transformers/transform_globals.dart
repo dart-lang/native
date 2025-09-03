@@ -24,6 +24,7 @@ ClassDeclaration? transformGlobals(
   final transformedGlobals = ClassDeclaration(
     id: 'globals'.addIdSuffix('wrapper'),
     name: globalNamer.makeUnique('GlobalsWrapper'),
+    source: null,
     availability: const [],
     hasObjCAnnotation: true,
     superClass: objectType,
@@ -31,29 +32,21 @@ ClassDeclaration? transformGlobals(
   );
 
   final transformedProperties = globals.variables
-      .map((variable) => transformGlobalVariable(
-            variable,
-            globalNamer,
-            state,
-          ))
+      .map((variable) => transformGlobalVariable(variable, globalNamer, state))
       .toList();
 
   final transformedMethods = globals.functions
-      .map((function) => transformGlobalFunction(
-            function,
-            globalNamer,
-            state,
-          ))
+      .map((function) => transformGlobalFunction(function, globalNamer, state))
       .toList();
 
-  transformedGlobals.properties = transformedProperties
-      .whereType<PropertyDeclaration>()
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  transformedGlobals.properties =
+      transformedProperties.whereType<PropertyDeclaration>().toList()
+        ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-  transformedGlobals.methods = (transformedMethods +
-      transformedProperties.whereType<MethodDeclaration>().toList())
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  transformedGlobals.methods =
+      (transformedMethods +
+            transformedProperties.whereType<MethodDeclaration>().toList())
+        ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
   return transformedGlobals;
 }

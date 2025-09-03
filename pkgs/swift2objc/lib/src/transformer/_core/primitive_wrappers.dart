@@ -25,19 +25,21 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
   final property = PropertyDeclaration(
     id: primitiveType.id.addIdSuffix('wrappedInstance'),
     name: 'wrappedInstance',
+    source: primitiveType.declaration.source,
     availability: availability,
     type: primitiveType,
   );
   return ClassDeclaration(
-          id: primitiveType.id.addIdSuffix('wrapper'),
-          name: '${primitiveType.name}Wrapper',
-          availability: availability,
-          hasObjCAnnotation: true,
-          superClass: objectType,
-          isWrapper: true,
-          wrappedInstance: property,
-          wrapperInitializer: buildWrapperInitializer(property))
-      .asDeclaredType;
+    id: primitiveType.id.addIdSuffix('wrapper'),
+    name: '${primitiveType.name}Wrapper',
+    source: primitiveType.declaration.source,
+    availability: availability,
+    hasObjCAnnotation: true,
+    superClass: objectType,
+    isWrapper: true,
+    wrappedInstance: property,
+    wrapperInitializer: buildWrapperInitializer(property),
+  ).asDeclaredType;
 }
 
 // Support Optional primitives as return Type

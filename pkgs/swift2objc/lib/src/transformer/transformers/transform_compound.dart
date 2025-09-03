@@ -18,14 +18,18 @@ import 'transform_function.dart';
 import 'transform_initializer.dart';
 import 'transform_variable.dart';
 
-ClassDeclaration transformCompound(CompoundDeclaration originalCompound,
-    UniqueNamer parentNamer, TransformationState state) {
+ClassDeclaration transformCompound(
+  CompoundDeclaration originalCompound,
+  UniqueNamer parentNamer,
+  TransformationState state,
+) {
   final isStub = state.stubs.contains(originalCompound);
   final compoundNamer = UniqueNamer.inCompound(originalCompound);
 
   final wrappedCompoundInstance = PropertyDeclaration(
     id: originalCompound.id.addIdSuffix('wrappedInstance'),
     name: compoundNamer.makeUnique('wrappedInstance'),
+    source: originalCompound.source,
     availability: const [],
     type: originalCompound.asDeclaredType,
   );
@@ -33,6 +37,7 @@ ClassDeclaration transformCompound(CompoundDeclaration originalCompound,
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
     name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
+    source: originalCompound.source,
     availability: originalCompound.availability,
     hasObjCAnnotation: true,
     superClass: objectType,
@@ -44,60 +49,74 @@ ClassDeclaration transformCompound(CompoundDeclaration originalCompound,
 
   state.map[originalCompound] = transformedCompound;
 
-  transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
-      .map((nested) =>
-          maybeTransformDeclaration(nested, compoundNamer, state, nested: true)
-              as InnerNestableDeclaration?)
-      .nonNulls
-      .toList()
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
-  transformedCompound.nestedDeclarations
-      .fillNestingParents(transformedCompound);
+  transformedCompound.nestedDeclarations =
+      originalCompound.nestedDeclarations
+          .map(
+            (nested) =>
+                maybeTransformDeclaration(
+                      nested,
+                      compoundNamer,
+                      state,
+                      nested: true,
+                    )
+                    as InnerNestableDeclaration?,
+          )
+          .nonNulls
+          .toList()
+        ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  transformedCompound.nestedDeclarations.fillNestingParents(
+    transformedCompound,
+  );
 
   if (!isStub) {
     final transformedProperties = originalCompound.properties
-        .map((property) => transformProperty(
-              property,
-              wrappedCompoundInstance,
-              parentNamer,
-              state,
-            ))
+        .map(
+          (property) => transformProperty(
+            property,
+            wrappedCompoundInstance,
+            parentNamer,
+            state,
+          ),
+        )
         .nonNulls
         .toList();
 
     final transformedInitializers = originalCompound.initializers
-        .map((initializer) => transformInitializer(
-              initializer,
-              wrappedCompoundInstance,
-              parentNamer,
-              state,
-            ))
+        .map(
+          (initializer) => transformInitializer(
+            initializer,
+            wrappedCompoundInstance,
+            parentNamer,
+            state,
+          ),
+        )
         .toList();
 
     final transformedMethods = originalCompound.methods
-        .map((method) => transformMethod(
-              method,
-              wrappedCompoundInstance,
-              parentNamer,
-              state,
-            ))
+        .map(
+          (method) => transformMethod(
+            method,
+            wrappedCompoundInstance,
+            parentNamer,
+            state,
+          ),
+        )
         .nonNulls
         .toList();
 
-    transformedCompound.properties = transformedProperties
-        .whereType<PropertyDeclaration>()
-        .toList()
-      ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.properties =
+        transformedProperties.whereType<PropertyDeclaration>().toList()
+          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-    transformedCompound.initializers = transformedInitializers
-        .whereType<InitializerDeclaration>()
-        .toList()
-      ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.initializers =
+        transformedInitializers.whereType<InitializerDeclaration>().toList()
+          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
 
-    transformedCompound.methods = (transformedMethods +
-        transformedProperties.whereType<MethodDeclaration>().toList() +
-        transformedInitializers.whereType<MethodDeclaration>().toList())
-      ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.methods =
+        (transformedMethods +
+              transformedProperties.whereType<MethodDeclaration>().toList() +
+              transformedInitializers.whereType<MethodDeclaration>().toList())
+          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
   }
 
   return transformedCompound;

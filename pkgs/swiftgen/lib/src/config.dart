@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
 import 'util.dart';
 
@@ -30,7 +31,10 @@ class Target {
 
   Target({required this.triple, required this.sdk});
 
-  static Future<Target> host() => getHostTarget();
+  static Future<Target> host() async => Target(
+    triple: await swift2objc.hostTarget,
+    sdk: await swift2objc.hostSdk,
+  );
 }
 
 /// Describes the inputs to the swiftgen pipeline.
@@ -54,69 +58,74 @@ class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
   Iterable<String> get compileArgs => const <String>[];
 }
 
-/// Selected options from [ffigen.FfiGen].
+/// Selected options from [ffigen.FfiGenerator].
 class FfiGenConfig {
-  /// [ffigen.FfiGen.output]
+  /// [ffigen.FfiGenerator.output]
   final Uri output;
 
-  /// [ffigen.FfiGen.outputObjC]
   final Uri outputObjC;
 
-  /// [ffigen.FfiGen.wrapperName]
-  /// Defaults to the swift module name.
   final String? wrapperName;
 
-  /// [ffigen.FfiGen.wrapperDocComment]
   final String? wrapperDocComment;
 
-  /// [ffigen.FfiGen.preamble]
   final String? preamble;
 
-  /// [ffigen.FfiGen.functionDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? functionDecl;
+  /// [ffigen.FfiGenerator.functions]
+  ///
+  /// Defaults to [ffigen.Functions.excludeAll]
+  final ffigen.Functions? functions;
 
-  /// [ffigen.FfiGen.structDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? structDecl;
+  /// [ffigen.FfiGenerator.structs]
+  ///
+  /// Defaults to [ffigen.Structs.excludeAll]
+  final ffigen.Structs? structs;
 
-  /// [ffigen.FfiGen.unionDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? unionDecl;
+  /// [ffigen.FfiGenerator.unions]
+  ///
+  /// Defaults to [ffigen.Unions.excludeAll]
+  final ffigen.Unions? unions;
 
-  /// [ffigen.FfiGen.enumClassDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? enumClassDecl;
+  /// [ffigen.FfiGenerator.enums]
+  ///
+  /// Defaults to [ffigen.Enums.excludeAll]
+  final ffigen.Enums? enums;
 
-  /// [ffigen.FfiGen.unnamedEnumConstants]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? unnamedEnumConstants;
+  /// [ffigen.FfiGenerator.unnamedEnums]
+  ///
+  /// Defaults to [ffigen.UnnamedEnums.excludeAll]
+  final ffigen.UnnamedEnums? unnamedEnums;
 
-  /// [ffigen.FfiGen.globals]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? globals;
+  /// [ffigen.FfiGenerator.globals]
+  /// Defaults to [ffigen.Globals.excludeAll]
+  final ffigen.Globals? globals;
 
-  /// [ffigen.FfiGen.macroDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? macroDecl;
+  /// [ffigen.FfiGenerator.macros]
+  ///
+  /// Defaults to [ffigen.Macros.excludeAll]
+  final ffigen.Macros? macros;
 
-  /// [ffigen.FfiGen.typedefs]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? typedefs;
+  /// [ffigen.FfiGenerator.typedefs]
+  ///
+  /// Defaults to [ffigen.Typedefs.excludeAll]
+  final ffigen.Typedefs? typedefs;
 
-  /// [ffigen.FfiGen.objcInterfaces]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcInterfaces;
+  /// [ffigen.ObjectiveC.interfaces]
+  ///
+  /// Defaults to [ffigen.Interfaces.excludeAll]
+  final ffigen.Interfaces? objcInterfaces;
 
-  /// [ffigen.FfiGen.objcProtocols]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcProtocols;
+  /// [ffigen.ObjectiveC.protocols]
+  ///
+  /// Defaults to [ffigen.Protocols.excludeAll]
+  final ffigen.Protocols? objcProtocols;
 
-  /// [ffigen.FfiGen.objcCategories]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcCategories;
+  /// [ffigen.ObjectiveC.categories]
+  ///s
+  /// Defaults to [ffigen.Categories.excludeAll]
+  final ffigen.Categories? objcCategories;
 
-  /// [ffigen.FfiGen.externalVersions]
+  /// [ffigen.ObjectiveC.externalVersions]
   final ffigen.ExternalVersions externalVersions;
 
   FfiGenConfig({
@@ -125,13 +134,13 @@ class FfiGenConfig {
     this.wrapperName,
     this.wrapperDocComment,
     this.preamble,
-    this.functionDecl,
-    this.structDecl,
-    this.unionDecl,
-    this.enumClassDecl,
-    this.unnamedEnumConstants,
+    this.functions,
+    this.structs,
+    this.unions,
+    this.enums,
+    this.unnamedEnums,
     this.globals,
-    this.macroDecl,
+    this.macros,
     this.typedefs,
     this.objcInterfaces,
     this.objcProtocols,

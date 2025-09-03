@@ -18,31 +18,40 @@ void main() {
   group('NSRange', () {
     late final String bindings;
     setUpAll(() {
-      FfiGen(
-        Logger.root,
-        wrapperName: 'NSRangeTestObjCLibrary',
-        language: Language.objc,
-        output: Uri.file(
-          path.join(
-            packagePathForTests,
-            'test',
-            'native_objc_test',
-            'ns_range_bindings.dart',
-          ),
-        ),
-        entryPoints: [
-          Uri.file(
+      FfiGenerator(
+        output: Output(
+          dartFile: Uri.file(
             path.join(
               packagePathForTests,
               'test',
               'native_objc_test',
-              'ns_range_test.m',
+              'ns_range_bindings.dart',
             ),
           ),
-        ],
-        formatOutput: false,
-        objcInterfaces: DeclarationFilters.include({'SFTranscriptionSegment'}),
-      ).generate(Logger.root..level = Level.SEVERE);
+          format: false,
+          style: const DynamicLibraryBindings(
+            wrapperName: 'NSRangeTestObjCLibrary',
+          ),
+        ),
+        headers: Headers(
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'test',
+                'native_objc_test',
+                'ns_range_test.m',
+              ),
+            ),
+          ],
+        ),
+        objectiveC: ObjectiveC(
+          interfaces: Interfaces(
+            include: (decl) =>
+                {'SFTranscriptionSegment'}.contains(decl.originalName),
+          ),
+        ),
+      ).generate(logger: Logger.root..level = Level.SEVERE);
       bindings = File(
         path.join(
           packagePathForTests,

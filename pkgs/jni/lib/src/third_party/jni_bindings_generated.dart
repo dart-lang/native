@@ -59,23 +59,19 @@ class JniBindings {
 
   /// The symbols are looked up with [lookup].
   JniBindings.fromLookup(
-      ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
-          lookup)
-      : _lookup = lookup;
+    ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
+  ) : _lookup = lookup;
 
-  late final ffi.Pointer<pthread_key_t> _tlsKey =
-      _lookup<pthread_key_t>('tlsKey');
+  late final ffi.Pointer<pthread_key_t> _tlsKey = _lookup<pthread_key_t>(
+    'tlsKey',
+  );
 
   Dart__darwin_pthread_key_t get tlsKey => _tlsKey.value;
 
   set tlsKey(Dart__darwin_pthread_key_t value) => _tlsKey.value = value;
 
-  JniClassLookupResult FindClass(
-    ffi.Pointer<ffi.Char> name,
-  ) {
-    return _FindClass(
-      name,
-    );
+  JniClassLookupResult FindClass(ffi.Pointer<ffi.Char> name) {
+    return _FindClass(name);
   }
 
   late final _FindClassPtr = _lookup<
@@ -84,49 +80,46 @@ class JniBindings {
   late final _FindClass = _FindClassPtr.asFunction<
       JniClassLookupResult Function(ffi.Pointer<ffi.Char>)>();
 
-  JniExceptionDetails GetExceptionDetails(
-    JThrowablePtr exception,
-  ) {
-    return _GetExceptionDetails(
-      exception,
-    );
+  JniExceptionDetails GetExceptionDetails(JThrowablePtr exception) {
+    return _GetExceptionDetails(exception);
   }
 
   late final _GetExceptionDetailsPtr =
       _lookup<ffi.NativeFunction<JniExceptionDetails Function(JThrowablePtr)>>(
-          'GetExceptionDetails');
+    'GetExceptionDetails',
+  );
   late final _GetExceptionDetails = _GetExceptionDetailsPtr.asFunction<
       JniExceptionDetails Function(JThrowablePtr)>();
 
-  ffi.Pointer<JavaVM1> GetJavaVM() {
+  ffi.Pointer<JavaVM$1> GetJavaVM() {
     return _GetJavaVM();
   }
 
   late final _GetJavaVMPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<JavaVM1> Function()>>('GetJavaVM');
+      _lookup<ffi.NativeFunction<ffi.Pointer<JavaVM$1> Function()>>(
+    'GetJavaVM',
+  );
   late final _GetJavaVM =
-      _GetJavaVMPtr.asFunction<ffi.Pointer<JavaVM1> Function()>();
+      _GetJavaVMPtr.asFunction<ffi.Pointer<JavaVM$1> Function()>();
 
-  ffi.Pointer<JniEnv1> GetJniEnv() {
+  ffi.Pointer<JniEnv$1> GetJniEnv() {
     return _GetJniEnv();
   }
 
   late final _GetJniEnvPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<JniEnv1> Function()>>('GetJniEnv');
+      _lookup<ffi.NativeFunction<ffi.Pointer<JniEnv$1> Function()>>(
+    'GetJniEnv',
+  );
   late final _GetJniEnv =
-      _GetJniEnvPtr.asFunction<ffi.Pointer<JniEnv1> Function()>();
+      _GetJniEnvPtr.asFunction<ffi.Pointer<JniEnv$1> Function()>();
 
   /// Spawn a JVM with given arguments.
   ///
   /// Returns JNI_OK on success, and one of the documented JNI error codes on
   /// failure. It returns DART_JNI_SINGLETON_EXISTS if an attempt to spawn multiple
   /// JVMs is made, even if the underlying API potentially supports multiple VMs.
-  JniErrorCode SpawnJvm(
-    ffi.Pointer<JavaVMInitArgs> args,
-  ) {
-    return JniErrorCode.fromValue(_SpawnJvm(
-      args,
-    ));
+  JniErrorCode SpawnJvm(ffi.Pointer<JavaVMInitArgs> args) {
+    return JniErrorCode.fromValue(_SpawnJvm(args));
   }
 
   late final _SpawnJvmPtr = _lookup<
@@ -157,7 +150,8 @@ class JniBindings {
 
   late final _GetApplicationContextPtr =
       _lookup<ffi.NativeFunction<JObjectPtr Function()>>(
-          'GetApplicationContext');
+    'GetApplicationContext',
+  );
   late final _GetApplicationContext =
       _GetApplicationContextPtr.asFunction<JObjectPtr Function()>();
 
@@ -171,17 +165,14 @@ class JniBindings {
   late final _GetCurrentActivity =
       _GetCurrentActivityPtr.asFunction<JObjectPtr Function()>();
 
-  int InitDartApiDL(
-    ffi.Pointer<ffi.Void> data,
-  ) {
-    return _InitDartApiDL(
-      data,
-    );
+  int InitDartApiDL(ffi.Pointer<ffi.Void> data) {
+    return _InitDartApiDL(data);
   }
 
   late final _InitDartApiDLPtr =
       _lookup<ffi.NativeFunction<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>>(
-          'InitDartApiDL');
+    'InitDartApiDL',
+  );
   late final _InitDartApiDL =
       _InitDartApiDLPtr.asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
@@ -194,14 +185,8 @@ class JniBindings {
   late final _GetCurrentIsolateId =
       _GetCurrentIsolateIdPtr.asFunction<int Function()>();
 
-  JniResult DartException__ctor(
-    JStringPtr message,
-    JThrowablePtr cause,
-  ) {
-    return _DartException__ctor(
-      message,
-      cause,
-    );
+  JniResult DartException__ctor(JStringPtr message, JThrowablePtr cause) {
+    return _DartException__ctor(message, cause);
   }
 
   late final _DartException__ctorPtr = _lookup<
@@ -210,28 +195,19 @@ class JniBindings {
   late final _DartException__ctor = _DartException__ctorPtr.asFunction<
       JniResult Function(JStringPtr, JThrowablePtr)>();
 
-  JniResult PortContinuation__ctor(
-    int j,
-  ) {
-    return _PortContinuation__ctor(
-      j,
-    );
+  JniResult PortContinuation__ctor(int j) {
+    return _PortContinuation__ctor(j);
   }
 
   late final _PortContinuation__ctorPtr =
       _lookup<ffi.NativeFunction<JniResult Function(ffi.Int64)>>(
-          'PortContinuation__ctor');
+    'PortContinuation__ctor',
+  );
   late final _PortContinuation__ctor =
       _PortContinuation__ctorPtr.asFunction<JniResult Function(int)>();
 
-  void resultFor(
-    ffi.Pointer<CallbackResult> result,
-    JObjectPtr object,
-  ) {
-    return _resultFor(
-      result,
-      object,
-    );
+  void resultFor(ffi.Pointer<CallbackResult> result, JObjectPtr object) {
+    return _resultFor(result, object);
   }
 
   late final _resultForPtr = _lookup<
@@ -246,17 +222,16 @@ class JniBindings {
     JObjectPtr reference,
     JObjectRefType refType,
   ) {
-    return _newJObjectFinalizableHandle(
-      object,
-      reference,
-      refType.value,
-    );
+    return _newJObjectFinalizableHandle(object, reference, refType.value);
   }
 
   late final _newJObjectFinalizableHandlePtr = _lookup<
       ffi.NativeFunction<
-          Dart_FinalizableHandle Function(ffi.Handle, JObjectPtr,
-              ffi.UnsignedInt)>>('newJObjectFinalizableHandle');
+          Dart_FinalizableHandle Function(
+            ffi.Handle,
+            JObjectPtr,
+            ffi.UnsignedInt,
+          )>>('newJObjectFinalizableHandle');
   late final _newJObjectFinalizableHandle = _newJObjectFinalizableHandlePtr
       .asFunction<Dart_FinalizableHandle Function(Object, JObjectPtr, int)>();
 
@@ -264,10 +239,7 @@ class JniBindings {
     Object object,
     ffi.Pointer<ffi.Bool> reference,
   ) {
-    return _newBooleanFinalizableHandle(
-      object,
-      reference,
-    );
+    return _newBooleanFinalizableHandle(object, reference);
   }
 
   late final _newBooleanFinalizableHandlePtr = _lookup<
@@ -282,10 +254,7 @@ class JniBindings {
     Dart_FinalizableHandle finalizableHandle,
     Object object,
   ) {
-    return _deleteFinalizableHandle(
-      finalizableHandle,
-      object,
-    );
+    return _deleteFinalizableHandle(finalizableHandle, object);
   }
 
   late final _deleteFinalizableHandlePtr = _lookup<
@@ -301,7 +270,8 @@ class JniBindings {
 
   late final _GetGlobalEnvPtr =
       _lookup<ffi.NativeFunction<ffi.Pointer<GlobalJniEnvStruct> Function()>>(
-          'GetGlobalEnv');
+    'GetGlobalEnv',
+  );
   late final _GetGlobalEnv =
       _GetGlobalEnvPtr.asFunction<ffi.Pointer<GlobalJniEnvStruct> Function()>();
 }
@@ -316,7 +286,7 @@ enum JniBooleanValues {
   static JniBooleanValues fromValue(int value) => switch (value) {
         0 => FALSE,
         1 => TRUE,
-        _ => throw ArgumentError("Unknown value for JniBooleanValues: $value"),
+        _ => throw ArgumentError('Unknown value for JniBooleanValues: $value'),
       };
 }
 
@@ -334,7 +304,7 @@ enum JniVersions {
         65538 => VERSION_1_2,
         65540 => VERSION_1_4,
         65542 => VERSION_1_6,
-        _ => throw ArgumentError("Unknown value for JniVersions: $value"),
+        _ => throw ArgumentError('Unknown value for JniVersions: $value'),
       };
 }
 
@@ -373,7 +343,7 @@ enum JniErrorCode {
         -5 => EEXIST,
         -6 => EINVAL,
         -99 => SINGLETON_EXISTS,
-        _ => throw ArgumentError("Unknown value for JniErrorCode: $value"),
+        _ => throw ArgumentError('Unknown value for JniErrorCode: $value'),
       };
 }
 
@@ -391,7 +361,7 @@ enum JniBufferWriteBack {
         1 => COMMIT,
         2 => ABORT,
         _ =>
-          throw ArgumentError("Unknown value for JniBufferWriteBack: $value"),
+          throw ArgumentError('Unknown value for JniBufferWriteBack: $value'),
       };
 }
 
@@ -464,7 +434,7 @@ enum JniCallType {
         7 => doubleType,
         8 => objectType,
         9 => voidType,
-        _ => throw ArgumentError("Unknown value for JniCallType: $value"),
+        _ => throw ArgumentError('Unknown value for JniCallType: $value'),
       };
 }
 
@@ -600,7 +570,7 @@ enum JObjectRefType {
         1 => JNILocalRefType,
         2 => JNIGlobalRefType,
         3 => JNIWeakGlobalRefType,
-        _ => throw ArgumentError("Unknown value for JObjectRefType: $value"),
+        _ => throw ArgumentError('Unknown value for JObjectRefType: $value'),
       };
 }
 
@@ -621,11 +591,12 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JClassPtr Function(
-              ffi.Pointer<JniEnv> env,
-              ffi.Pointer<ffi.Char> name,
-              JObjectPtr loader,
-              ffi.Pointer<JByteMarker> buf,
-              JSizeMarker bufLen)>> DefineClass;
+            ffi.Pointer<JniEnv> env,
+            ffi.Pointer<ffi.Char> name,
+            JObjectPtr loader,
+            ffi.Pointer<JByteMarker> buf,
+            JSizeMarker bufLen,
+          )>> DefineClass;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -646,10 +617,11 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JObjectPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr cls,
-              JMethodIDPtr methodId,
-              JBooleanMarker isStatic)>> ToReflectedMethod;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr cls,
+            JMethodIDPtr methodId,
+            JBooleanMarker isStatic,
+          )>> ToReflectedMethod;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -657,16 +629,22 @@ final class JNINativeInterface extends ffi.Struct {
       GetSuperclass;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JBooleanMarker Function(
-                  ffi.Pointer<JniEnv> env, JClassPtr clazz1, JClassPtr clazz2)>>
-      IsAssignableFrom;
+      ffi.NativeFunction<
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz1,
+            JClassPtr clazz2,
+          )>> IsAssignableFrom;
 
   /// spec doesn't show jboolean parameter
   external ffi.Pointer<
       ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JClassPtr cls,
-              JFieldIDPtr fieldID, JBooleanMarker isStatic)>> ToReflectedField;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr cls,
+            JFieldIDPtr fieldID,
+            JBooleanMarker isStatic,
+          )>> ToReflectedField;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -675,8 +653,11 @@ final class JNINativeInterface extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              ffi.Pointer<ffi.Char> message)>> ThrowNew;
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> message,
+          )>> ThrowNew;
 
   external ffi.Pointer<
           ffi.NativeFunction<JThrowablePtr Function(ffi.Pointer<JniEnv> env)>>
@@ -721,10 +702,12 @@ final class JNINativeInterface extends ffi.Struct {
       DeleteLocalRef;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JBooleanMarker Function(
-                  ffi.Pointer<JniEnv> env, JObjectPtr ref1, JObjectPtr ref2)>>
-      IsSameObject;
+      ffi.NativeFunction<
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr ref1,
+            JObjectPtr ref2,
+          )>> IsSameObject;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -744,18 +727,29 @@ final class JNINativeInterface extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> NewObject;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> NewObject;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> NewObjectV;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> NewObjectV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID, ffi.Pointer<JValue> args)>> NewObjectA;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> NewObjectA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -763,815 +757,1172 @@ final class JNINativeInterface extends ffi.Struct {
       GetObjectClass;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JBooleanMarker Function(
-                  ffi.Pointer<JniEnv> env, JObjectPtr obj, JClassPtr clazz)>>
-      IsInstanceOf;
+      ffi.NativeFunction<
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+          )>> IsInstanceOf;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JMethodIDPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetMethodID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallObjectMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallObjectMethodV;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetMethodID;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JObjectPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallObjectMethodA;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallObjectMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JBooleanMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallBooleanMethod;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallObjectMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JBooleanMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallBooleanMethodV;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallObjectMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JBooleanMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodId,
-              ffi.Pointer<JValue> args)>> CallBooleanMethodA;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallBooleanMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JByteMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallByteMethod;
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallBooleanMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JByteMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallByteMethodV;
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodId,
+            ffi.Pointer<JValue> args,
+          )>> CallBooleanMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JByteMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallByteMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JCharMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallCharMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JCharMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallCharMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JCharMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallCharMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JShortMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallShortMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JShortMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallShortMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JShortMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallShortMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallIntMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallIntMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID, ffi.Pointer<JValue> args)>> CallIntMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JLongMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallLongMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JLongMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallLongMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JLongMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallLongMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JFloatMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallFloatMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JFloatMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallFloatMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JFloatMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallFloatMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JDoubleMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallDoubleMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JDoubleMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallDoubleMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JDoubleMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallDoubleMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JMethodIDPtr methodID)>> CallVoidMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv>, JObjectPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallVoidMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallVoidMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObjectPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualObjectMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObjectPtr Function(
-              ffi.Pointer<JniEnv>,
-              JObjectPtr,
-              JClassPtr,
-              JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallNonvirtualObjectMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObjectPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualObjectMethodA;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JBooleanMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualBooleanMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JBooleanMarker Function(
-              ffi.Pointer<JniEnv>,
-              JObjectPtr,
-              JClassPtr,
-              JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallNonvirtualBooleanMethodV;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JBooleanMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualBooleanMethodA;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallByteMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JByteMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualByteMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JByteMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JClassPtr,
-              JMethodIDPtr, ffi.Pointer<ffi.Void>)>> CallNonvirtualByteMethodV;
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallByteMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JByteMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualByteMethodA;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallByteMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JCharMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualCharMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JCharMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JClassPtr,
-              JMethodIDPtr, ffi.Pointer<ffi.Void>)>> CallNonvirtualCharMethodV;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallCharMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JCharMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualCharMethodA;
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallCharMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JCharMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallCharMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JShortMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualShortMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JShortMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JClassPtr,
-              JMethodIDPtr, ffi.Pointer<ffi.Void>)>> CallNonvirtualShortMethodV;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallShortMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JShortMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualShortMethodA;
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallShortMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JClassPtr clazz, JMethodIDPtr methodID)>> CallNonvirtualIntMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JClassPtr,
-              JMethodIDPtr, ffi.Pointer<ffi.Void>)>> CallNonvirtualIntMethodV;
+          JShortMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallShortMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JIntMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualIntMethodA;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallIntMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JIntMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallIntMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallIntMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JLongMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualLongMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JLongMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JClassPtr,
-              JMethodIDPtr, ffi.Pointer<ffi.Void>)>> CallNonvirtualLongMethodV;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallLongMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JLongMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualLongMethodA;
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallLongMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JLongMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallLongMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JFloatMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualFloatMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JFloatMarker Function(ffi.Pointer<JniEnv>, JObjectPtr, JClassPtr,
-              JMethodIDPtr, ffi.Pointer<ffi.Void>)>> CallNonvirtualFloatMethodV;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallFloatMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JFloatMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualFloatMethodA;
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallFloatMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallFloatMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JDoubleMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualDoubleMethod;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallDoubleMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JDoubleMarker Function(
-              ffi.Pointer<JniEnv>,
-              JObjectPtr,
-              JClassPtr,
-              JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallNonvirtualDoubleMethodV;
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallDoubleMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JDoubleMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualDoubleMethodA;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallDoubleMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallNonvirtualVoidMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv>, JObjectPtr, JClassPtr,
-              JMethodIDPtr, ffi.Pointer<ffi.Void>)>> CallNonvirtualVoidMethodV;
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+          )>> CallVoidMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualVoidMethodA;
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallVoidMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallVoidMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualObjectMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualObjectMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualObjectMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualBooleanMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualBooleanMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualBooleanMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JByteMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualByteMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JByteMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualByteMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JByteMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualByteMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JCharMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualCharMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JCharMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualCharMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JCharMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualCharMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JShortMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualShortMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JShortMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualShortMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JShortMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualShortMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualIntMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JIntMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualIntMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualIntMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JLongMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualLongMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JLongMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualLongMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JLongMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualLongMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualFloatMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualFloatMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualFloatMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JDoubleMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualDoubleMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JDoubleMarker Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualDoubleMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JDoubleMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualDoubleMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualVoidMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<JniEnv>,
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualVoidMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualVoidMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JFieldIDPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetFieldID;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetFieldID;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetObjectField;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetObjectField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JBooleanMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetBooleanField;
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetBooleanField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JByteMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetByteField;
+          JByteMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetByteField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JCharMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetCharField;
+          JCharMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetCharField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JShortMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetShortField;
+          JShortMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetShortField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetIntField;
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetIntField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JLongMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetLongField;
+          JLongMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetLongField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JFloatMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetFloatField;
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetFloatField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JDoubleMarker Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID)>> GetDoubleField;
+          JDoubleMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+          )>> GetDoubleField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JObjectPtr val)>> SetObjectField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JObjectPtr val,
+          )>> SetObjectField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JBooleanMarker val)>> SetBooleanField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JBooleanMarker val,
+          )>> SetBooleanField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JByteMarker val)>> SetByteField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JByteMarker val,
+          )>> SetByteField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JCharMarker val)>> SetCharField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JCharMarker val,
+          )>> SetCharField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JShortMarker val)>> SetShortField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JShortMarker val,
+          )>> SetShortField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JIntMarker val)>> SetIntField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JIntMarker val,
+          )>> SetIntField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JLongMarker val)>> SetLongField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JLongMarker val,
+          )>> SetLongField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JFloatMarker val)>> SetFloatField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JFloatMarker val,
+          )>> SetFloatField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectPtr obj,
-              JFieldIDPtr fieldID, JDoubleMarker val)>> SetDoubleField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JDoubleMarker val,
+          )>> SetDoubleField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JMethodIDPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetStaticMethodID;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticObjectMethod;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticObjectMethodV;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetStaticMethodID;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JObjectPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticObjectMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticObjectMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JBooleanMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticBooleanMethod;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticObjectMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JBooleanMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticBooleanMethodV;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticObjectMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JBooleanMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticBooleanMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticBooleanMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JByteMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticByteMethod;
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticBooleanMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JByteMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticByteMethodV;
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticBooleanMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JByteMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticByteMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticByteMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JCharMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticCharMethod;
+          JByteMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticByteMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JCharMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticCharMethodV;
+          JByteMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticByteMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JCharMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticCharMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticCharMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JShortMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticShortMethod;
+          JCharMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticCharMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JShortMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticShortMethodV;
+          JCharMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticCharMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JShortMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticShortMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticShortMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticIntMethod;
+          JShortMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticShortMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticIntMethodV;
+          JShortMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticShortMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JIntMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticIntMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticIntMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JLongMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticLongMethod;
+          JIntMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticIntMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JLongMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticLongMethodV;
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticIntMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JLongMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticLongMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticLongMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JFloatMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticFloatMethod;
+          JLongMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticLongMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JFloatMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticFloatMethodV;
+          JLongMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticLongMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JFloatMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticFloatMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticFloatMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JDoubleMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticDoubleMethod;
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticFloatMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JDoubleMarker Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticDoubleMethodV;
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticFloatMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JDoubleMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticDoubleMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticDoubleMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JMethodIDPtr methodID)>> CallStaticVoidMethod;
+          JDoubleMarker Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticDoubleMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv>, JClassPtr, JMethodIDPtr,
-              ffi.Pointer<ffi.Void>)>> CallStaticVoidMethodV;
+          JDoubleMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticDoubleMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticVoidMethodA;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallStaticVoidMethod;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<JniEnv>,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallStaticVoidMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticVoidMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JFieldIDPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetStaticFieldID;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetStaticFieldID;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticObjectField;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticObjectField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JBooleanMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticBooleanField;
+          JBooleanMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticBooleanField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JByteMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticByteField;
+          JByteMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticByteField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JCharMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticCharField;
+          JCharMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticCharField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JShortMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticShortField;
+          JShortMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticShortField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticIntField;
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticIntField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JLongMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticLongField;
+          JLongMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticLongField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JFloatMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticFloatField;
+          JFloatMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticFloatField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JDoubleMarker Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID)>> GetStaticDoubleField;
+          JDoubleMarker Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+          )>> GetStaticDoubleField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JObjectPtr val)>> SetStaticObjectField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JObjectPtr val,
+          )>> SetStaticObjectField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JBooleanMarker val)>> SetStaticBooleanField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JBooleanMarker val,
+          )>> SetStaticBooleanField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JByteMarker val)>> SetStaticByteField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JByteMarker val,
+          )>> SetStaticByteField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JCharMarker val)>> SetStaticCharField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JCharMarker val,
+          )>> SetStaticCharField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JShortMarker val)>> SetStaticShortField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JShortMarker val,
+          )>> SetStaticShortField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JIntMarker val)>> SetStaticIntField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JIntMarker val,
+          )>> SetStaticIntField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JLongMarker val)>> SetStaticLongField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JLongMarker val,
+          )>> SetStaticLongField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JFloatMarker val)>> SetStaticFloatField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JFloatMarker val,
+          )>> SetStaticFloatField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JClassPtr clazz,
-              JFieldIDPtr fieldID, JDoubleMarker val)>> SetStaticDoubleField;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JDoubleMarker val,
+          )>> SetStaticDoubleField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JStringPtr Function(
-              ffi.Pointer<JniEnv> env,
-              ffi.Pointer<JCharMarker> unicodeChars,
-              JSizeMarker len)>> NewString;
+            ffi.Pointer<JniEnv> env,
+            ffi.Pointer<JCharMarker> unicodeChars,
+            JSizeMarker len,
+          )>> NewString;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -1581,14 +1932,18 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JCharMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JStringPtr string,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetStringChars;
+            ffi.Pointer<JniEnv> env,
+            JStringPtr string,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetStringChars;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JStringPtr string,
-              ffi.Pointer<JCharMarker> isCopy)>> ReleaseStringChars;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JStringPtr string,
+            ffi.Pointer<JCharMarker> isCopy,
+          )>> ReleaseStringChars;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -1604,14 +1959,18 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<JniEnv> env,
-              JStringPtr string,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetStringUTFChars;
+            ffi.Pointer<JniEnv> env,
+            JStringPtr string,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetStringUTFChars;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JStringPtr string,
-              ffi.Pointer<ffi.Char> utf)>> ReleaseStringUTFChars;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JStringPtr string,
+            ffi.Pointer<ffi.Char> utf,
+          )>> ReleaseStringUTFChars;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -1621,20 +1980,28 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JObjectArrayPtr Function(
-              ffi.Pointer<JniEnv> env,
-              JSizeMarker length,
-              JClassPtr elementClass,
-              JObjectPtr initialElement)>> NewObjectArray;
+            ffi.Pointer<JniEnv> env,
+            JSizeMarker length,
+            JClassPtr elementClass,
+            JObjectPtr initialElement,
+          )>> NewObjectArray;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JObjectPtr Function(ffi.Pointer<JniEnv> env, JObjectArrayPtr array,
-              JSizeMarker index)>> GetObjectArrayElement;
+          JObjectPtr Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectArrayPtr array,
+            JSizeMarker index,
+          )>> GetObjectArrayElement;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JObjectArrayPtr array,
-              JSizeMarker index, JObjectPtr val)>> SetObjectArrayElement;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JObjectArrayPtr array,
+            JSizeMarker index,
+            JObjectPtr val,
+          )>> SetObjectArrayElement;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -1679,275 +2046,308 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JBooleanMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JBooleanArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetBooleanArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JBooleanArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetBooleanArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JByteMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JByteArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetByteArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JByteArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetByteArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JCharMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JCharArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetCharArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JCharArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetCharArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JShortMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JShortArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetShortArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JShortArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetShortArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JIntMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JIntArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetIntArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JIntArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetIntArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JLongMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JLongArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetLongArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JLongArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetLongArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JFloatMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JFloatArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetFloatArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JFloatArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetFloatArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JDoubleMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JDoubleArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetDoubleArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JDoubleArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetDoubleArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JBooleanArrayPtr array,
-              ffi.Pointer<JBooleanMarker> elems,
-              JIntMarker mode)>> ReleaseBooleanArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JBooleanArrayPtr array,
+            ffi.Pointer<JBooleanMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseBooleanArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JByteArrayPtr array,
-              ffi.Pointer<JByteMarker> elems,
-              JIntMarker mode)>> ReleaseByteArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JByteArrayPtr array,
+            ffi.Pointer<JByteMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseByteArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JCharArrayPtr array,
-              ffi.Pointer<JCharMarker> elems,
-              JIntMarker mode)>> ReleaseCharArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JCharArrayPtr array,
+            ffi.Pointer<JCharMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseCharArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JShortArrayPtr array,
-              ffi.Pointer<JShortMarker> elems,
-              JIntMarker mode)>> ReleaseShortArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JShortArrayPtr array,
+            ffi.Pointer<JShortMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseShortArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JIntArrayPtr array,
-              ffi.Pointer<JIntMarker> elems,
-              JIntMarker mode)>> ReleaseIntArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JIntArrayPtr array,
+            ffi.Pointer<JIntMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseIntArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JLongArrayPtr array,
-              ffi.Pointer<JLongMarker> elems,
-              JIntMarker mode)>> ReleaseLongArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JLongArrayPtr array,
+            ffi.Pointer<JLongMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseLongArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JFloatArrayPtr array,
-              ffi.Pointer<JFloatMarker> elems,
-              JIntMarker mode)>> ReleaseFloatArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JFloatArrayPtr array,
+            ffi.Pointer<JFloatMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseFloatArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JDoubleArrayPtr array,
-              ffi.Pointer<JDoubleMarker> elems,
-              JIntMarker mode)>> ReleaseDoubleArrayElements;
+            ffi.Pointer<JniEnv> env,
+            JDoubleArrayPtr array,
+            ffi.Pointer<JDoubleMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseDoubleArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JBooleanArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JBooleanMarker> buf)>> GetBooleanArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JBooleanArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JBooleanMarker> buf,
+          )>> GetBooleanArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JByteArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JByteMarker> buf)>> GetByteArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JByteArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JByteMarker> buf,
+          )>> GetByteArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JCharArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JCharMarker> buf)>> GetCharArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JCharArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JCharMarker> buf,
+          )>> GetCharArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JShortArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JShortMarker> buf)>> GetShortArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JShortArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JShortMarker> buf,
+          )>> GetShortArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JIntArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JIntMarker> buf)>> GetIntArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JIntArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JIntMarker> buf,
+          )>> GetIntArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JLongArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JLongMarker> buf)>> GetLongArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JLongArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JLongMarker> buf,
+          )>> GetLongArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JFloatArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JFloatMarker> buf)>> GetFloatArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JFloatArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JFloatMarker> buf,
+          )>> GetFloatArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JDoubleArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JDoubleMarker> buf)>> GetDoubleArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JDoubleArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JDoubleMarker> buf,
+          )>> GetDoubleArrayRegion;
 
   /// spec shows these without const; some jni.h do, some don't
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JBooleanArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JBooleanMarker> buf)>> SetBooleanArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JBooleanArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JBooleanMarker> buf,
+          )>> SetBooleanArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JByteArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JByteMarker> buf)>> SetByteArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JByteArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JByteMarker> buf,
+          )>> SetByteArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JCharArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JCharMarker> buf)>> SetCharArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JCharArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JCharMarker> buf,
+          )>> SetCharArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JShortArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JShortMarker> buf)>> SetShortArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JShortArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JShortMarker> buf,
+          )>> SetShortArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JIntArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JIntMarker> buf)>> SetIntArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JIntArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JIntMarker> buf,
+          )>> SetIntArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JLongArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JLongMarker> buf)>> SetLongArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JLongArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JLongMarker> buf,
+          )>> SetLongArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JFloatArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JFloatMarker> buf)>> SetFloatArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JFloatArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JFloatMarker> buf,
+          )>> SetFloatArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JDoubleArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JDoubleMarker> buf)>> SetDoubleArrayRegion;
+            ffi.Pointer<JniEnv> env,
+            JDoubleArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JDoubleMarker> buf,
+          )>> SetDoubleArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JIntMarker Function(
-              ffi.Pointer<JniEnv> env,
-              JClassPtr clazz,
-              ffi.Pointer<JNINativeMethod> methods,
-              JIntMarker nMethods)>> RegisterNatives;
+            ffi.Pointer<JniEnv> env,
+            JClassPtr clazz,
+            ffi.Pointer<JNINativeMethod> methods,
+            JIntMarker nMethods,
+          )>> RegisterNatives;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -1966,53 +2366,63 @@ final class JNINativeInterface extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JIntMarker Function(ffi.Pointer<JniEnv> env,
-              ffi.Pointer<ffi.Pointer<JavaVM>> vm)>> GetJavaVM;
+          JIntMarker Function(
+            ffi.Pointer<JniEnv> env,
+            ffi.Pointer<ffi.Pointer<JavaVM>> vm,
+          )>> GetJavaVM;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JStringPtr str,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JCharMarker> buf)>> GetStringRegion;
+            ffi.Pointer<JniEnv> env,
+            JStringPtr str,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JCharMarker> buf,
+          )>> GetStringRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JStringPtr str,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<ffi.Char> buf)>> GetStringUTFRegion;
+            ffi.Pointer<JniEnv> env,
+            JStringPtr str,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<ffi.Char> buf,
+          )>> GetStringUTFRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<JniEnv> env,
-              JArrayPtr array,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetPrimitiveArrayCritical;
+            ffi.Pointer<JniEnv> env,
+            JArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetPrimitiveArrayCritical;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Void Function(
-              ffi.Pointer<JniEnv> env,
-              JArrayPtr array,
-              ffi.Pointer<ffi.Void> carray,
-              JIntMarker mode)>> ReleasePrimitiveArrayCritical;
+            ffi.Pointer<JniEnv> env,
+            JArrayPtr array,
+            ffi.Pointer<ffi.Void> carray,
+            JIntMarker mode,
+          )>> ReleasePrimitiveArrayCritical;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           ffi.Pointer<JCharMarker> Function(
-              ffi.Pointer<JniEnv> env,
-              JStringPtr str,
-              ffi.Pointer<JBooleanMarker> isCopy)>> GetStringCritical;
+            ffi.Pointer<JniEnv> env,
+            JStringPtr str,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetStringCritical;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<JniEnv> env, JStringPtr str,
-              ffi.Pointer<JCharMarker> carray)>> ReleaseStringCritical;
+          ffi.Void Function(
+            ffi.Pointer<JniEnv> env,
+            JStringPtr str,
+            ffi.Pointer<JCharMarker> carray,
+          )>> ReleaseStringCritical;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2031,9 +2441,10 @@ final class JNINativeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JObjectPtr Function(
-              ffi.Pointer<JniEnv> env,
-              ffi.Pointer<ffi.Void> address,
-              JLongMarker capacity)>> NewDirectByteBuffer;
+            ffi.Pointer<JniEnv> env,
+            ffi.Pointer<ffi.Void> address,
+            JLongMarker capacity,
+          )>> NewDirectByteBuffer;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -2052,7 +2463,7 @@ final class JNINativeInterface extends ffi.Struct {
               ffi.Pointer<JniEnv> env, JObjectPtr obj)>> GetObjectRefType;
 }
 
-typedef JniEnv1 = ffi.Pointer<JNINativeInterface>;
+typedef JniEnv$1 = ffi.Pointer<JNINativeInterface>;
 
 /// JNI invocation interface.
 final class JNIInvokeInterface extends ffi.Struct {
@@ -2069,9 +2480,10 @@ final class JNIInvokeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JIntMarker Function(
-              ffi.Pointer<JavaVM> vm,
-              ffi.Pointer<ffi.Pointer<JniEnv1>> p_env,
-              ffi.Pointer<ffi.Void> thr_args)>> AttachCurrentThread;
+            ffi.Pointer<JavaVM> vm,
+            ffi.Pointer<ffi.Pointer<JniEnv$1>> p_env,
+            ffi.Pointer<ffi.Void> thr_args,
+          )>> AttachCurrentThread;
 
   external ffi
       .Pointer<ffi.NativeFunction<JIntMarker Function(ffi.Pointer<JavaVM> vm)>>
@@ -2080,19 +2492,21 @@ final class JNIInvokeInterface extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JIntMarker Function(
-              ffi.Pointer<JavaVM> vm,
-              ffi.Pointer<ffi.Pointer<ffi.Void>> p_env,
-              JIntMarker version)>> GetEnv;
+            ffi.Pointer<JavaVM> vm,
+            ffi.Pointer<ffi.Pointer<ffi.Void>> p_env,
+            JIntMarker version,
+          )>> GetEnv;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JIntMarker Function(
-              ffi.Pointer<JavaVM> vm,
-              ffi.Pointer<ffi.Pointer<JniEnv1>> p_env,
-              ffi.Pointer<ffi.Void> thr_args)>> AttachCurrentThreadAsDaemon;
+            ffi.Pointer<JavaVM> vm,
+            ffi.Pointer<ffi.Pointer<JniEnv$1>> p_env,
+            ffi.Pointer<ffi.Void> thr_args,
+          )>> AttachCurrentThreadAsDaemon;
 }
 
-typedef JavaVM1 = ffi.Pointer<JNIInvokeInterface>;
+typedef JavaVM$1 = ffi.Pointer<JNIInvokeInterface>;
 
 /// JNI 1.2+ initialization.  (As of 1.6, the pre-1.2 structures are no
 /// longer supported.)
@@ -2116,9 +2530,9 @@ final class JavaVMInitArgs extends ffi.Struct {
   external int ignoreUnrecognized;
 }
 
-final class _Dart_FinalizableHandle extends ffi.Opaque {}
+final class Dart_FinalizableHandle_ extends ffi.Opaque {}
 
-typedef Dart_FinalizableHandle = ffi.Pointer<_Dart_FinalizableHandle>;
+typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
 
 final class GlobalJniEnvStruct extends ffi.Struct {
   external ffi.Pointer<ffi.Void> reserved0;
@@ -2134,10 +2548,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
   external ffi.Pointer<
       ffi.NativeFunction<
           JniClassLookupResult Function(
-              ffi.Pointer<ffi.Char> name,
-              JObjectPtr loader,
-              ffi.Pointer<JByteMarker> buf,
-              JSizeMarker bufLen)>> DefineClass;
+            ffi.Pointer<ffi.Char> name,
+            JObjectPtr loader,
+            ffi.Pointer<JByteMarker> buf,
+            JSizeMarker bufLen,
+          )>> DefineClass;
 
   external ffi.Pointer<
       ffi.NativeFunction<
@@ -2153,8 +2568,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr cls, JMethodIDPtr methodId,
-              JBooleanMarker isStatic)>> ToReflectedMethod;
+          JniResult Function(
+            JClassPtr cls,
+            JMethodIDPtr methodId,
+            JBooleanMarker isStatic,
+          )>> ToReflectedMethod;
 
   external ffi.Pointer<
           ffi.NativeFunction<JniClassLookupResult Function(JClassPtr clazz)>>
@@ -2166,10 +2584,12 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       IsAssignableFrom;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JClassPtr cls, JFieldIDPtr fieldID, JBooleanMarker isStatic)>>
-      ToReflectedField;
+      ffi.NativeFunction<
+          JniResult Function(
+            JClassPtr cls,
+            JFieldIDPtr fieldID,
+            JBooleanMarker isStatic,
+          )>> ToReflectedField;
 
   external ffi
       .Pointer<ffi.NativeFunction<JniResult Function(JThrowablePtr obj)>> Throw;
@@ -2238,8 +2658,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> NewObjectA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> NewObjectA;
 
   external ffi.Pointer<
           ffi.NativeFunction<JniClassLookupResult Function(JObjectPtr obj)>>
@@ -2252,8 +2675,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetMethodID;
+          JniPointerResult Function(
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetMethodID;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2268,8 +2694,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallObjectMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallObjectMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2284,8 +2713,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodId,
-              ffi.Pointer<JValue> args)>> CallBooleanMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodId,
+            ffi.Pointer<JValue> args,
+          )>> CallBooleanMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2300,8 +2732,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallByteMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallByteMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2316,8 +2751,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallCharMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallCharMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2332,8 +2770,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallShortMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallShortMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2347,8 +2788,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallIntMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallIntMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2363,8 +2807,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallLongMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallLongMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2379,8 +2826,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallFloatMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallFloatMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2395,8 +2845,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallDoubleMethodA;
+          JniResult Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallDoubleMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2411,8 +2864,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JObjectPtr obj, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallVoidMethodA;
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallVoidMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2421,18 +2877,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualObjectMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualObjectMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualObjectMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualObjectMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualObjectMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2441,18 +2901,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualBooleanMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualBooleanMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualBooleanMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualBooleanMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualBooleanMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2461,18 +2925,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualByteMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualByteMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualByteMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualByteMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualByteMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2481,18 +2949,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualCharMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualCharMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualCharMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualCharMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualCharMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2501,18 +2973,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualShortMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualShortMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualShortMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualShortMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualShortMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2521,18 +2997,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualIntMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualIntMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualIntMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualIntMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualIntMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2541,18 +3021,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualLongMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualLongMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualLongMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualLongMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualLongMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2561,18 +3045,22 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualFloatMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualFloatMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualFloatMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualFloatMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualFloatMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2581,43 +3069,56 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       CallNonvirtualDoubleMethod;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniResult Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualDoubleMethodV;
+      ffi.NativeFunction<
+          JniResult Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualDoubleMethodV;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualDoubleMethodA;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JClassPtr clazz, JMethodIDPtr methodID)>>
-      CallNonvirtualVoidMethod;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr, JClassPtr, JMethodIDPtr, ffi.Pointer<ffi.Void>)>>
-      CallNonvirtualVoidMethodV;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualDoubleMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JObjectPtr obj,
-              JClassPtr clazz,
-              JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallNonvirtualVoidMethodA;
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+          )>> CallNonvirtualVoidMethod;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetFieldID;
+          JThrowablePtr Function(
+            JObjectPtr,
+            JClassPtr,
+            JMethodIDPtr,
+            ffi.Pointer<ffi.Void>,
+          )>> CallNonvirtualVoidMethodV;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallNonvirtualVoidMethodA;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetFieldID;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2664,63 +3165,84 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetDoubleField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JObjectPtr val)>>
-      SetObjectField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JBooleanMarker val)>>
-      SetBooleanField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JByteMarker val)>>
-      SetByteField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JCharMarker val)>>
-      SetCharField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JShortMarker val)>>
-      SetShortField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JIntMarker val)>>
-      SetIntField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JLongMarker val)>>
-      SetLongField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JFloatMarker val)>>
-      SetFloatField;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectPtr obj, JFieldIDPtr fieldID, JDoubleMarker val)>>
-      SetDoubleField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JObjectPtr val,
+          )>> SetObjectField;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetStaticMethodID;
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JBooleanMarker val,
+          )>> SetBooleanField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JByteMarker val,
+          )>> SetByteField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JCharMarker val,
+          )>> SetCharField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JShortMarker val,
+          )>> SetShortField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JIntMarker val,
+          )>> SetIntField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JLongMarker val,
+          )>> SetLongField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JFloatMarker val,
+          )>> SetFloatField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectPtr obj,
+            JFieldIDPtr fieldID,
+            JDoubleMarker val,
+          )>> SetDoubleField;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetStaticMethodID;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2735,8 +3257,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticObjectMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticObjectMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2751,8 +3276,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticBooleanMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticBooleanMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2767,8 +3295,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticByteMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticByteMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2783,8 +3314,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticCharMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticCharMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2799,8 +3333,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticShortMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticShortMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2815,8 +3352,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticIntMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticIntMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2831,8 +3371,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticLongMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticLongMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2847,8 +3390,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticFloatMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticFloatMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2863,8 +3409,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticDoubleMethodA;
+          JniResult Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticDoubleMethodA;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2879,13 +3428,19 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JClassPtr clazz, JMethodIDPtr methodID,
-              ffi.Pointer<JValue> args)>> CallStaticVoidMethodA;
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JMethodIDPtr methodID,
+            ffi.Pointer<JValue> args,
+          )>> CallStaticVoidMethodA;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniPointerResult Function(JClassPtr clazz, ffi.Pointer<ffi.Char> name,
-              ffi.Pointer<ffi.Char> sig)>> GetStaticFieldID;
+          JniPointerResult Function(
+            JClassPtr clazz,
+            ffi.Pointer<ffi.Char> name,
+            ffi.Pointer<ffi.Char> sig,
+          )>> GetStaticFieldID;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2933,58 +3488,76 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetStaticDoubleField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JObjectPtr val)>>
-      SetStaticObjectField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JObjectPtr val,
+          )>> SetStaticObjectField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JBooleanMarker val)>>
-      SetStaticBooleanField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JBooleanMarker val,
+          )>> SetStaticBooleanField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JByteMarker val)>>
-      SetStaticByteField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JByteMarker val,
+          )>> SetStaticByteField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JCharMarker val)>>
-      SetStaticCharField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JCharMarker val,
+          )>> SetStaticCharField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JShortMarker val)>>
-      SetStaticShortField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JShortMarker val,
+          )>> SetStaticShortField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JIntMarker val)>>
-      SetStaticIntField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JIntMarker val,
+          )>> SetStaticIntField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JLongMarker val)>>
-      SetStaticLongField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JLongMarker val,
+          )>> SetStaticLongField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JFloatMarker val)>>
-      SetStaticFloatField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JFloatMarker val,
+          )>> SetStaticFloatField;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JClassPtr clazz, JFieldIDPtr fieldID, JDoubleMarker val)>>
-      SetStaticDoubleField;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JClassPtr clazz,
+            JFieldIDPtr fieldID,
+            JDoubleMarker val,
+          )>> SetStaticDoubleField;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -2997,10 +3570,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetStringLength;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JStringPtr string, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetStringChars;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JStringPtr string,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetStringChars;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3017,10 +3591,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetStringUTFLength;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JStringPtr string, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetStringUTFChars;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JStringPtr string,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetStringUTFChars;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3033,8 +3608,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(JSizeMarker length, JClassPtr elementClass,
-              JObjectPtr initialElement)>> NewObjectArray;
+          JniResult Function(
+            JSizeMarker length,
+            JClassPtr elementClass,
+            JObjectPtr initialElement,
+          )>> NewObjectArray;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3042,10 +3620,12 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetObjectArrayElement;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JObjectArrayPtr array, JSizeMarker index, JObjectPtr val)>>
-      SetObjectArrayElement;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JObjectArrayPtr array,
+            JSizeMarker index,
+            JObjectPtr val,
+          )>> SetObjectArrayElement;
 
   external ffi
       .Pointer<ffi.NativeFunction<JniResult Function(JSizeMarker length)>>
@@ -3080,237 +3660,276 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       NewDoubleArray;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JBooleanArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetBooleanArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JBooleanArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetBooleanArrayElements;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JByteArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetByteArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JByteArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetByteArrayElements;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JCharArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetCharArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JCharArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetCharArrayElements;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JShortArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetShortArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JShortArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetShortArrayElements;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JIntArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetIntArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JIntArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetIntArrayElements;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JLongArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetLongArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JLongArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetLongArrayElements;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JFloatArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetFloatArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JFloatArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetFloatArrayElements;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JDoubleArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetDoubleArrayElements;
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JDoubleArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetDoubleArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JBooleanArrayPtr array,
-              ffi.Pointer<JBooleanMarker> elems,
-              JIntMarker mode)>> ReleaseBooleanArrayElements;
+            JBooleanArrayPtr array,
+            ffi.Pointer<JBooleanMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseBooleanArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JByteArrayPtr array,
-              ffi.Pointer<JByteMarker> elems,
-              JIntMarker mode)>> ReleaseByteArrayElements;
+            JByteArrayPtr array,
+            ffi.Pointer<JByteMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseByteArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JCharArrayPtr array,
-              ffi.Pointer<JCharMarker> elems,
-              JIntMarker mode)>> ReleaseCharArrayElements;
+            JCharArrayPtr array,
+            ffi.Pointer<JCharMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseCharArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JShortArrayPtr array,
-              ffi.Pointer<JShortMarker> elems,
-              JIntMarker mode)>> ReleaseShortArrayElements;
+            JShortArrayPtr array,
+            ffi.Pointer<JShortMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseShortArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JIntArrayPtr array,
-              ffi.Pointer<JIntMarker> elems,
-              JIntMarker mode)>> ReleaseIntArrayElements;
+            JIntArrayPtr array,
+            ffi.Pointer<JIntMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseIntArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JLongArrayPtr array,
-              ffi.Pointer<JLongMarker> elems,
-              JIntMarker mode)>> ReleaseLongArrayElements;
+            JLongArrayPtr array,
+            ffi.Pointer<JLongMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseLongArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JFloatArrayPtr array,
-              ffi.Pointer<JFloatMarker> elems,
-              JIntMarker mode)>> ReleaseFloatArrayElements;
+            JFloatArrayPtr array,
+            ffi.Pointer<JFloatMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseFloatArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JDoubleArrayPtr array,
-              ffi.Pointer<JDoubleMarker> elems,
-              JIntMarker mode)>> ReleaseDoubleArrayElements;
+            JDoubleArrayPtr array,
+            ffi.Pointer<JDoubleMarker> elems,
+            JIntMarker mode,
+          )>> ReleaseDoubleArrayElements;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JBooleanArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JBooleanMarker> buf)>> GetBooleanArrayRegion;
+            JBooleanArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JBooleanMarker> buf,
+          )>> GetBooleanArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JByteArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JByteMarker> buf)>> GetByteArrayRegion;
+            JByteArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JByteMarker> buf,
+          )>> GetByteArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JCharArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JCharMarker> buf)>> GetCharArrayRegion;
+            JCharArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JCharMarker> buf,
+          )>> GetCharArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JShortArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JShortMarker> buf)>> GetShortArrayRegion;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JThrowablePtr Function(JIntArrayPtr array, JSizeMarker start,
-              JSizeMarker len, ffi.Pointer<JIntMarker> buf)>> GetIntArrayRegion;
+            JShortArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JShortMarker> buf,
+          )>> GetShortArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JLongArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JLongMarker> buf)>> GetLongArrayRegion;
+            JIntArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JIntMarker> buf,
+          )>> GetIntArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JFloatArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JFloatMarker> buf)>> GetFloatArrayRegion;
+            JLongArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JLongMarker> buf,
+          )>> GetLongArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JDoubleArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JDoubleMarker> buf)>> GetDoubleArrayRegion;
+            JFloatArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JFloatMarker> buf,
+          )>> GetFloatArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JBooleanArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JBooleanMarker> buf)>> SetBooleanArrayRegion;
+            JDoubleArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JDoubleMarker> buf,
+          )>> GetDoubleArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JByteArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JByteMarker> buf)>> SetByteArrayRegion;
+            JBooleanArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JBooleanMarker> buf,
+          )>> SetBooleanArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JCharArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JCharMarker> buf)>> SetCharArrayRegion;
+            JByteArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JByteMarker> buf,
+          )>> SetByteArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JShortArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JShortMarker> buf)>> SetShortArrayRegion;
-
-  external ffi.Pointer<
-      ffi.NativeFunction<
-          JThrowablePtr Function(JIntArrayPtr array, JSizeMarker start,
-              JSizeMarker len, ffi.Pointer<JIntMarker> buf)>> SetIntArrayRegion;
+            JCharArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JCharMarker> buf,
+          )>> SetCharArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JLongArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JLongMarker> buf)>> SetLongArrayRegion;
+            JShortArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JShortMarker> buf,
+          )>> SetShortArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JFloatArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JFloatMarker> buf)>> SetFloatArrayRegion;
+            JIntArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JIntMarker> buf,
+          )>> SetIntArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JThrowablePtr Function(
-              JDoubleArrayPtr array,
-              JSizeMarker start,
-              JSizeMarker len,
-              ffi.Pointer<JDoubleMarker> buf)>> SetDoubleArrayRegion;
+            JLongArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JLongMarker> buf,
+          )>> SetLongArrayRegion;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JFloatArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JFloatMarker> buf,
+          )>> SetFloatArrayRegion;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JDoubleArrayPtr array,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JDoubleMarker> buf,
+          )>> SetDoubleArrayRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
           JniResult Function(
-              JClassPtr clazz,
-              ffi.Pointer<JNINativeMethod> methods,
-              JIntMarker nMethods)>> RegisterNatives;
+            JClassPtr clazz,
+            ffi.Pointer<JNINativeMethod> methods,
+            JIntMarker nMethods,
+          )>> RegisterNatives;
 
   external ffi.Pointer<ffi.NativeFunction<JniResult Function(JClassPtr clazz)>>
       UnregisterNatives;
@@ -3323,34 +3942,47 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM1>> vm)>> GetJavaVM;
+          JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM$1>> vm)>> GetJavaVM;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JStringPtr str, JSizeMarker start,
-              JSizeMarker len, ffi.Pointer<JCharMarker> buf)>> GetStringRegion;
+          JThrowablePtr Function(
+            JStringPtr str,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<JCharMarker> buf,
+          )>> GetStringRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JStringPtr str, JSizeMarker start,
-              JSizeMarker len, ffi.Pointer<ffi.Char> buf)>> GetStringUTFRegion;
-
-  external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JArrayPtr array, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetPrimitiveArrayCritical;
+          JThrowablePtr Function(
+            JStringPtr str,
+            JSizeMarker start,
+            JSizeMarker len,
+            ffi.Pointer<ffi.Char> buf,
+          )>> GetStringUTFRegion;
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JArrayPtr array, ffi.Pointer<ffi.Void> carray,
-              JIntMarker mode)>> ReleasePrimitiveArrayCritical;
+          JniPointerResult Function(
+            JArrayPtr array,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetPrimitiveArrayCritical;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JniPointerResult Function(
-                  JStringPtr str, ffi.Pointer<JBooleanMarker> isCopy)>>
-      GetStringCritical;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JArrayPtr array,
+            ffi.Pointer<ffi.Void> carray,
+            JIntMarker mode,
+          )>> ReleasePrimitiveArrayCritical;
+
+  external ffi.Pointer<
+      ffi.NativeFunction<
+          JniPointerResult Function(
+            JStringPtr str,
+            ffi.Pointer<JBooleanMarker> isCopy,
+          )>> GetStringCritical;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3389,8 +4021,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JBooleanArrayPtr array, JSizeMarker index,
-              JBooleanMarker element)>> SetBooleanArrayElement;
+          JThrowablePtr Function(
+            JBooleanArrayPtr array,
+            JSizeMarker index,
+            JBooleanMarker element,
+          )>> SetBooleanArrayElement;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3398,10 +4033,12 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetByteArrayElement;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JByteArrayPtr array, JSizeMarker index, JByteMarker element)>>
-      SetByteArrayElement;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JByteArrayPtr array,
+            JSizeMarker index,
+            JByteMarker element,
+          )>> SetByteArrayElement;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3409,10 +4046,12 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetCharArrayElement;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JCharArrayPtr array, JSizeMarker index, JCharMarker element)>>
-      SetCharArrayElement;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JCharArrayPtr array,
+            JSizeMarker index,
+            JCharMarker element,
+          )>> SetCharArrayElement;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3421,8 +4060,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JShortArrayPtr array, JSizeMarker index,
-              JShortMarker element)>> SetShortArrayElement;
+          JThrowablePtr Function(
+            JShortArrayPtr array,
+            JSizeMarker index,
+            JShortMarker element,
+          )>> SetShortArrayElement;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3430,10 +4072,12 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetIntArrayElement;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JIntArrayPtr array, JSizeMarker index, JIntMarker element)>>
-      SetIntArrayElement;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JIntArrayPtr array,
+            JSizeMarker index,
+            JIntMarker element,
+          )>> SetIntArrayElement;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3441,10 +4085,12 @@ final class GlobalJniEnvStruct extends ffi.Struct {
       GetLongArrayElement;
 
   external ffi.Pointer<
-          ffi.NativeFunction<
-              JThrowablePtr Function(
-                  JLongArrayPtr array, JSizeMarker index, JLongMarker element)>>
-      SetLongArrayElement;
+      ffi.NativeFunction<
+          JThrowablePtr Function(
+            JLongArrayPtr array,
+            JSizeMarker index,
+            JLongMarker element,
+          )>> SetLongArrayElement;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3453,8 +4099,11 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JFloatArrayPtr array, JSizeMarker index,
-              JFloatMarker element)>> SetFloatArrayElement;
+          JThrowablePtr Function(
+            JFloatArrayPtr array,
+            JSizeMarker index,
+            JFloatMarker element,
+          )>> SetFloatArrayElement;
 
   external ffi.Pointer<
           ffi.NativeFunction<
@@ -3463,6 +4112,9 @@ final class GlobalJniEnvStruct extends ffi.Struct {
 
   external ffi.Pointer<
       ffi.NativeFunction<
-          JThrowablePtr Function(JDoubleArrayPtr array, JSizeMarker index,
-              JDoubleMarker element)>> SetDoubleArrayElement;
+          JThrowablePtr Function(
+            JDoubleArrayPtr array,
+            JSizeMarker index,
+            JDoubleMarker element,
+          )>> SetDoubleArrayElement;
 }

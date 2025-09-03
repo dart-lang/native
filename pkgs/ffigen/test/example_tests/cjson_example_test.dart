@@ -21,7 +21,7 @@ void main() {
       final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'example_c_json.dart', [
-        config.output.toFilePath(),
+        config.output.dartFile.toFilePath(),
       ]);
     });
   });

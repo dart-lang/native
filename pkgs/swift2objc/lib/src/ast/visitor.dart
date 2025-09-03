@@ -2,8 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
+import '../context.dart';
 import '_core/interfaces/compound_declaration.dart';
 import '_core/interfaces/declaration.dart';
 import '_core/interfaces/enum_declaration.dart';
@@ -24,8 +23,6 @@ import 'declarations/enums/raw_value_enum_declaration.dart';
 import 'declarations/globals/globals.dart';
 import 'declarations/typealias_declaration.dart';
 
-final _logger = Logger('swift2objc.visitor');
-
 /// Wrapper around [Visitation] to be used by callers.
 ///
 /// The [Visitor] determines the traversal order of the AST, and has helper
@@ -33,10 +30,12 @@ final _logger = Logger('swift2objc.visitor');
 /// responsible for what happens at each visited node. The [Visitor] is generic
 /// and the [Visitation] contains the specific logic of the traversal.
 final class Visitor {
-  Visitor(this._visitation, {bool debug = false}) : _debug = debug {
+  Visitor(this._context, this._visitation, {bool debug = false})
+    : _debug = debug {
     _visitation.visitor = this;
   }
 
+  final Context _context;
   final Visitation _visitation;
   final _seen = <AstNode>{};
   final bool _debug;
@@ -45,7 +44,7 @@ final class Visitor {
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) _logger.info('${'  ' * _indentLevel++}$node');
+    if (_debug) _context.logger.info('${'  ' * _indentLevel++}$node');
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);
@@ -109,8 +108,8 @@ abstract class Visitation {
       visitCompoundDeclaration(node);
   void visitEnumDeclaration(EnumDeclaration node) => visitDeclaration(node);
   void visitAssociatedValueEnumDeclaration(
-          AssociatedValueEnumDeclaration node) =>
-      visitEnumDeclaration(node);
+    AssociatedValueEnumDeclaration node,
+  ) => visitEnumDeclaration(node);
   void visitNormalEnumDeclaration(NormalEnumDeclaration node) =>
       visitEnumDeclaration(node);
   void visitRawValueEnumDeclaration<T>(RawValueEnumDeclaration<T> node) =>
@@ -122,8 +121,12 @@ abstract class Visitation {
   void visitAstNode(AstNode node) => node.visitChildren(visitor);
 }
 
-T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots,
-    {bool debug = false}) {
-  Visitor(visitation, debug: debug).visitAll(roots);
+T visit<T extends Visitation>(
+  Context context,
+  T visitation,
+  Iterable<AstNode> roots, {
+  bool debug = false,
+}) {
+  Visitor(context, visitation, debug: debug).visitAll(roots);
   return visitation;
 }

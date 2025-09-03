@@ -65,7 +65,7 @@ List<Func> parseFunctionDeclaration(
       parameters.add(
         Parameter(
           originalName: paramName,
-          name: config.functionDecl.renameMember(decl, paramName),
+          name: config.functions.renameMember(decl, paramName),
           type: paramType,
           objCConsumed: objCConsumed,
         ),
@@ -120,9 +120,9 @@ List<Func> parseFunctionDeclaration(
 
     // Initialized with a single value with no prefix and empty var args.
     var varArgFunctions = [VarArgFunction('', [])];
-    if (config.varArgFunctions.containsKey(funcName)) {
+    if (config.functions.varArgs.containsKey(funcName)) {
       if (clang.clang_isFunctionTypeVariadic(cursor.type()) == 1) {
-        varArgFunctions = config.varArgFunctions[funcName]!;
+        varArgFunctions = config.functions.varArgs[funcName]!;
       } else {
         logger.warning(
           'Skipping variadic-argument config for function '
@@ -140,18 +140,16 @@ List<Func> parseFunctionDeclaration(
             availability: apiAvailability.dartDoc,
           ),
           usr: funcUsr + vaFunc.postfix,
-          name: config.functionDecl.rename(decl) + vaFunc.postfix,
+          name: config.functions.rename(decl) + vaFunc.postfix,
           originalName: funcName,
           returnType: returnType,
           parameters: parameters,
           varArgParameters: vaFunc.types
               .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
               .toList(),
-          exposeSymbolAddress: config.functionDecl.shouldIncludeSymbolAddress(
-            decl,
-          ),
-          exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
-          isLeaf: config.isLeafFunction(decl),
+          exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
+          exposeFunctionTypedefs: config.functions.includeTypedef(decl),
+          isLeaf: config.functions.isLeaf(decl),
           objCReturnsRetained: objCReturnsRetained,
           ffiNativeConfig: config.ffiNativeConfig,
         ),

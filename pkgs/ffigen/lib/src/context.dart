@@ -8,7 +8,9 @@ import 'package:logging/logging.dart';
 
 import 'code_generator.dart';
 import 'code_generator/unique_namer.dart';
-import 'config_provider.dart' show FfiGen;
+import 'config_provider/config.dart';
+import 'config_provider/config_types.dart';
+import 'config_provider/spec_utils.dart';
 import 'header_parser/clang_bindings/clang_bindings.dart' show Clang;
 import 'header_parser/utils.dart';
 
@@ -16,7 +18,7 @@ import 'header_parser/utils.dart';
 class Context {
   final Logger logger;
 
-  final FfiGen config;
+  final Config config;
 
   final CursorIndex cursorIndex;
 
@@ -36,13 +38,22 @@ class Context {
 
   final libs = LibraryImports();
 
-  Context(this.logger, this.config)
-    : cursorIndex = CursorIndex(logger),
+  late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
+
+  Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
+    : config = Config(generator),
+      cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
-        config.wrapperName,
-        config.generateForPackageObjectiveC,
+        Config(generator).wrapperName,
+        // ignore: deprecated_member_use_from_same_package
+        generator.objectiveC?.generateForPackageObjectiveC ?? false,
       ) {
-    _clang ??= Clang(DynamicLibrary.open(config.libclangDylib.toFilePath()));
+    final libclangDylibPath =
+        // ignore: deprecated_member_use_from_same_package
+        generator.libclangDylib?.toFilePath() ??
+        libclangDylib?.toFilePath() ??
+        findDylibAtDefaultLocations(logger);
+    _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
   }
 }
 

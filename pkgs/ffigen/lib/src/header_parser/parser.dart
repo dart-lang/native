@@ -60,7 +60,7 @@ List<Binding> parseToBindings(Context context) {
     ],
 
     // Add the user options last so they can override any other options.
-    ...config.compilerOpts,
+    ...context.compilerOpts,
   ];
 
   context.logger.fine('CompilerOpts used: $compilerOpts');
@@ -230,7 +230,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   // conflicts have been handled so that users can target the generated names.
   for (final b in finalBindingsList) {
     if (b is Struct) {
-      final pack = config.structPackingOverride(b);
+      final pack = config.structs.packingOverride(b);
       if (pack != null) {
         b.pack = pack.value;
       }

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show FfiGen;
+import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart' show Language;
 import '../strings.dart' as strings;
 
@@ -17,7 +17,7 @@ enum _IncludeBehavior {
 }
 
 class ListBindingsVisitation extends Visitation {
-  final FfiGen config;
+  final Config config;
   final Set<Binding> includes;
   final Set<Binding> transitives;
   final Set<Binding> directTransitives;
@@ -105,7 +105,7 @@ class ListBindingsVisitation extends Visitation {
   void visitTypealias(Typealias node) {
     _visitImpl(
       node,
-      config.includeUnusedTypedefs
+      config.typedefs.includeUnused
           ? _IncludeBehavior.configOnly
           : _IncludeBehavior.configAndTransitive,
     );

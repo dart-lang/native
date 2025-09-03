@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
 import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/declaration.dart';
@@ -23,6 +24,9 @@ class ClassDeclaration extends AstNode
 
   @override
   String name;
+
+  @override
+  InputConfig? source;
 
   @override
   List<AvailabilityInfo> availability;
@@ -70,6 +74,7 @@ class ClassDeclaration extends AstNode
   ClassDeclaration({
     required this.id,
     required this.name,
+    required this.source,
     required this.availability,
     this.properties = const [],
     this.methods = const [],
@@ -84,9 +89,11 @@ class ClassDeclaration extends AstNode
     this.wrappedInstance,
     this.wrapperInitializer,
     this.initializers = const [],
-  }) : assert(superClass == null ||
-            superClass.declaration is ClassDeclaration ||
-            superClass.sameAs(objectType));
+  }) : assert(
+         superClass == null ||
+             superClass.declaration is ClassDeclaration ||
+             superClass.sameAs(objectType),
+       );
 
   @override
   void visit(Visitation visitation) => visitation.visitClassDeclaration(this);

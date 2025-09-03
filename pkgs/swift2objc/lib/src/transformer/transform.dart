@@ -11,41 +11,54 @@ import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/declarations/typealias_declaration.dart';
 import '../ast/visitor.dart';
+import '../context.dart';
 import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_globals.dart';
 
 class TransformationState {
+  // Map from untransformed decleration to its transformed declaration, or null
+  // if there is generated code for the declaration.
+  final map = <Declaration, Declaration?>{};
+
   // All the bindings to be generated.
   final bindings = <Declaration>{};
 
   // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
-
-  // Map from untransformed decleration to its transformed declaration, or null
-  // if there is generated code for the declaration.
-  final map = <Declaration, Declaration?>{};
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
-List<Declaration> transform(List<Declaration> declarations,
-    {required bool Function(Declaration) filter}) {
+List<Declaration> transform(
+  Context context,
+  List<Declaration> declarations, {
+  required bool Function(Declaration) filter,
+}) {
   final state = TransformationState();
 
-  final includes = visit(FindIncludesVisitation(filter), declarations).includes;
-  final directTransitives =
-      visit(FindDirectTransitiveDepsVisitation(includes), includes)
-          .directTransitives;
+  final includes = visit(
+    context,
+    FindIncludesVisitation(filter),
+    declarations,
+  ).includes;
+  final directTransitives = visit(
+    context,
+    FindDirectTransitiveDepsVisitation(includes),
+    includes,
+  ).directTransitives;
   state.bindings.addAll(includes.union(directTransitives));
-  final listDecls =
-      visit(ListDeclsVisitation(includes, directTransitives), state.bindings);
+  final listDecls = visit(
+    context,
+    ListDeclsVisitation(includes, directTransitives),
+    state.bindings,
+  );
   final topLevelDecls = listDecls.topLevelDecls;
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
 
   final globalNamer = UniqueNamer(
-    topLevelDecls.map((declaration) => declaration.name),
+    state.bindings.map((declaration) => declaration.name),
   );
 
   final globals = Globals(
@@ -61,9 +74,7 @@ List<Declaration> transform(List<Declaration> declarations,
       .toList();
 
   final transformedDeclarations = [
-    ...nonGlobals.map(
-      (d) => maybeTransformDeclaration(d, globalNamer, state),
-    ),
+    ...nonGlobals.map((d) => maybeTransformDeclaration(d, globalNamer, state)),
     transformGlobals(globals, globalNamer, state),
   ].nonNulls.toList();
 
@@ -77,8 +88,12 @@ Declaration transformDeclaration(
   TransformationState state, {
   bool nested = false,
 }) =>
-    maybeTransformDeclaration(declaration, parentNamer, state,
-        nested: nested) ??
+    maybeTransformDeclaration(
+      declaration,
+      parentNamer,
+      state,
+      nested: nested,
+    ) ??
     declaration;
 
 Declaration? maybeTransformDeclaration(
@@ -104,10 +119,10 @@ Declaration? maybeTransformDeclaration(
 
   return switch (declaration) {
     ClassDeclaration() || StructDeclaration() => transformCompound(
-        declaration as CompoundDeclaration,
-        parentNamer,
-        state,
-      ),
+      declaration as CompoundDeclaration,
+      parentNamer,
+      state,
+    ),
     TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
+import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -64,9 +65,9 @@ import 'unnamed_enumdecl_parser.dart';
         availability: apiAvailability.dartDoc,
       ),
       originalName: enumName,
-      name: config.enumClassDecl.rename(decl),
+      name: config.enums.rename(decl),
       nativeType: nativeType,
-      generateAsInt: config.enumShouldBeInt(decl),
+      generateAsInt: config.enums.style(decl) == EnumStyle.intConstants,
       context: context,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
@@ -83,7 +84,7 @@ import 'unnamed_enumdecl_parser.dart';
                   indent: nesting.length + commentPrefix.length,
                 ),
                 originalName: child.spelling(),
-                name: config.enumClassDecl.renameMember(decl, child.spelling()),
+                name: config.enums.renameMember(decl, child.spelling()),
                 value: enumIntValue,
               ),
             );

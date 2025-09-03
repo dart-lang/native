@@ -17,9 +17,9 @@ import 'package:yaml/yaml.dart' as yaml;
 
 export 'package:ffigen/src/config_provider/utils.dart';
 
-Context testContext([FfiGen? config]) => Context(
+Context testContext([FfiGenerator? generator]) => Context(
   Logger.root,
-  config ?? FfiGen(Logger.root, output: Uri.file('unused')),
+  generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
 );
 
 extension LibraryTestExt on Library {
@@ -161,7 +161,7 @@ class NotFoundException implements Exception {
 void logWarnings([Level level = Level.WARNING]) {
   Logger.root.level = level;
   Logger.root.onRecord.listen((record) {
-    print('${record.level.name.padRight(8)}: ${record.message}');
+    printOnFailure('${record.level.name.padRight(8)}: ${record.message}');
   });
 }
 
@@ -175,7 +175,7 @@ Logger logToArray(List<String> logArr, Level level) {
   return logger;
 }
 
-FfiGen testConfig(String yamlBody, {String? filename, Logger? logger}) {
+FfiGenerator testConfig(String yamlBody, {String? filename, Logger? logger}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
     logger ?? Logger.root,
@@ -188,10 +188,10 @@ FfiGen testConfig(String yamlBody, {String? filename, Logger? logger}) {
         ),
       ),
     ]),
-  );
+  ).configAdapter();
 }
 
-FfiGen testConfigFromPath(String path) {
+FfiGenerator testConfigFromPath(String path) {
   final file = File(path);
   final yamlBody = file.readAsStringSync();
   return testConfig(yamlBody, filename: path);

@@ -1,4 +1,4 @@
-## 0.19.3-wip
+## 0.19.3
 
 - Added a library comment detailing how to use the package.
 

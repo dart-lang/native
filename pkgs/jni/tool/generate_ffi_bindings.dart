@@ -54,15 +54,17 @@ void main(List<String> args) {
 
   logger.info('Generating C wrappers');
   final minimalConfig =
-      ffigen.YamlConfig.fromFile(File('ffigen_exts.yaml'), logger);
+      ffigen.YamlConfig.fromFile(File('ffigen_exts.yaml'), logger)
+          .configAdapter();
   final minimalLibrary = ffigen.parse(ffigen.Context(logger, minimalConfig));
   generateCWrappers(minimalLibrary);
 
   logger.info('Generating FFI bindings for package:jni');
 
-  final config = ffigen.YamlConfig.fromFile(File('ffigen.yaml'), logger);
+  final config =
+      ffigen.YamlConfig.fromFile(File('ffigen.yaml'), logger).configAdapter();
   final library = ffigen.parse(ffigen.Context(logger, config));
-  final outputFile = File(config.output.toFilePath());
+  final outputFile = File(config.output.dartFile.toFilePath());
   library.generateFile(outputFile);
 
   logger.info('Generating Dart extensions');

@@ -16,59 +16,65 @@ import 'package:test/test.dart';
 import '../test_utils.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
-  FfiGen(
-    Logger.root,
-    wrapperName: 'DeprecatedTestObjCLibrary',
-    wrapperDocComment: 'Tests API deprecation',
-    language: Language.objc,
-    output: Uri.file(
-      path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'deprecated_bindings.dart',
-      ),
-    ),
-    entryPoints: [
-      Uri.file(
+  FfiGenerator(
+    output: Output(
+      dartFile: Uri.file(
         path.join(
           packagePathForTests,
           'test',
           'native_objc_test',
-          'deprecated_test.m',
+          'deprecated_bindings.dart',
         ),
       ),
-    ],
-    formatOutput: false,
-    includeTransitiveObjCCategories: false,
-    objcInterfaces: DeclarationFilters.include({
-      'DeprecatedInterfaceMethods',
-      'DeprecatedInterface',
-    }),
-    objcProtocols: DeclarationFilters.include({
-      'DeprecatedProtocolMethods',
-      'DeprecatedProtocol',
-    }),
-    objcCategories: DeclarationFilters.include({
-      'DeprecatedCategoryMethods',
-      'DeprecatedCategory',
-    }),
-    functionDecl: DeclarationFilters.include({
-      'normalFunction',
-      'deprecatedFunction',
-    }),
-    structDecl: DeclarationFilters.include({
-      'NormalStruct',
-      'DeprecatedStruct',
-    }),
-    unionDecl: DeclarationFilters.include({'NormalUnion', 'DeprecatedUnion'}),
-    enumClassDecl: DeclarationFilters.include({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnumConstants: DeclarationFilters.include({
+      format: false,
+      style: const DynamicLibraryBindings(
+        wrapperName: 'DeprecatedTestObjCLibrary',
+        wrapperDocComment: 'Tests API deprecation',
+      ),
+    ),
+    headers: Headers(
+      entryPoints: [
+        Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'deprecated_test.m',
+          ),
+        ),
+      ],
+    ),
+    objectiveC: ObjectiveC(
+      interfaces: Interfaces(
+        include: (decl) => {
+          'DeprecatedInterfaceMethods',
+          'DeprecatedInterface',
+        }.contains(decl.originalName),
+      ),
+      protocols: Protocols(
+        include: (decl) => {
+          'DeprecatedProtocolMethods',
+          'DeprecatedProtocol',
+        }.contains(decl.originalName),
+      ),
+      categories: Categories(
+        include: (decl) => {
+          'DeprecatedCategoryMethods',
+          'DeprecatedCategory',
+        }.contains(decl.originalName),
+        includeTransitive: false,
+      ),
+      externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
+    ),
+    functions: Functions.includeSet({'normalFunction', 'deprecatedFunction'}),
+    structs: Structs.includeSet({'NormalStruct', 'DeprecatedStruct'}),
+    unions: Unions.includeSet({'NormalUnion', 'DeprecatedUnion'}),
+    enums: Enums.includeSet({'NormalEnum', 'DeprecatedEnum'}),
+    unnamedEnums: UnnamedEnums.includeSet({
       'normalUnnamedEnum',
       'deprecatedUnnamedEnum',
     }),
-    externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
-  ).generate(Logger.root..level = Level.SEVERE);
+  ).generate(logger: Logger.root..level = Level.SEVERE);
   return File(
     path.join(
       packagePathForTests,

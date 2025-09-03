@@ -3,7 +3,7 @@ description: >-
   A library that contains a Dart API for the JSON-based protocol for
   `hook/build.dart` and `hook/link.dart`.
 
-version: 0.20.1-wip
+version: 0.20.1
 
 repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks
 
@@ -29,7 +29,7 @@ dependencies:
 
 dev_dependencies:
   args: ^2.6.0
-  code_assets: ^0.19.6-wip # Used for running tests with real asset types.
+  code_assets: ^0.19.7 # Used for running tests with real asset types.
   custom_lint: ^0.7.5
   dart_flutter_team_lints: ^3.5.2
   data_assets: any # Used for running tests with real asset types.

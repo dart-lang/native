@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../../config.dart';
 import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/can_async.dart';
 import '../../../_core/interfaces/can_throw.dart';
@@ -30,6 +31,9 @@ class InitializerDeclaration extends AstNode
   String get name => 'init';
 
   @override
+  InputConfig? source;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -52,13 +56,11 @@ class InitializerDeclaration extends AstNode
   @override
   List<String> statements;
 
-  String get fullName => [
-        name,
-        for (final p in params) p.name,
-      ].join(':');
+  String get fullName => [name, for (final p in params) p.name].join(':');
 
   InitializerDeclaration({
     required this.id,
+    required this.source,
     required this.availability,
     required this.params,
     this.statements = const [],

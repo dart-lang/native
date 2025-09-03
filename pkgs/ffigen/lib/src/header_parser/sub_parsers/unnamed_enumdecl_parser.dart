@@ -61,7 +61,7 @@ Constant? _addUnNamedEnumConstant(
   final constant = UnnamedEnumConstant(
     usr: cursor.usr(),
     originalName: cursor.spelling(),
-    name: config.unnamedEnumConstants.rename(
+    name: config.unnamedEnums.rename(
       Declaration(usr: cursor.usr(), originalName: cursor.spelling()),
     ),
     dartDoc: apiAvailability.dartDoc,

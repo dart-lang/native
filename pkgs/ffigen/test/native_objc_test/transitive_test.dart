@@ -19,41 +19,55 @@ String generate({
   bool includeTransitiveObjCProtocols = false,
   bool includeTransitiveObjCCategories = false,
 }) {
-  FfiGen(
-    Logger.root,
-    wrapperName: 'TransitiveTestObjCLibrary',
-    wrapperDocComment: 'Tests transitive inclusion',
-    language: Language.objc,
-    output: Uri.file(
-      path.join(
-        packagePathForTests,
-        'test',
-        'native_objc_test',
-        'transitive_bindings.dart',
-      ),
-    ),
-    entryPoints: [
-      Uri.file(
+  FfiGenerator(
+    output: Output(
+      dartFile: Uri.file(
         path.join(
           packagePathForTests,
           'test',
           'native_objc_test',
-          'transitive_test.h',
+          'transitive_bindings.dart',
         ),
       ),
-    ],
-    formatOutput: false,
-    objcInterfaces: DeclarationFilters.include({
-      'DirectlyIncluded',
-      'DirectlyIncludedWithProtocol',
-      'DirectlyIncludedIntForCat',
-    }),
-    objcProtocols: DeclarationFilters.include({'DirectlyIncludedProtocol'}),
-    objcCategories: DeclarationFilters.include({'DirectlyIncludedCategory'}),
-    includeTransitiveObjCInterfaces: includeTransitiveObjCInterfaces,
-    includeTransitiveObjCProtocols: includeTransitiveObjCProtocols,
-    includeTransitiveObjCCategories: includeTransitiveObjCCategories,
-  ).generate(Logger.root..level = Level.SEVERE);
+      format: false,
+      style: const DynamicLibraryBindings(
+        wrapperName: 'TransitiveTestObjCLibrary',
+        wrapperDocComment: 'Tests transitive inclusion',
+      ),
+    ),
+    headers: Headers(
+      entryPoints: [
+        Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'transitive_test.h',
+          ),
+        ),
+      ],
+    ),
+    objectiveC: ObjectiveC(
+      interfaces: Interfaces(
+        include: (decl) => {
+          'DirectlyIncluded',
+          'DirectlyIncludedWithProtocol',
+          'DirectlyIncludedIntForCat',
+        }.contains(decl.originalName),
+        includeTransitive: includeTransitiveObjCInterfaces,
+      ),
+      protocols: Protocols(
+        include: (decl) =>
+            {'DirectlyIncludedProtocol'}.contains(decl.originalName),
+        includeTransitive: includeTransitiveObjCProtocols,
+      ),
+      categories: Categories(
+        include: (decl) =>
+            {'DirectlyIncludedCategory'}.contains(decl.originalName),
+        includeTransitive: includeTransitiveObjCCategories,
+      ),
+    ),
+  ).generate(logger: Logger.root..level = Level.SEVERE);
   return File(
     path.join(
       packagePathForTests,

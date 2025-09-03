@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../../config.dart';
 import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
@@ -18,6 +19,9 @@ class PropertyDeclaration extends AstNode
 
   @override
   String name;
+
+  @override
+  InputConfig? source;
 
   @override
   List<AvailabilityInfo> availability;
@@ -52,25 +56,26 @@ class PropertyDeclaration extends AstNode
 
   bool isStatic;
 
-  PropertyDeclaration(
-      {required this.id,
-      required this.name,
-      required this.availability,
-      required this.type,
-      this.hasSetter = false,
-      this.isConstant = false,
-      this.hasObjCAnnotation = false,
-      this.getter,
-      this.setter,
-      this.isStatic = false,
-      this.throws = false,
-      this.async = false,
-      this.unowned = false,
-      this.weak = false,
-      this.lazy = false,
-      this.mutating = false})
-      : assert(!(isConstant && hasSetter)),
-        assert(!(hasSetter && throws));
+  PropertyDeclaration({
+    required this.id,
+    required this.name,
+    required this.source,
+    required this.availability,
+    required this.type,
+    this.hasSetter = false,
+    this.isConstant = false,
+    this.hasObjCAnnotation = false,
+    this.getter,
+    this.setter,
+    this.isStatic = false,
+    this.throws = false,
+    this.async = false,
+    this.unowned = false,
+    this.weak = false,
+    this.lazy = false,
+    this.mutating = false,
+  }) : assert(!(isConstant && hasSetter)),
+       assert(!(hasSetter && throws));
 
   @override
   void visit(Visitation visitation) =>

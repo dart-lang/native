@@ -19,10 +19,7 @@ void expectString(String a, String b) {
 }
 
 String testDir = p.normalize(
-  p.join(
-    findPackageRoot('swift2objc').toFilePath(),
-    'test',
-  ),
+  p.join(findPackageRoot('swift2objc').toFilePath(), 'test'),
 );
 
 Future<void> expectValidSwift(List<String> files) async {
@@ -32,7 +29,7 @@ Future<void> expectValidSwift(List<String> files) async {
   final symbolgraphCommand = FilesInputConfig(
     files: files.map(Uri.file).toList(),
     generatedModuleName: 'output_file_symbolgraph',
-  ).symbolgraphCommand!;
+  ).symbolgraphCommand(await hostTarget, (await hostSdk).path);
 
   final processResult = await Process.run(
     symbolgraphCommand.executable,

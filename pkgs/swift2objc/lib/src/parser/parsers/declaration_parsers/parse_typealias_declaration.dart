@@ -3,18 +3,21 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/declarations/typealias_declaration.dart';
-import '../../_core/json.dart';
+import '../../../context.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 import '../parse_type.dart';
 
 TypealiasDeclaration? parseTypealiasDeclaration(
-    Json typealiasSymbolJson, ParsedSymbolgraph symbolgraph) {
-  final id = parseSymbolId(typealiasSymbolJson);
-  final name = parseSymbolName(typealiasSymbolJson);
-  final availability = parseAvailability(typealiasSymbolJson);
-  final declarationFragments = typealiasSymbolJson['declarationFragments'];
+  Context context,
+  ParsedSymbol symbol,
+  ParsedSymbolgraph symbolgraph,
+) {
+  final id = parseSymbolId(symbol.json);
+  final name = parseSymbolName(symbol.json);
+  final availability = parseAvailability(symbol.json);
+  final declarationFragments = symbol.json['declarationFragments'];
 
   final malformedException = Exception(
     'Malformed typealias at ${declarationFragments.path}: '
@@ -25,9 +28,18 @@ TypealiasDeclaration? parseTypealiasDeclaration(
   final equals = tokens.indexWhere((tok) => matchFragment(tok, 'text', '='));
   if (equals == -1) throw malformedException;
 
-  final (target, remaining) = parseType(symbolgraph, tokens.slice(equals + 1));
+  final (target, remaining) = parseType(
+    context,
+    symbolgraph,
+    tokens.slice(equals + 1),
+  );
   if (remaining.isNotEmpty) throw malformedException;
 
   return TypealiasDeclaration(
-      id: id, name: name, availability: availability, target: target);
+    id: id,
+    name: name,
+    source: symbol.source,
+    availability: availability,
+    target: target,
+  );
 }
