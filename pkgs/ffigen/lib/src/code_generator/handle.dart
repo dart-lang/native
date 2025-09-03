@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 

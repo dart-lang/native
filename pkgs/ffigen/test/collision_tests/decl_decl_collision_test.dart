@@ -24,7 +24,7 @@ void main() {
         macros: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
-      final context = testContext(config);
+      final context = testContext(generator);
       final library = Library(
         context: context,
         name: 'Bindings',

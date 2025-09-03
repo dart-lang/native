@@ -13,7 +13,6 @@ class MarkImportsVisitation extends Visitation {
 
   @override
   void visitImportedType(ImportedType node) {
-    print("============================   ${node.libraryImport.name}");
     node.visitChildren(visitor);
     context.libs.markUsed(node.libraryImport);
   }
