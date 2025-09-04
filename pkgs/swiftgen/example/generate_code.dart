@@ -22,10 +22,9 @@ Future<void> main() async {
         '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk',
       ),
     ),
-    inputs: [SwiftModuleInput(module: 'AVFAudio')],
+    inputs: const [SwiftModuleInput(module: 'AVFAudio')],
     include: (d) => d.name == 'AVAudioPlayer',
     objcSwiftFile: Uri.file('avf_audio_wrapper.swift'),
-    tempDirectory: Uri.directory('temp'),
     outputModule: 'AVFAudioWrapper',
     ffigen: FfiGenConfig(
       output: Uri.file('avf_audio_bindings.dart'),
@@ -53,7 +52,7 @@ Future<void> main() async {
 // coverage:ignore-file
 ''',
     ),
-  ).generate(logger: logger);
+  ).generate(logger: logger, tempDirectory: Uri.directory('temp'));
 
   final result = Process.runSync('swiftc', [
     '-emit-library',

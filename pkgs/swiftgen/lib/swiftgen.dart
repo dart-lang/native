@@ -5,7 +5,6 @@
 export 'src/config.dart'
     show
         FfiGenConfig,
-        JsonFileInput,
         ObjCCompatibleSwiftFileInput,
         SwiftFileInput,
         SwiftGenerator,

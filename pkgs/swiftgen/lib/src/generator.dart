@@ -13,50 +13,52 @@ import 'config.dart';
 import 'util.dart';
 
 extension SwiftGenGenerator on SwiftGenerator {
-  Future<void> generate({required Logger? logger}) async {
+  Future<void> generate({required Logger? logger, Uri? tempDirectory}) async {
     logger ??= Logger.detached('dev/null')..level = Level.OFF;
+    tempDirectory ??= createTempDirectory();
+    final absTempDir = p.absolute(tempDirectory.toFilePath());
+    final objcHeader = p.join(absTempDir, '$outputModule.h');
     Directory(absTempDir).createSync(recursive: true);
     final swift2objcConfigs = inputs
         .map((input) => input.swift2ObjCConfig)
         .nonNulls
         .toList();
     if (swift2objcConfigs.isNotEmpty) {
-      await _generateObjCSwiftFile(swift2objcConfigs, logger);
+      await _generateObjCSwiftFile(swift2objcConfigs, logger, absTempDir);
     }
-    await _generateObjCFile();
-    _generateDartFile(logger);
+    await _generateObjCFile(objcHeader, absTempDir);
+    _generateDartFile(logger, objcHeader);
   }
-
-  String get absTempDir => p.absolute(tempDir.toFilePath());
-  String get objcHeader => p.join(absTempDir, '$outputModule.h');
 
   Future<void> _generateObjCSwiftFile(
     List<swift2objc.InputConfig> swift2objcConfigs,
     Logger logger,
+    String absTempDir,
   ) => swift2objc.Swift2ObjCGenerator(
     inputs: swift2objcConfigs,
     include: include ?? (d) => true,
     outputFile: objcSwiftFile,
-    tempDir: tempDir,
+    tempDir: Uri.directory(absTempDir),
     preamble: objcSwiftPreamble,
   ).generate(logger: logger);
 
-  Future<void> _generateObjCFile() => run('swiftc', [
-    '-c',
-    for (final input in inputs)
-      for (final uri in input.files) p.absolute(uri.toFilePath()),
-    p.absolute(objcSwiftFile.toFilePath()),
-    '-module-name',
-    outputModule,
-    '-emit-objc-header-path',
-    objcHeader,
-    '-target',
-    target.triple,
-    '-sdk',
-    p.absolute(target.sdk.toFilePath()),
-  ], absTempDir);
+  Future<void> _generateObjCFile(String objcHeader, String absTempDir) =>
+      run('swiftc', [
+        '-c',
+        for (final input in inputs)
+          for (final uri in input.files) p.absolute(uri.toFilePath()),
+        p.absolute(objcSwiftFile.toFilePath()),
+        '-module-name',
+        outputModule,
+        '-emit-objc-header-path',
+        objcHeader,
+        '-target',
+        target.triple,
+        '-sdk',
+        p.absolute(target.sdk.toFilePath()),
+      ], absTempDir);
 
-  void _generateDartFile(Logger logger) {
+  void _generateDartFile(Logger logger, String objcHeader) {
     fg.FfiGenerator(
       output: fg.Output(
         dartFile: ffigen.output,

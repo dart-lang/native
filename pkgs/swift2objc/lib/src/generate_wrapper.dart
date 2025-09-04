@@ -30,7 +30,7 @@ Future<void> _generateWrapper(
   final bool deleteTempDirWhenDone;
 
   var lazyTarget = config.target;
-  Future<String> target() async => lazyTarget ??= await hostTarget;
+  Future<String> target() async => lazyTarget ??= await hostTargetTriple;
   var lazySdkPath = config.sdk;
   Future<Uri> sdkPath() async => lazySdkPath ??= await hostSdk;
 
@@ -60,7 +60,7 @@ Future<void> _generateWrapper(
 
     final symbolgraphFileName = switch (input) {
       FilesInputConfig() =>
-        '${input.generatedModuleName}$symbolgraphFileSuffix',
+        '${input.tempModuleName}$symbolgraphFileSuffix',
       ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
       JsonFileInputConfig() => path.absolute(input.jsonFile.path),
     };
