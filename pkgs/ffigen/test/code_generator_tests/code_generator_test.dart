@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
@@ -715,7 +716,14 @@ void main() {
     _matchLib(library, 'unions');
   });
   test('Typealias Bindings', () {
-    final context = testContext();
+    final context = testContext(FfiGenerator(output: Output(
+      dartFile: Uri.file('unused'),
+      style: DynamicLibraryBindings(),
+      ),
+      functions: Functions.includeAll,
+      structs: Structs.includeAll,
+      typedefs: Typedefs.includeAll,
+    ));
     final struct2 = Struct(
       context: context,
       name: 'Struct2',
@@ -729,7 +737,7 @@ void main() {
       name: 'Bindings',
       header:
           '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
-      bindings: [
+      bindings: transformBindings([
         Typealias(
           name: 'RawUnused',
           type: Struct(context: context, name: 'Struct1'),
@@ -757,7 +765,7 @@ void main() {
         struct2Typealias,
         struct3,
         struct3Typealias,
-      ],
+      ], context),
     );
     _matchLib(library, 'typealias');
   });

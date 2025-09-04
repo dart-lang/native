@@ -182,8 +182,8 @@ class Writer {
     // avoids duplicating the asset on every element.
     // Since the annotation goes on a `library;` directive, it needs to appear
     // before other definitions in the file.
-    final ffiPrefix = context.libs.prefix(ffiImport);
     if (ffiNativeBindings.isNotEmpty && nativeAssetId != null) {
+      final ffiPrefix = context.libs.prefix(ffiImport);
       result
         ..writeln("@$ffiPrefix.DefaultAsset('$nativeAssetId')")
         ..writeln('library;\n');
@@ -191,6 +191,7 @@ class Writer {
 
     /// Write [lookUpBindings].
     if (lookUpBindings.isNotEmpty) {
+      final ffiPrefix = context.libs.prefix(ffiImport);
       // Write doc comment for wrapper class.
       s.write(makeDartDoc(classDocComment));
       // Write wrapper classs.
