@@ -1,0 +1,44 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:5175776549969024051",
+      "lastPropertyId": "3:743235516013896380",
+      "name": "ClassSummaryRAGModel",
+      "properties": [
+        {
+          "id": "1:853844424229200479",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4664100154773724070",
+          "name": "summary",
+          "type": 9
+        },
+        {
+          "id": "3:743235516013896380",
+          "name": "embeddings",
+          "type": 28,
+          "flags": 8,
+          "indexId": "1:2908534941609043162"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:5175776549969024051",
+  "lastIndexId": "1:2908534941609043162",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

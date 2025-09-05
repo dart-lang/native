@@ -3,3 +3,4 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // TODO: Export any libraries intended for clients of this package.
+export 'src/rag.dart';
