@@ -7,71 +7,118 @@ import 'dart:io';
 import 'package:ffigen/ffigen.dart' as fg;
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
 import 'config.dart';
 import 'util.dart';
 
-extension SwiftGenGenerator on SwiftGen {
-  Future<void> generate(Logger logger) async {
+extension SwiftGenGenerator on SwiftGenerator {
+  Future<void> generate({required Logger? logger, Uri? tempDirectory}) async {
+    logger ??= Logger.detached('dev/null')..level = Level.OFF;
+    tempDirectory ??= createTempDirectory();
+    final absTempDir = p.absolute(tempDirectory.toFilePath());
+    final objcHeader = p.join(absTempDir, '${output.module}.h');
     Directory(absTempDir).createSync(recursive: true);
-    await _generateObjCFile();
-    _generateDartFile(logger);
+    final swift2objcConfigs = inputs
+        .map((input) => input.swift2ObjCConfig)
+        .nonNulls
+        .toList();
+    if (swift2objcConfigs.isNotEmpty) {
+      final swiftWrapperFile = output.swiftWrapperFile;
+      if (swiftWrapperFile == null) {
+        throw ArgumentError(
+          'If any of the input Swift APIs require an Objective-C '
+          'compatibility wrapper, output.swiftWrapperFile must not be null',
+        );
+      }
+      await _generateObjCSwiftFile(
+        swift2objcConfigs,
+        logger,
+        absTempDir,
+        swiftWrapperFile,
+      );
+    }
+    await _generateObjCFile(objcHeader, absTempDir, output.swiftWrapperFile);
+    _generateDartFile(logger, objcHeader);
   }
 
-  String get absTempDir => p.absolute(tempDir.toFilePath());
-  String get outModule => outputModule ?? input.module;
-  String get objcHeader => p.join(absTempDir, '$outModule.h');
+  Future<void> _generateObjCSwiftFile(
+    List<swift2objc.InputConfig> swift2objcConfigs,
+    Logger logger,
+    String absTempDir,
+    SwiftWrapperFile swiftWrapperFile,
+  ) => swift2objc.Swift2ObjCGenerator(
+    inputs: swift2objcConfigs,
+    include: include,
+    outputFile: swiftWrapperFile.path,
+    tempDir: Uri.directory(absTempDir),
+    preamble: swiftWrapperFile.preamble,
+  ).generate(logger: logger);
 
-  Future<void> _generateObjCFile() => run('swiftc', [
+  Future<void> _generateObjCFile(
+    String objcHeader,
+    String absTempDir,
+    SwiftWrapperFile? swiftWrapperFile,
+  ) => run('swiftc', [
     '-c',
-    for (final uri in input.files) p.absolute(uri.toFilePath()),
+    for (final input in inputs)
+      for (final uri in input.files) p.absolute(uri.toFilePath()),
+    if (swiftWrapperFile != null)
+      p.absolute(swiftWrapperFile.path.toFilePath()),
     '-module-name',
-    outModule,
+    output.module,
     '-emit-objc-header-path',
     objcHeader,
     '-target',
     target.triple,
     '-sdk',
     p.absolute(target.sdk.toFilePath()),
-    ...input.compileArgs,
   ], absTempDir);
 
-  void _generateDartFile(Logger logger) {
+  void _generateDartFile(Logger logger, String objcHeader) {
     fg.FfiGenerator(
       output: fg.Output(
-        dartFile: ffigen.output,
-        objectiveCFile: ffigen.outputObjC,
-        preamble: ffigen.preamble,
-        style: fg.DynamicLibraryBindings(
-          wrapperName: ffigen.wrapperName ?? outModule,
-          wrapperDocComment: ffigen.wrapperDocComment,
+        dartFile: output.dartFile,
+        objectiveCFile: output.objectiveCFile,
+        preamble: output.preamble,
+        style: fg.NativeExternalBindings(
+          assetId: output.assetId,
+          // ignore: deprecated_member_use
+          wrapperName: output.assetId ?? output.module,
         ),
       ),
-
-      functions: ffigen.functions ?? fg.Functions.excludeAll,
-      structs: ffigen.structs ?? fg.Structs.excludeAll,
-      unions: ffigen.unions ?? fg.Unions.excludeAll,
-      enums: ffigen.enums ?? fg.Enums.excludeAll,
-      unnamedEnums: ffigen.unnamedEnums ?? fg.UnnamedEnums.excludeAll,
-      globals: ffigen.globals ?? fg.Globals.excludeAll,
-      macros: ffigen.macros ?? fg.Macros.excludeAll,
-      typedefs: ffigen.typedefs ?? fg.Typedefs.excludeAll,
+      functions: ffigen.functions,
+      structs: ffigen.structs,
+      unions: ffigen.unions,
+      enums: ffigen.enums,
+      unnamedEnums: ffigen.unnamedEnums,
+      globals: ffigen.globals,
+      integers: ffigen.integers,
+      macros: ffigen.macros,
+      typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
-        interfaces:
-            ffigen.objcInterfaces ??
-            fg.Interfaces(
-              include: (declaration) => false,
-              module: (_) => outputModule,
-            ),
-        protocols:
-            ffigen.objcProtocols ??
-            fg.Protocols(
-              include: (declaration) => false,
-              module: (_) => outputModule,
-            ),
-        categories: ffigen.objcCategories ?? fg.Categories.excludeAll,
-
-        externalVersions: ffigen.externalVersions,
+        interfaces: fg.Interfaces(
+          include: ffigen.objectiveC.interfaces.include,
+          includeMember: ffigen.objectiveC.interfaces.includeMember,
+          includeSymbolAddress:
+              ffigen.objectiveC.interfaces.includeSymbolAddress,
+          rename: ffigen.objectiveC.interfaces.rename,
+          renameMember: ffigen.objectiveC.interfaces.renameMember,
+          includeTransitive: ffigen.objectiveC.interfaces.includeTransitive,
+          module: (_) => output.module,
+        ),
+        protocols: fg.Protocols(
+          include: ffigen.objectiveC.protocols.include,
+          includeMember: ffigen.objectiveC.protocols.includeMember,
+          includeSymbolAddress:
+              ffigen.objectiveC.protocols.includeSymbolAddress,
+          rename: ffigen.objectiveC.protocols.rename,
+          renameMember: ffigen.objectiveC.protocols.renameMember,
+          includeTransitive: ffigen.objectiveC.protocols.includeTransitive,
+          module: (_) => output.module,
+        ),
+        categories: ffigen.objectiveC.categories,
+        externalVersions: ffigen.objectiveC.externalVersions,
       ),
       headers: fg.Headers(
         entryPoints: [Uri.file(objcHeader)],

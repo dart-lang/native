@@ -18,10 +18,7 @@ extension Swift2ObjCGeneratorMethod on Swift2ObjCGenerator {
   /// Used to generate the wrapper swift file.
   Future<void> generate({required Logger? logger}) => _generateWrapper(
     this,
-    Context(
-      logger ?? Logger.detached('dev/null')
-        ..level = Level.OFF,
-    ),
+    Context(logger ?? (Logger.detached('dev/null')..level = Level.OFF)),
   );
 }
 
@@ -33,7 +30,7 @@ Future<void> _generateWrapper(
   final bool deleteTempDirWhenDone;
 
   var lazyTarget = config.target;
-  Future<String> target() async => lazyTarget ??= await hostTarget;
+  Future<String> target() async => lazyTarget ??= await hostTargetTriple;
   var lazySdkPath = config.sdk;
   Future<Uri> sdkPath() async => lazySdkPath ??= await hostSdk;
 
@@ -62,8 +59,7 @@ Future<void> _generateWrapper(
     }
 
     final symbolgraphFileName = switch (input) {
-      FilesInputConfig() =>
-        '${input.generatedModuleName}$symbolgraphFileSuffix',
+      FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
       ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
       JsonFileInputConfig() => path.absolute(input.jsonFile.path),
     };

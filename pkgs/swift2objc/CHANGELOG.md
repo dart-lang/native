@@ -1,3 +1,3 @@
-## 0.0.1-wip
+## 0.1.0
 
-- Initial version.
+- MVP version.
