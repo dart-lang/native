@@ -21,30 +21,61 @@ import 'package:swift2objc/swift2objc.dart' as swift2objc;
 /// compiled into your final app or plugin, along with any bindings generated
 /// by ffigen.
 class SwiftGenerator {
+  /// The target OS and SDK version to compile against.
   final Target target;
-  final List<SwiftGenInput> inputs;
-  final bool Function(swift2objc.Declaration declaration)? include;
 
+  /// The input Swift APIs.
+  final List<SwiftGenInput> inputs;
+
+  /// Determines whether a Swift API included in the generated bindings.
+  final bool Function(swift2objc.Declaration declaration) include;
+
+  /// Configuration for the output files.
+  final Output output;
+
+  /// Configuration for the ffigen pass.
   final FfiGeneratorOptions ffigen;
 
   const SwiftGenerator({
     required this.target,
     required this.inputs,
-    this.include,
-    this.objcSwiftPreamble,
-    required this.objcSwiftFile,
+    this.include = Swift2ObjCGenerator._defaultInclude,
+    required this.output,
     required this.outputModule,
     required this.ffigen,
   });
 }
 
+/// Configuration for the output files.
 class Output {
+  /// Configuration for the Objective-C compatible wrapper API.
+  ///
+  /// This must be present if the original Swift API is not Objective-C
+  /// compatible. That is, if you're using [SwiftFileInput] or
+  /// [SwiftModuleInput]. If all your inputs are [ObjCCompatibleSwiftFileInput]
+  /// you do not need to set this field.
   final SwiftWrapperFile? wrapperFile;
-  final String outputModule;
+
+  /// The name of the output Swift module.
+  ///
+  /// The Dart bindings use this to look up the Swift symbols. So it's important
+  /// that this matches the name of module that the Swift source code, including
+  /// the wrapper API, is compiled into. For a Flutter plugin, this is simply
+  /// the plugin name.
+  final String module;
+
+  const Output({this.wrapperFile, required this.module});
 }
 
+/// Configuration for the Objective-C compatible wrapper API.
+///
+/// This is a generated Swift API that wraps another Swift API and makes it
+/// Objective-C compatible.
 class SwiftWrapperFile {
+  /// The output path for the wrapper API.
   final Uri path;
+
+  /// Extra code inserted at the top of the generated file.
   final String? preamble;
 
   const SwiftWrapperFile({this.path, this.preamble});
@@ -75,23 +106,23 @@ class Target {
     sdk: await swift2objc.hostSdk,
   );
 
-  /// Returns the [Target] for the latest iOS varsion on arm.
+  /// Returns the [Target] for the latest installed iOS SDK on arm.
   static Future<Target> iOSArmLatest() async =>
     Target(await iOSArmTargetTripleLatest, await iOSSdk);
 
-  /// Returns the [Target] for the latest iOS varsion on arm64.
+  /// Returns the [Target] for the latest installed iOS SDK on arm64.
   static Future<Target> iOSArm64Latest() async =>
     Target(await iOSArm64TargetTripleLatest, await iOSSdk);
 
-  /// Returns the [Target] for the latest iOS varsion on x64.
+  /// Returns the [Target] for the latest installed iOS SDK on x64.
   static Future<Target> iOSX64Latest() async =>
     Target(await iOSX64TargetTripleLatest, await iOSSdk);
 
-  /// Returns the [Target] for the latest macOS varsion on arm64.
+  /// Returns the [Target] for the latest installed macOS SDK on arm64.
   static Future<Target> macOSArm64Latest() async =>
     Target(await macOSArm64TargetTripleLatest, await macOSSdk);
 
-  /// Returns the [Target] for the latest macOS varsion on x64.
+  /// Returns the [Target] for the latest installed macOS SDK on x64.
   static Future<Target> macOSX64Latest() async =>
     Target(await macOSX64TargetTripleLatest, await macOSSdk);
 }
@@ -104,6 +135,8 @@ abstract interface class SwiftGenInput {
 
 /// Input swift files that are already annotated with @objc.
 class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
+  /// A list of paths to the Objective-C compatible Swift files to generate
+  /// bindings for.
   @override
   final List<Uri> files;
 
@@ -115,12 +148,16 @@ class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
 
 /// Input swift files that are not necessarily Objective C compatible.
 class SwiftFileInput implements SwiftGenInput {
-  final String module;
-
+  /// A list of paths to the Swift files to generate bindings for.
   @override
   final List<Uri> files;
 
-  const SwiftFileInput({required this.module, required this.files});
+  /// The name of the temporary module generated while analyzing the input
+  /// files. The name doesn't matter, and won't appear in generated code. But if
+  /// your project involves multiple Swift modules, their names must be unique.
+  final String tempModuleName;
+
+  const SwiftFileInput({required this.files, required this.tempModuleName});
 
   @override
   swift2objc.InputConfig? get swift2ObjCConfig =>
@@ -129,6 +166,7 @@ class SwiftFileInput implements SwiftGenInput {
 
 /// A precompiled swift module input.
 class SwiftModuleInput implements SwiftGenInput {
+  /// The name of the module to generate bindings for.
   final String module;
 
   const SwiftModuleInput({required this.module});
