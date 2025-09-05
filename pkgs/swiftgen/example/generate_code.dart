@@ -24,20 +24,13 @@ Future<void> main() async {
     ),
     inputs: const [SwiftModuleInput(module: 'AVFAudio')],
     include: (d) => d.name == 'AVAudioPlayer',
-    objcSwiftFile: Uri.file('avf_audio_wrapper.swift'),
-    outputModule: 'AVFAudioWrapper',
-    ffigen: FfiGenConfig(
-      output: Uri.file('avf_audio_bindings.dart'),
-      outputObjC: Uri.file('avf_audio_wrapper.m'),
-      objectiveC: fg.ObjectiveC(
-        externalVersions: fg.ExternalVersions(
-          ios: fg.Versions(min: Version(12, 0, 0)),
-          macos: fg.Versions(min: Version(10, 14, 0)),
-        ),
-        interfaces: fg.Interfaces(
-          include: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
-        ),
+    output: Output(
+      swiftWrapperFile: SwiftWrapperFile(
+        path: Uri.file('avf_audio_wrapper.swift'),
       ),
+      module: 'AVFAudioWrapper',
+      dartFile: Uri.file('avf_audio_bindings.dart'),
+      objectiveCFile: Uri.file('avf_audio_wrapper.m'),
       preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
@@ -51,6 +44,17 @@ Future<void> main() async {
 // ignore_for_file: unused_field
 // coverage:ignore-file
 ''',
+    ),
+    ffigen: FfiGeneratorOptions(
+      objectiveC: fg.ObjectiveC(
+        externalVersions: fg.ExternalVersions(
+          ios: fg.Versions(min: Version(12, 0, 0)),
+          macos: fg.Versions(min: Version(10, 14, 0)),
+        ),
+        interfaces: fg.Interfaces(
+          include: (decl) => decl.originalName == 'AVAudioPlayerWrapper',
+        ),
+      ),
     ),
   ).generate(logger: logger, tempDirectory: Uri.directory('temp'));
 

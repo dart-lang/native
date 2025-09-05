@@ -59,8 +59,7 @@ Future<void> _generateWrapper(
     }
 
     final symbolgraphFileName = switch (input) {
-      FilesInputConfig() =>
-        '${input.tempModuleName}$symbolgraphFileSuffix',
+      FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
       ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
       JsonFileInputConfig() => path.absolute(input.jsonFile.path),
     };

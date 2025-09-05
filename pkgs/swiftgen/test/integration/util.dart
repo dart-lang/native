@@ -57,18 +57,13 @@ class TestGenerator {
       await SwiftGenerator(
         target: await hostTarget,
         inputs: [
-          SwiftFileInput(module: name, files: [Uri.file(inputFile)]),
+          SwiftFileInput(files: [Uri.file(inputFile)]),
         ],
-        objcSwiftFile: Uri.file(wrapperFile),
-        outputModule: name,
-        ffigen: FfiGenConfig(
-          output: Uri.file(outputFile),
-          outputObjC: Uri.file(outputObjCFile),
-          objectiveC: fg.ObjectiveC(
-            interfaces: fg.Interfaces(
-              include: (decl) => decl.originalName.startsWith('Test'),
-            ),
-          ),
+        output: Output(
+          swiftWrapperFile: SwiftWrapperFile(path: Uri.file(wrapperFile)),
+          module: name,
+          dartFile: Uri.file(outputFile),
+          objectiveCFile: Uri.file(outputObjCFile),
           preamble: '''
 // Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
@@ -82,6 +77,13 @@ class TestGenerator {
 // ignore_for_file: unused_field
 // coverage:ignore-file
 ''',
+        ),
+        ffigen: FfiGeneratorOptions(
+          objectiveC: fg.ObjectiveC(
+            interfaces: fg.Interfaces(
+              include: (decl) => decl.originalName.startsWith('Test'),
+            ),
+          ),
         ),
       ).generate(
         logger: Logger.root..level = Level.SEVERE,

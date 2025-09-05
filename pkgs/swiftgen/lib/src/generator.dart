@@ -17,16 +17,28 @@ extension SwiftGenGenerator on SwiftGenerator {
     logger ??= Logger.detached('dev/null')..level = Level.OFF;
     tempDirectory ??= createTempDirectory();
     final absTempDir = p.absolute(tempDirectory.toFilePath());
-    final objcHeader = p.join(absTempDir, '$outputModule.h');
+    final objcHeader = p.join(absTempDir, '${output.module}.h');
     Directory(absTempDir).createSync(recursive: true);
     final swift2objcConfigs = inputs
         .map((input) => input.swift2ObjCConfig)
         .nonNulls
         .toList();
     if (swift2objcConfigs.isNotEmpty) {
-      await _generateObjCSwiftFile(swift2objcConfigs, logger, absTempDir);
+      final swiftWrapperFile = output.swiftWrapperFile;
+      if (swiftWrapperFile == null) {
+        throw ArgumentError(
+          'If any of the input Swift APIs require an Objective-C '
+          'compatibility wrapper, output.swiftWrapperFile must not be null',
+        );
+      }
+      await _generateObjCSwiftFile(
+        swift2objcConfigs,
+        logger,
+        absTempDir,
+        swiftWrapperFile,
+      );
     }
-    await _generateObjCFile(objcHeader, absTempDir);
+    await _generateObjCFile(objcHeader, absTempDir, output.swiftWrapperFile);
     _generateDartFile(logger, objcHeader);
   }
 
@@ -34,42 +46,47 @@ extension SwiftGenGenerator on SwiftGenerator {
     List<swift2objc.InputConfig> swift2objcConfigs,
     Logger logger,
     String absTempDir,
+    SwiftWrapperFile swiftWrapperFile,
   ) => swift2objc.Swift2ObjCGenerator(
     inputs: swift2objcConfigs,
-    include: include ?? (d) => true,
-    outputFile: objcSwiftFile,
+    include: include,
+    outputFile: swiftWrapperFile.path,
     tempDir: Uri.directory(absTempDir),
-    preamble: objcSwiftPreamble,
+    preamble: swiftWrapperFile.preamble,
   ).generate(logger: logger);
 
-  Future<void> _generateObjCFile(String objcHeader, String absTempDir) =>
-      run('swiftc', [
-        '-c',
-        for (final input in inputs)
-          for (final uri in input.files) p.absolute(uri.toFilePath()),
-        p.absolute(objcSwiftFile.toFilePath()),
-        '-module-name',
-        outputModule,
-        '-emit-objc-header-path',
-        objcHeader,
-        '-target',
-        target.triple,
-        '-sdk',
-        p.absolute(target.sdk.toFilePath()),
-      ], absTempDir);
+  Future<void> _generateObjCFile(
+    String objcHeader,
+    String absTempDir,
+    SwiftWrapperFile? swiftWrapperFile,
+  ) => run('swiftc', [
+    '-c',
+    for (final input in inputs)
+      for (final uri in input.files) p.absolute(uri.toFilePath()),
+    if (swiftWrapperFile != null)
+      p.absolute(swiftWrapperFile.path.toFilePath()),
+    '-module-name',
+    output.module,
+    '-emit-objc-header-path',
+    objcHeader,
+    '-target',
+    target.triple,
+    '-sdk',
+    p.absolute(target.sdk.toFilePath()),
+  ], absTempDir);
 
   void _generateDartFile(Logger logger, String objcHeader) {
     fg.FfiGenerator(
       output: fg.Output(
-        dartFile: ffigen.output,
-        objectiveCFile: ffigen.outputObjC,
-        preamble: ffigen.preamble,
-        style: fg.DynamicLibraryBindings(
-          wrapperName: ffigen.wrapperName ?? outputModule,
-          wrapperDocComment: ffigen.wrapperDocComment,
+        dartFile: output.dartFile,
+        objectiveCFile: output.objectiveCFile,
+        preamble: output.preamble,
+        style: fg.NativeExternalBindings(
+          assetId: output.assetId,
+          // ignore: deprecated_member_use
+          wrapperName: output.assetId ?? output.module,
         ),
       ),
-
       functions: ffigen.functions,
       structs: ffigen.structs,
       unions: ffigen.unions,
@@ -88,7 +105,7 @@ extension SwiftGenGenerator on SwiftGenerator {
           rename: ffigen.objectiveC.interfaces.rename,
           renameMember: ffigen.objectiveC.interfaces.renameMember,
           includeTransitive: ffigen.objectiveC.interfaces.includeTransitive,
-          module: (_) => outputModule,
+          module: (_) => output.module,
         ),
         protocols: fg.Protocols(
           include: ffigen.objectiveC.protocols.include,
@@ -98,7 +115,7 @@ extension SwiftGenGenerator on SwiftGenerator {
           rename: ffigen.objectiveC.protocols.rename,
           renameMember: ffigen.objectiveC.protocols.renameMember,
           includeTransitive: ffigen.objectiveC.protocols.includeTransitive,
-          module: (_) => outputModule,
+          module: (_) => output.module,
         ),
         categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,

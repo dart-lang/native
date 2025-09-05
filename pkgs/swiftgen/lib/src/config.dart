@@ -36,12 +36,13 @@ class SwiftGenerator {
   /// Configuration for the ffigen pass.
   final FfiGeneratorOptions ffigen;
 
+  static bool _defaultInclude(swift2objc.Declaration _) => true;
+
   const SwiftGenerator({
     required this.target,
     required this.inputs,
-    this.include = Swift2ObjCGenerator._defaultInclude,
+    this.include = _defaultInclude,
     required this.output,
-    required this.outputModule,
     required this.ffigen,
   });
 }
@@ -54,7 +55,7 @@ class Output {
   /// compatible. That is, if you're using [SwiftFileInput] or
   /// [SwiftModuleInput]. If all your inputs are [ObjCCompatibleSwiftFileInput]
   /// you do not need to set this field.
-  final SwiftWrapperFile? wrapperFile;
+  final SwiftWrapperFile? swiftWrapperFile;
 
   /// The name of the output Swift module.
   ///
@@ -64,7 +65,28 @@ class Output {
   /// the plugin name.
   final String module;
 
-  const Output({this.wrapperFile, required this.module});
+  /// The output Dart file for the generated bindings.
+  final Uri dartFile;
+
+  /// The output Objective-C file for the generated Objective-C bindings.
+  final Uri objectiveCFile;
+
+  /// Extra code inserted at the top of the generated Dart bindings.
+  final String? preamble;
+
+  /// The asset id to use for the @Native annotations.
+  ///
+  /// If omitted, it will not be generated.
+  final String? assetId;
+
+  const Output({
+    this.swiftWrapperFile,
+    required this.module,
+    required this.dartFile,
+    required this.objectiveCFile,
+    this.preamble,
+    this.assetId,
+  });
 }
 
 /// Configuration for the Objective-C compatible wrapper API.
@@ -75,10 +97,10 @@ class SwiftWrapperFile {
   /// The output path for the wrapper API.
   final Uri path;
 
-  /// Extra code inserted at the top of the generated file.
+  /// Extra code inserted at the top of the generated Swift file.
   final String? preamble;
 
-  const SwiftWrapperFile({this.path, this.preamble});
+  const SwiftWrapperFile({required this.path, this.preamble});
 }
 
 /// The target defines the OS (ie macOS or iOS), SDK version, and architecture
@@ -102,29 +124,39 @@ class Target {
 
   /// Returns the [Target] corresponding to the host OS.
   static Future<Target> host() async => Target(
-    triple: await swift2objc.hostTarget,
+    triple: await swift2objc.hostTargetTriple,
     sdk: await swift2objc.hostSdk,
   );
 
   /// Returns the [Target] for the latest installed iOS SDK on arm.
-  static Future<Target> iOSArmLatest() async =>
-    Target(await iOSArmTargetTripleLatest, await iOSSdk);
+  static Future<Target> iOSArmLatest() async => Target(
+    triple: await swift2objc.iOSArmTargetTripleLatest,
+    sdk: await swift2objc.iOSSdk,
+  );
 
   /// Returns the [Target] for the latest installed iOS SDK on arm64.
-  static Future<Target> iOSArm64Latest() async =>
-    Target(await iOSArm64TargetTripleLatest, await iOSSdk);
+  static Future<Target> iOSArm64Latest() async => Target(
+    triple: await swift2objc.iOSArm64TargetTripleLatest,
+    sdk: await swift2objc.iOSSdk,
+  );
 
   /// Returns the [Target] for the latest installed iOS SDK on x64.
-  static Future<Target> iOSX64Latest() async =>
-    Target(await iOSX64TargetTripleLatest, await iOSSdk);
+  static Future<Target> iOSX64Latest() async => Target(
+    triple: await swift2objc.iOSX64TargetTripleLatest,
+    sdk: await swift2objc.iOSSdk,
+  );
 
   /// Returns the [Target] for the latest installed macOS SDK on arm64.
-  static Future<Target> macOSArm64Latest() async =>
-    Target(await macOSArm64TargetTripleLatest, await macOSSdk);
+  static Future<Target> macOSArm64Latest() async => Target(
+    triple: await swift2objc.macOSArm64TargetTripleLatest,
+    sdk: await swift2objc.macOSSdk,
+  );
 
   /// Returns the [Target] for the latest installed macOS SDK on x64.
-  static Future<Target> macOSX64Latest() async =>
-    Target(await macOSX64TargetTripleLatest, await macOSSdk);
+  static Future<Target> macOSX64Latest() async => Target(
+    triple: await swift2objc.macOSX64TargetTripleLatest,
+    sdk: await swift2objc.macOSSdk,
+  );
 }
 
 /// Describes the inputs to the swiftgen pipeline.
@@ -157,11 +189,14 @@ class SwiftFileInput implements SwiftGenInput {
   /// your project involves multiple Swift modules, their names must be unique.
   final String tempModuleName;
 
-  const SwiftFileInput({required this.files, required this.tempModuleName});
+  const SwiftFileInput({
+    required this.files,
+    this.tempModuleName = 'symbolgraph_module',
+  });
 
   @override
   swift2objc.InputConfig? get swift2ObjCConfig =>
-      swift2objc.FilesInputConfig(files: files, generatedModuleName: module);
+      swift2objc.FilesInputConfig(files: files, tempModuleName: tempModuleName);
 }
 
 /// A precompiled swift module input.
@@ -181,17 +216,6 @@ class SwiftModuleInput implements SwiftGenInput {
 
 /// Selected options from [ffigen.FfiGenerator].
 class FfiGeneratorOptions {
-  /// [ffigen.FfiGenerator.output]
-  final Uri output;
-
-  final Uri outputObjC;
-
-  final String? wrapperName;
-
-  final String? wrapperDocComment;
-
-  final String? preamble;
-
   /// [ffigen.FfiGenerator.functions]
   final ffigen.Functions functions;
 
@@ -219,24 +243,19 @@ class FfiGeneratorOptions {
   /// [ffigen.FfiGenerator.typedefs]
   final ffigen.Typedefs typedefs;
 
-  /// Objective-C specific configuration.
+  /// [ffigen.FfiGenerator.objectiveC]
   final ffigen.ObjectiveC objectiveC;
 
   const FfiGeneratorOptions({
-    required this.output,
-    required this.outputObjC,
-    this.wrapperName,
-    this.wrapperDocComment,
-    this.preamble,
-    this.enums = ffigen.Enums.excludeAll,
     this.functions = ffigen.Functions.excludeAll,
+    this.structs = ffigen.Structs.excludeAll,
+    this.unions = ffigen.Unions.excludeAll,
+    this.enums = ffigen.Enums.excludeAll,
+    this.unnamedEnums = ffigen.UnnamedEnums.excludeAll,
     this.globals = ffigen.Globals.excludeAll,
     this.integers = const ffigen.Integers(),
     this.macros = ffigen.Macros.excludeAll,
-    this.structs = ffigen.Structs.excludeAll,
     this.typedefs = ffigen.Typedefs.excludeAll,
-    this.unions = ffigen.Unions.excludeAll,
-    this.unnamedEnums = ffigen.UnnamedEnums.excludeAll,
     this.objectiveC = const ffigen.ObjectiveC(),
   });
 }

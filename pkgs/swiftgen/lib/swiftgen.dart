@@ -4,10 +4,12 @@
 
 export 'src/config.dart'
     show
-        FfiGenConfig,
+        FfiGeneratorOptions,
         ObjCCompatibleSwiftFileInput,
+        Output,
         SwiftFileInput,
         SwiftGenerator,
         SwiftModuleInput,
+        SwiftWrapperFile,
         Target;
 export 'src/generator.dart' show SwiftGenGenerator;
