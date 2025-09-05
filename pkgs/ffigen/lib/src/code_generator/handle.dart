@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../visitor/ast.dart';
 
 import 'writer.dart';
 
@@ -13,7 +14,7 @@ class HandleType extends Type {
   factory HandleType() => _handle;
 
   @override
-  String getCType(Writer w) => '${w.ffiLibraryPrefix}.Handle';
+  String getCType(Writer w) => '${w.context.libs.prefix(ffiImport)}.Handle';
 
   @override
   String getFfiDartType(Writer w) => 'Object';
@@ -28,4 +29,10 @@ class HandleType extends Type {
 
   @override
   String toString() => 'Handle';
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+  }
 }

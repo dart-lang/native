@@ -181,11 +181,6 @@ const symbolFilesImport = 'symbol-files';
 // Sub-Sub keys of symbolFilesImport.
 const importPath = 'import-path';
 
-final predefinedLibraryImports = {
-  ffiImport.name: ffiImport,
-  ffiPkgImport.name: ffiPkgImport,
-};
-
 const typeMap = 'type-map';
 
 // Sub-fields for type-map.

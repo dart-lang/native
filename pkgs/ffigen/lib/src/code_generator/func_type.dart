@@ -69,7 +69,7 @@ class FunctionType extends Type {
   String getCType(Writer w, {bool writeArgumentNames = true}) => _getTypeImpl(
     writeArgumentNames,
     (Type t) => t.getCType(w),
-    varArgWrapper: '${w.ffiLibraryPrefix}.VarArgs',
+    varArgWrapper: '${w.context.libs.prefix(ffiImport)}.VarArgs',
   );
 
   @override
@@ -129,6 +129,7 @@ class FunctionType extends Type {
     visitor.visit(returnType);
     visitor.visitAll(parameters);
     visitor.visitAll(varArgParameters);
+    visitor.visit(ffiImport);
   }
 
   @override
@@ -167,7 +168,7 @@ class NativeFunc extends Type {
     final funcType = _type is FunctionType
         ? _type.getCType(w, writeArgumentNames: writeArgumentNames)
         : _type.getCType(w);
-    return '${w.ffiLibraryPrefix}.NativeFunction<$funcType>';
+    return '${w.context.libs.prefix(ffiImport)}.NativeFunction<$funcType>';
   }
 
   @override

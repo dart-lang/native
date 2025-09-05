@@ -89,13 +89,14 @@ void main() {
 }
 
 Library expectedLibrary() {
-  final globalStruct = Struct(name: 'EmptyStruct');
+  final context = testContext();
+  final globalStruct = Struct(context: context, name: 'EmptyStruct');
   final globalStructAlias = Typealias(
     name: 'EmptyStruct_Alias',
     type: globalStruct,
   );
   return Library(
-    context: testContext(),
+    context: context,
     name: 'Bindings',
     bindings: [
       Global(type: BooleanType(), name: 'coolGlobal'),

@@ -12,15 +12,16 @@ void main() {
   group('decl_symbol_address_collision_test', () {
     setUpAll(() {
       logWarnings(Level.SEVERE);
+      final context = testContext();
       actual = Library(
-        context: testContext(),
+        context: context,
         name: 'Bindings',
         header:
             '// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
         bindings: [
-          Struct(name: 'addresses'),
-          Struct(name: '_SymbolAddresses'),
-          EnumClass(name: 'Bindings'),
+          Struct(context: context, name: 'addresses'),
+          Struct(context: context, name: '_SymbolAddresses'),
+          EnumClass(context: context, name: 'Bindings'),
           Func(
             name: '_library',
             returnType: NativeType(SupportedNativeType.voidType),

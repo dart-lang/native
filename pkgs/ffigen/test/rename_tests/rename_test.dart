@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -19,10 +20,8 @@ void main() {
   group('rename_test', () {
     setUpAll(() {
       logWarnings();
-      expected = expectedLibrary();
-      actual = parser.parse(
-        testContext(
-          testConfig('''
+      final context = testContext(
+        testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Rename Test'
 ${strings.output}: 'unused'
@@ -79,8 +78,9 @@ ${strings.typedefs}:
   ${strings.rename}:
     'Struct5_Alias': 'Struct5_Alias_Renamed'
     '''),
-        ),
       );
+      expected = expectedLibrary(context);
+      actual = parser.parse(context);
     });
 
     test('Function addPrefix', () {
@@ -200,16 +200,16 @@ ${strings.typedefs}:
   });
 }
 
-Library expectedLibrary() {
-  final struct1 = Struct(name: '${structPrefix}Struct1');
-  final struct2 = Struct(name: 'Struct2');
-  final struct3 = Struct(name: 'Struct3');
+Library expectedLibrary(Context context) {
+  final struct1 = Struct(context: context, name: '${structPrefix}Struct1');
+  final struct2 = Struct(context: context, name: 'Struct2');
+  final struct3 = Struct(context: context, name: 'Struct3');
   final struct5Alias = Typealias(
     name: 'Struct5_Alias_Renamed',
-    type: Struct(name: '${structPrefix}Struct5'),
+    type: Struct(context: context, name: '${structPrefix}Struct5'),
   );
   return Library(
-    context: testContext(),
+    context: context,
     name: 'Bindings',
     bindings: [
       Func(
@@ -262,6 +262,7 @@ Library expectedLibrary() {
       struct2,
       struct3,
       Struct(
+        context: context,
         name: '${structPrefix}MemberRenameStruct4',
         members: [
           CompoundMember(name: 'underscore', type: intType),
@@ -269,10 +270,12 @@ Library expectedLibrary() {
         ],
       ),
       Struct(
+        context: context,
         name: '${structPrefix}AnyMatchStruct5',
         members: [CompoundMember(name: 'underscore', type: intType)],
       ),
       EnumClass(
+        context: context,
         name: '${enumPrefix}Enum1',
         enumConstants: [
           const EnumConstant(name: 'a', value: 0),
@@ -281,6 +284,7 @@ Library expectedLibrary() {
         ],
       ),
       EnumClass(
+        context: context,
         name: 'Enum2',
         enumConstants: [
           const EnumConstant(name: 'e', value: 0),
@@ -289,6 +293,7 @@ Library expectedLibrary() {
         ],
       ),
       EnumClass(
+        context: context,
         name: 'Enum3',
         enumConstants: [
           const EnumConstant(name: 'i', value: 0),
@@ -297,6 +302,7 @@ Library expectedLibrary() {
         ],
       ),
       EnumClass(
+        context: context,
         name: '${enumPrefix}MemberRenameEnum4',
         enumConstants: [
           const EnumConstant(name: 'underscore', value: 0),
