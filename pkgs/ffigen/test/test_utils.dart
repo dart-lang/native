@@ -151,6 +151,10 @@ void _matchFileWithExpected({
 }
 
 void _expectNoAnalysisErrors(String file) {
+  Process.runSync(dartExecutable, [
+    'pub',
+    'get',
+  ], workingDirectory: path.dirname(file));
   final result = Process.runSync(dartExecutable, [
     'analyze',
     file,
