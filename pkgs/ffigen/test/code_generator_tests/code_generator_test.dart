@@ -58,23 +58,23 @@ void main() {
       nativeConfig,
     ) {
       final nativeContext = testContext(
-          FfiGenerator(
-            output: Output(
-              dartFile: Uri.file('unused'),
-              style: nativeConfig.enabled
-                  ? const NativeExternalBindings()
-                  : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
-            ),
-            enums: Enums.includeAll,
-            functions: Functions.includeAll,
-            globals: Globals.includeAll,
-            macros: Macros.includeAll,
-            structs: Structs.includeAll,
-            typedefs: Typedefs.includeAll,
-            unions: Unions.includeAll,
-            unnamedEnums: UnnamedEnums.includeAll,
+        FfiGenerator(
+          output: Output(
+            dartFile: Uri.file('unused'),
+            style: nativeConfig.enabled
+                ? const NativeExternalBindings()
+                : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
           ),
-        );
+          enums: Enums.includeAll,
+          functions: Functions.includeAll,
+          globals: Globals.includeAll,
+          macros: Macros.includeAll,
+          structs: Structs.includeAll,
+          typedefs: Typedefs.includeAll,
+          unions: Unions.includeAll,
+          unnamedEnums: UnnamedEnums.includeAll,
+        ),
+      );
       final library = Library(
         context: nativeContext,
         name: 'Bindings',
@@ -479,7 +479,15 @@ void main() {
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         silenceEnumWarning: true,
-        bindings: transformBindings([enum1, enum2, struct1, func1, func2, func3, func4], context),
+        bindings: transformBindings([
+          enum1,
+          enum2,
+          struct1,
+          func1,
+          func2,
+          func3,
+          func4,
+        ], context),
       );
       _matchLib(lib, 'enumclass_func_and_struct');
     });
