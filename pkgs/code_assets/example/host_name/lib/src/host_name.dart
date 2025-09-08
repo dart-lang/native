@@ -13,7 +13,7 @@ import 'third_party/windows.dart' as windows;
 /// The machine's hostname.
 ///
 /// Returns `null` if looking up the machines host name fails.
-String? get hostName => using((arena) {
+String? getHostName() => using((arena) {
   const maxHostNameLength = 256;
   final buffer = arena<Char>(maxHostNameLength);
   final result = Platform.isWindows

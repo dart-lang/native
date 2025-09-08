@@ -64,7 +64,10 @@ void main([List<String>? args]) {
 
         await Swift2ObjCGenerator(
           inputs: [
-            FilesInputConfig(files: [Uri.file(inputFile)]),
+            FilesInputConfig(
+              files: [Uri.file(inputFile)],
+              tempModuleName: 'temp_$name',
+            ),
           ],
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(tempDir).uri,
