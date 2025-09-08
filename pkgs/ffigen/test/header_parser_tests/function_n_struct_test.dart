@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser.dart' as parser;
+import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/header_parser/parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -81,7 +82,22 @@ ${strings.headers}:
 }
 
 Library expectedLibrary() {
-  final context = testContext();
+  final context = testContext(
+    FfiGenerator(
+      output: Output(
+        dartFile: Uri.file('unused'),
+        style: const DynamicLibraryBindings(),
+      ),
+      enums: Enums.includeAll,
+      functions: Functions.includeAll,
+      globals: Globals.includeAll,
+      macros: Macros.includeAll,
+      structs: Structs.includeAll,
+      typedefs: Typedefs.includeAll,
+      unions: Unions.includeAll,
+      unnamedEnums: UnnamedEnums.includeAll,
+    ),
+  );
   final struct1 = Struct(
     context: context,
     name: 'Struct1',
@@ -96,7 +112,7 @@ Library expectedLibrary() {
   return Library(
     context: context,
     name: 'Bindings',
-    bindings: [
+    bindings: parser.transformBindings([
       struct1,
       struct2,
       struct3,
@@ -138,6 +154,6 @@ Library expectedLibrary() {
         ],
       ),
       Struct(context: context, name: 'Struct7'),
-    ],
+    ], context),
   );
 }

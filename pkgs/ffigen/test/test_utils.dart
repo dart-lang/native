@@ -136,7 +136,7 @@ void _matchFileWithExpected({
       codeNormalizer,
     );
     expect(actual.split('\n'), expected.split('\n'));
-    _expectNoAnalysisErrors(file);
+    _expectNoAnalysisErrors(expectedPath);
     if (file.existsSync()) {
       file.delete();
     }
@@ -150,11 +150,8 @@ void _matchFileWithExpected({
   }
 }
 
-void _expectNoAnalysisErrors(File file) {
-  final result = Process.runSync(dartExecutable, [
-    'analyze',
-    file.absolute.path,
-  ]);
+void _expectNoAnalysisErrors(String file) {
+  final result = Process.runSync(dartExecutable, ['analyze', file]);
   if (result.exitCode != 0) print(result.stdout);
   expect(result.exitCode, 0);
 }
