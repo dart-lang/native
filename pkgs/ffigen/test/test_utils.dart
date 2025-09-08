@@ -151,7 +151,10 @@ void _matchFileWithExpected({
 }
 
 void _expectNoAnalysisErrors(String file) {
-  final result = Process.runSync(dartExecutable, ['analyze', file]);
+  final result = Process.runSync(dartExecutable, [
+    'analyze',
+    file,
+  ], workingDirectory: path.dirname(file));
   if (result.exitCode != 0) print(result.stdout);
   expect(result.exitCode, 0);
 }
