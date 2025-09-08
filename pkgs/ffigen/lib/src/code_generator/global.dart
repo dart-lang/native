@@ -167,7 +167,7 @@ class Global extends LookUpBinding {
     super.visitChildren(visitor);
     visitor.visit(type);
     visitor.visit(ffiImport);
-    if (exposeSymbolAddress) {
+    if (nativeConfig.enabled && exposeSymbolAddress) {
       visitor.visit(selfImport);
     }
   }

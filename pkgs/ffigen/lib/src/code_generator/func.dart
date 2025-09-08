@@ -222,7 +222,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
     visitor.visit(functionType);
     visitor.visit(_exposedFunctionTypealias);
     visitor.visit(ffiImport);
-    if (exposeSymbolAddress) {
+    if (ffiNativeConfig.enabled && exposeSymbolAddress) {
       visitor.visit(selfImport);
     }
   }
