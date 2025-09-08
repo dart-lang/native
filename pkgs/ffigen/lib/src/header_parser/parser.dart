@@ -206,7 +206,11 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   visit(context, MarkBindingsVisitation(finalBindings), bindings);
 
   visit(context, MarkImportsVisitation(context), finalBindings);
-  context.libs.fillPrefixes();
+
+  // TODO(https://github.com/dart-lang/native/issues/1259): Remove libNamer when
+  // renaming is another ordinary transformer.
+  final libNamer = UniqueNamer()..markAllUsed(finalBindings.map((d) => d.name));
+  context.libs.fillPrefixes(libNamer);
 
   final finalBindingsList = finalBindings.toList();
 

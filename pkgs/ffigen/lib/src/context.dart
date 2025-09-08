@@ -93,9 +93,7 @@ class LibraryImports {
 
   // Call after all used imports have been marked by [markUsed]. Fills the
   // library prefixes used for codegen.
-  void fillPrefixes() {
-    final namer = UniqueNamer();
-
+  void fillPrefixes(UniqueNamer namer) {
     for (final lib in _used) {
       _prefixes[lib] = namer.makeUnique(lib.name);
     }

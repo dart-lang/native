@@ -15,16 +15,17 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('declaration conflict', () {
-      final generator = FfiGenerator(
-        output: Output(dartFile: Uri.file('unused')),
-        functions: Functions.includeAll,
-        structs: Structs.includeAll,
-        enums: Enums.includeAll,
-        globals: Globals.includeAll,
-        macros: Macros.includeAll,
-        typedefs: Typedefs.includeAll,
+      final context = testContext(
+        FfiGenerator(
+          output: Output(dartFile: Uri.file('unused')),
+          functions: Functions.includeAll,
+          structs: Structs.includeAll,
+          enums: Enums.includeAll,
+          globals: Globals.includeAll,
+          macros: Macros.includeAll,
+          typedefs: Typedefs.includeAll,
+        ),
       );
-      final context = testContext(generator);
       final library = Library(
         context: context,
         name: 'Bindings',
@@ -81,7 +82,7 @@ void main() {
             name: 'ffi\$1',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
-        ], testContext(generator)),
+        ], context),
       );
       matchLibraryWithExpected(
         library,
