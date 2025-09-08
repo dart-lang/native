@@ -100,7 +100,7 @@ void matchLibrarySymbolFileWithExpected(
   );
 }
 
-const bool updateExpectations = true;
+const bool updateExpectations = false;
 
 /// Transforms a repo relative path to an absolute path.
 String absPath(String p) => path.join(packagePathForTests, p);
