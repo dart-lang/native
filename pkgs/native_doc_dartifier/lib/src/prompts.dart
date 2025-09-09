@@ -135,6 +135,7 @@ class FixPrompt implements Prompt {
   final String _schema = '''
 Output the response in JSON format:
 {
+  "thinking": "Your thinking process here",
   "mainDartCode": "Dart code here",
   "helperDartCode": "Dart code here"
 }
@@ -142,22 +143,33 @@ Output the response in JSON format:
 
   @override
   String get prompt => '''
-  You are an expert Dart code fixer. Your task is to fix the provided main Dart code based on the analysis results.
-  Here is the main Dart file code that needs fixing:
-  $mainDartCode
-  Here is the helper Dart file that you can use to add initialization code or other necessary imports to fix the issues in the main Dart code file:
-  $helperDartCode
-  Here are the issues found in the main Dart code:
-  $analysisResult
+I need your help fixing some analyzer errors in the Dart code you generated for me.
 
-  $_schema
+also provide your thinking process. Explain your approach to fixing the errors, identify the specific issues, and describe how you will use the previously shared bindings and code to solve them.
 
-  try to add initialization or imports or whatever in the helper Dart file to fix the errors as the main Dart file import this helper Dart file.
-  change the main Dart file only if you can't fix the issues by adding code to the helper Dart file.
-  do not make a full initializaiton or completed code in the helper Dart file, just add the necessary code to fix the issues in the main Dart file even if not complete.
+---
 
-  Make sure to not use a backslash (`\\`) before Dollar sign ('\$') in the Dart code, as it is not a valid Dart.
-  ''';
+**Instructions:**
+
+1.  **Use Previous Bindings:** Please use the JNIgen bindings to correctly resolve the remaining errors, for example use the correct class name, or use the correct method with the given number and types of parameters.
+2.  **Prioritize Helper File:** Make changes to the **helper Dart file** first.
+3.  **Modify Main File as a Last Resort:** Only alter the **main Dart file** if the problems cannot be resolved within the helper file.
+4.  **Minimalist Fixes:** Add only the code necessary to fix the remaining errors in the **helper Dart file**. Do not write a complete or fully initialized implementation for example you can initialize missing declerations like (late final Foo;).
+5.  **Valid Dart Syntax:** Ensure all generated Dart code is valid. Avoid using backslashes (`\\`) before dollar signs (`\$`).
+
+---
+
+Here is the main Dart file code that needs fixing:
+$mainDartCode
+
+Here is the helper Dart file that you can use to add initialization code or other necessary imports to fix the issues in the main Dart code file:
+$helperDartCode
+
+Here are the issues found in the main Dart code:
+$analysisResult
+
+$_schema
+''';
 
   @override
   FixResponse getParsedResponse(String response) {

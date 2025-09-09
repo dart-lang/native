@@ -15,7 +15,7 @@ class CodeProcessor {
     }
   }
 
-  Future<String> analyzeCode(String mainCode, String helperCode) async {
+  Future<List<String>> analyzeCode(String mainCode, String helperCode) async {
     await _saveCodeToFile(mainCode, helperCode);
     final dartifiedFile = File('${_tempDir.path}/$_dartifiedCodeFileName');
     final analysisResult = await Process.run('dart', [
@@ -23,16 +23,12 @@ class CodeProcessor {
       dartifiedFile.absolute.path,
     ], runInShell: true);
 
-    var errorMessage = '';
-
     final allLines = analysisResult.stdout.toString().trim().split('\n');
     final errorLines =
         allLines.where((line) => line.trim().startsWith('error -')).toList();
 
-    errorMessage = errorLines.join('\n');
-
     await _cleanUp();
-    return errorMessage;
+    return errorLines;
   }
 
   Future<void> _saveCodeToFile(String mainCode, String helperCode) async {
