@@ -32,6 +32,9 @@ objc-interfaces:
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
     - NSArray
+    - NSAttributedString
+    - NSAttributedStringMarkdownParsingOptions
+    - NSBundle
     - NSCharacterSet
     - NSCoder
     - NSData
@@ -76,6 +79,12 @@ objc-interfaces:
     'DOBJCDartInputStreamAdapterWeakHolder' : 'DartInputStreamAdapterWeakHolder'
     'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
     'DOBJCDartProtocol': 'DartProtocol'
+  member-filter:
+    NSBundle:
+      exclude:
+        # This method is only present in some SDKs, leading to inconsistent
+        # code generation.
+        - 'localizedStringForKey:value:table:localizations:'
 objc-protocols:
   include:
     - NSCoding
@@ -130,6 +139,10 @@ structs:
 enums:
   include:
     - NSAppleEventSendOptions
+    - NSAttributedStringEnumerationOptions
+    - NSAttributedStringFormattingOptions
+    - NSAttributedStringMarkdownInterpretedSyntax
+    - NSAttributedStringMarkdownParsingFailurePolicy
     - NSBinarySearchingOptions
     - NSCollectionChangeType
     - NSComparisonResult
