@@ -174,6 +174,7 @@ class ObjCBlock extends BindingType {
     final blockType = _blockType(w);
     final defaultValue = returnType.getDefaultValue(w);
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
+    final ffiPrefix = w.context.libs.prefix(ffiImport);
 
     // Write the function pointer based trampoline function.
     s.write('''
@@ -181,7 +182,7 @@ $returnFfiDartType $funcPtrTrampoline(
     $blockCType block, ${func.paramsFfiDartType}) =>
         block.ref.target.cast<${func.natFnFfiDartType}>()
             .asFunction<${func.ffiDartType}>()(${func.paramsNameOnly});
-$voidPtrCType $funcPtrCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
+$voidPtrCType $funcPtrCallable = $ffiPrefix.Pointer.fromFunction<
     ${func.trampCType}>($funcPtrTrampoline $exceptionalReturn).cast();
 ''');
 
@@ -190,7 +191,7 @@ $voidPtrCType $funcPtrCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
 $returnFfiDartType $closureTrampoline(
     $blockCType block, ${func.paramsFfiDartType}) =>
     ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
-$voidPtrCType $closureCallable = ${w.ffiLibraryPrefix}.Pointer.fromFunction<
+$voidPtrCType $closureCallable = $ffiPrefix.Pointer.fromFunction<
     ${func.trampCType}>($closureTrampoline $exceptionalReturn).cast();
 ''');
 
@@ -545,6 +546,8 @@ $ret $fnName(id target, $argRecv) {
     visitor.visitAll(params);
     visitor.visit(_blockWrappers);
     visitor.visit(protocolTrampoline);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
   }
 
   @override
@@ -597,7 +600,8 @@ class _FnHelper {
     );
     trampCType = trampFnType.getCType(w, writeArgumentNames: false);
     trampFfiDartType = trampFnType.getFfiDartType(w, writeArgumentNames: false);
-    trampNatCallType = '${w.ffiLibraryPrefix}.NativeCallable<$trampCType>';
+    trampNatCallType =
+        '${w.context.libs.prefix(ffiImport)}.NativeCallable<$trampCType>';
     trampNatFnCType = NativeFunc(trampFnType).getCType(w);
 
     paramsNameOnly = params.map((p) => p.name).join(', ');

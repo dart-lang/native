@@ -271,10 +271,16 @@ interface class $name extends $protocolBase $impls{
 ''';
       }
 
+      final msgSendInvoke = _conformsToMsgSend.invoke(
+        w,
+        'obj.ref.pointer',
+        _conformsTo.name,
+        [_protocolPointer.name],
+      );
       s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool conformsTo($objectBase obj) {
-    return ${_conformsToMsgSend.invoke(w, 'obj.ref.pointer', _conformsTo.name, [_protocolPointer.name])};
+    return $msgSendInvoke;
   }
 
   $builders
@@ -297,7 +303,8 @@ interface class $name extends $protocolBase $impls{
     final type = NativeFunc(
       func.functionType,
     ).getCType(w, writeArgumentNames: false);
-    return '${w.ffiLibraryPrefix}.Native.addressOf<$type>(${func.name}).cast()';
+    final ffiPrefix = w.context.libs.prefix(ffiImport);
+    return '$ffiPrefix.Native.addressOf<$type>(${func.name}).cast()';
   }
 
   @override
@@ -320,7 +327,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
 
   @override
   String getDartType(Writer w) =>
-      isObjCImport ? '${w.objcPkgPrefix}.$name' : name;
+      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
@@ -394,5 +401,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
     visitor.visit(_conformsTo);
     visitor.visit(_conformsToMsgSend);
     visitMethods(visitor);
+    visitor.visit(ffiImport);
+    visitor.visit(objcPkgImport);
   }
 }

@@ -940,7 +940,7 @@ extension DOBJCObservation$Methods on DOBJCObservation {
   }
 
   /// self
-  DOBJCObservation self$1() {
+  DOBJCObservation self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DOBJCObservation.castFromPointer(_ret, retain: true, release: true);
   }
@@ -1274,7 +1274,7 @@ extension DartInputStreamAdapterWeakHolder$Methods
   }
 
   /// self
-  DartInputStreamAdapterWeakHolder self$1() {
+  DartInputStreamAdapterWeakHolder self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartInputStreamAdapterWeakHolder.castFromPointer(
       _ret,
@@ -1397,7 +1397,7 @@ extension DartProtocol$Methods on DartProtocol {
   }
 
   /// self
-  DartProtocol self$1() {
+  DartProtocol self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProtocol.castFromPointer(_ret, retain: true, release: true);
   }
@@ -1571,7 +1571,7 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
   }
 
   /// self
-  DartProtocolBuilder self$1() {
+  DartProtocolBuilder self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return DartProtocolBuilder.castFromPointer(
       _ret,
@@ -2224,7 +2224,7 @@ extension NSCharacterSet$Methods on NSCharacterSet {
   }
 
   /// self
-  NSCharacterSet self$1() {
+  NSCharacterSet self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSCharacterSet.castFromPointer(_ret, retain: true, release: true);
   }
@@ -8390,7 +8390,7 @@ extension NSItemProvider$Methods on NSItemProvider {
   }
 
   /// self
-  NSItemProvider self$1() {
+  NSItemProvider self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSItemProvider.castFromPointer(_ret, retain: true, release: true);
   }
@@ -8967,7 +8967,7 @@ extension NSLocale$Methods on NSLocale {
   }
 
   /// self
-  NSLocale self$1() {
+  NSLocale self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSLocale.castFromPointer(_ret, retain: true, release: true);
   }
@@ -12145,7 +12145,7 @@ extension NSMutableString$Methods on NSMutableString {
   }
 
   /// self
-  NSMutableString self$1() {
+  NSMutableString self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSMutableString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -12314,7 +12314,7 @@ extension NSNotification$Methods on NSNotification {
   }
 
   /// self
-  NSNotification self$1() {
+  NSNotification self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSNotification.castFromPointer(_ret, retain: true, release: true);
   }
@@ -13396,7 +13396,7 @@ extension NSObject$Methods on NSObject {
   }
 
   /// self
-  NSObject self$1() {
+  NSObject self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSObject.castFromPointer(_ret, retain: true, release: true);
   }
@@ -13478,7 +13478,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
     required objc.ObjCObjectBase Function() retain,
     required int Function() retainCount,
-    required objc.ObjCObjectBase Function() self$1,
+    required objc.ObjCObjectBase Function() self,
     required objc.ObjCObjectBase Function() superclass,
     required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
@@ -13513,7 +13513,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     );
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self$1.implement(builder, self$1);
+    NSObjectProtocol.self.implement(builder, self);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
@@ -13555,7 +13555,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
     required objc.ObjCObjectBase Function() retain,
     required int Function() retainCount,
-    required objc.ObjCObjectBase Function() self$1,
+    required objc.ObjCObjectBase Function() self,
     required objc.ObjCObjectBase Function() superclass,
     required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
@@ -13589,7 +13589,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     );
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self$1.implement(builder, self$1);
+    NSObjectProtocol.self.implement(builder, self);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
@@ -13629,7 +13629,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
     required objc.ObjCObjectBase Function() retain,
     required int Function() retainCount,
-    required objc.ObjCObjectBase Function() self$1,
+    required objc.ObjCObjectBase Function() self,
     required objc.ObjCObjectBase Function() superclass,
     required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
@@ -13664,7 +13664,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     );
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self$1.implement(builder, self$1);
+    NSObjectProtocol.self.implement(builder, self);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
@@ -13707,7 +13707,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
     required objc.ObjCObjectBase Function() retain,
     required int Function() retainCount,
-    required objc.ObjCObjectBase Function() self$1,
+    required objc.ObjCObjectBase Function() self,
     required objc.ObjCObjectBase Function() superclass,
     required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
@@ -13741,7 +13741,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     );
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self$1.implement(builder, self$1);
+    NSObjectProtocol.self.implement(builder, self);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
@@ -13781,7 +13781,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
     required objc.ObjCObjectBase Function() retain,
     required int Function() retainCount,
-    required objc.ObjCObjectBase Function() self$1,
+    required objc.ObjCObjectBase Function() self,
     required objc.ObjCObjectBase Function() superclass,
     required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
@@ -13816,7 +13816,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     );
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self$1.implement(builder, self$1);
+    NSObjectProtocol.self.implement(builder, self);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
@@ -13859,7 +13859,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
     required objc.ObjCObjectBase Function() retain,
     required int Function() retainCount,
-    required objc.ObjCObjectBase Function() self$1,
+    required objc.ObjCObjectBase Function() self,
     required objc.ObjCObjectBase Function() superclass,
     required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
@@ -13893,7 +13893,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
     );
     NSObjectProtocol.retain.implement(builder, retain);
     NSObjectProtocol.retainCount.implement(builder, retainCount);
-    NSObjectProtocol.self$1.implement(builder, self$1);
+    NSObjectProtocol.self.implement(builder, self);
     NSObjectProtocol.superclass.implement(builder, superclass);
     NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
@@ -14380,7 +14380,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   );
 
   /// self
-  static final self$1 = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
+  static final self = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_self,
     ffi.Native.addressOf<
@@ -15848,7 +15848,7 @@ extension NSPort$Methods on NSPort {
   }
 
   /// self
-  NSPort self$1() {
+  NSPort self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSPort.castFromPointer(_ret, retain: true, release: true);
   }
@@ -16193,7 +16193,7 @@ extension NSPortMessage$Methods on NSPortMessage {
   }
 
   /// self
-  NSPortMessage self$1() {
+  NSPortMessage self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSPortMessage.castFromPointer(_ret, retain: true, release: true);
   }
@@ -17247,7 +17247,7 @@ extension NSRunLoop$Methods on NSRunLoop {
   }
 
   /// self
-  NSRunLoop self$1() {
+  NSRunLoop self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSRunLoop.castFromPointer(_ret, retain: true, release: true);
   }
@@ -17891,7 +17891,7 @@ extension NSStream$Methods on NSStream {
   }
 
   /// self
-  NSStream self$1() {
+  NSStream self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSStream.castFromPointer(_ret, retain: true, release: true);
   }
@@ -18817,7 +18817,7 @@ extension NSString$Methods on NSString {
   }
 
   /// self
-  NSString self$1() {
+  NSString self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -20335,7 +20335,7 @@ extension NSTimer$Methods on NSTimer {
   }
 
   /// self
-  NSTimer self$1() {
+  NSTimer self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSTimer.castFromPointer(_ret, retain: true, release: true);
   }
@@ -21508,7 +21508,7 @@ extension NSURLHandle$Methods on NSURLHandle {
   }
 
   /// self
-  NSURLHandle self$1() {
+  NSURLHandle self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSURLHandle.castFromPointer(_ret, retain: true, release: true);
   }

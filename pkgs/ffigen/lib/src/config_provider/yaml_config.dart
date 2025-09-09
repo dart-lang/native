@@ -954,10 +954,10 @@ final class YamlConfig {
   ) {
     if (node.value is YamlMap) {
       return (node.value as YamlMap).keys.where((key) {
-        if (strings.predefinedLibraryImports.containsKey(key)) {
+        if (builtInLibraries.containsKey(key)) {
           logger.severe(
             '${node.pathString} -> $key should not collide with any '
-            'predefined imports - ${strings.predefinedLibraryImports.keys}.',
+            'predefined imports - ${builtInLibraries.keys}.',
           );
           return true;
         }

@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
@@ -135,6 +136,7 @@ void _matchFileWithExpected({
       codeNormalizer,
     );
     expect(actual.split('\n'), expected.split('\n'));
+    _expectNoAnalysisErrors(expectedPath);
     if (file.existsSync()) {
       file.delete();
     }
@@ -146,6 +148,19 @@ void _matchFileWithExpected({
     }
     rethrow;
   }
+}
+
+void _expectNoAnalysisErrors(String file) {
+  Process.runSync(dartExecutable, [
+    'pub',
+    'get',
+  ], workingDirectory: path.dirname(file));
+  final result = Process.runSync(dartExecutable, [
+    'analyze',
+    file,
+  ], workingDirectory: path.dirname(file));
+  if (result.exitCode != 0) print(result.stdout);
+  expect(result.exitCode, 0);
 }
 
 class NotFoundException implements Exception {

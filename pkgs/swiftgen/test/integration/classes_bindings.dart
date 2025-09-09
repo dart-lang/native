@@ -8,6 +8,7 @@
 // ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
+// ignore_for_file: unused_import
 // coverage:ignore-file
 
 // AUTO GENERATED FILE, DO NOT EDIT.
@@ -16,6 +17,7 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
+import 'package:ffi/ffi.dart' as pkg_ffi;
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCObject> Function(
@@ -338,7 +340,7 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
   }
 
   /// self
-  TestOtherClassWrapper self$1() {
+  TestOtherClassWrapper self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return TestOtherClassWrapper.castFromPointer(
       _ret,
@@ -456,7 +458,7 @@ extension TestClassWrapper$Methods on TestClassWrapper {
   }
 
   /// self
-  TestClassWrapper self$1() {
+  TestClassWrapper self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
   }

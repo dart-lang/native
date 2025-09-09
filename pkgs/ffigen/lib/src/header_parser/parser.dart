@@ -23,6 +23,7 @@ import '../visitor/fill_method_dependencies.dart';
 import '../visitor/find_transitive_deps.dart';
 import '../visitor/fix_overridden_methods.dart';
 import '../visitor/list_bindings.dart';
+import '../visitor/mark_imports.dart';
 import '../visitor/opaque_compounds.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'sub_parsers/macro_parser.dart';
@@ -203,6 +204,13 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     bindings,
   ).bindings;
   visit(context, MarkBindingsVisitation(finalBindings), bindings);
+
+  visit(context, MarkImportsVisitation(context), finalBindings);
+
+  // TODO(https://github.com/dart-lang/native/issues/1259): Remove libNamer when
+  // renaming is another ordinary transformer.
+  final libNamer = UniqueNamer()..markAllUsed(finalBindings.map((d) => d.name));
+  context.libs.fillPrefixes(libNamer);
 
   final finalBindingsList = finalBindings.toList();
 

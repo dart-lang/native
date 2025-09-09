@@ -13,15 +13,12 @@ class LibraryImport extends AstNode {
   final String _importPath;
   final String? _importPathWhenImportedByPackageObjC;
 
-  String prefix;
-
-  LibraryImport(
+  const LibraryImport(
     this.name,
     this._importPath, {
     String? importPathWhenImportedByPackageObjC,
   }) : _importPathWhenImportedByPackageObjC =
-           importPathWhenImportedByPackageObjC,
-       prefix = name;
+           importPathWhenImportedByPackageObjC;
 
   @override
   bool operator ==(Object other) {
@@ -40,6 +37,9 @@ class LibraryImport extends AstNode {
 
   @override
   String toString() => '$name $_importPath';
+
+  @override
+  void visit(Visitation visitation) => visitation.visitLibraryImport(this);
 }
 
 /// An imported type which will be used in the generated code.
@@ -63,16 +63,12 @@ class ImportedType extends Type {
   });
 
   @override
-  String getCType(Writer w) {
-    w.markImportUsed(libraryImport);
-    return '${libraryImport.prefix}.$cType';
-  }
+  String getCType(Writer w) => '${w.context.libs.prefix(libraryImport)}.$cType';
 
   @override
   String getFfiDartType(Writer w) {
     if (importedDartType) {
-      w.markImportUsed(libraryImport);
-      return '${libraryImport.prefix}.$dartType';
+      return '${w.context.libs.prefix(libraryImport)}.$dartType';
     } else {
       return cType == dartType ? getCType(w) : dartType;
     }
@@ -89,6 +85,9 @@ class ImportedType extends Type {
 
   @override
   String? getDefaultValue(Writer w) => defaultValue;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitImportedType(this);
 
   @override
   void visitChildren(Visitor visitor) {
@@ -119,15 +118,18 @@ class SelfImportedType extends Type {
   String toString() => cType;
 }
 
-final ffiImport = LibraryImport('ffi', 'dart:ffi');
-final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
-final objcPkgImport = LibraryImport(
+const ffiImport = LibraryImport('ffi', 'dart:ffi');
+const ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
+const objcPkgImport = LibraryImport(
   'objc',
   'package:objective_c/objective_c.dart',
   importPathWhenImportedByPackageObjC: '../objective_c.dart',
 );
-final self = LibraryImport('self', '');
-final allLibraries = [ffiImport, ffiPkgImport, objcPkgImport, self];
+const selfImport = LibraryImport('self', '');
+final builtInLibraries = {
+  for (final l in [ffiImport, ffiPkgImport, objcPkgImport, selfImport])
+    l.name: l,
+};
 
 final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 

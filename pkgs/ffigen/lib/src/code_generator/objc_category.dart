@@ -74,5 +74,6 @@ ${generateMethodBindings(w, parent)}
     visitor.visit(classObject);
     visitor.visitAll(protocols);
     visitMethods(visitor);
+    visitor.visit(objcPkgImport);
   }
 }

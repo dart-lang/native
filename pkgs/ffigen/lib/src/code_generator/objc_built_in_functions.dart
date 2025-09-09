@@ -226,6 +226,7 @@ class ObjCBlockWrapperFuncs extends AstNode {
     super.visitChildren(visitor);
     visitor.visit(listenerWrapper);
     visitor.visit(blockingWrapper);
+    visitor.visit(objcPkgImport);
   }
 }
 
@@ -240,6 +241,7 @@ class ObjCProtocolMethodTrampoline extends AstNode {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(func);
+    visitor.visit(objcPkgImport);
   }
 
   @override
@@ -253,7 +255,7 @@ class ObjCImport {
 
   const ObjCImport(this.name);
 
-  String gen(Writer w) => '${w.objcPkgPrefix}.$name';
+  String gen(Writer w) => '${w.context.libs.prefix(objcPkgImport)}.$name';
 }
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.
@@ -320,6 +322,7 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(type);
+    visitor.visit(objcPkgImport);
   }
 }
 
@@ -432,5 +435,6 @@ class ObjCMsgSendFunc extends AstNode {
     super.visitChildren(visitor);
     visitor.visit(normalFunc);
     visitor.visit(variantFunc);
+    visitor.visit(objcPkgImport);
   }
 }

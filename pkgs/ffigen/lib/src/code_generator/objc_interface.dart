@@ -177,7 +177,7 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   String getDartType(Writer w) =>
-      isObjCImport ? '${w.objcPkgPrefix}.$name' : name;
+      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
@@ -246,6 +246,7 @@ ${generateInstanceMethodBindings(w, this)}
     visitor.visitAll(protocols);
     visitor.visitAll(categories);
     visitMethods(visitor);
+    visitor.visit(objcPkgImport);
 
     // Note: Don't visit subtypes here, because they shouldn't affect transitive
     // inclusion. Including an interface shouldn't auto-include all its
