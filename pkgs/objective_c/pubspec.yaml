@@ -30,6 +30,8 @@ dev_dependencies:
   ffigen: ^20.0.0-dev.0
   flutter_test:
     sdk: flutter
+  native_analyzer_plugin:
+    path: ../native_analyzer_plugin/
   native_test_helpers:
     path: ../native_test_helpers/
   path: ^1.9.0
