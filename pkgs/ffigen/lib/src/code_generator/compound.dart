@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -161,7 +163,9 @@ abstract class Compound extends BindingType {
           '${depth}external ${m.type.getFfiDartType(w)} $memberName;\n\n',
         );
       }
-      if (m.type case EnumClass(:final generateAsInt) when !generateAsInt) {
+      if (m.type case EnumClass(
+        :final style,
+      ) when style == EnumStyle.dartEnum) {
         final enumName = m.type.getDartType(w);
         final memberName = m.name;
         s.write(

@@ -346,7 +346,7 @@ void main() {
       );
       final enum2 = EnumClass(
         name: 'MyIntegerEnum',
-        generateAsInt: true,
+        style: EnumStyle.intConstants,
         enumConstants: [
           const EnumConstant(name: 'int1', value: 1),
           const EnumConstant(name: 'int2', value: 2),
@@ -391,7 +391,7 @@ void main() {
       );
       final enum2 = EnumClass(
         name: 'Enum2',
-        generateAsInt: true,
+        style: EnumStyle.intConstants,
         enumConstants: const [
           EnumConstant(name: 'value1', value: 0),
           EnumConstant(name: 'value2', value: 1),

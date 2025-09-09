@@ -42,6 +42,9 @@ import 'unnamed_enumdecl_parser.dart';
   nativeType = signedToUnsignedNativeIntType[nativeType] ?? nativeType;
   var hasNegativeEnumConstants = false;
 
+  // An enum declared with NS_OPTIONS.
+  var isNSOptions = false;
+
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
     logger.info('Omitting deprecated enum $enumName');
@@ -67,7 +70,6 @@ import 'unnamed_enumdecl_parser.dart';
       originalName: enumName,
       name: config.enums.rename(decl),
       nativeType: nativeType,
-      generateAsInt: config.enums.style(decl) == EnumStyle.intConstants,
       objCBuiltInFunctions: context.objCBuiltInFunctions,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
@@ -92,6 +94,9 @@ import 'unnamed_enumdecl_parser.dart';
               hasNegativeEnumConstants = true;
             }
             break;
+          case clang_types.CXCursorKind.CXCursor_FlagEnum:
+            isNSOptions = true;
+            break;
           case clang_types.CXCursorKind.CXCursor_UnexposedAttr:
             // Ignore.
             break;
@@ -104,6 +109,8 @@ import 'unnamed_enumdecl_parser.dart';
         rethrow;
       }
     });
+    final suggestedStyle = isNSOptions ? EnumStyle.intConstants : null;
+    enumClass.style = config.enums.style(decl, suggestedStyle);
   }
 
   if (hasNegativeEnumConstants) {

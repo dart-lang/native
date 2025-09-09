@@ -18,6 +18,11 @@
     object may change, but the underlying ObjC object will still be the same.
     In any case, you should be using `Foo.isInstance(x)` instead of `x is Foo`
     to check the runtime type of an ObjC object.
+- __Breaking change__: Minor breaking change where ObjC enums declared using
+  `NS_OPTIONS` now default to generating int constants instead of a Dart enum.
+  Users who cared about this distinction were likely already using
+  `enums.as-int` for these enums. This change just provides a better default
+  behavior, so is unlikely to cause any substantive code changes.
 - Fix for opaque dependencies for struct/union const arrays.
 
 ## 19.1.0

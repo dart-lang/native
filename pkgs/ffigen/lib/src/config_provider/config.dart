@@ -194,11 +194,18 @@ final class Declarations {
 
 /// Configuration for enum declarations.
 final class Enums extends Declarations {
-  /// Whether to generate the given enum as a series of int constants, rather
-  /// than a real Dart enum.
-  final EnumStyle Function(Declaration declaration) style;
+  /// The [EnumStyle] to use for the given enum declaration.
+  ///
+  /// The `suggestedStyle` is a suggested [EnumStyle] based on the declaration
+  /// of the enum, if any. For example, ObjC enums declared using NS_OPTIONS
+  /// are suggested to use [EnumStyle.intConstants].
+  final EnumStyle Function(Declaration declaration, EnumStyle? suggestedStyle)
+  style;
 
-  static EnumStyle _styleDefault(Declaration declaration) => EnumStyle.dartEnum;
+  static EnumStyle _styleDefault(
+    Declaration declaration,
+    EnumStyle? suggestedStyle,
+  ) => suggestedStyle ?? EnumStyle.dartEnum;
 
   /// Whether to silence warning for enum integer type mimicking.
   final bool silenceWarning;
@@ -416,18 +423,7 @@ final class Unions extends Declarations {
 
 /// Configuration for unnamed enum constants.
 final class UnnamedEnums extends Declarations {
-  /// Whether to generate the given enum as a series of int constants, rather
-  /// than a real Dart enum.
-  final EnumStyle Function(Declaration declaration) style;
-
-  static EnumStyle _styleDefault(Declaration declaration) => EnumStyle.dartEnum;
-
-  const UnnamedEnums({
-    super.include,
-    super.rename,
-    super.renameMember,
-    this.style = _styleDefault,
-  });
+  const UnnamedEnums({super.include, super.rename, super.renameMember});
 
   static const excludeAll = UnnamedEnums(include: _excludeAll);
 

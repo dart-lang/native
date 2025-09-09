@@ -4,6 +4,8 @@
 
 import 'package:collection/collection.dart';
 
+import '../config_provider.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -55,7 +57,7 @@ class EnumClass extends BindingType {
   ObjCBuiltInFunctions? objCBuiltInFunctions;
 
   /// Whether this enum should be generated as a collection of integers.
-  bool generateAsInt;
+  EnumStyle style;
 
   EnumClass({
     super.usr,
@@ -65,7 +67,7 @@ class EnumClass extends BindingType {
     Type? nativeType,
     List<EnumConstant>? enumConstants,
     this.objCBuiltInFunctions,
-    this.generateAsInt = false,
+    this.style = EnumStyle.dartEnum,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [],
        namer = UniqueNamer()..markUsed(name);
@@ -242,7 +244,7 @@ class EnumClass extends BindingType {
     writeDartDoc(s);
     if (enumConstants.isEmpty) {
       writeEmptyEnum(s);
-    } else if (generateAsInt) {
+    } else if (style == EnumStyle.intConstants) {
       s.write('sealed class $name {\n');
       writeIntegerConstants(s);
       s.write('}\n\n');
@@ -273,7 +275,7 @@ class EnumClass extends BindingType {
   String getDartType(Writer w) {
     if (isObjCImport) {
       return '${w.objcPkgPrefix}.$name';
-    } else if (generateAsInt) {
+    } else if (style == EnumStyle.intConstants) {
       return nativeType.getDartType(w);
     } else {
       return name;
@@ -287,7 +289,7 @@ class EnumClass extends BindingType {
   bool get sameFfiDartAndCType => nativeType.sameFfiDartAndCType;
 
   @override
-  bool get sameDartAndFfiDartType => generateAsInt;
+  bool get sameDartAndFfiDartType => style == EnumStyle.intConstants;
 
   @override
   String? getDefaultValue(Writer w) => '0';
