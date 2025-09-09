@@ -4,7 +4,6 @@
 
 import '../code_generator.dart';
 import '../config_provider.dart';
-import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
