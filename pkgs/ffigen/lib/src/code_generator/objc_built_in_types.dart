@@ -11,6 +11,10 @@ const objCBuiltInInterfaces = {
   'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
   'DOBJCDartProtocol': 'DartProtocol',
   'NSArray': 'NSArray',
+  'NSAttributedString': 'NSAttributedString',
+  'NSAttributedStringMarkdownParsingOptions':
+      'NSAttributedStringMarkdownParsingOptions',
+  'NSBundle': 'NSBundle',
   'NSCharacterSet': 'NSCharacterSet',
   'NSCoder': 'NSCoder',
   'NSData': 'NSData',
@@ -68,6 +72,10 @@ const objCBuiltInCompounds = {
 
 const objCBuiltInEnums = {
   'NSAppleEventSendOptions',
+  'NSAttributedStringEnumerationOptions',
+  'NSAttributedStringFormattingOptions',
+  'NSAttributedStringMarkdownInterpretedSyntax',
+  'NSAttributedStringMarkdownParsingFailurePolicy',
   'NSBinarySearchingOptions',
   'NSCollectionChangeType',
   'NSComparisonResult',

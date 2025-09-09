@@ -32,6 +32,9 @@ objc-interfaces:
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
     - NSArray
+    - NSAttributedString
+    - NSAttributedStringMarkdownParsingOptions
+    - NSBundle
     - NSCharacterSet
     - NSCoder
     - NSData
@@ -130,6 +133,10 @@ structs:
 enums:
   include:
     - NSAppleEventSendOptions
+    - NSAttributedStringEnumerationOptions
+    - NSAttributedStringFormattingOptions
+    - NSAttributedStringMarkdownInterpretedSyntax
+    - NSAttributedStringMarkdownParsingFailurePolicy
     - NSBinarySearchingOptions
     - NSCollectionChangeType
     - NSComparisonResult

@@ -1861,6 +1861,862 @@ extension NSArray$Methods on NSArray {
   }
 }
 
+/// NSAttributedString
+class NSAttributedString extends NSObject
+    implements NSCopying, NSMutableCopying, NSSecureCoding {
+  NSAttributedString._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super.castFromPointer(pointer, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString',
+      iOS: (false, (3, 2, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+  }
+
+  /// Constructs a [NSAttributedString] that points to the same underlying object as [other].
+  NSAttributedString.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSAttributedString] that wraps the given raw object pointer.
+  NSAttributedString.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSAttributedString].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_19nvye5(
+      obj.ref.pointer,
+      _sel_isKindOfClass_,
+      _class_NSAttributedString,
+    );
+  }
+
+  /// alloc
+  static NSAttributedString alloc() {
+    final _ret = _objc_msgSend_151sglz(_class_NSAttributedString, _sel_alloc);
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static NSAttributedString allocWithZone(ffi.Pointer<NSZone> zone) {
+    final _ret = _objc_msgSend_1cwp428(
+      _class_NSAttributedString,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// localizedAttributedStringWithFormat:
+  ///
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  static NSAttributedString localizedAttributedStringWithFormat(
+    NSAttributedString format,
+  ) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.localizedAttributedStringWithFormat:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_1sotr3r(
+      _class_NSAttributedString,
+      _sel_localizedAttributedStringWithFormat_,
+      format.ref.pointer,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// localizedAttributedStringWithFormat:context:
+  ///
+  /// iOS: introduced 17.0.0
+  /// macOS: introduced 14.0.0
+  static NSAttributedString localizedAttributedStringWithFormat$1(
+    NSAttributedString format, {
+    required NSDictionary context,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.localizedAttributedStringWithFormat:context:',
+      iOS: (false, (17, 0, 0)),
+      macOS: (false, (14, 0, 0)),
+    );
+    final _ret = _objc_msgSend_15qeuct(
+      _class_NSAttributedString,
+      _sel_localizedAttributedStringWithFormat_context_,
+      format.ref.pointer,
+      context.ref.pointer,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// localizedAttributedStringWithFormat:options:
+  ///
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  static NSAttributedString localizedAttributedStringWithFormat$2(
+    NSAttributedString format, {
+    required NSAttributedStringFormattingOptions options,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.localizedAttributedStringWithFormat:options:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_s058d2(
+      _class_NSAttributedString,
+      _sel_localizedAttributedStringWithFormat_options_,
+      format.ref.pointer,
+      options.value,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// localizedAttributedStringWithFormat:options:context:
+  ///
+  /// iOS: introduced 17.0.0
+  /// macOS: introduced 14.0.0
+  static NSAttributedString localizedAttributedStringWithFormat$3(
+    NSAttributedString format, {
+    required NSAttributedStringFormattingOptions options,
+    required NSDictionary context,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.localizedAttributedStringWithFormat:options:context:',
+      iOS: (false, (17, 0, 0)),
+      macOS: (false, (14, 0, 0)),
+    );
+    final _ret = _objc_msgSend_187k8ck(
+      _class_NSAttributedString,
+      _sel_localizedAttributedStringWithFormat_options_context_,
+      format.ref.pointer,
+      options.value,
+      context.ref.pointer,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// new
+  static NSAttributedString new$() {
+    final _ret = _objc_msgSend_151sglz(_class_NSAttributedString, _sel_new);
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// supportsSecureCoding
+  static bool getSupportsSecureCoding() {
+    return _objc_msgSend_91o635(
+      _class_NSAttributedString,
+      _sel_supportsSecureCoding,
+    );
+  }
+
+  /// Returns a new instance of NSAttributedString constructed with the default `new` method.
+  factory NSAttributedString() => new$();
+}
+
+extension NSAttributedString$Methods on NSAttributedString {
+  /// attributesAtIndex:effectiveRange:
+  NSDictionary attributesAtIndex(
+    int location, {
+    required ffi.Pointer<NSRange> effectiveRange,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.attributesAtIndex:effectiveRange:',
+      iOS: (false, (3, 2, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_1776v9k(
+      this.ref.pointer,
+      _sel_attributesAtIndex_effectiveRange_,
+      location,
+      effectiveRange,
+    );
+    return NSDictionary.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// autorelease
+  NSAttributedString autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// encodeWithCoder:
+  void encodeWithCoder(NSCoder coder) {
+    _objc_msgSend_xtuoz7(
+      this.ref.pointer,
+      _sel_encodeWithCoder_,
+      coder.ref.pointer,
+    );
+  }
+
+  /// init
+  NSAttributedString init() {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// initWithAttributedString:
+  NSAttributedString initWithAttributedString(NSAttributedString attrStr) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithAttributedString:',
+      iOS: (false, (3, 2, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithAttributedString_,
+      attrStr.ref.pointer,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// initWithCoder:
+  NSAttributedString? initWithCoder(NSCoder coder) {
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithCoder_,
+      coder.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSAttributedString.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
+  }
+
+  /// initWithContentsOfMarkdownFileAtURL:options:baseURL:error:
+  ///
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSAttributedString? initWithContentsOfMarkdownFileAtURL(
+    NSURL markdownFile, {
+    NSAttributedStringMarkdownParsingOptions? options,
+    NSURL? baseURL,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithContentsOfMarkdownFileAtURL:options:baseURL:error:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_1k0ezzm(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithContentsOfMarkdownFileAtURL_options_baseURL_error_,
+      markdownFile.ref.pointer,
+      options?.ref.pointer ?? ffi.nullptr,
+      baseURL?.ref.pointer ?? ffi.nullptr,
+      error,
+    );
+    return _ret.address == 0
+        ? null
+        : NSAttributedString.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
+  }
+
+  /// initWithFormat:options:locale:
+  ///
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSAttributedString initWithFormat(
+    NSAttributedString format, {
+    required NSAttributedStringFormattingOptions options,
+    NSLocale? locale,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithFormat:options:locale:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_187k8ck(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithFormat_options_locale_,
+      format.ref.pointer,
+      options.value,
+      locale?.ref.pointer ?? ffi.nullptr,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// initWithFormat:options:locale:context:
+  ///
+  /// iOS: introduced 17.0.0
+  /// macOS: introduced 14.0.0
+  NSAttributedString initWithFormat$1(
+    NSAttributedString format, {
+    required NSAttributedStringFormattingOptions options,
+    NSLocale? locale,
+    required NSDictionary context,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithFormat:options:locale:context:',
+      iOS: (false, (17, 0, 0)),
+      macOS: (false, (14, 0, 0)),
+    );
+    final _ret = _objc_msgSend_3fn4ca(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithFormat_options_locale_context_,
+      format.ref.pointer,
+      options.value,
+      locale?.ref.pointer ?? ffi.nullptr,
+      context.ref.pointer,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// initWithMarkdown:options:baseURL:error:
+  ///
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSAttributedString? initWithMarkdown(
+    NSData markdown, {
+    NSAttributedStringMarkdownParsingOptions? options,
+    NSURL? baseURL,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithMarkdown:options:baseURL:error:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_1k0ezzm(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithMarkdown_options_baseURL_error_,
+      markdown.ref.pointer,
+      options?.ref.pointer ?? ffi.nullptr,
+      baseURL?.ref.pointer ?? ffi.nullptr,
+      error,
+    );
+    return _ret.address == 0
+        ? null
+        : NSAttributedString.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
+  }
+
+  /// initWithMarkdownString:options:baseURL:error:
+  ///
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSAttributedString? initWithMarkdownString(
+    NSString markdownString, {
+    NSAttributedStringMarkdownParsingOptions? options,
+    NSURL? baseURL,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithMarkdownString:options:baseURL:error:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_1k0ezzm(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithMarkdownString_options_baseURL_error_,
+      markdownString.ref.pointer,
+      options?.ref.pointer ?? ffi.nullptr,
+      baseURL?.ref.pointer ?? ffi.nullptr,
+      error,
+    );
+    return _ret.address == 0
+        ? null
+        : NSAttributedString.castFromPointer(
+            _ret,
+            retain: false,
+            release: true,
+          );
+  }
+
+  /// initWithString:
+  NSAttributedString initWithString(NSString str) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithString:',
+      iOS: (false, (3, 2, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithString_,
+      str.ref.pointer,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// initWithString:attributes:
+  NSAttributedString initWithString$1(
+    NSString str, {
+    NSDictionary? attributes,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.initWithString:attributes:',
+      iOS: (false, (3, 2, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_15qeuct(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithString_attributes_,
+      str.ref.pointer,
+      attributes?.ref.pointer ?? ffi.nullptr,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// retain
+  NSAttributedString retain() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// self
+  NSAttributedString self$1() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// string
+  NSString get string {
+    objc.checkOsVersionInternal(
+      'NSAttributedString.string',
+      iOS: (false, (3, 2, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_string);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+}
+
+enum NSAttributedStringEnumerationOptions {
+  NSAttributedStringEnumerationReverse(2),
+  NSAttributedStringEnumerationLongestEffectiveRangeNotRequired(1048576);
+
+  final int value;
+  const NSAttributedStringEnumerationOptions(this.value);
+
+  static NSAttributedStringEnumerationOptions fromValue(int value) =>
+      switch (value) {
+        2 => NSAttributedStringEnumerationReverse,
+        1048576 =>
+          NSAttributedStringEnumerationLongestEffectiveRangeNotRequired,
+        _ => throw ArgumentError(
+          'Unknown value for NSAttributedStringEnumerationOptions: $value',
+        ),
+      };
+}
+
+enum NSAttributedStringFormattingOptions {
+  NSAttributedStringFormattingInsertArgumentAttributesWithoutMerging(1),
+  NSAttributedStringFormattingApplyReplacementIndexAttribute(2);
+
+  final int value;
+  const NSAttributedStringFormattingOptions(this.value);
+
+  static NSAttributedStringFormattingOptions fromValue(int value) =>
+      switch (value) {
+        1 => NSAttributedStringFormattingInsertArgumentAttributesWithoutMerging,
+        2 => NSAttributedStringFormattingApplyReplacementIndexAttribute,
+        _ => throw ArgumentError(
+          'Unknown value for NSAttributedStringFormattingOptions: $value',
+        ),
+      };
+}
+
+/// iOS: introduced 15.0.0
+/// macOS: introduced 12.0.0
+enum NSAttributedStringMarkdownInterpretedSyntax {
+  NSAttributedStringMarkdownInterpretedSyntaxFull(0),
+  NSAttributedStringMarkdownInterpretedSyntaxInlineOnly(1),
+  NSAttributedStringMarkdownInterpretedSyntaxInlineOnlyPreservingWhitespace(2);
+
+  final int value;
+  const NSAttributedStringMarkdownInterpretedSyntax(this.value);
+
+  static NSAttributedStringMarkdownInterpretedSyntax fromValue(
+    int value,
+  ) => switch (value) {
+    0 => NSAttributedStringMarkdownInterpretedSyntaxFull,
+    1 => NSAttributedStringMarkdownInterpretedSyntaxInlineOnly,
+    2 =>
+      NSAttributedStringMarkdownInterpretedSyntaxInlineOnlyPreservingWhitespace,
+    _ => throw ArgumentError(
+      'Unknown value for NSAttributedStringMarkdownInterpretedSyntax: $value',
+    ),
+  };
+}
+
+/// iOS: introduced 15.0.0
+/// macOS: introduced 12.0.0
+enum NSAttributedStringMarkdownParsingFailurePolicy {
+  NSAttributedStringMarkdownParsingFailureReturnError(0),
+  NSAttributedStringMarkdownParsingFailureReturnPartiallyParsedIfPossible(1);
+
+  final int value;
+  const NSAttributedStringMarkdownParsingFailurePolicy(this.value);
+
+  static NSAttributedStringMarkdownParsingFailurePolicy fromValue(
+    int value,
+  ) => switch (value) {
+    0 => NSAttributedStringMarkdownParsingFailureReturnError,
+    1 =>
+      NSAttributedStringMarkdownParsingFailureReturnPartiallyParsedIfPossible,
+    _ => throw ArgumentError(
+      'Unknown value for NSAttributedStringMarkdownParsingFailurePolicy: $value',
+    ),
+  };
+}
+
+/// NSAttributedStringMarkdownParsingOptions
+///
+/// iOS: introduced 15.0.0
+/// macOS: introduced 12.0.0
+class NSAttributedStringMarkdownParsingOptions extends NSObject
+    implements NSCopying {
+  NSAttributedStringMarkdownParsingOptions._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super.castFromPointer(pointer, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+  }
+
+  /// Constructs a [NSAttributedStringMarkdownParsingOptions] that points to the same underlying object as [other].
+  NSAttributedStringMarkdownParsingOptions.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSAttributedStringMarkdownParsingOptions] that wraps the given raw object pointer.
+  NSAttributedStringMarkdownParsingOptions.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSAttributedStringMarkdownParsingOptions].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_19nvye5(
+      obj.ref.pointer,
+      _sel_isKindOfClass_,
+      _class_NSAttributedStringMarkdownParsingOptions,
+    );
+  }
+
+  /// alloc
+  static NSAttributedStringMarkdownParsingOptions alloc() {
+    final _ret = _objc_msgSend_151sglz(
+      _class_NSAttributedStringMarkdownParsingOptions,
+      _sel_alloc,
+    );
+    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static NSAttributedStringMarkdownParsingOptions allocWithZone(
+    ffi.Pointer<NSZone> zone,
+  ) {
+    final _ret = _objc_msgSend_1cwp428(
+      _class_NSAttributedStringMarkdownParsingOptions,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// new
+  static NSAttributedStringMarkdownParsingOptions new$() {
+    final _ret = _objc_msgSend_151sglz(
+      _class_NSAttributedStringMarkdownParsingOptions,
+      _sel_new,
+    );
+    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Returns a new instance of NSAttributedStringMarkdownParsingOptions constructed with the default `new` method.
+  factory NSAttributedStringMarkdownParsingOptions() => new$();
+}
+
+extension NSAttributedStringMarkdownParsingOptions$Methods
+    on NSAttributedStringMarkdownParsingOptions {
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  bool get allowsExtendedAttributes {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.allowsExtendedAttributes',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    return _objc_msgSend_91o635(
+      this.ref.pointer,
+      _sel_allowsExtendedAttributes,
+    );
+  }
+
+  /// iOS: introduced 16.0.0
+  /// macOS: introduced 13.0.0
+  bool get appliesSourcePositionAttributes {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.appliesSourcePositionAttributes',
+      iOS: (false, (16, 0, 0)),
+      macOS: (false, (13, 0, 0)),
+    );
+    return _objc_msgSend_91o635(
+      this.ref.pointer,
+      _sel_appliesSourcePositionAttributes,
+    );
+  }
+
+  /// autorelease
+  NSAttributedStringMarkdownParsingOptions autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSAttributedStringMarkdownParsingFailurePolicy get failurePolicy {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.failurePolicy',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_194u5n2(this.ref.pointer, _sel_failurePolicy);
+    return NSAttributedStringMarkdownParsingFailurePolicy.fromValue(_ret);
+  }
+
+  /// init
+  NSAttributedStringMarkdownParsingOptions init() {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
+      _ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSAttributedStringMarkdownInterpretedSyntax get interpretedSyntax {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.interpretedSyntax',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_h0o9ch(this.ref.pointer, _sel_interpretedSyntax);
+    return NSAttributedStringMarkdownInterpretedSyntax.fromValue(_ret);
+  }
+
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSString? get languageCode {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.languageCode',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_languageCode);
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// retain
+  NSAttributedStringMarkdownParsingOptions retain() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// self
+  NSAttributedStringMarkdownParsingOptions self$1() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  set allowsExtendedAttributes(bool value) {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.setAllowsExtendedAttributes:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    _objc_msgSend_1s56lr9(
+      this.ref.pointer,
+      _sel_setAllowsExtendedAttributes_,
+      value,
+    );
+  }
+
+  /// iOS: introduced 16.0.0
+  /// macOS: introduced 13.0.0
+  set appliesSourcePositionAttributes(bool value) {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.setAppliesSourcePositionAttributes:',
+      iOS: (false, (16, 0, 0)),
+      macOS: (false, (13, 0, 0)),
+    );
+    _objc_msgSend_1s56lr9(
+      this.ref.pointer,
+      _sel_setAppliesSourcePositionAttributes_,
+      value,
+    );
+  }
+
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  set failurePolicy(NSAttributedStringMarkdownParsingFailurePolicy value) {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.setFailurePolicy:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    _objc_msgSend_mt0t38(this.ref.pointer, _sel_setFailurePolicy_, value.value);
+  }
+
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  set interpretedSyntax(NSAttributedStringMarkdownInterpretedSyntax value) {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.setInterpretedSyntax:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    _objc_msgSend_1ay2tmt(
+      this.ref.pointer,
+      _sel_setInterpretedSyntax_,
+      value.value,
+    );
+  }
+
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  set languageCode(NSString? value) {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions.setLanguageCode:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      this.ref.pointer,
+      _sel_setLanguageCode_,
+      value?.ref.pointer ?? ffi.nullptr,
+    );
+  }
+}
+
 enum NSBinarySearchingOptions {
   NSBinarySearchingFirstEqual(256),
   NSBinarySearchingLastEqual(512),
@@ -1877,6 +2733,883 @@ enum NSBinarySearchingOptions {
       'Unknown value for NSBinarySearchingOptions: $value',
     ),
   };
+}
+
+/// NSBundle
+class NSBundle extends NSObject {
+  NSBundle._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSBundle] that points to the same underlying object as [other].
+  NSBundle.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSBundle] that wraps the given raw object pointer.
+  NSBundle.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSBundle].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_19nvye5(
+      obj.ref.pointer,
+      _sel_isKindOfClass_,
+      _class_NSBundle,
+    );
+  }
+
+  /// URLForResource:withExtension:subdirectory:inBundleWithURL:
+  static NSURL? URLForResource(
+    NSString? name, {
+    NSString? withExtension,
+    NSString? subdirectory,
+    required NSURL inBundleWithURL,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLForResource:withExtension:subdirectory:inBundleWithURL:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_s92gih(
+      _class_NSBundle,
+      _sel_URLForResource_withExtension_subdirectory_inBundleWithURL_,
+      name?.ref.pointer ?? ffi.nullptr,
+      withExtension?.ref.pointer ?? ffi.nullptr,
+      subdirectory?.ref.pointer ?? ffi.nullptr,
+      inBundleWithURL.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// URLsForResourcesWithExtension:subdirectory:inBundleWithURL:
+  static NSArray? URLsForResourcesWithExtension(
+    NSString? ext, {
+    NSString? subdirectory,
+    required NSURL inBundleWithURL,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLsForResourcesWithExtension:subdirectory:inBundleWithURL:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_11spmsz(
+      _class_NSBundle,
+      _sel_URLsForResourcesWithExtension_subdirectory_inBundleWithURL_,
+      ext?.ref.pointer ?? ffi.nullptr,
+      subdirectory?.ref.pointer ?? ffi.nullptr,
+      inBundleWithURL.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// allBundles
+  static NSArray getAllBundles() {
+    final _ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_allBundles);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// allFrameworks
+  static NSArray getAllFrameworks() {
+    final _ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_allFrameworks);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// alloc
+  static NSBundle alloc() {
+    final _ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_alloc);
+    return NSBundle.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NSBundle allocWithZone(ffi.Pointer<NSZone> zone) {
+    final _ret = _objc_msgSend_1cwp428(
+      _class_NSBundle,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NSBundle.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// bundleForClass:
+  static NSBundle bundleForClass(objc.ObjCObjectBase aClass) {
+    final _ret = _objc_msgSend_1sotr3r(
+      _class_NSBundle,
+      _sel_bundleForClass_,
+      aClass.ref.pointer,
+    );
+    return NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// bundleWithIdentifier:
+  static NSBundle? bundleWithIdentifier(NSString identifier) {
+    final _ret = _objc_msgSend_1sotr3r(
+      _class_NSBundle,
+      _sel_bundleWithIdentifier_,
+      identifier.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// bundleWithPath:
+  static NSBundle? bundleWithPath(NSString path) {
+    final _ret = _objc_msgSend_1sotr3r(
+      _class_NSBundle,
+      _sel_bundleWithPath_,
+      path.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// bundleWithURL:
+  static NSBundle? bundleWithURL(NSURL url) {
+    objc.checkOsVersionInternal(
+      'NSBundle.bundleWithURL:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_1sotr3r(
+      _class_NSBundle,
+      _sel_bundleWithURL_,
+      url.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// mainBundle
+  static NSBundle getMainBundle() {
+    final _ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_mainBundle);
+    return NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// new
+  static NSBundle new$() {
+    final _ret = _objc_msgSend_151sglz(_class_NSBundle, _sel_new);
+    return NSBundle.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// pathForResource:ofType:inDirectory:
+  static NSString? pathForResource(
+    NSString? name, {
+    NSString? ofType,
+    required NSString inDirectory,
+  }) {
+    final _ret = _objc_msgSend_11spmsz(
+      _class_NSBundle,
+      _sel_pathForResource_ofType_inDirectory_,
+      name?.ref.pointer ?? ffi.nullptr,
+      ofType?.ref.pointer ?? ffi.nullptr,
+      inDirectory.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// pathsForResourcesOfType:inDirectory:
+  static NSArray pathsForResourcesOfType(
+    NSString? ext, {
+    required NSString inDirectory,
+  }) {
+    final _ret = _objc_msgSend_15qeuct(
+      _class_NSBundle,
+      _sel_pathsForResourcesOfType_inDirectory_,
+      ext?.ref.pointer ?? ffi.nullptr,
+      inDirectory.ref.pointer,
+    );
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// preferredLocalizationsFromArray:
+  static NSArray preferredLocalizationsFromArray(NSArray localizationsArray) {
+    final _ret = _objc_msgSend_1sotr3r(
+      _class_NSBundle,
+      _sel_preferredLocalizationsFromArray_,
+      localizationsArray.ref.pointer,
+    );
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// preferredLocalizationsFromArray:forPreferences:
+  static NSArray preferredLocalizationsFromArray$1(
+    NSArray localizationsArray, {
+    NSArray? forPreferences,
+  }) {
+    final _ret = _objc_msgSend_15qeuct(
+      _class_NSBundle,
+      _sel_preferredLocalizationsFromArray_forPreferences_,
+      localizationsArray.ref.pointer,
+      forPreferences?.ref.pointer ?? ffi.nullptr,
+    );
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// Returns a new instance of NSBundle constructed with the default `new` method.
+  factory NSBundle() => new$();
+}
+
+extension NSBundle$Methods on NSBundle {
+  /// URLForAuxiliaryExecutable:
+  NSURL? URLForAuxiliaryExecutable(NSString executableName) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLForAuxiliaryExecutable:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.pointer,
+      _sel_URLForAuxiliaryExecutable_,
+      executableName.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// URLForResource:withExtension:
+  NSURL? URLForResource(NSString? name, {NSString? withExtension}) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLForResource:withExtension:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_15qeuct(
+      this.ref.pointer,
+      _sel_URLForResource_withExtension_,
+      name?.ref.pointer ?? ffi.nullptr,
+      withExtension?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// URLForResource:withExtension:subdirectory:
+  NSURL? URLForResource$1(
+    NSString? name, {
+    NSString? withExtension,
+    NSString? subdirectory,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLForResource:withExtension:subdirectory:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_11spmsz(
+      this.ref.pointer,
+      _sel_URLForResource_withExtension_subdirectory_,
+      name?.ref.pointer ?? ffi.nullptr,
+      withExtension?.ref.pointer ?? ffi.nullptr,
+      subdirectory?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// URLForResource:withExtension:subdirectory:localization:
+  NSURL? URLForResource$2(
+    NSString? name, {
+    NSString? withExtension,
+    NSString? subdirectory,
+    NSString? localization,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLForResource:withExtension:subdirectory:localization:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_s92gih(
+      this.ref.pointer,
+      _sel_URLForResource_withExtension_subdirectory_localization_,
+      name?.ref.pointer ?? ffi.nullptr,
+      withExtension?.ref.pointer ?? ffi.nullptr,
+      subdirectory?.ref.pointer ?? ffi.nullptr,
+      localization?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// URLsForResourcesWithExtension:subdirectory:
+  NSArray? URLsForResourcesWithExtension(
+    NSString? ext, {
+    NSString? subdirectory,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLsForResourcesWithExtension:subdirectory:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_15qeuct(
+      this.ref.pointer,
+      _sel_URLsForResourcesWithExtension_subdirectory_,
+      ext?.ref.pointer ?? ffi.nullptr,
+      subdirectory?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// URLsForResourcesWithExtension:subdirectory:localization:
+  NSArray? URLsForResourcesWithExtension$1(
+    NSString? ext, {
+    NSString? subdirectory,
+    NSString? localization,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSBundle.URLsForResourcesWithExtension:subdirectory:localization:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_11spmsz(
+      this.ref.pointer,
+      _sel_URLsForResourcesWithExtension_subdirectory_localization_,
+      ext?.ref.pointer ?? ffi.nullptr,
+      subdirectory?.ref.pointer ?? ffi.nullptr,
+      localization?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// appStoreReceiptURL
+  NSURL? get appStoreReceiptURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.appStoreReceiptURL',
+      iOS: (false, (7, 0, 0)),
+      macOS: (false, (10, 7, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_appStoreReceiptURL,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// autorelease
+  NSBundle autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// builtInPlugInsPath
+  NSString? get builtInPlugInsPath {
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_builtInPlugInsPath,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// builtInPlugInsURL
+  NSURL? get builtInPlugInsURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.builtInPlugInsURL',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_builtInPlugInsURL,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// bundleIdentifier
+  NSString? get bundleIdentifier {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_bundleIdentifier);
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// bundlePath
+  NSString get bundlePath {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_bundlePath);
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// bundleURL
+  NSURL get bundleURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.bundleURL',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_bundleURL);
+    return NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// classNamed:
+  objc.ObjCObjectBase? classNamed(NSString className) {
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.pointer,
+      _sel_classNamed_,
+      className.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// developmentLocalization
+  NSString? get developmentLocalization {
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_developmentLocalization,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// executableArchitectures
+  NSArray? get executableArchitectures {
+    objc.checkOsVersionInternal(
+      'NSBundle.executableArchitectures',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_executableArchitectures,
+    );
+    return _ret.address == 0
+        ? null
+        : NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// executablePath
+  NSString? get executablePath {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_executablePath);
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// executableURL
+  NSURL? get executableURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.executableURL',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_executableURL);
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// infoDictionary
+  NSDictionary? get infoDictionary {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_infoDictionary);
+    return _ret.address == 0
+        ? null
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// init
+  NSBundle init() {
+    objc.checkOsVersionInternal(
+      'NSBundle.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSBundle.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initWithPath:
+  NSBundle? initWithPath(NSString path) {
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithPath_,
+      path.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSBundle.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initWithURL:
+  NSBundle? initWithURL(NSURL url) {
+    objc.checkOsVersionInternal(
+      'NSBundle.initWithURL:',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithURL_,
+      url.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSBundle.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// isLoaded
+  bool get loaded {
+    return _objc_msgSend_91o635(this.ref.pointer, _sel_isLoaded);
+  }
+
+  /// load
+  bool load() {
+    return _objc_msgSend_91o635(this.ref.pointer, _sel_load);
+  }
+
+  /// loadAndReturnError:
+  bool loadAndReturnError(ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error) {
+    objc.checkOsVersionInternal(
+      'NSBundle.loadAndReturnError:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_1dom33q(
+      this.ref.pointer,
+      _sel_loadAndReturnError_,
+      error,
+    );
+  }
+
+  /// localizations
+  NSArray get localizations {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_localizations);
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// localizedAttributedStringForKey:value:table:
+  ///
+  /// iOS: introduced 15.0.0
+  /// macOS: introduced 12.0.0
+  NSAttributedString localizedAttributedStringForKey(
+    NSString key, {
+    NSString? value,
+    NSString? table,
+  }) {
+    objc.checkOsVersionInternal(
+      'NSBundle.localizedAttributedStringForKey:value:table:',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+    final _ret = _objc_msgSend_11spmsz(
+      this.ref.pointer,
+      _sel_localizedAttributedStringForKey_value_table_,
+      key.ref.pointer,
+      value?.ref.pointer ?? ffi.nullptr,
+      table?.ref.pointer ?? ffi.nullptr,
+    );
+    return NSAttributedString.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
+  }
+
+  /// localizedInfoDictionary
+  NSDictionary? get localizedInfoDictionary {
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_localizedInfoDictionary,
+    );
+    return _ret.address == 0
+        ? null
+        : NSDictionary.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// localizedStringForKey:value:table:
+  NSString localizedStringForKey(
+    NSString key, {
+    NSString? value,
+    NSString? table,
+  }) {
+    final _ret = _objc_msgSend_11spmsz(
+      this.ref.pointer,
+      _sel_localizedStringForKey_value_table_,
+      key.ref.pointer,
+      value?.ref.pointer ?? ffi.nullptr,
+      table?.ref.pointer ?? ffi.nullptr,
+    );
+    return NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// objectForInfoDictionaryKey:
+  objc.ObjCObjectBase? objectForInfoDictionaryKey(NSString key) {
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.pointer,
+      _sel_objectForInfoDictionaryKey_,
+      key.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// pathForAuxiliaryExecutable:
+  NSString? pathForAuxiliaryExecutable(NSString executableName) {
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.pointer,
+      _sel_pathForAuxiliaryExecutable_,
+      executableName.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// pathForResource:ofType:
+  NSString? pathForResource(NSString? name, {NSString? ofType}) {
+    final _ret = _objc_msgSend_15qeuct(
+      this.ref.pointer,
+      _sel_pathForResource_ofType_,
+      name?.ref.pointer ?? ffi.nullptr,
+      ofType?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// pathForResource:ofType:inDirectory:
+  NSString? pathForResource$1(
+    NSString? name, {
+    NSString? ofType,
+    NSString? inDirectory,
+  }) {
+    final _ret = _objc_msgSend_11spmsz(
+      this.ref.pointer,
+      _sel_pathForResource_ofType_inDirectory_,
+      name?.ref.pointer ?? ffi.nullptr,
+      ofType?.ref.pointer ?? ffi.nullptr,
+      inDirectory?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// pathForResource:ofType:inDirectory:forLocalization:
+  NSString? pathForResource$2(
+    NSString? name, {
+    NSString? ofType,
+    NSString? inDirectory,
+    NSString? forLocalization,
+  }) {
+    final _ret = _objc_msgSend_s92gih(
+      this.ref.pointer,
+      _sel_pathForResource_ofType_inDirectory_forLocalization_,
+      name?.ref.pointer ?? ffi.nullptr,
+      ofType?.ref.pointer ?? ffi.nullptr,
+      inDirectory?.ref.pointer ?? ffi.nullptr,
+      forLocalization?.ref.pointer ?? ffi.nullptr,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// pathsForResourcesOfType:inDirectory:
+  NSArray pathsForResourcesOfType(NSString? ext, {NSString? inDirectory}) {
+    final _ret = _objc_msgSend_15qeuct(
+      this.ref.pointer,
+      _sel_pathsForResourcesOfType_inDirectory_,
+      ext?.ref.pointer ?? ffi.nullptr,
+      inDirectory?.ref.pointer ?? ffi.nullptr,
+    );
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// pathsForResourcesOfType:inDirectory:forLocalization:
+  NSArray pathsForResourcesOfType$1(
+    NSString? ext, {
+    NSString? inDirectory,
+    NSString? forLocalization,
+  }) {
+    final _ret = _objc_msgSend_11spmsz(
+      this.ref.pointer,
+      _sel_pathsForResourcesOfType_inDirectory_forLocalization_,
+      ext?.ref.pointer ?? ffi.nullptr,
+      inDirectory?.ref.pointer ?? ffi.nullptr,
+      forLocalization?.ref.pointer ?? ffi.nullptr,
+    );
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// preferredLocalizations
+  NSArray get preferredLocalizations {
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_preferredLocalizations,
+    );
+    return NSArray.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// preflightAndReturnError:
+  bool preflightAndReturnError(
+    ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+  ) {
+    objc.checkOsVersionInternal(
+      'NSBundle.preflightAndReturnError:',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 5, 0)),
+    );
+    return _objc_msgSend_1dom33q(
+      this.ref.pointer,
+      _sel_preflightAndReturnError_,
+      error,
+    );
+  }
+
+  /// principalClass
+  objc.ObjCObjectBase? get principalClass {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_principalClass);
+    return _ret.address == 0
+        ? null
+        : objc.ObjCObjectBase(_ret, retain: true, release: true);
+  }
+
+  /// privateFrameworksPath
+  NSString? get privateFrameworksPath {
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_privateFrameworksPath,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// privateFrameworksURL
+  NSURL? get privateFrameworksURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.privateFrameworksURL',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_privateFrameworksURL,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// resourcePath
+  NSString? get resourcePath {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_resourcePath);
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// resourceURL
+  NSURL? get resourceURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.resourceURL',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_resourceURL);
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// retain
+  NSBundle retain() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// self
+  NSBundle self$1() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return NSBundle.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sharedFrameworksPath
+  NSString? get sharedFrameworksPath {
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_sharedFrameworksPath,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sharedFrameworksURL
+  NSURL? get sharedFrameworksURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.sharedFrameworksURL',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_sharedFrameworksURL,
+    );
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sharedSupportPath
+  NSString? get sharedSupportPath {
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_sharedSupportPath,
+    );
+    return _ret.address == 0
+        ? null
+        : NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// sharedSupportURL
+  NSURL? get sharedSupportURL {
+    objc.checkOsVersionInternal(
+      'NSBundle.sharedSupportURL',
+      iOS: (false, (4, 0, 0)),
+      macOS: (false, (10, 6, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_sharedSupportURL);
+    return _ret.address == 0
+        ? null
+        : NSURL.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// unload
+  bool unload() {
+    return _objc_msgSend_91o635(this.ref.pointer, _sel_unload);
+  }
 }
 
 /// NSCharacterSet
@@ -34798,6 +36531,11 @@ late final _class_DOBJCDartProtocolBuilder = objc.getClass(
 );
 late final _class_DOBJCObservation = objc.getClass("DOBJCObservation");
 late final _class_NSArray = objc.getClass("NSArray");
+late final _class_NSAttributedString = objc.getClass("NSAttributedString");
+late final _class_NSAttributedStringMarkdownParsingOptions = objc.getClass(
+  "NSAttributedStringMarkdownParsingOptions",
+);
+late final _class_NSBundle = objc.getClass("NSBundle");
 late final _class_NSCharacterSet = objc.getClass("NSCharacterSet");
 late final _class_NSCoder = objc.getClass("NSCoder");
 late final _class_NSData = objc.getClass("NSData");
@@ -35294,6 +37032,25 @@ final _objc_msgSend_16fy0up = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
       )
     >();
+final _objc_msgSend_1776v9k = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.UnsignedLong,
+          ffi.Pointer<NSRange>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+        ffi.Pointer<NSRange>,
+      )
+    >();
 final _objc_msgSend_177cajs = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -35387,6 +37144,27 @@ final _objc_msgSend_182fzonStret = objc.msgSendStretPointer
         ffi.Pointer<objc.ObjCObject>,
       )
     >();
+final _objc_msgSend_187k8ck = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.UnsignedLong,
+          ffi.Pointer<objc.ObjCObject>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
+        int,
+        ffi.Pointer<objc.ObjCObject>,
+      )
+    >();
 final _objc_msgSend_1895u4n = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -35430,6 +37208,18 @@ final _objc_msgSend_18qun1e = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
+    >();
+final _objc_msgSend_194u5n2 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Long Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
     >();
 final _objc_msgSend_19lrthf = objc.msgSendPointer
     .cast<
@@ -35486,6 +37276,23 @@ final _objc_msgSend_1alewu7 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<ffi.UnsignedLong>,
         ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+      )
+    >();
+final _objc_msgSend_1ay2tmt = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Long,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
       )
     >();
 final _objc_msgSend_1b5ysjl = objc.msgSendPointer
@@ -35694,6 +37501,23 @@ final _objc_msgSend_1deg8x = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
+      )
+    >();
+final _objc_msgSend_1dom33q = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
       )
     >();
 final _objc_msgSend_1dydpdi = objc.msgSendPointer
@@ -37127,6 +38951,29 @@ final _objc_msgSend_3ctkt6 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
+final _objc_msgSend_3fn4ca = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.UnsignedLong,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObject>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
+        int,
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObject>,
+      )
+    >();
 final _objc_msgSend_3l8zum = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38027,6 +39874,18 @@ final _objc_msgSend_gx50so = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
       )
     >();
+final _objc_msgSend_h0o9ch = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Long Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
+    >();
 final _objc_msgSend_hc8exi = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38296,6 +40155,23 @@ final _objc_msgSend_mabicuFpret = objc.msgSendFpretPointer
         ffi.Pointer<objc.ObjCObject>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCObject>,
+      )
+    >();
+final _objc_msgSend_mt0t38 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Long,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
       )
     >();
 final _objc_msgSend_n2svg2 = objc.msgSendPointer
@@ -38656,6 +40532,25 @@ final _objc_msgSend_rc4ypv = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
         int,
         ffi.Pointer<objc.ObjCObject>,
+      )
+    >();
+final _objc_msgSend_s058d2 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObject> Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.UnsignedLong,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObject> Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
+        int,
       )
     >();
 final _objc_msgSend_s92gih = objc.msgSendPointer
@@ -39055,6 +40950,21 @@ late final _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsS
     objc.registerName(
       "URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:",
     );
+late final _sel_URLForAuxiliaryExecutable_ = objc.registerName(
+  "URLForAuxiliaryExecutable:",
+);
+late final _sel_URLForResource_withExtension_ = objc.registerName(
+  "URLForResource:withExtension:",
+);
+late final _sel_URLForResource_withExtension_subdirectory_ = objc.registerName(
+  "URLForResource:withExtension:subdirectory:",
+);
+late final _sel_URLForResource_withExtension_subdirectory_inBundleWithURL_ =
+    objc.registerName(
+      "URLForResource:withExtension:subdirectory:inBundleWithURL:",
+    );
+late final _sel_URLForResource_withExtension_subdirectory_localization_ = objc
+    .registerName("URLForResource:withExtension:subdirectory:localization:");
 late final _sel_URLWithDataRepresentation_relativeToURL_ = objc.registerName(
   "URLWithDataRepresentation:relativeToURL:",
 );
@@ -39065,6 +40975,15 @@ late final _sel_URLWithString_encodingInvalidCharacters_ = objc.registerName(
 late final _sel_URLWithString_relativeToURL_ = objc.registerName(
   "URLWithString:relativeToURL:",
 );
+late final _sel_URLsForResourcesWithExtension_subdirectory_ = objc.registerName(
+  "URLsForResourcesWithExtension:subdirectory:",
+);
+late final _sel_URLsForResourcesWithExtension_subdirectory_inBundleWithURL_ =
+    objc.registerName(
+      "URLsForResourcesWithExtension:subdirectory:inBundleWithURL:",
+    );
+late final _sel_URLsForResourcesWithExtension_subdirectory_localization_ = objc
+    .registerName("URLsForResourcesWithExtension:subdirectory:localization:");
 late final _sel_UTF8String = objc.registerName("UTF8String");
 late final _sel_absoluteString = objc.registerName("absoluteString");
 late final _sel_absoluteURL = objc.registerName("absoluteURL");
@@ -39094,18 +41013,27 @@ late final _sel_addProtocol_ = objc.registerName("addProtocol:");
 late final _sel_addSubscriberForFileURL_withPublishingHandler_ = objc
     .registerName("addSubscriberForFileURL:withPublishingHandler:");
 late final _sel_addTimer_forMode_ = objc.registerName("addTimer:forMode:");
+late final _sel_allBundles = objc.registerName("allBundles");
+late final _sel_allFrameworks = objc.registerName("allFrameworks");
 late final _sel_allKeys = objc.registerName("allKeys");
 late final _sel_allKeysForObject_ = objc.registerName("allKeysForObject:");
 late final _sel_allObjects = objc.registerName("allObjects");
 late final _sel_allValues = objc.registerName("allValues");
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _sel_allowsExtendedAttributes = objc.registerName(
+  "allowsExtendedAttributes",
+);
 late final _sel_alphanumericCharacterSet = objc.registerName(
   "alphanumericCharacterSet",
 );
 late final _sel_anyObject = objc.registerName("anyObject");
+late final _sel_appStoreReceiptURL = objc.registerName("appStoreReceiptURL");
 late final _sel_appendBytes_length_ = objc.registerName("appendBytes:length:");
 late final _sel_appendData_ = objc.registerName("appendData:");
+late final _sel_appliesSourcePositionAttributes = objc.registerName(
+  "appliesSourcePositionAttributes",
+);
 late final _sel_argumentsRetained = objc.registerName("argumentsRetained");
 late final _sel_array = objc.registerName("array");
 late final _sel_arrayByAddingObject_ = objc.registerName(
@@ -39122,6 +41050,9 @@ late final _sel_arrayWithObjects_count_ = objc.registerName(
   "arrayWithObjects:count:",
 );
 late final _sel_associatedIndex = objc.registerName("associatedIndex");
+late final _sel_attributesAtIndex_effectiveRange_ = objc.registerName(
+  "attributesAtIndex:effectiveRange:",
+);
 late final _sel_autorelease = objc.registerName("autorelease");
 late final _sel_availableStringEncodings = objc.registerName(
   "availableStringEncodings",
@@ -39142,6 +41073,17 @@ late final _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeT
     );
 late final _sel_boolValue = objc.registerName("boolValue");
 late final _sel_buildInstance_ = objc.registerName("buildInstance:");
+late final _sel_builtInPlugInsPath = objc.registerName("builtInPlugInsPath");
+late final _sel_builtInPlugInsURL = objc.registerName("builtInPlugInsURL");
+late final _sel_bundleForClass_ = objc.registerName("bundleForClass:");
+late final _sel_bundleIdentifier = objc.registerName("bundleIdentifier");
+late final _sel_bundlePath = objc.registerName("bundlePath");
+late final _sel_bundleURL = objc.registerName("bundleURL");
+late final _sel_bundleWithIdentifier_ = objc.registerName(
+  "bundleWithIdentifier:",
+);
+late final _sel_bundleWithPath_ = objc.registerName("bundleWithPath:");
+late final _sel_bundleWithURL_ = objc.registerName("bundleWithURL:");
 late final _sel_bytes = objc.registerName("bytes");
 late final _sel_cStringUsingEncoding_ = objc.registerName(
   "cStringUsingEncoding:",
@@ -39186,6 +41128,7 @@ late final _sel_characterSetWithRange_ = objc.registerName(
   "characterSetWithRange:",
 );
 late final _sel_class = objc.registerName("class");
+late final _sel_classNamed_ = objc.registerName("classNamed:");
 late final _sel_close = objc.registerName("close");
 late final _sel_code = objc.registerName("code");
 late final _sel_commonPrefixWithString_options_ = objc.registerName(
@@ -39316,6 +41259,9 @@ late final _sel_descriptionWithLocale_ = objc.registerName(
 late final _sel_descriptionWithLocale_indent_ = objc.registerName(
   "descriptionWithLocale:indent:",
 );
+late final _sel_developmentLocalization = objc.registerName(
+  "developmentLocalization",
+);
 late final _sel_dictionary = objc.registerName("dictionary");
 late final _sel_dictionaryWithCapacity_ = objc.registerName(
   "dictionaryWithCapacity:",
@@ -39403,6 +41349,12 @@ late final _sel_estimatedTimeRemaining = objc.registerName(
 late final _sel_exchangeObjectAtIndex_withObjectAtIndex_ = objc.registerName(
   "exchangeObjectAtIndex:withObjectAtIndex:",
 );
+late final _sel_executableArchitectures = objc.registerName(
+  "executableArchitectures",
+);
+late final _sel_executablePath = objc.registerName("executablePath");
+late final _sel_executableURL = objc.registerName("executableURL");
+late final _sel_failurePolicy = objc.registerName("failurePolicy");
 late final _sel_fastestEncoding = objc.registerName("fastestEncoding");
 late final _sel_fileCompletedCount = objc.registerName("fileCompletedCount");
 late final _sel_fileOperationKind = objc.registerName("fileOperationKind");
@@ -39568,6 +41520,7 @@ late final _sel_indexesPassingTest_ = objc.registerName("indexesPassingTest:");
 late final _sel_indexesWithOptions_passingTest_ = objc.registerName(
   "indexesWithOptions:passingTest:",
 );
+late final _sel_infoDictionary = objc.registerName("infoDictionary");
 late final _sel_init = objc.registerName("init");
 late final _sel_initAbsoluteURLWithDataRepresentation_relativeToURL_ = objc
     .registerName("initAbsoluteURLWithDataRepresentation:relativeToURL:");
@@ -39609,6 +41562,9 @@ late final _sel_initWithArray_copyItems_ = objc.registerName(
 );
 late final _sel_initWithArray_range_copyItems_ = objc.registerName(
   "initWithArray:range:copyItems:",
+);
+late final _sel_initWithAttributedString_ = objc.registerName(
+  "initWithAttributedString:",
 );
 late final _sel_initWithBase64EncodedData_options_ = objc.registerName(
   "initWithBase64EncodedData:options:",
@@ -39666,6 +41622,10 @@ late final _sel_initWithContentsOfFile_options_error_ = objc.registerName(
 late final _sel_initWithContentsOfFile_usedEncoding_error_ = objc.registerName(
   "initWithContentsOfFile:usedEncoding:error:",
 );
+late final _sel_initWithContentsOfMarkdownFileAtURL_options_baseURL_error_ =
+    objc.registerName(
+      "initWithContentsOfMarkdownFileAtURL:options:baseURL:error:",
+    );
 late final _sel_initWithContentsOfURL_ = objc.registerName(
   "initWithContentsOfURL:",
 );
@@ -39706,6 +41666,12 @@ late final _sel_initWithFormat_ = objc.registerName("initWithFormat:");
 late final _sel_initWithFormat_locale_ = objc.registerName(
   "initWithFormat:locale:",
 );
+late final _sel_initWithFormat_options_locale_ = objc.registerName(
+  "initWithFormat:options:locale:",
+);
+late final _sel_initWithFormat_options_locale_context_ = objc.registerName(
+  "initWithFormat:options:locale:context:",
+);
 late final _sel_initWithIndexSet_ = objc.registerName("initWithIndexSet:");
 late final _sel_initWithIndex_ = objc.registerName("initWithIndex:");
 late final _sel_initWithIndexesInRange_ = objc.registerName(
@@ -39730,6 +41696,11 @@ late final _sel_initWithLocaleIdentifier_ = objc.registerName(
 );
 late final _sel_initWithLongLong_ = objc.registerName("initWithLongLong:");
 late final _sel_initWithLong_ = objc.registerName("initWithLong:");
+late final _sel_initWithMarkdownString_options_baseURL_error_ = objc
+    .registerName("initWithMarkdownString:options:baseURL:error:");
+late final _sel_initWithMarkdown_options_baseURL_error_ = objc.registerName(
+  "initWithMarkdown:options:baseURL:error:",
+);
 late final _sel_initWithName_object_userInfo_ = objc.registerName(
   "initWithName:object:userInfo:",
 );
@@ -39763,6 +41734,7 @@ late final _sel_initWithOrderedSet_range_copyItems_ = objc.registerName(
 late final _sel_initWithParent_userInfo_ = objc.registerName(
   "initWithParent:userInfo:",
 );
+late final _sel_initWithPath_ = objc.registerName("initWithPath:");
 late final _sel_initWithSendPort_receivePort_components_ = objc.registerName(
   "initWithSendPort:receivePort:components:",
 );
@@ -39772,6 +41744,9 @@ late final _sel_initWithSet_copyItems_ = objc.registerName(
 );
 late final _sel_initWithShort_ = objc.registerName("initWithShort:");
 late final _sel_initWithString_ = objc.registerName("initWithString:");
+late final _sel_initWithString_attributes_ = objc.registerName(
+  "initWithString:attributes:",
+);
 late final _sel_initWithString_encodingInvalidCharacters_ = objc.registerName(
   "initWithString:encodingInvalidCharacters:",
 );
@@ -39846,6 +41821,7 @@ late final _sel_instancesRespondToSelector_ = objc.registerName(
 );
 late final _sel_intValue = objc.registerName("intValue");
 late final _sel_integerValue = objc.registerName("integerValue");
+late final _sel_interpretedSyntax = objc.registerName("interpretedSyntax");
 late final _sel_intersectOrderedSet_ = objc.registerName(
   "intersectOrderedSet:",
 );
@@ -39888,6 +41864,7 @@ late final _sel_isFinished = objc.registerName("isFinished");
 late final _sel_isFloat = objc.registerName("isFloat");
 late final _sel_isIndeterminate = objc.registerName("isIndeterminate");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_isLoaded = objc.registerName("isLoaded");
 late final _sel_isMemberOfClass_ = objc.registerName("isMemberOfClass:");
 late final _sel_isOld = objc.registerName("isOld");
 late final _sel_isOneway = objc.registerName("isOneway");
@@ -39921,6 +41898,7 @@ late final _sel_keysSortedByValueUsingSelector_ = objc.registerName(
 late final _sel_keysSortedByValueWithOptions_usingComparator_ = objc
     .registerName("keysSortedByValueWithOptions:usingComparator:");
 late final _sel_kind = objc.registerName("kind");
+late final _sel_languageCode = objc.registerName("languageCode");
 late final _sel_lastIndex = objc.registerName("lastIndex");
 late final _sel_lastObject = objc.registerName("lastObject");
 late final _sel_laterDate_ = objc.registerName("laterDate:");
@@ -39932,6 +41910,7 @@ late final _sel_letterCharacterSet = objc.registerName("letterCharacterSet");
 late final _sel_limitDateForMode_ = objc.registerName("limitDateForMode:");
 late final _sel_lineRangeForRange_ = objc.registerName("lineRangeForRange:");
 late final _sel_load = objc.registerName("load");
+late final _sel_loadAndReturnError_ = objc.registerName("loadAndReturnError:");
 late final _sel_loadDataRepresentationForTypeIdentifier_completionHandler_ =
     objc.registerName(
       "loadDataRepresentationForTypeIdentifier:completionHandler:",
@@ -39956,9 +41935,21 @@ late final _sel_loadObjectOfClass_completionHandler_ = objc.registerName(
 late final _sel_localeWithLocaleIdentifier_ = objc.registerName(
   "localeWithLocaleIdentifier:",
 );
+late final _sel_localizations = objc.registerName("localizations");
 late final _sel_localizedAdditionalDescription = objc.registerName(
   "localizedAdditionalDescription",
 );
+late final _sel_localizedAttributedStringForKey_value_table_ = objc
+    .registerName("localizedAttributedStringForKey:value:table:");
+late final _sel_localizedAttributedStringWithFormat_ = objc.registerName(
+  "localizedAttributedStringWithFormat:",
+);
+late final _sel_localizedAttributedStringWithFormat_context_ = objc
+    .registerName("localizedAttributedStringWithFormat:context:");
+late final _sel_localizedAttributedStringWithFormat_options_ = objc
+    .registerName("localizedAttributedStringWithFormat:options:");
+late final _sel_localizedAttributedStringWithFormat_options_context_ = objc
+    .registerName("localizedAttributedStringWithFormat:options:context:");
 late final _sel_localizedCapitalizedString = objc.registerName(
   "localizedCapitalizedString",
 );
@@ -39974,6 +41965,9 @@ late final _sel_localizedDescription = objc.registerName(
 );
 late final _sel_localizedFailureReason = objc.registerName(
   "localizedFailureReason",
+);
+late final _sel_localizedInfoDictionary = objc.registerName(
+  "localizedInfoDictionary",
 );
 late final _sel_localizedLowercaseString = objc.registerName(
   "localizedLowercaseString",
@@ -39995,6 +41989,9 @@ late final _sel_localizedStandardContainsString_ = objc.registerName(
 );
 late final _sel_localizedStandardRangeOfString_ = objc.registerName(
   "localizedStandardRangeOfString:",
+);
+late final _sel_localizedStringForKey_value_table_ = objc.registerName(
+  "localizedStringForKey:value:table:",
 );
 late final _sel_localizedStringWithFormat_ = objc.registerName(
   "localizedStringWithFormat:",
@@ -40018,6 +42015,7 @@ late final _sel_lowercaseString = objc.registerName("lowercaseString");
 late final _sel_lowercaseStringWithLocale_ = objc.registerName(
   "lowercaseStringWithLocale:",
 );
+late final _sel_mainBundle = objc.registerName("mainBundle");
 late final _sel_mainRunLoop = objc.registerName("mainRunLoop");
 late final _sel_makeObjectsPerformSelector_ = objc.registerName(
   "makeObjectsPerformSelector:",
@@ -40093,6 +42091,9 @@ late final _sel_objectAtIndexedSubscript_ = objc.registerName(
   "objectAtIndexedSubscript:",
 );
 late final _sel_objectEnumerator = objc.registerName("objectEnumerator");
+late final _sel_objectForInfoDictionaryKey_ = objc.registerName(
+  "objectForInfoDictionaryKey:",
+);
 late final _sel_objectForKey_ = objc.registerName("objectForKey:");
 late final _sel_objectForKeyedSubscript_ = objc.registerName(
   "objectForKeyedSubscript:",
@@ -40157,6 +42158,22 @@ late final _sel_paragraphRangeForRange_ = objc.registerName(
 late final _sel_parameterString = objc.registerName("parameterString");
 late final _sel_password = objc.registerName("password");
 late final _sel_path = objc.registerName("path");
+late final _sel_pathForAuxiliaryExecutable_ = objc.registerName(
+  "pathForAuxiliaryExecutable:",
+);
+late final _sel_pathForResource_ofType_ = objc.registerName(
+  "pathForResource:ofType:",
+);
+late final _sel_pathForResource_ofType_inDirectory_ = objc.registerName(
+  "pathForResource:ofType:inDirectory:",
+);
+late final _sel_pathForResource_ofType_inDirectory_forLocalization_ = objc
+    .registerName("pathForResource:ofType:inDirectory:forLocalization:");
+late final _sel_pathsForResourcesOfType_inDirectory_ = objc.registerName(
+  "pathsForResourcesOfType:inDirectory:",
+);
+late final _sel_pathsForResourcesOfType_inDirectory_forLocalization_ = objc
+    .registerName("pathsForResourcesOfType:inDirectory:forLocalization:");
 late final _sel_pause = objc.registerName("pause");
 late final _sel_pausingHandler = objc.registerName("pausingHandler");
 late final _sel_performAsCurrentWithPendingUnitCount_usingBlock_ = objc
@@ -40174,6 +42191,24 @@ late final _sel_precomposedStringWithCanonicalMapping = objc.registerName(
 );
 late final _sel_precomposedStringWithCompatibilityMapping = objc.registerName(
   "precomposedStringWithCompatibilityMapping",
+);
+late final _sel_preferredLocalizations = objc.registerName(
+  "preferredLocalizations",
+);
+late final _sel_preferredLocalizationsFromArray_ = objc.registerName(
+  "preferredLocalizationsFromArray:",
+);
+late final _sel_preferredLocalizationsFromArray_forPreferences_ = objc
+    .registerName("preferredLocalizationsFromArray:forPreferences:");
+late final _sel_preflightAndReturnError_ = objc.registerName(
+  "preflightAndReturnError:",
+);
+late final _sel_principalClass = objc.registerName("principalClass");
+late final _sel_privateFrameworksPath = objc.registerName(
+  "privateFrameworksPath",
+);
+late final _sel_privateFrameworksURL = objc.registerName(
+  "privateFrameworksURL",
 );
 late final _sel_progressWithTotalUnitCount_ = objc.registerName(
   "progressWithTotalUnitCount:",
@@ -40320,7 +42355,9 @@ late final _sel_resolveClassMethod_ = objc.registerName("resolveClassMethod:");
 late final _sel_resolveInstanceMethod_ = objc.registerName(
   "resolveInstanceMethod:",
 );
+late final _sel_resourcePath = objc.registerName("resourcePath");
 late final _sel_resourceSpecifier = objc.registerName("resourceSpecifier");
+late final _sel_resourceURL = objc.registerName("resourceURL");
 late final _sel_resourceValuesForKeys_error_ = objc.registerName(
   "resourceValuesForKeys:error:",
 );
@@ -40359,6 +42396,12 @@ late final _sel_sendBeforeDate_msgid_components_from_reserved_ = objc
     .registerName("sendBeforeDate:msgid:components:from:reserved:");
 late final _sel_sendPort = objc.registerName("sendPort");
 late final _sel_set = objc.registerName("set");
+late final _sel_setAllowsExtendedAttributes_ = objc.registerName(
+  "setAllowsExtendedAttributes:",
+);
+late final _sel_setAppliesSourcePositionAttributes_ = objc.registerName(
+  "setAppliesSourcePositionAttributes:",
+);
 late final _sel_setArgument_atIndex_ = objc.registerName(
   "setArgument:atIndex:",
 );
@@ -40385,6 +42428,7 @@ late final _sel_setError_ = objc.registerName("setError:");
 late final _sel_setEstimatedTimeRemaining_ = objc.registerName(
   "setEstimatedTimeRemaining:",
 );
+late final _sel_setFailurePolicy_ = objc.registerName("setFailurePolicy:");
 late final _sel_setFileCompletedCount_ = objc.registerName(
   "setFileCompletedCount:",
 );
@@ -40394,7 +42438,11 @@ late final _sel_setFileOperationKind_ = objc.registerName(
 late final _sel_setFileTotalCount_ = objc.registerName("setFileTotalCount:");
 late final _sel_setFileURL_ = objc.registerName("setFileURL:");
 late final _sel_setFireDate_ = objc.registerName("setFireDate:");
+late final _sel_setInterpretedSyntax_ = objc.registerName(
+  "setInterpretedSyntax:",
+);
 late final _sel_setKind_ = objc.registerName("setKind:");
+late final _sel_setLanguageCode_ = objc.registerName("setLanguageCode:");
 late final _sel_setLength_ = objc.registerName("setLength:");
 late final _sel_setLocalizedAdditionalDescription_ = objc.registerName(
   "setLocalizedAdditionalDescription:",
@@ -40446,6 +42494,12 @@ late final _sel_setWithObjects_count_ = objc.registerName(
   "setWithObjects:count:",
 );
 late final _sel_setWithSet_ = objc.registerName("setWithSet:");
+late final _sel_sharedFrameworksPath = objc.registerName(
+  "sharedFrameworksPath",
+);
+late final _sel_sharedFrameworksURL = objc.registerName("sharedFrameworksURL");
+late final _sel_sharedSupportPath = objc.registerName("sharedSupportPath");
+late final _sel_sharedSupportURL = objc.registerName("sharedSupportURL");
 late final _sel_shiftIndexesStartingAtIndex_by_ = objc.registerName(
   "shiftIndexesStartingAtIndex:by:",
 );
@@ -40583,6 +42637,7 @@ late final _sel_totalUnitCount = objc.registerName("totalUnitCount");
 late final _sel_underlyingErrors = objc.registerName("underlyingErrors");
 late final _sel_unionOrderedSet_ = objc.registerName("unionOrderedSet:");
 late final _sel_unionSet_ = objc.registerName("unionSet:");
+late final _sel_unload = objc.registerName("unload");
 late final _sel_unpublish = objc.registerName("unpublish");
 late final _sel_unsignedCharValue = objc.registerName("unsignedCharValue");
 late final _sel_unsignedIntValue = objc.registerName("unsignedIntValue");
