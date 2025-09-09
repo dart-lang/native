@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -37,7 +38,7 @@ abstract class Compound extends BindingType {
   bool get isStruct => compoundType == CompoundType.struct;
   bool get isUnion => compoundType == CompoundType.union;
 
-  ObjCBuiltInFunctions? objCBuiltInFunctions;
+  final Context context;
 
   /// The way the native type is written in C source code. This isn't always the
   /// same as the originalName, because the type may need to be prefixed with
@@ -54,7 +55,7 @@ abstract class Compound extends BindingType {
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,
-    this.objCBuiltInFunctions,
+    required this.context,
     String? nativeType,
   }) : members = members ?? [],
        nativeType = nativeType ?? originalName ?? name;
@@ -68,7 +69,7 @@ abstract class Compound extends BindingType {
     int? pack,
     String? dartDoc,
     List<CompoundMember>? members,
-    ObjCBuiltInFunctions? objCBuiltInFunctions,
+    required Context context,
     String? nativeType,
   }) {
     switch (type) {
@@ -81,7 +82,7 @@ abstract class Compound extends BindingType {
           pack: pack,
           dartDoc: dartDoc,
           members: members,
-          objCBuiltInFunctions: objCBuiltInFunctions,
+          context: context,
           nativeType: nativeType,
         );
       case CompoundType.union:
@@ -93,7 +94,7 @@ abstract class Compound extends BindingType {
           pack: pack,
           dartDoc: dartDoc,
           members: members,
-          objCBuiltInFunctions: objCBuiltInFunctions,
+          context: context,
           nativeType: nativeType,
         );
     }
@@ -101,7 +102,7 @@ abstract class Compound extends BindingType {
 
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
-      return '${w.ffiLibraryPrefix}.Array<'
+      return '${context.libs.prefix(ffiImport)}.Array<'
           '${_getInlineArrayTypeString(type.child, w)}>';
     }
     return type.getCType(w);
@@ -109,7 +110,7 @@ abstract class Compound extends BindingType {
 
   @override
   bool get isObjCImport =>
-      objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
+      context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
 
   @override
   BindingString toBindingString(Writer w) {
@@ -132,13 +133,14 @@ abstract class Compound extends BindingType {
     }
 
     /// Write @Packed(X) annotation if struct is packed.
+    final ffiPrefix = context.libs.prefix(ffiImport);
     if (isStruct && pack != null) {
-      s.write('@${w.ffiLibraryPrefix}.Packed($pack)\n');
+      s.write('@$ffiPrefix.Packed($pack)\n');
     }
     final dartClassName = isStruct ? 'Struct' : 'Union';
     // Write class declaration.
     s.write('final class $enclosingClassName extends ');
-    s.write('${w.ffiLibraryPrefix}.${isOpaque ? 'Opaque' : dartClassName}{\n');
+    s.write('$ffiPrefix.${isOpaque ? 'Opaque' : dartClassName}{\n');
     const depth = '  ';
     for (final m in members) {
       m.name = localUniqueNamer.makeUnique(m.name);
@@ -183,10 +185,12 @@ abstract class Compound extends BindingType {
 
   @override
   String getCType(Writer w) {
-    final builtInName = objCBuiltInFunctions?.getBuiltInCompoundName(
+    final builtInName = context.objCBuiltInFunctions.getBuiltInCompoundName(
       originalName,
     );
-    return builtInName != null ? '${w.objcPkgPrefix}.$builtInName' : name;
+    return builtInName != null
+        ? '${context.libs.prefix(objcPkgImport)}.$builtInName'
+        : name;
   }
 
   @override
@@ -199,6 +203,8 @@ abstract class Compound extends BindingType {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(members);
+    visitor.visit(ffiImport);
+    if (isObjCImport) visitor.visit(objcPkgImport);
   }
 
   @override

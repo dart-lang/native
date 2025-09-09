@@ -70,7 +70,7 @@ import 'unnamed_enumdecl_parser.dart';
       originalName: enumName,
       name: config.enums.rename(decl),
       nativeType: nativeType,
-      objCBuiltInFunctions: context.objCBuiltInFunctions,
+      context: context,
     );
     cursor.visitChildren((clang_types.CXCursor child) {
       try {

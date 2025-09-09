@@ -6,7 +6,8 @@ import 'dart:ffi';
 
 import 'package:logging/logging.dart';
 
-import 'code_generator.dart' show Constant, ObjCBuiltInFunctions;
+import 'code_generator.dart';
+import 'code_generator/unique_namer.dart';
 import 'config_provider/config.dart';
 import 'config_provider/config_types.dart';
 import 'config_provider/spec_utils.dart';
@@ -21,19 +22,21 @@ class Context {
 
   final CursorIndex cursorIndex;
 
-  final BindingsIndex bindingsIndex = BindingsIndex();
+  final bindingsIndex = BindingsIndex();
 
-  final IncrementalNamer incrementalNamer = IncrementalNamer();
+  final incrementalNamer = IncrementalNamer();
 
-  final Map<String, Macro> savedMacros = {};
+  final savedMacros = <String, Macro>{};
 
-  final List<Constant> unnamedEnumConstants = [];
+  final unnamedEnumConstants = <Constant>[];
 
   final ObjCBuiltInFunctions objCBuiltInFunctions;
 
   bool hasSourceErrors = false;
 
-  Set<((String, int), (String, int))> reportedCommentRanges = {};
+  final reportedCommentRanges = <((String, int), (String, int))>{};
+
+  final libs = LibraryImports();
 
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
 
@@ -66,3 +69,50 @@ class Context {
 // is created, and reuse it for all subsequent runs.
 Clang get clang => _clang!;
 Clang? _clang;
+
+class LibraryImports {
+  String get ffiLibraryPrefix => prefix(ffiImport);
+  String get ffiPkgLibraryPrefix => prefix(ffiPkgImport);
+  String get objcPkgPrefix => prefix(objcPkgImport);
+  String get selfImportPrefix => prefix(selfImport);
+
+  // Dedupe [lib] by name.
+  LibraryImport canonicalize(LibraryImport lib) =>
+      builtInLibraries[lib.name] ?? (_canonicalImports[lib.name] ??= lib);
+  final _canonicalImports = <String, LibraryImport>{};
+
+  // Mark an import as being used so that it can be assigned a prefix.
+  void markUsed(LibraryImport lib) {
+    assert(lib == canonicalize(lib));
+    _used.add(lib);
+  }
+
+  Iterable<LibraryImport> get used => _used;
+
+  final _used = <LibraryImport>{};
+
+  // Call after all used imports have been marked by [markUsed]. Fills the
+  // library prefixes used for codegen.
+  void fillPrefixes(UniqueNamer namer) {
+    for (final lib in _used) {
+      _prefixes[lib] = namer.makeUnique(lib.name);
+    }
+
+    _prefixesFilled = true;
+  }
+
+  bool _prefixesFilled = false;
+  final _prefixes = <LibraryImport, String>{};
+
+  String prefix(LibraryImport lib) {
+    assert(lib == canonicalize(lib));
+    if (!_prefixesFilled) {
+      // Before the prefixes have been filled, return a placeholder suitable for
+      // debugging or hashing, but intentionally invalid as generated code.
+      return '<${lib.name}>';
+    }
+    // If this null assert fails, it means that a library was used during code
+    // generation that wasn't visited by MarkImportsVisitation, which is a bug.
+    return _prefixes[lib]!;
+  }
+}

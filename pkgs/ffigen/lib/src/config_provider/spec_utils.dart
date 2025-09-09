@@ -140,9 +140,9 @@ Map<String, ImportedType> makeImportTypeMapping(
     final cType = rawTypeMappings[key]![1];
     final dartType = rawTypeMappings[key]![2];
     final nativeType = key;
-    if (strings.predefinedLibraryImports.containsKey(lib)) {
+    if (builtInLibraries.containsKey(lib)) {
       typeMappings[key] = ImportedType(
-        strings.predefinedLibraryImports[lib]!,
+        builtInLibraries[lib]!,
         cType,
         dartType,
         nativeType,
@@ -214,8 +214,7 @@ Type makeTypeFromRawVarArgType(
     } else if (rawVarArgTypeSplit.length == 2) {
       final lib = rawVarArgTypeSplit[0];
       final libraryImport =
-          strings.predefinedLibraryImports[lib] ??
-          libraryImportsMap[rawVarArgTypeSplit[0]];
+          builtInLibraries[lib] ?? libraryImportsMap[rawVarArgTypeSplit[0]];
       if (libraryImport == null) {
         throw Exception('Please declare $lib in library-imports.');
       }

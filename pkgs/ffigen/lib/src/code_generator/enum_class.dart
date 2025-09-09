@@ -5,11 +5,11 @@
 import 'package:collection/collection.dart';
 
 import '../config_provider.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'imports.dart';
-import 'objc_built_in_functions.dart';
 import 'type.dart';
 import 'unique_namer.dart';
 import 'utils.dart';
@@ -53,7 +53,7 @@ class EnumClass extends BindingType {
   /// Generates new names for all members that don't equal [name].
   final UniqueNamer namer;
 
-  ObjCBuiltInFunctions? objCBuiltInFunctions;
+  Context context;
 
   /// Whether this enum should be generated as a collection of integers.
   EnumStyle style;
@@ -65,7 +65,7 @@ class EnumClass extends BindingType {
     super.dartDoc,
     Type? nativeType,
     List<EnumConstant>? enumConstants,
-    this.objCBuiltInFunctions,
+    required this.context,
     this.style = EnumStyle.dartEnum,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [],
@@ -233,7 +233,7 @@ class EnumClass extends BindingType {
 
   @override
   bool get isObjCImport =>
-      objCBuiltInFunctions?.isBuiltInEnum(originalName) ?? false;
+      context.objCBuiltInFunctions.isBuiltInEnum(originalName);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -273,7 +273,7 @@ class EnumClass extends BindingType {
   @override
   String getDartType(Writer w) {
     if (isObjCImport) {
-      return '${w.objcPkgPrefix}.$name';
+      return '${context.libs.prefix(objcPkgImport)}.$name';
     } else if (style == EnumStyle.intConstants) {
       return nativeType.getDartType(w);
     } else {
@@ -313,6 +313,7 @@ class EnumClass extends BindingType {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(nativeType);
+    if (isObjCImport) visitor.visit(objcPkgImport);
   }
 
   @override

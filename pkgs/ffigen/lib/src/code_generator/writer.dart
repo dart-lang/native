@@ -29,7 +29,7 @@ class Writer {
   final String? nativeAssetId;
 
   /// Manages the `_SymbolAddress` class.
-  final symbolAddressWriter = SymbolAddressWriter();
+  final SymbolAddressWriter symbolAddressWriter;
 
   late String _className;
   String get className => _className;
@@ -39,59 +39,6 @@ class Writer {
   final bool generateForPackageObjectiveC;
 
   final List<String> nativeEntryPoints;
-
-  String? _ffiLibraryPrefix;
-  String get ffiLibraryPrefix {
-    if (_ffiLibraryPrefix != null) {
-      return _ffiLibraryPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == ffiImport.name,
-      orElse: () => ffiImport,
-    );
-    _usedImports.add(import);
-    return _ffiLibraryPrefix = import.prefix;
-  }
-
-  String? _ffiPkgLibraryPrefix;
-  String get ffiPkgLibraryPrefix {
-    if (_ffiPkgLibraryPrefix != null) {
-      return _ffiPkgLibraryPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == ffiPkgImport.name,
-      orElse: () => ffiPkgImport,
-    );
-    _usedImports.add(import);
-    return _ffiPkgLibraryPrefix = import.prefix;
-  }
-
-  String? _objcPkgPrefix;
-  String get objcPkgPrefix {
-    if (_objcPkgPrefix != null) {
-      return _objcPkgPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == objcPkgImport.name,
-      orElse: () => objcPkgImport,
-    );
-    _usedImports.add(import);
-    return _objcPkgPrefix = import.prefix;
-  }
-
-  late String selfImportPrefix = () {
-    final import = _usedImports.firstWhere(
-      (element) => element.name == self.name,
-      orElse: () => self,
-    );
-    _usedImports.add(import);
-    return import.prefix;
-  }();
-
-  final Set<LibraryImport> _usedImports = {};
 
   late String _lookupFuncIdentifier;
   String get lookupFuncIdentifier => _lookupFuncIdentifier;
@@ -133,11 +80,15 @@ class Writer {
     required this.silenceEnumWarning,
     required this.nativeEntryPoints,
     required this.context,
-  }) {
+  }) : symbolAddressWriter = SymbolAddressWriter(context) {
     final globalLevelNames = noLookUpBindings.map((e) => e.name);
     final wrapperLevelNames = lookUpBindings.map((e) => e.name);
 
     _initialTopLevelUniqueNamer = UniqueNamer()..markAllUsed(globalLevelNames);
+    for (final lib in context.libs.used) {
+      _initialTopLevelUniqueNamer.markUsed(context.libs.prefix(lib));
+    }
+
     _initialWrapperLevelUniqueNamer = UniqueNamer()
       ..markAllUsed(wrapperLevelNames);
     final allLevelsUniqueNamer = UniqueNamer()
@@ -150,18 +101,6 @@ class Writer {
       makeUnique: allLevelsUniqueNamer,
       markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
     );
-
-    /// Library imports prefix should be unique unique among all names.
-    for (final lib in [...additionalImports, ...allLibraries]) {
-      lib.prefix = _resolveNameConflict(
-        name: lib.prefix,
-        makeUnique: allLevelsUniqueNamer,
-        markUsed: [
-          _initialWrapperLevelUniqueNamer,
-          _initialTopLevelUniqueNamer,
-        ],
-      );
-    }
 
     /// [_lookupFuncIdentifier] should be unique in top level.
     _lookupFuncIdentifier = _resolveNameConflict(
@@ -210,10 +149,6 @@ class Writer {
     _objCLevelUniqueNamer = UniqueNamer();
   }
 
-  void markImportUsed(LibraryImport import) {
-    _usedImports.add(import);
-  }
-
   /// Writes all bindings to a String.
   String generate() {
     final s = StringBuffer();
@@ -248,13 +183,15 @@ class Writer {
     // Since the annotation goes on a `library;` directive, it needs to appear
     // before other definitions in the file.
     if (ffiNativeBindings.isNotEmpty && nativeAssetId != null) {
+      final ffiPrefix = context.libs.prefix(ffiImport);
       result
-        ..writeln("@$ffiLibraryPrefix.DefaultAsset('$nativeAssetId')")
+        ..writeln("@$ffiPrefix.DefaultAsset('$nativeAssetId')")
         ..writeln('library;\n');
     }
 
     /// Write [lookUpBindings].
     if (lookUpBindings.isNotEmpty) {
+      final ffiPrefix = context.libs.prefix(ffiImport);
       // Write doc comment for wrapper class.
       s.write(makeDartDoc(classDocComment));
       // Write wrapper classs.
@@ -262,8 +199,8 @@ class Writer {
       // Write dylib.
       s.write('/// Holds the symbol lookup function.\n');
       s.write(
-        'final $ffiLibraryPrefix.Pointer<T> Function<T extends '
-        '$ffiLibraryPrefix.NativeType>(String symbolName) '
+        'final $ffiPrefix.Pointer<T> Function<T extends '
+        '$ffiPrefix.NativeType>(String symbolName) '
         '$lookupFuncIdentifier;\n',
       );
       s.write('\n');
@@ -271,15 +208,15 @@ class Writer {
       s.write(makeDartDoc('The symbols are looked up in [dynamicLibrary].'));
       // Write wrapper class constructor.
       s.write(
-        '$_className($ffiLibraryPrefix.DynamicLibrary dynamicLibrary): '
+        '$_className($ffiPrefix.DynamicLibrary dynamicLibrary): '
         '$lookupFuncIdentifier = dynamicLibrary.lookup;\n\n',
       );
       //Write doc comment for wrapper class named constructor.
       s.write(makeDartDoc('The symbols are looked up with [lookup].'));
       // Write wrapper class named constructor.
       s.write(
-        '$_className.fromLookup($ffiLibraryPrefix.Pointer<T> '
-        'Function<T extends $ffiLibraryPrefix.NativeType>('
+        '$_className.fromLookup($ffiPrefix.Pointer<T> '
+        'Function<T extends $ffiPrefix.NativeType>('
         'String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n',
       );
       for (final b in lookUpBindings) {
@@ -312,9 +249,11 @@ class Writer {
     }
 
     // Write neccesary imports.
-    for (final lib in _usedImports) {
+    final libs = context.libs.used.toList()
+      ..sort((l1, l2) => l1.name.compareTo(l2.name));
+    for (final lib in libs) {
       final path = lib.importPath(generateForPackageObjectiveC);
-      result.write("import '$path' as ${lib.prefix};\n");
+      result.write("import '$path' as ${context.libs.prefix(lib)};\n");
     }
     result.write(s);
 
@@ -506,12 +445,15 @@ id objc_retainBlock(id);
 
 /// Manages the generated `_SymbolAddress` class.
 class SymbolAddressWriter {
+  final Context context;
   final List<_SymbolAddressUnit> _addresses = [];
 
   /// Used to check if we need to generate `_SymbolAddress` class.
   bool get shouldGenerate => _addresses.isNotEmpty;
 
   bool get hasNonNativeAddress => _addresses.any((e) => !e.native);
+
+  SymbolAddressWriter(this.context);
 
   void addSymbol({
     required String type,
@@ -561,8 +503,8 @@ class SymbolAddressWriter {
         // up their address.
         // The name of address getter shadows the actual element in the library,
         // so we need to use a self-import.
-        final arg = '${w.selfImportPrefix}.${address.name}';
-        sb.writeln('${w.ffiLibraryPrefix}.Native.addressOf($arg);');
+        final arg = '${context.libs.prefix(selfImport)}.${address.name}';
+        sb.writeln('${context.libs.prefix(ffiImport)}.Native.addressOf($arg);');
       } else {
         // For other elements, the generator will write a private field of type
         // Pointer which we can reference here.

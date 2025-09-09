@@ -71,7 +71,7 @@ class ObjCNullable extends Type {
       objCRetain: objCRetain,
       objCAutorelease: objCAutorelease,
     );
-    return '$convertedValue ?? ${w.ffiLibraryPrefix}.nullptr';
+    return '$convertedValue ?? ${w.context.libs.prefix(ffiImport)}.nullptr';
   }
 
   @override
@@ -104,6 +104,7 @@ class ObjCNullable extends Type {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(child);
+    visitor.visit(ffiImport);
   }
 
   @override
