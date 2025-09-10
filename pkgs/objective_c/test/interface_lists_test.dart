@@ -64,7 +64,9 @@ void main() {
     });
 
     test('All code genned enums are included in the list', () {
-      final allEnumNames = findBindings(RegExp(r'^enum (\w+) {'));
+      final allEnumNames = findBindings(
+        RegExp(r'^(?:enum|sealed class) (\w+) {'),
+      );
       expectSetsEqual('generated enums', objCBuiltInEnums, allEnumNames);
     });
 

@@ -913,7 +913,7 @@ extension DOBJCObservation$Methods on DOBJCObservation {
     NSString keyPath, {
     required objc.ObjCObjectBase ofObject,
     required Observer withObserver,
-    required NSKeyValueObservingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Void> context,
   }) {
     final _ret = _objc_msgSend_1jiinfj(
@@ -922,7 +922,7 @@ extension DOBJCObservation$Methods on DOBJCObservation {
       keyPath.ref.pointer,
       ofObject.ref.pointer,
       withObserver.ref.pointer,
-      options.value,
+      options,
       context,
     );
     return DOBJCObservation.castFromPointer(_ret, retain: false, release: true);
@@ -1117,7 +1117,7 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
   }
 
   /// stream:handleEvent:
-  void stream(NSStream aStream, {required NSStreamEvent handleEvent}) {
+  void stream(NSStream aStream, {required int handleEvent}) {
     if (!objc.respondsToSelector(this.ref.pointer, _sel_stream_handleEvent_)) {
       throw objc.UnimplementedOptionalMethodException(
         'DOBJCDartInputStreamAdapter',
@@ -1128,7 +1128,7 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
       this.ref.pointer,
       _sel_stream_handleEvent_,
       aStream.ref.pointer,
-      handleEvent.value,
+      handleEvent,
     );
   }
 }
@@ -1583,38 +1583,18 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
 
 /// iOS: unavailable
 /// macOS: introduced 10.11.0
-enum NSAppleEventSendOptions {
-  NSAppleEventSendNoReply(1),
-  NSAppleEventSendQueueReply(2),
-  NSAppleEventSendWaitForReply(3),
-  NSAppleEventSendNeverInteract(16),
-  NSAppleEventSendCanInteract(32),
-  NSAppleEventSendAlwaysInteract(48),
-  NSAppleEventSendCanSwitchLayer(64),
-  NSAppleEventSendDontRecord(4096),
-  NSAppleEventSendDontExecute(8192),
-  NSAppleEventSendDontAnnotate(65536),
-  NSAppleEventSendDefaultOptions(35);
-
-  final int value;
-  const NSAppleEventSendOptions(this.value);
-
-  static NSAppleEventSendOptions fromValue(int value) => switch (value) {
-    1 => NSAppleEventSendNoReply,
-    2 => NSAppleEventSendQueueReply,
-    3 => NSAppleEventSendWaitForReply,
-    16 => NSAppleEventSendNeverInteract,
-    32 => NSAppleEventSendCanInteract,
-    48 => NSAppleEventSendAlwaysInteract,
-    64 => NSAppleEventSendCanSwitchLayer,
-    4096 => NSAppleEventSendDontRecord,
-    8192 => NSAppleEventSendDontExecute,
-    65536 => NSAppleEventSendDontAnnotate,
-    35 => NSAppleEventSendDefaultOptions,
-    _ => throw ArgumentError(
-      'Unknown value for NSAppleEventSendOptions: $value',
-    ),
-  };
+sealed class NSAppleEventSendOptions {
+  static const NSAppleEventSendNoReply = 1;
+  static const NSAppleEventSendQueueReply = 2;
+  static const NSAppleEventSendWaitForReply = 3;
+  static const NSAppleEventSendNeverInteract = 16;
+  static const NSAppleEventSendCanInteract = 32;
+  static const NSAppleEventSendAlwaysInteract = 48;
+  static const NSAppleEventSendCanSwitchLayer = 64;
+  static const NSAppleEventSendDontRecord = 4096;
+  static const NSAppleEventSendDontExecute = 8192;
+  static const NSAppleEventSendDontAnnotate = 65536;
+  static const NSAppleEventSendDefaultOptions = 35;
 }
 
 /// NSArray
@@ -1976,7 +1956,7 @@ class NSAttributedString extends NSObject
   /// macOS: introduced 12.0.0
   static NSAttributedString localizedAttributedStringWithFormat$2(
     NSAttributedString format, {
-    required NSAttributedStringFormattingOptions options,
+    required int options,
   }) {
     objc.checkOsVersionInternal(
       'NSAttributedString.localizedAttributedStringWithFormat:options:',
@@ -1987,7 +1967,7 @@ class NSAttributedString extends NSObject
       _class_NSAttributedString,
       _sel_localizedAttributedStringWithFormat_options_,
       format.ref.pointer,
-      options.value,
+      options,
     );
     return NSAttributedString.castFromPointer(
       _ret,
@@ -2002,7 +1982,7 @@ class NSAttributedString extends NSObject
   /// macOS: introduced 14.0.0
   static NSAttributedString localizedAttributedStringWithFormat$3(
     NSAttributedString format, {
-    required NSAttributedStringFormattingOptions options,
+    required int options,
     required NSDictionary context,
   }) {
     objc.checkOsVersionInternal(
@@ -2014,7 +1994,7 @@ class NSAttributedString extends NSObject
       _class_NSAttributedString,
       _sel_localizedAttributedStringWithFormat_options_context_,
       format.ref.pointer,
-      options.value,
+      options,
       context.ref.pointer,
     );
     return NSAttributedString.castFromPointer(
@@ -2176,7 +2156,7 @@ extension NSAttributedString$Methods on NSAttributedString {
   /// macOS: introduced 12.0.0
   NSAttributedString initWithFormat(
     NSAttributedString format, {
-    required NSAttributedStringFormattingOptions options,
+    required int options,
     NSLocale? locale,
   }) {
     objc.checkOsVersionInternal(
@@ -2188,7 +2168,7 @@ extension NSAttributedString$Methods on NSAttributedString {
       this.ref.retainAndReturnPointer(),
       _sel_initWithFormat_options_locale_,
       format.ref.pointer,
-      options.value,
+      options,
       locale?.ref.pointer ?? ffi.nullptr,
     );
     return NSAttributedString.castFromPointer(
@@ -2204,7 +2184,7 @@ extension NSAttributedString$Methods on NSAttributedString {
   /// macOS: introduced 14.0.0
   NSAttributedString initWithFormat$1(
     NSAttributedString format, {
-    required NSAttributedStringFormattingOptions options,
+    required int options,
     NSLocale? locale,
     required NSDictionary context,
   }) {
@@ -2217,7 +2197,7 @@ extension NSAttributedString$Methods on NSAttributedString {
       this.ref.retainAndReturnPointer(),
       _sel_initWithFormat_options_locale_context_,
       format.ref.pointer,
-      options.value,
+      options,
       locale?.ref.pointer ?? ffi.nullptr,
       context.ref.pointer,
     );
@@ -2345,7 +2325,7 @@ extension NSAttributedString$Methods on NSAttributedString {
   }
 
   /// self
-  NSAttributedString self$1() {
+  NSAttributedString self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSAttributedString.castFromPointer(
       _ret,
@@ -2366,39 +2346,16 @@ extension NSAttributedString$Methods on NSAttributedString {
   }
 }
 
-enum NSAttributedStringEnumerationOptions {
-  NSAttributedStringEnumerationReverse(2),
-  NSAttributedStringEnumerationLongestEffectiveRangeNotRequired(1048576);
-
-  final int value;
-  const NSAttributedStringEnumerationOptions(this.value);
-
-  static NSAttributedStringEnumerationOptions fromValue(int value) =>
-      switch (value) {
-        2 => NSAttributedStringEnumerationReverse,
-        1048576 =>
-          NSAttributedStringEnumerationLongestEffectiveRangeNotRequired,
-        _ => throw ArgumentError(
-          'Unknown value for NSAttributedStringEnumerationOptions: $value',
-        ),
-      };
+sealed class NSAttributedStringEnumerationOptions {
+  static const NSAttributedStringEnumerationReverse = 2;
+  static const NSAttributedStringEnumerationLongestEffectiveRangeNotRequired =
+      1048576;
 }
 
-enum NSAttributedStringFormattingOptions {
-  NSAttributedStringFormattingInsertArgumentAttributesWithoutMerging(1),
-  NSAttributedStringFormattingApplyReplacementIndexAttribute(2);
-
-  final int value;
-  const NSAttributedStringFormattingOptions(this.value);
-
-  static NSAttributedStringFormattingOptions fromValue(int value) =>
-      switch (value) {
-        1 => NSAttributedStringFormattingInsertArgumentAttributesWithoutMerging,
-        2 => NSAttributedStringFormattingApplyReplacementIndexAttribute,
-        _ => throw ArgumentError(
-          'Unknown value for NSAttributedStringFormattingOptions: $value',
-        ),
-      };
+sealed class NSAttributedStringFormattingOptions {
+  static const NSAttributedStringFormattingInsertArgumentAttributesWithoutMerging =
+      1;
+  static const NSAttributedStringFormattingApplyReplacementIndexAttribute = 2;
 }
 
 /// iOS: introduced 15.0.0
@@ -2636,7 +2593,7 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
   }
 
   /// self
-  NSAttributedStringMarkdownParsingOptions self$1() {
+  NSAttributedStringMarkdownParsingOptions self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSAttributedStringMarkdownParsingOptions.castFromPointer(
       _ret,
@@ -2717,22 +2674,10 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
   }
 }
 
-enum NSBinarySearchingOptions {
-  NSBinarySearchingFirstEqual(256),
-  NSBinarySearchingLastEqual(512),
-  NSBinarySearchingInsertionIndex(1024);
-
-  final int value;
-  const NSBinarySearchingOptions(this.value);
-
-  static NSBinarySearchingOptions fromValue(int value) => switch (value) {
-    256 => NSBinarySearchingFirstEqual,
-    512 => NSBinarySearchingLastEqual,
-    1024 => NSBinarySearchingInsertionIndex,
-    _ => throw ArgumentError(
-      'Unknown value for NSBinarySearchingOptions: $value',
-    ),
-  };
+sealed class NSBinarySearchingOptions {
+  static const NSBinarySearchingFirstEqual = 256;
+  static const NSBinarySearchingLastEqual = 512;
+  static const NSBinarySearchingInsertionIndex = 1024;
 }
 
 /// NSBundle
@@ -3550,7 +3495,7 @@ extension NSBundle$Methods on NSBundle {
   }
 
   /// self
-  NSBundle self$1() {
+  NSBundle self() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return NSBundle.castFromPointer(_ret, retain: true, release: true);
   }
@@ -4529,14 +4474,14 @@ class NSData extends NSObject
   /// dataWithContentsOfFile:options:error:
   static NSData? dataWithContentsOfFile$1(
     NSString path, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       _class_NSData,
       _sel_dataWithContentsOfFile_options_error_,
       path.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -4559,14 +4504,14 @@ class NSData extends NSObject
   /// dataWithContentsOfURL:options:error:
   static NSData? dataWithContentsOfURL$1(
     NSURL url, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       _class_NSData,
       _sel_dataWithContentsOfURL_options_error_,
       url.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -4677,10 +4622,7 @@ extension NSData$Methods on NSData {
   }
 
   /// initWithBase64EncodedData:options:
-  NSData? initWithBase64EncodedData(
-    NSData base64Data, {
-    required NSDataBase64DecodingOptions options,
-  }) {
+  NSData? initWithBase64EncodedData(NSData base64Data, {required int options}) {
     objc.checkOsVersionInternal(
       'NSData.initWithBase64EncodedData:options:',
       iOS: (false, (7, 0, 0)),
@@ -4690,7 +4632,7 @@ extension NSData$Methods on NSData {
       this.ref.retainAndReturnPointer(),
       _sel_initWithBase64EncodedData_options_,
       base64Data.ref.pointer,
-      options.value,
+      options,
     );
     return _ret.address == 0
         ? null
@@ -4700,7 +4642,7 @@ extension NSData$Methods on NSData {
   /// initWithBase64EncodedString:options:
   NSData? initWithBase64EncodedString(
     NSString base64String, {
-    required NSDataBase64DecodingOptions options,
+    required int options,
   }) {
     objc.checkOsVersionInternal(
       'NSData.initWithBase64EncodedString:options:',
@@ -4711,7 +4653,7 @@ extension NSData$Methods on NSData {
       this.ref.retainAndReturnPointer(),
       _sel_initWithBase64EncodedString_options_,
       base64String.ref.pointer,
-      options.value,
+      options,
     );
     return _ret.address == 0
         ? null
@@ -4808,14 +4750,14 @@ extension NSData$Methods on NSData {
   /// initWithContentsOfFile:options:error:
   NSData? initWithContentsOfFile$1(
     NSString path, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfFile_options_error_,
       path.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -4838,14 +4780,14 @@ extension NSData$Methods on NSData {
   /// initWithContentsOfURL:options:error:
   NSData? initWithContentsOfURL$1(
     NSURL url, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_options_error_,
       url.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -4869,38 +4811,15 @@ extension NSData$Methods on NSData {
   }
 }
 
-enum NSDataBase64DecodingOptions {
-  NSDataBase64DecodingIgnoreUnknownCharacters(1);
-
-  final int value;
-  const NSDataBase64DecodingOptions(this.value);
-
-  static NSDataBase64DecodingOptions fromValue(int value) => switch (value) {
-    1 => NSDataBase64DecodingIgnoreUnknownCharacters,
-    _ => throw ArgumentError(
-      'Unknown value for NSDataBase64DecodingOptions: $value',
-    ),
-  };
+sealed class NSDataBase64DecodingOptions {
+  static const NSDataBase64DecodingIgnoreUnknownCharacters = 1;
 }
 
-enum NSDataBase64EncodingOptions {
-  NSDataBase64Encoding64CharacterLineLength(1),
-  NSDataBase64Encoding76CharacterLineLength(2),
-  NSDataBase64EncodingEndLineWithCarriageReturn(16),
-  NSDataBase64EncodingEndLineWithLineFeed(32);
-
-  final int value;
-  const NSDataBase64EncodingOptions(this.value);
-
-  static NSDataBase64EncodingOptions fromValue(int value) => switch (value) {
-    1 => NSDataBase64Encoding64CharacterLineLength,
-    2 => NSDataBase64Encoding76CharacterLineLength,
-    16 => NSDataBase64EncodingEndLineWithCarriageReturn,
-    32 => NSDataBase64EncodingEndLineWithLineFeed,
-    _ => throw ArgumentError(
-      'Unknown value for NSDataBase64EncodingOptions: $value',
-    ),
-  };
+sealed class NSDataBase64EncodingOptions {
+  static const NSDataBase64Encoding64CharacterLineLength = 1;
+  static const NSDataBase64Encoding76CharacterLineLength = 2;
+  static const NSDataBase64EncodingEndLineWithCarriageReturn = 16;
+  static const NSDataBase64EncodingEndLineWithLineFeed = 32;
 }
 
 /// iOS: introduced 13.0.0
@@ -4928,83 +4847,31 @@ enum NSDataCompressionAlgorithm {
 /// NSDataCreation
 extension NSDataCreation on NSData {}
 
-enum NSDataReadingOptions {
-  NSDataReadingMappedIfSafe(1),
-  NSDataReadingUncached(2),
-  NSDataReadingMappedAlways(8);
-
-  static const NSDataReadingMapped = NSDataReadingMappedIfSafe;
-  static const NSMappedRead = NSDataReadingMappedIfSafe;
-  static const NSUncachedRead = NSDataReadingUncached;
-
-  final int value;
-  const NSDataReadingOptions(this.value);
-
-  static NSDataReadingOptions fromValue(int value) => switch (value) {
-    1 => NSDataReadingMappedIfSafe,
-    2 => NSDataReadingUncached,
-    8 => NSDataReadingMappedAlways,
-    _ => throw ArgumentError('Unknown value for NSDataReadingOptions: $value'),
-  };
-
-  @override
-  String toString() {
-    if (this == NSDataReadingMappedIfSafe)
-      return "NSDataReadingOptions.NSDataReadingMappedIfSafe, NSDataReadingOptions.NSDataReadingMapped, NSDataReadingOptions.NSMappedRead";
-    if (this == NSDataReadingUncached)
-      return "NSDataReadingOptions.NSDataReadingUncached, NSDataReadingOptions.NSUncachedRead";
-    return super.toString();
-  }
+sealed class NSDataReadingOptions {
+  static const NSDataReadingMappedIfSafe = 1;
+  static const NSDataReadingUncached = 2;
+  static const NSDataReadingMappedAlways = 8;
+  static const NSDataReadingMapped = 1;
+  static const NSMappedRead = 1;
+  static const NSUncachedRead = 2;
 }
 
-enum NSDataSearchOptions {
-  NSDataSearchBackwards(1),
-  NSDataSearchAnchored(2);
-
-  final int value;
-  const NSDataSearchOptions(this.value);
-
-  static NSDataSearchOptions fromValue(int value) => switch (value) {
-    1 => NSDataSearchBackwards,
-    2 => NSDataSearchAnchored,
-    _ => throw ArgumentError('Unknown value for NSDataSearchOptions: $value'),
-  };
+sealed class NSDataSearchOptions {
+  static const NSDataSearchBackwards = 1;
+  static const NSDataSearchAnchored = 2;
 }
 
-enum NSDataWritingOptions {
-  NSDataWritingAtomic(1),
-  NSDataWritingWithoutOverwriting(2),
-  NSDataWritingFileProtectionNone(268435456),
-  NSDataWritingFileProtectionComplete(536870912),
-  NSDataWritingFileProtectionCompleteUnlessOpen(805306368),
-  NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication(1073741824),
-  NSDataWritingFileProtectionCompleteWhenUserInactive(1342177280),
-  NSDataWritingFileProtectionMask(4026531840);
-
-  static const NSAtomicWrite = NSDataWritingAtomic;
-
-  final int value;
-  const NSDataWritingOptions(this.value);
-
-  static NSDataWritingOptions fromValue(int value) => switch (value) {
-    1 => NSDataWritingAtomic,
-    2 => NSDataWritingWithoutOverwriting,
-    268435456 => NSDataWritingFileProtectionNone,
-    536870912 => NSDataWritingFileProtectionComplete,
-    805306368 => NSDataWritingFileProtectionCompleteUnlessOpen,
-    1073741824 =>
-      NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication,
-    1342177280 => NSDataWritingFileProtectionCompleteWhenUserInactive,
-    4026531840 => NSDataWritingFileProtectionMask,
-    _ => throw ArgumentError('Unknown value for NSDataWritingOptions: $value'),
-  };
-
-  @override
-  String toString() {
-    if (this == NSDataWritingAtomic)
-      return "NSDataWritingOptions.NSDataWritingAtomic, NSDataWritingOptions.NSAtomicWrite";
-    return super.toString();
-  }
+sealed class NSDataWritingOptions {
+  static const NSDataWritingAtomic = 1;
+  static const NSDataWritingWithoutOverwriting = 2;
+  static const NSDataWritingFileProtectionNone = 268435456;
+  static const NSDataWritingFileProtectionComplete = 536870912;
+  static const NSDataWritingFileProtectionCompleteUnlessOpen = 805306368;
+  static const NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication =
+      1073741824;
+  static const NSDataWritingFileProtectionCompleteWhenUserInactive = 1342177280;
+  static const NSDataWritingFileProtectionMask = 4026531840;
+  static const NSAtomicWrite = 1;
 }
 
 /// NSDate
@@ -5560,18 +5427,9 @@ final class NSEdgeInsets extends ffi.Struct {
   external double right;
 }
 
-enum NSEnumerationOptions {
-  NSEnumerationConcurrent(1),
-  NSEnumerationReverse(2);
-
-  final int value;
-  const NSEnumerationOptions(this.value);
-
-  static NSEnumerationOptions fromValue(int value) => switch (value) {
-    1 => NSEnumerationConcurrent,
-    2 => NSEnumerationReverse,
-    _ => throw ArgumentError('Unknown value for NSEnumerationOptions: $value'),
-  };
+sealed class NSEnumerationOptions {
+  static const NSEnumerationConcurrent = 1;
+  static const NSEnumerationReverse = 2;
 }
 
 /// NSEnumerator
@@ -6021,7 +5879,7 @@ extension NSExtendedArray on NSArray {
   /// enumerateObjectsAtIndexes:options:usingBlock:
   void enumerateObjectsAtIndexes(
     NSIndexSet s, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6040,7 +5898,7 @@ extension NSExtendedArray on NSArray {
       this.ref.pointer,
       _sel_enumerateObjectsAtIndexes_options_usingBlock_,
       s.ref.pointer,
-      options.value,
+      options,
       usingBlock.ref.pointer,
     );
   }
@@ -6070,7 +5928,7 @@ extension NSExtendedArray on NSArray {
 
   /// enumerateObjectsWithOptions:usingBlock:
   void enumerateObjectsWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6088,7 +5946,7 @@ extension NSExtendedArray on NSArray {
     _objc_msgSend_yx8yc6(
       this.ref.pointer,
       _sel_enumerateObjectsWithOptions_usingBlock_,
-      opts.value,
+      opts,
       usingBlock.ref.pointer,
     );
   }
@@ -6157,7 +6015,7 @@ extension NSExtendedArray on NSArray {
   int indexOfObject$2(
     objc.ObjCObjectBase obj, {
     required NSRange inSortedRange,
-    required NSBinarySearchingOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6176,7 +6034,7 @@ extension NSExtendedArray on NSArray {
       _sel_indexOfObject_inSortedRange_options_usingComparator_,
       obj.ref.pointer,
       inSortedRange,
-      options.value,
+      options,
       usingComparator.ref.pointer,
     );
   }
@@ -6184,7 +6042,7 @@ extension NSExtendedArray on NSArray {
   /// indexOfObjectAtIndexes:options:passingTest:
   int indexOfObjectAtIndexes(
     NSIndexSet s, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6203,7 +6061,7 @@ extension NSExtendedArray on NSArray {
       this.ref.pointer,
       _sel_indexOfObjectAtIndexes_options_passingTest_,
       s.ref.pointer,
-      options.value,
+      options,
       passingTest.ref.pointer,
     );
   }
@@ -6255,7 +6113,7 @@ extension NSExtendedArray on NSArray {
 
   /// indexOfObjectWithOptions:passingTest:
   int indexOfObjectWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6273,7 +6131,7 @@ extension NSExtendedArray on NSArray {
     return _objc_msgSend_1698hqz(
       this.ref.pointer,
       _sel_indexOfObjectWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
   }
@@ -6281,7 +6139,7 @@ extension NSExtendedArray on NSArray {
   /// indexesOfObjectsAtIndexes:options:passingTest:
   NSIndexSet indexesOfObjectsAtIndexes(
     NSIndexSet s, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6300,7 +6158,7 @@ extension NSExtendedArray on NSArray {
       this.ref.pointer,
       _sel_indexesOfObjectsAtIndexes_options_passingTest_,
       s.ref.pointer,
-      options.value,
+      options,
       passingTest.ref.pointer,
     );
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
@@ -6332,7 +6190,7 @@ extension NSExtendedArray on NSArray {
 
   /// indexesOfObjectsWithOptions:passingTest:
   NSIndexSet indexesOfObjectsWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6350,7 +6208,7 @@ extension NSExtendedArray on NSArray {
     final _ret = _objc_msgSend_13x5boi(
       this.ref.pointer,
       _sel_indexesOfObjectsWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
@@ -6524,7 +6382,7 @@ extension NSExtendedArray on NSArray {
 
   /// sortedArrayWithOptions:usingComparator:
   NSArray sortedArrayWithOptions(
-    NSSortOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6541,7 +6399,7 @@ extension NSExtendedArray on NSArray {
     final _ret = _objc_msgSend_1x5ew3h(
       this.ref.pointer,
       _sel_sortedArrayWithOptions_usingComparator_,
-      opts.value,
+      opts,
       usingComparator.ref.pointer,
     );
     return NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -6630,7 +6488,7 @@ extension NSExtendedData on NSData {
   /// rangeOfData:options:range:
   NSRange rangeOfData(
     NSData dataToFind, {
-    required NSDataSearchOptions options,
+    required int options,
     required NSRange range,
   }) {
     objc.checkOsVersionInternal(
@@ -6645,14 +6503,14 @@ extension NSExtendedData on NSData {
             this.ref.pointer,
             _sel_rangeOfData_options_range_,
             dataToFind.ref.pointer,
-            options.value,
+            options,
             range,
           )
         : _ptr.ref = _objc_msgSend_1d8s65w(
             this.ref.pointer,
             _sel_rangeOfData_options_range_,
             dataToFind.ref.pointer,
-            options.value,
+            options,
             range,
           );
     final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
@@ -6685,14 +6543,14 @@ extension NSExtendedData on NSData {
   /// writeToFile:options:error:
   bool writeToFile$1(
     NSString path, {
-    required NSDataWritingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     return _objc_msgSend_1xi08ar(
       this.ref.pointer,
       _sel_writeToFile_options_error_,
       path.ref.pointer,
-      options.value,
+      options,
       error,
     );
   }
@@ -6710,14 +6568,14 @@ extension NSExtendedData on NSData {
   /// writeToURL:options:error:
   bool writeToURL$1(
     NSURL url, {
-    required NSDataWritingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     return _objc_msgSend_1xi08ar(
       this.ref.pointer,
       _sel_writeToURL_options_error_,
       url.ref.pointer,
-      options.value,
+      options,
       error,
     );
   }
@@ -6917,7 +6775,7 @@ extension NSExtendedDictionary on NSDictionary {
 
   /// enumerateKeysAndObjectsWithOptions:usingBlock:
   void enumerateKeysAndObjectsWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -6935,7 +6793,7 @@ extension NSExtendedDictionary on NSDictionary {
     _objc_msgSend_yx8yc6(
       this.ref.pointer,
       _sel_enumerateKeysAndObjectsWithOptions_usingBlock_,
-      opts.value,
+      opts,
       usingBlock.ref.pointer,
     );
   }
@@ -6995,7 +6853,7 @@ extension NSExtendedDictionary on NSDictionary {
 
   /// keysOfEntriesWithOptions:passingTest:
   NSSet keysOfEntriesWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -7013,7 +6871,7 @@ extension NSExtendedDictionary on NSDictionary {
     final _ret = _objc_msgSend_13x5boi(
       this.ref.pointer,
       _sel_keysOfEntriesWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
     return NSSet.castFromPointer(_ret, retain: true, release: true);
@@ -7056,7 +6914,7 @@ extension NSExtendedDictionary on NSDictionary {
 
   /// keysSortedByValueWithOptions:usingComparator:
   NSArray keysSortedByValueWithOptions(
-    NSSortOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -7073,7 +6931,7 @@ extension NSExtendedDictionary on NSDictionary {
     final _ret = _objc_msgSend_1x5ew3h(
       this.ref.pointer,
       _sel_keysSortedByValueWithOptions_usingComparator_,
-      opts.value,
+      opts,
       usingComparator.ref.pointer,
     );
     return NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -7367,7 +7225,7 @@ extension NSExtendedMutableArray on NSMutableArray {
 
   /// sortWithOptions:usingComparator:
   void sortWithOptions(
-    NSSortOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -7384,7 +7242,7 @@ extension NSExtendedMutableArray on NSMutableArray {
     _objc_msgSend_jjgvjt(
       this.ref.pointer,
       _sel_sortWithOptions_usingComparator_,
-      opts.value,
+      opts,
       usingComparator.ref.pointer,
     );
   }
@@ -7782,7 +7640,7 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
   /// sortRange:options:usingComparator:
   void sortRange(
     NSRange range, {
-    required NSSortOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -7800,7 +7658,7 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
       this.ref.pointer,
       _sel_sortRange_options_usingComparator_,
       range,
-      options.value,
+      options,
       usingComparator.ref.pointer,
     );
   }
@@ -7829,7 +7687,7 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
 
   /// sortWithOptions:usingComparator:
   void sortWithOptions(
-    NSSortOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -7846,7 +7704,7 @@ extension NSExtendedMutableOrderedSet on NSMutableOrderedSet {
     _objc_msgSend_jjgvjt(
       this.ref.pointer,
       _sel_sortWithOptions_usingComparator_,
-      opts.value,
+      opts,
       usingComparator.ref.pointer,
     );
   }
@@ -8000,7 +7858,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   /// enumerateObjectsAtIndexes:options:usingBlock:
   void enumerateObjectsAtIndexes(
     NSIndexSet s, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8019,7 +7877,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       this.ref.pointer,
       _sel_enumerateObjectsAtIndexes_options_usingBlock_,
       s.ref.pointer,
-      options.value,
+      options,
       usingBlock.ref.pointer,
     );
   }
@@ -8049,7 +7907,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
 
   /// enumerateObjectsWithOptions:usingBlock:
   void enumerateObjectsWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8067,7 +7925,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
     _objc_msgSend_yx8yc6(
       this.ref.pointer,
       _sel_enumerateObjectsWithOptions_usingBlock_,
-      opts.value,
+      opts,
       usingBlock.ref.pointer,
     );
   }
@@ -8102,7 +7960,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   int indexOfObject(
     objc.ObjCObjectBase object, {
     required NSRange inSortedRange,
-    required NSBinarySearchingOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8121,7 +7979,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       _sel_indexOfObject_inSortedRange_options_usingComparator_,
       object.ref.pointer,
       inSortedRange,
-      options.value,
+      options,
       usingComparator.ref.pointer,
     );
   }
@@ -8129,7 +7987,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   /// indexOfObjectAtIndexes:options:passingTest:
   int indexOfObjectAtIndexes(
     NSIndexSet s, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8148,7 +8006,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       this.ref.pointer,
       _sel_indexOfObjectAtIndexes_options_passingTest_,
       s.ref.pointer,
-      options.value,
+      options,
       passingTest.ref.pointer,
     );
   }
@@ -8178,7 +8036,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
 
   /// indexOfObjectWithOptions:passingTest:
   int indexOfObjectWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8196,7 +8054,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
     return _objc_msgSend_1698hqz(
       this.ref.pointer,
       _sel_indexOfObjectWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
   }
@@ -8204,7 +8062,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   /// indexesOfObjectsAtIndexes:options:passingTest:
   NSIndexSet indexesOfObjectsAtIndexes(
     NSIndexSet s, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8223,7 +8081,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
       this.ref.pointer,
       _sel_indexesOfObjectsAtIndexes_options_passingTest_,
       s.ref.pointer,
-      options.value,
+      options,
       passingTest.ref.pointer,
     );
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
@@ -8255,7 +8113,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
 
   /// indexesOfObjectsWithOptions:passingTest:
   NSIndexSet indexesOfObjectsWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8273,7 +8131,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
     final _ret = _objc_msgSend_13x5boi(
       this.ref.pointer,
       _sel_indexesOfObjectsWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
@@ -8467,7 +8325,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
 
   /// sortedArrayWithOptions:usingComparator:
   NSArray sortedArrayWithOptions(
-    NSSortOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Long Function(
         ffi.Pointer<objc.ObjCObject>,
@@ -8484,7 +8342,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
     final _ret = _objc_msgSend_1x5ew3h(
       this.ref.pointer,
       _sel_sortedArrayWithOptions_usingComparator_,
-      opts.value,
+      opts,
       usingComparator.ref.pointer,
     );
     return NSArray.castFromPointer(_ret, retain: true, release: true);
@@ -8553,7 +8411,7 @@ extension NSExtendedSet on NSSet {
 
   /// enumerateObjectsWithOptions:usingBlock:
   void enumerateObjectsWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)
     >
@@ -8567,7 +8425,7 @@ extension NSExtendedSet on NSSet {
     _objc_msgSend_yx8yc6(
       this.ref.pointer,
       _sel_enumerateObjectsWithOptions_usingBlock_,
-      opts.value,
+      opts,
       usingBlock.ref.pointer,
     );
   }
@@ -8643,7 +8501,7 @@ extension NSExtendedSet on NSSet {
 
   /// objectsWithOptions:passingTest:
   NSSet objectsWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<ffi.Bool>)
     >
@@ -8657,7 +8515,7 @@ extension NSExtendedSet on NSSet {
     final _ret = _objc_msgSend_13x5boi(
       this.ref.pointer,
       _sel_objectsWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
     return NSSet.castFromPointer(_ret, retain: true, release: true);
@@ -8988,7 +8846,7 @@ extension NSIndexSet$Methods on NSIndexSet {
   /// enumerateIndexesInRange:options:usingBlock:
   void enumerateIndexesInRange(
     NSRange range, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >
@@ -9003,7 +8861,7 @@ extension NSIndexSet$Methods on NSIndexSet {
       this.ref.pointer,
       _sel_enumerateIndexesInRange_options_usingBlock_,
       range,
-      options.value,
+      options,
       usingBlock.ref.pointer,
     );
   }
@@ -9027,7 +8885,7 @@ extension NSIndexSet$Methods on NSIndexSet {
 
   /// enumerateIndexesWithOptions:usingBlock:
   void enumerateIndexesWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >
@@ -9041,7 +8899,7 @@ extension NSIndexSet$Methods on NSIndexSet {
     _objc_msgSend_yx8yc6(
       this.ref.pointer,
       _sel_enumerateIndexesWithOptions_usingBlock_,
-      opts.value,
+      opts,
       usingBlock.ref.pointer,
     );
   }
@@ -9049,7 +8907,7 @@ extension NSIndexSet$Methods on NSIndexSet {
   /// enumerateRangesInRange:options:usingBlock:
   void enumerateRangesInRange(
     NSRange range, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)>
     usingBlock,
   }) {
@@ -9062,7 +8920,7 @@ extension NSIndexSet$Methods on NSIndexSet {
       this.ref.pointer,
       _sel_enumerateRangesInRange_options_usingBlock_,
       range,
-      options.value,
+      options,
       usingBlock.ref.pointer,
     );
   }
@@ -9085,7 +8943,7 @@ extension NSIndexSet$Methods on NSIndexSet {
 
   /// enumerateRangesWithOptions:usingBlock:
   void enumerateRangesWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)>
     usingBlock,
   }) {
@@ -9097,7 +8955,7 @@ extension NSIndexSet$Methods on NSIndexSet {
     _objc_msgSend_yx8yc6(
       this.ref.pointer,
       _sel_enumerateRangesWithOptions_usingBlock_,
-      opts.value,
+      opts,
       usingBlock.ref.pointer,
     );
   }
@@ -9143,7 +9001,7 @@ extension NSIndexSet$Methods on NSIndexSet {
   /// indexInRange:options:passingTest:
   int indexInRange(
     NSRange range, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Bool Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >
@@ -9158,7 +9016,7 @@ extension NSIndexSet$Methods on NSIndexSet {
       this.ref.pointer,
       _sel_indexInRange_options_passingTest_,
       range,
-      options.value,
+      options,
       passingTest.ref.pointer,
     );
   }
@@ -9200,7 +9058,7 @@ extension NSIndexSet$Methods on NSIndexSet {
 
   /// indexWithOptions:passingTest:
   int indexWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >
@@ -9214,7 +9072,7 @@ extension NSIndexSet$Methods on NSIndexSet {
     return _objc_msgSend_1698hqz(
       this.ref.pointer,
       _sel_indexWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
   }
@@ -9222,7 +9080,7 @@ extension NSIndexSet$Methods on NSIndexSet {
   /// indexesInRange:options:passingTest:
   NSIndexSet indexesInRange(
     NSRange range, {
-    required NSEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Bool Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >
@@ -9237,7 +9095,7 @@ extension NSIndexSet$Methods on NSIndexSet {
       this.ref.pointer,
       _sel_indexesInRange_options_passingTest_,
       range,
-      options.value,
+      options,
       passingTest.ref.pointer,
     );
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
@@ -9263,7 +9121,7 @@ extension NSIndexSet$Methods on NSIndexSet {
 
   /// indexesWithOptions:passingTest:
   NSIndexSet indexesWithOptions(
-    NSEnumerationOptions opts, {
+    int opts, {
     required objc.ObjCBlock<
       ffi.Bool Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
     >
@@ -9277,7 +9135,7 @@ extension NSIndexSet$Methods on NSIndexSet {
     final _ret = _objc_msgSend_13x5boi(
       this.ref.pointer,
       _sel_indexesWithOptions_passingTest_,
-      opts.value,
+      opts,
       passingTest.ref.pointer,
     );
     return NSIndexSet.castFromPointer(_ret, retain: true, release: true);
@@ -9780,7 +9638,7 @@ extension NSItemProvider$Methods on NSItemProvider {
   /// hasRepresentationConformingToTypeIdentifier:fileOptions:
   bool hasRepresentationConformingToTypeIdentifier(
     NSString typeIdentifier, {
-    required NSItemProviderFileOptions fileOptions,
+    required int fileOptions,
   }) {
     objc.checkOsVersionInternal(
       'NSItemProvider.hasRepresentationConformingToTypeIdentifier:fileOptions:',
@@ -9791,7 +9649,7 @@ extension NSItemProvider$Methods on NSItemProvider {
       this.ref.pointer,
       _sel_hasRepresentationConformingToTypeIdentifier_fileOptions_,
       typeIdentifier.ref.pointer,
-      fileOptions.value,
+      fileOptions,
     );
   }
 
@@ -9989,7 +9847,7 @@ extension NSItemProvider$Methods on NSItemProvider {
   /// registerFileRepresentationForTypeIdentifier:fileOptions:visibility:loadHandler:
   void registerFileRepresentationForTypeIdentifier(
     NSString typeIdentifier, {
-    required NSItemProviderFileOptions fileOptions,
+    required int fileOptions,
     required NSItemProviderRepresentationVisibility visibility,
     required objc.ObjCBlock<
       NSProgress? Function(
@@ -10007,7 +9865,7 @@ extension NSItemProvider$Methods on NSItemProvider {
       this.ref.pointer,
       _sel_registerFileRepresentationForTypeIdentifier_fileOptions_visibility_loadHandler_,
       typeIdentifier.ref.pointer,
-      fileOptions.value,
+      fileOptions,
       visibility.value,
       loadHandler.ref.pointer,
     );
@@ -10100,9 +9958,7 @@ extension NSItemProvider$Methods on NSItemProvider {
   }
 
   /// registeredTypeIdentifiersWithFileOptions:
-  NSArray registeredTypeIdentifiersWithFileOptions(
-    NSItemProviderFileOptions fileOptions,
-  ) {
+  NSArray registeredTypeIdentifiersWithFileOptions(int fileOptions) {
     objc.checkOsVersionInternal(
       'NSItemProvider.registeredTypeIdentifiersWithFileOptions:',
       iOS: (false, (11, 0, 0)),
@@ -10111,7 +9967,7 @@ extension NSItemProvider$Methods on NSItemProvider {
     final _ret = _objc_msgSend_7g3u2y(
       this.ref.pointer,
       _sel_registeredTypeIdentifiersWithFileOptions_,
-      fileOptions.value,
+      fileOptions,
     );
     return NSArray.castFromPointer(_ret, retain: true, release: true);
   }
@@ -10156,18 +10012,8 @@ extension NSItemProvider$Methods on NSItemProvider {
   }
 }
 
-enum NSItemProviderFileOptions {
-  NSItemProviderFileOptionOpenInPlace(1);
-
-  final int value;
-  const NSItemProviderFileOptions(this.value);
-
-  static NSItemProviderFileOptions fromValue(int value) => switch (value) {
-    1 => NSItemProviderFileOptionOpenInPlace,
-    _ => throw ArgumentError(
-      'Unknown value for NSItemProviderFileOptions: $value',
-    ),
-  };
+sealed class NSItemProviderFileOptions {
+  static const NSItemProviderFileOptionOpenInPlace = 1;
 }
 
 /// NSItemProviderReading
@@ -10477,24 +10323,11 @@ enum NSKeyValueChange {
   };
 }
 
-enum NSKeyValueObservingOptions {
-  NSKeyValueObservingOptionNew(1),
-  NSKeyValueObservingOptionOld(2),
-  NSKeyValueObservingOptionInitial(4),
-  NSKeyValueObservingOptionPrior(8);
-
-  final int value;
-  const NSKeyValueObservingOptions(this.value);
-
-  static NSKeyValueObservingOptions fromValue(int value) => switch (value) {
-    1 => NSKeyValueObservingOptionNew,
-    2 => NSKeyValueObservingOptionOld,
-    4 => NSKeyValueObservingOptionInitial,
-    8 => NSKeyValueObservingOptionPrior,
-    _ => throw ArgumentError(
-      'Unknown value for NSKeyValueObservingOptions: $value',
-    ),
-  };
+sealed class NSKeyValueObservingOptions {
+  static const NSKeyValueObservingOptionNew = 1;
+  static const NSKeyValueObservingOptionOld = 2;
+  static const NSKeyValueObservingOptionInitial = 4;
+  static const NSKeyValueObservingOptionPrior = 8;
 }
 
 enum NSKeyValueSetMutationKind {
@@ -10517,26 +10350,12 @@ enum NSKeyValueSetMutationKind {
   };
 }
 
-enum NSLinguisticTaggerOptions {
-  NSLinguisticTaggerOmitWords(1),
-  NSLinguisticTaggerOmitPunctuation(2),
-  NSLinguisticTaggerOmitWhitespace(4),
-  NSLinguisticTaggerOmitOther(8),
-  NSLinguisticTaggerJoinNames(16);
-
-  final int value;
-  const NSLinguisticTaggerOptions(this.value);
-
-  static NSLinguisticTaggerOptions fromValue(int value) => switch (value) {
-    1 => NSLinguisticTaggerOmitWords,
-    2 => NSLinguisticTaggerOmitPunctuation,
-    4 => NSLinguisticTaggerOmitWhitespace,
-    8 => NSLinguisticTaggerOmitOther,
-    16 => NSLinguisticTaggerJoinNames,
-    _ => throw ArgumentError(
-      'Unknown value for NSLinguisticTaggerOptions: $value',
-    ),
-  };
+sealed class NSLinguisticTaggerOptions {
+  static const NSLinguisticTaggerOmitWords = 1;
+  static const NSLinguisticTaggerOmitPunctuation = 2;
+  static const NSLinguisticTaggerOmitWhitespace = 4;
+  static const NSLinguisticTaggerOmitOther = 8;
+  static const NSLinguisticTaggerJoinNames = 16;
 }
 
 /// NSLocale
@@ -11364,14 +11183,14 @@ class NSMutableData extends NSData {
   /// dataWithContentsOfFile:options:error:
   static NSMutableData? dataWithContentsOfFile$1(
     NSString path, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       _class_NSMutableData,
       _sel_dataWithContentsOfFile_options_error_,
       path.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -11394,14 +11213,14 @@ class NSMutableData extends NSData {
   /// dataWithContentsOfURL:options:error:
   static NSMutableData? dataWithContentsOfURL$1(
     NSURL url, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       _class_NSMutableData,
       _sel_dataWithContentsOfURL_options_error_,
       url.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -11515,7 +11334,7 @@ extension NSMutableData$Methods on NSMutableData {
   /// initWithBase64EncodedData:options:
   NSMutableData? initWithBase64EncodedData(
     NSData base64Data, {
-    required NSDataBase64DecodingOptions options,
+    required int options,
   }) {
     objc.checkOsVersionInternal(
       'NSMutableData.initWithBase64EncodedData:options:',
@@ -11526,7 +11345,7 @@ extension NSMutableData$Methods on NSMutableData {
       this.ref.retainAndReturnPointer(),
       _sel_initWithBase64EncodedData_options_,
       base64Data.ref.pointer,
-      options.value,
+      options,
     );
     return _ret.address == 0
         ? null
@@ -11536,7 +11355,7 @@ extension NSMutableData$Methods on NSMutableData {
   /// initWithBase64EncodedString:options:
   NSMutableData? initWithBase64EncodedString(
     NSString base64String, {
-    required NSDataBase64DecodingOptions options,
+    required int options,
   }) {
     objc.checkOsVersionInternal(
       'NSMutableData.initWithBase64EncodedString:options:',
@@ -11547,7 +11366,7 @@ extension NSMutableData$Methods on NSMutableData {
       this.ref.retainAndReturnPointer(),
       _sel_initWithBase64EncodedString_options_,
       base64String.ref.pointer,
-      options.value,
+      options,
     );
     return _ret.address == 0
         ? null
@@ -11659,14 +11478,14 @@ extension NSMutableData$Methods on NSMutableData {
   /// initWithContentsOfFile:options:error:
   NSMutableData? initWithContentsOfFile$1(
     NSString path, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfFile_options_error_,
       path.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -11689,14 +11508,14 @@ extension NSMutableData$Methods on NSMutableData {
   /// initWithContentsOfURL:options:error:
   NSMutableData? initWithContentsOfURL$1(
     NSURL url, {
-    required NSDataReadingOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     final _ret = _objc_msgSend_8321cp(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_options_error_,
       url.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -16741,24 +16560,10 @@ extension NSOrderedCollectionDifference$Methods
 
 /// iOS: introduced 13.0.0
 /// macOS: introduced 10.15.0
-enum NSOrderedCollectionDifferenceCalculationOptions {
-  NSOrderedCollectionDifferenceCalculationOmitInsertedObjects(1),
-  NSOrderedCollectionDifferenceCalculationOmitRemovedObjects(2),
-  NSOrderedCollectionDifferenceCalculationInferMoves(4);
-
-  final int value;
-  const NSOrderedCollectionDifferenceCalculationOptions(this.value);
-
-  static NSOrderedCollectionDifferenceCalculationOptions fromValue(
-    int value,
-  ) => switch (value) {
-    1 => NSOrderedCollectionDifferenceCalculationOmitInsertedObjects,
-    2 => NSOrderedCollectionDifferenceCalculationOmitRemovedObjects,
-    4 => NSOrderedCollectionDifferenceCalculationInferMoves,
-    _ => throw ArgumentError(
-      'Unknown value for NSOrderedCollectionDifferenceCalculationOptions: $value',
-    ),
-  };
+sealed class NSOrderedCollectionDifferenceCalculationOptions {
+  static const NSOrderedCollectionDifferenceCalculationOmitInsertedObjects = 1;
+  static const NSOrderedCollectionDifferenceCalculationOmitRemovedObjects = 2;
+  static const NSOrderedCollectionDifferenceCalculationInferMoves = 4;
 }
 
 /// NSOrderedSet
@@ -19478,18 +19283,9 @@ extension NSSet$Methods on NSSet {
   }
 }
 
-enum NSSortOptions {
-  NSSortConcurrent(1),
-  NSSortStable(16);
-
-  final int value;
-  const NSSortOptions(this.value);
-
-  static NSSortOptions fromValue(int value) => switch (value) {
-    1 => NSSortConcurrent,
-    16 => NSSortStable,
-    _ => throw ArgumentError('Unknown value for NSSortOptions: $value'),
-  };
+sealed class NSSortOptions {
+  static const NSSortConcurrent = 1;
+  static const NSSortStable = 16;
 }
 
 /// NSStream
@@ -19702,7 +19498,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implement({
-    void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
+    void Function(NSStream, int)? stream_handleEvent_,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
@@ -19722,7 +19518,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(
     objc.ObjCProtocolBuilder builder, {
-    void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
+    void Function(NSStream, int)? stream_handleEvent_,
     bool $keepIsolateAlive = true,
   }) {
     NSStreamDelegate.stream_handleEvent_.implement(
@@ -19739,7 +19535,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implementAsListener({
-    void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
+    void Function(NSStream, int)? stream_handleEvent_,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
@@ -19760,7 +19556,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener(
     objc.ObjCProtocolBuilder builder, {
-    void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
+    void Function(NSStream, int)? stream_handleEvent_,
     bool $keepIsolateAlive = true,
   }) {
     NSStreamDelegate.stream_handleEvent_.implementAsListener(
@@ -19777,7 +19573,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSStreamDelegate implementAsBlocking({
-    void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
+    void Function(NSStream, int)? stream_handleEvent_,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSStreamDelegate');
@@ -19798,7 +19594,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking(
     objc.ObjCProtocolBuilder builder, {
-    void Function(NSStream, NSStreamEvent)? stream_handleEvent_,
+    void Function(NSStream, int)? stream_handleEvent_,
     bool $keepIsolateAlive = true,
   }) {
     NSStreamDelegate.stream_handleEvent_.implementAsBlocking(
@@ -19810,7 +19606,7 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
 
   /// stream:handleEvent:
   static final stream_handleEvent_ =
-      objc.ObjCProtocolListenableMethod<void Function(NSStream, NSStreamEvent)>(
+      objc.ObjCProtocolListenableMethod<void Function(NSStream, int)>(
         _protocol_NSStreamDelegate,
         _sel_stream_handleEvent_,
         ffi.Native.addressOf<
@@ -19830,44 +19626,31 @@ interface class NSStreamDelegate extends objc.ObjCProtocolBase
           isRequired: false,
           isInstanceMethod: true,
         ),
-        (void Function(NSStream, NSStreamEvent) func) =>
+        (void Function(NSStream, int) func) =>
             ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.fromFunction(
-              (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
+              (ffi.Pointer<ffi.Void> _, NSStream arg1, int arg2) =>
                   func(arg1, arg2),
             ),
-        (void Function(NSStream, NSStreamEvent) func) =>
+        (void Function(NSStream, int) func) =>
             ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.listener(
-              (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
+              (ffi.Pointer<ffi.Void> _, NSStream arg1, int arg2) =>
                   func(arg1, arg2),
             ),
-        (void Function(NSStream, NSStreamEvent) func) =>
+        (void Function(NSStream, int) func) =>
             ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent.blocking(
-              (ffi.Pointer<ffi.Void> _, NSStream arg1, NSStreamEvent arg2) =>
+              (ffi.Pointer<ffi.Void> _, NSStream arg1, int arg2) =>
                   func(arg1, arg2),
             ),
       );
 }
 
-enum NSStreamEvent {
-  NSStreamEventNone(0),
-  NSStreamEventOpenCompleted(1),
-  NSStreamEventHasBytesAvailable(2),
-  NSStreamEventHasSpaceAvailable(4),
-  NSStreamEventErrorOccurred(8),
-  NSStreamEventEndEncountered(16);
-
-  final int value;
-  const NSStreamEvent(this.value);
-
-  static NSStreamEvent fromValue(int value) => switch (value) {
-    0 => NSStreamEventNone,
-    1 => NSStreamEventOpenCompleted,
-    2 => NSStreamEventHasBytesAvailable,
-    4 => NSStreamEventHasSpaceAvailable,
-    8 => NSStreamEventErrorOccurred,
-    16 => NSStreamEventEndEncountered,
-    _ => throw ArgumentError('Unknown value for NSStreamEvent: $value'),
-  };
+sealed class NSStreamEvent {
+  static const NSStreamEventNone = 0;
+  static const NSStreamEventOpenCompleted = 1;
+  static const NSStreamEventHasBytesAvailable = 2;
+  static const NSStreamEventHasSpaceAvailable = 4;
+  static const NSStreamEventErrorOccurred = 8;
+  static const NSStreamEventEndEncountered = 16;
 }
 
 enum NSStreamStatus {
@@ -20556,83 +20339,34 @@ extension NSString$Methods on NSString {
   }
 }
 
-enum NSStringCompareOptions {
-  NSCaseInsensitiveSearch(1),
-  NSLiteralSearch(2),
-  NSBackwardsSearch(4),
-  NSAnchoredSearch(8),
-  NSNumericSearch(64),
-  NSDiacriticInsensitiveSearch(128),
-  NSWidthInsensitiveSearch(256),
-  NSForcedOrderingSearch(512),
-  NSRegularExpressionSearch(1024);
-
-  final int value;
-  const NSStringCompareOptions(this.value);
-
-  static NSStringCompareOptions fromValue(int value) => switch (value) {
-    1 => NSCaseInsensitiveSearch,
-    2 => NSLiteralSearch,
-    4 => NSBackwardsSearch,
-    8 => NSAnchoredSearch,
-    64 => NSNumericSearch,
-    128 => NSDiacriticInsensitiveSearch,
-    256 => NSWidthInsensitiveSearch,
-    512 => NSForcedOrderingSearch,
-    1024 => NSRegularExpressionSearch,
-    _ => throw ArgumentError(
-      'Unknown value for NSStringCompareOptions: $value',
-    ),
-  };
+sealed class NSStringCompareOptions {
+  static const NSCaseInsensitiveSearch = 1;
+  static const NSLiteralSearch = 2;
+  static const NSBackwardsSearch = 4;
+  static const NSAnchoredSearch = 8;
+  static const NSNumericSearch = 64;
+  static const NSDiacriticInsensitiveSearch = 128;
+  static const NSWidthInsensitiveSearch = 256;
+  static const NSForcedOrderingSearch = 512;
+  static const NSRegularExpressionSearch = 1024;
 }
 
-enum NSStringEncodingConversionOptions {
-  NSStringEncodingConversionAllowLossy(1),
-  NSStringEncodingConversionExternalRepresentation(2);
-
-  final int value;
-  const NSStringEncodingConversionOptions(this.value);
-
-  static NSStringEncodingConversionOptions fromValue(int value) =>
-      switch (value) {
-        1 => NSStringEncodingConversionAllowLossy,
-        2 => NSStringEncodingConversionExternalRepresentation,
-        _ => throw ArgumentError(
-          'Unknown value for NSStringEncodingConversionOptions: $value',
-        ),
-      };
+sealed class NSStringEncodingConversionOptions {
+  static const NSStringEncodingConversionAllowLossy = 1;
+  static const NSStringEncodingConversionExternalRepresentation = 2;
 }
 
-enum NSStringEnumerationOptions {
-  NSStringEnumerationByLines(0),
-  NSStringEnumerationByParagraphs(1),
-  NSStringEnumerationByComposedCharacterSequences(2),
-  NSStringEnumerationByWords(3),
-  NSStringEnumerationBySentences(4),
-  NSStringEnumerationByCaretPositions(5),
-  NSStringEnumerationByDeletionClusters(6),
-  NSStringEnumerationReverse(256),
-  NSStringEnumerationSubstringNotRequired(512),
-  NSStringEnumerationLocalized(1024);
-
-  final int value;
-  const NSStringEnumerationOptions(this.value);
-
-  static NSStringEnumerationOptions fromValue(int value) => switch (value) {
-    0 => NSStringEnumerationByLines,
-    1 => NSStringEnumerationByParagraphs,
-    2 => NSStringEnumerationByComposedCharacterSequences,
-    3 => NSStringEnumerationByWords,
-    4 => NSStringEnumerationBySentences,
-    5 => NSStringEnumerationByCaretPositions,
-    6 => NSStringEnumerationByDeletionClusters,
-    256 => NSStringEnumerationReverse,
-    512 => NSStringEnumerationSubstringNotRequired,
-    1024 => NSStringEnumerationLocalized,
-    _ => throw ArgumentError(
-      'Unknown value for NSStringEnumerationOptions: $value',
-    ),
-  };
+sealed class NSStringEnumerationOptions {
+  static const NSStringEnumerationByLines = 0;
+  static const NSStringEnumerationByParagraphs = 1;
+  static const NSStringEnumerationByComposedCharacterSequences = 2;
+  static const NSStringEnumerationByWords = 3;
+  static const NSStringEnumerationBySentences = 4;
+  static const NSStringEnumerationByCaretPositions = 5;
+  static const NSStringEnumerationByDeletionClusters = 6;
+  static const NSStringEnumerationReverse = 256;
+  static const NSStringEnumerationSubstringNotRequired = 512;
+  static const NSStringEnumerationLocalized = 1024;
 }
 
 /// NSStringExtensionMethods
@@ -20728,15 +20462,12 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// commonPrefixWithString:options:
-  NSString commonPrefixWithString(
-    NSString str, {
-    required NSStringCompareOptions options,
-  }) {
+  NSString commonPrefixWithString(NSString str, {required int options}) {
     final _ret = _objc_msgSend_diypgk(
       this.ref.pointer,
       _sel_commonPrefixWithString_options_,
       str.ref.pointer,
-      options.value,
+      options,
     );
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -20752,15 +20483,12 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// compare:options:
-  NSComparisonResult compare$1(
-    NSString string, {
-    required NSStringCompareOptions options,
-  }) {
+  NSComparisonResult compare$1(NSString string, {required int options}) {
     final _ret = _objc_msgSend_pg1fnv(
       this.ref.pointer,
       _sel_compare_options_,
       string.ref.pointer,
-      options.value,
+      options,
     );
     return NSComparisonResult.fromValue(_ret);
   }
@@ -20768,14 +20496,14 @@ extension NSStringExtensionMethods on NSString {
   /// compare:options:range:
   NSComparisonResult compare$2(
     NSString string, {
-    required NSStringCompareOptions options,
+    required int options,
     required NSRange range,
   }) {
     final _ret = _objc_msgSend_xrqic1(
       this.ref.pointer,
       _sel_compare_options_range_,
       string.ref.pointer,
-      options.value,
+      options,
       range,
     );
     return NSComparisonResult.fromValue(_ret);
@@ -20784,7 +20512,7 @@ extension NSStringExtensionMethods on NSString {
   /// compare:options:range:locale:
   NSComparisonResult compare$3(
     NSString string, {
-    required NSStringCompareOptions options,
+    required int options,
     required NSRange range,
     objc.ObjCObjectBase? locale,
   }) {
@@ -20792,7 +20520,7 @@ extension NSStringExtensionMethods on NSString {
       this.ref.pointer,
       _sel_compare_options_range_locale_,
       string.ref.pointer,
-      options.value,
+      options,
       range,
       locale?.ref.pointer ?? ffi.nullptr,
     );
@@ -20916,7 +20644,7 @@ extension NSStringExtensionMethods on NSString {
   /// enumerateSubstringsInRange:options:usingBlock:
   void enumerateSubstringsInRange(
     NSRange range, {
-    required NSStringEnumerationOptions options,
+    required int options,
     required objc.ObjCBlock<
       ffi.Void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>)
     >
@@ -20931,7 +20659,7 @@ extension NSStringExtensionMethods on NSString {
       this.ref.pointer,
       _sel_enumerateSubstringsInRange_options_usingBlock_,
       range,
-      options.value,
+      options,
       usingBlock.ref.pointer,
     );
   }
@@ -20954,7 +20682,7 @@ extension NSStringExtensionMethods on NSString {
     required int maxLength,
     required ffi.Pointer<ffi.UnsignedLong> usedLength,
     required int encoding,
-    required NSStringEncodingConversionOptions options,
+    required int options,
     required NSRange range,
     required ffi.Pointer<NSRange> remainingRange,
   }) {
@@ -20965,7 +20693,7 @@ extension NSStringExtensionMethods on NSString {
       maxLength,
       usedLength,
       encoding,
-      options.value,
+      options,
       range,
       remainingRange,
     );
@@ -21348,7 +21076,7 @@ extension NSStringExtensionMethods on NSString {
   /// rangeOfCharacterFromSet:options:
   NSRange rangeOfCharacterFromSet$1(
     NSCharacterSet searchSet, {
-    required NSStringCompareOptions options,
+    required int options,
   }) {
     final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
@@ -21357,13 +21085,13 @@ extension NSStringExtensionMethods on NSString {
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_,
             searchSet.ref.pointer,
-            options.value,
+            options,
           )
         : _ptr.ref = _objc_msgSend_102xxo4(
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_,
             searchSet.ref.pointer,
-            options.value,
+            options,
           );
     final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
       ffi.sizeOf<NSRange>(),
@@ -21375,7 +21103,7 @@ extension NSStringExtensionMethods on NSString {
   /// rangeOfCharacterFromSet:options:range:
   NSRange rangeOfCharacterFromSet$2(
     NSCharacterSet searchSet, {
-    required NSStringCompareOptions options,
+    required int options,
     required NSRange range,
   }) {
     final _ptr = pkg_ffi.calloc<NSRange>();
@@ -21385,14 +21113,14 @@ extension NSStringExtensionMethods on NSString {
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
             searchSet.ref.pointer,
-            options.value,
+            options,
             range,
           )
         : _ptr.ref = _objc_msgSend_1nmlvqc(
             this.ref.pointer,
             _sel_rangeOfCharacterFromSet_options_range_,
             searchSet.ref.pointer,
-            options.value,
+            options,
             range,
           );
     final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
@@ -21474,10 +21202,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// rangeOfString:options:
-  NSRange rangeOfString$1(
-    NSString searchString, {
-    required NSStringCompareOptions options,
-  }) {
+  NSRange rangeOfString$1(NSString searchString, {required int options}) {
     final _ptr = pkg_ffi.calloc<NSRange>();
     objc.useMsgSendVariants
         ? _objc_msgSend_102xxo4Stret(
@@ -21485,13 +21210,13 @@ extension NSStringExtensionMethods on NSString {
             this.ref.pointer,
             _sel_rangeOfString_options_,
             searchString.ref.pointer,
-            options.value,
+            options,
           )
         : _ptr.ref = _objc_msgSend_102xxo4(
             this.ref.pointer,
             _sel_rangeOfString_options_,
             searchString.ref.pointer,
-            options.value,
+            options,
           );
     final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
       ffi.sizeOf<NSRange>(),
@@ -21503,7 +21228,7 @@ extension NSStringExtensionMethods on NSString {
   /// rangeOfString:options:range:
   NSRange rangeOfString$2(
     NSString searchString, {
-    required NSStringCompareOptions options,
+    required int options,
     required NSRange range,
   }) {
     final _ptr = pkg_ffi.calloc<NSRange>();
@@ -21513,14 +21238,14 @@ extension NSStringExtensionMethods on NSString {
             this.ref.pointer,
             _sel_rangeOfString_options_range_,
             searchString.ref.pointer,
-            options.value,
+            options,
             range,
           )
         : _ptr.ref = _objc_msgSend_1nmlvqc(
             this.ref.pointer,
             _sel_rangeOfString_options_range_,
             searchString.ref.pointer,
-            options.value,
+            options,
             range,
           );
     final _finalizable = _ptr.cast<ffi.Uint8>().asTypedList(
@@ -21533,7 +21258,7 @@ extension NSStringExtensionMethods on NSString {
   /// rangeOfString:options:range:locale:
   NSRange rangeOfString$3(
     NSString searchString, {
-    required NSStringCompareOptions options,
+    required int options,
     required NSRange range,
     NSLocale? locale,
   }) {
@@ -21549,7 +21274,7 @@ extension NSStringExtensionMethods on NSString {
             this.ref.pointer,
             _sel_rangeOfString_options_range_locale_,
             searchString.ref.pointer,
-            options.value,
+            options,
             range,
             locale?.ref.pointer ?? ffi.nullptr,
           )
@@ -21557,7 +21282,7 @@ extension NSStringExtensionMethods on NSString {
             this.ref.pointer,
             _sel_rangeOfString_options_range_locale_,
             searchString.ref.pointer,
-            options.value,
+            options,
             range,
             locale?.ref.pointer ?? ffi.nullptr,
           );
@@ -21615,10 +21340,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// stringByFoldingWithOptions:locale:
-  NSString stringByFoldingWithOptions(
-    NSStringCompareOptions options, {
-    NSLocale? locale,
-  }) {
+  NSString stringByFoldingWithOptions(int options, {NSLocale? locale}) {
     objc.checkOsVersionInternal(
       'NSString.stringByFoldingWithOptions:locale:',
       iOS: (false, (2, 0, 0)),
@@ -21627,7 +21349,7 @@ extension NSStringExtensionMethods on NSString {
     final _ret = _objc_msgSend_11cbyu0(
       this.ref.pointer,
       _sel_stringByFoldingWithOptions_locale_,
-      options.value,
+      options,
       locale?.ref.pointer ?? ffi.nullptr,
     );
     return NSString.castFromPointer(_ret, retain: true, release: true);
@@ -21691,7 +21413,7 @@ extension NSStringExtensionMethods on NSString {
   NSString stringByReplacingOccurrencesOfString$1(
     NSString target, {
     required NSString withString,
-    required NSStringCompareOptions options,
+    required int options,
     required NSRange range,
   }) {
     objc.checkOsVersionInternal(
@@ -21704,7 +21426,7 @@ extension NSStringExtensionMethods on NSString {
       _sel_stringByReplacingOccurrencesOfString_withString_options_range_,
       target.ref.pointer,
       withString.ref.pointer,
-      options.value,
+      options,
       range,
     );
     return NSString.castFromPointer(_ret, retain: true, release: true);
@@ -22151,7 +21873,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   /// URLByResolvingAliasFileAtURL:options:error:
   static NSURL? URLByResolvingAliasFileAtURL(
     NSURL url, {
-    required NSURLBookmarkResolutionOptions options,
+    required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     objc.checkOsVersionInternal(
@@ -22163,7 +21885,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
       _class_NSURL,
       _sel_URLByResolvingAliasFileAtURL_options_error_,
       url.ref.pointer,
-      options.value,
+      options,
       error,
     );
     return _ret.address == 0
@@ -22174,7 +21896,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   /// URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:
   static NSURL? URLByResolvingBookmarkData(
     NSData bookmarkData, {
-    required NSURLBookmarkResolutionOptions options,
+    required int options,
     NSURL? relativeToURL,
     required ffi.Pointer<ffi.Bool> bookmarkDataIsStale,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -22188,7 +21910,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
       _class_NSURL,
       _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
       bookmarkData.ref.pointer,
-      options.value,
+      options,
       relativeToURL?.ref.pointer ?? ffi.nullptr,
       bookmarkDataIsStale,
       error,
@@ -22507,7 +22229,7 @@ extension NSURL$Methods on NSURL {
 
   /// bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:
   NSData? bookmarkDataWithOptions(
-    NSURLBookmarkCreationOptions options, {
+    int options, {
     NSArray? includingResourceValuesForKeys,
     NSURL? relativeToURL,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -22520,7 +22242,7 @@ extension NSURL$Methods on NSURL {
     final _ret = _objc_msgSend_1wt9a7r(
       this.ref.pointer,
       _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_,
-      options.value,
+      options,
       includingResourceValuesForKeys?.ref.pointer ?? ffi.nullptr,
       relativeToURL?.ref.pointer ?? ffi.nullptr,
       error,
@@ -22692,7 +22414,7 @@ extension NSURL$Methods on NSURL {
   /// initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:
   NSURL? initByResolvingBookmarkData(
     NSData bookmarkData, {
-    required NSURLBookmarkResolutionOptions options,
+    required int options,
     NSURL? relativeToURL,
     required ffi.Pointer<ffi.Bool> bookmarkDataIsStale,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -22706,7 +22428,7 @@ extension NSURL$Methods on NSURL {
       this.ref.retainAndReturnPointer(),
       _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
       bookmarkData.ref.pointer,
-      options.value,
+      options,
       relativeToURL?.ref.pointer ?? ffi.nullptr,
       bookmarkDataIsStale,
       error,
@@ -23115,48 +22837,20 @@ extension NSURL$Methods on NSURL {
   }
 }
 
-enum NSURLBookmarkCreationOptions {
-  NSURLBookmarkCreationPreferFileIDResolution(256),
-  NSURLBookmarkCreationMinimalBookmark(512),
-  NSURLBookmarkCreationSuitableForBookmarkFile(1024),
-  NSURLBookmarkCreationWithSecurityScope(2048),
-  NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess(4096),
-  NSURLBookmarkCreationWithoutImplicitSecurityScope(536870912);
-
-  final int value;
-  const NSURLBookmarkCreationOptions(this.value);
-
-  static NSURLBookmarkCreationOptions fromValue(int value) => switch (value) {
-    256 => NSURLBookmarkCreationPreferFileIDResolution,
-    512 => NSURLBookmarkCreationMinimalBookmark,
-    1024 => NSURLBookmarkCreationSuitableForBookmarkFile,
-    2048 => NSURLBookmarkCreationWithSecurityScope,
-    4096 => NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess,
-    536870912 => NSURLBookmarkCreationWithoutImplicitSecurityScope,
-    _ => throw ArgumentError(
-      'Unknown value for NSURLBookmarkCreationOptions: $value',
-    ),
-  };
+sealed class NSURLBookmarkCreationOptions {
+  static const NSURLBookmarkCreationPreferFileIDResolution = 256;
+  static const NSURLBookmarkCreationMinimalBookmark = 512;
+  static const NSURLBookmarkCreationSuitableForBookmarkFile = 1024;
+  static const NSURLBookmarkCreationWithSecurityScope = 2048;
+  static const NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess = 4096;
+  static const NSURLBookmarkCreationWithoutImplicitSecurityScope = 536870912;
 }
 
-enum NSURLBookmarkResolutionOptions {
-  NSURLBookmarkResolutionWithoutUI(256),
-  NSURLBookmarkResolutionWithoutMounting(512),
-  NSURLBookmarkResolutionWithSecurityScope(1024),
-  NSURLBookmarkResolutionWithoutImplicitStartAccessing(32768);
-
-  final int value;
-  const NSURLBookmarkResolutionOptions(this.value);
-
-  static NSURLBookmarkResolutionOptions fromValue(int value) => switch (value) {
-    256 => NSURLBookmarkResolutionWithoutUI,
-    512 => NSURLBookmarkResolutionWithoutMounting,
-    1024 => NSURLBookmarkResolutionWithSecurityScope,
-    32768 => NSURLBookmarkResolutionWithoutImplicitStartAccessing,
-    _ => throw ArgumentError(
-      'Unknown value for NSURLBookmarkResolutionOptions: $value',
-    ),
-  };
+sealed class NSURLBookmarkResolutionOptions {
+  static const NSURLBookmarkResolutionWithoutUI = 256;
+  static const NSURLBookmarkResolutionWithoutMounting = 512;
+  static const NSURLBookmarkResolutionWithSecurityScope = 1024;
+  static const NSURLBookmarkResolutionWithoutImplicitStartAccessing = 32768;
 }
 
 /// NSURLHandle
@@ -32313,7 +32007,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
     ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
   >
   fromFunction(
-    void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn, {
+    void Function(ffi.Pointer<ffi.Void>, NSStream, int) fn, {
     bool keepIsolateAlive = true,
   }) =>
       objc.ObjCBlock<
@@ -32328,7 +32022,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
           ) => fn(
             arg0,
             NSStream.castFromPointer(arg1, retain: true, release: true),
-            NSStreamEvent.fromValue(arg2),
+            arg2,
           ),
           keepIsolateAlive,
         ),
@@ -32349,7 +32043,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
     ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
   >
   listener(
-    void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn, {
+    void Function(ffi.Pointer<ffi.Void>, NSStream, int) fn, {
     bool keepIsolateAlive = true,
   }) {
     final raw = objc.newClosureBlock(
@@ -32363,7 +32057,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
       ) => fn(
         arg0,
         NSStream.castFromPointer(arg1, retain: false, release: true),
-        NSStreamEvent.fromValue(arg2),
+        arg2,
       ),
       keepIsolateAlive,
     );
@@ -32388,7 +32082,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
     ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
   >
   blocking(
-    void Function(ffi.Pointer<ffi.Void>, NSStream, NSStreamEvent) fn, {
+    void Function(ffi.Pointer<ffi.Void>, NSStream, int) fn, {
     bool keepIsolateAlive = true,
   }) {
     final raw = objc.newClosureBlock(
@@ -32402,7 +32096,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
       ) => fn(
         arg0,
         NSStream.castFromPointer(arg1, retain: false, release: true),
-        NSStreamEvent.fromValue(arg2),
+        arg2,
       ),
       keepIsolateAlive,
     );
@@ -32417,7 +32111,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
       ) => fn(
         arg0,
         NSStream.castFromPointer(arg1, retain: false, release: true),
-        NSStreamEvent.fromValue(arg2),
+        arg2,
       ),
       keepIsolateAlive,
     );
@@ -32440,26 +32134,28 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent_CallExtension
         objc.ObjCBlock<
           ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
         > {
-  void call(ffi.Pointer<ffi.Void> arg0, NSStream arg1, NSStreamEvent arg2) =>
-      ref.pointer.ref.invoke
-          .cast<
-            ffi.NativeFunction<
-              ffi.Void Function(
-                ffi.Pointer<objc.ObjCBlockImpl> block,
-                ffi.Pointer<ffi.Void> arg0,
-                ffi.Pointer<objc.ObjCObject> arg1,
-                ffi.UnsignedLong arg2,
-              )
-            >
-          >()
-          .asFunction<
-            void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<objc.ObjCObject>,
-              int,
-            )
-          >()(ref.pointer, arg0, arg1.ref.pointer, arg2.value);
+  void call(ffi.Pointer<ffi.Void> arg0, NSStream arg1, int arg2) => ref
+      .pointer
+      .ref
+      .invoke
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObject> arg1,
+            ffi.UnsignedLong arg2,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
+          ffi.Pointer<objc.ObjCBlockImpl>,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObject>,
+          int,
+        )
+      >()(ref.pointer, arg0, arg1.ref.pointer, arg2);
 }
 
 void
