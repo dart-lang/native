@@ -318,7 +318,7 @@ abstract final class $name {
         $listenerConvFn, keepIsolateAlive);
     final wrapper = $wrapListenerFn(raw);
     $releaseFn(raw.cast());
-    return $blockType(contextrapper, retain: false, release: true);
+    return $blockType(wrapper, retain: false, release: true);
   }
 
   /// Creates a blocking block from a Dart function.
@@ -341,7 +341,7 @@ abstract final class $name {
     final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
-    return $blockType(contextrapper, retain: false, release: true);
+    return $blockType(wrapper, retain: false, release: true);
   }
 ''');
     }
