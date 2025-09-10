@@ -35,8 +35,8 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   }) : lookupName = lookupName ?? originalName,
        _protocolPointer = ObjCInternalGlobal(
          '_protocol_$originalName',
-         (Writer w) =>
-             '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")',
+         (Context context) =>
+             '${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName")',
        ),
        super(
          name:
@@ -70,16 +70,18 @@ class ObjCProtocol extends BindingType with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
-    final protocolClass = ObjCBuiltInFunctions.protocolClass.gen(w);
-    final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(w);
-    final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
+    final protocolClass = ObjCBuiltInFunctions.protocolClass.gen(context);
+    final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(context);
+    final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(context);
     final protocolListenableMethod = ObjCBuiltInFunctions
         .protocolListenableMethod
-        .gen(w);
-    final protocolBuilder = ObjCBuiltInFunctions.protocolBuilder.gen(w);
-    final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
-    final rawObjType = PointerType(objCObjectType).getCType(w);
-    final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
+        .gen(context);
+    final protocolBuilder = ObjCBuiltInFunctions.protocolBuilder.gen(context);
+    final objectBase = ObjCBuiltInFunctions.objectBase.gen(context);
+    final rawObjType = PointerType(objCObjectType).getCType(context);
+    final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(
+      context,
+    );
 
     final s = StringBuffer();
     s.write('\n');
@@ -92,7 +94,7 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final sp = superProtocols.map((p) => p.getDartType(w));
+    final sp = superProtocols.map((p) => p.getDartType(context));
     final impls = superProtocols.isEmpty ? '' : 'implements ${sp.join(', ')}';
     s.write('''
 interface class $name extends $protocolBase $impls{
@@ -135,7 +137,7 @@ interface class $name extends $protocolBase $impls{
           returnType: block.returnType,
           parameters: [...block.params.skip(1)],
         );
-        final funcType = func.getDartType(w, writeArgumentNames: false);
+        final funcType = func.getDartType(context, writeArgumentNames: false);
 
         if (method.isOptional) {
           buildArgs.add('$funcType? $argName');
@@ -143,9 +145,9 @@ interface class $name extends $protocolBase $impls{
           buildArgs.add('required $funcType $argName');
         }
 
-        final blockFirstArg = block.params[0].type.getDartType(w);
+        final blockFirstArg = block.params[0].type.getDartType(context);
         final argsReceived = func.parameters
-            .map((p) => '${p.type.getDartType(w)} ${p.name}')
+            .map((p) => '${p.type.getDartType(context)} ${p.name}')
             .join(', ');
         final argsPassed = func.parameters.map((p) => p.name).join(', ');
         final wrapper =
@@ -176,7 +178,7 @@ interface class $name extends $protocolBase $impls{
         methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${_protocolPointer.name},
       ${method.selObject.name},
-      ${_trampolineAddress(w, block)},
+      ${_trampolineAddress(block)},
       $getSignature(
           ${_protocolPointer.name},
           ${method.selObject.name},
@@ -272,7 +274,7 @@ interface class $name extends $protocolBase $impls{
       }
 
       final msgSendInvoke = _conformsToMsgSend.invoke(
-        w,
+        context,
         'obj.ref.pointer',
         _conformsTo.name,
         [_protocolPointer.name],
@@ -298,12 +300,12 @@ interface class $name extends $protocolBase $impls{
     );
   }
 
-  static String _trampolineAddress(Writer w, ObjCBlock block) {
+  String _trampolineAddress(ObjCBlock block) {
     final func = block.protocolTrampoline!.func;
     final type = NativeFunc(
       func.functionType,
-    ).getCType(w, writeArgumentNames: false);
-    final ffiPrefix = w.context.libs.prefix(ffiImport);
+    ).getCType(context, writeArgumentNames: false);
+    final ffiPrefix = context.libs.prefix(ffiImport);
     return '$ffiPrefix.Native.addressOf<$type>(${func.name}).cast()';
   }
 
@@ -323,17 +325,18 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
   }
 
   @override
-  String getCType(Writer w) => PointerType(objCObjectType).getCType(w);
+  String getCType(Context context) =>
+      PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Writer w) =>
+  String getDartType(Context context) =>
       isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
 
   @override
-  String getObjCBlockSignatureType(Writer w) => getDartType(w);
+  String getObjCBlockSignatureType(Context context) => getDartType(context);
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -346,7 +349,7 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -354,11 +357,15 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+  }) => ObjCInterface.generateConstructor(
+    getDartType(context),
+    value,
+    objCRetain,
+  );
 
   @override
   String? generateRetain(String value) =>

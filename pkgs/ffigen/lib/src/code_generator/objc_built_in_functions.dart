@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -85,7 +86,7 @@ class ObjCBuiltInFunctions {
   ObjCInternalGlobal getSelObject(String methodName) {
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
-      (Writer w) => '${registerName.gen(w)}("$methodName")',
+      (Context context) => '${registerName.gen(context)}("$methodName")',
     );
   }
 
@@ -255,12 +256,12 @@ class ObjCImport {
 
   const ObjCImport(this.name);
 
-  String gen(Writer w) => '${w.context.libs.prefix(objcPkgImport)}.$name';
+  String gen(Context context) => '${context.libs.prefix(objcPkgImport)}.$name';
 }
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.
 class ObjCInternalGlobal extends NoLookUpBinding {
-  final String Function(Writer) makeValue;
+  final String Function(Context) makeValue;
 
   ObjCInternalGlobal(String name, this.makeValue)
     : super(originalName: name, name: name, isInternal: true);
@@ -269,7 +270,7 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     name = w.wrapperLevelUniqueNamer.makeUnique(name);
-    s.write('late final $name = ${makeValue(w)};\n');
+    s.write('late final $name = ${makeValue(w.context)};\n');
     return BindingString(type: BindingStringType.global, string: s.toString());
   }
 }
@@ -306,9 +307,10 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
 
   @override
   BindingString toBindingString(Writer w) {
-    final cType = NativeFunc(type).getCType(w, writeArgumentNames: false);
-    final dartType = type.getFfiDartType(w, writeArgumentNames: false);
-    final pointer = variant.pointer.gen(w);
+    final context = w.context;
+    final cType = NativeFunc(type).getCType(context, writeArgumentNames: false);
+    final dartType = type.getFfiDartType(context, writeArgumentNames: false);
+    final pointer = variant.pointer.gen(context);
 
     final bindingString =
         '''
@@ -394,7 +396,7 @@ class ObjCMsgSendFunc extends AstNode {
   bool get isStret => variant == ObjCMsgSendVariant.stret;
 
   String invoke(
-    Writer w,
+    Context context,
     String target,
     String sel,
     Iterable<String> params, {
@@ -406,7 +408,7 @@ class ObjCMsgSendFunc extends AstNode {
         return normalCall;
       case ObjCMsgSendVariant.fpret:
         final fpretCall = _invoke(variantFunc!.name, target, sel, params);
-        return '${useVariants.gen(w)} ? $fpretCall : $normalCall';
+        return '${useVariants.gen(context)} ? $fpretCall : $normalCall';
       case ObjCMsgSendVariant.stret:
         final stretCall = _invoke(
           variantFunc!.name,
@@ -415,7 +417,7 @@ class ObjCMsgSendFunc extends AstNode {
           params,
           structRetPtr: structRetPtr,
         );
-        return '${useVariants.gen(w)} ? $stretCall : '
+        return '${useVariants.gen(context)} ? $stretCall : '
             '$structRetPtr.ref = $normalCall';
     }
   }

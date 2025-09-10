@@ -368,26 +368,29 @@ class ObjCMethod extends AstNode {
     return false;
   }
 
-  String _getConvertedReturnType(Writer w, String instanceType) {
+  String _getConvertedReturnType(Context context, String instanceType) {
     if (returnType is ObjCInstanceType) return instanceType;
     final baseType = returnType.typealiasType;
     if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
       return '$instanceType?';
     }
-    return returnType.getDartType(w);
+    return returnType.getDartType(context);
   }
 
-  static String _paramToStr(Writer w, Parameter p) =>
-      '${p.type.getDartType(w)} ${p.name}';
+  static String _paramToStr(Context context, Parameter p) =>
+      '${p.type.getDartType(context)} ${p.name}';
 
-  static String _paramToNamed(Writer w, Parameter p) =>
-      '${p.isNullable ? '' : 'required '}${_paramToStr(w, p)}';
+  static String _paramToNamed(Context context, Parameter p) =>
+      '${p.isNullable ? '' : 'required '}${_paramToStr(context, p)}';
 
-  static String _joinParamStr(Writer w, List<Parameter> params) {
+  static String _joinParamStr(Context context, List<Parameter> params) {
     if (params.isEmpty) return '';
-    if (params.length == 1) return _paramToStr(w, params.first);
-    final named = params.sublist(1).map((p) => _paramToNamed(w, p)).join(',');
-    return '${_paramToStr(w, params.first)}, {$named}';
+    if (params.length == 1) return _paramToStr(context, params.first);
+    final named = params
+        .sublist(1)
+        .map((p) => _paramToNamed(context, p))
+        .join(',');
+    return '${_paramToStr(context, params.first)}, {$named}';
   }
 
   String generateBindings(
@@ -395,6 +398,7 @@ class ObjCMethod extends AstNode {
     ObjCInterface target,
     UniqueNamer methodNamer,
   ) {
+    final context = w.context;
     if (dartMethodName == null) {
       dartMethodName = getDartMethodName(methodNamer);
       final paramNamer = UniqueNamer(parent: methodNamer);
@@ -406,9 +410,9 @@ class ObjCMethod extends AstNode {
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 
-    final targetType = target.getDartType(w);
-    final returnTypeStr = _getConvertedReturnType(w, targetType);
-    final paramStr = _joinParamStr(w, params);
+    final targetType = target.getDartType(context);
+    final returnTypeStr = _getConvertedReturnType(context, targetType);
+    final paramStr = _joinParamStr(context, params);
 
     // The method declaration.
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
@@ -428,7 +432,7 @@ class ObjCMethod extends AstNode {
       }
     } else {
       targetStr = target.convertDartTypeToFfiDartType(
-        w,
+        context,
         'this',
         objCRetain: consumesSelf,
         objCAutorelease: false,
@@ -449,7 +453,7 @@ class ObjCMethod extends AstNode {
 
     // Implementation.
     final versionCheck = apiAvailability.runtimeCheck(
-      ObjCBuiltInFunctions.checkOsVersion.gen(w),
+      ObjCBuiltInFunctions.checkOsVersion.gen(context),
       '${target.originalName}.$originalName',
     );
     if (versionCheck != null) {
@@ -459,8 +463,8 @@ class ObjCMethod extends AstNode {
     final sel = selObject.name;
     if (isOptional) {
       s.write('''
-    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($targetStr, $sel)) {
-      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
+    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(context)}($targetStr, $sel)) {
+      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(context)}(
           '${target.originalName}', '$originalName');
     }
 ''');
@@ -471,7 +475,7 @@ class ObjCMethod extends AstNode {
 
     final msgSendParams = params.map(
       (p) => p.type.convertDartTypeToFfiDartType(
-        w,
+        context,
         p.name,
         objCRetain: p.objCConsumed,
         objCAutorelease: false,
@@ -481,9 +485,9 @@ class ObjCMethod extends AstNode {
       assert(!convertReturn);
       final calloc = '${context.libs.prefix(ffiPkgImport)}.calloc';
       final sizeOf = '${context.libs.prefix(ffiImport)}.sizeOf';
-      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
+      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(context);
       final invoke = msgSend!.invoke(
-        w,
+        context,
         targetStr,
         sel,
         msgSendParams,
@@ -500,11 +504,11 @@ class ObjCMethod extends AstNode {
       if (returnType != voidType) {
         s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
       }
-      s.write(msgSend!.invoke(w, targetStr, sel, msgSendParams));
+      s.write(msgSend!.invoke(context, targetStr, sel, msgSendParams));
       s.write(';\n');
       if (convertReturn) {
         final result = returnType.convertFfiDartTypeToDartType(
-          w,
+          context,
           '_ret',
           objCRetain: !returnsRetained,
           objCEnclosingClass: targetType,

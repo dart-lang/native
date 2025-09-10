@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'type.dart';
-import 'writer.dart';
 
 /// A library import which will be written as an import in the generated file.
 class LibraryImport extends AstNode {
@@ -63,14 +63,15 @@ class ImportedType extends Type {
   });
 
   @override
-  String getCType(Writer w) => '${w.context.libs.prefix(libraryImport)}.$cType';
+  String getCType(Context context) =>
+      '${context.libs.prefix(libraryImport)}.$cType';
 
   @override
-  String getFfiDartType(Writer w) {
+  String getFfiDartType(Context context) {
     if (importedDartType) {
-      return '${w.context.libs.prefix(libraryImport)}.$dartType';
+      return '${context.libs.prefix(libraryImport)}.$dartType';
     } else {
-      return cType == dartType ? getCType(w) : dartType;
+      return cType == dartType ? getCType(context) : dartType;
     }
   }
 
@@ -84,7 +85,7 @@ class ImportedType extends Type {
   String toString() => '${libraryImport.name}.$cType';
 
   @override
-  String? getDefaultValue(Writer w) => defaultValue;
+  String? getDefaultValue(Context context) => defaultValue;
 
   @override
   void visit(Visitation visitation) => visitation.visitImportedType(this);
@@ -106,10 +107,10 @@ class SelfImportedType extends Type {
   SelfImportedType(this.cType, this.dartType, [this.defaultValue]);
 
   @override
-  String getCType(Writer w) => cType;
+  String getCType(Context context) => cType;
 
   @override
-  String getFfiDartType(Writer w) => dartType;
+  String getFfiDartType(Context context) => dartType;
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;

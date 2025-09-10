@@ -48,7 +48,8 @@ class ObjCInterface extends BindingType with ObjCMethods {
        ) {
     classObject = ObjCInternalGlobal(
       '_class_$originalName',
-      (Writer w) => '${ObjCBuiltInFunctions.getClass.gen(w)}("$lookupName")',
+      (Context context) =>
+          '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
     );
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
@@ -81,6 +82,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
 
   @override
   BindingString toBindingString(Writer w) {
+    final context = w.context;
     final s = StringBuffer();
     s.write('\n');
     if (generateAsStub) {
@@ -93,20 +95,20 @@ class ObjCInterface extends BindingType with ObjCMethods {
     s.write(makeDartDoc(dartDoc));
 
     final versionCheck = apiAvailability.runtimeCheck(
-      ObjCBuiltInFunctions.checkOsVersion.gen(w),
+      ObjCBuiltInFunctions.checkOsVersion.gen(context),
       originalName,
     );
     final ctorBody = versionCheck == null ? ';' : ' { $versionCheck }';
 
-    final rawObjType = PointerType(objCObjectType).getCType(w);
-    final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
-    final protoImpl = protocols.isEmpty
-        ? ''
-        : 'implements ${protocols.map((p) => p.getDartType(w)).join(', ')} ';
+    final rawObjType = PointerType(objCObjectType).getCType(context);
+    final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
+    final protos = protocols.map((p) => p.getDartType(context)).join(', ');
+    final protoImpl = protocols.isEmpty ? '' : 'implements $protos ';
 
+    final superTypeDartType = superType?.getDartType(context) ?? wrapObjType;
     final superCtor = superType == null ? 'super' : 'super.castFromPointer';
     s.write('''
-class $name extends ${superType?.getDartType(w) ?? wrapObjType} $protoImpl{
+class $name extends $superTypeDartType $protoImpl{
   $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
       $superCtor(pointer, retain: retain, release: release)$ctorBody
 
@@ -141,13 +143,14 @@ ${generateInstanceMethodBindings(w, this)}
   }
 
   String _generateStaticMethods(Writer w) {
-    final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(w);
+    final context = w.context;
+    final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
     final s = StringBuffer();
 
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
-    return ${_isKindOfClassMsgSend.invoke(w, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
+    return ${_isKindOfClassMsgSend.invoke(context, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
   }
 ''');
 
@@ -173,17 +176,18 @@ ${generateInstanceMethodBindings(w, this)}
   }
 
   @override
-  String getCType(Writer w) => PointerType(objCObjectType).getCType(w);
+  String getCType(Context context) =>
+      PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Writer w) =>
+  String getDartType(Context context) =>
       isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
 
   @override
-  String getObjCBlockSignatureType(Writer w) => getDartType(w);
+  String getObjCBlockSignatureType(Context context) => getDartType(context);
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -196,7 +200,7 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -214,11 +218,15 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) => ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+  }) => ObjCInterface.generateConstructor(
+    getDartType(context),
+    value,
+    objCRetain,
+  );
 
   static String generateConstructor(
     String className,
