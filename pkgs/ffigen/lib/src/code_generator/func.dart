@@ -109,33 +109,34 @@ class Func extends LookUpBinding {
       p.name = paramNamer.makeUnique(p.name);
     }
 
+    final context = w.context;
     final cType =
-        _exposedFunctionTypealias?.getCType(w) ??
-        functionType.getCType(w, writeArgumentNames: false);
+        _exposedFunctionTypealias?.getCType(context) ??
+        functionType.getCType(context, writeArgumentNames: false);
     final dartType =
-        _exposedFunctionTypealias?.getFfiDartType(w) ??
-        functionType.getFfiDartType(w, writeArgumentNames: false);
+        _exposedFunctionTypealias?.getFfiDartType(context) ??
+        functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
     final funcVarName = w.wrapperLevelUniqueNamer.makeUnique('_$name');
-    final ffiReturnType = functionType.returnType.getFfiDartType(w);
+    final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
-        .map((p) => '${p.type.getFfiDartType(w)} ${p.name},\n')
+        .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
         .join('');
 
     late final String dartReturnType;
     late final String dartArgDeclString;
     late final String funcImplCall;
     if (needsWrapper) {
-      dartReturnType = functionType.returnType.getDartType(w);
+      dartReturnType = functionType.returnType.getDartType(context);
       dartArgDeclString = functionType.dartTypeParameters
-          .map((p) => '${p.type.getDartType(w)} ${p.name},\n')
+          .map((p) => '${p.type.getDartType(context)} ${p.name},\n')
           .join('');
 
       final argString = functionType.dartTypeParameters
           .map((p) {
             final type = p.type.convertDartTypeToFfiDartType(
-              w,
+              context,
               p.name,
               objCRetain: p.objCConsumed,
               objCAutorelease: false,
@@ -144,7 +145,7 @@ class Func extends LookUpBinding {
           })
           .join('');
       funcImplCall = functionType.returnType.convertFfiDartTypeToDartType(
-        w,
+        context,
         '$funcVarName($argString)',
         objCRetain: !objCReturnsRetained,
       );

@@ -3,10 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'unique_namer.dart';
-import 'writer.dart';
 
 /// Represents a function type.
 class FunctionType extends Type {
@@ -66,19 +66,20 @@ class FunctionType extends Type {
   }
 
   @override
-  String getCType(Writer w, {bool writeArgumentNames = true}) => _getTypeImpl(
-    writeArgumentNames,
-    (Type t) => t.getCType(w),
-    varArgWrapper: '${w.context.libs.prefix(ffiImport)}.VarArgs',
-  );
+  String getCType(Context context, {bool writeArgumentNames = true}) =>
+      _getTypeImpl(
+        writeArgumentNames,
+        (Type t) => t.getCType(context),
+        varArgWrapper: '${context.libs.prefix(ffiImport)}.VarArgs',
+      );
 
   @override
-  String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
-      _getTypeImpl(writeArgumentNames, (Type t) => t.getFfiDartType(w));
+  String getFfiDartType(Context context, {bool writeArgumentNames = true}) =>
+      _getTypeImpl(writeArgumentNames, (Type t) => t.getFfiDartType(context));
 
   @override
-  String getDartType(Writer w, {bool writeArgumentNames = true}) =>
-      _getTypeImpl(writeArgumentNames, (Type t) => t.getDartType(w));
+  String getDartType(Context context, {bool writeArgumentNames = true}) =>
+      _getTypeImpl(writeArgumentNames, (Type t) => t.getDartType(context));
 
   @override
   String getNativeType({String varName = ''}) {
@@ -164,16 +165,16 @@ class NativeFunc extends Type {
   }
 
   @override
-  String getCType(Writer w, {bool writeArgumentNames = true}) {
+  String getCType(Context context, {bool writeArgumentNames = true}) {
     final funcType = _type is FunctionType
-        ? _type.getCType(w, writeArgumentNames: writeArgumentNames)
-        : _type.getCType(w);
-    return '${w.context.libs.prefix(ffiImport)}.NativeFunction<$funcType>';
+        ? _type.getCType(context, writeArgumentNames: writeArgumentNames)
+        : _type.getCType(context);
+    return '${context.libs.prefix(ffiImport)}.NativeFunction<$funcType>';
   }
 
   @override
-  String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
-      getCType(w, writeArgumentNames: writeArgumentNames);
+  String getFfiDartType(Context context, {bool writeArgumentNames = true}) =>
+      getCType(context, writeArgumentNames: writeArgumentNames);
 
   @override
   String getNativeType({String varName = ''}) =>

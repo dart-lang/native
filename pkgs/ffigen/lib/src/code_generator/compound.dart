@@ -105,7 +105,7 @@ abstract class Compound extends BindingType {
       return '${context.libs.prefix(ffiImport)}.Array<'
           '${_getInlineArrayTypeString(type.child, w)}>';
     }
-    return type.getCType(w);
+    return type.getCType(context);
   }
 
   @override
@@ -129,7 +129,7 @@ abstract class Compound extends BindingType {
     /// Marking type names because dart doesn't allow class member to have the
     /// same name as a type name used internally.
     for (final m in members) {
-      localUniqueNamer.markUsed(m.type.getFfiDartType(w));
+      localUniqueNamer.markUsed(m.type.getFfiDartType(context));
     }
 
     /// Write @Packed(X) annotation if struct is packed.
@@ -155,19 +155,19 @@ abstract class Compound extends BindingType {
         s.write('${m.name};\n\n');
       } else {
         if (!m.type.sameFfiDartAndCType) {
-          s.write('$depth@${m.type.getCType(w)}()\n');
+          s.write('$depth@${m.type.getCType(context)}()\n');
         }
         final memberName = m.type.sameDartAndFfiDartType
             ? m.name
             : '${m.name}AsInt';
         s.write(
-          '${depth}external ${m.type.getFfiDartType(w)} $memberName;\n\n',
+          '${depth}external ${m.type.getFfiDartType(context)} $memberName;\n\n',
         );
       }
       if (m.type case EnumClass(
         :final style,
       ) when style == EnumStyle.dartEnum) {
-        final enumName = m.type.getDartType(w);
+        final enumName = m.type.getDartType(context);
         final memberName = m.name;
         s.write(
           '$enumName get $memberName => '
@@ -184,7 +184,7 @@ abstract class Compound extends BindingType {
   bool get isIncompleteCompound => isIncomplete;
 
   @override
-  String getCType(Writer w) {
+  String getCType(Context context) {
     final builtInName = context.objCBuiltInFunctions.getBuiltInCompoundName(
       originalName,
     );
