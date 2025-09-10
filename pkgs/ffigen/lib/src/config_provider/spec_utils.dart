@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:ffigen/src/strings.dart';
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
@@ -360,7 +361,6 @@ String findDylibAtDefaultLocations(Logger logger) {
       final linuxLib = findLibclangDylib(l);
       if (linuxLib != null) return linuxLib;
     }
-    Process.runSync('ldconfig', ['-p']);
     final ldConfigResult = Process.runSync('ldconfig', ['-p']);
     if (ldConfigResult.exitCode == 0) {
       final lines = (ldConfigResult.stdout as String).split('\n');
@@ -415,6 +415,16 @@ String findDylibAtDefaultLocations(Logger logger) {
     }
   } else {
     throw Exception('Unsupported Platform.');
+  }
+
+  final clangPrintFileNameResult = Process.runSync('clang', [
+    '-print-file-name=$dylibFileName',
+  ]);
+  if (clangPrintFileNameResult.exitCode == 0) {
+    final path = (clangPrintFileNameResult.stdout as String).trim();
+    if (File(path).existsSync()) {
+      return path;
+    }
   }
 
   logger.severe("Couldn't find dynamic library in default locations.");
