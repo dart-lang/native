@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:ffigen/src/strings.dart';
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
@@ -418,7 +417,7 @@ String findDylibAtDefaultLocations(Logger logger) {
   }
 
   final clangPrintFileNameResult = Process.runSync('clang', [
-    '-print-file-name=$dylibFileName',
+    '-print-file-name=${strings.dylibFileName}',
   ]);
   if (clangPrintFileNameResult.exitCode == 0) {
     final path = (clangPrintFileNameResult.stdout as String).trim();
