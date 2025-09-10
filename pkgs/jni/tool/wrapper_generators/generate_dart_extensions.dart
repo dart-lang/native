@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/context.dart';
 
 import 'ffigen_util.dart';
 import 'generate_helper_functions.dart';
@@ -37,11 +38,11 @@ const globalEnvType = 'GlobalJniEnvStruct';
 const localEnvType = 'JNINativeInterface';
 const jvmType = 'JNIInvokeInterface';
 
-String getCheckedGetter(Type returnType) {
+String getCheckedGetter(Context context, Type returnType) {
   const objectPointerGetter = 'objectPointer';
 
   if (returnType is PointerType) {
-    final child = returnType.child.getCType(dummyWriter);
+    final child = returnType.child.getCType(context);
     return 'getPointer<$child>()';
   }
   final cType = returnType.toString();
@@ -78,6 +79,7 @@ String getCheckedGetter(Type returnType) {
 }
 
 String? getGlobalEnvExtensionFunction(
+  Context context,
   CompoundMember field,
   Type? checkedReturnType, {
   required bool isLeaf,
@@ -96,15 +98,15 @@ String? getGlobalEnvExtensionFunction(
     params = params.sublist(1);
 
     final signature = params
-        .map((p) => '${p.type.getDartType(dummyWriter)} ${p.name}')
+        .map((p) => '${p.type.getDartType(context)} ${p.name}')
         .join(', ');
 
     final dartType =
         FunctionType(returnType: checkedReturnType!, parameters: params)
-            .getDartType(dummyWriter);
+            .getDartType(context);
     final callArgs = params.map((p) => p.name).join(', ');
-    final checkedGetter = getCheckedGetter(returnType);
-    var returns = returnType.getDartType(dummyWriter);
+    final checkedGetter = getCheckedGetter(context, returnType);
+    var returns = returnType.getDartType(context);
     if (checkedGetter == 'boolean') {
       returns = 'bool';
     }
@@ -257,6 +259,7 @@ String getGlobalEnvExtension(
   }
   final extensionFunctions = env.members
       .map((member) => getGlobalEnvExtensionFunction(
+            library.context,
             member,
             checkedReturnTypes[member.name],
             isLeaf: leafFunctions.contains(member.name),
@@ -278,6 +281,7 @@ class GlobalJniEnv {
 }
 
 String? getFunctionPointerExtensionFunction(
+  Context context,
   CompoundMember field, {
   bool indirect = false,
   bool implicitThis = false,
@@ -296,16 +300,16 @@ String? getFunctionPointerExtensionFunction(
     final visibleParams = implicitThis ? params.sublist(1) : params;
 
     final signature = visibleParams
-        .map((p) => '${p.type.getDartType(dummyWriter)} ${p.name}')
+        .map((p) => '${p.type.getDartType(context)} ${p.name}')
         .join(', ');
 
     final dartType = FunctionType(returnType: returnType, parameters: params)
-        .getDartType(dummyWriter);
+        .getDartType(context);
     final callArgs = [
       if (implicitThis) 'ptr',
       ...visibleParams.map((p) => p.name)
     ].join(', ');
-    final returns = returnType.getDartType(dummyWriter);
+    final returns = returnType.getDartType(context);
     final dereference = indirect ? 'value.ref' : 'ref';
     final leafCall = isLeaf ? 'isLeaf: true' : '';
     return '''
@@ -325,7 +329,7 @@ String getFunctionPointerExtension(
       library.bindings.firstWhere((b) => b.name == type) as Type;
   final compound = typeBinding.typealiasType.baseType as Compound;
   final extensionFunctions = compound.members
-      .map((f) => getFunctionPointerExtensionFunction(f,
+      .map((f) => getFunctionPointerExtensionFunction(library.context, f,
           indirect: indirect,
           implicitThis: implicitThis,
           isLeaf: leafFunctions.contains(f.name)))
