@@ -12,8 +12,6 @@ import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-enum CompoundType { struct, union }
-
 /// A binding for Compound type - Struct/Union.
 abstract class Compound extends BindingType {
   /// Marker for if a struct definition is complete.
@@ -27,16 +25,10 @@ abstract class Compound extends BindingType {
 
   /// Value for `@Packed(X)` annotation. Can be null (no packing), 1, 2, 4, 8,
   /// or 16.
-  ///
-  /// Only supported for [CompoundType.struct].
-  int? pack;
+  int? get pack;
 
   /// Marker for checking if the dependencies are parsed.
   bool parsedDependencies = false;
-
-  CompoundType compoundType;
-  bool get isStruct => compoundType == CompoundType.struct;
-  bool get isUnion => compoundType == CompoundType.union;
 
   final Context context;
 
@@ -49,9 +41,7 @@ abstract class Compound extends BindingType {
     super.usr,
     super.originalName,
     required super.name,
-    required this.compoundType,
     this.isIncomplete = false,
-    this.pack,
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,
@@ -59,46 +49,6 @@ abstract class Compound extends BindingType {
     String? nativeType,
   }) : members = members ?? [],
        nativeType = nativeType ?? originalName ?? name;
-
-  factory Compound.fromType({
-    required CompoundType type,
-    String? usr,
-    String? originalName,
-    required String name,
-    bool isIncomplete = false,
-    int? pack,
-    String? dartDoc,
-    List<CompoundMember>? members,
-    required Context context,
-    String? nativeType,
-  }) {
-    switch (type) {
-      case CompoundType.struct:
-        return Struct(
-          usr: usr,
-          originalName: originalName,
-          name: name,
-          isIncomplete: isIncomplete,
-          pack: pack,
-          dartDoc: dartDoc,
-          members: members,
-          context: context,
-          nativeType: nativeType,
-        );
-      case CompoundType.union:
-        return Union(
-          usr: usr,
-          originalName: originalName,
-          name: name,
-          isIncomplete: isIncomplete,
-          pack: pack,
-          dartDoc: dartDoc,
-          members: members,
-          context: context,
-          nativeType: nativeType,
-        );
-    }
-  }
 
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
@@ -114,10 +64,6 @@ abstract class Compound extends BindingType {
 
   @override
   BindingString toBindingString(Writer w) {
-    final bindingType = isStruct
-        ? BindingStringType.struct
-        : BindingStringType.union;
-
     final s = StringBuffer();
     final enclosingClassName = name;
     s.write(makeDartDoc(dartDoc));
@@ -134,13 +80,17 @@ abstract class Compound extends BindingType {
 
     /// Write @Packed(X) annotation if struct is packed.
     final ffiPrefix = context.libs.prefix(ffiImport);
-    if (isStruct && pack != null) {
+    if (pack != null) {
       s.write('@$ffiPrefix.Packed($pack)\n');
     }
-    final dartClassName = isStruct ? 'Struct' : 'Union';
+    final dartClassName = isOpaque
+        ? 'Opaque'
+        : this is Struct
+        ? 'Struct'
+        : 'Union';
     // Write class declaration.
     s.write('final class $enclosingClassName extends ');
-    s.write('$ffiPrefix.${isOpaque ? 'Opaque' : dartClassName}{\n');
+    s.write('$ffiPrefix.$dartClassName{\n');
     const depth = '  ';
     for (final m in members) {
       m.name = localUniqueNamer.makeUnique(m.name);
@@ -177,6 +127,9 @@ abstract class Compound extends BindingType {
     }
     s.write('}\n\n');
 
+    final bindingType = this is Struct
+        ? BindingStringType.struct
+        : BindingStringType.union;
     return BindingString(type: bindingType, string: s.toString());
   }
 
