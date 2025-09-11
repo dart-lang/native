@@ -36,13 +36,15 @@ class Struct extends Compound {
     super.originalName,
     required super.name,
     super.isIncomplete,
-    super.pack,
     super.dartDoc,
     super.members,
     super.isInternal,
     required super.context,
     super.nativeType,
-  }) : super(compoundType: CompoundType.struct);
+  });
+
+  @override
+  int? pack;
 
   @override
   void visit(Visitation visitation) => visitation.visitStruct(this);

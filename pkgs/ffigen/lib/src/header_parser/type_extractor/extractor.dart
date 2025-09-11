@@ -124,8 +124,7 @@ Type getCodeGenType(
 
       // Replace Pointer<_Dart_Handle> with Handle.
       if (context.config.useDartHandle &&
-          s is Compound &&
-          s.compoundType == CompoundType.struct &&
+          s is Struct &&
           s.usr == strings.dartHandleUsr) {
         return HandleType();
       }
@@ -320,46 +319,36 @@ Type? _extractfromRecord(
   final config = context.config;
   logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
 
-  final cursorKind = clang.clang_getCursorKind(cursor);
-  if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl ||
-      cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
-    final declSpelling = cursor.spelling();
-    final declUsr = cursor.usr();
-
-    // Set includer functions according to compoundType.
-    final CompoundType compoundType;
-    final Map<String, ImportedType> compoundTypeMappings;
-
-    switch (cursorKind) {
-      case clang_types.CXCursorKind.CXCursor_StructDecl:
-        compoundType = CompoundType.struct;
-        compoundTypeMappings = config.structTypeMappings;
-        break;
-      case clang_types.CXCursorKind.CXCursor_UnionDecl:
-        compoundType = CompoundType.union;
-        compoundTypeMappings = config.unionTypeMappings;
-        break;
-      default:
-        throw Exception('Unhandled compound type cursorkind.');
-    }
-
-    // Also add a struct binding, if its unseen.
-    if (compoundTypeMappings.containsKey(declSpelling)) {
-      logger.fine('  Type Mapped from type-map');
-      return compoundTypeMappings[declSpelling]!;
-    } else if (config.importedTypesByUsr.containsKey(declUsr)) {
-      logger.fine('  Type Mapped from usr');
-      return config.importedTypesByUsr[declUsr]!;
-    } else {
-      final struct = parseCompoundDeclaration(
-        cursor,
-        compoundType,
-        context,
-        pointerReference: pointerReference,
-      );
-      return struct;
-    }
+  final declUsr = cursor.usr();
+  if (config.importedTypesByUsr.containsKey(declUsr)) {
+    logger.fine('  Type Mapped from usr');
+    return config.importedTypesByUsr[declUsr]!;
   }
+
+  final declSpelling = cursor.spelling();
+  final cursorKind = clang.clang_getCursorKind(cursor);
+  if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
+    if (config.structTypeMappings.containsKey(declSpelling)) {
+      logger.fine('  Type Mapped from type-map');
+      return config.structTypeMappings[declSpelling]!;
+    }
+    return parseStructDeclaration(
+      cursor,
+      context,
+      pointerReference: pointerReference,
+    );
+  } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
+    if (config.unionTypeMappings.containsKey(declSpelling)) {
+      logger.fine('  Type Mapped from type-map');
+      return config.unionTypeMappings[declSpelling]!;
+    }
+    return parseUnionDeclaration(
+      cursor,
+      context,
+      pointerReference: pointerReference,
+    );
+  }
+
   logger.fine(
     'typedeclarationCursorVisitor: _extractfromRecord: '
     'Not Implemented, ${cursor.completeStringRepr()}',
