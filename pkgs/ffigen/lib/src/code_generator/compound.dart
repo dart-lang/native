@@ -19,9 +19,9 @@ abstract class Compound extends BindingType {
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
-  List<CompoundMember> members;
+  final _members = <CompoundMember>[];
 
-  bool get isOpaque => members.isEmpty;
+  bool get isOpaque => _members.isEmpty;
 
   /// Value for `@Packed(X)` annotation. Can be null (no packing), 1, 2, 4, 8,
   /// or 16.
@@ -37,18 +37,35 @@ abstract class Compound extends BindingType {
   /// `struct` or `union`, depending on whether the declaration is a typedef.
   final String nativeType;
 
+  final Namespace _localNamespace;
+
   Compound({
     super.usr,
     super.originalName,
     required super.name,
     this.isIncomplete = false,
     super.dartDoc,
-    List<CompoundMember>? members,
     super.isInternal,
     required this.context,
     String? nativeType,
-  }) : members = members ?? [],
-       nativeType = nativeType ?? originalName ?? name;
+  }) : super(context.rootNamespace),
+       nativeType = nativeType ?? originalName ?? name,
+       _localNamespace = context.rootNamespace.addNamespace();
+
+  void addMember({
+    String? originalName,
+    required String name,
+    required Type type,
+    String? dartDoc,
+  }) {
+    _members.add(CompoundMember._(
+      namespace: _localNamespace,
+      originalName: originalName,
+      name: name,
+      type: type,
+      dartDoc: dartDoc,
+    ));
+  }
 
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
@@ -68,15 +85,12 @@ abstract class Compound extends BindingType {
     final enclosingClassName = name;
     s.write(makeDartDoc(dartDoc));
 
-    /// Adding [enclosingClassName] because dart doesn't allow class member
-    /// to have the same name as the class.
-    final localUniqueNamer = UniqueNamer()..markUsed(enclosingClassName);
-
     /// Marking type names because dart doesn't allow class member to have the
     /// same name as a type name used internally.
-    for (final m in members) {
-      localUniqueNamer.markUsed(m.type.getFfiDartType(context));
-    }
+    // for (final m in _members) {
+    //   localUniqueNamer.markUsed(m.type.getFfiDartType(context));
+    // }
+    // TODO: Is ^this^ tested?
 
     /// Write @Packed(X) annotation if struct is packed.
     final ffiPrefix = context.libs.prefix(ffiImport);
@@ -164,15 +178,15 @@ abstract class Compound extends BindingType {
   void visit(Visitation visitation) => visitation.visitCompound(this);
 }
 
-class CompoundMember extends AstNode {
+class CompoundMember extends AstNode with Symbol {
   final String? dartDoc;
   final String originalName;
-  String name;
   final Type type;
 
-  CompoundMember({
+  CompoundMember._({
+    required super.namespace,
     String? originalName,
-    required this.name,
+    required super.name,
     required this.type,
     this.dartDoc,
   }) : originalName = originalName ?? name;

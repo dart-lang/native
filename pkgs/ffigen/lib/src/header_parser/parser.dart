@@ -206,10 +206,8 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
-  final rootNamespace = Namespace.root();
-  visit(context, AssignNamesVisitation(context, rootNamespace), finalBindings);
-  context.libs.fillPrefixes(rootNamespace);
-  rootNamespace.fillNames();
+  context.libs.fillPrefixes(context.rootNamespace);
+  context.rootNamespace.fillNames();
 
   final finalBindingsList = finalBindings.toList();
 

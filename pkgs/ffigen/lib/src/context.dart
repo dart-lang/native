@@ -24,6 +24,8 @@ class Context {
 
   final bindingsIndex = BindingsIndex();
 
+  final rootNamespace = Namespace.root();
+
   final savedMacros = <String, Macro>{};
 
   final unnamedEnumConstants = <Constant>[];

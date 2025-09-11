@@ -6,12 +6,13 @@ import '../config_provider/config_types.dart' show Declaration;
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
+import 'namespace.dart';
 import 'writer.dart';
 
 /// Base class for all Bindings.
 ///
 /// Do not extend directly, use [LookUpBinding] or [NoLookUpBinding].
-abstract class Binding extends AstNode implements Declaration {
+abstract class Binding extends AstNode implements Declaration with Symbol {
   /// Holds the Unified Symbol Resolution string obtained from libclang.
   @override
   final String usr;
@@ -19,9 +20,6 @@ abstract class Binding extends AstNode implements Declaration {
   /// The name as it was in C.
   @override
   final String originalName;
-
-  /// Binding name to generate, may get changed to resolve name conflicts.
-  String name;
 
   final String? dartDoc;
   final bool isInternal;
@@ -32,9 +30,10 @@ abstract class Binding extends AstNode implements Declaration {
   bool generateBindings = true;
 
   Binding({
+    required super.namespace,
     required this.usr,
     required this.originalName,
-    required this.name,
+    required super.name,
     this.dartDoc,
     this.isInternal = false,
   });
