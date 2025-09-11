@@ -22,7 +22,7 @@ void main() {
     FfiGenerator(
       output: Output(
         dartFile: Uri.file('unused'),
-        style: const DynamicLibraryBindings(),
+        style: const NativeExternalBindings(assetId: 'test'),
       ),
       enums: Enums.includeAll,
       functions: Functions.includeAll,
@@ -52,7 +52,7 @@ void main() {
           output: Output(
             dartFile: Uri.file('unused'),
             style: loadFromNativeAsset
-                ? const NativeExternalBindings()
+                ? const NativeExternalBindings(assetId: 'test')
                 : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
           ),
           enums: Enums.includeAll,

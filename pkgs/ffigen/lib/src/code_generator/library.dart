@@ -68,7 +68,7 @@ class Library {
       // At the moment, all bindings share their native config.
       if (loadFromNativeAsset) nativeConfig = context.config.ffiNativeConfig;
 
-      (loadFromNativeAsset ? lookupBindings : nativeBindings).add(binding);
+      (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
     }
     final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
 
