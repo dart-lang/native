@@ -8,7 +8,6 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
-import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart';
 import '../context.dart';
 
@@ -24,21 +23,20 @@ class Library {
 
   Library._(this.bindings, this.writer, this.context);
 
-  static Library fromConfig({
-    required Config config,
+  static Library fromContext({
     required List<Binding> bindings,
     required Context context,
   }) => Library(
-    name: config.wrapperName,
-    description: config.wrapperDocComment,
+    name: context.config.wrapperName,
+    description: context.config.wrapperDocComment,
     bindings: bindings,
-    header: config.preamble,
+    header: context.config.preamble,
     generateForPackageObjectiveC:
         // ignore: deprecated_member_use_from_same_package
-        config.objectiveC?.generateForPackageObjectiveC ?? false,
-    libraryImports: config.libraryImports.values.toList(),
-    silenceEnumWarning: config.enums.silenceWarning,
-    nativeEntryPoints: config.entryPoints
+        context.config.objectiveC?.generateForPackageObjectiveC ?? false,
+    libraryImports: context.config.libraryImports.values.toList(),
+    silenceEnumWarning: context.config.enums.silenceWarning,
+    nativeEntryPoints: context.config.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
     context: context,
@@ -61,18 +59,16 @@ class Library {
     FfiNativeConfig? nativeConfig;
 
     for (final binding in bindings.whereType<LookUpBinding>()) {
-      final nativeConfigForBinding = switch (binding) {
-        Func() => binding.ffiNativeConfig,
-        Global() => binding.nativeConfig,
-        _ => null,
+      final loadFromNativeAsset = switch (binding) {
+        Func() => binding.loadFromNativeAsset,
+        Global() => binding.loadFromNativeAsset,
+        _ => false,
       };
 
       // At the moment, all bindings share their native config.
-      nativeConfig ??= nativeConfigForBinding;
+      if (loadFromNativeAsset) nativeConfig = context.config.ffiNativeConfig;
 
-      final usesLookup =
-          nativeConfigForBinding == null || !nativeConfigForBinding.enabled;
-      (usesLookup ? lookupBindings : nativeBindings).add(binding);
+      (loadFromNativeAsset ? lookupBindings : nativeBindings).add(binding);
     }
     final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
 

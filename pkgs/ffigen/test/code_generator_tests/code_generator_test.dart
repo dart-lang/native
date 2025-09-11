@@ -4,7 +4,6 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
@@ -38,30 +37,21 @@ void main() {
 
   group('code_generator: ', () {
     @isTestGroup
-    void withAndWithoutNative(
-      String description,
-      void Function(FfiNativeConfig) runTest,
-    ) {
+    void withAndWithoutNative(String description, void Function(bool) runTest) {
       group(description, () {
-        test(
-          'without Native',
-          () => runTest(const FfiNativeConfig(enabled: false)),
-        );
-        test(
-          'with Native',
-          () => runTest(const FfiNativeConfig(enabled: true, assetId: 'test')),
-        );
+        test('without Native', () => runTest(false));
+        test('with Native', () => runTest(true));
       });
     }
 
     withAndWithoutNative('Function Binding (primitives, pointers)', (
-      nativeConfig,
+      loadFromNativeAsset,
     ) {
       final nativeContext = testContext(
         FfiGenerator(
           output: Output(
             dartFile: Uri.file('unused'),
-            style: nativeConfig.enabled
+            style: loadFromNativeAsset
                 ? const NativeExternalBindings()
                 : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
           ),
@@ -81,13 +71,13 @@ void main() {
         header: licenseHeader,
         bindings: transformBindings([
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'noParam',
             dartDoc: 'Just a test function\nheres another line',
             returnType: NativeType(SupportedNativeType.int32),
           ),
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'withPrimitiveParam',
             parameters: [
               Parameter(
@@ -104,7 +94,7 @@ void main() {
             returnType: NativeType(SupportedNativeType.char),
           ),
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'withPointerParam',
             parameters: [
               Parameter(
@@ -123,7 +113,7 @@ void main() {
             returnType: PointerType(NativeType(SupportedNativeType.double)),
           ),
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             isLeaf: true,
             name: 'leafFunc',
             dartDoc: 'A function with isLeaf: true',
@@ -141,7 +131,7 @@ void main() {
 
       _matchLib(
         library,
-        nativeConfig.enabled ? 'function_ffiNative' : 'function',
+        loadFromNativeAsset ? 'function_ffiNative' : 'function',
       );
     });
 
@@ -256,7 +246,7 @@ void main() {
     });
 
     withAndWithoutNative('global (primitives, pointers, pointer to struct)', (
-      nativeConfig,
+      loadFromNativeAsset,
     ) {
       final structSome = Struct(context: context, name: 'Some');
       final emptyGlobalStruct = Struct(context: context, name: 'EmptyStruct');
@@ -267,41 +257,41 @@ void main() {
         header: licenseHeader,
         bindings: transformBindings([
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test1',
             type: NativeType(SupportedNativeType.int32),
           ),
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test2',
             type: PointerType(NativeType(SupportedNativeType.float)),
             constant: true,
           ),
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test3',
             type: ConstantArray(
               10,
               NativeType(SupportedNativeType.float),
-              useArrayType: nativeConfig.enabled,
+              useArrayType: loadFromNativeAsset,
             ),
             constant: true,
           ),
           structSome,
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test5',
             type: PointerType(structSome),
           ),
           emptyGlobalStruct,
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'globalStruct',
             type: emptyGlobalStruct,
           ),
         ], context),
       );
-      _matchLib(library, nativeConfig.enabled ? 'global_native' : 'global');
+      _matchLib(library, loadFromNativeAsset ? 'global_native' : 'global');
     });
 
     test('constant', () {
@@ -544,7 +534,6 @@ void main() {
     });
 
     test('Adds Native symbol on mismatch', () {
-      final nativeConfig = const FfiNativeConfig(enabled: true);
       final library = Library(
         context: context,
         name: 'init_dylib',
@@ -552,13 +541,13 @@ void main() {
             '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
         bindings: transformBindings([
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: true,
             name: 'test',
             originalName: '_test',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: true,
             name: 'testField',
             originalName: '_testField',
             type: NativeType(SupportedNativeType.int16),
