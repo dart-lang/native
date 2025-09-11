@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config_types.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -47,7 +46,7 @@ class Func extends LookUpBinding {
   final bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
-  final FfiNativeConfig ffiNativeConfig;
+  final bool loadFromNativeAsset;
   late final String funcPointerName;
 
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
@@ -69,7 +68,7 @@ class Func extends LookUpBinding {
     this.objCReturnsRetained = false,
     this.useNameForLookup = false,
     super.isInternal,
-    this.ffiNativeConfig = const FfiNativeConfig(enabled: false),
+    this.loadFromNativeAsset = false,
   }) : functionType = FunctionType(
          returnType: returnType,
          parameters: parameters ?? const [],
@@ -158,7 +157,7 @@ class Func extends LookUpBinding {
       funcImplCall = '$funcVarName($argString)';
     }
 
-    if (ffiNativeConfig.enabled) {
+    if (loadFromNativeAsset) {
       final nativeFuncName = needsWrapper ? funcVarName : enclosingFuncName;
       s.write('''
 ${makeNativeAnnotation(w, nativeType: cType, dartName: nativeFuncName, nativeSymbolName: _lookupName, isLeaf: isLeaf)}
@@ -223,7 +222,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
     visitor.visit(functionType);
     visitor.visit(_exposedFunctionTypealias);
     visitor.visit(ffiImport);
-    if (ffiNativeConfig.enabled && exposeSymbolAddress) {
+    if (loadFromNativeAsset && exposeSymbolAddress) {
       visitor.visit(selfImport);
     }
   }

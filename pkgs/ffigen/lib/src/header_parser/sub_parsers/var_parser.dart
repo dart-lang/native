@@ -47,7 +47,7 @@ Global? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     dartDoc: getCursorDocComment(context, cursor),
     exposeSymbolAddress: config.globals.includeSymbolAddress(decl),
     constant: cType.isConstQualified,
-    nativeConfig: config.ffiNativeConfig,
+    loadFromNativeAsset: config.ffiNativeConfig.enabled,
   );
   bindingsIndex.addGlobalVarToSeen(usr, global);
 

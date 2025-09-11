@@ -31,9 +31,8 @@ import 'translation_unit_parser.dart';
 import 'utils.dart';
 
 /// Main entrypoint for header_parser.
-Library parse(Context context) => Library.fromConfig(
+Library parse(Context context) => Library.fromContext(
   bindings: transformBindings(parseToBindings(context), context),
-  config: context.config,
   context: context,
 );
 

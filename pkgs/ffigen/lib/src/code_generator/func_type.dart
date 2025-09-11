@@ -5,7 +5,6 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
-
 import 'unique_namer.dart';
 
 /// Represents a function type.
