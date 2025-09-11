@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../config_provider/config_types.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
 
@@ -180,7 +179,7 @@ class ObjCBuiltInFunctions {
     isLeaf: true,
     isInternal: true,
     useNameForLookup: true,
-    ffiNativeConfig: const FfiNativeConfig(enabled: true),
+    loadFromNativeAsset: true,
   );
 
   final _protocolTrampolines = <String, ObjCProtocolMethodTrampoline>{};
@@ -202,7 +201,7 @@ class ObjCBuiltInFunctions {
         isLeaf: false,
         isInternal: true,
         useNameForLookup: true,
-        ffiNativeConfig: const FfiNativeConfig(enabled: true),
+        loadFromNativeAsset: true,
       ),
     );
   }

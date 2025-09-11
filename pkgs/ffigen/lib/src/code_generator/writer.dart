@@ -317,7 +317,7 @@ class Writer {
     bindings.sort((a, b) => a.usr.compareTo(b.usr));
 
     final usesFfiNative = bindings.whereType<Func>().any(
-      (element) => element.ffiNativeConfig.enabled,
+      (element) => element.loadFromNativeAsset,
     );
 
     return {

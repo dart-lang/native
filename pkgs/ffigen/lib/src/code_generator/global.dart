@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../config_provider/config_types.dart';
 import '../visitor/ast.dart';
-
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
@@ -27,7 +25,7 @@ import 'writer.dart';
 class Global extends LookUpBinding {
   final Type type;
   final bool exposeSymbolAddress;
-  final FfiNativeConfig nativeConfig;
+  final bool loadFromNativeAsset;
   final bool constant;
 
   Global({
@@ -38,7 +36,7 @@ class Global extends LookUpBinding {
     super.dartDoc,
     this.exposeSymbolAddress = false,
     this.constant = false,
-    this.nativeConfig = const FfiNativeConfig(enabled: false),
+    this.loadFromNativeAsset = false,
   });
 
   @override
@@ -52,7 +50,7 @@ class Global extends LookUpBinding {
 
     // Removing pointer reference for ConstantArray cType since we always wrap
     // globals with pointer below.
-    final cType = (type is ConstantArray && !nativeConfig.enabled)
+    final cType = (type is ConstantArray && !loadFromNativeAsset)
         ? (type as ConstantArray).child.getCType(context)
         : type.getCType(context);
 
@@ -84,7 +82,7 @@ class Global extends LookUpBinding {
       }
     }
 
-    if (nativeConfig.enabled) {
+    if (loadFromNativeAsset) {
       if (type case final ConstantArray arr) {
         s.writeln(makeArrayAnnotation(w, arr));
       }
@@ -168,7 +166,7 @@ class Global extends LookUpBinding {
     super.visitChildren(visitor);
     visitor.visit(type);
     visitor.visit(ffiImport);
-    if (nativeConfig.enabled && exposeSymbolAddress) {
+    if (loadFromNativeAsset && exposeSymbolAddress) {
       visitor.visit(selfImport);
     }
   }

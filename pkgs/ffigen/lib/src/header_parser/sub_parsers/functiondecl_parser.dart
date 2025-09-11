@@ -151,7 +151,7 @@ List<Func> parseFunctionDeclaration(
           exposeFunctionTypedefs: config.functions.includeTypedef(decl),
           isLeaf: config.functions.isLeaf(decl),
           objCReturnsRetained: objCReturnsRetained,
-          ffiNativeConfig: config.ffiNativeConfig,
+          loadFromNativeAsset: config.ffiNativeConfig.enabled,
         ),
       );
     }
