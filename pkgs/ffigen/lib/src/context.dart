@@ -24,8 +24,6 @@ class Context {
 
   final bindingsIndex = BindingsIndex();
 
-  final incrementalNamer = IncrementalNamer();
-
   final savedMacros = <String, Macro>{};
 
   final unnamedEnumConstants = <Constant>[];
