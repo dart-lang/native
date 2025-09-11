@@ -10,7 +10,7 @@ import 'package:path/path.dart' as p;
 import 'imports.dart';
 import 'pointer.dart';
 import 'type.dart';
-import 'unique_namer.dart';
+import 'namespace.dart';
 import 'writer.dart';
 
 /// Converts [text] to a dart doc comment(`///`).

@@ -7,7 +7,7 @@ import 'dart:ffi';
 import 'package:logging/logging.dart';
 
 import 'code_generator.dart';
-import 'code_generator/unique_namer.dart';
+import 'code_generator/namespace.dart';
 import 'config_provider/config.dart';
 import 'config_provider/config_types.dart';
 import 'config_provider/spec_utils.dart';

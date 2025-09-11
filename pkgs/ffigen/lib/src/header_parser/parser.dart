@@ -11,7 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
-import '../code_generator/unique_namer.dart';
+import '../code_generator/namespace.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
 import '../context.dart';
@@ -207,10 +207,10 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
-  // TODO(https://github.com/dart-lang/native/issues/1259): Remove libNamer when
-  // renaming is another ordinary transformer.
-  final libNamer = UniqueNamer()..markAllUsed(finalBindings.map((d) => d.name));
-  context.libs.fillPrefixes(libNamer);
+  final rootNamespace = Namespace.root();
+  visit(context, AssignNamesVisitation(context, rootNamespace), finalBindings);
+  context.libs.fillPrefixes(rootNamespace);
+  rootNamespace.fillNames();
 
   final finalBindingsList = finalBindings.toList();
 

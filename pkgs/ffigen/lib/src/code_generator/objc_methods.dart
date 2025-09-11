@@ -17,7 +17,7 @@ import 'objc_nullable.dart';
 import 'pointer.dart';
 import 'type.dart';
 import 'typealias.dart';
-import 'unique_namer.dart';
+import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 

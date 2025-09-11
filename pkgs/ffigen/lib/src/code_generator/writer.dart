@@ -8,7 +8,7 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/visitor.dart';
-import 'unique_namer.dart';
+import 'namespace.dart';
 import 'utils.dart';
 
 /// To store generated String bindings.
@@ -47,19 +47,6 @@ class Writer {
   late String _symbolAddressVariableName;
   late String _symbolAddressLibraryVarName;
 
-  /// Initial namers set after running constructor. Namers are reset to this
-  /// initial state everytime [generate] is called.
-  late UniqueNamer _initialTopLevelUniqueNamer;
-  late UniqueNamer _initialWrapperLevelUniqueNamer;
-
-  /// Used by [Binding]s for generating required code.
-  late UniqueNamer _topLevelUniqueNamer;
-  UniqueNamer get topLevelUniqueNamer => _topLevelUniqueNamer;
-  late UniqueNamer _wrapperLevelUniqueNamer;
-  UniqueNamer get wrapperLevelUniqueNamer => _wrapperLevelUniqueNamer;
-  late UniqueNamer _objCLevelUniqueNamer;
-  UniqueNamer get objCLevelUniqueNamer => _objCLevelUniqueNamer;
-
   /// Set true after calling [generate]. Indicates if
   /// [generateSymbolOutputYamlMap] can be called.
   bool get canGenerateSymbolOutput => _canGenerateSymbolOutput;
@@ -81,38 +68,20 @@ class Writer {
     required this.nativeEntryPoints,
     required this.context,
   }) : symbolAddressWriter = SymbolAddressWriter(context) {
-    final globalLevelNames = noLookUpBindings.map((e) => e.name);
-    final wrapperLevelNames = lookUpBindings.map((e) => e.name);
-
-    _initialTopLevelUniqueNamer = UniqueNamer()..markAllUsed(globalLevelNames);
-    for (final lib in context.libs.used) {
-      _initialTopLevelUniqueNamer.markUsed(context.libs.prefix(lib));
-    }
-
-    _initialWrapperLevelUniqueNamer = UniqueNamer()
-      ..markAllUsed(wrapperLevelNames);
-    final allLevelsUniqueNamer = UniqueNamer()
-      ..markAllUsed(globalLevelNames)
-      ..markAllUsed(wrapperLevelNames);
-
     /// Wrapper class name must be unique among all names.
-    _className = _resolveNameConflict(
-      name: className,
-      makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
-    );
+    _className = topLevelNamer.makeUnique(className);
 
     /// [_lookupFuncIdentifier] should be unique in top level.
     _lookupFuncIdentifier = _resolveNameConflict(
       name: '_lookup',
-      makeUnique: _initialTopLevelUniqueNamer,
+      makeUnique: initialTopLevelUniqueNamer,
     );
 
     /// Resolve name conflicts of identifiers used for SymbolAddresses.
     _symbolAddressClassName = _resolveNameConflict(
       name: '_SymbolAddresses',
       makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
+      markUsed: [_initialWrapperLevelUniqueNamer, initialTopLevelUniqueNamer],
     );
     _symbolAddressVariableName = _resolveNameConflict(
       name: 'addresses',
@@ -142,7 +111,7 @@ class Writer {
 
   /// Resets the namers to initial state. Namers are reset before generating.
   void _resetUniqueNamers() {
-    _topLevelUniqueNamer = UniqueNamer(parent: _initialTopLevelUniqueNamer);
+    _topLevelUniqueNamer = UniqueNamer(parent: initialTopLevelUniqueNamer);
     _wrapperLevelUniqueNamer = UniqueNamer(
       parent: _initialWrapperLevelUniqueNamer,
     );

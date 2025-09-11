@@ -7,7 +7,7 @@ import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
-import 'unique_namer.dart';
+import 'namespace.dart';
 import 'writer.dart';
 
 class ObjCBlock extends BindingType {

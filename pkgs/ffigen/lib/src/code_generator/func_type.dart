@@ -6,7 +6,7 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
 
-import 'unique_namer.dart';
+import 'namespace.dart';
 
 /// Represents a function type.
 class FunctionType extends Type {
