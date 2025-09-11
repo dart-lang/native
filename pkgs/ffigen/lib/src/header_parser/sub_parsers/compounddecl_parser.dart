@@ -3,12 +3,45 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
+import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
+
+Compound? parseStructDeclaration(
+  clang_types.CXCursor cursor,
+  Context context, {
+
+  /// To track if the declaration was used by reference(i.e T*). (Used to only
+  /// generate these as opaque if `dependency-only` was set to opaque).
+  bool pointerReference = false,
+}) => _parseCompoundDeclaration(
+  cursor,
+  context,
+  pointerReference,
+  'Struct',
+  context.config.structs,
+  Struct.new,
+);
+
+Compound? parseUnionDeclaration(
+  clang_types.CXCursor cursor,
+  Context context, {
+
+  /// To track if the declaration was used by reference(i.e T*). (Used to only
+  /// generate these as opaque if `dependency-only` was set to opaque).
+  bool pointerReference = false,
+}) => _parseCompoundDeclaration(
+  cursor,
+  context,
+  pointerReference,
+  'Union',
+  context.config.unions,
+  Union.new,
+);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -50,10 +83,13 @@ class _ParsedCompound {
     return maxChildAlignment > alignment;
   }
 
+  Declarations get compoundConfig =>
+      compound is Struct ? context.config.structs : context.config.unions;
+
   /// Returns pack value of a struct depending on config, returns null for no
   /// packing.
   int? get packValue {
-    if (compound.isStruct && _isPacked && !isIncomplete) {
+    if (compound is Struct && _isPacked && !isIncomplete) {
       if (strings.packingValuesMap.containsKey(alignment)) {
         return alignment;
       } else {
@@ -70,22 +106,22 @@ class _ParsedCompound {
 }
 
 /// Parses a compound declaration.
-Compound? parseCompoundDeclaration(
+Compound? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
-  CompoundType compoundType,
-  Context context, {
-
-  /// To track if the declaration was used by reference(i.e T*). (Used to only
-  /// generate these as opaque if `dependency-only` was set to opaque).
-  bool pointerReference = false,
-}) {
-  // Set includer functions according to compoundType.
-  final className = _compoundTypeDebugName(compoundType);
-  final configDecl = switch (compoundType) {
-    CompoundType.struct => context.config.structs,
-    CompoundType.union => context.config.unions,
-  };
-
+  Context context,
+  bool pointerReference,
+  String className,
+  Declarations configDecl,
+  Compound Function({
+    String? usr,
+    String? originalName,
+    required String name,
+    String? dartDoc,
+    required Context context,
+    String? nativeType,
+  })
+  constructor,
+) {
   // Parse the cursor definition instead, if this is a forward declaration.
   final declUsr = cursor.usr();
   final String declName;
@@ -111,8 +147,7 @@ Compound? parseCompoundDeclaration(
   final decl = Declaration(usr: declUsr, originalName: declName);
   if (declName.isEmpty) {
     cursor = context.cursorIndex.getDefinition(cursor);
-    return Compound.fromType(
-      type: compoundType,
+    return constructor(
       name: context.incrementalNamer.name('Unnamed$className'),
       usr: declUsr,
       dartDoc: getCursorDocComment(
@@ -128,8 +163,7 @@ Compound? parseCompoundDeclaration(
     context.logger.fine(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
-    return Compound.fromType(
-      type: compoundType,
+    return constructor(
       usr: declUsr,
       originalName: declName,
       name: configDecl.rename(decl),
@@ -154,13 +188,12 @@ void fillCompoundMembersIfNeeded(
   bool pointerReference = false,
 }) {
   if (compound.parsedDependencies) return;
-  final compoundType = compound.compoundType;
   final logger = context.logger;
 
   cursor = context.cursorIndex.getDefinition(cursor);
 
   final parsed = _ParsedCompound(context, compound);
-  final className = _compoundTypeDebugName(compoundType);
+  final className = compound is Struct ? 'Struct' : 'Union';
   parsed.hasAttr = clang.clang_Cursor_hasAttrs(cursor) != 0;
   parsed.alignment = cursor.type().alignment();
   compound.parsedDependencies = true; // Break cycles.
@@ -173,7 +206,9 @@ void fillCompoundMembersIfNeeded(
     'MaxChildAlignValue: ${parsed.maxChildAlignment}, '
     'PackValue: ${parsed.packValue}.',
   );
-  compound.pack = parsed.packValue;
+  if (compound is Struct) {
+    compound.pack = parsed.packValue;
+  }
 
   if (parsed.unimplementedMemberType) {
     logger.fine(
@@ -243,11 +278,7 @@ void _compoundMembersVisitor(
   _ParsedCompound parsed,
 ) {
   final context = parsed.context;
-  final config = context.config;
-  final compoundConf = switch (parsed.compound.compoundType) {
-    CompoundType.struct => config.structs,
-    CompoundType.union => config.unions,
-  };
+  final compoundConf = parsed.compoundConfig;
   final decl = Declaration(
     usr: parsed.compound.usr,
     originalName: parsed.compound.originalName,
@@ -338,8 +369,4 @@ void _compoundMembersVisitor(
     context.logger.severe(s);
     rethrow;
   }
-}
-
-String _compoundTypeDebugName(CompoundType compoundType) {
-  return compoundType == CompoundType.struct ? 'Struct' : 'Union';
 }
