@@ -36,6 +36,7 @@ class Struct extends Compound {
     super.originalName,
     required super.name,
     super.isIncomplete,
+    this.pack,
     super.dartDoc,
     super.members,
     super.isInternal,
