@@ -166,6 +166,7 @@ abstract class Type extends AstNode {
 /// to extend both NoLookUpBinding and Type.
 abstract class BindingType extends NoLookUpBinding implements Type {
   BindingType({
+    required super.namespace,
     super.usr,
     super.originalName,
     required super.name,

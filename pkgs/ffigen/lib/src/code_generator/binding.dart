@@ -12,7 +12,7 @@ import 'writer.dart';
 /// Base class for all Bindings.
 ///
 /// Do not extend directly, use [LookUpBinding] or [NoLookUpBinding].
-abstract class Binding extends AstNode implements Declaration with Symbol {
+abstract class Binding extends AstNode implements Declaration {
   /// Holds the Unified Symbol Resolution string obtained from libclang.
   @override
   final String usr;
@@ -20,6 +20,9 @@ abstract class Binding extends AstNode implements Declaration with Symbol {
   /// The name as it was in C.
   @override
   final String originalName;
+
+  final Symbol _symbol;
+  String get name => _symbol.name;
 
   final String? dartDoc;
   final bool isInternal;
@@ -30,13 +33,13 @@ abstract class Binding extends AstNode implements Declaration with Symbol {
   bool generateBindings = true;
 
   Binding({
-    required super.namespace,
+    required Namespace namespace,
     required this.usr,
     required this.originalName,
-    required super.name,
+    required String name,
     this.dartDoc,
     this.isInternal = false,
-  });
+  }) : _symbol = namespace.add(name);
 
   /// Converts a Binding to its actual string representation.
   ///
@@ -61,6 +64,7 @@ abstract class Binding extends AstNode implements Declaration with Symbol {
 /// Base class for bindings which look up symbols in dynamic library.
 abstract class LookUpBinding extends Binding {
   LookUpBinding({
+    required super.namespace,
     String? usr,
     String? originalName,
     required super.name,
@@ -75,6 +79,7 @@ abstract class LookUpBinding extends Binding {
 /// Base class for bindings which don't look up symbols in dynamic library.
 abstract class NoLookUpBinding extends Binding {
   NoLookUpBinding({
+    required super.namespace,
     String? usr,
     String? originalName,
     required super.name,

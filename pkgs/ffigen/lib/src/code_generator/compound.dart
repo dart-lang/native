@@ -48,9 +48,9 @@ abstract class Compound extends BindingType {
     super.isInternal,
     required this.context,
     String? nativeType,
-  }) : super(context.rootNamespace),
-       nativeType = nativeType ?? originalName ?? name,
-       _localNamespace = context.rootNamespace.addNamespace();
+  }) : nativeType = nativeType ?? originalName ?? name,
+       _localNamespace = context.rootNamespace.addNamespace(),
+       super(namespace: context.rootNamespace);
 
   void addMember({
     String? originalName,
@@ -58,13 +58,15 @@ abstract class Compound extends BindingType {
     required Type type,
     String? dartDoc,
   }) {
-    _members.add(CompoundMember._(
-      namespace: _localNamespace,
-      originalName: originalName,
-      name: name,
-      type: type,
-      dartDoc: dartDoc,
-    ));
+    _members.add(
+      CompoundMember._(
+        namespace: _localNamespace,
+        originalName: originalName,
+        name: name,
+        type: type,
+        dartDoc: dartDoc,
+      ),
+    );
   }
 
   String _getInlineArrayTypeString(Type type, Writer w) {
@@ -85,13 +87,6 @@ abstract class Compound extends BindingType {
     final enclosingClassName = name;
     s.write(makeDartDoc(dartDoc));
 
-    /// Marking type names because dart doesn't allow class member to have the
-    /// same name as a type name used internally.
-    // for (final m in _members) {
-    //   localUniqueNamer.markUsed(m.type.getFfiDartType(context));
-    // }
-    // TODO: Is ^this^ tested?
-
     /// Write @Packed(X) annotation if struct is packed.
     final ffiPrefix = context.libs.prefix(ffiImport);
     if (pack != null) {
@@ -106,8 +101,7 @@ abstract class Compound extends BindingType {
     s.write('final class $enclosingClassName extends ');
     s.write('$ffiPrefix.$dartClassName{\n');
     const depth = '  ';
-    for (final m in members) {
-      m.name = localUniqueNamer.makeUnique(m.name);
+    for (final m in _members) {
       if (m.dartDoc != null) {
         s.write('$depth/// ');
         s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
@@ -169,7 +163,7 @@ abstract class Compound extends BindingType {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visitAll(members);
+    visitor.visitAll(_members);
     visitor.visit(ffiImport);
     if (isObjCImport) visitor.visit(objcPkgImport);
   }
@@ -178,18 +172,22 @@ abstract class Compound extends BindingType {
   void visit(Visitation visitation) => visitation.visitCompound(this);
 }
 
-class CompoundMember extends AstNode with Symbol {
+class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
   final Type type;
 
+  final Symbol _symbol;
+  String get name => _symbol.name;
+
   CompoundMember._({
-    required super.namespace,
+    required Namespace namespace,
     String? originalName,
-    required super.name,
+    required String name,
     required this.type,
     this.dartDoc,
-  }) : originalName = originalName ?? name;
+  }) : originalName = originalName ?? name,
+       _symbol = namespace.add(name);
 
   @override
   void visitChildren(Visitor visitor) {

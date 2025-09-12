@@ -4,33 +4,11 @@
 
 import 'dart_keywords.dart';
 
-mixin Symbol {
-  final Namespace namespace;
-  String _name;
-  bool _filled = false;
-
-  String get name => _name;
-  void set name(String newName) {
-    assert(!_filled);
-    _filled = true;
-    _name = newName;
-  }
-
-  Symbol(this.namespace, this._name) {
-    namespace._symbols.add(this);
-  }
-
-  @override
-  String toString() => name;
-}
-
-typedef AdHocSymbol = Symbol;
-
 class Namespace {
   final _symbols = <Symbol>[];
   final Namespace? _parent;
   final _children = <Namespace>[];
-  bool _filled = false;
+  Map<String, int>? _used;
 
   Namespace._(this._parent);
 
@@ -43,43 +21,37 @@ class Namespace {
     return ns;
   }
 
-  AdHocSymbol addSymbol(String name) => AdHocSymbol(this, name);
-
-  // Name name(String start, [Name? middle, String end = '']) {
-  //   assert(!_filled);
-  //   assert(middle == null || _validMiddle(middle));
-  //   final name = Name(this, start, middle, end);
-  //   _names.add(name);
-  //   return name;
-  // }
-
-  void fillNames() {
-    assert(_parent == null); // Must call fillNames on the root.
-    _fillNames({});
+  Symbol add(String name) {
+    assert(!_filled);
+    final symbol = Symbol(name);
+    _symbols.add(symbol);
+    return symbol;
   }
 
-  void _fillNames(Map<String, int> used) {
+  void fillNames() {
     assert(!_filled);
-    for (final n in _symbols) {
-      var candidate = n.name;
+    assert(_parent?._filled ?? true);
+    final used = _parent != null ? Map.from(_parent._used!) : {};
+    _used = used;
+    for (final symbol in _symbols) {
+      assert(symbol._name == null);
+      final oldName = symbol._oldName;
 
       // TODO(https://github.com/dart-lang/native/issues/2054): Relax this.
-      final isKeyword = keywords.contains(candidate);
+      final isKeyword = keywords.contains(oldName);
 
-      int count = used[candidate] ?? 0;
-      used[candidate] = count + 1;
+      int count = used[oldName] ?? 0;
+      used[oldName] = count + 1;
 
-      n.name = [
-        candidate,
+      symbol._name = [
+        oldName,
         if (isKeyword || count > 0) '\$',
         if (count > 0) count.toString(),
       ].join('');
     }
-    for (final ns in _children) {
-      ns._fillNames(Map.from(used));
-    }
-    _filled = true;
   }
+
+  bool get _filled => _used != null;
 
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
@@ -89,21 +61,14 @@ class Namespace {
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
 }
 
-// class Name {
-//   final Namespace _namespace;
-//   final String _start;
-//   final Name? _middle;
-//   final String _end;
+class Symbol {
+  final String _oldName;
 
-//   // Only valid after Namespace.fillNames() has been called.
-//   String? name;
+  String? _name;
+  String get name => _name!;
 
-//   Name._(this._namespace, this._start, this._middle, this._end);
+  Symbol._(String oldName) : _oldName = oldName.isEmpty ? 'unnamed' : oldName;
 
-//   @override
-//   String toString() {
-//     if (name != null) return name;
-//     final built = '$_start${_middle?.toString() ?? ''}$_end';
-//     return built.isEmpty ? 'unnamed' : built;
-//   }
-// }
+  @override
+  String toString() => _name ?? _oldName;
+}

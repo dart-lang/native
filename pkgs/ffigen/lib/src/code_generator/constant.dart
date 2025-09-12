@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../context.dart';
 import '../visitor/ast.dart';
-
 import 'binding.dart';
 import 'binding_string.dart';
 import 'utils.dart';
@@ -30,13 +30,14 @@ class Constant extends NoLookUpBinding {
   final String rawValue;
 
   Constant({
+    required Context context,
     super.usr,
     super.originalName,
     required super.name,
     super.dartDoc,
     required this.rawType,
     required this.rawValue,
-  });
+  }) : super(namespace: context.rootNamespace);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -59,6 +60,7 @@ class Constant extends NoLookUpBinding {
 /// A [Constant] defined by an unnamed enum.
 class UnnamedEnumConstant extends Constant {
   UnnamedEnumConstant({
+    required super.context,
     super.usr,
     super.originalName,
     required super.name,
@@ -75,6 +77,7 @@ class UnnamedEnumConstant extends Constant {
 /// A [Constant] defined by a macro.
 class MacroConstant extends Constant {
   MacroConstant({
+    required super.context,
     super.usr,
     super.originalName,
     required super.name,
