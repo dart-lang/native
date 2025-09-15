@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -40,28 +41,30 @@ import 'writer.dart';
 /// external int sum(int a, int b);
 /// ```
 class Func extends LookUpBinding {
-  final FunctionType functionType;
+  late final FunctionType functionType;
   final bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
   final bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
   final bool loadFromNativeAsset;
-  late final String funcPointerName;
 
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
   Typealias? _exposedFunctionTypealias;
 
+  final Namespace _localNamespace;
+
   /// [originalName] is looked up in dynamic library, if not
   /// provided, takes the value of [name].
   Func({
+    required Context context,
     super.usr,
     required String name,
     super.originalName,
     super.dartDoc,
     required Type returnType,
-    List<Parameter>? parameters,
-    List<Parameter>? varArgParameters,
+    List<DetachedParameter> parameters = const [],
+    List<DetachedParameter> varArgParameters = const [],
     this.exposeSymbolAddress = false,
     this.exposeFunctionTypedefs = false,
     this.isLeaf = false,
@@ -69,18 +72,13 @@ class Func extends LookUpBinding {
     this.useNameForLookup = false,
     super.isInternal,
     this.loadFromNativeAsset = false,
-  }) : functionType = FunctionType(
-         returnType: returnType,
-         parameters: parameters ?? const [],
-         varArgParameters: varArgParameters ?? const [],
-       ),
-       super(name: name) {
-    for (var i = 0; i < functionType.parameters.length; i++) {
-      if (functionType.parameters[i].name.trim() == '') {
-        functionType.parameters[i].name = 'arg$i';
-      }
-    }
-
+  }) : _localNamespace = context.rootNamespace.addNamespace(),
+       super(namespace: context.rootNamespace, name: name) {
+    functionType = FunctionType(
+      returnType: returnType,
+      parameters: _makeParams(parameters, 0),
+      varArgParameters: _makeParams(varArgParameters, parameters.length),
+    );
     // Get function name with first letter in upper case.
     final upperCaseName = name[0].toUpperCase() + name.substring(1);
     if (exposeFunctionTypedefs) {
@@ -93,7 +91,15 @@ class Func extends LookUpBinding {
     }
   }
 
-  String get _lookupName => useNameForLookup ? name : originalName;
+  List<Parameter> _makeParams(List<DetachedParameter> dps, int firstIndex) =>
+      <Parameter>[for (var i = 0; i < dps.length; ++i) _makeParam(dps[i], i)];
+  Parameter _makeParam(DetachedParameter p, int index) => Parameter(
+    namespace: _localNamespace,
+    originalName: p.originalName,
+    name: p.name.trim().isEmpty ? 'arg$index' : p.name,
+    type: p.type,
+    objCConsumed: p.objCConsumed,
+  );
 
   @override
   BindingString toBindingString(Writer w) {
@@ -101,12 +107,6 @@ class Func extends LookUpBinding {
     final enclosingFuncName = name;
 
     s.write(makeDartDoc(dartDoc));
-
-    // Resolve name conflicts in function parameter names.
-    final paramNamer = UniqueNamer();
-    for (final p in functionType.dartTypeParameters) {
-      p.name = paramNamer.makeUnique(p.name);
-    }
 
     final context = w.context;
     final cType =
@@ -117,15 +117,16 @@ class Func extends LookUpBinding {
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final funcVarName = w.wrapperLevelUniqueNamer.makeUnique('_$name');
+    final funcVarName = _localNamespace.addPrivate('_$name');
     final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
         .join('');
+    final lookupName = useNameForLookup ? name : originalName;
 
-    late final String dartReturnType;
-    late final String dartArgDeclString;
-    late final String funcImplCall;
+    final String dartReturnType;
+    final String dartArgDeclString;
+    final String funcImplCall;
     if (needsWrapper) {
       dartReturnType = functionType.returnType.getDartType(context);
       dartArgDeclString = functionType.dartTypeParameters
@@ -159,8 +160,15 @@ class Func extends LookUpBinding {
 
     if (loadFromNativeAsset) {
       final nativeFuncName = needsWrapper ? funcVarName : enclosingFuncName;
+      final nativeAnnotation = makeNativeAnnotation(
+        w,
+        nativeType: cType,
+        dartName: nativeFuncName,
+        nativeSymbolName: lookupName,
+        isLeaf: isLeaf,
+      );
       s.write('''
-${makeNativeAnnotation(w, nativeType: cType, dartName: nativeFuncName, nativeSymbolName: _lookupName, isLeaf: isLeaf)}
+$nativeAnnotation
 external $ffiReturnType $nativeFuncName($ffiArgDeclString);
 
 ''');
@@ -181,7 +189,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
         );
       }
     } else {
-      funcPointerName = w.wrapperLevelUniqueNamer.makeUnique('_${name}Ptr');
+      final funcPointerName = _localNamespace.addPrivate('_${name}Ptr');
       final isLeafString = isLeaf ? 'isLeaf:true' : '';
 
       // Write enclosing function.
@@ -204,7 +212,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       }
 
       // Write function pointer.
-      final lookupStr = UniqueNamer.stringLiteral(_lookupName);
+      final lookupStr = Namespace.stringLiteral(lookupName);
       s.write('''
 late final $funcPointerName = ${w.lookupFuncIdentifier}<
     ${w.context.libs.prefix(ffiImport)}.NativeFunction<$cType>>('$lookupStr');
@@ -235,18 +243,32 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 /// [ObjCBlock].
 class Parameter extends AstNode {
   final String? originalName;
-  String name;
   Type type;
   final bool objCConsumed;
   bool isCovariant = false;
 
-  Parameter({
+  final Symbol symbol;
+  String get name => symbol.name;
+
+  factory Parameter({
+    required Namespace namespace,
     String? originalName,
-    this.name = '',
+    required String name,
+    required Type type,
+    required bool objCConsumed,
+  }) => Parameter.fromSymbol(
+    originalName: originalName,
+    type: type,
+    symbol: namespace.add(name),
+    objCConsumed: objCConsumed,
+  );
+
+  Parameter.fromSymbol({
+    this.originalName,
+    required this.symbol,
     required Type type,
     required this.objCConsumed,
-  }) : originalName = originalName ?? name,
-       // A [NativeFunc] is wrapped with a pointer because this is a shorthand
+  }) : // A [NativeFunc] is wrapped with a pointer because this is a shorthand
        // used in C for Pointer to function.
        type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
@@ -264,4 +286,25 @@ class Parameter extends AstNode {
   }
 
   bool get isNullable => type.typealiasType is ObjCNullable;
+
+  DetachedParameter detach() => DetachedParameter(
+    originalName: originalName,
+    name: symbol.oldName,
+    type: type,
+    objCConsumed: objCConsumed,
+  );
+}
+
+class DetachedParameter {
+  String? originalName;
+  String name;
+  Type type;
+  bool objCConsumed;
+
+  DetachedParameter({
+    this.originalName,
+    required this.name,
+    required this.type,
+    required this.objCConsumed,
+  });
 }

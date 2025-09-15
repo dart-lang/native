@@ -44,9 +44,6 @@ class EnumClass extends BindingType {
   /// Backing integer type for this enum.
   Type nativeType;
 
-  /// The amount of indentation in every line.
-  static const depth = '  ';
-
   /// A list of all the members of the native enum.
   final _enumConstants = <EnumConstant>[];
 
@@ -88,57 +85,30 @@ class EnumClass extends BindingType {
 
   /// Returns a string to declare the enum member and any documentation it may
   /// have had.
-  String formatValue(EnumConstant ec, {bool asInt = false}) {
+  String _formatValue(EnumConstant ec, {bool asInt = false}) {
     final buffer = StringBuffer();
     if (ec.dartDoc != null) {
-      buffer.write('$depth/// ');
-      buffer.writeAll(ec.dartDoc!.split('\n'), '\n$depth/// ');
+      buffer.write('  /// ');
+      buffer.writeAll(ec.dartDoc!.split('\n'), '\n  /// ');
       buffer.write('\n');
     }
     if (asInt) {
-      buffer.write('${depth}static const ${ec.name} = ${ec.value};');
+      buffer.write('  static const ${ec.name} = ${ec.value};');
     } else {
-      buffer.write('$depth${ec.name}(${ec.value})');
+      buffer.write('  ${ec.name}(${ec.value})');
     }
     return buffer.toString();
   }
 
-  /// Finds enum values that are duplicates of previous enum values.
-  ///
-  /// Since all enum values in Dart are distinct, these duplicates do not
-  /// get their own values in Dart. Rather, they are aliases of the original
-  /// value. For example, if a native enum has 2 constants with a value of 10,
-  /// only one enum value will be generated in Dart, and the other will be set
-  /// equal to it.
-  void _scanForDuplicates() {
-    final Map<EnumConstant, List<EnumConstant>> uniqueToDuplicates = {};
-    final Map<EnumConstant, EnumConstant> duplicateToOriginal = {};
-    final Set<EnumConstant> uniqueMembers = {};
-    for (final ec in _enumConstants) {
-      final original = uniqueMembers.firstWhereOrNull(
-        (other) => other.value == ec.value,
-      );
-      if (original == null) {
-        // This is a unique entry
-        uniqueMembers.add(ec);
-        uniqueToDuplicates[ec] = [];
-      } else {
-        // This is a duplicate of a previous entry
-        duplicateToOriginal[ec] = original;
-        uniqueToDuplicates[original]!.add(ec);
-      }
-    }
-  }
-
   void _writeIntegerConstants(StringBuffer s) {
-    s.writeAll(_enumConstants.map((c) => formatValue(c, asInt: true)), '\n');
+    s.writeAll(_enumConstants.map((c) => _formatValue(c, asInt: true)), '\n');
   }
 
   /// Writes the enum declarations for all unique members.
   ///
   /// Eg, C: `apple = 1`, Dart: `apple(1)`
-  void _writeUniqueMembers(StringBuffer s) {
-    s.writeAll(uniqueMembers.map(formatValue), ',\n');
+  void _writeUniqueMembers(StringBuffer s, Set<EnumConstant> uniqueMembers) {
+    s.writeAll(uniqueMembers.map(_formatValue), ',\n');
     if (uniqueMembers.isNotEmpty) s.write(';\n');
   }
 
@@ -146,17 +116,20 @@ class EnumClass extends BindingType {
   ///
   /// Eg, C: `banana = 10, yellow_fruit = 10`.
   /// Dart: `static const yellow_fruit = banana`.
-  void _writeDuplicateMembers(StringBuffer s) {
+  void _writeDuplicateMembers(
+    StringBuffer s,
+    Map<EnumConstant, EnumConstant> duplicateToOriginal,
+  ) {
     if (duplicateToOriginal.isEmpty) return;
     for (final entry in duplicateToOriginal.entries) {
       final duplicate = entry.key;
       final original = entry.value;
       if (duplicate.dartDoc != null) {
-        s.write('$depth/// ');
-        s.writeAll(duplicate.dartDoc!.split('\n'), '\n$depth/// ');
+        s.write('  /// ');
+        s.writeAll(duplicate.dartDoc!.split('\n'), '\n  /// ');
         s.write('\n');
       }
-      s.write('${depth}static const ${duplicate.name} = ${original.name};\n');
+      s.write('  static const ${duplicate.name} = ${original.name};\n');
     }
   }
 
@@ -164,8 +137,8 @@ class EnumClass extends BindingType {
   ///
   /// Always accepts an integer value to match the native value.
   void _writeConstructor(StringBuffer s) {
-    s.write('${depth}final int value;\n');
-    s.write('${depth}const $name(this.value);\n');
+    s.write('  final int value;\n');
+    s.write('  const $name(this.value);\n');
   }
 
   /// Overrides [Enum.toString] so all aliases are included, if any.
@@ -173,28 +146,31 @@ class EnumClass extends BindingType {
   /// If a native enum has two members with the same value, they are
   /// functionally identical, and should be represented as such. This method
   /// overrides [toString] to include all duplicate members in the same message.
-  void _writeToStringOverride(StringBuffer s) {
+  void _writeToStringOverride(
+    StringBuffer s,
+    Map<EnumConstant, List<EnumConstant>> uniqueToDuplicates,
+    Map<EnumConstant, EnumConstant> duplicateToOriginal,
+  ) {
     if (duplicateToOriginal.isEmpty) return;
-    s.write('$depth@override\n');
-    s.write('${depth}String toString() {\n');
+    s.write('  @override\n');
+    s.write('  String toString() {\n');
     for (final entry in uniqueToDuplicates.entries) {
       // [!] All enum values were given a name when their declarations were
       // generated.
       final unique = entry.key;
-      final originalName = enumNames[unique]!;
       final duplicates = entry.value;
       if (duplicates.isEmpty) continue;
       final allDuplicates = [
         for (final duplicate in [unique] + duplicates)
-          '$name.${enumNames[duplicate]!}',
+          '$name.${duplicate.name}',
       ].join(', ');
       s.write(
-        '$depth$depth'
-        'if (this == $originalName) return "$allDuplicates";\n',
+        '    '
+        'if (this == ${unique.name}) return "$allDuplicates";\n',
       );
     }
-    s.write('${depth * 2}return super.toString();\n');
-    s.write('$depth}');
+    s.write('    return super.toString();\n');
+    s.write('  }');
   }
 
   /// Writes the DartDoc string for this enum.
@@ -209,17 +185,16 @@ class EnumClass extends BindingType {
   }
 
   /// Writes a static function that maps integers to enum values.
-  void _writeFromValue(StringBuffer s) {
-    s.write('${depth}static $name fromValue(int value) => switch (value) {\n');
+  void _writeFromValue(StringBuffer s, Set<EnumConstant> uniqueMembers) {
+    s.write('  static $name fromValue(int value) => switch (value) {\n');
     for (final member in uniqueMembers) {
-      final memberName = enumNames[member]!;
-      s.write('$depth$depth${member.value} => $memberName,\n');
+      s.write('    ${member.value} => ${member.name},\n');
     }
     s.write(
-      '$depth${depth}_ => throw ArgumentError('
-      "'Unknown value for ${UniqueNamer.stringLiteral(name)}: \$value'),\n",
+      '    _ => throw ArgumentError('
+      "'Unknown value for ${Namespace.stringLiteral(name)}: \$value'),\n",
     );
-    s.write('$depth};\n');
+    s.write('  };\n');
   }
 
   @override
@@ -230,7 +205,23 @@ class EnumClass extends BindingType {
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
 
-    _scanForDuplicates();
+    final uniqueToDuplicates = <EnumConstant, List<EnumConstant>>{};
+    final duplicateToOriginal = <EnumConstant, EnumConstant>{};
+    final uniqueMembers = <EnumConstant>{};
+    for (final ec in _enumConstants) {
+      final original = uniqueMembers.firstWhereOrNull(
+        (other) => other.value == ec.value,
+      );
+      if (original == null) {
+        // This is a unique entry
+        uniqueMembers.add(ec);
+        uniqueToDuplicates[ec] = [];
+      } else {
+        // This is a duplicate of a previous entry
+        duplicateToOriginal[ec] = original;
+        uniqueToDuplicates[original]!.add(ec);
+      }
+    }
 
     _writeDartDoc(s);
     if (_enumConstants.isEmpty) {
@@ -241,15 +232,15 @@ class EnumClass extends BindingType {
       s.write('}\n\n');
     } else {
       s.write('enum $name {\n');
-      _writeUniqueMembers(s);
+      _writeUniqueMembers(s, uniqueMembers);
       s.write('\n');
-      _writeDuplicateMembers(s);
+      _writeDuplicateMembers(s, duplicateToOriginal);
       s.write('\n');
       _writeConstructor(s);
       s.write('\n');
-      _writeFromValue(s);
+      _writeFromValue(s, uniqueMembers);
       s.write('\n');
-      _writeToStringOverride(s);
+      _writeToStringOverride(s, uniqueToDuplicates, duplicateToOriginal);
       s.write('}\n\n');
     }
 
@@ -318,13 +309,12 @@ class EnumClass extends BindingType {
 class EnumConstant {
   final String? originalName;
   final String? dartDoc;
-  final String name;
   final int value;
 
   final Symbol _symbol;
   String get name => _symbol.name;
 
-  const EnumConstant._({
+  EnumConstant._({
     required Namespace namespace,
     String? originalName,
     required String name,

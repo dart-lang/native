@@ -49,11 +49,11 @@ class ClearOpaqueCompoundMembersVisitation extends Visitation {
   void _visitImpl(Compound node, CompoundDependencies compondDepsConfig) {
     // If a compound isn't referred to by value, isn't explicitly included by
     // the config filters, and the config is using opaque deps, convert the
-    // compound to be opaque by deleting its members.
+    // compound to be opaque.
     if (!byValueCompounds.contains(node) &&
         !included.contains(node) &&
         compondDepsConfig == CompoundDependencies.opaque) {
-      node.members.clear();
+      node.forceOpaque();
     }
   }
 

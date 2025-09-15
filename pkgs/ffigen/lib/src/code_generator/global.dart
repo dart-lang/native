@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../context.dart';
 import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
@@ -29,6 +30,7 @@ class Global extends LookUpBinding {
   final bool constant;
 
   Global({
+    required Context context,
     super.usr,
     super.originalName,
     required super.name,
@@ -37,7 +39,7 @@ class Global extends LookUpBinding {
     this.exposeSymbolAddress = false,
     this.constant = false,
     this.loadFromNativeAsset = false,
-  });
+  }) : super(namespace: context.rootNamespace);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -89,7 +91,7 @@ class Global extends LookUpBinding {
 
       final pointerName = type.sameDartAndFfiDartType
           ? globalVarName
-          : w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
+          : context.rootNamespace.addPrivate('_$globalVarName');
 
       s
         ..writeln(
@@ -116,9 +118,7 @@ class Global extends LookUpBinding {
         w.symbolAddressWriter.addNativeSymbol(type: ptrType, name: name);
       }
     } else {
-      final pointerName = w.wrapperLevelUniqueNamer.makeUnique(
-        '_$globalVarName',
-      );
+      final pointerName = context.rootNamespace.addPrivate('_$globalVarName');
 
       s.write(
         'late final $ptrType $pointerName = '

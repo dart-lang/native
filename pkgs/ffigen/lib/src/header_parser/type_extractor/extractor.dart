@@ -362,6 +362,7 @@ Type _extractFromFunctionProto(
   clang_types.CXType cxtype, {
   clang_types.CXCursor? cursor,
 }) {
+  final paramNamespace = context.rootNamespace.addNamespace();
   final parameters = <Parameter>[];
   final totalArgs = clang.clang_getNumArgTypes(cxtype);
   for (var i = 0; i < totalArgs; i++) {
@@ -376,19 +377,33 @@ Type _extractFromFunctionProto(
       return UnimplementedType('Function parameter has an unsupported type.');
     }
 
-    parameters.add(Parameter(name: '', type: pt, objCConsumed: false));
+    parameters.add(
+      Parameter(
+        namespace: paramNamespace,
+        name: '',
+        type: pt,
+        objCConsumed: false,
+      ),
+    );
   }
 
   final functionType = FunctionType(
     parameters: parameters,
     returnType: clang.clang_getResultType(cxtype).toCodeGenType(context),
   );
-  _parseAndMergeParamNames(context, functionType, cursor, maxRecursionDepth);
+  _parseAndMergeParamNames(
+    context,
+    paramNamespace,
+    functionType,
+    cursor,
+    maxRecursionDepth,
+  );
   return NativeFunc(functionType);
 }
 
 void _parseAndMergeParamNames(
   Context context,
+  Namespace paramNamespace,
   FunctionType functionType,
   clang_types.CXCursor? cursor,
   int recursionDepth,
@@ -406,7 +421,7 @@ void _parseAndMergeParamNames(
   }
 
   final paramsInfo = parseFunctionPointerParamNames(cursor);
-  functionType.addParameterNames(paramsInfo.paramNames);
+  functionType.addParameterNames(paramNamespace, paramsInfo.paramNames);
 
   for (final param in functionType.parameters) {
     final paramRealType = param.type.typealiasType;
@@ -416,6 +431,7 @@ void _parseAndMergeParamNames(
       final paramCursor = paramsInfo.params[param.name];
       _parseAndMergeParamNames(
         context,
+        paramNamespace,
         paramFunctionType,
         paramCursor,
         recursionDepth - 1,

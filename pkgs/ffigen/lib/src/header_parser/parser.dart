@@ -208,6 +208,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   context.libs.fillPrefixes(context.rootNamespace);
   context.rootNamespace.fillNames();
+  context.rootObjCNamespace.fillNames();
 
   final finalBindingsList = finalBindings.toList();
 

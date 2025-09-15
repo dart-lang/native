@@ -17,33 +17,24 @@ import 'header_parser/utils.dart';
 /// Wrapper around various ffigen-wide variables.
 class Context {
   final Logger logger;
-
   final Config config;
-
   final CursorIndex cursorIndex;
-
   final bindingsIndex = BindingsIndex();
-
-  final rootNamespace = Namespace.root();
-
+  final rootNamespace = Namespace.createRoot();
+  final rootObjCNamespace = Namespace.createRoot();
   final savedMacros = <String, Macro>{};
-
   final unnamedEnumConstants = <Constant>[];
-
   final ObjCBuiltInFunctions objCBuiltInFunctions;
-
   bool hasSourceErrors = false;
-
   final reportedCommentRanges = <((String, int), (String, int))>{};
-
   final libs = LibraryImports();
-
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
 
   Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
     : config = Config(generator),
       cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
+        this,
         Config(generator).wrapperName,
         // ignore: deprecated_member_use_from_same_package
         generator.objectiveC?.generateForPackageObjectiveC ?? false,

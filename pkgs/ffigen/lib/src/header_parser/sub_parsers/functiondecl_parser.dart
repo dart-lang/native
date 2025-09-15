@@ -39,7 +39,7 @@ List<Func> parseFunctionDeclaration(
 
     final returnType = cursor.returnType().toCodeGenType(context);
 
-    final parameters = <Parameter>[];
+    final parameters = <DetachedParameter>[];
     var incompleteStructParameter = false;
     var unimplementedParameterType = false;
     final totalArgs = clang.clang_Cursor_getNumArguments(cursor);
@@ -61,9 +61,8 @@ List<Func> parseFunctionDeclaration(
         clang_types.CXCursorKind.CXCursor_NSConsumed,
       );
 
-      /// If [paramName] is null or empty, its set to `arg$i` by code_generator.
       parameters.add(
-        Parameter(
+        DetachedParameter(
           originalName: paramName,
           name: config.functions.renameMember(decl, paramName),
           type: paramType,
@@ -133,6 +132,7 @@ List<Func> parseFunctionDeclaration(
     for (final vaFunc in varArgFunctions) {
       funcs.add(
         Func(
+          context: context,
           dartDoc: getCursorDocComment(
             context,
             cursor,
@@ -144,9 +144,10 @@ List<Func> parseFunctionDeclaration(
           originalName: funcName,
           returnType: returnType,
           parameters: parameters,
-          varArgParameters: vaFunc.types
-              .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
-              .toList(),
+          varArgParameters: [
+            for (final ta in vaFunc.types)
+              DetachedParameter(type: ta, name: 'va', objCConsumed: false),
+          ],
           exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
           exposeFunctionTypedefs: config.functions.includeTypedef(decl),
           isLeaf: config.functions.isLeaf(decl),

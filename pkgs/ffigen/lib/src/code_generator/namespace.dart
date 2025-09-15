@@ -8,50 +8,50 @@ class Namespace {
   final _symbols = <Symbol>[];
   final Namespace? _parent;
   final _children = <Namespace>[];
-  Map<String, int>? _used;
+  _Namer? _namer;
 
   Namespace._(this._parent);
 
-  static Namespace root() => Namespace._(null);
+  static Namespace createRoot() => Namespace._(null);
 
   Namespace addNamespace() {
     assert(!_filled);
-    final ns = Namespace(this);
+    final ns = Namespace._(this);
     _children.add(ns);
     return ns;
   }
 
   Symbol add(String name) {
     assert(!_filled);
-    final symbol = Symbol(name);
+    final symbol = Symbol._(name);
     _symbols.add(symbol);
     return symbol;
   }
 
+  String addPrivate(String name) {
+    assert(_filled);
+    assert(name.startsWith('_'));
+    return _namer!.add(name);
+  }
+
   void fillNames() {
+    assert(_parent == null); // Must call fillNames on the root.
+    _fillNames(_Namer._());
+  }
+
+  void _fillNames(_Namer namer) {
     assert(!_filled);
-    assert(_parent?._filled ?? true);
-    final used = _parent != null ? Map.from(_parent._used!) : {};
-    _used = used;
+    _namer = namer;
     for (final symbol in _symbols) {
       assert(symbol._name == null);
-      final oldName = symbol._oldName;
-
-      // TODO(https://github.com/dart-lang/native/issues/2054): Relax this.
-      final isKeyword = keywords.contains(oldName);
-
-      int count = used[oldName] ?? 0;
-      used[oldName] = count + 1;
-
-      symbol._name = [
-        oldName,
-        if (isKeyword || count > 0) '\$',
-        if (count > 0) count.toString(),
-      ].join('');
+      symbol._name = namer.add(symbol.oldName);
+    }
+    for (final ns in _children) {
+      ns._fillNames(_Namer._(namer));
     }
   }
 
-  bool get _filled => _used != null;
+  bool get _filled => _namer != null;
 
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
@@ -61,14 +61,35 @@ class Namespace {
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
 }
 
+class _Namer {
+  final Map<String, int> _used;
+
+  _Namer._([_Namer? parent])
+    : _used = parent != null ? Map.from(parent._used) : {};
+
+  String add(String name) {
+    // TODO(https://github.com/dart-lang/native/issues/2054): Relax this.
+    final isKeyword = keywords.contains(name);
+
+    final count = _used[name] ?? 0;
+    _used[name] = count + 1;
+
+    return [
+      name,
+      if (isKeyword || count > 0) '\$',
+      if (count > 0) count.toString(),
+    ].join('');
+  }
+}
+
 class Symbol {
-  final String _oldName;
+  final String oldName;
 
   String? _name;
   String get name => _name!;
 
-  Symbol._(String oldName) : _oldName = oldName.isEmpty ? 'unnamed' : oldName;
+  Symbol._(String _oldName) : oldName = _oldName.isEmpty ? 'unnamed' : _oldName;
 
   @override
-  String toString() => _name ?? _oldName;
+  String toString() => _name ?? oldName;
 }

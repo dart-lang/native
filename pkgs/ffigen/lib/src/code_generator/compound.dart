@@ -69,6 +69,8 @@ abstract class Compound extends BindingType {
     );
   }
 
+  void forceOpaque() => _members.clear();
+
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
       return '${context.libs.prefix(ffiImport)}.Array<'
