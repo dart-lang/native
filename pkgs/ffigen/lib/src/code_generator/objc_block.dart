@@ -166,7 +166,6 @@ class ObjCBlock extends BindingType {
     final blockingListenerCallable = _localNamespace.addPrivate(
       '_blockingListenerCallable',
     );
-    final callExtension = '$name\$CallExtension';
 
     final newPointerBlock = ObjCBuiltInFunctions.newPointerBlock.gen(context);
     final newClosureBlock = ObjCBuiltInFunctions.newClosureBlock.gen(context);
@@ -347,7 +346,7 @@ abstract final class $name {
     // Call operator extension method.
     s.write('''
 /// Call operator for `$blockType`.
-extension $callExtension on $blockType {
+extension $name\$CallExtension on $blockType {
   ${returnType.getDartType(context)} call(${func.paramsDartType}) =>''');
     final callMethodArgs = params
         .map(

@@ -107,7 +107,7 @@ class ObjCBuiltInFunctions {
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       context,
       '_sel_${methodName.replaceAll(":", "_")}',
-      (Context context) => '${registerName.gen(context)}("$methodName")',
+      () => '${registerName.gen(context)}("$methodName")',
     );
   }
 
@@ -285,7 +285,7 @@ class ObjCImport {
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.
 class ObjCInternalGlobal extends NoLookUpBinding {
-  final String Function(Context) makeValue;
+  final String Function() makeValue;
 
   ObjCInternalGlobal(Context context, String name, this.makeValue)
     : super(
@@ -297,7 +297,7 @@ class ObjCInternalGlobal extends NoLookUpBinding {
 
   @override
   BindingString toBindingString(Writer w) {
-    final s = 'late final $name = ${makeValue(w.context)};\n';
+    final s = 'late final $name = ${makeValue()};\n';
     return BindingString(type: BindingStringType.global, string: s);
   }
 }

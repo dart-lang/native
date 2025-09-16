@@ -8,15 +8,16 @@ class Namespace {
   final _symbols = <Symbol>[];
   final Namespace? _parent;
   final _children = <Namespace>[];
+  final Set<String> _illegalNames;
   _Namer? _namer;
 
-  Namespace._(this._parent);
+  Namespace._(this._parent, this._illegalNames);
 
-  static Namespace createRoot() => Namespace._(null);
+  static Namespace createRoot() => Namespace._(null, const {});
 
-  Namespace addNamespace() {
+  Namespace addNamespace({Set<String> illegalNames = const {}}) {
     assert(!_filled);
-    final ns = Namespace._(this);
+    final ns = Namespace._(this, illegalNames);
     _children.add(ns);
     return ns;
   }
@@ -44,7 +45,7 @@ class Namespace {
     _namer = namer;
     for (final symbol in _symbols) {
       assert(symbol._name == null);
-      symbol._name = namer.add(symbol.oldName);
+      symbol._name = namer.add(symbol.oldName, illegalNames: _illegalNames);
     }
     for (final ns in _children) {
       ns._fillNames(_Namer._(namer));
@@ -67,16 +68,17 @@ class _Namer {
   _Namer._([_Namer? parent])
     : _used = parent != null ? Map.from(parent._used) : {};
 
-  String add(String name) {
+  String add(String name, {Set<String> illegalNames = const {}}) {
     // TODO(https://github.com/dart-lang/native/issues/2054): Relax this.
     final isKeyword = keywords.contains(name);
+    final isIllegal = illegalNames.contains(name);
 
     final count = _used[name] ?? 0;
     _used[name] = count + 1;
 
     return [
       name,
-      if (isKeyword || count > 0) '\$',
+      if (isKeyword || isIllegal || count > 0) '\$',
       if (count > 0) count.toString(),
     ].join('');
   }

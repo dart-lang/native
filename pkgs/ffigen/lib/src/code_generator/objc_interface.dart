@@ -39,6 +39,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
     required this.context,
   }) : lookupName = lookupName ?? originalName,
        super(
+         namespace: context.rootNamespace,
          name:
              context.objCBuiltInFunctions.getBuiltInInterfaceName(
                originalName,
@@ -47,23 +48,21 @@ class ObjCInterface extends BindingType with ObjCMethods {
              originalName,
        ) {
     classObject = ObjCInternalGlobal(
+      context,
       '_class_$originalName',
-      (Context context) =>
-          '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
+      () => '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
     );
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );
-    _isKindOfClassMsgSend = context.objCBuiltInFunctions.getMsgSendFunc(
-      BooleanType(),
-      [
-        Parameter(
-          name: 'clazz',
-          type: PointerType(objCObjectType),
-          objCConsumed: false,
-        ),
-      ],
-    );
+    _isKindOfClassMsgSend = context.objCBuiltInFunctions
+        .getMsgSendFunc(BooleanType(), [
+          DetachedParameter(
+            name: 'clazz',
+            type: PointerType(objCObjectType),
+            objCConsumed: false,
+          ),
+        ]);
   }
 
   void addProtocol(ObjCProtocol? proto) {
@@ -127,9 +126,8 @@ ${generateAsStub ? '' : _generateStaticMethods(w)}
 ''');
 
     if (!generateAsStub) {
-      final extName = w.topLevelUniqueNamer.makeUnique('$name\$Methods');
       s.write('''
-extension $extName on $name {
+extension $name\$Methods on $name {
 ${generateInstanceMethodBindings(w, this)}
 }
 

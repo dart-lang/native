@@ -93,13 +93,10 @@ class Func extends LookUpBinding {
 
   List<Parameter> _makeParams(List<DetachedParameter> dps, int firstIndex) =>
       <Parameter>[for (var i = 0; i < dps.length; ++i) _makeParam(dps[i], i)];
-  Parameter _makeParam(DetachedParameter p, int index) => Parameter(
-    namespace: _localNamespace,
-    originalName: p.originalName,
-    name: p.name.trim().isEmpty ? 'arg$index' : p.name,
-    type: p.type,
-    objCConsumed: p.objCConsumed,
-  );
+  Parameter _makeParam(DetachedParameter p, int index) {
+    if (p.name.isEmpty) p.name = 'arg$index';
+    return p.attach(_localNamespace);
+  }
 
   @override
   BindingString toBindingString(Writer w) {
@@ -307,4 +304,12 @@ class DetachedParameter {
     required this.type,
     required this.objCConsumed,
   });
+
+  Parameter attach(Namespace namespace) => Parameter(
+    namespace: namespace,
+    originalName: originalName,
+    name: name,
+    type: type,
+    objCConsumed: objCConsumed,
+  );
 }
