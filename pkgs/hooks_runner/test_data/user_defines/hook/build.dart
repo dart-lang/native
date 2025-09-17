@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 
 void main(List<String> arguments) async {
@@ -17,13 +15,11 @@ void main(List<String> arguments) async {
       );
     }
     final value2 = input.userDefines['user_define_key2'];
-    final dataAsset = DataAsset(
-      file: input.outputDirectoryShared.resolve('my_asset.json'),
-      name: 'my_asset',
-      package: input.packageName,
-    );
-    File.fromUri(dataAsset.file).writeAsStringSync(jsonEncode(value2));
-    output.assets.data.add(dataAsset);
+    if (value2 == null) {
+      throw Exception(
+        'User-define user_define_key2 does not have the right value: $value2',
+      );
+    }
 
     // Load some relative path as absolute path from user-defines.
     final someFile = input.userDefines.path('some_file');
@@ -35,8 +31,5 @@ void main(List<String> arguments) async {
     }
     final file = File.fromUri(someFile);
     output.dependencies.add(file.uri);
-    output.assets.data.add(
-      DataAsset(file: file.uri, name: 'data.json', package: input.packageName),
-    );
   });
 }
