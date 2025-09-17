@@ -5,10 +5,6 @@
 @OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
-import 'dart:io';
-
-import 'package:data_assets/data_assets.dart';
-import 'package:file_testing/file_testing.dart';
 import 'package:hooks_runner/hooks_runner.dart';
 import 'package:hooks_runner/src/build_runner/build_runner.dart';
 import 'package:test/test.dart';
