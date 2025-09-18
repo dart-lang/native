@@ -222,7 +222,8 @@ class Writer {
       for (final b in lookUpBindings) {
         s.write(b.toBindingString(this).string);
       }
-      if (symbolAddressWriter.shouldGenerate) {
+      if (symbolAddressWriter.shouldGenerate &&
+          symbolAddressWriter.hasNonNativeAddress) {
         s.write(symbolAddressWriter.writeObject(this));
       }
 
@@ -233,13 +234,12 @@ class Writer {
       for (final b in ffiNativeBindings) {
         s.write(b.toBindingString(this).string);
       }
-
-      if (symbolAddressWriter.shouldGenerate) {
-        s.write(symbolAddressWriter.writeObject(this));
-      }
     }
 
     if (symbolAddressWriter.shouldGenerate) {
+      if (!symbolAddressWriter.hasNonNativeAddress) {
+        s.write(symbolAddressWriter.writeObject(this));
+      }
       s.write(symbolAddressWriter.writeClass(this));
     }
 
@@ -451,7 +451,7 @@ class SymbolAddressWriter {
   /// Used to check if we need to generate `_SymbolAddress` class.
   bool get shouldGenerate => _addresses.isNotEmpty;
 
-  bool get hasNonNativeAddress => _addresses.any((e) => !e.native);
+  bool hasNonNativeAddress = false;
 
   SymbolAddressWriter(this.context);
 
@@ -460,6 +460,7 @@ class SymbolAddressWriter {
     required String name,
     required String ptrName,
   }) {
+    hasNonNativeAddress = true;
     _addresses.add(_SymbolAddressUnit(type, name, ptrName, false));
   }
 
