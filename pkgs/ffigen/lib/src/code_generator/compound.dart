@@ -50,22 +50,6 @@ abstract class Compound extends BindingType {
     String? nativeType,
   }) : nativeType = nativeType ?? originalName ?? name;
 
-  void addMember({
-    String? originalName,
-    required String name,
-    required Type type,
-    String? dartDoc,
-  }) {
-    members.add(
-      CompoundMember._(
-        originalName: originalName,
-        name: name,
-        type: type,
-        dartDoc: dartDoc,
-      ),
-    );
-  }
-
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
       return '${context.libs.prefix(ffiImport)}.Array<'

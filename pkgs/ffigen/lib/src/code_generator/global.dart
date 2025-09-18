@@ -39,7 +39,7 @@ class Global extends LookUpBinding {
     this.exposeSymbolAddress = false,
     this.constant = false,
     this.loadFromNativeAsset = false,
-  }) : super(namespace: context.rootNamespace);
+  });
 
   @override
   BindingString toBindingString(Writer w) {
