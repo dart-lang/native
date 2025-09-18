@@ -33,13 +33,12 @@ abstract class Binding extends AstNode implements Declaration {
   bool generateBindings = true;
 
   Binding({
-    required Namespace namespace,
     required this.usr,
     required this.originalName,
     required String name,
     this.dartDoc,
     this.isInternal = false,
-  }) : _symbol = namespace.add(name);
+  }) : _symbol = Symbol(name);
 
   /// Converts a Binding to its actual string representation.
   ///
@@ -64,7 +63,6 @@ abstract class Binding extends AstNode implements Declaration {
 /// Base class for bindings which look up symbols in dynamic library.
 abstract class LookUpBinding extends Binding {
   LookUpBinding({
-    required super.namespace,
     String? usr,
     String? originalName,
     required super.name,
@@ -79,7 +77,6 @@ abstract class LookUpBinding extends Binding {
 /// Base class for bindings which don't look up symbols in dynamic library.
 abstract class NoLookUpBinding extends Binding {
   NoLookUpBinding({
-    required super.namespace,
     String? usr,
     String? originalName,
     required super.name,

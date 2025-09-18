@@ -39,7 +39,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
     required this.context,
   }) : lookupName = lookupName ?? originalName,
        super(
-         namespace: context.rootNamespace,
          name:
              context.objCBuiltInFunctions.getBuiltInInterfaceName(
                originalName,

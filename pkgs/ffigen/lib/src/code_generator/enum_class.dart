@@ -52,7 +52,7 @@ class EnumClass extends BindingType {
   /// Whether this enum should be generated as a collection of integers.
   EnumStyle style;
 
-  final Namespace _localNamespace;
+  late final Namespace _localNamespace;
 
   EnumClass({
     super.usr,
@@ -62,9 +62,7 @@ class EnumClass extends BindingType {
     Type? nativeType,
     required this.context,
     this.style = EnumStyle.dartEnum,
-  }) : nativeType = nativeType ?? intType,
-       _localNamespace = context.rootNamespace.addNamespace(),
-       super(namespace: context.rootNamespace);
+  }) : nativeType = nativeType ?? intType;
 
   void addValue({
     String? originalName,
@@ -74,7 +72,6 @@ class EnumClass extends BindingType {
   }) {
     _enumConstants.add(
       EnumConstant._(
-        namespace: _localNamespace,
         originalName: originalName,
         name: name,
         value: value,
@@ -315,11 +312,10 @@ class EnumConstant {
   String get name => _symbol.name;
 
   EnumConstant._({
-    required Namespace namespace,
     String? originalName,
     required String name,
     required this.value,
     this.dartDoc,
   }) : originalName = originalName ?? name,
-       _symbol = namespace.add(name);
+       _symbol = Symbol(name);
 }

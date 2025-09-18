@@ -20,8 +20,6 @@ class Context {
   final Config config;
   final CursorIndex cursorIndex;
   final bindingsIndex = BindingsIndex();
-  final rootNamespace = Namespace.createRoot();
-  final rootObjCNamespace = Namespace.createRoot();
   final savedMacros = <String, Macro>{};
   final unnamedEnumConstants = <Constant>[];
   final ObjCBuiltInFunctions objCBuiltInFunctions;

@@ -6,27 +6,24 @@ import 'dart_keywords.dart';
 
 class Namespace {
   final _symbols = <Symbol>[];
-  final Namespace? _parent;
   final _children = <Namespace>[];
-  final Set<String> _illegalNames;
+  final Set<String> _extraKeywords;
   _Namer? _namer;
 
-  Namespace._(this._parent, this._illegalNames);
+  Namespace._(this._extraKeywords);
 
-  static Namespace createRoot() => Namespace._(null, const {});
+  static Namespace createRoot() => Namespace._(const {});
 
-  Namespace addNamespace({Set<String> illegalNames = const {}}) {
+  Namespace addNamespace({Set<String> extraKeywords = const {}}) {
     assert(!_filled);
-    final ns = Namespace._(this, illegalNames);
+    final ns = Namespace._(extraKeywords);
     _children.add(ns);
     return ns;
   }
 
-  Symbol add(String name) {
+  void add(Symbol symbol) {
     assert(!_filled);
-    final symbol = Symbol._(name);
     _symbols.add(symbol);
-    return symbol;
   }
 
   String addPrivate(String name) {
@@ -36,8 +33,7 @@ class Namespace {
   }
 
   void fillNames() {
-    assert(_parent == null); // Must call fillNames on the root.
-    _fillNames(_Namer._());
+    _fillNames(_Namer._(Set<String>.of(_extraKeywords)));
   }
 
   void _fillNames(_Namer namer) {
@@ -45,10 +41,10 @@ class Namespace {
     _namer = namer;
     for (final symbol in _symbols) {
       assert(symbol._name == null);
-      symbol._name = namer.add(symbol.oldName, illegalNames: _illegalNames);
+      symbol._name = namer.add(symbol.oldName);
     }
     for (final ns in _children) {
-      ns._fillNames(_Namer._(namer));
+      ns._fillNames(_Namer._(namer._used.union(_extraKeywords)));
     }
   }
 
@@ -63,24 +59,23 @@ class Namespace {
 }
 
 class _Namer {
-  final Map<String, int> _used;
+  final Set<String> _used;
 
-  _Namer._([_Namer? parent])
-    : _used = parent != null ? Map.from(parent._used) : {};
+  _Namer._(this._used);
 
-  String add(String name, {Set<String> illegalNames = const {}}) {
+  String add(String name) {
+    if (name.isEmpty) name = 'unnamed';
+
     // TODO(https://github.com/dart-lang/native/issues/2054): Relax this.
     final isKeyword = keywords.contains(name);
-    final isIllegal = illegalNames.contains(name);
 
-    final count = _used[name] ?? 0;
-    _used[name] = count + 1;
+    var newName = isKeyword ? '$name\$' : name;
+    for (var i = 1; _used.contains(newName); ++i) {
+      newName = '$name\$$i';
+    }
 
-    return [
-      name,
-      if (isKeyword || isIllegal || count > 0) '\$',
-      if (count > 0) count.toString(),
-    ].join('');
+    _used.add(newName);
+    return newName;
   }
 }
 
@@ -90,7 +85,7 @@ class Symbol {
   String? _name;
   String get name => _name!;
 
-  Symbol._(String _oldName) : oldName = _oldName.isEmpty ? 'unnamed' : _oldName;
+  Symbol(this.oldName);
 
   @override
   String toString() => _name ?? oldName;

@@ -37,7 +37,7 @@ class Constant extends NoLookUpBinding {
     super.dartDoc,
     required this.rawType,
     required this.rawValue,
-  }) : super(namespace: context.rootNamespace);
+  });
 
   @override
   BindingString toBindingString(Writer w) {

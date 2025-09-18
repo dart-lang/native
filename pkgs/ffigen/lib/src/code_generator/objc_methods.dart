@@ -202,7 +202,7 @@ class ObjCMethod extends AstNode {
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
-  final Namespace _localNamespace;
+  late final Namespace _localNamespace;
 
   @override
   void visitChildren(Visitor visitor) {
@@ -252,13 +252,13 @@ class ObjCMethod extends AstNode {
     required List<DetachedParameter> params,
   }) {
     final selObject = context.objCBuiltInFunctions.getSelObject(originalName);
-    final localNamespace = ???.addNamespace();{
-        'pointer',
-        'toString',
-        'hashCode',
-        'runtimeType',
-        'noSuchMethod',
-      }
+    // TODO: Namespace {
+    //     'pointer',
+    //     'toString',
+    //     'hashCode',
+    //     'runtimeType',
+    //     'noSuchMethod',
+    //   }
     final builtParams = [];
     final protocolMethodName = name.replaceAll(':', '_');
 
@@ -430,10 +430,7 @@ class ObjCMethod extends AstNode {
     return '${_paramToStr(context, params.first)}, {$named}';
   }
 
-  String generateBindings(
-    Writer w,
-    ObjCInterface target,
-  ) {
+  String generateBindings(Writer w, ObjCInterface target) {
     final context = w.context;
     if (dartMethodName == null) {
       dartMethodName = getDartMethodName(methodNamer);

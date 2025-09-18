@@ -19,9 +19,9 @@ abstract class Compound extends BindingType {
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
-  final _members = <CompoundMember>[];
+  final List<CompoundMember> members;
 
-  bool get isOpaque => _members.isEmpty;
+  bool get isOpaque => members.isEmpty;
 
   /// Value for `@Packed(X)` annotation. Can be null (no packing), 1, 2, 4, 8,
   /// or 16.
@@ -37,7 +37,7 @@ abstract class Compound extends BindingType {
   /// `struct` or `union`, depending on whether the declaration is a typedef.
   final String nativeType;
 
-  final Namespace _localNamespace;
+  late final Namespace _localNamespace;
 
   Compound({
     super.usr,
@@ -48,9 +48,7 @@ abstract class Compound extends BindingType {
     super.isInternal,
     required this.context,
     String? nativeType,
-  }) : nativeType = nativeType ?? originalName ?? name,
-       _localNamespace = context.rootNamespace.addNamespace(),
-       super(namespace: context.rootNamespace);
+  }) : nativeType = nativeType ?? originalName ?? name;
 
   void addMember({
     String? originalName,
@@ -58,9 +56,8 @@ abstract class Compound extends BindingType {
     required Type type,
     String? dartDoc,
   }) {
-    _members.add(
+    members.add(
       CompoundMember._(
-        namespace: _localNamespace,
         originalName: originalName,
         name: name,
         type: type,
@@ -68,8 +65,6 @@ abstract class Compound extends BindingType {
       ),
     );
   }
-
-  void forceOpaque() => _members.clear();
 
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
@@ -103,7 +98,7 @@ abstract class Compound extends BindingType {
     s.write('final class $enclosingClassName extends ');
     s.write('$ffiPrefix.$dartClassName{\n');
     const depth = '  ';
-    for (final m in _members) {
+    for (final m in members) {
       if (m.dartDoc != null) {
         s.write('$depth/// ');
         s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
@@ -165,7 +160,7 @@ abstract class Compound extends BindingType {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visitAll(_members);
+    visitor.visitAll(members);
     visitor.visit(ffiImport);
     if (isObjCImport) visitor.visit(objcPkgImport);
   }
@@ -183,13 +178,12 @@ class CompoundMember extends AstNode {
   String get name => _symbol.name;
 
   CompoundMember._({
-    required Namespace namespace,
     String? originalName,
     required String name,
     required this.type,
     this.dartDoc,
   }) : originalName = originalName ?? name,
-       _symbol = namespace.add(name);
+       _symbol = Symbol(name);
 
   @override
   void visitChildren(Visitor visitor) {
