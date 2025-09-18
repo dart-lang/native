@@ -400,7 +400,8 @@ class SymbolAddressWriter {
     );
     if (hasNonNativeAddress) {
       // Write Library object.
-      sb.write('  final ${w.className} $libraryVarName;\n');
+      final wrapperClassName = context.extraSymbols.wrapperClassName!.name;
+      sb.write('  final $wrapperClassName $libraryVarName;\n');
       // Write Constructor.
       sb.write('  $className(this.$libraryVarName);\n');
     } else {

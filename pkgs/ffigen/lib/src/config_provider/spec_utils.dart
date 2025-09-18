@@ -90,18 +90,17 @@ Map<String, ImportedType> symbolFileImportExtractor(
       );
       exit(1);
     }
-    final uniqueNamer = UniqueNamer()
-      ..markAllUsed(libraryImports.keys)
-      ..markUsed(strings.defaultSymbolFileImportPrefix);
+    final uniqueNamer = Namer({
+      ...libraryImports.keys,
+      strings.defaultSymbolFileImportPrefix,
+    });
     final files = symbolFile[strings.files] as YamlMap;
     for (final file in files.keys) {
       final existingImports = libraryImports.values.where(
         (element) => element.importPath(false) == file,
       );
       if (existingImports.isEmpty) {
-        final name = uniqueNamer.makeUnique(
-          strings.defaultSymbolFileImportPrefix,
-        );
+        final name = uniqueNamer.add(strings.defaultSymbolFileImportPrefix);
         libraryImports[name] = LibraryImport(name, file as String);
       }
       final libraryImport = libraryImports.values.firstWhere(

@@ -132,8 +132,8 @@ List<Func> parseFunctionDeclaration(
     for (final vaFunc in varArgFunctions) {
       funcs.add(
         Func(
-          context: context,
           dartDoc: getCursorDocComment(
+            context,
             cursor,
             indent: nesting.length + commentPrefix.length,
             availability: apiAvailability.dartDoc,

@@ -163,7 +163,7 @@ class CompoundMember extends AstNode {
   final Symbol _symbol;
   String get name => _symbol.name;
 
-  CompoundMember._({
+  CompoundMember({
     String? originalName,
     required String name,
     required this.type,

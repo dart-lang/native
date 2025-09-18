@@ -8,7 +8,7 @@ class Namespace {
   final _symbols = <Symbol>[];
   final _children = <Namespace>[];
   final Set<String> _extraKeywords;
-  _Namer? _namer;
+  Namer? _namer;
 
   Namespace._(this._extraKeywords);
 
@@ -33,10 +33,10 @@ class Namespace {
   }
 
   void fillNames() {
-    _fillNames(_Namer._(Set<String>.of(_extraKeywords)));
+    _fillNames(Namer(Set<String>.of(_extraKeywords)));
   }
 
-  void _fillNames(_Namer namer) {
+  void _fillNames(Namer namer) {
     assert(!_filled);
     _namer = namer;
     for (final symbol in _symbols) {
@@ -52,7 +52,7 @@ class Namespace {
       }
     }
     for (final ns in _children) {
-      ns._fillNames(_Namer._(namer._used.union(_extraKeywords)));
+      ns._fillNames(Namer(namer._used.union(_extraKeywords)));
     }
   }
 
@@ -66,10 +66,10 @@ class Namespace {
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
 }
 
-class _Namer {
+class Namer {
   final Set<String> _used;
 
-  _Namer._(this._used);
+  Namer(this._used);
 
   String add(String name) {
     if (name.isEmpty) name = 'unnamed';

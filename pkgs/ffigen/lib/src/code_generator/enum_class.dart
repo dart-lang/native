@@ -297,7 +297,7 @@ class EnumConstant {
   final Symbol _symbol;
   String get name => _symbol.name;
 
-  EnumConstant._({
+  EnumConstant({
     String? originalName,
     required String name,
     required this.value,

@@ -22,7 +22,7 @@ class Context {
   final bindingsIndex = BindingsIndex();
   final savedMacros = <String, Macro>{};
   final unnamedEnumConstants = <Constant>[];
-  final ObjCBuiltInFunctions objCBuiltInFunctions;
+  late final ObjCBuiltInFunctions objCBuiltInFunctions;
   bool hasSourceErrors = false;
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
@@ -33,13 +33,13 @@ class Context {
 
   Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
     : config = Config(generator),
-      cursorIndex = CursorIndex(logger),
-      objCBuiltInFunctions = ObjCBuiltInFunctions(
-        this,
-        config.wrapperName,
-        // ignore: deprecated_member_use_from_same_package
-        generator.objectiveC?.generateForPackageObjectiveC ?? false,
-      ) {
+      cursorIndex = CursorIndex(logger) {
+    objCBuiltInFunctions = ObjCBuiltInFunctions(
+      this,
+      config.wrapperName,
+      // ignore: deprecated_member_use_from_same_package
+      generator.objectiveC?.generateForPackageObjectiveC ?? false,
+    );
     final libclangDylibPath =
         // ignore: deprecated_member_use_from_same_package
         generator.libclangDylib?.toFilePath() ??
@@ -85,16 +85,16 @@ class LibraryImports {
 
   // Call after all used imports have been marked by [markUsed]. Fills the
   // library prefixes used for codegen.
-  void fillPrefixes(UniqueNamer namer) {
+  void fillPrefixes(Namespace namespace) {
     for (final lib in _used) {
-      _prefixes[lib] = namer.makeUnique(lib.name);
+      namespace.add(_prefixes[lib] = Symbol(lib.name));
     }
 
     _prefixesFilled = true;
   }
 
   bool _prefixesFilled = false;
-  final _prefixes = <LibraryImport, String>{};
+  final _prefixes = <LibraryImport, Symbol>{};
 
   String prefix(LibraryImport lib) {
     assert(lib == canonicalize(lib));
@@ -105,7 +105,7 @@ class LibraryImports {
     }
     // If this null assert fails, it means that a library was used during code
     // generation that wasn't visited by MarkImportsVisitation, which is a bug.
-    return _prefixes[lib]!;
+    return _prefixes[lib]!.name;
   }
 }
 

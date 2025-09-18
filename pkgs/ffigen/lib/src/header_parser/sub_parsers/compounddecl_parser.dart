@@ -148,7 +148,7 @@ Compound? _parseCompoundDeclaration(
   if (declName.isEmpty) {
     cursor = context.cursorIndex.getDefinition(cursor);
     return constructor(
-      name: context.incrementalNamer.name('Unnamed$className'),
+      name: 'Unnamed$className',
       usr: declUsr,
       dartDoc: getCursorDocComment(
         context,
