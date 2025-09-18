@@ -62,8 +62,8 @@ class Func extends LookUpBinding {
     super.originalName,
     super.dartDoc,
     required Type returnType,
-    List<DetachedParameter> parameters = const [],
-    List<DetachedParameter> varArgParameters = const [],
+    List<Parameter> parameters = const [],
+    List<Parameter> varArgParameters = const [],
     this.exposeSymbolAddress = false,
     this.exposeFunctionTypedefs = false,
     this.isLeaf = false,
@@ -241,24 +241,12 @@ class Parameter extends AstNode {
   final bool objCConsumed;
   bool isCovariant = false;
 
-  final Symbol symbol;
+  Symbol symbol;
   String get name => symbol.name;
-
-  factory Parameter({
-    String? originalName,
-    required String name,
-    required Type type,
-    required bool objCConsumed,
-  }) => Parameter.fromSymbol(
-    originalName: originalName,
-    type: type,
-    symbol: Symbol(name),
-    objCConsumed: objCConsumed,
-  );
 
   Parameter({
     String? originalName,
-    String name,
+    String name = '',
     required Type type,
     required this.objCConsumed,
   }) : originalName = originalName ?? name,

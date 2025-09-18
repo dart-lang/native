@@ -35,7 +35,7 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   }) : lookupName = lookupName ?? originalName,
        _protocolPointer = ObjCInternalGlobal(
          '_protocol_$originalName',
-         (Context context) =>
+         () =>
              '${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName")',
        ),
        super(
@@ -119,11 +119,9 @@ interface class $name extends $protocolBase $impls{
       final buildBlockingImplementations = StringBuffer();
       final methodFields = StringBuffer();
 
-      final methodNamer = createMethodRenamer(w);
-
       var anyListeners = false;
       for (final method in methods) {
-        final methodName = method.getDartProtocolMethodName(methodNamer);
+        final methodName = method.protocolMethodName.name;
         final fieldName = methodName;
         final argName = methodName;
         final block = method.protocolBlock!;

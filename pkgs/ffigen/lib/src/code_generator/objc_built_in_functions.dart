@@ -189,7 +189,6 @@ class ObjCBuiltInFunctions {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _protocolTrampolines[id] ??= ObjCProtocolMethodTrampoline(
       Func(
-        context: context,
         name: '_${wrapperName}_protocolTrampoline_$idHash',
         returnType: block.returnType,
         parameters: [
@@ -198,7 +197,7 @@ class ObjCBuiltInFunctions {
             type: PointerType(objCObjectType),
             objCConsumed: false,
           ),
-          ...block.params.map((p) => p.detach()),
+          ...block.params,
         ],
         objCReturnsRetained: false,
         isLeaf: false,

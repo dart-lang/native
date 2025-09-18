@@ -77,7 +77,6 @@ class Library {
       ffiNativeBindings: nativeBindings,
       nativeAssetId: nativeConfig?.assetId,
       noLookUpBindings: noLookUpBindings,
-      className: name,
       classDocComment: description,
       header: header,
       additionalImports: libraryImports.map(context.libs.canonicalize).toList(),

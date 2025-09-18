@@ -27,13 +27,16 @@ class Context {
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
+  late final Namespace rootNamespace;
+  late final Namespace rootObjCNamespace;
+  late final ExtraSymbols extraSymbols;
 
   Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
     : config = Config(generator),
       cursorIndex = CursorIndex(logger),
       objCBuiltInFunctions = ObjCBuiltInFunctions(
         this,
-        Config(generator).wrapperName,
+        config.wrapperName,
         // ignore: deprecated_member_use_from_same_package
         generator.objectiveC?.generateForPackageObjectiveC ?? false,
       ) {
@@ -105,3 +108,8 @@ class LibraryImports {
     return _prefixes[lib]!;
   }
 }
+
+typedef ExtraSymbols = ({
+  Symbol? wrapperClassName,
+  Symbol? symbolAddressVariableName,
+});

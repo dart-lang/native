@@ -25,7 +25,7 @@ class ObjCBlock extends BindingType {
   factory ObjCBlock(
     Context context, {
     required Type returnType,
-    required List<DetachedParameter> params,
+    required List<Parameter> params,
     required bool returnsRetained,
   }) {
     final renamedParams = [

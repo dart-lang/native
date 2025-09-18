@@ -21,8 +21,13 @@ abstract class Binding extends AstNode implements Declaration {
   @override
   final String originalName;
 
-  final Symbol _symbol;
+  Symbol _symbol;
   String get name => _symbol.name;
+
+  set symbol(Symbol newSymbol) {
+    assert(!_symbol.isFilled);
+    _symbol = newSymbol;
+  }
 
   final String? dartDoc;
   final bool isInternal;

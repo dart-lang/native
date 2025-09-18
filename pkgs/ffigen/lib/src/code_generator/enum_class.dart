@@ -84,7 +84,7 @@ class EnumClass extends BindingType {
   }
 
   void _writeIntegerConstants(StringBuffer s) {
-    s.writeAll(_enumConstants.map((c) => _formatValue(c, asInt: true)), '\n');
+    s.writeAll(enumConstants.map((c) => _formatValue(c, asInt: true)), '\n');
   }
 
   /// Writes the enum declarations for all unique members.
@@ -191,7 +191,7 @@ class EnumClass extends BindingType {
     final uniqueToDuplicates = <EnumConstant, List<EnumConstant>>{};
     final duplicateToOriginal = <EnumConstant, EnumConstant>{};
     final uniqueMembers = <EnumConstant>{};
-    for (final ec in _enumConstants) {
+    for (final ec in enumConstants) {
       final original = uniqueMembers.firstWhereOrNull(
         (other) => other.value == ec.value,
       );
@@ -207,7 +207,7 @@ class EnumClass extends BindingType {
     }
 
     _writeDartDoc(s);
-    if (_enumConstants.isEmpty) {
+    if (enumConstants.isEmpty) {
       _writeEmptyEnum(s);
     } else if (style == EnumStyle.intConstants) {
       s.write('sealed class $name {\n');

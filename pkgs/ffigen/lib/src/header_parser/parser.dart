@@ -206,6 +206,8 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+  // TODO: Create namespaces.
+  // TODO: Create context.extraSymbols
   // TODO: Visit symbols.
 
   context.libs.fillPrefixes(context.rootNamespace);

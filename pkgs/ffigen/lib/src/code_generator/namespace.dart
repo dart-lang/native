@@ -40,8 +40,16 @@ class Namespace {
     assert(!_filled);
     _namer = namer;
     for (final symbol in _symbols) {
-      assert(symbol._name == null);
-      symbol._name = namer.add(symbol.oldName);
+      if (symbol._name == null) {
+        symbol._name = namer.add(symbol.oldName);
+      } else {
+        // Symbol already has a name. This can happen if the symbol is in
+        // multiple namespaces, or in the same namespace more than once. It's
+        // fine as long as the name isn't used by a different symbol earlier in
+        // this namespace.
+        namer.markUsed(symbol._name!);
+        assert(!_symbols.any((s) => s != symbol && s._name == symbol._name));
+      }
     }
     for (final ns in _children) {
       ns._fillNames(_Namer._(namer._used.union(_extraKeywords)));
@@ -74,9 +82,11 @@ class _Namer {
       newName = '$name\$$i';
     }
 
-    _used.add(newName);
+    markUsed(newName);
     return newName;
   }
+
+  void markUsed(String name) => _used.add(name);
 }
 
 class Symbol {
@@ -89,4 +99,6 @@ class Symbol {
 
   @override
   String toString() => _name ?? oldName;
+
+  bool get isFilled => _name != null;
 }

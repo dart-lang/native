@@ -176,22 +176,13 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCProperty extends AstNode {
-  final String originalName;
-  final String name;
-  String? dartName;
-
-  ObjCProperty({required this.originalName, required this.name});
-}
-
 class ObjCMethod extends AstNode {
   final Context context;
   final String? dartDoc;
   final String originalName;
-  String name;
+  Symbol symbol;
   String? dartMethodName;
-  final String protocolMethodName;
-  final ObjCProperty? property;
+  final Symbol protocolMethodName;
   Type returnType;
   final List<Parameter> _params;
   ObjCMethodKind kind;
@@ -209,7 +200,6 @@ class ObjCMethod extends AstNode {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(property);
     visitor.visit(returnType);
     visitor.visitAll(_params);
     visitor.visit(selObject);
@@ -223,9 +213,8 @@ class ObjCMethod extends AstNode {
   ObjCMethod._({
     required this.context,
     required this.originalName,
-    required this.name,
-    required this.protocolMethodName,
-    this.property,
+    required String name,
+    required String protocolMethodName,
     this.dartDoc,
     required this.kind,
     required this.isClassMethod,
@@ -235,13 +224,15 @@ class ObjCMethod extends AstNode {
     required this.apiAvailability,
     required List<Parameter> params,
     required this.selObject,
-  }) : _params = params;
+  }) : symbol = Symbol(name),
+       protocolMethodName = Symbol(protocolMethodName),
+
+       _params = params;
 
   factory ObjCMethod({
     required Context context,
     required String originalName,
     required String name,
-    ObjCProperty? property,
     String? dartDoc,
     required ObjCMethodKind kind,
     required bool isClassMethod,
@@ -284,13 +275,7 @@ class ObjCMethod extends AstNode {
       // rest to each of the params after the first.
       name = chunks[0];
       for (var i = 1; i < params.length; ++i) {
-        final p = params[i];
-        params[i] = Parameter(
-          originalName: p.originalName,
-          name: chunks[i],
-          type: p.type,
-          objCConsumed: p.objCConsumed,
-        );
+        params[i].symbol = Symbol(chunks[i]);
       }
     } else {
       // There are a few methods that don't obey these rules, eg due to variadic
@@ -305,7 +290,6 @@ class ObjCMethod extends AstNode {
       originalName: originalName,
       name: name,
       protocolMethodName: protocolMethodName,
-      property: property,
       dartDoc: dartDoc,
       kind: kind,
       isClassMethod: isClassMethod,
@@ -315,7 +299,6 @@ class ObjCMethod extends AstNode {
       apiAvailability: apiAvailability,
       params: params,
       selObject: selObject,
-      localNamespace: localNamespace,
     );
   }
 
@@ -338,30 +321,13 @@ class ObjCMethod extends AstNode {
     protocolBlock ??= ObjCBlock(
       context,
       returnType: returnType,
-      _params: [
+      params: [
         // First arg of the protocol block is a void pointer that we ignore.
         Parameter(name: '_', type: PointerType(voidType), objCConsumed: false),
         ..._params,
       ],
       returnsRetained: returnsRetained,
     )..fillProtocolTrampoline();
-  }
-
-  String getDartProtocolMethodName(UniqueNamer uniqueNamer) =>
-      uniqueNamer.makeUnique(protocolMethodName);
-
-  String getDartMethodName(UniqueNamer uniqueNamer) {
-    if (property != null) {
-      // A getter and a setter are allowed to have the same name, so we can't
-      // just run the name through uniqueNamer. Instead they need to share
-      // the dartName, which is run through uniqueNamer.
-      if (property!.dartName == null) {
-        property!.dartName = uniqueNamer.makeUnique(property!.name);
-      }
-      return property!.dartName!;
-    }
-
-    return uniqueNamer.makeUnique(name);
   }
 
   bool sameAs(ObjCMethod other) {
@@ -438,14 +404,7 @@ class ObjCMethod extends AstNode {
 
   String generateBindings(Writer w, ObjCInterface target) {
     final context = w.context;
-    if (dartMethodName == null) {
-      dartMethodName = getDartMethodName(methodNamer);
-      final paramNamer = UniqueNamer(parent: methodNamer);
-      for (final p in _params) {
-        p.name = paramNamer.makeUnique(p.name);
-      }
-    }
-    final methodName = dartMethodName!;
+    final methodName = symbol.name;
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 

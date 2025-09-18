@@ -376,25 +376,14 @@ Type _extractFromFunctionProto(
       return UnimplementedType('Function parameter has an unsupported type.');
     }
 
-    parameters.add(
-      Parameter(
-        name: '',
-        type: pt,
-        objCConsumed: false,
-      ),
-    );
+    parameters.add(Parameter(name: '', type: pt, objCConsumed: false));
   }
 
   final functionType = FunctionType(
     parameters: parameters,
     returnType: clang.clang_getResultType(cxtype).toCodeGenType(context),
   );
-  _parseAndMergeParamNames(
-    context,
-    functionType,
-    cursor,
-    maxRecursionDepth,
-  );
+  _parseAndMergeParamNames(context, functionType, cursor, maxRecursionDepth);
   return NativeFunc(functionType);
 }
 
