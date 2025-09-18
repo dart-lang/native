@@ -37,7 +37,7 @@ abstract class Compound extends BindingType {
   /// `struct` or `union`, depending on whether the declaration is a typedef.
   final String nativeType;
 
-  late final Namespace _localNamespace;
+  late final Namespace localNamespace;
 
   Compound({
     super.usr,
@@ -45,10 +45,12 @@ abstract class Compound extends BindingType {
     required super.name,
     this.isIncomplete = false,
     super.dartDoc,
+    List<CompoundMember>? members,
     super.isInternal,
     required this.context,
     String? nativeType,
-  }) : nativeType = nativeType ?? originalName ?? name;
+  }) : members = members ?? [],
+       nativeType = nativeType ?? originalName ?? name;
 
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {

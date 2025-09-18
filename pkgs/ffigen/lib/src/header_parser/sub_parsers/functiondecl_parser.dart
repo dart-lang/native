@@ -39,7 +39,7 @@ List<Func> parseFunctionDeclaration(
 
     final returnType = cursor.returnType().toCodeGenType(context);
 
-    final parameters = <DetachedParameter>[];
+    final parameters = <Parameter>[];
     var incompleteStructParameter = false;
     var unimplementedParameterType = false;
     final totalArgs = clang.clang_Cursor_getNumArguments(cursor);
@@ -62,7 +62,7 @@ List<Func> parseFunctionDeclaration(
       );
 
       parameters.add(
-        DetachedParameter(
+        Parameter(
           originalName: paramName,
           name: config.functions.renameMember(decl, paramName),
           type: paramType,
@@ -134,7 +134,6 @@ List<Func> parseFunctionDeclaration(
         Func(
           context: context,
           dartDoc: getCursorDocComment(
-            context,
             cursor,
             indent: nesting.length + commentPrefix.length,
             availability: apiAvailability.dartDoc,
@@ -146,7 +145,7 @@ List<Func> parseFunctionDeclaration(
           parameters: parameters,
           varArgParameters: [
             for (final ta in vaFunc.types)
-              DetachedParameter(type: ta, name: 'va', objCConsumed: false),
+              Parameter(type: ta, name: 'va', objCConsumed: false),
           ],
           exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
           exposeFunctionTypedefs: config.functions.includeTypedef(decl),

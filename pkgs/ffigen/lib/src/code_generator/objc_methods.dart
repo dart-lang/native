@@ -33,6 +33,8 @@ mixin ObjCMethods {
   String get name;
   Context get context;
 
+  late final Namespace localNamespace;
+
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
     final oldMethod = getSimilarMethod(method);
@@ -202,7 +204,7 @@ class ObjCMethod extends AstNode {
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
-  late final Namespace _localNamespace;
+  late final Namespace localNamespace;
 
   @override
   void visitChildren(Visitor visitor) {
@@ -233,9 +235,7 @@ class ObjCMethod extends AstNode {
     required this.apiAvailability,
     required List<Parameter> params,
     required this.selObject,
-    required Namespace localNamespace,
-  }) : _params = params,
-       _localNamespace = localNamespace;
+  }) : _params = params;
 
   factory ObjCMethod({
     required Context context,
@@ -249,7 +249,7 @@ class ObjCMethod extends AstNode {
     required Type returnType,
     required ObjCMethodFamily? family,
     required ApiAvailability apiAvailability,
-    required List<DetachedParameter> params,
+    required List<Parameter> params,
   }) {
     final selObject = context.objCBuiltInFunctions.getSelObject(originalName);
     // TODO: Namespace {
@@ -284,7 +284,13 @@ class ObjCMethod extends AstNode {
       // rest to each of the params after the first.
       name = chunks[0];
       for (var i = 1; i < params.length; ++i) {
-        params[i].name = chunks[i];
+        final p = params[i];
+        params[i] = Parameter(
+          originalName: p.originalName,
+          name: chunks[i],
+          type: p.type,
+          objCConsumed: p.objCConsumed,
+        );
       }
     } else {
       // There are a few methods that don't obey these rules, eg due to variadic
@@ -307,7 +313,7 @@ class ObjCMethod extends AstNode {
       returnType: returnType,
       family: family,
       apiAvailability: apiAvailability,
-      params: [for (final p in params) p.attach(localNamespace)],
+      params: params,
       selObject: selObject,
       localNamespace: localNamespace,
     );

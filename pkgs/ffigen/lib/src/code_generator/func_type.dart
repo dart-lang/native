@@ -108,16 +108,13 @@ class FunctionType extends Type {
   @override
   String cacheKey() => _getTypeImpl(false, (Type t) => t.cacheKey());
 
-  // TODO: Can we delete this?
-  void addParameterNames(Namespace namespace, List<String> names) {
+  void addParameterNames(List<String> names) {
     if (names.length != parameters.length) {
       return;
     }
     for (var i = 0; i < parameters.length; i++) {
       parameters[i] = Parameter(
-        namespace: namespace,
         type: parameters[i].type,
-        originalName: names[i],
         name: names[i],
         objCConsumed: false,
       );

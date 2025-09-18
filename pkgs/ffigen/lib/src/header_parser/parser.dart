@@ -206,9 +206,11 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+  // TODO: Visit symbols.
+
   context.libs.fillPrefixes(context.rootNamespace);
-  context.rootNamespace.fillNames();
-  context.rootObjCNamespace.fillNames();
+  // context.rootNamespace.fillNames();
+  // context.rootObjCNamespace.fillNames();
 
   final finalBindingsList = finalBindings.toList();
 

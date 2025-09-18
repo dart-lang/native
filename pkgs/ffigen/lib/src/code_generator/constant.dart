@@ -30,7 +30,6 @@ class Constant extends NoLookUpBinding {
   final String rawValue;
 
   Constant({
-    required Context context,
     super.usr,
     super.originalName,
     required super.name,
@@ -60,7 +59,6 @@ class Constant extends NoLookUpBinding {
 /// A [Constant] defined by an unnamed enum.
 class UnnamedEnumConstant extends Constant {
   UnnamedEnumConstant({
-    required super.context,
     super.usr,
     super.originalName,
     required super.name,
@@ -77,7 +75,6 @@ class UnnamedEnumConstant extends Constant {
 /// A [Constant] defined by a macro.
 class MacroConstant extends Constant {
   MacroConstant({
-    required super.context,
     super.usr,
     super.originalName,
     required super.name,

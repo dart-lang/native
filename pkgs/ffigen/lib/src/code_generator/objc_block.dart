@@ -18,7 +18,7 @@ class ObjCBlock extends BindingType {
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
 
-  final Namespace _localNamespace;
+  late final Namespace localNamespace;
   final Parameter _blockParam;
   final Parameter _waiterParam;
 
@@ -28,11 +28,9 @@ class ObjCBlock extends BindingType {
     required List<DetachedParameter> params,
     required bool returnsRetained,
   }) {
-    final localNamespace = context.rootNamespace.addNamespace();
     final renamedParams = [
       for (var i = 0; i < params.length; ++i)
         Parameter(
-          namespace: localNamespace,
           name: 'arg$i',
           type: params[i].type,
           objCConsumed: params[i].objCConsumed,
@@ -48,7 +46,6 @@ class ObjCBlock extends BindingType {
 
     final block = ObjCBlock._(
       context,
-      localNamespace,
       usr: usr,
       name: _getBlockName(returnType, renamedParams.map((a) => a.type)),
       returnType: returnType,
@@ -61,26 +58,23 @@ class ObjCBlock extends BindingType {
   }
 
   ObjCBlock._(
-    this.context,
-    this._localNamespace, {
+    this.context, {
     required String super.usr,
     required super.name,
     required this.returnType,
     required this.params,
     required this.returnsRetained,
   }) : _waiterParam = Parameter(
-         namespace: _localNamespace,
          name: 'waiter',
          type: PointerType(voidType),
          objCConsumed: false,
        ),
        _blockParam = Parameter(
-         namespace: _localNamespace,
          type: PointerType(objCBlockType),
          name: 'block',
          objCConsumed: false,
        ),
-       super(namespace: context.rootNamespace, originalName: name) {
+       super(originalName: name) {
     if (hasListener) {
       _blockWrappers = context.objCBuiltInFunctions.getBlockTrampolines(this);
     }
@@ -144,6 +138,7 @@ class ObjCBlock extends BindingType {
     final context = w.context;
     final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
+    // TODO: Is this unsafe? Should we create these at construction time?
     final func = _FnHelper(context, returnType, params, _blockParam);
 
     final blockingFunc = _FnHelper(context, returnType, [
@@ -151,19 +146,15 @@ class ObjCBlock extends BindingType {
       ...params,
     ], _blockParam);
 
-    final funcPtrTrampoline = _localNamespace.addPrivate('_fnPtrTrampoline');
-    final closureTrampoline = _localNamespace.addPrivate('_closureTrampoline');
-    final funcPtrCallable = _localNamespace.addPrivate('_fnPtrCallable');
-    final closureCallable = _localNamespace.addPrivate('_closureCallable');
-    final listenerTrampoline = _localNamespace.addPrivate(
-      '_listenerTrampoline',
-    );
-    final listenerCallable = _localNamespace.addPrivate('_listenerCallable');
-    final blockingTrampoline = _localNamespace.addPrivate(
-      '_blockingTrampoline',
-    );
-    final blockingCallable = _localNamespace.addPrivate('_blockingCallable');
-    final blockingListenerCallable = _localNamespace.addPrivate(
+    final funcPtrTrampoline = localNamespace.addPrivate('_fnPtrTrampoline');
+    final closureTrampoline = localNamespace.addPrivate('_closureTrampoline');
+    final funcPtrCallable = localNamespace.addPrivate('_fnPtrCallable');
+    final closureCallable = localNamespace.addPrivate('_closureCallable');
+    final listenerTrampoline = localNamespace.addPrivate('_listenerTrampoline');
+    final listenerCallable = localNamespace.addPrivate('_listenerCallable');
+    final blockingTrampoline = localNamespace.addPrivate('_blockingTrampoline');
+    final blockingCallable = localNamespace.addPrivate('_blockingCallable');
+    final blockingListenerCallable = localNamespace.addPrivate(
       '_blockingListenerCallable',
     );
 

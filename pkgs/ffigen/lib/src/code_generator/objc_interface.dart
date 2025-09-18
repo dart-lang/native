@@ -47,21 +47,22 @@ class ObjCInterface extends BindingType with ObjCMethods {
              originalName,
        ) {
     classObject = ObjCInternalGlobal(
-      context,
       '_class_$originalName',
       () => '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
     );
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
     );
-    _isKindOfClassMsgSend = context.objCBuiltInFunctions
-        .getMsgSendFunc(BooleanType(), [
-          DetachedParameter(
-            name: 'clazz',
-            type: PointerType(objCObjectType),
-            objCConsumed: false,
-          ),
-        ]);
+    _isKindOfClassMsgSend = context.objCBuiltInFunctions.getMsgSendFunc(
+      BooleanType(),
+      [
+        Parameter(
+          name: 'clazz',
+          type: PointerType(objCObjectType),
+          objCConsumed: false,
+        ),
+      ],
+    );
   }
 
   void addProtocol(ObjCProtocol? proto) {

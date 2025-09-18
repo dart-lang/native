@@ -41,7 +41,7 @@ import 'writer.dart';
 /// external int sum(int a, int b);
 /// ```
 class Func extends LookUpBinding {
-  late final FunctionType functionType;
+  final FunctionType functionType;
   final bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
   final bool isLeaf;
@@ -52,12 +52,11 @@ class Func extends LookUpBinding {
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
   Typealias? _exposedFunctionTypealias;
 
-  final Namespace _localNamespace;
+  late final Namespace localNamespace;
 
   /// [originalName] is looked up in dynamic library, if not
   /// provided, takes the value of [name].
   Func({
-    required Context context,
     super.usr,
     required String name,
     super.originalName,
@@ -72,13 +71,18 @@ class Func extends LookUpBinding {
     this.useNameForLookup = false,
     super.isInternal,
     this.loadFromNativeAsset = false,
-  }) : _localNamespace = context.rootNamespace.addNamespace(),
-       super(namespace: context.rootNamespace, name: name) {
-    functionType = FunctionType(
-      returnType: returnType,
-      parameters: _makeParams(parameters, 0),
-      varArgParameters: _makeParams(varArgParameters, parameters.length),
-    );
+  }) : functionType = FunctionType(
+         returnType: returnType,
+         parameters: parameters ?? const [],
+         varArgParameters: varArgParameters ?? const [],
+       ),
+       super(name: name) {
+    for (var i = 0; i < functionType.parameters.length; i++) {
+      if (functionType.parameters[i].symbol.oldName.isEmpty) {
+        functionType.parameters[i].symbol = Symbol('arg$i');
+      }
+    }
+
     // Get function name with first letter in upper case.
     final upperCaseName = name[0].toUpperCase() + name.substring(1);
     if (exposeFunctionTypedefs) {
@@ -89,13 +93,6 @@ class Func extends LookUpBinding {
         isInternal: true,
       );
     }
-  }
-
-  List<Parameter> _makeParams(List<DetachedParameter> dps, int firstIndex) =>
-      <Parameter>[for (var i = 0; i < dps.length; ++i) _makeParam(dps[i], i)];
-  Parameter _makeParam(DetachedParameter p, int index) {
-    if (p.name.isEmpty) p.name = 'arg$index';
-    return p.attach(_localNamespace);
   }
 
   @override
@@ -114,7 +111,7 @@ class Func extends LookUpBinding {
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final funcVarName = _localNamespace.addPrivate('_$name');
+    final funcVarName = localNamespace.addPrivate('_$name');
     final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
@@ -186,7 +183,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
         );
       }
     } else {
-      final funcPointerName = _localNamespace.addPrivate('_${name}Ptr');
+      final funcPointerName = localNamespace.addPrivate('_${name}Ptr');
       final isLeafString = isLeaf ? 'isLeaf:true' : '';
 
       // Write enclosing function.
@@ -248,7 +245,6 @@ class Parameter extends AstNode {
   String get name => symbol.name;
 
   factory Parameter({
-    required Namespace namespace,
     String? originalName,
     required String name,
     required Type type,
@@ -256,16 +252,18 @@ class Parameter extends AstNode {
   }) => Parameter.fromSymbol(
     originalName: originalName,
     type: type,
-    symbol: namespace.add(name),
+    symbol: Symbol(name),
     objCConsumed: objCConsumed,
   );
 
-  Parameter.fromSymbol({
-    this.originalName,
-    required this.symbol,
+  Parameter({
+    String? originalName,
+    String name,
     required Type type,
     required this.objCConsumed,
-  }) : // A [NativeFunc] is wrapped with a pointer because this is a shorthand
+  }) : originalName = originalName ?? name,
+       symbol = Symbol(name),
+       // A [NativeFunc] is wrapped with a pointer because this is a shorthand
        // used in C for Pointer to function.
        type = type.typealiasType is NativeFunc ? PointerType(type) : type;
 
@@ -283,33 +281,4 @@ class Parameter extends AstNode {
   }
 
   bool get isNullable => type.typealiasType is ObjCNullable;
-
-  DetachedParameter detach() => DetachedParameter(
-    originalName: originalName,
-    name: symbol.oldName,
-    type: type,
-    objCConsumed: objCConsumed,
-  );
-}
-
-class DetachedParameter {
-  String? originalName;
-  String name;
-  Type type;
-  bool objCConsumed;
-
-  DetachedParameter({
-    this.originalName,
-    required this.name,
-    required this.type,
-    required this.objCConsumed,
-  });
-
-  Parameter attach(Namespace namespace) => Parameter(
-    namespace: namespace,
-    originalName: originalName,
-    name: name,
-    type: type,
-    objCConsumed: objCConsumed,
-  );
 }

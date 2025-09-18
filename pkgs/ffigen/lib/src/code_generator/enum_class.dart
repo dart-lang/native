@@ -45,14 +45,14 @@ class EnumClass extends BindingType {
   Type nativeType;
 
   /// A list of all the members of the native enum.
-  final _enumConstants = <EnumConstant>[];
+  final List<EnumConstant> enumConstants;
 
   Context context;
 
   /// Whether this enum should be generated as a collection of integers.
   EnumStyle style;
 
-  late final Namespace _localNamespace;
+  late final Namespace localNamespace;
 
   EnumClass({
     super.usr,
@@ -60,25 +60,11 @@ class EnumClass extends BindingType {
     required super.name,
     super.dartDoc,
     Type? nativeType,
+    List<EnumConstant>? enumConstants,
     required this.context,
     this.style = EnumStyle.dartEnum,
-  }) : nativeType = nativeType ?? intType;
-
-  void addValue({
-    String? originalName,
-    required String name,
-    required int value,
-    String? dartDoc,
-  }) {
-    _enumConstants.add(
-      EnumConstant._(
-        originalName: originalName,
-        name: name,
-        value: value,
-        dartDoc: dartDoc,
-      ),
-    );
-  }
+  }) : nativeType = nativeType ?? intType,
+       enumConstants = enumConstants ?? [];
 
   /// Returns a string to declare the enum member and any documentation it may
   /// have had.

@@ -75,26 +75,11 @@ class ObjCBuiltInFunctions {
   // the return type is a struct, we need to use objc_msgSend_stret instead, and
   // for float return types we need objc_msgSend_fpret.
   final _msgSendFuncs = <String, ObjCMsgSendFunc>{};
-  ObjCMsgSendFunc getMsgSendFunc(
-    Type returnType,
-    List<DetachedParameter> detachedParams,
-  ) {
-    final localNamespace = context.rootNamespace.addNamespace();
-    final params = _methodSigParams([
-      for (final p in detachedParams)
-        Parameter(
-          namespace: localNamespace,
-          originalName: p.originalName,
-          name: p.name,
-          type: p.type,
-          objCConsumed: p.objCConsumed,
-        ),
-    ]);
+  ObjCMsgSendFunc getMsgSendFunc(Type returnType, List<Parameter> params) {
+    params = _methodSigParams(params);
     returnType = _methodSigType(returnType);
     final (id, idHash) = _methodSigId(returnType, params);
     return _msgSendFuncs[id] ??= ObjCMsgSendFunc._(
-      context,
-      localNamespace,
       '_objc_msgSend_$idHash',
       returnType,
       params,
@@ -105,7 +90,6 @@ class ObjCBuiltInFunctions {
   final _selObjects = <String, ObjCInternalGlobal>{};
   ObjCInternalGlobal getSelObject(String methodName) {
     return _selObjects[methodName] ??= ObjCInternalGlobal(
-      context,
       '_sel_${methodName.replaceAll(":", "_")}',
       () => '${registerName.gen(context)}("$methodName")',
     );
@@ -156,12 +140,7 @@ class ObjCBuiltInFunctions {
 
   List<Parameter> _methodSigParams(List<Parameter> params) => [
     for (final p in params)
-      Parameter.fromSymbol(
-        originalName: p.originalName,
-        symbol: p.symbol,
-        type: _methodSigType(p.type),
-        objCConsumed: p.objCConsumed,
-      ),
+      Parameter(type: _methodSigType(p.type), objCConsumed: p.objCConsumed),
   ];
 
   final _blockTrampolines = <String, ObjCBlockWrapperFuncs>{};
@@ -177,22 +156,21 @@ class ObjCBuiltInFunctions {
   }
 
   Func _blockTrampolineFunc(String name, {bool blocking = false}) => Func(
-    context: context,
     name: name,
     returnType: PointerType(objCBlockType),
     parameters: [
-      DetachedParameter(
+      Parameter(
         name: 'block',
         type: PointerType(objCBlockType),
         objCConsumed: false,
       ),
       if (blocking) ...[
-        DetachedParameter(
+        Parameter(
           name: 'listnerBlock',
           type: PointerType(objCBlockType),
           objCConsumed: false,
         ),
-        DetachedParameter(
+        Parameter(
           name: 'context',
           type: PointerType(objCContextType),
           objCConsumed: false,
@@ -215,7 +193,7 @@ class ObjCBuiltInFunctions {
         name: '_${wrapperName}_protocolTrampoline_$idHash',
         returnType: block.returnType,
         parameters: [
-          DetachedParameter(
+          Parameter(
             name: 'target',
             type: PointerType(objCObjectType),
             objCConsumed: false,
@@ -287,13 +265,8 @@ class ObjCImport {
 class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function() makeValue;
 
-  ObjCInternalGlobal(Context context, String name, this.makeValue)
-    : super(
-        namespace: context.rootNamespace,
-        originalName: name,
-        name: name,
-        isInternal: true,
-      );
+  ObjCInternalGlobal(String name, this.makeValue)
+    : super(originalName: name, name: name, isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -325,13 +298,12 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
   FunctionType type;
 
   ObjCMsgSendVariantFunc._({
-    required Context context,
     required super.name,
     required this.variant,
     required Type returnType,
     required List<Parameter> parameters,
   }) : type = FunctionType(returnType: returnType, parameters: parameters),
-       super(namespace: context.rootNamespace, isInternal: true);
+       super(isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -370,7 +342,6 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 /// because objc_msgSend_stret takes a pointer to the return type as its first
 /// arg.
 class ObjCMsgSendFunc extends AstNode {
-  final Namespace localNamespace;
   final ObjCMsgSendVariant variant;
   final ObjCImport useVariants;
 
@@ -380,16 +351,15 @@ class ObjCMsgSendFunc extends AstNode {
   late final ObjCMsgSendVariantFunc normalFunc;
   late final ObjCMsgSendVariantFunc? variantFunc;
 
+  late final Namespace _localNamespace;
+
   ObjCMsgSendFunc._(
-    Context context,
-    this.localNamespace,
     String name,
     Type returnType,
     List<Parameter> params,
     this.useVariants,
   ) : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
     normalFunc = ObjCMsgSendVariantFunc._(
-      context: context,
       name: name,
       variant: ObjCMsgSendVariant.normal,
       returnType: returnType,
@@ -400,7 +370,6 @@ class ObjCMsgSendFunc extends AstNode {
         variantFunc = null;
       case ObjCMsgSendVariant.fpret:
         variantFunc = ObjCMsgSendVariantFunc._(
-          context: context,
           name: '${name}Fpret',
           variant: variant,
           returnType: returnType,
@@ -408,7 +377,6 @@ class ObjCMsgSendFunc extends AstNode {
         );
       case ObjCMsgSendVariant.stret:
         variantFunc = ObjCMsgSendVariantFunc._(
-          context: context,
           name: '${name}Stret',
           variant: variant,
           returnType: voidType,
@@ -420,20 +388,13 @@ class ObjCMsgSendFunc extends AstNode {
   List<Parameter> _params(List<Parameter> params, {Type? structRetPtr}) {
     return [
       if (structRetPtr != null)
-        Parameter(
-          namespace: localNamespace,
-          name: 'result',
-          type: structRetPtr,
-          objCConsumed: false,
-        ),
+        Parameter(name: 'result', type: structRetPtr, objCConsumed: false),
       Parameter(
-        namespace: localNamespace,
         name: 'receiver',
         type: PointerType(objCObjectType),
         objCConsumed: false,
       ),
       Parameter(
-        namespace: localNamespace,
         name: 'sel',
         type: PointerType(objCSelType),
         objCConsumed: false,

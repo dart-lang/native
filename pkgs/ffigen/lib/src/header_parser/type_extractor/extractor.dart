@@ -362,7 +362,6 @@ Type _extractFromFunctionProto(
   clang_types.CXType cxtype, {
   clang_types.CXCursor? cursor,
 }) {
-  final paramNamespace = context.rootNamespace.addNamespace();
   final parameters = <Parameter>[];
   final totalArgs = clang.clang_getNumArgTypes(cxtype);
   for (var i = 0; i < totalArgs; i++) {
@@ -379,7 +378,6 @@ Type _extractFromFunctionProto(
 
     parameters.add(
       Parameter(
-        namespace: paramNamespace,
         name: '',
         type: pt,
         objCConsumed: false,
@@ -393,7 +391,6 @@ Type _extractFromFunctionProto(
   );
   _parseAndMergeParamNames(
     context,
-    paramNamespace,
     functionType,
     cursor,
     maxRecursionDepth,
@@ -403,7 +400,6 @@ Type _extractFromFunctionProto(
 
 void _parseAndMergeParamNames(
   Context context,
-  Namespace paramNamespace,
   FunctionType functionType,
   clang_types.CXCursor? cursor,
   int recursionDepth,
@@ -421,7 +417,7 @@ void _parseAndMergeParamNames(
   }
 
   final paramsInfo = parseFunctionPointerParamNames(cursor);
-  functionType.addParameterNames(paramNamespace, paramsInfo.paramNames);
+  functionType.addParameterNames(paramsInfo.paramNames);
 
   for (final param in functionType.parameters) {
     final paramRealType = param.type.typealiasType;
@@ -431,7 +427,6 @@ void _parseAndMergeParamNames(
       final paramCursor = paramsInfo.params[param.name];
       _parseAndMergeParamNames(
         context,
-        paramNamespace,
         paramFunctionType,
         paramCursor,
         recursionDepth - 1,
