@@ -264,6 +264,7 @@ class Parameter extends AstNode {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(symbol);
     visitor.visit(type);
   }
 

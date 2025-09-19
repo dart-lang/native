@@ -202,6 +202,8 @@ class Typealias extends BindingType {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(_ffiDartAliasName);
+    visitor.visit(dartAliasName);
     visitor.visit(type);
   }
 

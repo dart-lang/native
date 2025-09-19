@@ -280,6 +280,7 @@ class EnumClass extends BindingType {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(nativeType);
+    visitor.visitAll(enumConstants);
     if (isObjCImport) visitor.visit(objcPkgImport);
   }
 
@@ -288,7 +289,7 @@ class EnumClass extends BindingType {
 }
 
 /// Represents a single value in an enum.
-class EnumConstant {
+class EnumConstant extends AstNode {
   final String? originalName;
   final String? dartDoc;
   final int value;
@@ -303,4 +304,10 @@ class EnumConstant {
     this.dartDoc,
   }) : originalName = originalName ?? name,
        _symbol = Symbol(name);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_symbol);
+  }
 }

@@ -200,6 +200,8 @@ class ObjCMethod extends AstNode {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(symbol);
+    visitor.visit(protocolMethodName);
     visitor.visit(returnType);
     visitor.visitAll(_params);
     visitor.visit(selObject);
@@ -244,13 +246,6 @@ class ObjCMethod extends AstNode {
     ObjCMethodOwnership? ownershipAttribute,
     bool consumesSelfAttribute = false,
   }) {
-    // TODO: Namespace {
-    //     'pointer',
-    //     'toString',
-    //     'hashCode',
-    //     'runtimeType',
-    //     'noSuchMethod',
-    //   }
     final protocolMethodName = name;
 
     // Split the name at the ':'. The first chunk is the name of the method, and
