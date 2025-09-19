@@ -36,6 +36,7 @@ const objCBuiltInInterfaces = {
   'NSMutableSet': 'NSMutableSet',
   'NSMutableString': 'NSMutableString',
   'NSNotification': 'NSNotification',
+  'NSNull': 'NSNull',
   'NSNumber': 'NSNumber',
   'NSObject': 'NSObject',
   'NSOutputStream': 'NSOutputStream',
