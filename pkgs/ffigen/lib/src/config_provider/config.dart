@@ -504,8 +504,6 @@ final class Interfaces extends Declarations {
   /// The module that the Objective-C interface belongs to.
   final String? Function(Declaration declaration) module;
 
-  static String? _moduleDefault(Declaration declaration) => null;
-
   const Interfaces({
     super.include,
     super.includeMember,
@@ -513,7 +511,7 @@ final class Interfaces extends Declarations {
     super.rename,
     super.renameMember,
     this.includeTransitive = false,
-    this.module = _moduleDefault,
+    this.module = noModule,
   });
 
   static const excludeAll = Interfaces(include: _excludeAll);
@@ -523,6 +521,8 @@ final class Interfaces extends Declarations {
   static Interfaces includeSet(Set<String> names) => Interfaces(
     include: (Declaration decl) => names.contains(decl.originalName),
   );
+
+  static String? noModule(Declaration declaration) => null;
 }
 
 /// Configuration for Objective-C protocols.
@@ -536,8 +536,6 @@ final class Protocols extends Declarations {
   /// The module that the Objective-C protocol belongs to.
   final String? Function(Declaration declaration) module;
 
-  static String? _moduleDefault(Declaration declaration) => null;
-
   const Protocols({
     super.include,
     super.includeMember,
@@ -545,7 +543,7 @@ final class Protocols extends Declarations {
     super.rename,
     super.renameMember,
     this.includeTransitive = false,
-    this.module = _moduleDefault,
+    this.module = noModule,
   });
 
   static const excludeAll = Protocols(include: _excludeAll);
@@ -555,6 +553,8 @@ final class Protocols extends Declarations {
   static Protocols includeSet(Set<String> names) => Protocols(
     include: (Declaration decl) => names.contains(decl.originalName),
   );
+
+  static String? noModule(Declaration declaration) => null;
 }
 
 /// Configuration for outputting bindings.
@@ -696,6 +696,8 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   Uri get output => ffiGen.output.dartFile;
 
   Uri get outputObjC => ffiGen.output._objectiveCFile;
+
+  BindingStyle get outputStyle => ffiGen.output.style;
 
   SymbolFile? get symbolFile => ffiGen.output.symbolFile;
 
