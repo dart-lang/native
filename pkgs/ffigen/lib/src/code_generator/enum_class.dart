@@ -7,11 +7,10 @@ import 'package:collection/collection.dart';
 import '../config_provider.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
 import 'imports.dart';
-import 'type.dart';
 import 'namespace.dart';
+import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
 

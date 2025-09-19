@@ -182,11 +182,6 @@ void _parseSuperType(
       0;
   final isOptionalMethod = clang.clang_Cursor_isObjCOptional(cursor) != 0;
 
-  final property = ObjCProperty(
-    originalName: fieldName,
-    name: filters.renameMember(decl, fieldName),
-  );
-
   context.logger.fine(
     '       > Property: '
     '$fieldType $fieldName ${cursor.completeStringRepr()}',
@@ -199,38 +194,35 @@ void _parseSuperType(
     context: context,
     originalName: getterName,
     name: getterName,
-    property: property,
     dartDoc: dartDoc ?? getterName,
     kind: ObjCMethodKind.propertyGetter,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: fieldType,
+    params: const [],
     family: null,
     apiAvailability: apiAvailability,
-  )..finalizeParams();
+  );
 
   ObjCMethod? setter;
   if (!isReadOnly) {
     final setterName = clang
         .clang_Cursor_getObjCPropertySetterName(cursor)
         .toStringAndDispose();
-    setter = ObjCMethod(
+    setter = ObjCMethod.withSymbol(
       context: context,
       originalName: setterName,
-      name: setterName,
-      property: property,
+      symbol: getter.symbol,
+      protocolMethodName: setterName,
       dartDoc: dartDoc ?? setterName,
       kind: ObjCMethodKind.propertySetter,
       isClassMethod: isClassMethod,
       isOptional: isOptionalMethod,
       returnType: voidType,
+      params: [Parameter(name: 'value', type: fieldType, objCConsumed: false)],
       family: null,
       apiAvailability: apiAvailability,
     );
-    setter.params.add(
-      Parameter(name: 'value', type: fieldType, objCConsumed: false),
-    );
-    setter.finalizeParams();
   }
   return (getter, setter);
 }
@@ -266,7 +258,49 @@ ObjCMethod? parseObjCMethod(
     return null;
   }
 
-  final method = ObjCMethod(
+  logger.fine(
+    '       > ${isClassMethod ? 'Class' : 'Instance'} method: '
+    '$methodName ${cursor.completeStringRepr()}',
+  );
+
+  final params = <Parameter>[];
+  ObjCMethodOwnership? ownershipAttribute;
+  var consumesSelfAttribute = false;
+
+  var hasError = false;
+  cursor.visitChildren((child) {
+    switch (child.kind) {
+      case clang_types.CXCursorKind.CXCursor_ParmDecl:
+        final p = _parseMethodParam(
+          context,
+          child,
+          itfDecl.originalName,
+          methodName,
+        );
+        if (p == null) {
+          hasError = true;
+        } else {
+          params.add(p);
+        }
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsRetained:
+        ownershipAttribute = ObjCMethodOwnership.retained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsNotRetained:
+        ownershipAttribute = ObjCMethodOwnership.notRetained;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSReturnsAutoreleased:
+        ownershipAttribute = ObjCMethodOwnership.autoreleased;
+        break;
+      case clang_types.CXCursorKind.CXCursor_NSConsumesSelf:
+        consumesSelfAttribute = true;
+        break;
+      default:
+    }
+  });
+  if (hasError) return null;
+
+  return ObjCMethod(
     context: context,
     originalName: methodName,
     name: filters.renameMember(itfDecl, methodName),
@@ -280,45 +314,19 @@ ObjCMethod? parseObjCMethod(
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
     returnType: returnType,
+    params: params,
     family: ObjCMethodFamily.parse(methodName),
     apiAvailability: apiAvailability,
+    ownershipAttribute: ownershipAttribute,
+    consumesSelfAttribute: consumesSelfAttribute,
   );
-  logger.fine(
-    '       > ${isClassMethod ? 'Class' : 'Instance'} method: '
-    '${method.originalName} ${cursor.completeStringRepr()}',
-  );
-  var hasError = false;
-  cursor.visitChildren((child) {
-    switch (child.kind) {
-      case clang_types.CXCursorKind.CXCursor_ParmDecl:
-        if (!_parseMethodParam(context, child, itfDecl.originalName, method)) {
-          hasError = true;
-        }
-        break;
-      case clang_types.CXCursorKind.CXCursor_NSReturnsRetained:
-        method.ownershipAttribute = ObjCMethodOwnership.retained;
-        break;
-      case clang_types.CXCursorKind.CXCursor_NSReturnsNotRetained:
-        method.ownershipAttribute = ObjCMethodOwnership.notRetained;
-        break;
-      case clang_types.CXCursorKind.CXCursor_NSReturnsAutoreleased:
-        method.ownershipAttribute = ObjCMethodOwnership.autoreleased;
-        break;
-      case clang_types.CXCursorKind.CXCursor_NSConsumesSelf:
-        method.consumesSelfAttribute = true;
-        break;
-      default:
-    }
-  });
-  method.finalizeParams();
-  return hasError ? null : method;
 }
 
-bool _parseMethodParam(
+Parameter? _parseMethodParam(
   Context context,
   clang_types.CXCursor cursor,
   String itfName,
-  ObjCMethod method,
+  String methodName,
 ) {
   final logger = context.logger;
   final name = cursor.spelling();
@@ -329,19 +337,19 @@ bool _parseMethodParam(
   if (cursorType.kind == clang_types.CXTypeKind.CXType_Elaborated &&
       cursorType.spelling() == 'va_list') {
     logger.warning(
-      'Method "${method.originalName}" in instance '
+      'Method "$methodName" in instance '
       '"$itfName" has variadic args, which are not currently supported',
     );
-    return false;
+    return null;
   }
 
   final type = cursorType.toCodeGenType(context);
   if (type.isIncompleteCompound) {
     logger.warning(
-      'Method "${method.originalName}" in instance '
+      'Method "$methodName" in instance '
       '"$itfName" has incomplete parameter type: $type.',
     );
-    return false;
+    return null;
   }
 
   logger.fine(
@@ -350,6 +358,5 @@ bool _parseMethodParam(
   final consumed = cursor.hasChildWithKind(
     clang_types.CXCursorKind.CXCursor_NSConsumed,
   );
-  method.params.add(Parameter(name: name, type: type, objCConsumed: consumed));
-  return true;
+  return Parameter(name: name, type: type, objCConsumed: consumed);
 }

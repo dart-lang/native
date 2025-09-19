@@ -21,9 +21,9 @@ class Namespace {
     return ns;
   }
 
-  void add(Symbol symbol) {
+  void add(Symbol? symbol) {
     assert(!_filled);
-    _symbols.add(symbol);
+    if (symbol != null) _symbols.add(symbol);
   }
 
   String addPrivate(String name) {

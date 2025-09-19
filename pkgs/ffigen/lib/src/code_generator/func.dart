@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -73,8 +72,8 @@ class Func extends LookUpBinding {
     this.loadFromNativeAsset = false,
   }) : functionType = FunctionType(
          returnType: returnType,
-         parameters: parameters ?? const [],
-         varArgParameters: varArgParameters ?? const [],
+         parameters: parameters,
+         varArgParameters: varArgParameters,
        ),
        super(name: name) {
     for (var i = 0; i < functionType.parameters.length; i++) {

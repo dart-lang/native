@@ -100,8 +100,8 @@ class FixOverriddenMethodsVisitation extends Visitation {
     }
 
     for (var i = 0; i < n; ++i) {
-      final pt = method.params[i].type;
-      final st = superMethod.params[i].type;
+      final pt = method.params.elementAt(i).type;
+      final st = superMethod.params.elementAt(i).type;
 
       if (st.isSubtypeOf(pt)) {
         // Contravariant param, nothing to fix.
@@ -123,7 +123,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
         '${node.originalName}.${method.originalName} at position ${i + 1} to '
         'be covariant',
       );
-      method.params[i].isCovariant = true;
+      method.params.elementAt(i).isCovariant = true;
     }
   }
 

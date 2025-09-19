@@ -8,7 +8,6 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/visitor.dart';
-import 'namespace.dart';
 import 'utils.dart';
 
 /// To store generated String bindings.
@@ -381,7 +380,7 @@ class SymbolAddressWriter {
 
   String writeObject(Writer w) {
     final className = w._symbolAddressClassName;
-    final fieldName = context.extraSymbols.symbolAddressVariableName!.name;
+    final fieldName = context.extraSymbols.symbolAddressVariableName.name;
 
     if (hasNonNativeAddress) {
       return 'late final $fieldName = $className(this);';
@@ -395,9 +394,7 @@ class SymbolAddressWriter {
     final className = w._symbolAddressClassName;
     sb.write('class $className {\n');
 
-    late final String libraryVarName = context.rootNamespace.addPrivate(
-      '_library',
-    );
+    late final libraryVarName = context.rootNamespace.addPrivate('_library');
     if (hasNonNativeAddress) {
       // Write Library object.
       final wrapperClassName = context.extraSymbols.wrapperClassName!.name;

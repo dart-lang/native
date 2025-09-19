@@ -697,6 +697,8 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   Uri get outputObjC => ffiGen.output._objectiveCFile;
 
+  BindingStyle get outputStyle => ffiGen.output.style;
+
   SymbolFile? get symbolFile => ffiGen.output.symbolFile;
 
   bool get sort => ffiGen.output.sort;

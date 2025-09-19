@@ -40,6 +40,7 @@ Global? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
   }
 
   final global = Global(
+    context: context,
     originalName: name,
     name: config.globals.rename(decl),
     usr: usr,
