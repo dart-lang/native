@@ -13,7 +13,7 @@ import 'config.dart';
 import 'util.dart';
 
 extension SwiftGenGenerator on SwiftGenerator {
-  Future<void> generate({required Logger? logger, Uri? tempDirectory}) async {
+  Future<void> generate({Logger? logger, Uri? tempDirectory}) async {
     logger ??= Logger.detached('dev/null')..level = Level.OFF;
     tempDirectory ??= createTempDirectory();
     final absTempDir = p.absolute(tempDirectory.toFilePath());
