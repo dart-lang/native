@@ -85,6 +85,7 @@ abstract class Visitation {
       visitAstNode(node);
   void visitImportedType(ImportedType node) => visitType(node);
   void visitLibraryImport(LibraryImport node) => visitAstNode(node);
+  void visitSymbol(Symbol node) => visitAstNode(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node..visitChildren(visitor);

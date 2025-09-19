@@ -504,7 +504,7 @@ final class Interfaces extends Declarations {
   /// The module that the Objective-C interface belongs to.
   final String? Function(Declaration declaration) module;
 
-  static String? _moduleDefault(Declaration declaration) => null;
+  static String? moduleDefault(Declaration declaration) => null;
 
   const Interfaces({
     super.include,
@@ -513,7 +513,7 @@ final class Interfaces extends Declarations {
     super.rename,
     super.renameMember,
     this.includeTransitive = false,
-    this.module = _moduleDefault,
+    this.module = moduleDefault,
   });
 
   static const excludeAll = Interfaces(include: _excludeAll);
@@ -536,7 +536,7 @@ final class Protocols extends Declarations {
   /// The module that the Objective-C protocol belongs to.
   final String? Function(Declaration declaration) module;
 
-  static String? _moduleDefault(Declaration declaration) => null;
+  static String? moduleDefault(Declaration declaration) => null;
 
   const Protocols({
     super.include,
@@ -545,7 +545,7 @@ final class Protocols extends Declarations {
     super.rename,
     super.renameMember,
     this.includeTransitive = false,
-    this.module = _moduleDefault,
+    this.module = moduleDefault,
   });
 
   static const excludeAll = Protocols(include: _excludeAll);

@@ -174,6 +174,7 @@ class CompoundMember extends AstNode {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(_symbol);
     visitor.visit(type);
   }
 }

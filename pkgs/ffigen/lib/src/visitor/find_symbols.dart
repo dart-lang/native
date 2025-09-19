@@ -7,8 +7,22 @@ import 'ast.dart';
 
 class FindSymbolsVisitation extends Visitation {
   final Context context;
+  Namespace currentNamespace;
 
-  FindSymbolsVisitation(this.context);
+  FindSymbolsVisitation(this.context) : currentNamespace = context.rootNamespace;
 
-  // TODO
+  void with(Namespace newNamespace, Function() fn) {
+    final oldNamespace = currentNamespace;
+    currentNamespace = newNamespace;
+    fn();
+    currentNamespace = oldNamespace;
+  }
+
+  void add(Symbol symbol) => currentNamespace.add(symbol);
+
+  @override
+  void visitBinding(Binding node) {
+    add(node.symbol);
+    node.visitChildren(visitor);
+  }
 }

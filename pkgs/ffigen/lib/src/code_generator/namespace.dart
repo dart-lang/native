@@ -89,7 +89,7 @@ class Namer {
   void markUsed(String name) => _used.add(name);
 }
 
-class Symbol {
+class Symbol extends AstNode {
   final String oldName;
 
   String? _name;
@@ -97,8 +97,11 @@ class Symbol {
 
   Symbol(this.oldName);
 
+  bool get isFilled => _name != null;
+
   @override
   String toString() => _name ?? oldName;
 
-  bool get isFilled => _name != null;
+  @override
+  void visit(Visitation visitation) => visitation.visitSymbol(this);
 }

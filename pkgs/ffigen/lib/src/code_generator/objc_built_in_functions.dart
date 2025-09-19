@@ -350,7 +350,7 @@ class ObjCMsgSendFunc extends AstNode {
   late final ObjCMsgSendVariantFunc normalFunc;
   late final ObjCMsgSendVariantFunc? variantFunc;
 
-  late final Namespace _localNamespace;
+  late final Namespace localNamespace;
 
   ObjCMsgSendFunc._(
     String name,
