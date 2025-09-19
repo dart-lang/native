@@ -24,7 +24,8 @@ void main() {
       final obj = NSObject();
       expect(toObjCObject(obj), obj);
 
-      expect(NSNull.isInstance(toObjCObject(null)), isTrue);
+      // NSNull.null$() is a singleton.
+      expect(toObjCObject(null), NSNull.null$());
       expect(toNullableDartObject(NSNull.null$()), null);
 
       expect(toObjCObject(123), isA<NSNumber>());
