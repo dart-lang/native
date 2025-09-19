@@ -56,6 +56,7 @@ objc-interfaces:
     - NSMutableSet
     - NSMutableString
     - NSNotification
+    - NSNull
     - NSNumber
     - NSObject
     - NSOutputStream

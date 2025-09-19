@@ -153,7 +153,7 @@ class NSDictionary with MapBase<NSCopying, objc.ObjCObjectBase> {
 
 class NSMutableDictionary {
   /// Creates a [NSMutableDictionary] from [other].
-  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+  static NSMutableDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.dictionaryWithCapacity(other.length)..addAll(other);
 
   /// Creates a [NSMutableDictionary] from [entries].
