@@ -29,5 +29,6 @@ Future<void> populateRAG(
     listOfSummaries.addAll(packageClassesSummary);
   }
 
-  await RAG.instance.addAllDocumentsToRag(listOfSummaries);
+  final rag = await RAG.create();
+  await rag.addAllDocumentsToRag(listOfSummaries);
 }

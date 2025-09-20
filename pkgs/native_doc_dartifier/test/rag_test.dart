@@ -4,6 +4,7 @@
 
 import 'dart:core';
 import 'dart:io';
+
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:native_doc_dartifier/src/public_abstractor.dart';
 import 'package:native_doc_dartifier/src/rag.dart';
@@ -29,7 +30,7 @@ Future<void> main() async {
 
   print('Total Number of Classes: ${classesSummary.length}');
 
-  final rag = RAG.instance;
+  final rag = await RAG.create();
   await rag.addAllDocumentsToRag(classesSummary);
 
   group('Normal RAG Query', () {

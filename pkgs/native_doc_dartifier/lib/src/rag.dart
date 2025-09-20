@@ -5,18 +5,21 @@
 import 'dart:io';
 
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:objectbox_dev/objectbox.g.dart';
-import 'package:objectbox_dev/rag_models.dart';
+
+import '../objectbox.g.dart';
+import 'rag_models.dart';
 
 class RAG {
-  static final RAG _instance = RAG._internal();
-  static RAG get instance => _instance;
   late final Store _store;
   late final Box<ClassSummaryRAGModel> _classSummaryBox;
 
-  RAG._internal() {
-    _store = openStore();
-    _classSummaryBox = _store.box<ClassSummaryRAGModel>();
+  RAG._create(this._store) {
+    _classSummaryBox = Box<ClassSummaryRAGModel>(_store);
+  }
+
+  static Future<RAG> create() async {
+    final store = await openStore();
+    return RAG._create(store);
   }
 
   void close() {

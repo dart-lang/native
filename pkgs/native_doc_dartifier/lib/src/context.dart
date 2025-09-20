@@ -17,7 +17,7 @@ import 'public_abstractor.dart';
 import 'rag.dart';
 
 class Context {
-  final RAG? rag;
+  late final RAG? rag;
   final String projectAbsolutePath;
   final String bindingsFileAbsolutePath;
   final List<String> importedPackages = [];
@@ -27,8 +27,7 @@ class Context {
   Context._({
     required this.projectAbsolutePath,
     required this.bindingsFileAbsolutePath,
-    required bool usingRag,
-  }) : rag = (usingRag ? RAG.instance : null);
+  });
 
   static Future<Context> create(
     String projectAbsolutePath,
@@ -38,8 +37,8 @@ class Context {
     final context = Context._(
       projectAbsolutePath: projectAbsolutePath,
       bindingsFileAbsolutePath: bindingsFileAbsolutePath,
-      usingRag: usingRag,
     );
+    context.rag = usingRag ? await RAG.create() : null;
     await context._init();
     return context;
   }
