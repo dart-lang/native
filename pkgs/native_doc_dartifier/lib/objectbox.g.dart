@@ -12,7 +12,6 @@ import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'
     as obx_int; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart' as obx;
-import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'src/rag_models.dart';
 
@@ -20,29 +19,29 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(1, 5579787847030780182),
+    id: const obx_int.IdUid(1, 7960413809486009791),
     name: 'ClassSummaryRAGModel',
-    lastPropertyId: const obx_int.IdUid(3, 314850573891151475),
+    lastPropertyId: const obx_int.IdUid(3, 8923258437156876593),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 3165988714512874781),
+        id: const obx_int.IdUid(1, 8829639415366563528),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 8309787628789890080),
+        id: const obx_int.IdUid(2, 3000549143352790148),
         name: 'summary',
         type: 9,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 314850573891151475),
+        id: const obx_int.IdUid(3, 8923258437156876593),
         name: 'embeddings',
         type: 28,
         flags: 8,
-        indexId: const obx_int.IdUid(1, 8421142277826289620),
+        indexId: const obx_int.IdUid(1, 6912840214801688687),
         hnswParams: obx_int.ModelHnswParams(dimensions: 3072, distanceType: 2),
       ),
     ],
@@ -62,7 +61,7 @@ final _entities = <obx_int.ModelEntity>[
 /// For Flutter apps, also calls `loadObjectBoxLibraryAndroidCompat()` from
 /// the ObjectBox Flutter library to fix loading the native ObjectBox library
 /// on Android 6 and older.
-Future<obx.Store> openStore({
+obx.Store openStore({
   String? directory,
   int? maxDBSizeInKB,
   int? maxDataSizeInKB,
@@ -70,27 +69,24 @@ Future<obx.Store> openStore({
   int? maxReaders,
   bool queriesCaseSensitiveDefault = true,
   String? macosApplicationGroup,
-}) async {
-  await loadObjectBoxLibraryAndroidCompat();
-  return obx.Store(
-    getObjectBoxModel(),
-    directory: directory ?? (await defaultStoreDirectory()).path,
-    maxDBSizeInKB: maxDBSizeInKB,
-    maxDataSizeInKB: maxDataSizeInKB,
-    fileMode: fileMode,
-    maxReaders: maxReaders,
-    queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
-    macosApplicationGroup: macosApplicationGroup,
-  );
-}
+}) => obx.Store(
+  getObjectBoxModel(),
+  directory: directory,
+  maxDBSizeInKB: maxDBSizeInKB,
+  maxDataSizeInKB: maxDataSizeInKB,
+  fileMode: fileMode,
+  maxReaders: maxReaders,
+  queriesCaseSensitiveDefault: queriesCaseSensitiveDefault,
+  macosApplicationGroup: macosApplicationGroup,
+);
 
 /// Returns the ObjectBox model definition for this project for use with
 /// [obx.Store.new].
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(1, 5579787847030780182),
-    lastIndexId: const obx_int.IdUid(1, 8421142277826289620),
+    lastEntityId: const obx_int.IdUid(1, 7960413809486009791),
+    lastIndexId: const obx_int.IdUid(1, 6912840214801688687),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],

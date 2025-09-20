@@ -4,25 +4,25 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:5579787847030780182",
-      "lastPropertyId": "3:314850573891151475",
+      "id": "1:7960413809486009791",
+      "lastPropertyId": "3:8923258437156876593",
       "name": "ClassSummaryRAGModel",
       "properties": [
         {
-          "id": "1:3165988714512874781",
+          "id": "1:8829639415366563528",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:8309787628789890080",
+          "id": "2:3000549143352790148",
           "name": "summary",
           "type": 9
         },
         {
-          "id": "3:314850573891151475",
+          "id": "3:8923258437156876593",
           "name": "embeddings",
-          "indexId": "1:8421142277826289620",
+          "indexId": "1:6912840214801688687",
           "type": 28,
           "flags": 8
         }
@@ -30,8 +30,8 @@
       "relations": []
     }
   ],
-  "lastEntityId": "1:5579787847030780182",
-  "lastIndexId": "1:8421142277826289620",
+  "lastEntityId": "1:7960413809486009791",
+  "lastIndexId": "1:6912840214801688687",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

@@ -18,7 +18,7 @@ class RAG {
   }
 
   static Future<RAG> create() async {
-    final store = await openStore();
+    final store = openStore();
     return RAG._create(store);
   }
 
