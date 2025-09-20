@@ -26,14 +26,13 @@ dependencies:
 
 dev_dependencies:
   args: any
-  custom_lint: ^0.7.5
   dart_flutter_team_lints: ^3.5.2
   data_assets: any # Used in tests.
   file_testing: ^3.0.2
+  native_analyzer_plugin:
+    path: ../native_analyzer_plugin/
   native_test_helpers:
     path: ../native_test_helpers/
   pub_formats: # Used in tests.
     path: ../pub_formats/
-  repo_lint_rules:
-    path: ../repo_lint_rules/
   test: ^1.25.15
