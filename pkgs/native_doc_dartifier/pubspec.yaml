@@ -14,7 +14,6 @@ dependencies:
   google_generative_ai: ^0.4.7
   jni: ^0.14.2
   objectbox: ^4.3.1
-  objectbox_flutter_libs: ^4.3.1
   path: ^1.8.0
 
 dev_dependencies:
