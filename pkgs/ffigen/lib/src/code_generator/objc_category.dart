@@ -5,12 +5,12 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCCategory extends NoLookUpBinding with ObjCMethods {
+class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalNamespace {
   @override
   final Context context;
   final ObjCInterface parent;

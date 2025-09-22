@@ -4,7 +4,6 @@
 
 import '../config_provider/config_types.dart' show Declaration;
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
 import 'namespace.dart';
 import 'writer.dart';
@@ -22,12 +21,13 @@ abstract class Binding extends AstNode implements Declaration {
   final String originalName;
 
   Symbol _symbol;
-  String get name => _symbol.name;
-
+  Symbol get symbol => _symbol;
   set symbol(Symbol newSymbol) {
     assert(!_symbol.isFilled);
     _symbol = newSymbol;
   }
+
+  String get name => _symbol.name;
 
   final String? dartDoc;
   final bool isInternal;

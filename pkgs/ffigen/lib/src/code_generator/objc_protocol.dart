@@ -6,12 +6,12 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCProtocol extends BindingType with ObjCMethods {
+class ObjCProtocol extends BindingType with ObjCMethods, HasLocalNamespace {
   @override
   final Context context;
   final superProtocols = <ObjCProtocol>[];

@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../visitor/ast.dart';
 import 'dart_keywords.dart';
 
 class Namespace {
@@ -104,4 +105,8 @@ class Symbol extends AstNode {
 
   @override
   void visit(Visitation visitation) => visitation.visitSymbol(this);
+}
+
+mixin HasLocalNamespace on AstNode {
+  late final Namespace localNamespace;
 }

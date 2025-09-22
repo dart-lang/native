@@ -340,7 +340,7 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 /// a different signature than objc_msgSend has for the same method. This is
 /// because objc_msgSend_stret takes a pointer to the return type as its first
 /// arg.
-class ObjCMsgSendFunc extends AstNode {
+class ObjCMsgSendFunc extends AstNode with HasLocalNamespace {
   final ObjCMsgSendVariant variant;
   final ObjCImport useVariants;
 
@@ -349,8 +349,6 @@ class ObjCMsgSendFunc extends AstNode {
   // corresponding variant of the objc_msgSend function, otherwise it's null.
   late final ObjCMsgSendVariantFunc normalFunc;
   late final ObjCMsgSendVariantFunc? variantFunc;
-
-  late final Namespace localNamespace;
 
   ObjCMsgSendFunc._(
     String name,
@@ -448,4 +446,7 @@ class ObjCMsgSendFunc extends AstNode {
     visitor.visit(variantFunc);
     visitor.visit(objcPkgImport);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitObjCMsgSendFunc(this);
 }

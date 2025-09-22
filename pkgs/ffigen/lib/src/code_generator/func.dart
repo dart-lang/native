@@ -39,7 +39,7 @@ import 'writer.dart';
 /// @ffi.Native<ffi.Int32 Function(ffi.Int32 a, ffi.Int32 b)>('sum')
 /// external int sum(int a, int b);
 /// ```
-class Func extends LookUpBinding {
+class Func extends LookUpBinding with HasLocalNamespace {
   final FunctionType functionType;
   final bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
@@ -50,8 +50,6 @@ class Func extends LookUpBinding {
 
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.
   Typealias? _exposedFunctionTypealias;
-
-  late final Namespace localNamespace;
 
   /// [originalName] is looked up in dynamic library, if not
   /// provided, takes the value of [name].

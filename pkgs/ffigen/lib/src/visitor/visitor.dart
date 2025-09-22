@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../code_generator/namespace.dart';
 import '../context.dart';
 import 'ast.dart';
 
@@ -86,6 +87,8 @@ abstract class Visitation {
   void visitImportedType(ImportedType node) => visitType(node);
   void visitLibraryImport(LibraryImport node) => visitAstNode(node);
   void visitSymbol(Symbol node) => visitAstNode(node);
+  void visitObjCMsgSendFunc(ObjCMsgSendFunc node) => visitAstNode(node);
+  void visitObjCMethod(ObjCMethod node) => visitAstNode(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node..visitChildren(visitor);

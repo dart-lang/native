@@ -39,7 +39,7 @@ import 'writer.dart';
 ///   }
 /// }
 /// ```
-class EnumClass extends BindingType {
+class EnumClass extends BindingType with HasLocalNamespace {
   /// Backing integer type for this enum.
   Type nativeType;
 
@@ -50,8 +50,6 @@ class EnumClass extends BindingType {
 
   /// Whether this enum should be generated as a collection of integers.
   EnumStyle style;
-
-  late final Namespace localNamespace;
 
   EnumClass({
     super.usr,

@@ -33,8 +33,6 @@ mixin ObjCMethods {
   String get name;
   Context get context;
 
-  late final Namespace localNamespace;
-
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
     final oldMethod = getSimilarMethod(method);
@@ -176,7 +174,7 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCMethod extends AstNode {
+class ObjCMethod extends AstNode with HasLocalNamespace {
   final Context context;
   final String? dartDoc;
   final String originalName;
@@ -195,7 +193,6 @@ class ObjCMethod extends AstNode {
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
-  late final Namespace localNamespace;
 
   @override
   void visitChildren(Visitor visitor) {
@@ -211,6 +208,9 @@ class ObjCMethod extends AstNode {
     visitor.visit(ffiPkgImport);
     visitor.visit(objcPkgImport);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitObjCMethod(this);
 
   ObjCMethod.withSymbol({
     required this.context,

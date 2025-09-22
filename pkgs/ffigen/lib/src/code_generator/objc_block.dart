@@ -10,7 +10,7 @@ import 'binding_string.dart';
 import 'namespace.dart';
 import 'writer.dart';
 
-class ObjCBlock extends BindingType {
+class ObjCBlock extends BindingType with HasLocalNamespace {
   final Context context;
   final Type returnType;
   final List<Parameter> params;
@@ -18,7 +18,6 @@ class ObjCBlock extends BindingType {
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
 
-  late final Namespace localNamespace;
   final Parameter _blockParam;
   final Parameter _waiterParam;
 
