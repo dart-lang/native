@@ -11564,7 +11564,7 @@ extension NSMutableData$Methods on NSMutableData {
 /// NSMutableDictionary
 class NSMutableDictionary extends NSDictionary {
   /// Creates a [NSMutableDictionary] from [other].
-  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+  static NSMutableDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.dictionaryWithCapacity(other.length)..addAll(other);
 
   /// Creates a [NSMutableDictionary] from [entries].
@@ -13877,6 +13877,126 @@ extension NSNotification$Methods on NSNotification {
     return _ret.address == 0
         ? null
         : NSDictionary.castFromPointer(_ret, retain: true, release: true);
+  }
+}
+
+/// NSNull
+class NSNull extends NSObject implements NSCopying, NSSecureCoding {
+  NSNull._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super.castFromPointer(pointer, retain: retain, release: release);
+
+  /// Constructs a [NSNull] that points to the same underlying object as [other].
+  NSNull.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [NSNull] that wraps the given raw object pointer.
+  NSNull.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NSNull].
+  static bool isInstance(objc.ObjCObjectBase obj) {
+    return _objc_msgSend_19nvye5(
+      obj.ref.pointer,
+      _sel_isKindOfClass_,
+      _class_NSNull,
+    );
+  }
+
+  /// alloc
+  static NSNull alloc() {
+    final _ret = _objc_msgSend_151sglz(_class_NSNull, _sel_alloc);
+    return NSNull.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NSNull allocWithZone(ffi.Pointer<NSZone> zone) {
+    final _ret = _objc_msgSend_1cwp428(
+      _class_NSNull,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NSNull.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// new
+  static NSNull new$() {
+    final _ret = _objc_msgSend_151sglz(_class_NSNull, _sel_new);
+    return NSNull.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// null
+  static NSNull null$() {
+    final _ret = _objc_msgSend_151sglz(_class_NSNull, _sel_null);
+    return NSNull.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// supportsSecureCoding
+  static bool getSupportsSecureCoding() {
+    return _objc_msgSend_91o635(_class_NSNull, _sel_supportsSecureCoding);
+  }
+
+  /// Returns a new instance of NSNull constructed with the default `new` method.
+  factory NSNull() => new$();
+}
+
+extension NSNull$Methods on NSNull {
+  /// autorelease
+  NSNull autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return NSNull.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// encodeWithCoder:
+  void encodeWithCoder(NSCoder coder) {
+    _objc_msgSend_xtuoz7(
+      this.ref.pointer,
+      _sel_encodeWithCoder_,
+      coder.ref.pointer,
+    );
+  }
+
+  /// init
+  NSNull init() {
+    objc.checkOsVersionInternal(
+      'NSNull.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final _ret = _objc_msgSend_151sglz(
+      this.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSNull.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// initWithCoder:
+  NSNull? initWithCoder(NSCoder coder) {
+    final _ret = _objc_msgSend_1sotr3r(
+      this.ref.retainAndReturnPointer(),
+      _sel_initWithCoder_,
+      coder.ref.pointer,
+    );
+    return _ret.address == 0
+        ? null
+        : NSNull.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// retain
+  NSNull retain() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return NSNull.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// self
+  NSNull self() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return NSNull.castFromPointer(_ret, retain: true, release: true);
   }
 }
 
@@ -36253,6 +36373,7 @@ late final _class_NSMutableOrderedSet = objc.getClass("NSMutableOrderedSet");
 late final _class_NSMutableSet = objc.getClass("NSMutableSet");
 late final _class_NSMutableString = objc.getClass("NSMutableString");
 late final _class_NSNotification = objc.getClass("NSNotification");
+late final _class_NSNull = objc.getClass("NSNull");
 late final _class_NSNumber = objc.getClass("NSNumber");
 late final _class_NSObject = objc.getClass("NSObject");
 late final _class_NSOrderedCollectionChange = objc.getClass(
@@ -41752,6 +41873,7 @@ late final _sel_notificationWithName_object_ = objc.registerName(
 late final _sel_notificationWithName_object_userInfo_ = objc.registerName(
   "notificationWithName:object:userInfo:",
 );
+late final _sel_null = objc.registerName("null");
 late final _sel_numberOfArguments = objc.registerName("numberOfArguments");
 late final _sel_numberWithBool_ = objc.registerName("numberWithBool:");
 late final _sel_numberWithChar_ = objc.registerName("numberWithChar:");

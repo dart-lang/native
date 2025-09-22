@@ -3,7 +3,9 @@
 - Use ffigen 20.0.0
 - Fix missing `NSNumber` category includes in iOS and macOS `objective_c.m`
   files.
-- Add `NSBundle` to the bindings.
+- Add `NSBundle` and `NSNull` to the bindings.
+- Fix a [bug](https://github.com/dart-lang/native/issues/2627) where
+  `NSMutableDictionary.of` returned a `NSDictionary`.
 
 ## 8.1.0
 
