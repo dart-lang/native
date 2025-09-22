@@ -20,6 +20,7 @@ import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/fill_method_dependencies.dart';
+import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';
 import '../visitor/fix_overridden_methods.dart';
 import '../visitor/list_bindings.dart';
@@ -206,15 +207,9 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
-  // TODO: Create namespaces.
-  // TODO: Create context.extraSymbols
-  // TODO: Visit symbols.
-
-  context.libs.fillPrefixes(context.rootNamespace);
-  // context.rootNamespace.fillNames();
-  // context.rootObjCNamespace.fillNames();
-
   final finalBindingsList = finalBindings.toList();
+
+  _nameAllSymbols(context, finalBindingsList);
 
   /// Sort bindings.
   if (config.sort) {
@@ -225,10 +220,8 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   }
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
-  final declConflictHandler = UniqueNamer();
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b, context.logger);
-    _resolveIfNameConflicts(declConflictHandler, b, context.logger);
   }
 
   // Override pack values according to config. We do this after declaration
@@ -255,15 +248,27 @@ void _warnIfPrivateDeclaration(Binding b, Logger logger) {
   }
 }
 
-/// Resolves name conflict(if any) and logs a warning.
-void _resolveIfNameConflicts(UniqueNamer namer, Binding b, Logger logger) {
-  // Print warning if name was conflicting and has been changed.
-  final oldName = b.name;
-  b.name = namer.makeUnique(b.name);
-  if (oldName != b.name) {
-    logger.warning(
-      "Resolved name conflict: Declaration '$oldName' "
-      "and has been renamed to '${b.name}'.",
-    );
-  }
+void _nameAllSymbols(Context context, List<Binding> bindings) {
+  context.rootNamespace = Namespace.createRoot();
+  context.rootObjCNamespace = Namespace.createRoot();
+  context.libs.createSymbols(context.rootNamespace);
+  context.extraSymbols = _createExtraSymbols(context, bindings);
+
+  visit(context, FindSymbolsVisitation(context), bindings);
+
+  context.rootNamespace.fillNames();
+  context.rootObjCNamespace.fillNames();
+}
+
+ExtraSymbols _createExtraSymbols(Context context, List<Binding> bindings) {
+  final bindingStyle = context.config.outputStyle;
+  final extraSymbols = (
+    wrapperClassName: bindingStyle is DynamicLibraryBindings
+        ? Symbol(bindingStyle.wrapperName)
+        : null,
+    symbolAddressVariableName: Symbol('addresses'),
+  );
+  context.rootNamespace.add(extraSymbols.wrapperClassName);
+  context.rootNamespace.add(extraSymbols.symbolAddressVariableName);
+  return extraSymbols;
 }

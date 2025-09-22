@@ -9,6 +9,7 @@ import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'func.dart';
 import 'imports.dart';
+import 'namespace.dart';
 import 'native_type.dart';
 import 'objc_block.dart';
 import 'objc_built_in_functions.dart';
@@ -17,7 +18,6 @@ import 'objc_nullable.dart';
 import 'pointer.dart';
 import 'type.dart';
 import 'typealias.dart';
-import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -188,10 +188,10 @@ class ObjCMethod extends AstNode {
   ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
-  ObjCMethodOwnership? ownershipAttribute;
+  final ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
   final ApiAvailability apiAvailability;
-  bool consumesSelfAttribute = false;
+  final bool consumesSelfAttribute;
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
@@ -200,6 +200,8 @@ class ObjCMethod extends AstNode {
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(symbol);
+    visitor.visit(protocolMethodName);
     visitor.visit(returnType);
     visitor.visitAll(_params);
     visitor.visit(selObject);
@@ -210,10 +212,10 @@ class ObjCMethod extends AstNode {
     visitor.visit(objcPkgImport);
   }
 
-  ObjCMethod._({
+  ObjCMethod.withSymbol({
     required this.context,
     required this.originalName,
-    required String name,
+    required this.symbol,
     required String protocolMethodName,
     this.dartDoc,
     required this.kind,
@@ -223,11 +225,11 @@ class ObjCMethod extends AstNode {
     required this.family,
     required this.apiAvailability,
     required List<Parameter> params,
-    required this.selObject,
-  }) : symbol = Symbol(name),
-       protocolMethodName = Symbol(protocolMethodName),
-
-       _params = params;
+    this.ownershipAttribute,
+    this.consumesSelfAttribute = false,
+  }) : protocolMethodName = Symbol(protocolMethodName.replaceAll(':', '_')),
+       _params = params,
+       selObject = context.objCBuiltInFunctions.getSelObject(originalName);
 
   factory ObjCMethod({
     required Context context,
@@ -241,17 +243,10 @@ class ObjCMethod extends AstNode {
     required ObjCMethodFamily? family,
     required ApiAvailability apiAvailability,
     required List<Parameter> params,
+    ObjCMethodOwnership? ownershipAttribute,
+    bool consumesSelfAttribute = false,
   }) {
-    final selObject = context.objCBuiltInFunctions.getSelObject(originalName);
-    // TODO: Namespace {
-    //     'pointer',
-    //     'toString',
-    //     'hashCode',
-    //     'runtimeType',
-    //     'noSuchMethod',
-    //   }
-    final builtParams = [];
-    final protocolMethodName = name.replaceAll(':', '_');
+    final protocolMethodName = name;
 
     // Split the name at the ':'. The first chunk is the name of the method, and
     // the rest of the chunks are named parameters. Eg NSString's
@@ -282,13 +277,13 @@ class ObjCMethod extends AstNode {
       // parameters. Most of these are omitted from the bindings as they're not
       // supported yet. But as a fallback, just replace all the ':' in the name
       // with '_', like we do for protocol methods.
-      name = protocolMethodName;
+      name = name.replaceAll(':', '_');
     }
 
-    return ObjCMethod._(
+    return ObjCMethod.withSymbol(
       context: context,
       originalName: originalName,
-      name: name,
+      symbol: Symbol(name),
       protocolMethodName: protocolMethodName,
       dartDoc: dartDoc,
       kind: kind,
@@ -298,7 +293,6 @@ class ObjCMethod extends AstNode {
       family: family,
       apiAvailability: apiAvailability,
       params: params,
-      selObject: selObject,
     );
   }
 

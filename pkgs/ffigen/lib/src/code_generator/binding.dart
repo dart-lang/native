@@ -61,6 +61,12 @@ abstract class Binding extends AstNode implements Declaration {
   @override
   void visit(Visitation visitation) => visitation.visitBinding(this);
 
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_symbol);
+  }
+
   /// Returns whether this type is imported from package:objective_c.
   bool get isObjCImport => false;
 }

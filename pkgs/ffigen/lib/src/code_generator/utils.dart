@@ -8,9 +8,9 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import 'imports.dart';
+import 'namespace.dart';
 import 'pointer.dart';
 import 'type.dart';
-import 'namespace.dart';
 import 'writer.dart';
 
 /// Converts [text] to a dart doc comment(`///`).

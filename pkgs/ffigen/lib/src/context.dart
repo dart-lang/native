@@ -83,9 +83,9 @@ class LibraryImports {
 
   final _used = <LibraryImport>{};
 
-  // Call after all used imports have been marked by [markUsed]. Fills the
-  // library prefixes used for codegen.
-  void fillPrefixes(Namespace namespace) {
+  // Call after all used imports have been marked by [markUsed]. Creates Symbols
+  // for all the library prefixes used for codegen.
+  void createSymbols(Namespace namespace) {
     for (final lib in _used) {
       namespace.add(_prefixes[lib] = Symbol(lib.name));
     }
@@ -111,5 +111,6 @@ class LibraryImports {
 
 typedef ExtraSymbols = ({
   Symbol? wrapperClassName,
-  Symbol? symbolAddressVariableName,
+  // TODO(https://github.com/dart-lang/native/issues/1259): Make this nullable.
+  Symbol symbolAddressVariableName,
 });
