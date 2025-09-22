@@ -76,6 +76,8 @@ extension SwiftGenGenerator on SwiftGenerator {
   ], absTempDir);
 
   void _generateDartFile(Logger logger, String objcHeader) {
+    final interfaces = ffigen.objectiveC.interfaces;
+    final protocols = ffigen.objectiveC.protocols;
     fg.FfiGenerator(
       output: fg.Output(
         dartFile: output.dartFile,
@@ -98,24 +100,26 @@ extension SwiftGenGenerator on SwiftGenerator {
       typedefs: ffigen.typedefs,
       objectiveC: fg.ObjectiveC(
         interfaces: fg.Interfaces(
-          include: ffigen.objectiveC.interfaces.include,
-          includeMember: ffigen.objectiveC.interfaces.includeMember,
-          includeSymbolAddress:
-              ffigen.objectiveC.interfaces.includeSymbolAddress,
-          rename: ffigen.objectiveC.interfaces.rename,
-          renameMember: ffigen.objectiveC.interfaces.renameMember,
-          includeTransitive: ffigen.objectiveC.interfaces.includeTransitive,
-          module: (_) => output.module,
+          include: interfaces.include,
+          includeMember: interfaces.includeMember,
+          includeSymbolAddress: interfaces.includeSymbolAddress,
+          rename: interfaces.rename,
+          renameMember: interfaces.renameMember,
+          includeTransitive: interfaces.includeTransitive,
+          module: interfaces.module != fg.Interfaces.noModule
+              ? interfaces.module
+              : (_) => output.module,
         ),
         protocols: fg.Protocols(
-          include: ffigen.objectiveC.protocols.include,
-          includeMember: ffigen.objectiveC.protocols.includeMember,
-          includeSymbolAddress:
-              ffigen.objectiveC.protocols.includeSymbolAddress,
-          rename: ffigen.objectiveC.protocols.rename,
-          renameMember: ffigen.objectiveC.protocols.renameMember,
-          includeTransitive: ffigen.objectiveC.protocols.includeTransitive,
-          module: (_) => output.module,
+          include: protocols.include,
+          includeMember: protocols.includeMember,
+          includeSymbolAddress: protocols.includeSymbolAddress,
+          rename: protocols.rename,
+          renameMember: protocols.renameMember,
+          includeTransitive: protocols.includeTransitive,
+          module: protocols.module != fg.Protocols.noModule
+              ? protocols.module
+              : (_) => output.module,
         ),
         categories: ffigen.objectiveC.categories,
         externalVersions: ffigen.objectiveC.externalVersions,
