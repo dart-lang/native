@@ -95,7 +95,7 @@ class _ParsedCompound {
       } else {
         context.logger.warning(
           'Unsupported pack value "$alignment" for Struct '
-          '"${compound.name}".',
+          '"${compound.originalName}".',
         );
         return null;
       }
@@ -216,7 +216,7 @@ void fillCompoundMembersIfNeeded(
       'unimplementedtype ${cursor.completeStringRepr()}',
     );
     logger.warning(
-      'Removed All $className Members from ${compound.name}'
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), struct member has an unsupported type.',
     );
   } else if (parsed.flexibleArrayMember) {
@@ -225,7 +225,7 @@ void fillCompoundMembersIfNeeded(
       'member ${cursor.completeStringRepr()}',
     );
     logger.warning(
-      'Removed All $className Members from ${compound.name}'
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Flexible array members not supported.',
     );
   } else if (parsed.bitFieldMember) {
@@ -234,7 +234,7 @@ void fillCompoundMembersIfNeeded(
       '${cursor.completeStringRepr()}',
     );
     logger.warning(
-      'Removed All $className Members from ${compound.name}'
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Bit Field members not supported.',
     );
   } else if (parsed.dartHandleMember && context.config.useDartHandle) {
@@ -243,7 +243,7 @@ void fillCompoundMembersIfNeeded(
       '${cursor.completeStringRepr()}',
     );
     logger.warning(
-      'Removed All $className Members from ${compound.name}'
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Dart_Handle member not supported.',
     );
   } else if (parsed.incompleteCompoundMember) {
@@ -252,7 +252,7 @@ void fillCompoundMembersIfNeeded(
       'member. ${cursor.completeStringRepr()}',
     );
     logger.warning(
-      'Removed All $className Members from ${compound.name}'
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Incomplete Nested Struct member not '
       'supported.',
     );
