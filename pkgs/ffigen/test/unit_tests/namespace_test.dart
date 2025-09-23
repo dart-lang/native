@@ -60,10 +60,10 @@ void main() {
 
   group('Namespace', () {
     test('parenting', () {
-      final root = Namespace.createRoot();
-      final parent = root.addNamespace();
-      final child = parent.addNamespace();
-      final uncle = root.addNamespace();
+      final root = Namespace.createRoot('root');
+      final parent = root.addNamespace('parent');
+      final child = parent.addNamespace('child');
+      final uncle = root.addNamespace('uncle');
 
       final rootSymbol = Symbol('foo');
       final parentSymbol = Symbol('foo');
@@ -83,7 +83,7 @@ void main() {
     });
 
     test('addPrivate', () {
-      final root = Namespace.createRoot();
+      final root = Namespace.createRoot('root');
       root.fillNames();
       expect(root.addPrivate('_foo'), '_foo');
       expect(root.addPrivate('_foo'), '_foo\$1');
@@ -91,10 +91,10 @@ void main() {
     });
 
     test('preUsedNames', () {
-      final root = Namespace.createRoot();
-      final parent = root.addNamespace(preUsedNames: {'bar'});
-      final child = parent.addNamespace();
-      final uncle = root.addNamespace();
+      final root = Namespace.createRoot('root');
+      final parent = root.addNamespace('parent', preUsedNames: {'bar'});
+      final child = parent.addNamespace('child');
+      final uncle = root.addNamespace('uncle');
 
       final parentSymbol = Symbol('bar');
       final childSymbol = Symbol('bar');

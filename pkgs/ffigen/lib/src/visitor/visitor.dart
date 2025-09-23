@@ -24,7 +24,9 @@ final class Visitor {
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) context.logger.info('${'  ' * _indentLevel++}$node');
+    if (_debug) {
+      context.logger.info('${'  ' * _indentLevel++}$node: ${node.runtimeType}');
+    }
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);

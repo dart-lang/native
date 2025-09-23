@@ -6,18 +6,23 @@ import '../visitor/ast.dart';
 import 'dart_keywords.dart';
 
 class Namespace {
+  final String _debugName;
   final _symbols = <Symbol>[];
   final _children = <Namespace>[];
   final Set<String> _preUsedNames;
   Namer? _namer;
 
-  Namespace._(this._preUsedNames);
+  Namespace._(this._debugName, this._preUsedNames);
 
-  static Namespace createRoot() => Namespace._(const {});
+  static Namespace createRoot(String debugName) =>
+      Namespace._(debugName, const {});
 
-  Namespace addNamespace({Set<String> preUsedNames = const {}}) {
+  Namespace addNamespace(
+    String debugName, {
+    Set<String> preUsedNames = const {},
+  }) {
     assert(!_filled);
-    final ns = Namespace._(preUsedNames);
+    final ns = Namespace._(debugName, preUsedNames);
     _children.add(ns);
     return ns;
   }
@@ -64,6 +69,21 @@ class Namespace {
 
   /// Returns a version of [name] suitable for inclusion in a string literal.
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
+
+  void debugPrint([String depth = '']) {
+    final newDepth = '  $depth';
+    print('$depth$_debugName {');
+    for (final s in _symbols) {
+      print('$newDepth$s');
+    }
+    for (final ns in _children) {
+      ns.debugPrint(newDepth);
+    }
+    print('$depth}');
+  }
+
+  @override
+  String toString() => _debugName;
 }
 
 class Namer {
