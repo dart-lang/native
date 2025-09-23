@@ -43,11 +43,6 @@ class Writer {
 
   final bool silenceEnumWarning;
 
-  late final lookupFuncIdentifier = context.rootNamespace.addPrivate('_lookup');
-  late final _symbolAddressClassName = context.rootNamespace.addPrivate(
-    '_SymbolAddresses',
-  );
-
   Writer({
     required this.lookUpBindings,
     required this.ffiNativeBindings,
@@ -103,6 +98,7 @@ class Writer {
     if (lookUpBindings.isNotEmpty) {
       final ffiPrefix = context.libs.prefix(ffiImport);
       final className = context.extraSymbols.wrapperClassName!.name;
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
       // Write doc comment for wrapper class.
       s.write(makeDartDoc(classDocComment));
       // Write wrapper class.
@@ -111,7 +107,7 @@ class Writer {
       s.write('/// Holds the symbol lookup function.\n');
       s.write(
         'final $ffiPrefix.Pointer<T> Function<T extends '
-        '$ffiPrefix.NativeType>(String symbolName) $lookupFuncIdentifier;\n',
+        '$ffiPrefix.NativeType>(String symbolName) $lookupFn;\n',
       );
       s.write('\n');
       //Write doc comment for wrapper class constructor.
@@ -119,7 +115,7 @@ class Writer {
       // Write wrapper class constructor.
       s.write(
         '$className($ffiPrefix.DynamicLibrary dynamicLibrary): '
-        '$lookupFuncIdentifier = dynamicLibrary.lookup;\n\n',
+        '$lookupFn = dynamicLibrary.lookup;\n\n',
       );
       //Write doc comment for wrapper class named constructor.
       s.write(makeDartDoc('The symbols are looked up with [lookup].'));
@@ -127,7 +123,7 @@ class Writer {
       s.write(
         '$className.fromLookup($ffiPrefix.Pointer<T> '
         'Function<T extends $ffiPrefix.NativeType>('
-        'String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n',
+        'String symbolName) lookup): $lookupFn = lookup;\n\n',
       );
       for (final b in lookUpBindings) {
         s.write(b.toBindingString(this).string);
@@ -365,6 +361,10 @@ class SymbolAddressWriter {
 
   SymbolAddressWriter(this.context);
 
+  late final _symbolAddressClassName = context.rootNamespace.addPrivate(
+    '_SymbolAddresses',
+  );
+
   void addSymbol({
     required String type,
     required String name,
@@ -379,20 +379,18 @@ class SymbolAddressWriter {
   }
 
   String writeObject(Writer w) {
-    final className = w._symbolAddressClassName;
     final fieldName = context.extraSymbols.symbolAddressVariableName.name;
 
     if (hasNonNativeAddress) {
-      return 'late final $fieldName = $className(this);';
+      return 'late final $fieldName = $_symbolAddressClassName(this);';
     } else {
-      return 'const $fieldName = $className();';
+      return 'const $fieldName = $_symbolAddressClassName();';
     }
   }
 
   String writeClass(Writer w) {
     final sb = StringBuffer();
-    final className = w._symbolAddressClassName;
-    sb.write('class $className {\n');
+    sb.write('class $_symbolAddressClassName {\n');
 
     late final libraryVarName = context.rootNamespace.addPrivate('_library');
     if (hasNonNativeAddress) {
@@ -400,10 +398,10 @@ class SymbolAddressWriter {
       final wrapperClassName = context.extraSymbols.wrapperClassName!.name;
       sb.write('  final $wrapperClassName $libraryVarName;\n');
       // Write Constructor.
-      sb.write('  $className(this.$libraryVarName);\n');
+      sb.write('  $_symbolAddressClassName(this.$libraryVarName);\n');
     } else {
       // Native bindings are top-level, so we don't need a field here.
-      sb.write('  const $className();');
+      sb.write('  const $_symbolAddressClassName();');
     }
 
     for (final address in _addresses) {

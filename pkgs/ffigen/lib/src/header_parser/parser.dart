@@ -254,7 +254,7 @@ void _nameAllSymbols(Context context, List<Binding> bindings) {
   context.libs.createSymbols(context.rootNamespace);
   context.extraSymbols = _createExtraSymbols(context, bindings);
 
-  visit(context, FindSymbolsVisitation(context), bindings, debug: true);
+  visit(context, FindSymbolsVisitation(context), bindings);
 
   context.rootNamespace.fillNames();
   context.rootObjCNamespace.fillNames();
@@ -262,13 +262,19 @@ void _nameAllSymbols(Context context, List<Binding> bindings) {
 
 ExtraSymbols _createExtraSymbols(Context context, List<Binding> bindings) {
   final bindingStyle = context.config.outputStyle;
+  Symbol? wrapperClassName;
+  Symbol? lookupFuncName;
+  if (bindingStyle is DynamicLibraryBindings) {
+    wrapperClassName = Symbol(bindingStyle.wrapperName);
+    lookupFuncName = Symbol('_lookup');
+  }
   final extraSymbols = (
-    wrapperClassName: bindingStyle is DynamicLibraryBindings
-        ? Symbol(bindingStyle.wrapperName)
-        : null,
+    wrapperClassName: wrapperClassName,
+    lookupFuncName: lookupFuncName,
     symbolAddressVariableName: Symbol('addresses'),
   );
   context.rootNamespace.add(extraSymbols.wrapperClassName);
+  context.rootNamespace.add(extraSymbols.lookupFuncName);
   context.rootNamespace.add(extraSymbols.symbolAddressVariableName);
   return extraSymbols;
 }

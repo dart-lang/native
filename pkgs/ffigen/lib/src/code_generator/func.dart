@@ -174,8 +174,8 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
         // Add to SymbolAddress in writer.
         w.symbolAddressWriter.addNativeSymbol(
           type:
-              '${w.context.libs.prefix(ffiImport)}.Pointer<'
-              '${w.context.libs.prefix(ffiImport)}.NativeFunction<$cType>>',
+              '${context.libs.prefix(ffiImport)}.Pointer<'
+              '${context.libs.prefix(ffiImport)}.NativeFunction<$cType>>',
           name: name,
         );
       }
@@ -195,8 +195,8 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
         // Add to SymbolAddress in writer.
         w.symbolAddressWriter.addSymbol(
           type:
-              '${w.context.libs.prefix(ffiImport)}.Pointer<'
-              '${w.context.libs.prefix(ffiImport)}.NativeFunction<$cType>>',
+              '${context.libs.prefix(ffiImport)}.Pointer<'
+              '${context.libs.prefix(ffiImport)}.NativeFunction<$cType>>',
           name: name,
           ptrName: funcPointerName,
         );
@@ -204,9 +204,10 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
 
       // Write function pointer.
       final lookupStr = Namespace.stringLiteral(lookupName);
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
       s.write('''
-late final $funcPointerName = ${w.lookupFuncIdentifier}<
-    ${w.context.libs.prefix(ffiImport)}.NativeFunction<$cType>>('$lookupStr');
+late final $funcPointerName = $lookupFn<
+    ${context.libs.prefix(ffiImport)}.NativeFunction<$cType>>('$lookupStr');
 late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
 ''');

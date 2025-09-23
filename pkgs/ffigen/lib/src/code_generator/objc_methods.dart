@@ -179,7 +179,6 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
   final String? dartDoc;
   final String originalName;
   Symbol symbol;
-  String? dartMethodName;
   final Symbol protocolMethodName;
   Type returnType;
   final List<Parameter> _params;
@@ -296,6 +295,7 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
     );
   }
 
+  String get name => symbol.name;
   Iterable<Parameter> get params => _params;
 
   bool get isProperty =>

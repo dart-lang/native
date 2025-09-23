@@ -117,18 +117,16 @@ class Global extends LookUpBinding {
       }
     } else {
       final pointerName = context.rootNamespace.addPrivate('_$globalVarName');
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
 
       s.write(
         'late final $ptrType $pointerName = '
-        "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n",
+        "$lookupFn<$cType>('$originalName');\n\n",
       );
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
-          s.write(
-            '$ptrType get $globalVarName =>'
-            ' $pointerName;\n\n',
-          );
+          s.write('$ptrType get $globalVarName => $pointerName;\n\n');
         } else {
           s.write('$ffiDartType get $globalVarName => $pointerName.ref;\n\n');
         }

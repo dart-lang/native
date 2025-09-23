@@ -166,7 +166,7 @@ ${generateInstanceMethodBindings(w, this)}
     if (newMethod != null && originalName != 'NSString') {
       s.write('''
   /// Returns a new instance of $name constructed with the default `new` method.
-  factory $name() => ${newMethod.dartMethodName}();
+  factory $name() => ${newMethod.name}();
 ''');
     }
 

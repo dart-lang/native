@@ -293,15 +293,15 @@ abstract final class $name {
     return $blockType(wrapper, retain: false, release: true);
   }
 
-  $returnFfiDartType $listenerTrampoline(
+  static $returnFfiDartType $listenerTrampoline(
       $blockCType block, ${_helper.paramsFfiDartType}) {
     ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
     $releaseFn(block.cast());
   }
-  $trampNatCallType $listenerCallable =
+  static $trampNatCallType $listenerCallable =
       $trampNatCallType.listener($listenerTrampoline $exceptionalReturn)
           ..keepIsolateAlive = false;
-  $returnFfiDartType $blockingTrampoline(
+  static $returnFfiDartType $blockingTrampoline(
       $blockCType block, ${_blockingHelper.paramsFfiDartType}) {
     try {
       ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
@@ -311,25 +311,25 @@ abstract final class $name {
       $releaseFn(block.cast());
     }
   }
-  ${_blockingHelper.trampNatCallType} $blockingCallable =
+  static ${_blockingHelper.trampNatCallType} $blockingCallable =
       ${_blockingHelper.trampNatCallType}.isolateLocal(
           $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-  ${_blockingHelper.trampNatCallType} $blockingListenerCallable =
+  static ${_blockingHelper.trampNatCallType} $blockingListenerCallable =
       ${_blockingHelper.trampNatCallType}.listener(
           $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 ''');
     }
     s.write('''
-  $returnFfiDartType $funcPtrTrampoline(
+  static $returnFfiDartType $funcPtrTrampoline(
       $blockCType block, ${_helper.paramsFfiDartType}) =>
           block.ref.target.cast<${_helper.natFnFfiDartType}>()
               .asFunction<${_helper.ffiDartType}>()($paramsNameOnly);
-  $voidPtrCType $funcPtrCallable = $ffiPrefix.Pointer.fromFunction<
+  static $voidPtrCType $funcPtrCallable = $ffiPrefix.Pointer.fromFunction<
       ${_helper.trampCType}>($funcPtrTrampoline $exceptionalReturn).cast();
-  $returnFfiDartType $closureTrampoline(
+  static $returnFfiDartType $closureTrampoline(
       $blockCType block, ${_helper.paramsFfiDartType}) =>
       ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
-  $voidPtrCType $closureCallable = $ffiPrefix.Pointer.fromFunction<
+  static $voidPtrCType $closureCallable = $ffiPrefix.Pointer.fromFunction<
       ${_helper.trampCType}>($closureTrampoline $exceptionalReturn).cast();
 }
 
@@ -408,10 +408,10 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
     final listenerName = Namespace.cSafeName(
-      context.rootObjCNamespace.addPrivate('ListenerTrampoline'),
+      context.rootObjCNamespace.addPrivate('_ListenerTrampoline'),
     );
     final blockingName = Namespace.cSafeName(
-      context.rootObjCNamespace.addPrivate('BlockingTrampoline'),
+      context.rootObjCNamespace.addPrivate('_BlockingTrampoline'),
     );
 
     return '''
@@ -459,7 +459,7 @@ $listenerName $blockingWrapper(
     final argPass = argsPassed.join(', ');
     final fnName = protocolTrampoline!.func.name;
     final block = Namespace.cSafeName(
-      context.rootObjCNamespace.addPrivate('ProtocolTrampoline'),
+      context.rootObjCNamespace.addPrivate('_ProtocolTrampoline'),
     );
     final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';
     final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';
