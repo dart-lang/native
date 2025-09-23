@@ -8,16 +8,16 @@ import 'dart_keywords.dart';
 class Namespace {
   final _symbols = <Symbol>[];
   final _children = <Namespace>[];
-  final Set<String> _extraKeywords;
+  final Set<String> _preUsedNames;
   Namer? _namer;
 
-  Namespace._(this._extraKeywords);
+  Namespace._(this._preUsedNames);
 
   static Namespace createRoot() => Namespace._(const {});
 
-  Namespace addNamespace({Set<String> extraKeywords = const {}}) {
+  Namespace addNamespace({Set<String> preUsedNames = const {}}) {
     assert(!_filled);
-    final ns = Namespace._(extraKeywords);
+    final ns = Namespace._(preUsedNames);
     _children.add(ns);
     return ns;
   }
@@ -33,12 +33,11 @@ class Namespace {
     return _namer!.add(name);
   }
 
-  void fillNames() {
-    _fillNames(Namer(Set<String>.of(_extraKeywords)));
-  }
+  void fillNames() => _fillNames(const {});
 
-  void _fillNames(Namer namer) {
+  void _fillNames(Set<String> parentUsedNames) {
     assert(!_filled);
+    final namer = Namer(parentUsedNames.union(_preUsedNames));
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {
@@ -53,7 +52,7 @@ class Namespace {
       }
     }
     for (final ns in _children) {
-      ns._fillNames(Namer(namer._used.union(_extraKeywords)));
+      ns._fillNames(namer._used);
     }
   }
 

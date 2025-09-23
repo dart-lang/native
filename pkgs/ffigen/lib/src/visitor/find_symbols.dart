@@ -90,7 +90,7 @@ class FindSymbolsVisitation extends Visitation {
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     node.localNamespace = context.rootNamespace.addNamespace(
-      extraKeywords: objCObjectBaseMethods,
+      preUsedNames: objCObjectBaseMethods,
     );
     visitBindingHasLocalNamespace(node, context.rootNamespace);
   }
@@ -111,7 +111,7 @@ class FindSymbolsVisitation extends Visitation {
     fillObjCInterfaceNamespaces(node.superType);
     node.localNamespace =
         (node.superType?.localNamespace ?? context.rootNamespace).addNamespace(
-          extraKeywords: objCObjectBaseMethods,
+          preUsedNames: objCObjectBaseMethods,
         );
   }
 }
