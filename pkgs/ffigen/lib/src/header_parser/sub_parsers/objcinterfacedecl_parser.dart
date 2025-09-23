@@ -202,6 +202,8 @@ void _parseSuperType(
     params: const [],
     family: null,
     apiAvailability: apiAvailability,
+    ownershipAttribute: null,
+    consumesSelfAttribute: false,
   );
 
   ObjCMethod? setter;
@@ -222,6 +224,8 @@ void _parseSuperType(
       params: [Parameter(name: 'value', type: fieldType, objCConsumed: false)],
       family: null,
       apiAvailability: apiAvailability,
+      ownershipAttribute: null,
+      consumesSelfAttribute: false,
     );
   }
   return (getter, setter);

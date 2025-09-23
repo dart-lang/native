@@ -224,8 +224,8 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
     required this.family,
     required this.apiAvailability,
     required List<Parameter> params,
-    this.ownershipAttribute,
-    this.consumesSelfAttribute = false,
+    required this.ownershipAttribute,
+    required this.consumesSelfAttribute,
   }) : protocolMethodName = Symbol(protocolMethodName.replaceAll(':', '_')),
        _params = params,
        selObject = context.objCBuiltInFunctions.getSelObject(originalName);
@@ -242,8 +242,8 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
     required ObjCMethodFamily? family,
     required ApiAvailability apiAvailability,
     required List<Parameter> params,
-    ObjCMethodOwnership? ownershipAttribute,
-    bool consumesSelfAttribute = false,
+    required ObjCMethodOwnership? ownershipAttribute,
+    required bool consumesSelfAttribute,
   }) {
     final protocolMethodName = name;
 
@@ -292,6 +292,8 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
       family: family,
       apiAvailability: apiAvailability,
       params: params,
+      ownershipAttribute: ownershipAttribute,
+      consumesSelfAttribute: consumesSelfAttribute,
     );
   }
 
