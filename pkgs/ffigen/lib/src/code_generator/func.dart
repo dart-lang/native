@@ -233,7 +233,7 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 /// Represents a Parameter, used in [Func], [Typealias], [ObjCMethod], and
 /// [ObjCBlock].
 class Parameter extends AstNode {
-  final String? originalName;
+  final String originalName;
   Type type;
   final bool objCConsumed;
   bool isCovariant = false;
@@ -257,7 +257,7 @@ class Parameter extends AstNode {
       '${objCConsumed ? ' __attribute__((ns_consumed))' : ''}';
 
   @override
-  String toString() => '$type $name';
+  String toString() => '$type $symbol';
 
   @override
   void visitChildren(Visitor visitor) {

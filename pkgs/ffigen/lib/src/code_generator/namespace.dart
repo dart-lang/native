@@ -108,5 +108,12 @@ class Symbol extends AstNode {
 }
 
 mixin HasLocalNamespace on AstNode {
-  late final Namespace localNamespace;
+  Namespace? _localNamespace;
+  Namespace get localNamespace => _localNamespace!;
+  set localNamespace(Namespace ns) {
+    assert(!localNamespaceFilled);
+    _localNamespace = ns;
+  }
+
+  bool get localNamespaceFilled => _localNamespace != null;
 }

@@ -254,7 +254,7 @@ void _nameAllSymbols(Context context, List<Binding> bindings) {
   context.libs.createSymbols(context.rootNamespace);
   context.extraSymbols = _createExtraSymbols(context, bindings);
 
-  visit(context, FindSymbolsVisitation(context), bindings);
+  visit(context, FindSymbolsVisitation(context), bindings, debug: true);
 
   context.rootNamespace.fillNames();
   context.rootObjCNamespace.fillNames();

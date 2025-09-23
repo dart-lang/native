@@ -33,32 +33,23 @@ class FindSymbolsVisitation extends Visitation {
 
   void visitHasLocalNamespace(
     HasLocalNamespace node,
-    Namespace parentNamespace, {
-    Set<String> extraKeywords = const {},
-  }) {
-    node.localNamespace = parentNamespace.addNamespace(
-      extraKeywords: extraKeywords,
-    );
+    Namespace parentNamespace,
+  ) {
+    if (!node.localNamespaceFilled) {
+      node.localNamespace = parentNamespace.addNamespace();
+    }
     visitInsideNamespace(node, node.localNamespace);
   }
 
   // Node: node should be Binding & HasLocalNamespace, but Dart doesn't have
   // intersection types.
-  void visitBindingHasLocalNamespace(
-    Binding node,
-    Namespace parentNamespace, {
-    Set<String> extraKeywords = const {},
-  }) {
+  void visitBindingHasLocalNamespace(Binding node, Namespace parentNamespace) {
     // Explicitly add the Binding's symbol to the root namespace before visiting
     // the children, because the name shouldn't be part of the local namespace.
     // Visiting the children will also add the symbol to the local namespace,
     // but that's ok because `Namespace.fillNames` is built to handle that.
     context.rootNamespace.add(node.symbol);
-    visitHasLocalNamespace(
-      node as HasLocalNamespace,
-      parentNamespace,
-      extraKeywords: extraKeywords,
-    );
+    visitHasLocalNamespace(node as HasLocalNamespace, parentNamespace);
   }
 
   @override
@@ -83,30 +74,26 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    visitor.visit(node.parent);
-    visitBindingHasLocalNamespace(
-      node,
-      node.parent.localNamespace,
-      extraKeywords: objCObjectBaseMethods,
-    );
+    fillObjCInterfaceNamespaces(node.parent);
+    visitBindingHasLocalNamespace(node, node.parent.localNamespace);
   }
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    visitor.visit(node.superType);
+    fillObjCInterfaceNamespaces(node.superType);
     visitBindingHasLocalNamespace(
       node,
       node.superType?.localNamespace ?? context.rootNamespace,
-      extraKeywords: objCObjectBaseMethods,
     );
   }
 
   @override
-  void visitObjCProtocol(ObjCProtocol node) => visitBindingHasLocalNamespace(
-    node,
-    context.rootNamespace,
-    extraKeywords: objCObjectBaseMethods,
-  );
+  void visitObjCProtocol(ObjCProtocol node) {
+    node.localNamespace = context.rootNamespace.addNamespace(
+      extraKeywords: objCObjectBaseMethods,
+    );
+    visitBindingHasLocalNamespace(node, context.rootNamespace);
+  }
 
   @override
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) =>
@@ -117,5 +104,14 @@ class FindSymbolsVisitation extends Visitation {
     currentNamespace.add(node.symbol);
     currentNamespace.add(node.protocolMethodName);
     visitHasLocalNamespace(node, context.rootNamespace);
+  }
+
+  void fillObjCInterfaceNamespaces(ObjCInterface? node) {
+    if (node == null || node.localNamespaceFilled) return;
+    fillObjCInterfaceNamespaces(node.superType);
+    node.localNamespace =
+        (node.superType?.localNamespace ?? context.rootNamespace).addNamespace(
+          extraKeywords: objCObjectBaseMethods,
+        );
   }
 }

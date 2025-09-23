@@ -20,6 +20,8 @@ class ObjCBlock extends BindingType with HasLocalNamespace {
 
   final Parameter _blockParam;
   final Parameter _waiterParam;
+  late final _FnHelper _helper;
+  late final _FnHelper _blockingHelper;
 
   factory ObjCBlock(
     Context context, {
@@ -74,6 +76,11 @@ class ObjCBlock extends BindingType with HasLocalNamespace {
          objCConsumed: false,
        ),
        super(originalName: name) {
+    _helper = _FnHelper(context, returnType, params, _blockParam);
+    _blockingHelper = _FnHelper(context, returnType, [
+      _waiterParam,
+      ...params,
+    ], _blockParam);
     if (hasListener) {
       _blockWrappers = context.objCBuiltInFunctions.getBlockTrampolines(this);
     }
@@ -137,13 +144,6 @@ class ObjCBlock extends BindingType with HasLocalNamespace {
     final context = w.context;
     final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
-    // TODO: Is this unsafe? Should we create these at construction time?
-    final func = _FnHelper(context, returnType, params, _blockParam);
-
-    final blockingFunc = _FnHelper(context, returnType, [
-      _waiterParam,
-      ...params,
-    ], _blockParam);
 
     final funcPtrTrampoline = localNamespace.addPrivate('_fnPtrTrampoline');
     final closureTrampoline = localNamespace.addPrivate('_closureTrampoline');
@@ -170,6 +170,8 @@ class ObjCBlock extends BindingType with HasLocalNamespace {
     final defaultValue = returnType.getDefaultValue(context);
     final exceptionalReturn = defaultValue == null ? '' : ', $defaultValue';
     final ffiPrefix = w.context.libs.prefix(ffiImport);
+    final paramsNameOnly = _helper.paramsNameOnly;
+    final trampNatCallType = _helper.trampNatCallType;
 
     // Snippet that converts a Dart typed closure to FfiDart type. This snippet
     // is used below. Note that the closure being converted is called `fn`.
@@ -188,7 +190,7 @@ class ObjCBlock extends BindingType with HasLocalNamespace {
       objCRetain: true,
       objCAutorelease: !returnsRetained,
     );
-    final convFn = '(${func.paramsFfiDartType}) => $convFnInvocation';
+    final convFn = '(${_helper.paramsFfiDartType}) => $convFnInvocation';
 
     // Write the wrapper class.
     s.write('''
@@ -205,7 +207,7 @@ abstract final class $name {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static $blockType fromFunctionPointer(${func.natFnPtrCType} ptr) =>
+  static $blockType fromFunctionPointer(${_helper.natFnPtrCType} ptr) =>
       $blockType($newPointerBlock($funcPtrCallable, ptr.cast()),
           retain: false, release: true);
 
@@ -217,7 +219,7 @@ abstract final class $name {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
-  static $blockType fromFunction(${func.dartType} fn,
+  static $blockType fromFunction(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) =>
       $blockType($newClosureBlock($closureCallable, $convFn, keepIsolateAlive),
           retain: false, release: true);
@@ -245,7 +247,7 @@ abstract final class $name {
         objCAutorelease: !returnsRetained,
       );
       final listenerConvFn =
-          '(${func.paramsFfiDartType}) => $listenerConvFnInvocation';
+          '(${_helper.paramsFfiDartType}) => $listenerConvFnInvocation';
       final wrapListenerFn = _blockWrappers!.listenerWrapper.name;
       final wrapBlockingFn = _blockWrappers!.blockingWrapper.name;
 
@@ -259,7 +261,7 @@ abstract final class $name {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
-  static $blockType listener(${func.dartType} fn,
+  static $blockType listener(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
     final raw = $newClosureBlock($listenerCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
@@ -278,7 +280,7 @@ abstract final class $name {
   /// until it is garbage collected by both Dart and ObjC. If the owner isolate
   /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
-  static $blockType blocking(${func.dartType} fn,
+  static $blockType blocking(${_helper.dartType} fn,
           {bool keepIsolateAlive = true}) {
     final raw = $newClosureBlock($blockingCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
@@ -292,43 +294,43 @@ abstract final class $name {
   }
 
   $returnFfiDartType $listenerTrampoline(
-      $blockCType block, ${func.paramsFfiDartType}) {
-    ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
+      $blockCType block, ${_helper.paramsFfiDartType}) {
+    ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
     $releaseFn(block.cast());
   }
-  ${func.trampNatCallType} $listenerCallable =
-      ${func.trampNatCallType}.listener($listenerTrampoline $exceptionalReturn)
+  $trampNatCallType $listenerCallable =
+      $trampNatCallType.listener($listenerTrampoline $exceptionalReturn)
           ..keepIsolateAlive = false;
   $returnFfiDartType $blockingTrampoline(
-      $blockCType block, ${blockingFunc.paramsFfiDartType}) {
+      $blockCType block, ${_blockingHelper.paramsFfiDartType}) {
     try {
-      ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
+      ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
     } catch (e) {
     } finally {
       $signalWaiterFn(waiter);
       $releaseFn(block.cast());
     }
   }
-  ${blockingFunc.trampNatCallType} $blockingCallable =
-      ${blockingFunc.trampNatCallType}.isolateLocal(
+  ${_blockingHelper.trampNatCallType} $blockingCallable =
+      ${_blockingHelper.trampNatCallType}.isolateLocal(
           $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
-  ${blockingFunc.trampNatCallType} $blockingListenerCallable =
-      ${blockingFunc.trampNatCallType}.listener(
+  ${_blockingHelper.trampNatCallType} $blockingListenerCallable =
+      ${_blockingHelper.trampNatCallType}.listener(
           $blockingTrampoline $exceptionalReturn)..keepIsolateAlive = false;
 ''');
     }
     s.write('''
   $returnFfiDartType $funcPtrTrampoline(
-      $blockCType block, ${func.paramsFfiDartType}) =>
-          block.ref.target.cast<${func.natFnFfiDartType}>()
-              .asFunction<${func.ffiDartType}>()(${func.paramsNameOnly});
+      $blockCType block, ${_helper.paramsFfiDartType}) =>
+          block.ref.target.cast<${_helper.natFnFfiDartType}>()
+              .asFunction<${_helper.ffiDartType}>()($paramsNameOnly);
   $voidPtrCType $funcPtrCallable = $ffiPrefix.Pointer.fromFunction<
-      ${func.trampCType}>($funcPtrTrampoline $exceptionalReturn).cast();
+      ${_helper.trampCType}>($funcPtrTrampoline $exceptionalReturn).cast();
   $returnFfiDartType $closureTrampoline(
-      $blockCType block, ${func.paramsFfiDartType}) =>
-      ($getBlockClosure(block) as ${func.ffiDartType})(${func.paramsNameOnly});
+      $blockCType block, ${_helper.paramsFfiDartType}) =>
+      ($getBlockClosure(block) as ${_helper.ffiDartType})($paramsNameOnly);
   $voidPtrCType $closureCallable = $ffiPrefix.Pointer.fromFunction<
-      ${func.trampCType}>($closureTrampoline $exceptionalReturn).cast();
+      ${_helper.trampCType}>($closureTrampoline $exceptionalReturn).cast();
 }
 
 ''');
@@ -337,7 +339,7 @@ abstract final class $name {
     s.write('''
 /// Call operator for `$blockType`.
 extension $name\$CallExtension on $blockType {
-  ${returnType.getDartType(context)} call(${func.paramsDartType}) =>''');
+  ${returnType.getDartType(context)} call(${_helper.paramsDartType}) =>''');
     final callMethodArgs = params
         .map(
           (p) => p.type.convertDartTypeToFfiDartType(
@@ -350,8 +352,8 @@ extension $name\$CallExtension on $blockType {
         .join(', ');
     final callMethodInvocation =
         '''
-ref.pointer.ref.invoke.cast<${func.trampNatFnCType}>()
-  .asFunction<${func.trampFfiDartType}>()(
+ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
+  .asFunction<${_helper.trampFfiDartType}>()(
     ref.pointer, $callMethodArgs)''';
     s.write(
       returnType.convertFfiDartTypeToDartType(
@@ -530,6 +532,8 @@ $ret $fnName(id target, $argRecv) {
     visitor.visit(protocolTrampoline);
     visitor.visit(ffiImport);
     visitor.visit(objcPkgImport);
+    _helper.visitChildren(visitor);
+    _blockingHelper.visitChildren(visitor);
   }
 
   @override
@@ -548,51 +552,60 @@ $ret $fnName(id target, $argRecv) {
 }
 
 class _FnHelper {
+  final Context context;
+  final FunctionType fnType;
+  final FunctionType trampFnType;
   late final NativeFunc natFnType;
-  late final String natFnFfiDartType;
-  late final String natFnPtrCType;
-  late final String dartType;
-  late final String ffiDartType;
-  late final String trampCType;
-  late final String trampFfiDartType;
-  late final String trampNatCallType;
-  late final String trampNatFnCType;
-  late final String paramsNameOnly;
-  late final String paramsFfiDartType;
-  late final String paramsDartType;
+
+  late final String natFnFfiDartType = natFnType.getFfiDartType(context);
+  late final String natFnPtrCType = PointerType(natFnType).getCType(context);
+  late final String dartType = fnType.getDartType(
+    context,
+    writeArgumentNames: false,
+  );
+  late final String ffiDartType = fnType.getFfiDartType(
+    context,
+    writeArgumentNames: false,
+  );
+
+  late final String trampCType = trampFnType.getCType(
+    context,
+    writeArgumentNames: false,
+  );
+  late final String trampFfiDartType = trampFnType.getFfiDartType(
+    context,
+    writeArgumentNames: false,
+  );
+  late final String trampNatCallType =
+      '${context.libs.prefix(ffiImport)}.NativeCallable<$trampCType>';
+  late final String trampNatFnCType = NativeFunc(trampFnType).getCType(context);
+
+  late final String paramsNameOnly = fnType.parameters
+      .map((p) => p.name)
+      .join(', ');
+  late final String paramsFfiDartType = fnType.parameters
+      .map((p) => '${p.type.getFfiDartType(context)} ${p.name}')
+      .join(', ');
+  late final String paramsDartType = fnType.parameters
+      .map((p) => '${p.type.getDartType(context)} ${p.name}')
+      .join(', ');
 
   _FnHelper(
-    Context context,
+    this.context,
     Type returnType,
     List<Parameter> params,
     Parameter blockParam,
-  ) {
-    final fnType = FunctionType(returnType: returnType, parameters: params);
+  ) : fnType = FunctionType(returnType: returnType, parameters: params),
+      trampFnType = FunctionType(
+        returnType: returnType,
+        parameters: [blockParam, ...params],
+      ) {
     natFnType = NativeFunc(fnType);
-    natFnFfiDartType = natFnType.getFfiDartType(context);
-    natFnPtrCType = PointerType(natFnType).getCType(context);
-    dartType = fnType.getDartType(context, writeArgumentNames: false);
-    ffiDartType = fnType.getFfiDartType(context, writeArgumentNames: false);
+  }
 
-    final trampFnType = FunctionType(
-      returnType: returnType,
-      parameters: [blockParam, ...params],
-    );
-    trampCType = trampFnType.getCType(context, writeArgumentNames: false);
-    trampFfiDartType = trampFnType.getFfiDartType(
-      context,
-      writeArgumentNames: false,
-    );
-    trampNatCallType =
-        '${context.libs.prefix(ffiImport)}.NativeCallable<$trampCType>';
-    trampNatFnCType = NativeFunc(trampFnType).getCType(context);
-
-    paramsNameOnly = params.map((p) => p.name).join(', ');
-    paramsFfiDartType = params
-        .map((p) => '${p.type.getFfiDartType(context)} ${p.name}')
-        .join(', ');
-    paramsDartType = params
-        .map((p) => '${p.type.getDartType(context)} ${p.name}')
-        .join(', ');
+  void visitChildren(Visitor visitor) {
+    visitor.visit(fnType);
+    visitor.visit(trampFnType);
+    visitor.visit(natFnType);
   }
 }
