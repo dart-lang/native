@@ -94,6 +94,7 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
+    if (!bindings.contains(node)) return;
     fillObjCInterfaceNamespaces(node.parent);
     visitBindingHasLocalNamespace(node, node.parent.localNamespace);
   }
