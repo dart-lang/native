@@ -127,6 +127,7 @@ class FindSymbolsVisitation extends Visitation {
 
   void fillObjCInterfaceNamespaces(ObjCInterface? node) {
     if (node == null || node.localNamespaceFilled) return;
+    context.rootNamespace.add(node.symbol);
     fillObjCInterfaceNamespaces(node.superType);
     node.localNamespace =
         (node.superType?.localNamespace ?? context.rootNamespace).addNamespace(

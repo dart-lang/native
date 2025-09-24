@@ -32,6 +32,11 @@ class Namespace {
 
   /// Add a [Symbol] to this [Namespace].
   ///
+  /// It's fine to add the [Symbol] to this [Namespace] multiple times. It's
+  /// also fine to add the [Symbol] to multiple [Namespace]s, as long as one of
+  /// the [Namespace]s is an ancestor of the other (this is checked during
+  /// [fillNames]).
+  ///
   /// [fillNames] must not have been called yet.
   void add(Symbol? symbol) {
     assert(!_filled);
