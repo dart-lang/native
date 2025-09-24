@@ -111,6 +111,7 @@ class LibraryImports {
 
 typedef ExtraSymbols = ({
   Symbol? wrapperClassName,
+  Symbol? lookupFuncName,
   // TODO(https://github.com/dart-lang/native/issues/1259): Make this nullable.
   Symbol symbolAddressVariableName,
 });

@@ -6,39 +6,61 @@ import '../visitor/ast.dart';
 import 'dart_keywords.dart';
 
 class Namespace {
+  final String _debugName;
   final _symbols = <Symbol>[];
   final _children = <Namespace>[];
-  final Set<String> _extraKeywords;
+  final Set<String> _preUsedNames;
   Namer? _namer;
 
-  Namespace._(this._extraKeywords);
+  Namespace._(this._debugName, this._preUsedNames);
 
-  static Namespace createRoot() => Namespace._(const {});
+  static Namespace createRoot(String debugName) =>
+      Namespace._(debugName, const {});
 
-  Namespace addNamespace({Set<String> extraKeywords = const {}}) {
+  /// Create a new [Namespace] as a child of this one.
+  ///
+  /// [fillNames] must not have been called yet.
+  Namespace addNamespace(
+    String debugName, {
+    Set<String> preUsedNames = const {},
+  }) {
     assert(!_filled);
-    final ns = Namespace._(extraKeywords);
+    final ns = Namespace._(debugName, preUsedNames);
     _children.add(ns);
     return ns;
   }
 
+  /// Add a [Symbol] to this [Namespace].
+  ///
+  /// [fillNames] must not have been called yet.
   void add(Symbol? symbol) {
     assert(!_filled);
     if (symbol != null) _symbols.add(symbol);
   }
 
+  /// Add an ad-hoc name to the [Namespace].
+  ///
+  /// This is meant to be used during code generation, for generating unique
+  /// names for internal use only. It shouldn't be used for user visible names,
+  /// or for names that need to be used in multiple disparate places throughout
+  /// ffigen. If you're storing the name in a long term variable, you should
+  /// probably be using a proper [Symbol].
+  ///
+  /// To help ensure correct use, only names beginning with '_' are allowed.
+  /// [fillNames] must have been called already.
   String addPrivate(String name) {
     assert(_filled);
     assert(name.startsWith('_'));
     return _namer!.add(name);
   }
 
-  void fillNames() {
-    _fillNames(Namer(Set<String>.of(_extraKeywords)));
-  }
+  /// Fill in the names of all the [Symbols] in this [Namespace] and its
+  /// children.
+  void fillNames() => _fillNames(const {});
 
-  void _fillNames(Namer namer) {
+  void _fillNames(Set<String> parentUsedNames) {
     assert(!_filled);
+    final namer = Namer(parentUsedNames.union(_preUsedNames));
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {
@@ -53,7 +75,7 @@ class Namespace {
       }
     }
     for (final ns in _children) {
-      ns._fillNames(Namer(namer._used.union(_extraKeywords)));
+      ns._fillNames(namer._used);
     }
   }
 
@@ -65,6 +87,21 @@ class Namespace {
 
   /// Returns a version of [name] suitable for inclusion in a string literal.
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
+
+  void debugPrint([String depth = '']) {
+    final newDepth = '  $depth';
+    print('$depth$_debugName {');
+    for (final s in _symbols) {
+      print('$newDepth$s');
+    }
+    for (final ns in _children) {
+      ns.debugPrint(newDepth);
+    }
+    print('$depth}');
+  }
+
+  @override
+  String toString() => _debugName;
 }
 
 class Namer {
@@ -92,8 +129,9 @@ class Namer {
 
 class Symbol extends AstNode {
   final String oldName;
-
   String? _name;
+
+  /// Only valid if [Namespace.fillNames] has been called already.
   String get name => _name!;
 
   Symbol(this.oldName);
@@ -108,5 +146,12 @@ class Symbol extends AstNode {
 }
 
 mixin HasLocalNamespace on AstNode {
-  late final Namespace localNamespace;
+  Namespace? _localNamespace;
+  Namespace get localNamespace => _localNamespace!;
+  set localNamespace(Namespace ns) {
+    assert(!localNamespaceFilled);
+    _localNamespace = ns;
+  }
+
+  bool get localNamespaceFilled => _localNamespace != null;
 }

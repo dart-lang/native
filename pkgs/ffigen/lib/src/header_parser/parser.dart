@@ -207,11 +207,10 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
-  final finalBindingsList = finalBindings.toList();
-
-  _nameAllSymbols(context, finalBindingsList);
+  _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
+  final finalBindingsList = finalBindings.toList();
   if (config.sort) {
     finalBindingsList.sortBy((b) => b.name);
     for (final b in finalBindingsList) {
@@ -248,27 +247,33 @@ void _warnIfPrivateDeclaration(Binding b, Logger logger) {
   }
 }
 
-void _nameAllSymbols(Context context, List<Binding> bindings) {
-  context.rootNamespace = Namespace.createRoot();
-  context.rootObjCNamespace = Namespace.createRoot();
+void _nameAllSymbols(Context context, Set<Binding> bindings) {
+  context.rootNamespace = Namespace.createRoot('root');
+  context.rootObjCNamespace = Namespace.createRoot('objc_root');
   context.libs.createSymbols(context.rootNamespace);
-  context.extraSymbols = _createExtraSymbols(context, bindings);
+  context.extraSymbols = _createExtraSymbols(context);
 
-  visit(context, FindSymbolsVisitation(context), bindings);
+  visit(context, FindSymbolsVisitation(context, bindings), bindings);
 
   context.rootNamespace.fillNames();
   context.rootObjCNamespace.fillNames();
 }
 
-ExtraSymbols _createExtraSymbols(Context context, List<Binding> bindings) {
+ExtraSymbols _createExtraSymbols(Context context) {
   final bindingStyle = context.config.outputStyle;
+  Symbol? wrapperClassName;
+  Symbol? lookupFuncName;
+  if (bindingStyle is DynamicLibraryBindings) {
+    wrapperClassName = Symbol(bindingStyle.wrapperName);
+    lookupFuncName = Symbol('_lookup');
+  }
   final extraSymbols = (
-    wrapperClassName: bindingStyle is DynamicLibraryBindings
-        ? Symbol(bindingStyle.wrapperName)
-        : null,
+    wrapperClassName: wrapperClassName,
+    lookupFuncName: lookupFuncName,
     symbolAddressVariableName: Symbol('addresses'),
   );
   context.rootNamespace.add(extraSymbols.wrapperClassName);
+  context.rootNamespace.add(extraSymbols.lookupFuncName);
   context.rootNamespace.add(extraSymbols.symbolAddressVariableName);
   return extraSymbols;
 }

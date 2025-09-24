@@ -318,8 +318,8 @@ void main() {
             name: 'Constants',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              const EnumConstant(name: 'a', value: 10),
-              const EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
+              EnumConstant(name: 'a', value: 10),
+              EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
             ],
           ),
         ], context),
@@ -338,17 +338,17 @@ void main() {
             name: 'Duplicates',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              const EnumConstant(
+              EnumConstant(
                 name: 'a',
                 value: 0,
                 dartDoc: 'This is a unique value',
               ),
-              const EnumConstant(
+              EnumConstant(
                 name: 'b',
                 value: 1,
                 dartDoc: 'This is an original value',
               ),
-              const EnumConstant(
+              EnumConstant(
                 name: 'c',
                 value: 1,
                 dartDoc: 'This is a duplicate value',
@@ -365,9 +365,9 @@ void main() {
         context: context,
         name: 'MyEnum',
         enumConstants: [
-          const EnumConstant(name: 'value1', value: 0),
-          const EnumConstant(name: 'value2', value: 1),
-          const EnumConstant(name: 'value3', value: 2),
+          EnumConstant(name: 'value1', value: 0),
+          EnumConstant(name: 'value2', value: 1),
+          EnumConstant(name: 'value3', value: 2),
         ],
       );
       final enum2 = EnumClass(
@@ -375,9 +375,9 @@ void main() {
         name: 'MyIntegerEnum',
         style: EnumStyle.intConstants,
         enumConstants: [
-          const EnumConstant(name: 'int1', value: 1),
-          const EnumConstant(name: 'int2', value: 2),
-          const EnumConstant(name: 'int3', value: 10),
+          EnumConstant(name: 'int1', value: 1),
+          EnumConstant(name: 'int2', value: 2),
+          EnumConstant(name: 'int3', value: 10),
         ],
       );
       final library = Library(
@@ -411,7 +411,7 @@ void main() {
       final enum1 = EnumClass(
         context: context,
         name: 'Enum1',
-        enumConstants: const [
+        enumConstants: [
           EnumConstant(name: 'a', value: 0),
           EnumConstant(name: 'b', value: 1),
           EnumConstant(name: 'c', value: 2),
@@ -421,7 +421,7 @@ void main() {
         context: context,
         name: 'Enum2',
         style: EnumStyle.intConstants,
-        enumConstants: const [
+        enumConstants: [
           EnumConstant(name: 'value1', value: 0),
           EnumConstant(name: 'value2', value: 1),
           EnumConstant(name: 'value3', value: 2),

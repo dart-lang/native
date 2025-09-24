@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../context.dart';
 import '../visitor/ast.dart';
 import 'binding.dart';
 import 'binding_string.dart';
@@ -30,7 +29,6 @@ class Global extends LookUpBinding {
   final bool constant;
 
   Global({
-    required Context context,
     super.usr,
     super.originalName,
     required super.name,
@@ -119,18 +117,16 @@ class Global extends LookUpBinding {
       }
     } else {
       final pointerName = context.rootNamespace.addPrivate('_$globalVarName');
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
 
       s.write(
         'late final $ptrType $pointerName = '
-        "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n",
+        "$lookupFn<$cType>('$originalName');\n\n",
       );
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
-          s.write(
-            '$ptrType get $globalVarName =>'
-            ' $pointerName;\n\n',
-          );
+          s.write('$ptrType get $globalVarName => $pointerName;\n\n');
         } else {
           s.write('$ffiDartType get $globalVarName => $pointerName.ref;\n\n');
         }
