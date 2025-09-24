@@ -30,17 +30,14 @@ class FunctionType extends Type with HasLocalNamespace {
     String? varArgWrapper,
   }) {
     final params = varArgWrapper != null ? parameters : dartTypeParameters;
+    String paramToString(Parameter p) =>
+        '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}';
     String? varArgPack;
     if (varArgWrapper != null && varArgParameters.isNotEmpty) {
       final varArgPackBuf = StringBuffer();
       varArgPackBuf.write('$varArgWrapper<(');
       varArgPackBuf.write(
-        varArgParameters
-            .map<String>(
-              (p) =>
-                  '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}',
-            )
-            .join(', '),
+        varArgParameters.map<String>(paramToString).join(', '),
       );
       varArgPackBuf.write(',)>');
       varArgPack = varArgPackBuf.toString();
@@ -54,9 +51,7 @@ class FunctionType extends Type with HasLocalNamespace {
     sb.write(' Function(');
     sb.write(
       [
-        ...params.map<String>((p) {
-          return '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}';
-        }),
+        ...params.map<String>(paramToString),
         if (varArgPack != null) varArgPack,
       ].join(', '),
     );
