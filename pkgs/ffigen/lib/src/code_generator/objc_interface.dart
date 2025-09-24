@@ -74,9 +74,6 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalNamespace {
       context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) !=
       null;
 
-  @override
-  void sort() => sortMethods();
-
   bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override

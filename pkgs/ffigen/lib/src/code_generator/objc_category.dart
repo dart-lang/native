@@ -42,9 +42,6 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalNamespace {
       context.objCBuiltInFunctions.isBuiltInCategory(originalName);
 
   @override
-  void sort() => sortMethods();
-
-  @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     s.write('\n');

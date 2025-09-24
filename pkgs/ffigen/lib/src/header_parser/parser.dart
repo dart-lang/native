@@ -5,7 +5,6 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -26,6 +25,7 @@ import '../visitor/fix_overridden_methods.dart';
 import '../visitor/list_bindings.dart';
 import '../visitor/mark_imports.dart';
 import '../visitor/opaque_compounds.dart';
+import '../visitor/sorter.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'sub_parsers/macro_parser.dart';
 import 'translation_unit_parser.dart';
@@ -210,12 +210,13 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
-  final finalBindingsList = finalBindings.toList();
+  var finalBindingsList = finalBindings.toList();
   if (config.sort) {
-    finalBindingsList.sortBy((b) => b.name);
-    for (final b in finalBindingsList) {
-      b.sort();
-    }
+    finalBindingsList = visit(
+      context,
+      SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
+      finalBindings,
+    ).sorted;
   }
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
@@ -248,12 +249,18 @@ void _warnIfPrivateDeclaration(Binding b, Logger logger) {
 }
 
 void _nameAllSymbols(Context context, Set<Binding> bindings) {
+  final namingOrder = visit(
+    context,
+    SorterVisitation(bindings, SorterVisitation.originalNameSortKey),
+    bindings,
+  ).sorted;
+
   context.rootNamespace = Namespace.createRoot('root');
   context.rootObjCNamespace = Namespace.createRoot('objc_root');
   context.libs.createSymbols(context.rootNamespace);
   context.extraSymbols = _createExtraSymbols(context);
 
-  visit(context, FindSymbolsVisitation(context, bindings), bindings);
+  visit(context, FindSymbolsVisitation(context, bindings), namingOrder);
 
   context.rootNamespace.fillNames();
   context.rootObjCNamespace.fillNames();

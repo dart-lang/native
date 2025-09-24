@@ -63,9 +63,6 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalNamespace {
   bool get isObjCImport =>
       context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
-  @override
-  void sort() => sortMethods();
-
   bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override

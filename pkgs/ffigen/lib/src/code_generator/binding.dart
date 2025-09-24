@@ -54,10 +54,6 @@ abstract class Binding extends AstNode implements Declaration {
   /// Returns the Objective C bindings, if any.
   BindingString? toObjCBindingString(Writer w) => null;
 
-  /// Sort members of this binding, if possible. For example, sort the methods
-  /// of a ObjCInterface.
-  void sort() {}
-
   @override
   void visit(Visitation visitation) => visitation.visitBinding(this);
 
