@@ -17,6 +17,9 @@ class Namespace {
   static Namespace createRoot(String debugName) =>
       Namespace._(debugName, const {});
 
+  /// Create a new [Namespace] as a child of this one.
+  ///
+  /// [fillNames] must not have been called yet.
   Namespace addNamespace(
     String debugName, {
     Set<String> preUsedNames = const {},
@@ -27,17 +30,32 @@ class Namespace {
     return ns;
   }
 
+  /// Add a [Symbol] to this [Namespace].
+  ///
+  /// [fillNames] must not have been called yet.
   void add(Symbol? symbol) {
     assert(!_filled);
     if (symbol != null) _symbols.add(symbol);
   }
 
+  /// Add an ad-hoc name to the [Namespace].
+  ///
+  /// This is meant to be used during code generation, for generating unique
+  /// names for internal use only. It shouldn't be used for user visible names,
+  /// or for names that need to be used in multiple disparate places throughout
+  /// ffigen. If you're storing the name in a long term variable, you should
+  /// probably be using a proper [Symbol].
+  ///
+  /// To help ensure correct use, only names beginning with '_' are allowed.
+  /// [fillNames] must have been called already.
   String addPrivate(String name) {
     assert(_filled);
     assert(name.startsWith('_'));
     return _namer!.add(name);
   }
 
+  /// Fill in the names of all the [Symbols] in this [Namespace] and its
+  /// children.
   void fillNames() => _fillNames(const {});
 
   void _fillNames(Set<String> parentUsedNames) {
@@ -111,8 +129,9 @@ class Namer {
 
 class Symbol extends AstNode {
   final String oldName;
-
   String? _name;
+
+  /// Only valid if [Namespace.fillNames] has been called already.
   String get name => _name!;
 
   Symbol(this.oldName);
