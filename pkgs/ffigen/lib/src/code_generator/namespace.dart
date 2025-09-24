@@ -59,7 +59,7 @@ class Namespace {
     return _namer!.add(name);
   }
 
-  /// Fill in the names of all the [Symbols] in this [Namespace] and its
+  /// Fill in the names of all the [Symbol]s in this [Namespace] and its
   /// children.
   void fillNames() => _fillNames(const {});
 

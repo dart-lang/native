@@ -9,6 +9,7 @@ import '../code_generator/objc_category.dart';
 import '../code_generator/objc_interface.dart';
 import '../code_generator/objc_methods.dart';
 import '../code_generator/objc_protocol.dart';
+import '../code_generator/typealias.dart';
 import '../context.dart';
 import 'ast.dart';
 
@@ -63,9 +64,21 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitBinding(Binding node) {
-    if (!bindings.contains(node)) return;
     if (node is HasLocalNamespace) {
       visitBindingHasLocalNamespace(node, context.rootNamespace);
+    } else {
+      visitInsideNamespace(node, context.rootNamespace);
+    }
+  }
+
+  @override
+  void visitTypealias(Typealias node) {
+    // If the typealias is not in the bindings, that means we're not generating
+    // bindings for it, so we shouldn't add its name to the namespace. But we
+    // still need to visit its target type. Otherwise, if the target type is
+    // only referred to via this alias, then we won't visit it at all.
+    if (!bindings.contains(node)) {
+      visitor.visit(node.type);
     } else {
       visitInsideNamespace(node, context.rootNamespace);
     }
@@ -81,7 +94,6 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    assert(bindings.contains(node));
     fillObjCInterfaceNamespaces(node.parent);
     visitBindingHasLocalNamespace(node, node.parent.localNamespace);
   }
@@ -89,7 +101,6 @@ class FindSymbolsVisitation extends Visitation {
   @override
   void visitObjCInterface(ObjCInterface node) {
     context.rootNamespace.add(node.symbol);
-    if (!bindings.contains(node)) return;
     fillObjCInterfaceNamespaces(node.superType);
     if (!node.generateAsStub) {
       visitBindingHasLocalNamespace(
@@ -102,7 +113,6 @@ class FindSymbolsVisitation extends Visitation {
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     context.rootNamespace.add(node.symbol);
-    if (!bindings.contains(node)) return;
     node.localNamespace = context.rootNamespace.addNamespace(
       node.originalName,
       preUsedNames: objCObjectBaseMethods,
