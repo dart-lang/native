@@ -1352,12 +1352,12 @@ extension DartProtocol$Methods on DartProtocol {
 
   /// getDOBJCDartProtocolMethodForSelector:
   objc.ObjCObjectBase getDOBJCDartProtocolMethodForSelector(
-    ffi.Pointer<objc.ObjCSelector> sel$229,
+    ffi.Pointer<objc.ObjCSelector> sel,
   ) {
     final _ret = _objc_msgSend_3ctkt6(
       this.ref.pointer,
       _sel_getDOBJCDartProtocolMethodForSelector_,
-      sel$229,
+      sel,
     );
     return objc.ObjCObjectBase(_ret, retain: true, release: true);
   }
@@ -1508,7 +1508,7 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
 
   /// implementMethod:withBlock:withTrampoline:withSignature:
   void implementMethod(
-    ffi.Pointer<objc.ObjCSelector> sel$229, {
+    ffi.Pointer<objc.ObjCSelector> sel, {
     required ffi.Pointer<ffi.Void> withBlock,
     required ffi.Pointer<ffi.Void> withTrampoline,
     required ffi.Pointer<ffi.Char> withSignature,
@@ -1516,7 +1516,7 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
     _objc_msgSend_1s2gdyk(
       this.ref.pointer,
       _sel_implementMethod_withBlock_withTrampoline_withSignature_,
-      sel$229,
+      sel,
       withBlock,
       withTrampoline,
       withSignature,
@@ -6327,9 +6327,9 @@ extension NSExtendedArray on NSArray {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject> unnamed$434,
-          ffi.Pointer<objc.ObjCObject> unnamed$435,
-          ffi.Pointer<ffi.Void> unnamed$436,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<ffi.Void>,
         )
       >
     >
@@ -6350,9 +6350,9 @@ extension NSExtendedArray on NSArray {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject> unnamed$434,
-          ffi.Pointer<objc.ObjCObject> unnamed$435,
-          ffi.Pointer<ffi.Void> unnamed$436,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<ffi.Void>,
         )
       >
     >
@@ -7194,9 +7194,9 @@ extension NSExtendedMutableArray on NSMutableArray {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject> unnamed$434,
-          ffi.Pointer<objc.ObjCObject> unnamed$435,
-          ffi.Pointer<ffi.Void> unnamed$436,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<ffi.Void>,
         )
       >
     >
@@ -14769,7 +14769,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
   }
 
   /// resolveClassMethod:
-  static bool resolveClassMethod(ffi.Pointer<objc.ObjCSelector> sel$229) {
+  static bool resolveClassMethod(ffi.Pointer<objc.ObjCSelector> sel) {
     objc.checkOsVersionInternal(
       'NSObject.resolveClassMethod:',
       iOS: (false, (2, 0, 0)),
@@ -14778,12 +14778,12 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
     return _objc_msgSend_1srf6wk(
       _class_NSObject,
       _sel_resolveClassMethod_,
-      sel$229,
+      sel,
     );
   }
 
   /// resolveInstanceMethod:
-  static bool resolveInstanceMethod(ffi.Pointer<objc.ObjCSelector> sel$229) {
+  static bool resolveInstanceMethod(ffi.Pointer<objc.ObjCSelector> sel) {
     objc.checkOsVersionInternal(
       'NSObject.resolveInstanceMethod:',
       iOS: (false, (2, 0, 0)),
@@ -14792,7 +14792,7 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
     return _objc_msgSend_1srf6wk(
       _class_NSObject,
       _sel_resolveInstanceMethod_,
-      sel$229,
+      sel,
     );
   }
 
@@ -36790,9 +36790,9 @@ final _objc_msgSend_1bvics1 = objc.msgSendPointer
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Long Function(
-                ffi.Pointer<objc.ObjCObject> unnamed$434,
-                ffi.Pointer<objc.ObjCObject> unnamed$435,
-                ffi.Pointer<ffi.Void> unnamed$436,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Void>,
               )
             >
           >,
@@ -36807,9 +36807,9 @@ final _objc_msgSend_1bvics1 = objc.msgSendPointer
         ffi.Pointer<
           ffi.NativeFunction<
             ffi.Long Function(
-              ffi.Pointer<objc.ObjCObject> unnamed$434,
-              ffi.Pointer<objc.ObjCObject> unnamed$435,
-              ffi.Pointer<ffi.Void> unnamed$436,
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<ffi.Void>,
             )
           >
         >,
@@ -37052,9 +37052,9 @@ final _objc_msgSend_1ffoev1 = objc.msgSendPointer
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Long Function(
-                ffi.Pointer<objc.ObjCObject> unnamed$434,
-                ffi.Pointer<objc.ObjCObject> unnamed$435,
-                ffi.Pointer<ffi.Void> unnamed$436,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Void>,
               )
             >
           >,
@@ -37069,9 +37069,9 @@ final _objc_msgSend_1ffoev1 = objc.msgSendPointer
         ffi.Pointer<
           ffi.NativeFunction<
             ffi.Long Function(
-              ffi.Pointer<objc.ObjCObject> unnamed$434,
-              ffi.Pointer<objc.ObjCObject> unnamed$435,
-              ffi.Pointer<ffi.Void> unnamed$436,
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<ffi.Void>,
             )
           >
         >,
@@ -37230,9 +37230,9 @@ final _objc_msgSend_1i2r70j = objc.msgSendPointer
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Long Function(
-                ffi.Pointer<objc.ObjCObject> unnamed$434,
-                ffi.Pointer<objc.ObjCObject> unnamed$435,
-                ffi.Pointer<ffi.Void> unnamed$436,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<objc.ObjCObject>,
+                ffi.Pointer<ffi.Void>,
               )
             >
           >,
@@ -37248,9 +37248,9 @@ final _objc_msgSend_1i2r70j = objc.msgSendPointer
         ffi.Pointer<
           ffi.NativeFunction<
             ffi.Long Function(
-              ffi.Pointer<objc.ObjCObject> unnamed$434,
-              ffi.Pointer<objc.ObjCObject> unnamed$435,
-              ffi.Pointer<ffi.Void> unnamed$436,
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<ffi.Void>,
             )
           >
         >,

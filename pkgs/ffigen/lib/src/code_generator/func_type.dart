@@ -5,9 +5,10 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'namespace.dart';
 
 /// Represents a function type.
-class FunctionType extends Type {
+class FunctionType extends Type with HasLocalNamespace {
   final Type returnType;
   final List<Parameter> parameters;
   final List<Parameter> varArgParameters;
@@ -37,7 +38,7 @@ class FunctionType extends Type {
         varArgParameters
             .map<String>(
               (p) =>
-                  '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}',
+                  '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}',
             )
             .join(', '),
       );
@@ -54,7 +55,7 @@ class FunctionType extends Type {
     sb.write(
       [
         ...params.map<String>((p) {
-          return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
+          return '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}';
         }),
         if (varArgPack != null) varArgPack,
       ].join(', '),
@@ -128,6 +129,9 @@ class FunctionType extends Type {
     visitor.visitAll(varArgParameters);
     visitor.visit(ffiImport);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitFunctionType(this);
 
   @override
   bool isSupertypeOf(Type other) {

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator/binding.dart';
+import '../code_generator/func_type.dart';
 import '../code_generator/namespace.dart';
 import '../code_generator/objc_built_in_functions.dart';
 import '../code_generator/objc_category.dart';
@@ -122,6 +123,10 @@ class FindSymbolsVisitation extends Visitation {
       visitBindingHasLocalNamespace(node, context.rootNamespace);
     }
   }
+
+  @override
+  void visitFunctionType(FunctionType node) =>
+      visitHasLocalNamespace(node, context.rootNamespace, 'FunctionType');
 
   @override
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) =>

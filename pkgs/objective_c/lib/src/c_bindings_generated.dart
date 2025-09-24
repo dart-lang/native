@@ -198,17 +198,12 @@ external ffi.Pointer<ObjCSelector> registerName(ffi.Pointer<ffi.Char> name);
 
 @ffi.Native<
   ffi.Void Function(
-    ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
-    >,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>,
     ffi.Pointer<ffi.Void>,
   )
 >(symbol: 'DOBJC_runOnMainThread', isLeaf: true)
 external void runOnMainThread(
-  ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
-  >
-  fn,
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>> fn,
   ffi.Pointer<ffi.Void> arg,
 );
 
@@ -226,7 +221,7 @@ final class DOBJC_Context extends ffi.Struct {
   newWaiter$1;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
   >
   awaitWaiter$1;
 
@@ -236,7 +231,7 @@ final class DOBJC_Context extends ffi.Struct {
   currentIsolate;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate> unnamed$1)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>
   >
   enterIsolate;
 
@@ -244,9 +239,7 @@ final class DOBJC_Context extends ffi.Struct {
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function()>> getMainPortId;
 
-  external ffi.Pointer<
-    ffi.NativeFunction<ffi.Bool Function(ffi.Int64 unnamed$2)>
-  >
+  external ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
   getCurrentThreadOwnsIsolate;
 }
 
@@ -271,7 +264,7 @@ final class ObjCBlockDesc extends ffi.Struct {
   copy_helper;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> src$1)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> src)>
   >
   dispose_helper;
 
