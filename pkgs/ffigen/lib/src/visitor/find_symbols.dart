@@ -81,18 +81,17 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    if (!bindings.contains(node)) return;
+    assert(bindings.contains(node));
     fillObjCInterfaceNamespaces(node.parent);
     visitBindingHasLocalNamespace(node, node.parent.localNamespace);
   }
 
   @override
   void visitObjCInterface(ObjCInterface node) {
+    context.rootNamespace.add(node.symbol);
     if (!bindings.contains(node)) return;
     fillObjCInterfaceNamespaces(node.superType);
-    if (node.generateAsStub) {
-      context.rootNamespace.add(node.symbol);
-    } else {
+    if (!node.generateAsStub) {
       visitBindingHasLocalNamespace(
         node,
         node.superType?.localNamespace ?? context.rootNamespace,
@@ -102,14 +101,13 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
+    context.rootNamespace.add(node.symbol);
     if (!bindings.contains(node)) return;
     node.localNamespace = context.rootNamespace.addNamespace(
       node.originalName,
       preUsedNames: objCObjectBaseMethods,
     );
-    if (node.generateAsStub) {
-      context.rootNamespace.add(node.symbol);
-    } else {
+    if (!node.generateAsStub) {
       visitBindingHasLocalNamespace(node, context.rootNamespace);
     }
   }
@@ -127,7 +125,6 @@ class FindSymbolsVisitation extends Visitation {
 
   void fillObjCInterfaceNamespaces(ObjCInterface? node) {
     if (node == null || node.localNamespaceFilled) return;
-    context.rootNamespace.add(node.symbol);
     fillObjCInterfaceNamespaces(node.superType);
     node.localNamespace =
         (node.superType?.localNamespace ?? context.rootNamespace).addNamespace(
