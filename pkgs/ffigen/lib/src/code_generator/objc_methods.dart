@@ -45,7 +45,7 @@ mixin ObjCMethods {
   }
 
   void visitMethods(Visitor visitor) {
-    visitor.visitAll(_methods.values);
+    visitor.visitAll(methods);
   }
 
   bool _shouldReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {

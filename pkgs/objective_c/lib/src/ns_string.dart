@@ -12,7 +12,7 @@ extension StringToNSString on String {
 extension NSStringToString on NSString {
   String toDartString() {
     const nsUTF16LittleEndianStringEncoding = 0x94000100;
-    final data = dataUsingEncoding$1(nsUTF16LittleEndianStringEncoding);
+    final data = dataUsingEncoding(nsUTF16LittleEndianStringEncoding);
     return data!.bytes.cast<Utf16>().toDartString(length: length);
   }
 }

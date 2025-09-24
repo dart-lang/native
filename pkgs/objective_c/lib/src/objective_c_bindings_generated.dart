@@ -1691,7 +1691,7 @@ class NSArray extends NSObject
   }
 
   /// arrayWithObjects:
-  static NSArray arrayWithObjects$1(objc.ObjCObjectBase firstObj) {
+  static NSArray arrayWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSArray,
       _sel_arrayWithObjects_,
@@ -1701,7 +1701,7 @@ class NSArray extends NSObject
   }
 
   /// arrayWithObjects:count:
-  static NSArray arrayWithObjects(
+  static NSArray arrayWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -1807,7 +1807,7 @@ extension NSArray$Methods on NSArray {
   }
 
   /// initWithObjects:
-  NSArray initWithObjects$1(objc.ObjCObjectBase firstObj) {
+  NSArray initWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_,
@@ -1817,7 +1817,7 @@ extension NSArray$Methods on NSArray {
   }
 
   /// initWithObjects:count:
-  NSArray initWithObjects(
+  NSArray initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -1928,7 +1928,7 @@ class NSAttributedString extends NSObject
   ///
   /// iOS: introduced 17.0.0
   /// macOS: introduced 14.0.0
-  static NSAttributedString localizedAttributedStringWithFormat$2(
+  static NSAttributedString localizedAttributedStringWithFormat$1(
     NSAttributedString format, {
     required NSDictionary context,
   }) {
@@ -1954,7 +1954,7 @@ class NSAttributedString extends NSObject
   ///
   /// iOS: introduced 15.0.0
   /// macOS: introduced 12.0.0
-  static NSAttributedString localizedAttributedStringWithFormat$1(
+  static NSAttributedString localizedAttributedStringWithFormat$2(
     NSAttributedString format, {
     required int options,
   }) {
@@ -4460,7 +4460,7 @@ class NSData extends NSObject
   }
 
   /// dataWithContentsOfFile:
-  static NSData? dataWithContentsOfFile$1(NSString path) {
+  static NSData? dataWithContentsOfFile(NSString path) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSData,
       _sel_dataWithContentsOfFile_,
@@ -4472,7 +4472,7 @@ class NSData extends NSObject
   }
 
   /// dataWithContentsOfFile:options:error:
-  static NSData? dataWithContentsOfFile(
+  static NSData? dataWithContentsOfFile$1(
     NSString path, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -4490,7 +4490,7 @@ class NSData extends NSObject
   }
 
   /// dataWithContentsOfURL:
-  static NSData? dataWithContentsOfURL$1(NSURL url) {
+  static NSData? dataWithContentsOfURL(NSURL url) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSData,
       _sel_dataWithContentsOfURL_,
@@ -4502,7 +4502,7 @@ class NSData extends NSObject
   }
 
   /// dataWithContentsOfURL:options:error:
-  static NSData? dataWithContentsOfURL(
+  static NSData? dataWithContentsOfURL$1(
     NSURL url, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -4686,7 +4686,7 @@ extension NSData$Methods on NSData {
   }
 
   /// initWithBytesNoCopy:length:deallocator:
-  NSData initWithBytesNoCopy$2(
+  NSData initWithBytesNoCopy$1(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>?
@@ -4708,7 +4708,7 @@ extension NSData$Methods on NSData {
   }
 
   /// initWithBytesNoCopy:length:freeWhenDone:
-  NSData initWithBytesNoCopy$1(
+  NSData initWithBytesNoCopy$2(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     required bool freeWhenDone,
@@ -4736,7 +4736,7 @@ extension NSData$Methods on NSData {
   }
 
   /// initWithContentsOfFile:
-  NSData? initWithContentsOfFile$1(NSString path) {
+  NSData? initWithContentsOfFile(NSString path) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfFile_,
@@ -4748,7 +4748,7 @@ extension NSData$Methods on NSData {
   }
 
   /// initWithContentsOfFile:options:error:
-  NSData? initWithContentsOfFile(
+  NSData? initWithContentsOfFile$1(
     NSString path, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -4766,7 +4766,7 @@ extension NSData$Methods on NSData {
   }
 
   /// initWithContentsOfURL:
-  NSData? initWithContentsOfURL$1(NSURL url) {
+  NSData? initWithContentsOfURL(NSURL url) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_,
@@ -4778,7 +4778,7 @@ extension NSData$Methods on NSData {
   }
 
   /// initWithContentsOfURL:options:error:
-  NSData? initWithContentsOfURL(
+  NSData? initWithContentsOfURL$1(
     NSURL url, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -5221,7 +5221,7 @@ class NSDictionary extends NSObject
   }
 
   /// dictionaryWithObjects:forKeys:
-  static NSDictionary dictionaryWithObjects$1(
+  static NSDictionary dictionaryWithObjects(
     NSArray objects, {
     required NSArray forKeys,
   }) {
@@ -5235,7 +5235,7 @@ class NSDictionary extends NSObject
   }
 
   /// dictionaryWithObjects:forKeys:count:
-  static NSDictionary dictionaryWithObjects(
+  static NSDictionary dictionaryWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> forKeys,
     required int count,
@@ -5358,7 +5358,7 @@ extension NSDictionary$Methods on NSDictionary {
   }
 
   /// initWithObjects:forKeys:
-  NSDictionary initWithObjects$1(NSArray objects, {required NSArray forKeys}) {
+  NSDictionary initWithObjects(NSArray objects, {required NSArray forKeys}) {
     final _ret = _objc_msgSend_15qeuct(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_forKeys_,
@@ -5369,7 +5369,7 @@ extension NSDictionary$Methods on NSDictionary {
   }
 
   /// initWithObjects:forKeys:count:
-  NSDictionary initWithObjects(
+  NSDictionary initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> forKeys,
     required int count,
@@ -7039,7 +7039,7 @@ extension NSExtendedMutableArray on NSMutableArray {
   }
 
   /// removeObject:
-  void removeObject$1(objc.ObjCObjectBase anObject) {
+  void removeObject(objc.ObjCObjectBase anObject) {
     _objc_msgSend_xtuoz7(
       this.ref.pointer,
       _sel_removeObject_,
@@ -7048,7 +7048,10 @@ extension NSExtendedMutableArray on NSMutableArray {
   }
 
   /// removeObject:inRange:
-  void removeObject(objc.ObjCObjectBase anObject, {required NSRange inRange}) {
+  void removeObject$1(
+    objc.ObjCObjectBase anObject, {
+    required NSRange inRange,
+  }) {
     _objc_msgSend_1oteutl(
       this.ref.pointer,
       _sel_removeObject_inRange_,
@@ -7058,7 +7061,7 @@ extension NSExtendedMutableArray on NSMutableArray {
   }
 
   /// removeObjectIdenticalTo:
-  void removeObjectIdenticalTo$1(objc.ObjCObjectBase anObject) {
+  void removeObjectIdenticalTo(objc.ObjCObjectBase anObject) {
     _objc_msgSend_xtuoz7(
       this.ref.pointer,
       _sel_removeObjectIdenticalTo_,
@@ -7067,7 +7070,7 @@ extension NSExtendedMutableArray on NSMutableArray {
   }
 
   /// removeObjectIdenticalTo:inRange:
-  void removeObjectIdenticalTo(
+  void removeObjectIdenticalTo$1(
     objc.ObjCObjectBase anObject, {
     required NSRange inRange,
   }) {
@@ -7116,7 +7119,7 @@ extension NSExtendedMutableArray on NSMutableArray {
   }
 
   /// replaceObjectsInRange:withObjectsFromArray:
-  void replaceObjectsInRange$1(
+  void replaceObjectsInRange(
     NSRange range, {
     required NSArray withObjectsFromArray,
   }) {
@@ -7129,7 +7132,7 @@ extension NSExtendedMutableArray on NSMutableArray {
   }
 
   /// replaceObjectsInRange:withObjectsFromArray:range:
-  void replaceObjectsInRange(
+  void replaceObjectsInRange$1(
     NSRange range, {
     required NSArray withObjectsFromArray,
     required NSRange range$1,
@@ -10793,7 +10796,7 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
   }
 
   /// arrayWithObjects:
-  static NSMutableArray arrayWithObjects$1(objc.ObjCObjectBase firstObj) {
+  static NSMutableArray arrayWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSMutableArray,
       _sel_arrayWithObjects_,
@@ -10803,7 +10806,7 @@ class NSMutableArray extends NSArray with ListBase<objc.ObjCObjectBase> {
   }
 
   /// arrayWithObjects:count:
-  static NSMutableArray arrayWithObjects(
+  static NSMutableArray arrayWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -10902,7 +10905,7 @@ extension NSMutableArray$Methods on NSMutableArray {
   }
 
   /// initWithObjects:
-  NSMutableArray initWithObjects$1(objc.ObjCObjectBase firstObj) {
+  NSMutableArray initWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_,
@@ -10912,7 +10915,7 @@ extension NSMutableArray$Methods on NSMutableArray {
   }
 
   /// initWithObjects:count:
-  NSMutableArray initWithObjects(
+  NSMutableArray initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -11166,7 +11169,7 @@ class NSMutableData extends NSData {
   }
 
   /// dataWithContentsOfFile:
-  static NSMutableData? dataWithContentsOfFile$1(NSString path) {
+  static NSMutableData? dataWithContentsOfFile(NSString path) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSMutableData,
       _sel_dataWithContentsOfFile_,
@@ -11178,7 +11181,7 @@ class NSMutableData extends NSData {
   }
 
   /// dataWithContentsOfFile:options:error:
-  static NSMutableData? dataWithContentsOfFile(
+  static NSMutableData? dataWithContentsOfFile$1(
     NSString path, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -11196,7 +11199,7 @@ class NSMutableData extends NSData {
   }
 
   /// dataWithContentsOfURL:
-  static NSMutableData? dataWithContentsOfURL$1(NSURL url) {
+  static NSMutableData? dataWithContentsOfURL(NSURL url) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSMutableData,
       _sel_dataWithContentsOfURL_,
@@ -11208,7 +11211,7 @@ class NSMutableData extends NSData {
   }
 
   /// dataWithContentsOfURL:options:error:
-  static NSMutableData? dataWithContentsOfURL(
+  static NSMutableData? dataWithContentsOfURL$1(
     NSURL url, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -11399,7 +11402,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// initWithBytesNoCopy:length:deallocator:
-  NSMutableData initWithBytesNoCopy$2(
+  NSMutableData initWithBytesNoCopy$1(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)>?
@@ -11421,7 +11424,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// initWithBytesNoCopy:length:freeWhenDone:
-  NSMutableData initWithBytesNoCopy$1(
+  NSMutableData initWithBytesNoCopy$2(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     required bool freeWhenDone,
@@ -11461,7 +11464,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// initWithContentsOfFile:
-  NSMutableData? initWithContentsOfFile$1(NSString path) {
+  NSMutableData? initWithContentsOfFile(NSString path) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfFile_,
@@ -11473,7 +11476,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// initWithContentsOfFile:options:error:
-  NSMutableData? initWithContentsOfFile(
+  NSMutableData? initWithContentsOfFile$1(
     NSString path, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -11491,7 +11494,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// initWithContentsOfURL:
-  NSMutableData? initWithContentsOfURL$1(NSURL url) {
+  NSMutableData? initWithContentsOfURL(NSURL url) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_,
@@ -11503,7 +11506,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// initWithContentsOfURL:options:error:
-  NSMutableData? initWithContentsOfURL(
+  NSMutableData? initWithContentsOfURL$1(
     NSURL url, {
     required int options,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
@@ -11698,7 +11701,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// dictionaryWithObjects:forKeys:
-  static NSMutableDictionary dictionaryWithObjects$1(
+  static NSMutableDictionary dictionaryWithObjects(
     NSArray objects, {
     required NSArray forKeys,
   }) {
@@ -11716,7 +11719,7 @@ class NSMutableDictionary extends NSDictionary {
   }
 
   /// dictionaryWithObjects:forKeys:count:
-  static NSMutableDictionary dictionaryWithObjects(
+  static NSMutableDictionary dictionaryWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> forKeys,
     required int count,
@@ -11855,7 +11858,7 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
   }
 
   /// initWithObjects:forKeys:
-  NSMutableDictionary initWithObjects$1(
+  NSMutableDictionary initWithObjects(
     NSArray objects, {
     required NSArray forKeys,
   }) {
@@ -11873,7 +11876,7 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
   }
 
   /// initWithObjects:forKeys:count:
-  NSMutableDictionary initWithObjects(
+  NSMutableDictionary initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> forKeys,
     required int count,
@@ -12322,7 +12325,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// orderedSetWithObjects:
-  static NSMutableOrderedSet orderedSetWithObjects$1(
+  static NSMutableOrderedSet orderedSetWithObjects(
     objc.ObjCObjectBase firstObj,
   ) {
     objc.checkOsVersionInternal(
@@ -12343,7 +12346,7 @@ class NSMutableOrderedSet extends NSOrderedSet {
   }
 
   /// orderedSetWithObjects:count:
-  static NSMutableOrderedSet orderedSetWithObjects(
+  static NSMutableOrderedSet orderedSetWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -12601,7 +12604,7 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
   }
 
   /// initWithObjects:
-  NSMutableOrderedSet initWithObjects$1(objc.ObjCObjectBase firstObj) {
+  NSMutableOrderedSet initWithObjects(objc.ObjCObjectBase firstObj) {
     objc.checkOsVersionInternal(
       'NSMutableOrderedSet.initWithObjects:',
       iOS: (false, (5, 0, 0)),
@@ -12620,7 +12623,7 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
   }
 
   /// initWithObjects:count:
-  NSMutableOrderedSet initWithObjects(
+  NSMutableOrderedSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -12901,7 +12904,7 @@ class NSMutableSet extends NSSet {
   }
 
   /// setWithObjects:
-  static NSMutableSet setWithObjects$1(objc.ObjCObjectBase firstObj) {
+  static NSMutableSet setWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSMutableSet,
       _sel_setWithObjects_,
@@ -12911,7 +12914,7 @@ class NSMutableSet extends NSSet {
   }
 
   /// setWithObjects:count:
-  static NSMutableSet setWithObjects(
+  static NSMutableSet setWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -12996,7 +12999,7 @@ extension NSMutableSet$Methods on NSMutableSet {
   }
 
   /// initWithObjects:
-  NSMutableSet initWithObjects$1(objc.ObjCObjectBase firstObj) {
+  NSMutableSet initWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_,
@@ -13006,7 +13009,7 @@ extension NSMutableSet$Methods on NSMutableSet {
   }
 
   /// initWithObjects:count:
-  NSMutableSet initWithObjects(
+  NSMutableSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -13373,7 +13376,7 @@ extension NSMutableString$Methods on NSMutableString {
   }
 
   /// initWithBytesNoCopy:length:encoding:deallocator:
-  NSMutableString? initWithBytesNoCopy$1(
+  NSMutableString? initWithBytesNoCopy(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     required int encoding,
@@ -13394,7 +13397,7 @@ extension NSMutableString$Methods on NSMutableString {
   }
 
   /// initWithBytesNoCopy:length:encoding:freeWhenDone:
-  NSMutableString? initWithBytesNoCopy(
+  NSMutableString? initWithBytesNoCopy$1(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     required int encoding,
@@ -13444,7 +13447,7 @@ extension NSMutableString$Methods on NSMutableString {
   }
 
   /// initWithCharactersNoCopy:length:deallocator:
-  NSMutableString initWithCharactersNoCopy$1(
+  NSMutableString initWithCharactersNoCopy(
     ffi.Pointer<ffi.UnsignedShort> chars, {
     required int length,
     objc.ObjCBlock<
@@ -13463,7 +13466,7 @@ extension NSMutableString$Methods on NSMutableString {
   }
 
   /// initWithCharactersNoCopy:length:freeWhenDone:
-  NSMutableString initWithCharactersNoCopy(
+  NSMutableString initWithCharactersNoCopy$1(
     ffi.Pointer<ffi.UnsignedShort> characters, {
     required int length,
     required bool freeWhenDone,
@@ -16574,7 +16577,7 @@ extension NSOrderedCollectionDifference$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  NSOrderedCollectionDifference initWithInsertIndexes$1(
+  NSOrderedCollectionDifference initWithInsertIndexes(
     NSIndexSet inserts, {
     NSArray? insertedObjects,
     required NSIndexSet removeIndexes,
@@ -16604,7 +16607,7 @@ extension NSOrderedCollectionDifference$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  NSOrderedCollectionDifference initWithInsertIndexes(
+  NSOrderedCollectionDifference initWithInsertIndexes$1(
     NSIndexSet inserts, {
     NSArray? insertedObjects,
     required NSIndexSet removeIndexes,
@@ -16806,7 +16809,7 @@ class NSOrderedSet extends NSObject
   }
 
   /// orderedSetWithObjects:
-  static NSOrderedSet orderedSetWithObjects$1(objc.ObjCObjectBase firstObj) {
+  static NSOrderedSet orderedSetWithObjects(objc.ObjCObjectBase firstObj) {
     objc.checkOsVersionInternal(
       'NSOrderedSet.orderedSetWithObjects:',
       iOS: (false, (5, 0, 0)),
@@ -16821,7 +16824,7 @@ class NSOrderedSet extends NSObject
   }
 
   /// orderedSetWithObjects:count:
-  static NSOrderedSet orderedSetWithObjects(
+  static NSOrderedSet orderedSetWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -17061,7 +17064,7 @@ extension NSOrderedSet$Methods on NSOrderedSet {
   }
 
   /// initWithObjects:
-  NSOrderedSet initWithObjects$1(objc.ObjCObjectBase firstObj) {
+  NSOrderedSet initWithObjects(objc.ObjCObjectBase firstObj) {
     objc.checkOsVersionInternal(
       'NSOrderedSet.initWithObjects:',
       iOS: (false, (5, 0, 0)),
@@ -17076,7 +17079,7 @@ extension NSOrderedSet$Methods on NSOrderedSet {
   }
 
   /// initWithObjects:count:
-  NSOrderedSet initWithObjects(
+  NSOrderedSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -19231,7 +19234,7 @@ class NSSet extends NSObject
   }
 
   /// setWithObjects:
-  static NSSet setWithObjects$1(objc.ObjCObjectBase firstObj) {
+  static NSSet setWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSSet,
       _sel_setWithObjects_,
@@ -19241,7 +19244,7 @@ class NSSet extends NSObject
   }
 
   /// setWithObjects:count:
-  static NSSet setWithObjects(
+  static NSSet setWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -19340,7 +19343,7 @@ extension NSSet$Methods on NSSet {
   }
 
   /// initWithObjects:
-  NSSet initWithObjects$1(objc.ObjCObjectBase firstObj) {
+  NSSet initWithObjects(objc.ObjCObjectBase firstObj) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initWithObjects_,
@@ -19350,7 +19353,7 @@ extension NSSet$Methods on NSSet {
   }
 
   /// initWithObjects:count:
-  NSSet initWithObjects(
+  NSSet initWithObjects$1(
     ffi.Pointer<ffi.Pointer<objc.ObjCObject>> objects, {
     required int count,
   }) {
@@ -20142,7 +20145,7 @@ extension NSString$Methods on NSString {
   }
 
   /// initWithBytesNoCopy:length:encoding:deallocator:
-  NSString? initWithBytesNoCopy$1(
+  NSString? initWithBytesNoCopy(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     required int encoding,
@@ -20163,7 +20166,7 @@ extension NSString$Methods on NSString {
   }
 
   /// initWithBytesNoCopy:length:encoding:freeWhenDone:
-  NSString? initWithBytesNoCopy(
+  NSString? initWithBytesNoCopy$1(
     ffi.Pointer<ffi.Void> bytes, {
     required int length,
     required int encoding,
@@ -20213,7 +20216,7 @@ extension NSString$Methods on NSString {
   }
 
   /// initWithCharactersNoCopy:length:deallocator:
-  NSString initWithCharactersNoCopy$1(
+  NSString initWithCharactersNoCopy(
     ffi.Pointer<ffi.UnsignedShort> chars, {
     required int length,
     objc.ObjCBlock<
@@ -20232,7 +20235,7 @@ extension NSString$Methods on NSString {
   }
 
   /// initWithCharactersNoCopy:length:freeWhenDone:
-  NSString initWithCharactersNoCopy(
+  NSString initWithCharactersNoCopy$1(
     ffi.Pointer<ffi.UnsignedShort> characters, {
     required int length,
     required bool freeWhenDone,
@@ -20687,7 +20690,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// dataUsingEncoding:
-  NSData? dataUsingEncoding$1(int encoding) {
+  NSData? dataUsingEncoding(int encoding) {
     final _ret = _objc_msgSend_14hpxwa(
       this.ref.pointer,
       _sel_dataUsingEncoding_,
@@ -20699,7 +20702,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// dataUsingEncoding:allowLossyConversion:
-  NSData? dataUsingEncoding(
+  NSData? dataUsingEncoding$1(
     int encoding, {
     required bool allowLossyConversion,
   }) {
@@ -21511,7 +21514,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// stringByReplacingOccurrencesOfString:withString:
-  NSString stringByReplacingOccurrencesOfString$1(
+  NSString stringByReplacingOccurrencesOfString(
     NSString target, {
     required NSString withString,
   }) {
@@ -21530,7 +21533,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// stringByReplacingOccurrencesOfString:withString:options:range:
-  NSString stringByReplacingOccurrencesOfString(
+  NSString stringByReplacingOccurrencesOfString$1(
     NSString target, {
     required NSString withString,
     required int options,
@@ -21715,7 +21718,7 @@ class NSTimer extends NSObject {
   }
 
   /// scheduledTimerWithTimeInterval:repeats:block:
-  static NSTimer scheduledTimerWithTimeInterval$2(
+  static NSTimer scheduledTimerWithTimeInterval$1(
     double interval, {
     required bool repeats,
     required objc.ObjCBlock<ffi.Void Function(NSTimer)> block,
@@ -21736,7 +21739,7 @@ class NSTimer extends NSObject {
   }
 
   /// scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:
-  static NSTimer scheduledTimerWithTimeInterval$1(
+  static NSTimer scheduledTimerWithTimeInterval$2(
     double ti, {
     required objc.ObjCObjectBase target,
     required ffi.Pointer<objc.ObjCSelector> selector,
@@ -21772,7 +21775,7 @@ class NSTimer extends NSObject {
   }
 
   /// timerWithTimeInterval:repeats:block:
-  static NSTimer timerWithTimeInterval$2(
+  static NSTimer timerWithTimeInterval$1(
     double interval, {
     required bool repeats,
     required objc.ObjCBlock<ffi.Void Function(NSTimer)> block,
@@ -21793,7 +21796,7 @@ class NSTimer extends NSObject {
   }
 
   /// timerWithTimeInterval:target:selector:userInfo:repeats:
-  static NSTimer timerWithTimeInterval$1(
+  static NSTimer timerWithTimeInterval$2(
     double ti, {
     required objc.ObjCObjectBase target,
     required ffi.Pointer<objc.ObjCSelector> selector,
@@ -22072,7 +22075,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   ///
   /// iOS: introduced 17.0.0
   /// macOS: introduced 14.0.0
-  static NSURL? URLWithString$2(
+  static NSURL? URLWithString$1(
     NSString URLString, {
     required bool encodingInvalidCharacters,
   }) {
@@ -22093,7 +22096,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// URLWithString:relativeToURL:
-  static NSURL? URLWithString$1(NSString URLString, {NSURL? relativeToURL}) {
+  static NSURL? URLWithString$2(NSString URLString, {NSURL? relativeToURL}) {
     final _ret = _objc_msgSend_15qeuct(
       _class_NSURL,
       _sel_URLWithString_relativeToURL_,
@@ -22179,7 +22182,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// fileURLWithPath:
-  static NSURL fileURLWithPath$3(NSString path) {
+  static NSURL fileURLWithPath(NSString path) {
     final _ret = _objc_msgSend_1sotr3r(
       _class_NSURL,
       _sel_fileURLWithPath_,
@@ -22189,7 +22192,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// fileURLWithPath:isDirectory:
-  static NSURL fileURLWithPath$2(NSString path, {required bool isDirectory}) {
+  static NSURL fileURLWithPath$1(NSString path, {required bool isDirectory}) {
     objc.checkOsVersionInternal(
       'NSURL.fileURLWithPath:isDirectory:',
       iOS: (false, (2, 0, 0)),
@@ -22205,7 +22208,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// fileURLWithPath:isDirectory:relativeToURL:
-  static NSURL fileURLWithPath(
+  static NSURL fileURLWithPath$2(
     NSString path, {
     required bool isDirectory,
     NSURL? relativeToURL,
@@ -22226,7 +22229,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// fileURLWithPath:relativeToURL:
-  static NSURL fileURLWithPath$1(NSString path, {NSURL? relativeToURL}) {
+  static NSURL fileURLWithPath$3(NSString path, {NSURL? relativeToURL}) {
     objc.checkOsVersionInternal(
       'NSURL.fileURLWithPath:relativeToURL:',
       iOS: (false, (9, 0, 0)),
@@ -22271,7 +22274,7 @@ class NSURL extends NSObject implements NSSecureCoding, NSCopying {
   }
 
   /// resourceValuesForKeys:fromBookmarkData:
-  static NSDictionary? resourceValuesForKeys$1(
+  static NSDictionary? resourceValuesForKeys(
     NSArray keys, {
     required NSData fromBookmarkData,
   }) {
@@ -22580,7 +22583,7 @@ extension NSURL$Methods on NSURL {
   }
 
   /// initFileURLWithPath:
-  NSURL initFileURLWithPath$3(NSString path) {
+  NSURL initFileURLWithPath(NSString path) {
     final _ret = _objc_msgSend_1sotr3r(
       this.ref.retainAndReturnPointer(),
       _sel_initFileURLWithPath_,
@@ -22590,7 +22593,7 @@ extension NSURL$Methods on NSURL {
   }
 
   /// initFileURLWithPath:isDirectory:
-  NSURL initFileURLWithPath$2(NSString path, {required bool isDirectory}) {
+  NSURL initFileURLWithPath$1(NSString path, {required bool isDirectory}) {
     objc.checkOsVersionInternal(
       'NSURL.initFileURLWithPath:isDirectory:',
       iOS: (false, (2, 0, 0)),
@@ -22606,7 +22609,7 @@ extension NSURL$Methods on NSURL {
   }
 
   /// initFileURLWithPath:isDirectory:relativeToURL:
-  NSURL initFileURLWithPath(
+  NSURL initFileURLWithPath$2(
     NSString path, {
     required bool isDirectory,
     NSURL? relativeToURL,
@@ -22627,7 +22630,7 @@ extension NSURL$Methods on NSURL {
   }
 
   /// initFileURLWithPath:relativeToURL:
-  NSURL initFileURLWithPath$1(NSString path, {NSURL? relativeToURL}) {
+  NSURL initFileURLWithPath$3(NSString path, {NSURL? relativeToURL}) {
     objc.checkOsVersionInternal(
       'NSURL.initFileURLWithPath:relativeToURL:',
       iOS: (false, (9, 0, 0)),
@@ -22686,7 +22689,7 @@ extension NSURL$Methods on NSURL {
   ///
   /// iOS: introduced 17.0.0
   /// macOS: introduced 14.0.0
-  NSURL? initWithString$2(
+  NSURL? initWithString$1(
     NSString URLString, {
     required bool encodingInvalidCharacters,
   }) {
@@ -22707,7 +22710,7 @@ extension NSURL$Methods on NSURL {
   }
 
   /// initWithString:relativeToURL:
-  NSURL? initWithString$1(NSString URLString, {NSURL? relativeToURL}) {
+  NSURL? initWithString$2(NSString URLString, {NSURL? relativeToURL}) {
     final _ret = _objc_msgSend_15qeuct(
       this.ref.retainAndReturnPointer(),
       _sel_initWithString_relativeToURL_,
@@ -22830,7 +22833,7 @@ extension NSURL$Methods on NSURL {
   }
 
   /// resourceValuesForKeys:error:
-  NSDictionary? resourceValuesForKeys(
+  NSDictionary? resourceValuesForKeys$1(
     NSArray keys, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
