@@ -59,11 +59,7 @@ class Library {
     FfiNativeConfig? nativeConfig;
 
     for (final binding in bindings.whereType<LookUpBinding>()) {
-      final loadFromNativeAsset = switch (binding) {
-        Func() => binding.loadFromNativeAsset,
-        Global() => binding.loadFromNativeAsset,
-        _ => false,
-      };
+      final loadFromNativeAsset = binding.loadFromNativeAsset;
 
       // At the moment, all bindings share their native config.
       if (loadFromNativeAsset) nativeConfig = context.config.ffiNativeConfig;

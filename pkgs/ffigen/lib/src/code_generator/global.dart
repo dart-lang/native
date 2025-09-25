@@ -25,8 +25,10 @@ import 'writer.dart';
 class Global extends LookUpBinding {
   final Type type;
   final bool exposeSymbolAddress;
-  final bool loadFromNativeAsset;
   final bool constant;
+
+  @override
+  final bool loadFromNativeAsset;
 
   Global({
     super.usr,

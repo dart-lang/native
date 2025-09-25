@@ -79,7 +79,7 @@ ${strings.typedefs}:
     'Struct5_Alias': 'Struct5_Alias_Renamed'
     '''),
       );
-      expected = expectedLibrary(context);
+      expected = expectedLibrary();
       actual = parser.parse(context);
     });
 
@@ -200,7 +200,8 @@ ${strings.typedefs}:
   });
 }
 
-Library expectedLibrary(Context context) {
+Library expectedLibrary() {
+  final context = testContext();
   final struct1 = Struct(context: context, name: '${structPrefix}Struct1');
   final struct2 = Struct(context: context, name: 'Struct2');
   final struct3 = Struct(context: context, name: 'Struct3');
@@ -316,5 +317,5 @@ Library expectedLibrary(Context context) {
       Constant(name: 'unnamedFullMatchSuccess', rawType: 'int', rawValue: '1'),
       struct5Alias,
     ],
-  );
+  )..forceFillNamesForTesting();
 }

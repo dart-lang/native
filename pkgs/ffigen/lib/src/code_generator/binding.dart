@@ -79,6 +79,8 @@ abstract class LookUpBinding extends Binding {
 
   @override
   void visit(Visitation visitation) => visitation.visitLookUpBinding(this);
+
+  bool get loadFromNativeAsset;
 }
 
 /// Base class for bindings which don't look up symbols in dynamic library.

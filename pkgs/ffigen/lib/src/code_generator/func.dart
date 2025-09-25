@@ -46,6 +46,8 @@ class Func extends LookUpBinding with HasLocalNamespace {
   final bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
+
+  @override
   final bool loadFromNativeAsset;
 
   /// Contains typealias for function type if [exposeFunctionTypedefs] is true.

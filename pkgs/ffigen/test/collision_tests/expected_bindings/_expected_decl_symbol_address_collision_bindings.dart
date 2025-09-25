@@ -6,17 +6,16 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-class Bindings$1 {
+class Bindings {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
   _lookup;
 
   /// The symbols are looked up in [dynamicLibrary].
-  Bindings$1(ffi.DynamicLibrary dynamicLibrary)
-    : _lookup = dynamicLibrary.lookup;
+  Bindings(ffi.DynamicLibrary dynamicLibrary) : _lookup = dynamicLibrary.lookup;
 
   /// The symbols are looked up with [lookup].
-  Bindings$1.fromLookup(
+  Bindings.fromLookup(
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
@@ -42,7 +41,7 @@ class Bindings$1 {
 }
 
 class _SymbolAddresses$1 {
-  final Bindings$1 _library$1;
+  final Bindings _library$1;
   _SymbolAddresses$1(this._library$1);
   ffi.Pointer<ffi.NativeFunction<Native_library>> get _library =>
       _library$1.__libraryPtr;
@@ -50,11 +49,11 @@ class _SymbolAddresses$1 {
       _library$1.__SymbolAddresses_1Ptr;
 }
 
-final class addresses extends ffi.Opaque {}
+final class addresses$1 extends ffi.Opaque {}
 
 final class _SymbolAddresses extends ffi.Opaque {}
 
-sealed class Bindings {}
+sealed class Bindings$1 {}
 
 typedef Native_library = ffi.Void Function();
 typedef Dart_library = void Function();

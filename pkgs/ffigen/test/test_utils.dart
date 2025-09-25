@@ -5,11 +5,13 @@
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/code_generator/namespace.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
+import 'package:ffigen/src/visitor/ast.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
@@ -36,6 +38,37 @@ extension LibraryTestExt on Library {
     } catch (e) {
       throw NotFoundException("Binding '$name' not found.");
     }
+  }
+
+  /// Runs a fake version of the Symbol renaming step that usually happens
+  /// during the transformation pipeline. The Symbol names aren't actually
+  /// renamed to avoid collisions, the name is just filled from oldName without
+  /// regard for the other names in the namespace. This lets us access the names
+  /// for testing, without running whole transformation pipeline.
+  void forceFillNamesForTesting() {
+    visit(context, _FakeRenamer(), bindings);
+    context.extraSymbols = (
+      wrapperClassName: Symbol('NativeLibrary')..forceFillForTesting(),
+      lookupFuncName: Symbol('_lookup')..forceFillForTesting(),
+      symbolAddressVariableName: Symbol('addresses')..forceFillForTesting(),
+    );
+    context.libs.forceFillForTesting();
+    context.rootNamespace.fillNames();
+    context.rootObjCNamespace.fillNames();
+  }
+}
+
+class _FakeRenamer extends Visitation {
+  @override
+  void visitSymbol(Symbol node) => node.forceFillForTesting();
+
+  @override
+  void visitBinding(Binding node) {
+    if (node is HasLocalNamespace) {
+      (node as HasLocalNamespace).localNamespace = Namespace.createRoot('test')
+        ..fillNames();
+    }
+    node.visitChildren(visitor);
   }
 }
 

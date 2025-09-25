@@ -27,8 +27,8 @@ class Context {
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
-  late final Namespace rootNamespace;
-  late final Namespace rootObjCNamespace;
+  final Namespace rootNamespace = Namespace.createRoot('root');
+  final Namespace rootObjCNamespace = Namespace.createRoot('objc_root');
   late final ExtraSymbols extraSymbols;
 
   Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
@@ -106,6 +106,14 @@ class LibraryImports {
     // If this null assert fails, it means that a library was used during code
     // generation that wasn't visited by MarkImportsVisitation, which is a bug.
     return _prefixes[lib]!.name;
+  }
+
+  void forceFillForTesting() {
+    _used.addAll(builtInLibraries.values);
+    for (final lib in _used) {
+      _prefixes[lib] = Symbol(lib.name)..forceFillForTesting();
+    }
+    _prefixesFilled = true;
   }
 }
 

@@ -148,6 +148,8 @@ class Symbol extends AstNode {
 
   @override
   void visit(Visitation visitation) => visitation.visitSymbol(this);
+
+  void forceFillForTesting() => _name = oldName;
 }
 
 mixin HasLocalNamespace on AstNode {

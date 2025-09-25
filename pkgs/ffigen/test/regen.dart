@@ -50,6 +50,8 @@ Future<void> main(List<String> args) async {
   _regenConfig(logger, 'example/libclang-example/config.yaml');
   _regenConfig(logger, 'example/simple/config.yaml');
   _regenConfig(logger, 'example/c_json/config.yaml');
-  _regenConfig(logger, 'example/swift/config.yaml');
-  _regenConfig(logger, 'example/objective_c/config.yaml');
+  if (Platform.isMacOS) {
+    _regenConfig(logger, 'example/swift/config.yaml');
+    _regenConfig(logger, 'example/objective_c/config.yaml');
+  }
 }
