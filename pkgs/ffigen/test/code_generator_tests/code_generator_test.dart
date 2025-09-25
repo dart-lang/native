@@ -18,13 +18,14 @@ void main() {
 // BSD-style license that can be found in the LICENSE file.
 ''';
 
-  // Context used by all tests except withAndWithoutNative.
-  Context makeContext([String wrapperName = 'Bindings']) => testContext(
+  Context makeContext({Output? output}) => testContext(
     FfiGenerator(
-      output: Output(
-        dartFile: Uri.file('unused'),
-        style: DynamicLibraryBindings(wrapperName: wrapperName),
-      ),
+      output:
+          output ??
+          Output(
+            dartFile: Uri.file('unused'),
+            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
+          ),
       enums: Enums.includeAll,
       functions: Functions.includeAll,
       globals: Globals.includeAll,
@@ -48,22 +49,12 @@ void main() {
     withAndWithoutNative('Function Binding (primitives, pointers)', (
       loadFromNativeAsset,
     ) {
-      final nativeContext = testContext(
-        FfiGenerator(
-          output: Output(
-            dartFile: Uri.file('unused'),
-            style: loadFromNativeAsset
-                ? const NativeExternalBindings(assetId: 'test')
-                : const DynamicLibraryBindings(wrapperName: 'Bindings'),
-          ),
-          enums: Enums.includeAll,
-          functions: Functions.includeAll,
-          globals: Globals.includeAll,
-          macros: Macros.includeAll,
-          structs: Structs.includeAll,
-          typedefs: Typedefs.includeAll,
-          unions: Unions.includeAll,
-          unnamedEnums: UnnamedEnums.includeAll,
+      final nativeContext = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
         ),
       );
       final library = Library(
@@ -251,22 +242,12 @@ void main() {
     withAndWithoutNative('global (primitives, pointers, pointer to struct)', (
       loadFromNativeAsset,
     ) {
-      final nativeContext = testContext(
-        FfiGenerator(
-          output: Output(
-            dartFile: Uri.file('unused'),
-            style: loadFromNativeAsset
-                ? const NativeExternalBindings(assetId: 'test')
-                : const DynamicLibraryBindings(wrapperName: 'Bindings'),
-          ),
-          enums: Enums.includeAll,
-          functions: Functions.includeAll,
-          globals: Globals.includeAll,
-          macros: Macros.includeAll,
-          structs: Structs.includeAll,
-          typedefs: Typedefs.includeAll,
-          unions: Unions.includeAll,
-          unnamedEnums: UnnamedEnums.includeAll,
+      final nativeContext = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
         ),
       );
 
@@ -513,7 +494,12 @@ void main() {
     });
 
     test('Internal conflict resolution', () {
-      final context = makeContext('init_dylib');
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const DynamicLibraryBindings(wrapperName: 'init_dylib'),
+        ),
+      );
       final library = Library(
         context: context,
         name: 'init_dylib',
@@ -565,7 +551,12 @@ void main() {
     });
 
     test('Adds Native symbol on mismatch', () {
-      final context = makeContext('init_dylib');
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const NativeExternalBindings(assetId: 'test'),
+        ),
+      );
       final library = Library(
         context: context,
         name: 'init_dylib',

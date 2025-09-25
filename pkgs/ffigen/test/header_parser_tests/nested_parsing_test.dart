@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -29,7 +28,7 @@ ${strings.structs}:
     - Struct2
         '''),
       );
-      expected = expectedLibrary(context);
+      expected = expectedLibrary();
       actual = parser.parse(context);
     });
 
@@ -76,7 +75,8 @@ ${strings.structs}:
   });
 }
 
-Library expectedLibrary(Context context) {
+Library expectedLibrary() {
+  final context = testContext();
   final struct2 = Struct(
     context: context,
     name: 'Struct2',
