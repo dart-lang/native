@@ -360,8 +360,8 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
   // that it doesn't have method overloading, so the [originalName] is mostly
   // sufficient as the key. But unlike Dart, ObjC can have static methods and
   // instance methods with the same name, so we have to include staticness in
-  // the key.
-  String get key => '${isClassMethod ? '+' : '-'}$originalName';
+  // the key. We order instance methods before static methods alphabetically.
+  String get key => '${isClassMethod ? 'S' : 'I'} $originalName';
 
   @override
   String toString() =>
