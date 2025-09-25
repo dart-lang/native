@@ -18,7 +18,7 @@ void main() {
         FfiGenerator(
           output: Output(
             dartFile: Uri.file('unused'),
-            style: DynamicLibraryBindings(wrapperName: 'Bindings'),
+            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
           ),
           functions: Functions.includeAll,
           structs: Structs.includeAll,

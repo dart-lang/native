@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
