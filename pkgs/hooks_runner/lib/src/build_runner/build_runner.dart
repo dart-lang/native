@@ -556,8 +556,12 @@ class NativeAssetsBuildRunner {
       'USERPROFILE', // Needed to find tools in default install locations.
       'WINDIR', // Needed for CMake.
     };
+    const variablePrefixesFilter = {
+      'NIX_', // Needed for Nix-installed toolchains.
+    };
+
     return staticVariablesFilter.contains(environmentVariableName) ||
-        environmentVariableName.startsWith('NIX_');
+        variablePrefixesFilter.any(environmentVariableName.startsWith);
   }
 
   Future<Result<HookOutput, HooksRunnerFailure>> _runHookForPackage(
